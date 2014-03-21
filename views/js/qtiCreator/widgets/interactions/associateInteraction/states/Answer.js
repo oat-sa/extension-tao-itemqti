@@ -15,10 +15,13 @@ define([
             interaction = _widget.element,
             response = interaction.getResponseDeclaration(),
             correctResponse = _.values(response.getCorrect());
-
+        
+        commonRenderer.restore(interaction);
+        
         helper.appendInstruction(this.widget.element, __('Please define the correct association pairs below.'));
-
-        commonRenderer.render(this.widget.element);
+        
+        interaction.responseMappingMode = true;
+        commonRenderer.render(interaction);
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
 
         _widget.$container.on('responseChange.qti-widget', function(e, data){
@@ -27,8 +30,15 @@ define([
     };
 
     AssociateInteractionStateAnswer.prototype.removeResponseWidget = function(){
-        commonRenderer.restore(this.widget.element);
+        
+        var interaction = this.widget.element;
+        
         this.widget.$container.off('responseChange.qti-widget');
+        
+        commonRenderer.restore(interaction);
+        
+        interaction.responseMappingMode = false;
+        commonRenderer.renderEmptyPairs(interaction);
     };
     
     var _formatResponse = function(response){

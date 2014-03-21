@@ -27,8 +27,8 @@ define([
     };
 
     OrderInteractionStateAnswer.prototype.removeResponseWidget = function(){
-        commonRenderer.restore(this.widget.element);
         this.widget.$container.off('responseChange.qti-widget');
+        commonRenderer.restore(this.widget.element);
     };
 
     var _formatResponse = function(response){

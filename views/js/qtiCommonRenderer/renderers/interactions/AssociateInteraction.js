@@ -29,7 +29,10 @@ define([
             .html($choice.html())
             .addClass('filled');
 
-        if(choice.attr('matchMax') && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+        if(!interaction.responseMappingMode 
+            && choice.attr('matchMax') 
+            && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+            
             $choice.addClass('deactivated');
         }
 
@@ -38,7 +41,7 @@ define([
             Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, {choice : $choice, target : $target});
 
-            if(parseInt(interaction.attr('maxAssociations')) === 0){
+            if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
                 var $resultArea = Helper.getContainer(interaction).find('.result-area');
 
                 $target.parent().removeClass('incomplete-pair');
@@ -75,7 +78,7 @@ define([
             Helper.validateInstructions(interaction, {choice : $choice});
 
             //completely empty pair: 
-            if(!$choice.siblings('div').hasClass('filled') && parseInt(interaction.attr('maxAssociations')) === 0){
+            if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
                 //shall we remove it?
                 var $parent = $choice.parent();
                 if(!$parent.hasClass('incomplete-pair')){
@@ -100,12 +103,13 @@ define([
         var max = parseInt(interaction.attr('maxAssociations')),
             $resultArea = Helper.getContainer(interaction).find('.result-area');
 
-        if(max){
+        if(interaction.responseMappingMode || max === 0){
+            $resultArea.append(pairTpl({empty : true}));
+            $resultArea.children('.incomplete-pair').show();
+        }else{
             for(var i = 0; i < max; i++){
                 $resultArea.append(pairTpl());
             }
-        }else{
-            $resultArea.append(pairTpl({empty : true}));
         }
     };
 
@@ -117,7 +121,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
-
+        
         renderEmptyPairs(interaction);
 
         var $container = Helper.getContainer(interaction),
@@ -268,8 +272,11 @@ define([
 
         //@todo run eyecatcher: fix it
 //        eyecatcher();
-
-        _setInstructions(interaction);
+    
+        if(!interaction.responseMappingMode){
+            _setInstructions(interaction);
+        }
+        
     };
 
     var _setInstructions = function(interaction){
@@ -408,6 +415,8 @@ define([
 
         //remove instructions
         Helper.removeInstructions(interaction);
+        
+        Helper.getContainer(interaction).find('.result-area').empty();
     };
 
     return {
@@ -417,6 +426,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        restore : restore
+        restore : restore,
+        renderEmptyPairs : renderEmptyPairs
     };
 });

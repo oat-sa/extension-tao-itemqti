@@ -7,7 +7,9 @@ define([
     var CreatorAssociateInteraction = _.clone(AssociateInteraction);
 
     CreatorAssociateInteraction.render = function(interaction, data){
-
+        
+        AssociateInteraction.renderEmptyPairs(interaction);
+        
         //@todo: to be generalized:
         var $wrap = $('<div>', {'data-serial' : interaction.serial, 'class' : 'widget-box'});
         var $interactionContainer = $('[data-serial=' + interaction.serial + ']').wrap($wrap);
