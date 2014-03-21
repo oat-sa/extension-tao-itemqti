@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Slider Interaction Renderer Test</title>
+        <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
+        <style type="text/css">
+            .ui-slider-horizontal, .qti_slider_horizontal .qti_slider_values {
+                margin: 0 20px;
+            }
+            
+            .qti_slider_horizontal .qti_slider_values {
+                height: 20px;
+            }
+            
+            .qti_slider_values {
+                position: relative;
+            }
+                        
+            .qti_slider_horizontal .slider_min, 
+            .qti_slider_horizontal .slider_max, 
+            .qti_slider_horizontal .slider_middle {
+                position: absolute;
+                width: 40px;
+                margin-left: -20px;
+                text-align: center;
+            }
+            
+            .qti_slider_horizontal .slider_min{
+                left: 0%;
+            }
+            
+            .qti_slider_horizontal .slider_max{
+                left: 100%;
+            }
+            
+            .ui-slider-vertical, .qti_slider_vertical .qti_slider_values {
+                display: inline-block;
+            }
+            
+            .qti_slider_vertical .qti_slider_values {
+                width: 30px;
+            }
+            
+            .qti_slider_vertical .slider_min, 
+            .qti_slider_vertical .slider_max, 
+            .qti_slider_vertical .slider_middle {
+                position: absolute;
+            }
+            
+            .qti_slider_vertical .slider_min{
+                bottom: 0;
+            }
+            
+            .qti_slider_vertical .slider_max{
+                top: 0;
+            }
+        </style>
+        
+        
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function(){
+                require(['taoQtiCommonRenderer/test/renderer/test'], function(Test){
+                    QUnit.start();
+                    Test.testRender('slider',
+                        {
+                            'lowerBound' : 1999,
+                            'upperBound' : 2018,
+                            'orientation' : 'vertical',
+                            'stepLabel': true,
+                            'reverse': true
+                        },
+                        [
+                            {
+                                'set' : {'base' : {'integer' : 2003}},
+                                'get' : {'base' : {'integer' : 2003}}
+                            }
+                        ]);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>

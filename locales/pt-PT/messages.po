@@ -1,0 +1,592 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.5-alpha\n"
+"PO-Revision-Date: 2013-11-11 18:06-0000\n"
+"Last-Translator: Paulo Amorim <paulo@amorims.com>\n"
+"MIME-Version: 1.0\n"
+"Language: pt-PT\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.7\n"
+
+msgid "A response must at least be correct or have a scoring value."
+msgstr "A resposta deve pelo menos ser correta ou ter um valor de pontuação."
+
+msgid "Add a new stylesheet"
+msgstr "Adicionar um novo estilo"
+
+msgid "Add choice"
+msgstr "Adicione uma escolha"
+
+msgid "Add choice to group"
+msgstr "Adicione uma escolha ao grupo"
+
+msgid "Advanced options"
+msgstr "Opções avançadas"
+
+msgid "Advanced properties"
+msgstr "Propriedades avançadas"
+
+msgid "Associate Interaction"
+msgstr "Associar interacção"
+
+msgid "Attached style sheets:"
+msgstr "Anexar um estilo"
+
+msgid ""
+"Background image not set yet. Select it in the \"Image source url\" input "
+"then update."
+msgstr ""
+"Imagem de fundo não definida ainda. Seleccione-a na \"url Fonte da imagem \" "
+"introduza e actualize."
+
+msgid "Choice"
+msgstr "Escolha"
+
+msgid "Choice Deletion"
+msgstr "Escolha para eliminar"
+
+msgid "Choice group"
+msgstr "Escolha o grupo"
+
+msgid "Choice Interaction"
+msgstr "Escolha a interacção"
+
+msgid "Choices"
+msgstr "Escolhas"
+
+msgid "Choices editor:"
+msgstr "Escolhas do editor:"
+
+msgid "circle"
+msgstr "circulo"
+
+msgid "composite"
+msgstr "composto"
+
+msgid "Coordinates"
+msgstr "Coordenadas"
+
+msgid "correct"
+msgstr "correcto"
+
+msgid "Correct answer"
+msgstr "Resposta correcta"
+
+msgid "CSS format required"
+msgstr "Requer formato CSS"
+
+msgid "custom"
+msgstr "Personalizar"
+
+msgid "Debug"
+msgstr "Depurar"
+
+msgid "default"
+msgstr "omisso"
+
+msgid "Default value"
+msgstr "Valor omisso"
+
+msgid "delete"
+msgstr "eliminar"
+
+msgid "Delete choice"
+msgstr "Eliminar escolha"
+
+msgid "Delete interaction"
+msgstr "Eliminar interacção"
+
+msgid "Delete object"
+msgstr "Eliminar objecto"
+
+msgid "Discrete Scale"
+msgstr "Escala directa"
+
+msgid "Distance"
+msgstr "Distancia"
+
+msgid "Do you really want to delete the row?"
+msgstr "Quer mesmo apagar a linha?"
+
+msgid "Do you want to delete the choice?"
+msgstr "Quer mesmo apagar a escolha"
+
+msgid "download"
+msgstr "baixar"
+
+msgid "draw it"
+msgstr "desenhar"
+
+msgid "Edit object"
+msgstr "Editar objecto"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "ellipse"
+msgstr "elipse"
+
+msgid "Empty response value"
+msgstr "Valor de resposta vazio"
+
+msgid "End Attempt"
+msgstr "Terminar tentativa"
+
+msgid "End Attempt Interaction"
+msgstr "terminar tentativa de interacção"
+
+msgid "end attempt now"
+msgstr "terminar tentativa agora"
+
+msgid "Error in background file:"
+msgstr "Erro no ficheiro de suporte:"
+
+msgid "Expected length"
+msgstr "Comprimento esperado"
+
+msgid "Expected lines"
+msgstr "Linhas esperadas"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "Extended Text Interaction"
+msgstr "Texto de interação extendido"
+
+msgid "File name"
+msgstr "Nome de ficheiro"
+
+msgid "File Upload Interaction"
+msgstr "Ficheiro de interacção enviado"
+
+msgid "Fixed"
+msgstr "Fixo"
+
+msgid "Float"
+msgstr "Flutuante"
+
+msgid "Gap images"
+msgstr "Intervalo de imagens"
+
+msgid "Gap Match Interaction"
+msgstr "Intervalo de interacção matemática"
+
+msgid "Gaps"
+msgstr "Intervalos"
+
+msgid "Graphic Associate Interaction"
+msgstr "Associação gráfica de interacção"
+
+msgid "Graphic Gap Match Interaction"
+msgstr "Intervalo de gráfico matemático de interacção"
+
+msgid "Graphic interaction stage"
+msgstr "Nível gráfico de interacção"
+
+msgid "Graphic Order Interaction"
+msgstr "Ordem de interacção gráfica"
+
+msgid "Guidelines"
+msgstr "Linhas mestras"
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "Heihgt"
+msgstr "Altura"
+
+msgid "horizontal"
+msgstr "horizontal"
+
+msgid "Hotspot Interaction"
+msgstr "Hotspot interacção"
+
+msgid "Hottext Interaction"
+msgstr "Hottext interacção"
+
+msgid "Identifier"
+msgstr "Identificador"
+
+msgid "Image height"
+msgstr "Altura da imagem"
+
+msgid "Image label"
+msgstr "Rotulo da imagem"
+
+msgid "Image source url"
+msgstr "URL da fonte de imagem"
+
+msgid "Image width"
+msgstr "Largura da imagem"
+
+msgid ""
+"Impossible to exceed the maximum number of choices defined in the "
+"interaction."
+msgstr ""
+"Impossível exceder o número máximo de escolhas definidas na interacção."
+
+msgid "Inline Choice Interaction"
+msgstr "Escolha Interacção embutida"
+
+msgid "Integer"
+msgstr "Inteiro"
+
+msgid "Interaction content editor:"
+msgstr "Editor de conteúdo da interacção:"
+
+msgid "Interaction data saved."
+msgstr "Dados da interacção guardados"
+
+msgid "Interaction Deletion"
+msgstr "Interacção eliminada"
+
+msgid "Interaction Editor"
+msgstr "Editor de interacção"
+
+msgid "Invalid field length"
+msgstr "Comprimento de ficheiro invalido"
+
+msgid "invalid image mime type"
+msgstr "Tipo mime de imagem invalido"
+
+msgid "Invalid Response Declaration"
+msgstr "Declaração de Resposta Inválida"
+
+msgid "Label"
+msgstr "Rotulo"
+
+msgid "Light preview:"
+msgstr "Previsão ligeira"
+
+msgid "Lower bound"
+msgstr "Limite inferior"
+
+msgid "Manage item content"
+msgstr "Gerir conteúdo do item"
+
+msgid "manual"
+msgstr "manual"
+
+msgid "map"
+msgstr "mapa"
+
+msgid "map point"
+msgstr "ponto no mapa"
+
+msgid "Match group"
+msgstr "Grupo de matemática"
+
+msgid "Match Group"
+msgstr "Grupo de Matemática"
+
+msgid "Match Interaction"
+msgstr "Interacção matemática"
+
+msgid "Maximal number of matching"
+msgstr "Número máximo de correspondência"
+
+msgid "Maximum allowed associations"
+msgstr "Máximo de associações permitidas"
+
+msgid "Maximum number of separate strings"
+msgstr "O número máximo de sequências separadas"
+
+msgid "Maximum selectable choices"
+msgstr "Máximo de escolhas seleccionadas"
+
+msgid "Maximum value"
+msgstr "Valor máximo"
+
+msgid "Media Interaction"
+msgstr "Interacção de mídia"
+
+msgid "MIME type"
+msgstr "Tipo de mime"
+
+msgid "Minimum value"
+msgstr "Valor mínimo"
+
+msgid "Modification on choice applied"
+msgstr "Modificação aplicada na escolha"
+
+msgid "Modification on response applied"
+msgstr "Modificação aplicada na resposta"
+
+msgid "Modification(s) on interaction has been updated"
+msgstr "Modificação (s) em interacção foi actualizada"
+
+msgid "Move Down"
+msgstr "Mover para baixo"
+
+msgid "Move Up"
+msgstr "Mover para cima"
+
+msgid "Next"
+msgstr "Próximo"
+
+msgid "no"
+msgstr "não"
+
+msgid "No outcome defined for interaction "
+msgstr "Sem resultado definido para a interacção"
+
+msgid "Not needed"
+msgstr "Não é necessário"
+
+msgid "Number base for value interpretation"
+msgstr "Numero base para interpretação do valor"
+
+msgid "Object Deletion"
+msgstr "Objecto eliminado"
+
+msgid "Order Interaction"
+msgstr "Ordem de interacção"
+
+msgid "Ordered response"
+msgstr "Resposta Ordenada"
+
+msgid "Orientation"
+msgstr "Orientação"
+
+msgid "Pattern mask"
+msgstr "Máscara padrão"
+
+msgid "Place holder text"
+msgstr "Coloque texto suporte"
+
+msgid "Please add some \"QTI choices\" before defining the correct response"
+msgstr ""
+"Por favor, adicione algumas \"escolhas QTI \" antes de definir a resposta "
+"correta"
+
+msgid "please confirm deletion of the choice(s)"
+msgstr "por favor confirme a eliminação da escolha(s)"
+
+msgid "please confirm deletion of the interaction"
+msgstr "por favor confirme a eliminação da interacção"
+
+msgid "Please confirm interaction deletion"
+msgstr "por favor confirme a eliminação da interacção"
+
+msgid "Please confirm object deletion"
+msgstr "por favor confirme a eliminação do objecto"
+
+msgid "polygon"
+msgstr "poligno"
+
+msgid "Popup Preview"
+msgstr "Janela de previsão"
+
+msgid "Position Object Interaction"
+msgstr "Posição do objecto de interacção"
+
+msgid "Prev"
+msgstr "Prev"
+
+msgid "preview (1:1)"
+msgstr "Previsão (1:1)"
+
+msgid "preview (real size:"
+msgstr "Previsão tamanho real:"
+
+msgid "Processing rule:"
+msgstr "Regra de processamento"
+
+msgid "Processing type"
+msgstr "Tipo de processamento"
+
+msgid "Prompt"
+msgstr "Linha de comando"
+
+msgid "QTI Item Attributes"
+msgstr "QTI Item Atributos"
+
+msgid "quantity"
+msgstr "quantidade"
+
+msgid "rectangle"
+msgstr "retangulo"
+
+msgid "Required"
+msgstr "Obrigatório"
+
+msgid "Response Deletion"
+msgstr "Eliminar resposta"
+
+msgid "Response editor"
+msgstr "Editor de resposta"
+
+msgid "Response processing template editor"
+msgstr "Editor de modelo do processamento da resposta"
+
+msgid "Response variable type"
+msgstr "Tipo de resposta variável"
+
+msgid "Responses Grid"
+msgstr "Grelha de respostas"
+
+msgid "Return to item editor"
+msgstr "Voltar ao editor de item"
+
+msgid "Return to normal edition"
+msgstr "Voltar a edição normal"
+
+msgid "Reverse rendering"
+msgstr "Renderização reversa"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Scale type"
+msgstr "Tipo de escala"
+
+msgid "Score"
+msgstr "Pontuação"
+
+msgid "Select Point Interaction"
+msgstr "Seleccionar ponto de interacção"
+
+msgid "Shape"
+msgstr "Forma"
+
+msgid "Shuffle choices"
+msgstr "Escolhas aleatórias"
+
+msgid "Slider Interaction"
+msgstr "Interacção deslizante"
+
+msgid "Step"
+msgstr "Passo"
+
+msgid "Step label display"
+msgstr "Passo do rotulo de exibição"
+
+msgid "String"
+msgstr "Sequência"
+
+msgid "String identifier"
+msgstr "Identificador de sequência"
+
+msgid "Stylesheets manager"
+msgstr "Gestor de estilos"
+
+msgid "template"
+msgstr "Modelo"
+
+msgid "Textentry Interaction"
+msgstr "Interacção de entrada de texto"
+
+msgid "The choice cannot be saved"
+msgstr "A escolha não pode ser guardada"
+
+msgid ""
+"The custom response processing type is currently not fully supported in this "
+"tool. Removing interactions or choices is not recommended."
+msgstr ""
+"O tipo de processamento de resposta personalizada não é actualmente "
+"totalmente suportado nesta ferramenta. Remover interacções ou opções não é "
+"recomendado."
+
+msgid "The format of this field is not valid."
+msgstr "O formato deste campo não é valido"
+
+msgid "The item has been successfully saved"
+msgstr "O item foi correctamente guardado"
+
+msgid "The options have been updated"
+msgstr "As opções foram actualizadas"
+
+msgid ""
+"The response form is not available for the selected response processing.<br/>"
+msgstr ""
+"O formulário de resposta não está disponível para a resposta seleccionada.<br/"
+">"
+
+msgid "The response processing has been saved"
+msgstr "O processo de resposta foi guardado"
+
+msgid "The response properties have been updated"
+msgstr "As propriedades da resposta foram actualizadas"
+
+msgid "The responses cannot be updated"
+msgstr "As respostas não foram actualizadas"
+
+msgid "The responses have been updated"
+msgstr "As respostas foram actualizadas"
+
+msgid "There cannot be identical choice in a row."
+msgstr "Não pode haver escolhas idênticas na linha"
+
+msgid "There is already a row with identical choices."
+msgstr "Ja existe uma linha com escolhas idênticas"
+
+msgid "This field is invalid"
+msgstr "O campo é valido"
+
+msgid "This field is required"
+msgstr "O campo é obrigatório"
+
+msgid "This field is too long"
+msgstr "O campo é demasiado longo"
+
+msgid "This field is too short"
+msgstr "O campo é demasiado curto"
+
+msgid "This field must have a float value"
+msgstr "O campo deve ter um valor flutuante"
+
+msgid "This field must have an integer value"
+msgstr "O campo deve ter um valor inteiro"
+
+msgid "Title"
+msgstr "Titulo"
+
+msgid ""
+"To insert a \"gap\" in your interaction, set focus on the desired place in "
+"the editor below then click on the \"add gap\" button "
+msgstr ""
+"Para inserir um \"espaço \" em sua interacção, definir o foco no lugar "
+"desejado no editor abaixo, em seguida, clique no botão \"adicionar espaço \""
+
+msgid ""
+"To insert a \"hot text\" in your interaction, set focus on the desired place "
+"in the editor below then click on the \"set hot text\" button "
+msgstr ""
+"Para inserir um \"hottext \" na sua interacção, definir o foco no lugar "
+"desejado no editor abaixo e clique no \"conjunto  hottext\" botão"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Update interaction & choices modifications"
+msgstr "Actualizar interacção e modificações das escolhas"
+
+msgid "Update response & scoring modifications"
+msgstr "Actualizar respostas e modificações de pontuação"
+
+msgid "Upload the style sheet"
+msgstr "Enviar a folha de estilo"
+
+msgid "Upper bound"
+msgstr "Limite superior"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "vertical"
+msgstr "vertical"
+
+msgid "View source code"
+msgstr "Ver código fonte"
+
+msgid "Width"
+msgstr "Largura"
+
+msgid "yes"
+msgstr "sim"

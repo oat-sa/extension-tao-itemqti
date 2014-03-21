@@ -1,0 +1,26 @@
+.qti-associateInteraction {
+    .add-option{
+        padding: 5px 5px 5px 30px;
+        .icon-add{
+            font-size: 1.8rem;
+            left: 6px;
+            position: absolute;
+            top: 5px;
+        }
+    }
+    .qti-choice{
+        .mini-tlb{
+            top:auto;
+            bottom:-22px;
+            right:-4px;
+            border:none;
+            background-color:transparent;
+            min-width:60px;
+            .tlb-button{
+                min-width:20px;
+                height:20px;
+                margin:0;
+            }
+        }
+    }
+}

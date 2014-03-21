@@ -1,0 +1,30 @@
+define(['taoQtiItem/mixin/Mixin', 'taoQtiItem/core/Container'], function(Mixin, Container){
+
+    var methods = {
+        initContainer : function(body){
+            this.bdy = new Container(body || '');
+            this.bdy.setRelatedItem(this.getRelatedItem() || null);
+        },
+        getBody : function(){
+            return this.bdy;
+        },
+        body : function(body){
+            var ret = this.bdy.body(body);
+            return (body) ? this : ret;//for method chaining on get
+        },
+        setElement : function(element, body){
+            this.bdy.setElement(element, body);
+            return this;
+        },
+        removeElement : function(element){
+            return this.bdy.removeElement(element);
+        }
+    };
+
+    return {
+        augment : function(targetClass){
+            Mixin.augment(targetClass, methods);
+        },
+        methods : methods
+    };
+});

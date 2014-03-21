@@ -1,0 +1,1 @@
+<input data-serial="{{serial}}" data-qti-class="textEntryInteraction" type="text">

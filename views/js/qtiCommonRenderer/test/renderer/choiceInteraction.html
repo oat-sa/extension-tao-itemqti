@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+        <title>Choice Interaction Renderer Test</title>
+        <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
+        <link rel="stylesheet" type="text/css" href="/taoQTI/views/css/qti.css" />
+        
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function(){
+                require(['taoQtiCommonRenderer/test/renderer/test'], function(Test){
+                    QUnit.start();
+
+                    Test.testRender('choice', {}, [
+                        {
+                            'set' : {'list' : {identifier : ['ChoiceF', 'ChoiceA']}},
+                            'get' : {'base' : {identifier : 'ChoiceA'}}
+                        },
+                        {
+                            'set' : {'base' : {identifier : 'ChoiceF'}},
+                            'get' : {'base' : {identifier : 'ChoiceF'}}
+                        }
+                    ]);
+                    
+                    Test.testRender('choiceMultiple', {minChoices:1, maxChoices:2}, [
+                        {
+                            'set' : {'list' : {identifier : ['H', 'O']}},
+                            'get' : {'list' : {identifier : ['H', 'O']}}
+                        },
+                        {
+                            'set' : {'base' : {identifier : 'He'}},
+                            'get' : {'base' : {identifier : 'He'}}
+                        }
+                    ]);
+                    
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>

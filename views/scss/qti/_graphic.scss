@@ -1,0 +1,66 @@
+@import "inc/bootstrap";
+
+.qti-graphicInteraction {
+
+    .solid, .bordered {
+        & > li {
+            padding: 0;
+            border: none;
+        }
+        & ~ input, & ~ textarea {
+            @include simple-border(#eee);
+        }
+    }
+
+    .active {
+        & > input, & > textarea,
+        input.active, textarea.active {
+            border-color: mix(#fff, $info, 20%);
+        }
+    }
+
+    .main-image-box {
+        margin: 10px 0 10px 0;
+        padding: 0 10px;
+        .main-image {
+            display: block;
+        }
+    }
+    .image-sidebar {
+        width: 9%;
+        float: left;
+        text-align: center;
+        .forms {
+            overflow: hidden;
+            margin-top: 10px;
+            @include font-size(40);
+            li {
+                border: 1px solid transparent;
+                line-height: 40px;
+                padding: 5px 0 3px 0;
+                cursor: pointer;
+                &.active {
+                    color: mix(#fff, $info, 20%);
+                }
+                &:hover {
+                    background: $uiClickableHoverBg;
+                    color: $textHighlight;
+                }
+            }
+        }
+        & ~ .main-image-box {
+            width: 91%;
+            padding-left: 0;
+            float: left;
+            .main-image {
+                display: block;
+            }
+        }
+
+    }
+
+}
+
+@import 'graphic-gap';
+@import 'graphic-order';
+@import 'select-point';

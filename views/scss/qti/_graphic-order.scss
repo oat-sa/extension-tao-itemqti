@@ -1,0 +1,28 @@
+@import "inc/bootstrap";
+
+.qti-graphicOrderInteraction {
+
+    .ordinals {
+        margin: 0 0 0 9%;
+        padding: 0 0 5px 0 !important;
+        clear: both;
+        li {
+            width: 5%;
+            line-height: 2;
+            text-align: center;
+            @include font-size(20);
+            margin: 0;
+            background: transparent;
+            &:hover {
+                background: $uiClickableHoverBg;
+                color: $textHighlight;
+                @include border-radius(0);
+            }
+        }
+    }
+
+    .main-image-box {
+        margin-bottom: 0;
+    }
+
+}

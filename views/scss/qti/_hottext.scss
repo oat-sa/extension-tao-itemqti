@@ -1,0 +1,59 @@
+@import "inc/bootstrap";
+
+.qti-hottextInteraction {
+    .hottext {
+        &:hover {
+            @extend %selectableHover;
+        }
+        .hottext-checkmark {
+            padding-right: 0;
+            min-width: auto;
+            width: auto;
+        }
+        background: $uiClickableDefaultBg;
+        padding-right: 5px;
+        @include border-radius();
+        position: relative;
+        [class^="icon-"], [class*=" icon-"] {
+            &.small {
+                @include font-size(12);
+                text-shadow: none;
+                line-height:10px;
+                top: 1px;
+            }
+        }
+        .mini-tlb[data-edit] {
+            background: transparent;
+            border: none;
+            position: static !important;
+            left: 0;
+            top: -22px;
+            padding-right: 10px;
+            width: auto !important;
+            &.icon-undo {
+                padding-right:8px;
+            }
+            label {
+                padding: 0 3px;
+            }
+            [data-role="score"] {
+                width: 30px;
+            }
+        }
+    }
+}
+
+.item-editor-item {
+    .hottext {
+        .hottext-checkmark {
+            display:none;
+        }
+        height: 24px;
+        display:inline-block;
+    }
+    [class^="icon-"], [class*=" icon-"] {
+        &.small {
+            display:none;
+        }
+    }
+}

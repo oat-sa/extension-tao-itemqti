@@ -1,0 +1,790 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-12-12T08:14:03\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ru-RU\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "A QTI item file is an XML file following the version 2.0 of the QTI standard."
+msgstr ""
+
+msgid "A QTI package is a Zip archive containing a imsmanifest.xml file and the QTI resources to import."
+msgstr ""
+
+msgid "A Zip archive containing the QTI items (XML), their resources (images, videos...) and an IMS manifest file (XML)."
+msgstr ""
+
+msgid "Add a new stylesheet"
+msgstr ""
+
+msgid "Add choice"
+msgstr ""
+
+msgid "Add choice to group"
+msgstr ""
+
+msgid "Add modal feedback"
+msgstr ""
+
+msgid "Add the source file"
+msgstr ""
+
+msgid "Advanced Properties"
+msgstr ""
+
+msgid "Advanced properties"
+msgstr ""
+
+msgid "An error occurs during the import"
+msgstr ""
+
+msgid "Associate Interaction"
+msgstr ""
+
+msgid "Attached style sheets:"
+msgstr ""
+
+msgid "Autostart"
+msgstr ""
+
+msgid "Background image not set yet. Select it in the \"Image source url\" input then update."
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Both associations “choice 1 / choice 2” and “choice 2 / choice 1” are equivalent."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Choice"
+msgstr ""
+
+msgid "Choice Deletion"
+msgstr ""
+
+msgid "Choice group"
+msgstr ""
+
+msgid "Choice Interaction"
+msgstr ""
+
+msgid "Choices"
+msgstr ""
+
+msgid "circle"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "composite"
+msgstr ""
+
+msgid "Coordinates"
+msgstr ""
+
+msgid "Correct"
+msgstr ""
+
+msgid "correct"
+msgstr ""
+
+msgid "Correct answer"
+msgstr ""
+
+msgid "CSS format required"
+msgstr ""
+
+msgid "custom"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "Delete choice"
+msgstr ""
+
+msgid "delete feedback"
+msgstr ""
+
+msgid "Delete interaction"
+msgstr ""
+
+msgid "Delete Math"
+msgstr ""
+
+msgid "Delete object"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "Disable validation"
+msgstr ""
+
+msgid "Discrete Scale"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Distance"
+msgstr ""
+
+msgid "Do you really want to delete the row?"
+msgstr ""
+
+msgid "Do you want to delete the choice?"
+msgstr ""
+
+msgid "download"
+msgstr ""
+
+msgid "draw it"
+msgstr ""
+
+msgid "e.g."
+msgstr ""
+
+msgid "Edit LaTeX Code."
+msgstr ""
+
+msgid "Edit math"
+msgstr ""
+
+msgid "Edit MathML."
+msgstr ""
+
+msgid "Edit object"
+msgstr ""
+
+msgid "Editing LaTeX Code will automatically update and overwrite MathML."
+msgstr ""
+
+msgid "Editing MathML will therefore not update existing Latex code but delete it instead."
+msgstr ""
+
+msgid "Editing Mode"
+msgstr ""
+
+msgid "Editor"
+msgstr ""
+
+msgid "ellipse"
+msgstr ""
+
+msgid "Empty response value"
+msgstr ""
+
+msgid "End Attempt"
+msgstr ""
+
+msgid "End Attempt Interaction"
+msgstr ""
+
+msgid "end attempt now"
+msgstr ""
+
+msgid "Error in background file:"
+msgstr ""
+
+msgid "Error in Interactio Editor"
+msgstr ""
+
+msgid "Error in media file file:"
+msgstr ""
+
+msgid "Expected length"
+msgstr ""
+
+msgid "Expected lines"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Export Options"
+msgstr ""
+
+msgid "Extended Text Interaction"
+msgstr ""
+
+msgid "Feedback Editor"
+msgstr ""
+
+msgid "Feedbacks"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
+msgid "File Upload Interaction"
+msgstr ""
+
+msgid "fixed"
+msgstr ""
+
+msgid "Fixed"
+msgstr ""
+
+msgid "Float"
+msgstr ""
+
+msgid "Gap"
+msgstr ""
+
+msgid "Gap images"
+msgstr ""
+
+msgid "Gap Match Interaction"
+msgstr ""
+
+msgid "GapImg"
+msgstr ""
+
+msgid "Gaps"
+msgstr ""
+
+msgid "Graphic Associate Interaction"
+msgstr ""
+
+msgid "Graphic Gap Match Interaction"
+msgstr ""
+
+msgid "Graphic interaction stage"
+msgstr ""
+
+msgid "Graphic Order Interaction"
+msgstr ""
+
+msgid "Guidelines"
+msgstr ""
+
+msgid "height"
+msgstr ""
+
+msgid "horizontal"
+msgstr ""
+
+msgid "Hotspot"
+msgstr ""
+
+msgid "Hotspot Interaction"
+msgstr ""
+
+msgid "Hottext"
+msgstr ""
+
+msgid "Hottext Interaction"
+msgstr ""
+
+msgid "Hottspot"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "Image height"
+msgstr ""
+
+msgid "Image label"
+msgstr ""
+
+msgid "Image source url"
+msgstr ""
+
+msgid "Image width"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Inline Choice Interaction"
+msgstr ""
+
+msgid "Insert Image"
+msgstr ""
+
+msgid "Integer"
+msgstr ""
+
+msgid "Interaction content editor:"
+msgstr ""
+
+msgid "Interaction Deletion"
+msgstr ""
+
+msgid "Interaction Editor"
+msgstr ""
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "invalid image mime type"
+msgstr ""
+
+msgid "invalid media mime type"
+msgstr ""
+
+msgid "Invalid Response Declaration"
+msgstr ""
+
+msgid "Item imported successfully"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Light preview:"
+msgstr ""
+
+msgid "Loop"
+msgstr ""
+
+msgid "Lower bound"
+msgstr ""
+
+msgid "Manage item content"
+msgstr ""
+
+msgid "map"
+msgstr ""
+
+msgid "map point"
+msgstr ""
+
+msgid "Match Interaction"
+msgstr ""
+
+msgid "Math Element Deletion"
+msgstr ""
+
+msgid "Math Preview"
+msgstr ""
+
+msgid "Maximal number of matching"
+msgstr ""
+
+msgid "Maximum allowed associations"
+msgstr ""
+
+msgid "Maximum number of separate strings"
+msgstr ""
+
+msgid "Maximum Play"
+msgstr ""
+
+msgid "Maximum selectable choices"
+msgstr ""
+
+msgid "Maximum value"
+msgstr ""
+
+msgid "Media height"
+msgstr ""
+
+msgid "Media Interaction"
+msgstr ""
+
+msgid "Media Preview"
+msgstr ""
+
+msgid "Media source url"
+msgstr ""
+
+msgid "Media width"
+msgstr ""
+
+msgid "MIME type"
+msgstr ""
+
+msgid "Minimum Play"
+msgstr ""
+
+msgid "Minimum value"
+msgstr ""
+
+msgid "Modification on choice applied"
+msgstr ""
+
+msgid "Modification on response applied"
+msgstr ""
+
+msgid "Modification(s) on interaction has been updated"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "No items could be imported"
+msgstr ""
+
+msgid "No MathML conversion to LaTeX is currently available."
+msgstr ""
+
+msgid "No media selected"
+msgstr ""
+
+msgid "No outcome defined for interaction "
+msgstr ""
+
+msgid "Not needed"
+msgstr ""
+
+msgid "Number base for value interpretation"
+msgstr ""
+
+msgid "Object Deletion"
+msgstr ""
+
+msgid "optional"
+msgstr ""
+
+msgid "Order Interaction"
+msgstr ""
+
+msgid "Ordered response"
+msgstr ""
+
+msgid "Orientation"
+msgstr ""
+
+msgid "Pattern mask"
+msgstr ""
+
+msgid "Place holder text"
+msgstr ""
+
+msgid "Please add some \"QTI choices\" before defining the correct response"
+msgstr ""
+
+msgid "Please confirm deletion of QTI elements from the item."
+msgstr ""
+
+msgid "please confirm deletion of the choice(s)"
+msgstr ""
+
+msgid "Please confirm interaction deletion"
+msgstr ""
+
+msgid "Please confirm math element deletion"
+msgstr ""
+
+msgid "Please confirm object deletion"
+msgstr ""
+
+msgid "Please set the medial url then update the interaction"
+msgstr ""
+
+msgid "Please use mp4 (H.264+AAC) for video and mp3 for audio for maximum cross-browser compability."
+msgstr ""
+
+msgid "polygon"
+msgstr ""
+
+msgid "Popup Preview"
+msgstr ""
+
+msgid "Position Object Interaction"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "preview (1:1)"
+msgstr ""
+
+msgid "preview (real size:"
+msgstr ""
+
+msgid "Proceed anyway?"
+msgstr ""
+
+msgid "Processing rule:"
+msgstr ""
+
+msgid "Processing type"
+msgstr ""
+
+msgid "Prompt"
+msgstr ""
+
+msgid "QTI Element Deletion"
+msgstr ""
+
+msgid "QTI Item"
+msgstr ""
+
+msgid "QTI Item Attributes"
+msgstr ""
+
+msgid "QTI Package"
+msgstr ""
+
+msgid "QTI Package 2.1"
+msgstr ""
+
+msgid "quantity"
+msgstr ""
+
+msgid "rectangle"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Response Deletion"
+msgstr ""
+
+msgid "Response editor"
+msgstr ""
+
+msgid "response is correct"
+msgstr ""
+
+msgid "Response processing template editor"
+msgstr ""
+
+msgid "Response variable type"
+msgstr ""
+
+msgid "Responses Grid"
+msgstr ""
+
+msgid "Return to item editor"
+msgstr ""
+
+msgid "Return to normal edition"
+msgstr ""
+
+msgid "Reverse rendering"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save & Close"
+msgstr ""
+
+msgid "Save Interaction & Choices"
+msgstr ""
+
+msgid "Save Responses and Feedbacks"
+msgstr ""
+
+msgid "Scale type"
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+msgid "score is equal to"
+msgstr ""
+
+msgid "score is greater than"
+msgstr ""
+
+msgid "score is greater than or equal to"
+msgstr ""
+
+msgid "score is less than"
+msgstr ""
+
+msgid "score is less than or equal to"
+msgstr ""
+
+msgid "Score lower bound"
+msgstr ""
+
+msgid "Score mapping default value"
+msgstr ""
+
+msgid "Score upper bound"
+msgstr ""
+
+msgid "Select Point Interaction"
+msgstr ""
+
+msgid "Shape"
+msgstr ""
+
+msgid "Shuffle choices"
+msgstr ""
+
+msgid "Slider Interaction"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Step label display"
+msgstr ""
+
+msgid "String"
+msgstr ""
+
+msgid "String identifier"
+msgstr ""
+
+msgid "Stylesheets manager"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Switch to LaTeX editing mode"
+msgstr ""
+
+msgid "Switch to MathML editing mode"
+msgstr ""
+
+msgid "template"
+msgstr ""
+
+msgid "Textentry Interaction"
+msgstr ""
+
+msgid "The choice cannot be saved"
+msgstr ""
+
+msgid "The custom response processing type is currently not fully supported in this tool. Removing interactions or choices is not recommended."
+msgstr ""
+
+msgid "the following Qti Element is currently not supported in TAO"
+msgstr ""
+
+msgid "The format of the identifier is not valid."
+msgstr ""
+
+msgid "The format of this field is not valid."
+msgstr ""
+
+msgid "The item has been successfully saved"
+msgstr ""
+
+msgid "The number of correct responses should be less than or equal to the maximum number of selectable choices."
+msgstr ""
+
+msgid "The options have been updated"
+msgstr ""
+
+msgid "The order of the choices does not matter."
+msgstr ""
+
+msgid "The response form is not available for the selected response processing.<br/>"
+msgstr ""
+
+msgid "The response processing has been saved"
+msgstr ""
+
+msgid "The response properties have been updated"
+msgstr ""
+
+msgid "The responses cannot be updated"
+msgstr ""
+
+msgid "The responses have been updated"
+msgstr ""
+
+msgid "There cannot be identical choice in a row."
+msgstr ""
+
+msgid "There is already a row with identical choices."
+msgstr ""
+
+msgid "There is an error in the interaction form. Please correct it before going any further."
+msgstr ""
+
+msgid "This field is invalid"
+msgstr ""
+
+msgid "This field is required"
+msgstr ""
+
+msgid "This field is too long"
+msgstr ""
+
+msgid "This field is too short"
+msgstr ""
+
+msgid "This field must have a float value"
+msgstr ""
+
+msgid "This field must have an integer value"
+msgstr ""
+
+msgid "Time dependent"
+msgstr ""
+
+msgid "tips: youtube video works, e.g: http://youtu.be/YJWSVUPSQqw"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "To insert a \"gap\" in your interaction, set focus on the desired place in the editor below then click on the \"add gap\" button "
+msgstr ""
+
+msgid "To insert a \"hot text\" in your interaction, set focus on the desired place in the editor below then click on the \"set hot text\" button "
+msgstr ""
+
+msgid "unable to extract archive content, please check your tmp dir"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+msgid "Unsupported QTI element type"
+msgstr ""
+
+msgid "Upload a QTI Package File"
+msgstr ""
+
+msgid "Upload QTI File"
+msgstr ""
+
+msgid "Upload the style sheet"
+msgstr ""
+
+msgid "Upper bound"
+msgstr ""
+
+msgid "url"
+msgstr ""
+
+msgid "Validation of the imported file has failed"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "vertical"
+msgstr ""
+
+msgid "View source code"
+msgstr ""
+
+msgid "width"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+

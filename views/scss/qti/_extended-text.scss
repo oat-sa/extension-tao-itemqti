@@ -1,0 +1,26 @@
+@import "inc/bootstrap";
+.qti-extendedTextInteraction {
+
+    input {
+        width: 100%
+    }
+
+    .solid, .bordered {
+        & > li {
+            padding: 0;
+            border: none;
+        }
+        & ~ input, & ~ textarea {
+            @include simple-border(#eee);
+        }
+    }
+
+    .active {
+        & > input, & > textarea,
+        input.active, textarea.active {
+            border-color: mix(#fff, $info, 20%);
+        }
+    }
+
+}
+

@@ -1,0 +1,20 @@
+@import "inc/bootstrap";
+
+.qti-GapMatchInteraction {
+    .gapmatch-content {
+        audio, canvas, img, video {
+            vertical-align: baseline;
+        }
+        &:hover {
+            @extend %selectableHover;
+        }
+        background: $uiClickableDefaultBg;
+        @include border-radius();
+        position: relative;
+        min-width: 80px;
+        min-height: 20px;
+        display: inline-block;
+        &.empty {
+        }
+    }
+}
