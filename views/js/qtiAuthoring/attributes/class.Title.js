@@ -17,7 +17,7 @@
  *               
  * 
  */
-define(['require', 'jquery', root_url  + 'taoQTI/views/js/qtiAuthoring/class.Attribute.js'], function(req, $, QTIattributeClass){
+define(['require', 'jquery', root_url  + 'taoQtiItem/views/js/qtiAuthoring/class.Attribute.js'], function(req, $, QTIattributeClass){
 	
 	var QTIattributeClassFunctions = {
 		init:function(value, serial, options){

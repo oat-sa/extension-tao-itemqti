@@ -17,7 +17,7 @@
  *               
  * 
  */
-define(['require', 'jquery', root_url  + 'taoQTI/views/js/qtiAuthoring/src/validators/class.Regex.js'], function(req, $, ValidatorClass){
+define(['require', 'jquery', root_url  + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Regex.js'], function(req, $, ValidatorClass){
 	
 	var validatorClassFunctions = {
 		init:function(options){

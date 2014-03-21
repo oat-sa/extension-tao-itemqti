@@ -17,7 +17,7 @@
  *               
  * 
  */
-define(['require', 'jquery', root_url  + 'taoQTI/views/js/qtiAuthoring/src/class.Data.js'], function(req, $, QTIdataClass){
+define(['require', 'jquery', root_url  + 'taoQtiItem/views/js/qtiAuthoring/src/class.Data.js'], function(req, $, QTIdataClass){
 	
 	var QTIinteractionClassFunctions = {
 		init:function(type, serial, options){
@@ -44,7 +44,7 @@ define(['require', 'jquery', root_url  + 'taoQTI/views/js/qtiAuthoring/src/class
 		},
 		initChoice:function(type, serial){
 			var _this = this;
-			require([root_url  + 'taoQTI/views/js/qtiAuthoring/src/class.Choice.js'], function(ChoiceClass){
+			require([root_url  + 'taoQtiItem/views/js/qtiAuthoring/src/class.Choice.js'], function(ChoiceClass){
 				_this.choices[serial] = new ChoiceClass(type, serial);
 			});
 		},

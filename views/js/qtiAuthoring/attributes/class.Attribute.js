@@ -111,7 +111,7 @@ define(['require', 'jquery'], function(req, $){
 			type = type.toLowerCase();
 			if($.inArray(type, ['dummy','length', 'url', 'notempty', 'integer', 'uniqueidentifier'])){
 				var className = type.charAt(0).toUpperCase() + type.substr(1);
-				require([root_url  + 'taoQTI/views/js/qtiAuthoring/validators/class.' + className + '.js'], function(validatorClass){
+				require([root_url  + 'taoQtiItem/views/js/qtiAuthoring/validators/class.' + className + '.js'], function(validatorClass){
 					_this.validators.push(new validatorClass(options));
 				});
 			}else{
