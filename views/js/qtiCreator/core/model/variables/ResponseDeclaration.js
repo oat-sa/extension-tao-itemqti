@@ -37,7 +37,21 @@ define([
         
             mappedValue = parseFloat(mappedValue);
             caseSensitive = caseSensitive ? true : false;
-            this.mapEntries[mapKey] = mappedValue;
+            
+            if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
+                //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
+                
+                var mapKeys = mapKey.split(' '), 
+                    mapKeysReverse = mapKeys[1]+' '+mapKeys[0];
+            
+                if(this.mapEntries[mapKeysReverse]){
+                    this.mapEntries[mapKeysReverse] = mappedValue;
+                }else{
+                    this.mapEntries[mapKey] = mappedValue;
+                }
+            }else{
+                this.mapEntries[mapKey] = mappedValue;
+            }
             
             /**
              * @todo caseSensitive is always set to "false" currently, need to add an option for this
@@ -57,11 +71,20 @@ define([
             return this;
         },
         removeMapEntry : function(mapKey){
+            
+            if(mapKey){
+                if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
+                    //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
+                    var mapKeys = mapKey.split(' '), 
+                        mapKeysReverse = mapKeys[1]+' '+mapKeys[0];
 
-            delete this.mapEntries[mapKey];
+                    delete this.mapEntries[mapKeysReverse];
+                }
+                delete this.mapEntries[mapKey];
 
-            $(document).trigger('mapEntryRemove.qti-widget', {element : this, mapKey : mapKey});
-
+                $(document).trigger('mapEntryRemove.qti-widget', {element : this, mapKey : mapKey});
+            }
+            
             return this;
         },
         getMapEntries : function(){

@@ -3,93 +3,119 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
     'lodash',
-    'taoQtiItem/qtiItem/helper/interactionHelper',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
-], function(stateFactory, Map, responseWidget, _, interactionHelper, responseToolbarTpl){
+], function(stateFactory, Map, responseWidget, _, responseToolbarTpl){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
-        var interaction = this.widget.element,
+        var _widget = this.widget,
+            interaction = _widget.element,
             response = interaction.getResponseDeclaration();
+        
+        //@todo to be mapped to actual value
+        var _defaultMappingValue = 0;
+        
+        var _saveCorrect = function(){
+            var correct = [];
+            $('input[name="correct_' + _widget.serial + '[]"]:checked').each(function(){
+                correct.push($(this).data('pairIdentifier'));
+            });
+            response.setCorrect(correct);
+        };
+        
+        //init response widget in responseMapping mode:
+        responseWidget.create(_widget, true);
 
-        responseWidget.create(this.widget, true);
+        _widget.$container.on('responseChange.qti-widget', function(e, data, extraData){
 
-        this.widget.$container.on('responseChange.qti-widget', function(e, data, extraData){
-
-//            response.setCorrect(this.unformatResponse(data.response));
             if(extraData.type === 'added'){
-                console.log('manage mapped option here:', extraData.$pair);
 
                 //choice identifier pair:
-                var pair = [];
-                extraData.$pair.find('div').each(function(){
+                var pair = [],
+                    pairs = [],
+                    $filled = extraData.$pair.children('.filled');
+                    
+                if($filled.length === 2){
+                    
+                    pairs = responseWidget.getResponseSummary(response);
+                    
+                    //the pair is complete:
+                    
+                    $filled.each(function() {
 
-                    var serial = $(this).data('serial'),
-                        choice = interaction.getChoice(serial);
+                        var serial = $(this).data('serial'),
+                            choice = interaction.getChoice(serial);
 
-                    pair.push(choice.id());
-                });
-                pair.sort();
+                        pair.push(choice.id());
+                    });
+                    pair.sort();
+                    var pairIdentifier = pair.join(' '),
+                        $miniToolbar = extraData.$pair.children('.mini-tlb');
+                    
+                    if (!$miniToolbar.length) {
+                        
+                        //if does not exist yet, create it:
+                        extraData.$pair.append(responseToolbarTpl({
+                            interactionSerial: interaction.getSerial(),
+                            choiceSerial: 'n/a',
+                            choiceIdentifier: 'n/a'
+                        }));
+                        
+                        $miniToolbar = extraData.$pair.children('.mini-tlb');
+                    }
+                    $miniToolbar.show();
+                    $miniToolbar.data('pairIdentifier', pairIdentifier);
+                    
+                    var $correct = $miniToolbar.find('[data-role=correct]').data('pairIdentifier', pairIdentifier);
+                    if (pairs[pairIdentifier]) {
+                        $correct.prop('checked', !!pairs[pairIdentifier].correct);
+                    }
 
-                if(!extraData.$pair.children('.mini-tlb').length){
-
-                    extraData.$pair.append(responseToolbarTpl({
-                        interactionSerial : this.widget.element,
-                        choiceSerial : 'n/a',
-                        choiceIdentifier : pair.join(' ')
-                    }));
+                    var $score = $miniToolbar.find('[data-role=score]').data('pairIdentifier', pairIdentifier);
+                    if (pairs[pairIdentifier] && pairs[pairIdentifier].score) {
+                        $score.val(pairs[pairIdentifier].score);
+                    }else{
+                        //@todo set _defaultMappingValue as placeholder text:
+                        $score.val(_defaultMappingValue);
+                    }
                 }
-                
-                extraData.$pair.find('[data-role=correct]').data('pair', pair);
-                extraData.$pair.find('[data-role=score]').data('pair', pair);
-            }
-        });
-
-        var pairs = [];
-        var correctResponse = _.values(response.getCorrect());
-        _.each(correctResponse, function(pair){
-
-            var sortedIdPair = pair.split(' ').sort();
-            var sortedIdPairKey = sortedIdPair.join(' ');
-
-            pairs[sortedIdPairKey] = {
-                pair : sortedIdPair,
-                correct : true,
-                score : undefined
-            };
-        });
-
-        var mapEntries = response.getMapEntries();
-        _.forIn(mapEntries, function(score, key){
-
-            var sortedIdPair = key.split(' ').sort();
-            var sortedIdPairKey = sortedIdPair.join(' ');
-
-            if(!pairs[sortedIdPairKey]){
-                pairs[sortedIdPairKey] = {
-                    pair : sortedIdPair,
-                    correct : false,
-                    score : score
-                };
+               
             }else{
-                pairs[sortedIdPairKey].score = score;
+                
+                //reset and hide toolbar
+                $miniToolbar = extraData.$pair.children('.mini-tlb');
+                $miniToolbar.hide();
+                
+                //before resetting the correct and score inputs, remove the current map entry from the response:
+                response.removeMapEntry($miniToolbar.data('pairIdentifier'));
+                
+                $miniToolbar.removeData('pairIdentifier');
+                $miniToolbar.find('[data-role=correct]').prop('checked', false).removeData('pairIdentifier');
+                $miniToolbar.find('[data-role=score]').val(_defaultMappingValue).removeData('pairIdentifier');
+                
+                //finally update the correct response
+                _saveCorrect();
             }
         });
+        
+        _widget.$container.find('.result-area')
+                .on('change', '[data-role=correct]', _saveCorrect)
+                .on('keyup', '[data-role=score]', function(){
+                    var $score = $(this);
+                    response.setMapEntry($score.data('pairIdentifier'), $score.val());
+                });
+        
 
-        console.log(pairs);
-
+        responseWidget.setResponse(interaction, _.keys(responseWidget.getResponseSummary(response)));
+        
     }, function(){
 
         this.widget.$container.off('responseChange.qti-widget');
 
         responseWidget.destroy(this.widget);
+        
+        this.widget.$container.find('.mini-tlb').remove();
     });
-
-    _addResponseToolbar = function($pair){
-        $pair.append(responseToolbarTpl({
-            
-        }));
-    };
 
     return AssociateInteractionStateCorrect;
 });

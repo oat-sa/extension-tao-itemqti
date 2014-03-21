@@ -575,34 +575,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       z-index: 1;
       top: 50%; }
-    .qti-associateInteraction .result-area > li > div {
-      background: white;
-      padding: 5px;
-      margin: 5px;
-      float: right;
-      position: relative;
-      z-index: 2;
-      min-width: 100px;
-      min-height: 100px;
-      max-width: 150px;
-      max-height: 150px;
-      outline: 5px #f9f8f7 solid;
-      border: 1px solid #eeeeee;
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      overflow: hidden; }
       .qti-associateInteraction .result-area > li > div.active {
         border-color: #3e7da7; }
       .qti-associateInteraction .result-area > li > div:first-child {
         float: left; }
-      .qti-associateInteraction .result-area > li > div[data-edit] {
-        float: none;
-        position: absolute;
-        right: -230px;
-        outline: none;
-        width: 200px;
-        border: none;
-        cursor: default; }
         .qti-associateInteraction .result-area > li > div[data-edit] .col-3, .qti-associateInteraction .result-area > li > div[data-edit] .col-4, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 {
           text-align: center; }
           .qti-associateInteraction .result-area > li > div[data-edit] .col-3 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-4 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 label {

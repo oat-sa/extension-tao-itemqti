@@ -12,7 +12,7 @@ define([
      * Global variable to count number of choice usages:
      * @type type
      */
-    var _choiceUsages = {}
+    var _choiceUsages = {};
 
     var setChoice = function(interaction, $choice, $target){
 
@@ -190,7 +190,7 @@ define([
                     //activate it:
                     $activeChoice = $(this);
                     $(this).addClass('active');
-                    $resultArea.find('>li>div').addClass('empty');
+                    $resultArea.find('>li>.target').addClass('empty');
                 }
             }
 
@@ -258,7 +258,7 @@ define([
                 $activeChoice = $(this);
                 $activeChoice.addClass('active');
 
-                $resultArea.find('>li>div').filter(function(){
+                $resultArea.find('>li>.target').filter(function(){
                     return $(this).data('serial') !== serial;
                 }).addClass('empty');
 

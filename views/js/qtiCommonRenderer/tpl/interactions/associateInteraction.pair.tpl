@@ -1,11 +1,4 @@
-{{#if empty}}
-<li class="incomplete-pair">
-    <div class="lft"></div>
-    <div class="rgt"></div>
+<li class="{{#if empty}}incomplete-pair{{/if}}">
+    <div class="target lft"></div>
+    <div class="target rgt"></div>
 </li>
-{{else}}
-<li>
-    <div class="lft"></div>
-    <div class="rgt"></div>
-</li>
-{{/if}}
