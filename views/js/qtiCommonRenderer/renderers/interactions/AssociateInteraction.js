@@ -23,42 +23,83 @@ define([
             _choiceUsages[choiceSerial] = 0;
         }
         _choiceUsages[choiceSerial]++;
+        
+        var _setChoice = function(){
+            
+            $target
+                .data('serial', choiceSerial)
+                .html($choice.html())
+                .addClass('filled');
 
-        $target
-            .data('serial', choiceSerial)
-            .html($choice.html())
-            .addClass('filled');
+            if(!interaction.responseMappingMode
+                && choice.attr('matchMax')
+                && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
-        if(!interaction.responseMappingMode
-            && choice.attr('matchMax')
-            && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
-
-            $choice.addClass('deactivated');
-        }
+                $choice.addClass('deactivated');
+            }
+        };
 
         if($target.siblings('div').hasClass('filled')){
-            //pair made!
-            Helper.triggerResponseChangeEvent(interaction, {
-                type : 'added',
-                $pair : $target.parent(),
-                choices : [$target.siblings('div').data('serial'), choiceSerial]
+            
+            var $resultArea = Helper.getContainer(interaction).find('.result-area'),
+                $pair = $target.parent(),
+                thisPairSerial = [$target.siblings('div').data('serial'), choiceSerial],
+                $otherRepeatedPair = $();
+            
+            //check if it is not a repeating association!
+            $resultArea.children().not($pair).each(function(){
+               var $otherPair = $(this).children('.filled');
+               if($otherPair.length === 2){
+                   var otherPairSerial = [$($otherPair[0]).data('serial'), $($otherPair[1]).data('serial')];
+                   if(_.intersection(thisPairSerial, otherPairSerial).length === 2){
+                       $otherRepeatedPair = $otherPair;
+                       return false;
+                   }
+               }
             });
+            
+            if($otherRepeatedPair.length === 0){
+                //no repeated pair, so allow the choice to be set:
+                _setChoice();
+                
+                //trigger pair made event
+                Helper.triggerResponseChangeEvent(interaction, {
+                    type : 'added',
+                    $pair : $pair,
+                    choices : thisPairSerial
+                });
 
-            Helper.validateInstructions(interaction, {choice : $choice, target : $target});
+                Helper.validateInstructions(interaction, {choice : $choice, target : $target});
 
-            if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
-                var $resultArea = Helper.getContainer(interaction).find('.result-area');
+                if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
 
-                $target.parent().removeClass('incomplete-pair');
+                    $pair.removeClass('incomplete-pair');
 
-                //append new pair option?
-                if(!$resultArea.children('.incomplete-pair').length){
-                    $resultArea.append(pairTpl({empty : true}));
-                    $resultArea.children('.incomplete-pair').fadeIn(600, function(){
-                        $(this).show();
-                    });
+                    //append new pair option?
+                    if(!$resultArea.children('.incomplete-pair').length){
+                        $resultArea.append(pairTpl({empty : true}));
+                        $resultArea.children('.incomplete-pair').fadeIn(600, function(){
+                            $(this).show();
+                        });
+                    }
                 }
+            }else{
+                //repeating pair: show it:
+                
+                //@todo add a notification message here in warning
+                $otherRepeatedPair.css('border', '1px solid orange');
+                $target.html(__('identical pair already exists')).css({
+                    color:'orange',
+                    border:'1px solid orange'
+                });
+                setTimeout(function(){
+                    $otherRepeatedPair.removeAttr('style');
+                    $target.empty().removeAttr('style');
+                }, 2000);
             }
+            
+        }else{
+            _setChoice();
         }
     };
 
