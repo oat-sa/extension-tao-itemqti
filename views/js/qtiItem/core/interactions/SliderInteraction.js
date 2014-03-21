@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/BlockInteraction'], function(BlockInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction'], function(BlockInteraction){
     var SliderInteraction = BlockInteraction.extend({
         qtiClass : 'sliderInteraction'
     });

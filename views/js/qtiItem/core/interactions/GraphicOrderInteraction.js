@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/GraphicInteraction'], function(GraphicInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction'], function(GraphicInteraction){
     var GraphicOrderInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicOrderInteraction'
     });

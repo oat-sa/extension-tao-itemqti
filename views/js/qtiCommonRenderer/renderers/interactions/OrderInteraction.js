@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/orderInteraction',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n',
     'jqueryui'
 ], function(_, $, tpl, Helper, __){

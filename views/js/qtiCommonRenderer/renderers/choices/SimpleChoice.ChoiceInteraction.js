@@ -1,4 +1,4 @@
-define(['tpl!taoQtiCommonRenderer/tpl/choices/simpleChoice.choiceInteraction', 'taoQtiCommonRenderer/helpers/Helper'], function(tpl, Helper){
+define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/simpleChoice.choiceInteraction', 'taoQtiItem/qtiCommonRenderer/helpers/Helper'], function(tpl, Helper){
     return {
         qtiClass : 'simpleChoice.choiceInteraction',
         getContainer : Helper.getContainer,

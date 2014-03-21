@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/Widget'], function(Widget){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget'], function(Widget){
 
     var ChoiceInteraction = Widget.extend({
         render : function(){

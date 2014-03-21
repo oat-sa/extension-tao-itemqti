@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiCommonRenderer/helpers/Instruction',
-    'tpl!taoQtiCommonRenderer/tpl/notification',
+    'taoQtiItem/qtiCommonRenderer/helpers/Instruction',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification',
 ], function(_, $, Instruction, notifTpl){
 
     var _containers = {};

@@ -1,7 +1,7 @@
 define([
     'lodash',
     'i18n',
-    'tpl!taoQtiItemCreator/tpl/choiceInteraction/addChoice'
+    'tpl!taoQtiItem/qtiCreator/tpl/choiceInteraction/addChoice'
 ], function(_, __, addChoiceTpl){
 
     var _updateChoiceIdentifierInResponse = function(response, oldId, newId){

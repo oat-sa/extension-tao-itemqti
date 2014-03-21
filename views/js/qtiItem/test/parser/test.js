@@ -1,4 +1,4 @@
-require(['taoQtiItem/core/Parser', 'text!taoQtiItem/../../../test/samples/xml/qtiv2p1/associate.xml'], function(Parser, xml){
+require(['taoQtiItem/qtiItem/core/Parser', 'text!taoQtiItem/qtiItem/../../../test/samples/xml/qtiv2p1/associate.xml'], function(Parser, xml){
 
     var CL = console.log;
 

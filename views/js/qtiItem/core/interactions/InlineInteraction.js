@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/Interaction'], function(Interaction){
+define(['taoQtiItem/qtiItem/core/interactions/Interaction'], function(Interaction){
     return Interaction.extend({});
 });
 

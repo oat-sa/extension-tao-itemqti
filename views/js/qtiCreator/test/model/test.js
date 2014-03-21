@@ -1,9 +1,9 @@
 require([
     'jquery',
     'lodash',
-    'taoQtiItem/core/Element',
-    'taoQtiItemCreator/core/model/Item',
-    'taoQtiXmlRenderer/renderers/Renderer'
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/core/model/Item',
+    'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
 ],
 function($, _, Element, Item, XmlRenderer){
 

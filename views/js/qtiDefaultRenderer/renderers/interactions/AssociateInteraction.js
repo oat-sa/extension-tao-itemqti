@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/associateInteraction', 'taoQtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/associateInteraction', 'taoQtiItem/qtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
     return {
         qtiClass : 'associateInteraction',
         template : tpl,

@@ -1,4 +1,4 @@
-define(['taoQtiItem/mixin/Mixin', 'taoQtiItem/core/Container'], function(Mixin, Container){
+define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/core/Container'], function(Mixin, Container){
 
     var methods = {
         initContainer : function(body){

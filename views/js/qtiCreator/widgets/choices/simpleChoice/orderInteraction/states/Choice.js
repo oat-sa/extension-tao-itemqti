@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/choices/simpleChoice/choiceInteraction/states/Choice'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/choices/simpleChoice/choiceInteraction/states/Choice'
 ], function(stateFactory, Choice){
     
     //@todo merge both simpleChoices together

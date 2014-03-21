@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/inlineChoiceInteraction', 'taoQtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/inlineChoiceInteraction', 'taoQtiItem/qtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
     return {
         qtiClass : 'inlineChoiceInteraction',
         template : tpl,

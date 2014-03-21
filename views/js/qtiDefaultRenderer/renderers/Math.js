@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/math', 'mathJax'], function(tpl, MathJax){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/math', 'mathJax'], function(tpl, MathJax){
     return {
         qtiClass : 'math',
         template : tpl,

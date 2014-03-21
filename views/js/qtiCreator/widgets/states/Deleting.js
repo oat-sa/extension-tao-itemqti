@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/states/factory', 'tpl!taoQtiItemCreator/tpl/notifications/deletingInfoBox'], function(stateFactory, deletingInfoTpl){
+define(['taoQtiItem/qtiCreator/widgets/states/factory', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function(stateFactory, deletingInfoTpl){
 
     var DeletingState = stateFactory.create('deleting', function(){
 

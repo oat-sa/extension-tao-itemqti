@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/StringInteraction'], function(StringInteraction){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/StringInteraction'], function(StringInteraction){
 
     var ExtendedTextInteraction = StringInteraction.extend({
         init : function(interaction){

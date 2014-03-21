@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n',
     'select2'
 ], function(_, $, tpl, Helper, __){

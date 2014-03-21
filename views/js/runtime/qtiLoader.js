@@ -40,7 +40,7 @@
         require([clientConfigUrl], function(){
             
             //and start the QTI bootstrap
-            require(['taoQTI/runtime/qtiBootstrap'], function(qtiBootstrap){
+            require(['taoQtiItem/runtime/qtiBootstrap'], function(qtiBootstrap){
                 qtiBootstrap(runnerContext);
             });
         });

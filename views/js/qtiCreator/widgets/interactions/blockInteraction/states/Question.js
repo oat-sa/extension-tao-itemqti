@@ -1,8 +1,8 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/interactions/states/Question',
-    'taoQtiItemCreator/editor/htmlEditor',
-    'tpl!taoQtiItemCreator/tpl/toolbars/htmlEditorTrigger'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
+    'taoQtiItem/qtiCreator/editor/htmlEditor',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(stateFactory, Question, htmlEditor, promptToolbarTpl){
 
     var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){

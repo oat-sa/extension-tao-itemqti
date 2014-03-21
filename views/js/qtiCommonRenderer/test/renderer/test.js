@@ -1,10 +1,10 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItem/core/Loader',
-    'taoQtiItem/core/Element',
-    'taoQtiCommonRenderer/renderers/Renderer',
-    'json!taoQtiItem/../../../test/samples/json/ALL.json'
+    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
 ], function(_, $, Loader, Element, Renderer, data){
 
     var CL = console.log;
@@ -86,7 +86,7 @@ define([
                     var loader = new Loader();
                     var renderer = new Renderer({
                         runtimeContext : {
-                            runtime_base_www : '/taoQTI/test/samples/test_base_www/',
+                            runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
                             root_url : '',
                             debug : true
                         }

@@ -1,7 +1,7 @@
 define([
     'jquery',
-    'json!taoQtiItemCreator/editor/resources/font-stacks.json',
-    'taoQtiItemCreator/editor/styleEditor',
+    'json!taoQtiItem/qtiCreator/editor/resources/font-stacks.json',
+    'taoQtiItem/qtiCreator/editor/styleEditor',
     'select2'
 ], function ($, fontStacks, styleEditor) {
     'use strict'

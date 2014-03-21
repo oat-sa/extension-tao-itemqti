@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/core/Element', 'lodash'], function(GraphicInteraction, Element, _){
+define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/qtiItem/core/Element', 'lodash'], function(GraphicInteraction, Element, _){
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicGapMatchInteraction',

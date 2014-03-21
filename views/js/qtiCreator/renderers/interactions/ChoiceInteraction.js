@@ -1,6 +1,6 @@
 define([
-    'taoQtiCommonRenderer/renderers/interactions/ChoiceInteraction',
-    'taoQtiItemCreator/widgets/interactions/choiceInteraction/Widget'
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/Widget'
 ], function(Interaction, ChoiceInteractionWidget){
     return {
         qtiClass : 'choiceInteraction',

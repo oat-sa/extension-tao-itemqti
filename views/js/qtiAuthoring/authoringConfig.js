@@ -17,4 +17,4 @@
  *               
  * 
  */
-var img_url = root_url + "taoQTI/views/img/qtiAuthoring/";
+var img_url = root_url + "taoQtiItem/views/img/qtiAuthoring/";

@@ -1,7 +1,7 @@
 define([
     'lodash',
-    'taoQtiItemCreator/core/model/mixin/editable',
-    'taoQtiItem/core/feedbacks/ModalFeedback'
+    'taoQtiItem/qtiCreator/core/model/mixin/editable',
+    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
 ], function(_,editable,ModalFeedback){
     
     var methods = {};

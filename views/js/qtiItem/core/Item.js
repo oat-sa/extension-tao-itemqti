@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'taoQtiItem/core/IdentifiedElement', 'taoQtiItem/mixin/Container', 'lodash'], function(Element, IdentifiedElement, Container, _){
+define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedElement', 'taoQtiItem/qtiItem/mixin/Container', 'lodash'], function(Element, IdentifiedElement, Container, _){
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',

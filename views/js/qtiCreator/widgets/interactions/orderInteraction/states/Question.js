@@ -1,7 +1,7 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/interactions/blockInteraction/states/Question',
-    'tpl!taoQtiItemCreator/tpl/forms/interactions/choice'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice'
 ], function(stateFactory, Question, formTpl){
 
     var OrderInteractionStateQuestion = stateFactory.clone(Question);

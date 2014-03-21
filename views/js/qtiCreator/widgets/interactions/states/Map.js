@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Map',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Map',
     'lodash'
 ], function(stateFactory, Map, _){
 

@@ -1,9 +1,9 @@
 define([
     'lodash',
-    'taoQtiItemCreator/core/model/mixin/editable',
-    'taoQtiItemCreator/core/model/mixin/editableInteraction',
-    'taoQtiItem/core/interactions/OrderInteraction',
-    'taoQtiItemCreator/core/model/choices/SimpleChoice'
+    'taoQtiItem/qtiCreator/core/model/mixin/editable',
+    'taoQtiItem/qtiCreator/core/model/mixin/editableInteraction',
+    'taoQtiItem/qtiItem/core/interactions/OrderInteraction',
+    'taoQtiItem/qtiCreator/core/model/choices/SimpleChoice'
 ], function(_, editable, editableInteraction, Interaction, Choice){
     var methods = {};
     _.extend(methods, editable);

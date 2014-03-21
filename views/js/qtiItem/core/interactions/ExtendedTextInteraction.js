@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/BlockInteraction', 'lodash'], function(BlockInteraction, _){
+define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction', 'lodash'], function(BlockInteraction, _){
     
     var ExtendedTextInteraction = BlockInteraction.extend({
         qtiClass : 'extendedTextInteraction',

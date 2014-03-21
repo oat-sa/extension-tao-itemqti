@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/choices/ContainerChoice'], function(QtiContainerChoice){
+define(['taoQtiItem/qtiItem/core/choices/ContainerChoice'], function(QtiContainerChoice){
     var QtiHottext = QtiContainerChoice.extend({
         qtiClass : 'hottext'
     });

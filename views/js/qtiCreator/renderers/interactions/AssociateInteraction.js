@@ -1,7 +1,7 @@
 define([
     'lodash',
-    'taoQtiCommonRenderer/renderers/interactions/AssociateInteraction',
-    'taoQtiItemCreator/widgets/interactions/associateInteraction/Widget'
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/Widget'
 ], function(_, AssociateInteraction, AssociateInteractionWidget){
 
     var CreatorAssociateInteraction = _.clone(AssociateInteraction);

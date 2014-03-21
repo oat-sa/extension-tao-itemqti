@@ -125,14 +125,14 @@ qtiEdit.mapElementValidator = function($container){
             case 'expectedLength':
             case 'step':
                 {
-                    require([root_url + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Integer.js'], function(Validator){
+                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Integer.js'], function(Validator){
                         qtiEdit.bindValidator($formElt, new Validator());
                     });
                     break;
                 }
             case 'choiceIdentifier':
                 {
-                    require([root_url + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Regex.js'], function(Validator){
+                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Regex.js'], function(Validator){
                         var validatorIdentifier = new Validator({
                             regex : /^[_a-z]{1}[a-z0-9-._]{0,31}$/i,
                             message : __('The format of the identifier is not valid.')
@@ -140,7 +140,7 @@ qtiEdit.mapElementValidator = function($container){
                         qtiEdit.bindValidator($formElt, validatorIdentifier);
                     });
 
-                    require([root_url + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Uniqueidentifier.js'], function(Validator){
+                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Uniqueidentifier.js'], function(Validator){
                         var validatorIdentifier = new Validator({
                             'element' : $formElt
                         });
@@ -158,7 +158,7 @@ qtiEdit.mapElementValidator = function($container){
                                         if(r.saved){
                                             qtiEdit.idList.set(choiceSerial, value);
 
-                                            require([root_url + 'taoQtiItem/views/js/qtiAuthoring/responseClass.js'], function(responseClass){
+                                            require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/responseClass.js'], function(responseClass){
                                                 //reload the response grid tu update the identifier
                                                 new responseClass(interaction.responseGrid, interaction);
                                             });
@@ -173,7 +173,7 @@ qtiEdit.mapElementValidator = function($container){
             case 'upperBound':
             case 'lowerBound':
                 {
-                    require([root_url + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Float.js'], function(Validator){
+                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Float.js'], function(Validator){
                         var validatorFloat = new Validator();
                         qtiEdit.bindValidator($formElt, validatorFloat, function($elt, ok){
                             if(ok){
@@ -775,7 +775,7 @@ qtiEdit.prototype.save = function(itemUri){
     var saveItemFunction = function(){
         qtiEdit.ajaxRequest({
             type : "POST",
-            url : root_url + "taoQTI/QtiAuthoring/saveItem",
+            url : root_url + "taoQtiItem/QtiAuthoring/saveItem",
             data : itemProperties,
             dataType : 'json',
             success : function(r){
@@ -803,7 +803,7 @@ qtiEdit.prototype.preview = function(){
 }
 
 qtiEdit.prototype.debug = function(){
-    window.open(root_url + '/taoQTI/QtiAuthoring/debug?itemSerial=' + this.itemSerial, 'QTIDebug', this.windowOptions);
+    window.open(root_url + '/taoQtiItem/QtiAuthoring/debug?itemSerial=' + this.itemSerial, 'QTIDebug', this.windowOptions);
 }
 
 qtiEdit.prototype.exportItem = function(){
@@ -814,7 +814,7 @@ qtiEdit.prototype.exportItem = function(){
 qtiEdit.saveData = function(type, serial, data){
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/saveData",
+        url : root_url + "taoQtiItem/QtiAuthoring/saveData",
         data : {
             'type' : type,
             'serial' : serial,
@@ -837,7 +837,7 @@ qtiEdit.prototype.saveItemData = function(itemSerial){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/saveItemData",
+        url : root_url + "taoQtiItem/QtiAuthoring/saveItemData",
         data : {
             'itemData' : util.htmlEncode(instance.getItemContent()),
             'itemSerial' : itemSerial
@@ -871,7 +871,7 @@ qtiEdit.prototype.loadResponseProcessingForm = function(){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/editResponseProcessing",
+        url : root_url + "taoQtiItem/QtiAuthoring/editResponseProcessing",
         data : {
             'itemSerial' : self.itemSerial
         },
@@ -886,7 +886,7 @@ qtiEdit.prototype.saveItemResponseProcessing = function($myForm){
     var self = this;
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/saveItemResponseProcessing",
+        url : root_url + "taoQtiItem/QtiAuthoring/saveItemResponseProcessing",
         data : $myForm.serialize(),
         dataType : 'json',
         success : function(r){
@@ -922,7 +922,7 @@ qtiEdit.prototype.loadStyleSheetForm = function(empty){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/manageStyleSheets",
+        url : root_url + "taoQtiItem/QtiAuthoring/manageStyleSheets",
         data : post,
         dataType : 'html',
         success : function(form){
@@ -955,7 +955,7 @@ qtiEdit.prototype.deleteStyleSheet = function(css_href){
     var self = this;
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/deleteStyleSheet",
+        url : root_url + "taoQtiItem/QtiAuthoring/deleteStyleSheet",
         data : {
             'itemSerial' : this.itemSerial,
             'itemUri' : this.itemUri,
@@ -995,7 +995,7 @@ qtiEdit.prototype.saveCurrentInteraction = function(callback, reloadResponse){
 qtiEdit.prototype.loadInteractionForm = function(interactionSerial){
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/editInteraction",
+        url : root_url + "taoQtiItem/QtiAuthoring/editInteraction",
         data : {
             'interactionSerial' : interactionSerial
         },
@@ -1015,7 +1015,7 @@ qtiEdit.ajaxRequest = function(options, data, success){
         data.itemSerial = qtiEdit.itemSerial;
         options = {
             type : "POST",
-            url : root_url + "taoQTI/QtiAuthoring/" + options,
+            url : root_url + "taoQtiItem/QtiAuthoring/" + options,
             data : data,
             dataType : 'json',
             async : false,
@@ -1030,7 +1030,7 @@ qtiEdit.ajaxRequest = function(options, data, success){
 }
 
 qtiEdit.buildMediaPreviewer = function($container, mediaAttributes){
-    require(['taoQTI/qtiItem/core/Object', 'taoQTI/qtiDefaultRenderer/renderers/Renderer'], function(QtiObject, Renderer){
+    require(['taoQtiItem/qtiItem/core/Object', 'taoQtiItem/qtiDefaultRenderer/renderers/Renderer'], function(QtiObject, Renderer){
         $container.empty().html('<div id="media-preview"></div>');//destray every thing first and start anew
         var object = new QtiObject(null, mediaAttributes);
         object.setRenderer(new Renderer());
@@ -1048,7 +1048,7 @@ qtiEdit.addElement = function(htmlEditor, type){
 
         qtiEdit.ajaxRequest({
             type : "POST",
-            url : root_url + "taoQTI/QtiAuthoring/addElement",
+            url : root_url + "taoQtiItem/QtiAuthoring/addElement",
             data : {
                 'serial' : htmlEditor.serial,
                 'type' : htmlEditor.type,

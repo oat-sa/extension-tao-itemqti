@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'taoQtiItemCreator/core/gridUnits', 'taoQtiItemCreator/core/gridEditor'], function($, _, gridUnits){
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/core/gridUnits', 'taoQtiItem/qtiCreator/core/gridEditor'], function($, _, gridUnits){
 
     var C = console;
     var $item = $('#item-grid');

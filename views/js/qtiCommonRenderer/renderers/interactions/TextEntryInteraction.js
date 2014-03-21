@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/textEntryInteraction',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'polyfill/placeholders'
 ], function(_, $, tpl, Helper){
     'use strict';   

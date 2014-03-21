@@ -1,4 +1,4 @@
-define(['class', 'lodash', 'taoQtiItem/helper/util'], function(Class, _, util){
+define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _, util){
 
     var _instances = {};
 

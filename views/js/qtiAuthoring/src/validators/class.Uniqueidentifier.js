@@ -17,7 +17,7 @@
  *               
  * 
  */
-define(['require', 'jquery', root_url + 'taoQtiItem/views/js/qtiAuthoring/src/validators/class.Validator.js'], function(req, $, ValidatorClass){
+define(['require', 'jquery', root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Validator.js'], function(req, $, ValidatorClass){
 
     var validatorClassFunctions = {
         init : function(options){
@@ -59,7 +59,7 @@ define(['require', 'jquery', root_url + 'taoQtiItem/views/js/qtiAuthoring/src/va
                             //check on the server :
                             qtiEdit.ajaxRequest({
                                 type : "POST",
-                                url : root_url + "taoQTI/QtiAuthoring/isIdentifierUsed",
+                                url : root_url + "taoQtiItem/QtiAuthoring/isIdentifierUsed",
                                 data : {
                                     'identifier' : value
                                 },

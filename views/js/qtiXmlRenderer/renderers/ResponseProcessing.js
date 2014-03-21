@@ -1,8 +1,8 @@
 define([
-    'tpl!taoQtiXmlRenderer/tpl/responseProcessing',
-    'tpl!taoQtiXmlRenderer/tpl/responses/match_correct',
-    'tpl!taoQtiXmlRenderer/tpl/responses/map_response',
-    'tpl!taoQtiXmlRenderer/tpl/responses/map_response_point'
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/match_correct',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point'
 ], function(tpl, correctTpl, mapTpl, mapPointTpl){
     
     var _renderInteractionRp = function(interaction){

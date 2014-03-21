@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/ContainerInteraction', 'taoQtiItem/core/Element'], function(ContainerInteraction, Element){
+define(['taoQtiItem/qtiItem/core/interactions/ContainerInteraction', 'taoQtiItem/qtiItem/core/Element'], function(ContainerInteraction, Element){
     var HottextInteraction = ContainerInteraction.extend({
         qtiClass : 'hottextInteraction',
         getChoices : function(){

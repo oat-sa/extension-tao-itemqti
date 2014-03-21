@@ -1,9 +1,9 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Question',
-    'tpl!taoQtiItemCreator/tpl/toolbars/simpleChoice.content',
-    'taoQtiItemCreator/editor/htmlEditor',
-    'taoQtiItemCreator/widgets/helpers/formElement'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Question',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
+    'taoQtiItem/qtiCreator/editor/htmlEditor',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement'
 ], function(stateFactory, QuestionState, contentToolbarTpl, htmlEditor, formElement){
 
     var ChoiceStateQuestion = stateFactory.create(QuestionState, function(){

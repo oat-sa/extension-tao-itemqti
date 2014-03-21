@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/rubricBlock'], function(tpl){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/rubricBlock'], function(tpl){
     return {
         qtiClass : 'rubricBlock',
         template : tpl

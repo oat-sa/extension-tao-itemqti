@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element'], function(Element){
+define(['taoQtiItem/qtiItem/core/Element'], function(Element){
 
     var SimpleFeedbackRule = Element.extend({
         qtiClass : '_simpleFeedbackRule',

@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/ObjectInteraction'], function(ObjectInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction'], function(ObjectInteraction){
     var MediaInteraction = ObjectInteraction.extend({
         qtiClass : 'mediaInteraction',
         render : function(data, $container){

@@ -136,7 +136,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
     </div>
 </div>
 <script>
-    require(['taoQTI/controller/creator/main'], function (controller) {
+    require(['taoQtiItem/controller/creator/main'], function (controller) {
         controller.start();
     })
 </script>

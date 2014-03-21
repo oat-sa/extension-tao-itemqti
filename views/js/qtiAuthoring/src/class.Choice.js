@@ -17,7 +17,7 @@
  *               
  * 
  */
-define(['require', 'jquery', root_url  + 'taoQtiItem/views/js/qtiAuthoring/src/class.Data.js'], function(req, $, QTIdataClass){
+define(['require', 'jquery', root_url  + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/class.Data.js'], function(req, $, QTIdataClass){
 	
 	var QTIchoiceClassFunctions = {
 		init:function(type, serial, options){

@@ -1,4 +1,4 @@
-define(['lodash', 'class', 'taoQtiItem/core/qtiClasses', 'taoQtiItem/core/Element'], function(_, Class, qtiClasses, Element){
+define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qtiItem/core/Element'], function(_, Class, qtiClasses, Element){
 
     var Loader = Class.extend({
         qti : {}, //loaded qti classes are store here
@@ -45,7 +45,7 @@ define(['lodash', 'class', 'taoQtiItem/core/qtiClasses', 'taoQtiItem/core/Elemen
             return _.keys(this.qti);
         },
         loadItemData : function(data, callback){
-
+        
             var _this = this;
             _this.loadRequiredClasses(data, function(Qti){
                 

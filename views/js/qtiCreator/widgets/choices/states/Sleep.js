@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/states/factory', 'taoQtiItemCreator/widgets/states/Sleep'], function(stateFactory, Sleep){
+define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/states/Sleep'], function(stateFactory, Sleep){
     
     var ChoiceStateSleep = stateFactory.create(Sleep, function(){
         

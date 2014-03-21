@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'taoQtiItemCreator/editor/base',
-  'taoQtiItemCreator/editor/widgetCommon'
+  'taoQtiItem/qtiCreator/editor/base',
+  'taoQtiItem/qtiCreator/editor/widgetCommon'
 ], function($, base, widgetCommon){
   'use strict'
 

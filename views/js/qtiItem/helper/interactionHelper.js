@@ -1,7 +1,7 @@
 /**
  * Common helper functions
  */
-define(['lodash', 'taoQtiItem/core/Element'], function(_, Element){
+define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
     return {
         convertChoices : function(choices, outputType){
             

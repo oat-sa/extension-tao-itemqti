@@ -1,3 +1,3 @@
-define(['taoQtiItem/core/Element'], function(Element){
+define(['taoQtiItem/qtiItem/core/Element'], function(Element){
     return Element.extend({qtiClass : 'stylesheet'});
 });

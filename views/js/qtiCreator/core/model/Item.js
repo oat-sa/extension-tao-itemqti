@@ -1,9 +1,9 @@
 define([
     'lodash',
-    'taoQtiItemCreator/core/model/mixin/editable',
-    'taoQtiItemCreator/core/model/mixin/editableContainer',
-    'taoQtiItem/core/Item',
-    'taoQtiItemCreator/core/model/ResponseProcessing',
+    'taoQtiItem/qtiCreator/core/model/mixin/editable',
+    'taoQtiItem/qtiCreator/core/model/mixin/editableContainer',
+    'taoQtiItem/qtiItem/core/Item',
+    'taoQtiItem/qtiCreator/core/model/ResponseProcessing',
 ], function(_, editable, editableContainer, Item, ResponseProcessing){
     var methods = {};
     _.extend(methods, editable);

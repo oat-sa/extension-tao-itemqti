@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/states/factory'], function(stateFactory){
+define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
     return stateFactory.create('active', function(){
         throw new Error('state "active" prototype init method must be implemented');
     },function(){

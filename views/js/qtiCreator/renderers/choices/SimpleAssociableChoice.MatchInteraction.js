@@ -1,6 +1,6 @@
 define([
-    'taoQtiCommonRenderer/renderers/choices/SimpleAssociableChoice.MatchInteraction',
-    'taoQtiItemCreator/widgets/choices/simpleAssociableChoice/Widget'
+    'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleAssociableChoice.MatchInteraction',
+    'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/Widget'
 ], function(SimpleAssociableChoice, SimpleChoiceWidget){
     return {
         qtiClass : 'simpleAssociableChoice.matchInteraction',

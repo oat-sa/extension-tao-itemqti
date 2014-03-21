@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/IdentifiedElement'], function(IdentifiedElement){
+define(['taoQtiItem/qtiItem/core/IdentifiedElement'], function(IdentifiedElement){
 
     /**
      * It is the top abstract class for all variable classes

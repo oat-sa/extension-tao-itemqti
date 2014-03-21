@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/hottextInteraction', 'taoQtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/hottextInteraction', 'taoQtiItem/qtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
     return {
         qtiClass : 'hottextInteraction',
         template : tpl,

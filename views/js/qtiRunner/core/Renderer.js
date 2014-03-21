@@ -1,4 +1,4 @@
-define(['lodash', 'handlebars', 'taoQtiItem/core/Element', 'taoQtiItem/helper/interactionHelper'], function(_, Handlebars, Element, interactionHelper){
+define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/interactionHelper'], function(_, Handlebars, Element, interactionHelper){
 
     'use strict';
 

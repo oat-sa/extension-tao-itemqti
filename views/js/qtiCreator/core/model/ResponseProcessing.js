@@ -1,7 +1,7 @@
 define([
     'lodash',
-    'taoQtiItemCreator/core/model/mixin/editable',
-    'taoQtiItem/core/ResponseProcessing'
+    'taoQtiItem/qtiCreator/core/model/mixin/editable',
+    'taoQtiItem/qtiItem/core/ResponseProcessing'
 ], function(_, editable, ResponseProcessing){
     
     var methods = {};

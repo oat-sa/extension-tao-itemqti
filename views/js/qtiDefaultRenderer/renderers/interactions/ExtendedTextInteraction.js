@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/extendedTextInteraction', 'taoQtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/extendedTextInteraction', 'taoQtiItem/qtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
     return {
         qtiClass : 'extendedTextInteraction',
         template : tpl,

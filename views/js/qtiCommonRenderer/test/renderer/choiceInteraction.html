@@ -9,12 +9,12 @@
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
 
         <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
-        <link rel="stylesheet" type="text/css" href="/taoQTI/views/css/qti.css" />
+        <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
         
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
-                require(['taoQtiCommonRenderer/test/renderer/test'], function(Test){
+                require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
                     Test.testRender('choice', {}, [

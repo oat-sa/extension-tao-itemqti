@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/sliderInteraction',
-    'taoQtiCommonRenderer/renderers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/sliderInteraction',
+    'taoQtiItem/qtiCommonRenderer/renderers/Helper',
     'jqueryui'
 ], function(_, $, tpl, Helper){
     'use strict';   

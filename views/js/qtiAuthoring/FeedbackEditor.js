@@ -5,7 +5,7 @@ function FeedbackEditor(feedbackSerial){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/editModalFeedback",
+        url : root_url + "taoQtiItem/QtiAuthoring/editModalFeedback",
         dataType : 'html',
         data : {
             feedbackSerial : feedbackSerial
@@ -60,7 +60,7 @@ FeedbackEditor.prototype.save = function(callback){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/saveModalFeedback",
+        url : root_url + "taoQtiItem/QtiAuthoring/saveModalFeedback",
         dataType : 'json',
         data : {
             feedbackSerial : this.serial,

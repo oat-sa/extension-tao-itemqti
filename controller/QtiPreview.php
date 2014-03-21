@@ -130,8 +130,8 @@ class QtiPreview extends taoItems_actions_ItemPreview
     protected function getResultServer(){
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
         return array(
-            'module'    => 'taoQTI/QtiPreviewResultServerApi',
-            'endpoint'  => ROOT_URL . 'taoQTI/QtiPreview/',
+            'module'    => 'taoQtiItem/QtiPreviewResultServerApi',
+            'endpoint'  => ROOT_URL . 'taoQtiItem/QtiPreview/',
             'params'    => $itemUri
         );
     }

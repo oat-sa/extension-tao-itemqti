@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/choices/TextVariableChoice'], function(QtiTextVariableChoice){
+define(['taoQtiItem/qtiItem/core/choices/TextVariableChoice'], function(QtiTextVariableChoice){
     var QtiInlineChoice = QtiTextVariableChoice.extend({
         qtiClass : 'inlineChoice'
     });

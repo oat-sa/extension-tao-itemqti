@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Answer'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Answer'
 ], function(stateFactory, Answer){
 
     var ChoiceStateAnswer = stateFactory.create(Answer, function(){

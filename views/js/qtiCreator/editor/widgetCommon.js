@@ -1,6 +1,6 @@
 define([
   'jquery',
-  'taoQtiItemCreator/editor/base'
+  'taoQtiItem/qtiCreator/editor/base'
 ], function($, base){
   'use strict'
 

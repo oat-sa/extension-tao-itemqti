@@ -1,13 +1,13 @@
-define(['lodash', 'taoQtiCommonRenderer/renderers/config'], function(_, commonRenderConfig){
+define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, commonRenderConfig){
     var locations = _.extend(commonRenderConfig.locations, {
-        '_container' : 'taoQtiItemCreator/renderers/Container',
-        'choiceInteraction' : 'taoQtiItemCreator/renderers/interactions/ChoiceInteraction',
-        'orderInteraction' : 'taoQtiItemCreator/renderers/interactions/OrderInteraction',
-        'associateInteraction' : 'taoQtiItemCreator/renderers/interactions/AssociateInteraction',
-        'simpleChoice.choiceInteraction' : 'taoQtiItemCreator/renderers/choices/SimpleChoice.ChoiceInteraction',
-        'simpleChoice.orderInteraction' : 'taoQtiItemCreator/renderers/choices/SimpleChoice.OrderInteraction',
-        'simpleAssociableChoice.associateInteraction' : 'taoQtiItemCreator/renderers/choices/SimpleAssociableChoice.AssociateInteraction',
-        'simpleAssociableChoice.matchInteraction' : 'taoQtiItemCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction'
+        '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
+        'choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/ChoiceInteraction',
+        'orderInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/OrderInteraction',
+        'associateInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/AssociateInteraction',
+        'simpleChoice.choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.ChoiceInteraction',
+        'simpleChoice.orderInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.OrderInteraction',
+        'simpleAssociableChoice.associateInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.AssociateInteraction',
+        'simpleAssociableChoice.matchInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction'
     });
 
     return {

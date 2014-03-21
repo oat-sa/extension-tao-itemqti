@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/variables/VariableDeclaration', 'lodash'], function(VariableDeclaration, _){
+define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], function(VariableDeclaration, _){
 
     var ResponseDeclaration = VariableDeclaration.extend({
         qtiClass : 'responseDeclaration',

@@ -1,7 +1,7 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Question',
-    'tpl!taoQtiItemCreator/tpl/choiceInteraction/addChoice',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Question',
+    'tpl!taoQtiItem/qtiCreator/tpl/choiceInteraction/addChoice',
     'i18n'
 ], function(stateFactory, Question, addChoiceTpl, __){
 

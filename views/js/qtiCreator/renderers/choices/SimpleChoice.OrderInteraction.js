@@ -1,6 +1,6 @@
 define([
-    'taoQtiCommonRenderer/renderers/choices/SimpleChoice.OrderInteraction',
-    'taoQtiItemCreator/widgets/choices/simpleChoice/orderInteraction/Widget'
+    'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleChoice.OrderInteraction',
+    'taoQtiItem/qtiCreator/widgets/choices/simpleChoice/orderInteraction/Widget'
 ], function(SimpleChoice, SimpleChoiceWidget){
     return {
         qtiClass : 'simpleChoice.orderInteraction',

@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/matchInteraction', 'taoQtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/matchInteraction', 'taoQtiItem/qtiDefaultRenderer/renderers/interactions/Interaction'], function(tpl, Interaction){
     return {
         qtiClass : 'matchInteraction',
         template : tpl,

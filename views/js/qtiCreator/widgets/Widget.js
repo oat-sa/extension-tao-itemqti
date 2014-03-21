@@ -1,7 +1,7 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItem/core/Element'
+    'taoQtiItem/qtiItem/core/Element'
 ], function(_, $, Element){
     
     var _pushState = function(widget, stateName){

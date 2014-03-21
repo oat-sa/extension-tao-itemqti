@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/BlockInteraction', 'taoQtiItem/core/Object'], function(QtiBlockInteraction, QtiObject){
+define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction', 'taoQtiItem/qtiItem/core/Object'], function(QtiBlockInteraction, QtiObject){
     var QtiObjectInteraction = QtiBlockInteraction.extend({
         //common methods to object containers (start)
         initObject : function(object){

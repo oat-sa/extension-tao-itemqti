@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/BlockInteraction', 'taoQtiItem/mixin/Container'], function(BlockInteraction, Container){
+define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction', 'taoQtiItem/qtiItem/mixin/Container'], function(BlockInteraction, Container){
     var ContainerInteraction = BlockInteraction.extend({});
     Container.augment(ContainerInteraction);
     return ContainerInteraction;

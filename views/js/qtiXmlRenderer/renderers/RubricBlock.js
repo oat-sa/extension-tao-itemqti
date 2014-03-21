@@ -1,4 +1,4 @@
-define(['tpl!taoQtiXmlRenderer/tpl/element', 'lodash'], function(tpl, _){
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'lodash'], function(tpl, _){
     return {
         qtiClass : 'rubricBlock',
         template : tpl,

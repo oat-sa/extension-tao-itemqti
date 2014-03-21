@@ -1,9 +1,9 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Answer',
-    'taoQtiItem/helper/response',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Answer',
+    'taoQtiItem/qtiItem/helper/response',
     'lodash',
-    'tpl!taoQtiItemCreator/tpl/toolbars/simpleChoice.response',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response',
     'ui/incrementer'
 ], function(stateFactory, Answer, responseHelper, _, responseToolbarTpl, incrementer){
 

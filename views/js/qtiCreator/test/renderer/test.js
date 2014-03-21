@@ -1,11 +1,11 @@
 define([
     'jquery',
-    'taoQtiItem/core/Loader',
-    'taoQtiItem/core/Element',
-    'taoQtiItemCreator/core/model/qtiClasses',
-    'taoQtiItemCreator/renderers/Renderer',
-    'taoQtiXmlRenderer/renderers/Renderer',
-    'json!taoQtiItem/../../../test/samples/json/ALL.json'
+    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/core/model/qtiClasses',
+    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
 ], function($, Loader, Element, qtiClasses, Renderer, XmlRenderer, data){
 
     var bufferedExecution = function(bufferTime, callback){
@@ -100,7 +100,7 @@ define([
                         var creatorRenderer = new Renderer({
                             shuffleChoices:false,
                             runtimeContext : {
-                                runtime_base_www : '/taoQTI/test/samples/test_base_www/',
+                                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
                                 root_url : '',
                                 debug : true
                             },

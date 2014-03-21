@@ -1,4 +1,4 @@
-define(['lodash', 'taoQtiItem/core/Element'], function(_, Element){
+define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
 
     var _stripMathTags = function(mathML, nsName){
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : '') + 'math[^>]*>', 'g');

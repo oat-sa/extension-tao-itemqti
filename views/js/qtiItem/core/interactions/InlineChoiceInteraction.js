@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/InlineInteraction'], function(InlineInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/InlineInteraction'], function(InlineInteraction){
     var InlineChoiceInteraction = InlineInteraction.extend({
         'qtiClass' : 'inlineChoiceInteraction'
     });

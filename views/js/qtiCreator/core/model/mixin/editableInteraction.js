@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/core/model/variables/ResponseDeclaration'], function(ResponseDeclaration){
+define(['taoQtiItem/qtiCreator/core/model/variables/ResponseDeclaration'], function(ResponseDeclaration){
 
     var methods = {
         createResponse:function(){

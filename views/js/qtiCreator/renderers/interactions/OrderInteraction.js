@@ -1,7 +1,7 @@
 define([
     'lodash',
-    'taoQtiCommonRenderer/renderers/interactions/OrderInteraction',
-    'taoQtiItemCreator/widgets/interactions/orderInteraction/Widget'
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/Widget'
 ], function(_, OrderInteraction, OrderInteractionWidget){
 
     var CreatorOrderInteraction = _.clone(OrderInteraction);

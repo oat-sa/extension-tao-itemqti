@@ -2,9 +2,9 @@ define([
     'lodash',
     'i18n',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/associateInteraction',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/associateInteraction.pair',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'eyecatcher'
 ], function(_, __, $, tpl, pairTpl, Helper, eyecatcher){
 

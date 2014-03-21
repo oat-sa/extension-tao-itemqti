@@ -1,4 +1,4 @@
-define(['lodash', 'taoQtiItemCreator/core/model/mixin/editable', 'taoQtiItem/core/choices/SimpleAssociableChoice'], function(_, editable, Choice){
+define(['lodash', 'taoQtiItem/qtiCreator/core/model/mixin/editable', 'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice'], function(_, editable, Choice){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {

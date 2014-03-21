@@ -9,14 +9,14 @@
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
 
         <!--pretty print-->
-        <script src="/taoQTI/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
-        <script src="/taoQTI/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
-        <link rel="stylesheet" href="/taoQTI/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
+        <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
+        <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
+        <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 
         <!--tao css-->
         <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
-        <link rel="stylesheet" type="text/css" href="/taoQTI/views/css/qti.css" />
-        <link rel="stylesheet" type="text/css" href="/taoQTI/views/css/item-creator.css" />
+        <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
+        <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/item-creator.css" />
         <style>
             
             /* style to be integrated */
@@ -48,7 +48,7 @@
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
-                require(['taoQtiItemCreator/test/renderer/test'], function(Test){
+                require(['taoQtiItem/qtiCreator/test/renderer/test'], function(Test){
                     QUnit.start();
                     Test.testRender('choiceMultiple');
                 });

@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/GraphicInteraction', 'taoQtiDefaultRenderer/widgets/Widget', 'raphael-collision', 'jqueryui'], function(GraphicInteraction, Widget, raphaelcollision){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/GraphicInteraction', 'taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'raphael-collision', 'jqueryui'], function(GraphicInteraction, Widget, raphaelcollision){
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
         init : function(interaction, context){

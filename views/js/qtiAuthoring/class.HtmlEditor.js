@@ -32,7 +32,7 @@ HtmlEditor = Class.extend({
 
         qtiEdit.ajaxRequest({
             type : "POST",
-            url : root_url + "taoQTI/QtiAuthoring/deleteElements",
+            url : root_url + "taoQtiItem/QtiAuthoring/deleteElements",
             data : {
                 'type' : this.type,
                 'serial' : this.serial,
@@ -284,7 +284,7 @@ HtmlEditor = Class.extend({
                 event.preventDefault();
                 qtiEdit.ajaxRequest({
                     type : "POST",
-                    url : root_url + "taoQTI/QtiAuthoring/editObject",
+                    url : root_url + "taoQtiItem/QtiAuthoring/editObject",
                     dataType : 'json',
                     data : {
                         type : htmlEditor.type,
@@ -353,7 +353,7 @@ HtmlEditor = Class.extend({
                                 objectEditor.save = function(newMediaPath, height, width, callback){
                                     qtiEdit.ajaxRequest({
                                         type : "POST",
-                                        url : root_url + "taoQTI/QtiAuthoring/editObject",
+                                        url : root_url + "taoQtiItem/QtiAuthoring/editObject",
                                         dataType : 'json',
                                         data : {
                                             type : htmlEditor.type,

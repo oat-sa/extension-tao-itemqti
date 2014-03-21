@@ -1,4 +1,4 @@
-define(['class', 'taoQtiDefaultRenderer/widgets/ResultCollector'], function(Class, ResultCollector){
+define(['class', 'taoQtiItem/qtiDefaultRenderer/widgets/ResultCollector'], function(Class, ResultCollector){
     
     var Widget = Class.extend({
         init : function(interaction, context){

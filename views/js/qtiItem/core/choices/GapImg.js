@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/choices/Choice', 'taoQtiItem/core/Object'], function(QtiChoice, QtiObject){
+define(['taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/core/Object'], function(QtiChoice, QtiObject){
     var QtiGapImg = QtiChoice.extend({
         qtiClass : 'gapImg',
         //common methods to object containers (start)

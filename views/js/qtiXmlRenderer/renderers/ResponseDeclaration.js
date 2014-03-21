@@ -1,4 +1,4 @@
-define(['lodash', 'tpl!taoQtiXmlRenderer/tpl/responseDeclaration'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseDeclaration'], function(_, tpl){
     return {
         qtiClass : 'responseDeclaration',
         template : tpl,

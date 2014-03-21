@@ -3,35 +3,35 @@
  * Use icon within sass: @inclue icon('down');
  */
 /* @todo tmp solution*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\000034}}
 .ui-widget #item-editor-scope {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 1.4rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\000035}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\000035}}
 .ui-widget #item-editor-scope .ui-widget #item-editor-scope {
   font-size: 1.4rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\000036}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\000036}}
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 1.4rem; }
 
 /* @todo end tmp solution*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000032}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000032}}
 .tao-scope .item-editor-widget-box {
   border: 1px dashed transparent; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000036}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000036}}
   .tao-scope .item-editor-widget-box.active-widget-box {
     border-color: #3e7da7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/inc\/_widgets\.scss}line{font-family:\000038}}
     .tao-scope .item-editor-widget-box.active-widget-box .active-block {
       border-color: #3e7da7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000316}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000316}}
 .tao-scope [class*=" col-"], .tao-scope [class^="col-"] {
   border: 1px #eee dotted;
   padding: 6px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000322}}
 .tao-scope .font-selector optgroup {
   font-style: normal;
   line-height: 1.5;
@@ -39,14 +39,14 @@
   font-size: 1.4rem;
   color: #6f6359;
   padding: 2px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000330}}
 .tao-scope .font-selector option {
   font-size: 1.2rem;
   color: #222222; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000336}}
 .tao-scope #item-editor-widget-bar {
   display: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000340}}
 .tao-scope #item-editor-toolbar {
   position: relative;
   color: black;
@@ -54,7 +54,7 @@
   overflow: hidden;
   padding-left: 180px;
   height: 50px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000347}}
   .tao-scope #item-editor-toolbar #item-editor-logo {
     text-indent: -1000px;
     overflow: hidden;
@@ -64,10 +64,10 @@
     left: 0;
     top: 0;
     height: 50px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000357}}
   .tao-scope #item-editor-toolbar ul {
     height: 50px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000359}}
     .tao-scope #item-editor-toolbar ul [class^="icon-"], .tao-scope #item-editor-toolbar ul [class*=" icon-"] {
       font-size: 20px;
       font-size: 2rem;
@@ -75,13 +75,13 @@
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
       line-height: 1;
       display: block; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000365}}
       .tao-scope #item-editor-toolbar ul [class^="icon-"]::-moz-selection, .tao-scope #item-editor-toolbar ul [class*=" icon-"]::-moz-selection {
         text-shadow: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000366}}
       .tao-scope #item-editor-toolbar ul [class^="icon-"]::selection, .tao-scope #item-editor-toolbar ul [class*=" icon-"]::selection {
         text-shadow: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000368}}
     .tao-scope #item-editor-toolbar ul li {
       height: 50px;
       float: left;
@@ -92,28 +92,28 @@
       text-align: center;
       font-size: 12px;
       font-size: 1.2rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000377}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000377}}
       .tao-scope #item-editor-toolbar ul li a {
         display: block;
         text-decoration: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000381}}
       .tao-scope #item-editor-toolbar ul li:hover, .tao-scope #item-editor-toolbar ul li .active {
         color: white;
         background: #ba122b; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000384}}
         .tao-scope #item-editor-toolbar ul li:hover [class^="icon-"], .tao-scope #item-editor-toolbar ul li:hover [class*=" icon-"], .tao-scope #item-editor-toolbar ul li .active [class^="icon-"], .tao-scope #item-editor-toolbar ul li .active [class*=" icon-"] {
           color: white; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000388}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000388}}
       .tao-scope #item-editor-toolbar ul li#item-editor-status {
         line-height: 53px;
         cursor: default;
         background: transparent; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\0000397}}
 .tao-scope #item-editor-wrapper {
   margin: 0;
   position: relative;
   background: #f2f0ee; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003103}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003103}}
 .tao-scope .item-editor-sidebar {
   background: #f2f0ee;
   border-bottom: 1px white solid;
@@ -122,7 +122,7 @@
   top: 0;
   right: 0;
   width: 180px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003107}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003107}}
   .tao-scope .item-editor-sidebar .tool-group h2 {
     font-size: 13px;
     font-size: 1.3rem;
@@ -137,36 +137,36 @@
     position: relative;
     background: #dcdee1;
     cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003120}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003120}}
     .tao-scope .item-editor-sidebar .tool-group h2 span {
       position: absolute;
       top: 9px;
       right: 9px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003126}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003126}}
   .tao-scope .item-editor-sidebar .tool-group .panel {
     padding: 8px 5px;
     overflow: hidden; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003129}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003129}}
     .tao-scope .item-editor-sidebar .tool-group .panel h3 {
       padding: 0;
       margin: 0;
       font-size: 13px;
       font-size: 1.3rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003134}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003134}}
     .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
       margin-bottom: 7px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003139}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003139}}
   .tao-scope .item-editor-sidebar .inset {
     margin-left: 6px;
     margin-right: 6px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003148}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003148}}
   .tao-scope .item-editor-sidebar:first-child {
     right: auto;
     left: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003152}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003152}}
   .tao-scope .item-editor-sidebar .tool-list {
     margin-top: -3px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003154}}
     .tao-scope .item-editor-sidebar .tool-list li {
       width: 50%;
       margin: 0 0%;
@@ -176,15 +176,15 @@
       font-size: 1.2rem;
       border: 1px dotted transparent;
       cursor: move; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003162}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003162}}
       .tao-scope .item-editor-sidebar .tool-list li:hover {
         background: rgba(255, 255, 255, 0.6);
         border: 1px dotted #aaa; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003166}}
       .tao-scope .item-editor-sidebar .tool-list li img {
         display: block;
         margin: 1px auto; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003174}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003174}}
 .tao-scope #item-editor-panel {
   margin: 0 180px;
   overflow: auto;
@@ -193,7 +193,7 @@
   border-bottom: none;
   background: #dcdee1;
   position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003182}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003182}}
   .tao-scope #item-editor-panel #item-editor-overlay {
     background: rgba(0, 0, 0, 0.4);
     color: white;
@@ -202,7 +202,7 @@
     position: absolute;
     left: 0px;
     top: 0px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003191}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003191}}
   .tao-scope #item-editor-panel #item-width-indicator-box {
     margin: auto;
     display: none;
@@ -210,21 +210,21 @@
     padding: 0;
     z-index: 10;
     position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003198}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003198}}
     .tao-scope #item-editor-panel #item-width-indicator-box div {
       padding: 2px 0;
       height: 40px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003201}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003201}}
       .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-devices {
         width: 98%;
         line-height: 40px;
         margin: auto; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003206}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003206}}
       .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-px {
         border-top: 5px white solid;
         font-size: 18px;
         font-size: 1.8rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003211}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003211}}
     .tao-scope #item-editor-panel #item-width-indicator-box span {
       position: absolute;
       top: 4px;
@@ -232,14 +232,14 @@
       font-size: 50px;
       font-size: 5rem;
       line-height: 1.61; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003217}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003217}}
       .tao-scope #item-editor-panel #item-width-indicator-box span:first-child {
         right: auto;
         left: -20px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003222}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003222}}
     .tao-scope #item-editor-panel #item-width-indicator-box hr {
       height: 5px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003226}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003226}}
   .tao-scope #item-editor-panel .item-editor-item {
     background: white;
     margin: auto;
@@ -249,15 +249,15 @@
     -webkit-box-shadow: 0px 0px 8px #b7b1ac;
     -moz-box-shadow: 0px 0px 8px #b7b1ac;
     box-shadow: 0px 0px 8px #b7b1ac; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003234}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003234}}
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003238}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003238}}
   .tao-scope #item-editor-panel .item-editor-drop-area {
     min-height: 300px;
     padding-bottom: 20px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003242}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003242}}
   .tao-scope #item-editor-panel .item-editor-row {
     min-height: 100px;
     overflow: hidden;
@@ -265,7 +265,7 @@
     background: #f2f6f9; }
 
 @media print {
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003253}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003253}}
   #tabs {
     margin: 0;
     min-height: 0;
@@ -273,26 +273,26 @@
     padding: 0;
     border: none !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003261}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003261}}
   .item-no-print {
     display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003265}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003265}}
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003268}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003268}}
     #item-editor-panel .item-editor-item {
       border-radius: 0;
       box-shadow: none;
       margin: 0 !important;
       border: none !important;
       width: 100% !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003274}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003274}}
       #item-editor-panel .item-editor-item [class*="col-"] {
         border-color: transparent; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/style\.scss}line{font-family:\00003279}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQtiItem\/views\/scss\/style\.scss}line{font-family:\00003279}}
   .item-editor-row {
     border: none !important;
     background: none !important; } }

@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'lodash'], function(Element, _){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){

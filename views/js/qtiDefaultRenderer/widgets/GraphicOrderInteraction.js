@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/GraphicInteraction', 'taoQtiDefaultRenderer/widgets/Widget'], function(GraphicInteraction, Widget){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/GraphicInteraction', 'taoQtiItem/qtiDefaultRenderer/widgets/Widget'], function(GraphicInteraction, Widget){
 
     var GraphicOrderInteraction = GraphicInteraction.extend({
         countChoices : 0,

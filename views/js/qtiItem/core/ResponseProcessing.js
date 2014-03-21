@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'lodash'], function(Element, _){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
     
     var ResponseProcessing = Element.extend({
         qtiClass : 'responseProcessing',

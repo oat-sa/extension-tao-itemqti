@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Item', 'taoQtiItem/core/Container'], function(QtiItem, QtiContainer){
+define(['taoQtiItem/qtiItem/core/Item', 'taoQtiItem/qtiItem/core/Container'], function(QtiItem, QtiContainer){
 
 });
 

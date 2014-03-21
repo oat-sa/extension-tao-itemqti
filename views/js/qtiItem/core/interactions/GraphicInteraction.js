@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/ObjectInteraction', 'lodash'], function(QtiObjectInteraction, _){
+define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction', 'lodash'], function(QtiObjectInteraction, _){
     var QtiGraphicInteraction = QtiObjectInteraction.extend({
         render : function(data, $container){
 

@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/modalFeedback'], function(tpl){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/modalFeedback'], function(tpl){
     return {
         qtiClass : 'modalFeedback',
         template : tpl,

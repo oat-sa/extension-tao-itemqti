@@ -1,17 +1,17 @@
 /**
  * Define the location of all qti classes used in the QTI Creator
  */
-define(['lodash', 'taoQtiItem/core/qtiClasses'], function(_, qtiClasses){
+define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses){
     
     //clone the qtiClasses instead of modifying it by direct extend:
     return _.extend(_.clone(qtiClasses), {
-        'assessmentItem' : 'taoQtiItemCreator/core/model/Item',
-        'choiceInteraction' : 'taoQtiItemCreator/core/model/interactions/ChoiceInteraction',
-        'orderInteraction' : 'taoQtiItemCreator/core/model/interactions/OrderInteraction',
-        'associateInteraction' : 'taoQtiItemCreator/core/model/interactions/AssociateInteraction',
-        'simpleChoice' : 'taoQtiItemCreator/core/model/choices/SimpleChoice',
-        'simpleAssociableChoice' : 'taoQtiItemCreator/core/model/choices/SimpleAssociableChoice',
-        'responseDeclaration' : 'taoQtiItemCreator/core/model/variables/ResponseDeclaration'
+        'assessmentItem' : 'taoQtiItem/qtiCreator/core/model/Item',
+        'choiceInteraction' : 'taoQtiItem/qtiCreator/core/model/interactions/ChoiceInteraction',
+        'orderInteraction' : 'taoQtiItem/qtiCreator/core/model/interactions/OrderInteraction',
+        'associateInteraction' : 'taoQtiItem/qtiCreator/core/model/interactions/AssociateInteraction',
+        'simpleChoice' : 'taoQtiItem/qtiCreator/core/model/choices/SimpleChoice',
+        'simpleAssociableChoice' : 'taoQtiItem/qtiCreator/core/model/choices/SimpleAssociableChoice',
+        'responseDeclaration' : 'taoQtiItem/qtiCreator/core/model/variables/ResponseDeclaration'
     });
     
 });

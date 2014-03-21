@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/interactions/Interaction', 'taoQtiItem/core/interactions/Prompt', 'lodash'], function(Interaction, Prompt, _){
+define(['taoQtiItem/qtiItem/core/interactions/Interaction', 'taoQtiItem/qtiItem/core/interactions/Prompt', 'lodash'], function(Interaction, Prompt, _){
 
     var BlockInteraction = Interaction.extend({
         init : function(serial, attributes){

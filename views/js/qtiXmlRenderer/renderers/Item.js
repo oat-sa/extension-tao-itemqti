@@ -1,4 +1,4 @@
-define(['lodash', 'tpl!taoQtiXmlRenderer/tpl/item'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
     return {
         qtiClass : 'assessmentItem',
         template : tpl,

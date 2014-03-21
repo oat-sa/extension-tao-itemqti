@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'taoQtiItemCreator/core/model/qtiClasses'], function(Element, qtiClasses){
+define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiCreator/core/model/qtiClasses'], function(Element, qtiClasses){
 
     var methods = {
         createElements : function(body, callback){

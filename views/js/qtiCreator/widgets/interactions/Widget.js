@@ -1,7 +1,7 @@
 define([
     'jquery',
-    'taoQtiItemCreator/widgets/Widget',
-    'taoQtiItemCreator/editor/widgetToolbar'
+    'taoQtiItem/qtiCreator/widgets/Widget',
+    'taoQtiItem/qtiCreator/editor/widgetToolbar'
 ], function($, Widget, toolbar){
 
     var InteractionWidget = Widget.clone();

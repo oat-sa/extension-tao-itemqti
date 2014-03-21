@@ -1,8 +1,8 @@
 define([
     'lodash',
-    'taoQtiItem/helper/interactionHelper',
-    'taoQtiItem/core/interactions/ChoiceInteraction',
-    'taoQtiItem/core/choices/SimpleChoice'
+    'taoQtiItem/qtiItem/helper/interactionHelper',
+    'taoQtiItem/qtiItem/core/interactions/ChoiceInteraction',
+    'taoQtiItem/qtiItem/core/choices/SimpleChoice'
 ], function(_, interactionHelper, Interaction, Choice){
 
     test('convertChoices/findChoices', function(){

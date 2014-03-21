@@ -1,8 +1,8 @@
 define([
-    'tpl!taoQtiXmlRenderer/tpl/responses/rule',
-    'tpl!taoQtiXmlRenderer/tpl/responses/rule_condition',
-    'tpl!taoQtiXmlRenderer/tpl/responses/rule_correct',
-    'tpl!taoQtiXmlRenderer/tpl/responses/rule_incorrect',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
 ], function(tpl, tplCondition, tplCorrect, tplIncorrect){
     return {
         qtiClass : '_simpleFeedbackRule',

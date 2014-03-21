@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/states/factory', 'taoQtiItemCreator/widgets/states/Active'], function(stateFactory, Active){
+define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/states/Active'], function(stateFactory, Active){
     
     var ChoiceStateActive = stateFactory.create(Active, function(){
         

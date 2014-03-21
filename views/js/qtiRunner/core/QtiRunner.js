@@ -25,7 +25,7 @@
  * @package taoItems
  * @requires jquery {@link http://www.jquery.com}
  */
-define(['taoQtiItem/core/Loader', 'taoQtiItem/core/feedbacks/ModalFeedback'], function(ItemLoader, ModalFeedback){
+define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'], function(ItemLoader, ModalFeedback){
 
     var QtiRunner = function(){
         this.item = null;
@@ -72,7 +72,7 @@ define(['taoQtiItem/core/Loader', 'taoQtiItem/core/feedbacks/ModalFeedback'], fu
     };
 
     QtiRunner.prototype.renderItem = function(data){
-
+        
         var _this = this;
         var render = function(){
             if(!_this.item){

@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['jquery', 'lodash', 'taoQtiRunner/core/QtiRunner', 'taoQtiDefaultRenderer/renderers/Renderer', 'iframeNotifier'],
+define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiDefaultRenderer/renderers/Renderer', 'iframeNotifier'],
     function($, _, QtiRunner, DefaultRenderer, iframeNotifier){
     'use strict';
 
@@ -23,7 +23,7 @@ define(['jquery', 'lodash', 'taoQtiRunner/core/QtiRunner', 'taoQtiDefaultRendere
      * The bootstrap is used to set up a QTI item at runtime. It connects to the itemApi.
      * 
      * @author Bertrand Chevrier <bertrand@taotesting.com>
-     * @export taoQTI/runtime/qtiBootstrap
+     * @export taoQtiItem/runtime/qtiBootstrap
      * 
      * @param {Object} runnerContext - the item context
      */

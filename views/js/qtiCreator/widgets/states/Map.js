@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/states/factory'], function(stateFactory){
+define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
     return stateFactory.create('map', ['answer', 'active'], function(){
         throw new Error('state "map" prototype init method must be implemented');
     },function(){

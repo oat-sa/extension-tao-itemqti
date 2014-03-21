@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/matchInteraction',
-    'taoQtiCommonRenderer/helpers/Helper'
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
 ], function(_, $, tpl, Helper){
 
 

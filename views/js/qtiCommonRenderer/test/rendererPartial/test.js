@@ -1,10 +1,10 @@
 require([
     'jquery',
-    'taoQtiItem/core/Element',
-    'taoQtiItem/core/Item',
-    'taoQtiItem/core/interactions/OrderInteraction',
-    'taoQtiItem/core/choices/SimpleChoice',
-    'taoQtiCommonRenderer/renderers/Renderer'
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/core/Item',
+    'taoQtiItem/qtiItem/core/interactions/OrderInteraction',
+    'taoQtiItem/qtiItem/core/choices/SimpleChoice',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer'
 ],
     function($, Element, Item, OrderInteraction, SimpleChoice, Renderer){
 
@@ -33,7 +33,7 @@ require([
             //render it:
             var renderer = new Renderer({
                 runtimeContext : {
-                    runtime_base_www : '/taoQTI/test/samples/test_base_www/',
+                    runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
                     root_url : '',
                     debug : true
                 },

@@ -1,10 +1,10 @@
 define([
     'lodash',
-    'taoQtiItem/core/Element',
-    'taoQtiItem/core/Container',
-    'taoQtiItem/core/Item',
-    'taoQtiItem/core/interactions/ChoiceInteraction',
-    'taoQtiItem/core/choices/SimpleChoice'
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/core/Container',
+    'taoQtiItem/qtiItem/core/Item',
+    'taoQtiItem/qtiItem/core/interactions/ChoiceInteraction',
+    'taoQtiItem/qtiItem/core/choices/SimpleChoice'
 ], function(_, Element, Container, Item, Interaction, Choice){
 
     var CL = console.log;

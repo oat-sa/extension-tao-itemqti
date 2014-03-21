@@ -50,7 +50,7 @@ define(['jquery', 'jqGrid'], function($){
                 this.responseFormContainer = responseFormContainer;
 
                 qtiEdit.ajaxRequest({
-                    url : root_url + "taoQTI/QtiAuthoring/editResponse",
+                    url : root_url + "taoQtiItem/QtiAuthoring/editResponse",
                     type : "POST",
                     data : {
                         'interactionSerial' : this.interactionSerial,
@@ -149,7 +149,7 @@ define(['jquery', 'jqGrid'], function($){
                         //linearize it and post it:
                         qtiEdit.ajaxRequest({
                             type : "POST",
-                            url : root_url + "taoQTI/QtiAuthoring/saveInteractionResponseProcessing",
+                            url : root_url + "taoQtiItem/QtiAuthoring/saveInteractionResponseProcessing",
                             data : $(this).serialize(),
                             dataType : 'json',
                             async : false,
@@ -165,7 +165,7 @@ define(['jquery', 'jqGrid'], function($){
                     case 'Response_Form':
                         qtiEdit.ajaxRequest({
                             type : "POST",
-                            url : root_url + "taoQTI/QtiAuthoring/saveResponseProperties",
+                            url : root_url + "taoQtiItem/QtiAuthoring/saveResponseProperties",
                             data : $(this).serialize(),
                             dataType : 'json',
                             async : false,
@@ -179,7 +179,7 @@ define(['jquery', 'jqGrid'], function($){
                     case 'ResponseCodingOptionsForm':
                         qtiEdit.ajaxRequest({
                             type : "POST",
-                            url : root_url + "taoQTI/QtiAuthoring/saveResponseCodingOptions",
+                            url : root_url + "taoQtiItem/QtiAuthoring/saveResponseCodingOptions",
                             data : $(this).serialize(),
                             dataType : 'json',
                             async : false,
@@ -237,7 +237,7 @@ define(['jquery', 'jqGrid'], function($){
         },
         initResponseFormProcessingTypeChange : function(){
             /*
-             *#processingTemplate used for taoQTI
+             *#processingTemplate used for taoQtiItem
              *#interactionResponseProcessing used for taoCoding
              */
             var $processingTemplateElt = $('select#processingTemplate').length ? $('select#processingTemplate') : $('select#interactionResponseProcessing');
@@ -1042,7 +1042,7 @@ define(['jquery', 'jqGrid'], function($){
             }
 
             qtiEdit.ajaxRequest({
-                url : root_url + "taoQTI/QtiAuthoring/saveResponse",
+                url : root_url + "taoQtiItem/QtiAuthoring/saveResponse",
                 type : "POST",
                 data : {
                     'interactionSerial' : this.interactionSerial,
@@ -1342,7 +1342,7 @@ define(['jquery', 'jqGrid'], function($){
 
             qtiEdit.ajaxRequest({
                 type : "POST",
-                url : root_url + "taoQTI/QtiAuthoring/saveFeedbackRules",
+                url : root_url + "taoQtiItem/QtiAuthoring/saveFeedbackRules",
                 data : {
                     'interactionSerial' : this.interactionSerial,
                     'rules' : rules,

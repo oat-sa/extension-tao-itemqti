@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'lodash', 'jquery'], function(Element, _, $){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element, _, $){
 
     var Container = Element.extend({
         qtiClass : '_container',

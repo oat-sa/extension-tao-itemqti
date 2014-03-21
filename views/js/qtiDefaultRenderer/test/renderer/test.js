@@ -1,9 +1,9 @@
 require([
     'jquery',
-    'taoQtiItem/core/Loader',
-    'taoQtiItem/core/Element',
-    'taoQtiDefaultRenderer/renderers/Renderer',
-    'json!taoQtiItem/../../../test/samples/json/ALL.json'
+    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiDefaultRenderer/renderers/Renderer',
+    'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
 ], function($, Loader, Element, Renderer, data){
 
     var CL = console.log;
@@ -12,7 +12,7 @@ require([
         var loader = new Loader();
         var renderer = new Renderer({
             runtimeContext : {
-                runtime_base_www : '/taoQTI/test/samples/test_base_www/',
+                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
                 root_url : '',
                 debug : true
             }

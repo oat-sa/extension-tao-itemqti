@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/Widget', 'jqueryui'], function(Widget){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'jqueryui'], function(Widget){
 
     var AssociateInteraction = Widget.extend({
         init : function(interaction, context){

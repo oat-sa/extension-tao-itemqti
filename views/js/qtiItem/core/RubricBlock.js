@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'taoQtiItem/mixin/Container'], function(Element, Container){
+define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/mixin/Container'], function(Element, Container){
 
     var RubricBlock = Element.extend({
         qtiClass : 'rubricBlock'

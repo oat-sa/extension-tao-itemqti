@@ -2,8 +2,8 @@ define([
   'jquery',
   'store',
   'i18n',
-  'taoQtiItemCreator/editor/base',
-  'json!taoQtiItemCreator/editor/resources/device-list.json',
+  'taoQtiItem/qtiCreator/editor/base',
+  'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
   'select2'
 ], function($, store, __, base, deviceList, select2){
   'use strict'

@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/interactions/Widget',
-    'taoQtiItemCreator/widgets/interactions/orderInteraction/states/states'
+    'taoQtiItem/qtiCreator/widgets/interactions/Widget',
+    'taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/states/states'
 ], function(Widget, states){
 
     var OrderInteractionWidget = Widget.clone();

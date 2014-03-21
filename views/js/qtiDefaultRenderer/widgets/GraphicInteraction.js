@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/Widget', 'raphael'], function(Widget){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'raphael'], function(Widget){
 
     var GraphicInteraction = Widget.extend({
         init : function(interaction, context){

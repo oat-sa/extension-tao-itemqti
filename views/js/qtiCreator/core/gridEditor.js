@@ -1,10 +1,10 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItemCreator/core/qtiElements',
-    'taoQtiItemCreator/core/gridUnits',
-    'taoQtiItemCreator/core/model/Item',
-    'taoQtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCreator/core/qtiElements',
+    'taoQtiItem/qtiCreator/core/gridUnits',
+    'taoQtiItem/qtiCreator/core/model/Item',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'jqueryui',
 ], function(_, $, QtiElements, gridUnits, Item, Renderer){
 

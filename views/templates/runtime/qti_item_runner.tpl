@@ -10,10 +10,10 @@
                         itemRunner.start({
                             resultServer    : {
                                 endpoint : <?=json_encode(get_data('resultServerEndpoint'));?>,
-                                module   : 'taoQTI/QtiResultServerApi'  
+                                module   : 'taoQtiItem/QtiResultServerApi'  
                             },
                             itemService     : {
-                                module      : 'taoQTI/runtime/QtiItemServiceImpl',
+                                module      : 'taoQtiItem/runtime/QtiItemServiceImpl',
                                 params  : {
                                     contentVariables: <?=json_encode(get_data('contentVariableElements'))?>
                                 }

@@ -1,7 +1,7 @@
 define([
     'lodash',
-    'taoQtiItem/helper/util',
-    'tpl!taoQtiCommonRenderer/tpl/instruction',
+    'taoQtiItem/qtiItem/helper/util',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/instruction',
 ], function(_, util, instructionTpl){
 
     var _notificationLevels = ['info', 'warning', 'error', 'success'];

@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/Correct'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/Correct'
 ], function(stateFactory, Correct){
 
     var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){

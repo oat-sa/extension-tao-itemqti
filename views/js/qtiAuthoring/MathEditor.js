@@ -11,7 +11,7 @@ function MathEditor(htmlEditor, mathSerial){
 
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/editMath",
+        url : root_url + "taoQtiItem/QtiAuthoring/editMath",
         dataType : 'json',
         data : {
             type : mathEditor.htmlEditor.type,
@@ -302,7 +302,7 @@ MathEditor.prototype.save = function(mathML, tex, display, callback){
     var mathEditor = this;
     qtiEdit.ajaxRequest({
         type : "POST",
-        url : root_url + "taoQTI/QtiAuthoring/saveMath",
+        url : root_url + "taoQtiItem/QtiAuthoring/saveMath",
         dataType : 'json',
         data : {
             type : this.htmlEditor.type,

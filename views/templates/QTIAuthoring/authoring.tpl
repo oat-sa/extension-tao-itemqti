@@ -121,20 +121,20 @@
         'helpers',
         'jqueryui',
         'jquery.autogrow',
-        'taoQTI/qtiAuthoring/shim',
-        'taoQTI/qtiAuthoring/util',
-        'taoQTI/qtiAuthoring/lib/jwysiwyg/jquery.wysiwyg',
-        'taoQTI/qtiAuthoring/lib/jwysiwyg/jquery.wysiwyg.extended',
-        'taoQTI/qtiAuthoring/lib/simplemodal/jquery.simplemodal',
-        'taoQTI/qtiAuthoring/QTIauthoringException',
-        'taoQTI/qtiAuthoring/class.HtmlEditor',
-        'taoQTI/qtiAuthoring/tinyCarousel',
-        'taoQTI/qtiAuthoring/IdentifierList',
-        'taoQTI/qtiAuthoring/interactionClass',
-        'taoQTI/qtiAuthoring/MathEditor',
-        'taoQTI/qtiAuthoring/FeedbackEditor',
-        'taoQTI/qtiAuthoring/lib/raphael',
-        'taoQTI/qtiAuthoring/qtiShapeEditClass',
+        'taoQtiItem/qtiAuthoring/shim',
+        'taoQtiItem/qtiAuthoring/util',
+        'taoQtiItem/qtiAuthoring/lib/jwysiwyg/jquery.wysiwyg',
+        'taoQtiItem/qtiAuthoring/lib/jwysiwyg/jquery.wysiwyg.extended',
+        'taoQtiItem/qtiAuthoring/lib/simplemodal/jquery.simplemodal',
+        'taoQtiItem/qtiAuthoring/QTIauthoringException',
+        'taoQtiItem/qtiAuthoring/class.HtmlEditor',
+        'taoQtiItem/qtiAuthoring/tinyCarousel',
+        'taoQtiItem/qtiAuthoring/IdentifierList',
+        'taoQtiItem/qtiAuthoring/interactionClass',
+        'taoQtiItem/qtiAuthoring/MathEditor',
+        'taoQtiItem/qtiAuthoring/FeedbackEditor',
+        'taoQtiItem/qtiAuthoring/lib/raphael',
+        'taoQtiItem/qtiAuthoring/qtiShapeEditClass',
         'mediaElement',
         'mathJax' 
     ], 
@@ -146,10 +146,10 @@
         helpers = require('helpers');
         
         root_url = context.root_url;
-        img_url = root_url + "taoQTI/views/img/qtiAuthoring/";
+        img_url = root_url + "taoQtiItem/views/img/qtiAuthoring/";
         
-        require(['taoQTI/qtiAuthoring/class.HtmlEditorItem'], function(){
-         require(['taoQTI/qtiAuthoring/qtiEditClass'], function(){
+        require(['taoQtiItem/qtiAuthoring/class.HtmlEditorItem'], function(){
+         require(['taoQtiItem/qtiAuthoring/qtiEditClass'], function(){
              
             if($.browser.chrome || $.browser.webkit){
                 $('#qtiAuthoring_itemProperties').height('483.6px');

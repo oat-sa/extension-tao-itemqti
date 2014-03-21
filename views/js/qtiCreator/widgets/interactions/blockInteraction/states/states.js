@@ -1,8 +1,8 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/interactions/states/states',
-    'taoQtiItemCreator/widgets/interactions/blockInteraction/states/Active',
-    'taoQtiItemCreator/widgets/interactions/blockInteraction/states/Question'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/states',
+    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Active',
+    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question'
 ], function(factory, states){
     return factory.createBundle(states, arguments);
 });

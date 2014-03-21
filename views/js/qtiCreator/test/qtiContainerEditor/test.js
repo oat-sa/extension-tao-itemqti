@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'taoQtiItemCreator/core/qtiContainerEditor'], function($, _){
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/core/qtiContainerEditor'], function($, _){
     
     var CL = console.log;
     var $item = $('#item1');

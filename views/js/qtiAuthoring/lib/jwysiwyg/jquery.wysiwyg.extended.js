@@ -24,7 +24,7 @@
 function getCustomControl(action, params){
 
     var addCSS = function(href){
-        require([root_url + '/taoQtiItem/views/js/qtiAuthoring/lib/murmurhash/murmurhash3_gc.js'], function(){
+        require([root_url + '/taoQtiItem/qtiItem/views/js/qtiAuthoring/lib/murmurhash/murmurhash3_gc.js'], function(){
             var cssId = murmurhash3_32_gc(href, 'cssFileName');  // you could encode the css path itself to generate id..
             if(!document.getElementById(cssId)){
                 var head = document.getElementsByTagName('head')[0];
@@ -63,9 +63,9 @@ function getCustomControl(action, params){
         addObject : {params : ['htmlEditor']},
         addMathML : {params : ['htmlEditor']},
         customHTML : {
-            js : [root_url + '/taoQtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror-compressed.js'],
-            css : [root_url + '/taoQtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror.css',
-                root_url + '/taoQtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror-taoQTI.css']
+            js : [root_url + '/taoQtiItem/qtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror-compressed.js'],
+            css : [root_url + '/taoQtiItem/qtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror.css',
+                root_url + '/taoQtiItem/qtiItem/views/js/qtiAuthoring/lib/codemirror/codemirror-taoQtiItem.css']
         }
     };
 

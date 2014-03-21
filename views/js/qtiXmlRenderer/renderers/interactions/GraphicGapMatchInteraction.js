@@ -1,4 +1,4 @@
-define(['tpl!taoQtiXmlRenderer/tpl/interactions/graphicGapMatchInteraction'], function(tpl){
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/graphicGapMatchInteraction'], function(tpl){
     return {
         qtiClass : 'graphicGapMatchInteraction',
         template : tpl

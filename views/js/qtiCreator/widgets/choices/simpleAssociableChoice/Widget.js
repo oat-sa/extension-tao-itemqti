@@ -1,6 +1,6 @@
 define([
-    'taoQtiItemCreator/widgets/choices/Widget',
-    'taoQtiItemCreator/widgets/choices/simpleAssociableChoice/states/states'
+    'taoQtiItem/qtiCreator/widgets/choices/Widget',
+    'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/states/states'
 ], function(Widget, states){
 
     var SimpleAssociableChoiceWidget = Widget.clone();

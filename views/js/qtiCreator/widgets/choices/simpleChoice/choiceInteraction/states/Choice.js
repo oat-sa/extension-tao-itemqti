@@ -1,8 +1,8 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/choices/states/Choice',
-    'tpl!taoQtiItemCreator/tpl/forms/choices/choice',
-    'taoQtiItemCreator/widgets/helpers/formElement'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement'
 ], function(stateFactory, Choice, formTpl, formElement){
     
     var SimpleChoiceStateChoice = stateFactory.clone(Choice);

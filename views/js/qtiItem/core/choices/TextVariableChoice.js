@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/choices/Choice'], function(QtiChoice){
+define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
     
     var QtiTextVariableChoice = QtiChoice.extend({
         init : function(serial, attributes, text){

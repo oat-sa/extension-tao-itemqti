@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/GraphicInteraction'], function(GraphicInteraction){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/GraphicInteraction'], function(GraphicInteraction){
     
     var SelectPointInteraction = GraphicInteraction.extend({
         countChoices : 0,

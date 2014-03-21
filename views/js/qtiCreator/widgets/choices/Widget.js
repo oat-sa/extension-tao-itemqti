@@ -1,4 +1,4 @@
-define(['taoQtiItemCreator/widgets/Widget'], function(Widget){
+define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
     var ChoiceWidget = Widget.clone();
 

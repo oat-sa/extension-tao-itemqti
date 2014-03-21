@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/Widgets'], function(Widgets){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widgets'], function(Widgets){
 
     var Interaction = {
         render : function(interaction, data){

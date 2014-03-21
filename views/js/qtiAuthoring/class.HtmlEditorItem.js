@@ -118,7 +118,7 @@ HtmlEditorItem = HtmlEditor.extend({
 
         qtiEdit.ajaxRequest({
             type : "POST",
-            url : root_url + "taoQTI/QtiAuthoring/addInteraction",
+            url : root_url + "taoQtiItem/QtiAuthoring/addInteraction",
             data : {
                 'interactionType' : interactionType,
                 'itemData' : itemData

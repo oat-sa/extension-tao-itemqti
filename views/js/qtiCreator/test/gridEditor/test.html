@@ -5,14 +5,14 @@
         <title>Qti Grid Editor Test - QTI flow content editor </title>
         <link rel="stylesheet" href="/tao/views/js/lib/qunit/qunit.css">
         <link rel="stylesheet" href="/tao/views/css/tao-main-style.css">
-        <link rel="stylesheet" href="/taoQTI/views/css/item-creator.css">
+        <link rel="stylesheet" href="/taoQtiItem/views/css/item-creator.css">
 
         <script src="/tao/views/js/lib/require.js"></script>
         <script src="/tao/views/js/lib/qunit/qunit.js"></script>
         <script>
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
-                require(['taoQtiItemCreator/test/gridEditor/test'], function(){
+                require(['taoQtiItem/qtiCreator/test/gridEditor/test'], function(){
                     QUnit.start();
                 });
             });
@@ -96,8 +96,8 @@
         <div id="qunit-fixture"></div>
         <div id="item-creator" class="tao-scope">
             <div id="toolbar">
-                <div id="add_choice_interaction" class="qti-interaction qti-block qti-menu-item" data-qti-class="choiceInteraction"><img title="choice" src="/taoQTI/views/img/qtiAuthoring/QTI_choice.png"><br><a href="#">choice</a></div>
-                <div id="add_inlinechoice_interaction" class="qti-interaction qti-inline qti-menu-item" data-qti-class="inlineChoiceInteraction"><img title="inline choice" src="/taoQTI/views/img/qtiAuthoring/QTI_inlineChoice.png"><br><a href="#">inline choice</a></div>
+                <div id="add_choice_interaction" class="qti-interaction qti-block qti-menu-item" data-qti-class="choiceInteraction"><img title="choice" src="/taoQtiItem/views/img/qtiAuthoring/QTI_choice.png"><br><a href="#">choice</a></div>
+                <div id="add_inlinechoice_interaction" class="qti-interaction qti-inline qti-menu-item" data-qti-class="inlineChoiceInteraction"><img title="inline choice" src="/taoQtiItem/views/img/qtiAuthoring/QTI_inlineChoice.png"><br><a href="#">inline choice</a></div>
             </div>
             <div id="item-editor-scope">
                 <div class="item-editor-item clearfix">

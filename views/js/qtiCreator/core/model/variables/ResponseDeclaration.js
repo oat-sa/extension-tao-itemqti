@@ -1,10 +1,10 @@
 define([
     'lodash',
-    'taoQtiItem/core/variables/ResponseDeclaration',
-    'taoQtiItemCreator/core/model/mixin/editable',
-    'taoQtiItemCreator/core/model/variables/OutcomeDeclaration',
-    'taoQtiItemCreator/core/model/response/SimpleFeedbackRule',
-    'taoQtiItemCreator/core/model/feedbacks/ModalFeedback'
+    'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
+    'taoQtiItem/qtiCreator/core/model/mixin/editable',
+    'taoQtiItem/qtiCreator/core/model/variables/OutcomeDeclaration',
+    'taoQtiItem/qtiCreator/core/model/response/SimpleFeedbackRule',
+    'taoQtiItem/qtiCreator/core/model/feedbacks/ModalFeedback'
 ], function(_, ResponseDeclaration, editable, OutcomeDeclaration, SimpleFeedbackRule, ModalFeedback){
 
     var _validTemplates = {

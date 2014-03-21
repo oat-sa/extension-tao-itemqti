@@ -614,10 +614,14 @@ abstract class Element implements Exportable
      * @return string
      */
     protected function buildSerial(){
+        
         $clazz = strtolower(get_class($this));
-        $prefix = substr($clazz, strpos($clazz, '_models_classes_qti_') + 20).'_';
+        
+        $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
         $returnValue = str_replace('.', '', uniqid($prefix, true));
-
+        $returnValue = str_replace('\\', '_', $returnValue);
+        
+        common_Logger::d('class: '.$clazz.' -> '.$returnValue);
         return (string) $returnValue;
     }
 

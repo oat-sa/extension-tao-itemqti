@@ -1,4 +1,4 @@
-define(['taoQtiItem/mixin/Mixin', 'taoQtiItem/mixin/Container', 'lodash'], function(Mixin, Container, _){
+define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/mixin/Container', 'lodash'], function(Mixin, Container, _){
     
     var methods = {};
     _.extend(methods, Container.methods);

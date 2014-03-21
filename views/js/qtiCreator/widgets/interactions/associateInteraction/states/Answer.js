@@ -1,8 +1,8 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/interactions/states/Answer',
-    'taoQtiCommonRenderer/renderers/interactions/AssociateInteraction',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Answer',
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'lodash',
     'i18n'
 ], function(stateFactory, Answer, commonRenderer, helper, _, __){

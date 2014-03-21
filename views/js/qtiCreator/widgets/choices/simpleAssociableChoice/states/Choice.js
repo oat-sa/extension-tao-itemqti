@@ -1,8 +1,8 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/choices/states/Choice',
-    'tpl!taoQtiItemCreator/tpl/forms/choices/simpleAssociableChoice',
-    'taoQtiItemCreator/widgets/choices/helpers/formElement'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/simpleAssociableChoice',
+    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, Choice, formTpl, formElement){
 
     var SimpleAssociableChoiceStateChoice = stateFactory.extend(Choice);

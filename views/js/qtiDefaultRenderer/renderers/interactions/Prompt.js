@@ -1,4 +1,4 @@
-define(['tpl!taoQtiDefaultRenderer/tpl/interactions/prompt'], function(tpl){
+define(['tpl!taoQtiItem/qtiDefaultRenderer/tpl/interactions/prompt'], function(tpl){
     return {
         qtiClass : 'prompt',
         template : tpl

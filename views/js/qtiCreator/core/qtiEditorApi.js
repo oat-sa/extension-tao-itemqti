@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element', 'jquery', 'lodash'], function(Element, $, _){
+define(['taoQtiItem/qtiItem/core/Element', 'jquery', 'lodash'], function(Element, $, _){
 
     var _getChoiceClass = function _getChoiceClass(interaction){
 
@@ -99,7 +99,7 @@ define(['taoQtiItem/core/Element', 'jquery', 'lodash'], function(Element, $, _){
             var attrs = (options && options.attr) ? options.attr : {};
 
             var choiceClass = _getChoiceClass(interaction);
-            require(['taoQtiItem/core/choices/' + choiceClass], function(Choice){
+            require(['taoQtiItem/qtiItem/core/choices/' + choiceClass], function(Choice){
 
                 var choice = new Choice();
                 _setDefaultChoiceAttributes(choice, {

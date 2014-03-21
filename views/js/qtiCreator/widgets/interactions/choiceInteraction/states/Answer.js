@@ -1,7 +1,7 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/interactions/states/Answer',
-    'tpl!taoQtiItemCreator/tpl/toolbars/simpleChoice.response.title'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Answer',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response.title'
 ], function(stateFactory, Answer, responseToolbarTitleTpl){
 
     var ChoiceInteractionStateAnswer = stateFactory.extend(Answer);

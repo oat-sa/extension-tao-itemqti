@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/IdentifiedElement'], function(IdentifiedElement){
+define(['taoQtiItem/qtiItem/core/IdentifiedElement'], function(IdentifiedElement){
 
     var Choice = IdentifiedElement.extend({
         init : function(serial, attributes){

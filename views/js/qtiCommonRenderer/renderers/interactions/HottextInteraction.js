@@ -1,8 +1,8 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiCommonRenderer/tpl/interactions/hottextInteraction',
-    'taoQtiCommonRenderer/helpers/Helper',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/hottextInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n'
 ], function(_, $, tpl, Helper, __){
     'use strict';   

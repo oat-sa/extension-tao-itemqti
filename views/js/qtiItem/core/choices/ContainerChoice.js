@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/choices/Choice', 'taoQtiItem/mixin/Container'], function(Choice, Container){
+define(['taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/mixin/Container'], function(Choice, Container){
 
     var ContainerChoice = Choice.extend({
         init : function(serial, attributes){

@@ -1,10 +1,10 @@
 define([
-    'taoQtiItemCreator/widgets/states/factory',
-    'taoQtiItemCreator/widgets/states/states',
-    'taoQtiItemCreator/widgets/choices/states/Sleep',
-    'taoQtiItemCreator/widgets/choices/states/Active',
-    'taoQtiItemCreator/widgets/choices/states/Question',
-    'taoQtiItemCreator/widgets/choices/states/Answer'
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/states/states',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Active',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Question',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Answer'
 ], function(factory, states){
     return factory.createBundle(states, arguments);
 });

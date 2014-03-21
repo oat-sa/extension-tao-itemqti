@@ -1,8 +1,8 @@
 define([
   'jquery',
   'jqueryui',
-  'taoQtiItemCreator/editor/base',
-  'json!taoQtiItemCreator/editor/resources/device-list.json',
+  'taoQtiItem/qtiCreator/editor/base',
+  'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
   'select2'
 ], function($, jqueryui, base, deviceList){
   'use strict'

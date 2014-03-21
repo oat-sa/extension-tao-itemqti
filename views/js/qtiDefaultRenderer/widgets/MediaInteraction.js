@@ -1,4 +1,4 @@
-define(['taoQtiDefaultRenderer/widgets/Widget', 'taoQtiDefaultRenderer/widgets/Object'], function(Widget, Object){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'taoQtiItem/qtiDefaultRenderer/widgets/Object'], function(Widget, Object){
 
     var MediaInteraction = Widget.extend({
         init : function(interaction, context){

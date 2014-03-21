@@ -1,4 +1,4 @@
-define(['taoQtiItem/core/Element'], function(Element){
+define(['taoQtiItem/qtiItem/core/Element'], function(Element){
     var IdentifiedElement = Element.extend({
         buildIdentifier : function(prefix, useSuffix){
             if(useSuffix === undefined){

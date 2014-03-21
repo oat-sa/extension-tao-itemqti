@@ -1,4 +1,4 @@
-define(['lodash', 'tpl!taoQtiXmlRenderer/tpl/outcomeDeclaration'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomeDeclaration'], function(_, tpl){
     return {
         qtiClass : 'outcomeDeclaration',
         template : tpl,
