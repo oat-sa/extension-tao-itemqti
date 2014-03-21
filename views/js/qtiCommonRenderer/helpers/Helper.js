@@ -68,11 +68,13 @@ define([
         removeNotifications : function(element){
             this.getContainer(element).find('.item-notification').remove();
         },
-        triggerResponseChangeEvent : function(interaction){
-            this.getContainer(interaction).trigger('responseChange', {
-                interaction : interaction,
-                response : interaction.getResponse()
-            });
+        triggerResponseChangeEvent : function(interaction, extraData){
+            this.getContainer(interaction).trigger('responseChange', [{
+                    interaction : interaction,
+                    response : interaction.getResponse()
+                },
+                extraData
+            ]);
         }
     };
 });

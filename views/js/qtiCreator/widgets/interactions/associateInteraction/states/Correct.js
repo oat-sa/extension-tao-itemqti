@@ -1,34 +1,27 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Correct'
-], function(stateFactory, Correct){
+    'taoQtiItem/qtiCreator/widgets/states/Correct',
+    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
+    'lodash'
+], function(stateFactory, Correct, responseWidget, _){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Correct, function(){
-        this.createResponseWidget();
+        
+        var response = this.widget.element.getResponseDeclaration();;
+        
+        responseWidget.create(this.widget, false);
+        responseWidget.setResponse(_.values(response.getCorrect()));
+        
+        this.widget.$container.on('responseChange.qti-widget', function(e, data){
+            response.setCorrect(this.unformatResponse(data.response));
+        });
+
     }, function(){
         
-        this.widget.$container.find('[data-edit="correct"]').hide();
+        this.widget.$container.off('responseChange.qti-widget');
+        
+        responseWidget.destroy(this.widget);
     });
-    
-    AssociateInteractionStateCorrect.prototype.createResponseWidget = function(){
 
-        var _widget = this.widget,
-            interaction = _widget.element,
-            response = interaction.getResponseDeclaration(),
-            correctResponse = _.values(response.getCorrect());
-        
-        commonRenderer.restore(interaction);
-        
-        helper.appendInstruction(this.widget.element, __('Please define the correct association pairs below.'));
-        
-        this.widget.element.responseMappingMode = true;
-        commonRenderer.render(this.widget.element);
-        commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
-
-        _widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(_unformatResponse(data.response));
-        });
-    };
-    
     return AssociateInteractionStateCorrect;
 });

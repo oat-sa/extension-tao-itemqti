@@ -29,16 +29,21 @@ define([
             .html($choice.html())
             .addClass('filled');
 
-        if(!interaction.responseMappingMode 
-            && choice.attr('matchMax') 
+        if(!interaction.responseMappingMode
+            && choice.attr('matchMax')
             && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
-            
+
             $choice.addClass('deactivated');
         }
 
         if($target.siblings('div').hasClass('filled')){
             //pair made!
-            Helper.triggerResponseChangeEvent(interaction);
+            Helper.triggerResponseChangeEvent(interaction, {
+                type : 'added',
+                $pair : $target.parent(),
+                choices : [$target.siblings('div').data('serial'), choiceSerial]
+            });
+
             Helper.validateInstructions(interaction, {choice : $choice, target : $target});
 
             if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
@@ -74,7 +79,10 @@ define([
         if(!interaction.swapping){
 
             //a pair with one single element is not valid, so consider the response to be modified:
-            Helper.triggerResponseChangeEvent(interaction);
+            Helper.triggerResponseChangeEvent(interaction, {
+                type : 'removed',
+                $pair : $choice.parent()
+            });
             Helper.validateInstructions(interaction, {choice : $choice});
 
             //completely empty pair: 
@@ -121,7 +129,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
-        
+
         renderEmptyPairs(interaction);
 
         var $container = Helper.getContainer(interaction),
@@ -197,18 +205,18 @@ define([
                     targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
-                    
+
                     if($target.hasClass('filled')){
                         interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
                     }
-                    
+
                     //set choices:
                     if(targetSerial){
                         _unsetChoice($target);
                     }
 
                     _setChoice($activeChoice, $target);
-                    
+
                     //always reset swapping mode after the choice is set
                     interaction.swapping = false;
                 }
@@ -272,11 +280,11 @@ define([
 
         //@todo run eyecatcher: fix it
 //        eyecatcher();
-    
+
         if(!interaction.responseMappingMode){
             _setInstructions(interaction);
         }
-        
+
     };
 
     var _setInstructions = function(interaction){
@@ -415,7 +423,7 @@ define([
 
         //remove instructions
         Helper.removeInstructions(interaction);
-        
+
         Helper.getContainer(interaction).find('.result-area').empty();
     };
 
