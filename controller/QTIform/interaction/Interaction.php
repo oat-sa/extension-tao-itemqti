@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\controller\QTIform\interaction;
 
 use oat\taoQtiItem\controller\QTIform\interaction\Interaction;
-use oat\taoQtiItem\model\qti\interaction\Interaction;
+use oat\taoQtiItem\model\qti\interaction\Interaction as InteractionElement;
 use \tao_helpers_form_FormContainer;
 use \tao_helpers_form_FormFactory;
 
@@ -47,7 +47,7 @@ abstract class Interaction
      * @author Sam, <sam@taotesting.com>
      * @param  Interaction interaction
      */
-    public function __construct( Interaction $interaction)
+    public function __construct(InteractionElement $interaction)
     {
 		$this->interaction = $interaction;
 		parent::__construct(array(), array());

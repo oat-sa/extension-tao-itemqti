@@ -5,9 +5,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Math;
-use oat\taoQtiItem\model\qti\Element;
-
 /**
  *
  * @access public

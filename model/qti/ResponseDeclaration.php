@@ -421,7 +421,7 @@ class ResponseDeclaration extends VariableDeclaration
 
         $interaction = $this->getAssociatedInteraction();
         if($interaction instanceof Interaction){
-            $responseFormClass = 'taoQTI_actions_QTIform_response_'.ucfirst(strtolower($interaction->getType())).'Interaction';
+            $responseFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\response\\'.ucfirst(strtolower($interaction->getType())).'Interaction';
             if(class_exists($responseFormClass)){
                 $formContainer = new $responseFormClass($this);
                 $myForm = $formContainer->getForm();

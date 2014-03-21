@@ -111,7 +111,7 @@ abstract class Choice extends IdentifiedElement
     public function toForm(){
         $returnValue = null;
 
-        $choiceFormClass = 'taoQTI_actions_QTIform_choice_'.ucfirst(static::$qtiTagName);
+        $choiceFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\choice\\'.ucfirst(static::$qtiTagName);
         if(!class_exists($choiceFormClass)){
             throw new QtiModelException("the class {$choiceFormClass} does not exist");
         }else{

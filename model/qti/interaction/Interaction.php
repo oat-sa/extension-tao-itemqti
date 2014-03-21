@@ -383,7 +383,7 @@ abstract class Interaction extends IdentifiedElement implements IdentifiedElemen
     public function toForm(){
         $returnValue = null;
 
-        $interactionFormClass = 'taoQTI_actions_QTIform_interaction_'.ucfirst(strtolower($this->getType())).'Interaction';
+        $interactionFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\interaction\\'.ucfirst(strtolower($this->getType())).'Interaction';
         if(!class_exists($interactionFormClass)){
             throw new Exception("the class {$interactionFormClass} does not exist");
         }else{

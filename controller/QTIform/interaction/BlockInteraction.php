@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\controller\QTIform\interaction;
 
-use oat\taoQtiItem\controller\QTIform\interaction\BlockInteraction;
-use oat\taoQtiItem\controller\QTIform\interaction\Interaction;
 use oat\taoQtiItem\model\QtiAuthoringService;
 use \tao_helpers_form_FormFactory;
 
