@@ -265,6 +265,21 @@ textarea {
 .block-listing > li.active:hover, .qti-associateInteraction .result-area > li > div.active:hover {
   background: #e9f0f5 !important; }
 
+.mini-tlb ul[data-button-group] {
+  background: transparent !important;
+  border: none; }
+  .mini-tlb ul[data-button-group] > li {
+    display: none;
+    background: transparent !important;
+    min-width: 0;
+    padding: 0;
+    float: none; }
+    .mini-tlb ul[data-button-group] > li span {
+      color: #222222;
+      text-shadow: none !important; }
+    .mini-tlb ul[data-button-group] > li.active {
+      display: inline-block; }
+
 .block-listing > li {
   border: 1px solid #eeeeee;
   border-radius: 2px;
@@ -308,12 +323,13 @@ textarea {
   border-radius: 3px;
   background-color: #e6eef4; }
   .qti-interaction .add-option [class^="icon-"], .qti-interaction .add-option [class*=" icon-"] {
-    font-size: 16px;
-    font-size: 1.6rem;
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    color: #0e5d91; }
+    font-size: 14px;
+    font-size: 1.4rem;
+    position: relative;
+    top: 1px;
+    left: 2px;
+    color: #0e5d91;
+    padding-right: 5px; }
   .qti-interaction .add-option > div {
     display: table;
     width: 100%;
@@ -328,7 +344,8 @@ textarea {
       height: 100%;
       text-align: center;
       top: 0;
-      left: auto; }
+      left: auto;
+      padding: 0; }
   .qti-interaction .add-option:hover {
     opacity: 0.8; }
 .qti-interaction input[type="color"],
@@ -575,10 +592,34 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       z-index: 1;
       top: 50%; }
+    .qti-associateInteraction .result-area > li > div {
+      background: white;
+      padding: 5px;
+      margin: 5px;
+      float: right;
+      position: relative;
+      z-index: 2;
+      min-width: 100px;
+      min-height: 100px;
+      max-width: 150px;
+      max-height: 150px;
+      outline: 5px #f9f8f7 solid;
+      border: 1px solid #eeeeee;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      overflow: hidden; }
       .qti-associateInteraction .result-area > li > div.active {
         border-color: #3e7da7; }
       .qti-associateInteraction .result-area > li > div:first-child {
         float: left; }
+      .qti-associateInteraction .result-area > li > div[data-edit] {
+        float: none;
+        position: absolute;
+        right: -230px;
+        outline: none;
+        width: 200px;
+        border: none;
+        cursor: default; }
         .qti-associateInteraction .result-area > li > div[data-edit] .col-3, .qti-associateInteraction .result-area > li > div[data-edit] .col-4, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 {
           text-align: center; }
           .qti-associateInteraction .result-area > li > div[data-edit] .col-3 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-4 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 label {
@@ -915,3 +956,127 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   display: inline-block; }
   .qti-GapMatchInteraction .gapmatch-content audio, .qti-GapMatchInteraction .gapmatch-content canvas, .qti-GapMatchInteraction .gapmatch-content img, .qti-GapMatchInteraction .gapmatch-content video {
     vertical-align: baseline; }
+
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+
+.qti-inlineChoiceInteraction {
+  background: rgba(243, 241, 239, 0.85);
+  padding: 50px 10px 10px 30px;
+  position: absolute; }
+  .qti-inlineChoiceInteraction:hover {
+    background: rgba(197, 216, 228, 0.85); }
+  .qti-inlineChoiceInteraction table {
+    border-collapse: separate; }
+  .qti-inlineChoiceInteraction tr {
+    height: 27px;
+    white-space: nowrap; }
+  .qti-inlineChoiceInteraction .icon-bin, .qti-inlineChoiceInteraction .icon-pin, .qti-inlineChoiceInteraction .icon-shuffle {
+    text-align: center;
+    padding: 0 5px;
+    cursor: pointer;
+    vertical-align: middle; }
+  .qti-inlineChoiceInteraction .icon-bin:hover, .qti-inlineChoiceInteraction .icon-pin:hover, .qti-inlineChoiceInteraction .icon-shuffle:hover {
+    color: #3e7da7; }
+  .qti-inlineChoiceInteraction .icon-down {
+    position: relative;
+    right: 18px;
+    font-size: 11px; }
+  .qti-inlineChoiceInteraction td[contenteditable], .qti-inlineChoiceInteraction .main-option {
+    padding: 0 7px;
+    border-left: 1px #dddddd solid;
+    border-right: 1px #dddddd solid;
+    background: white; }
+  .qti-inlineChoiceInteraction .main-option {
+    border-top: 1px #dddddd solid;
+    border-bottom: 1px #dddddd solid;
+    padding-right: 29px;
+    min-width: 180px; }
+  .qti-inlineChoiceInteraction td[contenteditable]:hover,
+  .qti-inlineChoiceInteraction td[contenteditable]:focus {
+    background: #3e7da7;
+    color: white; }
+
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+
+.qti-textEntryInteraction {
+  background: rgba(243, 241, 239, 0.85);
+  padding: 50px 10px 10px 30px;
+  position: absolute; }
+  .qti-textEntryInteraction:hover {
+    background: rgba(197, 216, 228, 0.85); }
+  .qti-textEntryInteraction table {
+    border-collapse: separate;
+    border-spacing: 2px; }
+  .qti-textEntryInteraction tr {
+    height: 27px;
+    white-space: nowrap; }
+  .qti-textEntryInteraction .icon-bin, .qti-textEntryInteraction .icon-pin, .qti-textEntryInteraction .icon-shuffle {
+    text-align: center;
+    padding: 0 5px;
+    cursor: pointer;
+    vertical-align: middle; }
+  .qti-textEntryInteraction .icon-radio, .qti-textEntryInteraction .icon-checkbox, .qti-textEntryInteraction .icon-radio-checked, .qti-textEntryInteraction .icon-checkbox-checked {
+    font-size: 13px !important; }
+  .qti-textEntryInteraction .icon-bin:hover, .qti-textEntryInteraction .icon-pin:hover, .qti-textEntryInteraction .icon-shuffle:hover {
+    color: #3e7da7; }
+  .qti-textEntryInteraction td[contenteditable], .qti-textEntryInteraction .main-option {
+    padding: 0 7px;
+    background: white;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px; }
+  .qti-textEntryInteraction .main-option {
+    border-top: 1px #dddddd solid;
+    border-bottom: 1px #dddddd solid;
+    padding-right: 29px;
+    min-width: 180px; }

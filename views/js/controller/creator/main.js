@@ -1,12 +1,12 @@
 define([
-  'taoQtiItemCreator/editor/toggleToolDisplay',
-  'taoQtiItemCreator/editor/preview',
-  'taoQtiItemCreator/editor/fontSelector',
-  'taoQtiItemCreator/editor/itemResizer',
-  'taoQtiItemCreator/editor/preparePrint',
-  'taoQtiItemCreator/editor/toggleAppearance',
-  'taoQtiItemCreator/editor/listStyler',
-  'taoQtiItemCreator/editor/widgetToolbar',
+  'taoQtiItem/qtiCreator/editor/toggleToolDisplay',
+  'taoQtiItem/qtiCreator/editor/preview',
+  'taoQtiItem/qtiCreator/editor/fontSelector',
+  'taoQtiItem/qtiCreator/editor/itemResizer',
+  'taoQtiItem/qtiCreator/editor/preparePrint',
+  'taoQtiItem/qtiCreator/editor/toggleAppearance',
+  'taoQtiItem/qtiCreator/editor/listStyler',
+  'taoQtiItem/qtiCreator/editor/widgetToolbar',
   'ckeditor'
 ], function(toggleToolDisplay, preview, fontSelector, itemResizer, preparePrint, toggleAppearance, listStyler, widgetToolbar, ckeditor){
 
