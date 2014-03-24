@@ -18,25 +18,11 @@
                     QUnit.start();
 
                     Test.testRender('choice', {}, [
-                        {
-                            'set' : {'list' : {identifier : ['ChoiceF', 'ChoiceA']}},
-                            'get' : {'base' : {identifier : 'ChoiceA'}}
-                        },
-                        {
-                            'set' : {'base' : {identifier : 'ChoiceF'}},
-                            'get' : {'base' : {identifier : 'ChoiceF'}}
-                        }
+                        {'base' : {identifier : 'ChoiceA'}}
                     ]);
                     
                     Test.testRender('choiceMultiple', {minChoices:1, maxChoices:2}, [
-                        {
-                            'set' : {'list' : {identifier : ['H', 'O']}},
-                            'get' : {'list' : {identifier : ['H', 'O']}}
-                        },
-                        {
-                            'set' : {'base' : {identifier : 'He'}},
-                            'get' : {'base' : {identifier : 'He'}}
-                        }
+                        {'list' : {identifier : ['H', 'O']}}
                     ]);
                     
                 });

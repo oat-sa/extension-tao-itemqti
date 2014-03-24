@@ -1,11 +1,11 @@
 define([
     'lodash',
-    'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n',
     'select2'
-], function(_, $, tpl, Helper, __){
+], function(_, tpl, Helper, pciResponse, __){
 
     /**
      * The value of the "empty" option
@@ -62,20 +62,17 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-
-        if(response.base && response.base.identifier){
-            _setVal(interaction, response.base.identifier);
-        }else if(_.isEmpty(response)){
+        
+        if(pciResponse.isEmpty(response)){
             _resetResponse(interaction);
         }else{
-            throw new Error('wrong response format in argument: ');
+            _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
         }
-
     };
 
-    var _getRawReponse = function(interaction){
+    var _getRawResponse = function(interaction){
         var value = Helper.getContainer(interaction).val();
-        return (value && value !== _emptyValue) ? value : null;
+        return (value && value !== _emptyValue) ? [value] : [];
     };
 
     /**
@@ -91,15 +88,9 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, value = _getRawReponse(interaction);
-        if(value){
-            ret = {base : {identifier : value}};
-        }else{
-            ret = {};//@todo: define the way to represent a null response
-        }
-        return ret;
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
-
+    
     return {
         qtiClass : 'inlineChoiceInteraction',
         template : tpl,

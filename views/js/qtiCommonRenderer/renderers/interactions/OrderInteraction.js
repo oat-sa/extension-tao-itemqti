@@ -3,9 +3,10 @@ define([
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n',
     'jqueryui'
-], function(_, $, tpl, Helper, __){
+], function(_, $, tpl, Helper, pciResponse, __){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -195,12 +196,16 @@ define([
         var $choiceArea = Helper.getContainer(interaction).find('.choice-area'),
             $resultArea = Helper.getContainer(interaction).find('.result-area');
 
-        if(response && response.list && response.list.identifier){
-            _.each(response.list.identifier, function(id){
-                $resultArea.append($choiceArea.find('[data-identifier=' + id + ']'))
-            });
-        }else if(_.isEmpty(response)){
+        if(response === null || _.isEmpty(response)){
             _resetResponse(interaction);
+        }else{
+            try{
+                _.each(pciResponse.unserialize(response, interaction), function(identifier){
+                    $resultArea.append($choiceArea.find('[data-identifier=' + identifier + ']'));
+                });
+            }catch(e){
+                throw new Error('wrong response format in argument : ' + e);
+            }
         }
 
         Helper.validateInstructions(interaction);
@@ -227,7 +232,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        return {list : {identifier : _getRawResponse(interaction)}};
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
     var getCustomData = function(interaction, data){

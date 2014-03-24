@@ -3,8 +3,9 @@ define([
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
-], function(_, $, tpl, Helper, __){
+], function(_, $, tpl, Helper, pciResponse, __){
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -72,7 +73,7 @@ define([
                 minInstructionSet = true;
                 var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
                 Helper.appendInstruction(interaction, msg, function(data){
-                    if(_getRawReponse(interaction).length >= max){
+                    if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
                         if(this.checkState('fulfilled')){
                             this.update({
@@ -95,7 +96,7 @@ define([
             }else if(max > min){
                 Helper.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
 
-                    if(_getRawReponse(interaction).length >= max){
+                    if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
                         if(this.checkState('fulfilled')){
                             this.update({
@@ -119,7 +120,7 @@ define([
 
         if(!minInstructionSet && min > 0 && min < choiceCount){
             Helper.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
-                if(_getRawReponse(interaction).length >= min){
+                if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
                     this.reset();
@@ -141,33 +142,29 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      * 
-     * Special value: the empty object value {} resets the interaction responses
+     * Special value: the empty object {} or null resets the interaction responses
      * 
      * @param {object} interaction
-     * @param {object} response
+     * @param {object|null} response
      */
     var setResponse = function(interaction, response){
 
-        var _setVal = function(choiceIdentifier){
-            Helper.getContainer(interaction).find('input[value=' + choiceIdentifier + ']').prop('checked', true);
-        };
-
-        if(response.base && response.base.identifier){
-            _setVal(response.base.identifier);
-        }else if(response.list && response.list.identifier){
-            for(var i in response.list.identifier){
-                _setVal(response.list.identifier[i]);
-            }
-        }else if(_.isEmpty(response)){
+        var $container = Helper.getContainer(interaction);
+        
+        if(pciResponse.isEmpty(response)){
             _resetResponse(interaction);
         }else{
-            throw new Error('wrong response format in argument: ');
+            try{
+                _.each(pciResponse.unserialize(response, interaction), function(identifier){
+                    $container.find('input[value=' + identifier + ']').prop('checked', true);
+                });
+            }catch(e){
+                throw new Error('wrong response format in argument : ' + e);
+            }
         }
-
-        Helper.validateInstructions(interaction);
     };
 
-    var _getRawReponse = function(interaction){
+    var _getRawResponse = function(interaction){
         var values = [];
         Helper.getContainer(interaction).find('input[name=response-' + interaction.getSerial() + ']:checked').each(function(){
             values.push($(this).val());
@@ -188,17 +185,10 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, values = _getRawReponse(interaction);
-        if(values.length === 1){
-            ret = {base : {identifier : values[0]}};
-        }else{
-            ret = {list : {identifier : values}};
-        }
-        return ret;
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
     var getCustomData = function(interaction, data){
-
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal')
         });

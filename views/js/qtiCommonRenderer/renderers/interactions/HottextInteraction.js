@@ -3,9 +3,10 @@ define([
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/hottextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
-], function(_, $, tpl, Helper, __){
-    'use strict';   
+], function(_, $, tpl, Helper, pciResponse, __){
+    'use strict';
 
 
     /**
@@ -54,7 +55,7 @@ define([
             body = interaction.getBody(),
             choiceCount = 0,
             minInstructionSet = false;
-    
+
         for(var el in body.getElements()){
             choiceCount++;
         }
@@ -79,7 +80,7 @@ define([
                 minInstructionSet = true;
                 var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
                 Helper.appendInstruction(interaction, msg, function(data){
-                    if(_getRawReponse(interaction).length >= max){
+                    if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
                         if(this.checkState('fulfilled')){
                             this.update({
@@ -102,7 +103,7 @@ define([
             }else if(max > min){
                 Helper.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
 
-                    if(_getRawReponse(interaction).length >= max){
+                    if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
                         if(this.checkState('fulfilled')){
                             this.update({
@@ -126,7 +127,7 @@ define([
 
         if(!minInstructionSet && min > 0 && min < choiceCount){
             Helper.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
-                if(_getRawReponse(interaction).length >= min){
+                if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
                     this.reset();
@@ -155,26 +156,20 @@ define([
      */
     var setResponse = function(interaction, response){
 
-        var _setVal = function(choiceIdentifier){
-            Helper.getContainer(interaction).find('input[value=' + choiceIdentifier + ']').prop('checked', true);
-        };
+        var $container = Helper.getContainer(interaction);
 
-        if(response.base && response.base.identifier){
-            _setVal(response.base.identifier);
-        }else if(response.list && response.list.identifier){
-            for(var i in response.list.identifier){
-                _setVal(response.list.identifier[i]);
-            }
-        }else if(_.isEmpty(response)){
+        if(pciResponse.isEmpty(response)){
             _resetResponse(interaction);
         }else{
-            throw new Error('wrong response format in argument: ');
+            _.each(pciResponse.unserialize(response, interaction), function(identifier){
+                $container.find('input[value=' + identifier + ']').prop('checked', true);
+            });
         }
 
         Helper.validateInstructions(interaction);
     };
-    
-    var _getRawReponse = function(interaction){
+
+    var _getRawResponse = function(interaction){
         var values = [];
         Helper.getContainer(interaction).find('input:checked').each(function(){
             values.push($(this).val());
@@ -195,13 +190,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, values = _getRawReponse(interaction);
-        if(values.length === 1){
-            ret = {base : {identifier : values[0]}};
-        }else{
-            ret = {list : {identifier : values}};
-        }
-        return ret;
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
     return {

@@ -5,8 +5,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'eyecatcher'
-], function(_, __, $, tpl, pairTpl, Helper, eyecatcher){
+], function(_, __, $, tpl, pairTpl, Helper, pciResponse, eyecatcher){
 
     /**
      * Global variable to count number of choice usages:
@@ -397,15 +398,11 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-
-        if(response.base && response.base.pair && _.isArray(response.base.pair) && response.base.pair.length === 2){
-            _setPairs(interaction, [response.base.pair]);
-        }else if(response.list && response.list.pair && _.isArray(response.list.pair)){
-            _setPairs(interaction, response.list.pair);
-        }else if(_.isEmpty(response)){
+        
+        if(pciResponse.isEmpty(response)){
             _resetResponse(interaction);
         }else{
-            throw new Error('wrong response format in argument: ');
+            _setPairs(interaction, pciResponse.unserialize(response, interaction));
         }
     };
 
@@ -439,13 +436,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, values = _getRawResponse(interaction);
-        if(values.length === 1){
-            ret = {base : {pair : values[0]}};
-        }else{
-            ret = {list : {pair : values}};
-        }
-        return ret;
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
     var restore = function(interaction){
@@ -475,7 +466,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        restore : restore,
+        restore : restore,//@todo to be renamed into destroy
         renderEmptyPairs : renderEmptyPairs
     };
 });

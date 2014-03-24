@@ -34,47 +34,6 @@ define([
             deepEqual(actual, expected, 'special reponse format matching : ' + responseStr);
         }
     };
-    
-    var _responseTypeEqual = function(interaction){
-        var response = interaction.getResponse(),
-            responseStr = JSON.stringify(response),
-            typesEquality = false,
-            baseType = interaction.getResponseDeclaration().attr('baseType'),
-            responseType = '';
-
-        var _getValueType = function(value){
-            if(typeof value === 'number'){
-                if(!!(value%1)){
-                    return 'float';
-                }else{
-                    return 'integer';
-                }
-            }else{
-                return typeof value;
-            }
-        }
-
-        if(baseType == 'identifier'){
-            var identifierExists = (response.base && response.base.identifier) || (response.list && response.list.identifier);
-
-//            ok(identifierExists, 'response type matches : identifier');
-        } else if(response.base && response.base[baseType]){
-            responseType = _getValueType(response.base[baseType]);
-            typesEquality = responseType === baseType;
-            
-//            ok(typesEquality, 'response type matches : ' + responseType);
-        } else if(response.list && response.list[baseType]) {
-            for(var i in response.list[baseType]){
-                responseType = _getValueType(response.list[baseType][i]);
-                typesEquality = responseType === baseType;
-                if(!typesEquality) break;
-            }
-            
-//            ok(typesEquality, 'response type matches : ' + responseType);
-        } else {
-            console.log('reponse format does not match :  ' + responseStr);
-        }
-    };
 
     var Test = {
         testRender : function(itemIdentifier, attributes, responses){
@@ -97,7 +56,7 @@ define([
                     loader.loadItemData(data[itemIdentifier].full, function(item){
                         
                         ok(Element.isA(item, 'assessmentItem'), itemIdentifier + ' item loaded');
-                        
+
                         //count interaction number:
                         var interactions = item.getInteractions();
                         ok(interactions.length, 'has ' + interactions.length + ' interaction(s)');
@@ -105,7 +64,7 @@ define([
                         //test only the last interaction:
                         var interaction = interactions.pop();
                         interaction.attr(attributes);//overwrite attributes for test purpose:
-                        
+
                         //append item placeholder and render it:
                         var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
                         var $title = $('<h2>', {text : 'identifier : ' + item.id()});
@@ -139,9 +98,8 @@ define([
                                 //test responses set() and get():
                                 _.each(responses, function(response){
                                     interaction.setResponse({});//reset response
-                                    interaction.setResponse(response.set);//assign the given value
-                                    _responseEqual(interaction.getResponse(), response.get);//test the assigned value
-                                    _responseTypeEqual(interaction);//test the response type
+                                    interaction.setResponse(response.set ? response.set : response);//assign the given value
+                                    _responseEqual(interaction.getResponse(), response.get ? response.get : response);//test the assigned value
                                 });
                             }
 
@@ -149,12 +107,10 @@ define([
 
                     });
 
-
                 });
             }else{
                 throw new Error('item sample not found : ' + itemIdentifier);
             }
-
         }
     };
 

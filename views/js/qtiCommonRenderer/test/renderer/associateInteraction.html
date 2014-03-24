@@ -17,21 +17,8 @@
                     QUnit.start();
                     
                     Test.testRender('associate', {maxAssociations:0, minAssociations:2}, [
-                        {
-                            set: {base:{pair:['M', 'C']}},
-                            get: {base:{pair:['M', 'C']}}
-                        },
-                        {
-                            set: {list:{pair:[['M', 'C'], ['A', 'D']]}},
-                            get: {list:{pair:[['M', 'C'], ['A', 'D']]}}
-                        },
-                        {
-                            set: {list:{pair:[['M', 'C'], ['A', 'D'], ['L', 'P']]}},
-                            get: {list:{pair:[['M', 'C'], ['A', 'D']]}}
-                        }
+                        {list:{pair:[['M', 'C'], ['A', 'D']]}}
                     ]);
-                    
-//                    Test.testRender('item8math', {}, []);
                     
                 });
             });

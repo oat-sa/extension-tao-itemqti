@@ -2,9 +2,10 @@ define([
     'lodash',
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/sliderInteraction',
-    'taoQtiItem/qtiCommonRenderer/renderers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'jqueryui'
-], function(_, $, tpl, Helper){
+], function(_, $, tpl, Helper, pciResponse){
     'use strict';   
     
     var _slideTo = function(options){
@@ -145,32 +146,47 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){        
-        var baseType = interaction.getResponseDeclaration().attr('baseType'),
-            attributes = interaction.getAttributes(),
+        var attributes = interaction.getAttributes(),
             $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value'),
             $sliderCurrentValue = $('#'+ attributes.identifier + '_qti_slider_cur_value'),
             $el = $('#'+ attributes.identifier + '_qti_slider'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
-            reverse = typeof attributes.reverse !== 'undefined' && attributes.reverse ? true : false;
+            value;
         
-        if(response.base && response.base[baseType]){
-            var value = reverse ? (max + min) - response.base[baseType] : response.base[baseType];
+        if(pciResponse.isEmpty(response)){
+            _resetResponse(interaction);
+        }else{
             
-             _slideTo({
-                'value': response.base[baseType],
+            value = pciResponse.unserialize(response, interaction)[0];
+            
+            _slideTo({
+                'value': value,
                 'sliderValue': $sliderValue,
                 'sliderCurrentValue': $sliderCurrentValue
             });
             
-            $el.slider({'value' : value, 'animation' : false}).slider('refresh');
-        }else if(_.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            throw new Error('wrong response format in argument: ');
+            $el.slider({'value' : interaction.attr('reverse')?(max + min) - value:value, 'animation' : false}).slider('refresh');
         }
     };
-
+    
+    var _getRawResponse = function(interaction){
+        
+        var value, 
+            attributes = interaction.getAttributes(),
+            baseType = interaction.getResponseDeclaration().attr('baseType'),
+            min = parseInt(attributes.lowerBound),
+            $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value');
+    
+        if(baseType==='integer'){
+            value = parseInt($sliderValue.val());
+        } else if(baseType==='float'){
+            value = parseFloat($sliderValue.val());
+        }
+        
+        return isNaN(value) ? min : value;
+    };
+    
     /**
      * Return the response of the rendered interaction
      * 
@@ -184,22 +200,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {'base' : {}},
-            value, 
-            attributes = interaction.getAttributes(),
-            baseType = interaction.getResponseDeclaration().attr('baseType'),
-            min = parseInt(attributes.lowerBound),
-            $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value');
-    
-        if(baseType==='integer'){
-            value = parseInt($sliderValue.val());
-        } else if(baseType==='float'){
-            value = parseFloat($sliderValue.val());
-        }
-
-        ret.base[baseType] = isNaN(value) ? min : value;
-        
-        return ret;
+        return pciResponse.serialize([_getRawResponse(interaction)], interaction);
     };
 
     return {
