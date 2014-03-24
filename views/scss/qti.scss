@@ -11,6 +11,29 @@
 }
 
 
+
+.mini-tlb {
+    ul[data-button-group] {
+        background: transparent !important;
+        border:none;
+        & > li {
+            display:none;
+            background: transparent !important;
+            min-width: 0;
+            padding: 0;
+            float:none;
+            span {
+                color: $textColor;
+                text-shadow: none !important;
+            }
+            &.active {
+                display:inline-block;
+            }
+        }
+    }
+}
+
+
 .block-listing {
     & > li {
         @include simple-border(#eee);
@@ -76,11 +99,12 @@
         border-radius: 3px;
         background-color: mix(#fff, $info, 90%);
         [class^="icon-"], [class*=" icon-"] {
-            @include font-size(16);
-            position: absolute;
-            top: 6px;
-            left: 10px;
+            @include font-size(14);
+            position: relative;
+            top: 1px;
+            left: 2px;
             color: $info;
+            padding-right: 5px
         }
         & > div {
             display: table;
@@ -96,6 +120,7 @@
                 text-align: center;
                 top: 0;
                 left: auto;
+                padding:0;
             }
         }
         &:hover {
@@ -132,5 +157,7 @@
 @import "qti/_graphic";
 @import "qti/_hottext";
 @import "qti/_gap-match";
+@import "qti/_inline-choice";
+@import "qti/_text-entry";
 
 
