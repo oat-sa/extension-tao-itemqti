@@ -1,19 +1,29 @@
 define([
     'lodash',
     'jquery',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/helpers/Instruction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification',
-], function(_, $, Instruction, notifTpl){
+], function(_, $, Element, Instruction, notifTpl){
 
     var _containers = {};
     var _instructions = {};
 
     return {
         getContainer : function(element){
-            var serial = element.getSerial();
+            
+            var serial = element.getSerial(),
+                selector = '[data-serial=' + serial + ']';
+            
             if(!_containers[serial]){
-                _containers[serial] = $('[data-serial=' + serial + ']');
+                if(Element.isA('choice')){
+                    selector = '.qti-choice'+selector;
+                }else if(Element.isA('interaction')){
+                    selector = '.qti-interaction'+selector;
+                }
+                _containers[serial] = $(selector);
             }
+            
             return _containers[serial];
         },
         validateInstructions : function(element, data){

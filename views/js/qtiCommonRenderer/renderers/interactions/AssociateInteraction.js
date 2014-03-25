@@ -19,7 +19,11 @@ define([
 
         var choiceSerial = $choice.data('serial'),
             choice = interaction.getChoice(choiceSerial);
-
+        
+        if(!choiceSerial){
+            throw 'empty choice serial';
+        }
+        
         if(!_choiceUsages[choiceSerial]){
             _choiceUsages[choiceSerial] = 0;
         }
@@ -145,7 +149,13 @@ define([
     };
 
     var getChoice = function(interaction, identifier){
-        return Helper.getContainer(interaction).find('.choice-area [data-identifier=' + identifier + ']');
+        
+        //warning: do not use selector data-identifier=identifier because data-identifier may change dynamically
+        var choice = interaction.getChoiceByIdentifier(identifier);
+        if(!choice){
+            throw new Error('cannot find a choice with the identifier : '+identifier);
+        }
+        return Helper.getContainer(interaction).find('.choice-area [data-serial=' + choice.getSerial() + ']');
     };
 
     var renderEmptyPairs = function(interaction){
