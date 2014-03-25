@@ -15,6 +15,14 @@ define([
         this.createOkButton();
     };
 
+    InteractionWidget.buildContainer = function(){
+
+        //interaction
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box'});
+        var $interactionContainer = this.$original.wrap($wrap);
+        this.$container = $interactionContainer.parent();
+    };
+
     /**
      * Common method for all interactions (at least block ones)
      * 
@@ -91,11 +99,11 @@ define([
 
         return this;
     };
-    
+
     InteractionWidget.createOkButton = function(){
-        
+
         var _this = this;
-        
+
         //@todo: use handlebars tpl instead?
         this.$container.append($('<button>', {
             'class' : 'btn-info small',
@@ -110,6 +118,6 @@ define([
             _this.changeState('sleep');
         }));
     };
-    
+
     return InteractionWidget;
 });

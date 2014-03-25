@@ -6,16 +6,16 @@ define([
 
     var CreatorAssociateInteraction = _.clone(AssociateInteraction);
 
-    CreatorAssociateInteraction.render = function(interaction, data){
+    CreatorAssociateInteraction.render = function(interaction, options){
         
         AssociateInteraction.renderEmptyPairs(interaction);
         
-        //@todo: to be generalized:
-        var $wrap = $('<div>', {'data-serial' : interaction.serial, 'class' : 'widget-box'});
-        var $interactionContainer = $('[data-serial=' + interaction.serial + ']').wrap($wrap);
-        var $container = $interactionContainer.parent();
-
-        AssociateInteractionWidget.build(interaction, $container, this.getOption('interactionOptionForm'), data);
+        AssociateInteractionWidget.build(
+            interaction,
+            AssociateInteraction.getContainer(interaction),
+            this.getOption('interactionOptionForm'),
+            options
+        );
     };
 
     return CreatorAssociateInteraction;

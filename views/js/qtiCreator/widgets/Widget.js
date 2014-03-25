@@ -18,18 +18,21 @@ define([
     };
     
     var Widget = {
-        init : function(element, $container, $form, options){
+        init : function(element, $original, $form, options){
             if(element instanceof Element){
 
                 options = options || {};
 
                 this.element = element;
                 this.serial = element.getSerial();
-                this.$container = $container.addClass('activable');
+                this.$original = $original.addClass('activable');
                 this.$form = $form;
                 this.stateStack = [];
                 this.registeredStates = {};
-
+                
+                //build container from origin element
+                this.buildContainer();
+                
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
 
@@ -50,6 +53,9 @@ define([
             }
             return this;
         },
+        buildContainer:function(){
+            throw new Error('method buildContainer must be implemented');
+        },    
         build : function(element, $container, $form, options){
             return this.clone().init(element, $container, $form, options);
         },

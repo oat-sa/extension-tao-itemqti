@@ -1,7 +1,11 @@
 define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
     var ChoiceWidget = Widget.clone();
-
+    
+    ChoiceWidget.buildContainer = function(){
+        this.$container = this.$original;
+    };
+    
     ChoiceWidget.initCreator = function(){
 
         Widget.initCreator.call(this);
