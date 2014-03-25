@@ -38,11 +38,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
             return ret;
         },
         getChoiceByIdentifier : function(identifier){
-            _.each(this.choices, function(c){
-                if(c.id() === identifier){
-                    return c;
+            for(var i in this.choices){
+                if(this.choices[i].id() === identifier){
+                    return this.choices[i];
                 }
-            });
+            }
+            return null;
         },
         getComposingElements : function(){
             var elts = this._super();
@@ -84,12 +85,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
         render : function(data, $container, subClass){
             var renderer = this.getRenderer(),
                 defaultData = {
-                    '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
-                        return "_" + $1.toLowerCase();
-                    }),
-                    'choices' : [],
-                    'choiceShuffle' : true
-                };
+                '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
+                    return "_" + $1.toLowerCase();
+                }),
+                'choices' : [],
+                'choiceShuffle' : true
+            };
 
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
