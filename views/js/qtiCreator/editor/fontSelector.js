@@ -71,7 +71,6 @@ define([
             }
         }
         selectBox.on('change',function () {
-         //   console.log(target, 'font-family', ($(this).val() || oldFont));
             styleEditor.apply(target, 'font-family', ($(this).val() || oldFont));
         }).select2({
             formatResult: format,
