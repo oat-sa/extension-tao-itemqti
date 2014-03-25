@@ -8,29 +8,38 @@
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
 
         <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
-      <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
+        <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
 
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
-                    
-                    Test.testRender('order', {'orientation':'vertical', maxChoices:2, minChoices:1}, [
+
+                    Test.testRender(
+                        'order',
                         {
-                            set: {},
-                            get: {list:{identifier:[]}}
+                            orientation : 'vertical',
+                            maxChoices : 2,
+                            minChoices : 1,
+                            choices : {
+                                DriverA : {fixed : true}
+                            }
+                        }, [
+                        {
+                            set : {},
+                            get : {list : {identifier : []}}
                         },
                         {
-                            set: {list:{identifier:['DriverA', 'DriverB', 'xxx']}},
-                            get: {list:{identifier:['DriverA', 'DriverB']}}
+                            set : {list : {identifier : ['DriverA', 'DriverB', 'xxx']}},
+                            get : {list : {identifier : ['DriverA', 'DriverB']}}
                         },
                         {
-                            set: {list:{identifier:['DriverB', 'DriverC']}},
-                            get: {list:{identifier:['DriverB', 'DriverC']}}
+                            set : {list : {identifier : ['DriverB', 'DriverC']}},
+                            get : {list : {identifier : ['DriverB', 'DriverC']}}
                         }
                     ]);
-                    
+
                 });
             });
         </script>
