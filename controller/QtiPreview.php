@@ -32,7 +32,7 @@ use \common_Exception;
 use \taoQtiCommon_helpers_VariableFiller;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
-use \taoQtiCommon_helpers_StateOutput;
+use \taoQtiCommon_helpers_LegacyStateOutput;
 use \common_ext_ExtensionsManager;
 
 use qtism\runtime\common\State;
@@ -138,7 +138,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
 
     protected static function buildOutcomeResponse(AssessmentItemSession $itemSession){
-        $stateOutput = new taoQtiCommon_helpers_StateOutput();
+        $stateOutput = new taoQtiCommon_helpers_LegacyStateOutput();
 
         foreach($itemSession->getOutcomeVariables(false) as $var){
             $stateOutput->addVariable($var);

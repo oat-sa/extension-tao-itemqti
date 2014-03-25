@@ -32,7 +32,7 @@ use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_ResultTransmitter;
 use \taoResultServer_models_classes_ResultServerStateFull;
-use \taoQtiCommon_helpers_StateOutput;
+use \taoQtiCommon_helpers_LegacyStateOutput;
 
 use qtism\runtime\common\State;
 use qtism\runtime\tests\AssessmentItemSession;
@@ -192,7 +192,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
     }
     
     protected static function buildOutcomeResponse(AssessmentItemSession $itemSession) {
-        $stateOutput = new taoQtiCommon_helpers_StateOutput();
+        $stateOutput = new taoQtiCommon_helpers_LegacyStateOutput();
         
         foreach ($itemSession->getAllVariables() as $var) {
             $stateOutput->addVariable($var);
