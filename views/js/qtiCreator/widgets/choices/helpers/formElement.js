@@ -1,6 +1,4 @@
-define([
-    'lodash'
-], function(_){
+define(['lodash'], function(_){
 
     var _updateChoiceIdentifierInResponse = function(response, oldId, newId){
 

@@ -2,7 +2,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement'
+    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, Choice, formTpl, formElement){
     
     var SimpleChoiceStateChoice = stateFactory.clone(Choice);
@@ -16,7 +16,7 @@ define([
             identifier:_widget.element.id()
         }));
         
-        formElement.initChoiceIdentifier(_widget);
+        formElement.initIdentifier(_widget);
     };
     
     return SimpleChoiceStateChoice;

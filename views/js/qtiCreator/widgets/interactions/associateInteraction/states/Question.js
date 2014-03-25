@@ -1,8 +1,9 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate'
-], function(stateFactory, Question, formTpl){
+], function(stateFactory, Question, formElement, formTpl){
 
     var AssociateInteractionStateQuestion = stateFactory.clone(Question);
 
@@ -12,22 +13,10 @@ define([
             interaction = _widget.element;
 
         _widget.$form.html(formTpl({
-            shuffle : !!this.widget.element.attr('shuffle')
+            shuffle : !!_widget.element.attr('shuffle')
         }));
-
-        _widget.$form.find('[data-role=shuffle]').on('change', function(){
-
-            var $choiceShuffleButtons = _widget.$container.find('.qti-choice [data-role="shuffle-pin"]');
-
-            if($(this).prop('checked')){
-                interaction.attr('shuffle', true);
-                $choiceShuffleButtons.show();
-            }else{
-                interaction.attr('shuffle', false);
-                $choiceShuffleButtons.hide();
-            }
-        });
-
+        
+        formElement.initShuffle(_widget);
     };
 
     return AssociateInteractionStateQuestion;
