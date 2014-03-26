@@ -1,4 +1,5 @@
 define([
+    'lodash',
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
@@ -6,39 +7,11 @@ define([
     'taoQtiItem/qtiCreator/renderers/Renderer',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function($, Loader, Element, qtiClasses, Renderer, XmlRenderer, data){
+], function(_, $, Loader, Element, qtiClasses, Renderer, XmlRenderer, data){
 
-    var bufferedExecution = function(bufferTime, callback){
-        var scheduled,
-            lastOutput = 0,
-            exec = function (){
-                lastOutput = new Date().getTime();
-                scheduled = false;
-                callback();
-            };
-
-        return {
-            exec : function(){
-                if(scheduled){
-                    return;
-                }
-
-                var diff = (new Date()).getTime() - lastOutput;
-
-                if(diff < bufferTime){
-                    scheduled = setTimeout(exec, bufferTime - diff);
-                }else{
-                    exec();
-                }
-
-            },
-            reset : function(){
-                if(scheduled){
-                    clearTimeout(scheduled);
-                }
-                scheduled = lastOutput = 0;
-            }
-        };
+    var bufferedExecution = function(callback, bufferTime){
+        
+        return _.throttle(callback, bufferTime);
     };
 
     var formatXml = function(xml){
@@ -134,11 +107,12 @@ define([
                         //render qti xml:
                         var xmlRenderer = new XmlRenderer({shuffleChoices:false});
                         xmlRenderer.load(function(){
-                            var bufferedExec = bufferedExecution(200, function(){
+                            
+                            var bufferedExec = bufferedExecution(function(){
                                 item.setRenderer(xmlRenderer);
                                 printXml(item.render());
                                 item.setRenderer(creatorRenderer);
-                            });
+                            }, 200);
                             
                             var events = [
                                 'containerBodyChange',
@@ -151,7 +125,7 @@ define([
                             ];
                             
                             $(document).on(events.join(' '), function(e, data){
-                                bufferedExec.exec();
+                                bufferedExec();
                             });
                             
                         }, this.getLoadedClasses());
