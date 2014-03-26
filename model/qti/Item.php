@@ -451,7 +451,6 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $variables['hasMath'] = false;
         $variables['hasMedia'] = false;
         $variables['useLegacyApi'] = true;
-        $variables['clientMatching'] = false;
 
         //check if specific (and heavy) libs are required:
         $composingElements = $this->getComposingElements();
@@ -480,11 +479,6 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $dataForDelivery = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
-
-        if($variables['clientMatching']){
-            // get Matching data
-            $variables['matchingData'] = $this->getMatchingData();
-        }
 
         $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : array();
 
@@ -655,64 +649,6 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         return array('core' => $itemData, 'variable' => $filtered);
     }
 
-    /**
-     * Short description of method getMatchingData
-     *
-     * @deprecated now using new qtism lib for response processing
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
-     */
-    public function getMatchingData(){
-        $returnValue = array(
-            "rule" => null,
-            "corrects" => array(),
-            "maps" => array(),
-            "areaMaps" => array(),
-            "outcomes" => array()
-        );
-
-        // BUILD the RP rule
-        if(!is_null($this->getResponseProcessing())){
-            if($this->getResponseProcessing() instanceof TemplatesDriven){
-                $returnValue["rule"] = $this->getResponseProcessing()->buildRule($this);
-            }else{
-                $returnValue["rule"] = $this->getResponseProcessing()->getRule();
-            }
-        }
-
-        // Get the correct responses (correct variables and map variables)
-        $corrects = array();
-        $maps = array();
-        $interactions = $this->getInteractions();
-        foreach($interactions as $interaction){
-            if($interaction->getResponse() != null){
-                $correctJSON = $interaction->getResponse()->correctToJSON();
-                if($correctJSON != null){
-                    array_push($returnValue["corrects"], $correctJSON);
-                }
-
-                $mapJson = $interaction->getResponse()->mapToJSON();
-                if($mapJson != null){
-                    array_push($returnValue["maps"], $mapJson);
-                }
-
-                $areaMapJson = $interaction->getResponse()->areaMapToJSON();
-                if($areaMapJson != null){
-                    array_push($returnValue["areaMaps"], $areaMapJson);
-                }
-            }
-        }
-
-        // Get the outcome variables
-        $outcomes = $this->getOutcomes();
-        foreach($outcomes as $outcome){
-            array_push($returnValue["outcomes"], $outcome->toJSON());
-        }
-
-        return (array) $returnValue;
-    }
-
     public function toForm(){
 
         $formContainer = new AssessmentItem($this);
@@ -722,4 +658,3 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\Item */
