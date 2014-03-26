@@ -24,47 +24,6 @@ use oat\taoQtiItem\controller\QTIform\interaction\StringInteraction;
 use oat\taoQtiItem\controller\QTIform\interaction\Interaction;
 use \tao_helpers_form_FormFactory;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - taoItems\actions\QTIform\interaction\class.StringInteraction.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 13.01.2011, 09:33:58 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author Sam, <sam@taotesting.com>
- * @package taoItems
- * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10297
- * @subpackage actions_QTIform_interaction
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include oat\taoQtiItem\controller\QTIform\interaction\Interaction
- *
- * @author Sam, <sam@taotesting.com>
- * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247
- */
-require_once('taoQTI/actions/QTIform/interaction/class.Interaction.php');
-
-/* user defined includes */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005089-includes begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005089-includes end
-
-/* user defined constants */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005089-constants begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005089-constants end
-
 /**
  * Short description of class
  *
@@ -180,6 +139,4 @@ abstract class StringInteraction
         // section 10-13-1-39--340dbb51:12d5574289f:-8000:0000000000002F66 end
     }
 
-} /* end of abstract class oat\taoQtiItem\controller\QTIform\interaction\StringInteraction */
-
-?>
+}

@@ -32,45 +32,6 @@ use \tao_helpers_form_FormFactory;
 use \tao_helpers_Uri;
 use \taoItems_models_classes_Scale_Discrete;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - taoQTI/actions/QTIform/class.ManualProcessing.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 31.01.2012, 17:35:13 with ArgoUML PHP module
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoItems
- * @subpackage actions_QTIform
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include oat\taoQtiItem\controller\QTIform\ResponseProcessingOptions
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('taoQTI/actions/QTIform/class.ResponseProcessingOptions.php');
-
-/* user defined includes */
-// section 127-0-1-1-249123f:13519689c9e:-8000:000000000000368A-includes begin
-// section 127-0-1-1-249123f:13519689c9e:-8000:000000000000368A-includes end
-
-/* user defined constants */
-// section 127-0-1-1-249123f:13519689c9e:-8000:000000000000368A-constants begin
-// section 127-0-1-1-249123f:13519689c9e:-8000:000000000000368A-constants end
-
 /**
  * Short description of class oat\taoQtiItem\controller\QTIform\ManualProcessing
  *
@@ -197,6 +158,4 @@ class ManualProcessing
 		// section 127-0-1-1-249123f:13519689c9e:-8000:0000000000003690 end
     }
 
-} /* end of class oat\taoQtiItem\controller\QTIform\ManualProcessing */
-
-?>
+}

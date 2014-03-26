@@ -24,47 +24,6 @@ use oat\taoQtiItem\controller\QTIform\interaction\PositionobjectInteraction;
 use oat\taoQtiItem\controller\QTIform\interaction\Interaction;
 use oat\taoQtiItem\controller\QTIform\AssessmentItem;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO -
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 05.01.2011, 11:32:51 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author Sam, <sam@taotesting.com>
- * @package taoItems
- * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10334
- * @subpackage actions_QTIform_interaction
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include oat\taoQtiItem\controller\QTIform\interaction\Interaction
- *
- * @author Sam, <sam@taotesting.com>
- * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247
- */
-require_once('taoQTI/actions/QTIform/interaction/class.Interaction.php');
-
-/* user defined includes */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050B4-includes begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050B4-includes end
-
-/* user defined constants */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050B4-constants begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050B4-constants end
-
 /**
  * Short description of class
  *
@@ -105,6 +64,4 @@ class PositionobjectInteraction
         // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050B5 end
     }
 
-} /* end of class oat\taoQtiItem\controller\QTIform\interaction\PositionobjectInteraction */
-
-?>
+}
