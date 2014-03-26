@@ -125,14 +125,14 @@ qtiEdit.mapElementValidator = function($container){
             case 'expectedLength':
             case 'step':
                 {
-                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Integer.js'], function(Validator){
+                    require(['taoQtiItem/qtiAuthoring/src/validators/class.Integer'], function(Validator){
                         qtiEdit.bindValidator($formElt, new Validator());
                     });
                     break;
                 }
             case 'choiceIdentifier':
                 {
-                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Regex.js'], function(Validator){
+                    require(['taoQtiItem/qtiAuthoring/src/validators/class.Regex'], function(Validator){
                         var validatorIdentifier = new Validator({
                             regex : /^[_a-z]{1}[a-z0-9-._]{0,31}$/i,
                             message : __('The format of the identifier is not valid.')
@@ -140,7 +140,7 @@ qtiEdit.mapElementValidator = function($container){
                         qtiEdit.bindValidator($formElt, validatorIdentifier);
                     });
 
-                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Uniqueidentifier.js'], function(Validator){
+                    require(['taoQtiItem/qtiAuthoring/src/validators/class.Uniqueidentifier'], function(Validator){
                         var validatorIdentifier = new Validator({
                             'element' : $formElt
                         });
@@ -158,7 +158,7 @@ qtiEdit.mapElementValidator = function($container){
                                         if(r.saved){
                                             qtiEdit.idList.set(choiceSerial, value);
 
-                                            require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/responseClass.js'], function(responseClass){
+                                            require(['taoQtiItem/qtiAuthoring/responseClass'], function(responseClass){
                                                 //reload the response grid tu update the identifier
                                                 new responseClass(interaction.responseGrid, interaction);
                                             });
@@ -173,7 +173,7 @@ qtiEdit.mapElementValidator = function($container){
             case 'upperBound':
             case 'lowerBound':
                 {
-                    require([root_url + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/src/validators/class.Float.js'], function(Validator){
+                    require(['taoQtiItem/qtiAuthoring/src/validators/class.Float'], function(Validator){
                         var validatorFloat = new Validator();
                         qtiEdit.bindValidator($formElt, validatorFloat, function($elt, ok){
                             if(ok){

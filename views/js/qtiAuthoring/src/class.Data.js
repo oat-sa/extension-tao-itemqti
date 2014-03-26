@@ -95,7 +95,7 @@ define(['require', 'jquery'], function(req, $){
 			type = type.toLowerCase();
 			if($.inArray(type, ['dummy','length', 'url', 'notempty', 'integer'])){
 				var className = type.charAt(0).toUpperCase() + type.substr(1);
-				require([root_url  + 'taoQtiItem/qtiItem/views/js/qtiAuthoring/validators/class.' + className + '.js'], function(validatorClass){
+				require(['taoQtiItem/qtiAuthoring/validators/class.' + className ], function(validatorClass){
 					if(typeof _this.attributesCallbacks[attribute] == 'undefined'){
 						_this.attributesCallbacks[attribute] = {};
 					}
