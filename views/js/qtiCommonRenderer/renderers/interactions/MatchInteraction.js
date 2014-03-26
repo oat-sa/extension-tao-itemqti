@@ -2,9 +2,10 @@ define([
     'lodash',
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function(_, $, tpl, Helper){
-
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'i18n'
+], function(_, $, tpl, Helper, pciResponse, __){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -14,7 +15,11 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
+        var $container = Helper.getContainer(interaction);
         
+        $container.find('input[type=checkbox]').click(function() {
+        	// @todo something when you click.
+        });
     };
 
     /**
@@ -32,7 +37,14 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
+    	if (typeof response.list !== 'undefined' && typeof response.list.directedPair !== 'undefined') {
+    		_(response.list.directedPair).forEach(function (directedPair) {
+    			var x = $('th[data-identifier=' + directedPair[0] + ']').index() - 1;
+    			var y = $('th[data-identifier=' + directedPair[1] + ']').parent().index();
 
+    			$('.matrix > tbody tr').eq(y).find('input[type=checkbox]').eq(x).attr('checked', 'checked');
+    		});
+    	}
     };
 
     /**
@@ -48,8 +60,28 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, values = [];
-        return ret;
+    	var response = pciResponse.serialize(_getRawResponse(interaction), interaction);
+    	return response;
+    };
+    
+    var _getRawResponse = function(interaction){
+    	var $container = Helper.getContainer(interaction);
+    	var values = [];
+    	
+        $container.find('input[type=checkbox]:checked').each(function() {
+        	values.push(_inferValue(this));
+        });
+        
+        return values;
+    }
+    
+    var _inferValue = function(element) {
+    	$element = $(element);
+    	var y = $element.closest('tr').index();
+    	var x = $element.closest('td').index();
+    	var firstId = $('.matrix > thead th').eq(x).data('identifier');
+    	var secondId = $('.matrix > tbody th').eq(y).data('identifier');
+    	return [firstId, secondId];
     };
 
     return {

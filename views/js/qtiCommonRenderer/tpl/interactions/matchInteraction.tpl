@@ -5,17 +5,17 @@
       <thead>
       <tr>
         <th> </th>
-        {{#matchSet1}}<th>{{{.}}}</th>{{/matchSet1}}
+        {{#matchSet1}}{{{.}}}{{/matchSet1}}
       </tr>
       </thead>
       <tbody>
       {{#matchSet2}}
       <tr>
-        <th>{{{.}}}</th>
+        {{{.}}}
         {{#each ../matchSet1}}
         <td>
           <label>
-            <input type="checkbox">
+            <input type="checkbox" >
             <span class="icon-checkbox cross"></span>
           </label>
         </td>

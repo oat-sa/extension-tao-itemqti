@@ -1,1 +1,1 @@
-{{{body}}}
+<th class="qti-choice qti-associableChoice qti-simpleAssociableChoice" data-identifier="{{attributes.identifier}}">{{{body}}}</th>
