@@ -96,11 +96,6 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
 
-            //@todo to be removed, now use renderer.getData to pass additional data to tpl
-            if(this.attr('orientation')){
-                defaultData['horizontal'] = (this.attr('orientation') === 'horizontal');
-            }
-
             try{
                 var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
                 var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};

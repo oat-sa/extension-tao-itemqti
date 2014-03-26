@@ -177,13 +177,13 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             return Handlebars.compile(tpl)(data);
         };
 
-        this.getContainer = function(qtiElement){
+        this.getContainer = function(qtiElement, $scope){
 
             var ret = null,
                 renderer = _getClassRenderer(qtiElement.qtiClass);
 
             if(renderer){
-                ret = renderer.getContainer(qtiElement);
+                ret = renderer.getContainer(qtiElement, $scope);
             }else{
                 throw 'no renderer found for the class : ' + qtiElement.qtiClass;
             }

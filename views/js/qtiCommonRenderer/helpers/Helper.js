@@ -10,7 +10,7 @@ define([
     var _instructions = {};
 
     return {
-        getContainer : function(element){
+        getContainer : function(element, $scope){
             
             var serial = element.getSerial(),
                 selector = '[data-serial=' + serial + ']';
@@ -21,7 +21,11 @@ define([
                 }else if(Element.isA('interaction')){
                     selector = '.qti-interaction'+selector;
                 }
-                _containers[serial] = $(selector);
+                if($scope instanceof $ && $scope.length){
+                    _containers[serial] = $scope.find(selector);
+                }else{
+                    _containers[serial] = $(selector);
+                }
             }
             
             return _containers[serial];

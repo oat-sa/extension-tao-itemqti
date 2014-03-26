@@ -35,8 +35,9 @@ define([
                 
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
-
-                this.initCreator();
+                
+                //pass the options to the initCreator for custom options usage 
+                this.initCreator(options);
 
                 //init state after creator init
                 if(options.state){
@@ -48,6 +49,7 @@ define([
                 if(_.isFunction(options.ready)){
                     options.ready.call(this, this);
                 }
+                
             }else{
                 throw new Error('element is not a QTI Element');
             }
@@ -63,9 +65,7 @@ define([
             return _.clone(this);
         },
         initCreator : function(){
-
             //prepare all common actions, event handlers and dom for every state of the widget
-
         },
         getCurrentState : function(){
             return _.last(this.stateStack);

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-        <title>Associate Interaction Renderer Test</title>
+        <title>Inline Choice Interaction Renderer Test</title>
         <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
         <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
@@ -18,43 +18,6 @@
         <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
         <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/item-creator.css" />
         <style>
-            
-            
-            /* @todo: style to be integrated */
-            .qti-associateInteraction .result-area > li{
-                position:relative;
-            }
-            .qti-associateInteraction .result-area > li > .target[data-edit] {
-                border: medium none;
-                cursor: default;
-                float: none;
-                outline: medium none;
-                position: absolute;
-                right: -230px;
-                width: 200px;
-            }
-
-            .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit]{
-                top:40%;
-                right:-150px;
-            }
-
-            .qti-associateInteraction .result-area > li > .target {
-                background: none repeat scroll 0 0 #FFFFFF;
-                border: 1px solid #EEEEEE;
-                border-radius: 2px;
-                float: right;
-                margin: 5px;
-                max-height: 150px;
-                max-width: 150px;
-                min-height: 100px;
-                min-width: 100px;
-                outline: 5px solid #F9F8F7;
-                overflow: hidden;
-                padding: 5px;
-                position: relative;
-                z-index: 2;
-            }
 
             .widget-box{position:relative; margin: 50px 0 20px;}
 
@@ -85,7 +48,7 @@
             require(['/tao/ClientConfig/config'], function() {
                 require(['taoQtiItem/qtiCreator/test/renderer/test'], function(Test) {
                     QUnit.start();
-                    Test.testRender('associate');
+                    Test.testRender('inlineChoice');
                 });
             });
         </script>
