@@ -17,7 +17,7 @@
          * Set DTD mode (qti|html)
          */
         var setMode = function (mode) {
-            // for the lazy bones such as myself:
+            // for the oblivious ones such as myself:
             if(mode.toLowerCase() === 'xhtml'){
                 mode = 'html';
             }
