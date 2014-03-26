@@ -41,7 +41,7 @@ class ValueType extends Datatype
 		$returnValue = false;
 		
 		foreach(BaseType::getEnumeration() as $baseType){
-			$baseTypeClass = 'taoQTI_models_classes_QTI_datatype_'.ucfirst($baseType);
+			$baseTypeClass = 'oat\\taoQtiItem\\model\\qti\\datatype\\'.ucfirst($baseType);
 			if(class_exists($baseTypeClass)){
 				if($baseTypeClass::validate($value)){
 					$returnValue = true;

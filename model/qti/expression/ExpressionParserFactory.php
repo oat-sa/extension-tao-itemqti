@@ -24,38 +24,6 @@ use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\expression\CommonExpression;
 use \SimpleXMLElement;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO -
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 23.01.2012, 17:10:01 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoQTI
- * @subpackage models_classes_QTI_expression
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A71-includes begin
-// section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A71-includes end
-
-/* user defined constants */
-// section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A71-constants begin
-// section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A71-constants end
-
 /**
  * Short description of class
  *
@@ -96,7 +64,7 @@ class ExpressionParserFactory
         }
         
         // Create expression function of its type (If specialization has been done for the expression type)
-        $expressionClass = 'taoQTI_models_classes_QTI_expression_'.ucfirst($expressionName);
+        $expressionClass = 'oat\\taoQtiItem\\model\\qti\\expression\\'.ucfirst($expressionName);
         
         if (class_exists($expressionClass)){
             $expression = new $expressionClass ($expressionName, $attributes);

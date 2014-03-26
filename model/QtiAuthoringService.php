@@ -368,7 +368,7 @@ class QtiAuthoringService extends tao_models_classes_GenerisService
                 throw new InvalidArgumentException('unrecognized base qti element type');
         }
 
-        $classname = 'taoQTI_models_classes_QTI_'.$type;
+        $classname = 'oat\\taoQtiItem\\model\\qti\\'.$type;
         if(class_exists($classname)){
             $qtiElement = new $classname();
             $count = 0;
