@@ -206,7 +206,7 @@ define([
     };
 
     var _resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('.choice-area>li').each(function(){
+        Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
             unsetChoice(interaction, $(this));
         });
     };
