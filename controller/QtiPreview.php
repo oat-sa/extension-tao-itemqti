@@ -29,7 +29,7 @@ use \taoItems_actions_ItemPreview;
 use \tao_helpers_Uri;
 use \core_kernel_classes_Resource;
 use \common_Exception;
-use \taoQtiCommon_helpers_VariableFiller;
+use \taoQtiCommon_helpers_LegacyVariableFiller;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_LegacyStateOutput;
@@ -96,7 +96,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         // Convert client-side data as QtiSm Runtime Variables.
         foreach($responses as $identifier => $response){
-            $filler = new taoQtiCommon_helpers_VariableFiller($qtiXmlDoc->getDocumentComponent());
+            $filler = new taoQtiCommon_helpers_LegacyVariableFiller($qtiXmlDoc->getDocumentComponent());
             try{
                 $variables[] = $filler->fill($identifier, $response);
             }catch(OutOfRangeException $e){

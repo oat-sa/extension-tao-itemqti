@@ -27,7 +27,7 @@ use \taoItems_actions_ItemRunner;
 use \core_kernel_file_File;
 use \core_kernel_classes_Resource;
 use \common_Exception;
-use \taoQtiCommon_helpers_VariableFiller;
+use \taoQtiCommon_helpers_LegacyVariableFiller;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_ResultTransmitter;
@@ -139,7 +139,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
         
         // Convert client-side data as QtiSm Runtime Variables.
         foreach ($responses as $identifier => $response) {
-            $filler = new taoQtiCommon_helpers_VariableFiller($qtiXmlDoc->getDocumentComponent());
+            $filler = new taoQtiCommon_helpers_LegacyVariableFiller($qtiXmlDoc->getDocumentComponent());
             try {
                 $variables[] = $filler->fill($identifier, $response);
             }
