@@ -54,27 +54,27 @@ define([
                     stop();//wait for the next start()
 
                     loader.loadItemData(data[itemIdentifier].full, function(item){
-                        
+
                         ok(Element.isA(item, 'assessmentItem'), itemIdentifier + ' item loaded');
 
                         //count interaction number:
                         var interactions = item.getInteractions();
                         ok(interactions.length, 'has ' + interactions.length + ' interaction(s)');
-                        
-                        var choiceAttrs = attributes.choices?_.clone(attributes.choices):{};
+
+                        var choiceAttrs = attributes.choices ? _.clone(attributes.choices) : {};
                         delete attributes.choices;
-                        
+
                         //test only the last interaction:
                         var interaction = interactions.pop();
                         interaction.attr(attributes);//overwrite attributes for test purpose:
-                        
+
                         _.forIn(choiceAttrs, function(attrs, id){
                             var choice = interaction.getChoiceByIdentifier(id);
                             if(choice){
                                 choice.attr(attrs);
                             }
                         });
-                        
+
                         //append item placeholder and render it:
                         var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
                         var $title = $('<h2>', {text : 'identifier : ' + item.id()});
