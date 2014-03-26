@@ -61,9 +61,6 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiPreview'))
     ),    
 	'constants' => array(
-		# actions directory
-		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,
-	
 		# views directory
 		"DIR_VIEWS"				=> $extpath."views".DIRECTORY_SEPARATOR,
 	
@@ -82,9 +79,6 @@ return array(
 		#BASE WWW the web resources path
 		'BASE_WWW'				=> ROOT_URL	.'taoQtiItem/views/',
 	
-		#BASE DATA the path where items are stored
-		'BASE_DATA'				=> $extpath.'data'.DIRECTORY_SEPARATOR,
-
 	 	#TAO extension Paths
 		'TAOBASE_WWW'			=> ROOT_URL	.'tao/views/',
 		'TAOVIEW_PATH'			=> $taopath	.'views'.DIRECTORY_SEPARATOR,

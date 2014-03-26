@@ -1579,7 +1579,6 @@ class QtiAuthoring extends tao_actions_CommonModule
         $returnValue = array();
         $itemResource = $this->getCurrentItemResource();
         $basePath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($itemResource);
-        $baseWWW = taoItems_models_classes_ItemsService::singleton()->getRuntimeFolder($itemResource);
 
         if(!empty($baseName)){
             //creation mode:
@@ -1589,8 +1588,7 @@ class QtiAuthoring extends tao_actions_CommonModule
                 'href' => $css_href,
                 'type' => 'text/css',
                 'title' => $baseName,
-                'path' => $basePath.'/'.$css_href,
-                'hrefAbsolute' => $baseWWW.'/'.$css_href
+                'path' => $basePath.'/'.$css_href
             );
         }else{
             //get mode:
@@ -1601,7 +1599,6 @@ class QtiAuthoring extends tao_actions_CommonModule
                     if($file->attr('href') == $css_href){
                         $returnValue = $file->getAttributeValues();
                         $returnValue['path'] = $basePath.'/'.$css_href;
-                        $returnValue['hrefAbsolute'] = $baseWWW.'/'.$css_href;
                         break;
                     }
                 }
