@@ -84,11 +84,12 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         // add qti files
         $taoQTIext = common_ext_ExtensionsManager::singleton()->getExtensionByID('taoQtiItem');
+        $taoExt = common_ext_ExtensionsManager::singleton()->getExtensionByID('tao');
         taoItems_helpers_Deployment::copyResources(
                 $taoQTIext->getConstant('BASE_PATH').'views/js/qtiDefaultRenderer/css/img/', $destination.'img'.DIRECTORY_SEPARATOR
         );
         taoItems_helpers_Deployment::copyResources(
-                TAOVIEW_PATH.'css/custom-theme/images/', $destination.'images'.DIRECTORY_SEPARATOR
+                $taoExt->getConstant('DIR_VIEWS').'css/custom-theme/images/', $destination.'images'.DIRECTORY_SEPARATOR
         );
 
         //add required (heavy) libs
