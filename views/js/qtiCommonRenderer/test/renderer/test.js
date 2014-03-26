@@ -64,6 +64,9 @@ define([
                         var choiceAttrs = attributes.choices ? _.clone(attributes.choices) : {};
                         delete attributes.choices;
 
+                        var responseAttrs = attributes.response ? _.clone(attributes.response) : null;
+                        delete attributes.response;
+
                         //test only the last interaction:
                         var interaction = interactions.pop();
                         interaction.attr(attributes);//overwrite attributes for test purpose:
@@ -74,7 +77,11 @@ define([
                                 choice.attr(attrs);
                             }
                         });
-
+                        
+                        if(responseAttrs){
+                            interaction.getResponseDeclaration().attr(responseAttrs);
+                        }
+                        
                         //append item placeholder and render it:
                         var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
                         var $title = $('<h2>', {text : 'identifier : ' + item.id()});

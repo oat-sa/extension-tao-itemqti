@@ -10,21 +10,29 @@
 
         <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
         <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
-        
+
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-                    Test.testRender('choice', {}, [
-                        {'base' : {identifier : 'ChoiceA'}}
+//                    Test.testRender('choice', {}, [
+//                        {'base' : {identifier : 'ChoiceA'}}
+//                    ]);
+
+                    Test.testRender('choice', {
+                        response : {
+                            cardinality : 'multiple'
+                        }
+                    }, [
+                        {'list' : {identifier : 'ChoiceA'}}
                     ]);
-                    
-                    Test.testRender('choiceMultiple', {minChoices:1, maxChoices:2}, [
+
+                    Test.testRender('choiceMultiple', {minChoices : 1, maxChoices : 2}, [
                         {'list' : {identifier : ['H', 'O']}}
                     ]);
-                    
+
                 });
             });
         </script>
