@@ -13,25 +13,26 @@ define([
     InlineChoiceInteractionWidget.initCreator = function(options){
 
         var _this = this;
-        
+
         this.registerStates(states);
-        
+
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
         _.each(this.element.getChoices(), function(choice){
             _this.buildChoice(choice);
         });
-        
-        
+
+
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice){
 
         var tplData = {
-            'tag' : choice.qtiClass,
-            'serial' : choice.serial,
-            'attributes' : choice.attributes
+            tag : choice.qtiClass,
+            serial : choice.serial,
+            attributes : choice.attributes,
+            body : choice.text
         };
 
         return inlineChoiceTpl(tplData);
@@ -43,13 +44,13 @@ define([
         var _this = this,
             interaction = this.element,
             tplData = {
-            'tag' : interaction.qtiClass,
-            'serial' : interaction.serial,
-            'attributes' : interaction.attributes,
-            'choices' : []
+            tag : interaction.qtiClass,
+            serial : interaction.serial,
+            attributes : interaction.attributes,
+            choices : []
         };
 
-        _.each(this.choices, function(choice){
+        _.each(interaction.getChoices(), function(choice){
             if(Element.isA(choice, 'choice')){
                 tplData.choices.push(_this.renderChoice(choice));
             }
@@ -66,19 +67,19 @@ define([
             this.$container.find('.choice[data-serial="' + choice.serial + '"]'),
             this.$choiceOptionForm,
             options
-        );
+            );
     };
 
     InlineChoiceInteractionWidget.buildContainer = function(){
-        
+
         //set the itemContainer where the actual widget should be append and be positioned absolutely
         var item = this.element.getRelatedItem();
-        this.$itemContainer = $('.qti-item[data-serial='+item.getSerial()+']');
-        
+        this.$itemContainer = $('.qti-item[data-serial=' + item.getSerial() + ']');
+
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());
-        
-        this.$container = $('.qti-inlineChoiceInteraction[data-serial='+this.element.getSerial()+']');
+
+        this.$container = this.$itemContainer.find('.widget-inlineChoiceInteraction[data-serial=' + this.element.getSerial() + ']');
     };
 
     return InlineChoiceInteractionWidget;

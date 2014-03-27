@@ -1,0 +1,72 @@
+@import "inc/bootstrap";
+
+.inlineChoiceInteraction-placeholder {
+    @include simple-border();
+    display:inline-block;
+    width: 140px;
+    line-height: 24px;
+    position: relative;
+    padding: 0 10px;
+    cursor: pointer;
+    .icon-down {
+        position: absolute;
+        @include font-size(11);
+        right: 6px;
+        top: 6px;
+    }
+}
+
+.qti-inlineChoiceInteraction {
+    background: rgba($uiClickableDefaultBg, .85);
+
+    &:hover {
+        background: rgba(whiten($uiClickableHoverBg, .7), .85);
+    }
+    padding: 50px 10px 10px 30px;
+
+    table {
+        border-collapse: separate;
+    }
+
+    tr {
+        height: 27px;
+        white-space: nowrap;
+    }
+
+    .icon-bin, .icon-pin, .icon-shuffle {
+        text-align:center;
+        padding: 0 5px;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    .icon-bin:hover, .icon-pin:hover, .icon-shuffle:hover {
+        color: $uiClickableHoverBg;
+    }
+
+    .icon-down {
+         position: relative;
+         right: 18px;
+         font-size: 11px
+    }
+
+    td[contenteditable], .main-option {
+        padding: 0 7px;
+        border-left: 1px $uiGeneralContentBorder solid;
+        border-right: 1px $uiGeneralContentBorder solid;
+        background:white;
+    }
+
+    .main-option {
+        border-top: 1px $uiGeneralContentBorder solid;
+        border-bottom: 1px $uiGeneralContentBorder solid;
+        padding-right: 29px;
+        min-width: 180px
+    }
+
+    td[contenteditable]:hover,
+    td[contenteditable]:focus {
+        background: $uiClickableHoverBg;
+        color: $textHighlight;
+    }
+}
