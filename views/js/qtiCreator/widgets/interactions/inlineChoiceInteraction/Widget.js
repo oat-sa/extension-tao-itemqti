@@ -1,27 +1,32 @@
 define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/Widget',
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/choices/inlineChoice/Widget',
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoiceInteraction',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoice'
-], function(_, Element, ChoiceWidget, InteractionWidget, inlineChoiceInteractionTpl, inlineChoiceTpl){
+], function(_, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl){
 
-    var InlineInteractionWidget = InteractionWidget.clone();
+    var InlineChoiceInteractionWidget = InteractionWidget.clone();
 
-    InlineInteractionWidget.initCreator = function(options){
+    InlineChoiceInteractionWidget.initCreator = function(options){
 
         var _this = this;
-
+        
+        this.registerStates(states);
+        
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
         _.each(this.element.getChoices(), function(choice){
             _this.buildChoice(choice);
         });
+        
+        
     };
 
-    InlineInteractionWidget.renderChoice = function(choice){
+    InlineChoiceInteractionWidget.renderChoice = function(choice){
 
         var tplData = {
             'tag' : choice.qtiClass,
@@ -33,7 +38,7 @@ define([
     };
 
 
-    InlineInteractionWidget.renderInteraction = function(){
+    InlineChoiceInteractionWidget.renderInteraction = function(){
 
         var _this = this,
             interaction = this.element,
@@ -54,7 +59,7 @@ define([
     };
 
 
-    InlineInteractionWidget.buildChoice = function(choice, options){
+    InlineChoiceInteractionWidget.buildChoice = function(choice, options){
 
         ChoiceWidget.build(
             choice,
@@ -64,11 +69,17 @@ define([
         );
     };
 
-    InlineInteractionWidget.buildContainer = function(){
-
+    InlineChoiceInteractionWidget.buildContainer = function(){
+        
+        //set the itemContainer where the actual widget should be append and be positioned absolutely
+        var item = this.element.getRelatedItem();
+        this.$itemContainer = $('.qti-item[data-serial='+item.getSerial()+']');
+        
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());
+        
+        this.$container = $('.qti-inlineChoiceInteraction[data-serial='+this.element.getSerial()+']');
     };
 
-    return InlineInteractionWidget;
+    return InlineChoiceInteractionWidget;
 });

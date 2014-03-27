@@ -21,5 +21,3 @@ define(['taoQtiItem/qtiItem/core/IdentifiedElement'], function(IdentifiedElement
 
     return Choice;
 });
-
-

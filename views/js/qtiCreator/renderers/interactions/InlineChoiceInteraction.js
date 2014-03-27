@@ -1,7 +1,7 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/InlineChoiceInteraction',
-    'taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/Widget'
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/Widget'
 ], function(_, InlineChoiceInteraction, InlineChoiceInteractionWidget){
 
     var CreatorInlineChoiceInteraction = _.clone(InlineChoiceInteraction);
@@ -9,14 +9,16 @@ define([
     CreatorInlineChoiceInteraction.render = function(interaction, options){
 
         InlineChoiceInteraction.render(interaction);
-        return;
+        
         //need to pass choice option form to the interaction widget because it will manage everything
         options = options || {};
         options.choiceOptionForm = this.getOption('choiceOptionForm');
-
+        
+        var $selectBox = InlineChoiceInteraction.getContainer(interaction);
+        
         InlineChoiceInteractionWidget.build(
             interaction,
-            InlineChoiceInteraction.getContainer(interaction),
+            $selectBox.prev('.select2-container'),
             this.getOption('interactionOptionForm'),
             options
             );

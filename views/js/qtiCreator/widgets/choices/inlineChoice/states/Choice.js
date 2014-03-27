@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/inlineChoice',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, Choice, formTpl, formElement){
 

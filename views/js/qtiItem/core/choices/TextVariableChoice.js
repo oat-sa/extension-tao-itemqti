@@ -1,5 +1,5 @@
 define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
-    
+
     var QtiTextVariableChoice = QtiChoice.extend({
         init : function(serial, attributes, text){
             this._super(serial, attributes);
@@ -19,14 +19,17 @@ define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
                 }
             }
         },
+        text : function(text){
+            return this.val(text);
+        },
         render : function(data, $container, tplName){
             var data = {
-                'body' : this.text
+                body : this.text
             };
             return this._super(data, $container, tplName);
         }
     });
-    
+
     return QtiTextVariableChoice;
 });
 
