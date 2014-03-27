@@ -409,7 +409,28 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -webkit-border-radius: 2px;
     -webkit-box-shadow: 0px 0px 8px #b7b1ac;
     -moz-box-shadow: 0px 0px 8px #b7b1ac;
-    box-shadow: 0px 0px 8px #b7b1ac; }
+    box-shadow: 0px 0px 8px #b7b1ac;
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/ }
     .tao-scope #item-editor-panel .item-editor-item [data-edit] {
       /*display: none;*/ }
       .tao-scope #item-editor-panel .item-editor-item [data-edit] > [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [data-edit] [class^="col-"] {
@@ -485,6 +506,58 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         min-width: 20px;
         height: 20px;
         margin: 0; }
+    .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder {
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      display: inline-block;
+      width: 140px;
+      line-height: 24px;
+      position: relative;
+      padding: 0 10px;
+      cursor: pointer; }
+      .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder .icon-down {
+        position: absolute;
+        font-size: 11px;
+        font-size: 1.1rem;
+        right: 6px;
+        top: 6px; }
+    .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction {
+      background: rgba(243, 241, 239, 0.85);
+      padding: 50px 10px 10px 30px;
+      position: absolute; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction:hover {
+        background: rgba(197, 216, 228, 0.85); }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction table {
+        border-collapse: separate; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction tr {
+        height: 27px;
+        white-space: nowrap; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-bin, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-pin, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle {
+        text-align: center;
+        padding: 0 5px;
+        cursor: pointer;
+        vertical-align: middle; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-bin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-pin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle:hover {
+        color: #3e7da7; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-down {
+        position: relative;
+        right: 18px;
+        font-size: 11px; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable], .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
+        padding: 0 7px;
+        border-left: 1px #dddddd solid;
+        border-right: 1px #dddddd solid;
+        background: white; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
+        border-top: 1px #dddddd solid;
+        border-bottom: 1px #dddddd solid;
+        padding-right: 29px;
+        min-width: 180px; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover,
+      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
+        background: #3e7da7;
+        color: white; }
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }
