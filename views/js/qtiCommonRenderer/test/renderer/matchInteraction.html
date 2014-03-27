@@ -16,7 +16,8 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
                     
-                    Test.testRender('match', {}, [{ 'list': { 'directedPair': [['C', 'R'], ['P', 'M']] } }]);
+                    var sampleResponse1 = { 'list' : { 'directedPair': [['C', 'M']] } };
+                    Test.testRender('match', {'minAssociations': 2, 'maxAssociations': 2}, []);
                     
                 });
             });

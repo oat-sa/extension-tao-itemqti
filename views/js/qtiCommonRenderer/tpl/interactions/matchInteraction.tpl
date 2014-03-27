@@ -1,5 +1,6 @@
 <div class="qti-interaction qti-blockInteraction qti-matchInteraction" data-serial="{{serial}}" data-qti-class="matchInteraction">
   {{#if prompt}}{{{prompt}}}{{/if}}
+  <div class="instruction-container"></div>
   <div class="match-interaction-area">
     <table class="matrix">
       <thead>
