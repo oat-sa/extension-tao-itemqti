@@ -1,5 +1,5 @@
 @import "inc/bootstrap";
-//.tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder
+
 .inlineChoiceInteraction-placeholder {
     @include simple-border();
     display:inline-block;
@@ -23,8 +23,7 @@
         background: rgba(whiten($uiClickableHoverBg, .7), .85);
     }
     padding: 50px 10px 10px 30px;
-    position: absolute;
-
+    
     table {
         border-collapse: separate;
     }
