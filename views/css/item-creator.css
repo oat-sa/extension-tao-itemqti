@@ -577,37 +577,37 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           cursor: default;
           display: none; }
     /* line 2, ../scss/qtiCreator/_choice.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-choiceInteraction .add-option {
+    .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option {
       padding: 5px 5px 5px 30px; }
       /* line 4, ../scss/qtiCreator/_choice.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-choiceInteraction .add-option .icon-add {
+      .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
         position: absolute;
         top: 5px; }
     /* line 2, ../scss/qtiCreator/_order.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-orderInteraction .add-option {
+    .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option {
       padding: 5px 5px 5px 30px; }
       /* line 4, ../scss/qtiCreator/_order.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-orderInteraction .add-option .icon-add {
+      .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
         position: absolute;
         top: 5px; }
     /* line 12, ../scss/qtiCreator/_order.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
+    .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
       right: -60px; }
     /* line 2, ../scss/qtiCreator/_associate.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .add-option {
+    .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option {
       padding: 5px 5px 5px 30px; }
       /* line 4, ../scss/qtiCreator/_associate.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .add-option .icon-add {
+      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
         position: absolute;
         top: 5px; }
     /* line 12, ../scss/qtiCreator/_associate.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .qti-choice .mini-tlb {
+    .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb {
       top: auto;
       bottom: -22px;
       right: -4px;
@@ -615,29 +615,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       background-color: transparent;
       min-width: 60px; }
       /* line 19, ../scss/qtiCreator/_associate.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .qti-choice .mini-tlb .tlb-button {
-        min-width: 20px;
-        height: 20px;
-        margin: 0; }
-    /* line 2, ../scss/qtiCreator/_associate.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .add-option {
-      padding: 5px 5px 5px 30px; }
-      /* line 4, ../scss/qtiCreator/_associate.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .add-option .icon-add {
-        font-size: 1.8rem;
-        left: 6px;
-        position: absolute;
-        top: 5px; }
-    /* line 12, ../scss/qtiCreator/_associate.scss */
-    .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .qti-choice .mini-tlb {
-      top: auto;
-      bottom: -22px;
-      right: -4px;
-      border: none;
-      background-color: transparent;
-      min-width: 60px; }
-      /* line 19, ../scss/qtiCreator/_associate.scss */
-      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-associateInteraction .qti-choice .mini-tlb .tlb-button {
+      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb .tlb-button {
         min-width: 20px;
         height: 20px;
         margin: 0; }
@@ -704,21 +682,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
         background: #3e7da7;
         color: white; }
-  /* line 332, ../scss/item-creator.scss */
+  /* line 329, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }
-  /* line 336, ../scss/item-creator.scss */
+  /* line 333, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-drop-area {
     min-height: 300px;
     padding-bottom: 20px; }
-  /* line 340, ../scss/item-creator.scss */
+  /* line 337, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-row {
     min-height: 100px;
     overflow: hidden; }
 
 @media print {
-  /* line 349, ../scss/item-creator.scss */
+  /* line 346, ../scss/item-creator.scss */
   #tabs {
     margin: 0;
     min-height: 0;
@@ -726,26 +704,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0;
     border: none !important; }
 
-  /* line 357, ../scss/item-creator.scss */
+  /* line 354, ../scss/item-creator.scss */
   .item-no-print {
     display: none; }
 
-  /* line 361, ../scss/item-creator.scss */
+  /* line 358, ../scss/item-creator.scss */
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-    /* line 364, ../scss/item-creator.scss */
+    /* line 361, ../scss/item-creator.scss */
     #item-editor-panel .item-editor-item {
       border-radius: 0;
       box-shadow: none;
       margin: 0 !important;
       border: none !important;
       width: 100% !important; }
-      /* line 370, ../scss/item-creator.scss */
+      /* line 367, ../scss/item-creator.scss */
       #item-editor-panel .item-editor-item [class*="col-"] {
         border-color: transparent; }
 
-  /* line 375, ../scss/item-creator.scss */
+  /* line 372, ../scss/item-creator.scss */
   .item-editor-row {
     border: none !important;
     background: none !important; } }

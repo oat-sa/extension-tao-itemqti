@@ -14,10 +14,10 @@ define([
 
             InlineChoiceInteractionWidget.build(
                 interaction,
-                $('.widget-box-placeholder[data-serial="' + interaction.serial + '"]'),
+                $('.inlineChoiceInteraction-placeholder[data-serial="' + interaction.serial + '"]'),
                 this.getOption('interactionOptionForm'),
                 options
-                );
+            );
         }
     };
 });

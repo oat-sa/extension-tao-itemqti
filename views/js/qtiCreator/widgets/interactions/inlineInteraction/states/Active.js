@@ -12,7 +12,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
             widgetPaddingLeft = parseInt($interactionContainer.css('padding-left'));
 
         //calculate absolute position:
-        
+        console.log(_widget.$container);
         _widget.$container.css({
             position : 'absolute',
             top : originalOffset.top - itemOffset.top,
