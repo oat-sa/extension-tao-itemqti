@@ -338,6 +338,11 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;
+        },
+        getElementRenderer : function(ElementRenderer, element){
+            if(element.qtiClass === ElementRenderer.qtiClass){
+                var currentRenderer = element.getRenderer();
+            }
         }
     };
 });

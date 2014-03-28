@@ -24,5 +24,6 @@
                 </tr>
             </tbody>
         </table>
+        <div class="widget-response" data-edit="correct"></div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/ResponseWidget',
     'lodash'
 ], function(stateFactory, Correct, responseWidget, _){
 
