@@ -66,7 +66,7 @@ define(['lodash'], function(_){
 
             var $container = widget.$container;
 
-            $container.find('.mini-tlb [data-role="delete"]').on('mousedown', function(e){
+            $container.find('[data-role="delete"]').on('mousedown', function(e){
                 e.stopPropagation();
                 widget.changeState('deleting');
             });

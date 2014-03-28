@@ -30,6 +30,7 @@ define(['lodash'], function(_){
 
         if(init && exit){
             State.prototype.init = function(){
+                this.widget.$container.find('[data-edit="'+name+'"]').show();
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
                 init.call(this);
                 $(document).trigger('afterStateInit.qti-widget', [this.widget.element, this]);
@@ -37,6 +38,7 @@ define(['lodash'], function(_){
             State.init = init;//store reference for future usage
             
             State.prototype.exit = function(){
+                this.widget.$container.find('[data-edit="'+name+'"]').hide();
                 $(document).trigger('beforeStateExit.qti-widget', [this.widget.element, this]);
                 exit.call(this);
                 $(document).trigger('afterStateExit.qti-widget', [this.widget.element, this]);

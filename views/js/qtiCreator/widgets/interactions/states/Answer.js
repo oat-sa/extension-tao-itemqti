@@ -8,12 +8,14 @@ define([
 ], function(stateFactory, Answer, responseHelper, _, responseToolbarTpl, incrementer){
 
     var InteractionStateAnswer = stateFactory.create(Answer, function(){
-
+        
         //update breadcrumb
 
         //createResponseWidget, show response form
         this.createResponseWidget();
-
+        this.widget.changeState('map');
+        return;
+        
         //forward to one of the available sub state:
         var response = this.widget.element.getResponseDeclaration();
         if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
@@ -27,7 +29,7 @@ define([
         }
 
     }, function(){
-
+        
         //update breadcrumb
 
         //destroy ResponseWidget, destroy response form

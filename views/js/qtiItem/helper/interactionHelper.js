@@ -4,7 +4,7 @@
 define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
     return {
         convertChoices : function(choices, outputType){
-            
+
             var ret = [], _this = this;
 
             _.each(choices, function(c){
@@ -88,6 +88,14 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
             }
 
             return r;
+        },
+        serialToIdentifier : function(interaction, choiceSerial){
+            var choice = interaction.getChoice(choiceSerial);
+            if(choice){
+                return choice.id();
+            }else{
+                return '';
+            }
         }
     }
 });

@@ -26,6 +26,9 @@ define([
             return this.template;
         },
         setCorrect : function(value){
+            if(_.isString(value)){
+                value = [value];
+            }
             this.correctResponse = value;
             $(document).trigger('correctResponseChange.qti-widget', {'element' : this, 'value' : value});
             return this;
@@ -34,16 +37,16 @@ define([
             return this.correctResponse;
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
-        
+
             mappedValue = parseFloat(mappedValue);
             caseSensitive = caseSensitive ? true : false;
-            
+
             if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
                 //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
-                
-                var mapKeys = mapKey.split(' '), 
-                    mapKeysReverse = mapKeys[1]+' '+mapKeys[0];
-            
+
+                var mapKeys = mapKey.split(' '),
+                    mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
+
                 if(this.mapEntries[mapKeysReverse]){
                     this.mapEntries[mapKeysReverse] = mappedValue;
                 }else{
@@ -56,9 +59,9 @@ define([
             /**
              * @todo caseSensitive is always set to "false" currently, need to add an option for this
              * this.mapEntries[mapKey] = {
-                'mappedValue' : mappedValue,
-                'caseSensitive' : caseSensitive
-            };
+             'mappedValue' : mappedValue,
+             'caseSensitive' : caseSensitive
+             };
              */
 
             $(document).trigger('mapEntryChange.qti-widget', {
@@ -71,12 +74,12 @@ define([
             return this;
         },
         removeMapEntry : function(mapKey){
-            
+
             if(mapKey){
                 if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
                     //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
-                    var mapKeys = mapKey.split(' '), 
-                        mapKeysReverse = mapKeys[1]+' '+mapKeys[0];
+                    var mapKeys = mapKey.split(' '),
+                        mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
 
                     delete this.mapEntries[mapKeysReverse];
                 }
@@ -84,7 +87,7 @@ define([
 
                 $(document).trigger('mapEntryRemove.qti-widget', {element : this, mapKey : mapKey});
             }
-            
+
             return this;
         },
         getMapEntries : function(){

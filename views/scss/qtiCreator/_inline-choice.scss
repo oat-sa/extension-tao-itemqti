@@ -17,8 +17,13 @@
 }
 
 .qti-inlineChoiceInteraction {
+    
+    [data-edit]{
+        display:none;
+    }
+    
     background: rgba($uiClickableDefaultBg, .85);
-
+    
     &:hover {
         background: rgba(whiten($uiClickableHoverBg, .7), .85);
     }
@@ -27,37 +32,44 @@
     table {
         border-collapse: separate;
     }
-
+    
     tr {
         height: 27px;
         white-space: nowrap;
     }
-
+    
     .icon-bin, .icon-pin, .icon-shuffle {
         text-align:center;
         padding: 0 5px;
         cursor: pointer;
         vertical-align: middle;
     }
-
+    
     .icon-bin:hover, .icon-pin:hover, .icon-shuffle:hover {
         color: $uiClickableHoverBg;
     }
-
+    
     .icon-down {
-         position: absolute;
-         right: -10px;
-        top: 3px;
-         font-size: 11px
+        text-align:center;
+        position: absolute;
+        right: -16px;
+        font-size: 11px;
+        width:20px;
+        height:20px;
+        padding-top: 3px;
+        &:hover{
+            cursor:pointer;
+            color:$info;
+        }
     }
-
-    td[contenteditable], .main-option {
-        padding: 0 25px 0 7px;
+    
+    td.option, .main-option {
+        padding: 0 18px 0 7px;
         border-left: 1px $uiGeneralContentBorder solid;
         border-right: 1px $uiGeneralContentBorder solid;
         background:white;
     }
-
+    
     .main-option {
         border-top: 1px $uiGeneralContentBorder solid;
         border-bottom: 1px $uiGeneralContentBorder solid;
@@ -67,10 +79,24 @@
             position: relative;
         }
     }
-
+    
+    td.icon-title{
+        font-size:12px;
+        color:$info;
+        padding: 0 5px;
+    }
+    
     td[contenteditable]:hover,
     td[contenteditable]:focus {
         background: $uiClickableHoverBg;
         color: $textHighlight;
+    }
+    
+    .widget-inlineChoice .mini-tlb{
+        text-align: center;
+    }
+    
+    .mini-tlb input{
+        width:30px;
     }
 }

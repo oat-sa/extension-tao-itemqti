@@ -21,13 +21,14 @@ define([
         this.buildEditor();
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
-
+        
+        this.widget.$container.find('[data-edit="choice"]').show();
     }, function(){
 
         //disable/destroy editor, hide mini-toolbar
         this.destroyEditor();
-        this.widget.$container.find('[data-edit="question"]').hide();
-
+        this.widget.$container.find('[data-edit="choice"]').hide();
+        
         //!! very important, always unbind the event on exit!
         this.widget.$container.off('.question');
     });

@@ -16,14 +16,12 @@ define([
         this.addNewChoiceButton(this.widget);
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
-        this.widget.$container.find('[data-edit="question"]').show();
         
     }, function(){
         
         this.widget.$form.empty();
 
         //disable/destroy editor, hide mini-toolbar
-        this.widget.$container.find('[data-edit="question"]').hide();
     });
 
 

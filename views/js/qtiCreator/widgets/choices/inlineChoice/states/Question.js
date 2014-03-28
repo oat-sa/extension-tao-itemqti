@@ -1,36 +1,10 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Question',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
-    'taoQtiItem/qtiCreator/editor/htmlEditor',
+    'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
-], function(stateFactory, QuestionState, contentToolbarTpl, htmlEditor, formElement){
+], function(stateFactory, QuestionState, formElement){
 
-    var ChoiceStateQuestion = stateFactory.create(QuestionState, function(){
-
-        var _widget = this.widget;
-
-        //show option form
-        _widget.$container.on('click.question', function(){
-            _widget.changeState('choice');
-        });
-
-        //allow quick edit of internal element (toggle shuffle/fix, delete choices via minit-toolbar)
-        this.createToolbar().show();
-
-        this.buildEditor();
-
-        //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
-
-    }, function(){
-
-        //disable/destroy editor, hide mini-toolbar
-        this.destroyEditor();
-        this.widget.$container.find('[data-edit="question"]').hide();
-
-        //!! very important, always unbind the event on exit!
-        this.widget.$container.off('.question');
-    });
+    var ChoiceStateQuestion = stateFactory.extend(QuestionState);
 
     ChoiceStateQuestion.prototype.createToolbar = function(){
 
