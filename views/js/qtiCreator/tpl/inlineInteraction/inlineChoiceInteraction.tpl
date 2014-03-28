@@ -8,7 +8,7 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td class="main-option">Jimmy Page</td>
+                    <td class="main-option">-- {{__ "edit choices"}} --</td>
                     <td colspan="2"><span class="icon-down"></span></td>
                 </tr>
                 {{#choices}}{{{.}}}{{/choices}}
@@ -16,7 +16,7 @@
                     <td>
                         <div class="add-option">
                             <span class="icon-add"></span>
-                            Add another option
+                            {{__ "new option"}}
                         </div>
                     </td>
                     <td colspan="2"></td>

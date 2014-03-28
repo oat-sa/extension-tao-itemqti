@@ -9,7 +9,7 @@ define([
             
             widget.$form.find('[data-role=shuffle]').on('change', function(){
 
-                var $choiceShuffleButtons = widget.$container.find('.qti-choice [data-role="shuffle-pin"]');
+                var $choiceShuffleButtons = widget.$container.find('[data-role="shuffle-pin"]');
 
                 if($(this).prop('checked')){
                     interaction.attr('shuffle', true);

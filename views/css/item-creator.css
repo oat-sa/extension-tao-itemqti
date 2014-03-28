@@ -667,7 +667,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         font-size: 11px; }
       /* line 53, ../scss/qtiCreator/_inline-choice.scss */
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable], .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-        padding: 0 7px;
+        padding: 0 25px 7px 0;
         border-left: 1px #dddddd solid;
         border-right: 1px #dddddd solid;
         background: white; }
@@ -675,7 +675,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
         border-top: 1px #dddddd solid;
         border-bottom: 1px #dddddd solid;
-        padding-right: 29px;
+        padding: 0 29px 0 10px;
         min-width: 180px; }
       /* line 68, ../scss/qtiCreator/_inline-choice.scss */
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover,

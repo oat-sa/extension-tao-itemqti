@@ -26,13 +26,14 @@ define([
 
     };
 
-    InlineChoiceInteractionWidget.renderChoice = function(choice){
+    InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
 
         var tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
             attributes : choice.attributes,
-            body : choice.text
+            body : choice.text,
+            interactionShuffle:shuffleChoice
         };
 
         return inlineChoiceTpl(tplData);
@@ -43,16 +44,17 @@ define([
 
         var _this = this,
             interaction = this.element,
+            shuffleChoice = interaction.attr('shuffle'),
             tplData = {
-            tag : interaction.qtiClass,
-            serial : interaction.serial,
-            attributes : interaction.attributes,
-            choices : []
-        };
+                tag : interaction.qtiClass,
+                serial : interaction.serial,
+                attributes : interaction.attributes,
+                choices : []
+            };
 
         _.each(interaction.getChoices(), function(choice){
             if(Element.isA(choice, 'choice')){
-                tplData.choices.push(_this.renderChoice(choice));
+                tplData.choices.push(_this.renderChoice(choice, shuffleChoice));
             }
         });
 
@@ -64,7 +66,7 @@ define([
 
         ChoiceWidget.build(
             choice,
-            this.$container.find('.choice[data-serial="' + choice.serial + '"]'),
+            this.$container.find('.widget-inlineChoice[data-serial="' + choice.serial + '"]'),
             this.$choiceOptionForm,
             options
             );
@@ -74,7 +76,7 @@ define([
 
         //set the itemContainer where the actual widget should be append and be positioned absolutely
         var item = this.element.getRelatedItem();
-        this.$itemContainer = $('.qti-item[data-serial=' + item.getSerial() + ']');
+        this.$itemContainer = this.$original.parents('.item-editor-drop-area');
 
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());

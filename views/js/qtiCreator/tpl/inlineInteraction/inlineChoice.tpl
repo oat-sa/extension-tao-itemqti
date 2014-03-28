@@ -1,10 +1,7 @@
-<tr class="widget-inlineChoice" data-edit="active" data="{{serial}}">
+<tr class="widget-inlineChoice" data-edit="active" data-serial="{{serial}}">
     <td contenteditable="true">{{{body}}}</td>
     <td class="mini-tlb" colspan="2">
-        <ul class="lft tlb-button" title="Shuffle/Pin" data-button-group="toggle" data-edit="map">
-            <li class="active"><span class="icon-shuffle"></span></li>
-            <li><span class="icon-pin"></span></li>
-        </ul>
-        <span class="icon-bin"></span>
+        <span class="icon-{{#if attributes.fixed}}pin{{else}}shuffle{{/if}}" data-role="shuffle-pin" style="{{#if interactionShuffle}}{{else}}display:none;{{/if}}"></span>
+        <span class="icon-bin" data-role="delete"></span>
     </td>
 </tr>

@@ -46,10 +46,13 @@ define(['lodash'], function(_){
 
             var $container = widget.$container,
                 choice = widget.element;
-
-            $container.find('.mini-tlb [data-role="shuffle-pin"]').on('mousedown', function(e){
+            
+            $container.find('[data-role="shuffle-pin"]').on('mousedown', function(e){
                 e.stopPropagation();
                 var $icon = $(this).children();
+                if($icon.length === 0){
+                    $icon = $(this);
+                }
                 if($icon.hasClass('icon-shuffle')){
                     $icon.removeClass('icon-shuffle').addClass('icon-pin');
                     choice.attr('fixed', true);

@@ -121,7 +121,8 @@ define([
                                 'correctResponseChange.qti-widget',
                                 'mapEntryChange.qti-widget',
                                 'mapEntryRemove.qti-widget',
-                                'deleted.qti-widget'
+                                'deleted.qti-widget',
+                                'choiceTextChange.qti-widget'
                             ];
                             
                             $(document).on(events.join(' '), function(e, data){

@@ -51,7 +51,7 @@
     }
 
     td[contenteditable], .main-option {
-        padding: 0 7px;
+        padding: 0 25px 7px 0;
         border-left: 1px $uiGeneralContentBorder solid;
         border-right: 1px $uiGeneralContentBorder solid;
         background:white;
@@ -60,7 +60,7 @@
     .main-option {
         border-top: 1px $uiGeneralContentBorder solid;
         border-bottom: 1px $uiGeneralContentBorder solid;
-        padding-right: 29px;
+        padding: 0 29px 0 10px;
         min-width: 180px
     }
 

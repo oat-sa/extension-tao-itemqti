@@ -1,1 +1,1 @@
-<span class="inlineChoiceInteraction-placeholder" data-serial="{{serial}}">-- add choices --<span class="icon-down"></span></span>
+<span class="inlineChoiceInteraction-placeholder" data-serial="{{serial}}">-- {{__ "edit choices"}} --<span class="icon-down"></span></span>

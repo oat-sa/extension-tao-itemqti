@@ -14,7 +14,7 @@ define([
             interaction = widget.element;
 
         //init add choice button once only
-        if($addChoice.data('initialized')){
+        if(!$addChoice.data('initialized')){
 
             $addChoice.on('click.qti-widget', function(e){
 

@@ -14,13 +14,15 @@ define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
             }else{
                 if(typeof text === 'string'){
                     this.text = text;
+                    $(document).trigger('choiceTextChange', {
+                        choice: this,
+                        text: text
+                    });
                 }else{
                     throw 'text must be a string';
                 }
             }
-        },
-        text : function(text){
-            return this.val(text);
+            return this;
         },
         render : function(data, $container, tplName){
             var data = {
