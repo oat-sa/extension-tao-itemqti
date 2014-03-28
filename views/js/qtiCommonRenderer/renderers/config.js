@@ -19,6 +19,7 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'sliderInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
         'inlineChoice' : 'taoQtiItem/qtiCommonRenderer/renderers/choices/InlineChoice',
         'hottextInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
+        'hotspotInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
         'gapMatchInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction'
     });
     return {
