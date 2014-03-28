@@ -16,7 +16,10 @@ define([
         });
 
         _widget.$container.find('input[name=score]').on('keyup.map', function(){
-            response.setMapEntry(interactionHelper.serialToIdentifier(interaction, $(this).data('for')), $(this).val());
+            var score = parseFloat($(this).val());
+            if(!isNaN(score)){
+                response.setMapEntry(interactionHelper.serialToIdentifier(interaction, $(this).data('for')), score);
+            }
         });
 
     }, function(){

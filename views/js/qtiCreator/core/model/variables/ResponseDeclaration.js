@@ -41,36 +41,41 @@ define([
             mappedValue = parseFloat(mappedValue);
             caseSensitive = caseSensitive ? true : false;
 
-            if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
-                //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
+            if(!isNaN(mappedValue)){
+                if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
+                    //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
 
-                var mapKeys = mapKey.split(' '),
-                    mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
+                    var mapKeys = mapKey.split(' '),
+                        mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
 
-                if(this.mapEntries[mapKeysReverse]){
-                    this.mapEntries[mapKeysReverse] = mappedValue;
+                    if(this.mapEntries[mapKeysReverse]){
+                        this.mapEntries[mapKeysReverse] = mappedValue;
+                    }else{
+                        this.mapEntries[mapKey] = mappedValue;
+                    }
                 }else{
                     this.mapEntries[mapKey] = mappedValue;
                 }
+
+                /**
+                 * @todo caseSensitive is always set to "false" currently, need to add an option for this
+                 * this.mapEntries[mapKey] = {
+                 'mappedValue' : mappedValue,
+                 'caseSensitive' : caseSensitive
+                 };
+                 */
+
+                $(document).trigger('mapEntryChange.qti-widget', {
+                    element : this,
+                    mapKey : mapKey,
+                    mappedValue : mappedValue,
+                    caseSensitive : caseSensitive
+                });
             }else{
-                this.mapEntries[mapKey] = mappedValue;
+                throw 'the mapped value is not a number';
             }
-            
-            /**
-             * @todo caseSensitive is always set to "false" currently, need to add an option for this
-             * this.mapEntries[mapKey] = {
-             'mappedValue' : mappedValue,
-             'caseSensitive' : caseSensitive
-             };
-             */
 
-            $(document).trigger('mapEntryChange.qti-widget', {
-                element : this,
-                mapKey : mapKey,
-                mappedValue : mappedValue,
-                caseSensitive : caseSensitive
-            });
-
+            console.log(this.mapEntries)
             return this;
         },
         removeMapEntry : function(mapKey){
