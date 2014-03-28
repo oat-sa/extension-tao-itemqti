@@ -8,8 +8,9 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td class="main-option">-- {{__ "edit choices"}} --</td>
-                    <td colspan="2"><span class="icon-down"></span></td>
+                    <td class="main-option"><div>-- {{__ "edit choices"}} --<span class="icon-down"></span></div></td>
+                    <td style="font-size:12px;visibility: hidden" use-data-optional-or so>Correct</td>
+                    <td>Correct</td>
                 </tr>
                 {{#choices}}{{{.}}}{{/choices}}
                 <tr data-edit="question">

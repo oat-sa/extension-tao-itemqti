@@ -431,6 +431,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/ }
+    .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
+      display: inline-block;
+      margin: 0;
+      min-width: 150px;
+      position: relative;
+      vertical-align: middle;
+      background-color: #eee; }
     .tao-scope #item-editor-panel .item-editor-item [data-edit] {
       /*display: none;*/ }
       .tao-scope #item-editor-panel .item-editor-item [data-edit] > [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [data-edit] [class^="col-"] {
@@ -524,8 +531,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: 6px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction {
       background: rgba(243, 241, 239, 0.85);
-      padding: 50px 10px 10px 30px;
-      position: absolute; }
+      padding: 50px 10px 10px 30px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction:hover {
         background: rgba(197, 216, 228, 0.85); }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction table {
@@ -541,19 +547,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-bin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-pin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle:hover {
         color: #3e7da7; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-down {
-        position: relative;
-        right: 18px;
+        position: absolute;
+        right: -10px;
+        top: 3px;
         font-size: 11px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable], .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-        padding: 0 7px;
+        padding: 0 25px 0 7px;
         border-left: 1px #dddddd solid;
         border-right: 1px #dddddd solid;
         background: white; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
         border-top: 1px #dddddd solid;
         border-bottom: 1px #dddddd solid;
-        padding-right: 29px;
         min-width: 180px; }
+        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option > div {
+          padding: 0 10px;
+          position: relative; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover,
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
         background: #3e7da7;

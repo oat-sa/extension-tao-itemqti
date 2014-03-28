@@ -45,13 +45,14 @@
     }
 
     .icon-down {
-         position: relative;
-         right: 18px;
+         position: absolute;
+         right: -10px;
+        top: 3px;
          font-size: 11px
     }
 
     td[contenteditable], .main-option {
-        padding: 0 25px 7px 0;
+        padding: 0 25px 0 7px;
         border-left: 1px $uiGeneralContentBorder solid;
         border-right: 1px $uiGeneralContentBorder solid;
         background:white;
@@ -60,8 +61,11 @@
     .main-option {
         border-top: 1px $uiGeneralContentBorder solid;
         border-bottom: 1px $uiGeneralContentBorder solid;
-        padding: 0 29px 0 10px;
-        min-width: 180px
+        min-width: 180px;
+        &>div {
+            padding: 0 10px;
+            position: relative;
+        }
     }
 
     td[contenteditable]:hover,
