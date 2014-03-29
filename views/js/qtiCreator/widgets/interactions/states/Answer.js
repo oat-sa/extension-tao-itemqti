@@ -13,8 +13,6 @@ define([
 
         //createResponseWidget, show response form
         this.createResponseWidget();
-        this.widget.changeState('map');
-        return;
         
         //forward to one of the available sub state:
         var response = this.widget.element.getResponseDeclaration();

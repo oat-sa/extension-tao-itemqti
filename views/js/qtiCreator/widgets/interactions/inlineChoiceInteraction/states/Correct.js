@@ -7,22 +7,28 @@ define([
 
     var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
         
-        var response = this.widget.element.getResponseDeclaration();;
-        
-        //render commonRenderer.render()
-        responseWidget.create(this.widget, false);
-        
-        //set response
-        responseWidget.setResponse(_.values(response.getCorrect()));
-        
-        //save correct response on change
-        this.widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(this.unformatResponse(data.response));
-        });
+        var _widget = this.widget,
+            response = this.widget.element.getResponseDeclaration();;
+            
+            _widget.$container.find('table').hide();
+            
+            //render commonRenderer.render()
+            responseWidget.create(_widget, function(){
+               
+                //set response
+                responseWidget.setResponse(_widget, _.values(response.getCorrect()));
+
+                //save correct response on change
+                _widget.$container.on('responseChange.qti-widget', function(e, data){
+                    response.setCorrect(responseWidget.unformatResponse(data.response));
+                });
+            });
 
     }, function(){
         
-        this.widget.$container.off('responseChange.qti-widget');
+        var $container = this.widget.$container;
+        $container.find('table').show();
+        $container.off('responseChange.qti-widget');
         
         responseWidget.destroy(this.widget);
     });

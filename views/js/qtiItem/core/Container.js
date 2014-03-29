@@ -94,20 +94,23 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
             }
             return elts;
         },
-        render : function(){
-            var elementsData = [];
-            var tpl = this.body();
+        render : function(renderer){
+            
+            var elementsData = [],
+                tpl = this.body();
+            
             for(var serial in this.elements){
                 var elt = this.elements[serial];
                 if(typeof elt.render === 'function'){
                     tpl = tpl.replace(elt.placeholder(), '{{{' + serial + '}}}');
-                    elementsData[serial] = elt.render();
+                    elementsData[serial] = elt.render({}, null, '', renderer);
                 }else{
                     throw 'render() is not defined for the qti element: ' + serial;
                 }
             }
             
-            var renderer = this.getRenderer();
+            renderer = renderer || this.getRenderer();
+            
             if(renderer.isRenderer){
                 return this._super({
                     'body' : renderer.renderDirect(tpl, elementsData),
@@ -117,14 +120,17 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 throw 'invalid qti renderer for qti container';
             }
         },
-        postRender : function(data){
+        postRender : function(data, altClassName, renderer){
+            
+            renderer = renderer || this.getRenderer();
+            
             for(var serial in this.elements){
                 var elt = this.elements[serial];
                 if(typeof elt.postRender === 'function'){
-                    elt.postRender();
+                    elt.postRender(data, '', renderer);
                 }
             }
-            this._super(data);
+            this._super(data, altClassName, renderer);
         },
         toArray : function(){
             var arr = {

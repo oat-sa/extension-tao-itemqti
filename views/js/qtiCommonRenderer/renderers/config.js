@@ -1,5 +1,5 @@
 define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_, defaultRenderConfig){
-    var locations = _.extend(defaultRenderConfig.locations, {
+    var locations = _.extend(_.clone(defaultRenderConfig.locations), {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         'prompt' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/Prompt',
         'choiceInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',

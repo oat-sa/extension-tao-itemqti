@@ -9,9 +9,9 @@ define([
 
     InlineChoiceInteractionStateQuestion.prototype.addNewChoiceButton = function(){
 
-        var widget = this.widget,
-            $addChoice = widget.$container.find('.add-option'),
-            interaction = widget.element;
+        var _widget = this.widget,
+            $addChoice = _widget.$container.find('.add-option'),
+            interaction = _widget.element;
 
         //init add choice button once only
         if(!$addChoice.data('initialized')){
@@ -24,8 +24,9 @@ define([
                 var choice = interaction.createChoice();
 
                 //append render choice:
-                $(this).closest('tr').before(widget.renderChoice(choice));
-                widget.buildChoice(choice, {
+                console.log('tr', $(this).closest('tr'));
+                $(this).closest('tr').before(_widget.renderChoice(choice));
+                _widget.buildChoice(choice, {
                     ready : function(widget){
                         //transition state directly back to "question"
                         widget.changeState('question');

@@ -3,7 +3,7 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/helpers/Instruction',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification'
 ], function(_, $, Element, Instruction, notifTpl){
 
     var _containers = {};
@@ -14,11 +14,11 @@ define([
             
             var serial = element.getSerial(),
                 selector = '[data-serial=' + serial + ']';
-            
-            if(!_containers[serial]){
-                if(Element.isA('choice')){
+
+            if(!_containers[serial] || _containers[serial].length){
+                if(Element.isA(element, 'choice')){
                     selector = '.qti-choice'+selector;
-                }else if(Element.isA('interaction')){
+                }else if(Element.isA(element, 'interaction')){
                     selector = '.qti-interaction'+selector;
                 }
                 if($scope instanceof $ && $scope.length){

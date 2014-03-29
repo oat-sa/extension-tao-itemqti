@@ -1,14 +1,17 @@
 define([
+    'lodash',
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/InlineChoiceInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoiceInteraction.placeholder'
-], function(InlineChoiceInteractionWidget, tpl){
-
-    return {
-        qtiClass : 'inlineChoiceInteraction',
-        template : tpl,
-        render : function(interaction, options){
-
-            //need to pass choice option form to the interaction widget because it will manage everything
+], function(_, InlineChoiceInteraction, InlineChoiceInteractionWidget, tpl){
+    
+    var CreatorInlineChoiceInteraction = _.clone(InlineChoiceInteraction);
+    
+    CreatorInlineChoiceInteraction.template = tpl;
+    
+    CreatorInlineChoiceInteraction.render = function(interaction, options){
+        
+        //need to pass choice option form to the interaction widget because it will manage everything
             options = options || {};
             options.choiceOptionForm = this.getOption('choiceOptionForm');
 
@@ -18,6 +21,7 @@ define([
                 this.getOption('interactionOptionForm'),
                 options
             );
-        }
     };
+
+    return CreatorInlineChoiceInteraction;
 });

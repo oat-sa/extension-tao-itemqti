@@ -61,7 +61,9 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
         getMathML : function(){
             return this.mathML;
         },
-        render : function(data, $container){
+        render : function(data, $container, subclass, renderer){
+            
+            renderer = renderer||this.getRenderer();
             
             var tag = this.qtiClass,
                 body = this.mathML,
@@ -91,7 +93,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
                 tag : tag,
                 ns : ns
             };
-            return this._super(_.merge(defaultData, data || {}), $container);
+            
+            return this._super(_.merge(defaultData, data || {}), $container, subclass, renderer);
         }
     });
 

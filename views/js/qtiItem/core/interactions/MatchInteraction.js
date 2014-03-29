@@ -61,10 +61,11 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/interactions
             }
             return found;
         },
-        render : function(data, $container){
+        render : function(data, $container, subclass, renderer){
 
-            var renderer = this.getRenderer(),
-                choices,
+            renderer = renderer||this.getRenderer();
+            
+            var    choices,
                 defaultData = {
                     'matchSet1' : [],
                     'matchSet2' : []
@@ -92,7 +93,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/interactions
             }
 
             var tplData = _.merge(defaultData, data || {});
-            return this._super(tplData, $container);
+            return this._super(tplData, $container, subclass, renderer);
         },
         toArray : function(){
             var arr = this._super();

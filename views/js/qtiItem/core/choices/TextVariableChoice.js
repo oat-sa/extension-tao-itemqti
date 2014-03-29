@@ -24,11 +24,11 @@ define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
             }
             return this;
         },
-        render : function(data, $container, tplName){
+        render : function(data, $container, tplName, renderer){
             var data = {
                 body : this.text
             };
-            return this._super(data, $container, tplName);
+            return this._super(data, $container, tplName, renderer);
         }
     });
 

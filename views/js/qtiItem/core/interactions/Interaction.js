@@ -82,9 +82,11 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
          * Render the interaction to the view.
          * The optional argument "subClass" allows distinguishing customInteraction: e.g. customInteraction.matrix, customInteraction.likertScale ...
          */
-        render : function(data, $container, subClass){
-            var renderer = this.getRenderer(),
-                defaultData = {
+        render : function(data, $container, subClass, renderer){
+            
+             renderer = renderer||this.getRenderer();
+             
+             var  defaultData = {
                 '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
                     return "_" + $1.toLowerCase();
                 }),
@@ -102,7 +104,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                 var _this = this;
                 _.each(choices, function(choice){
                     if(Element.isA(choice, 'choice')){
-                        var renderedChoice = choice.render(_.clone(interactionData, true), null, choice.qtiClass + '.' + _this.qtiClass); //use interaction type as choice subclass
+                        var renderedChoice = choice.render(_.clone(interactionData, true), null, choice.qtiClass + '.' + _this.qtiClass, renderer); //use interaction type as choice subclass
                         defaultData.choices.push(renderedChoice);
                     }
                 });
@@ -112,17 +114,20 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
 
             var tplData = _.merge(defaultData, data || {});
             var tplName = subClass ? this.qtiClass + '.' + subClass : this.qtiClass;
-            return this._super(tplData, $container, tplName);
+            return this._super(tplData, $container, tplName, renderer);
         },
-        postRender : function(data){
+        postRender : function(data, altClassName, renderer){
+            
+            renderer = renderer || this.getRenderer();
+            
             var choices = this.getChoices();
             for(var i in choices){
                 var c = choices[i];
                 if(Element.isA(c, 'choice')){
-                    c.postRender({}, c.qtiClass + '.' + this.qtiClass);
+                    c.postRender({}, c.qtiClass + '.' + this.qtiClass, renderer);
                 }
             }
-            this._super(data);
+            this._super(data, altClassName, renderer);
         },
         setResponse : function(values){
             var ret = null;

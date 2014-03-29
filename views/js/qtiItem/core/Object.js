@@ -18,8 +18,10 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
             }
             return type;
         },
-        render : function(data, $container){
-
+        render : function(data, $container, subclass, renderer){
+            
+            renderer = renderer||this.getRenderer();
+            
             var defaultData = {};
 
             switch(this.getMediaType()){
@@ -34,7 +36,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                     defaultData.object = true;
             }
             
-            return this._super(_.merge(defaultData, data || {}), $container);
+            return this._super(_.merge(defaultData, data || {}), $container, subclass, renderer);
         }
     });
     

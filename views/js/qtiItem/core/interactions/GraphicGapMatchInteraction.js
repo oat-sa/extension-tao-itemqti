@@ -44,7 +44,10 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             }
             return found;
         },
-        render : function(data, $container){
+        render : function(data, $container, subclass, renderer){
+            
+            renderer = renderer || this.getRenderer();
+            
             var defaultData = {
                 'gapImgs' : []
             };
@@ -53,13 +56,13 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             var gapImgs = this.getGapImgs();
             for(var serial in gapImgs){
                 if(Element.isA(gapImgs[serial], 'choice')){
-                    defaultData.gapImgs.push(gapImgs[serial].render());
+                    defaultData.gapImgs.push(gapImgs[serial].render({}, null, '', renderer));
                 }
             }
 
             var tplData = _.merge(defaultData, data || {});
 
-            return this._super(tplData, $container);
+            return this._super(tplData, $container, subclass, renderer);
         },
         toArray : function(){
             var arr = this._super();

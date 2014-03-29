@@ -9,7 +9,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
         init : function(serial, attributes){
 
             //init own attributes
-            this.attributes = {}
+            this.attributes = {};
 
             //init call in the format init(attributes)
             if(typeof(serial) === 'object'){
@@ -193,10 +193,11 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
         getRenderer : function(){
             return this.renderer;
         },
-        render : function(data, $container, subclassedName){
-
-            var renderer = this.getRenderer(),
-                tplData = {},
+        render : function(data, $container, subclassedName, renderer){
+            
+            renderer = renderer||this.getRenderer();
+            
+            var tplData = {},
                 defaultData = {
                 'tag' : this.qtiClass,
                 'serial' : this.serial,
@@ -208,7 +209,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
             }
 
             if(typeof this.initContainer === 'function'){
-                defaultData.body = this.getBody().render();
+                defaultData.body = this.getBody().render(renderer);
             }
             if(typeof this.initObject === 'function'){
                 defaultData.object = {
@@ -222,7 +223,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
                     }
                 }
             }
-
+            
             tplData = _.merge(defaultData, data || {});
             tplData = renderer.getData(this, tplData, subclassedName);
             var rendering = renderer.renderTpl(this, tplData, subclassedName);
@@ -237,12 +238,15 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
 
             return rendering;
         },
-        postRender : function(data, altClassName){
+        postRender : function(data, altClassName, renderer){
+            
+            renderer = renderer || this.getRenderer();
+            
             if(typeof this.initContainer === 'function'){
                 //post render body element
-                this.getBody().postRender();
+                this.getBody().postRender({}, '', renderer);
             }
-            var renderer = this.getRenderer();
+            
             if(renderer){
                 renderer.postRender(this, data, altClassName);
             }else{
@@ -262,7 +266,8 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
                 serial : this.serial,
                 type : this.qtiClass,
                 attributes : this.getAttributes()
-            }
+            };
+            
             if(typeof this.initContainer === 'function'){
                 arr.body = this.getBody().toArray();
             }

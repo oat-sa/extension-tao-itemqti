@@ -1,28 +1,37 @@
 define([
-    'taoQtiItem/qtiCommonRenderer/renderers/interactions/InlineChoiceInteraction',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'lodash',
     'i18n'
-], function(commonRenderer, helper, _, __){
+], function(CommonRenderer, helper, _, __){
 
     var ResponseWidget = {
-        create : function(widget){
-
+        create : function(widget, callback){
+            
+            var _this = this;
             var interaction = widget.element;
             var $placeholder = $('<select>');
-            widget.$container.find('.widget-response').empty().append($placeholder);
-            return ;
+            widget.$container.find('.widget-response').append($placeholder);
             
-            var commonRenderer = Renderer.getRenderer(commonRenderer, interaction);
+            this.commonRenderer = new CommonRenderer({shuffleChoices:false});
+            this.commonRenderer.load(function(){
                 
-            commonRenderer.render(interaction);
+                interaction.render({}, $placeholder, '', this);
+                interaction.postRender({
+                    allowEmpty:false,
+                    placeholderText:__('select correct choice')
+                }, '', this);
+
+                callback.call(_this, this);
+                
+            }, ['inlineChoice', 'inlineChoiceInteraction']);
+                        
         },
-        setResponse : function(interaction, response){
-        
-            commonRenderer.setResponse(interaction, this.formatResponse(response));
+        setResponse : function(widget, response){
+            this.commonRenderer.setResponse(widget.element, this.formatResponse(response));
         },
         destroy : function(widget){
-
+            widget.$container.find('.widget-response').empty();
         },
         formatResponse : function(response){
             if(!_.isString(response)){

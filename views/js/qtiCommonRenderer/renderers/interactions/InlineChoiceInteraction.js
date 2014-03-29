@@ -12,7 +12,12 @@ define([
      * @type String
      */
     var _emptyValue = 'empty';
-
+    
+    var _defaultOptions = {
+        allowEmpty:true,
+        placeholderText:__('select a choice')
+    };
+    
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
@@ -20,16 +25,29 @@ define([
      * 
      * @param {object} interaction
      */
-    var render = function(interaction){
+    var render = function(interaction, options){
+        
+        var opts = _.clone(_defaultOptions);
+        _.extend(opts, options);
+        
         var $container = Helper.getContainer(interaction);
-
-        $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
+        
+        if(opts.allowEmpty){
+            $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
+        }else{
+            $container.find('option[value=' + _emptyValue + ']').remove();
+        }
+        
         $container.select2({
             width : 'resolve',
-            placeholder : __('select a choice'),
+            placeholder : opts.placeholderText,
             minimumResultsForSearch : -1
         });
-
+        
+        $container.on('change', function(){
+            Helper.triggerResponseChangeEvent(interaction);
+        });
+        
         _setInstructions(interaction);
     };
 

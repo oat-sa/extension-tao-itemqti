@@ -17,16 +17,20 @@ define(['taoQtiItem/qtiItem/core/interactions/Interaction', 'taoQtiItem/qtiItem/
         find : function(serial){
             return this._super(serial) || this.prompt.find(serial);
         },
-        render : function(data, $container){
+        render : function(data, $container, subclass, renderer){
+            
+            renderer = renderer || this.getRenderer();
+            
             var defaultData = {
-                'prompt' : this.prompt.render()
+                'prompt' : this.prompt.render({}, null, '', renderer)
             };
             var tplData = _.merge(defaultData, data || {});
-            return this._super(tplData, $container);
+            return this._super(tplData, $container, subclass, renderer);
         },
-        postRender : function(data){
-            this.prompt.postRender();
-            this._super(data);
+        postRender : function(data, altClassName, renderer){
+            renderer = renderer || this.getRenderer();
+            this.prompt.postRender({}, '', renderer);
+            this._super(data, altClassName, renderer);
         },
         toArray : function(){
             var arr = this._super();
