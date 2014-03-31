@@ -14,11 +14,13 @@
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
+                'use strict';
+
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
                     Test.testRender('selectPoint', { maxChoices : 1 }, [
-                        {'base' : { 'point' : [1, 23] }
+                        {'base' : { 'point' : [1, 23] }}
                     ]);
                 });
             });

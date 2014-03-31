@@ -58,55 +58,84 @@ define([
     };
 
     /**
-     * WORK IN PROGRESS, set response
+     * Make the image clickable and place targets at the given position.
+     * @private
+     * @param {object} interaction
      */
     var _enableSelection = function _enableSelection(interaction){
         var $container = Helper.getContainer(interaction);
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         image.click(function(event){
-            var rwidth, wfactor, hfactor;
+            var rwidth, rheight, wfactor;
             var point = {
                 y : event.layerY,
                 x : event.layerX
             };
+
+            //recalculate point coords in case of scaled image.
             if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
                 if(interaction.paper.width > interaction.paper.w){
                     rwidth = (interaction.paper.width - interaction.paper.w) / 2;
-                    point.x = event.layerX - rwidth; 
+                    point.x = Math.round(event.layerX - rwidth); 
                 } else {
                     wfactor = interaction.paper.w / interaction.paper.width;
-                    point.x = event.layerX * wfactor; 
-                    point.y = event.layerY * wfactor;
+                    point.x = Math.round(event.layerX * wfactor); 
+
+                    rheight = (interaction.paper.height - (interaction.paper.height * ( 2 - wfactor ))) / 2;
+                    point.y = Math.round((event.layerY * wfactor) - rheight);
                 }
             }
-            //if(interaction.paper.h && interaction.paper.h !== interaction.paper.height){
-                //if(interaction.paper.height > interaction.paper.h){
-                    //rheight = (interaction.paper.height - interaction.paper.h) / 2;
-                    //point.y = event.layerY - rheight; 
-                //} else {
-                    //rheight = interaction.paper.h / interaction.paper.height;
-                    //point.y = event.layerY * rheight; 
-                //}
-            //}
 
-            //TODO factorize
-            interaction.paper
-                    .path(graphic.getTargetPath())
-                    .translate(point.x - 9, point.y - 9)
-                    .attr({ 
-                        'fill' : '#3EA76F',
-                        'width' : 1, 
-                        'stroke-width' : 0
-                    });
-            //console.log('layer', event.layerX + ' : ' + event.layerY);
-            //console.log('paper', interaction.paper);
-            //console.log('point', JSON.stringify(point));
+            _addPoint(interaction, point, function(target){
+                Helper.validateInstructions(interaction, { target : target });
+            });
         });
+    };
 
+    /**
+     * Add a new point to the paper
+     * @private
+     * @param {Object} interaction
+     * @param {Object} point - the point to add to the paper
+     * @param {Number} point.x - point's x coord
+     * @param {Number} point.y - point's y coord 
+     * @param {Function} cb - call on change, added/removed
+     */
+    var _addPoint = function _addPoint(interaction, point, cb){
+        var x = point.x >= 9 ? point.x - 9 : 0;
+        var y = point.y >= 9 ? point.y - 9 : 0;
+
+        var target = interaction.paper
+                .path(graphic.getTargetPath())
+                .translate(point.x - 9, point.y - 9)
+                .attr({ 
+                    'fill' : graphic.states.success.fill,
+                    'width' : 1, 
+                    'stroke-width' : 0,
+                    'cursor' : 'pointer',
+                    'title' : _('Click again to remove')
+                })
+                .hover(
+                  function(){
+                    this.attr({ 'fill' :  graphic.states.hover.stroke}); 
+                }, function(){
+                    this.attr({ 'fill' :  graphic.states.success.fill}); 
+                })
+                .click(function(){
+                    this.remove();
+                    if(typeof cb === 'function'){
+                        cb();
+                    }
+                });
+        target.data('point', point);
+
+        if(typeof cb === 'function'){
+            cb(target);
+        }
     };
 
     /** 
-     * Set the instructions regarding the constrains (here min and maxChoices.
+     * Set the instructions regarding the constrains, here min and maxChoices.
      * @private
      * @param {Object} interaction
      */
@@ -114,103 +143,92 @@ define([
 
         var min = interaction.attr('minChoices'),
             max = interaction.attr('maxChoices'),
-            choiceCount = _.size(interaction.getChoices()),
-            minInstructionSet = false,
             msg;
-    
 
         //if maxChoice = 0, inifinite choice possible
-        if(max > 0 && max < choiceCount){
-
-            if(max === min){
-                minInstructionSet = true;
-                msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
-
-                Helper.appendInstruction(interaction, msg, function(data){
-                    
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    highlightError(data.choice);
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
+        if(max > 0 && max === min){
+            msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
+            Helper.appendInstruction(interaction, msg, function(data){
+                if(_getRawResponse(interaction).length >= max){
+                    this.setLevel('success');
+                    if(this.checkState('fulfilled')){
+                        this.update({
+                            level : 'warning',
+                            message : __('Maximum choices reached'),
+                            timeout : 2000,
+                            start : function(){
+                                highlightError(data.target);
+                            },
+                            stop : function(){
+                                this.update({level : 'success', message : msg});
+                            }
+                        });
                     }
-                });
+                    this.setState('fulfilled');
+                } else {
+                    this.reset();
+                }
+            });
 
-            } else if(max > min){
-                msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                Helper.appendInstruction(interaction, msg, function(data){
-
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    highlightError(data.choice);
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
+         } else if( max > 0 && max > min){
+            msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
+            Helper.appendInstruction(interaction, msg, function(data){
+                if(_getRawResponse(interaction).length >= max){
+                    this.setLevel('success');
+                    this.setMessage(__('Maximum choices reached'));
+                    if(this.checkState('fulfilled')){
+                        this.update({
+                            level : 'warning',
+                            timeout : 2000,
+                            start : function(){
+                                highlightError(data.target);
+                            },
+                            stop : function(){
+                                this.setLevel('info');
+                            }
+                        });
                     }
-                });
-            }
-        }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
+                    this.setState('fulfilled');
+                } else {
+                    this.reset();
+                }
+            });
+        } else if(min > 0){
             msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
             Helper.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
-                }else{
+                } else {
                     this.reset();
                 }
             });
         }
 
-        function highlightError(choice){
-            var rElement;
-            if(choice && choice.serial){
-                rElement = interaction.paper.getById(choice.serial);
-                if(rElement.active){
-                    graphic.updateElementState(rElement, 'error');
-                    _.delay(function(){
-                        graphic.updateElementState(rElement, 'active');
-                    }, 600);
-                }
-            }
+        function highlightError(target){
+            if(target){
+                graphic.updateElementState(target, 'error');
+                _.delay(function(){
+                    graphic.updateElementState(target, 'success');
+                }, 600);
+           }
         }
     };
    
+    /**
+     * Get the responses from the interaction
+     * @private 
+     * @param {Object} interaction
+     * @returns {Array} of points
+     */
     var _getRawResponse = function _getRawResponse(interaction){
-        
-       return _(interaction.getChoices())
-        .map(function(choice){
-            var rElement = interaction.paper.getById(choice.serial);
-            return (rElement && rElement.active === true) ? choice.attributes.identifier : false;
-       })
-        .filter(_.isString)
-        .value();
+        var points = [];
+        interaction.paper.forEach(function(element){
+            var point = element.data('point');
+            if(typeof point === 'object' && point.x && point.y){
+                points.push([point.x, point.y]);
+            }
+        });   
+        return points;
     };
  
     /**
@@ -237,14 +255,15 @@ define([
             } catch(e){}
             
             if(_.isArray(responseValues)){
-                _.forEach(interaction.getChoices(), function(choice){
-                    var rElement;
-                    if(_.contains(responseValues, choice.attributes.identifier)){
-                        rElement = interaction.paper.getById(choice.serial);
-                        rElement.active = true;
-                        graphic.updateElementState(rElement, 'active'); 
-                    }
-                });
+                _(responseValues)
+                    .flatten()
+                    .map(function(value, index){
+                        if(index % 2 === 0){
+                            return { x : value, y : responseValues[index + 1] };
+                        }
+                    })
+                    .filter(_.isObject)
+                    .forEach(_.partial(_addPoint, interaction)); 
             }
         }
     };
@@ -264,16 +283,17 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
-        _.forEach(interaction.getChoices(), function(choice){
-            var rElement = interaction.paper.getById(choice.serial);
-            delete rElement.active;
-            graphic.updateElementState(rElement, 'default'); 
-        });
+        interaction.paper.forEach(function(element){
+            var point = element.data('point');
+            if(typeof point === 'object'){
+                point.remove();
+            }
+        });   
     };
 
 
     /**
-     * Return the response of the rendered interaction
+     i* Return the response of the rendered interaction
      * 
      * The response format follows the IMS PCI recommendation :
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
@@ -291,8 +311,8 @@ define([
     };
 
     /**
-     * Expose the common renderer for the hotspot interaction
-     * @exports qtiCommonRenderer/renderers/interactions/HotspotInteraction
+     * Expose the common renderer for the interaction
+     * @exports qtiCommonRenderer/renderers/interactions/SelectPointInteraction
      */
     return {
         qtiClass : 'selectPointInteraction',

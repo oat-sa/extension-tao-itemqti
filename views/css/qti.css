@@ -19,15 +19,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 5, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 5, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 html,
 button,
 input,
@@ -37,45 +37,45 @@ textarea {
   background: white;
   border-width: 1px; }
 
-/* line 11, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 11, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 html {
   line-height: 1.4; }
 
-/* line 15, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 15, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 html {
   font-size: 62.5%; }
 
-/* line 24, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 24, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 body {
   font-size: 14px;
   background-color: white; }
 
-/* line 29, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 29, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h1 {
   font-size: 24px;
   font-size: 2.4rem; }
 
-/* line 33, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 33, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h2 {
   font-size: 22px;
   font-size: 2.2rem; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h3 {
   font-size: 20px;
   font-size: 2rem; }
 
-/* line 41, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 41, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h4 {
   font-size: 18px;
   font-size: 1.8rem; }
 
-/* line 45, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 45, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h5 {
   font-size: 16px;
   font-size: 1.6rem; }
 
-/* line 49, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 49, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 h6 {
   font-size: 14px;
   font-size: 1.4rem; }
@@ -85,20 +85,20 @@ h6 {
  * These selection rule sets have to be separate.
  * Customize the background color to match your design.
  */
-/* line 59, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 59, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none; }
 
-/* line 64, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 64, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 ::selection {
   background: #b3d4fc;
   text-shadow: none; }
 
-/* line 70, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 70, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 [data-edit] ::selection {
   background: transparent; }
-/* line 73, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 73, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 [data-edit] ::-moz-selection {
   background: transparent;
   text-shadow: none; }
@@ -106,7 +106,7 @@ h6 {
 /*
  * A better looking default horizontal rule
  */
-/* line 83, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 83, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 hr {
   display: block;
   height: 1px;
@@ -119,7 +119,7 @@ hr {
  * Remove the gap between images, videos, audio and canvas and the bottom of
  * their containers: h5bp.com/i/440
  */
-/* line 100, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 100, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 audio,
 canvas,
 img,
@@ -129,7 +129,7 @@ video {
 /*
  * Remove default fieldset styles.
  */
-/* line 108, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 108, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 fieldset {
   border: 0;
   margin: 0;
@@ -138,14 +138,14 @@ fieldset {
 /*
  * Allow only vertical resizing of textareas.
  */
-/* line 118, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 118, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 textarea {
   resize: vertical; }
 
 /*
  * Hide from both screenreaders and browsers: h5bp.com/u
  */
-/* line 126, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 126, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .hidden {
   display: none !important;
   visibility: hidden; }
@@ -153,7 +153,7 @@ textarea {
 /*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  */
-/* line 135, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 135, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -168,7 +168,7 @@ textarea {
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
  */
-/* line 152, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 152, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -181,7 +181,7 @@ textarea {
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
-/* line 165, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 165, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .invisible {
   visibility: hidden; }
 
@@ -196,7 +196,7 @@ textarea {
  * 2. The use of `table` rather than `block` is only necessary if using
  *    `:before` to contain the top-margins of child elements.
  */
-/* line 182, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 182, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .clearfix:before, .block-listing.horizontal:before, .qti-associateInteraction .result-area > li:before,
 .clearfix:after,
 .block-listing.horizontal:after,
@@ -206,7 +206,7 @@ textarea {
   display: table;
   /* 2 */ }
 
-/* line 187, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 187, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .clearfix:after, .block-listing.horizontal:after, .qti-associateInteraction .result-area > li:after {
   clear: both; }
 
@@ -214,7 +214,7 @@ textarea {
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
  */
-/* line 196, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+/* line 196, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
 .clearfix, .block-listing.horizontal, .qti-associateInteraction .result-area > li {
   background-repeat: no-repeat; }
 
@@ -232,7 +232,7 @@ textarea {
    Inlined to avoid required HTTP connection: h5bp.com/r
    ========================================================================== */
 @media print {
-  /* line 224, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 224, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   * {
     background: transparent !important;
     color: #000 !important;
@@ -240,59 +240,59 @@ textarea {
     box-shadow: none !important;
     text-shadow: none !important; }
 
-  /* line 232, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 232, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   a,
   a:visited {
     text-decoration: underline; }
 
-  /* line 236, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 236, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   a[href]:after {
     content: " (" attr(href) ")"; }
 
-  /* line 240, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 240, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   abbr[title]:after {
     content: " (" attr(title) ")"; }
 
   /*
    * Don't show links for images, or javascript/internal links
    */
-  /* line 250, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 250, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   .ir a:after,
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: ""; }
 
-  /* line 255, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 255, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid; }
 
-  /* line 260, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 260, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   thead {
     display: table-header-group;
     /* h5bp.com/t */ }
 
-  /* line 265, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 265, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   tr,
   img {
     page-break-inside: avoid; }
 
-  /* line 269, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 269, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   img {
     max-width: 100% !important; }
 
   @page {
     margin: 0.5cm; }
 
-  /* line 279, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 279, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3; }
 
-  /* line 285, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
+  /* line 285, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_main.scss */
   h2,
   h3 {
     page-break-after: avoid; } }
@@ -447,11 +447,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -506,11 +506,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -602,11 +602,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -648,11 +648,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -777,11 +777,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -810,11 +810,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -832,42 +832,39 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-graphicInteraction .active input.active, .qti-graphicInteraction .active textarea.active {
   border-color: #3e7da7; }
 /* line 22, ../scss/qti/_graphic.scss */
-.qti-graphicInteraction .main-image-box {
-  margin: 10px 0 10px 0;
-  padding: 0 10px; }
-  /* line 25, ../scss/qti/_graphic.scss */
-  .qti-graphicInteraction .main-image-box .main-image {
-    display: block; }
-/* line 29, ../scss/qti/_graphic.scss */
+.qti-graphicInteraction .image-editor {
+  padding: 10px;
+  position: relative; }
+/* line 26, ../scss/qti/_graphic.scss */
 .qti-graphicInteraction .image-sidebar {
   width: 9%;
   float: left;
   text-align: center; }
-  /* line 33, ../scss/qti/_graphic.scss */
+  /* line 30, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-sidebar .forms {
     overflow: hidden;
     margin-top: 10px;
     font-size: 40px;
     font-size: 4rem; }
-    /* line 37, ../scss/qti/_graphic.scss */
+    /* line 34, ../scss/qti/_graphic.scss */
     .qti-graphicInteraction .image-sidebar .forms li {
       border: 1px solid transparent;
       line-height: 40px;
       padding: 5px 0 3px 0;
       cursor: pointer; }
-      /* line 42, ../scss/qti/_graphic.scss */
+      /* line 39, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.active {
         color: #3e7da7; }
-      /* line 45, ../scss/qti/_graphic.scss */
+      /* line 42, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li:hover {
         background: #3e7da7;
         color: white; }
-  /* line 51, ../scss/qti/_graphic.scss */
+  /* line 48, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-sidebar ~ .main-image-box {
     width: 91%;
     padding-left: 0;
     float: left; }
-    /* line 55, ../scss/qti/_graphic.scss */
+    /* line 52, ../scss/qti/_graphic.scss */
     .qti-graphicInteraction .image-sidebar ~ .main-image-box .main-image {
       display: block; }
 
@@ -892,11 +889,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -921,11 +918,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -975,11 +972,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -1008,11 +1005,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -1087,11 +1084,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -1130,11 +1127,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
@@ -1159,11 +1156,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 36, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 37, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
