@@ -11,5 +11,3 @@ define(['lodash', 'taoQtiItem/qtiCreator/core/model/mixin/editable', 'taoQtiItem
     });
     return Choice.extend(methods);
 });
-
-

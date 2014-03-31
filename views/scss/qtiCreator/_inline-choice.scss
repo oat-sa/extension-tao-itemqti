@@ -1,9 +1,13 @@
 @import "inc/bootstrap";
 
+.widget-inlineChoiceInteraction{
+    display:none;
+}
+
 .inlineChoiceInteraction-placeholder {
     @include simple-border();
     display:inline-block;
-    width: 140px;
+    width: 150px;
     line-height: 24px;
     position: relative;
     padding: 0 10px;
@@ -73,9 +77,9 @@
     .main-option {
         border-top: 1px $uiGeneralContentBorder solid;
         border-bottom: 1px $uiGeneralContentBorder solid;
-        min-width: 180px;
+        min-width: 150px;
         &>div {
-            padding: 0 10px;
+            padding: 0;
             position: relative;
         }
     }
@@ -99,4 +103,8 @@
     .mini-tlb input{
         width:30px;
     }
+}
+
+.widget-response .qti-inlineChoiceInteraction{
+    padding:0;
 }
