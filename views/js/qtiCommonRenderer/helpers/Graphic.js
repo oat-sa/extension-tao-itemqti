@@ -14,17 +14,22 @@ define(['lodash'], function(_){
         },
         'hover'  : {
             'stroke' : '#3E7DA7',
+            'fill' :  '#0E5D91', 
+            'fill-opacity' : 0.3
         },
         'active' : {
+            'fill-opacity' : 0.5,
             'stroke' : '#3E7DA7',
             'fill' :  '#0E5D91'  
         },
         'error' : {
             'stroke' : '#C74155',
+            'fill-opacity' : 0.5,
             'fill' :  '#661728'  
         },
         'success' : {
             'stroke' : '#C74155',
+            'fill-opacity' : 0.5,
             'fill' :  '#0E914B'  
         }
     };
@@ -158,13 +163,35 @@ define(['lodash'], function(_){
          * Update the visual state of an Element
          * @param {Raphael.Element} element - the element to change the state
          * @param {String} state - the name of the state (from states) to switch to
+         * @param {String} [title] - a title linked to this step
          */
-        updateElementState : function(element, state){
+        updateElementState : function(element, state, title){
             if(element && element.animate){
                 element.animate(states[state], 200, 'linear');
+        
+                if(title){
+                    this.updateTitle(element, title);
+                }
             }
         },
 
+        /**
+         * Update the title of an element (the attr method of Raphael adds only new node instead of updating exisitings).
+         * @param {Raphael.Element} element - the element to update the title
+         * @param {String} [title] - the new title
+         */
+        updateTitle : function(element, title){
+    
+            //removes all remaining titles nodes
+            _.forEach(element.node.children, function(child){
+                if(child.nodeName.toLowerCase() === 'title'){
+                    element.node.removeChild(child);
+                }
+            });
+            
+            //then set the new title
+            element.attr('title', title);
+        },
 
         /**
          * Returns the SVG path for a target shape

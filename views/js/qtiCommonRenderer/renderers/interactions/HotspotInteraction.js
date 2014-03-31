@@ -74,18 +74,20 @@ define([
             rElement.id = choice.serial;
             rElement
                 .attr(graphic.states.basic)
+                .attr('title', __('Select this area'))
                 .hover(
                   function(){
                    graphic.updateElementState(this, 'hover'); 
+
                 }, function(){
                     graphic.updateElementState(this, this.active ? 'active' : 'basic');
                 })
                 .click(function(){
                     if(this.active){
-                        graphic.updateElementState(this, 'basic');
+                        graphic.updateElementState(this, 'basic', __('Select this area'));
                         this.active = false;
                     } else {
-                        graphic.updateElementState(this, 'active');
+                        graphic.updateElementState(this, 'active', __('Click again to remove'));
                         this.active = true;
                     }
                     Helper.validateInstructions(interaction, { choice : choice });
@@ -230,7 +232,7 @@ define([
                     if(_.contains(responseValues, choice.attributes.identifier)){
                         rElement = interaction.paper.getById(choice.serial);
                         rElement.active = true;
-                        graphic.updateElementState(rElement, 'active'); 
+                        graphic.updateElementState(rElement, 'active', __('Click again to remove')); 
                     }
                 });
             }
