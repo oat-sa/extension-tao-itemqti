@@ -5,13 +5,15 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'tpl!taoQtiItem/qtiCreat
         var _widget = this.widget;
 
         _widget.$container.hide();
+        _widget.$original.hide();
 
         this.showMessage(_widget.element);
 
     }, function(){
         
         var _widget = this.widget;
-        _widget.$container.fadeIn(450);
+        _widget.$original.show();
+        _widget.$container.show();
         
         $('body').off('.deleting');
     });
@@ -71,6 +73,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'tpl!taoQtiItem/qtiCreat
     DeletingState.prototype.deleteElement = function(){
         this.widget.element.remove();
         this.widget.$container.remove();
+        this.widget.$original.remove();
         this.widget.destroy();
     };
 

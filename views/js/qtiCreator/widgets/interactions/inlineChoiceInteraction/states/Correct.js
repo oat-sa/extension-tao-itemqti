@@ -8,7 +8,7 @@ define([
     var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
         
         var _widget = this.widget,
-            response = this.widget.element.getResponseDeclaration();;
+            response = this.widget.element.getResponseDeclaration();
             
             _widget.$container.find('table').hide();
             
