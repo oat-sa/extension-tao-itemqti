@@ -1,26 +1,98 @@
 define([
-  'taoQtiItem/qtiCreator/editor/toggleToolDisplay',
-  'taoQtiItem/qtiCreator/editor/preview',
-  'taoQtiItem/qtiCreator/editor/fontSelector',
-  'taoQtiItem/qtiCreator/editor/itemResizer',
-  'taoQtiItem/qtiCreator/editor/preparePrint',
-  'taoQtiItem/qtiCreator/editor/toggleAppearance',
-  'taoQtiItem/qtiCreator/editor/listStyler',
-  'taoQtiItem/qtiCreator/editor/widgetToolbar',
-  'ckeditor'
-], function(toggleToolDisplay, preview, fontSelector, itemResizer, preparePrint, toggleAppearance, listStyler, widgetToolbar, ckeditor){
+    'taoQtiItem/qtiCreator/editor/toggleToolDisplay',
+    'taoQtiItem/qtiCreator/editor/preview',
+    'taoQtiItem/qtiCreator/editor/fontSelector',
+    'taoQtiItem/qtiCreator/editor/itemResizer',
+    'taoQtiItem/qtiCreator/editor/preparePrint',
+    'taoQtiItem/qtiCreator/editor/toggleAppearance',
+    'taoQtiItem/qtiCreator/editor/listStyler',
+    'taoQtiItem/qtiCreator/editor/loader',
+    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'ckeditor',
+    'taoQtiItem/qtiCreator/core/gridEditor'
+], function(
+    toggleToolDisplay,
+    preview,
+    fontSelector,
+    itemResizer,
+    preparePrint,
+    toggleAppearance,
+    listStyler,
+    loader,
+    Renderer,
+    ckeditor
+    ){
 
-  return {
-    start : function(){
-      ckeditor.disableAutoInline = true;
-      toggleToolDisplay();
-      preview.init('#preview-trigger');
-      fontSelector('#item-editor-font-selector');
-      itemResizer();
-      preparePrint();
-      toggleAppearance();
-      listStyler();
-    }
-  };
+    var _renderItem = function _renderItem(item){
+
+        var creatorRenderer = new Renderer({
+            shuffleChoices : false,
+            runtimeContext : {
+                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
+                root_url : '',
+                debug : true
+            },
+            interactionOptionForm : $('#item-editor-interaction-bar .panel'),
+            choiceOptionForm : $('#item-editor-choice-bar .panel'),
+            responseOptionForm : $('#item-editor-response-bar .panel')
+        });
+
+        creatorRenderer.load(function(){
+
+            item.setRenderer(this);
+            $('.item-editor-drop-area').append(_normalizeItemBody(item.getBody().render()));
+            item.postRender();
+
+        }, item.getUsedClasses());
+    };
+
+    var _debug = function _debug(){
+
+        $(document).on('beforeStateInit.qti-widget', function(e, element, state){
+            console.log('->state : ' + state.name + ' : ' + element.serial);
+        });
+
+        $(document).on('afterStateExit.qti-widget', function(e, element, state){
+            console.log('<-state : ' + state.name + ' : ' + element.serial);
+        });
+
+    };
+
+    var _initEditor = function _initEditor($item){
+
+        $item.gridEditor();
+        $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'));
+
+    };
+    
+    var _normalizeItemBody = function _normalizeItemBody(rawItemBody){
+        var $itemBody = $(rawItemBody);
+        if(!$itemBody.hasClass('grid-row')){
+            return $('<div>', {'class':'grid-row'}).append($('<div>', {'class':'col-12'}).append($itemBody));
+        }
+        return $itemBody;
+    };
+    
+    return {
+        start : function(config){
+
+            ckeditor.disableAutoInline = true;
+            toggleToolDisplay();
+            preview.init('#preview-trigger');
+            fontSelector('#item-editor-font-selector');
+            itemResizer();
+            preparePrint();
+            toggleAppearance();
+            listStyler();
+
+            loader.loadItem({uri : config.uri}, function(item){
+
+                _renderItem(item)
+                _initEditor($('#item-editor-panel item-editor-drop-area'));
+
+            });
+
+        }
+    };
 
 })

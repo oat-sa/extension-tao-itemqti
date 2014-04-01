@@ -28,7 +28,7 @@ use \common_Logger;
 use \DOMDocument;
 use \DOMXPath;
 
-require_once(ROOT_PATH . '/tao/lib/htmlpurifier/HTMLPurifier.auto.php');
+require_once(ROOT_PATH.'/tao/lib/htmlpurifier/HTMLPurifier.auto.php');
 
 /**
  * Helper to provide methods for QTI authoring
@@ -38,7 +38,8 @@ require_once(ROOT_PATH . '/tao/lib/htmlpurifier/HTMLPurifier.auto.php');
  * @package taoQTI
  * @subpackage helpers_qti
  */
-class ItemAuthoring{
+class ItemAuthoring
+{
 
     static protected $purifiers = array();
 
@@ -124,55 +125,52 @@ class ItemAuthoring{
             );
 
             $blockStatic = array_merge(
-                array(
-                    'div',
-                    'dl',
-                    'hr',
-                    'ol',
-                    'ul',
-                    'li',
-                    'dt',
-                    'dd',
-                ), $atomicBlock, $simpleBlock, $table, $inlineStatic, //block contains flow
-                $math
+                    array(
+                'div',
+                'dl',
+                'hr',
+                'ol',
+                'ul',
+                'li',
+                'dt',
+                'dd',
+                    ), $atomicBlock, $simpleBlock, $table, $inlineStatic, //block contains flow
+                    $math
             );
 
             $flowStatic = array_merge($blockStatic, $atomicInline); //block contains "math"
 
-            $qtiTags            = array();
+            $qtiTags = array();
             $purifierDefinition = 'qti-custom.html';
-            $allowedAttributes  = 'id,class,lang,img.src,img.alt,img.height,img.width,object.data,object.type,object.height,object.width,param.name,param.value,param.valuetype,param.type,a.href';
+            $allowedAttributes = 'id,class,lang,img.src,img.alt,img.height,img.width,object.data,object.type,object.height,object.width,param.name,param.value,param.valuetype,param.type,a.href';
             switch($filterModel){
                 //for prompt:
-                case 'inlineStatic':
-                {
-                    $qtiTags = $inlineStatic;
-                    $purifierDefinition .= ' inlineStatic';
-                    break;
-                }
+                case 'inlineStatic':{
+                        $qtiTags = $inlineStatic;
+                        $purifierDefinition .= ' inlineStatic';
+                        break;
+                    }
                 //for simple choice
-                case 'flowStatic':
-                {
-                    $qtiTags = $flowStatic;
-                    $purifierDefinition .= ' flowStatic';
-                    $allowedAttributes .= ',blockquote.cite,table.summary,col.span,colgroup.span,td.scope,td.rowspan,td.colspan,th.scope,th.rowspan,th.colspan';
-                    break;
-                }
+                case 'flowStatic':{
+                        $qtiTags = $flowStatic;
+                        $purifierDefinition .= ' flowStatic';
+                        $allowedAttributes .= ',blockquote.cite,table.summary,col.span,colgroup.span,td.scope,td.rowspan,td.colspan,th.scope,th.rowspan,th.colspan';
+                        break;
+                    }
                 //for item body, share the same restrictions from authorized HTML tags perspective
                 case 'bodyElement':
-                    //for gap match and hottext interactions
+                //for gap match and hottext interactions
                 case 'blockStatic':
-                default:
-                    {
-                    $qtiTags = $blockStatic;
-                    $purifierDefinition .= ' blockStatic';
-                    $allowedAttributes .= ',blockquote.cite,table.summary,col.span,colgroup.span,td.scope,td.rowspan,td.colspan,th.scope,th.rowspan,th.colspan';
-                    break;
+                default:{
+                        $qtiTags = $blockStatic;
+                        $purifierDefinition .= ' blockStatic';
+                        $allowedAttributes .= ',blockquote.cite,table.summary,col.span,colgroup.span,td.scope,td.rowspan,td.colspan,th.scope,th.rowspan,th.colspan';
+                        break;
                     }
             }
 
             $config = HTMLPurifier_Config::createDefault();
-            $config->set('Cache.SerializerPath', ROOT_PATH . 'tao/data/cache/htmlpurifier');
+            $config->set('Cache.SerializerPath', ROOT_PATH.'tao/data/cache/htmlpurifier');
             if(DEBUG_MODE){
                 $config->set('Cache.DefinitionImpl', null); //to prevent the definition to be cached
             }
@@ -188,37 +186,37 @@ class ItemAuthoring{
                 common_Logger::i('QTI-html purifier cache has been recreated', array('QTIdebug'));
 
                 $img = $def->addElement(
-                    'img', // name
-                    'Inline', // content set
-                    'Empty', // allowed children
-                    'Common', // attribute collection
-                    array( // attributes
-                        'src*'     => 'URI',
-                        'alt'      => 'CDATA',
-                        'longdesc' => 'CDATA',
-                        'height'   => 'Length',
-                        'width'    => 'Length',
-                    )
+                        'img', // name
+                        'Inline', // content set
+                        'Empty', // allowed children
+                        'Common', // attribute collection
+                        array(// attributes
+                    'src*' => 'URI',
+                    'alt' => 'CDATA',
+                    'longdesc' => 'CDATA',
+                    'height' => 'Length',
+                    'width' => 'Length',
+                        )
                 );
 
                 $object = $def->addElement(
-                    'object', 'Block', 'Flow', 'Common', array(
-                        'data*'  => 'URI',
-                        'type'   => 'CDATA',
-                        'width'  => 'Length',
-                        'height' => 'Length'
-                    )
+                        'object', 'Block', 'Flow', 'Common', array(
+                    'data*' => 'URI',
+                    'type' => 'CDATA',
+                    'width' => 'Length',
+                    'height' => 'Length'
+                        )
                 );
 
                 //can only apprear in object
                 $param = $def->addElement(
-                    'param', 'Block', //false : need to manually register param
-                    'Empty', 'Common', array(
-                        'name*'     => 'URI',
-                        'value*'    => 'CDATA',
-                        'valuetype' => 'Enum#DATA|REF',
-                        'type'      => 'CDATA'
-                    )
+                        'param', 'Block', //false : need to manually register param
+                        'Empty', 'Common', array(
+                    'name*' => 'URI',
+                    'value*' => 'CDATA',
+                    'valuetype' => 'Enum#DATA|REF',
+                    'type' => 'CDATA'
+                        )
                 );
 
                 $def->addAttribute('th', 'abbr', 'CDATA');
@@ -274,13 +272,13 @@ class ItemAuthoring{
         if(!empty($data)){
             try{ //Parse data and replace img src by the media service URL
                 $updated = false;
-                $doc     = new DOMDocument;
+                $doc = new DOMDocument;
                 if($doc->loadHTML($data)){
 
-                    $tags    = array('img', 'object');
+                    $tags = array('img', 'object');
                     $srcAttr = array('src', 'data');
-                    $xpath   = new DOMXpath($doc);
-                    $query   = implode(' | ', array_map(create_function('$a', "return '//'.\$a;"), $tags));
+                    $xpath = new DOMXpath($doc);
+                    $query = implode(' | ', array_map(create_function('$a', "return '//'.\$a;"), $tags));
                     foreach($xpath->query($query) as $element){
                         foreach($srcAttr as $attr){
                             if($element->hasAttribute($attr)){
@@ -297,8 +295,7 @@ class ItemAuthoring{
                 if($updated){
                     $returnValue = $doc->saveHTML();
                 }
-            }
-            catch(DOMException $de){
+            }catch(DOMException $de){
                 //we render it anyway
                 common_Logger::w('DOMException in QTI data filtering');
             }
@@ -309,72 +306,87 @@ class ItemAuthoring{
 
     public static function restoreMediaResourceUrl($data){
 
-        $regex       = '/' . preg_quote(_url('getMediaResource', 'Items', 'taoItems') . '?path=', '/') . '([^"\']*)/im';
+        $regex = '/'.preg_quote(_url('getMediaResource', 'Items', 'taoItems').'?path=', '/').'([^"\']*)/im';
         $returnValue = preg_replace_callback(
-            $regex, function ($matches){
-            return isset($matches[1]) ? urldecode($matches[1]) : urldecode($matches[0]);
-        }, $data);
+                $regex, function ($matches){
+                    return isset($matches[1]) ? urldecode($matches[1]) : urldecode($matches[0]);
+                }, $data);
 
         return $returnValue;
     }
 
-
     public static function getAvailableAuthoringElements(){
         return array(
-            'Interactions' => array (
+            'Interactions' => array(
                 array('title' => __('Choice Interaction'),
-                      'icon'  => 'choice',
-                      'short' => __('Choice')
+                    'icon' => 'choice',
+                    'short' => __('Choice'),
+                    'qtiClass' => 'choiceInteraction'
+                ),
+                array('title' => __('Order Interaction'),
+                    'icon' => 'order',
+                    'short' => __('Order'),
+                    'qtiClass' => 'orderInteraction'
                 ),
                 array('title' => __('Match Interaction'),
-                      'icon'  => 'match',
-                      'short' => __('Match')
+                    'icon' => 'match',
+                    'short' => __('Match'),
+                    'qtiClass' => 'matchInteraction'
                 ),
                 array('title' => __('Associate Interaction'),
-                      'icon'  => 'associate',
-                      'short' => __('Associate')
+                    'icon' => 'associate',
+                    'short' => __('Associate'),
+                    'qtiClass' => 'associateInteraction'
                 ),
                 array('title' => __('Graphic Gap Interaction'),
-                      'icon'  => 'graphic-gap',
-                      'short' => __('Graphic Gap')
+                    'icon' => 'graphic-gap',
+                    'short' => __('Graphic Gap'),
+                    'qtiClass' => 'graphicGapInteraction'
                 ),
                 array('title' => __('Graphic Order Interaction'),
-                      'icon'  => 'graphic-order',
-                      'short' => __('Graphic Order')
+                    'icon' => 'graphic-order',
+                    'short' => __('Graphic Order'),
+                    'qtiClass' => 'graphicOrderInteraction'
                 ),
                 array('title' => __('Hotspot Interaction'),
-                      'icon'  => 'hotspot',
-                      'short' => __('Hotspot')
+                    'icon' => 'hotspot',
+                    'short' => __('Hotspot'),
+                    'qtiClass' => 'hotspotInteraction'
                 ),
                 array('title' => __('Graphic Associate Interaction'),
-                      'icon'  => 'graphic-associate',
-                      'short' => __('Graphic Associate')
+                    'icon' => 'graphic-associate',
+                    'short' => __('Graphic Associate'),
+                    'qtiClass' => 'graphicAssociateInteraction'
                 ),
                 array('title' => __('Select Point Interaction'),
-                      'icon'  => 'select-point',
-                      'short' => __('Select Point')
+                    'icon' => 'select-point',
+                    'short' => __('Select Point'),
+                    'qtiClass' => 'selectPointInteraction'
                 ),
                 array('title' => __('Slider Interaction'),
-                      'icon'  => 'slider',
-                      'short' => __('Slider')
+                    'icon' => 'slider',
+                    'short' => __('Slider'),
+                    'qtiClass' => 'sliderInteraction'
                 ),
                 array('title' => __('Text Entry Interaction'),
-                      'icon'  => 'text-entry',
-                      'short' => __('Text Entry')
+                    'icon' => 'text-entry',
+                    'short' => __('Text Entry'),
+                    'qtiClass' => 'textEntryInteraction'
                 ),
                 array('title' => __('Extended Text Interaction'),
-                      'icon'  => 'text-entry',
-                      'short' => __('Extended Text')
+                    'icon' => 'text-entry',
+                    'short' => __('Extended Text'),
+                    'qtiClass' => 'extendedTextInteraction'
                 )
             ),
             'Media' => array(
                 array('title' => __('Image'),
-                      'icon'  => 'choice',
-                      'short' => __('Image')
+                    'icon' => 'choice',
+                    'short' => __('Image')
                 ),
                 array('title' => __('Video'),
-                      'icon'  => 'match',
-                      'short' => __('Video')
+                    'icon' => 'match',
+                    'short' => __('Video')
                 )
             )
         );

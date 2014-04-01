@@ -160,6 +160,7 @@ define([
     }
 
     function createInsertable($el, $to){
+        console.log('ee');
         createDraggable($el, $to, {
             helper : function(){
                 return $(this).clone().css('z-index', 99);

@@ -35,7 +35,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
                     <ul class="tool-list plain">
                         <?php foreach($groupValues as $record): ?>
 
-                        <li title="<?=$record['title']?>">
+                        <li title="<?=$record['title']?>" data-qti-class="<?=$record['qtiClass']?>">
                             <span class="icon-<?=$record['icon']?>"></span>
 
                             <div class="truncate"><?=$record['short']?></div>
@@ -114,6 +114,24 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 
                 </section>
             </div>
+            <div class="item-editor-interaction-related" id="item-editor-interaction-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Interaction Properties')?></h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
+            <div class="item-editor-choice-related" id="item-editor-choice-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Choice Properties')?></h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
+            <div class="item-editor-response-related" id="item-editor-response-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Response Properties')?></h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
 
         </div>
         <!-- /right sidebar -->
@@ -137,6 +155,6 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 </div>
 <script>
     require(['taoQtiItem/controller/creator/main'], function (controller) {
-        controller.start();
+        controller.start({uri:'<?=get_data('uri')?>'});
     })
 </script>
