@@ -5,12 +5,11 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate'
 ], function(stateFactory, Question, formElement, formTpl){
 
-    var AssociateInteractionStateQuestion = stateFactory.clone(Question);
+    var AssociateInteractionStateQuestion = stateFactory.extend(Question);
 
     AssociateInteractionStateQuestion.prototype.addOptionForm = function(){
 
-        var _widget = this.widget,
-            interaction = _widget.element;
+        var _widget = this.widget;
 
         _widget.$form.html(formTpl({
             shuffle : !!_widget.element.attr('shuffle')

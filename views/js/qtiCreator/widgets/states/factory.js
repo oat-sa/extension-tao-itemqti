@@ -105,24 +105,6 @@ define(['lodash'], function(_){
 
             return State;
         },
-        clone : function(State){
-
-            var Clone = null;
-
-            if(_isValidStateDefinition(State)){
-
-                Clone = _create(State.prototype.name, State.prototype.superState);
-                _.forIn(State.prototype, function(prop, name){
-                    if(_.isFunction(prop)){
-                        Clone.prototype[name] = prop;
-                        Clone[name] = prop;
-                    }
-                });
-            }else{
-                throw new Error('invalid state to be cloned');
-            }
-            return Clone;
-        },
         extend : function(State, init, exit){
 
             var Clone = null, initFn, exitFn;

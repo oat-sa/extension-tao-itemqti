@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/states/Answer'
 ], function(stateFactory, Answer){
 
-    var AssociateInteractionStateAnswer = stateFactory.clone(Answer);
+    var AssociateInteractionStateAnswer = stateFactory.extend(Answer);
 
     AssociateInteractionStateAnswer.prototype.createResponseWidget = function(){
 
