@@ -2,6 +2,7 @@
 
 .widget-inlineChoiceInteraction{
     display:none;
+    background: rgba($uiClickableDefaultBg, .9);
 }
 
 .inlineChoiceInteraction-placeholder {
@@ -20,17 +21,13 @@
     }
 }
 
+
 .qti-inlineChoiceInteraction {
     
     [data-edit]{
         display:none;
     }
     
-    background: rgba($uiClickableDefaultBg, .85);
-    
-    &:hover {
-        background: rgba(whiten($uiClickableHoverBg, .7), .85);
-    }
     padding: 50px 10px 10px 30px;
     
     table {

@@ -5,7 +5,20 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice'
 ], function(stateFactory, Question, formElement, formTpl){
 
-    var InlineChoiceInteractionStateQuestion = stateFactory.extend(Question);
+    var InlineChoiceInteractionStateQuestion = stateFactory.extend(Question, function(){
+
+        var $mainOption = this.widget.$container.find('.main-option'),
+            $original = this.widget.$original;
+        
+        //listener to children choice widget change and update the original interaction placehoder
+        $(document).on('choiceTextChange.qti-widget.question', function(){
+            $original.width($mainOption.width());
+        });
+
+    }, function(){
+        
+        $(document).off('.qti-widget.question');
+    });
 
     InlineChoiceInteractionStateQuestion.prototype.addNewChoiceButton = function(){
 
@@ -33,21 +46,23 @@ define([
                     }
                 });
             });
-            
+
             //set button as initialized
             $addChoice.data('initialized', true);
         }
     };
 
     InlineChoiceInteractionStateQuestion.prototype.addOptionForm = function(){
-        
+
         var _widget = this.widget;
 
         _widget.$form.html(formTpl({
             shuffle : !!_widget.element.attr('shuffle')
         }));
-        
+
         formElement.initShuffle(_widget);
+
+
     };
 
     return InlineChoiceInteractionStateQuestion;

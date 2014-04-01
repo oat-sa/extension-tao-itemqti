@@ -24,6 +24,9 @@
                 </tr>
             </tbody>
         </table>
-        <div class="widget-response" data-edit="correct"></div>
+        <div>
+            <div class="widget-response" data-edit="correct"></div>
+            <div class="padding"></div>
+        </div>
     </div>
 </div>

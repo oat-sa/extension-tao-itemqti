@@ -23,7 +23,8 @@ define([
             _this.buildChoice(choice);
         });
 
-
+       //remove toolbar title, because it is too large
+       this.$container.find('.tlb-title').remove();
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
