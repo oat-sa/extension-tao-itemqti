@@ -715,11 +715,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-graphicInteraction .active > input, .qti-graphicInteraction .active > textarea,
 .qti-graphicInteraction .active input.active, .qti-graphicInteraction .active textarea.active {
   border-color: #3e7da7; }
-.qti-graphicInteraction .main-image-box {
-  margin: 10px 0 10px 0;
-  padding: 0 10px; }
-  .qti-graphicInteraction .main-image-box .main-image {
-    display: block; }
+.qti-graphicInteraction .image-editor {
+  padding: 10px;
+  position: relative; }
 .qti-graphicInteraction .image-sidebar {
   width: 9%;
   float: left;
