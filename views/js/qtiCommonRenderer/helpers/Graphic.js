@@ -157,7 +157,8 @@ define(['lodash'], function(_){
                 throw new Error('Unable to find method ' + type + ' on paper');
             } 
         },
-  
+
+
         
         /**
          * Update the visual state of an Element

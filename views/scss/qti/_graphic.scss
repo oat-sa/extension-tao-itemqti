@@ -19,10 +19,13 @@
         }
     }
 
-    .image-editor{
-        padding: 10px;
-        position: relative;    
-    } 
+    .main-image-box {
+        margin: 10px 0 10px 0;
+        padding: 0 10px;
+        .main-image {
+            display: block;
+        }
+    }
     .image-sidebar {
         width: 9%;
         float: left;

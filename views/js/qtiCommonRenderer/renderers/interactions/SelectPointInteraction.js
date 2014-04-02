@@ -53,7 +53,7 @@ define([
          * @private
          */
         function resizePaper(){
-            interaction.paper.changeSize($container.width(), background.height, false, true);
+            interaction.paper.changeSize($container.width(), background.height, false, false);
         }
     };
 
@@ -107,7 +107,7 @@ define([
 
         var target = interaction.paper
                 .path(graphic.getTargetPath())
-                .translate(point.x - 9, point.y - 9)
+                .transform('T' + (point.x - 9) + ',' + (point.y - 9))
                 .attr({ 
                     'fill' : graphic.states.success.fill,
                     'width' : 1, 
@@ -324,3 +324,4 @@ define([
         resetResonse : resetResponse
     };
 });
+

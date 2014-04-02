@@ -2,21 +2,36 @@
 
 .qti-graphicOrderInteraction {
 
-    .ordinals {
-        margin: 0 0 0 9%;
-        padding: 0 0 5px 0 !important;
+    ul.ordinals {
+        margin: 0 auto;
+        padding: 0 10px !important;
         clear: both;
-        li {
-            width: 5%;
-            line-height: 2;
+        & > li {
+            width: 30px;
+            line-height: 30px;
             text-align: center;
             @include font-size(20);
             margin: 0;
-            background: transparent;
-            &:hover {
-                background: $uiClickableHoverBg;
-                color: $textHighlight;
-                @include border-radius(0);
+            background: white();
+
+            margin-right: 1px;
+            &:hover{
+                @extend %selectableHover;
+                cursor: pointer;
+            }
+            &.active {
+                border: solid 1px $uiClickableHoverBg;
+                @include transition(background, 0.4s);
+                &:hover{
+                    background: white() !important;
+                    cursor: default !important;
+                }
+            }
+            &.disabled {
+                border: none;
+                cursor: default !important;
+                color: #333 !important;
+                background-color: transparent !important;
             }
         }
     }
