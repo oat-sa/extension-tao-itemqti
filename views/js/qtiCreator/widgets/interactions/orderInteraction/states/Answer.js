@@ -28,7 +28,7 @@ define([
 
     OrderInteractionStateAnswer.prototype.removeResponseWidget = function(){
         this.widget.$container.off('responseChange.qti-widget');
-        commonRenderer.restore(this.widget.element);
+        commonRenderer.destroy(this.widget.element);
     };
 
     var _formatResponse = function(response){

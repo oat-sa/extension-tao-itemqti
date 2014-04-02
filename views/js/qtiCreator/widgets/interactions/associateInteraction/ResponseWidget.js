@@ -10,7 +10,7 @@ define([
 
             var interaction = widget.element;
 
-            commonRenderer.restore(interaction);
+            commonRenderer.destroy(interaction);
 
             if(responseMappingMode){
                 helper.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
@@ -29,7 +29,7 @@ define([
 
             var interaction = widget.element;
 
-            commonRenderer.restore(interaction);
+            commonRenderer.destroy(interaction);
 
             delete interaction.responseMappingMode;
 

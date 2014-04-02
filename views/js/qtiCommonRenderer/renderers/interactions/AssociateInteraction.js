@@ -366,7 +366,7 @@ define([
         }
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('.result-area>li>div').each(function(){
             unsetChoice(interaction, $(this));
         });
@@ -402,18 +402,12 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
         
-        if(pciResponse.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            _setPairs(interaction, pciResponse.unserialize(response, interaction));
-        }
+        _setPairs(interaction, pciResponse.unserialize(response, interaction));
     };
 
     var _getRawResponse = function(interaction){
@@ -449,19 +443,19 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
-    var restore = function(interaction){
+    var destroy = function(interaction){
 
         var $container = Helper.getContainer(interaction);
 
-        //restore seelcted choice:
+        //destroy seelcted choice:
         $container.find('.result-area .active').mousedown();
 
         //remove event
         $(document).off('.commonRenderer');
         $container.find('.choice-area, .result-area').off('.commonRenderer');
 
-        //restore response
-        _resetResponse(interaction);
+        //destroy response
+        resetResponse(interaction);
 
         //remove instructions
         Helper.removeInstructions(interaction);
@@ -476,7 +470,8 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        restore : restore,//@todo to be renamed into destroy
+        resetResponse : resetResponse,
+        destroy : destroy,//@todo to be renamed into destroy
         renderEmptyPairs : renderEmptyPairs
     };
 });

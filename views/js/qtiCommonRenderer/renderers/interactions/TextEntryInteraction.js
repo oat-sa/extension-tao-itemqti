@@ -5,8 +5,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'polyfill/placeholders'
 ], function(_, tpl, Helper, pciResponse){
-    'use strict';   
- 
+    'use strict';
+
     /**
      * Setting the pattern mask for the input, for browsers which doesn't support this feature
      * @param {jQuery} $element
@@ -14,8 +14,8 @@ define([
      * @returns {undefined}
      */
     var _setPattern = function($element, pattern){
-        var patt = new RegExp('^'+pattern+'$');
-        
+        var patt = new RegExp('^' + pattern + '$');
+
         //test when some data is entering in the input field
         $element.on('keyup', function(){
             $element.removeClass('field-error');
@@ -35,16 +35,16 @@ define([
     var render = function(interaction){
         var attributes = interaction.getAttributes(),
             $el = interaction.getContainer();
-    
+
         //setting up the width of the input field
         if(attributes.expectedLength){
             $el.css('width', parseInt(attributes.expectedLength) + 'em');
         }
-        
+
         //checking if there's a pattern mask for the input
         if(attributes.patternMask){
             var patternSupported = ('pattern' in document.createElement('input'));
-            
+
             /*
              * checking if pattern attribute is not supported of the browser 
              * or if the browser is safari(bug with pattern attribute support)
@@ -59,11 +59,11 @@ define([
 
         //checking if there's a placeholder for the input
         if(attributes.placeholderText){
-            $el.attr('placeholder', attributes.placeholderText);            
+            $el.attr('placeholder', attributes.placeholderText);
         }
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         interaction.getContainer().val('');
     };
 
@@ -82,19 +82,16 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
-        var _setVal = function(value){
-            interaction.getContainer().val(value);
-        };
-        
-        var baseType = interaction.getResponseDeclaration().attr('baseType');
-        
-        if(response.base && response.base[baseType]){
-            _setVal(response.base[baseType]);
-        }else if(_.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            throw new Error('wrong response format in argument: ');
+
+        var responseValue;
+
+        try{
+            responseValue = pciResponse.unserialize(response, interaction);
+        }catch(e){
+        }
+
+        if(responseValue && responseValue.length){
+            interaction.getContainer().val(responseValue[0]);
         }
     };
 
@@ -112,26 +109,26 @@ define([
      */
     var getResponse = function(interaction){
         var ret = {'base' : {}},
-            value, 
+        value,
             $el = interaction.getContainer(),
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
-            numericBase = attributes.base || 10; 
-    
+            numericBase = attributes.base || 10;
+
         if(attributes.placeholderText && $el.val() === attributes.placeholderText){
             value = '';
-        } else {
-            if(baseType==='integer'){
+        }else{
+            if(baseType === 'integer'){
                 value = parseInt($el.val(), numericBase);
-            } else if(baseType==='float'){
+            }else if(baseType === 'float'){
                 value = parseFloat($el.val());
-            } else if(baseType==='string'){
+            }else if(baseType === 'string'){
                 value = $el.val();
             }
         }
-        
+
         ret.base[baseType] = isNaN(value) && typeof value === 'number' ? '' : value;
-        
+
         return ret;
     };
 
@@ -141,6 +138,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

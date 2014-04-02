@@ -136,7 +136,7 @@ define([
         }
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('input').prop('checked', false);
     };
 
@@ -149,8 +149,6 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
@@ -158,15 +156,14 @@ define([
 
         var $container = Helper.getContainer(interaction);
 
-        if(pciResponse.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
+        try{
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
                 $container.find('input[value=' + identifier + ']').prop('checked', true);
             });
+            Helper.validateInstructions(interaction);
+        }catch(e){
+            throw new Error('wrong response format in argument : ' + e);
         }
-
-        Helper.validateInstructions(interaction);
     };
 
     var _getRawResponse = function(interaction){
@@ -199,6 +196,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

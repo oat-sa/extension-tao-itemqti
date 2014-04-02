@@ -481,7 +481,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResonse : resetResponse
+        resetResponse : resetResponse
     };
 });
 

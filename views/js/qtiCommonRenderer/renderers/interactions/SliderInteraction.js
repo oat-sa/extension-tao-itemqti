@@ -6,8 +6,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'jqueryui'
 ], function(_, $, tpl, Helper, pciResponse){
-    'use strict';   
-    
+    'use strict';
+
     var _slideTo = function(options){
         options.sliderCurrentValue.find('.qti_slider_cur_value').text(options.value);
         options.sliderValue.val(options.value);
@@ -21,36 +21,36 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
-       
+
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
-            $el = $('<div />').attr({'id': attributes.identifier + '_qti_slider'}), //slider element
-            $sliderLabels = $('<div />').attr({'id': attributes.identifier + 'qti_slider_values', 'class': 'qti_slider_values'}),
-            $sliderCurrentValue = $('<div />').attr({'id': attributes.identifier + '_qti_slider_cur_value'}), //show the current selected value
-            $sliderValue = $('<input />').attr({'type':'hidden', 'id': attributes.identifier + '_qti_slider_value'}); //the input that always holds the slider value
-            
+            $el = $('<div />').attr({'id' : attributes.identifier + '_qti_slider'}), //slider element
+        $sliderLabels = $('<div />').attr({'id' : attributes.identifier + 'qti_slider_values', 'class' : 'qti_slider_values'}),
+        $sliderCurrentValue = $('<div />').attr({'id' : attributes.identifier + '_qti_slider_cur_value'}), //show the current selected value
+        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.identifier + '_qti_slider_value'}); //the input that always holds the slider value
+
         //getting the options
         var orientation = 'horizontal',
             reverse = typeof attributes.reverse !== 'undefined' && attributes.reverse ? true : false, //setting the slider whether to be reverse or not 
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             step = typeof attributes.step !== 'undefined' && attributes.step ? parseInt(attributes.step) : 1, //default value as per QTI standard
-            steps = (max-min) / step; //number of the steps
+            steps = (max - min) / step; //number of the steps
 
         //add the containers
         $sliderCurrentValue.append('<span class="qti_slider_cur_value_text">Current value: </span>')
-                           .append('<span class="qti_slider_cur_value"></span>');
-                   
+            .append('<span class="qti_slider_cur_value"></span>');
+
         $sliderLabels.append('<span class="slider_min">' + (!reverse ? min : max) + '</span>')
-                    .append('<span class="slider_max">' + (!reverse ? max : min) + '</span>');
-        
+            .append('<span class="slider_max">' + (!reverse ? max : min) + '</span>');
+
         interaction.getContainer().append($el)
-                                .append($sliderLabels)
-                                .append($sliderCurrentValue)
-                                .append($sliderValue);
+            .append($sliderLabels)
+            .append($sliderCurrentValue)
+            .append($sliderValue);
 
         //setting the orientation of the slider
-        if(typeof attributes.orientation !== 'undefined' &&  $.inArray(attributes.orientation, ['horizontal', 'vertical']) > -1){
+        if(typeof attributes.orientation !== 'undefined' && $.inArray(attributes.orientation, ['horizontal', 'vertical']) > -1){
             orientation = attributes.orientation;
         }
 
@@ -58,7 +58,7 @@ define([
 
         if(orientation === 'horizontal'){
             $container.addClass('qti_slider_horizontal');
-        }else {
+        }else{
             var maxHeight = 300;
             sliderSize = steps * 20;
             if(sliderSize > maxHeight){
@@ -74,13 +74,13 @@ define([
             var middleStep = parseInt(steps / 2),
                 leftOffset = (100 / steps) * middleStep,
                 middleValue = reverse ? max - (middleStep * step) : min + (middleStep * step);
-        
+
             if(orientation === 'horizontal'){
-                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="left:'+ leftOffset +'%">' + middleValue + '</span>');
-            }else {
-                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="top:'+ leftOffset +'%">' + middleValue + '</span>');
+                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="left:' + leftOffset + '%">' + middleValue + '</span>');
+            }else{
+                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="top:' + leftOffset + '%">' + middleValue + '</span>');
             }
-            
+
         }
 
         //create the slider
@@ -98,36 +98,36 @@ define([
                 }
                 val = Math.round(val * 1000) / 1000;
                 _slideTo({
-                    'value': val,
-                    'sliderValue': $sliderValue,
-                    'sliderCurrentValue': $sliderCurrentValue
+                    'value' : val,
+                    'sliderValue' : $sliderValue,
+                    'sliderCurrentValue' : $sliderCurrentValue
                 });
             }
         });
-        
+
         _slideTo({
-            'value': min,
-            'sliderValue': $sliderValue,
-            'sliderCurrentValue': $sliderCurrentValue
+            'value' : min,
+            'sliderValue' : $sliderValue,
+            'sliderCurrentValue' : $sliderCurrentValue
         });
     };
-    
-    var _resetResponse = function(interaction){
+
+    var resetResponse = function(interaction){
         var attributes = interaction.getAttributes(),
             $el = $('#' + attributes.identifier + '_qti_slider'),
-            $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value'),
-            $sliderCurrentValue = $('#'+ attributes.identifier + '_qti_slider_cur_value'),
+            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value'),
+            $sliderCurrentValue = $('#' + attributes.identifier + '_qti_slider_cur_value'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             reverse = typeof attributes.reverse !== 'undefined' && attributes.reverse ? true : false,
             startValue = reverse ? max : min;
-    
+
         _slideTo({
-            'value': min,
-            'sliderValue': $sliderValue,
-            'sliderCurrentValue': $sliderCurrentValue
+            'value' : min,
+            'sliderValue' : $sliderValue,
+            'sliderCurrentValue' : $sliderCurrentValue
         });
-        
+
         $el.slider({'value' : startValue, 'animation' : false}).slider('refresh');
     };
 
@@ -140,53 +140,46 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
-    var setResponse = function(interaction, response){        
+    var setResponse = function(interaction, response){
         var attributes = interaction.getAttributes(),
-            $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value'),
-            $sliderCurrentValue = $('#'+ attributes.identifier + '_qti_slider_cur_value'),
-            $el = $('#'+ attributes.identifier + '_qti_slider'),
+            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value'),
+            $sliderCurrentValue = $('#' + attributes.identifier + '_qti_slider_cur_value'),
+            $el = $('#' + attributes.identifier + '_qti_slider'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             value;
-        
-        if(pciResponse.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            
-            value = pciResponse.unserialize(response, interaction)[0];
-            
-            _slideTo({
-                'value': value,
-                'sliderValue': $sliderValue,
-                'sliderCurrentValue': $sliderCurrentValue
-            });
-            
-            $el.slider({'value' : interaction.attr('reverse')?(max + min) - value:value, 'animation' : false}).slider('refresh');
-        }
+
+        value = pciResponse.unserialize(response, interaction)[0];
+
+        _slideTo({
+            'value' : value,
+            'sliderValue' : $sliderValue,
+            'sliderCurrentValue' : $sliderCurrentValue
+        });
+
+        $el.slider({'value' : interaction.attr('reverse') ? (max + min) - value : value, 'animation' : false}).slider('refresh');
     };
-    
+
     var _getRawResponse = function(interaction){
-        
-        var value, 
+
+        var value,
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             min = parseInt(attributes.lowerBound),
-            $sliderValue = $('#'+ attributes.identifier + '_qti_slider_value');
-    
-        if(baseType==='integer'){
+            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value');
+
+        if(baseType === 'integer'){
             value = parseInt($sliderValue.val());
-        } else if(baseType==='float'){
+        }else if(baseType === 'float'){
             value = parseFloat($sliderValue.val());
         }
-        
+
         return isNaN(value) ? min : value;
     };
-    
+
     /**
      * Return the response of the rendered interaction
      * 
@@ -209,6 +202,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

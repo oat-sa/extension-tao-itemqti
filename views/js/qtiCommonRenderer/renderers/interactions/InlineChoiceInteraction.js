@@ -57,7 +57,7 @@ define([
 
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         _setVal(interaction, _emptyValue);
     };
 
@@ -74,18 +74,12 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
         
-        if(pciResponse.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
-        }
+         _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
     };
 
     var _getRawResponse = function(interaction){
@@ -115,6 +109,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

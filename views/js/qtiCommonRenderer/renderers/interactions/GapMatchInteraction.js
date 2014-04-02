@@ -205,7 +205,7 @@ define([
         eyecatcher();
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
             unsetChoice(interaction, $(this));
         });
@@ -219,8 +219,6 @@ define([
      * 
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
-     * 
-     * Special value: the empty object value {} resets the interaction responses
      * 
      * @param {object} interaction
      * @param {object} response
@@ -240,7 +238,7 @@ define([
         }else if(response.list && response.list.directedPair && _.isArray(response.list.directedPair)){
             _setPairs(response.list.directedPair);
         }else if(_.isEmpty(response)){
-            _resetResponse(interaction);
+            resetResponse(interaction);
         }else{
             throw new Error('wrong response format in argument: ');
         }
@@ -286,11 +284,11 @@ define([
         return ret;
     };
     
-    var restore = function(interaction){
+    var destroy = function(interaction){
         
         var $container = Helper.getContainer(interaction);
 
-        //restore seelcted choice:
+        //restore selected choices:
         $container.find('.gapmatch-content .active').mousedown();
 
         //remove event
@@ -298,7 +296,7 @@ define([
         $container.find('.choice-area, .gapmatch-content').off('.commonRenderer');
 
         //restore response
-        _resetResponse(interaction);
+        resetResponse(interaction);
 
         Helper.getContainer(interaction).find('.gapmatch-content').empty();
     };
@@ -310,6 +308,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        restore : restore
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

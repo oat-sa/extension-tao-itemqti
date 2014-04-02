@@ -243,7 +243,7 @@ define([
 
     };
 
-    var restore = function(interaction){
+    var destroy = function(interaction){
 
         Helper.getContainer(interaction).find('.qti-choice.active').mousedown();
 
@@ -272,6 +272,6 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        restore : restore
+        destroy : destroy
     };
 });

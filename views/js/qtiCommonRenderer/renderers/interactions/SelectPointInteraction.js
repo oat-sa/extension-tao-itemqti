@@ -11,7 +11,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, Helper){
+], function($, _, __, raphael, scaleRaphael, tpl, graphic, pciResponse, Helper){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -29,13 +29,13 @@ define([
         if(raphael.type === 'SVG'){
             interaction.paper = scaleRaphael('graphic-paper-' + interaction.serial, background.width, background.height);
             bgImage = interaction.paper.image("/taoQtiItem/test/samples/test_base_www/" + background.data, 0, 0, background.width, background.height);
-       
+
             //scale on creation
             resizePaper();
-            
+
             //execute the resize every 100ms when resizing
             $(window).resize(_.throttle(resizePaper, 100));
-        } else {
+        }else{
 
             //for VML rendering, we do not scale...
             interaction.paper = raphael('graphic-paper-' + interaction.serial, background.width, background.height);
@@ -76,18 +76,18 @@ define([
             if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
                 if(interaction.paper.width > interaction.paper.w){
                     rwidth = (interaction.paper.width - interaction.paper.w) / 2;
-                    point.x = Math.round(event.layerX - rwidth); 
-                } else {
+                    point.x = Math.round(event.layerX - rwidth);
+                }else{
                     wfactor = interaction.paper.w / interaction.paper.width;
-                    point.x = Math.round(event.layerX * wfactor); 
+                    point.x = Math.round(event.layerX * wfactor);
 
-                    rheight = (interaction.paper.height - (interaction.paper.height * ( 2 - wfactor ))) / 2;
+                    rheight = (interaction.paper.height - (interaction.paper.height * (2 - wfactor))) / 2;
                     point.y = Math.round((event.layerY * wfactor) - rheight);
                 }
             }
 
             _addPoint(interaction, point, function(target){
-                Helper.validateInstructions(interaction, { target : target });
+                Helper.validateInstructions(interaction, {target : target});
             });
         });
     };
@@ -106,27 +106,27 @@ define([
         var y = point.y >= 9 ? point.y - 9 : 0;
 
         var target = interaction.paper
-                .path(graphic.getTargetPath())
-                .transform('T' + (point.x - 9) + ',' + (point.y - 9))
-                .attr({ 
-                    'fill' : graphic.states.success.fill,
-                    'width' : 1, 
-                    'stroke-width' : 0,
-                    'cursor' : 'pointer',
-                    'title' : _('Click again to remove')
-                })
-                .hover(
-                  function(){
-                    this.attr({ 'fill' :  graphic.states.hover.stroke}); 
-                }, function(){
-                    this.attr({ 'fill' :  graphic.states.success.fill}); 
-                })
-                .click(function(){
-                    this.remove();
-                    if(typeof cb === 'function'){
-                        cb();
-                    }
-                });
+            .path(graphic.getTargetPath())
+            .transform('T' + (point.x - 9) + ',' + (point.y - 9))
+            .attr({
+            'fill' : graphic.states.success.fill,
+            'width' : 1,
+            'stroke-width' : 0,
+            'cursor' : 'pointer',
+            'title' : _('Click again to remove')
+        })
+            .hover(
+            function(){
+                this.attr({'fill' : graphic.states.hover.stroke});
+            }, function(){
+            this.attr({'fill' : graphic.states.success.fill});
+        })
+            .click(function(){
+            this.remove();
+            if(typeof cb === 'function'){
+                cb();
+            }
+        });
         target.data('point', point);
 
         if(typeof cb === 'function'){
@@ -165,12 +165,12 @@ define([
                         });
                     }
                     this.setState('fulfilled');
-                } else {
+                }else{
                     this.reset();
                 }
             });
 
-         } else if( max > 0 && max > min){
+        }else if(max > 0 && max > min){
             msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
             Helper.appendInstruction(interaction, msg, function(data){
                 if(_getRawResponse(interaction).length >= max){
@@ -189,16 +189,16 @@ define([
                         });
                     }
                     this.setState('fulfilled');
-                } else {
+                }else{
                     this.reset();
                 }
             });
-        } else if(min > 0){
+        }else if(min > 0){
             msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
             Helper.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
-                } else {
+                }else{
                     this.reset();
                 }
             });
@@ -210,10 +210,10 @@ define([
                 _.delay(function(){
                     graphic.updateElementState(target, 'success');
                 }, 600);
-           }
+            }
         }
     };
-   
+
     /**
      * Get the responses from the interaction
      * @private 
@@ -227,10 +227,10 @@ define([
             if(typeof point === 'object' && point.x && point.y){
                 points.push([point.x, point.y]);
             }
-        });   
+        });
         return points;
     };
- 
+
     /**
      * Set the response to the rendered interaction.
      * 
@@ -240,30 +240,29 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
+
         var responseValues;
         if(response && interaction.paper){
 
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
-            } catch(e){}
-            
+            }catch(e){
+            }
+
             if(_.isArray(responseValues)){
                 _(responseValues)
                     .flatten()
                     .map(function(value, index){
-                        if(index % 2 === 0){
-                            return { x : value, y : responseValues[index + 1] };
-                        }
-                    })
+                    if(index % 2 === 0){
+                        return {x : value, y : responseValues[index + 1]};
+                    }
+                })
                     .filter(_.isObject)
-                    .forEach(_.partial(_addPoint, interaction)); 
+                    .forEach(_.partial(_addPoint, interaction));
             }
         }
     };
@@ -288,7 +287,7 @@ define([
             if(typeof point === 'object'){
                 point.remove();
             }
-        });   
+        });
     };
 
 
@@ -306,7 +305,7 @@ define([
      */
     var getResponse = function(interaction){
         var raw = _getRawResponse(interaction);
-        var response =  pciResponse.serialize(_getRawResponse(interaction), interaction);
+        var response = pciResponse.serialize(_getRawResponse(interaction), interaction);
         return response;
     };
 
@@ -321,7 +320,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResonse : resetResponse
+        resetResponse : resetResponse
     };
 });
 

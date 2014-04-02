@@ -212,8 +212,6 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             if(_renderers[qtiClass]){
                 if(typeof(_renderers[qtiClass].setResponse) === 'function'){
                     ret = _renderers[qtiClass].setResponse.call(this, qtiInteraction, response);
-                }else{
-                    //postRendering is optional, log missing call of setResponse?
                 }
             }else{
                 throw 'no renderer template registered under the name : ' + qtiClass;
@@ -226,8 +224,18 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             if(_renderers[qtiClass]){
                 if(typeof(_renderers[qtiClass].getResponse) === 'function'){
                     ret = _renderers[qtiClass].getResponse.call(this, qtiInteraction);
-                }else{
-                    //postRendering is optional, log missing call of getResponse?
+                }
+            }else{
+                throw 'no renderer template registered under the name : ' + qtiClass;
+            }
+            return ret;
+        };
+        
+        this.resetResponse = function(qtiInteraction){
+            var ret = false, qtiClass = qtiInteraction.qtiClass;
+            if(_renderers[qtiClass]){
+                if(typeof(_renderers[qtiClass].resetResponse) === 'function'){
+                    ret = _renderers[qtiClass].resetResponse.call(this, qtiInteraction);
                 }
             }else{
                 throw 'no renderer template registered under the name : ' + qtiClass;

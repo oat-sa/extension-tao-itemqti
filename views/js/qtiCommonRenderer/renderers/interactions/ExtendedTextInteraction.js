@@ -139,7 +139,7 @@ define([
         }
     };
     
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         interaction.getContainer().find('input, textarea').val('');
     };
 
@@ -151,8 +151,6 @@ define([
      * 
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
-     * Special value: the empty object value {} resets the interaction responses
      * 
      * @param {object} interaction
      * @param {object} response
@@ -176,8 +174,6 @@ define([
                 var identifier = typeof response.list.identifier === 'undefined'?'':response.list.identifier[i];
                 _setMultipleVal(identifier + '_' + i, response.list[baseType][i]);
             }
-        } else if (_.isEmpty(response)){
-            _resetResponse(interaction);
         } else {
             throw new Error('wrong response format in argument: ');
         }
@@ -253,6 +249,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

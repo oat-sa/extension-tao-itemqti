@@ -45,8 +45,6 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
      * 
-     * Special value: the empty object value {} resets the interaction responses
-     * 
      * @param {object} interaction
      * @param {object} response
      */
@@ -82,8 +80,8 @@ define([
     };
     
     var resetResponse = function(interaction) {
-    	$container = Helper.getContainer(interaction);
-    	$container.find('input[type=checkbox]:checked').each(function() {
+        
+    	Helper.getContainer(interaction).find('input[type=checkbox]:checked').each(function() {
     		$(this).prop('checked', false);
     	});
     	
@@ -102,7 +100,7 @@ define([
     };
     
     var _inferValue = function(element) {
-    	$element = $(element);
+    	var $element = $(element);
     	var y = $element.closest('tr').index();
     	var x = $element.closest('td').index();
     	var firstId = $('.matrix > thead th').eq(x).data('identifier');

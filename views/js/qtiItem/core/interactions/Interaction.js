@@ -149,6 +149,16 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
             }
             return ret;
         },
+        resetResponse : function(){
+            var ret = null;
+            var renderer = this.getRenderer();
+            if(renderer){
+                ret = renderer.resetResponse(this);
+            }else{
+                throw 'no renderer found for the interaction ' + this.qtiClass;
+            }
+            return ret;
+        },
         toArray : function(){
             var arr = this._super();
             arr.choices = {};

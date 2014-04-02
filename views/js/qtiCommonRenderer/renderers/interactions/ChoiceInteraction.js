@@ -14,11 +14,11 @@ define([
     var pseudoLabel = function(interaction){
 
         var setChoice = function($choice){
-            var $inupt = $choice.find('input');
-            if($inupt.prop('checked')){
-                $inupt.prop('checked', false);
+            var $input = $choice.find('input');
+            if($input.prop('checked')){
+                $input.prop('checked', false);
             }else{
-                $inupt.prop('checked', true);
+                $input.prop('checked', true);
             }
             Helper.validateInstructions(interaction, {choice : $choice});
         };
@@ -60,7 +60,7 @@ define([
             var highlightInvalidInput = function($choice){
                 var $input = $choice.find('input'),
                     $li = $choice.css('color', '#BA122B'),
-                    $icon = $choice.find('>label>span').css('color', '#BA122B').addClass('cross error');
+                    $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
 
                 setTimeout(function(){
                     $input.prop('checked', false);
@@ -95,7 +95,6 @@ define([
                 });
             }else if(max > min){
                 Helper.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
-
                     if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
                         if(this.checkState('fulfilled')){
@@ -129,7 +128,7 @@ define([
         }
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('input').prop('checked', false);
     };
 
@@ -142,25 +141,20 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      * 
-     * Special value: the empty object {} or null resets the interaction responses
-     * 
      * @param {object} interaction
-     * @param {object|null} response
+     * @param {object} response
      */
     var setResponse = function(interaction, response){
 
         var $container = Helper.getContainer(interaction);
         
-        if(pciResponse.isEmpty(response)){
-            _resetResponse(interaction);
-        }else{
-            try{
-                _.each(pciResponse.unserialize(response, interaction), function(identifier){
-                    $container.find('input[value=' + identifier + ']').prop('checked', true);
-                });
-            }catch(e){
-                throw new Error('wrong response format in argument : ' + e);
-            }
+        try{
+            _.each(pciResponse.unserialize(response, interaction), function(identifier){
+                $container.find('input[value=' + identifier + ']').prop('checked', true);
+            });
+            Helper.validateInstructions(interaction);
+        }catch(e){
+            throw new Error('wrong response format in argument : ' + e);
         }
     };
 
@@ -201,6 +195,7 @@ define([
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
-        getResponse : getResponse
+        getResponse : getResponse,
+        resetResponse : resetResponse
     };
 });

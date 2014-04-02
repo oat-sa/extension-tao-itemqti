@@ -114,7 +114,7 @@ define([
                             if(_.isArray(responses)){
                                 //test responses set() and get():
                                 _.each(responses, function(response){
-                                    interaction.setResponse({});//reset response
+                                    interaction.resetResponse();
                                     interaction.setResponse(response.set ? response.set : response);//assign the given value
                                     _responseEqual(interaction.getResponse(), response.get ? response.get : response);//test the assigned value
                                 });
