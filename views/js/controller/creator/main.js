@@ -8,8 +8,8 @@ define([
     'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/editor/loader',
     'taoQtiItem/qtiCreator/editor/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/devTools',
     'ckeditor',
-    'ckConfigurator',
     'taoQtiItem/qtiCreator/core/gridEditor'
 ], function(
     toggleToolDisplay,
@@ -21,8 +21,8 @@ define([
     listStyler,
     loader,
     creatorRenderer,
-    ckeditor,
-    ckConfigurator
+    devTools,
+    ckeditor
     ){
 
 
@@ -37,16 +37,13 @@ define([
         }, item.getUsedClasses());
     };
 
-    var _debug = function _debug(){
+    var _debug = function _debug(item){
+        
+        devTools.listenStateChange();
 
-        $(document).on('beforeStateInit.qti-widget', function(e, element, state){
-            console.log('->state : ' + state.name + ' : ' + element.serial);
-        });
-
-        $(document).on('afterStateExit.qti-widget', function(e, element, state){
-            console.log('<-state : ' + state.name + ' : ' + element.serial);
-        });
-
+//        var $xmlPreview = $('<div>', {});
+//        $('#item-editor-wrapper').append($xmlPreview);
+//        devTools.liveXmlPreview(item, $xmlPreview);
     };
 
     var _initEditor = function _initEditor($item){
@@ -83,6 +80,7 @@ define([
             loader.loadItem({uri : config.uri}, function(item){
                 _renderItem(item)
                 _initEditor($('#item-editor-panel .item-editor-drop-area'));
+                _debug(item);
             });
 
         }

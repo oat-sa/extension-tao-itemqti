@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, rendererConfig){
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){
@@ -82,11 +82,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
          * Render the interaction to the view.
          * The optional argument "subClass" allows distinguishing customInteraction: e.g. customInteraction.matrix, customInteraction.likertScale ...
          */
-        render : function(data, $container, subClass, renderer){
-            
-             renderer = renderer||this.getRenderer();
-             
-             var  defaultData = {
+        render : function(){
+
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer();
+
+            var defaultData = {
                 '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
                     return "_" + $1.toLowerCase();
                 }),
@@ -110,16 +111,17 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                 });
             }catch(e){
                 //leave choices empty in case of error
+                console.log('error', e);
             }
-
-            var tplData = _.merge(defaultData, data || {});
-            var tplName = subClass ? this.qtiClass + '.' + subClass : this.qtiClass;
-            return this._super(tplData, $container, tplName, renderer);
+            
+            var tplData = _.merge(defaultData, args.data);
+            var tplName = args.subclass ? this.qtiClass + '.' + args.subclass : this.qtiClass;
+            return this._super(tplData, args.placeholder, tplName, renderer);
         },
         postRender : function(data, altClassName, renderer){
-            
+
             renderer = renderer || this.getRenderer();
-            
+
             var choices = this.getChoices();
             for(var i in choices){
                 var c = choices[i];

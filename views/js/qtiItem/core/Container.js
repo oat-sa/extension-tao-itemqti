@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element, _, $){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, $, rendererConfig){
 
     var Container = Element.extend({
         qtiClass : '_container',
@@ -94,9 +94,11 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
             }
             return elts;
         },
-        render : function(renderer){
+        render : function(){
             
-            var elementsData = [],
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                elementsData = [],
                 tpl = this.body();
             
             for(var serial in this.elements){
@@ -109,13 +111,11 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 }
             }
             
-            renderer = renderer || this.getRenderer();
-            
             if(renderer.isRenderer){
                 return this._super({
                     'body' : renderer.renderDirect(tpl, elementsData),
                     'contentModel':this.contentModel||'flow'
-                });
+                }, renderer);
             }else{
                 throw 'invalid qti renderer for qti container';
             }

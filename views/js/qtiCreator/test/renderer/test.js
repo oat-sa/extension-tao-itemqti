@@ -1,38 +1,12 @@
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/core/model/qtiClasses',
     'taoQtiItem/qtiCreator/renderers/Renderer',
-    'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCreator/helper/devTools',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function(_, $, Loader, Element, qtiClasses, Renderer, XmlRenderer, data){
-
-    var bufferedExecution = function(callback, bufferTime){
-        
-        return _.throttle(callback, bufferTime);
-    };
-
-    var formatXml = function(xml){
-        return vkbeautify.xml(xml, '\t');
-    };
-
-    var printXml = function(rawXml){
-
-        var xml = formatXml(rawXml);
-
-        xml = xml
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-        var $code = $('#xml-container').html(xml);
-        Prism.highlightElement($code[0]);
-
-    };
+], function($, Loader, Element, qtiClasses, Renderer, devTools, data){
 
     var Test = {
         testRender : function(itemIdentifier, attributes){
@@ -96,44 +70,10 @@ define([
 
                         }, this.getLoadedClasses());
                         
-                        $(document).on('beforeStateInit.qti-widget', function(e, element, state){
-                            console.log('->state : '+state.name+' : '+element.serial);
-                        });
-                        
-                        $(document).on('afterStateExit.qti-widget', function(e, element, state){
-                            console.log('<-state : '+state.name+' : '+element.serial);
-                        });
-
-                        //render qti xml:
-                        var xmlRenderer = new XmlRenderer({shuffleChoices:false});
-                        xmlRenderer.load(function(){
-                            
-                            var bufferedExec = bufferedExecution(function(){
-                                item.setRenderer(xmlRenderer);
-                                printXml(item.render());
-                                item.setRenderer(creatorRenderer);
-                            }, 200);
-                            
-                            var events = [
-                                'containerBodyChange',
-                                'attributeModified.qti-widget',
-                                'choiceCreated.qti-widget',
-                                'correctResponseChange.qti-widget',
-                                'mapEntryChange.qti-widget',
-                                'mapEntryRemove.qti-widget',
-                                'deleted.qti-widget',
-                                'choiceTextChange.qti-widget'
-                            ];
-                            
-                            $(document).on(events.join(' '), function(e, data){
-                                bufferedExec();
-                            });
-                            
-                        }, this.getLoadedClasses());
-
+                        devTools.listenStateChange();
+                        devTools.liveXmlPreview(item, $('#xml-container'));
 
                     });
-
 
                 });
 

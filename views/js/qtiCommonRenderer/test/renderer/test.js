@@ -86,7 +86,7 @@ define([
                         var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
                         var $title = $('<h2>', {text : 'identifier : ' + item.id()});
                         $("#qunit-fixture").after($placeholder.before($title));
-
+                        
                         renderer.load(function(){
 
                             start();

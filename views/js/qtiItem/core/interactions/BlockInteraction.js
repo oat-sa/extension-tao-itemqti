@@ -1,4 +1,9 @@
-define(['taoQtiItem/qtiItem/core/interactions/Interaction', 'taoQtiItem/qtiItem/core/interactions/Prompt', 'lodash'], function(Interaction, Prompt, _){
+define([
+    'taoQtiItem/qtiItem/core/interactions/Interaction',
+    'taoQtiItem/qtiItem/core/interactions/Prompt', 
+    'lodash',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function(Interaction, Prompt, _, rendererConfig){
 
     var BlockInteraction = Interaction.extend({
         init : function(serial, attributes){
@@ -17,15 +22,16 @@ define(['taoQtiItem/qtiItem/core/interactions/Interaction', 'taoQtiItem/qtiItem/
         find : function(serial){
             return this._super(serial) || this.prompt.find(serial);
         },
-        render : function(data, $container, subclass, renderer){
+        render : function(){
             
-            renderer = renderer || this.getRenderer();
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer();
             
             var defaultData = {
-                'prompt' : this.prompt.render({}, null, '', renderer)
+                'prompt' : this.prompt.render(renderer)
             };
-            var tplData = _.merge(defaultData, data || {});
-            return this._super(tplData, $container, subclass, renderer);
+            var tplData = _.merge(defaultData, args.data);
+            return this._super(tplData, args.placeholder, args.subclass, renderer);
         },
         postRender : function(data, altClassName, renderer){
             renderer = renderer || this.getRenderer();

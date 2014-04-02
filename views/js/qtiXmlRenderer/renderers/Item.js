@@ -1,10 +1,12 @@
-define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, rendererConfig){
     return {
         qtiClass : 'assessmentItem',
         template : tpl,
         getData : function(item, data){
             
-            var ns = _.clone(item.namespaces);
+            var ns = _.clone(item.namespaces),
+                renderer = this;
+            
             delete ns[''];
             delete ns['xsi'];
             delete ns['xml'];
@@ -14,17 +16,17 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
                 outcomes : [],
                 stylesheets : [],
                 namespaces : ns,
-                responseProcessing : item.responseProcessing ? item.responseProcessing.render() : ''
+                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : ''
             };
-
+            
             _.each(item.responses, function(response){
-                defaultData.responses.push(response.render());
+                defaultData.responses.push(response.render(renderer));
             });
             _.each(item.outcomes, function(outcome){
-                defaultData.outcomes.push(outcome.render());
+                defaultData.outcomes.push(outcome.render(renderer));
             });
             _.each(item.stylesheets, function(stylesheet){
-                defaultData.stylesheets.push(stylesheet.render());
+                defaultData.stylesheets.push(stylesheet.render(renderer));
             });
             
             return _.merge(data || {}, defaultData);

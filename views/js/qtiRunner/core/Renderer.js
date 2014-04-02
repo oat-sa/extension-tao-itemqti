@@ -251,7 +251,7 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             _.extend(_locations, renderersLocations);
         };
 
-        this.load = function(callback, requiredClasses, reload){
+        this.load = function(callback, requiredClasses){
 
             var required = [];
             if(requiredClasses){
