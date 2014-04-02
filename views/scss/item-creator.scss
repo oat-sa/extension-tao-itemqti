@@ -98,6 +98,7 @@
             padding: 6px;
         }
     }
+
     
     .item-editor-sidebar {
         background: mix(#fff, $grey, 85%);
@@ -115,7 +116,7 @@
                 padding: 0 6px;
                 letter-spacing: .06rem;
                 clear: left;
-                margin: 0;
+                margin: 7px 0;
                 color: black();
                 position: relative;
                 background: mix(#fff, $websiteBorder, 70%);
@@ -133,6 +134,16 @@
                     padding: 0;
                     margin: 0;
                     @include font-size(13)
+                }
+                select, input[type="text"] {
+                    width: 100%;
+                }
+                .icon-help.tooltipstered {
+                    cursor: help;
+                    padding-right: 5px;
+                    float:right;
+                    position: relative;
+                    top: 2px
                 }
                 .panel-row {
                     margin-bottom: 7px
