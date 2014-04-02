@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, Choice, formTpl, formElement){
     
-    var SimpleChoiceStateChoice = stateFactory.clone(Choice);
+    var SimpleChoiceStateChoice = stateFactory.extend(Choice);
 
     SimpleChoiceStateChoice.prototype.addOptionForm = function(){
         

@@ -76,8 +76,7 @@ define([
     InlineChoiceInteractionWidget.buildContainer = function(){
 
         //set the itemContainer where the actual widget should be append and be positioned absolutely
-        var item = this.element.getRelatedItem();
-        this.$itemContainer = this.$original.parents('.item-editor-drop-area');
+        this.$itemContainer = this.$original.parents('.item-editor-item');
 
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());

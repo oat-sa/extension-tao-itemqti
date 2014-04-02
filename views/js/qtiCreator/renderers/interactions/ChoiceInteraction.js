@@ -8,7 +8,7 @@ define([
 
     CreatorChoiceInteraction.render = function(interaction, options){
         
-        ChoiceInteractionWidget.build(
+        return ChoiceInteractionWidget.build(
             interaction,
             ChoiceInteraction.getContainer(interaction),
             this.getOption('interactionOptionForm'),

@@ -7,7 +7,7 @@ define([
     'taoQtiItem/qtiCreator/editor/toggleAppearance',
     'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/editor/loader',
-    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'taoQtiItem/qtiCreator/editor/creatorRenderer',
     'ckeditor',
     'taoQtiItem/qtiCreator/core/gridEditor'
 ], function(
@@ -19,25 +19,13 @@ define([
     toggleAppearance,
     listStyler,
     loader,
-    Renderer,
+    creatorRenderer,
     ckeditor
     ){
 
     var _renderItem = function _renderItem(item){
 
-        var creatorRenderer = new Renderer({
-            shuffleChoices : false,
-            runtimeContext : {
-                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
-                root_url : '',
-                debug : true
-            },
-            interactionOptionForm : $('#item-editor-interaction-bar .panel'),
-            choiceOptionForm : $('#item-editor-choice-bar .panel'),
-            responseOptionForm : $('#item-editor-response-bar .panel')
-        });
-
-        creatorRenderer.load(function(){
+        creatorRenderer.get().load(function(){
 
             item.setRenderer(this);
             $('.item-editor-drop-area').append(_normalizeItemBody(item.getBody().render()));
@@ -61,18 +49,22 @@ define([
     var _initEditor = function _initEditor($item){
 
         $item.gridEditor();
-        $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'));
-
+        $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
+            helper : function(){
+                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 99);
+            }
+        });
+        $item.gridEditor('resizable');
     };
-    
+
     var _normalizeItemBody = function _normalizeItemBody(rawItemBody){
         var $itemBody = $(rawItemBody);
         if(!$itemBody.hasClass('grid-row')){
-            return $('<div>', {'class':'grid-row'}).append($('<div>', {'class':'col-12'}).append($itemBody));
+            return $('<div>', {'class' : 'grid-row'}).append($('<div>', {'class' : 'col-12'}).append($itemBody));
         }
         return $itemBody;
     };
-    
+
     return {
         start : function(config){
 
@@ -86,10 +78,8 @@ define([
             listStyler();
 
             loader.loadItem({uri : config.uri}, function(item){
-
                 _renderItem(item)
-                _initEditor($('#item-editor-panel item-editor-drop-area'));
-
+                _initEditor($('#item-editor-panel .item-editor-drop-area'));
             });
 
         }

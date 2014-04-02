@@ -86,10 +86,4 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/core/gridUnits', 'taoQtiItem/
         expect(0);
     });
     
-    test('load item', function(){
-       var $elt = $('<main id="item-editor-panel" class="clearfix tao-scope"><div class="item-editor-item clearfix"><h1 class="item-title col-12">Item title</h1><div class="item-editor-drop-area"></div></div></main>');
-       console.log($elt.hasClass('tao-scope'));
-       console.log($elt.find('.col-12'));
-    });
-    
 });

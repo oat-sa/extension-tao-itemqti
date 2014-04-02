@@ -1,11 +1,68 @@
 <?php
+
 use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 ?>
+<style>
+    #new-interaction{cursor:pointer;}
+
+    .qti-droppable-ready{outline: 1px solid green;}
+    .qti-droppable-active{outline: 1px solid yellow;}
+    .qti-droppable{outline: 0px dotted green;}
+    .qti-droppable-highlight{display: inline-block;width:0.3em; height:0.9em; padding: 0px; outline:2px dotted #ccc; background-color: #eee;}
+    /*too jumpy*/.qti-droppable-hover{display: inline-block;width:5em; height:0.9em; padding: 0px; outline:2px dotted #ccc; background-color: #eee;}
+    .qti-droppable-hover{display: inline-block;width:0.5em; height:0.9em; padding: 0px; outline:2px solid green; background-color: lightgreen;}
+
+    .qti-droppable-block-highlight{height:1em; width:100%;outline:2px dotted #ccc; background-color: #efefef;margin:0;}
+    .qti-droppable-block-hover{min-height: 30px; width:100%;border: 2px dashed #3e7da7; background-color: #e6eef4;margin:0;opacity:0.5;}
+
+    .qti-droppable-inline-hover{display: inline-block;width:0.5em; height:0.9em; padding: 0px; border:2px dotted #3e7da7; background-color: #e6eef4;}
+
+    .qti-authoring-element-box{position:relative;}
+
+    .qti-element-focus{outline:1px solid black;z-index:900;}
+    .qti-element-hover{outline:1px solid blue;}
+    .qti-element-hover-label{position:absolute;left:0;top:-20px;outline:blue solid 1px;background-color: white;}
+
+    .qti-position-cursor{outline: 1px solid black;}
+
+    .qti-overlay{position:absolute; top:0; left:0; background-color:#ccc; opacity:0.35;}
+
+    .qti-authoring-shielded{position: relative; display: inline-block;outline: 1px dashed rgba(0, 0, 0, 0.6);}
+    .qti-authoring-element-button{position: absolute; z-index: 2; top: 0; left: 0; width:100%; height:100%; background: #ccc; opacity:0.5; border:none; cursor: pointer;}
+
+
+    [class^="col-"], [class*=" col-"]{position: relative;outline:0px dashed blue;}
+
+    /*[class*=" col-"]:first-child, [class^="col-"]:first-child{margin-left: 1.42857%;}*/
+
+    .grid-edit-resizing{cursor:col-resize;}
+    .grid-edit-resizable-zone{position : absolute; cursor:col-resize; text-align : center; outline: 0px dotted blue}
+    .grid-edit-resizable-handle{position : relative; display:inline-block; width : 1px; height:100%;}
+    .grid-edit-resizable-zone-active:hover .grid-edit-resizable-handle{border-width:0 1px;border-color: #ccc; border-style: solid;}
+    .grid-edit-resizable-active{width:0;border:0px dashed #3e7da7;border-left-width: 1px;}
+    .grid-edit-resizable-outline{position:absolute; top:0; left:0;height:100%;border:1px solid #3e7da7;background-color:#e4ecef;opacity:0.5;z-index:9;}
+
+    .grid-edit-insert-box{position : absolute; height:100%; text-align : center; opacity:0.5; z-index:9;}
+    .grid-edit-insert-box:hover{opacity:0.3;}
+    .grid-edit-insert-square{position : relative; width: 20px; height: 20px; background-color:#3e7da7; border-top-left-radius: 3px; border-top-right-radius: 3px;}
+    .grid-edit-insert-triangle{position : relative; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 12px solid #3e7da7;}
+    .grid-edit-insert-line{position:absolute; top:0; left:10px; height:100%; border-left:1px dashed #3e7da7}
+
+    .grid-draggable-helper{z-index: 99; max-height: 200px; max-width:50%;overflow:hidden;border:1px solid #ddd;padding:6px;}
+    .grid-draggable-helper:after{content:'...';position:absolute; bottom:0px;right:6px;}
+
+    .grid-draggable{cursor:pointer;}
+    .grid-draggable:hover{opacity:0.8;}
+    .grid-draggable:active, .grid-draggable-active{cursor:all-scroll;}
+
+    .debug [class^="col-"], .debug [class*=" col-"] {border: 0px dotted gray;position: relative;background-color:#efefef;}
+</style>
+<link href="<?=BASE_WWW?>css/qti.css" rel="stylesheet">
 <link href="<?=BASE_WWW?>css/item-creator.css" rel="stylesheet">
 <div id="item-editor-scope" class="tao-scope">
     <div id="item-editor-toolbar">
         <div id="item-editor-logo">
-            <?=__('Item creator')?>
+<?=__('Item creator')?>
         </div>
         <ul class="plain clearfix item-editor-menu lft">
             <li><span class="icon-save"></span><?=__('Save')?></li>
@@ -26,27 +83,27 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
         <div class="item-editor-sidebar" id="item-editor-interaction-bar">
 
             <section class="tool-group clearfix">
-                <?php foreach(ItemAuthoring::getAvailableAuthoringElements() as $group =>
-                $groupValues): ?>
+                <?php foreach(ItemAuthoring::getAvailableAuthoringElements() as $group => $groupValues):
+                    ?>
 
-                <h2><?= $group ?></h2>
+                    <h2><?=$group?></h2>
 
-                <div class="panel">
-                    <ul class="tool-list plain">
-                        <?php foreach($groupValues as $record): ?>
+                    <div class="panel">
+                        <ul class="tool-list plain">
+    <?php foreach($groupValues as $record):?>
 
-                        <li title="<?=$record['title']?>" data-qti-class="<?=$record['qtiClass']?>">
-                            <span class="icon-<?=$record['icon']?>"></span>
+                                <li title="<?=$record['title']?>" data-qti-class="<?=$record['qtiClass']?>">
+                                    <span class="icon-<?=$record['icon']?>"></span>
 
-                            <div class="truncate"><?=$record['short']?></div>
-                            <img class="viewport-hidden"
-                                 src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/>
-                        </li>
-                        <?php endforeach; ?>
+                                    <div class="truncate"><?=$record['short']?></div>
+                                    <img class="viewport-hidden"
+                                         src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/>
+                                </li>
+    <?php endforeach;?>
 
-                    </ul>
-                </div>
-                <?php endforeach; ?>
+                        </ul>
+                    </div>
+<?php endforeach;?>
             </section>
         </div>
         <!-- /left sidebar -->
@@ -114,19 +171,19 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 
                 </section>
             </div>
-            <div class="item-editor-interaction-related" id="item-editor-interaction-bar">
+            <div class="item-editor-interaction-related" id="item-editor-interaction-property-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Interaction Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-choice-related" id="item-editor-choice-bar">
+            <div class="item-editor-choice-related" id="item-editor-choice-property-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Choice Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-response-related" id="item-editor-response-bar">
+            <div class="item-editor-response-related" id="item-editor-respons-propertye-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Response Properties')?></h2>
                     <div class="panel"></div>
@@ -154,7 +211,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
     </div>
 </div>
 <script>
-    require(['taoQtiItem/controller/creator/main'], function (controller) {
-        controller.start({uri:'<?=get_data('uri')?>'});
+    require(['taoQtiItem/controller/creator/main'], function(controller){
+        controller.start({uri : '<?=get_data('uri')?>'});
     })
 </script>

@@ -272,6 +272,24 @@
             -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
             -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
             box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+            .widget-box{
+                position:relative;
+                .tlb-bar{
+                    z-index:99;
+                }
+                .qti-prompt{
+                    min-height:1rem;
+                }
+                .float-space-top.cke_nose{
+                    display:block;
+                    right:5px;
+                    bottom: -6px;
+                }
+                .float-space-bottom.cke_nose{
+                    display:block;
+                    top: -6px;
+                }
+            }
             .widget-box-placeholder{
                 display: inline-block;
                 margin: 0;
@@ -347,7 +365,8 @@
         }
         .item-editor-row {
             min-height: 100px;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
         }
     }
 }

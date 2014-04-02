@@ -1,12 +1,13 @@
 define([
     'lodash',
     'jquery',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/core/qtiElements',
     'taoQtiItem/qtiCreator/core/gridUnits',
     'taoQtiItem/qtiCreator/core/model/Item',
-    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCreator/editor/creatorRenderer',
     'jqueryui',
-], function(_, $, QtiElements, gridUnits, Item, Renderer){
+], function(_, $, Element, QtiElements, gridUnits, Item, creatorRenderer){
 
     'use strict';
     var CL = console ? console.log : function(){
@@ -54,10 +55,10 @@ define([
     };
 
     var methods = {
-        addInsertables : function($elts){
+        addInsertables : function($elts, options){
             var $grid = $(this);
             $elts.each(function(){
-                createInsertable($(this), $grid);
+                createInsertable($(this), $grid, options);
             });
         },
         createMovables : function($elts){
@@ -93,6 +94,7 @@ define([
     }
 
     function create($elt, options){
+
         $elt.data('qti-grid-options', options);
 
         //initialize grid count
@@ -151,20 +153,21 @@ define([
         return _item;
     }
 
-    var _renderer = null;
-    function getRenderer(){
-        if(!_renderer){
-            _renderer = new Renderer();
+    $.fn.gridEditor.insertableDefaults = {
+        helper : function(){
+            return $(this).clone().css('z-index', 99);
+        },
+        drop : function(){
+            //to be implemented
         }
-        return _renderer;
-    }
+    };
 
-    function createInsertable($el, $to){
-        console.log('ee');
+    function createInsertable($el, $to, options){
+
+        options = _.defaults($.fn.gridEditor.insertableDefaults, options);
+
         createDraggable($el, $to, {
-            helper : function(){
-                return $(this).clone().css('z-index', 99);
-            },
+            helper : options.helper,
             drop : function($to, $dropped){
 
                 //a new qti element has been added: update the model + render
@@ -173,16 +176,23 @@ define([
                 $dropped.attr({'data-new' : true, 'data-qti-class' : $el.data('qti-class')});//add data attribute to get the dom ready to be replaced by rendering
 
                 getQtiElement().createElements(getBody($to), function(newElts){
-                    getRenderer().load(function(){
+                    creatorRenderer.get().load(function(){
                         for(var serial in newElts){
-                            var elt = newElts[serial];
+                            var elt = newElts[serial],
+                                $container,
+                                widget;
 
                             elt.setRenderer(this);
                             elt.render({}, $dropped);
+                            widget = elt.postRender();
 
-                            var $container = elt.getContainer();
+                            if(Element.isA(elt, 'blockInteraction')){
+                                $container = widget.$container;
+                            }else{
+                                //leave the container in place
+                                $container = widget.$original;
+                            }
 
-                            $container.attr('data-qti-class', 'choiceInteraction');
                             createMovable($container, $to);
                         }
                     }, this.getUsedClasses());

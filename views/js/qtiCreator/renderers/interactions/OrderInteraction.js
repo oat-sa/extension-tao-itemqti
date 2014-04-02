@@ -8,7 +8,7 @@ define([
 
     CreatorOrderInteraction.render = function(interaction, options){
         
-        OrderInteractionWidget.build(
+        return OrderInteractionWidget.build(
             interaction,
             OrderInteraction.getContainer(interaction),
             this.getOption('interactionOptionForm'),

@@ -10,7 +10,7 @@ define([
         
         AssociateInteraction.renderEmptyPairs(interaction);
         
-        AssociateInteractionWidget.build(
+        return AssociateInteractionWidget.build(
             interaction,
             AssociateInteraction.getContainer(interaction),
             this.getOption('interactionOptionForm'),
