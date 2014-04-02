@@ -24,4 +24,27 @@
             }
         }
     }
+    .result-area > li {
+        & > .mini-tlb[data-edit]{
+            top:40%;
+            right:-150px;
+        }
+        & > .target[data-edit] {
+            float: none;
+            position: absolute;
+            right: -230px;
+            outline: none;
+            width: 200px;
+            border: none;
+            cursor: default;
+            .col-3, .col-4, .col-5 {
+                text-align: center;
+                @extend .debug;
+                label {
+                    position: relative;
+                    top: 5px
+                }
+            }
+        }
+    }
 }

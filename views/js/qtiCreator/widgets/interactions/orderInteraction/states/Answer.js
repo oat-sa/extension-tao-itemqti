@@ -7,7 +7,7 @@ define([
     'i18n'
 ], function(stateFactory, Answer, commonRenderer, helper, _, __){
 
-    var OrderInteractionStateAnswer = stateFactory.clone(Answer);
+    var OrderInteractionStateAnswer = stateFactory.extend(Answer);
 
     OrderInteractionStateAnswer.prototype.createResponseWidget = function(){
 

@@ -61,15 +61,16 @@ define([
                     pairs = responseWidget.getResponseSummary(response);
 
                     //the pair is complete:
-
                     $filled.each(function(){
 
                         var serial = $(this).data('serial'),
                             choice = interaction.getChoice(serial);
-                         console.log(interaction, serial);   
+                            
                         pair.push(choice.id());
                     });
+                    
                     pair.sort();
+                    
                     var pairIdentifier = pair.join(' '),
                         $miniToolbar = extraData.$pair.children('.mini-tlb');
 

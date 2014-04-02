@@ -22,7 +22,6 @@
             display: block;
             margin-bottom: 30px;
             position: relative;
-            //background: whiten($uiClickableDefaultBg, .5);
             @extend .clearfix;
             &:before {
                 @extend .clearfix:before;
@@ -38,7 +37,7 @@
             &:after {
                 @extend .clearfix:after;
             }
-            & > div {
+            & > .target {
                 background: white;
                 padding: 5px;
                 margin: 5px;
@@ -60,23 +59,6 @@
                 }
                 &:first-child {
                     float: left
-                }
-                &[data-edit] {
-                    float: none;
-                    position: absolute;
-                    right: -230px;
-                    outline: none;
-                    width: 200px;
-                    border: none;
-                    cursor: default;
-                    .col-3, .col-4, .col-5 {
-                        text-align: center;
-                        @extend .debug;
-                        label {
-                            position: relative;
-                            top: 5px
-                        }
-                    }
                 }
             }
             &.removing > div{
