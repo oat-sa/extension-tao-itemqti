@@ -25,7 +25,6 @@ define([
     ckConfigurator
     ){
 
-    console.log(ckeditor, ckConfigurator)
 
     var _renderItem = function _renderItem(item){
 
