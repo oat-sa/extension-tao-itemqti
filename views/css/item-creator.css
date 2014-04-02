@@ -286,17 +286,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0 6px;
     letter-spacing: .06rem;
     clear: left;
-    margin: 7px 0;
+    margin: 0 0 6px 0;
     color: black;
     position: relative;
     background: #dcdee1;
     cursor: pointer; }
+    .tao-scope .item-editor-sidebar .tool-group h2.closed {
+      margin-bottom: 0; }
     .tao-scope .item-editor-sidebar .tool-group h2 span {
       position: absolute;
       top: 9px;
       right: 9px; }
-    .tao-scope .item-editor-sidebar .tool-group h2.toggler:before {
-      float: right; }
+    .tao-scope .item-editor-sidebar .tool-group h2.toggler:after {
+      float: right;
+      top: 0; }
+  .tao-scope .item-editor-sidebar .tool-group hr {
+    margin: 6px 8px 4px 8px; }
   .tao-scope .item-editor-sidebar .tool-group .panel {
     padding: 8px 5px;
     overflow: hidden; }
@@ -310,7 +315,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-sidebar .tool-group .panel .icon-help.tooltipstered {
       padding-right: 5px;
       float: right; }
-    .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
+    .tao-scope .item-editor-sidebar .tool-group .panel:last-child, .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
       margin-bottom: 7px; }
   .tao-scope .item-editor-sidebar .inset {
     margin-left: 6px;
@@ -339,6 +344,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         font-size: 28px;
         font-size: 2.8rem;
         opacity: .9; }
+  .tao-scope .item-editor-sidebar .spinner {
+    min-width: 50%;
+    line-height: 22px; }
+    .tao-scope .item-editor-sidebar .spinner ~ .tooltipstered {
+      top: 6px; }
+  .tao-scope .item-editor-sidebar .incrementer-ctrl {
+    top: -3px; }
   .tao-scope .item-editor-sidebar .compass {
     position: relative;
     width: 100px;

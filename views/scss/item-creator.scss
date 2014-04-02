@@ -116,19 +116,26 @@
                 padding: 0 6px;
                 letter-spacing: .06rem;
                 clear: left;
-                margin: 7px 0;
+                margin: 0 0 6px 0;
                 color: black();
                 position: relative;
                 background: mix(#fff, $websiteBorder, 70%);
                 cursor: pointer;
+                &.closed {
+                    margin-bottom: 0;
+                }
                 span {
                     position: absolute;
                     top: 9px;
                     right: 9px;
                 }
-                &.toggler:before {
+                &.toggler:after {
                     float:right;
+                    top: 0;
                 }
+            }
+            hr {
+                margin: 6px 8px 4px 8px;
             }
             .panel {
                 padding: 8px 5px;
@@ -145,7 +152,7 @@
                     padding-right: 5px;
                     float:right;
                 }
-                .panel-row {
+                &:last-child, .panel-row {
                     margin-bottom: 7px
                 }
             }
@@ -181,6 +188,16 @@
                     opacity: .9;
                 }
             }
+        }
+        .spinner {
+            min-width: 50%;
+            line-height: 22px;
+            & ~ .tooltipstered {
+                top: 6px;
+            }
+        }
+        .incrementer-ctrl {
+            top: -3px;
         }
         .compass {
             position: relative;
