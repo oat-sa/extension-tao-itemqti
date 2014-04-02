@@ -9,6 +9,7 @@ define([
     'taoQtiItem/qtiCreator/editor/loader',
     'taoQtiItem/qtiCreator/editor/creatorRenderer',
     'ckeditor',
+    'ckConfigurator',
     'taoQtiItem/qtiCreator/core/gridEditor'
 ], function(
     toggleToolDisplay,
@@ -20,8 +21,11 @@ define([
     listStyler,
     loader,
     creatorRenderer,
-    ckeditor
+    ckeditor,
+    ckConfigurator
     ){
+
+    console.log(ckeditor, ckConfigurator)
 
     var _renderItem = function _renderItem(item){
 

@@ -126,6 +126,9 @@
                     top: 9px;
                     right: 9px;
                 }
+                &.toggler:before {
+                    float:right;
+                }
             }
             .panel {
                 padding: 8px 5px;
@@ -139,11 +142,8 @@
                     width: 100%;
                 }
                 .icon-help.tooltipstered {
-                    cursor: help;
                     padding-right: 5px;
                     float:right;
-                    position: relative;
-                    top: 2px
                 }
                 .panel-row {
                     margin-bottom: 7px

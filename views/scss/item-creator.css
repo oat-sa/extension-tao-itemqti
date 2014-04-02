@@ -295,6 +295,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       top: 9px;
       right: 9px; }
+    .tao-scope .item-editor-sidebar .tool-group h2.toggler:before {
+      float: right; }
   .tao-scope .item-editor-sidebar .tool-group .panel {
     padding: 8px 5px;
     overflow: hidden; }
@@ -306,11 +308,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-sidebar .tool-group .panel select, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"] {
       width: 100%; }
     .tao-scope .item-editor-sidebar .tool-group .panel .icon-help.tooltipstered {
-      cursor: help;
       padding-right: 5px;
-      float: right;
-      position: relative;
-      top: 2px; }
+      float: right; }
     .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
       margin-bottom: 7px; }
   .tao-scope .item-editor-sidebar .inset {
@@ -439,6 +438,19 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/ }
+    .tao-scope #item-editor-panel .item-editor-item .widget-box {
+      position: relative; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .tlb-bar {
+        z-index: 99; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-prompt {
+        min-height: 1rem; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-top.cke_nose {
+        display: block;
+        right: 5px;
+        bottom: -6px; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-bottom.cke_nose {
+        display: block;
+        top: -6px; }
     .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
       display: inline-block;
       margin: 0;
@@ -488,6 +500,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           cursor: default;
           display: none; }
     .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option {
+      position: relative;
       padding: 5px 5px 5px 30px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option .icon-add {
         font-size: 1.8rem;
@@ -495,6 +508,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         position: absolute;
         top: 5px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option {
+      position: relative;
       padding: 5px 5px 5px 30px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option .icon-add {
         font-size: 1.8rem;
@@ -504,6 +518,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
       right: -60px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option {
+      position: relative;
       padding: 5px 5px 5px 30px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option .icon-add {
         font-size: 1.8rem;
@@ -521,6 +536,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         min-width: 20px;
         height: 20px;
         margin: 0; }
+    .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit] {
+      top: 40%;
+      right: -150px; }
+    .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] {
+      float: none;
+      position: absolute;
+      right: -230px;
+      outline: none;
+      width: 200px;
+      border: none;
+      cursor: default; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 {
+        text-align: center; }
+        .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3 label, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4 label, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 label {
+          position: relative;
+          top: 5px; }
     .tao-scope #item-editor-panel .item-editor-item .widget-inlineChoiceInteraction {
       display: none;
       background: rgba(243, 241, 239, 0.9); }
@@ -601,7 +632,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding-bottom: 20px; }
   .tao-scope #item-editor-panel .item-editor-row {
     min-height: 100px;
-    overflow: hidden; }
+    overflow-x: hidden;
+    overflow-y: visible; }
 
 @media print {
   #tabs {

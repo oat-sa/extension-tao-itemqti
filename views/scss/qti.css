@@ -258,11 +258,11 @@ textarea {
   h2,
   h3 {
     page-break-after: avoid; } }
-.block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-hottextInteraction .hottext:hover, .qti-GapMatchInteraction .gapmatch-content:hover {
+.block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-GapMatchInteraction .gapmatch-content:hover {
   background: #f2f6f9 !important;
   cursor: pointer !important; }
 
-.block-listing > li.active:hover, .qti-associateInteraction .result-area > li > div.active:hover {
+.block-listing > li.active:hover, .qti-associateInteraction .result-area > li > .target.active:hover {
   background: #e9f0f5 !important; }
 
 .mini-tlb ul[data-button-group] {
@@ -592,7 +592,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       z-index: 1;
       top: 50%; }
-    .qti-associateInteraction .result-area > li > div {
+    .qti-associateInteraction .result-area > li > .target {
       background: white;
       padding: 5px;
       margin: 5px;
@@ -608,23 +608,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       border-radius: 2px;
       -webkit-border-radius: 2px;
       overflow: hidden; }
-      .qti-associateInteraction .result-area > li > div.active {
+      .qti-associateInteraction .result-area > li > .target.active {
         border-color: #3e7da7; }
-      .qti-associateInteraction .result-area > li > div:first-child {
+      .qti-associateInteraction .result-area > li > .target:first-child {
         float: left; }
-      .qti-associateInteraction .result-area > li > div[data-edit] {
-        float: none;
-        position: absolute;
-        right: -230px;
-        outline: none;
-        width: 200px;
-        border: none;
-        cursor: default; }
-        .qti-associateInteraction .result-area > li > div[data-edit] .col-3, .qti-associateInteraction .result-area > li > div[data-edit] .col-4, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 {
-          text-align: center; }
-          .qti-associateInteraction .result-area > li > div[data-edit] .col-3 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-4 label, .qti-associateInteraction .result-area > li > div[data-edit] .col-5 label {
-            position: relative;
-            top: 5px; }
     .qti-associateInteraction .result-area > li.removing > div {
       background-color: #eee; }
     .qti-associateInteraction .result-area > li.incomplete-pair {
@@ -715,9 +702,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-graphicInteraction .active > input, .qti-graphicInteraction .active > textarea,
 .qti-graphicInteraction .active input.active, .qti-graphicInteraction .active textarea.active {
   border-color: #3e7da7; }
-.qti-graphicInteraction .image-editor {
-  padding: 10px;
-  position: relative; }
+.qti-graphicInteraction .main-image-box {
+  margin: 10px 0 10px 0;
+  padding: 0 10px; }
+  .qti-graphicInteraction .main-image-box .main-image {
+    display: block; }
 .qti-graphicInteraction .image-sidebar {
   width: 9%;
   float: left;
@@ -798,24 +787,35 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-.qti-graphicOrderInteraction .ordinals {
-  margin: 0 0 0 9%;
-  padding: 0 0 5px 0 !important;
+.qti-graphicOrderInteraction ul.ordinals {
+  margin: 0 auto;
+  padding: 0 10px !important;
   clear: both; }
-  .qti-graphicOrderInteraction .ordinals li {
-    width: 5%;
-    line-height: 2;
+  .qti-graphicOrderInteraction ul.ordinals > li {
+    width: 30px;
+    line-height: 30px;
     text-align: center;
     font-size: 20px;
     font-size: 2rem;
     margin: 0;
-    background: transparent; }
-    .qti-graphicOrderInteraction .ordinals li:hover {
-      background: #3e7da7;
-      color: white;
-      -moz-border-radius: 0px;
-      -webkit-border-radius: 0px;
-      border-radius: 0px; }
+    background: white;
+    margin-right: 1px; }
+    .qti-graphicOrderInteraction ul.ordinals > li:hover {
+      cursor: pointer; }
+    .qti-graphicOrderInteraction ul.ordinals > li.active {
+      border: solid 1px #3e7da7;
+      -webkit-transition: background 0.4s ease-out;
+      -moz-transition: background 0.4s ease-out;
+      -o-transition: background 0.4s ease-out;
+      transition: background 0.4s ease-out; }
+      .qti-graphicOrderInteraction ul.ordinals > li.active:hover {
+        background: white !important;
+        cursor: default !important; }
+    .qti-graphicOrderInteraction ul.ordinals > li.disabled {
+      border: none;
+      cursor: default !important;
+      color: #333 !important;
+      background-color: transparent !important; }
 .qti-graphicOrderInteraction .main-image-box {
   margin-bottom: 0; }
 
