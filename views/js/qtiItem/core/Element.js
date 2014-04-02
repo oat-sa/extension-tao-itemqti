@@ -248,7 +248,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util'], function(Class, _,
             }
             
             if(renderer){
-                renderer.postRender(this, data, altClassName);
+                return renderer.postRender(this, data, altClassName);
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }

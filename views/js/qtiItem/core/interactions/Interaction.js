@@ -127,7 +127,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                     c.postRender({}, c.qtiClass + '.' + this.qtiClass, renderer);
                 }
             }
-            this._super(data, altClassName, renderer);
+            return this._super(data, altClassName, renderer);
         },
         setResponse : function(values){
             var ret = null;

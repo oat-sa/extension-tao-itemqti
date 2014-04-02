@@ -162,10 +162,11 @@ define([
         }
     };
 
-    function createInsertable($el, $to, options){
+    function createInsertable($el, $to, opts){
 
-        options = _.defaults($.fn.gridEditor.insertableDefaults, options);
-
+        var options = _.clone($.fn.gridEditor.insertableDefaults);
+        _.extend(options, opts);
+        
         createDraggable($el, $to, {
             helper : options.helper,
             drop : function($to, $dropped){
@@ -178,6 +179,7 @@ define([
                 getQtiElement().createElements(getBody($to), function(newElts){
                     creatorRenderer.get().load(function(){
                         for(var serial in newElts){
+                            
                             var elt = newElts[serial],
                                 $container,
                                 widget;
@@ -209,19 +211,19 @@ define([
             distance : 5,
             initialPosition : $el.parent(),
             start : function(e, ui){
+                
                 $el.hide();
 
                 $parent.data({
                     'initial-position' : true,
                     'initial-class' : $parent.attr('class')
                 }).attr('class', 'new-col');
-
             },
             helper : function(){
                 return $(this).clone().addClass('grid-draggable-helper');
             },
             drop : function($to, $dropped){
-
+            
                 //reposition the element in the dom:
                 $el.data('grid-element-dropped', true);
                 $dropped.replaceWith($el);
@@ -244,7 +246,6 @@ define([
             }
         });
 
-
         $el.on("drag", function(e, ui){
 //            debugger;
         });
@@ -256,6 +257,7 @@ define([
     }
 
     function createDraggable($el, $to, options){
+        
         $el.draggable({
             distance : (options && options.distance) ? parseInt(options.distance) : 1,
             helper : (options && options.helper) ? options.helper : 'original',
@@ -280,6 +282,8 @@ define([
                     createDroppableBlocks($to, options);
                 }else if(QtiElements.isInline(qtiClass)){
                     createDroppableInlines($to, options);
+                }else{
+                    throw 'undefined qti class';
                 }
 
                 $to.trigger('dragoverstart.gridEdit');
@@ -820,7 +824,6 @@ define([
 
         $el.off('.gridEdit.gridDragDrop');
         $el.find('[class^="col-"], [class*=" col-"]').off('.gridEdit.gridDragDrop').removeAttr('style');
-
     }
 
 });

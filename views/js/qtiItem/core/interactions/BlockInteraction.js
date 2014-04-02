@@ -30,7 +30,7 @@ define(['taoQtiItem/qtiItem/core/interactions/Interaction', 'taoQtiItem/qtiItem/
         postRender : function(data, altClassName, renderer){
             renderer = renderer || this.getRenderer();
             this.prompt.postRender({}, '', renderer);
-            this._super(data, altClassName, renderer);
+            return this._super(data, altClassName, renderer);
         },
         toArray : function(){
             var arr = this._super();

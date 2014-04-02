@@ -51,7 +51,7 @@ define([
         $item.gridEditor();
         $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
             helper : function(){
-                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 99);
+                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999999);
             }
         });
         $item.gridEditor('resizable');

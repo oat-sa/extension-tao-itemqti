@@ -17,7 +17,7 @@ define([
 
     InteractionWidget.buildContainer = function(){
         
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box'});
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box', 'data-qti-class':this.element.qtiClass});
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
     };

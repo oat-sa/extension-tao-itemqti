@@ -74,7 +74,7 @@ define([
     };
 
     InlineChoiceInteractionWidget.buildContainer = function(){
-
+        
         //set the itemContainer where the actual widget should be append and be positioned absolutely
         this.$itemContainer = this.$original.parents('.item-editor-item');
 
