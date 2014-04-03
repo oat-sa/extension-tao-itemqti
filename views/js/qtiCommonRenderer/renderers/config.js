@@ -22,7 +22,8 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'hotspotInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
         'gapMatchInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
         'selectPointInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction',
-        'graphicOrderInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction'
+        'graphicOrderInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction',
+        'mediaInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
     });
     return {
         name:'commonRenderer',
