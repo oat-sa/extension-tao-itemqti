@@ -111,7 +111,6 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
                 });
             }catch(e){
                 //leave choices empty in case of error
-                console.log('error', e);
             }
             
             var tplData = _.merge(defaultData, args.data);
