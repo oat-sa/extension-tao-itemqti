@@ -24,19 +24,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=get_data('title')?></title>
 
-        <?if(tao_helpers_Mode::is('production')):?>
-            <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_qtiDefaultRenderer_lib_www')?>css/qtiDefaultRenderer.min.css" media="screen" />
-        <?else:?>
-            <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_qtiDefaultRenderer_lib_www')?>css/qti.css" media="screen" />
-            <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_qtiDefaultRenderer_lib_www')?>../../css/normalize.css" media="screen" />
-            <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_qtiDefaultRenderer_lib_www')?>../../css/base.css" media="screen" />
-        <?endif;?>
-            
-        <?if(get_data('hasMedia')):?>
-            <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_qtiDefaultRenderer_lib_www')?>lib/mediaelement/css/mediaelementplayer.min.css" media="screen" />
-        <?endif;?>
-        <link rel="stylesheet" type="text/css" href="<?=get_data('ctx_taobase_www')?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
-
         <!-- user CSS -->
         <?foreach(get_data('stylesheets') as $stylesheet):?>
             <link rel="stylesheet" type="text/css" href="<?=$stylesheet['href']?>" media="<?=$stylesheet['media']?>" />

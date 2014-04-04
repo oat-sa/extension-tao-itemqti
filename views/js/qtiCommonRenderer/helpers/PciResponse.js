@@ -17,7 +17,7 @@ define(['lodash'], function(_){
          * @returns {Array}
          */
         unserialize : function(response, interaction){
-
+            
             var responseValues = [],
                 responseDeclaration = interaction.getResponseDeclaration(),
                 baseType = responseDeclaration.attr('baseType'),

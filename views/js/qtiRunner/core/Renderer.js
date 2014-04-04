@@ -334,6 +334,14 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
 
             return ret;
         };
+        
+        this.getRenderers = function(){
+            return _renderers;
+        };
+        
+        this.getLocations = function(){
+            return _locations;
+        };
 
     };
 

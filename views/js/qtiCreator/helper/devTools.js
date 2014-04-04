@@ -40,7 +40,7 @@ define([
                 'deleted.qti-widget',
                 'choiceTextChange.qti-widget'
             ];
-
+            
             $(document).on(events.join(' '), bufferedExec);
 
         }, item.getUsedClasses());
@@ -53,7 +53,8 @@ define([
 
     var _printXml = function(rawXml, $destination){
 
-        var xml = _formatXml(rawXml);
+        var $code = $(),
+            xml = _formatXml(rawXml);
 
         xml = xml
             .replace(/&/g, "&amp;")
@@ -63,7 +64,20 @@ define([
             .replace(/'/g, "&#039;");
 
         $destination.html(xml);
-        Prism.highlightElement($destination[0]);
+        
+        if($destination.hasClass('language-markup')){
+            $code = $destination;
+        }else{
+            $code = $destination.find('code.language-markup');
+            if(!$code.length){
+                $code = $('<code>', {'class':'language-markup'});
+            }
+            $destination.addClass('line-numbers').append($code);
+        }
+        
+        if($code.length){
+            Prism.highlightElement($destination[0]);
+        }
     };
 
     return tools;

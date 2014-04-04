@@ -11,7 +11,7 @@
     .choice-area {
         .deactivated {
             opacity: 0.2;
-            cursor: default;
+            cursor: default !important;
         }
         margin-bottom: 30px;
     }

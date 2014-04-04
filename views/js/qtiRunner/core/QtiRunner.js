@@ -46,14 +46,14 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
             throw 'invalid renderer';
         }
     };
-    
+
     QtiRunner.prototype.getLoader = function(){
         if(!this.loader){
             this.loader = new ItemLoader();
         }
         return this.loader;
     };
-    
+
     QtiRunner.prototype.loadItemData = function(data, callback){
         var _this = this;
         this.getLoader().loadItemData(data, function(item){
@@ -72,23 +72,23 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
     };
 
     QtiRunner.prototype.renderItem = function(data){
-        
+
         var _this = this;
         var render = function(){
             if(!_this.item){
                 throw 'cannot render item: empty item';
             }
             if(_this.renderer){
-                
+
                 _this.renderer.load(function(){
-                    
+
                     _this.item.setRenderer(_this.renderer);
                     _this.item.render({}, $('#qti_item'));
                     _this.item.postRender();
                     _this.initInteractionsResponse();
-                    
+
                 }, _this.getLoader().getLoadedClasses());
-                
+
             }else{
                 throw 'cannot render item: no rendered set';
             }
@@ -107,11 +107,11 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
             for(var i in interactions){
                 var interaction = interactions[i];
                 var responseId = interaction.attr('responseIdentifier');
-                var values = this.itemApi.getVariable(responseId, function(){
-                    return function(values){
+                this.itemApi.getVariable(responseId, function(values){
+                    if(values){
                         interaction.setResponse(values);
                     }
-                }());
+                });
             }
         }
     }

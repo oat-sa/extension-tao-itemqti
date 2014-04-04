@@ -50,8 +50,8 @@ class OrderInteraction extends BlockInteraction
         return array_merge(
                 parent::getUsedAttributes(), array(
             'oat\\taoQtiItem\\model\\qti\\attribute\\Shuffle',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\MaxChoices',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\MinChoices',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\MaxChoicesOrderInteraction',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\MinChoicesOrderInteracti',
             'oat\\taoQtiItem\\model\\qti\\attribute\\Orientation'
                 )
         );

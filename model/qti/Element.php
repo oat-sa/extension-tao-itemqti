@@ -80,7 +80,7 @@ abstract class Element implements Exportable
         $this->resetAttributes();
 
         $this->setAttributes($attributes);
-
+        
         self::$instances[$this->getSerial()] = $this;
     }
     
@@ -127,6 +127,7 @@ abstract class Element implements Exportable
      * @throws InvalidArgumentException
      */
     public function setAttributes($values){
+        
         if(is_array($values)){
             foreach($values as $name => $value){
                 $this->setAttribute($name, $value);
@@ -134,6 +135,7 @@ abstract class Element implements Exportable
         }else{
             throw new InvalidArgumentException('"values" must be an array');
         }
+        
     }
     
     /**
@@ -586,7 +588,7 @@ abstract class Element implements Exportable
                 }
             }
         }
-
+            
         return (string) $returnValue;
     }
    

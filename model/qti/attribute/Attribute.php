@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti\attribute;
 use oat\taoQtiItem\model\qti\attribute\Attribute;
 use oat\taoQtiItem\model\qti\attribute\AttributeException;
 use oat\taoQtiItem\model\qti\datatype\DatatypeException;
-
+use \common_Logger;
 /**
  * It is the top class of every attributes used in QTI
  *

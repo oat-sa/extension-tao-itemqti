@@ -4,7 +4,7 @@ define(function(){
         locations : {
             '_container' : 'taoQtiItem/qtiDefaultRenderer/renderers/Container',
             'assessmentItem' : 'taoQtiItem/qtiDefaultRenderer/renderers/Item',
-            'stylesheet' : 'taoQtiItem/qtiDefaultRenderer/renderers/Item',
+            'stylesheet' : 'taoQtiItem/qtiDefaultRenderer/renderers/Stylesheet',
             'outcomeDeclaration' : 'taoQtiItem/qtiDefaultRenderer/renderers/OutcomeDeclaration',
             'responseDeclaration' : 'taoQtiItem/qtiDefaultRenderer/renderers/ResponseDeclaration',
             'responseProcessing' : 'taoQtiItem/qtiDefaultRenderer/renderers/ResponseProcessing',

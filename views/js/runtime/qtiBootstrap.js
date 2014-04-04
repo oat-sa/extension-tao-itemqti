@@ -15,8 +15,8 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiDefaultRenderer/renderers/Renderer', 'iframeNotifier'],
-    function($, _, QtiRunner, DefaultRenderer, iframeNotifier){
+define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiCommonRenderer/renderers/Renderer', 'iframeNotifier'],
+    function($, _, QtiRunner, Renderer, iframeNotifier){
     'use strict';
 
     /**
@@ -34,7 +34,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
 
             var qtiRunner = new QtiRunner();
             qtiRunner.setItemApi(itemApi);
-            qtiRunner.setRenderer(new DefaultRenderer({'runtimeContext': runnerContext.ctx}));     
+            qtiRunner.setRenderer(new Renderer({'runtimeContext': runnerContext.ctx}));     
             qtiRunner.loadItemData(runnerContext.itemData, function() {
 
                 qtiRunner.loadElements(runnerContext.variableElements, function() {

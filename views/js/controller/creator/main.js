@@ -41,9 +41,9 @@ define([
         
         devTools.listenStateChange();
 
-//        var $xmlPreview = $('<div>', {});
-//        $('#item-editor-wrapper').append($xmlPreview);
-//        devTools.liveXmlPreview(item, $xmlPreview);
+        var $xmlPreview = $('<pre>', {});
+        $('#item-editor-wrapper').append($xmlPreview);
+        devTools.liveXmlPreview(item, $xmlPreview);
     };
 
     var _initEditor = function _initEditor($item){

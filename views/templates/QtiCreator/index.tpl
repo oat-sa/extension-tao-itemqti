@@ -2,6 +2,10 @@
 
 use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 ?>
+<!--pretty print-->
+<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
+<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
+<link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
     #new-interaction{cursor:pointer;}
 
@@ -62,7 +66,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 <div id="item-editor-scope" class="tao-scope">
     <div id="item-editor-toolbar">
         <div id="item-editor-logo">
-<?=__('Item creator')?>
+            <?=__('Item creator')?>
         </div>
         <ul class="plain clearfix item-editor-menu lft">
             <li><span class="icon-save"></span><?=__('Save')?></li>
@@ -90,7 +94,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 
                     <div class="panel">
                         <ul class="tool-list plain">
-    <?php foreach($groupValues as $record):?>
+                            <?php foreach($groupValues as $record):?>
 
                                 <li title="<?=$record['title']?>" data-qti-class="<?=$record['qtiClass']?>">
                                     <span class="icon-<?=$record['icon']?>"></span>
@@ -99,11 +103,11 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
                                     <img class="viewport-hidden"
                                          src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/>
                                 </li>
-    <?php endforeach;?>
+                            <?php endforeach;?>
 
                         </ul>
                     </div>
-<?php endforeach;?>
+                <?php endforeach;?>
             </section>
         </div>
         <!-- /left sidebar -->

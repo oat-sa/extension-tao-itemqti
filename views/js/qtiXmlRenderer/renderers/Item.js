@@ -4,7 +4,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
         template : tpl,
         getData : function(item, data){
             
-            var ns = _.clone(item.namespaces),
+            var ns = _.clone(item.namespaces) || [],
                 renderer = this;
             
             delete ns[''];
