@@ -29,12 +29,12 @@ use \taoItems_actions_ItemPreview;
 use \tao_helpers_Uri;
 use \core_kernel_classes_Resource;
 use \common_Exception;
-use \taoQtiCommon_helpers_LegacyVariableFiller;
+use \taoQtiCommon_helpers_PciVariableFiller;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
-use \taoQtiCommon_helpers_LegacyStateOutput;
+use \taoQtiCommon_helpers_PciStateOutput;
+use \taoQtiCommon_helpers_Utils;
 use \common_ext_ExtensionsManager;
-
 use qtism\runtime\common\State;
 use qtism\runtime\tests\AssessmentItemSession;
 use qtism\runtime\tests\AssessmentItemSessionException;
@@ -61,30 +61,30 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('itemUri'));
 
-        if(!empty($itemUri)){
-            $this->processResponses(new core_kernel_classes_Resource($itemUri), $this->getPostedResponses());
-        }else{
+        if (!empty($itemUri)) {
+            $this->processResponses(new core_kernel_classes_Resource($itemUri));
+        }
+        else {
             throw new common_Exception('missing required itemUri');
         }
-    }
-
-    protected function getPostedResponses(){
-        return $this->hasRequestParameter("responseVariables") ? $this->getRequestParameter("responseVariables") : array();
     }
 
     /**
      * Item's ResponseProcessing.
      *
      * @param core_kernel_classes_Resource $item The Item you want to apply ResponseProcessing.
-     * @param array $responses Client-side responses.
      * @throws RuntimeException If an error occurs while processing responses or transmitting results
      */
-    protected function processResponses(core_kernel_classes_Resource $item, array $responses){
-        try{
+    protected function processResponses(core_kernel_classes_Resource $item){
+        
+        $jsonPayload = taoQtiCommon_helpers_Utils::readJsonPayload();
+        
+        try {
             $qtiXmlFilePath = QtiFile::getQtiFilePath($item);
             $qtiXmlDoc = new XmlDocument();
             $qtiXmlDoc->load($qtiXmlFilePath);
-        }catch(StorageException $e){
+        }
+        catch(StorageException $e) {
             $msg = "An error occured while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
             throw new RuntimeException($msg, 0, $e);
         }
@@ -93,31 +93,39 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $itemSession->beginItemSession();
 
         $variables = array();
-
+        $filler = new taoQtiCommon_helpers_PciVariableFiller($qtiXmlDoc->getDocumentComponent());
+        
         // Convert client-side data as QtiSm Runtime Variables.
-        foreach($responses as $identifier => $response){
-            $filler = new taoQtiCommon_helpers_LegacyVariableFiller($qtiXmlDoc->getDocumentComponent());
-            try{
-                $variables[] = $filler->fill($identifier, $response);
-            }catch(OutOfRangeException $e){
+        foreach ($jsonPayload as $id => $response) {
+            
+            try {
+                $variables[] = $filler->fill($id, $response);
+            }
+            catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
                 // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair) are transmitted as an array of length 1,
                 // this might cause problem. Such "broken" pairs are simply ignored.
-                common_Logger::d("Client-side value for variable '${identifier}' is ignored due to data malformation.");
+                common_Logger::d("Client-side value for variable '${id}' is ignored due to data malformation.");
+            }
+            catch (OutOfBoundsException $e) {
+                // No such identifier found in item.
+                common_Logger::d("The variable with identifier '${id}' is not declared in the item definition.");
             }
         }
 
-        try{
+        try {
             $itemSession->beginAttempt();
             $itemSession->endAttempt(new State($variables));
 
             // Return the item session state to the client-side.
             echo json_encode(array('success' => true, 'displayFeedback' => true, 'itemSession' => self::buildOutcomeResponse($itemSession)));
-        }catch(AssessmentItemSessionException $e){
+        }
+        catch(AssessmentItemSessionException $e) {
             $msg = "An error occured while processing the responses.";
             throw new RuntimeException($msg, 0, $e);
-        }catch(taoQtiCommon_helpers_ResultTransmissionException $e){
-            $msg = "An error occured while transmitting variable '${identifier}' to the target Result Server.";
+        }
+        catch(taoQtiCommon_helpers_ResultTransmissionException $e) {
+            $msg = "An error occured while transmitting a result to the target Result Server.";
             throw new RuntimeException($msg, 0, $e);
         }
     }
@@ -127,7 +135,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
      *
      * @return string A string representing JavaScript instructions.
      */
-    protected function getResultServer(){
+    protected function getResultServer() {
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
         return array(
             'module'    => 'taoQtiItem/QtiPreviewResultServerApi',
@@ -137,10 +145,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
     }
 
 
-    protected static function buildOutcomeResponse(AssessmentItemSession $itemSession){
-        $stateOutput = new taoQtiCommon_helpers_LegacyStateOutput();
+    protected static function buildOutcomeResponse(AssessmentItemSession $itemSession) {
+        $stateOutput = new taoQtiCommon_helpers_PciStateOutput();
 
-        foreach($itemSession->getOutcomeVariables(false) as $var){
+        foreach ($itemSession->getOutcomeVariables(false) as $var) {
             $stateOutput->addVariable($var);
         }
 
@@ -148,7 +156,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
         return $output;
     }
 
-    protected function getRenderedItem($item){
+    protected function getRenderedItem($item) {
 
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
         $rubricBlocks = $this->getRubricBlocks($qtiItem);
@@ -164,11 +172,13 @@ class QtiPreview extends taoItems_actions_ItemPreview
         return $xhtml;
     }
 
-    protected function getRequestView(){
+    protected function getRequestView() {
         $returnValue = 'candidate';
-        if($this->hasRequestParameter('view')){
+        
+        if ($this->hasRequestParameter('view')) {
             $returnValue = tao_helpers_Uri::decode($this->getRequestParameter('view'));
         }
+        
         return $returnValue;
     }
 
@@ -177,13 +187,13 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $returnValue = array();
 
         $currentView = $this->getRequestView();
-        if(!is_null($qtiItem)){
-            $rubricBlocks = $qtiItem->getRubricBlocks();
-            foreach($rubricBlocks as $rubricBlock){
-                $view = $rubricBlock->attr('view');
-                if(!empty($view) && in_array($currentView, $view)){
-                    $returnValue[$rubricBlock->getSerial()] = $rubricBlock->toArray();
-                }
+        $rubricBlocks = $qtiItem->getRubricBlocks();
+        
+        foreach($rubricBlocks as $rubricBlock) {
+            $view = $rubricBlock->attr('view');
+            
+            if (!empty($view) && in_array($currentView, $view)) {
+                $returnValue[$rubricBlock->getSerial()] = $rubricBlock->toArray();
             }
         }
 
