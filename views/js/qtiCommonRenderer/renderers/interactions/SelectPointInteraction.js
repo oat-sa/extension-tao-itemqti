@@ -109,24 +109,24 @@ define([
             .path(graphic.getTargetPath())
             .transform('T' + (point.x - 9) + ',' + (point.y - 9))
             .attr({
-            'fill' : graphic.states.success.fill,
-            'width' : 1,
-            'stroke-width' : 0,
-            'cursor' : 'pointer',
-            'title' : _('Click again to remove')
-        })
+                'fill' : graphic.states.success.fill,
+                'width' : 1,
+                'stroke-width' : 0,
+                'cursor' : 'pointer',
+                'title' : _('Click again to remove')
+            })
             .hover(
             function(){
                 this.attr({'fill' : graphic.states.hover.stroke});
             }, function(){
-            this.attr({'fill' : graphic.states.success.fill});
-        })
+                this.attr({'fill' : graphic.states.success.fill});
+            })
             .click(function(){
-            this.remove();
-            if(typeof cb === 'function'){
-                cb();
-            }
-        });
+                this.remove();
+                if(typeof cb === 'function'){
+                    cb();
+                }
+            });
         target.data('point', point);
 
         if(typeof cb === 'function'){

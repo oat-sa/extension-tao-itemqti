@@ -1,13 +1,16 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash'], function(_){
+define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael, scaleRaphael){
 
     //contains the different states for the shapes
+    //TODO move to an external file
     var states = {
         'basic' : {
             'stroke' : '#8D949E',
-            'stroke-width' : '2',
+            'stroke-width' : 2,
+            'stroke-dasharray': '',
+            'stroke-linejoin' : 'round',
             'fill' : '#cccccc',
             'fill-opacity' : 0.5,
             'cursor' : 'pointer'
@@ -17,20 +20,41 @@ define(['lodash'], function(_){
             'fill' :  '#0E5D91', 
             'fill-opacity' : 0.3
         },
+        'selectable'  : {
+            'stroke-dasharray': '-',
+            'stroke' : '#3E7DA7',
+            'fill' : '#cccccc',
+            'fill-opacity' : 0.5,
+        },
         'active' : {
             'fill-opacity' : 0.5,
             'stroke' : '#3E7DA7',
+            'stroke-dasharray': '',
             'fill' :  '#0E5D91'  
         },
         'error' : {
             'stroke' : '#C74155',
+            'stroke-dasharray': '',
             'fill-opacity' : 0.5,
             'fill' :  '#661728'  
         },
         'success' : {
             'stroke' : '#C74155',
+            'stroke-dasharray': '',
             'fill-opacity' : 0.5,
             'fill' :  '#0E914B'  
+        },
+        'imageSet' : {
+           rect : {
+                'fill' : '#ffffff',
+                'stroke' : '#333333',
+                'stroke-width' : 1,
+                'stroke-linejoin' : 'round',
+                'cursor' : 'pointer'
+            },
+            image : {
+                'cursor' : 'pointer'
+            }
         }
     };
 
@@ -138,27 +162,149 @@ define(['lodash'], function(_){
          * @type {Object}
          */
         states : states,
-  
+ 
+        responsivePaper : function(id, options){
+            var paper;
+            var $container = options.container || $('#' + id).parent();
+            var width = parseInt(options.width || $container.width(), 10);
+            var height = parseInt(options.height || $container.height(), 10);
+            var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
+    
+            paper = factory.call(null ,id, width, height);
+            paper.image(options.img, 0, 0, width, height);
+               
+            if(raphael.type === 'SVG'){ 
+                
+                //scale on creation
+                resizePaper();
+                
+                //execute the resize every 100ms when resizing
+                $(window).resize(_.throttle(resizePaper, 100));
+
+            } else {
+                paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+                if(typeof options.resize === 'function'){
+                    options.resize(width);
+                }
+            }
+            
+            /**
+             * scale the raphael paper
+             * @private
+             */
+            function resizePaper(){
+                var containerWidth = $container.width();
+
+                //TODO check where this diff of 22px comes from 
+                paper.changeSize(containerWidth - 22, height, false, false);
+                if(typeof options.resize === 'function'){
+                    options.resize(containerWidth);
+                }
+            }
+
+            return paper;
+        },
+ 
         /**
          * Create a new Element into a raphael paper
          * @param {Raphael.Paper} paper - the interaction paper
          * @param {String} type - the shape type
          * @param {String|Array.<Number>} coords - qti coords as a string or an array of number
+         * @param {Object} [options] - additional creation options
+         * @param {String} [options.id] - to set the new element id
+         * @param {String} [options.title] - to set the new element title
+         * @param {Boolean} [options.hover = true] - to disable the default hover state
          * @returns {Raphael.Element} the created element
          */
-        createElement : function(paper, type, coords){
-                           
+        createElement : function(paper, type, coords, options){
+            var self = this;
+            var element;               
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
             var shapeCoords = getCoords(paper, type, coords);
 
             if(typeof shaper === 'function'){
-               return shaper.apply(paper, shapeCoords);
+               element = shaper.apply(paper, shapeCoords);
+               if(element){
+                    if(options.id){
+                        element.id = options.id;
+                    }
+                    if(options.title){
+                        element.attr('title', options.title);
+                    }
+                    element.attr(states.basic);
+                    if(options.hover !== false){
+                      element.hover(function(){
+                            self.updateElementState(this, 'hover'); 
+                      }, function(){
+                            self.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
+                      });
+                    }
+               }
+    
             } else {
                 throw new Error('Unable to find method ' + type + ' on paper');
-            } 
+            }
+            return element; 
         },
 
+        /**
+         * Create an image with a padding and a border, using a set.
+         * 
+         * @param {Raphael.Paper} paper - the paper
+         * @param {Object} options - image options
+         * @param {Number} options.left - x coord
+         * @param {Number} options.top - y coord
+         * @param {Number} options.width - image width
+         * @param {Number} options.height - image height
+         * @param {Number} options.url - image ulr
+         * @param {Number} [options.padding = 4] - a multiple of 2 is welcomed
+         * @returns {Raphael.Element} the created set, augmented of a move(x,y) method
+         */
+        createBorderedImage : function(paper, options){
+            var padding = options.padding || 4;
+            var halfPad = padding / 2;
+ 
+            var rx = options.left,
+                ry = options.top, 
+                rw = options.width + padding, 
+                rh = options.height + padding;
 
+            var ix = options.left + halfPad,
+                iy = options.top + halfPad,
+                iw = options.width, 
+                ih = options.height;
+
+            var set = paper.set();
+    
+            //create a rectangle with a padding and a border.
+            var rect = paper
+                .rect(rx, ry, rw, rh)
+                .attr(states.imageSet.rect);
+
+            //and an image centered into the rectangle.
+            var image = paper
+                .image(options.url, ix, iy, iw, ih)
+                .attr(states.imageSet.image);
+            
+            set.push(rect, image);
+
+            /**
+             * Add a move method to set that keep the given coords during an animation
+             * @private
+             * @param {Number} x - destination
+             * @param {Number} y - destination
+             * @param {Number} [duration = 400] - the animation duration
+             * @returns {Raphael.Element} the set for chaining
+             */
+            set.move = function move(x, y, duration){
+                var animation = raphael.animation({x: x, y : y}, duration || 400);
+                var elt = rect.animate(animation);
+                image.animateWith(elt, animation, {x : x + halfPad, y : y + halfPad}, duration || 400);
+                return set;
+            };
+        
+            return set;
+        },
         
         /**
          * Update the visual state of an Element
@@ -168,7 +314,9 @@ define(['lodash'], function(_){
          */
         updateElementState : function(element, state, title){
             if(element && element.animate){
-                element.animate(states[state], 200, 'linear');
+                element.animate(states[state], 200, 'linear', function(){
+                    element.attr(states[state]); //for attr that don't animate
+                });
         
                 if(title){
                     this.updateTitle(element, title);
@@ -192,6 +340,38 @@ define(['lodash'], function(_){
             
             //then set the new title
             element.attr('title', title);
+        },
+
+        /**
+         * Trigger an event already bound to a raphael element
+         * @param {Raphael.Element} element
+         * @param {String} event - the event name
+         *
+         */
+        trigger : function(element, event){
+
+            var evt = _.where(element.events, { name : event});
+            if(evt.length && evt[0] && typeof evt[0].f === 'function'){
+                evt[0].f.apply(element, Array.prototype.slice.call(arguments, 2));
+            }
+        },
+
+        /**
+         * Get paper position relative to the container 
+         * @param {jQueryElement} $container - the paper container
+         * @param {Raphael.Paper} paper - the interaction paper
+         * @returns {Object} position with top and left
+         */
+        position : function($container, paper){
+            var pw = parseInt(paper.w || paper.width, 10);
+            var cw = parseInt($container.width(), 10);
+            var ph = parseInt(paper.w || paper.width, 10);
+            var ch = parseInt($container.height(), 10);
+
+            return {
+                left : ((cw - pw) / 2), 
+                top : ((ch - ph) / 2) 
+            };
         },
 
         /**

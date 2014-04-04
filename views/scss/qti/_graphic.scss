@@ -18,6 +18,9 @@
             border-color: mix(#fff, $info, 20%);
         }
     }
+    .image-editor {
+        position: relative;
+    }
 
     .main-image-box {
         margin: 10px 0 10px 0;
@@ -26,6 +29,7 @@
             display: block;
         }
     }
+
     .image-sidebar {
         width: 9%;
         float: left;
