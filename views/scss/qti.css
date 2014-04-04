@@ -575,7 +575,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   margin-bottom: 30px; }
   .qti-associateInteraction .choice-area .deactivated {
     opacity: 0.2;
-    cursor: default; }
+    cursor: default !important; }
 .qti-associateInteraction .result-area {
   width: 40%;
   margin: auto; }
@@ -1069,20 +1069,32 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-.qti-uploadInteraction .progressbar {
-  margin-bottom: 6px; }
-.qti-uploadInteraction .file-upload {
-  display: inline-block;
-  position: relative;
-  overflow: hidden; }
-  .qti-uploadInteraction .file-upload .file-name {
-    padding: 0 5px; }
-  .qti-uploadInteraction .file-upload input[type="file"] {
-    font-size: 40px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer; }
-.qti-uploadInteraction:hover .btn-info {
-  opacity: .85; }
+.qti-uploadInteraction {
+  background: #f9f8f7;
+  padding: 5px; }
+  .qti-uploadInteraction .progressbar {
+    margin-bottom: 6px; }
+  .qti-uploadInteraction .file-upload {
+    display: inline-block;
+    position: relative;
+    overflow: hidden; }
+    .qti-uploadInteraction .file-upload .file-name {
+      padding: 2px 5px;
+      background: white;
+      font-style: italic;
+      color: #d2d2d2;
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px; }
+      .qti-uploadInteraction .file-upload .file-name.active {
+        font-style: normal;
+        color: #222222; }
+    .qti-uploadInteraction .file-upload input[type="file"] {
+      font-size: 40px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer; }
+  .qti-uploadInteraction:hover .btn-info {
+    opacity: .85; }
