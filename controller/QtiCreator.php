@@ -32,7 +32,7 @@ use \tao_helpers_Uri;
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoQTI
- * @subpackage actions
+ 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class QtiCreator extends tao_actions_CommonModule

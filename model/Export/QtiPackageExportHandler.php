@@ -39,7 +39,7 @@ use \common_Logger;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoQTI
- * @subpackage models_classes_Export
+ 
  */
 class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 {

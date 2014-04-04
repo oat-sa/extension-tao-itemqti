@@ -27,7 +27,7 @@ use \taoItems_models_classes_ItemsService;
 /**
  * @access public
  * @package tao
- * @subpackage helpers
+ 
  */
 class QtiFile
 {

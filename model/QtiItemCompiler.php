@@ -39,7 +39,7 @@ use qtism\data\storage\xml\XmlAssessmentItemDocument;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
- * @subpackage models_classes
+ 
  */
 class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 {

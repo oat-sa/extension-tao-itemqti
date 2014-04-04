@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Techonologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
@@ -28,45 +28,6 @@ use \tao_helpers_form_FormFactory;
 use \Exception;
 use \common_Logger;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - taoItems\actions\QTIform\class.ResponseProcessing.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 05.01.2011, 11:32:48 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author Sam, <sam@taotesting.com>
- * @package taoItems
- * @subpackage actions_QTIform
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
- *
- * @author Sam, <sam@taotesting.com>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/* user defined includes */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FC8-includes begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FC8-includes end
-
-/* user defined constants */
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FC8-constants begin
-// section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FC8-constants end
 
 /**
  * Short description of class oat\taoQtiItem\controller\QTIform\ResponseProcessing
@@ -74,7 +35,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoItems
- * @subpackage actions_QTIform
+ 
  */
 class ResponseProcessing
     extends tao_helpers_form_FormContainer

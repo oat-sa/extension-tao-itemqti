@@ -32,7 +32,7 @@ use \DOMElement;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- * @subpackage models_classes_QTI
+ 
  */
 class UnsupportedQtiElement
     extends ParsingException

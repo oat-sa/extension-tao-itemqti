@@ -27,7 +27,7 @@ use oat\taoQtiItem\model\qti\Resource;
  * A QTI Resource from the point of view of the imsmanifest v1.1 : Content Packaging).
  *
  * @package taoQTI
- * @subpackage models_classes_QTI
+ 
  */
 class Resource
 {

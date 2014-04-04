@@ -31,7 +31,7 @@ use \common_exception_UserReadableException;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- * @subpackage models_classes_QTI_exception
+ 
  */
 class ExtractException
     extends common_Exception implements common_exception_UserReadableException

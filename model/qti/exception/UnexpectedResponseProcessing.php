@@ -33,7 +33,7 @@ use \common_Logger;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- * @subpackage models_classes_QTI
+ 
  */
 class UnexpectedResponseProcessing
     extends ParsingException implements common_exception_UserReadableException {

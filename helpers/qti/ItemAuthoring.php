@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Techonologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
@@ -36,7 +36,7 @@ require_once(ROOT_PATH.'/tao/lib/htmlpurifier/HTMLPurifier.auto.php');
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- * @subpackage helpers_qti
+ 
  */
 class ItemAuthoring
 {

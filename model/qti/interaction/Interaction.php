@@ -24,7 +24,7 @@
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247
- * @subpackage models_classes_QTI
+ 
  */
 namespace oat\taoQtiItem\model\qti\interaction;
 

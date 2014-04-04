@@ -34,7 +34,7 @@ use \tao_helpers_Environment;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- * @subpackage models_classes_import
+ 
  */
 class QtiPackageImportForm
     extends tao_helpers_form_FormContainer

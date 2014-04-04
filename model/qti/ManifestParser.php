@@ -36,7 +36,7 @@ use \tao_helpers_Request;
  * @author Somsack Sipasseuth <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_intgv2p0.html#section10003
- * @subpackage models_classes_QTI
+ 
  */
 class ManifestParser
     extends tao_models_classes_Parser

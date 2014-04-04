@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Techonologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
@@ -28,53 +28,14 @@ use \tao_helpers_form_FormContainer;
 use \tao_helpers_form_FormFactory;
 use \tao_helpers_Uri;
 
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - taoQTI/actions/QTIform/class.TemplatesDrivenResponseOptions.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 25.01.2012, 16:01:55 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoItems
- * @subpackage actions_QTIform
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
 
 /**
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/* user defined includes */
-// section 127-0-1-1-53d7bbd:135145c7d03:-8000:000000000000367C-includes begin
-// section 127-0-1-1-53d7bbd:135145c7d03:-8000:000000000000367C-includes end
-
-/* user defined constants */
-// section 127-0-1-1-53d7bbd:135145c7d03:-8000:000000000000367C-constants begin
-// section 127-0-1-1-53d7bbd:135145c7d03:-8000:000000000000367C-constants end
-
-/**
- * Short description of class
- *
- * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoItems
- * @subpackage actions_QTIform
+ * 
  */
 class TemplatesDrivenResponseOptions
     extends tao_helpers_form_FormContainer

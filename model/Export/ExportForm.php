@@ -38,7 +38,7 @@ use \tao_helpers_Uri;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoItems
- * @subpackage actions_form
+ 
  */
 class ExportForm
     extends tao_helpers_form_FormContainer
