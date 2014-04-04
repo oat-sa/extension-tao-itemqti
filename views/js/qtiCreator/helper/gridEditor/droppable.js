@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/core/gridUnits',
     'taoQtiItem/qtiCreator/helper/gridEditor/helper',
-    'taoQtiItem/qtiCreator/helper/gridEditor/arrow',
+    'taoQtiItem/qtiCreator/helper/gridEditor/arrow'
 ], function($, _, gridUnits, helper, arrow){
 
     var droppableGridEditor = {};
@@ -252,7 +252,7 @@ define([
 
         });
 
-    }
+    };
 
     droppableGridEditor.createDroppableInlines = function createDroppableInlines($el, options){
 
@@ -291,7 +291,7 @@ define([
             }
             $droppables.off('.gridEdit.gridDragDrop');
         });
-    }
+    };
 
     droppableGridEditor.destroyDroppables = function destroyDroppables($el){
 
@@ -306,7 +306,7 @@ define([
 
         $el.off('.gridEdit.gridDragDrop');
         $el.find('[class^="col-"], [class*=" col-"]').off('.gridEdit.gridDragDrop').removeAttr('style');
-    }
+    };
 
     var _getNewRow = function _getNewRow(){
         return $('<div>', {'class' : 'grid-row grid-row-new', 'data-units' : 0});

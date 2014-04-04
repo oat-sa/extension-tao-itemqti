@@ -24,7 +24,7 @@ define([
             helper : options.helper,
             drop : options.drop
         });
-    }
+    };
 
     var createDraggable = function createDraggable($el, $to, options){
 
@@ -70,7 +70,7 @@ define([
                 $('body').css('cursor', 'auto');//...
 
                 //destroy droppables:
-                destroyDroppables($to);
+                droppable.destroyDroppables($to);
 
                 $to.trigger('dragoverstop.gridEdit');
             }

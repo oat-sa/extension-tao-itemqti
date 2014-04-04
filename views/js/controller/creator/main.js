@@ -9,9 +9,10 @@ define([
     'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/editor/loader',
     'taoQtiItem/qtiCreator/editor/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/gridEditor/draggable',
     'taoQtiItem/qtiCreator/helper/devTools',
     'ckeditor',
-    'taoQtiItem/qtiCreator/core/gridEditor'
+    'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(
     Element,
     toggleToolDisplay,
@@ -23,6 +24,7 @@ define([
     listStyler,
     loader,
     creatorRenderer,
+    draggable,
     devTools,
     ckeditor
     ){
@@ -60,57 +62,42 @@ define([
         });
         $item.gridEditor('resizable');
 
-        $item.on('dropped.gridEdit', function($to, $dropped){
+        $item.on('dropped.gridEdit', function(e, $targetContainer, $placeholder){
 
             //a new qti element has been added: update the model + render
-            $dropped.removeAttr('id');//prevent it from being deleted
-            $dropped.attr({
+            $placeholder.removeAttr('id');//prevent it from being deleted
+            $placeholder.attr({
                 'data-new' : true,
-                'data-qti-class' : 'choiceInteraction',//$el.data('qti-class')
+                'data-qti-class' : 'choiceInteraction'//$el.data('qti-class')
             });//add data attribute to get the dom ready to be replaced by rendering
 
-            item.createElements(getBody($to), function(newElts){
+            item.createElements($item.gridEditor('getContent'), function(newElts){
 
                 creatorRenderer.get().load(function(){
 
                     for(var serial in newElts){
 
                         var elt = newElts[serial],
-                            $container,
+                            $widget,
                             widget;
 
                         elt.setRenderer(this);
-                        elt.render($dropped);
+                        elt.render($placeholder);
                         widget = elt.postRender();
 
                         if(Element.isA(elt, 'blockInteraction')){
-                            $container = widget.$container;
+                            $widget = widget.$container;
                         }else{
                             //leave the container in place
-                            $container = widget.$original;
+                            $widget = widget.$original;
                         }
 
-                        createMovable($container, $to);
+                        draggable.createMovable($widget, $targetContainer);
                     }
                 }, this.getUsedClasses());
             });
 
         });
-    };
-    var getBody = function getBody($el){
-        var html = $el.html();
-        var _replace = function(original, qtiClass){
-            var ret = original;
-            if(qtiClass){
-                ret = '{{' + qtiClass + ':new}}';
-            }
-            return ret;
-        };
-
-        html = html.replace(new RegExp('<div[^<]*data-qti-class="(\\w+)"[^<]*data-new="true"[^<]*>[^<>]*<\/div>', 'img'), _replace);
-        html = html.replace(new RegExp('<div[^<]*data-new="true"[^<]*data-qti-class="(\\w+)"[^<]*>[^<>]*<\/div>', 'img'), _replace);
-
-        return html;
     };
     
     var _normalizeItemBody = function _normalizeItemBody(rawItemBody){
@@ -142,4 +129,4 @@ define([
         }
     };
 
-})
+});
