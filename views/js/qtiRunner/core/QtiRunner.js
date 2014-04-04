@@ -148,8 +148,9 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
         if(this.item){
             var interactions = this.item.getInteractions();
             for(var serial in interactions){
-                var interactionResponse = interactions[serial].getResponse();
-                responses[interactionResponse.identifier] = interactionResponse.value;
+                var interaction = interactions[serial];
+                var interactionResponse = interaction.getResponse();
+                responses[interaction.attr('responseIdentifier')] = interactionResponse;
             }
         }
 
