@@ -1,4 +1,5 @@
 define([
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/toggleToolDisplay',
     'taoQtiItem/qtiCreator/editor/preview',
     'taoQtiItem/qtiCreator/editor/fontSelector',
@@ -12,6 +13,7 @@ define([
     'ckeditor',
     'taoQtiItem/qtiCreator/core/gridEditor'
 ], function(
+    Element,
     toggleToolDisplay,
     preview,
     fontSelector,
@@ -38,15 +40,17 @@ define([
     };
 
     var _debug = function _debug(item){
-        
+
         devTools.listenStateChange();
 
-        var $xmlPreview = $('<pre>', {});
-        $('#item-editor-wrapper').append($xmlPreview);
-        devTools.liveXmlPreview(item, $xmlPreview);
+        var $code = $('<code>', {'class' : 'language-markup'}),
+        $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
+
+        $('#item-editor-wrapper').append($pre);
+        devTools.liveXmlPreview(item, $code);
     };
 
-    var _initEditor = function _initEditor($item){
+    var _initEditor = function _initEditor(item, $item){
 
         $item.gridEditor();
         $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
@@ -55,8 +59,60 @@ define([
             }
         });
         $item.gridEditor('resizable');
-    };
 
+        $item.on('dropped.gridEdit', function($to, $dropped){
+
+            //a new qti element has been added: update the model + render
+            $dropped.removeAttr('id');//prevent it from being deleted
+            $dropped.attr({
+                'data-new' : true,
+                'data-qti-class' : 'choiceInteraction',//$el.data('qti-class')
+            });//add data attribute to get the dom ready to be replaced by rendering
+
+            item.createElements(getBody($to), function(newElts){
+
+                creatorRenderer.get().load(function(){
+
+                    for(var serial in newElts){
+
+                        var elt = newElts[serial],
+                            $container,
+                            widget;
+
+                        elt.setRenderer(this);
+                        elt.render($dropped);
+                        widget = elt.postRender();
+
+                        if(Element.isA(elt, 'blockInteraction')){
+                            $container = widget.$container;
+                        }else{
+                            //leave the container in place
+                            $container = widget.$original;
+                        }
+
+                        createMovable($container, $to);
+                    }
+                }, this.getUsedClasses());
+            });
+
+        });
+    };
+    var getBody = function getBody($el){
+        var html = $el.html();
+        var _replace = function(original, qtiClass){
+            var ret = original;
+            if(qtiClass){
+                ret = '{{' + qtiClass + ':new}}';
+            }
+            return ret;
+        };
+
+        html = html.replace(new RegExp('<div[^<]*data-qti-class="(\\w+)"[^<]*data-new="true"[^<]*>[^<>]*<\/div>', 'img'), _replace);
+        html = html.replace(new RegExp('<div[^<]*data-new="true"[^<]*data-qti-class="(\\w+)"[^<]*>[^<>]*<\/div>', 'img'), _replace);
+
+        return html;
+    };
+    
     var _normalizeItemBody = function _normalizeItemBody(rawItemBody){
         var $itemBody = $(rawItemBody);
         if(!$itemBody.hasClass('grid-row')){
@@ -78,8 +134,8 @@ define([
             listStyler();
 
             loader.loadItem({uri : config.uri}, function(item){
-                _renderItem(item)
-                _initEditor($('#item-editor-panel .item-editor-drop-area'));
+                _renderItem(item);
+                _initEditor(item, $('#item-editor-panel .item-editor-drop-area'));
                 _debug(item);
             });
 

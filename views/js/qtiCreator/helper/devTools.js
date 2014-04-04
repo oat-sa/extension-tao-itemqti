@@ -2,12 +2,12 @@ define([
     'lodash',
     'jquery',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
-], function(_, $,XmlRenderer){
+], function(_, $, XmlRenderer){
 
     var tools = {};
-    
+
     var _xmlRenderer = new XmlRenderer({shuffleChoices : false});
-    
+
     tools.listenStateChange = function(){
 
         $(document).on('beforeStateInit.qti-widget', function(e, element, state){
@@ -22,29 +22,33 @@ define([
     tools.liveXmlPreview = function(item, $destination){
 
         //render qti xml:
-        
-        _xmlRenderer.load(function(R){
+        try{
             
-            var bufferedExec = _.throttle(function(){
-                var rawXml = item.render(_xmlRenderer);
-                _printXml(rawXml, $destination);
-            }, 200);
+            _xmlRenderer.load(function(){
 
-            var events = [
-                'containerBodyChange',
-                'attributeModified.qti-widget',
-                'choiceCreated.qti-widget',
-                'correctResponseChange.qti-widget',
-                'mapEntryChange.qti-widget',
-                'mapEntryRemove.qti-widget',
-                'deleted.qti-widget',
-                'choiceTextChange.qti-widget'
-            ];
+                var bufferedExec = _.throttle(function(){
+                    var rawXml = item.render(_xmlRenderer);
+                    _printXml(rawXml, $destination);
+                }, 200);
+
+                var events = [
+                    'containerBodyChange',
+                    'attributeModified.qti-widget',
+                    'choiceCreated.qti-widget',
+                    'correctResponseChange.qti-widget',
+                    'mapEntryChange.qti-widget',
+                    'mapEntryRemove.qti-widget',
+                    'deleted.qti-widget',
+                    'choiceTextChange.qti-widget'
+                ];
+
+                $(document).on(events.join(' '), bufferedExec);
+
+            });
             
-            $(document).on(events.join(' '), bufferedExec);
-
-        }, item.getUsedClasses());
-
+        }catch(e){
+            console.log(e);
+        }
     };
 
     var _formatXml = function(xml){
@@ -63,20 +67,19 @@ define([
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
 
-        $destination.html(xml);
-        
         if($destination.hasClass('language-markup')){
             $code = $destination;
         }else{
             $code = $destination.find('code.language-markup');
             if(!$code.length){
-                $code = $('<code>', {'class':'language-markup'});
+                $code = $('<code>', {'class' : 'language-markup'});
+                $destination.addClass('line-numbers').html($code);
             }
-            $destination.addClass('line-numbers').append($code);
         }
-        
+
         if($code.length){
-            Prism.highlightElement($destination[0]);
+            $code.html(xml);
+            Prism.highlightElement($code[0]);
         }
     };
 
