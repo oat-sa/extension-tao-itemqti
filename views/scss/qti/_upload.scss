@@ -2,7 +2,10 @@
 .qti-uploadInteraction {
 
     background: whiten($uiClickableDefaultBg, .5);
-    padding: 5px;
+    padding: 6px 6px 0 6px;
+    .grid-row {
+        margin-bottom: 0 !important;
+    }
     .progressbar {
         margin-bottom: 6px;
     }
