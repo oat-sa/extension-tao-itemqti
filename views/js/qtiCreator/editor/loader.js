@@ -2,8 +2,8 @@ define([
     'jquery',
     'helpers',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiCreator/core/model/Item',
-    'taoQtiItem/qtiCreator/core/model/qtiClasses',
+    'taoQtiItem/qtiCreator/model/Item',
+    'taoQtiItem/qtiCreator/model/qtiClasses',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
 ], function($, helpers, Loader, Item, qtiClasses, data){
     

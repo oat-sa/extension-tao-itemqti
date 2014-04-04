@@ -2,7 +2,7 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/core/model/qtiClasses',
+    'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/renderers/Renderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'

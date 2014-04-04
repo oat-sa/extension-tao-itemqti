@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/core/qtiElements',
     'taoQtiItem/qtiCreator/core/gridUnits',
-    'taoQtiItem/qtiCreator/core/model/Item',
+    'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/editor/creatorRenderer',
     'jqueryui',
 ], function(_, $, Element, QtiElements, gridUnits, Item, creatorRenderer){

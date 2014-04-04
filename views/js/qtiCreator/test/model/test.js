@@ -2,7 +2,7 @@ require([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/core/model/Item',
+    'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
 ],
 function($, _, Element, Item, XmlRenderer){
