@@ -16,14 +16,10 @@ define(['jquery'], function($){
     QtiResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, callback){
         var _this = this;
         $.ajax({
-            url : this.endpoint + 'submitResponses',
-            data : {
-                itemId : itemId,
-                serviceCallId : serviceCallId,
-                responseVariables : responses,
-                traceVariables : events
-            },
+            url : this.endpoint + 'submitResponses' + '?itemId=' + encodeURIComponent(itemId) + '&serviceCallId=' + encodeURIComponent(serviceCallId),
+            data : JSON.stringify(responses),
             type : 'post',
+            contentType: 'application/json',
             dataType : 'json',
             success : function(r){
                 if(r.success){

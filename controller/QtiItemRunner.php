@@ -27,13 +27,13 @@ use \taoItems_actions_ItemRunner;
 use \core_kernel_file_File;
 use \core_kernel_classes_Resource;
 use \common_Exception;
-use \taoQtiCommon_helpers_LegacyVariableFiller;
+use \taoQtiCommon_helpers_PciVariableFiller;
+use \taoQtiCommon_helpers_PciStateOutput;
+use \taoQtiCommon_helpers_Utils;
 use \common_Logger;
 use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_ResultTransmitter;
 use \taoResultServer_models_classes_ResultServerStateFull;
-use \taoQtiCommon_helpers_LegacyStateOutput;
-
 use qtism\runtime\common\State;
 use qtism\runtime\tests\AssessmentItemSession;
 use qtism\runtime\tests\AssessmentItemSessionException;
@@ -86,10 +86,6 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
         return $this->hasRequestParameter("itemPath") ? new core_kernel_file_File($this->getRequestParameter("itemPath")) : false;
     }
 
-    protected function getPostedResponses(){
-        return $this->hasRequestParameter("responseVariables") ? $this->getRequestParameter("responseVariables") : array();
-    }
-
     protected function getPostedTraces(){
         return $this->hasRequestParameter("traceVariables") ? $this->getRequestParameter("traceVariables") : array();
     }   
@@ -106,7 +102,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
         
         if(!empty($itemUri)){
 
-            $this->processResponses(new core_kernel_classes_Resource($itemUri), $this->getPostedResponses());
+            $this->processResponses(new core_kernel_classes_Resource($itemUri));
             $success = true;
             
         }else{
@@ -118,10 +114,11 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
      * Item's ResponseProcessing.
      * 
      * @param core_kernel_file_File $itemPath The Item file resource you want to apply ResponseProcessing.
-     * @param array $responses Client-side responses.
      * @throws RuntimeException If an error occurs while processing responses or transmitting results
      */
-    protected function processResponses(core_kernel_classes_Resource $item, array $responses){
+    protected function processResponses(core_kernel_classes_Resource $item){
+        
+        $jsonPayload = taoQtiCommon_helpers_Utils::readJsonPayload();
         
         try {
             $qtiXmlFilePath = QtiFile::getQtiFilePath($item);
@@ -138,16 +135,21 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
         $variables = array();
         
         // Convert client-side data as QtiSm Runtime Variables.
-        foreach ($responses as $identifier => $response) {
-            $filler = new taoQtiCommon_helpers_LegacyVariableFiller($qtiXmlDoc->getDocumentComponent());
+        foreach ($jsonPayload as $identifier => $response) {
+            $filler = new taoQtiCommon_helpers_PciVariableFiller($qtiXmlDoc->getDocumentComponent());
             try {
                 $variables[] = $filler->fill($identifier, $response);
+                var_export($variables, true);
             }
             catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
                 // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair) are transmitted as an array of length 1,
                 // this might cause problem. Such "broken" pairs are simply ignored.
                 common_Logger::d("Client-side value for variable '${identifier}' is ignored due to data malformation.");
+            }
+            catch (OutOfBoundsException $e) {
+                // The response identifier does not match any response declaration.
+                common_Logger::d("Uknown item variable declaration '${identifier}.");
             }
         }
         
@@ -192,7 +194,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
     }
     
     protected static function buildOutcomeResponse(AssessmentItemSession $itemSession) {
-        $stateOutput = new taoQtiCommon_helpers_LegacyStateOutput();
+        $stateOutput = new taoQtiCommon_helpers_PciStateOutput();
         
         foreach ($itemSession->getAllVariables() as $var) {
             $stateOutput->addVariable($var);
