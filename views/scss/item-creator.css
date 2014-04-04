@@ -278,10 +278,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   right: 0;
   width: 180px; }
   .tao-scope .item-editor-sidebar .tool-group h2 {
-    font-size: 13px;
-    font-size: 1.3rem;
+    font-size: 14px;
+    font-size: 1.4rem;
     border-top: 1px white solid;
-    font-weight: 400;
+    font-weight: normal;
     line-height: 30px;
     padding: 0 6px;
     letter-spacing: .06rem;
@@ -306,7 +306,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 8px 5px;
     overflow: hidden; }
     .tao-scope .item-editor-sidebar .tool-group .panel h3 {
-      padding: 0;
+      padding: 0 0 6px 0;
       margin: 0;
       font-size: 13px;
       font-size: 1.3rem; }
@@ -344,8 +344,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         font-size: 28px;
         font-size: 2.8rem;
         opacity: .9; }
+  .tao-scope .item-editor-sidebar .cbr-right span {
+    position: absolute;
+    left: 120px; }
   .tao-scope .item-editor-sidebar .spinner {
-    min-width: 50%;
+    min-width: 60%;
     line-height: 22px; }
     .tao-scope .item-editor-sidebar .spinner ~ .tooltipstered {
       top: 6px; }

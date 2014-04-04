@@ -1041,3 +1041,48 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-bottom: 1px #dddddd solid;
     padding-right: 29px;
     min-width: 180px; }
+
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+
+.qti-uploadInteraction .progressbar {
+  margin-bottom: 6px; }
+.qti-uploadInteraction .file-upload {
+  display: inline-block;
+  position: relative;
+  overflow: hidden; }
+  .qti-uploadInteraction .file-upload .file-name {
+    padding: 0 5px; }
+  .qti-uploadInteraction .file-upload input[type="file"] {
+    font-size: 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer; }
+.qti-uploadInteraction:hover .btn-info {
+  opacity: .85; }
