@@ -69,10 +69,10 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
             <?=__('Item creator')?>
         </div>
         <ul class="plain clearfix item-editor-menu lft">
-            <li><span class="icon-save"></span><?=__('Save')?></li>
+            <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
             <li id="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
             <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
-            <li><span class="icon-download"></span><?=__('Export')?></li>
+            <li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>
         </ul>
         <ul class="plain clearfix item-editor-menu rgt">
             <li id="item-editor-status">&nbsp;</li>
@@ -217,5 +217,5 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 <script>
     require(['taoQtiItem/controller/creator/main'], function(controller){
         controller.start({uri : '<?=get_data('uri')?>'});
-    })
+    });
 </script>

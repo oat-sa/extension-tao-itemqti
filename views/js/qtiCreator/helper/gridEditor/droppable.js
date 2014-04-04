@@ -57,7 +57,7 @@ define([
 
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
-
+            
             $placeholder.parent().parent().removeData('active');
 
             $placeholder

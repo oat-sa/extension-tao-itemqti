@@ -299,6 +299,8 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
                     callback.call(_this, _renderers);
                 }
             });
+            
+            return this;
         };
 
         this.setShuffledChoices = function(interaction, choices, identificationType){

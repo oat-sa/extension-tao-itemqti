@@ -96,30 +96,56 @@ define([
     }
 
     function destroy($elt) {
+        
         $elt.removeData('qti-grid-options');
-        $elt.find('.grid-row, [class*=" col-"], [class^="col-"]').removeAttr('data-units');
+        
+        $elt.find('.grid-row, [class*=" col-"], [class^="col-"]')
+                .removeAttr('style')
+                .removeAttr('data-active')
+                .removeAttr('data-units');
+        
+        $elt.children('.ui-draggable-dragging').remove();
+        
+        resizable.destroy($elt);
     }
 
     function getContent($el) {
         
-        var html = $el.html(),
-            newContentFound = false,
-            _replace = function(original, qtiClass) {
-                var ret = original;
-                if (qtiClass) {
-                    ret = '{{' + qtiClass + ':new}}';
-                    newContentFound = true;
-                }
-                return ret;
-            };
-
-        html = html.replace(new RegExp('<div[^<]*data-qti-class="(\\w+)"[^<]*data-new="true"[^<]*>[^<>]*<\/div>', 'img'), _replace);
-        if(!newContentFound){
-            html = html.replace(new RegExp('<div[^<]*data-new="true"[^<]*data-qti-class="(\\w+)"[^<]*>[^<>]*<\/div>', 'img'), _replace);
-        }
-
-        return html;
+        var $content = $el.clone();
+        
+        destroy($content);
+        prepareNewElements($content);
+        prepareElements($content);
+        
+        return $content.html();
     }
-    ;
+    
+    function prepareNewElements($el){
+        
+        $el.find('.widget-box[data-new][data-qti-class]').each(function(){
+            
+            var $newQtiElement = $(this),
+                qtiClass = $newQtiElement.data('qti-class');
+                
+            $newQtiElement.replaceWith('{{' + qtiClass + ':new}}');
+            
+        });
+        
+        return $el;
+    }
+    
+    function prepareElements($el){
+        
+        $el.find('.widget-box[data-serial]').each(function(){
+            
+            var $qtiElementWidget = $(this),
+                serial = $qtiElementWidget.data('serial');
+                
+            $qtiElementWidget.replaceWith('{{' + serial + '}}');
+            
+        });
+        
+        return $el;
+    }
 
 });
