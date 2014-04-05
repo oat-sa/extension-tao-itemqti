@@ -44,8 +44,6 @@ define([
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
             
-            console.log('append', $col.length);
-            
             $placeholder
                 .data('dropped', true)
                 .show()
@@ -61,8 +59,6 @@ define([
 
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
-            
-            console.log('reset');
             
             $placeholder.parent().parent().removeData('active');
 

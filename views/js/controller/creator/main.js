@@ -108,10 +108,9 @@ define([
                             //leave the container in place
                             $widget = widget.$original;
                         }
-
-                        draggable.createMovable($widget, $targetContainer);
-
-                        console.log($item.gridEditor('getContent'));
+                        
+                        //@todo : draggable not working with cke !!
+//                        draggable.createMovable($widget, $targetContainer);
                     }
                 }, this.getUsedClasses());
             });
