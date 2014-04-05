@@ -19,7 +19,10 @@ define([
             this.createChoice();
             this.createChoice();
             this.createChoice();
-            this.createResponse();
+            this.createResponse({
+                baseType:'identifier',
+                cardinality:'single'
+            });
         },
         createChoice : function(){
             var choice = new Choice();
