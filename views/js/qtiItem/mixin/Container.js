@@ -4,6 +4,7 @@ define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/core/Container'], 
         initContainer : function(body){
             this.bdy = new Container(body || '');
             this.bdy.setRelatedItem(this.getRelatedItem() || null);
+            this.bdy.contentModel = 'blockStatic';
         },
         getBody : function(){
             return this.bdy;

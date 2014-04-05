@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedElement', 'taoQtiItem/qtiItem/mixin/Container', 'lodash'], function(Element, IdentifiedElement, Container, _){
+define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedElement', 'taoQtiItem/qtiItem/mixin/ContainerItemBody', 'lodash'], function(Element, IdentifiedElement, Container, _){
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',
@@ -90,7 +90,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedEl
         setNamespaces : function(namespaces){
             this.namespaces = namespaces;
         },
-        getNamespaces : function(namespaces){
+        getNamespaces : function(){
             return _.clone(this.namespaces);
         },
         addStylesheet : function(stylesheet){
