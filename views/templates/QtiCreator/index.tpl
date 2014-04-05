@@ -7,7 +7,9 @@ use oat\taoQtiItem\helpers\Authoring;
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
     #new-interaction{cursor:pointer;}
-
+    
+    .widget-box:hover{border:1px solid blue;}
+    
     .qti-droppable-ready{outline: 1px solid green;}
     .qti-droppable-active{outline: 1px solid yellow;}
     .qti-droppable{outline: 0px dotted green;}
@@ -172,6 +174,12 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
 
+                </section>
+            </div>
+            <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Body Element Properties')?></h2>
+                    <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-interaction-related" id="item-editor-interaction-property-bar">

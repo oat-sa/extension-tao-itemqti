@@ -1,6 +1,7 @@
 define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, commonRenderConfig){
     var locations = _.extend(_.clone(commonRenderConfig.locations), {
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
+        'rubricBlock' : 'taoQtiItem/qtiCreator/renderers/RubricBlock',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/ChoiceInteraction',
         'orderInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/OrderInteraction',
         'associateInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/AssociateInteraction',

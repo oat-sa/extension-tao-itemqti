@@ -8,10 +8,9 @@ define([
 
     var droppableGridEditor = {};
 
-    droppableGridEditor.createDroppableBlocks = function createDroppableBlocks($el, options){
+    droppableGridEditor.createDroppableBlocks = function createDroppableBlocks(qtiClass, $el, options){
 
-        var onDrop = (options && typeof options.drop === 'function') ? options.drop : null,
-            minUnits = (options && typeof options.min === 'string') ? options.min : 0,
+        var minUnits = (options && typeof options.min === 'string') ? options.min : 0,
             $colInitial = (options && options.initialPosition instanceof $) ? options.initialPosition : null;
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
@@ -44,19 +43,26 @@ define([
 
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
-
+            
+            console.log('append', $col.length);
+            
             $placeholder
                 .data('dropped', true)
                 .show()
                 .parent().removeClass('col-12')
                 .parent().removeData('active');
-
+                
+            if(!$col.length){
+                debugger;
+            }
             $col.append($placeholder);
 
         };
 
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
+            
+            console.log('reset');
             
             $placeholder.parent().parent().removeData('active');
 
@@ -192,7 +198,7 @@ define([
                 h = $col.height(),
                 relY = e.pageY - $col.offset().top;
 
-            //insert on top of the bottom:
+            //insert on top or bottom:
             var $newRow = (relY < h / 2) ? $(this).parent().prev() : $(this).parent().next();
             if(!$newRow.find('#qti-block-element-placeholder').length){//append row only not already included
                 var $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
@@ -239,10 +245,7 @@ define([
 
             //call callback function:
             if($placeholder.data('dropped')){
-                $el.trigger('dropped.gridEdit', [$el, $placeholder]);
-                if(typeof onDrop === 'function'){
-                    onDrop($el, $placeholder);
-                }
+                $el.trigger('dropped.gridEdit', [qtiClass, $el, $placeholder]);
             }
 
             $el.off('.gridEdit.gridDragDrop');
@@ -254,7 +257,7 @@ define([
 
     };
 
-    droppableGridEditor.createDroppableInlines = function createDroppableInlines($el, options){
+    droppableGridEditor.createDroppableInlines = function createDroppableInlines(qtiClass, $el, options){
 
         var onDrop = (options && typeof options.drop === 'function') ? options.drop : null;
 

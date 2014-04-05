@@ -22,7 +22,7 @@ define(['lodash', 'jquery', 'ckeditor'], function(_, $, CKEditor){
         return CKEditor.inline($editable[0], {
             toolbarGroups : [
                 {name : 'basicstyles', groups : ['basicstyles', 'cleanup']},
-                {name : 'paragraph', groups : ['list', 'indent', 'blocks', 'align']},
+                {name : 'paragraph', groups : ['list', 'indent', 'blocks', 'align']}
             ],
             autoParagraph : false,
             removePlugins : 'resize,elementspath',

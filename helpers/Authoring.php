@@ -91,6 +91,23 @@ class Authoring
 
     public static function getAvailableAuthoringElements(){
         return array(
+            'Text' => array(
+                array('title' => __('Text Block'),
+                    'icon' => 'font',
+                    'short' => __('Text'),
+                    'qtiClass' => 'text'
+                ),
+                array('title' => __('Rubric Block'),
+                    'icon' => 'background-color',
+                    'short' => __('Rubric'),
+                    'qtiClass' => 'rubricBlock'
+                ),
+                array('title' => __('Math'),
+                    'icon' => 'special-character',
+                    'short' => __('Math'),
+                    'qtiClass' => 'math'
+                )
+            ),
             'Interactions' => array(
                 array('title' => __('Choice Interaction'),
                     'icon' => 'choice',

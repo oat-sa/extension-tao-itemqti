@@ -21,8 +21,7 @@ define([
         _.extend(options, opts);
 
         createDraggable($el, $to, {
-            helper : options.helper,
-            drop : options.drop
+            helper : options.helper
         });
     };
 
@@ -49,9 +48,9 @@ define([
                 //define the type of draggable block/inline?
                 var qtiClass = $(this).data('qti-class');
                 if(QtiElements.isBlock(qtiClass)){
-                    droppable.createDroppableBlocks($to, options);
+                    droppable.createDroppableBlocks(qtiClass, $to, options);
                 }else if(QtiElements.isInline(qtiClass)){
-                    droppable.createDroppableInlines($to, options);
+                    droppable.createDroppableInlines(qtiClass, $to, options);
                 }else{
                     throw 'undefined qti class';
                 }

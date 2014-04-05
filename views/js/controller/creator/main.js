@@ -60,24 +60,34 @@ define([
 
         $item.gridEditor();
         $item.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
-            helper: function() {
-                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999);
-            }
+//            helper: function() {
+//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999);
+//            }
         });
         $item.gridEditor('resizable');
 
-        $item.on('dropped.gridEdit', function(e, $targetContainer, $placeholder) {
+        $item.on('dropped.gridEdit', function(e, qtiClass, $targetContainer, $placeholder) {
 
 //            console.log(e, $targetContainer, $placeholder);
 //            debugger;
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
-            $placeholder.addClass('widget-box');
+            
+            
+            if(qtiClass === 'rubricBlock'){
+                //qti strange exception: a rubricBlock must be the first child of itemBody, nothing else...
+                //so in this specific case, consider the whole row as the rubricBlock
+                //by the way, in our grid system, rubricBlock can only have a width of col-12
+                $placeholder = $placeholder.parent('.col-12').parent('.grid-row');
+            }
+            
+            $placeholder.addClass('widget-box');//necessary?
             $placeholder.attr({
                 'data-new': true,
-                'data-qti-class': 'choiceInteraction'//$el.data('qti-class')
+                'data-qti-class': qtiClass
             });//add data attribute to get the dom ready to be replaced by rendering
-
+            
+            
             item.createElements($item.gridEditor('getContent'), function(newElts) {
 
                 creatorRenderer.get().load(function() {
@@ -138,6 +148,7 @@ define([
     var _normalizeItemBody = function _normalizeItemBody(rawItemBody) {
         var $itemBody = $(rawItemBody);
         if (!$itemBody.hasClass('grid-row')) {
+            //@todo: be careful about the special case of rubricBlocks that must not be wrapped
             return $('<div>', {'class': 'grid-row'}).append($('<div>', {'class': 'col-12'}).append($itemBody));
         }
         return $itemBody;

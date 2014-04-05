@@ -76,7 +76,7 @@ define([
                     _widget.element.body(data);
                 },
                 focus : function(){
-                    _widget.changeState('choice')
+                    _widget.changeState('choice');
                 }
             });
         }

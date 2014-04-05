@@ -37,7 +37,9 @@ define([
 
     var Test = {
         testRender : function(itemIdentifier, attributes, responses){
-
+            
+            attributes = attributes || {};
+            
             if(data[itemIdentifier]){
 
                 test('render', function(){

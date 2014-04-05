@@ -33,16 +33,18 @@ define([
 
                         //append item placeholder and render it:
                         var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
-                        $('#item-editor-panel h1').text('item identifier : ' + item.id())
+                        $('#item-editor-panel h1').text('item identifier : ' + item.id());
                         $("#item-editor-panel #interaction").append($placeholder);
 
-                        var $interactionForm = $('<div>', {'id' : 'qtiCreator-form-interaction', 'class': 'form-container', text : 'interaction form place holder'});
-                        var $choiceForm = $('<div>', {'id' : 'qtiCreator-form-choice', 'class': 'form-container', text : 'choice form place holder'});
-                        var $responseForm = $('<div>', {'id' : 'qtiCreator-form-response', 'class': 'form-container', text : 'response form place holder'});
+                        var $interactionForm = $('<div>', {'id' : 'qtiCreator-form-interaction', 'class': 'form-container', text : 'interaction form placeholder'});
+                        var $choiceForm = $('<div>', {'id' : 'qtiCreator-form-choice', 'class': 'form-container', text : 'choice form placeholder'});
+                        var $responseForm = $('<div>', {'id' : 'qtiCreator-form-response', 'class': 'form-container', text : 'response form placeholder'});
+                        var $bodyElementForm = $('<div>', {'id' : 'qtiCreator-form-body-element', 'class': 'form-container', text : 'body element form placeholder'});
                         $('#form-container')
                             .append($interactionForm)
                             .append($choiceForm)
-                            .append($responseForm);
+                            .append($responseForm)
+                            .append($bodyElementForm);
 
                         var creatorRenderer = new Renderer({
                             shuffleChoices:false,
@@ -53,7 +55,8 @@ define([
                             },
                             interactionOptionForm : $interactionForm,
                             choiceOptionForm : $choiceForm,
-                            responseOptionForm : $responseForm
+                            responseOptionForm : $responseForm,
+                            bodyElementOptionForm : $bodyElementForm
                         });
 
                         creatorRenderer.load(function(){

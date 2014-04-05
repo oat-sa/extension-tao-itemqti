@@ -29,7 +29,8 @@ define([
 
             //add toolbar once only:
             $editableContainer.append(promptToolbarTpl({
-                serial : _widget.serial
+                serial : _widget.serial,
+                state: 'question'
             }));
 
             htmlEditor.buildEditor($editableContainer, {

@@ -12,7 +12,7 @@ define([
 
         //create toolbar and hide it
         this.createToolbar();
-        this.createOkButton();
+//        this.createOkButton();//?? do we need that?
     };
 
     StaticWidget.buildContainer = function(){
