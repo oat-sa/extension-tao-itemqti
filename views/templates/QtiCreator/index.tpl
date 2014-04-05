@@ -1,6 +1,5 @@
 <?php
-
-use oat\taoQtiItem\helpers\qti\ItemAuthoring;
+use oat\taoQtiItem\helpers\Authoring;
 ?>
 <!--pretty print-->
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
@@ -87,7 +86,7 @@ use oat\taoQtiItem\helpers\qti\ItemAuthoring;
         <div class="item-editor-sidebar" id="item-editor-interaction-bar">
 
             <section class="tool-group clearfix">
-                <?php foreach(ItemAuthoring::getAvailableAuthoringElements() as $group => $groupValues):
+                <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues):
                     ?>
 
                     <h2><?=$group?></h2>

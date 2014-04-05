@@ -68,8 +68,8 @@ define([
 
         $item.on('dropped.gridEdit', function(e, $targetContainer, $placeholder) {
 
-            console.log(e, $targetContainer, $placeholder);
-            debugger;
+//            console.log(e, $targetContainer, $placeholder);
+//            debugger;
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
             $placeholder.addClass('widget-box');
@@ -102,7 +102,6 @@ define([
                         draggable.createMovable($widget, $targetContainer);
 
                         console.log($item.gridEditor('getContent'));
-                        debugger;
                     }
                 }, this.getUsedClasses());
             });
@@ -112,12 +111,14 @@ define([
         $item.on('beforedragoverstop.gridEdit', function() {
             //save item?
         });
-
+        
+        console.log(xmlRenderer.render(item));
+        
         $('#save-trigger').on('click', function() {
             $.ajax({
                 url: helpers._url('saveItem', 'QtiCreator', 'taoQtiItem'),
                 type: 'POST',
-                contentType: 'application/json',
+                dataType:'json',
                 data: {
                     uri: uri,
                     xml: xmlRenderer.render(item)

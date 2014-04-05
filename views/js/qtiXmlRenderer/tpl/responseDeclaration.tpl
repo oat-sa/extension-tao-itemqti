@@ -33,5 +33,5 @@
         </areaMapping>
         {{/if}}
     {{/if}}
+    </responseDeclaration>
 {{~/if}}
-</responseDeclaration>

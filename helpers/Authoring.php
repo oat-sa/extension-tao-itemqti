@@ -22,9 +22,10 @@
 namespace oat\taoQtiItem\helpers;
 
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
-use \common_Logger;
 use \DOMDocument;
+use \common_Logger;
 
 /**
  * Helper to provide methods for QTI authoring
@@ -155,11 +156,13 @@ class Authoring
             'Media' => array(
                 array('title' => __('Image'),
                     'icon' => 'choice',
-                    'short' => __('Image')
+                    'short' => __('Image'),
+                    'qtiClass' => 'img'
                 ),
                 array('title' => __('Video'),
                     'icon' => 'match',
-                    'short' => __('Video')
+                    'short' => __('Video'),
+                    'qtiClass' => 'object.video'
                 )
             )
         );
@@ -174,6 +177,8 @@ class Authoring
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse = false;
+        
+        common_Logger::d($qti);
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
 

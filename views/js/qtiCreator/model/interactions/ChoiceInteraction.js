@@ -12,8 +12,8 @@ define([
         getDefaultAttributes : function(){
             return {
                 'shuffle' : false,
-                'maxChoice' : 0,
-                'minChoice' : 0,
+                'maxChoices' : 0,
+                'minChoices' : 0,
                 'orientation' : 'vertical'
             };
         },
@@ -21,7 +21,10 @@ define([
             this.createChoice();
             this.createChoice();
             this.createChoice();
-            this.createResponse();
+            this.createResponse({
+                baseType:'identifier',
+                cardinality:'multiple'
+            });
         },
         createChoice : function(){
             var choice = new Choice();

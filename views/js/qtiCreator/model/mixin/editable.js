@@ -56,6 +56,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                     }
 
                     if(removed){
+                        $(document).off('.'+element.serial);
                         $(document).trigger('deleted.qti-widget', {'element' : element});
                     }
                 }

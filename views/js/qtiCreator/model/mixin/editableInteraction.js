@@ -1,8 +1,12 @@
 define(['taoQtiItem/qtiCreator/model/variables/ResponseDeclaration'], function(ResponseDeclaration){
 
     var methods = {
-        createResponse:function(){
+        createResponse:function(attributes){
+            
             var response = new ResponseDeclaration();
+            if(attributes){
+                response.attr(attributes);
+            }
             
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:
             this.getRelatedItem().addResponseDeclaration(response);
@@ -18,6 +22,7 @@ define(['taoQtiItem/qtiCreator/model/variables/ResponseDeclaration'], function(R
          * To be called before deleting the interaction
          */
         deleteResponse:function(){
+            
             var response = this.getResponseDeclaration();
             if(response){
                 this.getRelatedItem().deleteResponseDeclaration(response);

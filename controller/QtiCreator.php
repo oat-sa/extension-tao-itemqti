@@ -29,6 +29,7 @@ use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
+use \core_kernel_classes_Session;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -76,12 +77,10 @@ class QtiCreator extends tao_actions_CommonModule {
         if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('xml')) {
 
             $uri = urldecode($this->getRequestParameter('uri'));
-            $xml = $_POST['xml'];
-            
-            var_dump($uri, $xml);
+            $xml = html_entity_decode(urldecode($this->getRequestParameter('xml')));
             $rdfItem = new core_kernel_classes_Resource($uri);
             $itemService = taoItems_models_classes_ItemsService::singleton();
-
+            
             //check if the item is QTI item
             if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
                 
@@ -89,6 +88,7 @@ class QtiCreator extends tao_actions_CommonModule {
                 
                 //get the QTI xml
                 $returnValue['success'] = $itemService->setItemContent($rdfItem, $xml);
+                $returnValue['xml'] = $xml;
             }
         }
         
