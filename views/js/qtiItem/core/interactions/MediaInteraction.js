@@ -1,18 +1,17 @@
-define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction'], function(ObjectInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(ObjectInteraction, rendererConfig){
     var MediaInteraction = ObjectInteraction.extend({
         qtiClass : 'mediaInteraction',
-        render : function(data, $container, subclass, renderer){
+        render : function(){
             
-            renderer = renderer || this.getRenderer();
-            var defaultData = {
-                'media' : this.object.render({}, null, '', renderer)
-            };
-            var tplData = $.extend(true, defaultData, data || {});
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    'media' : this.object.render({}, null, '', renderer)
+                };
 
-            return this._super(tplData, $container, subclass, renderer);
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
 
         }
     });
     return MediaInteraction;
 });
-

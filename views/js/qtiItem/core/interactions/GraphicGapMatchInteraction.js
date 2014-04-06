@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/qtiItem/core/Element', 'lodash'], function(GraphicInteraction, Element, _){
+define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(GraphicInteraction, Element, _, rendererConfig){
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicGapMatchInteraction',
@@ -44,13 +44,13 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             }
             return found;
         },
-        render : function(data, $container, subclass, renderer){
+        render : function(){
             
-            renderer = renderer || this.getRenderer();
-            
-            var defaultData = {
-                'gapImgs' : []
-            };
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    'gapImgs' : []
+                };
 
             //note: no choice shuffling option available for graphic gap match
             var gapImgs = this.getGapImgs();
@@ -60,9 +60,7 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
                 }
             }
 
-            var tplData = _.merge(defaultData, data || {});
-
-            return this._super(tplData, $container, subclass, renderer);
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         toArray : function(){
             var arr = this._super();

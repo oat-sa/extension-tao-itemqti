@@ -1,4 +1,10 @@
-define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/interactions/BlockInteraction', 'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice', 'lodash'], function(Element, BlockInteraction, SimpleAssociableChoice, _){
+define([
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
+    'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice',
+    'lodash',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function(Element, BlockInteraction, SimpleAssociableChoice, _, rendererConfig){
 
     var MatchInteraction = BlockInteraction.extend({
         qtiClass : 'matchInteraction',
@@ -61,11 +67,11 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/interactions
             }
             return found;
         },
-        render : function(data, $container, subclass, renderer){
+        render : function(){
 
-            renderer = renderer||this.getRenderer();
-            
-            var    choices,
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                choices,
                 defaultData = {
                     'matchSet1' : [],
                     'matchSet2' : []
@@ -92,8 +98,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/interactions
                 }
             }
 
-            var tplData = _.merge(defaultData, data || {});
-            return this._super(tplData, $container, subclass, renderer);
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         toArray : function(){
             var arr = this._super();

@@ -25,13 +25,12 @@ define([
         render : function(){
             
             var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer || this.getRenderer();
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    'prompt' : this.prompt.render(renderer)
+                };
             
-            var defaultData = {
-                'prompt' : this.prompt.render(renderer)
-            };
-            var tplData = _.merge(defaultData, args.data);
-            return this._super(tplData, args.placeholder, args.subclass, renderer);
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         postRender : function(data, altClassName, renderer){
             renderer = renderer || this.getRenderer();

@@ -1,4 +1,4 @@
-define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
+define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(_, Element, rendererConfig){
 
     var _stripMathTags = function(mathML, nsName){
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : '') + 'math[^>]*>', 'g');
@@ -61,11 +61,11 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
         getMathML : function(){
             return this.mathML;
         },
-        render : function(data, $container, subclass, renderer){
+        render : function(){
             
-            renderer = renderer||this.getRenderer();
-            
-            var tag = this.qtiClass,
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer||this.getRenderer(),
+                tag = this.qtiClass,
                 body = this.mathML,
                 ns = this.getNamespace(),
                 annotations = '';
@@ -94,7 +94,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element'], function(_, Element){
                 ns : ns
             };
             
-            return this._super(_.merge(defaultData, data || {}), $container, subclass, renderer);
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });
 

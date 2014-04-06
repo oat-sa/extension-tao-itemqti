@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
+define(['taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(QtiChoice, rendererConfig){
 
     var QtiTextVariableChoice = QtiChoice.extend({
         init : function(serial, attributes, text){
@@ -24,11 +24,14 @@ define(['taoQtiItem/qtiItem/core/choices/Choice'], function(QtiChoice){
             }
             return this;
         },
-        render : function(data, $container, tplName, renderer){
-            var data = {
-                body : this.text
-            };
-            return this._super(data, $container, tplName, renderer);
+        render : function(){
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer||this.getRenderer(),
+                defaultData = {
+                    body : this.text
+                };
+                
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });
 

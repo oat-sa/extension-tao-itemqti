@@ -1,17 +1,15 @@
-define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction', 'lodash'], function(QtiObjectInteraction, _){
+define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(QtiObjectInteraction, _, rendererConfig){
     var QtiGraphicInteraction = QtiObjectInteraction.extend({
-        render : function(data, $container, subclass, renderer){
+        render : function(){
             
-            renderer = renderer || this.getRenderer();
-            
-            var defaultData = {
-                'backgroundImage' : this.object.getAttributes(),
-                'object' : this.object.render({}, null, '', renderer)
-            };
-            var tplData = _.merge(defaultData, data || {});
-
-            return this._super(tplData, $container, subclass, renderer);
-
+            var args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    'backgroundImage' : this.object.getAttributes(),
+                    'object' : this.object.render({}, null, '', renderer)
+                };
+                
+            return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });
 

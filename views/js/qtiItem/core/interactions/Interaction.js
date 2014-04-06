@@ -85,15 +85,14 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
         render : function(){
 
             var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer || this.getRenderer();
-
-            var defaultData = {
-                '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
-                    return "_" + $1.toLowerCase();
-                }),
-                'choices' : [],
-                'choiceShuffle' : true
-            };
+                renderer = args.renderer || this.getRenderer(),
+                defaultData = {
+                    '_type' : this.qtiClass.replace(/([A-Z])/g, function($1){
+                        return "_" + $1.toLowerCase();
+                    }),
+                    'choices' : [],
+                    'choiceShuffle' : true
+                };
 
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
@@ -113,9 +112,9 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
                 }
             });
             
-            var tplData = _.merge(defaultData, args.data);
             var tplName = args.subclass ? this.qtiClass + '.' + args.subclass : this.qtiClass;
-            return this._super(tplData, args.placeholder, tplName, renderer);
+            
+            return this._super(_.merge(defaultData, args.data), args.placeholder, tplName, renderer);
         },
         postRender : function(data, altClassName, renderer){
 
