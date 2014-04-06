@@ -104,8 +104,13 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             for(var serial in this.elements){
                 var elt = this.elements[serial];
                 if(typeof elt.render === 'function'){
-                    tpl = tpl.replace(elt.placeholder(), '{{{' + serial + '}}}');
-                    elementsData[serial] = elt.render({}, null, '', renderer);
+                    if(elt.qtiClass === '_container'){
+                        //@todo : container rendering merging, to be tested
+                        tpl = tpl.replace(elt.placeholder(), elt.render(renderer));
+                    }else{
+                        tpl = tpl.replace(elt.placeholder(), '{{{' + serial + '}}}');
+                        elementsData[serial] = elt.render(renderer);
+                    }
                 }else{
                     throw 'render() is not defined for the qti element: ' + serial;
                 }

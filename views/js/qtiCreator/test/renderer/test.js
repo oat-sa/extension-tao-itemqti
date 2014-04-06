@@ -48,11 +48,7 @@ define([
 
                         var creatorRenderer = new Renderer({
                             shuffleChoices:false,
-                            runtimeContext : {
-                                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
-                                root_url : '',
-                                debug : true
-                            },
+                            baseUrl:'/taoQtiItem/test/samples/test_base_www/',
                             interactionOptionForm : $interactionForm,
                             choiceOptionForm : $choiceForm,
                             responseOptionForm : $responseForm,
@@ -69,7 +65,7 @@ define([
                             //check item container:
                             ok(item.getContainer().length, 'rendered container found');
 
-                            item.postRender();
+                            item.postRender({uri:'dummy#uri'});
 
                         }, this.getLoadedClasses());
                         

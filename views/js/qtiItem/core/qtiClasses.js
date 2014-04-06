@@ -4,6 +4,7 @@ define([], function(){
         'responseProcessing' : 'taoQtiItem/qtiItem/core/ResponseProcessing',
         'stylesheet' : 'taoQtiItem/qtiItem/core/Stylesheet',
         'math' : 'taoQtiItem/qtiItem/core/Math',
+        'img' : 'taoQtiItem/qtiItem/core/Img',
         'object' : 'taoQtiItem/qtiItem/core/Object',
         'outcomeDeclaration' : 'taoQtiItem/qtiItem/core/variables/OutcomeDeclaration',
         'responseDeclaration' : 'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',

@@ -181,6 +181,7 @@ define([
             if(isEmpty){
                 var $newCol = $el.find('.new-col').css('background', '1px solid red');
                 _appendPlaceholder($newCol);
+                $newCol.addClass('col-12');
             }
             
         }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){

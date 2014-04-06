@@ -34,7 +34,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
 
             var qtiRunner = new QtiRunner();
             qtiRunner.setItemApi(itemApi);
-            qtiRunner.setRenderer(new Renderer({'runtimeContext': runnerContext.ctx}));     
+            qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));     
             qtiRunner.loadItemData(runnerContext.itemData, function() {
 
                 qtiRunner.loadElements(runnerContext.variableElements, function() {

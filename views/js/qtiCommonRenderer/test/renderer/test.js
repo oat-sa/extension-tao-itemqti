@@ -46,11 +46,7 @@ define([
 
                     var loader = new Loader();
                     var renderer = new Renderer({
-                        runtimeContext : {
-                            runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
-                            root_url : '',
-                            debug : true
-                        }
+                        baseUrl:'/taoQtiItem/test/samples/test_base_www/'
                     });
 
                     stop();//wait for the next start()

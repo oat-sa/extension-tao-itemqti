@@ -22,7 +22,9 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
             
             renderer = renderer||this.getRenderer();
             
-            var defaultData = {};
+            var defaultData = {},
+                baseUrl = renderer.getOption('baseUrl')||'',
+                src = this.attr('data');
 
             switch(this.getMediaType()){
                 case 'video':
@@ -36,6 +38,9 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                     defaultData.object = true;
             }
             
+            if(!src.match(/^http/i)){
+                defaultData.attributes = {data : baseUrl + src};
+            }
             return this._super(_.merge(defaultData, data || {}), $container, subclass, renderer);
         }
     });

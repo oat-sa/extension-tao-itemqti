@@ -46,6 +46,7 @@ class ContainerGap extends Container
      */
 	public function getValidElementTypes(){
 		return array(
+                    'oat\\taoQtiItem\\model\\qti\\Img',
 			'oat\\taoQtiItem\\model\\qti\\Math',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
 			'taoQTI_models_classes_QTI_PrintedVariable',

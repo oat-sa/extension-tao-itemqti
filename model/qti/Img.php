@@ -16,24 +16,22 @@
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
- * 
  */
 
-namespace oat\taoQtiItem\model\qti\interaction;
+namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\interaction\OrderInteraction;
-use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
+use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\Element;
 
 /**
- * QTI Order Interaction
+ * Short description of class oat\taoQtiItem\model\qti\Object
  *
  * @access public
- * @author Sam, <sam@taotesting.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
  
  */
-class OrderInteraction extends BlockInteraction
+class Img extends Element
 {
 
     /**
@@ -42,19 +40,17 @@ class OrderInteraction extends BlockInteraction
      * @access protected
      * @var string
      */
-    protected static $qtiTagName = 'orderInteraction';
-    static protected $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\SimpleChoice';
-    static protected $baseType = 'identifier';
-    
-    protected function getUsedAttributes(){
-        return array_merge(
-                parent::getUsedAttributes(), array(
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Shuffle',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\MaxChoicesOrderInteraction',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\MinChoicesOrderInteraction',
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Orientation'
-                )
+    protected static $qtiTagName = 'img';
+
+    //remark: Longdesc attribute not supported
+    public function getUsedAttributes(){
+        return array(
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Src',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Alt',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Width',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Height'
         );
     }
 
 }
+/* end of class oat\taoQtiItem\model\qti\Img */

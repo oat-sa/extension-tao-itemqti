@@ -8,26 +8,28 @@ define([
     'taoQtiItem/qtiCreator/helper/gridEditor/draggable',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
+    'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function($, helpers, Widget, states, Element, creatorRenderer, draggable, xmlRenderer, devTools) {
+], function($, helpers, Widget, states, Element, creatorRenderer, draggable, xmlRenderer, TextWidget, devTools) {
 
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config) {
-        
+
         Widget.initCreator.call(this);
-        
+
         this.registerStates(states);
-        
-        if(!config || !config.uri){
+
+        if (!config || !config.uri) {
             throw new Error('missing required config parameter uri in item widget initialization');
         }
-        
-        this.initUiComponents({
-            uri: config.uri
-        });
+
+        this.uri = config.uri;
+        this.initUiComponents();
 
         this.initEditor();
+
+        this.initTextBlockEditor();
 
         this.debug();
     };
@@ -37,31 +39,34 @@ define([
         this.$container = this.$original;
     };
 
-    ItemWidget.initUiComponents = function(config) {
+    ItemWidget.save = function() {
+        $.ajax({
+            url: helpers._url('saveItem', 'QtiCreator', 'taoQtiItem'),
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                uri: this.uri,
+                xml: xmlRenderer.render(this.element)
+            }
+        }).done(function(data) {
 
-        var item = this.element;
+            if (data.success) {
+                alert('saved');
+            } else {
+                alert('failed');
+            }
+        });
+    };
+
+    ItemWidget.initUiComponents = function() {
+
+        var _widget = this;
 
         //init title inline edition
 
         //init save button:
         $('#save-trigger').on('click', function() {
-            $.ajax({
-                url: helpers._url('saveItem', 'QtiCreator', 'taoQtiItem'),
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    uri: config.uri,
-                    xml: xmlRenderer.render(item)
-                }
-            }).done(function(data) {
-
-                if (data.success) {
-                    alert('saved');
-                } else {
-                    alert('failed');
-                }
-
-            });
+            _widget.save();
         });
     };
 
@@ -127,6 +132,36 @@ define([
 
         });
 
+    };
+    
+    //initTextBlockEditor == initSubContainerEditor
+    
+    ItemWidget.initTextBlockEditor = function() {
+
+        var _widget = this, i = 0;
+
+        //rubricBlock : .widget-box > 
+        this.$container.find('.qti-itemBody > .grid-row').each(function() {
+            var $row = $(this);
+            if (!$row.hasClass('widget-box')) {
+                var $widget = $row.children().children();
+                if (!$widget.hasClass('widget-box')) {
+
+                    return TextWidget.build(
+                        this.element, //the item
+                        $widget,
+                        null,
+                        {serial: 'text_widget_' + i}
+                    );
+            
+                    i++;
+                }
+            }
+        });
+
+        this.$container.on('textChange.qti-edit', function(e, textBlockSerial, textBlockContent) {
+
+        });
     };
 
     ItemWidget.debug = function() {

@@ -48,6 +48,7 @@ use oat\taoQtiItem\model\qti\response\Summation;
 use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use oat\taoQtiItem\model\qti\Object;
+use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Math;
 use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\RubricBlock;
@@ -151,6 +152,7 @@ class ParserFactory
         }
 
         // parse for QTI elements within item body
+        
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
             if(!in_array('object', $this->getAncestors($objectNode))){
@@ -163,7 +165,16 @@ class ParserFactory
             }
         }
 
-        // parse for QTI elements within item body
+        $imgNodes = $this->queryXPath(".//*[name(.)='img']", $data);
+        foreach($imgNodes as $imgNode){
+            $img = $this->buildImg($imgNode);
+            if(!is_null($img)){
+                $bodyElements[$img->getSerial()] = $img;
+
+                $this->replaceNode($imgNode, $img);
+            }
+        }
+
         $ns = $this->getMathNamespace();
         $ns = empty($ns) ? '' : $ns.':';
         $mathNodes = $this->queryXPath(".//*[name(.)='".$ns."math']", $data);
@@ -1160,6 +1171,14 @@ class ParserFactory
                 $returnValue->setAlt($alt);
             }
         }
+
+        return $returnValue;
+    }
+    
+    private function buildImg(DOMElement $data){
+
+        $attributes = $this->extractAttributes($data);
+        $returnValue = new Img($attributes);
 
         return $returnValue;
     }

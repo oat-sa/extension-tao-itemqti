@@ -98,20 +98,20 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
-
-            try{
-                var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
-                var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
-                var _this = this;
-                _.each(choices, function(choice){
-                    if(Element.isA(choice, 'choice')){
+            
+            var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
+            var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
+            var _this = this;
+            _.each(choices, function(choice){
+                if(Element.isA(choice, 'choice')){
+                    try{
                         var renderedChoice = choice.render(_.clone(interactionData, true), null, choice.qtiClass + '.' + _this.qtiClass, renderer); //use interaction type as choice subclass
                         defaultData.choices.push(renderedChoice);
+                    }catch(e){
+                        //leave choices empty in case of error
                     }
-                });
-            }catch(e){
-                //leave choices empty in case of error
-            }
+                }
+            });
             
             var tplData = _.merge(defaultData, args.data);
             var tplName = args.subclass ? this.qtiClass + '.' + args.subclass : this.qtiClass;

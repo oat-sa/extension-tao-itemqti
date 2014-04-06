@@ -19,38 +19,25 @@
  * 
  */
 
-namespace oat\taoQtiItem\model\qti\container;
+namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\container\ContainerFeedbackInteractive;
-use oat\taoQtiItem\model\qti\container\ContainerInteractive;
+use oat\taoQtiItem\model\qti\attribute\Src;
+use oat\taoQtiItem\model\qti\attribute\Attribute;
 
 /**
- * The QTI ContainerFeedbackInteractive represents the content of a feedback that allow nested interactions
+ * The Href attribute
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  
  */
-class ContainerFeedbackInteractive extends ContainerInteractive
+class Src extends Attribute
 {
 	
-	/**
-     * return the list of available element classes
-     *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
-     */
-	public function getValidElementTypes(){
-		return array(
-                    'oat\\taoQtiItem\\model\\qti\\Img',
-			'oat\\taoQtiItem\\model\\qti\\Math',
-			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'taoQTI_models_classes_QTI_PrintedVariable',
-			'oat\\taoQtiItem\\model\\qti\\Object',
-			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction'
-		);
-	}
-	
-}
+	static protected $name = 'src';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Uri';
+	static protected $defaultValue = null;
+	static protected $required = true;
+
+} /* end of class oat\taoQtiItem\model\qti\attribute\Src */

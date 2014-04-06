@@ -46,6 +46,7 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
         'outcomeDeclaration',
         'responseProcessing',
         '_simpleFeedbackRule',
+        'img',
         'math',
         'object',
         'modalFeedback',
