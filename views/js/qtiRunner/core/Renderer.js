@@ -129,7 +129,14 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             }
             return ret;
         };
-
+        
+        this.setOption = function(key, value){
+            if(typeof(key) === 'string'){
+                options[key] = value;
+            }
+            return this;
+        };
+        
         this.getOption = function(key){
             if(typeof(key) === 'string' && options[key]){
                 return options[key];

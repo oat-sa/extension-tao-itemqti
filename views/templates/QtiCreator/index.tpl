@@ -205,19 +205,7 @@ use oat\taoQtiItem\helpers\Authoring;
         <!-- /right sidebar -->
 
         <!-- item panel -->
-        <main id="item-editor-panel" class="clearfix tao-scope">
-
-            <div class="item-editor-item clearfix">
-                <h1 class="item-title col-12">Item title</h1>
-
-                <div class="item-editor-drop-area">
-
-
-                </div>
-
-            </div>
-
-        </main>
+        <main id="item-editor-panel" class="clearfix tao-scope"></main>
         <!-- /item panel -->
     </div>
 </div>

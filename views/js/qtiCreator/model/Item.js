@@ -12,7 +12,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 identifier : 'myItem_1',
-                title : 'my item',
+                title : 'Item title',
                 adaptive : false,
                 timeDependent : false
             };

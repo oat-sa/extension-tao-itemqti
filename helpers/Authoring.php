@@ -95,7 +95,7 @@ class Authoring
                 array('title' => __('Text Block'),
                     'icon' => 'font',
                     'short' => __('Text'),
-                    'qtiClass' => 'text'
+                    'qtiClass' => '_text'//a pseudo class introduced in TAO
                 ),
                 array('title' => __('Rubric Block'),
                     'icon' => 'background-color',

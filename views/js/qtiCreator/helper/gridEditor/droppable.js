@@ -14,33 +14,38 @@ define([
             $colInitial = (options && options.initialPosition instanceof $) ? options.initialPosition : null;
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
-        marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left'));
-
+            marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
+            isEmpty = ($el.children('.grid-row').length === 0);
+        
         //prepare tmp rows and cols
-        $el.find('.grid-row').each(function(){
+        if(isEmpty){
+            $el.append(_getNewRow().append(_getNewCol().addClass('col-12')));
+        }else{
+            $el.find('.grid-row').each(function() {
 
-            var $row = $(this), cols = [];
+                var $row = $(this), cols = [];
 
-            //build tmp new cols:
-            var maxHeight = 0;
-            var $cols = $row.children(':not(.new-col)').each(function(){
-                $(this).before(_getNewCol().attr('data-index', $(this).index() / 2));
-                maxHeight = Math.max($(this).height(), maxHeight);
-                cols.push({
-                    'elt' : $(this),
-                    'units' : parseInt($(this).attr('data-units'))
+                //build tmp new cols:
+                var maxHeight = 0;
+                var $cols = $row.children(':not(.new-col)').each(function() {
+                    $(this).before(_getNewCol().attr('data-index', $(this).index() / 2));
+                    maxHeight = Math.max($(this).height(), maxHeight);
+                    cols.push({
+                        'elt': $(this),
+                        'units': parseInt($(this).attr('data-units'))
+                    });
                 });
-            });
-            $cols.last().after(_getNewCol().attr('data-index', 'last'));
-            $cols.height(maxHeight);
+                $cols.last().after(_getNewCol().attr('data-index', 'last'));
+                $cols.height(maxHeight);
 
-            $row.data('distributed-units', gridUnits.distribute(cols, minUnits, 12));
+                $row.data('distributed-units', gridUnits.distribute(cols, minUnits, 12));
 
-            //build tmp new rows:
-            $row.before(_getNewRow().append(_getNewCol()));
+                //build tmp new rows:
+                $row.before(_getNewRow().append(_getNewCol()));
 
-        }).last().after(_getNewRow().append(_getNewCol()));
-
+            }).last().after(_getNewRow().append(_getNewCol()));
+        }
+        
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
             
@@ -53,8 +58,8 @@ define([
             if(!$col.length){
                 debugger;
             }
+            
             $col.append($placeholder);
-
         };
 
         //restore the dropping element placeholder back to its default location:
@@ -154,7 +159,7 @@ define([
         };
 
         _resetPlaceholder();
-
+        
         //manage initial positioning, useful in the "move" context
         if($colInitial && $colInitial.length){
 
@@ -167,11 +172,18 @@ define([
             }else{
                 //replace it self...
             }
-
         }
 
         //bind all event handlers:
-        $el.on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
+        $el.css('background', '1px solid red');
+        $el.on('mouseenter.gridEdit.gridDragDrop', function(e){
+            
+            if(isEmpty){
+                var $newCol = $el.find('.new-col').css('background', '1px solid red');
+                _appendPlaceholder($newCol);
+            }
+            
+        }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
 
             var $col = $(this), $previousCol = $placeholder.parent('.new-col');
 
@@ -187,7 +199,7 @@ define([
 
             _insertBetween($(this), position);
 
-        }).on('mousemove.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
+        }).on('mousemove.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', _.throttle(function(e){
 
             //insert element above or below the col's row:
             var $col = $(this),
@@ -201,7 +213,7 @@ define([
                 _appendPlaceholder($newCol);
             }
 
-        }).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function(e){
+        }, 100)).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function(e){
 
             //destroy inter-column insertion helper
             e.stopPropagation();
