@@ -20,17 +20,22 @@ define([
         creatorRenderer
         ) {
 
+    var _initUiComponents = function() {
+
+        toggleToolDisplay();
+        preview.init('#preview-trigger');
+        fontSelector('#item-editor-font-selector');
+        itemResizer();
+        preparePrint();
+        toggleAppearance();
+        listStyler();
+    };
+
     return {
         start: function(config) {
-
-            toggleToolDisplay();
-            preview.init('#preview-trigger');
-            fontSelector('#item-editor-font-selector');
-            itemResizer();
-            preparePrint();
-            toggleAppearance();
-            listStyler();
-
+            
+            _initUiComponents();
+            
             //load item from serice REST
             loader.loadItem({uri: config.uri}, function(item) {
 
@@ -44,12 +49,11 @@ define([
 
                     //"post-render it" to initialize the widget
                     item.postRender({uri: config.uri});
-
+                    
                 }, item.getUsedClasses());
 
             });
 
         }
     };
-
 });

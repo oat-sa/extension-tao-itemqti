@@ -29,7 +29,7 @@ define([
 
         this.initEditor();
 
-        this.initTextBlockEditor();
+//        this.initTextBlockEditor();
 
         this.debug();
     };
