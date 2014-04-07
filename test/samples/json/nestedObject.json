@@ -1,5 +1,5 @@
 {"full":{"identifier":"nestedObject",
-"serial":"item_530200e5c3e22381313436",
+"serial":"item_534252c8e5ac6414073647",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"nestedObject",
 "title":"Writing a Postcard",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5c3e0e837137335",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e5c4903671356071}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e5c41a6679205851}}\n\t",
-"elements":{"interaction_extendedtextinteraction_530200e5c41a6679205851":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e5c41a6679205851",
+"body":{"serial":"container_containeritembody_534252c8e5a2d647442479",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c8e690e119410838}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c8e6038002535186}}\n\t",
+"elements":{"interaction_extendedtextinteraction_534252c8e6038002535186":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c8e6038002535186",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -28,21 +28,21 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5c42f5826919236",
+"prompt":{"serial":"container_containerstatic_534252c8e62af523117099",
 "body":"Write Sam a postcard. Answer the questions. Write 25-35 words.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5c3e22381313436"
+"debug":{"relatedItem":"item_534252c8e5ac6414073647"
 }
 }
 },
-"object_530200e5c4903671356071":{"serial":"object_530200e5c4903671356071",
+"object_534252c8e690e119410838":{"serial":"object_534252c8e690e119410838",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.eps",
 "type":"image\/eps",
 "width":null,
 "height":null
 },
-"_alt":{"serial":"object_530200e5c4979643943338",
+"_alt":{"serial":"object_534252c8e6a11772727336",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -53,7 +53,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5c3e22381313436"
+"debug":{"relatedItem":"item_534252c8e5ac6414073647"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -61,8 +61,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5c401e559494741":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5c401e559494741",
+"outcomes":{"outcomedeclaration_534252c8e5dde015967714":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8e5dde015967714",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -78,8 +78,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5c3f7a826380342":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5c3f7a826380342",
+"responses":{"responsedeclaration_534252c8e5cb3520976894":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8e5cb3520976894",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -94,7 +94,7 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_custom_530200e5c5194787971688",
+"responseProcessing":{"serial":"response_custom_534252c8e728e138887743",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"custom",
@@ -102,7 +102,7 @@
 }
 },
 "core":{"identifier":"nestedObject",
-"serial":"item_530200e5c3e22381313436",
+"serial":"item_534252c8e5ac6414073647",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"nestedObject",
 "title":"Writing a Postcard",
@@ -113,10 +113,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5c3e0e837137335",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e5c4903671356071}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e5c41a6679205851}}\n\t",
-"elements":{"interaction_extendedtextinteraction_530200e5c41a6679205851":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e5c41a6679205851",
+"body":{"serial":"container_containeritembody_534252c8e5a2d647442479",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c8e690e119410838}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c8e6038002535186}}\n\t",
+"elements":{"interaction_extendedtextinteraction_534252c8e6038002535186":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c8e6038002535186",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -131,21 +131,21 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5c42f5826919236",
+"prompt":{"serial":"container_containerstatic_534252c8e62af523117099",
 "body":"Write Sam a postcard. Answer the questions. Write 25-35 words.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5c3e22381313436"
+"debug":{"relatedItem":"item_534252c8e5ac6414073647"
 }
 }
 },
-"object_530200e5c4903671356071":{"serial":"object_530200e5c4903671356071",
+"object_534252c8e690e119410838":{"serial":"object_534252c8e690e119410838",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.eps",
 "type":"image\/eps",
 "width":null,
 "height":null
 },
-"_alt":{"serial":"object_530200e5c4979643943338",
+"_alt":{"serial":"object_534252c8e6a11772727336",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -156,7 +156,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5c3e22381313436"
+"debug":{"relatedItem":"item_534252c8e5ac6414073647"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -164,8 +164,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5c401e559494741":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5c401e559494741",
+"outcomes":{"outcomedeclaration_534252c8e5dde015967714":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8e5dde015967714",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -181,8 +181,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5c3f7a826380342":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5c3f7a826380342",
+"responses":{"responsedeclaration_534252c8e5cb3520976894":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8e5cb3520976894",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

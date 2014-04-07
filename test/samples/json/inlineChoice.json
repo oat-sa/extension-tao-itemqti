@@ -1,5 +1,5 @@
 {"full":{"identifier":"inlineChoice",
-"serial":"item_530200e5ab9d7932300923",
+"serial":"item_534252c8c7db2625940752",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"inlineChoice",
 "title":"Richard III (Take 2)",
@@ -10,18 +10,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5ab9c1381381909",
-"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_inlinechoiceinteraction_530200e5abe4d572016643}};<br \/> And all the clouds that lour'd upon our house<br \/>\n\t\t\t\tIn the deep bosom of the ocean buried.<\/p>\n\t\t<\/blockquote>\n\t",
-"elements":{"interaction_inlinechoiceinteraction_530200e5abe4d572016643":{"identifier":"Interaction_1",
-"serial":"interaction_inlinechoiceinteraction_530200e5abe4d572016643",
+"body":{"serial":"container_containeritembody_534252c8c7d1d291022373",
+"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_inlinechoiceinteraction_534252c8c840d883422611}};<br \/> And all the clouds that lour'd upon our house<br \/>\n\t\t\t\tIn the deep bosom of the ocean buried.<\/p>\n\t\t<\/blockquote>\n\t",
+"elements":{"interaction_inlinechoiceinteraction_534252c8c840d883422611":{"identifier":"Interaction_1",
+"serial":"interaction_inlinechoiceinteraction_534252c8c840d883422611",
 "qtiClass":"inlineChoiceInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "shuffle":false,
 "required":false
 },
-"choices":{"choice_inlinechoice_530200e5abfa0409064642":{"identifier":"G",
-"serial":"choice_inlinechoice_530200e5abfa0409064642",
+"choices":{"choice_inlinechoice_534252c8c85dc887306516":{"identifier":"G",
+"serial":"choice_inlinechoice_534252c8c85dc887306516",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"G",
 "fixed":false,
@@ -30,8 +30,8 @@
 },
 "text":"Gloucester"
 },
-"choice_inlinechoice_530200e5ac027846116868":{"identifier":"L",
-"serial":"choice_inlinechoice_530200e5ac027846116868",
+"choice_inlinechoice_534252c8c86e7930377844":{"identifier":"L",
+"serial":"choice_inlinechoice_534252c8c86e7930377844",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"L",
 "fixed":false,
@@ -40,8 +40,8 @@
 },
 "text":"Lancaster"
 },
-"choice_inlinechoice_530200e5ac0a3373531010":{"identifier":"Y",
-"serial":"choice_inlinechoice_530200e5ac0a3373531010",
+"choice_inlinechoice_534252c8c87e4823136147":{"identifier":"Y",
+"serial":"choice_inlinechoice_534252c8c87e4823136147",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"Y",
 "fixed":false,
@@ -53,7 +53,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5ab9d7932300923"
+"debug":{"relatedItem":"item_534252c8c7db2625940752"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -61,8 +61,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5abbec902170851":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5abbec902170851",
+"outcomes":{"outcomedeclaration_534252c8c80b9520217300":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c80b9520217300",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -78,8 +78,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5abb36462598369":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5abb36462598369",
+"responses":{"responsedeclaration_534252c8c7f89337994608":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c7f89337994608",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -95,14 +95,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5acb2a821423839",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8c9328175049027",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"inlineChoice",
-"serial":"item_530200e5ab9d7932300923",
+"serial":"item_534252c8c7db2625940752",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"inlineChoice",
 "title":"Richard III (Take 2)",
@@ -113,18 +113,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5ab9c1381381909",
-"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_inlinechoiceinteraction_530200e5abe4d572016643}};<br \/> And all the clouds that lour'd upon our house<br \/>\n\t\t\t\tIn the deep bosom of the ocean buried.<\/p>\n\t\t<\/blockquote>\n\t",
-"elements":{"interaction_inlinechoiceinteraction_530200e5abe4d572016643":{"identifier":"Interaction_1",
-"serial":"interaction_inlinechoiceinteraction_530200e5abe4d572016643",
+"body":{"serial":"container_containeritembody_534252c8c7d1d291022373",
+"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_inlinechoiceinteraction_534252c8c840d883422611}};<br \/> And all the clouds that lour'd upon our house<br \/>\n\t\t\t\tIn the deep bosom of the ocean buried.<\/p>\n\t\t<\/blockquote>\n\t",
+"elements":{"interaction_inlinechoiceinteraction_534252c8c840d883422611":{"identifier":"Interaction_1",
+"serial":"interaction_inlinechoiceinteraction_534252c8c840d883422611",
 "qtiClass":"inlineChoiceInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "shuffle":false,
 "required":false
 },
-"choices":{"choice_inlinechoice_530200e5abfa0409064642":{"identifier":"G",
-"serial":"choice_inlinechoice_530200e5abfa0409064642",
+"choices":{"choice_inlinechoice_534252c8c85dc887306516":{"identifier":"G",
+"serial":"choice_inlinechoice_534252c8c85dc887306516",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"G",
 "fixed":false,
@@ -133,8 +133,8 @@
 },
 "text":"Gloucester"
 },
-"choice_inlinechoice_530200e5ac027846116868":{"identifier":"L",
-"serial":"choice_inlinechoice_530200e5ac027846116868",
+"choice_inlinechoice_534252c8c86e7930377844":{"identifier":"L",
+"serial":"choice_inlinechoice_534252c8c86e7930377844",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"L",
 "fixed":false,
@@ -143,8 +143,8 @@
 },
 "text":"Lancaster"
 },
-"choice_inlinechoice_530200e5ac0a3373531010":{"identifier":"Y",
-"serial":"choice_inlinechoice_530200e5ac0a3373531010",
+"choice_inlinechoice_534252c8c87e4823136147":{"identifier":"Y",
+"serial":"choice_inlinechoice_534252c8c87e4823136147",
 "qtiClass":"inlineChoice",
 "attributes":{"identifier":"Y",
 "fixed":false,
@@ -156,7 +156,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5ab9d7932300923"
+"debug":{"relatedItem":"item_534252c8c7db2625940752"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -164,8 +164,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5abbec902170851":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5abbec902170851",
+"outcomes":{"outcomedeclaration_534252c8c80b9520217300":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c80b9520217300",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -181,8 +181,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5abb36462598369":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5abb36462598369",
+"responses":{"responsedeclaration_534252c8c7f89337994608":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c7f89337994608",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

@@ -1,5 +1,5 @@
 {"full":{"identifier":"i13806271719128107",
-"serial":"item_530200e59d92c727914378",
+"serial":"item_534252c8b5db3636286993",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"i13806271719128107",
 "title":"Create Item",
@@ -10,19 +10,19 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e59d915242365274",
-"body":"\n    <div>\u00a0{{interaction_gapmatchinteraction_530200e59ddfd270258510}}\n\n\u00a0<br \/><br \/>\n\u00a0<br \/><\/div>\n  ",
-"elements":{"interaction_gapmatchinteraction_530200e59ddfd270258510":{"identifier":"Interaction_1",
-"serial":"interaction_gapmatchinteraction_530200e59ddfd270258510",
+"body":{"serial":"container_containeritembody_534252c8b5cca410622950",
+"body":"\n    <div>\u00a0{{interaction_gapmatchinteraction_534252c8b694a914909336}}\n\n\u00a0<br \/><br \/>\n\u00a0<br \/><\/div>\n  ",
+"elements":{"interaction_gapmatchinteraction_534252c8b694a914909336":{"identifier":"Interaction_1",
+"serial":"interaction_gapmatchinteraction_534252c8b694a914909336",
 "qtiClass":"gapMatchInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "shuffle":true
 },
-"body":{"serial":"container_containergap_530200e59df23404314502",
-"body":"<p>Log into tao.\u00a0Go to the \n{{choice_gap_530200e59ecf1934175076}}\nCreate an item and select QTI item type.Go into the \n{{choice_gap_530200e59ed85416713350}}\n to start\nediting your item.<br \/>Write some text in your item body editor. You can insert image,\nmedia and even \n{{choice_gap_530200e59ee13979857153}}\n elements in\nyour item bodyInsert an interaction at some point and customized it. Let's\nstart with the simplest one the Choice Interaction which is\nbasically a \n{{choice_gap_530200e59ee9f016869755}}\n .Save it and preview it either in the\n\n{{choice_gap_530200e59ef2d711033567}}\n , or the\n\n{{choice_gap_530200e59efba361597091}}\n . The result is the same, but\ngoing to the first one will have you leave the authoring tool so\nyou gonna need to reload the authoring tool to resume working on.\nFor quick review when authoring you item, prefer the second\none.<br \/><\/p>",
-"elements":{"choice_gap_530200e59ecf1934175076":{"identifier":"Gap_6",
-"serial":"choice_gap_530200e59ecf1934175076",
+"body":{"serial":"container_containergap_534252c8b6d59388259193",
+"body":"<p>Log into tao.\u00a0Go to the \n{{choice_gap_534252c8b8214583374029}}\nCreate an item and select QTI item type.Go into the \n{{choice_gap_534252c8b834f310716957}}\n to start\nediting your item.<br \/>Write some text in your item body editor. You can insert image,\nmedia and even \n{{choice_gap_534252c8b8478526239491}}\n elements in\nyour item bodyInsert an interaction at some point and customized it. Let's\nstart with the simplest one the Choice Interaction which is\nbasically a \n{{choice_gap_534252c8b8596411341478}}\n .Save it and preview it either in the\n\n{{choice_gap_534252c8b86e5224643684}}\n , or the\n\n{{choice_gap_534252c8b87fe884922073}}\n . The result is the same, but\ngoing to the first one will have you leave the authoring tool so\nyou gonna need to reload the authoring tool to resume working on.\nFor quick review when authoring you item, prefer the second\none.<br \/><\/p>",
+"elements":{"choice_gap_534252c8b8214583374029":{"identifier":"Gap_6",
+"serial":"choice_gap_534252c8b8214583374029",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_6",
 "fixed":false,
@@ -31,8 +31,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ed85416713350":{"identifier":"Gap_1",
-"serial":"choice_gap_530200e59ed85416713350",
+"choice_gap_534252c8b834f310716957":{"identifier":"Gap_1",
+"serial":"choice_gap_534252c8b834f310716957",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_1",
 "fixed":false,
@@ -41,8 +41,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ee13979857153":{"identifier":"Gap_2",
-"serial":"choice_gap_530200e59ee13979857153",
+"choice_gap_534252c8b8478526239491":{"identifier":"Gap_2",
+"serial":"choice_gap_534252c8b8478526239491",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_2",
 "fixed":false,
@@ -51,8 +51,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ee9f016869755":{"identifier":"Gap_3",
-"serial":"choice_gap_530200e59ee9f016869755",
+"choice_gap_534252c8b8596411341478":{"identifier":"Gap_3",
+"serial":"choice_gap_534252c8b8596411341478",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_3",
 "fixed":false,
@@ -61,8 +61,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ef2d711033567":{"identifier":"Gap_4",
-"serial":"choice_gap_530200e59ef2d711033567",
+"choice_gap_534252c8b86e5224643684":{"identifier":"Gap_4",
+"serial":"choice_gap_534252c8b86e5224643684",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_4",
 "fixed":false,
@@ -71,8 +71,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59efba361597091":{"identifier":"Gap_5",
-"serial":"choice_gap_530200e59efba361597091",
+"choice_gap_534252c8b87fe884922073":{"identifier":"Gap_5",
+"serial":"choice_gap_534252c8b87fe884922073",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_5",
 "fixed":false,
@@ -82,11 +82,11 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 },
-"choices":{"choice_gaptext_530200e59e4b1085679029":{"identifier":"Text_1",
-"serial":"choice_gaptext_530200e59e4b1085679029",
+"choices":{"choice_gaptext_534252c8b73f9733110708":{"identifier":"Text_1",
+"serial":"choice_gaptext_534252c8b73f9733110708",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_1",
 "fixed":false,
@@ -97,8 +97,8 @@
 },
 "text":"authoring tool"
 },
-"choice_gaptext_530200e59e58a683560641":{"identifier":"Text_2",
-"serial":"choice_gaptext_530200e59e58a683560641",
+"choice_gaptext_534252c8b75d7402681673":{"identifier":"Text_2",
+"serial":"choice_gaptext_534252c8b75d7402681673",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_2",
 "fixed":false,
@@ -109,8 +109,8 @@
 },
 "text":"math"
 },
-"choice_gaptext_530200e59e665564018453":{"identifier":"Text_3",
-"serial":"choice_gaptext_530200e59e665564018453",
+"choice_gaptext_534252c8b7732372299643":{"identifier":"Text_3",
+"serial":"choice_gaptext_534252c8b7732372299643",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_3",
 "fixed":false,
@@ -121,8 +121,8 @@
 },
 "text":"MCQ"
 },
-"choice_gaptext_530200e59e73b915206961":{"identifier":"Text_4",
-"serial":"choice_gaptext_530200e59e73b915206961",
+"choice_gaptext_534252c8b789c227058265":{"identifier":"Text_4",
+"serial":"choice_gaptext_534252c8b789c227058265",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_4",
 "fixed":false,
@@ -133,8 +133,8 @@
 },
 "text":"preview tab"
 },
-"choice_gaptext_530200e59e804881058403":{"identifier":"Text_5",
-"serial":"choice_gaptext_530200e59e804881058403",
+"choice_gaptext_534252c8b79ed585031617":{"identifier":"Text_5",
+"serial":"choice_gaptext_534252c8b79ed585031617",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_5",
 "fixed":false,
@@ -145,8 +145,8 @@
 },
 "text":"popup preview"
 },
-"choice_gaptext_530200e59e8cc416362524":{"identifier":"Text_6",
-"serial":"choice_gaptext_530200e59e8cc416362524",
+"choice_gaptext_534252c8b7b3f810258060":{"identifier":"Text_6",
+"serial":"choice_gaptext_534252c8b7b3f810258060",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_6",
 "fixed":false,
@@ -157,8 +157,8 @@
 },
 "text":"items extensions"
 },
-"choice_gaptext_530200e59e99b943500340":{"identifier":"Text_7",
-"serial":"choice_gaptext_530200e59e99b943500340",
+"choice_gaptext_534252c8b7c90415660438":{"identifier":"Text_7",
+"serial":"choice_gaptext_534252c8b7c90415660438",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_7",
 "fixed":false,
@@ -169,8 +169,8 @@
 },
 "text":"tests extensions"
 },
-"choice_gaptext_530200e59ea6b547678029":{"identifier":"Text_8",
-"serial":"choice_gaptext_530200e59ea6b547678029",
+"choice_gaptext_534252c8b7de3806599517":{"identifier":"Text_8",
+"serial":"choice_gaptext_534252c8b7de3806599517",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_8",
 "fixed":false,
@@ -181,8 +181,8 @@
 },
 "text":"settings"
 },
-"choice_gaptext_530200e59eb44835573057":{"identifier":"Text_9",
-"serial":"choice_gaptext_530200e59eb44835573057",
+"choice_gaptext_534252c8b7f35729490010":{"identifier":"Text_9",
+"serial":"choice_gaptext_534252c8b7f35729490010",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_9",
 "fixed":false,
@@ -193,8 +193,8 @@
 },
 "text":"word"
 },
-"choice_gaptext_530200e59ec0d393930378":{"identifier":"Text_10",
-"serial":"choice_gaptext_530200e59ec0d393930378",
+"choice_gaptext_534252c8b8084935610835":{"identifier":"Text_10",
+"serial":"choice_gaptext_534252c8b8084935610835",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_10",
 "fixed":false,
@@ -206,15 +206,15 @@
 "text":"select box"
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e59deed633680146",
+"prompt":{"serial":"container_containerstatic_534252c8b6c8a942147882",
 "body":"You are a seasoned TAO user, Sam is new user and needs you help to\nguide him through the process of his first online assessment\ncreation.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -222,8 +222,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e59dbe7128855914":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e59dbe7128855914",
+"outcomes":{"outcomedeclaration_534252c8b64a7261376973":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8b64a7261376973",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -239,8 +239,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e59dac6293316032":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e59dac6293316032",
+"responses":{"responsedeclaration_534252c8b61d0658405387":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8b61d0658405387",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",
@@ -269,14 +269,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5a008a349835460",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8b9aa3731746691",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"i13806271719128107",
-"serial":"item_530200e59d92c727914378",
+"serial":"item_534252c8b5db3636286993",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"i13806271719128107",
 "title":"Create Item",
@@ -287,19 +287,19 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e59d915242365274",
-"body":"\n    <div>\u00a0{{interaction_gapmatchinteraction_530200e59ddfd270258510}}\n\n\u00a0<br \/><br \/>\n\u00a0<br \/><\/div>\n  ",
-"elements":{"interaction_gapmatchinteraction_530200e59ddfd270258510":{"identifier":"Interaction_1",
-"serial":"interaction_gapmatchinteraction_530200e59ddfd270258510",
+"body":{"serial":"container_containeritembody_534252c8b5cca410622950",
+"body":"\n    <div>\u00a0{{interaction_gapmatchinteraction_534252c8b694a914909336}}\n\n\u00a0<br \/><br \/>\n\u00a0<br \/><\/div>\n  ",
+"elements":{"interaction_gapmatchinteraction_534252c8b694a914909336":{"identifier":"Interaction_1",
+"serial":"interaction_gapmatchinteraction_534252c8b694a914909336",
 "qtiClass":"gapMatchInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "shuffle":true
 },
-"body":{"serial":"container_containergap_530200e59df23404314502",
-"body":"<p>Log into tao.\u00a0Go to the \n{{choice_gap_530200e59ecf1934175076}}\nCreate an item and select QTI item type.Go into the \n{{choice_gap_530200e59ed85416713350}}\n to start\nediting your item.<br \/>Write some text in your item body editor. You can insert image,\nmedia and even \n{{choice_gap_530200e59ee13979857153}}\n elements in\nyour item bodyInsert an interaction at some point and customized it. Let's\nstart with the simplest one the Choice Interaction which is\nbasically a \n{{choice_gap_530200e59ee9f016869755}}\n .Save it and preview it either in the\n\n{{choice_gap_530200e59ef2d711033567}}\n , or the\n\n{{choice_gap_530200e59efba361597091}}\n . The result is the same, but\ngoing to the first one will have you leave the authoring tool so\nyou gonna need to reload the authoring tool to resume working on.\nFor quick review when authoring you item, prefer the second\none.<br \/><\/p>",
-"elements":{"choice_gap_530200e59ecf1934175076":{"identifier":"Gap_6",
-"serial":"choice_gap_530200e59ecf1934175076",
+"body":{"serial":"container_containergap_534252c8b6d59388259193",
+"body":"<p>Log into tao.\u00a0Go to the \n{{choice_gap_534252c8b8214583374029}}\nCreate an item and select QTI item type.Go into the \n{{choice_gap_534252c8b834f310716957}}\n to start\nediting your item.<br \/>Write some text in your item body editor. You can insert image,\nmedia and even \n{{choice_gap_534252c8b8478526239491}}\n elements in\nyour item bodyInsert an interaction at some point and customized it. Let's\nstart with the simplest one the Choice Interaction which is\nbasically a \n{{choice_gap_534252c8b8596411341478}}\n .Save it and preview it either in the\n\n{{choice_gap_534252c8b86e5224643684}}\n , or the\n\n{{choice_gap_534252c8b87fe884922073}}\n . The result is the same, but\ngoing to the first one will have you leave the authoring tool so\nyou gonna need to reload the authoring tool to resume working on.\nFor quick review when authoring you item, prefer the second\none.<br \/><\/p>",
+"elements":{"choice_gap_534252c8b8214583374029":{"identifier":"Gap_6",
+"serial":"choice_gap_534252c8b8214583374029",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_6",
 "fixed":false,
@@ -308,8 +308,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ed85416713350":{"identifier":"Gap_1",
-"serial":"choice_gap_530200e59ed85416713350",
+"choice_gap_534252c8b834f310716957":{"identifier":"Gap_1",
+"serial":"choice_gap_534252c8b834f310716957",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_1",
 "fixed":false,
@@ -318,8 +318,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ee13979857153":{"identifier":"Gap_2",
-"serial":"choice_gap_530200e59ee13979857153",
+"choice_gap_534252c8b8478526239491":{"identifier":"Gap_2",
+"serial":"choice_gap_534252c8b8478526239491",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_2",
 "fixed":false,
@@ -328,8 +328,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ee9f016869755":{"identifier":"Gap_3",
-"serial":"choice_gap_530200e59ee9f016869755",
+"choice_gap_534252c8b8596411341478":{"identifier":"Gap_3",
+"serial":"choice_gap_534252c8b8596411341478",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_3",
 "fixed":false,
@@ -338,8 +338,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59ef2d711033567":{"identifier":"Gap_4",
-"serial":"choice_gap_530200e59ef2d711033567",
+"choice_gap_534252c8b86e5224643684":{"identifier":"Gap_4",
+"serial":"choice_gap_534252c8b86e5224643684",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_4",
 "fixed":false,
@@ -348,8 +348,8 @@
 "required":false
 }
 },
-"choice_gap_530200e59efba361597091":{"identifier":"Gap_5",
-"serial":"choice_gap_530200e59efba361597091",
+"choice_gap_534252c8b87fe884922073":{"identifier":"Gap_5",
+"serial":"choice_gap_534252c8b87fe884922073",
 "qtiClass":"gap",
 "attributes":{"identifier":"Gap_5",
 "fixed":false,
@@ -359,11 +359,11 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 },
-"choices":{"choice_gaptext_530200e59e4b1085679029":{"identifier":"Text_1",
-"serial":"choice_gaptext_530200e59e4b1085679029",
+"choices":{"choice_gaptext_534252c8b73f9733110708":{"identifier":"Text_1",
+"serial":"choice_gaptext_534252c8b73f9733110708",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_1",
 "fixed":false,
@@ -374,8 +374,8 @@
 },
 "text":"authoring tool"
 },
-"choice_gaptext_530200e59e58a683560641":{"identifier":"Text_2",
-"serial":"choice_gaptext_530200e59e58a683560641",
+"choice_gaptext_534252c8b75d7402681673":{"identifier":"Text_2",
+"serial":"choice_gaptext_534252c8b75d7402681673",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_2",
 "fixed":false,
@@ -386,8 +386,8 @@
 },
 "text":"math"
 },
-"choice_gaptext_530200e59e665564018453":{"identifier":"Text_3",
-"serial":"choice_gaptext_530200e59e665564018453",
+"choice_gaptext_534252c8b7732372299643":{"identifier":"Text_3",
+"serial":"choice_gaptext_534252c8b7732372299643",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_3",
 "fixed":false,
@@ -398,8 +398,8 @@
 },
 "text":"MCQ"
 },
-"choice_gaptext_530200e59e73b915206961":{"identifier":"Text_4",
-"serial":"choice_gaptext_530200e59e73b915206961",
+"choice_gaptext_534252c8b789c227058265":{"identifier":"Text_4",
+"serial":"choice_gaptext_534252c8b789c227058265",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_4",
 "fixed":false,
@@ -410,8 +410,8 @@
 },
 "text":"preview tab"
 },
-"choice_gaptext_530200e59e804881058403":{"identifier":"Text_5",
-"serial":"choice_gaptext_530200e59e804881058403",
+"choice_gaptext_534252c8b79ed585031617":{"identifier":"Text_5",
+"serial":"choice_gaptext_534252c8b79ed585031617",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_5",
 "fixed":false,
@@ -422,8 +422,8 @@
 },
 "text":"popup preview"
 },
-"choice_gaptext_530200e59e8cc416362524":{"identifier":"Text_6",
-"serial":"choice_gaptext_530200e59e8cc416362524",
+"choice_gaptext_534252c8b7b3f810258060":{"identifier":"Text_6",
+"serial":"choice_gaptext_534252c8b7b3f810258060",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_6",
 "fixed":false,
@@ -434,8 +434,8 @@
 },
 "text":"items extensions"
 },
-"choice_gaptext_530200e59e99b943500340":{"identifier":"Text_7",
-"serial":"choice_gaptext_530200e59e99b943500340",
+"choice_gaptext_534252c8b7c90415660438":{"identifier":"Text_7",
+"serial":"choice_gaptext_534252c8b7c90415660438",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_7",
 "fixed":false,
@@ -446,8 +446,8 @@
 },
 "text":"tests extensions"
 },
-"choice_gaptext_530200e59ea6b547678029":{"identifier":"Text_8",
-"serial":"choice_gaptext_530200e59ea6b547678029",
+"choice_gaptext_534252c8b7de3806599517":{"identifier":"Text_8",
+"serial":"choice_gaptext_534252c8b7de3806599517",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_8",
 "fixed":false,
@@ -458,8 +458,8 @@
 },
 "text":"settings"
 },
-"choice_gaptext_530200e59eb44835573057":{"identifier":"Text_9",
-"serial":"choice_gaptext_530200e59eb44835573057",
+"choice_gaptext_534252c8b7f35729490010":{"identifier":"Text_9",
+"serial":"choice_gaptext_534252c8b7f35729490010",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_9",
 "fixed":false,
@@ -470,8 +470,8 @@
 },
 "text":"word"
 },
-"choice_gaptext_530200e59ec0d393930378":{"identifier":"Text_10",
-"serial":"choice_gaptext_530200e59ec0d393930378",
+"choice_gaptext_534252c8b8084935610835":{"identifier":"Text_10",
+"serial":"choice_gaptext_534252c8b8084935610835",
 "qtiClass":"gapText",
 "attributes":{"identifier":"Text_10",
 "fixed":false,
@@ -483,15 +483,15 @@
 "text":"select box"
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e59deed633680146",
+"prompt":{"serial":"container_containerstatic_534252c8b6c8a942147882",
 "body":"You are a seasoned TAO user, Sam is new user and needs you help to\nguide him through the process of his first online assessment\ncreation.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e59d92c727914378"
+"debug":{"relatedItem":"item_534252c8b5db3636286993"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -499,8 +499,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e59dbe7128855914":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e59dbe7128855914",
+"outcomes":{"outcomedeclaration_534252c8b64a7261376973":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8b64a7261376973",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -516,8 +516,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e59dac6293316032":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e59dac6293316032",
+"responses":{"responsedeclaration_534252c8b61d0658405387":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8b61d0658405387",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",

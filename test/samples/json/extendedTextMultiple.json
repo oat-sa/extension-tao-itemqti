@@ -1,5 +1,5 @@
 {"full":{"identifier":"extendedTextMultiple",
-"serial":"item_530200e598d1d511456268",
+"serial":"item_534252c8af72b090887915",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"extendedTextMultiple",
 "title":"Writing a Postcard",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e598d07609407927",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e5998ce167350630}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e5990e9234300933}}\n\t",
-"elements":{"interaction_extendedtextinteraction_530200e5990e9234300933":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e5990e9234300933",
+"body":{"serial":"container_containeritembody_534252c8af697101633035",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c8b04be775041546}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c8afc23810647063}}\n\t",
+"elements":{"interaction_extendedtextinteraction_534252c8afc23810647063":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c8afc23810647063",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -28,14 +28,14 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e599254064505217",
+"prompt":{"serial":"container_containerstatic_534252c8afe7f500871787",
 "body":"Count from 1 to 5",
 "elements":{},
-"debug":{"relatedItem":"item_530200e598d1d511456268"
+"debug":{"relatedItem":"item_534252c8af72b090887915"
 }
 }
 },
-"object_530200e5998ce167350630":{"serial":"object_530200e5998ce167350630",
+"object_534252c8b04be775041546":{"serial":"object_534252c8b04be775041546",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -45,7 +45,7 @@
 "_alt":"\n\t\t\t\t<blockquote class=\"postcard\">\n\t\t\t\t\t<p>Here is a postcard of my town. Please send me<br\/> a postcard from your town.\n\t\t\t\t\t\tWhat size is your<br\/> town? What is the nicest part of your town?<br\/>\n\t\t\t\t\t\tWhere do you go in the evenings?<br\/> Sam.<\/p>\n\t\t\t\t<\/blockquote>\n\t\t\t"
 }
 },
-"debug":{"relatedItem":"item_530200e598d1d511456268"
+"debug":{"relatedItem":"item_534252c8af72b090887915"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -53,8 +53,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e598f44954837253":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e598f44954837253",
+"outcomes":{"outcomedeclaration_534252c8afa21743169036":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8afa21743169036",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -70,8 +70,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e598e94900788758":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e598e94900788758",
+"responses":{"responsedeclaration_534252c8af8fa349845111":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8af8fa349845111",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"ordered",
@@ -86,7 +86,7 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_custom_530200e59a138579481238",
+"responseProcessing":{"serial":"response_custom_534252c8b0cd6526268542",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"custom",
@@ -94,7 +94,7 @@
 }
 },
 "core":{"identifier":"extendedTextMultiple",
-"serial":"item_530200e598d1d511456268",
+"serial":"item_534252c8af72b090887915",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"extendedTextMultiple",
 "title":"Writing a Postcard",
@@ -105,10 +105,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e598d07609407927",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e5998ce167350630}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e5990e9234300933}}\n\t",
-"elements":{"interaction_extendedtextinteraction_530200e5990e9234300933":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e5990e9234300933",
+"body":{"serial":"container_containeritembody_534252c8af697101633035",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c8b04be775041546}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c8afc23810647063}}\n\t",
+"elements":{"interaction_extendedtextinteraction_534252c8afc23810647063":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c8afc23810647063",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -123,14 +123,14 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e599254064505217",
+"prompt":{"serial":"container_containerstatic_534252c8afe7f500871787",
 "body":"Count from 1 to 5",
 "elements":{},
-"debug":{"relatedItem":"item_530200e598d1d511456268"
+"debug":{"relatedItem":"item_534252c8af72b090887915"
 }
 }
 },
-"object_530200e5998ce167350630":{"serial":"object_530200e5998ce167350630",
+"object_534252c8b04be775041546":{"serial":"object_534252c8b04be775041546",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -140,7 +140,7 @@
 "_alt":"\n\t\t\t\t<blockquote class=\"postcard\">\n\t\t\t\t\t<p>Here is a postcard of my town. Please send me<br\/> a postcard from your town.\n\t\t\t\t\t\tWhat size is your<br\/> town? What is the nicest part of your town?<br\/>\n\t\t\t\t\t\tWhere do you go in the evenings?<br\/> Sam.<\/p>\n\t\t\t\t<\/blockquote>\n\t\t\t"
 }
 },
-"debug":{"relatedItem":"item_530200e598d1d511456268"
+"debug":{"relatedItem":"item_534252c8af72b090887915"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -148,8 +148,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e598f44954837253":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e598f44954837253",
+"outcomes":{"outcomedeclaration_534252c8afa21743169036":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8afa21743169036",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -165,8 +165,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e598e94900788758":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e598e94900788758",
+"responses":{"responsedeclaration_534252c8af8fa349845111":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8af8fa349845111",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"ordered",

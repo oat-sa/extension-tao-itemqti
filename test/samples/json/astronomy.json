@@ -1,5 +1,5 @@
 {"full":{"identifier":"astronomy",
-"serial":"item_530200e5d30bd415625116",
+"serial":"item_534252c901e8f754331757",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"astronomy",
 "title":"Planets and moons",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d30a8282834209",
-"body":"\n\t\t<div>{{interaction_associateinteraction_530200e5d350d056238641}}<\/div>\n\t",
-"elements":{"interaction_associateinteraction_530200e5d350d056238641":{"identifier":"Interaction_1",
-"serial":"interaction_associateinteraction_530200e5d350d056238641",
+"body":{"serial":"container_containeritembody_534252c901df9270293307",
+"body":"\n\t\t<div>{{interaction_associateinteraction_534252c902472665945593}}<\/div>\n\t",
+"elements":{"interaction_associateinteraction_534252c902472665945593":{"identifier":"Interaction_1",
+"serial":"interaction_associateinteraction_534252c902472665945593",
 "qtiClass":"associateInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -21,8 +21,8 @@
 "maxAssociations":3,
 "minAssociations":0
 },
-"choices":{"choice_simpleassociablechoice_530200e5d3d83861233846":{"identifier":"Ea",
-"serial":"choice_simpleassociablechoice_530200e5d3d83861233846",
+"choices":{"choice_simpleassociablechoice_534252c903094285119498":{"identifier":"Ea",
+"serial":"choice_simpleassociablechoice_534252c903094285119498",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ea",
 "fixed":false,
@@ -31,15 +31,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d3e09412480040",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/earth.png\" alt=\"Earth\" \/><br \/>\t\t\n\t\tEarth\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c9031fd971048132",
+"body":"\n\t\t{{img_534252c9032df532682056}}<br \/>\t\t\n\t\tEarth\n\t\t",
+"elements":{"img_534252c9032df532682056":{"serial":"img_534252c9032df532682056",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/earth.png",
+"alt":"Earth",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d4654118998546":{"identifier":"Mo",
-"serial":"choice_simpleassociablechoice_530200e5d4654118998546",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c903a24711374855":{"identifier":"Mo",
+"serial":"choice_simpleassociablechoice_534252c903a24711374855",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Mo",
 "fixed":false,
@@ -48,15 +56,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d46d1596952352",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/moon.png\" alt=\"Moon\" \/><br \/>\n\t\tMoon\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c903b4d232362671",
+"body":"\n\t\t{{img_534252c903c30998622377}}<br \/>\n\t\tMoon\n\t\t",
+"elements":{"img_534252c903c30998622377":{"serial":"img_534252c903c30998622377",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/moon.png",
+"alt":"Moon",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d4e91943658097":{"identifier":"Ju",
-"serial":"choice_simpleassociablechoice_530200e5d4e91943658097",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c904304249800653":{"identifier":"Ju",
+"serial":"choice_simpleassociablechoice_534252c904304249800653",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ju",
 "fixed":false,
@@ -65,15 +81,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d4f0e755932957",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/jupiter.png\" alt=\"Jupiter\" \/><br \/>\n\t\tJupiter\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c904412791154348",
+"body":"\n\t\t{{img_534252c9044e9072683996}}<br \/>\n\t\tJupiter\n\t\t",
+"elements":{"img_534252c9044e9072683996":{"serial":"img_534252c9044e9072683996",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/jupiter.png",
+"alt":"Jupiter",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d56c7895333487":{"identifier":"Ga",
-"serial":"choice_simpleassociablechoice_530200e5d56c7895333487",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c904b8c323398890":{"identifier":"Ga",
+"serial":"choice_simpleassociablechoice_534252c904b8c323398890",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ga",
 "fixed":false,
@@ -82,15 +106,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d5742302947859",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/ganymede.png\" alt=\"Ganymede\" \/><br \/>\t\t\n\t\tGanymede\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c904c8d411119164",
+"body":"\n\t\t{{img_534252c904d5f049627297}}<br \/>\t\t\n\t\tGanymede\n\t\t",
+"elements":{"img_534252c904d5f049627297":{"serial":"img_534252c904d5f049627297",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/ganymede.png",
+"alt":"Ganymede",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d5f26413944186":{"identifier":"Ne",
-"serial":"choice_simpleassociablechoice_530200e5d5f26413944186",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c9053ca852323940":{"identifier":"Ne",
+"serial":"choice_simpleassociablechoice_534252c9053ca852323940",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ne",
 "fixed":false,
@@ -99,15 +131,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d5f9e294791543",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/neptune.png\" alt=\"Neptune\" \/><br \/>\t\t\n\t\tNeptune\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c9054ca801232475",
+"body":"\n\t\t{{img_534252c90559d227307008}}<br \/>\t\t\n\t\tNeptune\n\t\t",
+"elements":{"img_534252c90559d227307008":{"serial":"img_534252c90559d227307008",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/neptune.png",
+"alt":"Neptune",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d6776356912586":{"identifier":"Tr",
-"serial":"choice_simpleassociablechoice_530200e5d6776356912586",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c905c6d366503385":{"identifier":"Tr",
+"serial":"choice_simpleassociablechoice_534252c905c6d366503385",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Tr",
 "fixed":false,
@@ -116,23 +156,31 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d67ed143313641",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/triton.png\" alt=\"triton\" \/><br \/>\n\t\tTriton\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c905d6d984604465",
+"body":"\n\t\t{{img_534252c905e3c217575932}}<br \/>\n\t\tTriton\n\t\t",
+"elements":{"img_534252c905e3c217575932":{"serial":"img_534252c905e3c217575932",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/triton.png",
+"alt":"triton",
+"width":null,
+"height":null
+}
+}
+},
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5d3650407214199",
+"prompt":{"serial":"container_containerstatic_534252c9026af219328075",
 "body":"<b>Make pairs.<\/b><br \/>Each pair is composed of a planet of the Solar System and one of it's moon.<br \/><br \/>",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -140,8 +188,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5d331c071872402":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d331c071872402",
+"outcomes":{"outcomedeclaration_534252c9021de182723995":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9021de182723995",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -157,8 +205,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d323a454525515":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d323a454525515",
+"responses":{"responsedeclaration_534252c902077925385677":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c902077925385677",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",
@@ -179,14 +227,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5d76c3737569365",
+"responseProcessing":{"serial":"response_templatesdriven_534252c906bd3842315148",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"astronomy",
-"serial":"item_530200e5d30bd415625116",
+"serial":"item_534252c901e8f754331757",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"astronomy",
 "title":"Planets and moons",
@@ -197,10 +245,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d30a8282834209",
-"body":"\n\t\t<div>{{interaction_associateinteraction_530200e5d350d056238641}}<\/div>\n\t",
-"elements":{"interaction_associateinteraction_530200e5d350d056238641":{"identifier":"Interaction_1",
-"serial":"interaction_associateinteraction_530200e5d350d056238641",
+"body":{"serial":"container_containeritembody_534252c901df9270293307",
+"body":"\n\t\t<div>{{interaction_associateinteraction_534252c902472665945593}}<\/div>\n\t",
+"elements":{"interaction_associateinteraction_534252c902472665945593":{"identifier":"Interaction_1",
+"serial":"interaction_associateinteraction_534252c902472665945593",
 "qtiClass":"associateInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -208,8 +256,8 @@
 "maxAssociations":3,
 "minAssociations":0
 },
-"choices":{"choice_simpleassociablechoice_530200e5d3d83861233846":{"identifier":"Ea",
-"serial":"choice_simpleassociablechoice_530200e5d3d83861233846",
+"choices":{"choice_simpleassociablechoice_534252c903094285119498":{"identifier":"Ea",
+"serial":"choice_simpleassociablechoice_534252c903094285119498",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ea",
 "fixed":false,
@@ -218,15 +266,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d3e09412480040",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/earth.png\" alt=\"Earth\" \/><br \/>\t\t\n\t\tEarth\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c9031fd971048132",
+"body":"\n\t\t{{img_534252c9032df532682056}}<br \/>\t\t\n\t\tEarth\n\t\t",
+"elements":{"img_534252c9032df532682056":{"serial":"img_534252c9032df532682056",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/earth.png",
+"alt":"Earth",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d4654118998546":{"identifier":"Mo",
-"serial":"choice_simpleassociablechoice_530200e5d4654118998546",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c903a24711374855":{"identifier":"Mo",
+"serial":"choice_simpleassociablechoice_534252c903a24711374855",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Mo",
 "fixed":false,
@@ -235,15 +291,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d46d1596952352",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/moon.png\" alt=\"Moon\" \/><br \/>\n\t\tMoon\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c903b4d232362671",
+"body":"\n\t\t{{img_534252c903c30998622377}}<br \/>\n\t\tMoon\n\t\t",
+"elements":{"img_534252c903c30998622377":{"serial":"img_534252c903c30998622377",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/moon.png",
+"alt":"Moon",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d4e91943658097":{"identifier":"Ju",
-"serial":"choice_simpleassociablechoice_530200e5d4e91943658097",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c904304249800653":{"identifier":"Ju",
+"serial":"choice_simpleassociablechoice_534252c904304249800653",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ju",
 "fixed":false,
@@ -252,15 +316,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d4f0e755932957",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/jupiter.png\" alt=\"Jupiter\" \/><br \/>\n\t\tJupiter\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c904412791154348",
+"body":"\n\t\t{{img_534252c9044e9072683996}}<br \/>\n\t\tJupiter\n\t\t",
+"elements":{"img_534252c9044e9072683996":{"serial":"img_534252c9044e9072683996",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/jupiter.png",
+"alt":"Jupiter",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d56c7895333487":{"identifier":"Ga",
-"serial":"choice_simpleassociablechoice_530200e5d56c7895333487",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c904b8c323398890":{"identifier":"Ga",
+"serial":"choice_simpleassociablechoice_534252c904b8c323398890",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ga",
 "fixed":false,
@@ -269,15 +341,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d5742302947859",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/ganymede.png\" alt=\"Ganymede\" \/><br \/>\t\t\n\t\tGanymede\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c904c8d411119164",
+"body":"\n\t\t{{img_534252c904d5f049627297}}<br \/>\t\t\n\t\tGanymede\n\t\t",
+"elements":{"img_534252c904d5f049627297":{"serial":"img_534252c904d5f049627297",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/ganymede.png",
+"alt":"Ganymede",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d5f26413944186":{"identifier":"Ne",
-"serial":"choice_simpleassociablechoice_530200e5d5f26413944186",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c9053ca852323940":{"identifier":"Ne",
+"serial":"choice_simpleassociablechoice_534252c9053ca852323940",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Ne",
 "fixed":false,
@@ -286,15 +366,23 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d5f9e294791543",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/neptune.png\" alt=\"Neptune\" \/><br \/>\t\t\n\t\tNeptune\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c9054ca801232475",
+"body":"\n\t\t{{img_534252c90559d227307008}}<br \/>\t\t\n\t\tNeptune\n\t\t",
+"elements":{"img_534252c90559d227307008":{"serial":"img_534252c90559d227307008",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/neptune.png",
+"alt":"Neptune",
+"width":null,
+"height":null
 }
 }
 },
-"choice_simpleassociablechoice_530200e5d6776356912586":{"identifier":"Tr",
-"serial":"choice_simpleassociablechoice_530200e5d6776356912586",
+"debug":{"relatedItem":"item_534252c901e8f754331757"
+}
+}
+},
+"choice_simpleassociablechoice_534252c905c6d366503385":{"identifier":"Tr",
+"serial":"choice_simpleassociablechoice_534252c905c6d366503385",
 "qtiClass":"simpleAssociableChoice",
 "attributes":{"identifier":"Tr",
 "fixed":false,
@@ -303,23 +391,31 @@
 "matchMax":1,
 "matchMin":0
 },
-"body":{"serial":"container_containerstatic_530200e5d67ed143313641",
-"body":"\n\t\t<img src=\"samples\/test_base_www\/img\/triton.png\" alt=\"triton\" \/><br \/>\n\t\tTriton\n\t\t",
-"elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"body":{"serial":"container_containerstatic_534252c905d6d984604465",
+"body":"\n\t\t{{img_534252c905e3c217575932}}<br \/>\n\t\tTriton\n\t\t",
+"elements":{"img_534252c905e3c217575932":{"serial":"img_534252c905e3c217575932",
+"qtiClass":"img",
+"attributes":{"src":"samples\/test_base_www\/img\/triton.png",
+"alt":"triton",
+"width":null,
+"height":null
+}
+}
+},
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5d3650407214199",
+"prompt":{"serial":"container_containerstatic_534252c9026af219328075",
 "body":"<b>Make pairs.<\/b><br \/>Each pair is composed of a planet of the Solar System and one of it's moon.<br \/><br \/>",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d30bd415625116"
+"debug":{"relatedItem":"item_534252c901e8f754331757"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -327,8 +423,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5d331c071872402":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d331c071872402",
+"outcomes":{"outcomedeclaration_534252c9021de182723995":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9021de182723995",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -344,8 +440,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d323a454525515":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d323a454525515",
+"responses":{"responsedeclaration_534252c902077925385677":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c902077925385677",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",

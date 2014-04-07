@@ -1,5 +1,5 @@
 {"full":{"identifier":"slider",
-"serial":"item_530200e5e44af634210653",
+"serial":"item_534252c923d21914384416",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"slider",
 "title":"Jedi Knights",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5e449a260146255",
-"body":"\n\t\t<p>Much to the dismay of Star Wars fans, the 2001 UK national census classified people who\n\t\t\tidentified themselves as <i>Jedi Knights<\/i> as having no religion. In fact, the\n\t\t\t<i>Jedi<\/i> accounted for more than 4% of this group!<\/p>\n\t\t{{interaction_sliderinteraction_530200e5e48dd143415692}}\n\t",
-"elements":{"interaction_sliderinteraction_530200e5e48dd143415692":{"identifier":"Interaction_1",
-"serial":"interaction_sliderinteraction_530200e5e48dd143415692",
+"body":{"serial":"container_containeritembody_534252c923c21412089914",
+"body":"\n\t\t<p>Much to the dismay of Star Wars fans, the 2001 UK national census classified people who\n\t\t\tidentified themselves as <i>Jedi Knights<\/i> as having no religion. In fact, the\n\t\t\t<i>Jedi<\/i> accounted for more than 4% of this group!<\/p>\n\t\t{{interaction_sliderinteraction_534252c924532563665755}}\n\t",
+"elements":{"interaction_sliderinteraction_534252c924532563665755":{"identifier":"Interaction_1",
+"serial":"interaction_sliderinteraction_534252c924532563665755",
 "qtiClass":"sliderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -25,15 +25,15 @@
 "reverse":null
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5e4a65178740083",
+"prompt":{"serial":"container_containerstatic_534252c9247fc741446621",
 "body":"In total, what percentage of the UK population do you think were eventually\n\t\t\t\tclassifed as having no religion?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5e44af634210653"
+"debug":{"relatedItem":"item_534252c923d21914384416"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5e44af634210653"
+"debug":{"relatedItem":"item_534252c923d21914384416"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -41,8 +41,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5e4718524398671":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5e4718524398671",
+"outcomes":{"outcomedeclaration_534252c9242cf182098662":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9242cf182098662",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -58,8 +58,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5e4611843269522":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5e4611843269522",
+"responses":{"responsedeclaration_534252c9240b1622648315":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c9240b1622648315",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -84,14 +84,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5e5885831848414",
+"responseProcessing":{"serial":"response_templatesdriven_534252c925786299068339",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"slider",
-"serial":"item_530200e5e44af634210653",
+"serial":"item_534252c923d21914384416",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"slider",
 "title":"Jedi Knights",
@@ -102,10 +102,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5e449a260146255",
-"body":"\n\t\t<p>Much to the dismay of Star Wars fans, the 2001 UK national census classified people who\n\t\t\tidentified themselves as <i>Jedi Knights<\/i> as having no religion. In fact, the\n\t\t\t<i>Jedi<\/i> accounted for more than 4% of this group!<\/p>\n\t\t{{interaction_sliderinteraction_530200e5e48dd143415692}}\n\t",
-"elements":{"interaction_sliderinteraction_530200e5e48dd143415692":{"identifier":"Interaction_1",
-"serial":"interaction_sliderinteraction_530200e5e48dd143415692",
+"body":{"serial":"container_containeritembody_534252c923c21412089914",
+"body":"\n\t\t<p>Much to the dismay of Star Wars fans, the 2001 UK national census classified people who\n\t\t\tidentified themselves as <i>Jedi Knights<\/i> as having no religion. In fact, the\n\t\t\t<i>Jedi<\/i> accounted for more than 4% of this group!<\/p>\n\t\t{{interaction_sliderinteraction_534252c924532563665755}}\n\t",
+"elements":{"interaction_sliderinteraction_534252c924532563665755":{"identifier":"Interaction_1",
+"serial":"interaction_sliderinteraction_534252c924532563665755",
 "qtiClass":"sliderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -117,15 +117,15 @@
 "reverse":null
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5e4a65178740083",
+"prompt":{"serial":"container_containerstatic_534252c9247fc741446621",
 "body":"In total, what percentage of the UK population do you think were eventually\n\t\t\t\tclassifed as having no religion?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5e44af634210653"
+"debug":{"relatedItem":"item_534252c923d21914384416"
 }
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5e44af634210653"
+"debug":{"relatedItem":"item_534252c923d21914384416"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -133,8 +133,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5e4718524398671":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5e4718524398671",
+"outcomes":{"outcomedeclaration_534252c9242cf182098662":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9242cf182098662",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -150,8 +150,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5e4611843269522":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5e4611843269522",
+"responses":{"responsedeclaration_534252c9240b1622648315":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c9240b1622648315",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

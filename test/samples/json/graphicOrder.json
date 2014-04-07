@@ -1,5 +1,5 @@
 {"full":{"identifier":"graphicOrder",
-"serial":"item_530200e5a788a664186937",
+"serial":"item_534252c8c28dc094608594",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"graphicOrder",
 "title":"Flying Home",
@@ -10,18 +10,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a7874773512642",
-"body":"\n\t\t<p>Lorna is flying back home to the UK. Ideally, she would like to fly in directly to her\n\t\t\thome town of Glasgow. Edinburgh is her second choice and, if necessary, she could fly\n\t\t\tinto London and pick up an internal connecting flight. Although she has been offered a\n\t\t\tcheap flight to Manchester it remains her least favourite option as connecting flights\n\t\t\tto Glasgow are not very reliable from there.<\/p>\n\t\t{{interaction_graphicorderinteraction_530200e5a7d04688999196}}\n\t",
-"elements":{"interaction_graphicorderinteraction_530200e5a7d04688999196":{"identifier":"Interaction_1",
-"serial":"interaction_graphicorderinteraction_530200e5a7d04688999196",
+"body":{"serial":"container_containeritembody_534252c8c283f955100478",
+"body":"\n\t\t<p>Lorna is flying back home to the UK. Ideally, she would like to fly in directly to her\n\t\t\thome town of Glasgow. Edinburgh is her second choice and, if necessary, she could fly\n\t\t\tinto London and pick up an internal connecting flight. Although she has been offered a\n\t\t\tcheap flight to Manchester it remains her least favourite option as connecting flights\n\t\t\tto Glasgow are not very reliable from there.<\/p>\n\t\t{{interaction_graphicorderinteraction_534252c8c2f71040389688}}\n\t",
+"elements":{"interaction_graphicorderinteraction_534252c8c2f71040389688":{"identifier":"Interaction_1",
+"serial":"interaction_graphicorderinteraction_534252c8c2f71040389688",
 "qtiClass":"graphicOrderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "maxChoices":null,
 "minChoices":null
 },
-"choices":{"choice_hotspotchoice_530200e5a84ac380926481":{"identifier":"A",
-"serial":"choice_hotspotchoice_530200e5a84ac380926481",
+"choices":{"choice_hotspotchoice_534252c8c39b3020388016":{"identifier":"A",
+"serial":"choice_hotspotchoice_534252c8c39b3020388016",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -31,8 +31,8 @@
 "coords":"77,115,8"
 }
 },
-"choice_hotspotchoice_530200e5a854a179784821":{"identifier":"B",
-"serial":"choice_hotspotchoice_530200e5a854a179784821",
+"choice_hotspotchoice_534252c8c3aff684032379":{"identifier":"B",
+"serial":"choice_hotspotchoice_534252c8c3aff684032379",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -42,8 +42,8 @@
 "coords":"118,184,8"
 }
 },
-"choice_hotspotchoice_530200e5a85dc442605254":{"identifier":"C",
-"serial":"choice_hotspotchoice_530200e5a85dc442605254",
+"choice_hotspotchoice_534252c8c3c22897505728":{"identifier":"C",
+"serial":"choice_hotspotchoice_534252c8c3c22897505728",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -53,8 +53,8 @@
 "coords":"150,235,8"
 }
 },
-"choice_hotspotchoice_530200e5a86a2937918123":{"identifier":"D",
-"serial":"choice_hotspotchoice_530200e5a86a2937918123",
+"choice_hotspotchoice_534252c8c3d41761963916":{"identifier":"D",
+"serial":"choice_hotspotchoice_534252c8c3d41761963916",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"D",
 "fixed":false,
@@ -65,13 +65,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a7e9e427604427",
+"prompt":{"serial":"container_containerstatic_534252c8c3180873582075",
 "body":"Mark the airports shown on the map according to Lorna's preferences.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a788a664186937"
+"debug":{"relatedItem":"item_534252c8c28dc094608594"
 }
 },
-"object":{"serial":"object_530200e5a874d693780656",
+"object":{"serial":"object_534252c8c3e81719530419",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukair.png",
 "type":"image\/png",
@@ -82,7 +82,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a788a664186937"
+"debug":{"relatedItem":"item_534252c8c28dc094608594"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -90,8 +90,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a7aca717959666":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a7aca717959666",
+"outcomes":{"outcomedeclaration_534252c8c2c55382740364":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c2c55382740364",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -107,8 +107,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a7a02987668333":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a7a02987668333",
+"responses":{"responsedeclaration_534252c8c2b01022217689":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c2b01022217689",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"ordered",
@@ -127,14 +127,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5a8eda921848484",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8c479c413609103",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"graphicOrder",
-"serial":"item_530200e5a788a664186937",
+"serial":"item_534252c8c28dc094608594",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"graphicOrder",
 "title":"Flying Home",
@@ -145,18 +145,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a7874773512642",
-"body":"\n\t\t<p>Lorna is flying back home to the UK. Ideally, she would like to fly in directly to her\n\t\t\thome town of Glasgow. Edinburgh is her second choice and, if necessary, she could fly\n\t\t\tinto London and pick up an internal connecting flight. Although she has been offered a\n\t\t\tcheap flight to Manchester it remains her least favourite option as connecting flights\n\t\t\tto Glasgow are not very reliable from there.<\/p>\n\t\t{{interaction_graphicorderinteraction_530200e5a7d04688999196}}\n\t",
-"elements":{"interaction_graphicorderinteraction_530200e5a7d04688999196":{"identifier":"Interaction_1",
-"serial":"interaction_graphicorderinteraction_530200e5a7d04688999196",
+"body":{"serial":"container_containeritembody_534252c8c283f955100478",
+"body":"\n\t\t<p>Lorna is flying back home to the UK. Ideally, she would like to fly in directly to her\n\t\t\thome town of Glasgow. Edinburgh is her second choice and, if necessary, she could fly\n\t\t\tinto London and pick up an internal connecting flight. Although she has been offered a\n\t\t\tcheap flight to Manchester it remains her least favourite option as connecting flights\n\t\t\tto Glasgow are not very reliable from there.<\/p>\n\t\t{{interaction_graphicorderinteraction_534252c8c2f71040389688}}\n\t",
+"elements":{"interaction_graphicorderinteraction_534252c8c2f71040389688":{"identifier":"Interaction_1",
+"serial":"interaction_graphicorderinteraction_534252c8c2f71040389688",
 "qtiClass":"graphicOrderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "maxChoices":null,
 "minChoices":null
 },
-"choices":{"choice_hotspotchoice_530200e5a84ac380926481":{"identifier":"A",
-"serial":"choice_hotspotchoice_530200e5a84ac380926481",
+"choices":{"choice_hotspotchoice_534252c8c39b3020388016":{"identifier":"A",
+"serial":"choice_hotspotchoice_534252c8c39b3020388016",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -166,8 +166,8 @@
 "coords":"77,115,8"
 }
 },
-"choice_hotspotchoice_530200e5a854a179784821":{"identifier":"B",
-"serial":"choice_hotspotchoice_530200e5a854a179784821",
+"choice_hotspotchoice_534252c8c3aff684032379":{"identifier":"B",
+"serial":"choice_hotspotchoice_534252c8c3aff684032379",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -177,8 +177,8 @@
 "coords":"118,184,8"
 }
 },
-"choice_hotspotchoice_530200e5a85dc442605254":{"identifier":"C",
-"serial":"choice_hotspotchoice_530200e5a85dc442605254",
+"choice_hotspotchoice_534252c8c3c22897505728":{"identifier":"C",
+"serial":"choice_hotspotchoice_534252c8c3c22897505728",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -188,8 +188,8 @@
 "coords":"150,235,8"
 }
 },
-"choice_hotspotchoice_530200e5a86a2937918123":{"identifier":"D",
-"serial":"choice_hotspotchoice_530200e5a86a2937918123",
+"choice_hotspotchoice_534252c8c3d41761963916":{"identifier":"D",
+"serial":"choice_hotspotchoice_534252c8c3d41761963916",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"D",
 "fixed":false,
@@ -200,13 +200,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a7e9e427604427",
+"prompt":{"serial":"container_containerstatic_534252c8c3180873582075",
 "body":"Mark the airports shown on the map according to Lorna's preferences.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a788a664186937"
+"debug":{"relatedItem":"item_534252c8c28dc094608594"
 }
 },
-"object":{"serial":"object_530200e5a874d693780656",
+"object":{"serial":"object_534252c8c3e81719530419",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukair.png",
 "type":"image\/png",
@@ -217,7 +217,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a788a664186937"
+"debug":{"relatedItem":"item_534252c8c28dc094608594"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -225,8 +225,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a7aca717959666":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a7aca717959666",
+"outcomes":{"outcomedeclaration_534252c8c2c55382740364":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c2c55382740364",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -242,8 +242,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a7a02987668333":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a7a02987668333",
+"responses":{"responsedeclaration_534252c8c2b01022217689":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c2b01022217689",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"ordered",

@@ -1,5 +1,5 @@
 {"full":{"identifier":"extendedText_rubric",
-"serial":"item_530200e604362704069649",
+"serial":"item_534252c938cb9570118675",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"extendedText_rubric",
 "title":"Writing a Postcard with rubric",
@@ -10,23 +10,23 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e60434c541695599",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e605eec803185173}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e605750568663824}}\n\t\t{{rubricblock_530200e604791720478315}}\n\t",
-"elements":{"rubricblock_530200e604791720478315":{"serial":"rubricblock_530200e604791720478315",
+"body":{"serial":"container_containeritembody_534252c938c2a838306757",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c93c185208289662}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c93b881623734722}}\n\t\t{{rubricblock_534252c939159308642405}}\n\t",
+"elements":{"rubricblock_534252c939159308642405":{"serial":"rubricblock_534252c939159308642405",
 "qtiClass":"rubricBlock",
 "attributes":{"view":{"0":"scorer"
 },
 "use":null
 },
-"body":{"serial":"container_containerstatic_530200e604843197866504",
+"body":{"serial":"container_containerstatic_534252c93a8dc606666539",
 "body":"\n\t\t\t<h1>Scoring Guidelines<\/h1>\n\t\t\t<div>\n\t\t\t\t<p><b>Max Score:<\/b> 3.0 points<\/p>\n\t\t\t\t<p><b>Scoring:<\/b><\/p>\n\t\t\t\t<ul><li>When not all 3 questions are answered in the response: -1 for each missing.<\/li>\n\t\t\t\t\t<li>Check for gramatical errors: -0.1 per error.<\/li>\n\t\t\t\t\t<li>Possibly add in .1 increments extra bonus points for extra good answers.<\/li>\n\t\t\t\t<\/ul><\/div>\n\t\t",
 "elements":{},
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 }
 },
-"interaction_extendedtextinteraction_530200e605750568663824":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e605750568663824",
+"interaction_extendedtextinteraction_534252c93b881623734722":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c93b881623734722",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -41,14 +41,14 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e6058ba249587400",
+"prompt":{"serial":"container_containerstatic_534252c93bb2e855243703",
 "body":"Write Sam a postcard. Answer the questions. Write 25-35 words.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 }
 },
-"object_530200e605eec803185173":{"serial":"object_530200e605eec803185173",
+"object_534252c93c185208289662":{"serial":"object_534252c93c185208289662",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -58,7 +58,7 @@
 "_alt":"\n\t\t\t\t<blockquote class=\"postcard\">\n\t\t\t\t\t<p>Here is a postcard of my town. Please send me<br\/> a postcard from your town.\n\t\t\t\t\t\tWhat size is your<br\/> town? What is the nicest part of your town?<br\/>\n\t\t\t\t\t\tWhere do you go in the evenings?<br\/> Sam.<\/p>\n\t\t\t\t<\/blockquote>\n\t\t\t"
 }
 },
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -66,8 +66,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e60457c729290422":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e60457c729290422",
+"outcomes":{"outcomedeclaration_534252c938fbd906515718":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c938fbd906515718",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -83,8 +83,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e6044c8511518187":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e6044c8511518187",
+"responses":{"responsedeclaration_534252c938e95330572895":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c938e95330572895",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -99,7 +99,7 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_custom_530200e6066e5852605944",
+"responseProcessing":{"serial":"response_custom_534252c93ca09265834704",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"custom",
@@ -107,7 +107,7 @@
 }
 },
 "core":{"identifier":"extendedText_rubric",
-"serial":"item_530200e604362704069649",
+"serial":"item_534252c938cb9570118675",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"extendedText_rubric",
 "title":"Writing a Postcard with rubric",
@@ -118,13 +118,13 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e60434c541695599",
-"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_530200e605eec803185173}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_530200e605750568663824}}\n\t\t{{rubricblock_530200e604791720478315}}\n\t",
-"elements":{"rubricblock_530200e604791720478315":{"serial":"rubricblock_530200e604791720478315",
+"body":{"serial":"container_containeritembody_534252c938c2a838306757",
+"body":"\n\t\t<p>Read this postcard from your English pen-friend, Sam.<\/p>\n\t\t<div>\n\t\t\t{{object_534252c93c185208289662}}\n\t\t<\/div>\n\t\t{{interaction_extendedtextinteraction_534252c93b881623734722}}\n\t\t{{rubricblock_534252c939159308642405}}\n\t",
+"elements":{"rubricblock_534252c939159308642405":{"serial":"rubricblock_534252c939159308642405",
 "type":"rubricBlock"
 },
-"interaction_extendedtextinteraction_530200e605750568663824":{"identifier":"Interaction_1",
-"serial":"interaction_extendedtextinteraction_530200e605750568663824",
+"interaction_extendedtextinteraction_534252c93b881623734722":{"identifier":"Interaction_1",
+"serial":"interaction_extendedtextinteraction_534252c93b881623734722",
 "qtiClass":"extendedTextInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -139,14 +139,14 @@
 "format":"plain"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e6058ba249587400",
+"prompt":{"serial":"container_containerstatic_534252c93bb2e855243703",
 "body":"Write Sam a postcard. Answer the questions. Write 25-35 words.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 }
 },
-"object_530200e605eec803185173":{"serial":"object_530200e605eec803185173",
+"object_534252c93c185208289662":{"serial":"object_534252c93c185208289662",
 "qtiClass":"object",
 "attributes":{"data":"images\/postcard.png",
 "type":"image\/png",
@@ -156,7 +156,7 @@
 "_alt":"\n\t\t\t\t<blockquote class=\"postcard\">\n\t\t\t\t\t<p>Here is a postcard of my town. Please send me<br\/> a postcard from your town.\n\t\t\t\t\t\tWhat size is your<br\/> town? What is the nicest part of your town?<br\/>\n\t\t\t\t\t\tWhere do you go in the evenings?<br\/> Sam.<\/p>\n\t\t\t\t<\/blockquote>\n\t\t\t"
 }
 },
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -164,8 +164,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e60457c729290422":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e60457c729290422",
+"outcomes":{"outcomedeclaration_534252c938fbd906515718":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c938fbd906515718",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -181,8 +181,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e6044c8511518187":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e6044c8511518187",
+"responses":{"responsedeclaration_534252c938e95330572895":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c938e95330572895",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -192,16 +192,16 @@
 },
 "feedbacks":{}
 },
-"variable":{"rubricblock_530200e604791720478315":{"serial":"rubricblock_530200e604791720478315",
+"variable":{"rubricblock_534252c939159308642405":{"serial":"rubricblock_534252c939159308642405",
 "qtiClass":"rubricBlock",
 "attributes":{"view":{"0":"scorer"
 },
 "use":null
 },
-"body":{"serial":"container_containerstatic_530200e604843197866504",
+"body":{"serial":"container_containerstatic_534252c93a8dc606666539",
 "body":"\n\t\t\t<h1>Scoring Guidelines<\/h1>\n\t\t\t<div>\n\t\t\t\t<p><b>Max Score:<\/b> 3.0 points<\/p>\n\t\t\t\t<p><b>Scoring:<\/b><\/p>\n\t\t\t\t<ul><li>When not all 3 questions are answered in the response: -1 for each missing.<\/li>\n\t\t\t\t\t<li>Check for gramatical errors: -0.1 per error.<\/li>\n\t\t\t\t\t<li>Possibly add in .1 increments extra bonus points for extra good answers.<\/li>\n\t\t\t\t<\/ul><\/div>\n\t\t",
 "elements":{},
-"debug":{"relatedItem":"item_530200e604362704069649"
+"debug":{"relatedItem":"item_534252c938cb9570118675"
 }
 }
 }

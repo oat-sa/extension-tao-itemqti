@@ -1,5 +1,5 @@
 {"full":{"identifier":"elections-in-the-united-states-2004",
-"serial":"item_530200e5d863b691001713",
+"serial":"item_534252c907f26794334189",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"elections-in-the-united-states-2004",
 "title":"Elections in the United States, 2004",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d8627205172676",
-"body":"\n\t\t<p id=\"stimulus\">\n\t\t\tThe 4th of November 2004, Georges W. Bush (Republican) wins the US elections against John Kerry\n\t\t\t(Democrat). After a first mandate leading the United States of America, Bush remains president for 4\n\t\t\tmore years. During these elections, 114.3 million votes were counted.\n\t\t<\/p>\n\t\t{{interaction_sliderinteraction_530200e5d8bad021004037}}\n\t\t<p id=\"mapContainer\">\n\t\t\t<img id=\"map\" src=\"img\/map.jpg\" alt=\"Presidential popular votes by county.\" \/><\/p>\n\t",
-"elements":{"interaction_sliderinteraction_530200e5d8bad021004037":{"identifier":"Interaction_1",
-"serial":"interaction_sliderinteraction_530200e5d8bad021004037",
+"body":{"serial":"container_containeritembody_534252c907e91351726137",
+"body":"\n\t\t<p id=\"stimulus\">\n\t\t\tThe 4th of November 2004, Georges W. Bush (Republican) wins the US elections against John Kerry\n\t\t\t(Democrat). After a first mandate leading the United States of America, Bush remains president for 4\n\t\t\tmore years. During these elections, 114.3 million votes were counted.\n\t\t<\/p>\n\t\t{{interaction_sliderinteraction_534252c9086e2318224053}}\n\t\t<p id=\"mapContainer\">\n\t\t\t{{img_534252c9091dc544194609}}\n\t\t<\/p>\n\t",
+"elements":{"interaction_sliderinteraction_534252c9086e2318224053":{"identifier":"Interaction_1",
+"serial":"interaction_sliderinteraction_534252c9086e2318224053",
 "qtiClass":"sliderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -26,22 +26,31 @@
 "id":"interaction"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5d8f18355264991",
+"prompt":{"serial":"container_containerstatic_534252c908b5d706569503",
 "body":"\n\t\t\t\tIn your opinion, what was the percentage (%) of Republican voters during the 2004 US elections? If needed,\n\t\t\t\thelp yourself with the map below.\n\t\t\t",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d863b691001713"
-}
+"debug":{"relatedItem":"item_534252c907f26794334189"
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d863b691001713"
+"img_534252c9091dc544194609":{"serial":"img_534252c9091dc544194609",
+"qtiClass":"img",
+"attributes":{"src":"img\/map.jpg",
+"alt":"Presidential popular votes by county.",
+"width":null,
+"height":null,
+"id":"map"
+}
+}
+},
+"debug":{"relatedItem":"item_534252c907f26794334189"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
 "xsi":"http:\/\/www.w3.org\/2001\/XMLSchema-instance",
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
-"stylesheets":{"stylesheet_530200e5d8765824102672":{"serial":"stylesheet_530200e5d8765824102672",
+"stylesheets":{"stylesheet_534252c9080f5574292432":{"serial":"stylesheet_534252c9080f5574292432",
 "qtiClass":"stylesheet",
 "attributes":{"href":"style.css",
 "type":"text\/css",
@@ -50,8 +59,8 @@
 }
 }
 },
-"outcomes":{"outcomedeclaration_530200e5d8959479542599":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d8959479542599",
+"outcomes":{"outcomedeclaration_534252c9083ee541020997":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9083ee541020997",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -67,8 +76,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d8862801345943":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d8862801345943",
+"responses":{"responsedeclaration_534252c908270544161234":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c908270544161234",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -103,14 +112,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5d9e31047760844",
+"responseProcessing":{"serial":"response_templatesdriven_534252c909ab4764232540",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"elections-in-the-united-states-2004",
-"serial":"item_530200e5d863b691001713",
+"serial":"item_534252c907f26794334189",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"elections-in-the-united-states-2004",
 "title":"Elections in the United States, 2004",
@@ -121,10 +130,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d8627205172676",
-"body":"\n\t\t<p id=\"stimulus\">\n\t\t\tThe 4th of November 2004, Georges W. Bush (Republican) wins the US elections against John Kerry\n\t\t\t(Democrat). After a first mandate leading the United States of America, Bush remains president for 4\n\t\t\tmore years. During these elections, 114.3 million votes were counted.\n\t\t<\/p>\n\t\t{{interaction_sliderinteraction_530200e5d8bad021004037}}\n\t\t<p id=\"mapContainer\">\n\t\t\t<img id=\"map\" src=\"img\/map.jpg\" alt=\"Presidential popular votes by county.\" \/><\/p>\n\t",
-"elements":{"interaction_sliderinteraction_530200e5d8bad021004037":{"identifier":"Interaction_1",
-"serial":"interaction_sliderinteraction_530200e5d8bad021004037",
+"body":{"serial":"container_containeritembody_534252c907e91351726137",
+"body":"\n\t\t<p id=\"stimulus\">\n\t\t\tThe 4th of November 2004, Georges W. Bush (Republican) wins the US elections against John Kerry\n\t\t\t(Democrat). After a first mandate leading the United States of America, Bush remains president for 4\n\t\t\tmore years. During these elections, 114.3 million votes were counted.\n\t\t<\/p>\n\t\t{{interaction_sliderinteraction_534252c9086e2318224053}}\n\t\t<p id=\"mapContainer\">\n\t\t\t{{img_534252c9091dc544194609}}\n\t\t<\/p>\n\t",
+"elements":{"interaction_sliderinteraction_534252c9086e2318224053":{"identifier":"Interaction_1",
+"serial":"interaction_sliderinteraction_534252c9086e2318224053",
 "qtiClass":"sliderInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -137,22 +146,31 @@
 "id":"interaction"
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5d8f18355264991",
+"prompt":{"serial":"container_containerstatic_534252c908b5d706569503",
 "body":"\n\t\t\t\tIn your opinion, what was the percentage (%) of Republican voters during the 2004 US elections? If needed,\n\t\t\t\thelp yourself with the map below.\n\t\t\t",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d863b691001713"
-}
+"debug":{"relatedItem":"item_534252c907f26794334189"
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d863b691001713"
+"img_534252c9091dc544194609":{"serial":"img_534252c9091dc544194609",
+"qtiClass":"img",
+"attributes":{"src":"img\/map.jpg",
+"alt":"Presidential popular votes by county.",
+"width":null,
+"height":null,
+"id":"map"
+}
+}
+},
+"debug":{"relatedItem":"item_534252c907f26794334189"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
 "xsi":"http:\/\/www.w3.org\/2001\/XMLSchema-instance",
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
-"stylesheets":{"stylesheet_530200e5d8765824102672":{"serial":"stylesheet_530200e5d8765824102672",
+"stylesheets":{"stylesheet_534252c9080f5574292432":{"serial":"stylesheet_534252c9080f5574292432",
 "qtiClass":"stylesheet",
 "attributes":{"href":"style.css",
 "type":"text\/css",
@@ -161,8 +179,8 @@
 }
 }
 },
-"outcomes":{"outcomedeclaration_530200e5d8959479542599":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d8959479542599",
+"outcomes":{"outcomedeclaration_534252c9083ee541020997":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9083ee541020997",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -178,8 +196,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d8862801345943":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d8862801345943",
+"responses":{"responsedeclaration_534252c908270544161234":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c908270544161234",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

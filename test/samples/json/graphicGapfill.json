@@ -1,5 +1,5 @@
 {"full":{"identifier":"graphicGapfill",
-"serial":"item_530200e5a3dbb283481390",
+"serial":"item_534252c8bdf01039692891",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"graphicGapfill",
 "title":"Airport Tags",
@@ -10,16 +10,16 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a3da5263343961",
-"body":"\n\t\t<p>The International Air Transport Association assigns three-letter codes to identify\n\t\t\tairports worldwide. For example, London Heathrow has code LHR.<\/p>\n\t\t{{interaction_graphicgapmatchinteraction_530200e5a42fa269600095}}\n\t",
-"elements":{"interaction_graphicgapmatchinteraction_530200e5a42fa269600095":{"identifier":"Interaction_1",
-"serial":"interaction_graphicgapmatchinteraction_530200e5a42fa269600095",
+"body":{"serial":"container_containeritembody_534252c8bde62792356876",
+"body":"\n\t\t<p>The International Air Transport Association assigns three-letter codes to identify\n\t\t\tairports worldwide. For example, London Heathrow has code LHR.<\/p>\n\t\t{{interaction_graphicgapmatchinteraction_534252c8be6a9010021235}}\n\t",
+"elements":{"interaction_graphicgapmatchinteraction_534252c8be6a9010021235":{"identifier":"Interaction_1",
+"serial":"interaction_graphicgapmatchinteraction_534252c8be6a9010021235",
 "qtiClass":"graphicGapMatchInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE"
 },
-"choices":{"choice_associablehotspot_530200e5a5851297492419":{"identifier":"A",
-"serial":"choice_associablehotspot_530200e5a5851297492419",
+"choices":{"choice_associablehotspot_534252c8c05b1837361029":{"identifier":"A",
+"serial":"choice_associablehotspot_534252c8c05b1837361029",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -31,8 +31,8 @@
 "coords":"12,108,39,121"
 }
 },
-"choice_associablehotspot_530200e5a592d383410354":{"identifier":"B",
-"serial":"choice_associablehotspot_530200e5a592d383410354",
+"choice_associablehotspot_534252c8c0711007536751":{"identifier":"B",
+"serial":"choice_associablehotspot_534252c8c0711007536751",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -44,8 +44,8 @@
 "coords":"128,103,155,126"
 }
 },
-"choice_associablehotspot_530200e5a5a18186500549":{"identifier":"C",
-"serial":"choice_associablehotspot_530200e5a5a18186500549",
+"choice_associablehotspot_534252c8c0866838084921":{"identifier":"C",
+"serial":"choice_associablehotspot_534252c8c0866838084921",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -58,13 +58,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a43d1551413107",
+"prompt":{"serial":"container_containerstatic_534252c8be89e398880948",
 "body":"Some of the labels on the following diagram are missing: can you identify the\n\t\t\t\tcorrect three-letter codes for the unlabelled airports?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a3dbb283481390"
+"debug":{"relatedItem":"item_534252c8bdf01039692891"
 }
 },
-"object":{"serial":"object_530200e5a5af8507644354",
+"object":{"serial":"object_534252c8c09e2227401749",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukairtags.png",
 "type":"image\/png",
@@ -72,8 +72,8 @@
 "height":280
 }
 },
-"gapImgs":{"choice_gapimg_530200e5a4c28742655284":{"identifier":"CBG",
-"serial":"choice_gapimg_530200e5a4c28742655284",
+"gapImgs":{"choice_gapimg_534252c8bf0d0536284791":{"identifier":"CBG",
+"serial":"choice_gapimg_534252c8bf0d0536284791",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"CBG",
 "fixed":false,
@@ -82,7 +82,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a4d8e333514125",
+"object":{"serial":"object_534252c8bf372424794551",
 "qtiClass":"object",
 "attributes":{"data":"images\/CBG.png",
 "type":"image\/png",
@@ -92,8 +92,8 @@
 "_alt":"CBG"
 }
 },
-"choice_gapimg_530200e5a4ecc624477470":{"identifier":"EBG",
-"serial":"choice_gapimg_530200e5a4ecc624477470",
+"choice_gapimg_534252c8bf514566293578":{"identifier":"EBG",
+"serial":"choice_gapimg_534252c8bf514566293578",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"EBG",
 "fixed":false,
@@ -102,7 +102,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a4f98037872199",
+"object":{"serial":"object_534252c8bf6d2084282459",
 "qtiClass":"object",
 "attributes":{"data":"images\/EBG.png",
 "type":"image\/png",
@@ -112,8 +112,8 @@
 "_alt":"EBG"
 }
 },
-"choice_gapimg_530200e5a50b6590779385":{"identifier":"EDI",
-"serial":"choice_gapimg_530200e5a50b6590779385",
+"choice_gapimg_534252c8bf852159283864":{"identifier":"EDI",
+"serial":"choice_gapimg_534252c8bf852159283864",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"EDI",
 "fixed":false,
@@ -122,7 +122,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5182141353965",
+"object":{"serial":"object_534252c8bfa11517549077",
 "qtiClass":"object",
 "attributes":{"data":"images\/EDI.png",
 "type":"image\/png",
@@ -132,8 +132,8 @@
 "_alt":"EDI"
 }
 },
-"choice_gapimg_530200e5a5299817355723":{"identifier":"GLA",
-"serial":"choice_gapimg_530200e5a5299817355723",
+"choice_gapimg_534252c8bfb90583696900":{"identifier":"GLA",
+"serial":"choice_gapimg_534252c8bfb90583696900",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"GLA",
 "fixed":false,
@@ -142,7 +142,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a535a051804323",
+"object":{"serial":"object_534252c8bfd49511066437",
 "qtiClass":"object",
 "attributes":{"data":"images\/GLA.png",
 "type":"image\/png",
@@ -152,8 +152,8 @@
 "_alt":"GLA"
 }
 },
-"choice_gapimg_530200e5a546e458745309":{"identifier":"MAN",
-"serial":"choice_gapimg_530200e5a546e458745309",
+"choice_gapimg_534252c8bfeca323931883":{"identifier":"MAN",
+"serial":"choice_gapimg_534252c8bfeca323931883",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"MAN",
 "fixed":false,
@@ -162,7 +162,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5528976277926",
+"object":{"serial":"object_534252c8c00ad873952251",
 "qtiClass":"object",
 "attributes":{"data":"images\/MAN.png",
 "type":"image\/png",
@@ -172,8 +172,8 @@
 "_alt":"MAN"
 }
 },
-"choice_gapimg_530200e5a564a138450700":{"identifier":"MCH",
-"serial":"choice_gapimg_530200e5a564a138450700",
+"choice_gapimg_534252c8c0254158101406":{"identifier":"MCH",
+"serial":"choice_gapimg_534252c8c0254158101406",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"MCH",
 "fixed":false,
@@ -182,7 +182,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5707086273692",
+"object":{"serial":"object_534252c8c0410012486236",
 "qtiClass":"object",
 "attributes":{"data":"images\/MCH.png",
 "type":"image\/png",
@@ -195,7 +195,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a3dbb283481390"
+"debug":{"relatedItem":"item_534252c8bdf01039692891"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -203,8 +203,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a402c694108347":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a402c694108347",
+"outcomes":{"outcomedeclaration_534252c8be2c3879362092":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8be2c3879362092",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -220,8 +220,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a3f39354544545":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a3f39354544545",
+"responses":{"responsedeclaration_534252c8be13a724609421":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8be13a724609421",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",
@@ -243,14 +243,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5a6336029047377",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8c12f3067589393",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"graphicGapfill",
-"serial":"item_530200e5a3dbb283481390",
+"serial":"item_534252c8bdf01039692891",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"graphicGapfill",
 "title":"Airport Tags",
@@ -261,16 +261,16 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a3da5263343961",
-"body":"\n\t\t<p>The International Air Transport Association assigns three-letter codes to identify\n\t\t\tairports worldwide. For example, London Heathrow has code LHR.<\/p>\n\t\t{{interaction_graphicgapmatchinteraction_530200e5a42fa269600095}}\n\t",
-"elements":{"interaction_graphicgapmatchinteraction_530200e5a42fa269600095":{"identifier":"Interaction_1",
-"serial":"interaction_graphicgapmatchinteraction_530200e5a42fa269600095",
+"body":{"serial":"container_containeritembody_534252c8bde62792356876",
+"body":"\n\t\t<p>The International Air Transport Association assigns three-letter codes to identify\n\t\t\tairports worldwide. For example, London Heathrow has code LHR.<\/p>\n\t\t{{interaction_graphicgapmatchinteraction_534252c8be6a9010021235}}\n\t",
+"elements":{"interaction_graphicgapmatchinteraction_534252c8be6a9010021235":{"identifier":"Interaction_1",
+"serial":"interaction_graphicgapmatchinteraction_534252c8be6a9010021235",
 "qtiClass":"graphicGapMatchInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE"
 },
-"choices":{"choice_associablehotspot_530200e5a5851297492419":{"identifier":"A",
-"serial":"choice_associablehotspot_530200e5a5851297492419",
+"choices":{"choice_associablehotspot_534252c8c05b1837361029":{"identifier":"A",
+"serial":"choice_associablehotspot_534252c8c05b1837361029",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -282,8 +282,8 @@
 "coords":"12,108,39,121"
 }
 },
-"choice_associablehotspot_530200e5a592d383410354":{"identifier":"B",
-"serial":"choice_associablehotspot_530200e5a592d383410354",
+"choice_associablehotspot_534252c8c0711007536751":{"identifier":"B",
+"serial":"choice_associablehotspot_534252c8c0711007536751",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -295,8 +295,8 @@
 "coords":"128,103,155,126"
 }
 },
-"choice_associablehotspot_530200e5a5a18186500549":{"identifier":"C",
-"serial":"choice_associablehotspot_530200e5a5a18186500549",
+"choice_associablehotspot_534252c8c0866838084921":{"identifier":"C",
+"serial":"choice_associablehotspot_534252c8c0866838084921",
 "qtiClass":"associableHotspot",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -309,13 +309,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a43d1551413107",
+"prompt":{"serial":"container_containerstatic_534252c8be89e398880948",
 "body":"Some of the labels on the following diagram are missing: can you identify the\n\t\t\t\tcorrect three-letter codes for the unlabelled airports?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a3dbb283481390"
+"debug":{"relatedItem":"item_534252c8bdf01039692891"
 }
 },
-"object":{"serial":"object_530200e5a5af8507644354",
+"object":{"serial":"object_534252c8c09e2227401749",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukairtags.png",
 "type":"image\/png",
@@ -323,8 +323,8 @@
 "height":280
 }
 },
-"gapImgs":{"choice_gapimg_530200e5a4c28742655284":{"identifier":"CBG",
-"serial":"choice_gapimg_530200e5a4c28742655284",
+"gapImgs":{"choice_gapimg_534252c8bf0d0536284791":{"identifier":"CBG",
+"serial":"choice_gapimg_534252c8bf0d0536284791",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"CBG",
 "fixed":false,
@@ -333,7 +333,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a4d8e333514125",
+"object":{"serial":"object_534252c8bf372424794551",
 "qtiClass":"object",
 "attributes":{"data":"images\/CBG.png",
 "type":"image\/png",
@@ -343,8 +343,8 @@
 "_alt":"CBG"
 }
 },
-"choice_gapimg_530200e5a4ecc624477470":{"identifier":"EBG",
-"serial":"choice_gapimg_530200e5a4ecc624477470",
+"choice_gapimg_534252c8bf514566293578":{"identifier":"EBG",
+"serial":"choice_gapimg_534252c8bf514566293578",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"EBG",
 "fixed":false,
@@ -353,7 +353,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a4f98037872199",
+"object":{"serial":"object_534252c8bf6d2084282459",
 "qtiClass":"object",
 "attributes":{"data":"images\/EBG.png",
 "type":"image\/png",
@@ -363,8 +363,8 @@
 "_alt":"EBG"
 }
 },
-"choice_gapimg_530200e5a50b6590779385":{"identifier":"EDI",
-"serial":"choice_gapimg_530200e5a50b6590779385",
+"choice_gapimg_534252c8bf852159283864":{"identifier":"EDI",
+"serial":"choice_gapimg_534252c8bf852159283864",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"EDI",
 "fixed":false,
@@ -373,7 +373,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5182141353965",
+"object":{"serial":"object_534252c8bfa11517549077",
 "qtiClass":"object",
 "attributes":{"data":"images\/EDI.png",
 "type":"image\/png",
@@ -383,8 +383,8 @@
 "_alt":"EDI"
 }
 },
-"choice_gapimg_530200e5a5299817355723":{"identifier":"GLA",
-"serial":"choice_gapimg_530200e5a5299817355723",
+"choice_gapimg_534252c8bfb90583696900":{"identifier":"GLA",
+"serial":"choice_gapimg_534252c8bfb90583696900",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"GLA",
 "fixed":false,
@@ -393,7 +393,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a535a051804323",
+"object":{"serial":"object_534252c8bfd49511066437",
 "qtiClass":"object",
 "attributes":{"data":"images\/GLA.png",
 "type":"image\/png",
@@ -403,8 +403,8 @@
 "_alt":"GLA"
 }
 },
-"choice_gapimg_530200e5a546e458745309":{"identifier":"MAN",
-"serial":"choice_gapimg_530200e5a546e458745309",
+"choice_gapimg_534252c8bfeca323931883":{"identifier":"MAN",
+"serial":"choice_gapimg_534252c8bfeca323931883",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"MAN",
 "fixed":false,
@@ -413,7 +413,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5528976277926",
+"object":{"serial":"object_534252c8c00ad873952251",
 "qtiClass":"object",
 "attributes":{"data":"images\/MAN.png",
 "type":"image\/png",
@@ -423,8 +423,8 @@
 "_alt":"MAN"
 }
 },
-"choice_gapimg_530200e5a564a138450700":{"identifier":"MCH",
-"serial":"choice_gapimg_530200e5a564a138450700",
+"choice_gapimg_534252c8c0254158101406":{"identifier":"MCH",
+"serial":"choice_gapimg_534252c8c0254158101406",
 "qtiClass":"gapImg",
 "attributes":{"identifier":"MCH",
 "fixed":false,
@@ -433,7 +433,7 @@
 "objectLabel":null,
 "matchMax":"1"
 },
-"object":{"serial":"object_530200e5a5707086273692",
+"object":{"serial":"object_534252c8c0410012486236",
 "qtiClass":"object",
 "attributes":{"data":"images\/MCH.png",
 "type":"image\/png",
@@ -446,7 +446,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a3dbb283481390"
+"debug":{"relatedItem":"item_534252c8bdf01039692891"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -454,8 +454,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a402c694108347":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a402c694108347",
+"outcomes":{"outcomedeclaration_534252c8be2c3879362092":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8be2c3879362092",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -471,8 +471,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a3f39354544545":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a3f39354544545",
+"responses":{"responsedeclaration_534252c8be13a724609421":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8be13a724609421",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"multiple",

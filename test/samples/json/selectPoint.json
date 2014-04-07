@@ -1,5 +1,5 @@
 {"full":{"identifier":"selectPoint",
-"serial":"item_530200e5e2445474378730",
+"serial":"item_534252c921d26932981910",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"selectPoint",
 "title":"Where is Edinburgh?",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5e2430541132904",
-"body":"\n\t\t{{interaction_selectpointinteraction_530200e5e2850251310889}}\n\t",
-"elements":{"interaction_selectpointinteraction_530200e5e2850251310889":{"identifier":"Interaction_1",
-"serial":"interaction_selectpointinteraction_530200e5e2850251310889",
+"body":{"serial":"container_containeritembody_534252c921c91277588542",
+"body":"\n\t\t{{interaction_selectpointinteraction_534252c92227e918875355}}\n\t",
+"elements":{"interaction_selectpointinteraction_534252c92227e918875355":{"identifier":"Interaction_1",
+"serial":"interaction_selectpointinteraction_534252c92227e918875355",
 "qtiClass":"selectPointInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -21,13 +21,13 @@
 "minChoices":0
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5e2949325115189",
+"prompt":{"serial":"container_containerstatic_534252c922491623276537",
 "body":"Mark Edinburgh on this map of the United Kingdom.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5e2445474378730"
+"debug":{"relatedItem":"item_534252c921d26932981910"
 }
 },
-"object":{"serial":"object_530200e5e2f29298593774",
+"object":{"serial":"object_534252c922aef066786015",
 "qtiClass":"object",
 "attributes":{"data":"images\/uk.png",
 "type":"image\/png",
@@ -38,7 +38,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5e2445474378730"
+"debug":{"relatedItem":"item_534252c921d26932981910"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -46,8 +46,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5e26b5639328097":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5e26b5639328097",
+"outcomes":{"outcomedeclaration_534252c922076100388469":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c922076100388469",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -63,8 +63,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5e25d8121778614":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5e25d8121778614",
+"responses":{"responsedeclaration_534252c921f11678056801":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c921f11678056801",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -84,14 +84,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5e3777739064766",
+"responseProcessing":{"serial":"response_templatesdriven_534252c923234883817568",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"selectPoint",
-"serial":"item_530200e5e2445474378730",
+"serial":"item_534252c921d26932981910",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"selectPoint",
 "title":"Where is Edinburgh?",
@@ -102,10 +102,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5e2430541132904",
-"body":"\n\t\t{{interaction_selectpointinteraction_530200e5e2850251310889}}\n\t",
-"elements":{"interaction_selectpointinteraction_530200e5e2850251310889":{"identifier":"Interaction_1",
-"serial":"interaction_selectpointinteraction_530200e5e2850251310889",
+"body":{"serial":"container_containeritembody_534252c921c91277588542",
+"body":"\n\t\t{{interaction_selectpointinteraction_534252c92227e918875355}}\n\t",
+"elements":{"interaction_selectpointinteraction_534252c92227e918875355":{"identifier":"Interaction_1",
+"serial":"interaction_selectpointinteraction_534252c92227e918875355",
 "qtiClass":"selectPointInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -113,13 +113,13 @@
 "minChoices":0
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5e2949325115189",
+"prompt":{"serial":"container_containerstatic_534252c922491623276537",
 "body":"Mark Edinburgh on this map of the United Kingdom.",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5e2445474378730"
+"debug":{"relatedItem":"item_534252c921d26932981910"
 }
 },
-"object":{"serial":"object_530200e5e2f29298593774",
+"object":{"serial":"object_534252c922aef066786015",
 "qtiClass":"object",
 "attributes":{"data":"images\/uk.png",
 "type":"image\/png",
@@ -130,7 +130,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5e2445474378730"
+"debug":{"relatedItem":"item_534252c921d26932981910"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -138,8 +138,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5e26b5639328097":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5e26b5639328097",
+"outcomes":{"outcomedeclaration_534252c922076100388469":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c922076100388469",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -155,8 +155,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5e25d8121778614":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5e25d8121778614",
+"responses":{"responsedeclaration_534252c921f11678056801":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c921f11678056801",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

@@ -1,5 +1,5 @@
 {"full":{"identifier":"hotspot",
-"serial":"item_530200e5a9a5e391715977",
+"serial":"item_534252c8c556c960479771",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"hotspot",
 "title":"UK Airports (Take 1)",
@@ -10,18 +10,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a9a49259068360",
-"body":"\n\t\t<p>The picture illustrates four of the most popular destinations for air travellers arriving\n\t\t\tin the United Kingdom: London, Manchester, Edinburgh and Glasgow.<\/p>\n\t\t{{interaction_hotspotinteraction_530200e5a9ea0377430918}}\n\t",
-"elements":{"interaction_hotspotinteraction_530200e5a9ea0377430918":{"identifier":"Interaction_1",
-"serial":"interaction_hotspotinteraction_530200e5a9ea0377430918",
+"body":{"serial":"container_containeritembody_534252c8c54d6774556984",
+"body":"\n\t\t<p>The picture illustrates four of the most popular destinations for air travellers arriving\n\t\t\tin the United Kingdom: London, Manchester, Edinburgh and Glasgow.<\/p>\n\t\t{{interaction_hotspotinteraction_534252c8c5b69173458177}}\n\t",
+"elements":{"interaction_hotspotinteraction_534252c8c5b69173458177":{"identifier":"Interaction_1",
+"serial":"interaction_hotspotinteraction_534252c8c5b69173458177",
 "qtiClass":"hotspotInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "maxChoices":1,
 "minChoices":0
 },
-"choices":{"choice_hotspotchoice_530200e5aa4fc308115902":{"identifier":"A",
-"serial":"choice_hotspotchoice_530200e5aa4fc308115902",
+"choices":{"choice_hotspotchoice_534252c8c6446716409856":{"identifier":"A",
+"serial":"choice_hotspotchoice_534252c8c6446716409856",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -31,8 +31,8 @@
 "coords":"77,115,8"
 }
 },
-"choice_hotspotchoice_530200e5aa595340176105":{"identifier":"B",
-"serial":"choice_hotspotchoice_530200e5aa595340176105",
+"choice_hotspotchoice_534252c8c6573420891153":{"identifier":"B",
+"serial":"choice_hotspotchoice_534252c8c6573420891153",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -42,8 +42,8 @@
 "coords":"118,184,8"
 }
 },
-"choice_hotspotchoice_530200e5aa633966289138":{"identifier":"C",
-"serial":"choice_hotspotchoice_530200e5aa633966289138",
+"choice_hotspotchoice_534252c8c668e964025594":{"identifier":"C",
+"serial":"choice_hotspotchoice_534252c8c668e964025594",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -53,8 +53,8 @@
 "coords":"150,235,8"
 }
 },
-"choice_hotspotchoice_530200e5aa6c3669862430":{"identifier":"D",
-"serial":"choice_hotspotchoice_530200e5aa6c3669862430",
+"choice_hotspotchoice_534252c8c67a5466898978":{"identifier":"D",
+"serial":"choice_hotspotchoice_534252c8c67a5466898978",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"D",
 "fixed":false,
@@ -65,13 +65,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a9f8f283537583",
+"prompt":{"serial":"container_containerstatic_534252c8c5d97861932472",
 "body":"Which one is Glasgow?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a9a5e391715977"
+"debug":{"relatedItem":"item_534252c8c556c960479771"
 }
 },
-"object":{"serial":"object_530200e5aa764008458711",
+"object":{"serial":"object_534252c8c68ca637692948",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukair.png",
 "type":"image\/png",
@@ -82,7 +82,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a9a5e391715977"
+"debug":{"relatedItem":"item_534252c8c556c960479771"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -90,8 +90,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a9c77958521530":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a9c77958521530",
+"outcomes":{"outcomedeclaration_534252c8c58af533151627":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c58af533151627",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -107,8 +107,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a9bc0937828071":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a9bc0937828071",
+"responses":{"responsedeclaration_534252c8c5773038408024":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c5773038408024",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -124,14 +124,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5aaeb2294650051",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8c7170357592168",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"hotspot",
-"serial":"item_530200e5a9a5e391715977",
+"serial":"item_534252c8c556c960479771",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"hotspot",
 "title":"UK Airports (Take 1)",
@@ -142,18 +142,18 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5a9a49259068360",
-"body":"\n\t\t<p>The picture illustrates four of the most popular destinations for air travellers arriving\n\t\t\tin the United Kingdom: London, Manchester, Edinburgh and Glasgow.<\/p>\n\t\t{{interaction_hotspotinteraction_530200e5a9ea0377430918}}\n\t",
-"elements":{"interaction_hotspotinteraction_530200e5a9ea0377430918":{"identifier":"Interaction_1",
-"serial":"interaction_hotspotinteraction_530200e5a9ea0377430918",
+"body":{"serial":"container_containeritembody_534252c8c54d6774556984",
+"body":"\n\t\t<p>The picture illustrates four of the most popular destinations for air travellers arriving\n\t\t\tin the United Kingdom: London, Manchester, Edinburgh and Glasgow.<\/p>\n\t\t{{interaction_hotspotinteraction_534252c8c5b69173458177}}\n\t",
+"elements":{"interaction_hotspotinteraction_534252c8c5b69173458177":{"identifier":"Interaction_1",
+"serial":"interaction_hotspotinteraction_534252c8c5b69173458177",
 "qtiClass":"hotspotInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
 "maxChoices":1,
 "minChoices":0
 },
-"choices":{"choice_hotspotchoice_530200e5aa4fc308115902":{"identifier":"A",
-"serial":"choice_hotspotchoice_530200e5aa4fc308115902",
+"choices":{"choice_hotspotchoice_534252c8c6446716409856":{"identifier":"A",
+"serial":"choice_hotspotchoice_534252c8c6446716409856",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"A",
 "fixed":false,
@@ -163,8 +163,8 @@
 "coords":"77,115,8"
 }
 },
-"choice_hotspotchoice_530200e5aa595340176105":{"identifier":"B",
-"serial":"choice_hotspotchoice_530200e5aa595340176105",
+"choice_hotspotchoice_534252c8c6573420891153":{"identifier":"B",
+"serial":"choice_hotspotchoice_534252c8c6573420891153",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"B",
 "fixed":false,
@@ -174,8 +174,8 @@
 "coords":"118,184,8"
 }
 },
-"choice_hotspotchoice_530200e5aa633966289138":{"identifier":"C",
-"serial":"choice_hotspotchoice_530200e5aa633966289138",
+"choice_hotspotchoice_534252c8c668e964025594":{"identifier":"C",
+"serial":"choice_hotspotchoice_534252c8c668e964025594",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"C",
 "fixed":false,
@@ -185,8 +185,8 @@
 "coords":"150,235,8"
 }
 },
-"choice_hotspotchoice_530200e5aa6c3669862430":{"identifier":"D",
-"serial":"choice_hotspotchoice_530200e5aa6c3669862430",
+"choice_hotspotchoice_534252c8c67a5466898978":{"identifier":"D",
+"serial":"choice_hotspotchoice_534252c8c67a5466898978",
 "qtiClass":"hotspotChoice",
 "attributes":{"identifier":"D",
 "fixed":false,
@@ -197,13 +197,13 @@
 }
 }
 },
-"prompt":{"serial":"container_containerstatic_530200e5a9f8f283537583",
+"prompt":{"serial":"container_containerstatic_534252c8c5d97861932472",
 "body":"Which one is Glasgow?",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5a9a5e391715977"
+"debug":{"relatedItem":"item_534252c8c556c960479771"
 }
 },
-"object":{"serial":"object_530200e5aa764008458711",
+"object":{"serial":"object_534252c8c68ca637692948",
 "qtiClass":"object",
 "attributes":{"data":"images\/ukair.png",
 "type":"image\/png",
@@ -214,7 +214,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5a9a5e391715977"
+"debug":{"relatedItem":"item_534252c8c556c960479771"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -222,8 +222,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5a9c77958521530":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5a9c77958521530",
+"outcomes":{"outcomedeclaration_534252c8c58af533151627":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8c58af533151627",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -239,8 +239,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5a9bc0937828071":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5a9bc0937828071",
+"responses":{"responsedeclaration_534252c8c5773038408024":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8c5773038408024",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

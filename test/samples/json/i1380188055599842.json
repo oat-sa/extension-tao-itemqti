@@ -1,5 +1,5 @@
 {"full":{"identifier":"i1380188055599842",
-"serial":"item_530200e5d18ce487584158",
+"serial":"item_534252c900396167041227",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"i1380188055599842",
 "title":"media0",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d18b9688857068",
-"body":"\n    <div>\u00a0\u00a0 \u00a0\n{{interaction_selectpointinteraction_530200e5d1d99855396083}}\n\n\u00a0<\/div>\n  ",
-"elements":{"interaction_selectpointinteraction_530200e5d1d99855396083":{"identifier":"Interaction_1",
-"serial":"interaction_selectpointinteraction_530200e5d1d99855396083",
+"body":{"serial":"container_containeritembody_534252c900302788097023",
+"body":"\n    <div>\u00a0\u00a0 \u00a0\n{{interaction_selectpointinteraction_534252c900994874673979}}\n\n\u00a0<\/div>\n  ",
+"elements":{"interaction_selectpointinteraction_534252c900994874673979":{"identifier":"Interaction_1",
+"serial":"interaction_selectpointinteraction_534252c900994874673979",
 "qtiClass":"selectPointInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -21,13 +21,13 @@
 "minChoices":0
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5d1ea1528799326",
+"prompt":{"serial":"container_containerstatic_534252c900be7978414446",
 "body":"",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d18ce487584158"
+"debug":{"relatedItem":"item_534252c900396167041227"
 }
 },
-"object":{"serial":"object_530200e5d1f2e601926555",
+"object":{"serial":"object_534252c900d6f593344288",
 "qtiClass":"object",
 "attributes":{"data":"http:\/\/tao.localdomain\/filemanager\/views\/data\/Human%20Body\/ear.png",
 "type":"image\/png",
@@ -37,7 +37,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d18ce487584158"
+"debug":{"relatedItem":"item_534252c900396167041227"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -45,8 +45,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5d1b3e394633472":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d1b3e394633472",
+"outcomes":{"outcomedeclaration_534252c9006dd982804621":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9006dd982804621",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -62,8 +62,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d1a5f474185297":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d1a5f474185297",
+"responses":{"responsedeclaration_534252c900589450525036":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c900589450525036",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -82,14 +82,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5d26fc544876882",
+"responseProcessing":{"serial":"response_templatesdriven_534252c901568569417878",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"i1380188055599842",
-"serial":"item_530200e5d18ce487584158",
+"serial":"item_534252c900396167041227",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"i1380188055599842",
 "title":"media0",
@@ -100,10 +100,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5d18b9688857068",
-"body":"\n    <div>\u00a0\u00a0 \u00a0\n{{interaction_selectpointinteraction_530200e5d1d99855396083}}\n\n\u00a0<\/div>\n  ",
-"elements":{"interaction_selectpointinteraction_530200e5d1d99855396083":{"identifier":"Interaction_1",
-"serial":"interaction_selectpointinteraction_530200e5d1d99855396083",
+"body":{"serial":"container_containeritembody_534252c900302788097023",
+"body":"\n    <div>\u00a0\u00a0 \u00a0\n{{interaction_selectpointinteraction_534252c900994874673979}}\n\n\u00a0<\/div>\n  ",
+"elements":{"interaction_selectpointinteraction_534252c900994874673979":{"identifier":"Interaction_1",
+"serial":"interaction_selectpointinteraction_534252c900994874673979",
 "qtiClass":"selectPointInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -111,13 +111,13 @@
 "minChoices":0
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5d1ea1528799326",
+"prompt":{"serial":"container_containerstatic_534252c900be7978414446",
 "body":"",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5d18ce487584158"
+"debug":{"relatedItem":"item_534252c900396167041227"
 }
 },
-"object":{"serial":"object_530200e5d1f2e601926555",
+"object":{"serial":"object_534252c900d6f593344288",
 "qtiClass":"object",
 "attributes":{"data":"http:\/\/tao.localdomain\/filemanager\/views\/data\/Human%20Body\/ear.png",
 "type":"image\/png",
@@ -127,7 +127,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5d18ce487584158"
+"debug":{"relatedItem":"item_534252c900396167041227"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -135,8 +135,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5d1b3e394633472":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5d1b3e394633472",
+"outcomes":{"outcomedeclaration_534252c9006dd982804621":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9006dd982804621",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -152,8 +152,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5d1a5f474185297":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5d1a5f474185297",
+"responses":{"responsedeclaration_534252c900589450525036":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c900589450525036",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

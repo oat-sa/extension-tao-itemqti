@@ -1,5 +1,5 @@
 {"full":{"identifier":"mediaTest",
-"serial":"item_530200e5c2560462429878",
+"serial":"item_534252c8e3b43957262845",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"mediaTest",
 "title":"media playing session",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5c254b919112375",
-"body":"\n        {{interaction_mediainteraction_530200e5c2913224023058}}\n    ",
-"elements":{"interaction_mediainteraction_530200e5c2913224023058":{"identifier":"Interaction_1",
-"serial":"interaction_mediainteraction_530200e5c2913224023058",
+"body":{"serial":"container_containeritembody_534252c8e3ab5535571116",
+"body":"\n        {{interaction_mediainteraction_534252c8e4043480780694}}\n    ",
+"elements":{"interaction_mediainteraction_534252c8e4043480780694":{"identifier":"Interaction_1",
+"serial":"interaction_mediainteraction_534252c8e4043480780694",
 "qtiClass":"mediaInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -23,13 +23,13 @@
 "loop":true
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5c2a63347537429",
+"prompt":{"serial":"container_containerstatic_534252c8e42b5883737587",
 "body":"Play it !<br \/>",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5c2560462429878"
+"debug":{"relatedItem":"item_534252c8e3b43957262845"
 }
 },
-"object":{"serial":"object_530200e5c301d331927743",
+"object":{"serial":"object_534252c8e4a5a266583280",
 "qtiClass":"object",
 "attributes":{"data":"http:\/\/tao.localdomain\/filemanager\/views\/data\/media\/echo-hereweare.mp4",
 "type":"video\/mp4",
@@ -39,7 +39,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5c2560462429878"
+"debug":{"relatedItem":"item_534252c8e3b43957262845"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -47,8 +47,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5c2789672364128":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5c2789672364128",
+"outcomes":{"outcomedeclaration_534252c8e3e4b385683843":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8e3e4b385683843",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -64,8 +64,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5c26c8180801319":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5c26c8180801319",
+"responses":{"responsedeclaration_534252c8e3d25629339002":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8e3d25629339002",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -80,14 +80,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5c361a132215484",
+"responseProcessing":{"serial":"response_templatesdriven_534252c8e51a8518113359",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"mediaTest",
-"serial":"item_530200e5c2560462429878",
+"serial":"item_534252c8e3b43957262845",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"mediaTest",
 "title":"media playing session",
@@ -98,10 +98,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5c254b919112375",
-"body":"\n        {{interaction_mediainteraction_530200e5c2913224023058}}\n    ",
-"elements":{"interaction_mediainteraction_530200e5c2913224023058":{"identifier":"Interaction_1",
-"serial":"interaction_mediainteraction_530200e5c2913224023058",
+"body":{"serial":"container_containeritembody_534252c8e3ab5535571116",
+"body":"\n        {{interaction_mediainteraction_534252c8e4043480780694}}\n    ",
+"elements":{"interaction_mediainteraction_534252c8e4043480780694":{"identifier":"Interaction_1",
+"serial":"interaction_mediainteraction_534252c8e4043480780694",
 "qtiClass":"mediaInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -111,13 +111,13 @@
 "loop":true
 },
 "choices":{},
-"prompt":{"serial":"container_containerstatic_530200e5c2a63347537429",
+"prompt":{"serial":"container_containerstatic_534252c8e42b5883737587",
 "body":"Play it !<br \/>",
 "elements":{},
-"debug":{"relatedItem":"item_530200e5c2560462429878"
+"debug":{"relatedItem":"item_534252c8e3b43957262845"
 }
 },
-"object":{"serial":"object_530200e5c301d331927743",
+"object":{"serial":"object_534252c8e4a5a266583280",
 "qtiClass":"object",
 "attributes":{"data":"http:\/\/tao.localdomain\/filemanager\/views\/data\/media\/echo-hereweare.mp4",
 "type":"video\/mp4",
@@ -127,7 +127,7 @@
 }
 }
 },
-"debug":{"relatedItem":"item_530200e5c2560462429878"
+"debug":{"relatedItem":"item_534252c8e3b43957262845"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -135,8 +135,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5c2789672364128":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5c2789672364128",
+"outcomes":{"outcomedeclaration_534252c8e3e4b385683843":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c8e3e4b385683843",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -152,8 +152,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5c26c8180801319":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5c26c8180801319",
+"responses":{"responsedeclaration_534252c8e3d25629339002":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c8e3d25629339002",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",

@@ -1,5 +1,5 @@
 {"full":{"identifier":"textEntry",
-"serial":"item_530200e5f2647913453393",
+"serial":"item_534252c9333bc818983260",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"textEntry",
 "title":"Richard III (Take 3)",
@@ -10,10 +10,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5f2624505148924",
-"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_textentryinteraction_530200e5f2e2f721238378}};<br \/>\n\t\t\t\tAnd all the clouds that lour'd upon our house<br \/> In the deep bosom of the ocean\n\t\t\t\tburied.<\/p>\n\t\t<\/blockquote>\n\t",
-"elements":{"interaction_textentryinteraction_530200e5f2e2f721238378":{"identifier":"Interaction_1",
-"serial":"interaction_textentryinteraction_530200e5f2e2f721238378",
+"body":{"serial":"container_containeritembody_534252c93332b497575592",
+"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_textentryinteraction_534252c9339f8027243050}};<br \/>\n\t\t\t\tAnd all the clouds that lour'd upon our house<br \/> In the deep bosom of the ocean\n\t\t\t\tburied.<\/p>\n\t\t<\/blockquote>\n\t",
+"elements":{"interaction_textentryinteraction_534252c9339f8027243050":{"identifier":"Interaction_1",
+"serial":"interaction_textentryinteraction_534252c9339f8027243050",
 "qtiClass":"textEntryInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -26,7 +26,7 @@
 "choices":{}
 }
 },
-"debug":{"relatedItem":"item_530200e5f2647913453393"
+"debug":{"relatedItem":"item_534252c9333bc818983260"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -34,8 +34,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5f2a5f909565185":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5f2a5f909565185",
+"outcomes":{"outcomedeclaration_534252c9336f9066162360":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9336f9066162360",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -51,8 +51,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5f28df758881102":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5f28df758881102",
+"responses":{"responsedeclaration_534252c9335a3154633255":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c9335a3154633255",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
@@ -70,14 +70,14 @@
 }
 },
 "feedbacks":{},
-"responseProcessing":{"serial":"response_templatesdriven_530200e5f3e62197116683",
+"responseProcessing":{"serial":"response_templatesdriven_534252c9345b6305875083",
 "qtiClass":"responseProcessing",
 "attributes":{},
 "processingType":"templateDriven"
 }
 },
 "core":{"identifier":"textEntry",
-"serial":"item_530200e5f2647913453393",
+"serial":"item_534252c9333bc818983260",
 "qtiClass":"assessmentItem",
 "attributes":{"identifier":"textEntry",
 "title":"Richard III (Take 3)",
@@ -88,10 +88,10 @@
 "toolName":"TAO",
 "toolVersion":"2.6-alpha3"
 },
-"body":{"serial":"container_containeritembody_530200e5f2624505148924",
-"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_textentryinteraction_530200e5f2e2f721238378}};<br \/>\n\t\t\t\tAnd all the clouds that lour'd upon our house<br \/> In the deep bosom of the ocean\n\t\t\t\tburied.<\/p>\n\t\t<\/blockquote>\n\t",
-"elements":{"interaction_textentryinteraction_530200e5f2e2f721238378":{"identifier":"Interaction_1",
-"serial":"interaction_textentryinteraction_530200e5f2e2f721238378",
+"body":{"serial":"container_containeritembody_534252c93332b497575592",
+"body":"\n\t\t<p>Identify the missing word in this famous quote from Shakespeare's Richard III.<\/p>\n\t\t<blockquote>\n\t\t\t<p>Now is the winter of our discontent<br \/> Made glorious summer by this sun of\n\t\t\t\t\t{{interaction_textentryinteraction_534252c9339f8027243050}};<br \/>\n\t\t\t\tAnd all the clouds that lour'd upon our house<br \/> In the deep bosom of the ocean\n\t\t\t\tburied.<\/p>\n\t\t<\/blockquote>\n\t",
+"elements":{"interaction_textentryinteraction_534252c9339f8027243050":{"identifier":"Interaction_1",
+"serial":"interaction_textentryinteraction_534252c9339f8027243050",
 "qtiClass":"textEntryInteraction",
 "attributes":{"identifier":"Interaction_1",
 "responseIdentifier":"RESPONSE",
@@ -104,7 +104,7 @@
 "choices":{}
 }
 },
-"debug":{"relatedItem":"item_530200e5f2647913453393"
+"debug":{"relatedItem":"item_534252c9333bc818983260"
 }
 },
 "namespaces":{"xml":"http:\/\/www.w3.org\/XML\/1998\/namespace",
@@ -112,8 +112,8 @@
 "":"http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
 },
 "stylesheets":{},
-"outcomes":{"outcomedeclaration_530200e5f2a5f909565185":{"identifier":"SCORE",
-"serial":"outcomedeclaration_530200e5f2a5f909565185",
+"outcomes":{"outcomedeclaration_534252c9336f9066162360":{"identifier":"SCORE",
+"serial":"outcomedeclaration_534252c9336f9066162360",
 "qtiClass":"outcomeDeclaration",
 "attributes":{"identifier":"SCORE",
 "cardinality":"single",
@@ -129,8 +129,8 @@
 "scale":null
 }
 },
-"responses":{"responsedeclaration_530200e5f28df758881102":{"identifier":"RESPONSE",
-"serial":"responsedeclaration_530200e5f28df758881102",
+"responses":{"responsedeclaration_534252c9335a3154633255":{"identifier":"RESPONSE",
+"serial":"responsedeclaration_534252c9335a3154633255",
 "qtiClass":"responseDeclaration",
 "attributes":{"identifier":"RESPONSE",
 "cardinality":"single",
