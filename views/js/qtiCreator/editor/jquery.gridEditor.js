@@ -1,9 +1,10 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/gridEditor/draggable',
     'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
-], function($, helper, draggable, resizable) {
+], function($, helper, contentHelper, draggable, resizable) {
 
     'use strict';
 
@@ -114,38 +115,10 @@ define([
         var $content = $el.clone();
         
         destroy($content);
-        prepareNewElements($content);
-        prepareElements($content);
+        
+        contentHelper.serializeElements($content);
         
         return $content.html();
-    }
-    
-    function prepareNewElements($el){
-        
-        $el.find('.widget-box[data-new][data-qti-class]').each(function(){
-            
-            var $newQtiElement = $(this),
-                qtiClass = $newQtiElement.data('qti-class');
-                
-            $newQtiElement.replaceWith('{{' + qtiClass + ':new}}');
-            
-        });
-        
-        return $el;
-    }
-    
-    function prepareElements($el){
-        
-        $el.find('.widget-box[data-serial]').each(function(){
-            
-            var $qtiElementWidget = $(this),
-                serial = $qtiElementWidget.data('serial');
-                
-            $qtiElementWidget.replaceWith('{{' + serial + '}}');
-            
-        });
-        
-        return $el;
     }
 
 });

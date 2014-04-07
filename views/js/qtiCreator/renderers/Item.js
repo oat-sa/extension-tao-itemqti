@@ -12,7 +12,7 @@ define([
         $itemBody.children().each(function(){
             var $child = $(this);
             //must be a grid-row for editing:
-            if(!$itemBody.hasClass('grid-row')){
+            if(!$child.hasClass('grid-row')){
                 $child.wrap('<div class="grid-row"><div class="col-12"></div></div>');
             }
         });

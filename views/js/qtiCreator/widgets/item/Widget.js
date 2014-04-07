@@ -27,10 +27,10 @@ define([
         this.uri = config.uri;
         this.initUiComponents();
 
-        this.initEditor();
-
-//        this.initTextBlockEditor();
-
+//        this.initTextWidget();
+        
+        this.initGridEditor();
+        
         this.debug();
     };
 
@@ -70,7 +70,7 @@ define([
         });
     };
 
-    ItemWidget.initEditor = function() {
+    ItemWidget.initGridEditor = function() {
 
         var item = this.element,
                 $itemBody = this.$container.find('.qti-itemBody');
@@ -134,9 +134,9 @@ define([
 
     };
     
-    //initTextBlockEditor == initSubContainerEditor
+    //initTextWidget == initSubContainerEditor
     
-    ItemWidget.initTextBlockEditor = function() {
+    ItemWidget.initTextWidget = function() {
 
         var _widget = this, i = 0;
 
