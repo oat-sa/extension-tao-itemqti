@@ -99,7 +99,12 @@
         }
     }
 
-    
+    .item-editor-css-editor {
+        select {
+            min-width: 0 !important;
+            width: auto !important
+        }
+    }
     .item-editor-sidebar {
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
@@ -202,6 +207,23 @@
         }
         .incrementer-ctrl {
             top: -3px;
+        }
+        [data-role="font-size-changer"] {
+            text-align:center;
+            padding-top: 5px;
+            span {
+                padding: 0 3px;
+                cursor:pointer
+            }
+            .smaller {
+                @include font-size(12);
+            }
+            .larger {
+                @include font-size(18);
+            }
+        }
+        .color-picker {
+            margin-top: -5px
         }
         .compass {
             position: relative;

@@ -269,6 +269,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope #item-editor-wrapper [class*=" col-"], .tao-scope #item-editor-wrapper [class^="col-"] {
     border: 1px #eee dotted;
     padding: 6px; }
+.tao-scope .item-editor-css-editor select {
+  min-width: 0 !important;
+  width: auto !important; }
 .tao-scope .item-editor-sidebar {
   background: #f2f0ee;
   border-bottom: 1px white solid;
@@ -354,6 +357,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       top: 6px; }
   .tao-scope .item-editor-sidebar .incrementer-ctrl {
     top: -3px; }
+  .tao-scope .item-editor-sidebar [data-role="font-size-changer"] {
+    text-align: center;
+    padding-top: 5px; }
+    .tao-scope .item-editor-sidebar [data-role="font-size-changer"] span {
+      padding: 0 3px;
+      cursor: pointer; }
+    .tao-scope .item-editor-sidebar [data-role="font-size-changer"] .smaller {
+      font-size: 12px;
+      font-size: 1.2rem; }
+    .tao-scope .item-editor-sidebar [data-role="font-size-changer"] .larger {
+      font-size: 18px;
+      font-size: 1.8rem; }
+  .tao-scope .item-editor-sidebar .color-picker {
+    margin-top: -5px; }
   .tao-scope .item-editor-sidebar .compass {
     position: relative;
     width: 100px;
