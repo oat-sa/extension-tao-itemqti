@@ -10,6 +10,7 @@ define(function(){
             'responseProcessing' : 'taoQtiItem/qtiXmlRenderer/renderers/ResponseProcessing',
             '_simpleFeedbackRule' : 'taoQtiItem/qtiXmlRenderer/renderers/responses/SimpleFeedbackRule',
             'math' : 'taoQtiItem/qtiXmlRenderer/renderers/Math',
+            'img' : 'taoQtiItem/qtiXmlRenderer/renderers/Img',
             'object' : 'taoQtiItem/qtiXmlRenderer/renderers/Object',
             'modalFeedback' : 'taoQtiItem/qtiXmlRenderer/renderers/feedbacks/ModalFeedback',
             'rubricBlock' : 'taoQtiItem/qtiXmlRenderer/renderers/RubricBlock',

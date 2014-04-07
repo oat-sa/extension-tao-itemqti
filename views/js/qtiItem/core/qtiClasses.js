@@ -1,5 +1,6 @@
 define([], function(){
     return {
+        '_container' : 'taoQtiItem/qtiItem/core/Container',
         'assessmentItem' : 'taoQtiItem/qtiItem/core/Item',
         'responseProcessing' : 'taoQtiItem/qtiItem/core/ResponseProcessing',
         'stylesheet' : 'taoQtiItem/qtiItem/core/Stylesheet',
