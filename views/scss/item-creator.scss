@@ -98,7 +98,7 @@
             padding: 6px;
         }
     }
-
+    
     .item-editor-css-editor {
         select {
             min-width: 0 !important;
@@ -315,6 +315,9 @@
             -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
             -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
             box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+            [class*=" col-"], [class^="col-"] {
+                position:relative;
+            }
             .widget-box{
                 position:relative;
                 .tlb-bar{

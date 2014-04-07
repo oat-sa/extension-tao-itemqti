@@ -98,7 +98,7 @@ define(['jquery', 'jqueryui'], function($) {
                     _deleteResizables($el);
                     _createResizables($el);
                 }
-            });
+            }).css('position', 'absolute');
 
         });
 
