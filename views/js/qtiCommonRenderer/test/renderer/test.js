@@ -113,6 +113,7 @@ define([
                                     interaction.resetResponse();
                                     interaction.setResponse(response.set ? response.set : response);//assign the given value
                                     _responseEqual(interaction.getResponse(), response.get ? response.get : response);//test the assigned value
+                                    interaction.resetResponse();
                                 });
                             }
 
