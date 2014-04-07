@@ -7,8 +7,6 @@ define([
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
 ], function(_, $, Loader, Element, Renderer, data){
 
-    var CL = console.log;
-
     var _responseEqual = function(actual, expected, ordered){
         ordered = ordered || false;
         var responseStr = JSON.stringify(expected);
@@ -96,7 +94,7 @@ define([
                             try{
                                 item.render({}, $placeholder);
                             }catch(e){
-                                CL('error in template rendering', e);
+                                console.log('error in template rendering', e);
                             }
 
                             //check item container:
@@ -106,7 +104,7 @@ define([
                             try{
                                 item.postRender();
                             }catch(e){
-                                CL('error in post rendering', e);
+                                console.log('error in post rendering', e);
                             }
 
                             if(_.isArray(responses)){
