@@ -3,7 +3,9 @@ define([], function(){
     var contentHelper = {};
 
     contentHelper.serializeElements = function($el){
-
+        
+        var existingElements = [];
+        
         $el.find('.widget-box').each(function(){
 
             var $qtiElementWidget = $(this);
@@ -13,7 +15,8 @@ define([], function(){
                 //an existing qti element:
                 var serial = $qtiElementWidget.data('serial');
                 $qtiElementWidget.replaceWith('{{' + serial + '}}');
-
+                existingElements.push(serial);
+                
             }else if($qtiElementWidget.data('new') && $qtiElementWidget.data('qti-class')){
 
                 //a newly inserted qti element
@@ -25,7 +28,8 @@ define([], function(){
             }
 
         });
-
+        
+        return existingElements;
     };
 
     return contentHelper;

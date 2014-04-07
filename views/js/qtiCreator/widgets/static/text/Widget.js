@@ -13,16 +13,17 @@ define([
 
         this.registerStates(states);
         
-        this.generateSerial();
-        
         this.buildEditor();
     };
     
-    TextWidget.generateSerial = function() {
-
-        this.serial = 'text_widget_serial_1';
-
-        return this;
+    TextWidget.buildContainer = function(){
+        
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box'})
+            .append($('<div>', {'data-html-editable' : true}));
+        
+        this.$original.wrapInner($wrap);
+        
+        this.$container = this.$original.children('.widget-box');
     };
     
     TextWidget.createToolbar = function() {
@@ -39,15 +40,14 @@ define([
 
         var _this = this,
             $editableContainer = this.$container,
-            item = this.element;
+            container = this.element;
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
-
             htmlEditor.buildEditor($editableContainer, {
                 change: function(data) {
-                    $editableContainer.trigger('textChange.qti-edit', [data]);
+                    container.body(data);
                 },
                 focus: function() {
                     _this.changeState('active');

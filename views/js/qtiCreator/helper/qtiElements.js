@@ -107,7 +107,7 @@ define(['jquery', 'lodash'], function($, _){
     'textEntryInteraction' : {'parents' : ['stringInteraction', 'inlineInteraction'], 'qti' : true},
     'extendedTextInteraction' : {'parents' : ['stringInteraction', 'blockInteraction'], 'qti' : true},
     'inlineChoiceInteraction' : {'parents' : ['inlineInteraction'], 'qti' : true},
-    '_text' : {'parents' : ['block'], 'qti' : true}//a pseudo class introduced in TAO
+    '_container' : {'parents' : ['block'], 'qti' : true}//a pseudo class introduced in TAO
   };
 
   QtiElements.cache = {containable : {}, children : {}, parents : {}};
