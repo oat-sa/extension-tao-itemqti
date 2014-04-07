@@ -36,7 +36,7 @@ define(['lodash'], function(_){
                         throw 'invalid response baseType';
                     }
                 }else{
-                    throw 'invalid response cardinality';
+                    throw 'invalid response cardinality, expected '+cardinality+' ('+mappedCardinality+')';
                 }
             }else{
                 throw 'unknown cardinality in the responseDeclaration of the interaction';
