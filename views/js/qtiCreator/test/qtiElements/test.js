@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/core/qtiElements'], function($, _, QtiElements){
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function($, _, QtiElements){
 
     var CL = console.log;
 

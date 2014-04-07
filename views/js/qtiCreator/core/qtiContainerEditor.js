@@ -2,7 +2,7 @@
  * @author Sam <sam@taotesting.com>
  * @requires jquery
  */
-define(['jquery', 'taoQtiItem/qtiCreator/core/qtiElements', 'taoQtiItem/qtiItem/core/Element', 'ckeditor', 'jqueryui'], function($, QtiElements, Element, CKEditor){
+define(['jquery', 'taoQtiItem/qtiCreator/helper/qtiElements', 'taoQtiItem/qtiItem/core/Element', 'ckeditor', 'jqueryui'], function($, QtiElements, Element, CKEditor){
 
     'use strict';
     var CL = console ? console.log : function(){

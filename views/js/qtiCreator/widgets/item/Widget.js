@@ -5,12 +5,12 @@ define([
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/gridEditor/draggable',
+    'taoQtiItem/qtiCreator/editor/gridEditor/draggable',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function($, helpers, Widget, states, Element, creatorRenderer, draggable, xmlRenderer, TextWidget, devTools) {
+], function($, helpers, Widget, states, Element, creatorRenderer, draggable, xmlRenderer, devTools, TextWidget) {
 
     var ItemWidget = Widget.clone();
 

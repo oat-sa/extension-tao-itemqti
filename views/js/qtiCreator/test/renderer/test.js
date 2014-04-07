@@ -32,9 +32,8 @@ define([
                         interaction.attr(attributes);//overwrite attributes for test purpose:
 
                         //append item placeholder and render it:
-                        var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
-                        $('#item-editor-panel h1').text('item identifier : ' + item.id());
-                        $("#item-editor-panel #interaction").append($placeholder);
+                        var $placeholder = $('<div>');
+                        $('#item-editor-panel').append($placeholder);
 
                         var $interactionForm = $('<div>', {'id' : 'qtiCreator-form-interaction', 'class': 'form-container', text : 'interaction form placeholder'});
                         var $choiceForm = $('<div>', {'id' : 'qtiCreator-form-choice', 'class': 'form-container', text : 'choice form placeholder'});

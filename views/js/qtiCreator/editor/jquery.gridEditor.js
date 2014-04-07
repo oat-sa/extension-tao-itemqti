@@ -1,8 +1,8 @@
 define([
     'jquery',
-    'taoQtiItem/qtiCreator/helper/gridEditor/helper',
-    'taoQtiItem/qtiCreator/helper/gridEditor/draggable',
-    'taoQtiItem/qtiCreator/helper/gridEditor/resizable'
+    'taoQtiItem/qtiCreator/editor/gridEditor/helper',
+    'taoQtiItem/qtiCreator/editor/gridEditor/draggable',
+    'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
 ], function($, helper, draggable, resizable) {
 
     'use strict';
