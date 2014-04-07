@@ -2,7 +2,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/rubricBlock/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
-    'taoQtiItem/qtiCreator/editor/htmlEditor'
+    'taoQtiItem/qtiCreator/helper/htmlEditor'
 ], function(Widget, states, toolbarTpl, htmlEditor) {
 
     var RubricBlockWidget = Widget.clone();

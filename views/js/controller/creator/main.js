@@ -6,8 +6,8 @@ define([
     'taoQtiItem/qtiCreator/editor/preparePrint',
     'taoQtiItem/qtiCreator/editor/toggleAppearance',
     'taoQtiItem/qtiCreator/editor/listStyler',
-    'taoQtiItem/qtiCreator/editor/itemLoader',
-    'taoQtiItem/qtiCreator/editor/creatorRenderer'
+    'taoQtiItem/qtiCreator/helper/itemLoader',
+    'taoQtiItem/qtiCreator/helper/creatorRenderer'
 ], function(
         toggleToolDisplay,
         preview,

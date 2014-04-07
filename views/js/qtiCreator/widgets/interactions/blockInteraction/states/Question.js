@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
-    'taoQtiItem/qtiCreator/editor/htmlEditor',
+    'taoQtiItem/qtiCreator/helper/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(stateFactory, Question, htmlEditor, promptToolbarTpl){
 

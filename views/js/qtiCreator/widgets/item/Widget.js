@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/editor/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/draggable',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',

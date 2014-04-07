@@ -2,7 +2,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
-    'taoQtiItem/qtiCreator/editor/htmlEditor',
+    'taoQtiItem/qtiCreator/helper/htmlEditor',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, QuestionState, contentToolbarTpl, htmlEditor, formElement){
 
