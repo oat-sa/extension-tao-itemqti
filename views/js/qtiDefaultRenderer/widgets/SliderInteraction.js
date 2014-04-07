@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'jqueryui', 'css!tao/../css/custom-theme/jquery-ui-1.8.22.custom.css'], function(Widget){
+define(['taoQtiItem/qtiDefaultRenderer/widgets/Widget', 'jqueryui', 'css!tao/../css/custom-theme/jquery-ui-1.8.22.custom'], function(Widget){
 
     var SliderInteraction = Widget.extend({
         render : function(){
