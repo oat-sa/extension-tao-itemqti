@@ -88,11 +88,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return this;
         },
         getAttributes : function(){
-            var attrs = {};
-            for(var name in this.attributes){
-                attrs[name] = this.attributes[name];
-            }
-            return attrs;
+            return _.clone(this.attributes);
         },
         removeAttributes : function(attrNames){
             if(typeof(attrNames) === 'string'){
@@ -202,7 +198,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 defaultData = {
                 'tag' : this.qtiClass,
                 'serial' : this.serial,
-                'attributes' : this.attributes
+                'attributes' : this.getAttributes()
             };
 
             if(!renderer){
@@ -225,13 +221,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 }
             }
             
-            
             tplData = _.merge(defaultData, args.data || {});
-            
-            if(this.qtiClass === 'img'){
-                console.log(defaultData, args.data, tplData, arguments);
-                debugger;
-            }
             tplData = renderer.getData(this, tplData, args.subclass);
             var rendering = renderer.renderTpl(this, tplData, args.subclass);
             if(args.placeholder){
