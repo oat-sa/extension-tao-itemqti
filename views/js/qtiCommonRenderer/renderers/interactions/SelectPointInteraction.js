@@ -23,26 +23,17 @@ define([
     var render = function render(interaction){
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
-        var bgImage;
+     
+        //create the paper
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+            width       : background.width, 
+            height      : background.height,
+            img         : this.getOption('baseUrl') + background.data,
+            imgId       : 'bg-image-' + interaction.serial,
+            container   : $container
+        });
 
-        //TODO change image path
-        if(raphael.type === 'SVG'){
-            interaction.paper = scaleRaphael('graphic-paper-' + interaction.serial, background.width, background.height);
-            bgImage = interaction.paper.image("/taoQtiItem/test/samples/test_base_www/" + background.data, 0, 0, background.width, background.height);
-
-            //scale on creation
-            resizePaper();
-
-            //execute the resize every 100ms when resizing
-            $(window).resize(_.throttle(resizePaper, 100));
-        }else{
-
-            //for VML rendering, we do not scale...
-            interaction.paper = raphael('graphic-paper-' + interaction.serial, background.width, background.height);
-            bgImage = interaction.paper.image("/taoQtiItem/test/samples/test_base_www/" + background.data, 0, 0, background.width, background.height);
-        }
-        bgImage.id = 'bg-image-' + interaction.serial;
-
+        //enable to select the paper to position a target
         _enableSelection(interaction);
 
         //set up the constraints instructions
@@ -67,10 +58,16 @@ define([
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         image.click(function(event){
             var rwidth, rheight, wfactor;
-            var point = {
-                y : event.layerY,
-                x : event.layerX
-            };
+
+            //var position = $container.find('.main-image-box').offset();
+            //console.log(position);
+            //console.log(event.pageX, position.left);
+            //var point = {
+                //y : event.layerY,
+                //x : event.layerX
+            //};
+        
+            var point = graphic.clickPoint($container.find('.main-image-box'), event);
 
             //recalculate point coords in case of scaled image.
             if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
@@ -115,19 +112,38 @@ define([
                 'cursor' : 'pointer',
                 'title' : _('Click again to remove')
             })
-            .hover(
-            function(){
-                this.attr({'fill' : graphic.states.hover.stroke});
+
+
+        //create an invisible rect over the target to ensure path selection
+        var layer = interaction.paper
+            .rect(point.x - 9, point.y - 9, 18, 18)
+            .attr({'fill' :  '#ffffff', opacity : 0, cursor: 'pointer'} )
+            .hover(function(){
+                target.attr({'fill' : graphic.states.hover.stroke});
             }, function(){
-                this.attr({'fill' : graphic.states.success.fill});
+                target.attr({'fill' : graphic.states.success.fill});
             })
             .click(function(){
                 this.remove();
+                target.remove();
                 if(typeof cb === 'function'){
                     cb();
                 }
             });
-        target.data('point', point);
+            //.hover(function(){
+                //graphic.trigger(target, 'mouseover');
+            //}, function(){
+                //graphic.trigger(target, 'mouseout');
+            //})
+            //.click(function(){
+                //this.remove();
+                //graphic.trigger(target, 'click');
+            //});
+
+            
+        
+
+        layer.data('point', point);
 
         if(typeof cb === 'function'){
             cb(target);
@@ -206,10 +222,10 @@ define([
 
         function highlightError(target){
             if(target){
-                graphic.updateElementState(target, 'error');
+                target.attr({'fill' : graphic.states.error.fill});
                 _.delay(function(){
-                    graphic.updateElementState(target, 'success');
-                }, 600);
+                    target.attr({'fill' : graphic.states.success.fill});
+                }, 800);
             }
         }
     };
@@ -261,8 +277,8 @@ define([
                         return {x : value, y : responseValues[index + 1]};
                     }
                 })
-                    .filter(_.isObject)
-                    .forEach(_.partial(_addPoint, interaction));
+                .filter(_.isObject)
+                .forEach(_.partial(_addPoint, interaction));
             }
         }
     };
@@ -285,7 +301,7 @@ define([
         interaction.paper.forEach(function(element){
             var point = element.data('point');
             if(typeof point === 'object'){
-                point.remove();
+                graphic.trigger(element, 'click');
             }
         });
     };

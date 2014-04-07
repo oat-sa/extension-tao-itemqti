@@ -25,26 +25,19 @@ define([
         var $container = Helper.getContainer(interaction);
         var $orderList = $('ul', $container);
         var background = interaction.object.attributes;
-        var bgImage;
 
-        //TODO change image path
-        if(raphael.type === 'SVG'){
-            interaction.paper = scaleRaphael('graphic-paper-' + interaction.serial, background.width, background.height);
-            bgImage = interaction.paper.image("/taoQtiItem/test/samples/test_base_www/" + background.data, 0, 0, background.width, background.height);
-       
-            //scale on creation
-            resizePaper();
-            
-            //execute the resize every 100ms when resizing
-            $(window).resize(_.throttle(resizePaper, 100));
-        } else {
 
-            //for VML rendering, we do not scale...
-            interaction.paper = raphael('graphic-paper-' + interaction.serial, background.width, background.height);
-            bgImage = interaction.paper.image("/taoQtiItem/test/samples/test_base_www/" + background.data, 0, 0, background.width, background.height);
-            $orderList.width( (background.width - 22) + 'px');
-        }
-        bgImage.id = 'bg-image-' + interaction.serial;
+        //create the paper
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+            width       : background.width, 
+            height      : background.height,
+            img         : this.getOption('baseUrl') + background.data,
+            imgId       : 'bg-image-' + interaction.serial,
+            container   : $container,
+            resize      : function(newWidth){
+                $orderList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
+            }
+        });
 
         //create the list of number to order
         _renderOrderList(interaction, $orderList);
@@ -54,19 +47,6 @@ define([
 
         //set up the constraints instructions
         _setInstructions(interaction);
-
-        /**
-         * scale the raphael paper
-         * @private
-         */
-        function resizePaper(){
-            var containerWidth = $container.width();
-            var bgWidth = background.width;
-
-            interaction.paper.changeSize(containerWidth, background.height, false, false);
-            
-            $orderList.width( ((containerWidth < bgWidth ?  containerWidth : bgWidth) - 22) + 'px');
-        }
     };
 
     /**
@@ -78,32 +58,21 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, $orderList, choice){
-        var rElement;
         var shape = choice.attributes.shape;
         var coords = choice.attributes.coords;
 
-        rElement = graphic.createElement(interaction.paper, shape, coords);
-        if(rElement){
-            rElement.id = choice.serial;
-            rElement
-                .attr(graphic.states.basic)
-                .attr('title', __('Select this area'))
-                .hover(
-                  function(){
-                   graphic.updateElementState(this, 'hover'); 
-
-                }, function(){
-                    graphic.updateElementState(this, this.active ? 'active' : 'basic');
-                })
-                .click(function(){
-                    if(this.active){
-                        _unselectShape(interaction.paper, this, $orderList);
-                    } else {
-                        _selectShape(interaction.paper, this, $orderList);
-                    }
-                    Helper.validateInstructions(interaction, { choice : choice });
-                });
-        }
+        var rElement = graphic.createElement(interaction.paper, shape, coords, {
+            id : choice.serial,
+            title : __('Select this area')
+        })
+        .click(function(){
+            if(this.active){
+                _unselectShape(interaction.paper, this, $orderList);
+            } else {
+                _selectShape(interaction.paper, this, $orderList);
+            }
+            Helper.validateInstructions(interaction, { choice : choice });
+        });
     };
 
     /**
@@ -215,15 +184,10 @@ define([
             var text = paper.text(0, 0, number);
             text.hide();
             text.id = 'text-' + number;
-            text.attr({
-                    'fill' : '#ffffff',
-                    'stroke': '#000000',
-                    'stroke-width' : 0.7,
-                    'font-family' : '"Franklin Gothic","Source Sans Pro",sans-serif',
-                    'font-weight': 'bold', 
-                    'font-size' : 24,
-                    'cursor' : 'pointer'
-                });
+            text.attr(_.merge({
+                    'cursor' : 'pointer',   
+                    'title' : __('Remove')
+                }, graphic.states.text));
 
             //clicking the text will has the same effect that clicking the shape: unselect.
             text.click(function(){

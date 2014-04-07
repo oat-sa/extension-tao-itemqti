@@ -27,7 +27,7 @@ define([
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width  : background.width, 
             height : background.height,
-            img : "/taoQtiItem/test/samples/test_base_www/" + background.data,      //TODO path 
+            img : this.getOption('baseUrl') + background.data,
             container : $container
         });
 
@@ -157,7 +157,7 @@ define([
                     graphic.updateElementState(rElement, 'error');
                     _.delay(function(){
                         graphic.updateElementState(rElement, 'active');
-                    }, 600);
+                    }, 800);
                 }
             }
         }

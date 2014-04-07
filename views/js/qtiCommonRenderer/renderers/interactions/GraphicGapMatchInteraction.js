@@ -26,11 +26,11 @@ define([
 
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
-            width  : background.width, 
-            height : background.height,
-            img : "/taoQtiItem/test/samples/test_base_www/" + background.data,      //TODO path 
-            container : $container,
-            resize : function(newWidth){
+            width       : background.width, 
+            height      : background.height,
+            img         : this.getOption('baseUrl') + background.data,
+            container   : $container,
+            resize      : function(newWidth){
                 $gapList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
             } 
         });
@@ -40,9 +40,6 @@ define([
 
         //create the list of gap images
         _renderGapList(interaction, $gapList);
-
-        //set up the constraints instructions
-        _setInstructions(interaction);
     };
 
 
@@ -71,7 +68,6 @@ define([
             // check if can make the shape selectable on click
             if(_isMatchable(this) && this.selectable === true){ 
                 _selectShape(interaction, this);
-                Helper.validateInstructions(interaction, { choice : choice });
             }
         });
     };
@@ -160,11 +156,19 @@ define([
                     } else {
                         //update the element matching array
                         element.data('matching', _.remove(element.data('matching') || [], this.data('identifier')));
-
+                        
+                        //delete interaction.gapFillers[interaction.gapFillers.indexOf(gapFiller)];
+                        interaction.gapFillers = _.reject(interaction.gapFillers, gapFiller);
+                        
                         //and remove the filler
                         gapFiller.remove();
                     }
                 });
+            
+            if(!interaction.gapFillers){
+                interaction.gapFillers = [];
+            }
+            interaction.gapFillers.push(gapFiller); 
 
             //then reset the state of the shapes and the gap images
             _shapesUnSelectable(interaction);
@@ -178,12 +182,23 @@ define([
      * @param {Object} interaction
      */
     var _shapesSelectable = function _shapesSelectable(interaction){
+
+        var tooltip = __('Select the area to add an image');
+        
+        //update the shape state
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(_isMatchable(element)){
                 element.selectable = true;
-                graphic.updateElementState(element, 'selectable', __('Select the area to add the image'));
+                graphic.updateElementState(element, 'selectable', tooltip);
             }
+        });
+        
+        //update the gap images tooltip
+        _.forEach(interaction.gapFillers, function(gapFiller){
+            gapFiller.forEach(function(element){
+                graphic.updateTitle(element, tooltip);
+            });
         });
     };
 
@@ -197,8 +212,15 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(element){
                 element.selectable = false;
-                graphic.updateElementState(element, 'basic');
+                graphic.updateElementState(element, 'basic', __('Select an image first'));
             }
+        });
+       
+        //update the gap images tooltip
+        _.forEach(interaction.gapFillers, function(gapFiller){
+            gapFiller.forEach(function(element){
+                graphic.updateTitle(element, __('Remove'));
+            });
         });
     };
 
@@ -219,112 +241,25 @@ define([
         return matchable;
     }; 
 
-    /** 
-     * Set the instructions regarding the constrains (here min and maxChoices.
-     * @private
+    /**
+     * Get the responses from the interaction
+     * @private 
      * @param {Object} interaction
+     * @returns {Array} of matches
      */
-    var _setInstructions = function _setInstructions(interaction){
-
-        var min = interaction.attr('minChoices'),
-            max = interaction.attr('maxChoices'),
-            choiceCount = _.size(interaction.getChoices()),
-            minInstructionSet = false,
-            msg;
-    
-
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 0 && max < choiceCount){
-
-            if(max === min){
-                minInstructionSet = true;
-                msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
-
-                Helper.appendInstruction(interaction, msg, function(data){
-                    
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    highlightError(data.choice);
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-
-            } else if(max > min){
-                msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                Helper.appendInstruction(interaction, msg, function(data){
-
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    highlightError(data.choice);
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }
-        }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
-            msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
-                }
-            });
-        }
-
-        function highlightError(choice){
-            var rElement;
-            if(choice && choice.serial){
-                rElement = interaction.paper.getById(choice.serial);
-                if(rElement.active){
-                    graphic.updateElementState(rElement, 'error');
-                    _.delay(function(){
-                        graphic.updateElementState(rElement, 'active');
-                    }, 600);
-                }
-            }
-        }
-    };
-   
     var _getRawResponse = function _getRawResponse(interaction){
-        
-       return _(interaction.getChoices())
-        .map(function(choice){
-            var rElement = interaction.paper.getById(choice.serial);
-            return (rElement && rElement.active === true) ? choice.attributes.identifier : false;
-       })
-        .filter(_.isString)
-        .value();
+        var pairs = [];    
+    
+       _.forEach(interaction.getChoices(), function(choice){
+            var element = interaction.paper.getById(choice.serial);
+            if(element && _.isArray(element.data('matching'))){
+                _.forEach(element.data('matching'), function(match){
+                    pairs.push([choice.attributes.identifier, match]);
+                });
+            } 
+       });
+
+       return pairs;
     };
  
     /**
@@ -342,21 +277,25 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
+        var $container = Helper.getContainer(interaction);
         var responseValues;
         if(response && interaction.paper){
-
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
-            } catch(e){}
+            } catch(e){ }
             
             if(_.isArray(responseValues)){
+    
                 _.forEach(interaction.getChoices(), function(choice){
-                    var rElement;
-                    if(_.contains(responseValues, choice.attributes.identifier)){
-                        rElement = interaction.paper.getById(choice.serial);
-                        rElement.active = true;
-                        graphic.updateElementState(rElement, 'active', __('Click again to remove')); 
+                    var element = interaction.paper.getById(choice.serial);
+                    if(element){
+                        _.forEach(responseValues, function(pair){
+                            var index = _.indexOf(pair, choice.attributes.identifier);
+                            if(index > -1 && pair.length === 2){
+                                $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
+                                _selectShape(interaction, element);                  
+                            }
+                        });
                     }
                 });
             }
@@ -378,11 +317,13 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
-        _.forEach(interaction.getChoices(), function(choice){
-            var rElement = interaction.paper.getById(choice.serial);
-            delete rElement.active;
-            graphic.updateElementState(rElement, 'default'); 
-        });
+        var $container = Helper.getContainer(interaction);
+        
+        _shapesUnSelectable(interaction);
+
+        _.forEach(interaction.gapFillers, function(gapFiller){
+            graphic.trigger(gapFiller.items[0], 'click');
+        }); 
     };
 
 
@@ -415,6 +356,6 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResonse : resetResponse
+        resetResponse : resetResponse
     };
 });

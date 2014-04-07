@@ -55,6 +55,14 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             image : {
                 'cursor' : 'pointer'
             }
+        },
+        'text' : {
+            'fill' : '#ffffff',
+            'stroke': '#000000',
+            'stroke-width' : 0.7,
+            'font-family' : 'sans-serif',
+            'font-weight': 'bold', 
+            'font-size' : 22,
         }
     };
 
@@ -164,15 +172,18 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
         states : states,
  
         responsivePaper : function(id, options){
-            var paper;
+            var paper, image;
             var $container = options.container || $('#' + id).parent();
             var width = parseInt(options.width || $container.width(), 10);
             var height = parseInt(options.height || $container.height(), 10);
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
     
             paper = factory.call(null ,id, width, height);
-            paper.image(options.img, 0, 0, width, height);
-               
+            image = paper.image(options.img, 0, 0, width, height);
+            if(options.imgId){
+                image.id = options.imgId;
+            }               
+
             if(raphael.type === 'SVG'){ 
                 
                 //scale on creation
@@ -183,6 +194,7 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
 
             } else {
                 paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+                $container.find('.main-image-box').width(width);
                 if(typeof options.resize === 'function'){
                     options.resize(width);
                 }
@@ -231,7 +243,8 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
                     if(options.title){
                         element.attr('title', options.title);
                     }
-                    element.attr(states.basic);
+                    element.attr(states.basic)
+                            .toFront();
                     if(options.hover !== false){
                       element.hover(function(){
                             self.updateElementState(this, 'hover'); 
@@ -372,6 +385,26 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
                 left : ((cw - pw) / 2), 
                 top : ((ch - ph) / 2) 
             };
+        },
+
+        clickPoint : function($container, event){
+            var x, y, offset; 
+        
+            if(event.layerX || event.layerY){           
+                x = event.layerX;
+                y = event.layerY;
+           } else {
+                offset = $container.offset();
+                 if (event.pageX || event.pageY) {
+                    x = event.pageX - offset.left;
+                    y = event.pageY - offset.top;
+                } else if (event.clientX || event.clientY) {
+                    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - offset.left;
+                    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - offset.top;
+                }
+            }
+
+            return { x : x, y : y };
         },
 
         /**
