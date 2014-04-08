@@ -15,6 +15,16 @@
         min-height: 20px;
         display: inline-block;
         &.empty {
+            min-height: 20px;
+        }
+        .remove {
+            float: right;
+        }
+    }
+    .choice-area {
+        .deactivated {
+            cursor: default;
+            opacity: 0.2;
         }
     }
 }

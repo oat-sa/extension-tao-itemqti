@@ -61,7 +61,7 @@ define([
     };
     
     var getGap = function(interaction, identifier){
-        return Helper.getContainer(interaction).find('.qti_flow_container [data-identifier=' + identifier + ']');
+        return Helper.getContainer(interaction).find('.qti-flow-container [data-identifier=' + identifier + ']');
     };
 
     /**
@@ -75,7 +75,7 @@ define([
         
         var $container = Helper.getContainer(interaction),
             $choiceArea = $container.find('.choice-area'),
-            $flowContainer = $container.find('.qti_flow_container'),
+            $flowContainer = $container.find('.qti-flow-container'),
             $activeChoice = null;
 
         var _getChoice = function(serial){

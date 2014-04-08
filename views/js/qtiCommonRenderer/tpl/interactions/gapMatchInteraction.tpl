@@ -4,5 +4,5 @@
         {{#choices}}{{{.}}}{{/choices}}
     </ul>
     <div class="instruction-container"></div>
-    <div class="qti_flow_container">{{{body}}}</div>
+    <div class="qti-flow-container">{{{body}}}</div>
 </div>

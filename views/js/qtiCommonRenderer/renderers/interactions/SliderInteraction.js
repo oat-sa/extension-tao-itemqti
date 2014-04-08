@@ -9,7 +9,7 @@ define([
     'use strict';
 
     var _slideTo = function(options){
-        options.sliderCurrentValue.find('.qti_slider_cur_value').text(options.value);
+        options.sliderCurrentValue.find('.qti-slider-cur-value').text(options.value);
         options.sliderValue.val(options.value);
     };
 
@@ -24,10 +24,10 @@ define([
 
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
-            $el = $('<div />').attr({'id' : attributes.identifier + '_qti_slider'}), //slider element
-        $sliderLabels = $('<div />').attr({'id' : attributes.identifier + 'qti_slider_values', 'class' : 'qti_slider_values'}),
-        $sliderCurrentValue = $('<div />').attr({'id' : attributes.identifier + '_qti_slider_cur_value'}), //show the current selected value
-        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.identifier + '_qti_slider_value'}); //the input that always holds the slider value
+            $el = $('<div />').attr({'id' : attributes.identifier + '-qti-slider'}), //slider element
+        $sliderLabels = $('<div />').attr({'class' : 'qti-slider-values'}),
+        $sliderCurrentValue = $('<div />').attr({'id' : attributes.identifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
+        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.identifier + '-qti-slider-value'}); //the input that always holds the slider value
 
         //getting the options
         var orientation = 'horizontal',
@@ -38,11 +38,11 @@ define([
             steps = (max - min) / step; //number of the steps
 
         //add the containers
-        $sliderCurrentValue.append('<span class="qti_slider_cur_value_text">Current value: </span>')
-            .append('<span class="qti_slider_cur_value"></span>');
+        $sliderCurrentValue.append('<span class="qti-slider-cur-value-text">Current value: </span>')
+            .append('<span class="qti-slider-cur-value"></span>');
 
-        $sliderLabels.append('<span class="slider_min">' + (!reverse ? min : max) + '</span>')
-            .append('<span class="slider_max">' + (!reverse ? max : min) + '</span>');
+        $sliderLabels.append('<span class="slider-min">' + (!reverse ? min : max) + '</span>')
+            .append('<span class="slider-max">' + (!reverse ? max : min) + '</span>');
 
         interaction.getContainer().append($el)
             .append($sliderLabels)
@@ -57,14 +57,14 @@ define([
         var sliderSize = 0;
 
         if(orientation === 'horizontal'){
-            $container.addClass('qti_slider_horizontal');
+            $container.addClass('qti-slider-horizontal');
         }else{
             var maxHeight = 300;
             sliderSize = steps * 20;
             if(sliderSize > maxHeight){
                 sliderSize = maxHeight;
             }
-            $container.addClass('qti_slider_vertical');
+            $container.addClass('qti-slider-vertical');
             $el.height(sliderSize + 'px');
             $sliderLabels.height(sliderSize + 'px');
         }
@@ -76,9 +76,9 @@ define([
                 middleValue = reverse ? max - (middleStep * step) : min + (middleStep * step);
 
             if(orientation === 'horizontal'){
-                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="left:' + leftOffset + '%">' + middleValue + '</span>');
+                $sliderLabels.find('.slider-min').after('<span class="slider-middle" style="left:' + leftOffset + '%">' + middleValue + '</span>');
             }else{
-                $sliderLabels.find('.slider_min').after('<span class="slider_middle" style="top:' + leftOffset + '%">' + middleValue + '</span>');
+                $sliderLabels.find('.slider-min').after('<span class="slider-middle" style="top:' + leftOffset + '%">' + middleValue + '</span>');
             }
 
         }
@@ -114,9 +114,9 @@ define([
 
     var resetResponse = function(interaction){
         var attributes = interaction.getAttributes(),
-            $el = $('#' + attributes.identifier + '_qti_slider'),
-            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value'),
-            $sliderCurrentValue = $('#' + attributes.identifier + '_qti_slider_cur_value'),
+            $el = $('#' + attributes.identifier + '-qti-slider'),
+            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value'),
+            $sliderCurrentValue = $('#' + attributes.identifier + '-qti-slider-cur-value'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             reverse = typeof attributes.reverse !== 'undefined' && attributes.reverse ? true : false,
@@ -145,9 +145,9 @@ define([
      */
     var setResponse = function(interaction, response){
         var attributes = interaction.getAttributes(),
-            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value'),
-            $sliderCurrentValue = $('#' + attributes.identifier + '_qti_slider_cur_value'),
-            $el = $('#' + attributes.identifier + '_qti_slider'),
+            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value'),
+            $sliderCurrentValue = $('#' + attributes.identifier + '-qti-slider-cur-value'),
+            $el = $('#' + attributes.identifier + '-qti-slider'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             value;
@@ -169,7 +169,7 @@ define([
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             min = parseInt(attributes.lowerBound),
-            $sliderValue = $('#' + attributes.identifier + '_qti_slider_value');
+            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value');
 
         if(baseType === 'integer'){
             value = parseInt($sliderValue.val());

@@ -4,7 +4,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n',
-    'select2'
+    'select2',
+    'tooltipster'
 ], function(_, tpl, Helper, pciResponse, __){
 
     /**
@@ -27,7 +28,8 @@ define([
      */
     var render = function(interaction, options){
         
-        var opts = _.clone(_defaultOptions);
+        var opts = _.clone(_defaultOptions),
+            required = !!interaction.attr('required');
         _.extend(opts, options);
         
         var $container = Helper.getContainer(interaction);
@@ -43,17 +45,38 @@ define([
             placeholder : opts.placeholderText,
             minimumResultsForSearch : -1
         });
-        
-        $container.on('change', function(){
-            Helper.triggerResponseChangeEvent(interaction);
-        });
+
+        var $el = $container.select2('container');
         
         _setInstructions(interaction);
+           
+        $container.on('change', function(){
+            if(required && $container.val() !== "") {
+                $el.tooltipster('hide');
+            }
+            Helper.triggerResponseChangeEvent(interaction);
+        });
     };
 
     var _setInstructions = function(interaction){
 
-        var required = !!interaction.attr('required');
+        var required = !!interaction.attr('required'),
+            $container = interaction.getContainer(),
+            $el = $container.select2('container');
+    
+        if(required){
+            //set up the tooltip plugin for the input
+            $el.tooltipster({
+                theme: 'tao-error-tooltip',
+                content: __('A choice must be selected'),
+                delay: 350,
+                trigger: 'custom'
+            });
+            
+            if($container.val() === "") {
+                $el.tooltipster('show');
+            }
+        }
 
     };
 

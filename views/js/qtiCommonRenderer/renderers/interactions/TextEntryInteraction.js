@@ -3,8 +3,10 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'polyfill/placeholders'
-], function(_, tpl, Helper, pciResponse){
+    'i18n',
+    'polyfill/placeholders',
+    'tooltipster'
+], function(_, tpl, Helper, pciResponse, __){
     'use strict';
 
     /**
@@ -14,13 +16,25 @@ define([
      * @returns {undefined}
      */
     var _setPattern = function($element, pattern){
-        var patt = new RegExp('^' + pattern + '$');
+        var patt = new RegExp('^' + pattern + '$'),
+            patternSupported = ('pattern' in document.createElement('input'));
 
+        $element.attr('pattern', pattern);
         //test when some data is entering in the input field
         $element.on('keyup', function(){
             $element.removeClass('field-error');
             if(!patt.test($element.val())){
-                $element.addClass('field-error');
+                /*
+                 * checking if pattern attribute is not supported of the browser 
+                 * or if the browser is safari(bug with pattern attribute support)
+                 * 
+                 */
+                if(!patternSupported || navigator.userAgent.match(/Safari/i)){
+                    $element.addClass('field-error');
+                }
+                $element.tooltipster('show');
+            } else {
+                $element.tooltipster('hide');
             }
         });
     };
@@ -43,18 +57,15 @@ define([
 
         //checking if there's a pattern mask for the input
         if(attributes.patternMask){
-            var patternSupported = ('pattern' in document.createElement('input'));
+            //set up the tooltip plugin for the input
+            $el.tooltipster({
+                theme: 'tao-error-tooltip',
+                content: __('Invalid pattern'),
+                delay: 350,
+                trigger: 'custom'
+            });
 
-            /*
-             * checking if pattern attribute is not supported of the browser 
-             * or if the browser is safari(bug with pattern attribute support)
-             * 
-             */
-            if(!patternSupported || navigator.userAgent.match(/Safari/i)){
-                _setPattern($el, attributes.patternMask);
-            }else{
-                $el.attr('pattern', attributes.patternMask);
-            }
+            _setPattern($el, attributes.patternMask);
         }
 
         //checking if there's a placeholder for the input
