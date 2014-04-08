@@ -11,11 +11,14 @@ define([
 
 	var _response = { "base" : null };
 	
-    var _setInstructions = function(interaction) {
-
-    };
+	var _initialInstructions = __('Browse your computer and select the appropriate file.');
+	
+	var _readyInstructions = __('The selected file is ready to be sent.');
     
     var _handleSelectedFiles = function(interaction, file) {
+    	Helper.removeInstructions(interaction);
+    	Helper.appendInstruction(interaction, _initialInstructions);
+    	
     	var $container = Helper.getContainer(interaction);
         
         // Show information about the processed file to the candidate.
@@ -32,6 +35,12 @@ define([
         // Update file processing progress.
         
         reader.onload = function (e) {
+        	Helper.removeInstructions(interaction);
+        	Helper.appendInstruction(interaction, _readyInstructions, function() {
+        		this.setLevel('success');
+        	});
+        	Helper.validateInstructions(interaction);
+        	
         	$container.find('.progressbar').progressbar({
         		value: 100
         	});
@@ -46,6 +55,7 @@ define([
         }
         
         reader.onloadstart = function (e) {
+        	Helper.removeInstructions(interaction);
         	$container.find('.progressbar').progressbar({
         		value: 0
         	});
@@ -78,18 +88,25 @@ define([
     	$container = Helper.getContainer(interaction);
     	_resetGui(interaction);
     	
+    	Helper.appendInstruction(interaction, _initialInstructions);
+    	
     	var changeListener = function (e) {
     		var file = e.target.files[0];
-    		_handleSelectedFiles(interaction, file);
+    		
+    		// Are you really sure something was selected
+    		// by the user... huh? :)
+    		if (typeof(file) !== 'undefined') {
+    			_handleSelectedFiles(interaction, file);
+    		}
     	};
     	
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
-            $container.find('input').bind('change', changeListener);
+            $container.find('input[type="file"]').bind('change', changeListener);
         }
         else {
         	// Nope... :/
-            $container.find('input').fileReader({
+            $container.find('input[type="file"]').fileReader({
     	        id: 'fileReaderSWFObject',
     	        filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
     	        callback: function() {
@@ -97,6 +114,14 @@ define([
     	        }
     	    });
         }
+    	
+    	// IE Specific hack. It prevents the button to slightly
+    	// move on click. Special thanks to Dieter Rabber, OAT S.A.
+    	$container.find('input[type="file"]').bind('mousedown', function(e){
+            e.preventDefault();
+            $(this).blur();
+            return false;
+        }); 
     };
     
     var resetResponse = function(interaction) {
