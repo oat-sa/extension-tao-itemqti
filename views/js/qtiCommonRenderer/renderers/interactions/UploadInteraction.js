@@ -24,7 +24,7 @@ define([
         var filetype = file.type;
         
         $container.find('.file-name').empty()
-        							.append(filename);
+        							 .append(filename);
         
         // Let's read the file to get its base64 encoded content.
         var reader = new FileReader();
@@ -32,6 +32,10 @@ define([
         // Update file processing progress.
         
         reader.onload = function (e) {
+        	$container.find('.progressbar').progressbar({
+        		value: 100
+        	});
+        	
             var base64Data = e.target.result;
             var commaPosition = base64Data.indexOf(',');
             
@@ -49,7 +53,6 @@ define([
         
         reader.onprogress = function (e) {
         	var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-        	
         	$container.find('.progressbar').progressbar({
         		value: percentProgress
         	});
@@ -115,8 +118,9 @@ define([
      */
     var setResponse = function(interaction, response) {
     	$container = Helper.getContainer(interaction);
+    	var filename = (typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file';
     	$container.find('.file-name').empty()
-    								 .text((typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file');
+    								 .text(filename);
     	_response = response;
     };
 

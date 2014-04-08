@@ -15,7 +15,7 @@
             require(['/tao/ClientConfig/config'], function(){
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
-                    var filePlaceholder = { "base" : { "file" : { "data" : "cGxhY2Vob2xkZXJfZGF0YQ==", "mime" : "qti+application/octet-stream", "name" : "myfile.png" } } };
+                    var filePlaceholder = { "base" : { "file" : { "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ==", "mime" : "qti+application/octet-stream", "name" : "myfile.png" } } };
                     Test.testRender('upload', { }, [filePlaceholder]);
                 });
             });

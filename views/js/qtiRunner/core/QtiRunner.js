@@ -119,9 +119,35 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
     QtiRunner.prototype.validate = function(){
 
         var responses = this.getResponses();
-        // store values in context
+        /*
+         * The QTI File datatype makes responses possibly
+         * huge in terms of size. What we do here is that we filter
+         * QTI File datatype values and replace them with appropriate
+         * placeholder to limit the response payload size.
+         */
         for(var key in responses){
-            this.itemApi.setVariable(key, responses[key]);
+        	
+        	var isFile = false;
+        	
+        	// Look for the basetype of the value.
+        	// Is it a QTI File datatype?
+        	if (typeof(responses[key].base) != 'undefined') {
+        		
+        		for (property in responses[key].base) {
+        			
+        			if (property === 'file') {
+        				var file = responses[key].base.file;
+        				// QTI File found! Replace it with an appropriate placeholder.
+        				// The data is base64('qti_file_datatype_placeholder_data')
+        				this.itemApi.setVariable(key, { "base": { "file":  { "name": file.name, "mime": 'qti+application/octet-stream', "data": "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ==" } } });
+        				isFile = true;
+        			}
+        		}
+        	}
+        	
+        	if (isFile == false) {
+        		this.itemApi.setVariable(key, responses[key]);
+        	}
         }
 
         // submit answers
