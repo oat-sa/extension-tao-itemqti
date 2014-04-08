@@ -16,16 +16,14 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
                 }
             }
         }, 'otherActive');
-
-        //show toolbar, ok button
-//        _widget.$container.find('[data-edit=active]').show();//no longer required
+        
+        _widget.$container.addClass('edit-active');
         
     },function(){
         
         var _widget = this.widget;
-
-        //disable/destroy editor, hide mini-toolbar
-//        _widget.$container.find('[data-edit=active]').hide();//no longer required
+        
+        _widget.$container.removeClass('edit-active');
         
         _widget.offEvents('otherActive');
     });

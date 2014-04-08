@@ -3,6 +3,13 @@
 
 @import "inc/farbtastic";
 
+%editHover {
+    border:1px solid whiten($info, .5);
+    cursor:pointer;
+}
+%editActive {
+    border:1px solid whiten($info, .5);
+}
 
 .tao-scope {
     // the icon creator specific part
@@ -319,6 +326,7 @@
                 position:relative;
             }
             .widget-box{
+                border : 1px solid transparent;
                 position:relative;
                 .tlb-bar{
                     z-index:99;
@@ -334,6 +342,23 @@
                 .float-space-bottom.cke_nose{
                     display:block;
                     top: -6px;
+                }
+                .qti-choice{
+                    border:1px solid transparent;
+                }
+                &:hover{
+                    @extend %editHover;
+                }
+                &.edit-active{
+                    @extend %editActive;
+                    .qti-choice{//question mode instead
+                        &:hover{
+                            @extend %editHover;
+                        }
+                        &.edit-active{
+                            @extend %editActive;
+                        }
+                    }
                 }
             }
             .widget-box-placeholder{

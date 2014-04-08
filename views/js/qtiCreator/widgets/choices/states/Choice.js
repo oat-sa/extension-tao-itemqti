@@ -18,10 +18,17 @@ define([
         
         //add options form
         this.addOptionForm();
-
+        
+        //add active highlight
+        this.widget.$container.addClass('edit-active');
+        
     }, function(){
         
         this.widget.$form.empty();
+        
+        //remove hover outline box display
+        //remove active highlight
+        this.widget.$container.removeClass('edit-active');
     });
 
     SimpleChoiceStateChoice.prototype.addOptionForm = function(){
