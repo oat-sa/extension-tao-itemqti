@@ -30,23 +30,33 @@ define(['lodash'], function(_){
 
         if(init && exit){
             State.prototype.init = function(){
+                
                 if(this.widget.$container.data('edit') === name){
                     this.widget.$container.show();
                 }
-                this.widget.$container.find('[data-edit="'+name+'"]').show();
-                this.widget.$container.addClass('edit-'+name);
+                
+                var $container = this.widget.$container;
+                $container.find('[data-edit="' + name + '"]').filter(function(){
+                    var $parentWidget = $(this).closest('.widget-box');
+                    if($parentWidget.length && $parentWidget[0] === $container[0]){
+                        return true;
+                    }
+                    return false;
+                }).show();
+
+                this.widget.$container.addClass('edit-' + name);
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
                 init.call(this);
                 $(document).trigger('afterStateInit.qti-widget', [this.widget.element, this]);
             };
             State.init = init;//store reference for future usage
-            
+
             State.prototype.exit = function(){
                 if(this.widget.$container.data('edit') === name){
                     this.widget.$container.hide();
                 }
-                this.widget.$container.find('[data-edit="'+name+'"]').hide();
-                this.widget.$container.removeClass('edit-'+name);
+                this.widget.$container.find('[data-edit="' + name + '"]').hide();
+                this.widget.$container.removeClass('edit-' + name);
                 $(document).trigger('beforeStateExit.qti-widget', [this.widget.element, this]);
                 exit.call(this);
                 $(document).trigger('afterStateExit.qti-widget', [this.widget.element, this]);
@@ -125,7 +135,7 @@ define(['lodash'], function(_){
                         State.exit.call(this);
                     };
                 }
-                
+
                 Clone = _create(State.prototype.name, State.prototype.superState, initFn, exitFn);
                 _.forIn(State.prototype, function(prop, name){
                     if(_.isFunction(prop)){
@@ -139,7 +149,7 @@ define(['lodash'], function(_){
             }else{
                 throw new Error('invalid state to be cloned');
             }
-            
+
             return Clone;
         },
         createBundle : function(arg0, arg1){
