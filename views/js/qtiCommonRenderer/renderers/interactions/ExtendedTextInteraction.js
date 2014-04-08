@@ -4,8 +4,10 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n',
+    'ckeditor',
+    'ckConfigurator',
     'polyfill/placeholders'
-], function(_, $, tpl, Helper, __){
+], function(_, $, tpl, Helper, __, ckEditor ,ckConfigurator){
 
 
     /**
@@ -44,12 +46,16 @@ define([
         //if the input is textarea
         if(!multiple){
             $el = $container.find('textarea');
+            var ckeOptions = {
+               extraPlugins: 'confighelper'
+            };
             
-            //set the width(cols) on textarea 
+           /* //set the width(cols) on textarea 
             if(attributes.expectedLength){
                 expectedLength = parseInt(attributes.expectedLength, 10);
                 if(expectedLength > 0){
-                    $el.attr('cols', expectedLength);
+                    //_.extend(ckeOptions, {width : expectedLength});
+                    //_.extend(ckeOptions, {resize_maxWidth : 500});
                 }
             }
 
@@ -57,23 +63,36 @@ define([
             if(attributes.expectedLines){
                 expectedLines = parseInt(attributes.expectedLines, 10);
                 if(expectedLines > 0){
-                    $el.attr('rows', expectedLines);
+                    //_.extend(ckeOptions, {height : expectedLines});
+                    //_.extend(ckeOptions, {resize_maxHeight : 500});
                 }
             }
 
             //setting the pattern mask for the textarea
             if(attributes.patternMask){
                 _setPattern($el, attributes.patternMask);
-            }
-
+            } */
+            
             //setting the placeholder for the textarea
             if(attributes.placeholderText){
                 $el.attr('placeholder', attributes.placeholderText);            
             }
+
+            ckEditor.on( 'instanceCreated', function( event ) {
+                var editor = event.editor,
+                    toolbarType = 'block';
+
+                editor.on('configLoaded', function(e) {
+                    editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
+                });
+            });
+          
+            //replace the textarea with ckEditor
+            ckEditor.replace(interaction.attr('identifier'));
             
         } else {
             $el = $container.find('input');
-
+            
             //setting the checking for minimum number of answers
             if(attributes.minStrings){
                 //get the number of filled inputs
