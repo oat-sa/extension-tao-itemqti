@@ -34,6 +34,7 @@ define(['lodash'], function(_){
                     this.widget.$container.show();
                 }
                 this.widget.$container.find('[data-edit="'+name+'"]').show();
+                this.widget.$container.addClass('edit-'+name);
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
                 init.call(this);
                 $(document).trigger('afterStateInit.qti-widget', [this.widget.element, this]);
@@ -45,6 +46,7 @@ define(['lodash'], function(_){
                     this.widget.$container.hide();
                 }
                 this.widget.$container.find('[data-edit="'+name+'"]').hide();
+                this.widget.$container.removeClass('edit-'+name);
                 $(document).trigger('beforeStateExit.qti-widget', [this.widget.element, this]);
                 exit.call(this);
                 $(document).trigger('afterStateExit.qti-widget', [this.widget.element, this]);
