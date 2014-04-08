@@ -99,7 +99,16 @@ class QtiPreview extends taoItems_actions_ItemPreview
         foreach ($jsonPayload as $id => $response) {
             
             try {
-                $variables[] = $filler->fill($id, $response);
+                $var  = $filler->fill($id, $response);
+                // Do not take into account QTI Files at preview time.
+                // Simply delete the created file.
+                if (taoQtiCommon_helpers_Utils::isQtiFile($var, false) === true) {
+                    $fileManager = taoQtiCommon_helpers_Utils::getFileDatatypeManager();
+                    $fileManager->delete($var->getValue());
+                }
+                else {
+                    $variables[] = $var;
+                }
             }
             catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.

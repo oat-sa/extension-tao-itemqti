@@ -138,8 +138,11 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
         foreach ($jsonPayload as $identifier => $response) {
             $filler = new taoQtiCommon_helpers_PciVariableFiller($qtiXmlDoc->getDocumentComponent());
             try {
-                $variables[] = $filler->fill($identifier, $response);
-                var_export($variables, true);
+                $var = $filler->fill($identifier, $response);
+                // Do not take into account QTI File placeholders.
+	            if (taoQtiCommon_helpers_Utils::isQtiFilePlaceHolder($var) === false) {
+	                $variables[] = $var;
+	            }
             }
             catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
