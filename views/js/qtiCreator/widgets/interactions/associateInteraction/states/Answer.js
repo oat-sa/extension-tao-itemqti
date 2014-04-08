@@ -1,17 +1,14 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Answer'
-], function(stateFactory, Answer){
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Answer',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState'
+], function(stateFactory, Answer, answerStateHelper){
 
-    var AssociateInteractionStateAnswer = stateFactory.extend(Answer);
-
-    AssociateInteractionStateAnswer.prototype.createResponseWidget = function(){
-
-    };
-
-    AssociateInteractionStateAnswer.prototype.removeResponseWidget = function(){
+    var AssociateInteractionStateAnswer = stateFactory.extend(Answer, function(){
+        answerStateHelper.forward(this.widget);
+    }, function(){
         
-    };
+    });
     
     return AssociateInteractionStateAnswer;
 });

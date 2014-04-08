@@ -60,8 +60,6 @@ define([
         }));
 
         formElement.initShuffle(_widget);
-
-
     };
 
     return InlineChoiceInteractionStateQuestion;

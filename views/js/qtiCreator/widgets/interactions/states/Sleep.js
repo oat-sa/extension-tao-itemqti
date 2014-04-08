@@ -11,7 +11,6 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
 
             //init default mode: question
             _widget.changeState('question');
-            
         });
         
     }, function(){

@@ -1,19 +1,16 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Answer',
-    'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/ResponseWidget',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response.title'
-], function(stateFactory, Answer, responseHelper, ResponseWidget, responseToolbarTitleTpl){
+], function(stateFactory, Answer, ResponseWidget, answerStateHelper, responseToolbarTitleTpl){
 
-    var ChoiceInteractionStateAnswer = stateFactory.create(Answer, function(){
+    var ChoiceInteractionStateAnswer = stateFactory.extend(Answer, function(){
         
         ResponseWidget.create(this.widget);
         
         var _widget = this.widget;
-        
-        //add class runtime to display hover style
-        _widget.$container.addClass('runtime');
         
         //add title to first:
         _widget.$container.find('.qti-choice:first .pseudo-label-box').append(responseToolbarTitleTpl({
@@ -25,24 +22,15 @@ define([
             $(this).find('[data-role=correct]').click();
         });
         
-        //forward to one of the available sub state:
-        var response = this.widget.element.getResponseDeclaration();
-        if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
-
-            this.widget.changeState('correct');
-
-        }else if(responseHelper.isUsingTemplate(response, 'MAP_RESPONSE')){
-
-            this.widget.changeState('map');
-        }
+        answerStateHelper.forward(this.widget);
         
     }, function(){
         
-        ResponseWidget.destroy(this.widget);
+        var _widget = this.widget;
         
-        this.widget.$container.removeClass('runtime');
+        _widget.$container.off('.answer')
         
-        this.widget.$container.off('.answer');
+        ResponseWidget.destroy(_widget);
     });
 
     return ChoiceInteractionStateAnswer;

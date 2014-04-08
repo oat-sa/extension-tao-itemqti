@@ -17,13 +17,9 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
             }
         }, 'otherActive');
         
-        _widget.$container.addClass('edit-active');
-        
     },function(){
         
         var _widget = this.widget;
-        
-        _widget.$container.removeClass('edit-active');
         
         _widget.offEvents('otherActive');
     });
