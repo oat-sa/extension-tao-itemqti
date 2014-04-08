@@ -36,8 +36,8 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
         //calculate absolute position:
         _widget.$container.show().css({
             position : 'absolute',
-            top : originalOffset.top - itemOffset.top + 3,
-            left : originalOffset.left - itemOffset.left - 10
+            top : originalOffset.top - itemOffset.top - 22,
+            left : originalOffset.left - itemOffset.left - 32
         });
         
     };

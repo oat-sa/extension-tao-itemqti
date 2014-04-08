@@ -775,7 +775,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     /* line 3, ../scss/qtiCreator/_inline-choice.scss */
     .tao-scope #item-editor-panel .item-editor-item .widget-inlineChoiceInteraction {
       display: none;
-      background: rgba(243, 241, 239, 0.9); }
+      background: rgba(243, 241, 239, 0.5); }
     /* line 8, ../scss/qtiCreator/_inline-choice.scss */
     .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder {
       border: 1px solid #dddddd;
@@ -796,7 +796,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: 6px; }
     /* line 25, ../scss/qtiCreator/_inline-choice.scss */
     .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction {
-      padding: 50px 10px 10px 30px; }
+      padding: 20px 10px 5px 30px; }
       /* line 27, ../scss/qtiCreator/_inline-choice.scss */
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction [data-edit] {
         display: none; }
@@ -831,7 +831,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           color: #0e5d91; }
       /* line 67, ../scss/qtiCreator/_inline-choice.scss */
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-        padding: 0 18px 0 7px;
+        padding: 0 18px 0 10px;
         border-left: 1px #dddddd solid;
         border-right: 1px #dddddd solid;
         background: white; }
@@ -862,7 +862,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         width: 30px; }
     /* line 105, ../scss/qtiCreator/_inline-choice.scss */
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
-      padding: 0; }
+      padding: 0;
+      margin-bottom: 10px; }
   /* line 468, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;

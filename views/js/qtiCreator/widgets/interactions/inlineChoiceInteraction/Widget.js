@@ -25,6 +25,8 @@ define([
 
        //remove toolbar title, because it is too large
        this.$container.find('.tlb-title').remove();
+       //adjust toolbar position:
+       this.$container.find('.tlb-wrapper').css('top', '-40px');
     };
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){

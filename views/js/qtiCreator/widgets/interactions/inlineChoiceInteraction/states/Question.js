@@ -37,7 +37,6 @@ define([
                 var choice = interaction.createChoice();
 
                 //append render choice:
-                console.log('tr', $(this).closest('tr'));
                 $(this).closest('tr').before(_widget.renderChoice(choice));
                 _widget.buildChoice(choice, {
                     ready : function(widget){

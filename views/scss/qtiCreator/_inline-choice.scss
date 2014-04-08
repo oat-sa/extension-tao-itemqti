@@ -2,7 +2,7 @@
 
 .widget-inlineChoiceInteraction{
     display:none;
-    background: rgba($uiClickableDefaultBg, .9);
+    background: rgba($uiClickableDefaultBg, .5);
 }
 
 .inlineChoiceInteraction-placeholder {
@@ -28,7 +28,7 @@
         display:none;
     }
     
-    padding: 50px 10px 10px 30px;
+    padding: 20px 10px 5px 30px;
     
     table {
         border-collapse: separate;
@@ -65,7 +65,7 @@
     }
     
     td.option, .main-option {
-        padding: 0 18px 0 7px;
+        padding: 0 18px 0 10px;
         border-left: 1px $uiGeneralContentBorder solid;
         border-right: 1px $uiGeneralContentBorder solid;
         background:white;
@@ -104,4 +104,5 @@
 
 .widget-response .qti-inlineChoiceInteraction{
     padding:0;
+    margin-bottom:10px;
 }
