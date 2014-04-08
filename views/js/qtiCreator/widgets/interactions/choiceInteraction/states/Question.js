@@ -12,10 +12,13 @@ define([
         var _widget = this.widget;
 
         _widget.$form.html(formTpl({
-            shuffle : !!_widget.element.attr('shuffle')
+            shuffle : !!_widget.element.attr('shuffle'),
+            maxChoices : parseInt(_widget.element.attr('maxChoices')),
+            minChoices : parseInt(_widget.element.attr('minChoices'))
         }));
         
         formElement.initShuffle(_widget);
+        formElement.init(_widget);
     };
     
     return ChoiceInteractionStateQuestion;

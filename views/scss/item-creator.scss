@@ -162,7 +162,6 @@
                     width: 100%;
                 }
                 .icon-help.tooltipstered {
-                    padding-right: 5px;
                     float:right;
                 }
                 &:last-child, .panel-row {
@@ -207,7 +206,8 @@
             left: 120px;
         }
         .spinner {
-            min-width: 60%;
+            margin-left:20px
+            min-width: 30%;
             line-height: 22px;
             & ~ .tooltipstered {
                 top: 6px;

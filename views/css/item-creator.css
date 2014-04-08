@@ -395,23 +395,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       width: 100%; }
     /* line 164, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar .tool-group .panel .icon-help.tooltipstered {
-      padding-right: 5px;
       float: right; }
-    /* line 168, ../scss/item-creator.scss */
+    /* line 167, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar .tool-group .panel:last-child, .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
       margin-bottom: 7px; }
-  /* line 173, ../scss/item-creator.scss */
+  /* line 172, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .inset {
     margin-left: 6px;
     margin-right: 6px; }
-  /* line 178, ../scss/item-creator.scss */
+  /* line 177, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar:first-child {
     right: auto;
     left: 0; }
-  /* line 182, ../scss/item-creator.scss */
+  /* line 181, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .tool-list {
     margin-top: -3px; }
-    /* line 184, ../scss/item-creator.scss */
+    /* line 183, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar .tool-list li {
       width: 50%;
       margin: 0 0%;
@@ -422,56 +421,56 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       border: 1px dotted transparent;
       cursor: move;
       text-align: center; }
-      /* line 193, ../scss/item-creator.scss */
+      /* line 192, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .tool-list li:hover {
         background: rgba(255, 255, 255, 0.6);
         border: 1px dotted #aaa; }
-      /* line 197, ../scss/item-creator.scss */
+      /* line 196, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .tool-list li span {
         display: block;
         margin: 5px auto 8px;
         font-size: 28px;
         font-size: 2.8rem;
         opacity: .9; }
-  /* line 205, ../scss/item-creator.scss */
+  /* line 204, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .cbr-right span {
     position: absolute;
     left: 120px; }
-  /* line 209, ../scss/item-creator.scss */
+  /* line 208, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .spinner {
-    min-width: 60%;
+    min-width: 30%;
     line-height: 22px; }
-    /* line 212, ../scss/item-creator.scss */
+    /* line 211, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar .spinner ~ .tooltipstered {
       top: 6px; }
-  /* line 216, ../scss/item-creator.scss */
+  /* line 215, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .incrementer-ctrl {
     top: -3px; }
-  /* line 219, ../scss/item-creator.scss */
+  /* line 218, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar [data-role="font-size-changer"] {
     text-align: center;
     padding-top: 5px; }
-    /* line 222, ../scss/item-creator.scss */
+    /* line 221, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar [data-role="font-size-changer"] span {
       padding: 0 3px;
       cursor: pointer; }
-    /* line 226, ../scss/item-creator.scss */
+    /* line 225, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar [data-role="font-size-changer"] .smaller {
       font-size: 12px;
       font-size: 1.2rem; }
-    /* line 229, ../scss/item-creator.scss */
+    /* line 228, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar [data-role="font-size-changer"] .larger {
       font-size: 18px;
       font-size: 1.8rem; }
-  /* line 233, ../scss/item-creator.scss */
+  /* line 232, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .color-picker {
     margin-top: -5px; }
-  /* line 236, ../scss/item-creator.scss */
+  /* line 235, ../scss/item-creator.scss */
   .tao-scope .item-editor-sidebar .compass {
     position: relative;
     width: 100px;
     margin: auto; }
-    /* line 240, ../scss/item-creator.scss */
+    /* line 239, ../scss/item-creator.scss */
     .tao-scope .item-editor-sidebar .compass span {
       display: block;
       font-size: 25px;
@@ -482,20 +481,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       text-align: center;
       cursor: pointer;
       border: 1px dotted #aaa; }
-      /* line 249, ../scss/item-creator.scss */
+      /* line 248, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .compass span:hover {
         background: #3e7da7;
         color: white; }
-      /* line 253, ../scss/item-creator.scss */
+      /* line 252, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .compass span.icon-up, .tao-scope .item-editor-sidebar .compass span.icon-down {
         margin: auto; }
-      /* line 256, ../scss/item-creator.scss */
+      /* line 255, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .compass span.icon-left {
         float: left; }
-      /* line 259, ../scss/item-creator.scss */
+      /* line 258, ../scss/item-creator.scss */
       .tao-scope .item-editor-sidebar .compass span.icon-right {
         float: right; }
-/* line 267, ../scss/item-creator.scss */
+/* line 266, ../scss/item-creator.scss */
 .tao-scope #item-editor-panel {
   margin: 0 180px;
   overflow: auto;
@@ -504,7 +503,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   border-bottom: none;
   background: #dcdee1;
   position: relative; }
-  /* line 275, ../scss/item-creator.scss */
+  /* line 274, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel #item-editor-overlay {
     background: rgba(0, 0, 0, 0.4);
     color: white;
@@ -513,7 +512,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     left: 0px;
     top: 0px; }
-  /* line 284, ../scss/item-creator.scss */
+  /* line 283, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel #item-width-indicator-box {
     margin: auto;
     display: none;
@@ -521,21 +520,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0;
     z-index: 10;
     position: relative; }
-    /* line 291, ../scss/item-creator.scss */
+    /* line 290, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel #item-width-indicator-box div {
       padding: 2px 0;
       height: 40px; }
-      /* line 294, ../scss/item-creator.scss */
+      /* line 293, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-devices {
         width: 98%;
         line-height: 40px;
         margin: auto; }
-      /* line 299, ../scss/item-creator.scss */
+      /* line 298, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-px {
         border-top: 5px white solid;
         font-size: 18px;
         font-size: 1.8rem; }
-    /* line 304, ../scss/item-creator.scss */
+    /* line 303, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel #item-width-indicator-box span {
       position: absolute;
       top: 4px;
@@ -543,14 +542,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       font-size: 50px;
       font-size: 5rem;
       line-height: 1.61; }
-      /* line 310, ../scss/item-creator.scss */
+      /* line 309, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel #item-width-indicator-box span:first-child {
         right: auto;
         left: -20px; }
-    /* line 315, ../scss/item-creator.scss */
+    /* line 314, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel #item-width-indicator-box hr {
       height: 5px; }
-  /* line 319, ../scss/item-creator.scss */
+  /* line 318, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-item {
     background: white;
     margin: auto;
@@ -581,32 +580,32 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/ }
-    /* line 326, ../scss/item-creator.scss */
+    /* line 325, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel .item-editor-item [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [class^="col-"] {
       position: relative; }
-    /* line 329, ../scss/item-creator.scss */
+    /* line 328, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel .item-editor-item .widget-box {
       border: 1px solid transparent;
       position: relative; }
-      /* line 332, ../scss/item-creator.scss */
+      /* line 331, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .tlb-bar {
         z-index: 99; }
-      /* line 335, ../scss/item-creator.scss */
+      /* line 334, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-prompt {
         min-height: 1rem; }
-      /* line 338, ../scss/item-creator.scss */
+      /* line 337, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-top.cke_nose {
         display: block;
         right: 5px;
         bottom: -6px; }
-      /* line 343, ../scss/item-creator.scss */
+      /* line 342, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-bottom.cke_nose {
         display: block;
         top: -6px; }
-      /* line 362, ../scss/item-creator.scss */
+      /* line 361, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .qti-choice {
         border: 1px solid transparent; }
-      /* line 365, ../scss/item-creator.scss */
+      /* line 364, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option {
         border: 1px #3e7da7 dashed !important;
         list-style-type: none;
@@ -614,7 +613,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         cursor: pointer !important;
         border-radius: 3px;
         background-color: #e6eef4; }
-        /* line 372, ../scss/item-creator.scss */
+        /* line 371, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class*=" icon-"] {
           font-size: 16px;
           font-size: 1.6rem;
@@ -623,12 +622,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           left: 2px;
           color: #0e5d91;
           padding-right: 5px; }
-        /* line 380, ../scss/item-creator.scss */
+        /* line 379, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div {
           display: table;
           width: 100%;
           height: 100%; }
-          /* line 384, ../scss/item-creator.scss */
+          /* line 383, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class*=" icon-"] {
             display: table-cell;
             font-size: 60px;
@@ -641,10 +640,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
             top: 0;
             left: auto;
             padding: 0; }
-        /* line 397, ../scss/item-creator.scss */
+        /* line 396, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option:hover {
           opacity: 0.8; }
-    /* line 403, ../scss/item-creator.scss */
+    /* line 402, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
       display: inline-block;
       margin: 0;
@@ -652,13 +651,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: relative;
       vertical-align: middle;
       background-color: #eee; }
-    /* line 411, ../scss/item-creator.scss */
+    /* line 410, ../scss/item-creator.scss */
     .tao-scope #item-editor-panel .item-editor-item [data-edit] {
       /*display: none;*/ }
-      /* line 413, ../scss/item-creator.scss */
+      /* line 412, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item [data-edit] > [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [data-edit] [class^="col-"] {
         margin-bottom: 0 !important; }
-      /* line 416, ../scss/item-creator.scss */
+      /* line 415, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb {
         position: absolute;
         top: 0;
@@ -670,7 +669,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         -webkit-border-radius: 2px;
         margin-bottom: 5px;
         overflow: hidden; }
-        /* line 428, ../scss/item-creator.scss */
+        /* line 427, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button {
           min-width: 24px;
           height: 22px;
@@ -679,26 +678,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           cursor: pointer;
           margin: 0 2px;
           display: inline-block; }
-          /* line 436, ../scss/item-creator.scss */
+          /* line 435, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button:hover {
             color: #3e7da7 !important; }
-          /* line 439, ../scss/item-creator.scss */
+          /* line 438, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button.active {
             color: #0e5d91 !important; }
-          /* line 442, ../scss/item-creator.scss */
+          /* line 441, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"] {
             width: 30px !important;
             position: relative;
             top: -2px; }
-          /* line 447, ../scss/item-creator.scss */
+          /* line 446, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"] {
             display: none; }
-      /* line 452, ../scss/item-creator.scss */
+      /* line 451, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title {
         position: absolute;
         top: -30px;
         right: 0; }
-        /* line 456, ../scss/item-creator.scss */
+        /* line 455, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title label {
           color: #0e5d91;
           cursor: default;
@@ -864,22 +863,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
       padding: 0;
       margin-bottom: 10px; }
-  /* line 468, ../scss/item-creator.scss */
+  /* line 467, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }
-  /* line 472, ../scss/item-creator.scss */
+  /* line 471, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-drop-area {
     min-height: 300px;
     padding-bottom: 20px; }
-  /* line 476, ../scss/item-creator.scss */
+  /* line 475, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-row {
     min-height: 100px;
     overflow-x: hidden;
     overflow-y: visible; }
 
 @media print {
-  /* line 486, ../scss/item-creator.scss */
+  /* line 485, ../scss/item-creator.scss */
   #tabs {
     margin: 0;
     min-height: 0;
@@ -887,26 +886,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0;
     border: none !important; }
 
-  /* line 494, ../scss/item-creator.scss */
+  /* line 493, ../scss/item-creator.scss */
   .item-no-print {
     display: none; }
 
-  /* line 498, ../scss/item-creator.scss */
+  /* line 497, ../scss/item-creator.scss */
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-    /* line 501, ../scss/item-creator.scss */
+    /* line 500, ../scss/item-creator.scss */
     #item-editor-panel .item-editor-item {
       border-radius: 0;
       box-shadow: none;
       margin: 0 !important;
       border: none !important;
       width: 100% !important; }
-      /* line 507, ../scss/item-creator.scss */
+      /* line 506, ../scss/item-creator.scss */
       #item-editor-panel .item-editor-item [class*="col-"] {
         border-color: transparent; }
 
-  /* line 512, ../scss/item-creator.scss */
+  /* line 511, ../scss/item-creator.scss */
   .item-editor-row {
     border: none !important;
     background: none !important; } }
