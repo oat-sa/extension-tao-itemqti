@@ -169,8 +169,6 @@ define([
     /**
      * Creates ALL the texts (the numbers to display in the shapes). They are created styled but hidden.
      * 
-     * TODO parametrize styles
-     *
      * @private 
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Number} size - the number of numbers to create...
@@ -265,7 +263,7 @@ define([
                             message : __('Maximum choices reached'),
                             timeout : 2000,
                             start : function(){
-                                highlightError(data.target);
+                                graphic.highlightError(data.target);
                             },
                             stop : function(){
                                 this.update({level : 'success', message : msg});
@@ -289,7 +287,7 @@ define([
                             level : 'warning',
                             timeout : 2000,
                             start : function(){
-                                highlightError(data.target);
+                                graphic.highlightError(data.target);
                             },
                             stop : function(){
                                 this.setLevel('info');
@@ -310,15 +308,6 @@ define([
                     this.reset();
                 }
             });
-        }
-
-        function highlightError(target){
-            if(target){
-                graphic.updateElementState(target, 'error');
-                _.delay(function(){
-                    graphic.updateElementState(target, 'success');
-                }, 600);
-           }
         }
     };
    

@@ -62,7 +62,7 @@ define([
                 graphic.updateElementState(this, 'active', __('Click again to remove'));
                 this.active = true;
             }
-            Helper.validateInstructions(interaction, { choice : choice });
+            Helper.validateInstructions(interaction, { choice : choice, target : this });
         });
     };
 
@@ -82,13 +82,12 @@ define([
 
         //if maxChoice = 0, inifinite choice possible
         if(max > 0 && max < choiceCount){
-
             if(max === min){
                 minInstructionSet = true;
                 msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
 
                 Helper.appendInstruction(interaction, msg, function(data){
-                    
+                                        
                     if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
                         if(this.checkState('fulfilled')){
@@ -97,7 +96,9 @@ define([
                                 message : __('Maximum choices reached'),
                                 timeout : 2000,
                                 start : function(){
-                                    highlightError(data.choice);
+                                    if(data.target.active){
+                                        graphic.highlightError(data.target);
+                                    }
                                 },
                                 stop : function(){
                                     this.update({level : 'success', message : msg});
@@ -109,7 +110,6 @@ define([
                         this.reset();
                     }
                 });
-
             } else if(max > min){
                 msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
                 Helper.appendInstruction(interaction, msg, function(data){
@@ -122,7 +122,9 @@ define([
                                 level : 'warning',
                                 timeout : 2000,
                                 start : function(){
-                                    highlightError(data.choice);
+                                    if(data.target.active){
+                                        graphic.highlightError(data.target);
+                                    }
                                 },
                                 stop : function(){
                                     this.setLevel('info');
@@ -147,19 +149,6 @@ define([
                     this.reset();
                 }
             });
-        }
-
-        function highlightError(choice){
-            var rElement;
-            if(choice && choice.serial){
-                rElement = interaction.paper.getById(choice.serial);
-                if(rElement.active){
-                    graphic.updateElementState(rElement, 'error');
-                    _.delay(function(){
-                        graphic.updateElementState(rElement, 'active');
-                    }, 800);
-                }
-            }
         }
     };
   
@@ -234,10 +223,10 @@ define([
      */
     var resetResponse = function resetResponse(interaction){
         _.forEach(interaction.getChoices(), function(choice){
-            var rElement = interaction.paper.getById(choice.serial);
-            if(rElement){
-                rElement.active = false;
-                graphic.updateElementState(rElement, 'default'); 
+            var element = interaction.paper.getById(choice.serial);
+            if(element){
+                element.active = false;
+                graphic.updateElementState(element, 'basic'); 
             }
         });
     };

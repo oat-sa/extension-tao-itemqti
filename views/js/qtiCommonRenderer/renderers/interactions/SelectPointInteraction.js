@@ -55,35 +55,30 @@ define([
      */
     var _enableSelection = function _enableSelection(interaction){
         var $container = Helper.getContainer(interaction);
+        var $imageBox = $container.find('.main-image-box');
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         image.click(function(event){
             var rwidth, rheight, wfactor;
 
-            //var position = $container.find('.main-image-box').offset();
-            //console.log(position);
-            //console.log(event.pageX, position.left);
-            //var point = {
-                //y : event.layerY,
-                //x : event.layerX
-            //};
-        
-            var point = graphic.clickPoint($container.find('.main-image-box'), event);
+            //get the click coords
+            var point = graphic.clickPoint($imageBox, event);
 
             //recalculate point coords in case of scaled image.
             if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
                 if(interaction.paper.width > interaction.paper.w){
                     rwidth = (interaction.paper.width - interaction.paper.w) / 2;
-                    point.x = Math.round(event.layerX - rwidth);
-                }else{
+                    point.x = Math.round(point.x - rwidth);
+                } else {
                     wfactor = interaction.paper.w / interaction.paper.width;
-                    point.x = Math.round(event.layerX * wfactor);
+                    point.x = Math.round(point.x * wfactor);
 
                     rheight = (interaction.paper.height - (interaction.paper.height * (2 - wfactor))) / 2;
-                    point.y = Math.round((event.layerY * wfactor) - rheight);
+                    point.y = Math.round((point.y * wfactor) - rheight);
                 }
             }
 
-            _addPoint(interaction, point, function(target){
+            //add the point to the paper
+            _addPoint(interaction, point, function pointAdded (target){
                 Helper.validateInstructions(interaction, {target : target});
             });
         });
@@ -102,6 +97,7 @@ define([
         var x = point.x >= 9 ? point.x - 9 : 0;
         var y = point.y >= 9 ? point.y - 9 : 0;
 
+        //create the target from a path
         var target = interaction.paper
             .path(graphic.getTargetPath())
             .transform('T' + (point.x - 9) + ',' + (point.y - 9))
@@ -111,7 +107,7 @@ define([
                 'stroke-width' : 0,
                 'cursor' : 'pointer',
                 'title' : _('Click again to remove')
-            })
+            });
 
 
         //create an invisible rect over the target to ensure path selection
@@ -119,9 +115,13 @@ define([
             .rect(point.x - 9, point.y - 9, 18, 18)
             .attr({'fill' :  '#ffffff', opacity : 0, cursor: 'pointer'} )
             .hover(function(){
-                target.attr({'fill' : graphic.states.hover.stroke});
+                if(!target.flashing){
+                    target.attr({'fill' : graphic.states.hover.stroke, 'fill-opacity' : 1});
+                }
             }, function(){
-                target.attr({'fill' : graphic.states.success.fill});
+                if(!target.flashing){
+                    target.attr({'fill' : graphic.states.success.fill, 'fill-opacity' : 1});
+                }
             })
             .click(function(){
                 this.remove();
@@ -130,18 +130,6 @@ define([
                     cb();
                 }
             });
-            //.hover(function(){
-                //graphic.trigger(target, 'mouseover');
-            //}, function(){
-                //graphic.trigger(target, 'mouseout');
-            //})
-            //.click(function(){
-                //this.remove();
-                //graphic.trigger(target, 'click');
-            //});
-
-            
-        
 
         layer.data('point', point);
 
@@ -173,7 +161,7 @@ define([
                             message : __('Maximum choices reached'),
                             timeout : 2000,
                             start : function(){
-                                highlightError(data.target);
+                                graphic.highlightError(data.target, 'success');
                             },
                             stop : function(){
                                 this.update({level : 'success', message : msg});
@@ -186,7 +174,7 @@ define([
                 }
             });
 
-        }else if(max > 0 && max > min){
+        } else if(max > 0 && max > min){
             msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
             Helper.appendInstruction(interaction, msg, function(data){
                 if(_getRawResponse(interaction).length >= max){
@@ -197,7 +185,7 @@ define([
                             level : 'warning',
                             timeout : 2000,
                             start : function(){
-                                highlightError(data.target);
+                                graphic.highlightError(data.target, 'success');
                             },
                             stop : function(){
                                 this.setLevel('info');
@@ -209,7 +197,7 @@ define([
                     this.reset();
                 }
             });
-        }else if(min > 0){
+        } else if(min > 0){
             msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
             Helper.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
@@ -218,15 +206,6 @@ define([
                     this.reset();
                 }
             });
-        }
-
-        function highlightError(target){
-            if(target){
-                target.attr({'fill' : graphic.states.error.fill});
-                _.delay(function(){
-                    target.attr({'fill' : graphic.states.success.fill});
-                }, 800);
-            }
         }
     };
 

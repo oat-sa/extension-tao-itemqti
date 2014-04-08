@@ -170,7 +170,19 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
          * @type {Object}
          */
         states : states,
- 
+
+
+        /**
+         * Create a Raphael paper with a bg image, that is width responsive
+         * @param {String} id - the id of the DOM element that will contain the paper
+         * @param {Object} options - the paper parameters
+         * @param {String} options.img - the url of the background image
+         * @param {jQueryElement} [options.container] - the parent of the paper element (got the closest parent by default)
+         * @param {Number} [options.width] - the paper width
+         * @param {Number} [options.height] - the paper height
+         * @param {String} [options.imgId] - an identifier for the image element
+         * @returns {Raphael.Paper} the paper
+         */ 
         responsivePaper : function(id, options){
             var paper, image;
             var $container = options.container || $('#' + id).parent();
@@ -247,9 +259,13 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
                             .toFront();
                     if(options.hover !== false){
                       element.hover(function(){
-                            self.updateElementState(this, 'hover'); 
+                            if(!element.fashing){
+                                self.updateElementState(this, 'hover'); 
+                            }
                       }, function(){
-                            self.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
+                            if(!element.fashing){
+                                self.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
+                            }
                       });
                     }
                }
@@ -329,6 +345,9 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             if(element && element.animate){
                 element.animate(states[state], 200, 'linear', function(){
                     element.attr(states[state]); //for attr that don't animate
+                    if(element.type === 'path'){
+                        element.attr('fill-opacity', 1);
+                    }
                 });
         
                 if(title){
@@ -353,6 +372,22 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             
             //then set the new title
             element.attr('title', title);
+        },
+
+        /**
+         * Highlight an element with the error style
+         * @param {Raphael.Element} element - the element to hightlight
+         */
+        highlightError : function(element, restoredState){
+            var self = this;
+            if(element){
+               element.flashing = true; 
+               self.updateElementState(element, 'error');
+                _.delay(function(){
+                    self.updateElementState(element, restoredState || 'active');
+                    element.flashing = false; 
+                }, 800);
+           }
         },
 
         /**
@@ -387,21 +422,21 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             };
         },
 
+        /**
+         * Get a point from a click event
+         * @param {jQueryElement} $container - the element that contains the paper
+         * @param {MouseEvent} event - the event triggered by the click
+         * @returns {Object} the x,y point
+         */ 
         clickPoint : function($container, event){
-            var x, y, offset; 
-        
-            if(event.layerX || event.layerY){           
-                x = event.layerX;
-                y = event.layerY;
-           } else {
-                offset = $container.offset();
-                 if (event.pageX || event.pageY) {
-                    x = event.pageX - offset.left;
-                    y = event.pageY - offset.top;
-                } else if (event.clientX || event.clientY) {
-                    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - offset.left;
-                    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - offset.top;
-                }
+            var x, y; 
+            var offset = $container.offset();
+             if (event.pageX || event.pageY) {
+                x = event.pageX - offset.left;
+                y = event.pageY - offset.top;
+            } else if (event.clientX || event.clientY) {
+                x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - offset.left;
+                y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - offset.top;
             }
 
             return { x : x, y : y };
