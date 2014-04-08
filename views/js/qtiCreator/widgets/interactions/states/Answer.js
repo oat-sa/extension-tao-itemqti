@@ -9,11 +9,6 @@ define([
 
     var InteractionStateAnswer = stateFactory.create(Answer, function(){
         
-        //update breadcrumb
-
-        //createResponseWidget, show response form
-        this.createResponseWidget();
-        
         //forward to one of the available sub state:
         var response = this.widget.element.getResponseDeclaration();
         if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
@@ -28,10 +23,7 @@ define([
 
     }, function(){
         
-        //update breadcrumb
-
         //destroy ResponseWidget, destroy response form
-        this.removeResponseWidget();
     });
 
     InteractionStateAnswer.prototype.createResponseWidget = function(){

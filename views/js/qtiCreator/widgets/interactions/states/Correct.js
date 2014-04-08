@@ -4,9 +4,9 @@ define([
 ], function(stateFactory, Correct){
 
     var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
-        this.widget.$container.find('[data-edit="correct"]').show();
+        //use default [data-edit="correct"].show();
     }, function(){
-        this.widget.$container.find('[data-edit="correct"]').hide();
+        //use default [data-edit="correct"].hide();
     });
 
     return ChoiceInteractionStateCorrect;

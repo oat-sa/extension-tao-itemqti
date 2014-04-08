@@ -6,7 +6,7 @@ define([
 
     var ChoiceInteractionStateMap = stateFactory.create(Map, function(){
         
-         this.widget.$container.find('[data-edit="map"]').show();
+        //use default [data-edit="map"].show();
         
         //check if the interaction response has a correct define and show correct if so:
         var response = this.widget.element.getResponseDeclaration();
@@ -15,8 +15,10 @@ define([
         }
         
     }, function(){
+        //use default [data-edit="map"].hide();
         
-        this.widget.$container.find('[data-edit="map"], [data-edit="correct"]').hide();
+        //plus, hide correct widget
+        this.widget.$container.find('[data-edit="correct"]').hide();
     });
 
     return ChoiceInteractionStateMap;
