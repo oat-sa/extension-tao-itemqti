@@ -7,7 +7,7 @@ define([
 
     var SimpleAssociableChoiceStateChoice = stateFactory.extend(Choice);
 
-    SimpleAssociableChoiceStateChoice.prototype.addOptionForm = function(){
+    SimpleAssociableChoiceStateChoice.prototype.initForm = function(){
         
         var _widget = this.widget;
         

@@ -7,7 +7,7 @@ define([
     
     var SimpleChoiceStateChoice = stateFactory.extend(Choice);
 
-    SimpleChoiceStateChoice.prototype.addOptionForm = function(){
+    SimpleChoiceStateChoice.prototype.initForm = function(){
         
         var _widget = this.widget;
         

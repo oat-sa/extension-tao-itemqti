@@ -19,6 +19,7 @@ define([
             interaction,
             $('.inlineChoiceInteraction-placeholder[data-serial="' + interaction.serial + '"]'),
             this.getOption('interactionOptionForm'),
+            this.getOption('responseOptionForm'),
             options
         );
     };

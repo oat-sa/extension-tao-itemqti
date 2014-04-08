@@ -28,10 +28,12 @@ define([
         
         var _widget = this.widget;
         
-        _widget.$container.off('.answer')
+        _widget.$container.off('.answer');
         
         ResponseWidget.destroy(_widget);
+        
+        _widget.$responseForm.empty().hide();
     });
-
+    
     return ChoiceInteractionStateAnswer;
 });

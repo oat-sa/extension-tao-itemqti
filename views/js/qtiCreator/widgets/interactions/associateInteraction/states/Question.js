@@ -7,7 +7,7 @@ define([
 
     var AssociateInteractionStateQuestion = stateFactory.extend(Question);
 
-    AssociateInteractionStateQuestion.prototype.addOptionForm = function(){
+    AssociateInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget;
 

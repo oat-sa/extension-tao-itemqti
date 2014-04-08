@@ -8,8 +8,9 @@ define([
     var InteractionStateQuestion = stateFactory.create(Question, function(){
 
         //show option form
-        this.addOptionForm();
-
+        this.initForm();
+        this.widget.$form.show();
+        
         //allow quick edit of internal element (toggle shuffle/fix, delete choices via minit-toolbar)
 
         //init add choice button if needed
@@ -17,9 +18,13 @@ define([
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
         
+        //init form:
+        
+        
     }, function(){
         
-        this.widget.$form.empty();
+        //destroy and hide it
+        this.widget.$form.empty().hide();
 
         //disable/destroy editor, hide mini-toolbar
     });
@@ -69,8 +74,8 @@ define([
         }
     };
 
-    InteractionStateQuestion.prototype.addOptionForm = function(){
-        stateFactory.throwMissingRequiredImplementationError('addOptionForm');
+    InteractionStateQuestion.prototype.initForm = function(){
+        stateFactory.throwMissingRequiredImplementationError('initForm');
     };
 
     return InteractionStateQuestion;

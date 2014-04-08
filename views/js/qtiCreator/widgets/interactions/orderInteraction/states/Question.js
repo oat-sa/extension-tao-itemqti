@@ -7,7 +7,7 @@ define([
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
-    OrderInteractionStateQuestion.prototype.addOptionForm = function(){
+    OrderInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget;
 

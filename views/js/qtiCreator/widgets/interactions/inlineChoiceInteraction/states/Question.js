@@ -51,7 +51,7 @@ define([
         }
     };
 
-    InlineChoiceInteractionStateQuestion.prototype.addOptionForm = function(){
+    InlineChoiceInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget;
 

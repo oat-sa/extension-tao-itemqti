@@ -12,6 +12,7 @@ define([
             interaction,
             ChoiceInteraction.getContainer(interaction),
             this.getOption('interactionOptionForm'),
+            this.getOption('responseOptionForm'),
             options
         );
     };

@@ -7,7 +7,7 @@ define([
 
     var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
 
-    ChoiceInteractionStateQuestion.prototype.addOptionForm = function(){
+    ChoiceInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget;
 

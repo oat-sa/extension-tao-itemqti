@@ -7,7 +7,7 @@ define([
 
     var RubricBlockStateActive = stateFactory.extend(Active, function(){
         
-        this.addOptionForm();
+        this.initForm();
         
     },function(){
         

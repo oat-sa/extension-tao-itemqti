@@ -5,7 +5,16 @@ define([
 ], function($, Widget, toolbar){
 
     var InteractionWidget = Widget.clone();
-
+    
+    InteractionWidget.init = function(element, $container, $form, $responseForm, options){
+        Widget.init.call(this, element, $container, $form, options);
+        this.$responseForm = $responseForm;
+    };
+    
+    InteractionWidget.build = function(element, $container, $form, $responseForm, options){
+        return this.clone().init(element, $container, $form, $responseForm, options);
+    };
+    
     InteractionWidget.initCreator = function(){
 
         Widget.initCreator.call(this);

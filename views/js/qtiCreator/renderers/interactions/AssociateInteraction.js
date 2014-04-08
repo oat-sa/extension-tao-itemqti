@@ -14,6 +14,7 @@ define([
             interaction,
             AssociateInteraction.getContainer(interaction),
             this.getOption('interactionOptionForm'),
+            this.getOption('responseOptionForm'),
             options
         );
     };

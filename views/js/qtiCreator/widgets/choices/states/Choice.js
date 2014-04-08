@@ -17,22 +17,17 @@ define([
         });
         
         //add options form
-        this.addOptionForm();
-        
-        //add active highlight
-        this.widget.$container.addClass('edit-active');
+        this.initForm();
+        this.widget.$form.show();
         
     }, function(){
         
-        this.widget.$form.empty();
-        
-        //remove hover outline box display
-        //remove active highlight
-        this.widget.$container.removeClass('edit-active');
+        //destroy and hide the form
+        this.widget.$form.empty().hide();
     });
 
-    SimpleChoiceStateChoice.prototype.addOptionForm = function(){
-        stateFactory.throwMissingRequiredImplementationError('addOptionForm');
+    SimpleChoiceStateChoice.prototype.initForm = function(){
+        stateFactory.throwMissingRequiredImplementationError('initForm');
     };
     
     return SimpleChoiceStateChoice;
