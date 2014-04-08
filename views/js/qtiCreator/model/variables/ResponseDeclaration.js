@@ -4,23 +4,19 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/response/SimpleFeedbackRule',
-    'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, ResponseDeclaration, editable, OutcomeDeclaration, SimpleFeedbackRule, ModalFeedback){
-
-    var _validTemplates = {
-        'MATCH_CORRECT' : 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
-        'MAP_RESPONSE' : 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
-        'MAP_RESPONSE_POINT' : 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point'
-    };
+    'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback',
+    'taoQtiItem/qtiItem/helper/response'
+], function(_, ResponseDeclaration, editable, OutcomeDeclaration, SimpleFeedbackRule, ModalFeedback, responseHelper){
 
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
         setTemplate : function(template){
-            if(_validTemplates[template]){
-                this.template = template;
-                return this;
+            var templateUri = responseHelper.getTemplateUriFromName(template);
+            if(templateUri){
+                this.template = templateUri;
             }
+            return this;
         },
         getTemplate : function(){
             return this.template;

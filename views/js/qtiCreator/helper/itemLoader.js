@@ -5,28 +5,37 @@ define([
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function($, helpers, Loader, Item, qtiClasses, data){
-    
-    var _generateIdentifier = function(uri){
+], function($, helpers, Loader, Item, qtiClasses, DATA) {
+
+    var _generateIdentifier = function(uri) {
         var pos = uri.lastIndexOf('#');
         return uri.substr(pos);
     };
-    
-    var Loader = {
-        loadItem : function(config, callback){
 
-            if(config.uri){
+    var creatorLoader = {
+        loadItem: function(config, callback) {
+
+            if (config.uri) {
                 $.ajax({
-                    url : helpers._url('getItemData', 'QtiCreator', 'taoQtiItem'),
-                }).done(function(data){
+                    url: helpers._url('getItemData', 'QtiCreator', 'taoQtiItem'),
+                    dataType: 'json',
+                    data: {
+                        uri: config.uri
+                    }
+                }).done(function(data) {
 
-                    if(data.item && data.item.qtiClass === 'assessmentItem'){
-                        var loader = new Loader().setClassesLocation(qtiClasses);
-                        loader.loadItemData(data.item, function(item){
+                    if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
+
+                        var loader = new Loader().setClassesLocation(qtiClasses),
+                            itemData = data.itemData;
+
+                        itemData = DATA['choice'].full;
+
+                        loader.loadItemData(itemData, function(item) {
                             callback(item, this.getLoadedClasses());
                         });
+                    } else {
 
-                    }else{
                         var item = new Item().id(_generateIdentifier(config.uri));
                         item.createResponseProcessing();
                         callback(item);
@@ -37,5 +46,5 @@ define([
         }
     };
 
-    return Loader;
+    return creatorLoader;
 });

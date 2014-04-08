@@ -30,6 +30,7 @@ use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
 use \core_kernel_classes_Session;
+use \common_Logger;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item

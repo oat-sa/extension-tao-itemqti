@@ -9,6 +9,7 @@ define([
     InteractionWidget.init = function(element, $container, $form, $responseForm, options){
         Widget.init.call(this, element, $container, $form, options);
         this.$responseForm = $responseForm;
+        return this;
     };
     
     InteractionWidget.build = function(element, $container, $form, $responseForm, options){
