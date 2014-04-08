@@ -719,7 +719,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     /* line 2, ../scss/qtiCreator/_order.scss */
     .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option {
       position: relative;
-      padding: 5px 5px 5px 30px; }
+      padding: 5px 5px 5px 6px; }
       /* line 5, ../scss/qtiCreator/_order.scss */
       .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option .icon-add {
         font-size: 1.8rem;
