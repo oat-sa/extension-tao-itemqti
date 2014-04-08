@@ -75,7 +75,6 @@ define([
                 throw 'the mapped value is not a number';
             }
 
-            console.log(this.mapEntries)
             return this;
         },
         removeMapEntry : function(mapKey){

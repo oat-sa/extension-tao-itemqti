@@ -194,7 +194,7 @@ use oat\taoQtiItem\helpers\Authoring;
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-response-related" id="item-editor-respons-propertye-bar">
+            <div class="item-editor-response-related" id="item-editor-response-property-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Response Properties')?></h2>
                     <div class="panel"></div>

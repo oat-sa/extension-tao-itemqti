@@ -53,12 +53,15 @@ define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
             }));
         });
 
-        $choices.find('input[data-role=correct]').on('click.qti-widget', function(e){
-            e.stopPropagation();
-        }).on('change.qti-widget', function(){
+        var $correct = $choices.find('input[data-role=correct]').on('change.qti-widget', function(){
             _saveCorrect();
         });//initialized as hidden
-
+        
+        //prevent propagation to prevent click and re-click because of the click event handler place on the .qti-choice
+        $correct.parent('label').on('click', function(e){
+            e.stopPropagation();
+        });
+        
         $choices.find('input[data-role=score]').on('keyup.qti-widget', function(){
             var score = parseFloat($(this).val()),
                 key = $(this).attr('name');

@@ -1,7 +1,8 @@
 define([
     'taoQtiItem/qtiItem/helper/response',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm'
-], function(responseHelper, responseFormTpl) {
+], function(responseHelper, formElement, responseFormTpl) {
 
     var answerStateHelper = {
         forward: function(widget) {
@@ -37,7 +38,8 @@ define([
             widget.$responseForm.html(responseFormTpl({
                 template:template
             }));
-
+            
+            formElement.init(widget.$responseForm);
         }
     };
 

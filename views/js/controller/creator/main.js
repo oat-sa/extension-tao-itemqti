@@ -30,11 +30,49 @@ define([
         toggleAppearance();
         listStyler();
     };
-
+    
+    var _initFormVisibilityListener = function(){
+        
+        var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
+            $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
+            $formResponsePanel = $('#item-editor-response-property-bar').hide(),
+            $formItemPanel = $('#item-editor-body-element-property-bar').hide();
+        
+        $(document).on('afterStateInit.qti-widget', function(e, element, state) {
+            switch(state.name){
+                case 'question':
+                    $formInteractionPanel.show();
+                    break;
+                case 'choice':
+                    $formChoicePanel.show();
+                    break;
+                case 'answer':
+                    $formResponsePanel.show();
+                    break;
+            };
+        });
+        
+        $(document).on('beforeStateExit.qti-widget', function(e, element, state) {
+            switch(state.name){
+                case 'question':
+                    $formInteractionPanel.hide();
+                    break;
+                case 'choice':
+                    $formChoicePanel.hide();
+                    break;
+                case 'answer':
+                    $formResponsePanel.hide();
+                    break;
+            };
+        });
+    };
+    
     return {
         start: function(config) {
             
             _initUiComponents();
+            
+            _initFormVisibilityListener();
             
             //load item from serice REST
             loader.loadItem({uri: config.uri}, function(item) {
