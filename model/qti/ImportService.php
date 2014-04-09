@@ -302,7 +302,7 @@ class ImportService extends tao_models_classes_GenerisService
     protected function rollback(array $items, common_report_Report $report) {
         foreach ($items as $id => $item) {
             @taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfuly rolled back.', $id)));
+            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)));
         }
     }
 }
