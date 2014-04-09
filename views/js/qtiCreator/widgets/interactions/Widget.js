@@ -44,7 +44,7 @@ define([
             [
                 {
                     title : 'Question',
-                    class : 'question-trigger',
+                    'class' : 'question-trigger',
                     status : 'off', // on | disabled | off => default
                     fn : function(e){
                         e.stopPropagation();
@@ -53,7 +53,7 @@ define([
                 },
                 {
                     title : 'Answer',
-                    class : 'answer-trigger',
+                    'class' : 'answer-trigger',
                     fn : function(e){
                         e.stopPropagation();
                         _this.changeState('answer');
@@ -64,7 +64,7 @@ define([
             [
                 {
                     icon : 'bin',
-                    class : 'delete-trigger',
+                    'class' : 'delete-trigger',
                     title : 'Delete',
                     fn : function(e){
                         e.stopPropagation();//to prevent direct deleting;

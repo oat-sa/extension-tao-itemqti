@@ -16,7 +16,7 @@ define([
                 feedback : {
                     outcome : rule.feedbackOutcome.id(),
                     then : rule.feedbackThen.id(),
-                    else : rule.feedbackElse ? rule.feedbackElse.id() : ''
+                    'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
                 }
             }
 
