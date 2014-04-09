@@ -23,7 +23,6 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction) {
-    	
         var $container = Helper.getContainer(interaction);
 
         // Initialize instructions system.
@@ -50,6 +49,8 @@ define([
      */
     var setResponse = function(interaction, response) {
 
+    	response = _filterResponse(response);
+    	
     	if (typeof response.list !== 'undefined' && typeof response.list.directedPair !== 'undefined') {
     		_(response.list.directedPair).forEach(function (directedPair) {
     			var x = $('th[data-identifier=' + directedPair[0] + ']').index() - 1;
@@ -87,6 +88,33 @@ define([
     	
     	Helper.validateInstructions(interaction);
     };
+    
+    var _filterResponse = function(response){
+    	if (typeof response.list == 'undefined') {
+    		// Maybe it's a base?
+    		if (typeof response.base == 'undefined') {
+    			// Oops, it is even not a base.
+    			throw 'The given response is not compliant with PCI JSON representation.';
+    		}
+    		else {
+    			// It's a base, Is it a directedPair?
+    			if (typeof response.base.directedPair == 'undefined') {
+    				// Oops again, it is not a directedPair.
+    				throw 'The matchInteraction only accepts directedPair values as responses.';
+    			}
+    			else {
+    				return { "list": { "directedPair": [response.base.directedPair] } };
+    			}
+    		}
+    	}
+    	else if (typeof response.list.directedPair == 'undefined') {
+    		// Oops, not a directedPair.
+    		throw 'The matchInteraction only accept directedPair values as responses.';
+    	}
+    	else {
+    		return response;
+    	}
+    }
     
     var _getRawResponse = function(interaction){
     	var $container = Helper.getContainer(interaction);

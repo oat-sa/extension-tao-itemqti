@@ -17,8 +17,8 @@
                     QUnit.start();
                     
                     var sampleResponse1 = { 'list' : { 'directedPair': [['C', 'M']] } };
-                    Test.testRender('match', {'minAssociations': 2, 'maxAssociations': 2}, []);
-                    
+                    var sampleResponse2 = { 'base' : { 'directedPair': ['C', 'M'] } };
+                    Test.testRender('match', {'minAssociations': 2, 'maxAssociations': 2}, [sampleResponse1]);
                 });
             });
         </script>

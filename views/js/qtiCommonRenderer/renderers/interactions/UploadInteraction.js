@@ -102,11 +102,11 @@ define([
     	
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
-            $container.find('input[type="file"]').bind('change', changeListener);
+            $container.find('input').bind('change', changeListener);
         }
         else {
         	// Nope... :/
-            $container.find('input[type="file"]').fileReader({
+            $container.find('input').fileReader({
     	        id: 'fileReaderSWFObject',
     	        filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
     	        callback: function() {
@@ -117,7 +117,7 @@ define([
     	
     	// IE Specific hack. It prevents the button to slightly
     	// move on click. Special thanks to Dieter Rabber, OAT S.A.
-    	$container.find('input[type="file"]').bind('mousedown', function(e){
+    	$container.find('input').bind('mousedown', function(e){
             e.preventDefault();
             $(this).blur();
             return false;
