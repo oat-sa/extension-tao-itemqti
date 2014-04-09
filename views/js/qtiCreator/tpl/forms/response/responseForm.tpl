@@ -18,18 +18,19 @@
     </h3>
 
     <div>
-        <label for="lowerBound" class="spinner">Min</label>
+        <label for="lowerBound" class="spinner short">Min</label>
         <input name="lowerBound" value="{{lowerBound}}" data-increment="0.10" data-min="-100" data-max="100" type="text" data-role="lowerBound">
     </div>
     <div>
-        <label for="upperBound" class="spinner">Max</label>
+        <label for="upperBound" class="spinner short">Max</label>
         <input name="upperBound" value="{{upperBound}}" data-increment="0.10" data-min="-100" data-max="100" type="text" data-role="upperBound">
     </div>
 </div>
 
 <div class="panel">
-    <label for="defaultValue" class="spinner">{{__ "Score mapping default value"}}</label>
-    <input name="defaultValue" value="{{defaultValue}}" data-increment="1" data-min="0" data-max="100" type="text" data-role="defaultValue">
+    <label for="defaultValue" class="spinner">{{__ "Score mapping default value"}}
+        <input name="defaultValue" value="{{defaultValue}}" data-increment="1" data-min="0" data-max="100" type="text" data-role="defaultValue">
+    </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">The default value from the target set to be used when no explicit mapping for a source value is given.</span>
 </div>
