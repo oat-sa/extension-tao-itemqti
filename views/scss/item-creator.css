@@ -193,6 +193,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
+.tao-scope #item-editor-panel .item-editor-item .widget-box:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.edit-question .qti-choice:hover {
+  border: 1px solid #86aec8;
+  cursor: pointer; }
+
+.tao-scope #item-editor-panel .item-editor-item .widget-box.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.edit-question .qti-choice.edit-choice {
+  border: 1px solid #3e7da7;
+  cursor: default; }
+
 .tao-scope .item-editor-widget-box {
   border: 1px dashed transparent; }
   .tao-scope .item-editor-widget-box.active-widget-box {
@@ -311,15 +319,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-sidebar .tool-group .panel h3 {
       padding: 0 0 6px 0;
       margin: 0;
-      font-size: 13px;
-      font-size: 1.3rem; }
+      font-size: 14px;
+      font-size: 1.4rem; }
     .tao-scope .item-editor-sidebar .tool-group .panel select, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"] {
       width: 100%; }
     .tao-scope .item-editor-sidebar .tool-group .panel .icon-help.tooltipstered {
-      padding-right: 5px;
       float: right; }
     .tao-scope .item-editor-sidebar .tool-group .panel:last-child, .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
       margin-bottom: 7px; }
+    .tao-scope .item-editor-sidebar .tool-group .panel label {
+      padding: 0;
+      max-width: 140px; }
   .tao-scope .item-editor-sidebar .inset {
     margin-left: 6px;
     margin-right: 6px; }
@@ -351,10 +361,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     left: 120px; }
   .tao-scope .item-editor-sidebar .spinner {
-    min-width: 60%;
+    min-width: 30%;
     line-height: 22px; }
     .tao-scope .item-editor-sidebar .spinner ~ .tooltipstered {
       top: 6px; }
+    .tao-scope .item-editor-sidebar .spinner.short {
+      text-align: right; }
   .tao-scope .item-editor-sidebar .incrementer-ctrl {
     top: -3px; }
   .tao-scope .item-editor-sidebar [data-role="font-size-changer"] {
@@ -470,7 +482,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/ }
+    .tao-scope #item-editor-panel .item-editor-item [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [class^="col-"] {
+      position: relative; }
     .tao-scope #item-editor-panel .item-editor-item .widget-box {
+      border: 1px solid transparent;
       position: relative; }
       .tao-scope #item-editor-panel .item-editor-item .widget-box .tlb-bar {
         z-index: 99; }
@@ -483,6 +498,41 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-bottom.cke_nose {
         display: block;
         top: -6px; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .qti-choice {
+        border: 1px solid transparent; }
+      .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option {
+        border: 1px #3e7da7 dashed !important;
+        list-style-type: none;
+        position: relative;
+        cursor: pointer !important;
+        border-radius: 3px;
+        background-color: #e6eef4; }
+        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class*=" icon-"] {
+          font-size: 16px;
+          font-size: 1.6rem;
+          position: relative;
+          top: 1px;
+          left: 2px;
+          color: #0e5d91;
+          padding-right: 5px; }
+        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div {
+          display: table;
+          width: 100%;
+          height: 100%; }
+          .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class*=" icon-"] {
+            display: table-cell;
+            font-size: 60px;
+            font-size: 6rem;
+            position: static !important;
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            top: 0;
+            left: auto;
+            padding: 0; }
+        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option:hover {
+          opacity: 0.8; }
     .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
       display: inline-block;
       margin: 0;
@@ -531,9 +581,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           color: #0e5d91;
           cursor: default;
           display: none; }
+    .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
+      cursor: default !important; }
     .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option {
       position: relative;
-      padding: 5px 5px 5px 30px; }
+      padding: 5px 5px 5px 6px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
@@ -541,7 +593,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: 5px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option {
       position: relative;
-      padding: 5px 5px 5px 30px; }
+      padding: 5px 5px 5px 6px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
@@ -551,7 +603,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       right: -60px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option {
       position: relative;
-      padding: 5px 5px 5px 30px; }
+      padding: 5px 5px 5px 6px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;
@@ -586,7 +638,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           top: 5px; }
     .tao-scope #item-editor-panel .item-editor-item .widget-inlineChoiceInteraction {
       display: none;
-      background: rgba(243, 241, 239, 0.9); }
+      background: rgba(243, 241, 239, 0.5); }
     .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder {
       border: 1px solid #dddddd;
       border-radius: 2px;
@@ -604,7 +656,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         right: 6px;
         top: 6px; }
     .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction {
-      padding: 50px 10px 10px 30px; }
+      padding: 20px 10px 5px 30px; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction [data-edit] {
         display: none; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction table {
@@ -631,7 +683,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           cursor: pointer;
           color: #0e5d91; }
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-        padding: 0 18px 0 7px;
+        padding: 0 18px 0 10px;
         border-left: 1px #dddddd solid;
         border-right: 1px #dddddd solid;
         background: white; }
@@ -655,7 +707,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .mini-tlb input {
         width: 30px; }
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
-      padding: 0; }
+      padding: 0;
+      margin-bottom: 10px; }
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }

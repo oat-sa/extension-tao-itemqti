@@ -258,7 +258,7 @@ textarea {
   h2,
   h3 {
     page-break-after: avoid; } }
-.block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-GapMatchInteraction .gapmatch-content:hover {
+.block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicGapMatchInteraction ul.source > li:hover, .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-GapMatchInteraction .gapmatch-content:hover {
   background: #f2f6f9 !important;
   cursor: pointer !important; }
 
@@ -702,11 +702,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-graphicInteraction .active > input, .qti-graphicInteraction .active > textarea,
 .qti-graphicInteraction .active input.active, .qti-graphicInteraction .active textarea.active {
   border-color: #3e7da7; }
+.qti-graphicInteraction .image-editor {
+  position: relative; }
 .qti-graphicInteraction .main-image-box {
-  margin: 10px 0 10px 0;
-  padding: 0 10px; }
-  .qti-graphicInteraction .main-image-box .main-image {
-    display: block; }
+  margin: 0 auto;
+  padding: 0;
+  text-align: center; }
 .qti-graphicInteraction .image-sidebar {
   width: 9%;
   float: left;
@@ -759,6 +760,42 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-graphicGapMatchInteraction ul.source {
+  margin: 10px auto;
+  padding: 0 !important;
+  clear: both; }
+  .qti-graphicGapMatchInteraction ul.source > li {
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 20px;
+    font-size: 2rem;
+    margin: 0;
+    background: white;
+    margin-right: 3px; }
+    .qti-graphicGapMatchInteraction ul.source > li:hover {
+      cursor: pointer; }
+    .qti-graphicGapMatchInteraction ul.source > li.active {
+      border: solid 1px #3e7da7;
+      -webkit-transition: background 0.4s ease-out;
+      -moz-transition: background 0.4s ease-out;
+      -o-transition: background 0.4s ease-out;
+      transition: background 0.4s ease-out; }
+      .qti-graphicGapMatchInteraction ul.source > li.active:hover {
+        background: white !important;
+        cursor: default !important; }
+      .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover {
+        cursor: pointer !important; }
+    .qti-graphicGapMatchInteraction ul.source > li.disabled {
+      border: none;
+      cursor: default !important;
+      color: #333 !important;
+      background-color: transparent !important; }
+.qti-graphicGapMatchInteraction .gap-filler {
+  display: block;
+  position: absolute;
+  z-index: 20000; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
@@ -816,8 +853,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       cursor: default !important;
       color: #333 !important;
       background-color: transparent !important; }
-.qti-graphicOrderInteraction .main-image-box {
-  margin-bottom: 0; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
@@ -954,6 +989,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   display: inline-block; }
   .qti-GapMatchInteraction .gapmatch-content audio, .qti-GapMatchInteraction .gapmatch-content canvas, .qti-GapMatchInteraction .gapmatch-content img, .qti-GapMatchInteraction .gapmatch-content video {
     vertical-align: baseline; }
+  .qti-GapMatchInteraction .gapmatch-content.empty {
+    min-height: 20px; }
+  .qti-GapMatchInteraction .gapmatch-content .remove {
+    float: right; }
+.qti-GapMatchInteraction .choice-area .deactivated {
+  cursor: default;
+  opacity: 0.2; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
