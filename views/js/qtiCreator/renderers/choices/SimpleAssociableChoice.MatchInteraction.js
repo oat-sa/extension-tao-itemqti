@@ -2,7 +2,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleAssociableChoice.MatchInteraction',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/Widget'
-], function(_, SimpleAssociableChoice, SimpleChoiceWidget){
+], function(_, SimpleAssociableChoice, SimpleAssociableChoiceWidget){
     
     var CreatorSimpleAssociableChoice = _.clone(SimpleAssociableChoice);
 

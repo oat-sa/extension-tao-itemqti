@@ -231,7 +231,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return rendering;
         },
         postRender : function(data, altClassName, renderer){
-
+            
             renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){

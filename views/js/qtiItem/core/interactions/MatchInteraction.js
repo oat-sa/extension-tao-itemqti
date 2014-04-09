@@ -10,7 +10,7 @@ define([
         qtiClass : 'matchInteraction',
         init : function(serial, attributes){
             this._super(serial, attributes);
-            this.choices = [[], []];
+            this.choices = [{}, {}];
         },
         addChoice : function(choice, matchSet){
             matchSet = parseInt(matchSet);
@@ -33,9 +33,9 @@ define([
         getChoices : function(matchSet){
             matchSet = parseInt(matchSet);
             if(this.choices[matchSet]){
-                return this.choices[matchSet];
+                return _.clone(this.choices[matchSet]);
             }else{
-                return this.choices;
+                return _.clone(this.choices);
             }
         },
         getComposingElements : function(){
@@ -68,21 +68,21 @@ define([
             return found;
         },
         render : function(){
-
+        
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 choices,
                 defaultData = {
-                    'matchSet1' : [],
-                    'matchSet2' : []
-                };
-                
+                'matchSet1' : [],
+                'matchSet2' : []
+            };
+
             var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
-            
+
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
-            
+
             if(this.attr('shuffle') && renderer.shuffleChoices){
                 choices = renderer.getShuffledChoices(this);
             }else{
@@ -93,12 +93,28 @@ define([
                 var matchSet = choices[i];
                 for(var serial in matchSet){
                     if(matchSet[serial] instanceof SimpleAssociableChoice){
-                        defaultData['matchSet' + (i + 1)].push(matchSet[serial].render(_.clone(interactionData, true), null, 'simpleAssociableChoice.matchInteraction'));
+                        defaultData['matchSet' + (i + 1)].push(matchSet[serial].render(_.clone(interactionData, true), null, 'simpleAssociableChoice.matchInteraction', renderer));
                     }
                 }
             }
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
+        },
+        postRender : function(data, altClassName, renderer){
+
+            renderer = renderer || this.getRenderer();
+            
+            var choices = this.getChoices();
+            
+            for(var i = 0; i < 2; i++){
+                _.forIn(choices[i], function(c){
+                    if(c instanceof SimpleAssociableChoice){
+                        c.postRender({}, 'simpleAssociableChoice.matchInteraction', renderer);
+                    }
+                });
+            }
+
+            return this._super(data, altClassName, renderer);
         },
         toArray : function(){
             var arr = this._super();
