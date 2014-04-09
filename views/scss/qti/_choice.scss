@@ -17,4 +17,22 @@
             @include border-radius-bottom(2);
         }
     }
+
+//IE specific
+    
+    .checked {
+        span.icon-checkbox:before{
+            @extend %icon-checkbox-checked;
+        }
+        span.icon-radio:before{
+            @extend %icon-radio-checked;
+        }
+    }
+    input{
+        position: absolute;
+        left: -10000px;
+    }
+
+//END IE specific
+
 }

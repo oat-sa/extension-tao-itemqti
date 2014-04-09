@@ -12,23 +12,34 @@ define([
      * This allows the usage of block elements inside the fake label
      */
     var pseudoLabel = function(interaction){
+    
+        var $container = Helper.getContainer(interaction);
 
         var setChoice = function($choice){
             var $input = $choice.find('input');
+
             if($input.prop('checked')){
-                $input.prop('checked', false);
-            }else{
-                $input.prop('checked', true);
+                $input.prop('checked', false)
+                        .parent().removeClass('checked');
+            } else{
+                //simulate radio behavior
+                if($input.attr('type') === 'radio'){
+                    $('input[name="' + $input.attr('name') + '"]')
+                        .attr('checked', false)     
+                        .parent().removeClass('checked');
+                }
+                $input.prop('checked', true)
+                        .parent().addClass('checked');
             }
             Helper.validateInstructions(interaction, {choice : $choice});
         };
 
-        Helper.getContainer(interaction).find('.qti-choice').on('click', function(e){
+        $('.qti-choice', $container).on('click', function(e){
             setChoice($(this));
             e.preventDefault();
         });
 
-        Helper.getContainer(interaction).find('input').on('click', function(e){
+        $('input', $container).on('click', function(e){
             Helper.validateInstructions(interaction, {choice : $(this).parents('.qti-choice')});
             e.stopPopagation();
         });
