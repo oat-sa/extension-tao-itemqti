@@ -38,12 +38,12 @@ jQuery._farbtastic = function (container, callback) {
     var fb = this;
 
     // Insert markup
-    var e             = $('<div>', { class: 'farbtastic' }),
-        colorObj      = $('<div>', { class: 'color' }),
-        wheelObj      = $('<div>', { class: 'wheel' }),
-        overlayObj    = $('<div>', { class: 'overlay' }),
-        hMarkerObj    = $('<div>', { class: 'h-marker marker' }),
-        slMarkerObj   = $('<div>', { class: 'sl-marker marker' });
+    var e             = $('<div>', { 'class': 'farbtastic' }),
+        colorObj      = $('<div>', { 'class': 'color' }),
+        wheelObj      = $('<div>', { 'class': 'wheel' }),
+        overlayObj    = $('<div>', { 'class': 'overlay' }),
+        hMarkerObj    = $('<div>', { 'class': 'h-marker marker' }),
+        slMarkerObj   = $('<div>', { 'class': 'sl-marker marker' });
 
     container = $(container);
 

@@ -9,7 +9,7 @@ define([
         [
             {
                 title : 'Question',
-                class : 'question-trigger',
+                'class' : 'question-trigger',
                 status : 'off', // on | disabled | off => default
                 fn : function(e){
                     var target = arguments[1],
@@ -26,7 +26,7 @@ define([
             },
             {
                 title : 'Answer',
-                class : 'answer-trigger',
+                'class' : 'answer-trigger',
                 fn : function(e){
                     var target = arguments[1],
                         toolbar = arguments[2],
@@ -91,9 +91,9 @@ define([
                         toolbar = arguments[2],
                         msg = $('<span>', {text : __('You have deleted an element.') + ' '}),
                     undo = $('<a>', {text : __('Undo'), href : '#'}),
-                    icon = $('<span>', {class : 'icon-info'}),
-                    closer = $('<span>', {title : 'Remove Message', class : 'icon-close close-trigger'}),
-                    feedback = $('<div>', {class : 'feedback-info'}).hide();
+                    icon = $('<span>', { 'class' : 'icon-info'}),
+                    closer = $('<span>', {title : 'Remove Message', 'class' : 'icon-close close-trigger'}),
+                    feedback = $('<div>', { 'class' : 'feedback-info'}).hide();
 
                     closer.on('click', function(){
                         feedback.fadeOut(function(){
@@ -147,12 +147,12 @@ define([
                 type = 'spacer'
                 break;
         }
-        return $('<span>', {class : 'tlb-' + type});
+        return $('<span>', { 'class' : 'tlb-' + type});
     };
 
 
     var bar = function(items, target, toolbar){
-        var bar = $('<div>', {class : 'tlb-bar'}),
+        var bar = $('<div>', {'class' : 'tlb-bar'}),
         group,
             // does first element have an icon? if not the items are buttons
             isTextButton = !items[0].icon,
@@ -175,7 +175,7 @@ define([
             }
         }
         else{
-            group = $('<div>', {class : 'tlb-group'});
+            group = $('<div>', {'class' : 'tlb-group'});
             bar.append(group);
             for(i = 0; i < l; i++){
                 if($.type(items[i]) === 'string'){
@@ -225,21 +225,21 @@ define([
             icon = 'icon-' + (config.icon.replace('icon-', ''));
             delete(config.icon);
 
-            config.class = config.class ? config.class + ' tlb-button-' + status : 'tlb-button-' + status;
+            config['class'] = config['class'] ? config['class'] + ' tlb-button-' + status : 'tlb-button-' + status;
 
             button = $('<a>', config);
-            span = $('<span>', {class : icon});
+            span = $('<span>', {'class' : icon});
             button.append(span);
         }
         else{
             text = __(config.title);
             delete(config.title);
 
-            config.class = config.class ? config.class + ' tlb-text-button-box' : 'tlb-text-button-box';
+            config['class'] = config['class'] ? config['class'] + ' tlb-text-button-box' : 'tlb-text-button-box';
 
             button = $('<span>', config);
-            a = $('<a>', {class : 'tlb-text-button-' + status});
-            span = $('<span>', {class : 'tlb-text', text : text});
+            a = $('<a>', {'class' : 'tlb-text-button-' + status});
+            span = $('<span>', {'class' : 'tlb-text', text : text});
             button.append(a);
             a.append(span);
         }
@@ -329,11 +329,11 @@ define([
     var buildToolbar = function(config, target, tlbWrapper){
 
         // 1st level container
-        var tlb = $('<div>', {class : 'tlb'}),
+        var tlb = $('<div>', {'class' : 'tlb'}),
         // 2nd level container
-        top = $('<div>', {class : 'tlb-top'}),
+        top = $('<div>', {'class' : 'tlb-top'}),
         // 3rd level container
-        box = $('<div>', {class : 'tlb-box'}),
+        box = $('<div>', {'class' : 'tlb-box'}),
         i,
             ic = config.length;
 
@@ -376,7 +376,7 @@ define([
                 target = $(barConfig.target),
                 title,
                 top,
-                tlbWrapper = target.prop('tlb') || $('<div>', {class : 'tlb-wrapper'});
+                tlbWrapper = target.prop('tlb') || $('<div>', {'class' : 'tlb-wrapper'});
 
             if(!target.prop('tlb')){
 
@@ -387,7 +387,7 @@ define([
                 toolbar = buildToolbar(buttonConfig, target, tlbWrapper);
 
                 if(barConfig.title){
-                    title = $('<span>', {text : barConfig.title, class : 'tlb-title', title : barConfig.title});
+                    title = $('<span>', {text : barConfig.title, 'class' : 'tlb-title', title : barConfig.title});
                     tlbWrapper.append(title);
                 }
 
