@@ -4,11 +4,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/Widget'
 ], function(_, SimpleAssociableChoice, SimpleChoiceWidget){
     
-    var CreatorSimpleChoice = _.clone(SimpleAssociableChoice);
+    var CreatorSimpleAssociableChoice = _.clone(SimpleAssociableChoice);
 
-    CreatorSimpleChoice.render = function(choice, options){
+    CreatorSimpleAssociableChoice.render = function(choice, options){
         
-        SimpleChoiceWidget.build(
+        SimpleAssociableChoiceWidget.build(
             choice,
             SimpleAssociableChoice.getContainer(choice),
             this.getOption('choiceOptionForm'),
@@ -16,5 +16,5 @@ define([
         );
     };
 
-    return CreatorSimpleChoice;
+    return CreatorSimpleAssociableChoice;
 });
