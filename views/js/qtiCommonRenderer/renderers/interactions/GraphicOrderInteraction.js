@@ -25,13 +25,13 @@ define([
         var $container = Helper.getContainer(interaction);
         var $orderList = $('ul', $container);
         var background = interaction.object.attributes;
-
+        var baseUrl = this.getOption('baseUrl') || '';
 
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width       : background.width, 
             height      : background.height,
-            img         : this.getOption('baseUrl') + background.data,
+            img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
             resize      : function(newWidth){
