@@ -128,7 +128,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         return new common_report_Report(
             common_report_Report::TYPE_SUCCESS,
-            __('Successfuly compiled "%s"', $language)
+            __('Successfully compiled "%s"', $language)
         );
     }
 
