@@ -1,4 +1,3 @@
 <div class="qti-item tao-scope runtime" data-serial="{{serial}}" data-identifier="{{attributes.identifier}}">
-    <h1 class="item-title col-12">{{attributes.title}}</h1>
-    <div class="qti-itemBody">{{{body}}}</div>
+    <div{{#if attributes.id}} attributes.id{{/if}} class="qti-itemBody{{#if attributes.class}} attributes.class{{/if}}">{{{body}}}</div>
 </div>
