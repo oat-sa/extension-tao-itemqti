@@ -1,56 +1,58 @@
-define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupvalidator'], function(_, spinner, tooltip, select2){
+define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupvalidator'], function(_, spinner, tooltip, select2) {
 
     var cssClass = {
-        errorClass : 'error',
-        errorMessageClass : 'validate-error',
+        errorClass: 'error',
+        errorMessageClass: 'validate-error',
     };
 
     var formElement = {
-        initWidget : function($form){
+        initWidget: function($form) {
             spinner($form);
             tooltip($form);
             select2($form);
         },
-        initDataBinding : function($form, element, attributes){
+        initDataBinding: function($form, element, attributes) {
 
             attributes = attributes || {};
 
-            var callbackCall = function(name, value){
+            var callbackCall = function(name, value) {
                 console.log('change', name, value);
                 var cb = attributes[name];
-                if(_.isFunction(cb)){
+                if (_.isFunction(cb)) {
                     cb.call(null, element, value);
                 }
             };
-                
-            $form.on('change keyup', ':checkbox, select, :text:not([data-validate])', function(){
-                
+
+            $form.on('change keyup', ':checkbox, select, :text:not([data-validate])', function() {
+
 //                console.log($(this), $(this).prop('tagName'), $(this).attr('type'), $(this).attr('name'), $(this).val());
                 var $elt = $(this),
                     name = $elt.attr('name');
-                    
-                if($elt.is(':checkbox')){
-                    
+
+                if ($elt.is(':checkbox')) {
+
                     callbackCall(name, $elt.prop('checked'));
-                    
-                }else if($elt.prop('tagName') === 'SELECT' || $elt.is(':text')){
-                    
+
+                } else if ($elt.prop('tagName') === 'SELECT' || $elt.is(':text')) {
+
                     callbackCall(name, $elt.val());
                 }
             });
 
-            $form.groupValidator();
-            return;
-            
-            $form.on('validated.group', function(valid, elt){
+            $form.groupValidator({
+                events:['change', 'blur', {type:'keyup', length:0}]
+            });
+
+            $form.on('validated.group', function(e, valid, elt) {
                 
-                var $elt = $(elt),
-                    name = $elt.attr('name');
+                if (e.namespace === 'group') {
+                    
+                    var $elt = $(elt),
+                        name = $elt.attr('name');
 
-                if(valid){
-                    callbackCall(name, $elt.val());
-                }else{
-
+                    if (valid) {
+                        callbackCall(name, $elt.val());
+                    }
                 }
             });
 

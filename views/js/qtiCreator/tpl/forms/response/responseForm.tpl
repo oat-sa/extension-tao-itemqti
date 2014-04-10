@@ -1,3 +1,6 @@
+<input name="stuff" type="text" data-validate="$notEmpty; $pattern(pattern=[A-Z][a-z]{5,})"/>
+<input name="other-stuff" type="text" />
+
 <div class="panel panel-row">
     <label for="">Response processing template</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
@@ -16,8 +19,6 @@
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">whatever</span>
     </h3>
-<input name="stuff" data-validate="$notEmpty; $pattern(pattern=[A-Z][a-z]{5,})"/>
-<input name="other-stuff" />
     <div>
         <label for="lowerBound" class="spinner short">Min</label>
         <input name="lowerBound" value="{{lowerBound}}" data-increment="0.10" data-min="-100" data-max="100" type="text" data-role="lowerBound">
