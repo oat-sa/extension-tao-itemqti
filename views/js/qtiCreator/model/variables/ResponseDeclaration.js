@@ -16,6 +16,7 @@ define([
             if(templateUri){
                 this.template = templateUri;
             }
+            $(document).trigger('responseTemplateChange.qti-widget', {'element' : this, 'value' : template});
             return this;
         },
         getTemplate : function(){
@@ -31,6 +32,9 @@ define([
         },
         getCorrect : function(){
             return this.correctResponse;
+        },
+        setMappingAttribute : function(name, value){
+            this.mappingAttributes[name] = value;
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 

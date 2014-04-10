@@ -3,19 +3,40 @@ define([
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/editor/widgetToolbar'
 ], function($, Widget, toolbar){
-
+    
+    /**
+     * 
+     * Create a new widget definition from another prototype.
+     */
     var InteractionWidget = Widget.clone();
     
+    /**
+     * Optional method to be implemented :
+     * Init the widget
+     * It should never be called directly in normal usage
+     * Here, it is overwriten to accomodate for a new argument 
+     * that other widgets does not have: $responseForm
+     */
     InteractionWidget.init = function(element, $container, $form, $responseForm, options){
         Widget.init.call(this, element, $container, $form, options);
         this.$responseForm = $responseForm;
         return this;
     };
     
+    /**
+     * Optional method to be implemented :
+     * Build the widget and return an instance ready to be used
+     * Here, it is overwritten to accomodate for a new argument
+     * that other widgets does not have: $responseForm
+     */
     InteractionWidget.build = function(element, $container, $form, $responseForm, options){
         return this.clone().init(element, $container, $form, $responseForm, options);
     };
     
+    /**
+     * Required method to be implemented : 
+     * define the states and common structure valid for all states
+     */
     InteractionWidget.initCreator = function(){
 
         Widget.initCreator.call(this);
@@ -25,17 +46,27 @@ define([
         this.createOkButton();
     };
 
+    /**
+     * Required method to be implemented : 
+     * Define the contaieinr where everything is going on. 
+     * It normally used this.$original as the start point : from there, you can wrap, innerWrap
+     */
     InteractionWidget.buildContainer = function(){
         
         var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box', 'data-qti-class':this.element.qtiClass});
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
     };
-
+    
+    
     /**
-     * Common method for all interactions (at least block ones)
+     * Below here, 
+     * @returns {_L5.InteractionWidget}
+     */
+    
+    /**
+     * Create a toolbar
      * 
-     * @returns {InteractionWidget}
      */
     InteractionWidget.createToolbar = function(){
 

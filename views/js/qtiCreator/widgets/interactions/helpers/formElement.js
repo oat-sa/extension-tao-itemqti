@@ -1,11 +1,11 @@
 define([
     'lodash',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement'
 ], function(_, formElement){
 
     var formElementHelper = {
         init : function(widget){
-            formElement.init(widget.$form);
+            formElement.initWidget(widget.$form);
         },
         initShuffle : function(widget){
 

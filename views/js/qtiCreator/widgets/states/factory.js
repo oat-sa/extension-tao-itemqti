@@ -69,6 +69,12 @@ define(['lodash'], function(_){
 
     return {
         /**
+         * Create qti widget state from scratch or by using an existing state as model
+         * When creating a state from scratch, the name, the init() and exit() callback are required.
+         * The optional superStates (array) is optional and is useful only when you need to define a hierarchy between the new state
+         * abd the ones in the superStates array.
+         * When the widget state is changed in this newly created state, the init()
+         * 
          * accepts the following arguments:
          * (string) stateName, (array) superStates, (function) init, (function) exit
          * (string) stateName, (function) init, (function) exit

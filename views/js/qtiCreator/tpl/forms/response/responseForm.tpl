@@ -3,10 +3,10 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">Select the way the response of your interaction should be processed</div>
 
-    <select class="select2" data-has-search="false">
-        <option value="correct">Correct</option>
-        <option value="map">Map</option>
-        <option value="custom">Custom</option>
+    <select name="template" class="select2" data-has-search="false">
+        <option value="MATCH_CORRECT">Correct</option>
+        <option value="MAP_RESPONSE">Map</option>
+        <option value="CUSTOM">Custom</option>
     </select>
 </div>
 <hr/>
@@ -16,7 +16,8 @@
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">whatever</span>
     </h3>
-
+<input name="stuff" data-validate="$notEmpty; $pattern(pattern=[A-Z][a-z]{5,})"/>
+<input name="other-stuff" />
     <div>
         <label for="lowerBound" class="spinner short">Min</label>
         <input name="lowerBound" value="{{lowerBound}}" data-increment="0.10" data-min="-100" data-max="100" type="text" data-role="lowerBound">
