@@ -25,6 +25,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 html,
 button,
 input,
@@ -395,6 +401,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-choiceInteraction .block-listing > li {
   margin-top: 0;
   margin-bottom: 0;
@@ -421,6 +433,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
+.qti-choiceInteraction input {
+  position: absolute;
+  left: -10000px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
@@ -448,6 +463,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-orderInteraction .arrow-bar {
   text-align: center; }
@@ -528,6 +549,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-extendedTextInteraction input {
   width: 100%; }
 .qti-extendedTextInteraction .solid > li, .qti-extendedTextInteraction .bordered > li {
@@ -567,6 +594,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-associateInteraction .empty {
   cursor: pointer;
@@ -662,6 +695,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-matchInteraction .matrix tbody [data-edit] {
   width: 30px; }
 
@@ -691,6 +730,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-graphicInteraction .solid > li, .qti-graphicInteraction .bordered > li {
   padding: 0;
@@ -761,6 +806,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-graphicGapMatchInteraction ul.source {
   margin: 10px auto;
   padding: 0 !important;
@@ -824,6 +875,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-graphicOrderInteraction ul.ordinals {
   margin: 0 auto;
   padding: 0 10px !important;
@@ -881,6 +938,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-SelectPointInteraction .txt-success:hover {
   background: transparent !important; }
 
@@ -910,6 +973,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-hottextInteraction .hottext {
   background: #f3f1ef;
@@ -978,6 +1047,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 .qti-GapMatchInteraction .gapmatch-content {
   background: #f3f1ef;
   -moz-border-radius: 2px;
@@ -1024,6 +1099,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
@@ -1050,6 +1131,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-textEntryInteraction {
   background: rgba(243, 241, 239, 0.85);
@@ -1110,6 +1197,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
+
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 .qti-uploadInteraction {
   background: #f9f8f7;
