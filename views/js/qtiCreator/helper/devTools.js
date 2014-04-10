@@ -29,7 +29,8 @@ define([
             'mapEntryChange.qti-widget',
             'mapEntryRemove.qti-widget',
             'deleted.qti-widget',
-            'choiceTextChange.qti-widget'
+            'choiceTextChange.qti-widget',
+            'responseTemplateChange.qti-widget'
         ];
 
         $(document).on(events.join(' '), _.throttle(function() {

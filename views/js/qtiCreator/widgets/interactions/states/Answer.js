@@ -19,6 +19,8 @@ define([
         this.widget.$container.removeClass('runtime');
         
         this.widget.$responseForm.empty().hide();
+        
+        $(document).off('.answer.'+this.widget.serial);
     });
     
     //default initResponseForm will intialize the common form applicable to most of the interactions
@@ -26,7 +28,13 @@ define([
     //therfore, in the case of stringInteractions, please overwrite the prototype function with a new implementation
     InteractionStateAnswer.prototype.initResponseForm = function(){
         
+        var _widget = this.widget;
+        
         answerStateHelper.initResponseForm(this.widget);
+        
+        $(document).on('responseTemplateChange.qti-widget.answer.'+_widget.serial, function(e, data){
+               answerStateHelper.forward(_widget);
+        });
     };
     
     return InteractionStateAnswer;

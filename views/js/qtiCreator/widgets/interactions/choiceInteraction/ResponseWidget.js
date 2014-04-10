@@ -1,4 +1,4 @@
-define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'], function(_, responseToolbarTpl){
+define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response', 'ui/groupvalidator'], function(_, responseToolbarTpl){
     
     var ResponseWidget = {
         create : function(widget){
@@ -58,17 +58,40 @@ define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
         });//initialized as hidden
         
         //prevent propagation to prevent click and re-click because of the click event handler place on the .qti-choice
-        $correct.parent('label').on('click', function(e){
+        $('.mini-tlb', widget.$container).on('click', function(e){
             e.stopPropagation();
         });
         
         $choices.find('input[data-role=score]').on('keyup.qti-widget', function(){
-            var score = parseFloat($(this).val()),
+            
+            var value = $(this).val(), 
+                score = parseFloat(value),
                 key = $(this).attr('name');
-
-            _setMapEntry(key, score);
+             
+             if(value === ''){
+                 //leave empty, pplaceholder
+             }else if(!isNaN(score)){
+                 //is a correct number
+                 _setMapEntry(key, score);
+             }else{
+                 //invalid input!
+                 console.log('show error tooltip here');
+             }
         });
-
+        
+//        widget.$container.groupValidator({});
+//        
+//        $choices.on('validated.single', 'input[data-role=score]', function(e, valid){
+//            if (e.namespace === 'single') {
+//                if(valid){
+//                    var score = parseFloat($(this).val()),
+//                        key = $(this).attr('name');
+//                        
+//                    _setMapEntry(key, score);
+//                }
+//            }
+//        });
+        
         //initialized as hidden
         $choices.find('[data-edit=map], [data-edit=correct]').hide();
     };

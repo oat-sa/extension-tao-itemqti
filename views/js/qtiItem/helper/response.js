@@ -15,6 +15,9 @@ define(['lodash'], function(_){
             }
             return false;
         },
+        isValidTemplateName:function(tplName){
+            return !!this.getTemplateUriFromName(tplName);
+        },
         getTemplateUriFromName:function(tplName){
             if(_templateNames[tplName]){
                 return _templateNames[tplName];
