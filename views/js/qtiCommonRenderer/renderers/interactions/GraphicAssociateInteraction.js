@@ -105,7 +105,7 @@ define([
                 graphic.updateElementState(this, 'basic', __('Select this area to start an association'));
                 this.active = false;
                 _shapesUnSelectable(interaction);
-            } else {
+            } else if(_isMatchable(this)){
                 graphic.updateElementState(this, 'active', __('Select another area to complete the association'));
                 this.active = true;
                 _shapesSelectable(interaction);
@@ -177,43 +177,32 @@ define([
 
         //create a path with bullets at the beginning and the end 
         var srcBullet = interaction.paper.circle(sx, sy, 3)
-            .attr({'fill': '#000000', 'cursor' : 'pointer'});
+            .attr(graphic._style['assoc-bullet']);
 
         var destBullet = interaction.paper.circle(dx, dy, 3)
-            .attr({'fill': '#000000', 'cursor' : 'pointer'});
+            .attr(graphic._style['assoc-bullet']);
         
         var path = interaction.paper.path('M' + sx + ',' + sy + 'L' + sx + ',' + sy)
-            .attr({'stroke-width' : 2, 'stroke-linecap' : 'round', 'cursor' : 'pointer'})
+            .attr(graphic._style.assoc)
             .animate({path : 'M' + sx + ',' + sy + 'L' + dx + ',' + dy}, 300);
         
         //create an overall layer that make easier the path selection
         var layer = interaction.paper.path('M' + sx + ',' + sy + 'L' + dx + ',' + dy)
-            .attr({'stroke-width' : 12, 'cursor' : 'pointer', 'stroke-opacity' : 0});
+            .attr(graphic._style['assoc-layer']);
 
         //get the middle of the path
         var midPath = layer.getPointAtLength(layer.getTotalLength() / 2);
         
         //create an hidden background for the closer
         var closerBg = interaction.paper.circle(midPath.x, midPath.y, 9)
-            .attr({
-                'fill' : '#ffffff',
-                'stroke' : 'none',
-                'cursor' : 'pointer',
-                'opacity' : 0  
-            })
+            .attr(graphic._style['close-bg'])
             .toBack();
  
         //create an hidden closer
-        var closer = interaction.paper.path(graphic.getClosePath())
+        var closer = interaction.paper.path(graphic._style.close.path)
+            .attr(graphic._style.close)
             .transform('T' + (midPath.x - 9 ) + ',' + (midPath.y - 9))
-            .attr({
-                'fill' : graphic.states.active.fill,
-                'width' : 1,
-                'opacity' : 0,
-                'stroke-width' : 0,
-                'cursor' : 'pointer',
-                'title' : _('Click again to remove')
-            })
+            .attr('title', _('Click again to remove'))
             .toBack();
 
         //the path is below the shapes        

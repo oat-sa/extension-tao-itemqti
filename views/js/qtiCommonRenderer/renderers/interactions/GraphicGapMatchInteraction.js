@@ -83,11 +83,6 @@ define([
      */
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
-        //append the template by gap image        
-        //_.forEach(interaction.getGapImgs(), function(gapImg){
-            //$gapList.append(gapImgTpl(gapImg));
-        //});
-
         //activate the gap filling 
         $gapList.children('li').click(function onClickGapImg (e){
             e.preventDefault();
@@ -160,11 +155,12 @@ define([
                     left    : startx,
                     top     : interaction.paper.height,
                     width   : $img.width(),
-                    height  : $img.height()
+                    height  : $img.height(),
+                    padding : 6
                 })
                 .data('identifier', id)
                 .toFront()
-                .move(bbox.x + (2 * (currentCount)), bbox.y + (2 * (currentCount)))
+                .move(bbox.x + (3 * (currentCount)), bbox.y + (3 * (currentCount)))
                 .click(function(){
 
                     if($gapList.find('.active').length > 0){

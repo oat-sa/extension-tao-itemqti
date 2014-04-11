@@ -245,7 +245,7 @@ define([
          * @returns {Raphael.Element} the created set, augmented of a move(x,y) method
          */
         createBorderedImage : function(paper, options){
-            var padding = options.padding || 4;
+            var padding = options.padding || 6;
             var halfPad = padding / 2;
  
             var rx = options.left,
@@ -263,7 +263,7 @@ define([
             //create a rectangle with a padding and a border.
             var rect = paper
                 .rect(rx, ry, rw, rh)
-                .attr(gstyle['imageset-img']);
+                .attr(gstyle['imageset-rect']);
 
             //and an image centered into the rectangle.
             var image = paper
