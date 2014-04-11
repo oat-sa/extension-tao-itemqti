@@ -9,6 +9,6 @@
         <span class="icon-checkbox"></span>
     </label>
     <label class="tlb-button right" title="Score of this answer" data-edit="map">
-        <input value="{{score}}" type="text" data-role="score" name="{{choiceIdentifier}}" data-validate="$numeric" data-validate-option="$event(type=keyup)" />
+        <input value="{{score}}" type="text" data-role="score" name="{{choiceIdentifier}}" class="score" data-validate="$numeric" data-validate-option="$event(type=keyup)" />
     </label>
 </div>

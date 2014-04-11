@@ -171,6 +171,17 @@
                     padding:0;
                     max-width:140px;
                 }
+                input.score{
+                    width: 40px;
+                    min-width: 40px;
+                }
+                .feedbackRule-panel{
+                    .adder{
+                        :before{
+                            font-size:1.4rem;
+                        }
+                    }
+                }
             }
         }
         .inset {
@@ -221,7 +232,7 @@
                 top: 6px;
             }
             &.short{
-                text-align:right;
+                padding-right:10px;
             }
         }
         .incrementer-ctrl {
@@ -273,8 +284,8 @@
             }
         }
     }
-
-
+    
+    
     #item-editor-panel {
         margin: 0 180px;
         overflow: auto;
