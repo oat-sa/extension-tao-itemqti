@@ -5,11 +5,11 @@ define([
 ], function(responseHelper, formElement, responseFormTpl){
 
     var _saveCallbacks = {
-        template : function(elt, value){
+        template : function(elt, key, value){
             elt.setTemplate(value);
         },
-        mappingAttr : function(elt, value){
-            elt.setMappingAttribute(elt, value);
+        mappingAttr : function(elt, key, value){
+            elt.setMappingAttribute(key, value);
         }
     };
 
@@ -44,7 +44,10 @@ define([
             }
 
             widget.$responseForm.html(responseFormTpl({
-                template : template
+                template : template,
+                defaultValue: response.getMappingAttribute('defaultValue'),
+                lowerBound: response.getMappingAttribute('lowerBound'),
+                upperBound: response.getMappingAttribute('upperBound')
             }));
             
             formElement.initWidget(widget.$responseForm);

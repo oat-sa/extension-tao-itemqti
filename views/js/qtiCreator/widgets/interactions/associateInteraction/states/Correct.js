@@ -7,7 +7,7 @@ define([
 
     var AssociateInteractionStateCorrect = stateFactory.create(Correct, function(){
         
-        var response = this.widget.element.getResponseDeclaration();;
+        var response = this.widget.element.getResponseDeclaration();
         
         responseWidget.create(this.widget, false);
         responseWidget.setResponse(_.values(response.getCorrect()));

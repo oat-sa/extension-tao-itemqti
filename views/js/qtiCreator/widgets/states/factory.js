@@ -57,7 +57,12 @@ define(['lodash'], function(_){
                 }
                 this.widget.$container.find('[data-edit="' + name + '"]').hide();
                 this.widget.$container.removeClass('edit-' + name);
+                
                 $(document).trigger('beforeStateExit.qti-widget', [this.widget.element, this]);
+                
+                //remove any qti element change event attached during this state lifetime
+                $(document).off(['.qti-widget', name, this.widget.serial].join('.'));
+                
                 exit.call(this);
                 $(document).trigger('afterStateExit.qti-widget', [this.widget.element, this]);
             };
@@ -94,7 +99,6 @@ define(['lodash'], function(_){
                         exit = arguments[3];
                         State = _create(name, superStates, init, exit);
                     }else{
-                        debugger;
                         throw new Error('the third and fourth arguments are expected to be functions: init() & exit()');
                     }
                 }else{

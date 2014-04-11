@@ -89,7 +89,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'jquery', 'lodash'], function(Element
         },
         attr : function(element, key, value){
             if(key !== undefined && value !== undefined){
-                $(document).trigger('attributeModified.qti-widget', {'element' : element, 'key' : key, 'value' : value});
+                $(document).trigger('attributeChange.qti-widget', {'element' : element, 'key' : key, 'value' : value});
             }
             return element.attr(key, value);
         },

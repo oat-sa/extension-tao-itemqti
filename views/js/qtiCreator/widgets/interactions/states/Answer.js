@@ -19,8 +19,6 @@ define([
         this.widget.$container.removeClass('runtime');
         
         this.widget.$responseForm.empty().hide();
-        
-        $(document).off('.answer.'+this.widget.serial);
     });
     
     //default initResponseForm will intialize the common form applicable to most of the interactions
@@ -30,10 +28,10 @@ define([
         
         var _widget = this.widget;
         
-        answerStateHelper.initResponseForm(this.widget);
+        answerStateHelper.initResponseForm(_widget);
         
-        $(document).on('responseTemplateChange.qti-widget.answer.'+_widget.serial, function(e, data){
-               answerStateHelper.forward(_widget);
+        _widget.on('responseTemplateChange', function(){
+            answerStateHelper.forward(_widget);
         });
     };
     

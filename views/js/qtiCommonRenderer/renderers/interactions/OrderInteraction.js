@@ -116,7 +116,7 @@ define([
         _setInstructions(interaction);
 
         //bind event listener in case the attributes change dynamically on runtime
-        $(document).on('attributeModified.qti-widget.commonRenderer', function(e, data){
+        $(document).on('attributeChange.qti-widget.commonRenderer', function(e, data){
             if(data.element.getSerial() === interaction.getSerial()){
                 if(data.key === 'maxChoices' || data.key === 'minChoices'){
                     Helper.removeInstructions(interaction);

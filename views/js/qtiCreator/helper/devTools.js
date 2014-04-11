@@ -23,14 +23,15 @@ define([
 
         var events = [
             'containerBodyChange',
-            'attributeModified.qti-widget',
+            'attributeChange.qti-widget',
             'choiceCreated.qti-widget',
             'correctResponseChange.qti-widget',
             'mapEntryChange.qti-widget',
             'mapEntryRemove.qti-widget',
             'deleted.qti-widget',
             'choiceTextChange.qti-widget',
-            'responseTemplateChange.qti-widget'
+            'responseTemplateChange.qti-widget',
+            'mappingAttributeChange.qti-widget'
         ];
 
         $(document).on(events.join(' '), _.throttle(function() {

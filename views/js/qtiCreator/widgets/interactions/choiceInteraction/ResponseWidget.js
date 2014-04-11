@@ -1,5 +1,5 @@
-define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response', 'ui/groupvalidator'], function(_, responseToolbarTpl){
-    
+define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response', 'ui/groupvalidator', 'tooltipster', 'polyfill/placeholders'], function(_, __, responseToolbarTpl){
+
     var ResponseWidget = {
         create : function(widget){
             _createResponseToolbar(widget);
@@ -9,9 +9,9 @@ define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
         },
         createResponseToolbar : _createResponseToolbar
     };
-    
+
     var _createResponseToolbar = function(widget){
-        
+
         var interaction = widget.element,
             response = interaction.getResponseDeclaration(),
             correctResponse = _.values(response.getCorrect()),
@@ -53,50 +53,55 @@ define(['lodash', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
             }));
         });
 
-        var $correct = $choices.find('input[data-role=correct]').on('change.qti-widget', function(){
+        $choices.find('input[data-role=correct]').on('change.qti-widget', function(){
             _saveCorrect();
         });//initialized as hidden
-        
+
         //prevent propagation to prevent click and re-click because of the click event handler place on the .qti-choice
         $('.mini-tlb', widget.$container).on('click', function(e){
             e.stopPropagation();
         });
-        
-        $choices.find('input[data-role=score]').on('keyup.qti-widget', function(){
-            
-            var value = $(this).val(), 
+
+        var $scores = $choices.find('input[data-role=score]').on('keyup.qti-widget', function(){
+
+            var $score = $(this),
+                value = $score.val(),
                 score = parseFloat(value),
-                key = $(this).attr('name');
-             
-             if(value === ''){
-                 //leave empty, pplaceholder
-             }else if(!isNaN(score)){
-                 //is a correct number
-                 _setMapEntry(key, score);
-             }else{
-                 //invalid input!
-                 console.log('show error tooltip here');
-             }
+                key = $score.attr('name');
+
+            if(value === ''){
+                //leave empty, pplaceholder
+                $score.tooltipster('hide');
+            }else if(!isNaN(score)){
+                //is a correct number
+                _setMapEntry(key, score);
+                $score.tooltipster('hide');
+            }else{
+                //invalid input!
+                $score.tooltipster('show');
+                console.log('show error tooltip here');
+            }
         });
-        
-//        widget.$container.groupValidator({});
-//        
-//        $choices.on('validated.single', 'input[data-role=score]', function(e, valid){
-//            if (e.namespace === 'single') {
-//                if(valid){
-//                    var score = parseFloat($(this).val()),
-//                        key = $(this).attr('name');
-//                        
-//                    _setMapEntry(key, score);
-//                }
-//            }
-//        });
+
+        $scores.tooltipster({
+            theme : 'tao-error-tooltip',
+            content : __('invalid score value'),
+            delay : 350,
+            trigger : 'custom'
+        });
+
+        $scores.attr('placeholder', response.getMappingAttribute('defaultValue'));
+        widget.on('mappingAttributeChange', function(data){
+            if(data.key === 'defaultValue'){
+                $scores.attr('placeholder', data.value);
+            }
+        });
         
         //initialized as hidden
         $choices.find('[data-edit=map], [data-edit=correct]').hide();
     };
-    
-    
+
+
 
     return ResponseWidget;
 });

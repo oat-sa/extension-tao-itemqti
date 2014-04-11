@@ -19,13 +19,13 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupva
                 console.log('change', name, value);
                 var cb = attributes[name];
                 if (_.isFunction(cb)) {
-                    cb.call(null, element, value);
+                    cb.call(null, element, name, value);
                 }
             };
+            
+            $form.off('.databinding');
+            $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', function() {
 
-            $form.on('change keyup', ':checkbox, select, :text:not([data-validate])', function() {
-
-//                console.log($(this), $(this).prop('tagName'), $(this).attr('type'), $(this).attr('name'), $(this).val());
                 var $elt = $(this),
                     name = $elt.attr('name');
 
@@ -43,7 +43,7 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupva
                 events:['change', 'blur', {type:'keyup', length:0}]
             });
 
-            $form.on('validated.group', function(e, valid, elt) {
+            $form.on('validated.group.databinding', function(e, valid, elt) {
                 
                 if (e.namespace === 'group') {
                     

@@ -35,6 +35,10 @@ define([
         },
         setMappingAttribute : function(name, value){
             this.mappingAttributes[name] = value;
+            $(document).trigger('mappingAttributeChange.qti-widget', {'element' : this, 'key' : name, 'value' : value});
+        },
+        getMappingAttribute : function(name){
+            return this.mappingAttributes[name];
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 

@@ -32,7 +32,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
         attr : function(key, value){
             var ret = this._super(key, value);
             if(key !== undefined && value !== undefined){
-                $(document).trigger('attributeModified.qti-widget', {'element' : this, 'key' : key, 'value' : value});
+                $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
             }
             return ret;
         },

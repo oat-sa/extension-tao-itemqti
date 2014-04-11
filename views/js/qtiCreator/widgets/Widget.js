@@ -3,20 +3,20 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/core/Element'
 ], function(_, $, Element){
-    
+
     var _pushState = function(widget, stateName){
         var currentState = new widget.registeredStates[stateName](widget);
         widget.stateStack.push(currentState);
         currentState.init();
     };
-    
+
     var _popState = function(widget){
         var state = widget.stateStack.pop();
         if(state){
             state.exit();
         }
     };
-    
+
     var Widget = {
         init : function(element, $original, $form, options){
             if(element instanceof Element){
@@ -29,13 +29,13 @@ define([
                 this.$form = $form;
                 this.stateStack = [];
                 this.registeredStates = {};
-                
+
                 //build container from origin element
                 this.buildContainer();
-                
+
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
-                
+
                 //pass the options to the initCreator for custom options usage 
                 this.initCreator(options);
 
@@ -49,15 +49,15 @@ define([
                 if(_.isFunction(options.ready)){
                     options.ready.call(this, this);
                 }
-                
+
             }else{
                 throw new Error('element is not a QTI Element');
             }
             return this;
         },
-        buildContainer:function(){
+        buildContainer : function(){
             throw new Error('method buildContainer must be implemented');
-        },    
+        },
         build : function(element, $container, $form, options){
             return this.clone().init(element, $container, $form, options);
         },
@@ -84,7 +84,7 @@ define([
                 state,
                 superStateName,
                 currentState = this.getCurrentState();
-                
+
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName];
             }else{
@@ -126,9 +126,9 @@ define([
                     _pushState(_this, superStateName);
                 });
             }
-            
+
             _pushState(this, stateName);
-            
+
             return this;
         },
         registerState : function(name, State){
@@ -175,6 +175,22 @@ define([
             //we assume that the element still has its renderer set
             this.element.render({}, this.$container);
             this.element.postRender(opts);
+        },
+        //assign an event listener that lives with the state
+        on : function(qtiElementEventName, callback){
+            
+            var _this = this;
+
+            var eventNameToken = [
+                qtiElementEventName,
+                'qti-widget',
+                this.getCurrentState().name,
+                this.serial
+            ];
+            
+            $(document).on(eventNameToken.join('.'), function(e, data){
+                callback.call(_this, data);
+            });
         }
     };
 
