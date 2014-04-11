@@ -446,9 +446,12 @@
                             color: $info !important;
                         }
                         [data-role="score"] {
-                            width: 30px !important;
+                            left:0;
+                            min-width:0; 
+                            width: 35px !important;
+                            height:20px;
                             position: relative;
-                            top: -2px;
+                            top: 0;
                         }
                         &[data-role="cke-launcher"] {
                             display: none;

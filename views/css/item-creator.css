@@ -693,18 +693,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
             color: #0e5d91 !important; }
           /* line 448, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"] {
-            width: 30px !important;
+            left: 0;
+            min-width: 0;
+            width: 35px !important;
+            height: 20px;
             position: relative;
-            top: -2px; }
-          /* line 453, ../scss/item-creator.scss */
+            top: 0; }
+          /* line 456, ../scss/item-creator.scss */
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"] {
             display: none; }
-      /* line 458, ../scss/item-creator.scss */
+      /* line 461, ../scss/item-creator.scss */
       .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title {
         position: absolute;
         top: -30px;
         right: 0; }
-        /* line 462, ../scss/item-creator.scss */
+        /* line 465, ../scss/item-creator.scss */
         .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title label {
           color: #0e5d91;
           cursor: default;
@@ -870,22 +873,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
       padding: 0;
       margin-bottom: 10px; }
-  /* line 474, ../scss/item-creator.scss */
+  /* line 477, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }
-  /* line 478, ../scss/item-creator.scss */
+  /* line 481, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-drop-area {
     min-height: 300px;
     padding-bottom: 20px; }
-  /* line 482, ../scss/item-creator.scss */
+  /* line 485, ../scss/item-creator.scss */
   .tao-scope #item-editor-panel .item-editor-row {
     min-height: 100px;
     overflow-x: hidden;
     overflow-y: visible; }
 
 @media print {
-  /* line 492, ../scss/item-creator.scss */
+  /* line 495, ../scss/item-creator.scss */
   #tabs {
     margin: 0;
     min-height: 0;
@@ -893,26 +896,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0;
     border: none !important; }
 
-  /* line 500, ../scss/item-creator.scss */
+  /* line 503, ../scss/item-creator.scss */
   .item-no-print {
     display: none; }
 
-  /* line 504, ../scss/item-creator.scss */
+  /* line 507, ../scss/item-creator.scss */
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-    /* line 507, ../scss/item-creator.scss */
+    /* line 510, ../scss/item-creator.scss */
     #item-editor-panel .item-editor-item {
       border-radius: 0;
       box-shadow: none;
       margin: 0 !important;
       border: none !important;
       width: 100% !important; }
-      /* line 513, ../scss/item-creator.scss */
+      /* line 516, ../scss/item-creator.scss */
       #item-editor-panel .item-editor-item [class*="col-"] {
         border-color: transparent; }
 
-  /* line 518, ../scss/item-creator.scss */
+  /* line 521, ../scss/item-creator.scss */
   .item-editor-row {
     border: none !important;
     background: none !important; } }
