@@ -1,0 +1,32 @@
+.qti-sliderInteraction .ui-slider-horizontal {
+  margin: 0 20px; }
+.qti-sliderInteraction .ui-slider-vertical {
+  margin: 0 20px;
+  display: inline-block; }
+.qti-sliderInteraction .qti-slider-values {
+  position: relative; }
+.qti-sliderInteraction.qti-slider-horizontal .qti-slider-values {
+  height: 20px;
+  margin: 0 20px; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-min, .qti-sliderInteraction.qti-slider-horizontal .slider-max, .qti-sliderInteraction.qti-slider-horizontal .slider-middle {
+  position: absolute;
+  width: 40px;
+  margin-left: -20px;
+  text-align: center; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-min {
+  left: 0%; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-max {
+  left: 100%; }
+.qti-sliderInteraction.qti-slider-vertical .qti-slider-values {
+  width: 30px;
+  display: inline-block; }
+.qti-sliderInteraction.qti-slider-vertical .slider-min, .qti-sliderInteraction.qti-slider-vertical .slider-max, .qti-sliderInteraction.qti-slider-vertical .slider-middle {
+  position: absolute; }
+.qti-sliderInteraction.qti-slider-vertical .slider-min {
+  bottom: -10px; }
+.qti-sliderInteraction.qti-slider-vertical .slider-max {
+  top: -10px; }
+.qti-sliderInteraction.qti-slider-vertical .ui-slider-handle {
+  width: 17px !important;
+  height: 10px !important;
+  margin-left: -4px !important; }

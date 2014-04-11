@@ -473,6 +473,9 @@
             @import "qtiCreator/_order";
             @import "qtiCreator/_associate";
             @import "qtiCreator/_inline-choice";
+            @import "qtiCreator/_gap-match";
+            // the following file is identical to gap-match
+            // @import "qtiCreator/_graphic-gap";
         }
         h1 {
             font-weight: 300;

@@ -481,6 +481,69 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :   .      '.
                               :  : :      :
                               :__:-:__.;--'
+                             <*_/   <*/
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
                              <*_/   <*/ }
     .tao-scope #item-editor-panel .item-editor-item [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [class^="col-"] {
       position: relative; }
@@ -568,9 +631,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button.active {
             color: #0e5d91 !important; }
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"] {
-            width: 30px !important;
+            left: 0;
+            min-width: 0;
+            width: 35px !important;
+            height: 20px;
             position: relative;
-            top: -2px; }
+            top: 0; }
           .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"] {
             display: none; }
       .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title {
@@ -709,6 +775,28 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
       padding: 0;
       margin-bottom: 10px; }
+    .tao-scope #item-editor-panel .item-editor-item .response-pair-editor {
+      min-width: 350px;
+      background: rgba(243, 241, 239, 0.85);
+      padding: 20px 30px 20px 30px; }
+      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .title {
+        position: relative;
+        top: -5px;
+        left: -10px; }
+      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .indicator {
+        color: #3e7da7;
+        position: relative;
+        top: 10px;
+        font-size: 13px;
+        font-size: 1.3rem; }
+      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .col-2 {
+        text-align: center; }
+      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .icon-bin {
+        position: relative;
+        top: 7px;
+        cursor: pointer; }
+      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .cb {
+        top: 5px; }
   .tao-scope #item-editor-panel h1 {
     font-weight: 300;
     margin: 0; }

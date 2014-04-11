@@ -1,0 +1,43 @@
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.response-pair-editor {
+  min-width: 350px;
+  background: rgba(243, 241, 239, 0.85);
+  padding: 20px 30px 20px 30px; }
+  .response-pair-editor .title {
+    position: relative;
+    top: -5px;
+    left: -10px; }
+  .response-pair-editor .indicator {
+    color: #3e7da7;
+    position: relative;
+    top: 10px;
+    font-size: 13px;
+    font-size: 1.3rem; }
+  .response-pair-editor .col-2 {
+    text-align: center; }
+  .response-pair-editor .icon-bin {
+    position: relative;
+    top: 7px;
+    cursor: pointer; }
+  .response-pair-editor .cb {
+    top: 5px; }
