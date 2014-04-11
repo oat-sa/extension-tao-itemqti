@@ -14,6 +14,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'simpleChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleChoice',
         'simpleAssociableChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleAssociableChoice',
         'inlineChoice' : 'taoQtiItem/qtiCreator/model/choices/InlineChoice',
+        'hotspotInteraction' : 'taoQtiItem/qtiCreator/model/interactions/HotspotInteraction',
+        'hotspotChoice' : 'taoQtiItem/qtiCreator/model/choices/HotspotChoice',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration'
     });
 

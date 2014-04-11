@@ -56,10 +56,7 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
-        var shape = choice.attributes.shape;
-        var coords = choice.attributes.coords;
-
-        var rElement = graphic.createElement(interaction.paper, shape, coords, {
+        var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
             id : choice.serial,
             title : __('Select this area')
         })
