@@ -212,11 +212,11 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 defaultData.object = {
                     attributes : this.object.getAttributes()
                 };
-                //@todo clean this;
                 var url = defaultData.object.attributes.data;
-                if(typeof(qti_base_www) !== 'undefined'){
+                var baseUrl = renderer.getOption('baseUrl');
+                if(baseUrl){
                     if(!/^http(s)?:\/\//.test(url)){
-                        defaultData.object.attributes.data = qti_base_www + url;
+                        defaultData.object.attributes.data = baseUrl + url;
                     }
                 }
             }
