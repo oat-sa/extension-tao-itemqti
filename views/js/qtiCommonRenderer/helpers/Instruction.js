@@ -91,6 +91,10 @@ define([
         
         this.update(options);
     };
+    
+    Instruction.prototype.getLevel = function() {
+        return this.level;
+    }
 
     Instruction.prototype.setMessage = function(message, timeout){
         this.update({message : message, timeout : timeout});

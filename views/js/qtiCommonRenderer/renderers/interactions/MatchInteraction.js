@@ -4,7 +4,8 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'i18n'
+    'i18n',
+    'lib/jquery.color'
 ], function(_, $, tpl, Helper, pciResponse, __) {
 	
 	/**
@@ -147,16 +148,77 @@ define([
     	}
     	
     	if (_.size(currentResponse) > maxAssociations) {
+    	    // No more associations possible.
     		e.preventDefault();
+    		Helper.validateInstructions(interaction);
     	}
-    	
-    	Helper.validateInstructions(interaction);
+    	else if ((choice = _maxMatchReached(interaction, e.target)) !== false) {
+    	    
+    	    // Check if matchmax is respected for both choices
+    	    // involved in the selection.
+	        e.preventDefault();
+	        Helper.validateInstructions(interaction, choice);
+    	}
+    	else {
+    	    Helper.validateInstructions(interaction);
+    	}
     };
+    
+    var _maxMatchReached = function(interaction, input) {
+        
+        var association = _inferValue(input);
+        var overflow = false;
+        
+        _(association).forEach(function(identifier) {
+            var choice = _getChoiceDefinitionByIdentifier(interaction, identifier);
+            var matchMin = choice.attributes.matchMin;
+            var matchMax = choice.attributes.matchMax;
+            var assoc = _countAssociations(interaction, choice);
+            
+            if (assoc > matchMax) {
+                overflow = choice;
+            }
+        });
+
+        return overflow;
+    }
+    
+    var _countAssociations = function(interaction, choice) {
+        
+        var rawResponse = _getRawResponse(interaction);
+        var count = 0;
+        
+        // How much time can we find rawChoice in rawResponses?
+        _(rawResponse).forEach(function(response) {
+            if ((response[0] == choice.attributes.identifier || response[1] == choice.attributes.identifier)) {
+                count++;
+            }
+        });
+        
+        return count;
+    }
     
     var _countChoices = function(interaction) {
     	var $container = Helper.getContainer(interaction);
     	return $container.find('input[type=checkbox]').length;
     };
+    
+    var _getChoiceDefinitionByIdentifier = function(interaction, identifier) {
+        var rawChoices = _getRawChoices(interaction);
+        return rawChoices[identifier];
+    } 
+    
+    var _getRawChoices = function(interaction) {
+        var rawChoices = {};
+        
+        _(interaction.choices).forEach(function(matchset) {
+            _(matchset).forEach(function(choice) {
+                rawChoices[choice.attributes.identifier] = choice;
+            })
+        });
+        
+        return rawChoices;
+    }
     
     var _setInstructions = function(interaction) {
     	
@@ -185,14 +247,56 @@ define([
     			}
     		};
     		
+    		var onMatchMaxReached = function(interaction, choice, report, msg, level) {
+    		    
+    		    $container = Helper.getContainer(interaction);
+    		    
+                if (inWarning === false) {
+                    inWarning = true;
+                    
+                    var $choice = $container.find('.qti-simpleAssociableChoice[data-identifier="' + choice.attributes.identifier + '"]');
+                    var originalBackgroundColor = $choice.css('background-color');
+                    var originalColor = $choice.css('color');
+                    
+                    report.update({
+                        level: 'warning',
+                        message: __('The highlighted choice cannot be associated more than %d time(s).').replace('%d', choice.attributes.matchMax),
+                        timeout: 3000,
+                        start: function() {
+                            $choice.animate({
+                                backgroundColor: '#fff',
+                                color: '#ba122b'
+                            }, 250, function() {
+                                $choice.animate({
+                                    backgroundColor: '#ba122b',
+                                    color: '#fff'
+                                }, 250);
+                            });
+                        },
+                        stop: function() {
+                            $choice.animate({
+                                backgroundColor: originalBackgroundColor,
+                                color: originalColor
+                            }, 500);
+                            report.update({level : level, message: msg});
+                            inWarning = false;
+                        }
+                    });
+                }
+            };
+    		
         	if (minAssociations == 0 && maxAssociations > 0) {
         		// No minimum but maximum.
         		var msg = __('You must select 0 to %d choices.').replace('%d', maxAssociations);
         		
-        		Helper.appendInstruction(interaction, msg, function() {
+        		Helper.appendInstruction(interaction, msg, function(choice) {
         			var responseCount = _.size(_getRawResponse(interaction));
+        			var choiceGiven = typeof choice != 'undefined';
         			
-                    if (responseCount <= maxAssociations) {
+        			if (choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax) {
+        			    onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
+        			}
+        			else if (responseCount <= maxAssociations) {
                         this.setLevel('success');
                     }
                     else if (responseCount > maxAssociations) {
@@ -207,8 +311,15 @@ define([
         		// No minimum, no maximum.
         		var msg = __('You must select 0 to %d choices.').replace('%d', choiceCount);
         		
-        		Helper.appendInstruction(interaction, msg, function() {
-        			this.setLevel('success');
+        		Helper.appendInstruction(interaction, msg, function(choice) {
+        		    var choiceGiven = typeof choice != 'undefined';
+        		    
+        		    if (choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax) {
+        		        onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
+        		    }
+        		    else {
+        		        this.setLevel('success');
+        		    }
         		});
         	}
         	else if (minAssociations > 0 && maxAssociations == 0) {
@@ -217,10 +328,14 @@ define([
         		msg = msg.replace('%1$d', minAssociations);
         		msg = msg.replace('%2$d', choiceCount);
         		
-        		Helper.appendInstruction(interaction, msg, function() {
+        		Helper.appendInstruction(interaction, msg, function(choice) {
         			var responseCount = _.size(_getRawResponse(interaction));
+        			var choiceGiven = typeof choice != 'undefined';
         			
-        			if (responseCount < minAssociations) {
+        			if (choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax) {
+        			    onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
+        			}
+        			else if (responseCount < minAssociations) {
         				this.setLevel('info');
         			}
         			else if (responseCount > choiceCount) {
@@ -243,11 +358,15 @@ define([
         			msg = msg.replace('%d', minAssociations);
         		}
         		
-        		Helper.appendInstruction(interaction, msg, function() {
+        		Helper.appendInstruction(interaction, msg, function(choice) {
         			
         			var responseCount = _.size(_getRawResponse(interaction));
+        			var choiceGiven = typeof choice != 'undefined';
         			
-        			if (responseCount < minAssociations) {
+        			if (choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax) {
+        			    onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
+        			}
+        			else if (responseCount < minAssociations) {
         				this.setLevel('info');
         			}
         			else if (responseCount > maxAssociations) {
