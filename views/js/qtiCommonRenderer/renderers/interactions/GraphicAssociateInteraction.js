@@ -23,12 +23,11 @@ define([
     var render = function render(interaction){
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
-        var baseUrl = this.getOption('baseUrl') || '';
-        
+
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width       : background.width, 
             height      : background.height,
-            img         : baseUrl + background.data,
+            img         : this.getOption('baseUrl') + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container
         });
@@ -36,10 +35,20 @@ define([
         //call render choice for each interaction's choices
          _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
 
+        //make the paper clear the selection by clicking it
         _paperUnSelect(interaction);
 
         //set up the constraints instructions
-        _setInstructions(interaction);
+        Helper.minMaxChoiceInstructions(interaction, {
+            min: interaction.attr('minAssociations'),
+            max: interaction.attr('maxAssociations'),
+            getResponse : _getRawResponse,
+            onError : function(data){
+                if(data.target.active){
+                    graphic.highlightError(data.target);
+                }
+            }
+        }); 
     };
 
 
@@ -51,49 +60,86 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
-        var shape = choice.attributes.shape;
-        var coords = choice.attributes.coords;
+        var shape = choice.attr('shape');
+        var coords = choice.attr('coords');
 
         var rElement = graphic.createElement(interaction.paper, shape, coords, {
             id : choice.serial,
-            title : __('Select this area')
+            title : __('Select this area to start an association')
         })
+        .data('max', choice.attr('matchMax')) 
+        .data('matching', 0) 
         .click(function(){
+            var self = this;
+            var active, assocs;
             if(this.selectable) {
-    
-                var set =  _createPath(interaction, this);
-                set.click(function(){
-                    set.remove();
-                });
+                active = _getActiveElement(interaction);
+                if(active){
+
+                    //increment the matching counter
+                    active.data('matching', active.data('matching') + 1);
+                    this.data('matching', this.data('matching') + 1);
+
+                    //attach the response to the active (not the dest)
+                    assocs = active.data('assocs') || [];
+                    assocs.push(choice.id());
+                    active.data('assocs', assocs);
+
+                    //and create the path
+                    _createPath(interaction, active, this, function onRemove(){
+
+                        //decrement the matching counter
+                        active.data('matching', active.data('matching') - 1);
+                        self.data('matching', self.data('matching') - 1);
+
+                        //detach the response from the active
+                        active.data('assocs', _.remove(active.data('assocs') || [], choice.id()));
+
+                        Helper.triggerResponseChangeEvent(interaction);
+                        Helper.validateInstructions(interaction, { choice : choice, target : self });
+                    });
+                }
                 _shapesUnSelectable(interaction);
  
             } else if(this.active) {
-                graphic.updateElementState(this, 'basic');
+                graphic.updateElementState(this, 'basic', __('Select this area to start an association'));
                 this.active = false;
                 _shapesUnSelectable(interaction);
             } else {
-                graphic.updateElementState(this, 'active');
+                graphic.updateElementState(this, 'active', __('Select another area to complete the association'));
                 this.active = true;
                 _shapesSelectable(interaction);
             }
+           
+            Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, { choice : choice, target : this });
         });
     };
 
+    /**
+     * By clicking the paper image the shapes are restored to their default state
+     * @private
+     * @param {Object} interaction
+     */
     var _paperUnSelect = function _paperUnSelect(interaction){
+        var $container = Helper.getContainer(interaction);
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         if(image){
             image.click(function(){
                 _shapesUnSelectable(interaction);
+                $container.trigger('unselect.graphicassociate');
             });
         }
     };
 
-    var _createPath = function _createPath(interaction, destElement){
-       var active, 
-            src, sx, sy, dest, dx, dy, 
-            set, path, srcBullet, destBullet, layer; 
-
+    /**
+     * Get the element that has the active state
+     * @private
+     * @param {Object} interaction
+     * @returns {Raphael.Element} the active element
+     */
+    var _getActiveElement = function _getActiveElement(interaction){
+        var active;
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element && element.active === true){
@@ -101,31 +147,127 @@ define([
                 return false;
             }
         });
-        if(active){
-            src = active.getBBox();
-            sx = src.x + (src.width / 2);
-            sy = src.y + (src.height / 2);
+        return active;
+    };
 
-            dest = destElement.getBBox();
-            dx = dest.x + (dest.width / 2);
-            dy = dest.y + (dest.height / 2);
+    /**
+     * Create a path from a src element to a destination. 
+     * The path is selectable and can be removed by itself
+     * @private
+     * @param {Object} interaction
+     * @param {Raphael.Element} srcElement - the path starts from this shape
+     * @param {Raphael.Element} destElement - the path ends to this shape
+     * @param {Function} onRemove - called back on path remove
+     */
+    var _createPath = function _createPath(interaction, srcElement, destElement, onRemove){
+        var $container = Helper.getContainer(interaction);   
+ 
+        //virtual set, not a raphael one, just to group the elements
+        var vset = [];
+        
+        //get the middle point of the source shape
+        var src = srcElement.getBBox();
+        var sx = src.x + (src.width / 2);
+        var sy = src.y + (src.height / 2);
 
-            srcBullet = interaction.paper.circle(sx, sy, 3)
-                .attr({'fill': '#000000', 'cursor' : 'pointer'});
-            destBullet = interaction.paper.circle(dx, dy, 3)
-                .attr({'fill': '#000000', 'cursor' : 'pointer'});
-            path = interaction.paper.path('M' + sx + ',' + sy + 'L' + sx + ',' + sy)
-                .attr({'stroke-width' : 2, 'stroke-linecap' : 'round', 'cursor' : 'pointer'})
-                .animate({path : 'M' + sx + ',' + sy + 'L' + dx + ',' + dy}, 300);
+        //get the middle point of the source shape
+        var dest = destElement.getBBox();
+        var dx = dest.x + (dest.width / 2);
+        var dy = dest.y + (dest.height / 2);
 
-            layer = interaction.paper.path('M' + sx + ',' + sy + 'L' + dx + ',' + dy)
-                .attr({'stroke-width' : 15, 'cursor' : 'pointer', 'stroke-opacity' : 0});
-            active.toFront();
-            destElement.toFront();
-            return interaction.paper.set( 
-                srcBullet, path, destBullet, layer
-            );
+        //create a path with bullets at the beginning and the end 
+        var srcBullet = interaction.paper.circle(sx, sy, 3)
+            .attr({'fill': '#000000', 'cursor' : 'pointer'});
+
+        var destBullet = interaction.paper.circle(dx, dy, 3)
+            .attr({'fill': '#000000', 'cursor' : 'pointer'});
+        
+        var path = interaction.paper.path('M' + sx + ',' + sy + 'L' + sx + ',' + sy)
+            .attr({'stroke-width' : 2, 'stroke-linecap' : 'round', 'cursor' : 'pointer'})
+            .animate({path : 'M' + sx + ',' + sy + 'L' + dx + ',' + dy}, 300);
+        
+        //create an overall layer that make easier the path selection
+        var layer = interaction.paper.path('M' + sx + ',' + sy + 'L' + dx + ',' + dy)
+            .attr({'stroke-width' : 12, 'cursor' : 'pointer', 'stroke-opacity' : 0});
+
+        //get the middle of the path
+        var midPath = layer.getPointAtLength(layer.getTotalLength() / 2);
+        
+        //create an hidden background for the closer
+        var closerBg = interaction.paper.circle(midPath.x, midPath.y, 9)
+            .attr({
+                'fill' : '#ffffff',
+                'stroke' : 'none',
+                'cursor' : 'pointer',
+                'opacity' : 0  
+            })
+            .toBack();
+ 
+        //create an hidden closer
+        var closer = interaction.paper.path(graphic.getClosePath())
+            .transform('T' + (midPath.x - 9 ) + ',' + (midPath.y - 9))
+            .attr({
+                'fill' : graphic.states.active.fill,
+                'width' : 1,
+                'opacity' : 0,
+                'stroke-width' : 0,
+                'cursor' : 'pointer',
+                'title' : _('Click again to remove')
+            })
+            .toBack();
+
+        //the path is below the shapes        
+        srcElement.toFront();
+        destElement.toFront();
+
+        //add the path into a set
+        vset = [srcBullet, path, destBullet, layer, closerBg, closer];
+
+        //to identify the element of the set outside the context
+        _.invoke(vset, 'data', 'assoc-path', true);
+
+        //enable to select the path by clicking the invisible layer 
+        layer.click(function selectLigne (){
+            if(closer.attrs.opacity === 0){
+                showCloser();
+            } else {
+                hideCloser();
+            }
+        });
+
+        $container.on('unselect.graphicassociate', function(){
+            hideCloser();
+        });
+
+        function showCloser(){
+            closerBg
+                .animate({opacity: 0.8}, 300)
+                .toFront()
+                .click(removeSet);
+            closer.animate({opacity: 1}, 300)
+                .toFront()
+                .click(removeSet);
         }
+
+        function hideCloser(){
+           if(closerBg && closerBg.type){ 
+                closerBg
+                    .animate({opacity: 0}, 300)
+                    .toBack()
+                    .unclick();
+                closer.animate({opacity: 0}, 300)
+                    .toBack()
+                    .unclick();
+            }
+        }
+    
+        //remove set handler
+        function removeSet(){
+            _.invoke(vset, 'remove');
+            if(typeof onRemove === 'function'){
+                onRemove();
+            }
+        } 
     };
     
     /**
@@ -161,7 +303,6 @@ define([
         });
     };
 
-
     /**
      * Check if a shape can accept matches
      * @private
@@ -169,103 +310,16 @@ define([
      * @returns {Boolean} true if the element is matchable
      */
     var _isMatchable = function(element){
-        //var matchable = false;
-        //var matching, matchMax;
-        //if(element){
-            //matchMax = element.data('max') || 1;
-            //matching = element.data('matching') || [];
-            //matchable = (matchMax === 0 || matchMax > matching.length);
-        //}
-        //return matchable;
-        return true;
-    }; 
-
-    /** 
-     * Set the instructions regarding the constrains (here min and maxChoices.
-     * @private
-     * @param {Object} interaction
-     */
-    var _setInstructions = function _setInstructions(interaction){
-
-        var min = interaction.attr('minAssociations'),
-            max = interaction.attr('maxAssociations'),
-            choiceCount = _.size(interaction.getChoices()),
-            minInstructionSet = false,
-            msg;
-    
-
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 0 && max < choiceCount){
-            if(max === min){
-                minInstructionSet = true;
-                msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
-
-                Helper.appendInstruction(interaction, msg, function(data){
-                                        
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    if(data.target.active){
-                                        graphic.highlightError(data.target);
-                                    }
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            } else if(max > min){
-                msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                Helper.appendInstruction(interaction, msg, function(data){
-
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    if(data.target.active){
-                                        graphic.highlightError(data.target);
-                                    }
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }
+        var matchable = false;
+        var matching, matchMax;
+        if(element){
+            matchMax = element.data('max') || 1;
+            matching = element.data('matching') || 0;
+            matchable = (matchMax === 0 || matchMax > matching);
         }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
-            msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
-                }
-            });
-        }
+        return matchable;
     };
-  
+
     /**
      * Get the response from the interaction
      * @private
@@ -273,7 +327,17 @@ define([
      * @returns {Array} the response in raw format
      */ 
     var _getRawResponse = function _getRawResponse(interaction){
-        return [];
+        var responses = []; 
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = interaction.paper.getById(choice.serial);
+            var assocs = element.data('assocs'); 
+            if(element && assocs){
+               responses = responses.concat(_.map(assocs, function(id){
+                    return [choice.id(), id];
+               }));
+            }
+        });
+        return responses;
     };
  
     /**
@@ -300,6 +364,21 @@ define([
             } catch(e){}
             
             if(_.isArray(responseValues)){
+                //create an object with choiceId => shapeElement
+                var map =  _.transform(interaction.getChoices(), function(res, choice){
+                    res[choice.id()] = interaction.paper.getById(choice.serial);
+                });
+               _.forEach(responseValues, function(responseValue){
+                    var el1, el2;
+                    if(_.isArray(responseValue) && responseValue.length === 2){
+                        el1 = map[responseValue[0]];
+                        el2 = map[responseValue[1]];
+                        if(el1 && el2){
+                           graphic.trigger(el1, 'click'); 
+                           graphic.trigger(el2, 'click'); 
+                        }
+                    }
+               }); 
             }
         }
     };
@@ -319,9 +398,27 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
+        var toRemove = [];        
+
+        //reset response and state bound to shapes
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
+            if(element){
+                element.data({
+                    'max' : choice.attr('matchMax'),
+                    'matching' : 0, 
+                    'assocs' : []
+                });
+            }
         });
+        
+        //remove the paths, but outside the forEach as it is implemented as a linked list
+        interaction.paper.forEach(function(elt){
+            if(elt.data('assoc-path')){
+                toRemove.push(elt);
+            }
+        });
+        _.invoke(toRemove, 'remove');
     };
 
 

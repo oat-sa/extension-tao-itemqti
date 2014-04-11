@@ -6,11 +6,10 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicGapMatchInteraction',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/gapImg',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, tpl, gapImgTpl, graphic,  pciResponse, Helper){
+], function($, _, __, tpl, graphic,  pciResponse, Helper){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -30,6 +29,7 @@ define([
             width       : background.width, 
             height      : background.height,
             img         : baseUrl + background.data,
+            imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
             resize      : function(newWidth){
                 $gapList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
@@ -41,6 +41,9 @@ define([
 
         //create the list of gap images
         _renderGapList(interaction, $gapList);
+
+        //clicking the paper to reset selection
+        _paperUnSelect(interaction);
     };
 
 
@@ -54,21 +57,20 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
-        var shape = choice.attributes.shape;
-        var coords = choice.attributes.coords;
        
         //create the shape 
-        var rElement = graphic.createElement(interaction.paper, shape, coords, {
+        var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
             id : choice.serial,
             title : __('Select an image first'),
             hover : false
         })
-        .data('max', choice.attributes.matchMax ) 
+        .data('max', choice.attr('matchMax') ) 
         .click(function onClickShape(){
         
             // check if can make the shape selectable on click
             if(_isMatchable(this) && this.selectable === true){ 
                 _selectShape(interaction, this);
+                Helper.triggerResponseChangeEvent(interaction);
             }
         });
     };
@@ -82,9 +84,9 @@ define([
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
         //append the template by gap image        
-        _.forEach(interaction.getGapImgs(), function(gapImg){
-            $gapList.append(gapImgTpl(gapImg));
-        });
+        //_.forEach(interaction.getGapImgs(), function(gapImg){
+            //$gapList.append(gapImgTpl(gapImg));
+        //});
 
         //activate the gap filling 
         $gapList.children('li').click(function onClickGapImg (e){
@@ -105,6 +107,22 @@ define([
         });
     };
 
+    /**
+     * By clicking the paper image the shapes are restored to their default state
+     * @private
+     * @param {Object} interaction
+     */
+    var _paperUnSelect = function _paperUnSelect(interaction){
+        var $container = Helper.getContainer(interaction);
+        var $gapImages = $('ul > li', $container);
+        var image = interaction.paper.getById('bg-image-' + interaction.serial);
+        if(image){
+            image.click(function(){
+                _shapesUnSelectable(interaction);
+                $gapImages.removeClass('active');
+            });
+        }
+    };
     /**
      * Select a shape (a gap image must be active)
      * @private
@@ -163,6 +181,8 @@ define([
                         
                         //and remove the filler
                         gapFiller.remove();
+                        
+                        Helper.triggerResponseChangeEvent(interaction);
                     }
                 });
             
@@ -255,7 +275,7 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
                 _.forEach(element.data('matching'), function(match){
-                    pairs.push([choice.attributes.identifier, match]);
+                    pairs.push([choice.id(), match]);
                 });
             } 
        });
@@ -291,7 +311,7 @@ define([
                     var element = interaction.paper.getById(choice.serial);
                     if(element){
                         _.forEach(responseValues, function(pair){
-                            var index = _.indexOf(pair, choice.attributes.identifier);
+                            var index = _.indexOf(pair, choice.id());
                             if(index > -1 && pair.length === 2){
                                 $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
                                 _selectShape(interaction, element);                  

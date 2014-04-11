@@ -19,7 +19,17 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-                    Test.testRender('graphicAssociate', {});
+                    Test.testRender('graphicAssociate', {
+                        choices : { 
+                            A: { 
+                                matchMax : 1
+                            }
+                        } 
+                    } , [{ 
+                        list : { 
+                            pair : [["A", "B"], ["D", "C"]] 
+                        } 
+                    }]);
                 });
             });
         </script>

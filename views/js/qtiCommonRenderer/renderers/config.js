@@ -28,6 +28,7 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'mediaInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
         'uploadInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/UploadInteraction',
         'graphicGapMatchInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
+        'gapImg' : 'taoQtiItem/qtiCommonRenderer/renderers/choices/GapImg',
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction'
     });
     return {

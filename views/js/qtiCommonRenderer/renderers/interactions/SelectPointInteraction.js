@@ -5,13 +5,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'raphael',
-    'scale.raphael',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/selectPointInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic, pciResponse, Helper){
+], function($, _, __, tpl, graphic, pciResponse, Helper){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -38,15 +36,15 @@ define([
         _enableSelection(interaction);
 
         //set up the constraints instructions
-        _setInstructions(interaction);
-
-        /**
-         * scale the raphael paper
-         * @private
-         */
-        function resizePaper(){
-            interaction.paper.changeSize($container.width(), background.height, false, false);
-        }
+        Helper.minMaxChoiceInstructions(interaction, {
+            min: interaction.attr('minChoices'),
+            max: interaction.attr('maxChoices'),
+            choiceCount : false,
+            getResponse : _getRawResponse,
+            onError : function(data){
+                graphic.highlightError(data.target, 'success');
+            }
+        }); 
     };
 
     /**
@@ -80,6 +78,7 @@ define([
 
             //add the point to the paper
             _addPoint(interaction, point, function pointAdded (target){
+                Helper.triggerResponseChangeEvent(interaction);
                 Helper.validateInstructions(interaction, {target : target});
             });
         });
@@ -100,28 +99,23 @@ define([
 
         //create the target from a path
         var target = interaction.paper
-            .path(graphic.getTargetPath())
+            .path(graphic._style.target.path)
             .transform('T' + (point.x - 9) + ',' + (point.y - 9))
-            .attr({
-                'fill' : graphic.states.success.fill,
-                'width' : 1,
-                'stroke-width' : 0,
-                'cursor' : 'pointer',
-                'title' : _('Click again to remove')
-            });
+            .attr(graphic._style.target)
+            .attr('title', _('Click again to remove'));
 
 
         //create an invisible rect over the target to ensure path selection
         var layer = interaction.paper
             .rect(point.x - 9, point.y - 9, 18, 18)
-            .attr({'fill' :  '#ffffff', opacity : 0, cursor: 'pointer'} )
+            .attr(graphic._style.layer)
             .hover(function(){
                 if(!target.flashing){
-                    target.attr({'fill' : graphic.states.hover.stroke, 'fill-opacity' : 1});
+                    graphic.setStyle(target, 'target-hover');
                 }
             }, function(){
                 if(!target.flashing){
-                    target.attr({'fill' : graphic.states.success.fill, 'fill-opacity' : 1});
+                    graphic.setStyle(target, 'target-success');
                 }
             })
             .click(function(){
@@ -136,77 +130,6 @@ define([
 
         if(typeof cb === 'function'){
             cb(target);
-        }
-    };
-
-    /** 
-     * Set the instructions regarding the constrains, here min and maxChoices.
-     * @private
-     * @param {Object} interaction
-     */
-    var _setInstructions = function _setInstructions(interaction){
-
-        var min = interaction.attr('minChoices'),
-            max = interaction.attr('maxChoices'),
-            msg;
-
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 0 && max === min){
-            msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(data){
-                if(_getRawResponse(interaction).length >= max){
-                    this.setLevel('success');
-                    if(this.checkState('fulfilled')){
-                        this.update({
-                            level : 'warning',
-                            message : __('Maximum choices reached'),
-                            timeout : 2000,
-                            start : function(){
-                                graphic.highlightError(data.target, 'success');
-                            },
-                            stop : function(){
-                                this.update({level : 'success', message : msg});
-                            }
-                        });
-                    }
-                    this.setState('fulfilled');
-                }else{
-                    this.reset();
-                }
-            });
-
-        } else if(max > 0 && max > min){
-            msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(data){
-                if(_getRawResponse(interaction).length >= max){
-                    this.setLevel('success');
-                    this.setMessage(__('Maximum choices reached'));
-                    if(this.checkState('fulfilled')){
-                        this.update({
-                            level : 'warning',
-                            timeout : 2000,
-                            start : function(){
-                                graphic.highlightError(data.target, 'success');
-                            },
-                            stop : function(){
-                                this.setLevel('info');
-                            }
-                        });
-                    }
-                    this.setState('fulfilled');
-                }else{
-                    this.reset();
-                }
-            });
-        } else if(min > 0){
-            msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
-                }
-            });
         }
     };
 

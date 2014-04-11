@@ -1,10 +1,11 @@
 define([
     'lodash',
     'jquery',
+    'i18n',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/helpers/Instruction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification'
-], function(_, $, Element, Instruction, notifTpl){
+], function(_, $, __, Element, Instruction, notifTpl){
 
     var _containers = {};
     var _instructions = {};
@@ -55,6 +56,101 @@ define([
             _instructions[element.getSerial()] = {};
             this.getContainer(element).find('.instruction-container').empty();
         },
+        
+        
+        /** 
+         * Default instuction set with a min/max constraints.
+         * @param {Object} interaction
+         * @param {Object} options
+         * @param {Number} [options.min = 0] - 
+         * @param {Number} [options.max = 0] - 
+         * @param {Function} options.getResponse - a ref to a function that get the raw response (array) from the interaction in parameter
+         * @param {Function} [options.onError] - called by once an error occurs with validateInstruction data in parameters
+         */
+         minMaxChoiceInstructions : function (interaction, options){
+
+            var self = this,
+                min = options.min || 0,
+                max = options.max || 0,
+                getResponse = options.getResponse,
+                onError = options.onError || _.noop(),
+                choiceCount = options.choiceCount === false ? false : _.size(interaction.getChoices()),
+                minInstructionSet = false,
+                msg;
+       
+            if(!_.isFunction(getResponse)){
+                throw "invalid parameter getResponse";
+            } 
+
+            //if maxChoice = 0, inifinite choice possible
+            if(max > 0 && (choiceCount === false || max < choiceCount)){
+                if(max === min){
+                    minInstructionSet = true;
+                    msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
+
+                    self.appendInstruction(interaction, msg, function(data){
+                                            
+                        if(getResponse(interaction).length >= max){
+                            this.setLevel('success');
+                            if(this.checkState('fulfilled')){
+                                this.update({
+                                    level : 'warning',
+                                    message : __('Maximum choices reached'),
+                                    timeout : 2000,
+                                    start : function(){
+                                        onError(data);
+                                    },
+                                    stop : function(){
+                                        this.update({level : 'success', message : msg});
+                                    }
+                                });
+                            }
+                            this.setState('fulfilled');
+                        }else{
+                            this.reset();
+                        }
+                    });
+                } else if(max > min){
+                    msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
+                    self.appendInstruction(interaction, msg, function(data){
+
+                        if(getResponse(interaction).length >= max){
+                 
+                           this.setLevel('success');
+                            this.setMessage(__('Maximum choices reached'));
+                            if(this.checkState('fulfilled')){
+                                this.update({
+                                    level : 'warning',
+                                    timeout : 2000,
+                                    start : function(){
+                                        onError(data);
+                                    },
+                                    stop : function(){
+                                        this.setLevel('info');
+                                    }
+                                });
+                            }
+
+                            this.setState('fulfilled');
+                        }else{
+                            this.reset();
+                        }
+                    });
+                }
+            }
+
+            if(!minInstructionSet && min > 0 && (choiceCount === false || min < choiceCount)){
+                msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
+                self.appendInstruction(interaction, msg, function(){
+                    if(getResponse(interaction).length >= min){
+                        this.setLevel('success');
+                    } else {
+                        this.reset();
+                    }
+                });
+            }
+        },
+
         appendNotification : function(element, message, level){
 
             level = level || 'info';

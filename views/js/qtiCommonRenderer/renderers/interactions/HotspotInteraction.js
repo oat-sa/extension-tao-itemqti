@@ -36,9 +36,17 @@ define([
         _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
 
         //set up the constraints instructions
-        _setInstructions(interaction);
+        Helper.minMaxChoiceInstructions(interaction, {
+            min: interaction.attr('minChoices'),
+            max: interaction.attr('maxChoices'),
+            getResponse : _getRawResponse,
+            onError : function(data){
+                if(data.target.active){
+                    graphic.highlightError(data.target);
+                }
+            }
+        }); 
     };
-
 
     /**
      * Render a choice inside the paper. 
@@ -63,96 +71,11 @@ define([
                 graphic.updateElementState(this, 'active', __('Click again to remove'));
                 this.active = true;
             }
+            Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, { choice : choice, target : this });
         });
     };
 
-    /** 
-     * Set the instructions regarding the constrains (here min and maxChoices.
-     * @private
-     * @param {Object} interaction
-     */
-    var _setInstructions = function _setInstructions(interaction){
-
-        var min = interaction.attr('minChoices'),
-            max = interaction.attr('maxChoices'),
-            choiceCount = _.size(interaction.getChoices()),
-            minInstructionSet = false,
-            msg;
-    
-
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 0 && max < choiceCount){
-            if(max === min){
-                minInstructionSet = true;
-                msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
-
-                Helper.appendInstruction(interaction, msg, function(data){
-                                        
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    if(data.target.active){
-                                        graphic.highlightError(data.target);
-                                    }
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            } else if(max > min){
-                msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                Helper.appendInstruction(interaction, msg, function(data){
-
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    if(data.target.active){
-                                        graphic.highlightError(data.target);
-                                    }
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }
-        }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
-            msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-            Helper.appendInstruction(interaction, msg, function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
-                }
-            });
-        }
-    };
-  
     /**
      * Get the response from the interaction
      * @private
@@ -164,7 +87,7 @@ define([
        return _(interaction.getChoices())
         .map(function(choice){
             var rElement = interaction.paper.getById(choice.serial);
-            return (rElement && rElement.active === true) ? choice.attributes.identifier : false;
+            return (rElement && rElement.active === true) ? choice.id() : false;
        })
         .filter(_.isString)
         .value();

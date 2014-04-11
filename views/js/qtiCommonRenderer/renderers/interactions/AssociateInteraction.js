@@ -36,9 +36,9 @@ define([
                 .html($choice.html())
                 .addClass('filled');
 
-            if(!interaction.responseMappingMode
-                && choice.attr('matchMax')
-                && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+            if(!interaction.responseMappingMode && 
+                choice.attr('matchMax') && 
+                _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
                 $choice.addClass('deactivated');
             }
@@ -217,6 +217,8 @@ define([
         var _isModeEditing = function(){
             return ($activeChoice && !$activeChoice.data('identifier'));
         };
+
+
 
         $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
 

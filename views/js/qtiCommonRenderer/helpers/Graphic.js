@@ -1,70 +1,13 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael, scaleRaphael){
-
-    //contains the different states for the shapes
-    //TODO move to an external file
-    var states = {
-        'basic' : {
-            'stroke' : '#8D949E',
-            'stroke-width' : 2,
-            'stroke-dasharray': '',
-            'stroke-linejoin' : 'round',
-            'fill' : '#cccccc',
-            'fill-opacity' : 0.5,
-            'cursor' : 'pointer'
-        },
-        'hover'  : {
-            'stroke' : '#3E7DA7',
-            'fill' :  '#0E5D91', 
-            'fill-opacity' : 0.3
-        },
-        'selectable'  : {
-            'stroke-dasharray': '-',
-            'stroke' : '#3E7DA7',
-            'fill' : '#cccccc',
-            'fill-opacity' : 0.5,
-        },
-        'active' : {
-            'fill-opacity' : 0.5,
-            'stroke' : '#3E7DA7',
-            'stroke-dasharray': '',
-            'fill' :  '#0E5D91'  
-        },
-        'error' : {
-            'stroke' : '#C74155',
-            'stroke-dasharray': '',
-            'fill-opacity' : 0.5,
-            'fill' :  '#661728'  
-        },
-        'success' : {
-            'stroke' : '#C74155',
-            'stroke-dasharray': '',
-            'fill-opacity' : 0.5,
-            'fill' :  '#0E914B'  
-        },
-        'imageSet' : {
-           rect : {
-                'fill' : '#ffffff',
-                'stroke' : '#333333',
-                'stroke-width' : 1,
-                'stroke-linejoin' : 'round',
-                'cursor' : 'pointer'
-            },
-            image : {
-                'cursor' : 'pointer'
-            }
-        },
-        'text' : {
-            'fill' : '#ffffff',
-            'stroke': '#000000',
-            'stroke-width' : 0.7,
-            'font-family' : 'sans-serif',
-            'font-weight': 'bold', 
-            'font-size' : 22,
-        }
-    };
+define([
+    'jquery', 
+    'lodash', 
+    'raphael', 
+    'scale.raphael', 
+    'json!taoQtiItem/qtiCommonRenderer/renderers/graphic-style'
+], function($, _, raphael, scaleRaphael, gstyle){
 
     //maps the QTI shapes to Raphael shapes
     var shapeMap = {
@@ -166,10 +109,22 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
     return {
    
         /**
-         * Shape states (default, active, error, etc.)
+         * Raw access to the styles
          * @type {Object}
          */
-        states : states,
+        _style : gstyle,
+
+
+        /**
+         * Apply the style defined by name to the element
+         * @param {Raphael.Element} element - the element to change the state
+         * @param {String} state - the name of the state (from states) to switch to
+         */
+        setStyle : function(element, name){
+            if(element && gstyle[name]){
+                element.attr(gstyle[name]);
+            }
+        },
 
 
         /**
@@ -255,15 +210,15 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
                     if(options.title){
                         element.attr('title', options.title);
                     }
-                    element.attr(states.basic)
+                    element.attr(gstyle.basic)
                             .toFront();
                     if(options.hover !== false){
                       element.hover(function(){
-                            if(!element.fashing){
+                            if(!element.flashing){
                                 self.updateElementState(this, 'hover'); 
                             }
                       }, function(){
-                            if(!element.fashing){
+                            if(!element.flashing){
                                 self.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
                             }
                       });
@@ -308,12 +263,12 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             //create a rectangle with a padding and a border.
             var rect = paper
                 .rect(rx, ry, rw, rh)
-                .attr(states.imageSet.rect);
+                .attr(gstyle['imageset-img']);
 
             //and an image centered into the rectangle.
             var image = paper
                 .image(options.url, ix, iy, iw, ih)
-                .attr(states.imageSet.image);
+                .attr(gstyle['imageset-img']);
             
             set.push(rect, image);
 
@@ -343,8 +298,8 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
          */
         updateElementState : function(element, state, title){
             if(element && element.animate){
-                element.animate(states[state], 200, 'linear', function(){
-                    element.attr(states[state]); //for attr that don't animate
+                element.animate(gstyle[state], 200, 'linear', function(){
+                    element.attr(gstyle[state]); //for attr that don't animate
                     if(element.type === 'path'){
                         element.attr('fill-opacity', 1);
                     }
@@ -440,14 +395,6 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function($, _, raphael,
             }
 
             return { x : x, y : y };
-        },
-
-        /**
-         * Returns the SVG path for a target shape
-         * @return {String} the path
-         */
-        getTargetPath : function(){
-            return "m 18,8.4143672 -1.882582,0 C 15.801891,4.9747852 13.071059,2.2344961 9.63508,1.9026738 L 9.63508,0 8.2305176,0 l 0,1.9026387 C 4.7947148,2.2343027 2.0637246,4.9746621 1.7481973,8.4143672 l -1.7481973,0 0,1.4045625 1.754877,0 c 0.3460429,3.4066753 3.0632871,6.1119843 6.4756406,6.4413813 l 0,1.739689 1.4045624,0 0,-1.739725 c 3.412547,-0.329537 6.129633,-3.034793 6.475641,-6.4413453 l 1.889279,0 z m -8.36492,6.5188648 0,-4.064673 -1.4045624,0 0,4.063882 C 5.5511016,14.612555 3.4232695,12.494619 3.0864551,9.8189297 l 4.0449512,0 0,-1.4045625 -4.0546368,0 C 3.3788672,5.6984941 5.5228887,3.5393379 8.2305176,3.2161113 l 0,3.9153125 1.4045624,0 0,-3.9160859 c 2.711162,0.3203965 4.858576,2.4808887 5.160955,5.1990293 l -3.927441,0 0,1.4045625 3.917773,0 C 14.449289,12.496957 12.318363,14.616158 9.63508,14.933232 z";
         }
     };
 });
