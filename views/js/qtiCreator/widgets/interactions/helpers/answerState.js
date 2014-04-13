@@ -2,10 +2,9 @@ define([
     'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
-    'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
-    'lodash',
-    'i18n'
-], function(responseHelper, formElement, responseFormTpl, feedbackRuleTpl, _, __){
+    'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
+    'tooltipster'
+], function(responseHelper, formElement, responseFormTpl, modalFeedbackRule){
 
     var _saveCallbacks = {
         template : function(elt, key, value){
@@ -50,8 +49,7 @@ define([
                 template : template,
                 defaultValue : response.getMappingAttribute('defaultValue'),
                 lowerBound : response.getMappingAttribute('lowerBound'),
-                upperBound : response.getMappingAttribute('upperBound'),
-                feedbackRules : _getFeedbackRulesData(response)
+                upperBound : response.getMappingAttribute('upperBound')
             }));
 
             formElement.initWidget(widget.$responseForm);
@@ -62,83 +60,11 @@ define([
                 lowerBound : _saveCallbacks.mappingAttr,
                 upperBound : _saveCallbacks.mappingAttr
             });
-
-            var $feedbacksPanel = $('.feedbackRules', widget.$responseForm);
-            widget.$responseForm.find('.feedbackRule-add').on('click', function(){
-                var feedbackRule = response.createFeedbackRule();
-                var $lastRule = $feedbacksPanel.find('.feedbackRule-container:last');
-                if($lastRule.length){
-                    $lastRule.after(_renderFeedbackRule(feedbackRule));
-                }else{
-                    $feedbacksPanel.html(_renderFeedbackRule(feedbackRule));
-                }
-            });
+            
+            modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
+            
         }
     };
-
-    var _renderFeedbackRule = function(feedbackRule){
-
-        var feedbackElseSerial,
-            addElse,
-            feedbackElse = feedbackRule.feedbackElse;
-
-        if(feedbackElse){
-            addElse = !feedbackElse;
-            feedbackElseSerial = feedbackElse.serial;
-        }
-
-        return feedbackRuleTpl({
-            availableConditions : _availableConditions,
-            serial : feedbackRule.serial,
-            condition : feedbackRule.condition,
-            comparedValue : feedbackRule.comparedValue,
-            feedbackThen : feedbackRule.feedbackThen.serial,
-            addElse : addElse,
-            feedbackElse : feedbackElseSerial
-        });
-    };
-
-    var _getFeedbackRulesData = function(response){
-
-        var feedbackRules = [];
-
-        _.each(response.getFeedbackRules(), function(feedbackRule){
-            feedbackRules.push(_renderFeedbackRule(feedbackRule));
-        });
-
-        return feedbackRules;
-    };
-
-    var _availableConditions = [
-        {
-            name : 'correct',
-            label : __('correct')
-        },
-        {
-            name : 'incorrect',
-            label : __('incorrect')
-        },
-        {
-            name : 'lt',
-            label : '<'
-        },
-        {
-            name : 'lte',
-            label : '<='
-        },
-        {
-            name : 'equal',
-            label : '='
-        },
-        {
-            name : 'gte',
-            label : '>='
-        },
-        {
-            name : 'gt',
-            label : '>'
-        }
-    ];
 
     return answerStateHelper;
 });

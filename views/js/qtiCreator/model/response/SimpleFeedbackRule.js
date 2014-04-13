@@ -48,7 +48,7 @@ define(['taoQtiItem/qtiItem/core/Element'], function(Element){
                             this.condition = condition;
                             this.comparedValue = comparedValue;
                         }else{
-                            throw new InvalidArgumentException('compared value must not be null');
+                            throw 'compared value must not be null';
                         }
                         break;
                     default:

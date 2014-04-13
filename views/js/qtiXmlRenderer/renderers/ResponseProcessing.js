@@ -1,20 +1,21 @@
 define([
+    'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/match_correct',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point'
-], function(tpl, correctTpl, mapTpl, mapPointTpl){
+], function(_, tpl, correctTpl, mapTpl, mapPointTpl){
     
     var _renderInteractionRp = function(interaction){
         var ret = '', response = interaction.getResponseDeclaration();
         if(response.template){
             ret = _renderRpTpl(response.template, {
                 responseIdentifier : response.id(),
-                outcomeIdentifier : 'SCORE',
+                outcomeIdentifier : 'SCORE'
             });
         }
         return ret;
-    }
+    };
 
     var _renderRpTpl = function(rpTpl, data){
 
@@ -40,10 +41,10 @@ define([
         return ret;
     };
     
-    var _renderFeedbackRules = function(response){
+    var _renderFeedbackRules = function(renderer, response){
         var ret = [];
         _.each(response.getFeedbackRules(), function(rule){
-            ret.push(rule.render());
+            ret.push(rule.render(renderer));
         });
         return ret;
     };
@@ -53,7 +54,8 @@ define([
         template : tpl,
         getData : function(responseProcessing, data){
             
-            var defaultData = {};
+            var defaultData = {},
+                _renderer = this;
             
             switch(responseProcessing.processingType){
                 case 'custom':
@@ -61,7 +63,6 @@ define([
                     defaultData.xml = this.xml;
                     break;
                 case 'templateDriven':
-
                     var interactions = responseProcessing.getRelatedItem().getInteractions();
                     if(interactions.length === 1){
                         var response = interactions[0].getResponseDeclaration();
@@ -70,16 +71,15 @@ define([
                             break;
                         }
                     }
-
                     defaultData.templateDriven = true;
                     defaultData.responseRules = [];
                     _.each(interactions, function(interaction){
                         defaultData.responseRules.push(_renderInteractionRp(interaction));
                     });
-
+                    
                     defaultData.feedbackRules = [];
                     _.each(interactions, function(interaction){
-                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(interaction.getResponseDeclaration()))
+                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(_renderer, interaction.getResponseDeclaration()));
                     });
                     
                     break;

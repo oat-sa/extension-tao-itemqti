@@ -10,7 +10,7 @@
         {{~else}}
             <variable identifier="{{outcome}}" />
         {{~/if}}
-            <baseValue baseType="float">{{value}}</baseValue>
+            <baseValue baseType="float">{{comparedValue}}</baseValue>
         </{{condition}}>
         <setOutcomeValue identifier="{{feedback.outcome}}">
             <baseValue baseType="identifier">{{feedback.then}}</baseValue>

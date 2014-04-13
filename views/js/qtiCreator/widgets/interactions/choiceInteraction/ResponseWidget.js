@@ -38,6 +38,10 @@ define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.r
             response.setMapEntry(key, value, true);
         };
 
+        var _removeMapEntry = function(key){
+            response.removeMapEntry(key);
+        };
+
         var $choices = widget.$container.find('.qti-choice').each(function(){
 
             var $choice = $(this),
@@ -72,6 +76,7 @@ define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.r
             if(value === ''){
                 //leave empty, pplaceholder
                 $score.tooltipster('hide');
+                _removeMapEntry(key);
             }else if(!isNaN(score)){
                 //is a correct number
                 _setMapEntry(key, score);

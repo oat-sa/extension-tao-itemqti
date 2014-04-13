@@ -62,6 +62,7 @@ require([
                 var renderer = new XmlRenderer();
                 renderer.load(function(){
                     item1.setRenderer(this);
+                    console.log(item1.render(), item1);
                 }, item1.getUsedClasses());
             });
 

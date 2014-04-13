@@ -15,11 +15,11 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupva
 
             attributes = attributes || {};
 
-            var callbackCall = function(name, value) {
+            var callbackCall = function(name, value, $elt) {
                 console.log('change', name, value);
                 var cb = attributes[name];
                 if (_.isFunction(cb)) {
-                    cb.call(null, element, name, value);
+                    cb.call(null, element, name, value, $elt);
                 }
             };
             
@@ -31,11 +31,11 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupva
 
                 if ($elt.is(':checkbox')) {
 
-                    callbackCall(name, $elt.prop('checked'));
+                    callbackCall(name, $elt.prop('checked'), $elt);
 
                 } else if ($elt.prop('tagName') === 'SELECT' || $elt.is(':text')) {
 
-                    callbackCall(name, $elt.val());
+                    callbackCall(name, $elt.val(), $elt);
                 }
             });
 
@@ -51,7 +51,7 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/groupva
                         name = $elt.attr('name');
 
                     if (valid) {
-                        callbackCall(name, $elt.val());
+                        callbackCall(name, $elt.val(), $elt);
                     }
                 }
             });

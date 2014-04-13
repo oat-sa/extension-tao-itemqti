@@ -15,6 +15,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 responses : [],
                 outcomes : [],
                 stylesheets : [],
+                feedbacks : [],
                 namespaces : ns,
                 responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : ''
             };
@@ -28,7 +29,9 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             _.each(item.stylesheets, function(stylesheet){
                 defaultData.stylesheets.push(stylesheet.render(renderer));
             });
-            
+            _.each(item.modalFeedbacks, function(feedback){
+                defaultData.feedbacks.push(feedback.render(renderer));
+            });
             return _.merge(data || {}, defaultData);
         }
     };

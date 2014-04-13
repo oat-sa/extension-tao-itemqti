@@ -44,14 +44,4 @@
     <span class="tooltip-content">Optionally optional</span>
 </div>
 
-
-<div class="panel feedbackRule-panel">
-    <div class="feedbackRules">
-    {{#if feedbackRules}}
-        {{#feedbackRules}}{{{.}}}{{/feedbackRules}}
-    {{else}}
-        <p>No modal feedback defined yet.</p>
-    {{/if}}
-    </div>
-    <a title="add else feedback" href="#" class="adder feedbackRule-add">Add a modal feedback</a>
-</div>
+<div class="panel feedbackRule-panel"></div>

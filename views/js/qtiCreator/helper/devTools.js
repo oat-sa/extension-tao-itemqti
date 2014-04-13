@@ -31,12 +31,20 @@ define([
             'deleted.qti-widget',
             'choiceTextChange.qti-widget',
             'responseTemplateChange.qti-widget',
-            'mappingAttributeChange.qti-widget'
+            'mappingAttributeChange.qti-widget',
+            'feedbackRuleConditionChange.qti-widget',
+            'feedbackRuleCreated.qti-widget',
+            'feedbackRuleRemoved.qti-widget',
+            'feedbackRuleElseCreated.qti-widget',
+            'feedbackRuleElseRemoved.qti-widget'
         ];
 
-        $(document).on(events.join(' '), _.throttle(function() {
+        $(document).on(events.join(' '), _.throttle(function(){
+            
             var rawXml = xmlRenderer.render(item);
+            
             _printXml(rawXml, $destination);
+            
         }, 200));
 
     };

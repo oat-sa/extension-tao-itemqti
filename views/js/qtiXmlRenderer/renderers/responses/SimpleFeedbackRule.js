@@ -2,23 +2,23 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect'
 ], function(tpl, tplCondition, tplCorrect, tplIncorrect){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-
+            
             var template = null, ruleXml = '';
             
             var tplData = {
                 response : rule.comparedOutcome.id(),
                 feedback : {
-                    outcome : rule.feedbackOutcome.id(),
-                    then : rule.feedbackThen.id(),
+                    'outcome' : rule.feedbackOutcome.id(),
+                    'then' : rule.feedbackThen.id(),
                     'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
                 }
-            }
+            };
 
             switch(rule.condition){
                 case 'correct':
@@ -39,7 +39,7 @@ define([
                 default:
                     throw new Error('unknown condition in simple feedback rule rendering : '+rule.condition);
             }
-
+            
             if(template){
                 ruleXml = template(tplData);
             }
