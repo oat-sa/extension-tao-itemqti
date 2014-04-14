@@ -5,7 +5,7 @@ define(['taoQtiItem/qtiItem/mixin/Mixin', 'taoQtiItem/qtiItem/mixin/Container', 
     _.extend(methods, {
         initContainer:function(body){
             Container.methods.initContainer.call(this, body);
-            this.bdy.contentModel = 'itemBody';
+            this.bdy.contentModel = 'inlineStatic';
         }
     });
 

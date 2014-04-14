@@ -200,7 +200,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 'serial' : this.serial,
                 'attributes' : this.getAttributes()
             };
-
+            
             if(!renderer){
                 throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }

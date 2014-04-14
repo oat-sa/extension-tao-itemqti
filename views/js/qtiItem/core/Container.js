@@ -115,7 +115,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                     throw 'render() is not defined for the qti element: ' + serial;
                 }
             }
-            
+           
             if(renderer.isRenderer){
                 return this._super({
                     'body' : renderer.renderDirect(tpl, elementsData),

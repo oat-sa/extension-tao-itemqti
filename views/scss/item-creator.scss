@@ -11,6 +11,45 @@
     border:1px solid whiten($info, .2);
     cursor:default;
 }
+%mini-tlb{
+    position:absolute;
+    top:0;
+    right:0;
+    padding: 0;
+    background: rgba($uiClickableDefaultBg, .5);
+    @include simple-border(whiten($uiClickableDefaultBg, .8));
+    margin-bottom: 5px;
+    overflow: hidden;
+    &:before, &:after {
+        //display: block;
+    }
+    .tlb-button {
+        min-width: 24px;
+        height: 22px;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        margin: 0 2px;
+        display: inline-block;
+        &:hover {
+            color: $uiClickableHoverBg !important;
+        }
+        &.active {
+            color: $info !important;
+        }
+        [data-role="score"] {
+            left:0;
+            min-width:0; 
+            width: 35px !important;
+            height:20px;
+            position: relative;
+            top: 0;
+        }
+        &[data-role="cke-launcher"] {
+            display: none;
+        }
+    }
+}
 
 .tao-scope {
     // the icon creator specific part
@@ -436,43 +475,7 @@
                     margin-bottom: 0 !important;
                 }
                 &.mini-tlb {
-                    position:absolute;
-                    top:0;
-                    right:0;
-                    padding: 0;
-                    background: rgba($uiClickableDefaultBg, .5);
-                    @include simple-border(whiten($uiClickableDefaultBg, .8));
-                    margin-bottom: 5px;
-                    overflow: hidden;
-                    &:before, &:after {
-                        //display: block;
-                    }
-                    .tlb-button {
-                        min-width: 24px;
-                        height: 22px;
-                        line-height: 26px;
-                        text-align: center;
-                        cursor: pointer;
-                        margin: 0 2px;
-                        display: inline-block;
-                        &:hover {
-                            color: $uiClickableHoverBg !important;
-                        }
-                        &.active {
-                            color: $info !important;
-                        }
-                        [data-role="score"] {
-                            left:0;
-                            min-width:0; 
-                            width: 35px !important;
-                            height:20px;
-                            position: relative;
-                            top: 0;
-                        }
-                        &[data-role="cke-launcher"] {
-                            display: none;
-                        }
-                    }
+                    @extend %mini-tlb;
                 }
                 &.mini-tlb-title {
                     position:absolute;
@@ -505,6 +508,20 @@
             min-height: 100px;
             overflow-x: hidden;
             overflow-y: visible;
+        }
+    }
+    
+    #modalFeedbacks{
+        .mini-tlb {
+            @extend %mini-tlb;
+            top:-2px;
+            right:-2px;
+        }
+        .modal-body{
+            position:relative;
+            .cke_editable{
+                margin-right:30px;
+            }
         }
     }
 }
