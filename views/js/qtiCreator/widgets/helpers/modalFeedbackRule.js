@@ -152,7 +152,6 @@ define([
             }
             
             if(modalFeedback){
-                console.log(modalFeedback);
                 $feedbacksContainer.append(modalFeedback.render());
                 modalFeedback.postRender();
             }

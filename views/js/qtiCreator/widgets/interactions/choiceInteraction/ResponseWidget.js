@@ -84,7 +84,6 @@ define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.r
             }else{
                 //invalid input!
                 $score.tooltipster('show');
-                console.log('show error tooltip here');
             }
         });
 

@@ -7,7 +7,7 @@ define([
     var ModalFeedback = _.clone(Renderer);
 
     ModalFeedback.render = function(modalFeedback, options){
-
+        
         options = options || {};
 
         //make content editable

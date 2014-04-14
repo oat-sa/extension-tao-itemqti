@@ -87,8 +87,6 @@ define([
 
         $itemBody.on('dropped.gridEdit', function(e, qtiClass, $targetContainer, $placeholder){
 
-//            console.log(e, $targetContainer, $placeholder);
-//            debugger;
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
