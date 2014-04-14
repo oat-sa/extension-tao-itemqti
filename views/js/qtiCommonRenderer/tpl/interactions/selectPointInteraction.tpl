@@ -1,4 +1,4 @@
-<div class="qti-interaction qti-blockInteraction qti-graphicInteraction qti-selectPointInteraction" data-serial="{{serial}}">
+<div class="qti-interaction qti-blockInteraction qti-graphicInteraction qti-selectPointInteraction {{attributes.class}}" data-serial="{{serial}}">
     {{#if prompt}}{{{prompt}}}{{/if}}
     <div class="instruction-container"></div>
     <div class="image-editor solid">

@@ -102,5 +102,10 @@
         "stroke" : "none",
         "cursor" : "pointer",
         "opacity" : 0  
+    },
+    "touch-circle" : {
+        "fill" : "none", 
+        "stroke" : "#3E7DA7",
+        "stroke-width" : 2
     }
 }

@@ -17,7 +17,7 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-                    Test.testRender('hotspot', {maxChoices : 1}, [
+                    Test.testRender('hotspot', {maxChoices : 1, 'class' : 'responsive'}, [
                         {'base' : { identifier : 'A' } }
                     ]);
                     

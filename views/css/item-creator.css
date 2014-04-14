@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
@@ -945,32 +946,32 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
       padding: 0;
       margin-bottom: 10px; }
-    /* line 3, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+    /* line 3, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
     .tao-scope #item-editor-panel .item-editor-item .response-pair-editor {
       min-width: 350px;
       background: rgba(243, 241, 239, 0.85);
       padding: 20px 30px 20px 30px; }
-      /* line 8, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 8, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .title {
         position: relative;
         top: -5px;
         left: -10px; }
-      /* line 14, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 14, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .indicator {
         color: #3e7da7;
         position: relative;
         top: 10px;
         font-size: 13px;
         font-size: 1.3rem; }
-      /* line 23, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 23, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .col-2 {
         text-align: center; }
-      /* line 27, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 27, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .icon-bin {
         position: relative;
         top: 7px;
         cursor: pointer; }
-      /* line 33, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 33, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .cb {
         top: 5px; }
   /* line 496, ../scss/item-creator.scss */

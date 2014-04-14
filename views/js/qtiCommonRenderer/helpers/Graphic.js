@@ -139,12 +139,15 @@ define([
          * @returns {Raphael.Paper} the paper
          */ 
         responsivePaper : function(id, options){
+
             var paper, image;
             var $container = options.container || $('#' + id).parent();
-            var width = parseInt(options.width || $container.width(), 10);
-            var height = parseInt(options.height || $container.height(), 10);
+            var width = options.width || $container.width();
+            var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
-    
+            var responsive = $container.hasClass('responsive');
+
+
             paper = factory.call(null ,id, width, height);
             image = paper.image(options.img, 0, 0, width, height);
             if(options.imgId){
@@ -176,6 +179,10 @@ define([
 
                 //TODO check where this diff of 22px comes from 
                 paper.changeSize(containerWidth - 22, height, false, false);
+              
+                if(responsive){ 
+                    paper.scaleAll( containerWidth / width );
+                }
                 if(typeof options.resize === 'function'){
                     options.resize(containerWidth);
                 }
@@ -197,7 +204,8 @@ define([
          */
         createElement : function(paper, type, coords, options){
             var self = this;
-            var element;               
+            var element;
+            var bbox; 
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
             var shapeCoords = getCoords(paper, type, coords);
 
@@ -223,12 +231,33 @@ define([
                             }
                       });
                     }
+                            
+                   element.touchstart(function(){
+                        self.createTouchCircle(paper, element.getBBox());
+                   });
                }
     
             } else {
                 throw new Error('Unable to find method ' + type + ' on paper');
             }
             return element; 
+        },
+
+        /**
+         * Create a circle that animate and disapear from a shape.
+         * 
+         * @param {Raphael.Paper} paper - the paper
+         * @param {Raphael.Element} element - used to get the bbox from
+         */
+        createTouchCircle : function(paper, bbox){
+            var radius = bbox.width > bbox.height ? bbox.width : bbox.height;
+            var tCircle = paper.circle( (bbox.x + (bbox.width / 2)),  (bbox.y + (bbox.height / 2)), radius);
+            tCircle.attr(gstyle['touch-circle']);
+            _.defer(function(){
+                tCircle.animate({'r' : radius + 5, opacity: 0.7}, 300, function(){
+                    tCircle.remove();
+                });     
+            });
         },
 
         /**

@@ -54,9 +54,23 @@ define([
      */
     var _enableSelection = function _enableSelection(interaction){
         var $container = Helper.getContainer(interaction);
+        var isResponsive = $container.hasClass('responsive');
         var $imageBox = $container.find('.main-image-box');
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
-        image.click(function(event){
+        var isTouch = false;
+
+        //used to see if we are in a touch context
+        image.touchstart(function(){
+            isTouch = true;
+            image.untouchstart();
+        });
+
+        /**
+         * Get an x/y point from a MouseEvent
+         * @param {MouseEvent} event - the source event
+         * @param {Function} cb - called back with the point object
+         */
+        var getPoint = function getPoint(event, cb){
             var rwidth, rheight, wfactor;
 
             //get the click coords
@@ -64,22 +78,40 @@ define([
 
             //recalculate point coords in case of scaled image.
             if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
-                if(interaction.paper.width > interaction.paper.w){
+                if(isResponsive){
+                    wfactor = interaction.paper.w / interaction.paper.width;
+                    wfactor = interaction.paper.w / interaction.paper.width;
+                    point.x = Math.round(point.x * wfactor);
+                    point.y = Math.round(point.y * wfactor);
+                } else if(interaction.paper.width > interaction.paper.w){
                     rwidth = (interaction.paper.width - interaction.paper.w) / 2;
                     point.x = Math.round(point.x - rwidth);
-                } else {
+                } else {  
                     wfactor = interaction.paper.w / interaction.paper.width;
                     point.x = Math.round(point.x * wfactor);
 
                     rheight = (interaction.paper.height - (interaction.paper.height * (2 - wfactor))) / 2;
                     point.y = Math.round((point.y * wfactor) - rheight);
-                }
+                } 
+            }
+    
+            if(typeof cb === 'function'){
+                cb(point);
             }
 
-            //add the point to the paper
-            _addPoint(interaction, point, function pointAdded (target){
-                Helper.triggerResponseChangeEvent(interaction);
-                Helper.validateInstructions(interaction, {target : target});
+        };
+
+        //get the point on click
+        image.click(function imageClicked(event){
+            getPoint(event, function gotPoint(point){
+                //add the point to the paper
+                _addPoint(interaction, point, function pointAdded (target){
+                    if(isTouch && target){
+                        graphic.createTouchCircle(interaction.paper, target.getBBox());
+                    }
+                    Helper.triggerResponseChangeEvent(interaction);
+                    Helper.validateInstructions(interaction, {target : target});
+                });
             });
         });
     };
@@ -125,6 +157,7 @@ define([
                     cb();
                 }
             });
+
 
         layer.data('point', point);
 

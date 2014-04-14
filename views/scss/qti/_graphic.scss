@@ -2,15 +2,7 @@
 
 .qti-graphicInteraction {
 
-    .solid, .bordered {
-        & > li {
-            padding: 0;
-            border: none;
-        }
-        & ~ input, & ~ textarea {
-            @include simple-border(#eee);
-        }
-    }
+
 
     .active {
         & > input, & > textarea,
@@ -20,6 +12,8 @@
     }
     .image-editor {
         position: relative;
+        float: left;
+        padding: 10px;
     }
 
     .main-image-box {
@@ -29,9 +23,12 @@
     }
 
     .image-sidebar {
-        width: 9%;
         float: left;
-        text-align: center;
+        width: 50px;
+        height: 100%;
+        min-height: 230px;
+        top: 0;
+        z-index: 1000;
         .forms {
             overflow: hidden;
             margin-top: 10px;
@@ -50,13 +47,8 @@
                 }
             }
         }
-        & ~ .main-image-box {
-            width: 91%;
-            padding-left: 0;
-            float: left;
-            .main-image {
-                display: block;
-            }
+        & ~ .image-editor {
+            min-height: 230px;
         }
     }
 

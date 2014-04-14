@@ -19,7 +19,7 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-                    Test.testRender('selectPoint', { maxChoices : 1 }, [
+                    Test.testRender('selectPoint', { maxChoices : 1 , 'class' : 'responsive'}, [
                         {'base' : { 'point' : [1, 23] }}
                     ]);
                 });
