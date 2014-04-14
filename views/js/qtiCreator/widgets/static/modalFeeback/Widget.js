@@ -26,7 +26,7 @@ define([
 
     ModalFeedbackWidget.createToolbar = function(){
 
-        this.$original.find('.modal-body').append(toolbarTpl({
+        this.$container.append(toolbarTpl({
             serial : this.serial,
             state : 'active'
         }));
