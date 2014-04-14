@@ -88,7 +88,8 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
 
     var _alwaysRequiredClasses = [
         '_container',
-        'prompt'
+        'prompt',
+        'modalFeedback'
     ];
 
     var Renderer = function(options){

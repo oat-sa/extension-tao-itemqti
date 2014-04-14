@@ -22,11 +22,20 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
     
     var methods = {
         init : function(serial, attributes){
+            
+            //init call in the format init(attributes)
+            if(typeof(serial) === 'object'){
+                attributes = serial;
+                serial = '';
+            }
+            
             var attr = {};
-            if(typeof(this.getDefaultAttributes) === 'function'){
+            
+            if(_.isFunction(this.getDefaultAttributes)){
                 _.extend(attr, this.getDefaultAttributes());
             }
             _.extend(attr, attributes);
+            
             this._super(serial, attr);
         },
         attr : function(key, value){

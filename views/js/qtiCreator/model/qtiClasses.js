@@ -7,6 +7,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
     return _.extend(_.clone(qtiClasses), {
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
         'rubricBlock' : 'taoQtiItem/qtiCreator/model/RubricBlock',
+        'modalFeedback' : 'taoQtiItem/qtiCreator/model/ModalFeedback',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/model/interactions/ChoiceInteraction',
         'orderInteraction' : 'taoQtiItem/qtiCreator/model/interactions/OrderInteraction',
         'associateInteraction' : 'taoQtiItem/qtiCreator/model/interactions/AssociateInteraction',

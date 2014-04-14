@@ -7,7 +7,12 @@ define([
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
-        
+        getDefaultAttributes : function(){
+            return {
+                title : 'modal feedback title',
+                showHide : 'show'
+            };
+        }
     });
     
     return ModalFeedback.extend(methods);

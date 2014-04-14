@@ -111,17 +111,24 @@ define([
             outcome.buildIdentifier('FEEDBACK');
 
             var modalFeedback = new ModalFeedback({outcomeIdentifier: outcome.id()});
+            
             item.addModalFeedback(modalFeedback);
             modalFeedback.buildIdentifier('feedbackModal');
-
+            modalFeedback.body('feedback text.');
+            
             var rule = new SimpleFeedbackRule(outcome, modalFeedback);
-            var renderer = this.getRenderer();
-            if(renderer){
-                rule.setRenderer(renderer);
-            }
+            
             rule.setCondition(this, 'correct');
             this.feedbackRules[rule.getSerial()] = rule;
             
+            //set renderer
+            var renderer = this.getRenderer();
+            if(renderer){
+                rule.setRenderer(renderer);
+                modalFeedback.setRenderer(renderer);
+            }
+            
+            //trigger creation event
             $(document).trigger('feedbackRuleCreated.qti-widget', {element: this, rule: rule});
             
             return rule;
@@ -155,6 +162,12 @@ define([
 
                 rule.setFeedbackElse(modalFeedback);
                 
+                //set renderer
+                var renderer = this.getRenderer();
+                if(renderer){
+                    modalFeedback.setRenderer(renderer);
+                }
+            
                 $(document).trigger('feedbackRuleElseCreated.qti-widget', {element: this, rule: rule, modalFeedback:modalFeedback});
             }
 

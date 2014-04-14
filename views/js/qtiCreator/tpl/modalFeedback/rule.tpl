@@ -10,7 +10,7 @@
     </div>
     <div class="feedbackRule-then-else">
         <span class="feedbackRule-desc">THEN show</span>
-        <button class="btn-info small" type="button" data-feedback="{{feedbackThen}}">feedback<span class="icon-edit r"></span></button>
+        <button class="btn-info small" type="button" data-feedback="then">feedback<span class="icon-edit r"></span></button>
         {{#if addElse}}
             <a title="add else feedback" href="#" class="adder feedbackRule-add-else">else</a>
         {{/if}}
@@ -18,7 +18,7 @@
     {{#if feedbackElse}}
      <div class="feedbackRule-then-else">
             <span class="feedbackRule-desc">ELSE show</span>
-            <button class="btn-info small" type="button" data-feedback="{{feedbackElse}}">feedback<span class="icon-edit r"></span></button>
+            <button class="btn-info small" type="button" data-feedback="else">feedback<span class="icon-edit r"></span></button>
             <span class="feedbackRule-button-delete icon-bin" title="{{__ "delete else feedback"}}" data-role="else"></span>
         </div>
     {{/if}}

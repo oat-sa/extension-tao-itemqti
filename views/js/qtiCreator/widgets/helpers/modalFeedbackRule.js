@@ -135,6 +135,28 @@ define([
                 }
             });
             
+        }).on('click', '[data-feedback]', function(){
+            
+            var $feedbacksContainer = $('#modalFeedbacks'),
+                $btn = $(this),
+                fbRule = response.getFeedbackRule($btn.parents('.feedbackRule-container').data('serial')),
+                modalFeedback;
+            
+            switch($btn.data('feedback')){
+                case 'then':
+                    modalFeedback = fbRule.feedbackThen;
+                    break;
+                case 'else':
+                    modalFeedback = fbRule.feedbackElse;
+                    break;
+            }
+            
+            if(modalFeedback){
+                console.log(modalFeedback);
+                $feedbacksContainer.append(modalFeedback.render());
+                modalFeedback.postRender();
+            }
+            
         });
             
     };
