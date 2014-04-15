@@ -194,5 +194,3 @@ define([
 
     return ResponseDeclaration.extend(methods);
 });
-
-
