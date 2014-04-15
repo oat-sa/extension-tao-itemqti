@@ -3,11 +3,9 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
-    'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/response/SimpleFeedbackRule',
-    'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback',
     'taoQtiItem/qtiItem/helper/response'
-], function(_, Element, ResponseDeclaration, editable, OutcomeDeclaration, SimpleFeedbackRule, ModalFeedback, responseHelper) {
+], function(_, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper) {
 
     var methods = {};
     _.extend(methods, editable);
@@ -106,15 +104,16 @@ define([
 
             var item = this.getRelatedItem();
 
-            var outcome = new OutcomeDeclaration({cardinality: 'single', baseType: 'identifier'});
-            item.addOutcomeDeclaration(outcome);
-            outcome.buildIdentifier('FEEDBACK');
+            var outcome = item.createOutcomeDeclaration({
+                identifier:'FEEDBACK',
+                cardinality: 'single', 
+                baseType: 'identifier'
+            });
 
-            var modalFeedback = new ModalFeedback({outcomeIdentifier: outcome.id()});
-            
-            item.addModalFeedback(modalFeedback);
-            modalFeedback.buildIdentifier('feedbackModal');
-            modalFeedback.body('feedback text.');
+            var modalFeedback = item.createModalFeedback({
+                identifier:'feedbackModal',
+                outcomeIdentifier: outcome.id()
+            });
             
             var rule = new SimpleFeedbackRule(outcome, modalFeedback);
             
@@ -145,7 +144,13 @@ define([
         },
         deleteFeedbackRule: function(rule) {
             
-            var ret = this.remove('feedbackRules', rule);
+            var item = this.getRelatedItem(), ret;
+            
+            item.remove('outcomes', rule.feedbackOutcome);
+            item.remove('modalFeedbacks', rule.feedbackThen);
+            item.remove('modalFeedbacks', rule.feedbackElse || '');//feedback "else" is optional
+            
+            ret = this.remove('feedbackRules', rule);
             
             $(document).trigger('feedbackRuleRemoved.qti-widget', {element: this, rule: rule});
             
@@ -156,9 +161,11 @@ define([
             var modalFeedback;
 
             if (Element.isA(rule, '_simpleFeedbackRule')) {
-                modalFeedback = new ModalFeedback({outcomeIdentifier: rule.feedbackOutcome.id()});
-                this.getRelatedItem().addModalFeedback(modalFeedback);
-                modalFeedback.buildIdentifier('feedbackModal');
+                
+                modalFeedback = this.getRelatedItem().createModalFeedback({
+                    identifier:'feedbackModal',
+                    outcomeIdentifier: rule.feedbackOutcome.id()
+                });
 
                 rule.setFeedbackElse(modalFeedback);
                 
@@ -174,7 +181,8 @@ define([
             return modalFeedback;
         },
         deleteFeedbackElse: function(rule) {
-            this.getRelatedItem().remove('feedback', rule);
+        
+            this.getRelatedItem().remove('modalFeedbacks', rule.feedbackElse);
             rule.feedbackElse = null;
             
             $(document).trigger('feedbackRuleElseRemoved.qti-widget', {element: this, rule: rule});
