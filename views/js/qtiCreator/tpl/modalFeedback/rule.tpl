@@ -1,12 +1,12 @@
 <div class="feedbackRule-container" data-serial="{{serial}}">
     <div class="feedbackRule-rule-if">
         <span class="feedbackRule-desc">IF</span>
-        <select class="feedbackRule-condition">
+        <select class="feedbackRule-condition select2" data-has-search="false">
             {{#each availableConditions}}
             <option value="{{name}}" {{#equal name ../condition}}selected="selected"{{/equal}}>{{label}}</option>
             {{/each}}
         </select>
-        <input class="feedbackRule-compared-value" type="text" value="{{comparedValue}}" {{#if hideScore}}style="display:none"{{/if}}/>
+        <input class="feedbackRule-compared-value score" type="text" value="{{comparedValue}}" {{#if hideScore}}style="display:none"{{/if}}/>
     </div>
     <div class="feedbackRule-then-else">
         <span class="feedbackRule-desc">THEN show</span>

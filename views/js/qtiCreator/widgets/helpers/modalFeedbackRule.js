@@ -2,10 +2,11 @@ define([
     'lodash',
     'jquery',
     'i18n',
+    'ui/selecter',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel'
-], function(_, $, __, formElement, ruleTpl, panelTpl){
+], function(_, $, __, selecter, formElement, ruleTpl, panelTpl){
 
     var _availableConditions = [
         {
@@ -49,7 +50,7 @@ define([
             feedbackElseSerial = feedbackElse.serial;
         }
 
-        return ruleTpl({
+        var rule =  ruleTpl({
             availableConditions : _availableConditions,
             serial : feedbackRule.serial,
             condition : feedbackRule.condition,
@@ -59,6 +60,11 @@ define([
             addElse : addElse,
             hideScore : (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect')
         });
+        
+        var $rule = $(rule);
+        selecter($rule);
+        
+        return $rule;
     };
 
     var _initFeedbackEventListener = function($feedbacksPanel, response){

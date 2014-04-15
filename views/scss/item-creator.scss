@@ -513,24 +513,10 @@
             overflow-y: visible;
         }
     }
+    
     /*style for modal feedback*/
-    #modalFeedbacks{
-        .mini-tlb {
-            @extend %mini-tlb;
-            top:-2px;
-            right:-2px;
-        }
-        .modal-body{
-            position:relative;
-            .cke_editable{
-                margin-right:30px;
-            }
-        }
-        .widget-ok{
-            margin: 30px 0px 0px;
-            display:none;
-        }
-    }
+    @import "qtiCreator/_modal-feedback";
+    
     /*style for html editable area highlight*/
     .edit-question .qti-interaction, .qti-modalFeedback.edit-active{
         [data-html-editable-container]:hover{

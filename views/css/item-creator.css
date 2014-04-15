@@ -284,6 +284,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /* line 54, ../scss/item-creator.scss */
 .tao-scope {
   /*style for modal feedback*/
+  /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+  /**
+   * Use icon within sass: @inclue icon('down');
+   */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
   /*style for html editable area highlight*/ }
   /* line 2, ../scss/inc/_widgets.scss */
   .tao-scope .item-editor-widget-box {
@@ -995,37 +1016,84 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       min-height: 100px;
       overflow-x: hidden;
       overflow-y: visible; }
-  /* line 518, ../scss/item-creator.scss */
+  /* line 4, ../scss/qtiCreator/_modal-feedback.scss */
   .tao-scope #modalFeedbacks .mini-tlb {
     top: -2px;
     right: -2px; }
-  /* line 523, ../scss/item-creator.scss */
+  /* line 9, ../scss/qtiCreator/_modal-feedback.scss */
   .tao-scope #modalFeedbacks .modal-body {
     position: relative; }
-    /* line 525, ../scss/item-creator.scss */
+    /* line 11, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope #modalFeedbacks .modal-body .cke_editable {
       margin-right: 30px; }
-  /* line 529, ../scss/item-creator.scss */
+  /* line 15, ../scss/qtiCreator/_modal-feedback.scss */
   .tao-scope #modalFeedbacks .widget-ok {
     margin: 30px 0px 0px;
     display: none; }
-  /* line 537, ../scss/item-creator.scss */
+  /* line 22, ../scss/qtiCreator/_modal-feedback.scss */
+  .tao-scope .feedbackRules .feedbackRule-container {
+    position: relative;
+    margin: 10;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #FCFCFC;
+    max-width: 500px; }
+    /* line 29, ../scss/qtiCreator/_modal-feedback.scss */
+    .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-rule-if {
+      margin-bottom: 20px; }
+      /* line 31, ../scss/qtiCreator/_modal-feedback.scss */
+      .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-rule-if .feedbackRule-condition {
+        width: 86px;
+        min-width: 40px; }
+    /* line 36, ../scss/qtiCreator/_modal-feedback.scss */
+    .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-then-else {
+      position: relative;
+      height: 60px;
+      margin: 0 10%;
+      padding: 16px 10px;
+      border: 1px solid #aaa;
+      background-color: #F8F8F8; }
+      /* line 43, ../scss/qtiCreator/_modal-feedback.scss */
+      .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-then-else .feedbackRule-desc {
+        margin-right: 10px; }
+      /* line 46, ../scss/qtiCreator/_modal-feedback.scss */
+      .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-then-else .feedbackRule-add-else {
+        position: absolute;
+        bottom: 6px;
+        right: 10px; }
+    /* line 52, ../scss/qtiCreator/_modal-feedback.scss */
+    .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-button-delete {
+      position: absolute;
+      top: 16px;
+      right: 16px; }
+      /* line 56, ../scss/qtiCreator/_modal-feedback.scss */
+      .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-button-delete:hover {
+        cursor: pointer;
+        color: #3e7da7; }
+    /* line 61, ../scss/qtiCreator/_modal-feedback.scss */
+    .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-compared-value {
+      min-width: 35px;
+      width: 35px; }
+  /* line 66, ../scss/qtiCreator/_modal-feedback.scss */
+  .tao-scope .feedbackRules .feedbackRule-add {
+    margin-top: 5px; }
+  /* line 523, ../scss/item-creator.scss */
   .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable] {
     border: 1px dotted #0e5d91; }
-  /* line 540, ../scss/item-creator.scss */
+  /* line 526, ../scss/item-creator.scss */
   .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-role="cke-launcher"], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-role="cke-launcher"] {
     display: block !important; }
-  /* line 544, ../scss/item-creator.scss */
+  /* line 530, ../scss/item-creator.scss */
   .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] {
     margin-right: 85px;
     border: 1px solid transparent;
     outline: 1px solid transparent !important; }
-    /* line 548, ../scss/item-creator.scss */
+    /* line 534, ../scss/item-creator.scss */
     .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
       border: 1px dotted #0e5d91; }
 
 @media print {
-  /* line 557, ../scss/item-creator.scss */
+  /* line 543, ../scss/item-creator.scss */
   #tabs {
     margin: 0;
     min-height: 0;
@@ -1033,26 +1101,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0;
     border: none !important; }
 
-  /* line 565, ../scss/item-creator.scss */
+  /* line 551, ../scss/item-creator.scss */
   .item-no-print {
     display: none; }
 
-  /* line 569, ../scss/item-creator.scss */
+  /* line 555, ../scss/item-creator.scss */
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-    /* line 572, ../scss/item-creator.scss */
+    /* line 558, ../scss/item-creator.scss */
     #item-editor-panel .item-editor-item {
       border-radius: 0;
       box-shadow: none;
       margin: 0 !important;
       border: none !important;
       width: 100% !important; }
-      /* line 578, ../scss/item-creator.scss */
+      /* line 564, ../scss/item-creator.scss */
       #item-editor-panel .item-editor-item [class*="col-"] {
         border-color: transparent; }
 
-  /* line 583, ../scss/item-creator.scss */
+  /* line 569, ../scss/item-creator.scss */
   .item-editor-row {
     border: none !important;
     background: none !important; } }

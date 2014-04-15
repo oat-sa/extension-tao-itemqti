@@ -1,0 +1,69 @@
+@import "inc/bootstrap";
+
+#modalFeedbacks{
+    .mini-tlb {
+        @extend %mini-tlb;
+        top:-2px;
+        right:-2px;
+    }
+    .modal-body{
+        position:relative;
+        .cke_editable{
+            margin-right:30px;
+        }
+    }
+    .widget-ok{
+        margin: 30px 0px 0px;
+        display:none;
+    }
+}
+
+.feedbackRules{
+    .feedbackRule-container{
+        position:relative;
+        margin:10;
+        padding:15px;
+        border:1px solid #ddd;
+        background-color:#FCFCFC;
+        max-width:500px;
+        .feedbackRule-rule-if{
+            margin-bottom:20px;
+            .feedbackRule-condition{
+                width:86px;
+                min-width:40px;
+            }
+        }
+        .feedbackRule-then-else{
+            position:relative;
+            height:60px;
+            margin:0 10%;
+            padding:16px 10px;
+            border:1px solid #aaa;
+            background-color:#F8F8F8;
+            .feedbackRule-desc{
+                margin-right:10px;
+            }
+            .feedbackRule-add-else{
+                position:absolute;
+                bottom:6px;
+                right:10px;
+            }
+        }
+        .feedbackRule-button-delete{
+            position:absolute;
+            top:16px;
+            right:16px;
+            &:hover{
+                cursor:pointer;
+                color: $uiClickableHoverBg;
+            }
+        }
+        .feedbackRule-compared-value{
+            min-width:35px;
+            width:35px;
+        }
+    }
+    .feedbackRule-add{
+        margin-top:5px;
+    }
+}
