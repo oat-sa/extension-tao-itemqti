@@ -208,7 +208,9 @@ use oat\taoQtiItem\helpers\Authoring;
         <main id="item-editor-panel" class="clearfix tao-scope"></main>
         <!-- /item panel -->
     </div>
+    <div id="modalFeedbacks"></div>
 </div>
+
 <script>
     require(['taoQtiItem/controller/creator/main'], function(controller){
         controller.start({uri : '<?=get_data('uri')?>'});
