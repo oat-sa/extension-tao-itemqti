@@ -2,9 +2,22 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
 
     var StaticStateActive = stateFactory.create(Active, function(){
         
-        this.widget.$container.modal();
+        var _widget = this.widget,
+            $container = this.widget.$container;
+        
+        $container.modal({startClosed:true});
+        $container.modal('open');
+        $container.on('closed.modal', function(){
+            _widget.changeState('sleep');
+        });
         
     },function(){
+        
+        var $container = this.widget.$container;
+        
+        $container.off('opened.modal');
+        $container.modal('close');
+        
     });
 
     return StaticStateActive;

@@ -18,7 +18,6 @@ define([
             options
         );
                 
-        widget.changeState('active');
         return widget;
     };
 

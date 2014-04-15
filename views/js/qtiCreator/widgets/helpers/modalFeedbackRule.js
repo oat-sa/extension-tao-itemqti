@@ -6,8 +6,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel'
 ], function(_, $, __, formElement, ruleTpl, panelTpl){
-   
-   var _availableConditions = [
+
+    var _availableConditions = [
         {
             name : 'correct',
             label : __('correct')
@@ -37,8 +37,8 @@ define([
             label : '>'
         }
     ];
-    
-   var _renderFeedbackRule = function(feedbackRule){
+
+    var _renderFeedbackRule = function(feedbackRule){
 
         var feedbackElseSerial,
             addElse,
@@ -57,12 +57,12 @@ define([
             feedbackThen : feedbackRule.feedbackThen.serial,
             feedbackElse : feedbackElseSerial,
             addElse : addElse,
-            hideScore: (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect')
+            hideScore : (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect')
         });
     };
-    
+
     var _initFeedbackEventListener = function($feedbacksPanel, response){
-        
+
         var $feedbacks = $feedbacksPanel.find('.feedbackRules');
         $feedbacksPanel.on('click', '.feedbackRule-add', function(){
 
@@ -101,47 +101,47 @@ define([
                     break;
             }
         }).on('change', '.feedbackRule-condition', function(){
-            
+
             var $select = $(this),
                 condition = $select.val(),
                 $comparedValue = $select.siblings('.feedbackRule-compared-value'),
                 fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial'));
-        
+
             if(fbRule.condition === 'correct' || fbRule.condition === 'incorrect'){
                 $comparedValue.val('0');//initialize the value to 0
             }
-            
+
             if(condition === 'correct' || condition === 'incorrect'){
                 $comparedValue.hide();
             }else{
                 $comparedValue.show();
             }
-        
+
             formElement.setScore($comparedValue, {
-                required:true,
-                set:function(key, value){
+                required : true,
+                set : function(key, value){
                     response.setCondition(fbRule, condition, value);
                 }
             });
-            
+
         }).on('keyup', '.feedbackRule-compared-value', function(){
-            
+
             var fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial'));
-            
+
             formElement.setScore($(this), {
-                required:true,
-                set:function(key, value){
+                required : true,
+                set : function(key, value){
                     response.setCondition(fbRule, fbRule.condition, value);
                 }
             });
-            
+
         }).on('click', '[data-feedback]', function(){
-            
-            var $feedbacksContainer = $('#modalFeedbacks'),
-                $btn = $(this),
+
+            var $btn = $(this),
                 fbRule = response.getFeedbackRule($btn.parents('.feedbackRule-container').data('serial')),
-                modalFeedback;
-            
+                modalFeedback,
+                modalFeedbackWidget;
+
             switch($btn.data('feedback')){
                 case 'then':
                     modalFeedback = fbRule.feedbackThen;
@@ -150,31 +150,46 @@ define([
                     modalFeedback = fbRule.feedbackElse;
                     break;
             }
-            
+
             if(modalFeedback){
-                $feedbacksContainer.append(modalFeedback.render());
-                modalFeedback.postRender();
+                //show modal feedback editor:
+                modalFeedbackWidget = _getModalFeedbackWidget(modalFeedback);
+                modalFeedbackWidget.changeState('active');
             }
-            
+
         });
-            
+
     };
     
+    var _widgets = {};
+    
+    var _getModalFeedbackWidget = function(modalFeedback){
+        
+        var $feedbacksContainer = $('#modalFeedbacks');
+        
+        if(!_widgets[modalFeedback.serial]){
+            $feedbacksContainer.append(modalFeedback.render());
+            _widgets[modalFeedback.serial] = modalFeedback.postRender();
+        }
+        
+        return _widgets[modalFeedback.serial];
+    };
+
     return {
-        initFeedbacksPanel:function($feedbacksPanel, response){
-            
+        initFeedbacksPanel : function($feedbacksPanel, response){
+
             var feedbackRules = [];
 
             _.each(response.getFeedbackRules(), function(feedbackRule){
                 feedbackRules.push(_renderFeedbackRule(feedbackRule));
             });
-            
+
             $feedbacksPanel.html(panelTpl({
-                feedbackRules:feedbackRules
+                feedbackRules : feedbackRules
             }));
-            
+
             _initFeedbackEventListener($feedbacksPanel, response);
         },
-        renderFeedbackRule:_renderFeedbackRule
+        renderFeedbackRule : _renderFeedbackRule
     };
 });

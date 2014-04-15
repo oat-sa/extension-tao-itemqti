@@ -324,7 +324,6 @@
         }
     }
     
-    
     #item-editor-panel {
         margin: 0 180px;
         overflow: auto;
@@ -460,6 +459,10 @@
                         }
                     }
                 }
+                .widget-ok{
+                    margin: 5px 10px;
+                    display:none;
+                }
             }
             .widget-box-placeholder{
                 display: inline-block;
@@ -522,6 +525,10 @@
             .cke_editable{
                 margin-right:30px;
             }
+        }
+        .widget-ok{
+            margin: 30px 0px 0px;
+            display:none;
         }
     }
     /*style for html editable area highlight*/

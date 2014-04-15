@@ -6,7 +6,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
         
         _widget.beforeStateInit(function(e, element, state){
             var serial = element.getSerial();
-            if(state.name === 'active' && serial !== _widget.serial){
+            if(state.name === 'active' && serial !== _widget.serial && _widget.element.qtiClass === 'modalFeedback'){
                 //when it does not click on itself, check if the newly activated element is its own composing element:
                 var composingElts = _widget.element.getComposingElements();
                 if(!composingElts[serial]){

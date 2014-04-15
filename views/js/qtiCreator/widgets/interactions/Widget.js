@@ -1,15 +1,16 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/Widget',
-    'taoQtiItem/qtiCreator/editor/widgetToolbar'
-], function($, Widget, toolbar){
-    
+    'taoQtiItem/qtiCreator/editor/widgetToolbar',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
+], function($, Widget, toolbar, okButtonTpl){
+
     /**
      * 
      * Create a new widget definition from another prototype.
      */
     var InteractionWidget = Widget.clone();
-    
+
     /**
      * Optional method to be implemented :
      * Init the widget
@@ -22,7 +23,7 @@ define([
         this.$responseForm = $responseForm;
         return this;
     };
-    
+
     /**
      * Optional method to be implemented :
      * Build the widget and return an instance ready to be used
@@ -32,7 +33,7 @@ define([
     InteractionWidget.build = function(element, $container, $form, $responseForm, options){
         return this.clone().init(element, $container, $form, $responseForm, options);
     };
-    
+
     /**
      * Required method to be implemented : 
      * define the states and common structure valid for all states
@@ -52,18 +53,18 @@ define([
      * It normally used this.$original as the start point : from there, you can wrap, innerWrap
      */
     InteractionWidget.buildContainer = function(){
-        
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box', 'data-qti-class':this.element.qtiClass});
+
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box', 'data-qti-class' : this.element.qtiClass});
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
     };
-    
-    
+
+
     /**
      * Below here, 
      * @returns {_L5.InteractionWidget}
      */
-    
+
     /**
      * Create a toolbar
      * 
@@ -144,19 +145,12 @@ define([
 
         var _this = this;
 
-        //@todo: use handlebars tpl instead?
-        this.$container.append($('<button>', {
-            'class' : 'btn-info small',
-            'type' : 'button',
-            'text' : 'OK',
-            'data-edit' : 'active'
-        }).css({
-            margin : '5px 10px',
-            display : 'none'
-        }).on('click.qti-widget', function(e){
-            e.stopPropagation();
-            _this.changeState('sleep');
-        }));
+        this.$container
+            .append($(okButtonTpl())
+            .on('click.qti-widget', function(e){
+                e.stopPropagation();
+                _this.changeState('sleep');
+            }));
     };
 
     return InteractionWidget;

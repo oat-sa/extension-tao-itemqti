@@ -2,8 +2,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
     'taoQtiItem/qtiCreator/helper/htmlEditor'
-], function(Widget, states, toolbarTpl, htmlEditor){
+], function(Widget, states, toolbarTpl, okButtonTpl, htmlEditor){
 
     var ModalFeedbackWidget = Widget.clone();
 
@@ -14,6 +15,8 @@ define([
         this.registerStates(states);
 
         this.buildEditor();
+        
+        this.createOkButton();
     };
 
     ModalFeedbackWidget.buildContainer = function(){
@@ -56,6 +59,18 @@ define([
             element.attr('title', $(this).text());//save text only, since tittle has a baseType "string"
         });
     };
+    
+    ModalFeedbackWidget.createOkButton = function(){
 
+        var _this = this;
+
+        this.$container
+            .append($(okButtonTpl())
+            .on('click.qti-widget', function(e){
+                e.stopPropagation();
+                _this.changeState('sleep');
+            }));
+    };
+    
     return ModalFeedbackWidget;
 });
