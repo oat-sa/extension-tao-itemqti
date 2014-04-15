@@ -510,7 +510,7 @@
             overflow-y: visible;
         }
     }
-    
+    /*style for modal feedback*/
     #modalFeedbacks{
         .mini-tlb {
             @extend %mini-tlb;
@@ -521,6 +521,25 @@
             position:relative;
             .cke_editable{
                 margin-right:30px;
+            }
+        }
+    }
+    /*style for html editable area highlight*/
+    .edit-question .qti-interaction, .qti-modalFeedback.edit-active{
+        [data-html-editable-container]:hover{
+            [data-html-editable]{
+                border:1px dotted $info;
+            }
+            [data-role="cke-launcher"]{
+                display:block !important;
+            }
+        }
+        [data-html-editable]{
+            margin-right:85px;
+            border:1px solid transparent;
+            outline:1px solid transparent !important;
+            &:focus{
+                border:1px dotted $info;
             }
         }
     }
