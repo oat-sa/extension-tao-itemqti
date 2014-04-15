@@ -122,4 +122,3 @@ abstract class ResponseProcessing extends Element
     }
 
 }
-/* end of abstract class oat\taoQtiItem\model\qti\response\ResponseProcessing */

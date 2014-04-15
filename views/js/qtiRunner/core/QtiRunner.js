@@ -64,7 +64,7 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
 
     QtiRunner.prototype.loadElements = function(elements, callback){
         if(!this.item){
-            throw 'cannot load elements in item: empty item';
+            throw 'cannot load elements in empty item';
         }
         this.getLoader().loadItemData(elements, function(item){
             callback(item);

@@ -32,12 +32,7 @@ require([
 
             //render it:
             var renderer = new Renderer({
-                runtimeContext : {
-                    runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
-                    root_url : '',
-                    debug : true
-                },
-                form : $form
+                baseUrl:'/taoQtiItem/test/samples/test_base_www/'
             });
 
             renderer.load(function(){

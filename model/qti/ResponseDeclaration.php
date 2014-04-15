@@ -27,6 +27,7 @@ use oat\taoQtiItem\model\qti\response\Template;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use \Exception;
+use oat\taoQtiItem\model\qti\ContentVariable;
 
 /**
  * A response is on object associated to an interactino containing which are the
@@ -38,7 +39,7 @@ use \Exception;
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10073
  
  */
-class ResponseDeclaration extends VariableDeclaration
+class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 {
 
     /**
@@ -451,5 +452,14 @@ class ResponseDeclaration extends VariableDeclaration
         unset($this->simpleFeedbackRules[$serial]);
         return true;
     }
-
+    
+    public function toFilteredArray(){
+        
+        return array(
+            'serial' => $this->getSerial(),
+            'qtiClass' => $this->getQtiTag(),
+            'identifier' => $this->getIdentifier(),
+            'attributes' => $this->getAttributeValues()
+        );
+    }
 }

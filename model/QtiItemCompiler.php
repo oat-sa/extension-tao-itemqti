@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +17,7 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+
 namespace oat\taoQtiItem\model;
 
 use oat\taoQtiItem\model\QtiItemCompiler;
@@ -30,7 +30,9 @@ use \taoItems_models_classes_ItemsService;
 use \taoItems_helpers_Deployment;
 use \common_report_Report;
 use \common_ext_ExtensionsManager;
-
+use \common_Logger;
+use oat\taoQtiItem\model\qti\Service;
+use \tao_helpers_File;
 use qtism\data\storage\xml\XmlAssessmentItemDocument;
 
 /**
@@ -39,18 +41,72 @@ use qtism\data\storage\xml\XmlAssessmentItemDocument;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
- 
+
  */
 class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 {
 
-    protected function createService(core_kernel_classes_Resource $item, tao_models_classes_service_StorageDirectory $destinationDirectory){
+    /**
+     * Compile qti item
+     * 
+     * @todo move this
+     * @param core_kernel_file_File $destinationDirectory
+     * @throws taoItems_models_classes_CompilationFailedException
+     * @return tao_models_classes_service_ServiceCall
+     */
+    public function compile(){
 
-        //create rwo subdirectories: one public, one private
+        $destinationDirectory = $this->spawnPublicDirectory();
+        $privateDirectory = $this->spawnPrivateDirectory();
+        $item = $this->getResource();
+
+        $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Published %s', $item->getLabel()));
+        if(!taoItems_models_classes_ItemsService::singleton()->isItemModelDefined($item)){
+            return $this->fail(__('Item \'%s\' has no model', $item->getLabel()));
+        }
+
+        $langs = $this->getContentUsedLanguages();
+        foreach($langs as $compilationLanguage){
+            $compiledFolder = $this->getLanguageCompilationPath($destinationDirectory, $compilationLanguage);
+            if(!is_dir($compiledFolder)){
+                if(!@mkdir($compiledFolder)){
+                    common_Logger::e('Could not create directory '.$compiledFolder, 'COMPILER');
+                    return $this->fail(__('Could not create language specific directory for item \'%s\'', $item->getLabel()));
+                }
+            }
+
+            $privateFolder = $this->getLanguageCompilationPath($privateDirectory, $compilationLanguage);
+            if(!is_dir($compiledFolder)){
+                if(!@mkdir($compiledFolder)){
+                    common_Logger::e('Could not create directory '.$compiledFolder, 'COMPILER');
+                    return $this->fail(__('Could not create language specific directory for item \'%s\'', $item->getLabel()));
+                }
+            }
+
+
+            $langReport = $this->deployItem($item, $compilationLanguage, $compiledFolder, $privateFolder);
+            $report->add($langReport);
+            if($langReport->getType() == common_report_Report::TYPE_ERROR){
+                $report->setType(common_report_Report::TYPE_ERROR);
+                break;
+            }
+        }
+        if($report->getType() == common_report_Report::TYPE_SUCCESS){
+            $report->setData($this->createService($item, $destinationDirectory, $privateDirectory));
+        }else{
+            $report->setMessage(__('Failed to publish %s', $item->getLabel()));
+        }
+        return $report;
+    }
+
+    protected function createService(core_kernel_classes_Resource $item, tao_models_classes_service_StorageDirectory $destinationDirectory, tao_models_classes_service_StorageDirectory $privateDirectory){
 
         $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(INSTANCE_QTI_SERVICE_ITEMRUNNER));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
                 new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMPATH), $destinationDirectory->getId()
+        ));
+        $service->addInParameter(new tao_models_classes_service_ConstantParameter(
+                new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMDATAPATH), $privateDirectory->getId()
         ));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
                 new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMURI), $item
@@ -63,52 +119,39 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * (non-PHPdoc)
      * @see taoItems_models_classes_ItemCompiler::deployItem()
      */
-    protected function deployItem(core_kernel_classes_Resource $item, $language, $destination){
-        $itemService = taoItems_models_classes_ItemsService::singleton();
+    protected function deployItem(core_kernel_classes_Resource $item, $language, $destination, $privateFolder){
 
-        // copy local files
-        $source = $itemService->getItemFolder($item, $language);
-        // (dev's note) The qti.xml file will be embedded later in a private folder.
-        taoItems_helpers_Deployment::copyResources($source, $destination, array('qti.xml'));
+//        start debugging here
+//        common_Logger::d('destination original '.$destination.' '.$privateFolder);
+
+        $itemService = taoItems_models_classes_ItemsService::singleton();
+        $qtiService = Service::singleton();
+
+        //copy all item folder (but the qti.xml)
+        $itemFolder = $itemService->getItemFolder($item, $language);
+        taoItems_helpers_Deployment::copyResources($itemFolder, $destination, array('qti.xml'));
+
+        //copy item.xml file to private directory
+        tao_helpers_File::copy($itemFolder.'qti.xml', $privateFolder.'qti.xml', false);
+
+        //store variable qti elements data into the private directory
+        $qtiItem = $qtiService->getDataItemByRdfItem($item, $language);
+        $variableElements = $qtiService->getVariableElements($qtiItem);
+        $serializedVariableElements = json_encode($variableElements);
+        file_put_contents($privateFolder.'variableElements.json', $serializedVariableElements);
 
         // render item
         $xhtml = $itemService->render($item, $language);
 
         // retrieve external resources
-        $report = taoItems_helpers_Deployment::retrieveExternalResources($xhtml, $destination);
-        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+        $report = taoItems_helpers_Deployment::retrieveExternalResources($xhtml, $destination);//@todo (optional) : exclude 'require.js' from copying
+        if($report->getType() == common_report_Report::TYPE_SUCCESS){
             $xhtml = $report->getData();
-        } else {
+        }else{
             return $report;
         }
 
-        // add qti files
-        $taoQTIext = common_ext_ExtensionsManager::singleton()->getExtensionByID('taoQtiItem');
-        $taoExt = common_ext_ExtensionsManager::singleton()->getExtensionByID('tao');
-        taoItems_helpers_Deployment::copyResources(
-                $taoQTIext->getConstant('BASE_PATH').'views/js/qtiDefaultRenderer/css/img/', $destination.'img'.DIRECTORY_SEPARATOR
-        );
-        taoItems_helpers_Deployment::copyResources(
-                $taoExt->getConstant('DIR_VIEWS').'css/custom-theme/images/', $destination.'images'.DIRECTORY_SEPARATOR
-        );
-
-        //add required (heavy) libs
-        if(strpos($xhtml, 'mediaelementplayer.min.css')){
-            taoItems_helpers_Deployment::copyResources(
-                    $taoQTIext->getConstant('BASE_PATH').'views/js/qtiDefaultRenderer/lib/mediaelement/css/', $destination
-            );
-//            tao_helpers_File::copy($taoQTIext->getConstant('BASE_PATH').'views/js/qtiDefaultRenderer/lib/mediaelement/flashmediaelement.swf', $destination.'flashmediaelement.swf', true);
-        }
-        
-        //replace the javascript base URL only in production mode
-//        if(tao_helpers_Mode::is('production')){
-//            $xhtml = preg_replace("/(data-base-url=\")[^\"].*(\")/mi", '$1.$2', $xhtml);
-//        }
-        
-//@todo: redefine compilation folder and decide what to do with those libs
-//        if(strpos($xhtml, 'MathJax.js')){
-//            taoItems_helpers_Deployment::copyResources($taoQTIext->getConstant('BASE_PATH').'views/js/mathjax/', $destination);
-//        }
+        //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
         // write index.html
         file_put_contents($destination.'index.html', $xhtml);
 
@@ -127,8 +170,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         // to put the qti.xml file for each language in the compilation folder.
 
         return new common_report_Report(
-            common_report_Report::TYPE_SUCCESS,
-            __('Successfully compiled "%s"', $language)
+                common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
         );
     }
 

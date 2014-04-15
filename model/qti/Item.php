@@ -619,12 +619,14 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $data['responses'] = array();
         foreach($this->getResponses() as $response){
-            $data['responses'][$response->getSerial()] = $response->toArray($filterVariableContent, $filtered);
+            $data['responses'][$response->getSerial()] = $response->toFilteredArray();
+            $filtered[$response->getSerial()] = $response->toArray($filterVariableContent, $filtered);
         }
 
         $data['feedbacks'] = array();
         foreach($this->getModalFeedbacks() as $feedback){
-            $data['feedbacks'][$feedback->getSerial()] = $feedback->toArray($filterVariableContent, $filtered);
+            $data['feedbacks'][$feedback->getSerial()] = $feedback->toFilteredArray();
+            $filtered[$feedback->getSerial()] = $feedback->toArray($filterVariableContent, $filtered);
         }
 
         $data['responseProcessing'] = $this->responseProcessing->toArray();
@@ -636,14 +638,6 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $filtered = array();
         $itemData = $this->toArray(true, $filtered);
-        foreach($itemData['responses'] as $serial => $response){
-            //remove anything related to scoring
-            unset($itemData['responses'][$serial]['correctResponses']);
-            unset($itemData['responses'][$serial]['mapping']);
-            unset($itemData['responses'][$serial]['areaMapping']);
-            unset($itemData['responses'][$serial]['mappingAttributes']);
-            unset($itemData['responses'][$serial]['howMatch']);
-        }
         unset($itemData['responseProcessing']);
 
         return array('core' => $itemData, 'variable' => $filtered);

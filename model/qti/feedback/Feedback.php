@@ -27,6 +27,7 @@ use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use oat\taoQtiItem\model\qti\ContentVariable;
 
 /**
  * The QTI_Feedback object represent one of the three available feedbackElements
@@ -38,7 +39,7 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10243
  
  */
-abstract class Feedback extends IdentifiedElement implements FlowContainer
+abstract class Feedback extends IdentifiedElement implements FlowContainer, ContentVariable
 {
 
     protected $body = null;

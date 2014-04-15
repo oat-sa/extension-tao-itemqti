@@ -249,5 +249,10 @@ class Service extends tao_models_classes_Service
 
         return $returnValue;
     }
+    
+    public function getVariableElements(Item $item){
+        $allData = $item->getDataForDelivery();
+        return $allData['variable'];
+    }
 
 }

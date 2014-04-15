@@ -11,6 +11,7 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts]]></rdfs:comment>
     <wf:PropertySupportServicesUrl><![CDATA[/taoQtiItem/QtiItemRunner/index?itemUri=^itemUri&itemPath=^itemPath&resultServer=^resultServer&]]></wf:PropertySupportServicesUrl>
     <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemPath"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemDataPath"/>
     <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri"/>
     <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamResultserver"/>
   </rdf:Description>
