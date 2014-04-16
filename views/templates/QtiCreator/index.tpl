@@ -119,7 +119,22 @@ use oat\taoQtiItem\helpers\Authoring;
                 <section class="tool-group clearfix">
 
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
+                    
+                    <div class="panel">
+                        <label>CSS</label>
+                        <ul>
+                            <li>foo.css</li>
+                            <li>bar.css</li>
+                        </ul>
 
+                        <div>
+                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
+                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
+                        </div>
+
+                    </div>
+                    <hr>
+                    
                     <div class="panel">
                         <h3><?=__('Color')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -136,8 +151,7 @@ use oat\taoQtiItem\helpers\Authoring;
                         </div>
                     </div>
                     <hr>
-                </section>
-                <section class="tool-group clearfix">
+                    
                     <div class="panel">
                         <h3><?=__('Font family')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -153,8 +167,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                </section>
-                <section class="tool-group clearfix">
+                    
                     <div class="panel">
                         <h3><?=__('Font size')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -171,8 +184,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                </section>
-                <section class="tool-group clearfix">
+                    
                     <div class="panel">
                         <h3><?=__('Item width')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -198,21 +210,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                </section>
-                <section class="tool-group clearfix">
-                    <div class="panel">
-                        <label>CSS</label>
-                        <ul>
-                            <li>foo.css</li>
-                            <li>bar.css</li>
-                        </ul>
-
-                        <div>
-                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
-                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
-                        </div>
-
-                    </div>
+                    
                 </section>
 
             </div>
