@@ -6,7 +6,7 @@ define([
     'lodash', 
     'raphael', 
     'scale.raphael', 
-    'json!taoQtiItem/qtiCommonRenderer/renderers/graphic-style'
+    'json!taoQtiItem/qtiCommonRenderer/renderers/graphic-style.json'
 ], function($, _, raphael, scaleRaphael, gstyle){
 
     //maps the QTI shapes to Raphael shapes
@@ -200,6 +200,8 @@ define([
          * @param {String} [options.id] - to set the new element id
          * @param {String} [options.title] - to set the new element title
          * @param {Boolean} [options.hover = true] - to disable the default hover state
+         * @param {Boolean} [options.touchEffect = true] - a circle appears on touch
+         * @param {Boolean} [options.qtiCoords = true] - if the coords are in QTI format
          * @returns {Raphael.Element} the created element
          */
         createElement : function(paper, type, coords, options){
@@ -207,7 +209,7 @@ define([
             var element;
             var bbox; 
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
-            var shapeCoords = getCoords(paper, type, coords);
+            var shapeCoords = options.qtiCoords !== false ? getCoords(paper, type, coords) : coords;
 
             if(typeof shaper === 'function'){
                element = shaper.apply(paper, shapeCoords);
@@ -231,10 +233,12 @@ define([
                             }
                       });
                     }
-                            
-                   element.touchstart(function(){
-                        self.createTouchCircle(paper, element.getBBox());
-                   });
+                        
+                   if(options.touchEffect !== false){
+                       element.touchstart(function(){
+                            self.createTouchCircle(paper, element.getBBox());
+                       });
+                   }
                }
     
             } else {
@@ -386,6 +390,43 @@ define([
             if(evt.length && evt[0] && typeof evt[0].f === 'function'){
                 evt[0].f.apply(element, Array.prototype.slice.call(arguments, 2));
             }
+        },
+
+
+        /**
+         * Get an x/y point from a MouseEvent
+         * @param {MouseEvent} event - the source event
+         * @param {Raphael.Paper} paper - the interaction paper
+         * @param {jQueryElement} $container - the paper container
+         * @param {Boolean} isResponsive - if the paper is scaling
+         * @returns {Object} x,y point
+         */
+        getPoint : function getPoint(event, paper, $container, isResponsive){
+            var rwidth, rheight, wfactor;
+
+            //get the click coords
+            var point = this.clickPoint($container, event);
+
+            //recalculate point coords in case of scaled image.
+            if(paper.w && paper.w !== paper.width){
+                if(isResponsive){
+                    wfactor = paper.w / paper.width;
+                    wfactor = paper.w / paper.width;
+                    point.x = Math.round(point.x * wfactor);
+                    point.y = Math.round(point.y * wfactor);
+                } else if(paper.width > paper.w){
+                    rwidth = (paper.width - paper.w) / 2;
+                    point.x = Math.round(point.x - rwidth);
+                } else {  
+                    wfactor = paper.w / paper.width;
+                    point.x = Math.round(point.x * wfactor);
+
+                    rheight = (paper.height - (paper.height * (2 - wfactor))) / 2;
+                    point.y = Math.round((point.y * wfactor) - rheight);
+                } 
+            }
+    
+            return point;
         },
 
         /**
