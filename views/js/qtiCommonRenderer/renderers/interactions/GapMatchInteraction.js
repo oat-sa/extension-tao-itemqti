@@ -106,9 +106,15 @@ define([
         var _isModeEditing = function(){
             return ($activeChoice && !$activeChoice.data('identifier'));
         };
-
+        
+        $container.on('mousedown.commonRenderer', function(e){
+            _resetSelection();
+        });
+        
         $choiceArea.on('mousedown', '>li', function(e){
-
+            
+            e.stopPropagation();
+            
             if($(this).hasClass('deactivated')){
                 e.preventDefault();
                 return;
@@ -135,7 +141,10 @@ define([
 
         });
 
-        $flowContainer.on('mousedown', '.gapmatch-content', function(){
+        $flowContainer.on('mousedown', '.gapmatch-content', function(e){
+            
+            e.stopPropagation();
+            
             if(_isInsertionMode()){
 
                 var $target = $(this),
@@ -293,7 +302,7 @@ define([
 
         //remove event
         $(document).off('.commonRenderer');
-        $container.find('.choice-area, .gapmatch-content').off('.commonRenderer');
+        $container.find('.choice-area, .gapmatch-content').andSelf().off('.commonRenderer');
 
         //restore response
         resetResponse(interaction);

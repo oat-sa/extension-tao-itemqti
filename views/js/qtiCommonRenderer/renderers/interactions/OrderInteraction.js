@@ -56,8 +56,15 @@ define([
             }
             _resetControls();
         };
-
-        $choiceArea.on('mousedown.commonRenderer', '>li:not(.deactivated)', function(){
+        
+        $container.on('mousedown.commonRenderer', function(e){
+            _resetSelection();
+        });
+        
+        $choiceArea.on('mousedown.commonRenderer', '>li:not(.deactivated)', function(e){
+            
+            e.stopPropagation();
+            
             _resetSelection();
 
             $iconAdd.addClass('triggered');
@@ -73,7 +80,10 @@ define([
             Helper.validateInstructions(interaction);
         });
 
-        $resultArea.on('mousedown.commonRenderer', '>li', function(){
+        $resultArea.on('mousedown.commonRenderer', '>li', function(e){
+            
+            e.stopPropagation();
+            
             var $choice = $(this);
             if($choice.hasClass('active')){
                 _resetSelection();
@@ -82,8 +92,10 @@ define([
             }
         });
 
-        $iconRemove.on('mousedown.commonRenderer', function(){
-
+        $iconRemove.on('mousedown.commonRenderer', function(e){
+            
+            e.stopPropagation();
+            
             if($activeChoice){
 
                 //restore choice back to choice list
@@ -97,7 +109,10 @@ define([
             _resetSelection();
         });
 
-        $iconBefore.on('mousedown.commonRenderer', function(){
+        $iconBefore.on('mousedown.commonRenderer', function(e){
+            
+            e.stopPropagation();
+            
             var $prev = $activeChoice.prev();
             if($prev.length){
                 $prev.before($activeChoice);
@@ -105,7 +120,10 @@ define([
             }
         });
 
-        $iconAfter.on('mousedown.commonRenderer', function(){
+        $iconAfter.on('mousedown.commonRenderer', function(e){
+            
+            e.stopPropagation();
+            
             var $next = $activeChoice.next();
             if($next.length){
                 $next.after($activeChoice);
@@ -256,7 +274,7 @@ define([
             '.icon-move-before',
             '.icon-move-after'
         ];
-        Helper.getContainer(interaction).find(selectors.join(',')).off('.commonRenderer');
+        Helper.getContainer(interaction).find(selectors.join(',')).andSelf().off('.commonRenderer');
         $(document).off('.commonRenderer');
 
         _resetResponse(interaction);
