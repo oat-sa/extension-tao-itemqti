@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use oat\taoQtiItem\controller\QtiItemRunner;
 use oat\taoQtiItem\helpers\QtiFile;
+use oat\taoQtiItem\helpers\QtiRunner;
 use \taoItems_actions_ItemRunner;
 use \core_kernel_file_File;
 use \core_kernel_classes_Resource;
@@ -40,6 +41,8 @@ use qtism\runtime\tests\AssessmentItemSession;
 use qtism\runtime\tests\AssessmentItemSessionException;
 use qtism\data\storage\StorageException;
 use qtism\data\storage\xml\XmlDocument;
+use qtism\common\enums\BaseType;
+use qtism\common\enums\Cardinality;
 
 /**
  * Qti Item Runner Controller
@@ -52,53 +55,38 @@ use qtism\data\storage\xml\XmlDocument;
 class QtiItemRunner extends taoItems_actions_ItemRunner
 {
 
+    protected $variableContents = null;
+
     /**
      * The implementation of this method calls ItemRunner::setView in order to
      * select the view to be displayed.
      */
     protected function selectView(){
-        
+
         $this->setInitialVariableElements();
         
+        $this->setData('itemDataPath', $this->getRequestParameter('itemDataPath'));
         $this->setView('runtime/qti_item_runner.tpl', 'taoQtiItem');
     }
-    
+
     protected function setInitialVariableElements(){
-        
-        //@todo : pass the right view from item/service api?
-        $view = 'candidate';
-        
-        $variableElements = array();
-        
+
         //get initial content variable elements to be displayed: rubricBlocks, feedbacks, variable math, template elements, template variable
-        
-        //show rubricBlock to candidate only:
-        $elements = $this->getContentVariableElements();
-        
-        foreach($elements as $serial => $data){
-            if($data['qtiClass'] == 'rubricBlock'){
-                if(!empty($data['attributes']) && is_array($data['attributes']['view'])){
-                    if(in_array($view, $data['attributes']['view'])){
-                        $variableElements[$serial] = $data;
-                    }
-                }
-            }
-        };
-        
-        $this->setData('contentVariableElements', json_encode($variableElements));
+        $this->setData('contentVariableElements', $this->getRubricBlocks());
     }
-    
-    protected function getContentVariableElements($json = false){
-        
-        $jsonFile = $this->getPrivateFolder().'variableElements.json';
-        $returnValue = file_get_contents($jsonFile);
-        
-        if(!$json){
-            $returnValue = json_decode($returnValue, true);
+
+    protected function getContentVariableElements(){
+
+        if(is_null($this->variableContents)){
+            
+            $jsonFile = $this->getPrivateFolder().'variableElements.json';
+            $elements = file_get_contents($jsonFile);
+            $this->variableContents = json_decode($elements, true);
         }
-        
-        return $returnValue;
+
+        return $this->variableContents;
     }
+
     /**
      * The endpoint specific to QTI Items
      * @return string
@@ -122,7 +110,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
     protected function getPrivateFolder(){
 
         $returnValue = '';
-        
+
         if($this->hasRequestParameter("itemDataPath")){
 
             $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
@@ -212,7 +200,12 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
             $this->transmitResults($item, $itemSession);
 
             // Return the item session state to the client-side.
-            echo json_encode(array('success' => true, 'displayFeedback' => true, 'itemSession' => self::buildOutcomeResponse($itemSession)));
+            echo json_encode(array(
+                'success' => true,
+                'displayFeedback' => true,
+                'itemSession' => self::buildOutcomeResponse($itemSession),
+                'feedbacks' => $this->getFeedbacks($itemSession)
+            ));
         }catch(AssessmentItemSessionException $e){
             $msg = "An error occured while processing the responses.";
             throw new RuntimeException($msg, 0, $e);
@@ -243,6 +236,7 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
     }
 
     protected static function buildOutcomeResponse(AssessmentItemSession $itemSession){
+        
         $stateOutput = new taoQtiCommon_helpers_PciStateOutput();
 
         foreach($itemSession->getAllVariables() as $var){
@@ -254,12 +248,76 @@ class QtiItemRunner extends taoItems_actions_ItemRunner
     }
 
     protected function getRubricBlocks(){
-        //get rubricBlocks from complied json format; use php require
+
+        $returnValue = array();
+
+        //@todo : pass the right view from item/service api?
+        $view = 'candidate';
+
+        //show rubricBlock to candidate only:
+        $elements = $this->getContentVariableElements();
+
+        foreach($elements as $serial => $data){
+            if($data['qtiClass'] == 'rubricBlock'){
+                if(!empty($data['attributes']) && is_array($data['attributes']['view'])){
+                    if(in_array($view, $data['attributes']['view'])){
+                        $returnValue[$serial] = $data;
+                    }
+                }
+            }
+        };
+
+        return $returnValue;
     }
 
     protected function getTemplateElements(){
+        
         //process templateRules
         //return the template values
+    }
+
+    protected function getFeedbacks($itemSession){
+
+        $returnValue = array();
+
+        $feedbackClasses = array('modalFeedback', 'feedbackInline', 'feedbackBlock');
+        $elements = $this->getContentVariableElements();
+
+        $outcomes = array();
+        foreach($elements as $data){
+            if(in_array($data['qtiClass'], $feedbackClasses)){
+
+                $feedbackIdentifier = $data['attributes']['identifier'];
+                $outcomeIdentifier = $data['attributes']['outcomeIdentifier'];
+
+                if(!isset($outcomes[$outcomeIdentifier])){
+                    $outcomes[$outcomeIdentifier] = array();
+                }
+
+                $outcomes[$outcomeIdentifier][$feedbackIdentifier] = $data;
+            }
+        }
+
+        foreach($itemSession->getAllVariables() as $var){
+            
+            $identifier = $var->getIdentifier();
+            
+            if(isset($outcomes[$identifier])){
+                
+                $feedbacks = $outcomes[$identifier];
+                $feedbackIds = QtiRunner::getVariableValues($var);
+                
+                foreach($feedbackIds as $feedbackId){
+                    if(isset($feedbacks[$feedbackId])){
+                        $data = $feedbacks[$feedbackId];
+                        $returnValue[$data['serial']] = $data;
+                    }
+                }
+                
+            }
+        }
+        
+        return $returnValue;
     }
 
 }

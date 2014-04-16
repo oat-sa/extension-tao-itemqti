@@ -16,7 +16,6 @@ define([
             var $modal = $('#' + modalFeedback.getSerial()).modal();
             
             $modal.on('closed.modal', function(){
-               console.log('modal closesd'); 
                if(_.isFunction(data.callback)){
                    data.callback.call(this);
                }

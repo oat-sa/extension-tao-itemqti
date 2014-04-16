@@ -36,8 +36,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
             var _this = this;
             require(required, function(){
-                _.each(arguments,function(QtiClass){
-                     _this.qti[QtiClass.prototype.qtiClass] = QtiClass;
+                _.each(arguments, function(QtiClass){
+                    _this.qti[QtiClass.prototype.qtiClass] = QtiClass;
                 });
                 callback.call(_this, _this.qti);
             });
@@ -46,10 +46,10 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return _.keys(this.qti);
         },
         loadItemData : function(data, callback){
-        
+
             var _this = this;
             _this.loadRequiredClasses(data, function(Qti){
-                
+
                 if(typeof(data) === 'object' && data.qtiClass === 'assessmentItem'){
                     _this.item = new Qti.assessmentItem(data.serial, data.attributes || {});
                     _this.loadContainer(_this.item.getBody(), data.body);
@@ -91,23 +91,30 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadElements : function(data, callback){
 
             var _this = this;
-            this.loadRequiredClasses(data, function(){
 
-                var allElements = _this.item.getComposingElements();
-                for(var i in data){
-                    var elementData = data[i];
-                    if(elementData && elementData.qtiClass && elementData.serial){
-                        //find and update element
-                        if(allElements[elementData.serial]){
-                            _this.loadElementData(allElements[elementData.serial], elementData);
+            if(_this.item){
+                
+                this.loadRequiredClasses(data, function(){
+
+                    var allElements = _this.item.getComposingElements();
+                    
+                    for(var i in data){
+                        var elementData = data[i];
+                        if(elementData && elementData.qtiClass && elementData.serial){
+                            //find and update element
+                            if(allElements[elementData.serial]){
+                                _this.loadElementData(allElements[elementData.serial], elementData);
+                            }
                         }
                     }
-                }
 
-                if(typeof(callback) === 'function'){
-                    callback(_this.item);
-                }
-            });
+                    if(typeof(callback) === 'function'){
+                        callback.call(_this, _this.item);
+                    }
+                });
+            }else{
+                throw 'QtiLoader : cannot load elements in empty item';
+            }
 
         },
         buildResponse : function(data){
@@ -166,13 +173,14 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     throw 'the qti element class does not exist: ' + className;
                 }
             }else{
+                console.log(elementData);
                 throw 'wrong elementData format';
             }
             return elt;
         },
         loadElementData : function(element, data){
 
-            element.setAttributes(data.attributes);
+            element.setAttributes(_.clone(data.attributes) || {});
 
             if(element.body && data.body){
                 if(element.bdy){

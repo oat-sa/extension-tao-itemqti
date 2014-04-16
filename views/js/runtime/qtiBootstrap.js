@@ -32,16 +32,20 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
         //reconnect to global itemApi function
         window.onItemApiReady = function onItemApiReady(itemApi) {
 
-            var qtiRunner = new QtiRunner();
+            var qtiRunner = new QtiRunner(),
+                coreItemData = runnerContext.itemData,
+                variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+            
             qtiRunner.setItemApi(itemApi);
-            qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));     
-            qtiRunner.loadItemData(runnerContext.itemData, function() {
+            qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));
+            
+            qtiRunner.loadItemData(coreItemData, function() {
 
-                qtiRunner.loadElements(runnerContext.variableElements, function() {
-
+                qtiRunner.loadElements(variableElementsData, function() {
+                    
                     qtiRunner.renderItem();
 
-                    $("#qti_validate").one('click', function() {
+                    $("#qti-submit-response").one('click', function() {
                         qtiRunner.validate();
                     });
 

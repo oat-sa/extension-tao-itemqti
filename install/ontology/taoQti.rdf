@@ -15,7 +15,7 @@
     <rdfs:seeAlso xml:lang="en-US"/>
     <rdfs:isDefinedBy xml:lang="en-US"/>
     <item:DataFileName><![CDATA[qti.xml]]></item:DataFileName>
-    <item:ItemAuthoring xml:lang="en-US"><![CDATA[taoQtiItem/QtiAuthoring/index]]></item:ItemAuthoring>
+    <item:ItemAuthoring xml:lang="en-US"><![CDATA[taoQtiItem/QtiCreator/index]]></item:ItemAuthoring>
     <item:ItemModelStatus rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#StatusStable"/>
     <item:ModelTarget rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#OnlineTarget"/>
     <item:ModelService><![CDATA[\oat\taoQtiItem\model\ItemModel]]></item:ModelService>

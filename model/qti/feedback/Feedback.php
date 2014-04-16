@@ -102,7 +102,7 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
     public function toFilteredArray(){
         return array(
             'serial' => $this->getSerial(),
-            'type' => $this->getQtiTag()
+            'qtiClass' => $this->getQtiTag()
         );
     }
 

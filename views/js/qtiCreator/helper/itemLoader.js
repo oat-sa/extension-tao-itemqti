@@ -29,7 +29,7 @@ define([
                         var loader = new Loader().setClassesLocation(qtiClasses),
                             itemData = data.itemData;
 
-                        itemData = DATA['choice'].full;
+//                        itemData = DATA['choice'].full;
 
                         loader.loadItemData(itemData, function(item) {
                             callback(item, this.getLoadedClasses());

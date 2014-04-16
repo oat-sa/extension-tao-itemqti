@@ -122,7 +122,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     protected function deployItem(core_kernel_classes_Resource $item, $language, $destination, $privateFolder){
 
 //        start debugging here
-//        common_Logger::d('destination original '.$destination.' '.$privateFolder);
+        common_Logger::w('destination original '.$destination.' '.$privateFolder);
 
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
@@ -133,15 +133,18 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //copy item.xml file to private directory
         tao_helpers_File::copy($itemFolder.'qti.xml', $privateFolder.'qti.xml', false);
-
-        //store variable qti elements data into the private directory
+        
+        //load item in php object : 
+        //warning:  use the same instance of php qti item because the serial is regenerated each time:
         $qtiItem = $qtiService->getDataItemByRdfItem($item, $language);
+        
+        //store variable qti elements data into the private directory
         $variableElements = $qtiService->getVariableElements($qtiItem);
         $serializedVariableElements = json_encode($variableElements);
         file_put_contents($privateFolder.'variableElements.json', $serializedVariableElements);
 
         // render item
-        $xhtml = $itemService->render($item, $language);
+        $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
 
         // retrieve external resources
         $report = taoItems_helpers_Deployment::retrieveExternalResources($xhtml, $destination);//@todo (optional) : exclude 'require.js' from copying

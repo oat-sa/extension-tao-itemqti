@@ -413,7 +413,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @author Sam, <sam@taotesting.com>
      * @return string
      */
-    public function toXHTML($options = array()){
+    public function toXHTML($options = array(), &$filtered = array()){
 
         $template = static::getTemplatePath().'/xhtml.item.tpl.php';
         
@@ -479,7 +479,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $dataForDelivery = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
-
+        
+        //copy all variable data into filtered array
+        foreach($dataForDelivery['variable'] as $serial => $data){
+            $filtered[$serial] = $data;
+        }
+        
         $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : array();
 
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);

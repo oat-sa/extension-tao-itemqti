@@ -15,7 +15,8 @@
                             itemService     : {
                                 module      : 'taoQtiItem/runtime/QtiItemServiceImpl',
                                 params  : {
-                                    contentVariables: <?=json_encode(get_data('contentVariableElements'))?>
+                                    contentVariables: <?=json_encode(get_data('contentVariableElements'))?>,
+                                    itemDataPath: <?=json_encode(get_data('itemDataPath'))?>
                                 }
                             },
                             itemId          : <?=json_encode(get_data('itemId'));?>,

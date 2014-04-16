@@ -28,39 +28,41 @@
         <?foreach(get_data('stylesheets') as $stylesheet):?>
             <link rel="stylesheet" type="text/css" href="<?=$stylesheet['href']?>" media="<?=$stylesheet['media']?>" />
         <?endforeach?>
-            
+
         <script id="initQtiRunner" type="text/javascript">
-        (function(){
-            window.tao = window.tao || {};
-            window.tao.qtiRunnerContext = {
-               ctx                 : <?=json_encode(get_data('runtimeContext'))?>,
-               itemData            : <?=json_encode(get_data('itemData'))?>,
-               variableElements    : <?=json_encode(get_data('contentVariableElements'))?>,
-               userVars            : <?=json_encode(get_data('js_variables'))?>,
-               customScripts       : <?=json_encode(get_data('javascripts'))?>
-           };
-        }());
+            (function(){
+                window.tao = window.tao || {};
+                window.tao.qtiRunnerContext = {
+                    ctx : <?=json_encode(get_data('runtimeContext'))?>,
+                    itemData : <?=json_encode(get_data('itemData'))?>,
+                    variableElements : <?=json_encode(get_data('contentVariableElements'))?>,
+                    userVars : <?=json_encode(get_data('js_variables'))?>,
+                    customScripts : <?=json_encode(get_data('javascripts'))?>
+                };
+            }());
         </script>
-            
-    <?if(tao_helpers_Mode::is('production')):?>
+
+        <?if(tao_helpers_Mode::is('production')):?>
             <script type="text/javascript" src="<?=get_data('ctx_base_www')?>js/runtime/qtiLoader.min.js"></script>
-     <?else:?>
+        <?else:?>
             <script type="text/javascript" 
                     src="<?=get_data('ctx_taobase_www')?>js/lib/require.js"
                     data-main="<?=get_data('ctx_base_www')?>js/runtime/qtiLoader">
             </script>
-    <?endif;?>
+        <?endif;?>
 
     </head>
     <body>
         <div id="qti_item"></div>
-        <div class="qti_control">
-            <?if(get_data('ctx_raw_preview')):?>
-                <a href="#" id="qti_validate" style="visibility:hidden;"><?=__("Submit");?></a>
-            <?else:?>
-                <a href="#" id="qti_validate"><?=__("Submit");?></a>
-            <?endif?>
+        <div class="qti_control tao-scope">
+            <button 
+                href="#" 
+                id="qti-submit-response" 
+                class="btn-info"
+                <?if(get_data('ctx_raw_preview')):?>style="visibility:hidden;"<?endif?>
+                >
+                    <?=__("Submit");?>
+            </button>
         </div>
-        <div id="modalFeedbacks"></div>
     </body>
 </html>

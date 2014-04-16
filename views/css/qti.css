@@ -1442,3 +1442,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   /* line 37, ../scss/qti/_upload.scss */
   .qti-uploadInteraction:hover .btn-info {
     opacity: .85; }
+
+/* line 168, ../scss/qti.scss */
+#qti-submit-response {
+  display: block;
+  width: 100px;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto; }

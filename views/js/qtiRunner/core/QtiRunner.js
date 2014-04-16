@@ -25,7 +25,12 @@
  * @package taoItems
  * @requires jquery {@link http://www.jquery.com}
  */
-define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'], function(ItemLoader, ModalFeedback){
+define([
+    'lodash',
+    'taoQtiItem/qtiItem/core/Loader', 
+    'taoQtiItem/qtiItem/helper/pci', 
+    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
+], function(_, ItemLoader, pci, ModalFeedback){
 
     var QtiRunner = function(){
         this.item = null;
@@ -63,12 +68,11 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
     };
 
     QtiRunner.prototype.loadElements = function(elements, callback){
-        if(!this.item){
-            throw 'cannot load elements in empty item';
+        if(this.getLoader().item){
+            this.getLoader().loadElements(elements, callback);
+        }else{
+            throw 'QtiRunner : cannot load elements in empty item';
         }
-        this.getLoader().loadItemData(elements, function(item){
-            callback(item);
-        });
     };
 
     QtiRunner.prototype.renderItem = function(data){
@@ -114,7 +118,7 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
                 });
             }
         }
-    }
+    };
 
     QtiRunner.prototype.validate = function(){
 
@@ -126,28 +130,28 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
          * placeholder to limit the response payload size.
          */
         for(var key in responses){
-        	
-        	var isFile = false;
-        	
-        	// Look for the basetype of the value.
-        	// Is it a QTI File datatype?
-        	if (typeof(responses[key].base) != 'undefined') {
-        		
-        		for (property in responses[key].base) {
-        			
-        			if (property === 'file') {
-        				var file = responses[key].base.file;
-        				// QTI File found! Replace it with an appropriate placeholder.
-        				// The data is base64('qti_file_datatype_placeholder_data')
-        				this.itemApi.setVariable(key, { "base": { "file":  { "name": file.name, "mime": 'qti+application/octet-stream', "data": "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ==" } } });
-        				isFile = true;
-        			}
-        		}
-        	}
-        	
-        	if (isFile == false) {
-        		this.itemApi.setVariable(key, responses[key]);
-        	}
+
+            var isFile = false;
+
+            // Look for the basetype of the value.
+            // Is it a QTI File datatype?
+            if(typeof(responses[key].base) != 'undefined'){
+
+                for(var property in responses[key].base){
+
+                    if(property === 'file'){
+                        var file = responses[key].base.file;
+                        // QTI File found! Replace it with an appropriate placeholder.
+                        // The data is base64('qti_file_datatype_placeholder_data')
+                        this.itemApi.setVariable(key, {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}});
+                        isFile = true;
+                    }
+                }
+            }
+
+            if(isFile == false){
+                this.itemApi.setVariable(key, responses[key]);
+            }
         }
 
         // submit answers
@@ -186,46 +190,48 @@ define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/feedbacks/Mod
     QtiRunner.prototype.setResponseProcessing = function(callback){
         this.rpEngine = callback;
     };
-
-    QtiRunner.prototype.showFeedbacks = function(fbOutcomeIdentifiers, callback){
-
+    
+    QtiRunner.prototype.showFeedbacks = function(itemSession, callback){
+        
         //currently only modal feedbacks are available
-        var feedbacksToBeDisplayed = [];
-        for(var i in this.item.modalFeedbacks){
-            var feedback = this.item.modalFeedbacks[i];
+        var _this = this,
+            feedbacksToBeDisplayed = [];
+        
+        //find which modal feedbacks should be displayed according to the current item session:
+        _.each(this.item.modalFeedbacks, function(feedback){
             var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-            var feedbackIds = fbOutcomeIdentifiers[outcomeIdentifier];
-            if(feedbackIds){
-                for(var j in feedbackIds){
-                    if(feedbackIds[j] === feedback.id()){
-                        feedbacksToBeDisplayed.push(feedback);
-                        break;
-                    }
+            if(itemSession[outcomeIdentifier]){
+                var feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
+                if(_.indexOf(feedbackIds, feedback.id()) >= 0){
+                    feedbacksToBeDisplayed.push(feedback);
                 }
             }
-        }
-
+        });
+        
+        //record the number of feedbacks to be displayed:
+        var count = feedbacksToBeDisplayed.length;
+        
         //show in reverse order
-        var len = feedbacksToBeDisplayed.length;
-        for(var i = len - 1; i > 0; i--){
-            var feedback = feedbacksToBeDisplayed[i];
-            this.showModalFeedback(feedback);
-        }
+        var lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
+        _.eachRight(feedbacksToBeDisplayed, function(feedback){
+            _this.showModalFeedback(feedback);
+        });
+        
         //add callback to the last shown modal feedback
-        this.showModalFeedback(feedbacksToBeDisplayed[0], callback);
-        return len;
-    }
+        this.showModalFeedback(lastFeedback, callback);
+        
+        return count;
+    };
 
     QtiRunner.prototype.showModalFeedback = function(modalFeedback, callback){
+
         if(modalFeedback instanceof ModalFeedback){
-            var serial = modalFeedback.getSerial();
-            $('#modalFeedbacks').append('<div id="' + serial + '"></div>');
-            modalFeedback.render({}, $('#' + serial));
+            $('#modalFeedbacks').append(modalFeedback.render());
             modalFeedback.postRender({
                 callback : callback
             });
         }
-    }
+    };
 
     return QtiRunner;
 });

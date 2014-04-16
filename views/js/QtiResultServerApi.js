@@ -1,5 +1,5 @@
 define(['jquery'], function($){
-    
+
     function QtiResultServerApi(endpoint){
         this.endpoint = endpoint;
 
@@ -13,30 +13,40 @@ define(['jquery'], function($){
         };
     }
 
-    QtiResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, callback){
+    QtiResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, params, callback){
         var _this = this;
         $.ajax({
-            url : this.endpoint + 'submitResponses' + '?itemId=' + encodeURIComponent(itemId) + '&serviceCallId=' + encodeURIComponent(serviceCallId),
+            url : this.endpoint + 'submitResponses' 
+                + '?itemId=' + encodeURIComponent(itemId) 
+                + '&serviceCallId=' + encodeURIComponent(serviceCallId)
+                + '&itemDataPath=' + encodeURIComponent(params.itemDataPath),
             data : JSON.stringify(responses),
             type : 'post',
-            contentType: 'application/json',
+            contentType : 'application/json',
             dataType : 'json',
             success : function(r){
-                if(r.success){
-                    var fbCount = 0;
-                    if(r.itemSession){
-                        var runner = _this.getQtiRunner();
-                        if(runner){
-                            fbCount = runner.showFeedbacks(r.itemSession, callback);
+
+                var fbCount = 0,
+                    qtiRunner = _this.getQtiRunner();
+
+                if(qtiRunner && r.success && r.itemSession){
+
+                    //load feedbacks data into item instance
+                    qtiRunner.loadElements(r.feedbacks, function(){
+
+                        console.log(r, qtiRunner.item);
+
+                        //show feedbacks if required
+                        fbCount = qtiRunner.showFeedbacks(r.itemSession, callback);
+
+                        if(!fbCount){
+                            callback();
                         }
-                    }
-                    if(!fbCount){
-                        callback();
-                    }
+                    });
                 }
             }
         });
     };
-    
+
     return QtiResultServerApi;
 });
