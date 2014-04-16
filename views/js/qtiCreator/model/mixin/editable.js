@@ -96,7 +96,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
         },
         remove : function(){
             if(arguments.length === 0){
-                return removeSelf();
+                return removeSelf(this);
             }else if(arguments.length === 2){
                 return removeElement(this, arguments[0], arguments[1]);
             }else{

@@ -141,9 +141,9 @@
         margin: 0;
         position: relative;
         background: mix(#fff, $grey, 85%);
-
+        
         .item-editor-item {
-
+            
             [class*=" col-"], [class^="col-"] {
                 border: 1px #eee dotted;
                 padding: 6px;
@@ -263,7 +263,7 @@
                 }
             }
         }
-
+        
         .reset-group {
             overflow: hidden;
             select, #item-editor-font-size-changer {
@@ -290,7 +290,7 @@
                 }
             }
         }
-
+        
         .cbr-right {
             width: 100%;
             span {
@@ -313,13 +313,13 @@
         .incrementer-ctrl {
             top: -3px;
         }
-
+        
         #item-editor-item-resizer {
             .reset-group {
                 display:none;
             }
         }
-
+        
         #item-editor-font-size-changer {
             padding-top: 1px;
             overflow: hidden;
@@ -344,8 +344,8 @@
                 @include font-size(18);
             }
         }
-
-
+        
+        
         .color-picker {
             margin-top: -5px
         }
@@ -448,7 +448,7 @@
                     z-index:99;
                 }
                 .qti-prompt{
-                    min-height:1rem;
+                    min-height: 1.4rem;
                 }
                 .float-space-top.cke_nose{
                     display:block;
@@ -572,7 +572,13 @@
     /*style for modal feedback*/
     @import "qtiCreator/_modal-feedback";
     
+    
+    
     /*style for html editable area highlight*/
+    [data-html-editable]{
+        border:1px solid transparent;
+        outline:1px solid transparent !important;
+    }
     .edit-question .qti-interaction, .qti-modalFeedback.edit-active{
         [data-html-editable-container]:hover{
             [data-html-editable]{
@@ -583,9 +589,7 @@
             }
         }
         [data-html-editable]{
-            margin-right:85px;
-            border:1px solid transparent;
-            outline:1px solid transparent !important;
+            margin-right:0px;//@todo value to be determined
             &:focus{
                 border:1px dotted $info;
             }

@@ -1,6 +1,7 @@
 define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_, defaultRenderConfig){
     var locations = _.extend(_.clone(defaultRenderConfig.locations), {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
+        '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
         'img' : 'taoQtiItem/qtiCommonRenderer/renderers/Img',
         'rubricBlock' : 'taoQtiItem/qtiCommonRenderer/renderers/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',

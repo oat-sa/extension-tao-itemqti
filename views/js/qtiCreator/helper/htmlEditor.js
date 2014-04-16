@@ -1,14 +1,18 @@
-define(['lodash', 'jquery', 'ckeditor'], function(_, $, CKEditor){
+define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
     
     //CKEDITOR.dtd.$editable.span = 1;//buggy!
-
+    
+    var _defaults = {
+        placeholder: __('some text ...')
+    };
+    
     var _buildEditor = function($editable, $editableContainer, options){
 
         var $trigger;
-        options = options || {};
+        options = _.defaults(options, _defaults);
 
         if(!$editable instanceof $ || !$editable.length){
             throw 'invalid jquery element for $editable';
@@ -18,7 +22,7 @@ define(['lodash', 'jquery', 'ckeditor'], function(_, $, CKEditor){
         }
 
         $trigger = $editableContainer.find('[data-role="cke-launcher"]');
-
+        $editable.attr('placeholder', options.placeholder);
         return CKEditor.inline($editable[0], {
             toolbarGroups : [
                 {name : 'basicstyles', groups : ['basicstyles', 'cleanup']},
@@ -27,6 +31,7 @@ define(['lodash', 'jquery', 'ckeditor'], function(_, $, CKEditor){
             autoParagraph : false,
             removePlugins : 'resize,elementspath',
             floatSpaceDockedOffsetY : 10,
+            extraPlugins: 'confighelper',
             floatSpace : {
                 debug : true,
                 initialHide : true,
