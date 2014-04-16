@@ -19,7 +19,7 @@ define([
     }
 
     var parent = initHideOnPrint(base.scope.parent());
-    while(parent.get(0).nodeName.toLowerCase() !== 'body') {
+    while(parent.length && parent.get(0).nodeName.toLowerCase() !== 'body') {
       parent = initHideOnPrint(parent);
     }
 

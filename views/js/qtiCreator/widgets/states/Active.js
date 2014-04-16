@@ -14,7 +14,16 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
             }
         }, 'otherActive');
         
+        _widget.$container.on('click.active', function(e){
+           e.stopPropagation(); 
+        });
+        $('#item-editor-panel').on('click.active', function(){
+            _widget.changeState('sleep');
+        });
     },function(){
+        
+        this.widget.$container.off('active');
+        $('#item-editor-panel').off('active');
         
         this.widget.offEvents('otherActive');
     });

@@ -29,11 +29,11 @@ define([
         this.itemUri = config.uri;
         this.initUiComponents();
 
-//        this.initTextWidgets();
+        this.initTextWidgets();
 
         this.initGridEditor();
 
-//        this.debug();
+        this.debug();
     };
 
     ItemWidget.buildContainer = function(){
@@ -179,7 +179,7 @@ define([
             subContainers.push({
                 body : subContainerBody,
                 elements : subContainerElements,
-                $original : $originalContainer.find('[data-text-block-id="' + textBlockId + '"]')
+                $original : $originalContainer.find('[data-text-block-id="' + textBlockId + '"]').removeAttr('data-text-block-id')
             });
         });
 

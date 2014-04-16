@@ -25,7 +25,7 @@ define([
 
                 this.element = element;
                 this.serial = element.getSerial();
-                this.$original = $original.addClass('activable');
+                this.$original = $original;
                 this.$form = $form;
                 this.stateStack = [];
                 this.registeredStates = {};

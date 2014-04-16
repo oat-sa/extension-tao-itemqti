@@ -235,10 +235,10 @@ define([
 
             $el.find('.grid-edit-insert-box').remove();
 
-            $placeholder.parent('.new-col').removeClass('new-col');//make the dropped col permanent
-            $el.find('.new-col').remove();//remove tmp cols
+            $placeholder.parent('.new-col').removeClass('new-col').removeAttr('data-index');//make the dropped col permanent
+            $el.find('.new-col').remove();//remove all other tmp cols
 
-            //manage the temp new-col:
+            //manage the temp grid-new-row:
             $el.find('.grid-row[data-active=true]').each(function(){
                 $(this).removeClass('grid-row-new');
 
@@ -313,7 +313,7 @@ define([
         });
 
         _restoreTmpCol($el);
-
+        
         $el.find('#qti-inline-element-placeholder, #qti-block-element-placeholder, .new-col, .grid-row-new').remove();
 
         $el.off('.gridEdit.gridDragDrop');

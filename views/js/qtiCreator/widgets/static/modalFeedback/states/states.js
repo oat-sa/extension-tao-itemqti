@@ -3,6 +3,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/states',
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/Sleep',
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/Active'
-], function(factory){
-    return factory.createBundle(arguments);
+], function(factory, states){
+    return factory.createBundle(states, arguments);
 });
