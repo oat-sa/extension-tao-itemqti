@@ -48,7 +48,10 @@ return array(
     'autoload' => array (
         'psr-4' => array(
             'oat\\taoQtiItem\\' => dirname(__FILE__).DIRECTORY_SEPARATOR
-        )
+        ),
+        'psr-0' => array(
+            'Sabberworm\\CSS' => __DIR__ . DIRECTORY_SEPARATOR . 'vendor'. DIRECTORY_SEPARATOR .'PHP-CSS-Parser'. DIRECTORY_SEPARATOR .'lib'. DIRECTORY_SEPARATOR,  
+        ) 
     ),
     'routes' => array(
         '/taoQtiItem' => 'oat\\taoQtiItem\\controller'

@@ -51,6 +51,8 @@
     }
 }
 
+
+
 .tao-scope {
     // the icon creator specific part
     @import "inc/widgets";
@@ -139,10 +141,13 @@
         margin: 0;
         position: relative;
         background: mix(#fff, $grey, 85%);
-        
-        [class*=" col-"], [class^="col-"] {
-            border: 1px #eee dotted;
-            padding: 6px;
+
+        .item-editor-item {
+
+            [class*=" col-"], [class^="col-"] {
+                border: 1px #eee dotted;
+                padding: 6px;
+            }
         }
     }
     
@@ -153,6 +158,7 @@
         }
     }
     .item-editor-sidebar {
+        opacity: 0;
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
         position: absolute;
@@ -193,9 +199,11 @@
                 padding: 8px 5px;
                 overflow: hidden;
                 h3 {
-                    padding: 0 0 6px 0;
+                    padding: 0 0 12px 0;
                     margin: 0;
-                    @include font-size(14)
+                    @include font-size(14);
+                    max-width:140px;
+                    display:inline-block
                 }
                 select, input[type="text"] {
                     width: 100%;
@@ -255,6 +263,34 @@
                 }
             }
         }
+
+        .reset-group {
+            overflow: hidden;
+            select, #item-editor-font-size-changer {
+                width: 140px;
+                min-width: 140px;
+                max-width: 140px;
+            }
+            #item-editor-font-size-changer {
+                display:inline-block;
+                text-align: center;
+            }
+            button {
+                position: relative;
+                top: 1px;
+                float:right;
+                padding: 0;
+                height: 24px;
+                width: 24px;
+                text-align: center;
+                .icon-reset {
+                    @include font-size(11);
+                    padding: 0;
+                    text-shadow: none !important;
+                }
+            }
+        }
+
         .cbr-right {
             width: 100%;
             span {
@@ -277,12 +313,29 @@
         .incrementer-ctrl {
             top: -3px;
         }
-        [data-role="font-size-changer"] {
-            text-align:center;
-            padding-top: 5px;
-            span {
-                padding: 0 3px;
-                cursor:pointer
+
+        #item-editor-item-resizer {
+            .reset-group {
+                display:none;
+            }
+        }
+
+        #item-editor-font-size-changer {
+            padding-top: 1px;
+            overflow: hidden;
+            display: table;
+            width: 140px;
+            a {
+                display: table-cell;
+                padding: 0 10px;
+                color: $textColor;
+                text-decoration: none !important;
+                width: 70px;
+                line-height: 21px;
+                text-align: left;
+                &.icon-smaller {
+                    text-align: right;
+                }
             }
             .icon-smaller {
                 @include font-size(12);
@@ -291,6 +344,8 @@
                 @include font-size(18);
             }
         }
+
+
         .color-picker {
             margin-top: -5px
         }

@@ -47,6 +47,8 @@ class QtiCreator extends tao_actions_CommonModule {
         if ($this->hasRequestParameter('instance')) {
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('instance'));
             $this->setData('uri', $itemUri);
+            //set the current data lang in the item content to keep the integrity
+            $this->setData('lang', core_kernel_classes_Session::singleton()->getDataLanguage());
         }
 
         $this->setView('QtiCreator/index.tpl');
@@ -55,8 +57,7 @@ class QtiCreator extends tao_actions_CommonModule {
     public function getItemData() {
 
         $returnValue = array(
-            'itemData' => null,
-            'lang' => core_kernel_classes_Session::singleton()->getDataLanguage()//set the current data lang in the item content to keep the integrity
+            'itemData' => null
         );
 
         if ($this->hasRequestParameter('uri')) {

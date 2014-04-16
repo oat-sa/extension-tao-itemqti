@@ -85,13 +85,13 @@ use oat\taoQtiItem\helpers\Authoring;
 
     <div class="wrapper clearfix content" id="item-editor-wrapper">
         <!-- left sidebar -->
-        <div class="item-editor-sidebar" id="item-editor-interaction-bar">
+        <form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off">
 
             <section class="tool-group clearfix">
                 <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues):
                     ?>
 
-                    <h2><?=$group?></h2>
+                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=$group?></h2>
 
                     <div class="panel">
                         <ul class="tool-list plain">
@@ -110,41 +110,111 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
                 <?php endforeach;?>
             </section>
-        </div>
+        </form>
         <!-- /left sidebar -->
 
         <!-- right sidebar -->
         <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
             <div class="item-editor-item-related" id="item-editor-item-bar">
                 <section class="tool-group clearfix">
-                    <h2><?=__('Screen width')?></h2>
+
+                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
 
                     <div class="panel">
-                        <h3><?=__('Presets')?></h3>
-                        <select class="panel-row" id="item-editor-device-selector"
-                                data-not-selected="-- <?=__('Select a device')?> --"
-                                data-selected="-- <?=__('Reset to default')?> --">
-                            <option value=""></option>
-                        </select>
-
-                        <h3><?=__('Custom value')?></h3>
-
-                        <div class="slider panel-row" id="item-editor-resizer"></div>
-
+                        <h3><?=__('Color')?></h3>
+                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
+                        <div class="tooltip-content"><?=__('Change the color of the text or the background of the item')?></div>
+                        <div class="color-picker" id="item-editor-color-picker" data-target=".tao-scope div.qti-item"></div>
+                        <div class="reset-group">
+                            <select class="select2" data-role="color-picker-property" data-has-search="false">
+                                <option value="background-color"><?=__('Background')?></option>
+                                <option value="color"><?=__('Text')?></option>
+                            </select>
+                            <button class="btn-info small" type="button" data-role="color-picker-reset" title="<?=__('Reset colors')?>">
+                                <span class="icon-reset"></span>
+                            </button>
+                        </div>
                     </div>
-
+                    <hr>
                 </section>
                 <section class="tool-group clearfix">
-                    <h2><?=__('Text')?></h2>
-
                     <div class="panel">
-                        <select id="item-editor-font-selector" class="font-selector" data-target="item"
-                                data-not-selected="-- <?=__('Select a font')?> --"
-                                data-selected="-- <?=__('Reset to default')?> --">
-                            <option value=""></option>
-                        </select>
+                        <h3><?=__('Font family')?></h3>
+                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
+                        <div class="tooltip-content"><?=__('Change the font family of the item')?></div>
+
+                        <div class="reset-group">
+                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" placeholder="<?=__('Change Font')?>"
+                                    class="select2" data-role="font-selector"></select>
+                            <button class="btn-info small" type="button" data-role="font-selector-reset" title="<?=__('Reset font family')?>">
+                                <span class="icon-reset"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <hr>
+                </section>
+                <section class="tool-group clearfix">
+                    <div class="panel">
+                        <h3><?=__('Font size')?></h3>
+                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
+                        <div class="tooltip-content"><?=__('Change the font size of the item')?></div>
+                        <div class="reset-group">
+                            <span id="item-editor-font-size-changer" data-target=".tao-scope div.qti-item">
+                                <a href="#" data-action="reduce" title="<?=__('Reduce font size')?>" class="icon-smaller"></a>
+                                <a href="#" data-action="enlarge" title="<?=__('Enlarge font size')?>" class="icon-larger"></a>
+                            </span>
+                            <button class="btn-info small" type="button" data-role="font-size-reset" title="<?=__('Reset font size')?>">
+                                <span class="icon-reset"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <hr>
+                </section>
+                <section class="tool-group clearfix">
+                    <div class="panel">
+                        <h3><?=__('Item width')?></h3>
+                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
+                        <div class="tooltip-content"><?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen')?></div>
+                        <div  id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
+                            <label>
+                                <input type="radio" name="item-width-prompt" checked value="no-slider">
+                                <span class="icon-radio"></span>
+                                <?=__('Item should always adapt to screen size')?>
+                            </label>
+                            <label>
+                                <input type="radio" name="item-width-prompt" value="slider">
+                                <span class="icon-radio"></span>
+                                <?=__('I want to hard code the item width')?>
+                            </label>
+                            <div class="reset-group slider-box">
+                                <div class="item-editor-item-resizer-slider"></div>
+                                <button class="btn-info small" type="button" data-role="item-width-reset" title="<?=__('Reset item width')?>">
+                                    <span class="icon-reset"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                </section>
+                <section class="tool-group clearfix">
+                    <div class="panel">
+                        <label>CSS</label>
+                        <ul>
+                            <li>foo.css</li>
+                            <li>bar.css</li>
+                        </ul>
+
+                        <div>
+                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
+                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
+                        </div>
+
                     </div>
                 </section>
+
             </div>
             <div class="item-editor-widget-related" id="item-editor-widget-bar">
 
@@ -213,6 +283,6 @@ use oat\taoQtiItem\helpers\Authoring;
 
 <script>
     require(['taoQtiItem/controller/creator/main'], function(controller){
-        controller.start({uri : '<?=get_data('uri')?>'});
+        controller.start({uri : '<?=get_data('uri')?>', lang: '<?=get_data('lang')?>'});
     });
 </script>

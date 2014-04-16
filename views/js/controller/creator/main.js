@@ -1,37 +1,48 @@
 define([
-    'taoQtiItem/qtiCreator/editor/toggleToolDisplay',
     'taoQtiItem/qtiCreator/editor/preview',
-    'taoQtiItem/qtiCreator/editor/fontSelector',
-    'taoQtiItem/qtiCreator/editor/itemResizer',
     'taoQtiItem/qtiCreator/editor/preparePrint',
     'taoQtiItem/qtiCreator/editor/toggleAppearance',
     'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/helper/itemLoader',
-    'taoQtiItem/qtiCreator/helper/creatorRenderer'
+    'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    // css editor related
+    'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
+    'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
+    'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
+    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
 ], function(
-        toggleToolDisplay,
         preview,
-        fontSelector,
-        itemResizer,
         preparePrint,
         toggleAppearance,
         listStyler,
         loader,
-        creatorRenderer
+        creatorRenderer,
+        fontSelector,
+        colorSelector,
+        fontSizeChanger,
+        itemResizer,
+        styleEditor
         ) {
 
-    var _initUiComponents = function() {
 
-        toggleToolDisplay();
+    var _initUiComponents = function (config) {
+        styleEditor.init(config);
         preview.init('#preview-trigger');
-        fontSelector('#item-editor-font-selector');
-        itemResizer();
         preparePrint();
         toggleAppearance();
         listStyler();
+
+        fontSelector(config);
+        colorSelector(config);
+        fontSizeChanger(config);
+        //itemResizer(config);
+
+
+        $('.item-editor-sidebar').fadeTo(2000 , 1);
     };
     
-    var _initFormVisibilityListener = function(){
+    var _initFormVisibilityListener = function (){
         
         var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
             $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
@@ -49,7 +60,7 @@ define([
                 case 'answer':
                     $formResponsePanel.show();
                     break;
-            };
+            }
         });
         
         $(document).on('beforeStateExit.qti-widget', function(e, element, state) {
@@ -63,14 +74,13 @@ define([
                 case 'answer':
                     $formResponsePanel.hide();
                     break;
-            };
+            }
         });
     };
     
     return {
-        start: function(config) {
-            
-            _initUiComponents();
+        start: function  (config) {
+
             
             _initFormVisibilityListener();
             
@@ -87,6 +97,8 @@ define([
 
                     //"post-render it" to initialize the widget
                     item.postRender({uri: config.uri});
+
+                    _initUiComponents(config);
                     
                 }, item.getUsedClasses());
 

@@ -1,7 +1,7 @@
 define([
     'jquery',
     'json!taoQtiItem/qtiCreator/editor/resources/font-stacks.json',
-    'taoQtiItem/qtiCreator/editor/styleEditor',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'select2'
 ], function ($, fontStacks, styleEditor) {
     'use strict'
@@ -23,16 +23,16 @@ define([
      *
      * @param selector
      */
-    var fontSelector = function (selector) {
-        var selectBox = $(selector),
-            target = selectBox.data('target'),
-            oldFont = $(target).css('font-family'),
+    var fontSelector = function () {
+        var fontSelector = $('#item-editor-font-selector'),
+            target = fontSelector.data('target'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
             },
+            resetButton =  fontSelector.parent().find('[data-role="font-selector-reset"]'),
             generic,
             optGroup,
             option,
@@ -47,7 +47,7 @@ define([
             format = function (state) {
                 var originalOption = state.element;
                 if (!state.id) return state.text;
-                return '<span style="' + $(originalOption).attr('style') + '">' + state.text + '</span>';
+                return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
             };
 
 
@@ -67,11 +67,18 @@ define([
                         });
                     optGroup.append(option);
                 }
-                selectBox.append(optGroup);
+                fontSelector.append(optGroup);
             }
         }
-        selectBox.on('change',function () {
-            styleEditor.apply(target, 'font-family', ($(this).val() || oldFont));
+
+
+
+        resetButton.on('click', function () {
+            styleEditor.apply(target, 'font-family');
+        });
+
+        fontSelector.on('change', function () {
+            styleEditor.apply(target, 'font-family', $(this).val());
         }).select2({
             formatResult: format,
             formatSelection: format,
