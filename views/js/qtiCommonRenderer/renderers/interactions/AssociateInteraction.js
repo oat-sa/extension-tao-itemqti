@@ -218,10 +218,14 @@ define([
             return ($activeChoice && !$activeChoice.data('identifier'));
         };
 
-
+        $container.on('mousedown.commonRenderer', function(e){
+            _resetSelection();
+        });
 
         $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
-
+            
+            e.stopPropagation();
+            
             if($(this).hasClass('deactivated')){
                 e.preventDefault();
                 return;
@@ -250,8 +254,10 @@ define([
 
         });
 
-        $resultArea.on('mousedown.commonRenderer', '>li>div', function(){
-
+        $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
+            
+            e.stopPropagation();
+            
             if(_isInsertionMode()){
 
                 var $target = $(this),
@@ -454,7 +460,7 @@ define([
 
         //remove event
         $(document).off('.commonRenderer');
-        $container.find('.choice-area, .result-area').off('.commonRenderer');
+        $container.find('.choice-area, .result-area').andSelf().off('.commonRenderer');
 
         //destroy response
         resetResponse(interaction);
