@@ -186,11 +186,11 @@ define([
 
         var baseType = interaction.getResponseDeclaration().attr('baseType');
         
-        if(response.base && response.base[baseType]){
+        if(response.base && response.base[baseType] !== undefined){
             _setVal(response.base[baseType]);
         } else if (response.list && response.list[baseType]){
             for(var i in response.list[baseType]){
-                var identifier = typeof response.list.identifier === 'undefined'?'':response.list.identifier[i];
+                var identifier = (response.list.identifier === undefined) ? '' : response.list.identifier[i];
                 _setMultipleVal(identifier + '_' + i, response.list[baseType][i]);
             }
         } else {
