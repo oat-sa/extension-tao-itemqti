@@ -333,10 +333,12 @@ abstract class Element implements Exportable
      * 
      * @return array
      */
-    public function getAttributeValues(){
+    public function getAttributeValues($filterNull = true){
         $returnValue = array();
         foreach($this->attributes as $name => $attribute){
-            $returnValue[$name] = $attribute->getValue();
+            if(!$filterNull || !$attribute->isNull()){
+                $returnValue[$name] = $attribute->getValue();
+            }
         }
         return $returnValue;
     }
