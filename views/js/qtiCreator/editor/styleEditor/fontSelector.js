@@ -24,7 +24,7 @@ define([
      * @param selector
      */
     var fontSelector = function () {
-        var fontSelector = $('#item-editor-font-selector'),
+        var fontSelector = $('select#item-editor-font-selector'),
             target = fontSelector.data('target'),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");

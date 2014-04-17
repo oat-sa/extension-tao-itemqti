@@ -29,7 +29,7 @@ define([
         _normalizeItemBody($itemContainer.find('.qti-itemBody'));
         
         options = options || {};
-        options.state = 'active';//the item widget never sleeps !
+        options.state = 'active';//the item widget never sleeps ! <- this sounds very scary!
         
         return Widget.build(
             item,

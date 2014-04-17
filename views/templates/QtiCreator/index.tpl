@@ -126,7 +126,44 @@ use oat\taoQtiItem\helpers\Authoring;
                 <section class="tool-group clearfix">
 
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
+                    <div class="panel">
+                        <h3><?=__('Style sheets')?></h3>
+                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
+                        <div class="tooltip-content">
+                            <?=__('Manage your style sheets. Note, that you can only edit your custom CSS.
+                            Disabling a style sheet is not a permanent change!')?>
+                        </div>
+                        <ul class="none" id="style-sheet-toggler">
+                            <li data-css-res="taoQtiItem/views/css/qti.css">
+                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
+                                <span class="truncate"><?=__('TAO default styles')?></span>
+                            </li>
+                            <li data-css-res="/path/to/foo.css">
+                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
+                                <span class="truncate">item-1.css</span>
+                                <span class="icon-bin" title="<?=__('Delete this style sheet')?>" data-role="css-delete"></span>
+                            </li>
+                            <li data-css-res="/path/to/bar.css">
+                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
+                                <span class="truncate">item-2.css</span>
+                                <span class="icon-bin" title="<?=__('Delete this style sheet')?>" data-role="css-delete"></span>
+                            </li>
+                            <li data-css-res="/path/to/custom.css" data-custom-css="true">
+                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
+                                <span class="truncate"><?=__('Custom styles')?></span>
+                                <span class="icon-bin" title="<?=__('Delete your custom styles')?>" data-role="css-delete"></span>
+                                <span class="icon-download" title="<?=__('Download this style sheet')?>" data-role="css-download"></span>
+                            </li>
+                        </ul>
+                        <div class="file-upload" id="style-sheet-uploader">
+                            <span class="btn-info small"><?=__('Upload custom CSS')?></span>
+                            <span class="file-name truncate"><?=__('No file selected')?></span>
+                            <input type="file">
+                        </div>
+                        <span class="btn-info icon-upload small"></span>
+                    </div>
 
+                    <hr>
                     <div class="panel">
                         <h3><?=__('Color')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -158,8 +195,6 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                </section>
-                <section class="tool-group clearfix">
                     <div class="panel">
                         <h3><?=__('Font size')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -200,20 +235,7 @@ use oat\taoQtiItem\helpers\Authoring;
                         </div>
 
                     </div>
-                    <hr>
-                    <div class="panel">
-                        <label>CSS</label>
-                        <ul>
-                            <li>foo.css</li>
-                            <li>bar.css</li>
-                        </ul>
 
-                        <div>
-                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
-                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
-                        </div>
-
-                    </div>
                 </section>
 
             </div>

@@ -6,7 +6,7 @@ define([
     'use strict'
 
     var colorSelector = function () {
-        var colorPicker = $('#item-editor-color-picker'),
+        var colorPicker = $('select#item-editor-color-picker'),
             target = colorPicker.data('target'),
             propertySelector = colorPicker.parent().find('[data-role="color-picker-property"]'),
             resetButton =  colorPicker.parent().find('[data-role="color-picker-reset"]');

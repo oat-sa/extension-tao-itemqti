@@ -79,9 +79,8 @@ define([
          * Create CSS and add it to DOM
          * Supports media queries that could come from an imported CSS
          *
-         * @private
          */
-        var _buildCss = function(style) {
+        var create = function() {
             var key1, // first level key, could be selector or media query
                 key2, // second level key, could be css property or selector
                 mSelector, // selector inside a media query
@@ -140,8 +139,12 @@ define([
             }
 
             // apply rule
-            _buildCss(style);
+            create();
 
+        };
+
+        var erase = function() {
+            $styleElem.text('');
         };
 
         /**
@@ -158,17 +161,20 @@ define([
          */
         var download = function() {
             verifyInit();
-            $('[data-role="css-download"]').on('click', function() {
-                $.fileDownload(getUri('download'), {
-                    preparingMessageHtml: __('We are preparing your CSS, please wait...'),
-                    failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
-                    successCallback: function () { },
-                    httpMethod: 'POST',
-                    data: _.extend(itemConfig, { cssJson: JSON.stringify(style) })
-                });
+            $.fileDownload(getUri('download'), {
+                preparingMessageHtml: __('We are preparing your CSS, please wait...'),
+                failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
+                successCallback: function () { },
+                httpMethod: 'POST',
+                data: _.extend(itemConfig, { cssJson: JSON.stringify(style) })
             });
         };
 
+        /**
+         * Has the class been initialized
+         *
+         * @returns {boolean}
+         */
         var verifyInit = function() {
             if(!itemConfig) {
                 throw new Error('Missing itemConfig, did you call init()?')
@@ -178,7 +184,17 @@ define([
 
 
         /**
-         * initialize class
+         * Are there any styles available
+         *
+         * @returns {boolean}
+         */
+        var hasStyle = function() {
+            return _.size(style) !== 0;
+        };
+
+
+        /**
+         * Initialize class
          * @param config
          */
         var init = function(config) {
@@ -191,11 +207,12 @@ define([
          * Load an existing CSS file as JSON
          *
          */
-        var load = function () {
+        var load = function (item) {
             verifyInit();
-            $.getJSON(getUri('load'), itemConfig).done(function (json) {
-                _buildCss(json);
-            })
+            console.log(item);
+//            $.getJSON(getUri('load'), itemConfig).done(function (json) {
+//                create(json);
+//            })
         };
 
         // expose public functions
@@ -203,7 +220,10 @@ define([
             apply: apply,
             save: save,
             load: load,
-            init: init
+            erase: erase,
+            init: init,
+            create: create,
+            hasStyle: hasStyle
         }
     }($));
 

@@ -10,24 +10,25 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler'
 ], function(
-    preview,
-    preparePrint,
-    toggleAppearance,
-    listStyler,
-    loader,
-    creatorRenderer,
-    fontSelector,
-    colorSelector,
-    fontSizeChanger,
-    itemResizer,
-    styleEditor
+        preview,
+        preparePrint,
+        toggleAppearance,
+        listStyler,
+        loader,
+        creatorRenderer,
+        fontSelector,
+        colorSelector,
+        fontSizeChanger,
+        itemResizer,
+        styleEditor,
+        styleSheetToggler
     ){
 
 
-    var _initUiComponents = function(item, config){
-        
+    var _initUiComponents = function (item, config) {
         styleEditor.init(config);
         preview.init('#preview-trigger');
         preparePrint();
@@ -41,6 +42,7 @@ define([
 
 
         $('.item-editor-sidebar').fadeTo(2000, 1);
+        styleEditor.load(item);
     };
 
     var _initFormVisibilityListener = function(){
@@ -100,7 +102,7 @@ define([
                     item.postRender({uri : config.uri});
 
                     _initUiComponents(item, config);
-
+                    
                 }, item.getUsedClasses());
 
             });

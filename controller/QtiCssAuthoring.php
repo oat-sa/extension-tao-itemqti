@@ -39,6 +39,10 @@ use common_exception_InvalidArgumentType;
 class QtiCssAuthoring extends tao_actions_CommonModule {
 
     public function save() {
+
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+        }
         CssHelper::save($this -> getCssArray());
     }
 
@@ -47,10 +51,6 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
     }
 
     private function getCssArray() {
-
-        if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
-        }
 
         if (!$this->hasRequestParameter('cssJson')) {
             throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());

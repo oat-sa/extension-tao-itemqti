@@ -346,8 +346,46 @@
                 @include font-size(18);
             }
         }
-        
-        
+
+        // css manager
+        #style-sheet-toggler {
+            .style-sheet-toggler {
+                @include font-size(11);
+                @include simple-border(#ccc);
+                display:inline-block;
+                width: 20px;
+                height: 18px;
+                padding: 3px 0 0 3px;
+                cursor: pointer !important;
+                margin: 0 4px 0 2px;
+            }
+            .invalid-css {
+                text-decoration: line-through;
+            }
+            .icon-download, .icon-bin{
+                float:right;
+                cursor: pointer;
+                margin-left: 5px;
+                position: relative;
+                top: 2px;
+            }
+            .not-available, .not-available * {
+                color: whiten($textColor, .5);
+                cursor:default !important;
+            }
+        }
+
+        #style-sheet-uploader {
+            display:block;
+            .btn-info, .file-name {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+        }
+
+
+
         .color-picker {
             margin-top: -5px
         }
