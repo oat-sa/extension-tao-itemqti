@@ -29,7 +29,7 @@ define([
         this.itemUri = config.uri;
         this.initUiComponents();
 
-//        this.initTextWidgets();
+        this.initTextWidgets();
 
         this.initGridEditor();
 

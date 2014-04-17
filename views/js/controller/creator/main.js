@@ -28,8 +28,6 @@ define([
 
     var _initUiComponents = function(item, config){
         
-        console.log(item);
-        
         styleEditor.init(config);
         preview.init('#preview-trigger');
         preparePrint();
@@ -101,7 +99,7 @@ define([
                     //"post-render it" to initialize the widget
                     item.postRender({uri : config.uri});
 
-//                    _initUiComponents(item, config);
+                    _initUiComponents(item, config);
 
                 }, item.getUsedClasses());
 
