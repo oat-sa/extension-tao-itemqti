@@ -98,12 +98,12 @@ class Authoring
                     'qtiClass' => '_container'//a pseudo class introduced in TAO
                 ),
                 array('title' => __('Rubric Block'),
-                    'icon' => 'background-color',
+                    'icon' => 'rubric',
                     'short' => __('Rubric'),
                     'qtiClass' => 'rubricBlock'
                 ),
                 array('title' => __('Math'),
-                    'icon' => 'special-character',
+                    'icon' => 'maths',
                     'short' => __('Math'),
                     'qtiClass' => 'math'
                 )
@@ -172,12 +172,12 @@ class Authoring
             ),
             'Media' => array(
                 array('title' => __('Image'),
-                    'icon' => 'choice',
+                    'icon' => 'image',
                     'short' => __('Image'),
                     'qtiClass' => 'img'
                 ),
                 array('title' => __('Video'),
-                    'icon' => 'match',
+                    'icon' => 'video',
                     'short' => __('Video'),
                     'qtiClass' => 'object.video'
                 )
