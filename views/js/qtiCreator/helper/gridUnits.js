@@ -42,7 +42,7 @@ define(['lodash'], function(_){
                 decimals[i] = Math.round((refactoredUnits % 1) * 100);//get its decimals for later usage
 
                 col.refactoredUnits = Math.round(refactoredUnits);
-                if(col.min && col.refactoredUnits < col.min){//a col cannot be smaller than its min units value obviously
+                if(col.min && col.refactoredUnits < col.min){//a col cannot be smaller than its min units
                     col.refactoredUnits = col.min;
                     minimized[i] = true;//marked it as not changeable
                 }
@@ -75,9 +75,12 @@ define(['lodash'], function(_){
                 refactoredTotalUnits : refactoredTotalUnits
             };
         }else{
+
+            //there is "room" for the new element to fill the whole row:
+            var last = max - totalUnits;
             ret = {
-                last : max - totalUnits,
-                middle : Math.round(avg),
+                last : last,
+                middle : last,
                 cols : {}//no need to resize cols
             };
         }
@@ -85,9 +88,94 @@ define(['lodash'], function(_){
         return ret;
     }
 
+    /**
+     * Rebistributs the cols proportionally to fill out the "max" width
+     * 
+     * @param {array} cols
+     * @param {integer} max
+     * @returns {object}
+     */
+    function redistributeUnits(cols, max){
+
+        max = max || 12;//default to max
+
+        var totalUnits = 0,
+            _cols = [],
+            totalRefactoredUnits = 0,
+            negative = [],
+            positive = [],
+            ret = [];
+
+        _.each(cols, function(col){
+            _cols.push(col);
+            totalUnits += col.units;
+        });
+
+        if(totalUnits > max){
+            throw 'the total number of units exceed the maximum of ' + max;
+        }
+
+        _.each(_cols, function(col){
+
+            var refactoredUnits = col.units * max / totalUnits;
+            var rounded = Math.round(refactoredUnits);
+            totalRefactoredUnits += rounded;
+
+            col.refactoredUnits = rounded;
+            
+            if(rounded > refactoredUnits){
+                positive.push(col);
+            }else{
+                negative.push(col);
+            }
+            
+        });
+
+        if(totalRefactoredUnits > max){
+            //too much !
+            
+            //@todo : start with the hightest refactored
+            _.each(positive, function(col){
+                col.refactoredUnits --;
+                totalRefactoredUnits--;
+                if(totalRefactoredUnits === max){
+                    return false;
+                }
+            });
+            
+        }else if(totalRefactoredUnits < max){
+            
+            //@todo : start with the lowest refactored
+            _.each(negative, function(col){
+                col.refactoredUnits ++;
+                totalRefactoredUnits++;
+                if(totalRefactoredUnits === max){
+                    return false;
+                }
+            });
+            
+        }
+        
+        console.log(negative, positive);
+        
+        _.each(negative, function(col){
+            ret.push(col);
+        });
+        _.each(positive, function(col){
+            ret.push(col);
+        });
+
+        return _cols;
+    }
+    
+
     return {
         distribute : function(cols, min, max){
             return distributeUnits(cols, min, max);
+        },
+        redistribute : function(cols, max){
+            return redistributeUnits(cols, max);
         }
+
     };
 });

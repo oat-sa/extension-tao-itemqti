@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/text/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock',
     'taoQtiItem/qtiCreator/helper/htmlEditor'
 ], function(Widget, states, toolbarTpl, htmlEditor){
 
@@ -27,12 +27,19 @@ define([
     };
     
     TextWidget.createToolbar = function() {
-
-        this.$container.append(toolbarTpl({
+        
+        var _this = this,
+            $tlb = $(toolbarTpl({
             serial: this.serial,
             state: 'active'
         }));
-
+        
+        this.$container.append($tlb);
+        
+        $tlb.find('[data-role="delete"]').on('click.widget-box', function(){
+            _this.changeState('deleting');
+        });
+        
         return this;
     };
 

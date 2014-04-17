@@ -10,11 +10,11 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'tpl!taoQtiItem/qtiCreat
         this.showMessage(_widget.element);
 
     }, function(){
-        
+
         var _widget = this.widget;
         _widget.$original.show();
         _widget.$container.show();
-        
+
         $('body').off('.deleting');
     });
 
@@ -59,7 +59,11 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'tpl!taoQtiItem/qtiCreat
         $messageBox.find('a.undo').on('click', function(){
             clearTimeout(timeout);
             $messageBox.remove();
-            _widget.changeState('question');
+            try{
+                _widget.changeState('question');
+            }catch(e){
+                _widget.changeState('active');
+            }
         });
 
         $messageBox.find('.close-trigger').on('click', function(){

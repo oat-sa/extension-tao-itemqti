@@ -72,6 +72,48 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
         C.dir(distributed);
     });
     
+    test('redistribute units', function(){
+        
+        expect(0);
+        
+        var redistributed = gridUnits.redistribute([{
+                elt : '#elt1',
+                units : 4
+            }, {
+                elt : '#elt2',
+                units : 5
+            }
+        ], 12);
+        C.dir(redistributed);
+        
+        redistributed = gridUnits.redistribute([{
+                elt : '#elt1',
+                units : 3
+            }, {
+                elt : '#elt2',
+                units : 1
+            },{
+                elt : '#elt2',
+                units : 3
+            }
+        ], 10);
+        C.dir(redistributed);
+        
+        
+        redistributed = gridUnits.redistribute([{
+                elt : '#elt1',
+                units : 2
+            }, {
+                elt : '#elt2',
+                units : 2
+            },{
+                elt : '#elt2',
+                units : 4
+            }
+        ], 10);
+        C.dir(redistributed);
+    });
+    
     test('create resizables', function(){
         expect(0);
         $item.gridEditor().gridEditor('resizable');

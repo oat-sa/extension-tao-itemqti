@@ -169,11 +169,13 @@ define([
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
         $clonedContainer.find('.qti-itemBody > .grid-row > [data-text-block-id]').each(function(){
+            
             var $col = $(this),
                 textBlockId = $col.data('text-block-id'),
                 $subContainer = $col.clone(),
                 subContainerElements = contentHelper.serializeElements($subContainer),
                 subContainerBody = $subContainer.html();//get serialized body
+                
             $col.html('{{_container:new}}');
 
             subContainers.push({
