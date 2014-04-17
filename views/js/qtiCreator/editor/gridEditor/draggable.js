@@ -54,7 +54,7 @@ define([
                 }else{
                     throw 'undefined qti class';
                 }
-
+                
                 $to.trigger('dragoverstart.gridEdit');
             },
             stop : function(e, ui){

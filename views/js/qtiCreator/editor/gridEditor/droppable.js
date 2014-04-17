@@ -79,6 +79,7 @@ define([
 
         //function to be called for inter-column insertions:
         var _insertBetween = function($col, location){
+            
             if(location === 'left' || location === 'right'){
                 _restoreTmpCol($el);
                 var $row = $col.parent().attr('data-active', true);
@@ -182,7 +183,7 @@ define([
         $el.on('mouseenter.gridEdit.gridDragDrop', function(e){
             
             if(isEmpty){
-                var $newCol = $el.find('.new-col').css('background', '1px solid red');
+                var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
                 _appendPlaceholder($newCol);
                 $newCol.addClass('col-12');
             }

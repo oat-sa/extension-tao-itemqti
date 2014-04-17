@@ -6,10 +6,17 @@ use oat\taoQtiItem\helpers\Authoring;
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
+    
+    /* style to be integrated */
     .dropping{
         margin-left: -1.42857%;
+        margin-right: 1.42857%;
     }
-
+    .new-col:first-child{
+        margin-left: 1.42857%;
+    }
+    
+    /* style to be checked */
     .qti-droppable-ready{outline: 1px solid green;}
     .qti-droppable-active{outline: 1px solid yellow;}
     .qti-droppable{outline: 0px dotted green;}

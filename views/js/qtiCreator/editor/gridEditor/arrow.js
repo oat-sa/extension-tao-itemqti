@@ -23,16 +23,14 @@ define(['lodash'], function(_){
             .append($('<div>', {'class' : 'grid-edit-insert-triangle'}))
             .append($('<div>', {'class' : 'grid-edit-insert-line'}))
             .on('mouseenter', '.grid-edit-insert-triangle, .grid-edit-insert-square', function(){
-//                _insertBetween($col, 'right');
                 $col.trigger(_eventName, ['right']);
                 _removeArrows($col);
             });
 
         var $insertLeft = $insertRight
             .clone()
-            .css({'left' : -(options.marginWidth), 'right' : 'auto'})
+            .css({'left' : -(options.marginWidth + 10), 'right' : 'auto'})
             .on('mouseenter', '.grid-edit-insert-triangle, .grid-edit-insert-square', function(){
-//                _insertBetween($col, 'left');
                 $col.trigger(_eventName, ['left']);
                 _removeArrows($col);
             });
@@ -40,16 +38,15 @@ define(['lodash'], function(_){
         $col.append($insertRight).append($insertLeft);
 
         _arrowFall($insertRight, function(){
-//            _insertBetween($col, 'right');
             $col.trigger(_eventName, ['right']);
             _removeArrows($col);
         });
 
         _arrowFall($insertLeft, function(){
-//            _insertBetween($col, 'left');
             $col.trigger(_eventName, ['left']);
             _removeArrows($col);
         });
+        
     };
 
     //remove arrows:
