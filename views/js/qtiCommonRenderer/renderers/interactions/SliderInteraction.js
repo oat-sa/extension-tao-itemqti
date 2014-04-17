@@ -4,7 +4,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/sliderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'jqueryui'
+    'nouislider'
 ], function(_, $, tpl, Helper, pciResponse){
     'use strict';
 
@@ -84,25 +84,25 @@ define([
         }
 
         //create the slider
-        $el.slider({
-            value : reverse ? max : min,
-            min : min,
-            max : max,
+        $el.noUiSlider({
+            start : reverse ? max : min,
+            range: {
+                'min': min,
+                'max': max
+            },
             step : step,
-            orientation : orientation,
-            animate : 'fast',
-            slide : function(event, ui){
-                var val = ui.value;
-                if((reverse)){
-                    val = (max + min) - ui.value;
-                }
-                val = Math.round(val * 1000) / 1000;
-                _slideTo({
-                    'value' : val,
-                    'sliderValue' : $sliderValue,
-                    'sliderCurrentValue' : $sliderCurrentValue
-                });
+            orientation : orientation
+        }).on('slide', function(e){
+            var val = parseInt($(this).val());
+            if((reverse)){
+                val = (max + min) - val;
             }
+            val = Math.round(val * 1000) / 1000;
+            _slideTo({
+                'value' : val,
+                'sliderValue' : $sliderValue,
+                'sliderCurrentValue' : $sliderCurrentValue
+            });
         });
 
         _slideTo({
@@ -128,7 +128,7 @@ define([
             'sliderCurrentValue' : $sliderCurrentValue
         });
 
-        $el.slider({'value' : startValue, 'animation' : false}).slider('refresh');
+        $el.val(startValue);
     };
 
     /**
@@ -159,8 +159,8 @@ define([
             'sliderValue' : $sliderValue,
             'sliderCurrentValue' : $sliderCurrentValue
         });
-
-        $el.slider({'value' : interaction.attr('reverse') ? (max + min) - value : value, 'animation' : false}).slider('refresh');
+        
+        $el.val(interaction.attr('reverse') ? (max + min) - value : value);
     };
 
     var _getRawResponse = function(interaction){
