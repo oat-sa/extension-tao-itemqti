@@ -216,7 +216,7 @@
                 }
                 label {
                     padding:0;
-                    max-width:140px;
+                    @include font-size(13);
                 }
                 input.score{
                     width: 40px;
@@ -320,6 +320,8 @@
             }
         }
         
+
+
         #item-editor-font-size-changer {
             padding-top: 1px;
             overflow: hidden;

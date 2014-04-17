@@ -9,34 +9,5 @@
     .progressbar {
         margin-bottom: 6px;
     }
-    .file-upload {
-        display: inline-block;
-        position: relative;
-        overflow:hidden;
-        .file-name {
-            padding:  2px 5px;
-            background: white;
-            font-style: italic;
-            color: whiten($textColor, .8);
-            @include simple-border();
-            &.active {
-                font-style: normal;
-                color: $textColor;
-            }
-        }
-        input[type="file"] {
-            font-size: 40px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor:pointer;
-        }
-    }
-    &:hover {
-        .btn-info {
-            opacity: .85;
-        }
-    }
 
 }

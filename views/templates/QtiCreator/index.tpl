@@ -119,22 +119,7 @@ use oat\taoQtiItem\helpers\Authoring;
                 <section class="tool-group clearfix">
 
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
-                    
-                    <div class="panel">
-                        <label>CSS</label>
-                        <ul>
-                            <li>foo.css</li>
-                            <li>bar.css</li>
-                        </ul>
 
-                        <div>
-                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
-                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
-                        </div>
-
-                    </div>
-                    <hr>
-                    
                     <div class="panel">
                         <h3><?=__('Color')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -151,7 +136,6 @@ use oat\taoQtiItem\helpers\Authoring;
                         </div>
                     </div>
                     <hr>
-                    
                     <div class="panel">
                         <h3><?=__('Font family')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -167,7 +151,8 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                    
+                </section>
+                <section class="tool-group clearfix">
                     <div class="panel">
                         <h3><?=__('Font size')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
@@ -184,18 +169,17 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                    
                     <div class="panel">
                         <h3><?=__('Item width')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content"><?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen')?></div>
                         <div  id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
-                            <label>
+                            <label class="smaller-prompt">
                                 <input type="radio" name="item-width-prompt" checked value="no-slider">
                                 <span class="icon-radio"></span>
                                 <?=__('Item should always adapt to screen size')?>
                             </label>
-                            <label>
+                            <label class="smaller-prompt">
                                 <input type="radio" name="item-width-prompt" value="slider">
                                 <span class="icon-radio"></span>
                                 <?=__('I want to hard code the item width')?>
@@ -210,7 +194,19 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
                     <hr>
-                    
+                    <div class="panel">
+                        <label>CSS</label>
+                        <ul>
+                            <li>foo.css</li>
+                            <li>bar.css</li>
+                        </ul>
+
+                        <div>
+                            <button class="btn-info small col-6" type="button" data-role="css-download"><?=__('Download')?></button>
+                            <button class="btn-info small col-6" type="button"><?=__('Upload')?></button>
+                        </div>
+
+                    </div>
                 </section>
 
             </div>
