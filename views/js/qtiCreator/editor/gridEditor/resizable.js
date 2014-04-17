@@ -132,10 +132,19 @@ define(['jquery', 'jqueryui'], function($) {
 
     return {
         create: function($element) {
+            
             _createResizables($element);
+            
+            $(window).on('resize.qtiEdit.resizable', function(){
+                _deleteResizables($element);
+                _createResizables($element);
+            });
         },
         destroy: function($element) {
+            
             _deleteResizables($element);
+            
+            $(window).off('resize.qtiEdit.resizable');
         }
     };
 });

@@ -39,6 +39,9 @@ define([
                 $(this).addClass('grid-draggable');
             },
             start : function(e, ui){
+            
+                $to.trigger('beforedragoverstart.gridEdit');
+                
                 if(options && typeof(options.start) === 'function'){
                     options.start.call(this, e, ui);
                 }

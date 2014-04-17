@@ -165,7 +165,7 @@ class Authoring
                     'qtiClass' => 'textEntryInteraction'
                 ),
                 array('title' => __('Extended Text Interaction'),
-                    'icon' => 'text-entry',
+                    'icon' => 'extended-text',
                     'short' => __('Extended Text'),
                     'qtiClass' => 'extendedTextInteraction'
                 )
