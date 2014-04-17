@@ -12,21 +12,24 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
 ], function(
-        preview,
-        preparePrint,
-        toggleAppearance,
-        listStyler,
-        loader,
-        creatorRenderer,
-        fontSelector,
-        colorSelector,
-        fontSizeChanger,
-        itemResizer,
-        styleEditor
-        ) {
+    preview,
+    preparePrint,
+    toggleAppearance,
+    listStyler,
+    loader,
+    creatorRenderer,
+    fontSelector,
+    colorSelector,
+    fontSizeChanger,
+    itemResizer,
+    styleEditor
+    ){
 
 
-    var _initUiComponents = function (config) {
+    var _initUiComponents = function(item, config){
+        
+        console.log(item);
+        
         styleEditor.init(config);
         preview.init('#preview-trigger');
         preparePrint();
@@ -39,17 +42,17 @@ define([
         //itemResizer(config);
 
 
-        $('.item-editor-sidebar').fadeTo(2000 , 1);
+        $('.item-editor-sidebar').fadeTo(2000, 1);
     };
-    
-    var _initFormVisibilityListener = function (){
-        
+
+    var _initFormVisibilityListener = function(){
+
         var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
             $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
             $formResponsePanel = $('#item-editor-response-property-bar').hide(),
             $formItemPanel = $('#item-editor-body-element-property-bar').hide();
-        
-        $(document).on('afterStateInit.qti-widget', function(e, element, state) {
+
+        $(document).on('afterStateInit.qti-widget', function(e, element, state){
             switch(state.name){
                 case 'question':
                     $formInteractionPanel.show();
@@ -62,8 +65,8 @@ define([
                     break;
             }
         });
-        
-        $(document).on('beforeStateExit.qti-widget', function(e, element, state) {
+
+        $(document).on('beforeStateExit.qti-widget', function(e, element, state){
             switch(state.name){
                 case 'question':
                     $formInteractionPanel.hide();
@@ -77,18 +80,18 @@ define([
             }
         });
     };
-    
-    return {
-        start: function  (config) {
 
-            
+    return {
+        start : function(config){
+
             _initFormVisibilityListener();
-            
+
             //load item from serice REST
-            loader.loadItem({uri: config.uri}, function(item) {
+            loader.loadItem({uri : config.uri}, function(item){
 
                 //load renderer
-                creatorRenderer.get().load(function() {
+                creatorRenderer.setOption('baseUrl', config.baseUrl);
+                creatorRenderer.get().load(function(){
 
                     item.setRenderer(this);
 
@@ -96,10 +99,10 @@ define([
                     $('#item-editor-panel').append(item.render());
 
                     //"post-render it" to initialize the widget
-                    item.postRender({uri: config.uri});
+                    item.postRender({uri : config.uri});
 
-                    _initUiComponents(config);
-                    
+//                    _initUiComponents(item, config);
+
                 }, item.getUsedClasses());
 
             });

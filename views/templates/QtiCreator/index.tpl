@@ -6,10 +6,10 @@ use oat\taoQtiItem\helpers\Authoring;
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
-    #new-interaction{cursor:pointer;}
-    
-    .widget-box:hover{border:1px solid blue;}
-    
+    .dropping{
+        margin-left: -1.42857%;
+    }
+
     .qti-droppable-ready{outline: 1px solid green;}
     .qti-droppable-active{outline: 1px solid yellow;}
     .qti-droppable{outline: 0px dotted green;}
@@ -277,6 +277,10 @@ use oat\taoQtiItem\helpers\Authoring;
 
 <script>
     require(['taoQtiItem/controller/creator/main'], function(controller){
-        controller.start({uri : '<?=get_data('uri')?>', lang: '<?=get_data('lang')?>'});
+        controller.start({
+            uri : '<?=get_data('uri')?>',
+            lang : '<?=get_data('lang')?>',
+            baseUrl : '<?=get_data('baseUrl')?>'
+        });
     });
 </script>

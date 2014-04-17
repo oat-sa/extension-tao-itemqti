@@ -17,6 +17,9 @@ define([
             marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
             isEmpty = ($el.children('.grid-row').length === 0);
         
+        //add dropping class:
+        $el.addClass('dropping');
+        
         //prepare tmp rows and cols
         if(isEmpty){
             $el.append(_getNewRow().append(_getNewCol().addClass('col-12')));
@@ -315,8 +318,10 @@ define([
         _restoreTmpCol($el);
         
         $el.find('#qti-inline-element-placeholder, #qti-block-element-placeholder, .new-col, .grid-row-new').remove();
-
+        
+        $el.removeClass('dropping');
         $el.off('.gridEdit.gridDragDrop');
+        
         $el.find('[class^="col-"], [class*=" col-"]').off('.gridEdit.gridDragDrop').removeAttr('style');
     };
 

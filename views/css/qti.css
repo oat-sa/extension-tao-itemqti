@@ -1420,35 +1420,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   /* line 9, ../scss/qti/_upload.scss */
   .qti-uploadInteraction .progressbar {
     margin-bottom: 6px; }
-  /* line 12, ../scss/qti/_upload.scss */
-  .qti-uploadInteraction .file-upload {
-    display: inline-block;
-    position: relative;
-    overflow: hidden; }
-    /* line 16, ../scss/qti/_upload.scss */
-    .qti-uploadInteraction .file-upload .file-name {
-      padding: 2px 5px;
-      background: white;
-      font-style: italic;
-      color: #d2d2d2;
-      border: 1px solid #dddddd;
-      border-radius: 2px;
-      -webkit-border-radius: 2px; }
-      /* line 22, ../scss/qti/_upload.scss */
-      .qti-uploadInteraction .file-upload .file-name.active {
-        font-style: normal;
-        color: #222222; }
-    /* line 27, ../scss/qti/_upload.scss */
-    .qti-uploadInteraction .file-upload input[type="file"] {
-      font-size: 40px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      cursor: pointer; }
-  /* line 37, ../scss/qti/_upload.scss */
-  .qti-uploadInteraction:hover .btn-info {
-    opacity: .85; }
 
 /* line 171, ../scss/qti.scss */
 #qti-submit-response {

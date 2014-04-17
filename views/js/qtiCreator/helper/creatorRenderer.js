@@ -1,8 +1,8 @@
 define(['taoQtiItem/qtiCreator/renderers/Renderer'], function(Renderer){
     
-    //initialized once only:
+    //configure and instanciate once only:
     var _creatorRenderer = new Renderer({
-        baseUrl:'/taoQtiItem/test/samples/test_base_www/',
+        baseUrl:'',
         shuffleChoices : false,
         interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
         choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
@@ -13,6 +13,9 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer'], function(Renderer){
     return {
         get:function(){
             return _creatorRenderer;
+        },
+        setOption:function(name, value){
+            _creatorRenderer.setOption(name, value);
         }
     };
 
