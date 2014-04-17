@@ -100,10 +100,10 @@ abstract class IdentifiedElement extends Element
         return $returnValue;
     }
 
-    public function getAttributeValues(){
+    public function getAttributeValues($filterNull = true){
 
         $returnValue = array('identifier' => $this->getIdentifier());
-        $returnValue = array_merge($returnValue, parent::getAttributeValues());
+        $returnValue = array_merge($returnValue, parent::getAttributeValues($filterNull));
 
         return $returnValue;
     }
