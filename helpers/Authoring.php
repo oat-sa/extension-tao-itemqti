@@ -33,11 +33,11 @@ use \common_Logger;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- 
+
  */
 class Authoring
 {
-    
+
     public static function setMediaResouceUrl($data){
 
         $returnValue = $data;
@@ -108,7 +108,7 @@ class Authoring
                     'qtiClass' => 'math'
                 )
             ),
-            'Interactions' => array(
+            'Block Interactions' => array(
                 array('title' => __('Choice Interaction'),
                     'icon' => 'choice',
                     'short' => __('Choice'),
@@ -119,55 +119,85 @@ class Authoring
                     'short' => __('Order'),
                     'qtiClass' => 'orderInteraction'
                 ),
-                array('title' => __('Match Interaction'),
-                    'icon' => 'match',
-                    'short' => __('Match'),
-                    'qtiClass' => 'matchInteraction'
-                ),
                 array('title' => __('Associate Interaction'),
                     'icon' => 'associate',
                     'short' => __('Associate'),
                     'qtiClass' => 'associateInteraction'
                 ),
-                array('title' => __('Graphic Gap Interaction'),
-                    'icon' => 'graphic-gap',
-                    'short' => __('Graphic Gap'),
-                    'qtiClass' => 'graphicGapInteraction'
+                array('title' => __('Match Interaction'),
+                    'icon' => 'match',
+                    'short' => __('Match'),
+                    'qtiClass' => 'matchInteraction'
                 ),
-                array('title' => __('Graphic Order Interaction'),
-                    'icon' => 'graphic-order',
-                    'short' => __('Graphic Order'),
-                    'qtiClass' => 'graphicOrderInteraction'
+                
+                array('title' => __('Hottext Interaction'),
+                    'icon' => 'hottext',
+                    'short' => __('Hottext'),
+                    'qtiClass' => 'hottextInteraction'
                 ),
-                array('title' => __('Hotspot Interaction'),
-                    'icon' => 'hotspot',
-                    'short' => __('Hotspot'),
-                    'qtiClass' => 'hotspotInteraction'
-                ),
-                array('title' => __('Graphic Associate Interaction'),
-                    'icon' => 'graphic-associate',
-                    'short' => __('Graphic Associate'),
-                    'qtiClass' => 'graphicAssociateInteraction'
-                ),
-                array('title' => __('Select Point Interaction'),
-                    'icon' => 'select-point',
-                    'short' => __('Select Point'),
-                    'qtiClass' => 'selectPointInteraction'
+                array('title' => __('Gap Match Interaction'),
+                    'icon' => 'gap-match',
+                    'short' => __('Gap Match'),
+                    'qtiClass' => 'gapMatchInteraction'
                 ),
                 array('title' => __('Slider Interaction'),
                     'icon' => 'slider',
                     'short' => __('Slider'),
                     'qtiClass' => 'sliderInteraction'
                 ),
-                array('title' => __('Text Entry Interaction'),
-                    'icon' => 'text-entry',
-                    'short' => __('Text Entry'),
-                    'qtiClass' => 'textEntryInteraction'
-                ),
                 array('title' => __('Extended Text Interaction'),
                     'icon' => 'extended-text',
                     'short' => __('Extended Text'),
                     'qtiClass' => 'extendedTextInteraction'
+                ),
+                array('title' => __('Upload Interaction'),
+                    'icon' => 'slider',
+                    'short' => __('Upload'),
+                    'qtiClass' => 'uploadInteraction'
+                ),
+                array('title' => __('Media Interaction'),
+                    'icon' => 'media',
+                    'short' => __('Media'),
+                    'qtiClass' => 'mediaInteraction'
+                )
+            ),
+            'Inline Interactions' => array(
+                array('title' => __('Inline Choice Interaction'),
+                    'icon' => 'inline-choice',
+                    'short' => __('Inline Choice'),
+                    'qtiClass' => 'inlineChoiceInteraction'
+                ),
+                array('title' => __('Text Entry Interaction'),
+                    'icon' => 'text-entry',
+                    'short' => __('Text Entry'),
+                    'qtiClass' => 'textEntryInteraction'
+                )
+            ),
+            'Graphic Interactions' => array(
+                array('title' => __('Hotspot Interaction'),
+                    'icon' => 'hotspot',
+                    'short' => __('Hotspot'),
+                    'qtiClass' => 'hotspotInteraction'
+                ),
+                array('title' => __('Graphic Order Interaction'),
+                    'icon' => 'graphic-order',
+                    'short' => __('Graphic Order'),
+                    'qtiClass' => 'graphicOrderInteraction'
+                ),
+                array('title' => __('Graphic Associate Interaction'),
+                    'icon' => 'graphic-associate',
+                    'short' => __('Graphic Associate'),
+                    'qtiClass' => 'graphicAssociateInteraction'
+                ),
+                array('title' => __('Graphic Gap Interaction'),
+                    'icon' => 'graphic-gap',
+                    'short' => __('Graphic Gap'),
+                    'qtiClass' => 'graphicGapInteraction'
+                ),
+                array('title' => __('Select Point Interaction'),
+                    'icon' => 'select-point',
+                    'short' => __('Select Point'),
+                    'qtiClass' => 'selectPointInteraction'
                 )
             ),
             'Media' => array(
@@ -184,7 +214,7 @@ class Authoring
             )
         );
     }
-    
+
     public static function validateQtiXml($qti){
 
         $returnValue = '';
@@ -194,7 +224,7 @@ class Authoring
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse = false;
-        
+
         common_Logger::d($qti);
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
