@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/rubricBlock/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock',
     'taoQtiItem/qtiCreator/helper/htmlEditor'
 ], function(Widget, states, toolbarTpl, htmlEditor) {
 
@@ -21,11 +21,19 @@ define([
     };
 
     RubricBlockWidget.createToolbar = function() {
-
-        this.$container.append(toolbarTpl({
-            serial: this.serial,
-            state: 'active'
-        }));
+        
+        var $tlb = $(toolbarTpl({
+                serial: this.serial,
+                state: 'active'
+            })),
+            _this = this;
+        
+        this.$container.find('.qti-rubricBlock-body').after($tlb);
+        
+        $tlb.find('[data-role="delete"]').on('click.widget-box', function(e){
+            e.stopPropagation();//to prevent direct deleting;
+            _this.changeState('deleting');
+        });
 
         return this;
     };

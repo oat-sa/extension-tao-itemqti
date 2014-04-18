@@ -1,4 +1,4 @@
-<div class="widget-box widget-inlineChoiceInteraction" data-serial="{{serial}}" data-edit="active">
+<div class="widget-box widget-inline widget-inlineChoiceInteraction" data-serial="{{serial}}" data-edit="active">
     <div class="qti-interaction qti-inlineChoiceInteraction">
         <table>
             <colgroup>

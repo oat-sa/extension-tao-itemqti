@@ -1,4 +1,4 @@
-<div class="widget-box widget-textEntryInteraction" data-serial="{{serial}}" data-edit="active">
+<div class="widget-box widget-inline widget-textEntryInteraction" data-serial="{{serial}}" data-edit="active">
     <div class="qti-interaction qti-textEntryInteraction">
         <table>
             <colgroup>

@@ -14,5 +14,9 @@ define([
         this.widget.$form.empty();
     });
     
+    RubricBlockStateActive.prototype.initForm = function(){
+        
+    };
+    
     return RubricBlockStateActive;
 });

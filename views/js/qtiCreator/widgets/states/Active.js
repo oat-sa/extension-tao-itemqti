@@ -22,8 +22,8 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
         });
     },function(){
         
-        this.widget.$container.off('active');
-        $('#item-editor-panel').off('active');
+        this.widget.$container.off('.active');
+        $('#item-editor-panel').off('.active');
         
         this.widget.offEvents('otherActive');
     });

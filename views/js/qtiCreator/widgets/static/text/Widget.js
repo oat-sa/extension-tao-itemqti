@@ -36,7 +36,8 @@ define([
         
         this.$container.append($tlb);
         
-        $tlb.find('[data-role="delete"]').on('click.widget-box', function(){
+        $tlb.find('[data-role="delete"]').on('click.widget-box', function(e){
+            e.stopPropagation();//to prevent direct deleting;
             _this.changeState('deleting');
         });
         
