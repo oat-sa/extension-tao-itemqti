@@ -2,6 +2,7 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
     var locations = _.extend(_.clone(defaultRenderConfig.locations), {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
+        'stylesheet' : 'taoQtiItem/qtiCommonRenderer/renderers/Stylesheet',
         'img' : 'taoQtiItem/qtiCommonRenderer/renderers/Img',
         'rubricBlock' : 'taoQtiItem/qtiCommonRenderer/renderers/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
