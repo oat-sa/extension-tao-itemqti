@@ -14,7 +14,7 @@ define(['jquery'], function($){
         };
     }
 
-    QtiPreviewResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, callback){
+    QtiPreviewResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, params, callback){
         var _this = this;
         $.ajax({
             url : this.endpoint + 'submitResponses?itemId=' + encodeURIComponent(itemId) + '&itemUri=' + encodeURIComponent(this.itemUri) + '&serviceCallId=' + encodeURIComponent(serviceCallId),

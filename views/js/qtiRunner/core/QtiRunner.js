@@ -40,7 +40,7 @@ define([
         this.itemApi = undefined;
     };
     
-    QtiRunner.prototype.collect = function() {
+    QtiRunner.prototype.updateItemApi = function() {
         var responses = this.getResponses();
         
         for (var key in responses) {
@@ -60,13 +60,13 @@ define([
             // If the responses did not change,
             // just close gracefully.
             
-            // Collect new responses.
-            that.collect();
+            // Collect new responses and update item API.
+            that.updateItemApi();
             var newStateVariables = JSON.stringify(itemApi.stateVariables);
             
             // Store the results.
             if (oldStateVariables != newStateVariables) {
-                itemApi.persist(function() {
+                itemApi.submit(function() {
                     // Send successful signal.
                     killCallback(0);
                 });
@@ -154,7 +154,7 @@ define([
     };
 
     QtiRunner.prototype.validate = function(){
-        this.collect();
+        this.updateItemApi();
         this.itemApi.finish();
     };
 
