@@ -225,7 +225,6 @@ class Authoring
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse = false;
 
-        common_Logger::d($qti);
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
 
