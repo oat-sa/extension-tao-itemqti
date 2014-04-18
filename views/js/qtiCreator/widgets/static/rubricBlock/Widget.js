@@ -8,7 +8,7 @@ define([
     var RubricBlockWidget = Widget.clone();
 
     RubricBlockWidget.buildContainer = function() {
-        this.$container = this.$original.addClass('widget-box');
+        this.$container = this.$original.addClass('widget-box widget-rubricBlock');
     };
 
     RubricBlockWidget.initCreator = function() {
@@ -28,7 +28,7 @@ define([
             })),
             _this = this;
         
-        this.$container.find('.qti-rubricBlock-body').after($tlb);
+        this.$container.find('.qti-rubricBlock-body').append($tlb);
         
         $tlb.find('[data-role="delete"]').on('click.widget-box', function(e){
             e.stopPropagation();//to prevent direct deleting;

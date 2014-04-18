@@ -1421,7 +1421,52 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .qti-uploadInteraction .progressbar {
     margin-bottom: 6px; }
 
-/* line 171, ../scss/qti.scss */
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+
+/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+
+/* line 174, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+
+/* line 177, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+
+/* line 3, ../scss/qti/_rubric-block.scss */
+.qti-rubricBlock .qti-rubricBlock-body {
+  border: 1px solid transparent; }
+/* line 6, ../scss/qti/_rubric-block.scss */
+.qti-rubricBlock > .col-12 {
+  border: 1px solid #DDD !important;
+  background-color: rgba(243, 241, 239, 0.3); }
+
+/* line 172, ../scss/qti.scss */
 #qti-submit-response {
   display: block;
   width: 100px;

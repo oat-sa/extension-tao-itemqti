@@ -54,20 +54,22 @@ define([
      */
     InteractionWidget.buildContainer = function(){
 
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box', 'data-qti-class' : this.element.qtiClass});
+        var $wrap = $('<div>', {
+            'data-serial' : this.element.serial, 
+            'class' : 'widget-box widget-blockInteraction', 
+            'data-qti-class' : this.element.qtiClass
+        });
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
     };
 
 
     /**
-     * Below here, 
-     * @returns {_L5.InteractionWidget}
+     * Below here, optional ui component init functions
      */
 
     /**
      * Create a toolbar
-     * 
      */
     InteractionWidget.createToolbar = function(){
 
