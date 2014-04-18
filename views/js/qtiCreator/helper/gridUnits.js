@@ -130,12 +130,15 @@ define(['lodash'], function(_){
             }
             
         });
-
+        
+        positive = _.sortBy(positive, 'refactoredUnits');
+        negative = _.sortBy(negative, 'refactoredUnits');
+        
         if(totalRefactoredUnits > max){
             //too much !
             
             //@todo : start with the hightest refactored
-            _.each(positive, function(col){
+            _.eachRight(positive, function(col){
                 col.refactoredUnits --;
                 totalRefactoredUnits--;
                 if(totalRefactoredUnits === max){
@@ -155,8 +158,6 @@ define(['lodash'], function(_){
             });
             
         }
-        
-        console.log(negative, positive);
         
         _.each(negative, function(col){
             ret.push(col);
