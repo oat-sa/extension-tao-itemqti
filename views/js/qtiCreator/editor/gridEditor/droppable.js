@@ -180,13 +180,16 @@ define([
 
         //bind all event handlers:
         $el.css('background', '1px solid red');
-        $el.on('mouseenter.gridEdit.gridDragDrop', function(e){
+        
+        $el.on('mouseover.gridEdit.gridDragDrop', function(){
             
-            if(isEmpty){
-                var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-                _appendPlaceholder($newCol);
-                $newCol.addClass('col-12');
-            }
+            var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
+            _appendPlaceholder($newCol);
+            $newCol.addClass('col-12');
+                
+        }).on('mouseover.gridEdit.gridDragDrop', '.grid-row', function(e){
+            
+            e.stopPropagation();
             
         }).on('mouseenter.gridEdit.gridDragDrop', '[class^="col-"]:not(.new-col), [class*=" col-"]:not(.new-col)', function(e){
 
