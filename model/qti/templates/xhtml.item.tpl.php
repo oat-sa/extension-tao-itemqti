@@ -54,15 +54,5 @@
     </head>
     <body>
         <div id="qti_item"></div>
-        <div class="qti_control tao-scope">
-            <button 
-                href="#" 
-                id="qti-submit-response" 
-                class="btn-info"
-                <?if(get_data('ctx_raw_preview')):?>style="visibility:hidden;"<?endif?>
-                >
-                    <?=__("Submit");?>
-            </button>
-        </div>
     </body>
 </html>

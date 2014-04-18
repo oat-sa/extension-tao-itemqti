@@ -23,15 +23,12 @@
 
                     Test.testRender('choice', {
                         response : {
-                            cardinality : 'multiple'
+                            cardinality : 'single'
                         }
                     }, [
-                        {'list' : {identifier : 'ChoiceA'}}
+                        {'base' : null}
                     ]);
 
-                    Test.testRender('choiceMultiple', {minChoices : 1, maxChoices : 2}, [
-                        {'list' : {identifier : ['H', 'O']}}
-                    ]);
 
                 });
             });

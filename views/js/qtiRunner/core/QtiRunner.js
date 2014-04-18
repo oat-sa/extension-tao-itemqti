@@ -39,9 +39,42 @@ define([
         this.loader = null;
         this.itemApi = undefined;
     };
+    
+    QtiRunner.prototype.collect = function() {
+        var responses = this.getResponses();
+        
+        for (var key in responses) {
+            this.itemApi.setVariable(key, responses[key]);
+        }
+        
+        this.itemApi.saveResponses(responses);
+        this.itemApi.resultApi.setQtiRunner(this);
+    }
 
     QtiRunner.prototype.setItemApi = function(itemApi){
         this.itemApi = itemApi;
+        var that = this;
+        var oldStateVariables = JSON.stringify(itemApi.stateVariables);
+        
+        itemApi.onKill(function(killCallback) {
+            // If the responses did not change,
+            // just close gracefully.
+            
+            // Collect new responses.
+            that.collect();
+            var newStateVariables = JSON.stringify(itemApi.stateVariables);
+            
+            // Store the results.
+            if (oldStateVariables != newStateVariables) {
+                itemApi.persist(function() {
+                    // Send successful signal.
+                    killCallback(0);
+                });
+            }
+            else {
+                killCallback(0);
+            }
+        });
     };
 
     QtiRunner.prototype.setRenderer = function(renderer){
@@ -121,69 +154,37 @@ define([
     };
 
     QtiRunner.prototype.validate = function(){
+        this.collect();
+        this.itemApi.finish();
+    };
 
-        var responses = this.getResponses();
-        /*
-         * The QTI File datatype makes responses possibly
-         * huge in terms of size. What we do here is that we filter
-         * QTI File datatype values and replace them with appropriate
-         * placeholder to limit the response payload size.
-         */
-        for(var key in responses){
+    QtiRunner.prototype.getResponses = function() {
 
-            var isFile = false;
+        var responses = {};
+        var interactions = this.item.getInteractions();
+        
+        for (var serial in interactions) {
+            
+            var interaction = interactions[serial];
+            var response = interaction.getResponse();
+            
+            if (typeof(response.base) != 'undefined') {
+                
+                for (var property in response.base) {
 
-            // Look for the basetype of the value.
-            // Is it a QTI File datatype?
-            if(typeof(responses[key].base) != 'undefined'){
-
-                for(var property in responses[key].base){
-
-                    if(property === 'file'){
-                        var file = responses[key].base.file;
+                    if (property === 'file') {
+                        
+                        var file = response.base.file;
                         // QTI File found! Replace it with an appropriate placeholder.
                         // The data is base64('qti_file_datatype_placeholder_data')
-                        this.itemApi.setVariable(key, {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}});
-                        isFile = true;
+                        response = {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}};
                     }
                 }
             }
-
-            if(isFile == false){
-                this.itemApi.setVariable(key, responses[key]);
-            }
+            
+            responses[interaction.attr('responseIdentifier')] = response;
         }
-
-        // submit answers
-        this.itemApi.saveResponses(responses);
-
-        // Evaluate the user's responses
-        if(this.rpEngine !== null){
-            this.rpEngine.process(responses, function(qtiRunner){
-                return function(scores){
-                    qtiRunner.itemApi.saveScores(scores);
-                    this.itemApi.finish();
-                };
-            }(this));
-        }else{
-            this.itemApi.resultApi.setQtiRunner(this);
-            this.itemApi.finish();
-        }
-
-    };
-
-    QtiRunner.prototype.getResponses = function(){
-
-        var responses = {};
-        if(this.item){
-            var interactions = this.item.getInteractions();
-            for(var serial in interactions){
-                var interaction = interactions[serial];
-                var interactionResponse = interaction.getResponse();
-                responses[interaction.attr('responseIdentifier')] = interactionResponse;
-            }
-        }
-
+        
         return responses;
     };
 

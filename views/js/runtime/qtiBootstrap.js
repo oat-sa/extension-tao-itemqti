@@ -31,10 +31,13 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
         
         //reconnect to global itemApi function
         window.onItemApiReady = function onItemApiReady(itemApi) {
-
             var qtiRunner = new QtiRunner(),
                 coreItemData = runnerContext.itemData,
                 variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+            
+            // Makes the runner interface available from outside the frame
+            // for preview.
+            window.qtiRunner = qtiRunner;
             
             qtiRunner.setItemApi(itemApi);
             qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));

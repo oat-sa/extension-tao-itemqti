@@ -13,13 +13,12 @@ define(['jquery'], function($){
         };
     }
 
-    QtiResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, params, callback){
+    QtiResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, callback){
         var _this = this;
         $.ajax({
             url : this.endpoint + 'submitResponses' 
                 + '?itemId=' + encodeURIComponent(itemId) 
-                + '&serviceCallId=' + encodeURIComponent(serviceCallId)
-                + '&itemDataPath=' + encodeURIComponent(params.itemDataPath),
+                + '&serviceCallId=' + encodeURIComponent(serviceCallId),
             data : JSON.stringify(responses),
             type : 'post',
             contentType : 'application/json',
