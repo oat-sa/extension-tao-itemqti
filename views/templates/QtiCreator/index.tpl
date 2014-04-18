@@ -127,33 +127,29 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
                     <div class="panel">
-                        <h3><?=__('Style sheets')?></h3>
+                        <h3><?=__('Manage style sheets')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content">
                             <?=__('Manage your style sheets. Note, that you can only edit your custom CSS.
                             Disabling a style sheet is not a permanent change!')?>
                         </div>
                         <ul class="none" id="style-sheet-toggler">
+                            <!-- TAO style sheet -->
                             <li data-css-res="taoQtiItem/views/css/qti.css">
                                 <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
-                                <span class="truncate"><?=__('TAO default styles')?></span>
+                                <span><?=__('TAO default styles')?></span>
                             </li>
-                            <li data-css-res="/path/to/foo.css">
-                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
-                                <span class="truncate">item-1.css</span>
-                                <span class="icon-bin" title="<?=__('Delete this style sheet')?>" data-role="css-delete"></span>
-                            </li>
-                            <li data-css-res="/path/to/bar.css">
-                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
-                                <span class="truncate">item-2.css</span>
-                                <span class="icon-bin" title="<?=__('Delete this style sheet')?>" data-role="css-delete"></span>
-                            </li>
+
+                            <!-- item style sheet(s) go here -->
+
+                            <!-- custom style sheet -->
                             <li data-css-res="/path/to/custom.css" data-custom-css="true">
                                 <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
-                                <span class="truncate"><?=__('Custom styles')?></span>
+                                <span class="file-label truncate"><?=__('Custom styles')?></span>
                                 <span class="icon-bin" title="<?=__('Delete your custom styles')?>" data-role="css-delete"></span>
                                 <span class="icon-download" title="<?=__('Download this style sheet')?>" data-role="css-download"></span>
                             </li>
+
                         </ul>
                         <div class="file-upload" id="style-sheet-uploader">
                             <span class="btn-info small"><?=__('Upload custom CSS')?></span>
@@ -165,11 +161,12 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Color')?></h3>
+                        <h3><?=__('Change the colors')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content"><?=__('Change the color of the text or the background of the item')?></div>
                         <div class="color-picker" id="item-editor-color-picker" data-target=".tao-scope div.qti-item"></div>
                         <div class="reset-group">
+                            <input id="color-picker-input" type="text">
                             <select class="select2" data-role="color-picker-property" data-has-search="false">
                                 <option value="background-color"><?=__('Background')?></option>
                                 <option value="color"><?=__('Text')?></option>
@@ -181,7 +178,7 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Font family')?></h3>
+                        <h3><?=__('Change the font family')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content"><?=__('Change the font family of the item')?></div>
 
@@ -196,7 +193,7 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Font size')?></h3>
+                        <h3><?=__('Change the font size')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content"><?=__('Change the font size of the item')?></div>
                         <div class="reset-group">
@@ -212,10 +209,12 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Item width')?></h3>
+                        <h3><?=__('Set the item with')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
-                        <div class="tooltip-content"><?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen')?></div>
-                        <div  id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
+                        <div class="tooltip-content">
+                            <?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen')?>
+                        </div>
+                        <div id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
                             <label class="smaller-prompt">
                                 <input type="radio" name="item-width-prompt" checked value="no-slider">
                                 <span class="icon-radio"></span>
@@ -227,7 +226,8 @@ use oat\taoQtiItem\helpers\Authoring;
                                 <?=__('I want to hard code the item width')?>
                             </label>
                             <div class="reset-group slider-box">
-                                <div class="item-editor-item-resizer-slider"></div>
+                                <p id="item-editor-item-resizer-slider"></p>
+                                <input type="text" id="item-editor-item-resizer-text" placeholder="Fixed item width">
                                 <button class="btn-info small" type="button" data-role="item-width-reset" title="<?=__('Reset item width')?>">
                                     <span class="icon-reset"></span>
                                 </button>

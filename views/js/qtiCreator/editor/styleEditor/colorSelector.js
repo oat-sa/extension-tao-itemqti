@@ -6,12 +6,17 @@ define([
     'use strict'
 
     var colorSelector = function () {
-        var colorPicker = $('select#item-editor-color-picker'),
+        var colorPicker = $('#item-editor-color-picker'),
             target = colorPicker.data('target'),
-            propertySelector = colorPicker.parent().find('[data-role="color-picker-property"]'),
-            resetButton =  colorPicker.parent().find('[data-role="color-picker-reset"]');
+            box = colorPicker.parent(),
+            propertySelector = box.find('[data-role="color-picker-property"]'),
+            input = box.find('#color-picker-input'),
+            resetButton =  box.find('[data-role="color-picker-reset"]'),
+            initialColor = $(target).css('background-color');
 
         colorPicker.farbtastic(function () {
+            input.val(this.color + initialColor);
+            console.log(this.color, initialColor);
             styleEditor.apply(target, (propertySelector.val() || 'color'), this.color);
         });
 

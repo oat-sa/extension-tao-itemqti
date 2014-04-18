@@ -87,12 +87,13 @@ jQuery._farbtastic = function (container, callback) {
             }
         }
         return this;
-    }
+    };
+
     fb.updateValue = function (event) {
         if (this.value && this.value != fb.color) {
             fb.setColor(this.value);
         }
-    }
+    };
 
     /**
      * Change color with HTML syntax #123456
@@ -106,7 +107,8 @@ jQuery._farbtastic = function (container, callback) {
             fb.updateDisplay();
         }
         return this;
-    }
+    };
+
 
     /**
      * Change color with HSL triplet [0..1, 0..1, 0..1]
@@ -310,7 +312,7 @@ jQuery._farbtastic = function (container, callback) {
         return [this.hueToRGB(m1, m2, h + 0.33333),
             this.hueToRGB(m1, m2, h),
             this.hueToRGB(m1, m2, h - 0.33333)];
-    }
+    };
 
     fb.hueToRGB = function (m1, m2, h) {
         h = (h < 0) ? h + 1 : ((h > 1) ? h - 1 : h);
@@ -318,7 +320,7 @@ jQuery._farbtastic = function (container, callback) {
         if (h * 2 < 1) return m2;
         if (h * 3 < 2) return m1 + (m2 - m1) * (0.66666 - h) * 6;
         return m1;
-    }
+    };
 
     fb.RGBToHSL = function (rgb) {
         var min, max, delta, h, s, l;

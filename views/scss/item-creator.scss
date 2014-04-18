@@ -266,15 +266,10 @@
         }
         
         .reset-group {
-            overflow: hidden;
-            select, #item-editor-font-size-changer {
+            select {
                 width: 140px;
                 min-width: 140px;
                 max-width: 140px;
-            }
-            #item-editor-font-size-changer {
-                display:inline-block;
-                text-align: center;
             }
             button {
                 position: relative;
@@ -289,6 +284,20 @@
                     padding: 0;
                     text-shadow: none !important;
                 }
+            }
+        }
+
+
+        #item-editor-item-resizer-text {
+            width: 133px;
+            min-width: 133px;
+            max-width: 133px;
+            margin-left: 4px;
+        }
+
+        #item-editor-item-resizer {
+            .reset-group {
+                display:none;
             }
         }
         
@@ -314,20 +323,14 @@
         .incrementer-ctrl {
             top: -3px;
         }
-        
-        #item-editor-item-resizer {
-            .reset-group {
-                display:none;
-            }
-        }
-        
-        
-        
+                
+
         #item-editor-font-size-changer {
             padding-top: 1px;
             overflow: hidden;
             display: table;
             width: 140px;
+            float:left;
             a {
                 display: table-cell;
                 padding: 0 10px;
@@ -360,9 +363,6 @@
                 cursor: pointer !important;
                 margin: 0 4px 0 2px;
             }
-            .invalid-css {
-                text-decoration: line-through;
-            }
             .icon-download, .icon-bin{
                 float:right;
                 cursor: pointer;
@@ -373,6 +373,11 @@
             .not-available, .not-available * {
                 color: whiten($textColor, .5);
                 cursor:default !important;
+            }
+            .file-label {
+                display: inline-block;
+                width: 100px;
+                line-height: .9
             }
         }
         

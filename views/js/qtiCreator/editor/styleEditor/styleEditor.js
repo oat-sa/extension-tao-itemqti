@@ -45,8 +45,9 @@ define([
     'lodash',
     'helpers',
     'i18n',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'lib/jquery.fileDownload'
-], function ($, _, helpers, __) {
+], function ($, _, helpers, __, cssTpl) {
     'use strict'
 
     var itemConfig;
@@ -73,14 +74,20 @@ define([
                 var styleElem = $('<style>', { id : 'item-editor-user-styles' } );
                 $('head').append(styleElem);
                 return styleElem;
-            }());
+            }()),
+            // the button to disable custom styles
+            customCssToggler = $('[data-custom-css]');
 
         /**
          * Create CSS and add it to DOM
          * Supports media queries that could come from an imported CSS
          *
+         * @param simulated true when called from style toggler
          */
-        var create = function() {
+        var create = function(simulated) {
+            // simulated to boolean
+            simulated = !!simulated;
+
             var key1, // first level key, could be selector or media query
                 key2, // second level key, could be css property or selector
                 mSelector, // selector inside a media query
@@ -117,6 +124,9 @@ define([
             }
 
             $styleElem.text(css);
+            if(!simulated) {
+                customCssToggler.removeClass('not-available');
+            }
         };
 
         /**
@@ -133,18 +143,32 @@ define([
 
             if (!value) {
                 delete(style[selector][property]);
+                if(_.size(style[selector]) === 0) {
+                    delete(style[selector]);
+                }
             }
             else {
                 style[selector][property] = value;
             }
 
             // apply rule
-            create();
+            create(false);
 
         };
 
-        var erase = function() {
+
+        /**
+         * Delete all custom styles
+         *
+         * @param simulated true when called from style toggler
+         */
+        var erase = function(simulated) {
+            simulated = !!simulated;
             $styleElem.text('');
+
+            if(!simulated) {
+                customCssToggler.addClass('not-available');
+            }
         };
 
         /**
@@ -184,7 +208,7 @@ define([
 
 
         /**
-         * Are there any styles available
+         * Are there any custom styles available?
          *
          * @returns {boolean}
          */
@@ -194,11 +218,46 @@ define([
 
 
         /**
+         * Add style sheets to toggler
+         * @param item
+         */
+        var listStylesheets = function(item) {
+
+            // extract stylesheets
+            var itemObj = item.toArray(),
+                stylesheets = [],
+                stylesheet,
+                attributes,
+                title = __('Disable this style sheet temporarily'),
+                deleteTxt = __('Delete this style sheet'),
+                insertMarker = $('[data-custom-css="true"]');
+
+            for(stylesheet in itemObj.stylesheets) {
+                if(!itemObj.stylesheets.hasOwnProperty(stylesheet)) {
+                    continue;
+                }
+                attributes = itemObj.stylesheets[stylesheet].attributes;
+                stylesheets.push({
+                    path: attributes.href,
+                    label: (attributes.title || attributes.href.substring(attributes.href.lastIndexOf('/') + 1)),
+                    title: title,
+                    deleteTxt: deleteTxt
+                });
+            }
+            insertMarker.before(cssTpl({ stylesheets: stylesheets }));
+        };
+
+
+        /**
          * Initialize class
          * @param config
          */
-        var init = function(config) {
+        var init = function(item, config) {
             itemConfig = config;
+
+            listStylesheets(item);
+
+            // initialize download button
             $('[data-role="css-download"]').on('click', download);
         };
 
@@ -207,12 +266,7 @@ define([
          * Load an existing CSS file as JSON
          *
          */
-        var load = function (item) {
-            verifyInit();
-            console.log(item);
-//            $.getJSON(getUri('load'), itemConfig).done(function (json) {
-//                create(json);
-//            })
+        var load = function (stylesheet) {
         };
 
         // expose public functions

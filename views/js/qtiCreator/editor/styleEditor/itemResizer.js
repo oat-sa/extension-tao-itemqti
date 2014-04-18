@@ -1,9 +1,10 @@
 define([
     'jquery',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'nouislider',
     'jqueryui'
 
-], function ($) {
+], function ($, styleEditor) {
     'use strict'
 
 
@@ -16,13 +17,33 @@ define([
             target = itemResizer.data('target'),
             sliderBox = itemResizer.find('.slider-box'),
             slider = itemResizer.find('#item-editor-item-resizer-slider'),
+            input = $('#item-editor-item-resizer-text'),
+            resetButton =  itemResizer.find('[data-role="item-width-reset"]'),
             sliderSettings = {
                 range : {
                     min: 768,
                     max: 1200
                 },
-                start: $(target).width()
+                start: 0
             };
+
+
+        /**
+         * Resize item
+         *
+         * @param val int|string
+         */
+        var resizeItem = function(val) {
+            // to make sure the value can come as int or string
+            val = parseInt(val).toString() + 'px';
+            styleEditor.apply(target, 'width', val);
+        };
+
+        var reset = function() {
+            slider.val(sliderSettings.range.min);
+            styleEditor.apply(target, 'width');
+            input.val('');
+        };
 
         itemResizer.find('[name="item-width-prompt"]').on('click', function() {
             if(this.value === 'slider') {
@@ -33,52 +54,20 @@ define([
             }
         });
 
-        console.log(target, $(target))
 
         slider.noUiSlider(sliderSettings);
-        return
-//
-//        var updateFirst = function () {
-//                var text = deviceSelector[0].selectedIndex !== 0 ? deviceSelector.data('selected') : deviceSelector.data('not-selected');
-//                deviceSelector.find('option').first().text(text);
-//            },
-//            sliderParams = {
-//                min: base.setup.get('minWidth'),
-//                max: base.setup.get('maxWidth'),
-//                value: base.setup.get('width'),
-//                slide: function (event, ui) {
-//                    adaptWidth(ui.value);
-//                },
-//                start: function (event, ui) {
-//                    adaptWidth(ui.value);
-//                    widthIndicator.show();
-//                },
-//                stop: function () {
-//                    widthIndicator.fadeOut('slow');
-//                },
-//                change: function (event, ui) {
-//                    base.setup.set('width', ui.value);
-//                }
-//            };
-//
-//
-//        adaptWidth(base.setup.get('width'));
-//        sliderWidget.slider(sliderParams);
-//
-//        deviceSelector.append(deviceOptions).on('change', function () {
-//            var width = $(this).val();
-//            updateFirst();
-//            adaptWidth(width);
-//            widthIndicator.show();
-//            sliderWidget.slider('value', width);
-//            window.setTimeout(function () {
-//                widthIndicator.fadeOut('slow');
-//            }, 2000)
-//        });
-//
-//
-//        updateFirst();
-//        deviceSelector.select2({ width: '100%' });
+        slider.on('slide', function() {
+            var value = Math.round(slider.val());
+            input.val(value.toString() + 'px');
+            resizeItem(value);
+        });
+
+        input.on('blur', function() {
+            resizeItem(this.value);
+            this.value = parseInt(this.value).toString() + 'px';
+        });
+
+        resetButton.on('click', reset);
     };
     return itemResizer;
 });

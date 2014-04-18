@@ -29,20 +29,24 @@ define([
 
 
     var _initUiComponents = function (item, config) {
-        styleEditor.init(config);
-        preview.init('#preview-trigger');
-        preparePrint();
-        toggleAppearance();
-        listStyler();
 
-        fontSelector(config);
+        styleEditor.init(item, config);
+        styleSheetToggler.init();
+
+        // CSS widgets
+        fontSelector();
         colorSelector(config);
         fontSizeChanger(config);
-        //itemResizer(config);
+        itemResizer(config);
 
+        preview.init('#preview-trigger');
+        preparePrint();
+
+        toggleAppearance();
+
+        listStyler();
 
         $('.item-editor-sidebar').fadeTo(2000, 1);
-        styleEditor.load(item);
     };
 
     var _initFormVisibilityListener = function(){

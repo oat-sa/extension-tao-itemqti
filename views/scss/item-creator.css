@@ -193,15 +193,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
-.tao-scope #item-editor-panel .item-editor-item .widget-box:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.edit-question .qti-choice:hover {
+.tao-scope #item-editor-panel .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope #item-editor-panel .item-editor-item .widget-box.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.edit-question .qti-choice.edit-choice {
+.tao-scope #item-editor-panel .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
   border: 1px solid #3e7da7;
   cursor: default; }
 
 .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb {
+  display: none;
   position: absolute;
   top: 0;
   right: 0;
@@ -389,7 +390,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         margin-bottom: 7px; }
       .tao-scope .item-editor-sidebar .tool-group .panel label {
         padding: 0;
-        max-width: 140px; }
+        font-size: 13px;
+        font-size: 1.3rem; }
       .tao-scope .item-editor-sidebar .tool-group .panel input.score {
         width: 40px;
         min-width: 40px; }
@@ -422,28 +424,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           font-size: 28px;
           font-size: 2.8rem;
           opacity: .9; }
-    .tao-scope .item-editor-sidebar .reset-group {
-      overflow: hidden; }
-      .tao-scope .item-editor-sidebar .reset-group select, .tao-scope .item-editor-sidebar .reset-group #item-editor-font-size-changer {
-        width: 140px;
-        min-width: 140px;
-        max-width: 140px; }
-      .tao-scope .item-editor-sidebar .reset-group #item-editor-font-size-changer {
-        display: inline-block;
-        text-align: center; }
-      .tao-scope .item-editor-sidebar .reset-group button {
-        position: relative;
-        top: 1px;
-        float: right;
+    .tao-scope .item-editor-sidebar .reset-group select {
+      width: 140px;
+      min-width: 140px;
+      max-width: 140px; }
+    .tao-scope .item-editor-sidebar .reset-group button {
+      position: relative;
+      top: 1px;
+      float: right;
+      padding: 0;
+      height: 24px;
+      width: 24px;
+      text-align: center; }
+      .tao-scope .item-editor-sidebar .reset-group button .icon-reset {
+        font-size: 11px;
+        font-size: 1.1rem;
         padding: 0;
-        height: 24px;
-        width: 24px;
-        text-align: center; }
-        .tao-scope .item-editor-sidebar .reset-group button .icon-reset {
-          font-size: 11px;
-          font-size: 1.1rem;
-          padding: 0;
-          text-shadow: none !important; }
+        text-shadow: none !important; }
+    .tao-scope .item-editor-sidebar #item-editor-item-resizer-text {
+      width: 133px;
+      min-width: 133px;
+      max-width: 133px;
+      margin-left: 4px; }
+    .tao-scope .item-editor-sidebar #item-editor-item-resizer .reset-group {
+      display: none; }
     .tao-scope .item-editor-sidebar .cbr-right {
       width: 100%; }
       .tao-scope .item-editor-sidebar .cbr-right span.icon-checkbox, .tao-scope .item-editor-sidebar .cbr-right span.icon-radio {
@@ -457,13 +461,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         padding-right: 10px; }
     .tao-scope .item-editor-sidebar .incrementer-ctrl {
       top: -3px; }
-    .tao-scope .item-editor-sidebar #item-editor-item-resizer .reset-group {
-      display: none; }
     .tao-scope .item-editor-sidebar #item-editor-font-size-changer {
       padding-top: 1px;
       overflow: hidden;
       display: table;
-      width: 140px; }
+      width: 140px;
+      float: left; }
       .tao-scope .item-editor-sidebar #item-editor-font-size-changer a {
         display: table-cell;
         padding: 0 10px;
@@ -480,6 +483,36 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-sidebar #item-editor-font-size-changer .icon-larger {
         font-size: 18px;
         font-size: 1.8rem; }
+    .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler {
+      font-size: 11px;
+      font-size: 1.1rem;
+      border: 1px solid #cccccc;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      display: inline-block;
+      width: 20px;
+      height: 18px;
+      padding: 3px 0 0 3px;
+      cursor: pointer !important;
+      margin: 0 4px 0 2px; }
+    .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-download, .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-bin {
+      float: right;
+      cursor: pointer;
+      margin-left: 5px;
+      position: relative;
+      top: 2px; }
+    .tao-scope .item-editor-sidebar #style-sheet-toggler .not-available, .tao-scope .item-editor-sidebar #style-sheet-toggler .not-available * {
+      color: #909090;
+      cursor: default !important; }
+    .tao-scope .item-editor-sidebar #style-sheet-toggler .file-label {
+      display: inline-block;
+      width: 100px;
+      line-height: 0.9; }
+    .tao-scope .item-editor-sidebar #style-sheet-uploader {
+      display: block; }
+      .tao-scope .item-editor-sidebar #style-sheet-uploader .btn-info, .tao-scope .item-editor-sidebar #style-sheet-uploader .file-name {
+        display: block;
+        margin-bottom: 5px; }
     .tao-scope .item-editor-sidebar .color-picker {
       margin-top: -5px; }
     .tao-scope .item-editor-sidebar .compass {
@@ -643,6 +676,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :   .      '.
                               :  : :      :
                               :__:-:__.;--'
+                             <*_/   <*/
+      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+      /**
+       * Use icon within sass: @inclue icon('down');
+       */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
                              <*_/   <*/ }
       .tao-scope #item-editor-panel .item-editor-item [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [class^="col-"] {
         position: relative; }
@@ -651,8 +705,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         position: relative; }
         .tao-scope #item-editor-panel .item-editor-item .widget-box .tlb-bar {
           z-index: 99; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-prompt {
-          min-height: 1rem; }
         .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-top.cke_nose {
           display: block;
           right: 5px;
@@ -660,16 +712,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-bottom.cke_nose {
           display: block;
           top: -6px; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .qti-choice {
+        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
+          min-height: 1.4rem; }
+        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-choice {
           border: 1px solid transparent; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option {
+        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option {
           border: 1px #3e7da7 dashed !important;
           list-style-type: none;
           position: relative;
           cursor: pointer !important;
           border-radius: 3px;
           background-color: #e6eef4; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option [class*=" icon-"] {
+          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class*=" icon-"] {
             font-size: 16px;
             font-size: 1.6rem;
             position: relative;
@@ -677,11 +731,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
             left: 2px;
             color: #0e5d91;
             padding-right: 5px; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div {
+          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div {
             display: table;
             width: 100%;
             height: 100%; }
-            .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option > div [class*=" icon-"] {
+            .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class*=" icon-"] {
               display: table-cell;
               font-size: 60px;
               font-size: 6rem;
@@ -693,9 +747,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
               top: 0;
               left: auto;
               padding: 0; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box .qti-interaction .add-option:hover {
+          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover {
             opacity: 0.8; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .widget-ok {
+        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .widget-ok {
           margin: 5px 10px;
           display: none; }
       .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
@@ -867,6 +921,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           cursor: pointer; }
         .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .cb {
           top: 5px; }
+      .tao-scope #item-editor-panel .item-editor-item .qti-rubricBlock .mini-tlb {
+        top: 7px;
+        right: 7px; }
     .tao-scope #item-editor-panel h1 {
       font-weight: 300;
       margin: 0; }
@@ -924,14 +981,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       width: 35px; }
   .tao-scope .feedbackRules .feedbackRule-add {
     margin-top: 5px; }
+  .tao-scope [data-html-editable] {
+    border: 1px solid transparent;
+    outline: 1px solid transparent !important; }
   .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable] {
     border: 1px dotted #0e5d91; }
   .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-role="cke-launcher"], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-role="cke-launcher"] {
     display: block !important; }
   .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] {
-    margin-right: 85px;
-    border: 1px solid transparent;
-    outline: 1px solid transparent !important; }
+    margin-right: 0px; }
     .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
       border: 1px dotted #0e5d91; }
 
