@@ -143,7 +143,7 @@ use oat\taoQtiItem\helpers\Authoring;
                             <!-- item style sheet(s) go here -->
 
                             <!-- custom style sheet -->
-                            <li data-css-res="/path/to/custom.css" data-custom-css="true">
+                            <li data-css-res="css/custom/tao-user-styles.css" data-custom-css="true">
                                 <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
                                 <span class="file-label truncate"><?=__('Custom styles')?></span>
                                 <span class="icon-bin" title="<?=__('Delete your custom styles')?>" data-role="css-delete"></span>

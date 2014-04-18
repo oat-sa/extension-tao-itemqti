@@ -1,45 +1,3 @@
-/*
-
- Jérome is going to implement https://github.com/sabberworm/PHP-CSS-Parser on the server side.
-
- PHP mock-up for the controller (derived from my testing code, hence a bit dodgy)
-
- if(!empty($_POST['css'])) {
-
- $cssArr = json_decode($_POST['css'], 1);
- $cssStr = '';
- foreach($cssArr as $selector => $ruleSet) {
- $cssStr .= $selector . '{';
- foreach($ruleSet as $property => $value) {
- $cssStr .= $property . ':' . $value . ';';
- }
- $cssStr .= "}\n";
- }
- file_put_contents('/path/to/user/css', $cssStr);
-
- // Alternatively the above parser could be used. Since we don't support fancy stuff
- // this might be overkill though.
- }
- else if(!empty($_GET['action']) && $_GET['action'] === 'load-css') {
- // load CSS file and build array using above parser.
- // The result would be something like this:
- // $css = array(
- //     '.px' => array(
- //         'color' => 'firebrick',
- //         'font-style' => 'italic'
- //     )
- // );
- print json_encode($css);
- }
-
-
- */
-
-/**
- * Note: This class supports basic CSS editing only. There is nothing fancy such as media queries etc.
- * Should we ever want to do this however, only the JS needs to be updated - the PHP parser supports this already
- */
-
 define([
     'jquery',
     'lodash',
@@ -57,8 +15,18 @@ define([
      * @param action
      * @returns {*}
      */
-    var getUri = function(action) {
+    var _getUri = function(action) {
         return helpers._url(action, 'QtiCssAuthoring', 'taoQtiItem');
+    };
+
+    /**
+     * Extract the file name from a path
+     * @param path
+     * @returns {*}
+     * @private
+     */
+    var _basename = function(path) {
+        return path.substring(path.lastIndexOf('/') + 1);
     };
 
     /**
@@ -138,7 +106,6 @@ define([
          */
         var apply = function (selector, property, value) {
 
-
             style[selector] = style[selector] || {};
 
             if (!value) {
@@ -176,7 +143,7 @@ define([
          */
         var save = function () {
             verifyInit();
-            $.post(getUri('save'), _.extend(itemConfig, { cssJson: JSON.stringify(style) }));
+            $.post(_getUri('save'), _.extend(itemConfig, { cssJson: JSON.stringify(style) }));
         };
 
 
@@ -185,7 +152,7 @@ define([
          */
         var download = function() {
             verifyInit();
-            $.fileDownload(getUri('download'), {
+            $.fileDownload(_getUri('download'), {
                 preparingMessageHtml: __('We are preparing your CSS, please wait...'),
                 failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
                 successCallback: function () { },
@@ -195,13 +162,27 @@ define([
         };
 
         /**
+         * Load an existing CSS file as JSON
+         *
+         * @param uri
+         */
+        var load = function (uri) {
+            $.getJSON(_getUri('load'), _.extend(itemConfig, { uri:uri }))
+                .done(function(json) {
+                    style = json;
+                    // apply rule
+                    create(false);
+                });
+        };
+
+        /**
          * Has the class been initialized
          *
          * @returns {boolean}
          */
         var verifyInit = function() {
             if(!itemConfig) {
-                throw new Error('Missing itemConfig, did you call init()?')
+                throw new Error('Missing itemConfig, did you call styleEditor.init()?')
             }
             return true;
         };
@@ -224,26 +205,48 @@ define([
         var listStylesheets = function(item) {
 
             // extract stylesheets
-            var itemObj = item.toArray(),
-                stylesheets = [],
+            var stylesheets = [],
+                key,
                 stylesheet,
-                attributes,
                 title = __('Disable this style sheet temporarily'),
                 deleteTxt = __('Delete this style sheet'),
-                insertMarker = $('[data-custom-css="true"]');
+                insertMarker = $('[data-custom-css="true"]'),
+                fileName,
+                hasCustomCss = false,
+                link;
 
-            for(stylesheet in itemObj.stylesheets) {
-                if(!itemObj.stylesheets.hasOwnProperty(stylesheet)) {
+            for(key in item.stylesheets) {
+                stylesheet = item.stylesheets[key];
+                fileName = _basename(stylesheet.attr('href')),
+                link = $(stylesheet.render());
+
+                if(!item.stylesheets.hasOwnProperty(key)) {
                     continue;
                 }
-                attributes = itemObj.stylesheets[stylesheet].attributes;
-                stylesheets.push({
-                    path: attributes.href,
-                    label: (attributes.title || attributes.href.substring(attributes.href.lastIndexOf('/') + 1)),
-                    title: title,
-                    deleteTxt: deleteTxt
+
+                if(fileName === 'tao-user-styles.css') {
+                    load(link.attr('href'));
+                    customCssToggler.data('css-res', link.attr('href'))
+                    hasCustomCss = true;
+                }
+                else {
+                    $styleElem.before(link);
+
+                    stylesheets.push({
+                        path: stylesheet.attr('href'),
+                        label: (stylesheet.attr('title') || fileName),
+                        title: title,
+                        deleteTxt: deleteTxt
+                    });
+                }
+            }
+
+            if(!hasCustomCss) {
+                item.createStyleSheet({
+                    href: 'css/custom/tao-user-styles.css'
                 });
             }
+
             insertMarker.before(cssTpl({ stylesheets: stylesheets }));
         };
 
@@ -259,14 +262,9 @@ define([
 
             // initialize download button
             $('[data-role="css-download"]').on('click', download);
-        };
 
 
-        /**
-         * Load an existing CSS file as JSON
-         *
-         */
-        var load = function (stylesheet) {
+            $(document).on('itemsave.qtiEdit', save);
         };
 
         // expose public functions

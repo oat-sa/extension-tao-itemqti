@@ -47,6 +47,12 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
     }
 
     public function load() {
+
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+        }
+        print json_encode([__METHOD__]);
+        return;
         print CssHelper::loadCss('bar');
     }
 

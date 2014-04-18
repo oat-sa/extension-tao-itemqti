@@ -27,7 +27,7 @@ use Sabberworm\CSS\Parser;
 class CssHelper{
 
     public static function save($cssArr){
-        $parser = new Parser('foo');
+        $css = arrayToCss($cssArr);
         // ItemsService::getItemFolder() . '/my.css'
     }
 
@@ -76,12 +76,6 @@ class CssHelper{
         }
         return $css;
     }
-
-    // $path
-
-    // loader
-
-    // saver
 
 
     // QtiCreator:: saveItem($uri, $lang) as pattern

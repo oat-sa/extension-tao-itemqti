@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use oat\taoQtiItem\helpers\Authoring;
+//use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
 use \DOMDocument;
@@ -151,7 +151,7 @@ class Authoring
                     'qtiClass' => 'extendedTextInteraction'
                 ),
                 array('title' => __('Upload Interaction'),
-                    'icon' => 'slider',
+                    'icon' => 'upload',
                     'short' => __('Upload'),
                     'qtiClass' => 'uploadInteraction'
                 ),
