@@ -25,6 +25,9 @@ define([
             this.setResponseProcessing(rp);
             return rp;
         },
+        createStyleSheet: function() {
+
+        },
         createOutcomeDeclaration : function(attributes){
             
             var identifier = attributes.identifier || '';
