@@ -34,13 +34,11 @@ define(['jquery'], function($){
                     //load feedbacks data into item instance
                     qtiRunner.loadElements(r.feedbacks, function(){
 
-                        console.log(r, qtiRunner.item);
-
                         //show feedbacks if required
                         fbCount = qtiRunner.showFeedbacks(r.itemSession, callback);
 
                         if(!fbCount){
-                            callback();
+                            callback(0);
                         }
                     });
                 }
