@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/htmlEditor'
-], function(Widget, states, toolbarTpl, okButtonTpl, htmlEditor){
+], function(Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor){
 
     var ModalFeedbackWidget = Widget.clone();
 
@@ -22,8 +23,6 @@ define([
     ModalFeedbackWidget.buildContainer = function(){
 
         this.$container = this.$original.addClass('widget-box');
-
-        this.$container.find('.modal-title').attr('contenteditable', true);
     };
 
     ModalFeedbackWidget.createToolbar = function(){
@@ -55,9 +54,7 @@ define([
             });
         }
 
-        this.$original.find('.modal-title').on('keyup', function(){
-            element.attr('title', $(this).text());//save text only, since tittle has a baseType "string"
-        });
+        formElement.initTitle(this.$original.find('.qti-title'), element);
     };
     
     ModalFeedbackWidget.createOkButton = function(){

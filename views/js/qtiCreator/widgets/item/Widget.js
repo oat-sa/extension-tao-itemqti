@@ -12,8 +12,9 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, draggable, xmlRenderer, devTools, TextWidget){
+], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, draggable, xmlRenderer, devTools, TextWidget, formElement){
 
     var ItemWidget = Widget.clone();
 
@@ -27,6 +28,7 @@ define([
             throw new Error('missing required config parameter uri in item widget initialization');
         }
         this.itemUri = config.uri;
+        
         this.initUiComponents();
 
         this.initTextWidgets();
@@ -65,7 +67,8 @@ define([
         var _widget = this;
 
         //init title inline edition
-
+        formElement.initTitle(this.$container.find('.qti-title'), this.element);
+        
         //init save button:
         $('#save-trigger').on('click', function(){
             _widget.save();
@@ -233,6 +236,6 @@ define([
         $('#item-editor-wrapper').append($pre);
         devTools.liveXmlPreview(this.element, $code);
     };
-
+    
     return ItemWidget;
 });
