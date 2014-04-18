@@ -3,10 +3,11 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableContainer',
     'taoQtiItem/qtiItem/core/Item',
+    'taoQtiItem/qtiItem/core/Stylesheet',
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
-     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
+    'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, editable, editableContainer, Item, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+], function(_, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableContainer);
@@ -25,22 +26,29 @@ define([
             this.setResponseProcessing(rp);
             return rp;
         },
-        createStyleSheet: function() {
-
+        createStyleSheet : function(href){
+            if(href){
+                var stylesheet = new Stylesheet({href : href});
+                this.addStylesheet(stylesheet);
+                return stylesheet;
+            }else{
+                throw 'missing required arg "href"';
+                return null;
+            }
         },
         createOutcomeDeclaration : function(attributes){
-            
+
             var identifier = attributes.identifier || '';
             delete attributes.identifier;
             var outcome = new OutcomeDeclaration(attributes);
-            
+
             this.addOutcomeDeclaration(outcome);
             outcome.buildIdentifier(identifier);
-            
+
             return outcome;
         },
         createModalFeedback : function(attributes){
-            
+
             var identifier = attributes.identifier || '';
             delete attributes.identifier;
             var modalFeedback = new ModalFeedback(attributes);
