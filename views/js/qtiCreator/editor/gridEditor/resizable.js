@@ -1,6 +1,16 @@
-define(['jquery', 'jqueryui'], function($) {
-
-    _createResizables = function createResizables($el) {
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/editor/gridEditor/config',
+    'taoQtiItem/qtiCreator/helper/qtiElements',
+    'jqueryui'
+], function($, config, qtiElements) {
+    
+    var _syncHandleHeight = function($row) {
+        var h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
+        $row.find('.grid-edit-resizable-zone').height(h);
+    };
+            
+    var _createResizables = function createResizables($el) {
 
         var marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
                 activeWidth = 20;
@@ -12,10 +22,12 @@ define(['jquery', 'jqueryui'], function($) {
                     $row = $col.parent('.grid-row'),
                     offset = $col.offset(),
                     max = 12,
-                    min = 2,
-                    nextMin = 2,
+                    min = qtiElements.is($col.data('qti-class'), 'interaction')?config.min.interaction:config.min.text,
+                    nextMin = qtiElements.is($nextCol.data('qti-class'), 'interaction')?config.min.interaction:config.min.text,
                     unitWidth = $row.width() / max;
-
+            
+            if($col.data('qti-class'))
+            
             var activeHeight = $row.height() - parseFloat($col.css('margin-bottom'));
             var $activeZone = $('<div>', {'class': 'grid-edit-resizable-zone grid-edit-resizable-zone-active'}).css({top: 0, right: -(marginWidth + (activeWidth - marginWidth) / 2), width: activeWidth, height: activeHeight});
             var $handle = $('<span>', {'class': 'grid-edit-resizable-handle'});
@@ -27,17 +39,17 @@ define(['jquery', 'jqueryui'], function($) {
                 $col.find('.grid-edit-resizable-outline').height(h);
                 $activeZone.height(h);
             };
-
+            
             $activeZone.draggable({
                 containment: $nextCol.length ? [
-                    offset.left + min * unitWidth - marginWidth * 2 - 1,
+                    offset.left + min * unitWidth - marginWidth * 2 + 10,
                     offset.top,
-                    offset.left + $col.outerWidth() + marginWidth + $nextCol.outerWidth() - nextMin * unitWidth - activeWidth / 2 + 1,
+                    offset.left + $col.outerWidth() + marginWidth + $nextCol.outerWidth() - nextMin * unitWidth - activeWidth / 2 - 10,
                     offset.top + $col.height()
                 ] : [
-                    offset.left + min * unitWidth - marginWidth - activeWidth / 2 - 0,
+                    offset.left + min * unitWidth - marginWidth - activeWidth / 2 - 10,
                     offset.top,
-                    $row.offset().left + $row.outerWidth() - marginWidth - activeWidth / 2 + 1,
+                    $row.offset().left + $row.outerWidth() - marginWidth - activeWidth / 2 - 12,
                     offset.top + $col.height()
                 ],
                 axis: 'x',
@@ -79,7 +91,7 @@ define(['jquery', 'jqueryui'], function($) {
 
                         _syncOutlineHeight();
 
-                    } else if (width + marginWidth > (units + 1) * unitWidth) {//need to compensate for the width of the active zone
+                    } else if (width + marginWidth + 20 > (units + 1) * unitWidth) {//need to compensate for the width of the active zone
 
                         units++;
                         _setColUnits($col, units);
@@ -106,6 +118,8 @@ define(['jquery', 'jqueryui'], function($) {
             _deleteResizables($el);
         }).off('dragoverstop.gridEdit').on('dragoverstop.gridEdit', function() {
             _createResizables($el);
+        }).off('contentChange.qtiEdit').on('contentChange.gridEdit', '.grid-row', function(){
+            _syncHandleHeight($(this));
         });
     };
 
@@ -145,6 +159,16 @@ define(['jquery', 'jqueryui'], function($) {
             _deleteResizables($element);
             
             $(window).off('resize.qtiEdit.resizable');
+        },
+        syncHandleHeight:function($row){
+            if($row.hasClass('grid-row')){
+                _syncHandleHeight($row);
+            }else{
+                $row.find('.grid-row').each(function(){
+                    _syncHandleHeight($(this));
+                });
+            }
         }
+        
     };
 });

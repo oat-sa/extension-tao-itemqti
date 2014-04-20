@@ -92,7 +92,7 @@ define([
             $(this).children('[class*=" col-"], [class^="col-"]').each(function() {
                 totalUnits += helper.setUnitsFromClass($(this));
             });
-            $(this).attr('data-units', parseInt(totalUnits));
+//            $(this).attr('data-units', parseInt(totalUnits));//useless??
         });
     }
 

@@ -132,7 +132,10 @@ define([
                                 $widget = widget.$original;
                             }
                         }
-
+                        
+                        //inform height modification
+                        $widget.trigger('contentChange.gridEdit');
+                        
                         //@todo : draggable not working with cke !!
 //                        draggable.createMovable($widget, $targetContainer);
                     }

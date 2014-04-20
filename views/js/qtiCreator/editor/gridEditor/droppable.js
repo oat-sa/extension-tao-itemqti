@@ -179,8 +179,6 @@ define([
         }
 
         //bind all event handlers:
-        $el.css('background', '1px solid red');
-        
         $el.on('mouseover.gridEdit.gridDragDrop', function(){
             
             var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
@@ -241,9 +239,17 @@ define([
         $el.one('beforedragoverstop.gridEdit', function(){
 
             $el.find('.grid-edit-insert-box').remove();
-
-            $placeholder.parent('.new-col').removeClass('new-col').removeAttr('data-index');//make the dropped col permanent
-            $el.find('.new-col').remove();//remove all other tmp cols
+            
+            //make the dropped col permanent
+            var $selectedCol = $placeholder.parent('.new-col')
+                    .data('qti-class', qtiClass)
+                    .removeClass('new-col')
+                    .removeAttr('data-index');
+            
+            helper.setUnitsFromClass($selectedCol);
+            
+            //remove all other tmp cols
+            $el.find('.new-col').remove();
 
             //manage the temp grid-new-row:
             $el.find('.grid-row[data-active=true]').each(function(){
@@ -256,9 +262,9 @@ define([
             });
 
             //manage the temp grid-row-new:
-            $placeholder.parent().parent('.grid-row-new').removeClass('grid-row-new');//make the dropped row permanent
+            $selectedCol.parent('.grid-row-new').removeClass('grid-row-new');//make the dropped row permanent
             $el.find('.grid-row-new').remove();//remove tmp rows
-
+            
             //call callback function:
             if($placeholder.data('dropped')){
                 $el.trigger('dropped.gridEdit', [qtiClass, $el, $placeholder]);
