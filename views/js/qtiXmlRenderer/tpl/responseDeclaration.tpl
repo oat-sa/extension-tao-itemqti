@@ -17,7 +17,7 @@
     {{/if}}
     {{~#if MAP_RESPONSE}}
         {{~#if mapEntries~}}
-        <mapping>
+        <mapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
             {{~#each mapEntries}}
             <mapEntry mapKey="{{@key}}" mappedValue="{{.}}" caseSensitive="false"/>
             {{~/each}}
@@ -26,7 +26,7 @@
     {{/if}}
     {{~#if MAP_RESPONSE_POINT}}
         {{~#if mapEntries~}}
-        <areaMapping>
+        <areaMapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
             {{~#each mapEntries}}
             <areaMapEntry{{#each mapEntries}} {{@key}}="{{.}}"{{/each}} />
             {{~/each}}

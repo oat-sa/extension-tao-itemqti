@@ -36,6 +36,10 @@ define([
             this.mappingAttributes[name] = value;
             $(document).trigger('mappingAttributeChange.qti-widget', {'element': this, 'key': name, 'value': value});
         },
+        removeMappingAttribute: function(name) {
+            delete this.mappingAttributes[name];
+            $(document).trigger('mappingAttributeChange.qti-widget', {'element': this, 'key': name, 'value': null});
+        },
         getMappingAttribute: function(name) {
             return this.mappingAttributes[name];
         },

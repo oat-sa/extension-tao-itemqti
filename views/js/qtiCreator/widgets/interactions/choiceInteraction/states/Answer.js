@@ -22,6 +22,7 @@ define([
             $(this).find('[data-role=correct]').click();
         });
         
+        //forward to one of the available sub state, according to the response processing template
         answerStateHelper.forward(this.widget);
         
     }, function(){
@@ -31,8 +32,6 @@ define([
         _widget.$container.off('.answer');
         
         ResponseWidget.destroy(_widget);
-        
-        _widget.$responseForm.empty().hide();
     });
     
     return ChoiceInteractionStateAnswer;

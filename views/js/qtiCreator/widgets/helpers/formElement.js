@@ -1,10 +1,5 @@
 define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/inplacer', 'ui/groupvalidator'], function(_, spinner, tooltip, select2, inplacer){
 
-    var cssClass = {
-        errorClass : 'error',
-        errorMessageClass : 'validate-error',
-    };
-
     var formElement = {
         initWidget : function($form){
             spinner($form);
@@ -40,7 +35,8 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/inplace
             });
 
             $form.groupValidator({
-                events : ['change', 'blur', {type : 'keyup', length : 0}]
+                events : ['change', 'blur', {type : 'keyup', length : 0}],
+                callback: _validationCallback
             });
 
             $form.on('validated.group.databinding', function(e, valid, elt){
@@ -70,7 +66,38 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/inplace
             });
         }
     };
-
+    
+    var _validationCallback = function _validationCallback(valid, results){
+        
+        var $input = $(this), rule;
+        
+        _createTooltip($input);
+        
+        $input.tooltipster('hide');
+        
+        if(!valid){
+            
+            //invalid input!
+            rule = _.where(results, {type: 'failure'})[0];
+            if (rule && rule.data.message) {
+                $input.tooltipster('content', rule.data.message);
+                $input.tooltipster('show');
+            }
+                
+        }
+    };
+    
+    var _createTooltip = function($input){
+        if (!$input.hasClass('tooltipstered')) {
+            $input.tooltipster({
+                theme: 'tao-error-tooltip',
+                content: '',
+                delay: 350,
+                trigger: 'custom'
+            });
+        }
+    };
+    
     return formElement;
 });
 

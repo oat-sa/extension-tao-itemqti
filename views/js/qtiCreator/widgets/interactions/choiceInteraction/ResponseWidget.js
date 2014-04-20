@@ -1,4 +1,9 @@
-define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response', 'ui/groupvalidator', 'tooltipster', 'polyfill/placeholders'], function(_, __, responseToolbarTpl){
+define([
+    'lodash', 
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'polyfill/placeholders'
+], function(_, responseToolbarTpl, formElement){
 
     var ResponseWidget = {
         create : function(widget){
@@ -67,31 +72,17 @@ define(['lodash', 'i18n', 'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.r
         });
 
         var $scores = $choices.find('input[data-role=score]').on('keyup.qti-widget', function(){
-
-            var $score = $(this),
-                value = $score.val(),
-                score = parseFloat(value),
-                key = $score.attr('name');
-
-            if(value === ''){
-                //leave empty, pplaceholder
-                $score.tooltipster('hide');
-                _removeMapEntry(key);
-            }else if(!isNaN(score)){
-                //is a correct number
-                _setMapEntry(key, score);
-                $score.tooltipster('hide');
-            }else{
-                //invalid input!
-                $score.tooltipster('show');
-            }
-        });
-
-        $scores.tooltipster({
-            theme : 'tao-error-tooltip',
-            content : __('invalid score value'),
-            delay : 350,
-            trigger : 'custom'
+            
+            formElement.setScore($(this), {
+                required : false,
+                empty:function(key){
+                    _removeMapEntry(key);
+                },
+                set : function(key, value){
+                    _setMapEntry(key, value);
+                }
+            });
+            
         });
 
         $scores.attr('placeholder', response.getMappingAttribute('defaultValue'));

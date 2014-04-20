@@ -30,6 +30,7 @@ define([
                 }
             });
         },
+        //set float (used for score)
         setScore:function($scoreInput, options){
             
             options = _.defaults(options || {}, {
@@ -39,13 +40,13 @@ define([
                 key:function(){
                     return $(this).attr('name');
                 },
-                tooltipContent:{}
+                tooltipContent:_scoreTooltipContent
             });
             
             if(!$scoreInput.hasClass('tooltipstered')){
                 $scoreInput.tooltipster({
                     theme : 'tao-error-tooltip',
-                    content : _scoreTooltipContent.invalid,
+                    content : options.tooltipContent.invalid,
                     delay : 350,
                     trigger : 'custom'
                 });
@@ -58,7 +59,7 @@ define([
             if(value === ''){
                 if(options.required){
                     //missing required score value!
-                    $scoreInput.tooltipster('content', _scoreTooltipContent.required);
+                    $scoreInput.tooltipster('content', options.tooltipContent.required);
                     $scoreInput.tooltipster('show');
                 }else{
                     $scoreInput.tooltipster('hide');
@@ -70,11 +71,12 @@ define([
                 options.set(key, score);
             }else{
                 //invalid input!
-                $scoreInput.tooltipster('content', _scoreTooltipContent.invalid);
+                $scoreInput.tooltipster('content', options.tooltipContent.invalid);
                 $scoreInput.tooltipster('show');
             }
             
         }
+        //set text (used for controlled pattern, especially id)
     };
 
     return formElementHelper;

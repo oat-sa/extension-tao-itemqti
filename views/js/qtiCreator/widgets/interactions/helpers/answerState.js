@@ -11,14 +11,18 @@ define([
             elt.setTemplate(value);
         },
         mappingAttr : function(elt, key, value){
-            elt.setMappingAttribute(key, value);
+            if(value === ''){
+                elt.removeMappingAttribute(key);
+            }else{
+                elt.setMappingAttribute(key, value);
+            }
         }
     };
 
     var answerStateHelper = {
+        //forward to one of the available sub state, according to the response processing template
         forward : function(widget){
-
-            //forward to one of the available sub state, according to the response processing template
+            
             var response = widget.element.getResponseDeclaration();
             if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
 
@@ -32,26 +36,26 @@ define([
         },
         initResponseForm : function(widget){
 
-            var template = 'custom',
+            var template = 'CUSTOM',
                 response = widget.element.getResponseDeclaration();
 
             if(responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')){
 
-                template = 'correct';
+                template = 'MATCH_CORRECT';
 
             }else if(responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') ||
                 responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')){
 
-                template = 'map';
+                template = 'MAP_RESPONSE';
             }
 
             widget.$responseForm.html(responseFormTpl({
-                template : template,
                 defaultValue : response.getMappingAttribute('defaultValue'),
                 lowerBound : response.getMappingAttribute('lowerBound'),
                 upperBound : response.getMappingAttribute('upperBound')
             }));
-
+            widget.$responseForm.find('select[name=template]').val(template);
+            
             formElement.initWidget(widget.$responseForm);
 
             formElement.initDataBinding(widget.$responseForm, response, {
