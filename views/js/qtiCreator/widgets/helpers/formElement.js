@@ -14,7 +14,7 @@ define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/inplace
                 console.log('change', name, value);
                 var cb = attributes[name];
                 if(_.isFunction(cb)){
-                    cb.call(null, element, name, value, $elt);
+                    cb.call($elt[0], element, value, name);
                 }
             };
 

@@ -43,7 +43,7 @@ define(['lodash'], function(_){
                     }
                     return false;
                 }).show();
-
+                
                 this.widget.$container.addClass('edit-' + name);
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
                 init.call(this);

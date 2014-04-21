@@ -7,14 +7,14 @@ define([
 ], function(responseHelper, formElement, responseFormTpl, modalFeedbackRule){
 
     var _saveCallbacks = {
-        template : function(elt, key, value){
-            elt.setTemplate(value);
+        template : function(response, value){
+            response.setTemplate(value);
         },
-        mappingAttr : function(elt, key, value){
+        mappingAttr : function(response, value, key){
             if(value === ''){
-                elt.removeMappingAttribute(key);
+                response.removeMappingAttribute(key);
             }else{
-                elt.setMappingAttribute(key, value);
+                response.setMappingAttribute(key, value);
             }
         }
     };
