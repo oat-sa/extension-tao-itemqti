@@ -1,5 +1,13 @@
-define(['lodash', 'ui/incrementer', 'ui/tooltipster', 'ui/selecter', 'ui/inplacer', 'ui/groupvalidator'], function(_, spinner, tooltip, select2, inplacer){
-
+define([
+    'lodash',
+    'ui/incrementer', 
+    'ui/tooltipster', 
+    'ui/selecter', 
+    'ui/inplacer', 
+    'ui/groupvalidator',
+    'taoQtiItem/qtiCreator/widgets/helpers/validators'
+], function(_, spinner, tooltip, select2){
+    
     var formElement = {
         initWidget : function($form){
             spinner($form);

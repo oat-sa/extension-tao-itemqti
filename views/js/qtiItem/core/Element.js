@@ -289,7 +289,15 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
     Element.isA = function(qtiElement, qtiClass){
         return (qtiElement instanceof Element && qtiElement.is(qtiClass));
     };
-
+    
+    Element.getElementBySerial = function(serial){
+        return _instances[serial];
+    };
+    
+    Element.unsetElement = function(serial){
+        delete _instances[serial];
+    };
+    
     return Element;
 });
 

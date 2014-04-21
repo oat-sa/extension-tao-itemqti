@@ -5,13 +5,19 @@
         {{__ "shuffle choices"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">Regular checkbox</span>
+    <span class="tooltip-content">
+        If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented.
+        However each choice may be "shuffled" of "fixed" individually.
+    </span>
 </div>
 
 <div class="panel">
     <h3>{{__ "Allowed number of choices"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">whatever</span>
+        <span class="tooltip-content">
+            The minimum number of choices that the candidate is required to select to form a valid response.
+            The maximum number of choices that the candidate is allowed to select.
+        </span>
     </h3>
 
     <div>

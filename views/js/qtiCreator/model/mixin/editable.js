@@ -43,6 +43,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 }
 
                 if(removed){
+                    Element.unsetElement(element.serial);
                     $(document).off('.' + element.serial);
                     $(document).trigger('deleted.qti-widget', {'element' : element});
                 }
@@ -63,6 +64,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
             }
             if(serial){
                 delete element[containerPropName][serial];
+                Element.unsetElement(serial);
             }
         }
         
