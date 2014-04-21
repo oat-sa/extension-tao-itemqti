@@ -166,8 +166,10 @@ use oat\taoQtiItem\helpers\Authoring;
                         <div class="tooltip-content"><?=__('Change the color of the text or the background of the item')?></div>
                         <div id="item-editor-color-picker" data-target=".tao-scope div.qti-item">
                             <div class="color-picker-container">
+                                <h3 class="background-color"><?=__('Background color')?></h3>
+                                <h3 class="color"><?=__('Color')?></h3>
                                 <div class="color-picker"></div>
-                                <input id="color-picker-input" type="text">
+                                <input id="color-picker-input" type="text" value="#000000">
                             </div>
                             <div class="reset-group">
                                 <div class="clearfix">
