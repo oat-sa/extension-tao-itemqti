@@ -48,12 +48,15 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
 
     public function load() {
 
-        if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
-        }
-        print json_encode(array(__METHOD__));
-        return;
-        print CssHelper::loadCss('bar');
+//        if (!tao_helpers_Request::isAjax()) {
+//            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+//        }
+
+//        if (!$this->hasRequestParameter('uri')) {
+//            throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());
+//        }
+//
+        print CssHelper::loadCssFile();
     }
 
     private function getCssArray() {

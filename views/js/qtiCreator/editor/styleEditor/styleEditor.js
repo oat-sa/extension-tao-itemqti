@@ -105,7 +105,6 @@ define([
          * @param {{string}} value
          */
         var apply = function (selector, property, value) {
-
             style[selector] = style[selector] || {};
 
             if (!value) {
@@ -143,7 +142,7 @@ define([
          */
         var save = function () {
             verifyInit();
-            $.post(_getUri('save'), _.extend(itemConfig, { cssJson: JSON.stringify(style) }));
+            $.post(_getUri('save'), _.extend({}, itemConfig, { cssJson: JSON.stringify(style) }));
         };
 
 
@@ -157,7 +156,7 @@ define([
                 failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
                 successCallback: function () { },
                 httpMethod: 'POST',
-                data: _.extend(itemConfig, { cssJson: JSON.stringify(style) })
+                data: _.extend({}, itemConfig, { cssJson: JSON.stringify(style) })
             });
         };
 
@@ -167,9 +166,9 @@ define([
          * @param uri
          */
         var load = function (uri) {
-            $.getJSON(_getUri('load'), _.extend(itemConfig, { uri:uri }))
+            $.getJSON(_getUri('load'), _.extend({}, itemConfig, { uri:uri }))
                 .done(function(json) {
-                    style = json;
+                    //style = json;
                     // apply rule
                     create(false);
                 });

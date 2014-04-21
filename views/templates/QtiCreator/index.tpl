@@ -160,20 +160,27 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
 
                     <hr>
-                    <div class="panel">
+                    <div class="panel color-picker-panel">
                         <h3><?=__('Change the colors')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content"><?=__('Change the color of the text or the background of the item')?></div>
-                        <div class="color-picker" id="item-editor-color-picker" data-target=".tao-scope div.qti-item"></div>
-                        <div class="reset-group">
-                            <input id="color-picker-input" type="text">
-                            <select class="select2" data-role="color-picker-property" data-has-search="false">
-                                <option value="background-color"><?=__('Background')?></option>
-                                <option value="color"><?=__('Text')?></option>
-                            </select>
-                            <button class="btn-info small" type="button" data-role="color-picker-reset" title="<?=__('Reset colors')?>">
-                                <span class="icon-reset"></span>
-                            </button>
+                        <div id="item-editor-color-picker" data-target=".tao-scope div.qti-item">
+                            <div class="color-picker-container">
+                                <div class="color-picker"></div>
+                                <input id="color-picker-input" type="text">
+                            </div>
+                            <div class="reset-group">
+                                <div class="clearfix">
+                                    <label for="initial-bg">Background color</label>
+                                    <span class="icon-reset reset-button" data-value="background-color" title="<?=__('Reset background color')?>"></span>
+                                    <span class="color-trigger" id="initial-bg" data-value="background-color"></span>
+                                </div>
+                                <div class="clearfix">
+                                    <label for="initial-color">Text color</label>
+                                    <span class="icon-reset reset-button" data-value="color" title="<?=__('Reset text color')?>"></span>
+                                    <span class="color-trigger" id="initial-color" data-value="color"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -183,11 +190,9 @@ use oat\taoQtiItem\helpers\Authoring;
                         <div class="tooltip-content"><?=__('Change the font family of the item')?></div>
 
                         <div class="reset-group">
-                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" placeholder="<?=__('Change Font')?>"
+                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" data-placeholder="<?=__('Select font family')?>"
                                     class="select2" data-role="font-selector"></select>
-                            <button class="btn-info small" type="button" data-role="font-selector-reset" title="<?=__('Reset font family')?>">
-                                <span class="icon-reset"></span>
-                            </button>
+                            <span class="icon-reset reset-button" data-role="font-selector-reset" title="<?=__('Reset font family')?>"></span>
                         </div>
 
                     </div>
@@ -201,9 +206,7 @@ use oat\taoQtiItem\helpers\Authoring;
                                 <a href="#" data-action="reduce" title="<?=__('Reduce font size')?>" class="icon-smaller"></a>
                                 <a href="#" data-action="enlarge" title="<?=__('Enlarge font size')?>" class="icon-larger"></a>
                             </span>
-                            <button class="btn-info small" type="button" data-role="font-size-reset" title="<?=__('Reset font size')?>">
-                                <span class="icon-reset"></span>
-                            </button>
+                            <span class="icon-reset reset-button" data-role="font-size-reset" title="<?=__('Reset font size')?>"></span>
                         </div>
 
                     </div>
@@ -228,9 +231,7 @@ use oat\taoQtiItem\helpers\Authoring;
                             <div class="reset-group slider-box">
                                 <p id="item-editor-item-resizer-slider"></p>
                                 <input type="text" id="item-editor-item-resizer-text" placeholder="Fixed item width">
-                                <button class="btn-info small" type="button" data-role="item-width-reset" title="<?=__('Reset item width')?>">
-                                    <span class="icon-reset"></span>
-                                </button>
+                                <span class="icon-reset reset-button" data-role="item-width-reset" title="<?=__('Reset item width')?>"></span>
                             </div>
                         </div>
 
@@ -239,36 +240,7 @@ use oat\taoQtiItem\helpers\Authoring;
                 </section>
 
             </div>
-            <div class="item-editor-widget-related" id="item-editor-widget-bar">
 
-                <section class="tool-group clearfix">
-                    <h2><?=__('This widget')?></h2>
-
-                    <div class="panel">
-                        <h3><?=__('List style')?></h3>
-                        <select class="panel-row item-editor-list-styler">
-                            <option value="none"><?=__('None')?></option>
-                            <option value="circle"><?=__('Circle')?> (◦)</option>
-                            <option value="disc"><?=__('Disc')?> (•)</option>
-                            <option value="square"><?=__('Square')?> (▪)</option>
-                            <option value="decimal"><?=__('Decimal')?> (1.)</option>
-                            <option value="decimal-leading-zero"><?=__('Decimal leading zero')?> (01.)</option>
-                            <option value="lower-alpha"><?=__('Lower Alpha')?> (a.)</option>
-                            <option value="upper-alpha"><?=__('Upper Alpha')?> (A.)</option>
-                            <option value="lower-roman"><?=__('Lower Roman')?> (i.)</option>
-                            <option value="upper-roman"><?=__('Upper Roman')?> (I.)</option>
-                            <option value="lower-greek"><?=__('Lower Greek')?> (α.)</option>
-                            <option value="armenian"><?=__('Armenian')?> (Ա.)</option>
-                            <option value="georgian"><?=__('Georgian')?> (ა.)</option>
-                            <option value="hebrew"><?=__('Hebrew')?> (א.)</option>
-                            <option value="hiragana"><?=__('Hiragana')?> (あ.)</option>
-                            <option value="katakana"><?=__('Katakana')?> (ア.)</option>
-                        </select>
-
-                    </div>
-
-                </section>
-            </div>
             <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Body Element Properties')?></h2>

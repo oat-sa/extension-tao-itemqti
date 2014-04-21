@@ -82,12 +82,6 @@ define([
                 }
 
                 // add some visual feed back to the triggers
-                if(context.isDisabled) {
-                    context.icon.removeClass('icon-eye-slash').addClass('icon-preview');
-                }
-                else {
-                    context.icon.removeClass('icon-preview').addClass('icon-eye-slash');
-                }
                 context.icon.toggleClass('disabled');
             });
         };

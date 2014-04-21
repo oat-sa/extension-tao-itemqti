@@ -20,6 +20,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
+.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+  content: "\1cb"; }
+
 .preview-overlay {
   display: none;
   width: 100%;
@@ -193,15 +196,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
-.tao-scope #item-editor-panel .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
+.tao-scope .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope #item-editor-panel .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
+.tao-scope .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
   border: 1px solid #3e7da7;
   cursor: default; }
 
-.tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb {
+.tao-scope .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb {
   display: none;
   position: absolute;
   top: 0;
@@ -213,7 +216,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-border-radius: 2px;
   margin-bottom: 5px;
   overflow: hidden; }
-  .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button, .tao-scope #modalFeedbacks .mini-tlb .tlb-button {
+  .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button, .tao-scope #modalFeedbacks .mini-tlb .tlb-button {
     min-width: 24px;
     height: 22px;
     line-height: 26px;
@@ -221,18 +224,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     cursor: pointer;
     margin: 0 2px;
     display: inline-block; }
-    .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button:hover, .tao-scope #modalFeedbacks .mini-tlb .tlb-button:hover {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button:hover, .tao-scope #modalFeedbacks .mini-tlb .tlb-button:hover {
       color: #3e7da7 !important; }
-    .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
       color: #0e5d91 !important; }
-    .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [data-role="score"] {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [data-role="score"] {
       left: 0;
       min-width: 0;
       width: 35px !important;
       height: 20px;
       position: relative;
       top: 0; }
-    .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button[data-role="cke-launcher"] {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button[data-role="cke-launcher"] {
       display: none; }
 
 .tao-scope {
@@ -428,19 +431,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       width: 140px;
       min-width: 140px;
       max-width: 140px; }
-    .tao-scope .item-editor-sidebar .reset-group button {
+    .tao-scope .item-editor-sidebar .reset-group .reset-button {
       position: relative;
-      top: 1px;
+      top: 6px;
+      right: 3px;
       float: right;
       padding: 0;
-      height: 24px;
-      width: 24px;
-      text-align: center; }
-      .tao-scope .item-editor-sidebar .reset-group button .icon-reset {
-        font-size: 11px;
-        font-size: 1.1rem;
-        padding: 0;
-        text-shadow: none !important; }
+      height: 20px;
+      width: 20px;
+      text-align: right;
+      cursor: pointer; }
+      .tao-scope .item-editor-sidebar .reset-group .reset-button:hover {
+        color: #3e7da7; }
     .tao-scope .item-editor-sidebar #item-editor-item-resizer-text {
       width: 133px;
       min-width: 133px;
@@ -492,9 +494,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       display: inline-block;
       width: 20px;
       height: 18px;
-      padding: 3px 0 0 3px;
+      padding: 2px 0 1px 3px;
       cursor: pointer !important;
       margin: 0 4px 0 2px; }
+      .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+        font-family: 'tao';
+        display: inline-block; }
     .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-download, .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-bin {
       float: right;
       cursor: pointer;
@@ -513,8 +518,39 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-sidebar #style-sheet-uploader .btn-info, .tao-scope .item-editor-sidebar #style-sheet-uploader .file-name {
         display: block;
         margin-bottom: 5px; }
-    .tao-scope .item-editor-sidebar .color-picker {
-      margin-top: -5px; }
+    .tao-scope .item-editor-sidebar .color-picker-panel {
+      overflow: visible !important; }
+    .tao-scope .item-editor-sidebar #item-editor-color-picker {
+      position: relative; }
+      .tao-scope .item-editor-sidebar #item-editor-color-picker .color-trigger {
+        width: 40px;
+        display: inline-block;
+        height: 18px;
+        float: right;
+        font-size: 9px;
+        cursor: pointer;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        border: 1px solid #dddddd;
+        border-radius: 2px;
+        -webkit-border-radius: 2px; }
+      .tao-scope .item-editor-sidebar #item-editor-color-picker .reset-button {
+        font-size: 13px;
+        font-size: 1.3rem;
+        top: 5px; }
+      .tao-scope .item-editor-sidebar #item-editor-color-picker .color-picker-container {
+        background: #f2f0ee;
+        padding: 3px;
+        position: absolute;
+        left: 4px;
+        top: -205px;
+        -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+        display: none; }
+      .tao-scope .item-editor-sidebar #item-editor-color-picker .color-picker {
+        margin-top: -5px; }
     .tao-scope .item-editor-sidebar .compass {
       position: relative;
       width: 100px;
@@ -584,19 +620,29 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           left: -20px; }
       .tao-scope #item-editor-panel #item-width-indicator-box hr {
         height: 5px; }
-    .tao-scope #item-editor-panel .item-editor-item {
-      background: white;
-      margin: auto;
-      border: 1px solid #dddddd;
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      -webkit-box-shadow: 0px 0px 8px #b7b1ac;
-      -moz-box-shadow: 0px 0px 8px #b7b1ac;
-      box-shadow: 0px 0px 8px #b7b1ac;
-      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-      /**
-       * Use icon within sass: @inclue icon('down');
-       */
+    .tao-scope #item-editor-panel h1 {
+      font-weight: 300;
+      margin: 0; }
+    .tao-scope #item-editor-panel .item-editor-drop-area {
+      min-height: 300px;
+      padding-bottom: 20px; }
+    .tao-scope #item-editor-panel .item-editor-row {
+      min-height: 100px;
+      overflow-x: hidden;
+      overflow-y: visible; }
+  .tao-scope .item-editor-item {
+    background: white;
+    margin: auto;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 8px #b7b1ac;
+    -moz-box-shadow: 0px 0px 8px #b7b1ac;
+    box-shadow: 0px 0px 8px #b7b1ac;
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
                                   /*
                                  /  \
                                 |    |
@@ -614,10 +660,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-      /**
-       * Use icon within sass: @inclue icon('down');
-       */
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
                                   /*
                                  /  \
                                 |    |
@@ -635,10 +681,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-      /**
-       * Use icon within sass: @inclue icon('down');
-       */
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
                                   /*
                                  /  \
                                 |    |
@@ -656,10 +702,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-      /**
-       * Use icon within sass: @inclue icon('down');
-       */
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
                                   /*
                                  /  \
                                 |    |
@@ -677,10 +723,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-      /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-      /**
-       * Use icon within sass: @inclue icon('down');
-       */
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
                                   /*
                                  /  \
                                 |    |
@@ -698,242 +744,244 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/ }
-      .tao-scope #item-editor-panel .item-editor-item [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [class^="col-"] {
-        position: relative; }
-      .tao-scope #item-editor-panel .item-editor-item .widget-box {
-        border: 1px solid transparent;
-        position: relative; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .tlb-bar {
-          z-index: 99; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-top.cke_nose {
-          display: block;
-          right: 5px;
-          bottom: -6px; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box .float-space-bottom.cke_nose {
-          display: block;
-          top: -6px; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
-          min-height: 1.4rem; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-choice {
-          border: 1px solid transparent; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option {
-          border: 1px #3e7da7 dashed !important;
-          list-style-type: none;
+    .tao-scope .item-editor-item [class*=" col-"], .tao-scope .item-editor-item [class^="col-"] {
+      position: relative; }
+    .tao-scope .item-editor-item .widget-box {
+      border: 1px solid transparent;
+      position: relative; }
+      .tao-scope .item-editor-item .widget-box .tlb-bar {
+        z-index: 99; }
+      .tao-scope .item-editor-item .widget-box .float-space-top.cke_nose {
+        display: block;
+        right: 5px;
+        bottom: -6px; }
+      .tao-scope .item-editor-item .widget-box .float-space-bottom.cke_nose {
+        display: block;
+        top: -6px; }
+      .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
+        min-height: 1.4rem; }
+      .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-choice {
+        border: 1px solid transparent; }
+      .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option {
+        border: 1px #3e7da7 dashed !important;
+        list-style-type: none;
+        position: relative;
+        cursor: pointer !important;
+        border-radius: 3px;
+        background-color: #e6eef4; }
+        .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class^="icon-"], .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class*=" icon-"] {
+          font-size: 16px;
+          font-size: 1.6rem;
           position: relative;
-          cursor: pointer !important;
-          border-radius: 3px;
-          background-color: #e6eef4; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class*=" icon-"] {
-            font-size: 16px;
-            font-size: 1.6rem;
-            position: relative;
-            top: 1px;
-            left: 2px;
-            color: #0e5d91;
-            padding-right: 5px; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div {
-            display: table;
-            width: 100%;
-            height: 100%; }
-            .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class^="icon-"], .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class*=" icon-"] {
-              display: table-cell;
-              font-size: 60px;
-              font-size: 6rem;
-              position: static !important;
-              vertical-align: middle;
-              width: 100%;
-              height: 100%;
-              text-align: center;
-              top: 0;
-              left: auto;
-              padding: 0; }
-          .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover {
-            opacity: 0.8; }
-        .tao-scope #item-editor-panel .item-editor-item .widget-box.widget-blockInteraction .widget-ok {
-          margin: 5px 10px;
-          display: none; }
-      .tao-scope #item-editor-panel .item-editor-item .widget-box-placeholder {
-        display: inline-block;
-        margin: 0;
-        min-width: 150px;
-        position: relative;
-        vertical-align: middle;
-        background-color: #eee; }
-      .tao-scope #item-editor-panel .item-editor-item [data-edit] {
-        /*display: none;*/ }
-        .tao-scope #item-editor-panel .item-editor-item [data-edit] > [class*=" col-"], .tao-scope #item-editor-panel .item-editor-item [data-edit] [class^="col-"] {
-          margin-bottom: 0 !important; }
-        .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title {
-          position: absolute;
-          top: -30px;
-          right: 0; }
-          .tao-scope #item-editor-panel .item-editor-item [data-edit].mini-tlb-title label {
-            color: #0e5d91;
-            cursor: default;
-            display: none; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
-        cursor: default !important; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option {
-        position: relative;
-        padding: 5px 5px 5px 6px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-choiceInteraction .add-option .icon-add {
-          font-size: 1.8rem;
-          left: 6px;
-          position: absolute;
-          top: 5px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option {
-        position: relative;
-        padding: 5px 5px 5px 6px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction .add-option .icon-add {
-          font-size: 1.8rem;
-          left: 6px;
-          position: absolute;
-          top: 5px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
-        right: -60px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option {
-        position: relative;
-        padding: 5px 5px 5px 6px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .add-option .icon-add {
-          font-size: 1.8rem;
-          left: 6px;
-          position: absolute;
-          top: 5px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb {
-        top: auto;
-        bottom: -22px;
-        right: -4px;
-        border: none;
-        background-color: transparent;
-        min-width: 60px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb .tlb-button {
-          min-width: 20px;
-          height: 20px;
-          margin: 0; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit] {
-        top: 40%;
-        right: -150px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] {
-        float: none;
-        position: absolute;
-        right: -230px;
-        outline: none;
-        width: 200px;
-        border: none;
-        cursor: default; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 {
-          text-align: center; }
-          .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3 label, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4 label, .tao-scope #item-editor-panel .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 label {
-            position: relative;
-            top: 5px; }
-      .tao-scope #item-editor-panel .item-editor-item .widget-inlineChoiceInteraction {
-        display: none;
-        background: rgba(243, 241, 239, 0.5); }
-      .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder {
-        border: 1px solid #dddddd;
-        border-radius: 2px;
-        -webkit-border-radius: 2px;
-        display: inline-block;
-        width: 150px;
-        line-height: 24px;
-        position: relative;
-        padding: 0 10px;
-        cursor: pointer; }
-        .tao-scope #item-editor-panel .item-editor-item .inlineChoiceInteraction-placeholder .icon-down {
-          position: absolute;
-          font-size: 11px;
-          font-size: 1.1rem;
-          right: 6px;
-          top: 6px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction {
-        padding: 20px 10px 5px 30px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction [data-edit] {
-          display: none; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction table {
-          border-collapse: separate; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction tr {
-          height: 27px;
-          white-space: nowrap; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-bin, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-pin, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle {
-          text-align: center;
-          padding: 0 5px;
-          cursor: pointer;
-          vertical-align: middle; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-bin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-pin:hover, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle:hover {
-          color: #3e7da7; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-down {
-          text-align: center;
-          position: absolute;
-          right: -16px;
-          font-size: 11px;
-          width: 20px;
-          height: 20px;
-          padding-top: 3px; }
-          .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .icon-down:hover {
-            cursor: pointer;
-            color: #0e5d91; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-          padding: 0 18px 0 10px;
-          border-left: 1px #dddddd solid;
-          border-right: 1px #dddddd solid;
-          background: white; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option {
-          border-top: 1px #dddddd solid;
-          border-bottom: 1px #dddddd solid;
-          min-width: 150px; }
-          .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .main-option > div {
-            padding: 0;
-            position: relative; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td.icon-title {
-          font-size: 12px;
+          top: 1px;
+          left: 2px;
           color: #0e5d91;
-          padding: 0 5px; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover,
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
-          background: #3e7da7;
-          color: white; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .widget-inlineChoice .mini-tlb {
-          text-align: center; }
-        .tao-scope #item-editor-panel .item-editor-item .qti-inlineChoiceInteraction .mini-tlb input {
-          width: 30px; }
-      .tao-scope #item-editor-panel .item-editor-item .widget-response .qti-inlineChoiceInteraction {
-        padding: 0;
-        margin-bottom: 10px; }
-      .tao-scope #item-editor-panel .item-editor-item .response-pair-editor {
-        min-width: 350px;
-        background: rgba(243, 241, 239, 0.85);
-        padding: 20px 30px 20px 30px; }
-        .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .title {
+          padding-right: 5px; }
+        .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div {
+          display: table;
+          width: 100%;
+          height: 100%; }
+          .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class^="icon-"], .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option > div [class*=" icon-"] {
+            display: table-cell;
+            font-size: 60px;
+            font-size: 6rem;
+            position: static !important;
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            top: 0;
+            left: auto;
+            padding: 0; }
+        .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover {
+          opacity: 0.8; }
+      .tao-scope .item-editor-item .widget-box.widget-blockInteraction .widget-ok {
+        margin: 5px 10px;
+        display: none; }
+    .tao-scope .item-editor-item .widget-box-placeholder {
+      display: inline-block;
+      margin: 0;
+      min-width: 150px;
+      position: relative;
+      vertical-align: middle;
+      background-color: #eee; }
+    .tao-scope .item-editor-item [data-edit] {
+      /*display: none;*/ }
+      .tao-scope .item-editor-item [data-edit] > [class*=" col-"], .tao-scope .item-editor-item [data-edit] [class^="col-"] {
+        margin-bottom: 0 !important; }
+      .tao-scope .item-editor-item [data-edit].mini-tlb-title {
+        position: absolute;
+        top: -30px;
+        right: 0; }
+        .tao-scope .item-editor-item [data-edit].mini-tlb-title label {
+          color: #0e5d91;
+          cursor: default;
+          display: none; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
+      cursor: default !important; }
+    .tao-scope .item-editor-item .qti-choiceInteraction .add-option {
+      position: relative;
+      padding: 5px 5px 5px 6px; }
+      .tao-scope .item-editor-item .qti-choiceInteraction .add-option .icon-add {
+        font-size: 1.8rem;
+        left: 6px;
+        position: absolute;
+        top: 5px; }
+    .tao-scope .item-editor-item .qti-orderInteraction .add-option {
+      position: relative;
+      padding: 5px 5px 5px 6px; }
+      .tao-scope .item-editor-item .qti-orderInteraction .add-option .icon-add {
+        font-size: 1.8rem;
+        left: 6px;
+        position: absolute;
+        top: 5px; }
+    .tao-scope .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
+      right: -60px; }
+    .tao-scope .item-editor-item .qti-associateInteraction .add-option {
+      position: relative;
+      padding: 5px 5px 5px 6px; }
+      .tao-scope .item-editor-item .qti-associateInteraction .add-option .icon-add {
+        font-size: 1.8rem;
+        left: 6px;
+        position: absolute;
+        top: 5px; }
+    .tao-scope .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb {
+      top: auto;
+      bottom: -22px;
+      right: -4px;
+      border: none;
+      background-color: transparent;
+      min-width: 60px; }
+      .tao-scope .item-editor-item .qti-associateInteraction .qti-choice .mini-tlb .tlb-button {
+        min-width: 20px;
+        height: 20px;
+        margin: 0; }
+    .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit] {
+      top: 40%;
+      right: -150px; }
+    .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] {
+      float: none;
+      position: absolute;
+      right: -230px;
+      outline: none;
+      width: 200px;
+      border: none;
+      cursor: default; }
+      .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 {
+        text-align: center; }
+        .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 label {
           position: relative;
-          top: -5px;
-          left: -10px; }
-        .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .indicator {
-          color: #3e7da7;
-          position: relative;
-          top: 10px;
-          font-size: 13px;
-          font-size: 1.3rem; }
-        .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .col-2 {
-          text-align: center; }
-        .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .icon-bin {
-          position: relative;
-          top: 7px;
-          cursor: pointer; }
-        .tao-scope #item-editor-panel .item-editor-item .response-pair-editor .cb {
           top: 5px; }
-      .tao-scope #item-editor-panel .item-editor-item .qti-rubricBlock .mini-tlb {
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .widget-inlineChoiceInteraction {
+      display: none;
+      background: rgba(243, 241, 239, 0.5); }
+    .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder {
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      display: inline-block;
+      width: 150px;
+      line-height: 24px;
+      position: relative;
+      padding: 0 10px;
+      cursor: pointer; }
+      .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder .icon-down {
+        position: absolute;
+        font-size: 11px;
+        font-size: 1.1rem;
+        right: 6px;
+        top: 6px; }
+    .tao-scope .item-editor-item .qti-inlineChoiceInteraction {
+      padding: 20px 10px 5px 30px; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction [data-edit] {
+        display: none; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction table {
+        border-collapse: separate; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction tr {
+        height: 27px;
+        white-space: nowrap; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-bin, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-pin, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle {
+        text-align: center;
+        padding: 0 5px;
+        cursor: pointer;
+        vertical-align: middle; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-bin:hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-pin:hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle:hover {
+        color: #3e7da7; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-down {
+        text-align: center;
+        position: absolute;
+        right: -16px;
+        font-size: 11px;
+        width: 20px;
+        height: 20px;
+        padding-top: 3px; }
+        .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-down:hover {
+          cursor: pointer;
+          color: #0e5d91; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option {
+        padding: 0 18px 0 10px;
+        border-left: 1px #dddddd solid;
+        border-right: 1px #dddddd solid;
+        background: white; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option {
+        border-top: 1px #dddddd solid;
+        border-bottom: 1px #dddddd solid;
+        min-width: 150px; }
+        .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option > div {
+          padding: 0;
+          position: relative; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction td.icon-title {
+        font-size: 12px;
+        color: #0e5d91;
+        padding: 0 5px; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover,
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
+        background: #3e7da7;
+        color: white; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .widget-inlineChoice .mini-tlb {
+        text-align: center; }
+      .tao-scope .item-editor-item .qti-inlineChoiceInteraction .mini-tlb input {
+        width: 30px; }
+    .tao-scope .item-editor-item .widget-response .qti-inlineChoiceInteraction {
+      padding: 0;
+      margin-bottom: 10px; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .response-pair-editor {
+      min-width: 350px;
+      background: rgba(243, 241, 239, 0.85);
+      padding: 20px 30px 20px 30px; }
+      .tao-scope .item-editor-item .response-pair-editor .title {
+        position: relative;
+        top: -5px;
+        left: -10px; }
+      .tao-scope .item-editor-item .response-pair-editor .indicator {
+        color: #3e7da7;
+        position: relative;
+        top: 10px;
+        font-size: 13px;
+        font-size: 1.3rem; }
+      .tao-scope .item-editor-item .response-pair-editor .col-2 {
+        text-align: center; }
+      .tao-scope .item-editor-item .response-pair-editor .icon-bin {
+        position: relative;
         top: 7px;
-        right: 7px; }
-    .tao-scope #item-editor-panel h1 {
-      font-weight: 300;
-      margin: 0; }
-    .tao-scope #item-editor-panel .item-editor-drop-area {
-      min-height: 300px;
-      padding-bottom: 20px; }
-    .tao-scope #item-editor-panel .item-editor-row {
-      min-height: 100px;
-      overflow-x: hidden;
-      overflow-y: visible; }
+        cursor: pointer; }
+      .tao-scope .item-editor-item .response-pair-editor .cb {
+        top: 5px; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb {
+      top: 7px;
+      right: 7px; }
+  .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+    content: "\1cb"; }
   .tao-scope #modalFeedbacks .mini-tlb {
     top: -2px;
     right: -2px; }
@@ -1007,15 +1055,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
-    #item-editor-panel .item-editor-item {
-      border-radius: 0;
-      box-shadow: none;
-      margin: 0 !important;
-      border: none !important;
-      width: 100% !important; }
-      #item-editor-panel .item-editor-item [class*="col-"] {
-        border-color: transparent; }
 
   .item-editor-row {
     border: none !important;
-    background: none !important; } }
+    background: none !important; }
+
+  .item-editor-item {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 !important;
+    border: none !important;
+    width: 100% !important; }
+    .item-editor-item [class*="col-"] {
+      border-color: transparent; } }

@@ -8,20 +8,38 @@ define([
     var colorSelector = function () {
         var colorPicker = $('#item-editor-color-picker'),
             target = colorPicker.data('target'),
-            box = colorPicker.parent(),
-            propertySelector = box.find('[data-role="color-picker-property"]'),
-            input = box.find('#color-picker-input'),
-            resetButton =  box.find('[data-role="color-picker-reset"]'),
-            initialColor = $(target).css('background-color');
+            $target = $(target),
+            widget = colorPicker.find('.color-picker'),
+            widgetBox = colorPicker.find('.color-picker-container'),
+            input = colorPicker.find('#color-picker-input'),
+            resetButtons =  colorPicker.find('[data-role="color-picker-reset"]'),
+            colorTriggers = colorPicker.find('.color-trigger'),
+            currentProperty = 'color';
 
-        colorPicker.farbtastic(function () {
-            input.val(this.color + initialColor);
-            console.log(this.color, initialColor);
-            styleEditor.apply(target, (propertySelector.val() || 'color'), this.color);
+
+        colorTriggers.each(function() {
+            var $trigger = $(this);
+            $trigger.css('background', $target.css($trigger.data('value')))
+                .on('click', function() {
+                    currentProperty = $trigger.data('value');
+                    widgetBox.show();
+                });
         });
 
-        resetButton.on('click', function () {
-            styleEditor.apply(target, propertySelector.val());
+        widgetBox.on('click', function() {
+            widgetBox.hide();
+        });
+
+
+        widget.farbtastic(function () {
+            console.log(target, currentProperty, this.color)
+            styleEditor.apply(target, currentProperty, this.color);
+        });
+
+        //widget.linkTo(input);
+
+        resetButtons.on('click', function () {
+            styleEditor.apply(target, $(this).data('value'));
         });
     };
 

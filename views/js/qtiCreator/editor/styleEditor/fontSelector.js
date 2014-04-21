@@ -51,6 +51,8 @@ define([
             };
 
 
+        fontSelector.append('<option/>');
+
         for (generic in fontStacks) {
             if (fontStacks.hasOwnProperty(generic)) {
                 optGroup = $('<optgroup>', { label: toLabel(generic) });
@@ -75,6 +77,7 @@ define([
 
         resetButton.on('click', function () {
             styleEditor.apply(target, 'font-family');
+            fontSelector.select2('val', '');
         });
 
         fontSelector.on('change', function () {

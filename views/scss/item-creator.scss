@@ -271,18 +271,18 @@
                 min-width: 140px;
                 max-width: 140px;
             }
-            button {
+            .reset-button {
                 position: relative;
-                top: 1px;
+                top: 6px;
+                right: 3px;
                 float:right;
                 padding: 0;
-                height: 24px;
-                width: 24px;
-                text-align: center;
-                .icon-reset {
-                    @include font-size(11);
-                    padding: 0;
-                    text-shadow: none !important;
+                height: 20px;
+                width: 20px;
+                text-align: right;
+                cursor: pointer;
+                &:hover {
+                    color: $uiClickableHoverBg;
                 }
             }
         }
@@ -359,9 +359,14 @@
                 display:inline-block;
                 width: 20px;
                 height: 18px;
-                padding: 3px 0 0 3px;
+                padding: 2px 0 1px 3px;
                 cursor: pointer !important;
                 margin: 0 4px 0 2px;
+                &.disabled {
+                    &:before {
+                        @include icon('eye-slash');
+                    }
+                }
             }
             .icon-download, .icon-bin{
                 float:right;
@@ -374,6 +379,7 @@
                 color: whiten($textColor, .5);
                 cursor:default !important;
             }
+
             .file-label {
                 display: inline-block;
                 width: 100px;
@@ -389,12 +395,42 @@
             }
             
         }
-        
-        
-        
-        .color-picker {
-            margin-top: -5px
+
+        .color-picker-panel {
+            overflow:visible !important;
         }
+
+        #item-editor-color-picker {
+            position: relative;
+            .color-trigger {
+                width: 40px;
+                display:inline-block;
+                height: 18px;
+                float:right;
+                font-size: 9px;
+                cursor: pointer;
+                @include border-radius();
+                @include simple-border();
+            }
+            .reset-button {
+                @include font-size(13);
+                top: 5px;
+            }
+            .color-picker-container {
+                background: mix(#fff, $grey, 85%);
+                padding: 3px;
+                position: absolute;
+                left: 4px;
+                top: -205px;
+                @include box-shadow();
+                display:none;
+            }
+            .color-picker {
+                margin-top: -5px
+            }
+        }
+        
+
         .compass {
             position: relative;
             width: 100px;
@@ -477,148 +513,6 @@
                 height: 5px
             }
         }
-        .item-editor-item {
-            background: white();
-            margin: auto;
-            @include simple-border();
-            -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-            -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-            box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-            [class*=" col-"], [class^="col-"] {
-                position:relative;
-            }
-            .widget-box{
-                border : 1px solid transparent;
-                position:relative;
-                .tlb-bar{
-                    z-index:99;
-                }
-                .float-space-top.cke_nose{
-                    display:block;
-                    right:5px;
-                    bottom: -6px;
-                }
-                .float-space-bottom.cke_nose{
-                    display:block;
-                    top: -6px;
-                }
-                &.widget-textBlock{
-                    &:hover{
-                        @extend %editHover;
-                    }
-                    &.edit-active{
-                        @extend %editActive;
-                    }
-                }
-                &.widget-rubricBlock{
-                    &:hover .qti-rubricBlock-body{
-                        @extend %editHover;
-                    }
-                    &.edit-active .qti-rubricBlock-body{
-                        @extend %editActive;
-                    }
-                }
-                &.widget-blockInteraction{
-                    &:hover{
-                        @extend %editHover;
-                    }
-                    &.edit-active{
-                        @extend %editActive;
-                    }
-                    &.edit-question .qti-choice{
-                        &:hover{
-                            @extend %editHover;
-                        }
-                        &.edit-choice{
-                            @extend %editActive;
-                        }
-                    }
-                    .qti-interaction {
-                        .qti-prompt{
-                            min-height: 1.4rem;
-                        }
-                        .qti-choice{
-                            border:1px solid transparent;
-                        }
-                        .add-option {
-                            border: 1px mix(#fff, $info, 20%) dashed !important;
-                            list-style-type: none;
-                            position: relative;
-                            cursor: pointer !important;
-                            border-radius: 3px;
-                            background-color: mix(#fff, $info, 90%);
-                            [class^="icon-"], [class*=" icon-"] {
-                                @include font-size(16);
-                                position: relative;
-                                top: 1px;
-                                left: 2px;
-                                color: $info;
-                                padding-right: 5px
-                            }
-                            & > div {
-                                display: table;
-                                width: 100%;
-                                height: 100%;
-                                [class^="icon-"], [class*=" icon-"] {
-                                    display: table-cell;
-                                    @include font-size(60);
-                                    position: static !important;
-                                    vertical-align: middle;
-                                    width: 100%;
-                                    height: 100%;
-                                    text-align: center;
-                                    top: 0;
-                                    left: auto;
-                                    padding:0;
-                                }
-                            }
-                            &:hover {
-                                opacity: .8
-                            }
-                        }
-                    }
-                    .widget-ok{
-                        margin: 5px 10px;
-                        display:none;
-                    }
-                }
-            }
-            .widget-box-placeholder{
-                display: inline-block;
-                margin: 0;
-                min-width:150px;
-                position: relative;
-                vertical-align: middle;
-                background-color:#eee;
-            }
-            [data-edit] {
-                /*display: none;*/
-                & > [class*=" col-"], [class^="col-"] {
-                    margin-bottom: 0 !important;
-                }
-                &.mini-tlb {
-                    @extend %mini-tlb;
-                }
-                &.mini-tlb-title {
-                    position:absolute;
-                    top:-30px;
-                    right:0;
-                    label{
-                        color:$info;
-                        cursor:default;
-                        display:none;
-                    }
-                }
-            }
-            @import "qtiCreator/_choice";
-            @import "qtiCreator/_order";
-            @import "qtiCreator/_associate";
-            @import "qtiCreator/_inline-choice";
-            @import "qtiCreator/_gap-match";
-            @import "qtiCreator/_rubric-block";
-            // the following file is identical to gap-match
-            // @import "qtiCreator/_graphic-gap";
-        }
         h1 {
             font-weight: 300;
             margin: 0;
@@ -633,7 +527,149 @@
             overflow-y: visible;
         }
     }
-    
+
+    .item-editor-item {
+        background: white();
+        margin: auto;
+        @include simple-border();
+        -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+        -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+        box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+        [class*=" col-"], [class^="col-"] {
+            position:relative;
+        }
+        .widget-box{
+            border : 1px solid transparent;
+            position:relative;
+            .tlb-bar{
+                z-index:99;
+            }
+            .float-space-top.cke_nose{
+                display:block;
+                right:5px;
+                bottom: -6px;
+            }
+            .float-space-bottom.cke_nose{
+                display:block;
+                top: -6px;
+            }
+            &.widget-textBlock{
+                &:hover{
+                    @extend %editHover;
+                }
+                &.edit-active{
+                    @extend %editActive;
+                }
+            }
+            &.widget-rubricBlock{
+                &:hover .qti-rubricBlock-body{
+                    @extend %editHover;
+                }
+                &.edit-active .qti-rubricBlock-body{
+                    @extend %editActive;
+                }
+            }
+            &.widget-blockInteraction{
+                &:hover{
+                    @extend %editHover;
+                }
+                &.edit-active{
+                    @extend %editActive;
+                }
+                &.edit-question .qti-choice{
+                    &:hover{
+                        @extend %editHover;
+                    }
+                    &.edit-choice{
+                        @extend %editActive;
+                    }
+                }
+                .qti-interaction {
+                    .qti-prompt{
+                        min-height: 1.4rem;
+                    }
+                    .qti-choice{
+                        border:1px solid transparent;
+                    }
+                    .add-option {
+                        border: 1px mix(#fff, $info, 20%) dashed !important;
+                        list-style-type: none;
+                        position: relative;
+                        cursor: pointer !important;
+                        border-radius: 3px;
+                        background-color: mix(#fff, $info, 90%);
+                        [class^="icon-"], [class*=" icon-"] {
+                            @include font-size(16);
+                            position: relative;
+                            top: 1px;
+                            left: 2px;
+                            color: $info;
+                            padding-right: 5px
+                        }
+                        & > div {
+                            display: table;
+                            width: 100%;
+                            height: 100%;
+                            [class^="icon-"], [class*=" icon-"] {
+                                display: table-cell;
+                                @include font-size(60);
+                                position: static !important;
+                                vertical-align: middle;
+                                width: 100%;
+                                height: 100%;
+                                text-align: center;
+                                top: 0;
+                                left: auto;
+                                padding:0;
+                            }
+                        }
+                        &:hover {
+                            opacity: .8
+                        }
+                    }
+                }
+                .widget-ok{
+                    margin: 5px 10px;
+                    display:none;
+                }
+            }
+        }
+        .widget-box-placeholder{
+            display: inline-block;
+            margin: 0;
+            min-width:150px;
+            position: relative;
+            vertical-align: middle;
+            background-color:#eee;
+        }
+        [data-edit] {
+            /*display: none;*/
+            & > [class*=" col-"], [class^="col-"] {
+                margin-bottom: 0 !important;
+            }
+            &.mini-tlb {
+                @extend %mini-tlb;
+            }
+            &.mini-tlb-title {
+                position:absolute;
+                top:-30px;
+                right:0;
+                label{
+                    color:$info;
+                    cursor:default;
+                    display:none;
+                }
+            }
+        }
+        @import "qtiCreator/_choice";
+        @import "qtiCreator/_order";
+        @import "qtiCreator/_associate";
+        @import "qtiCreator/_inline-choice";
+        @import "qtiCreator/_gap-match";
+        @import "qtiCreator/_rubric-block";
+        // the following file is identical to gap-match
+        // @import "qtiCreator/_graphic-gap";
+    }
     /*style for modal feedback*/
     @import "qtiCreator/_modal-feedback";
     
@@ -679,19 +715,19 @@
     #item-editor-panel {
         margin: 0 !important;
         padding: 0 !important;
-        .item-editor-item {
-            border-radius: 0;
-            box-shadow: none;
-            margin: 0 !important;
-            border: none !important;
-            width: 100% !important;
-            [class*="col-"] {
-                border-color: transparent;
-            }
-        }
     }
     .item-editor-row {
         border: none !important;
         background: none !important;
+    }
+    .item-editor-item {
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0 !important;
+        border: none !important;
+        width: 100% !important;
+        [class*="col-"] {
+            border-color: transparent;
+        }
     }
 }

@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\helpers;
 
+
 use Sabberworm\CSS\Parser;
 
 class CssHelper{
@@ -30,6 +31,7 @@ class CssHelper{
         $css = arrayToCss($cssArr);
         // ItemsService::getItemFolder() . '/my.css'
     }
+
 
     /**
      * Convert incoming CSS to CSS array
@@ -57,7 +59,7 @@ class CssHelper{
             $css .= $key1 . '{';
 
             foreach($value1 as $key2 => $value2){
-                // in the case of a surrounding media query
+                // in the case that the code is embedded in a media query
                 if(is_array($value2)){
                     foreach($value2 as $value3){
                         $css .= $key2 . '{';
@@ -77,8 +79,21 @@ class CssHelper{
         return $css;
     }
 
+    public static function loadCssFile() {
+//        // example file
+//        // @TODO use ItemsService::getItemFolder() . '/my.css'
+//        $cssFile = dirname(dirname(__DIR__)) . '/tao/views/scss/css/_choice.css';
+//
+//        $css = file_get_contents($cssFile);
+//
+//        $cssParser = new Parser($css);
+//        $parseResult = $cssParser -> parse();
+//
+//
+//        return print_r( ($parseResult->));
+//
+//        return print_r($cssParser, 1);
+    }
 
-    // QtiCreator:: saveItem($uri, $lang) as pattern
 
-    // public function getItemFolder(core_kernel_classes_Resource $item, $lang = ''){
 } 
