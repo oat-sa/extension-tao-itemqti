@@ -22,9 +22,10 @@ define([
         _createPaper : function(baseUrl){
             var background = this.element.object.attributes;
             this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
-                width  : background.width, 
-                height : background.height,
-                img :  baseUrl + background.data,
+                width   : background.width, 
+                height  : background.height,
+                img     :  baseUrl + background.data,
+                imgId   : 'bg-image-' + this.element.serial,
                 container : this.$container
             });
         },
@@ -33,7 +34,8 @@ define([
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id : choice.serial            
             });
-        } 
+        }
+
    });
 
     

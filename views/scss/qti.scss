@@ -94,8 +94,8 @@
 .qti-interaction {
     
     .solid {
-        background: whiten($uiClickableDefaultBg, .5);
-        @include simple-border(whiten($uiClickableDefaultBg, .5));
+        background: whiten($uiClickableDefaultBg, .4);
+        @include simple-border(whiten($uiClickableDefaultBg, .4));
     }
     .bordered {
         @include simple-border(#eee);

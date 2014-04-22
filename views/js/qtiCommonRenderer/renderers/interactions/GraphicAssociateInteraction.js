@@ -33,7 +33,7 @@ define([
         });
 
         //call render choice for each interaction's choices
-         _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+        _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
 
         //make the paper clear the selection by clicking it
         _paperUnSelect(interaction);

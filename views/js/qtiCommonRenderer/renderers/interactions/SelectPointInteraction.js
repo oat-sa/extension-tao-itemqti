@@ -65,53 +65,19 @@ define([
             image.untouchstart();
         });
 
-        /**
-         * Get an x/y point from a MouseEvent
-         * @param {MouseEvent} event - the source event
-         * @param {Function} cb - called back with the point object
-         */
-        var getPoint = function getPoint(event, cb){
-            var rwidth, rheight, wfactor;
-
-            //get the click coords
-            var point = graphic.clickPoint($imageBox, event);
-
-            //recalculate point coords in case of scaled image.
-            if(interaction.paper.w && interaction.paper.w !== interaction.paper.width){
-                if(isResponsive){
-                    wfactor = interaction.paper.w / interaction.paper.width;
-                    wfactor = interaction.paper.w / interaction.paper.width;
-                    point.x = Math.round(point.x * wfactor);
-                    point.y = Math.round(point.y * wfactor);
-                } else if(interaction.paper.width > interaction.paper.w){
-                    rwidth = (interaction.paper.width - interaction.paper.w) / 2;
-                    point.x = Math.round(point.x - rwidth);
-                } else {  
-                    wfactor = interaction.paper.w / interaction.paper.width;
-                    point.x = Math.round(point.x * wfactor);
-
-                    rheight = (interaction.paper.height - (interaction.paper.height * (2 - wfactor))) / 2;
-                    point.y = Math.round((point.y * wfactor) - rheight);
-                } 
-            }
-    
-            if(typeof cb === 'function'){
-                cb(point);
-            }
-
-        };
-
         //get the point on click
         image.click(function imageClicked(event){
-            getPoint(event, function gotPoint(point){
-                //add the point to the paper
-                _addPoint(interaction, point, function pointAdded (target){
-                    if(isTouch && target){
-                        graphic.createTouchCircle(interaction.paper, target.getBBox());
-                    }
-                    Helper.triggerResponseChangeEvent(interaction);
-                    Helper.validateInstructions(interaction, {target : target});
-                });
+    
+            //get the current mouse point, even on a responsive paper
+            var point = graphic.getPoint(event, interaction.paper, $imageBox, isResponsive);
+            
+            //add the point to the paper
+            _addPoint(interaction, point, function pointAdded (target){
+                if(isTouch && target){
+                    graphic.createTouchCircle(interaction.paper, target.getBBox());
+                }
+                Helper.triggerResponseChangeEvent(interaction);
+                Helper.validateInstructions(interaction, {target : target});
             });
         });
     };
