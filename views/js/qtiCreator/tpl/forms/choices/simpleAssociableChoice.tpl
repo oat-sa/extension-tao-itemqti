@@ -9,17 +9,23 @@
            placeholder="choice_id" 
            data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
 </div>
+
 <div class="panel">
-    <h3>{{__ "allowed number of association"}}</h3>
-    <label for="minAssociations" class="spinner">Min</label>
-    <input name="minAssociations" value="0" data-increment="5" data-min="0" data-max="100" type="text">
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">whatever</span>
+    <h3>{{__ "Allowed number of usage"}}
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+            The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction.
+        </span>
+    </h3>
 
-
-    <label for="maxAssociations" class="spinner">Max</label>
-    <input name="maxAssociations" value="0" data-increment="5" data-min="0" data-max="100" type="text">
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">whatever</span>
-
+    <!--not supported yet-->
+    <div style="display:none;">
+        <label for="matchMin" class="spinner">Min</label>
+        <input name="matchMin" value="{{matchMin}}" data-increment="1" data-min="0" data-max="100" type="text" />
+    </div>
+    
+    <div>
+        <label for="matchMax" class="spinner">Max</label>
+        <input name="matchMax" value="{{matchMax}}" data-increment="1" data-min="0" data-max="100" type="text" />
+    </div>
 </div>

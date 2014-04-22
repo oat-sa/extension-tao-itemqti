@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate'
 ], function(stateFactory, Question, formElement, formTpl){
 
@@ -9,14 +9,23 @@ define([
 
     AssociateInteractionStateQuestion.prototype.initForm = function(){
 
-        var _widget = this.widget;
+       var _widget = this.widget,
+            $form = _widget.$form,
+            interaction = _widget.element;
 
-        _widget.$form.html(formTpl({
-            shuffle : !!_widget.element.attr('shuffle')
+        $form.html(formTpl({
+            shuffle : !!interaction.attr('shuffle'),
+            minAssociations : parseInt(interaction.attr('minAssociations')),
+            maxAssociations : parseInt(interaction.attr('maxAssociations'))
         }));
-        
-        formElement.initShuffle(_widget);
-    };
 
+        formElement.initWidget($form);
+        
+        //init data change callbacks
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minAssociations', 'maxAssociations');
+        callbacks['shuffle'] = formElement.getAttributeChangeCallback();
+        formElement.initDataBinding($form, interaction, callbacks);
+    };
+    
     return AssociateInteractionStateQuestion;
 });

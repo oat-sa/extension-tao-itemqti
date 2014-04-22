@@ -1,7 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice'
 ], function(stateFactory, Question, formElement, formTpl){
 
@@ -53,13 +53,23 @@ define([
 
     InlineChoiceInteractionStateQuestion.prototype.initForm = function(){
 
-        var _widget = this.widget;
+        var _widget = this.widget,
+            $form = _widget.$form,
+            interaction = _widget.element;
 
-        _widget.$form.html(formTpl({
-            shuffle : !!_widget.element.attr('shuffle')
+        $form.html(formTpl({
+            shuffle : !!interaction.attr('shuffle'),
+            maxChoices : parseInt(interaction.attr('maxChoices')),
+            minChoices : parseInt(interaction.attr('minChoices')),
+            choicesCount : _.size(_widget.element.getChoices())
         }));
 
-        formElement.initShuffle(_widget);
+        formElement.initWidget($form);
+
+        formElement.initDataBinding($form, interaction, {
+            shuffle : formElement.getAttributeChangeCallback(),
+            required : formElement.getAttributeChangeCallback()
+        });
     };
 
     return InlineChoiceInteractionStateQuestion;

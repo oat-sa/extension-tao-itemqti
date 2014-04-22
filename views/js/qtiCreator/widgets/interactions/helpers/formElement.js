@@ -1,48 +1,63 @@
 define([
     'lodash',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiItem/core/Element',
     'tooltipster'
-], function(_, formElement){
-    
+], function(_, formElement, Element){
+
     var _scoreTooltipContent = {
-        required:'this is required',
-        invalid:'the score format is not numeric'
+        required : 'this is required',
+        invalid : 'the score format is not numeric'
     };
-    
+
     var formElementHelper = {
         init : function(widget){
             formElement.initWidget(widget.$form);
         },
-        initShuffle : function(widget){
+        syncMaxChoices : function(widget){
 
-            var interaction = widget.element;
+            var attributeNameMin = 'minChoices',
+                attributeNameMax = 'maxChoices',
+                $min = widget.$form.find('input[name=' + attributeNameMin + ']'),
+                $max = widget.$form.find('input[name=' + attributeNameMax + ']');
 
-            widget.$form.find('[data-role=shuffle]').on('change', function(){
+            var _syncMaxChoices = function(){
+                var newOptions = {max : _.size(widget.element.getChoices())};
+                $min.incrementer('options', newOptions).keyup();
+                $max.incrementer('options', newOptions).keyup();
+            };
 
-                var $choiceShuffleButtons = widget.$container.find('[data-role="shuffle-pin"]');
-
-                if($(this).prop('checked')){
-                    interaction.attr('shuffle', true);
-                    $choiceShuffleButtons.show();
-                }else{
-                    interaction.attr('shuffle', false);
-                    $choiceShuffleButtons.hide();
+            widget.on('choiceCreated', function(data){
+                
+                if(data.interaction.serial === widget.element.serial){
+                    _syncMaxChoices();
+                }
+                
+            }).on('deleted', function(data){
+                
+                if(data.parent.serial === widget.element.serial
+                    && Element.isA(data.element, 'choice')){
+                    _syncMaxChoices();
                 }
             });
+
         },
+        
         //set float (used for score)
-        setScore:function($scoreInput, options){
-            
+        setScore : function($scoreInput, options){
+
             options = _.defaults(options || {}, {
-                required:false,
-                empty:function(){},
-                set:function(){},
-                key:function(){
+                required : false,
+                empty : function(){
+                },
+                set : function(){
+                },
+                key : function(){
                     return $(this).attr('name');
                 },
-                tooltipContent:_scoreTooltipContent
+                tooltipContent : _scoreTooltipContent
             });
-            
+
             if(!$scoreInput.hasClass('tooltipstered')){
                 $scoreInput.tooltipster({
                     theme : 'tao-error-tooltip',
@@ -51,7 +66,7 @@ define([
                     trigger : 'custom'
                 });
             }
-            
+
             var value = $scoreInput.val(),
                 score = parseFloat(value),
                 key = options.key.call($scoreInput[0]);
@@ -74,7 +89,7 @@ define([
                 $scoreInput.tooltipster('content', options.tooltipContent.invalid);
                 $scoreInput.tooltipster('show');
             }
-            
+
         }
         //set text (used for controlled pattern, especially id)
     };

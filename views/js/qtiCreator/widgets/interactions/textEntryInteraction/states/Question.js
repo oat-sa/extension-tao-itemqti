@@ -60,8 +60,9 @@ define([
         _widget.$form.html(formTpl({
             shuffle : !!_widget.element.attr('shuffle')
         }));
+        
+        //follow other interaction like choice interaction for example of implementation
 
-        formElement.initShuffle(_widget);
     };
 
     return TextEntryInteractionStateQuestion;

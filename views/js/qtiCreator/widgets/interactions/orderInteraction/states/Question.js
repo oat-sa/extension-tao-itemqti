@@ -1,23 +1,13 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice'
-], function(stateFactory, Question, formElement, formTpl){
+    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Question'
+], function(stateFactory, Question, ChoiceInteractionQuestionState){
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
-
-    OrderInteractionStateQuestion.prototype.initForm = function(){
-
-        var _widget = this.widget;
-
-        _widget.$form.html(formTpl({
-            shuffle : !!_widget.element.attr('shuffle')
-        }));
-        
-        formElement.initShuffle(_widget);
-
-    };
+    
+    //reuse the same exact same form as choice interaction
+    OrderInteractionStateQuestion.prototype.initForm = ChoiceInteractionQuestionState.prototype.initForm;
 
     return OrderInteractionStateQuestion;
 });

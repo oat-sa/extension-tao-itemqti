@@ -4,9 +4,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeFactory',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeSideBar',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice'
-], function($, stateFactory, Question, shapeFactory, shapeSideBar, formElement, formTpl){
+    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Question'
+], function($, stateFactory, Question, shapeFactory, shapeSideBar, ChoiceInteractionQuestionState){
 
     var initQuestionState = function initQuestionState(){
 
@@ -53,18 +52,7 @@ define([
     
     var HotspotInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
-    HotspotInteractionStateQuestion.prototype.initForm = function(){
-
-        var _widget = this.widget;
-
-        _widget.$form.html(formTpl({
-            maxChoices : parseInt(_widget.element.attr('maxChoices'), 10),
-            minChoices : parseInt(_widget.element.attr('minChoices'), 10)
-        }));
-        
-        formElement.initShuffle(_widget);
-        formElement.init(_widget);
-    };
+    HotspotInteractionStateQuestion.prototype.initForm = ChoiceInteractionQuestionState.prototype.initForm;
     
     return HotspotInteractionStateQuestion;
 });

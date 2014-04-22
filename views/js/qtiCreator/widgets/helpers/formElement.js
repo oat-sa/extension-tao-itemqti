@@ -1,13 +1,13 @@
 define([
     'lodash',
-    'ui/incrementer', 
-    'ui/tooltipster', 
-    'ui/selecter', 
-    'ui/inplacer', 
+    'ui/incrementer',
+    'ui/tooltipster',
+    'ui/selecter',
+    'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators'
 ], function(_, spinner, tooltip, select2){
-    
+
     var formElement = {
         initWidget : function($form){
             spinner($form);
@@ -44,7 +44,7 @@ define([
 
             $form.groupValidator({
                 events : ['change', 'blur', {type : 'keyup', length : 0}],
-                callback: _validationCallback
+                callback : _validationCallback
             });
 
             $form.on('validated.group.databinding', function(e, valid, elt){
@@ -64,7 +64,7 @@ define([
         initTitle : function($form, element){
 
             var $title = $form.hasClass('qti-title') ? $form : $form.find('.qti-title');
-            
+
             $title.inplacer({
                 target : $('#qti-title')
             });
@@ -72,40 +72,85 @@ define([
             $title.on('change', function(){
                 element.attr('title', $(this).text());
             });
-        }
-    };
-    
-    var _validationCallback = function _validationCallback(valid, results){
-        
-        var $input = $(this), rule;
-        
-        _createTooltip($input);
-        
-        $input.tooltipster('hide');
-        
-        if(!valid){
+        },
             
+        /**
+         * the simplest form of save callback used in data binding 
+         * @param {boolean} allowEmpty
+         */
+        getAttributeChangeCallback : function(allowEmpty){
+            
+            return function(element, value, name){
+                if(!allowEmpty && value === ''){
+                    element.removeAttr(name);
+                }else{
+                    element.attr(name, value);
+                }
+            }
+        },
+        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax){
+
+            var $max = $form.find('input[name=' + attributeNameMax + ']'),
+                callbacks = {};
+
+            callbacks[attributeNameMin] = function(interaction, value, name){
+
+                var newOptions = {min : null};
+
+                if(value === ''){
+                    interaction.removeAttr(name);
+                }else{
+                    value = parseInt(value);
+                    interaction.attr(name, value);
+                    newOptions.min = value;
+
+                    var max = parseInt($max.val());
+                    if(max < value){
+                        $max.val(value);
+                    }
+                }
+
+                //set incrementer min value for maxChoices and trigger keyup event to launch validation
+                $max.incrementer('options', newOptions).keyup();
+            };
+
+            callbacks[attributeNameMax] = formElement.getAttributeChangeCallback();
+
+            return callbacks;
+        },
+    };
+
+    var _validationCallback = function _validationCallback(valid, results){
+
+        var $input = $(this), rule;
+
+        _createTooltip($input);
+
+        $input.tooltipster('hide');
+
+        if(!valid){
+
             //invalid input!
-            rule = _.where(results, {type: 'failure'})[0];
-            if (rule && rule.data.message) {
+            rule = _.where(results, {type : 'failure'})[0];
+            if(rule && rule.data.message){
                 $input.tooltipster('content', rule.data.message);
                 $input.tooltipster('show');
             }
-                
+
         }
     };
-    
+
     var _createTooltip = function($input){
-        if (!$input.hasClass('tooltipstered')) {
+        if(!$input.hasClass('tooltipstered')){
             $input.tooltipster({
-                theme: 'tao-error-tooltip',
-                content: '',
-                delay: 350,
-                trigger: 'custom'
+                theme : 'tao-error-tooltip',
+                content : '',
+                delay : 350,
+                trigger : 'custom'
             });
         }
     };
-    
+
     return formElement;
 });
 

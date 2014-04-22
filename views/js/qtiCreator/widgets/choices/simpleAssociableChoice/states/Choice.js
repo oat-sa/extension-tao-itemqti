@@ -10,19 +10,21 @@ define([
 
     SimpleAssociableChoiceStateChoice.prototype.initForm = function(){
         
-        var _widget = this.widget;
+        var _widget = this.widget,
+            $form = _widget.$form;
         
         //build form:
-        _widget.$form.html(formTpl({
+        $form.html(formTpl({
             serial:_widget.element.getSerial(),
             identifier:_widget.element.id()
         }));
         
+        formElement.initWidget($form);
+        
         //init data validation and binding
-        formElement.initDataBinding(_widget.$form, _widget.element, {
-            identifier : identifierHelper.updateChoiceIdentifier
-            
-        });
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'matchMin', 'matchMax');
+        callbacks['identifier'] = identifierHelper.updateChoiceIdentifier;
+        formElement.initDataBinding($form, _widget.element, callbacks);
     };
     
     return SimpleAssociableChoiceStateChoice;
