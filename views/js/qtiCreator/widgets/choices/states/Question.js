@@ -46,12 +46,14 @@ define([
             interaction = choice.getInteraction();
             
             //add mini toolbars
-            $container.append(contentToolbarTpl({
+            $toolbar = $(contentToolbarTpl({
                 choiceSerial : choice.getSerial(),
                 interactionSerial : interaction.getSerial(),
                 fixed : choice.attr('fixed'),
                 interactionShuffle : interaction.attr('shuffle')
             }));
+            
+            $container.append($toolbar);
             
             //set toolbar button behaviour:
             formElement.initShufflePinToggle(_widget);
