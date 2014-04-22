@@ -29,6 +29,12 @@ define([
         
         var $container = this.widget.$container;
         
+        //if is a choice widget:
+        
+        if($container.hasClass('qti-choice')){
+            return $container;
+        }
+        
         //inline widget:
         if($container.hasClass('widget-inline')){
             return $().add($container).add(this.widget.$original);
@@ -174,9 +180,9 @@ define([
     };
 
     DeletingState.prototype.deleteElement = function(){
-        this.widget.element.remove();
-        this.$elementToRemove.remove();
-        this.widget.destroy();
+        this.widget.element.remove();//remove from model
+        this.$elementToRemove.remove();//remove html from the dom
+        this.widget.destroy();//remove what remains of the widget (almost nothing)
     };
 
     return DeletingState;

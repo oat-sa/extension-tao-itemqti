@@ -4,9 +4,11 @@ define([], function(){
         initShufflePinToggle : function(widget){
 
             var $container = widget.$container,
-                choice = widget.element;
+                choice = widget.element,
+                interaction = choice.getInteraction(),
+                $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
             
-            $container.find('[data-role="shuffle-pin"]').on('mousedown', function(e){
+            $shuffleToggle.on('mousedown', function(e){
                 e.stopPropagation();
                 var $icon = $(this).children();
                 if($icon.length === 0){
@@ -18,6 +20,23 @@ define([], function(){
                 }else{
                     $icon.removeClass('icon-pin').addClass('icon-shuffle');
                     choice.attr('fixed', false);
+                }
+            });
+            
+            var _toggleVisibility = function(show){
+                if(show){
+                    $shuffleToggle.show();
+                }else{
+                    $shuffleToggle.hide();
+                }
+            };
+            
+            _toggleVisibility(interaction.attr('shuffle'));
+            
+            //listen to interaction property change
+            widget.on('attributeChange', function(data){
+                if(data.element.serial === interaction.serial && data.key === 'shuffle'){
+                    _toggleVisibility(data.value);
                 }
             });
         },

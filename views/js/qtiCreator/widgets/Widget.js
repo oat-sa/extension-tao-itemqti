@@ -191,6 +191,8 @@ define([
             $(document).on(eventNameToken.join('.'), function(e, data){
                 callback.call(_this, data);
             });
+            
+            return this;//for chaining
         }
     };
 

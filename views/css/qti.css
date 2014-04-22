@@ -508,8 +508,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
-/* line 36, ../scss/qti/_choice.scss */
-.qti-choiceInteraction input {
+/* line 37, ../scss/qti/_choice.scss */
+.qti-choiceInteraction .real-label input {
   position: absolute;
   left: -10000px; }
 

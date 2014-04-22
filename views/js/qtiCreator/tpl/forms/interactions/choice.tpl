@@ -1,6 +1,6 @@
 <div class="panel">
     <label>
-        <input name="shuffle" type="checkbox" data-role="shuffle">
+        <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
         {{__ "shuffle choices"}}
     </label>
@@ -22,10 +22,10 @@
 
     <div>
         <label for="minChoices" class="spinner">Min</label>
-        <input name="minChoices" value="0" data-increment="1" data-min="0" data-max="100" type="text" data-role="minChoices">
+        <input name="minChoices" value="{{minChoices}}" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
     </div>
     <div>
         <label for="maxChoices" class="spinner">Max</label>
-        <input name="maxChoices" value="0" data-increment="1" data-min="0" data-max="100" type="text" data-role="maxChoices">
+        <input name="maxChoices" value="{{maxChoices}}" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
     </div>
 </div>

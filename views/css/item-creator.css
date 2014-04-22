@@ -275,7 +275,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
       color: #0e5d91 !important; }
     /* line 41, ../scss/item-creator.scss */
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [data-role="score"] {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button .score, .tao-scope #modalFeedbacks .mini-tlb .tlb-button .score {
       left: 0;
       min-width: 0;
       width: 35px !important;

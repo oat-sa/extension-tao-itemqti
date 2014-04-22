@@ -24,7 +24,10 @@ define([
         
         this.widget.$container.find('[data-edit="choice"]').show();
     }, function(){
-
+        
+        //remove the question state toolbar properly
+        this.removeToolbar();
+        
         //disable/destroy editor, hide mini-toolbar
         this.destroyEditor();
         this.widget.$container.find('[data-edit="choice"]').hide();
@@ -61,6 +64,11 @@ define([
         }
 
         return $toolbar;
+    };
+    
+    ChoiceStateQuestion.prototype.removeToolbar = function(){
+        
+        this.widget.$container.find('.mini-tlb[data-edit=question]').remove()
     };
 
     ChoiceStateQuestion.prototype.buildEditor = function(){
