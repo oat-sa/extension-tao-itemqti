@@ -38,6 +38,23 @@
     }
 }
 
+//scope all hover, active style for delivery under the runtime class
+.runtime {
+    .block-listing {
+        & > li {
+            &.active {
+                border-color: whiten($info, .2) !important;
+                &:hover{
+                    @extend %activeHover;
+                }
+            }
+            &:hover{
+                @extend %selectableHover;
+            }
+        }
+    }
+}
+
 .block-listing {
     & > li {
         @include simple-border(#eee);
@@ -46,15 +63,6 @@
         margin: 3px;
         cursor: pointer;
         position:relative;
-        &.active {
-            border-color: whiten($info, .2) !important;
-            &:hover{
-                @extend %activeHover;
-            }
-        }
-        &:hover{
-            @extend %selectableHover;
-        }
     }
     &.horizontal {
         @extend .clearfix;
