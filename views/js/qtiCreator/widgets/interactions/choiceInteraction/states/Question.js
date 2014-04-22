@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice'
-], function(stateFactory, Question, formElement, interactionFormElement, formTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
+    'lodash'
+], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _){
 
     var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
 
