@@ -38,7 +38,7 @@
         &.active {
             color: $info !important;
         }
-        [data-role="score"] {
+        .score {
             left:0;
             min-width:0; 
             width: 35px !important;
