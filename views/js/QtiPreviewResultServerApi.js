@@ -1,4 +1,4 @@
-define(['jquery'], function($){
+define(['jquery', 'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'], function($, pciResponse){
 
     function QtiPreviewResultServerApi(endpoint, itemUri){
         this.endpoint = endpoint;
@@ -32,8 +32,8 @@ define(['jquery'], function($){
 
                         // Log in preview console.
                         var previewConsole = $('#preview-console');
-                        for(var variableIdentifier in r.itemSession){
-                            previewConsole.trigger('updateConsole', ['QTI Outcome Variable', variableIdentifier + ': ' + r.itemSession[variableIdentifier]]);
+                        for (var variableIdentifier in r.itemSession) {
+                            previewConsole.trigger('updateConsole', ['QTI Variable', variableIdentifier + ': ' + pciResponse.prettyPrint(r.itemSession[variableIdentifier])]);
                         }
                     }
                     if(!fbCount){
