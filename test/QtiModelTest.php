@@ -219,7 +219,7 @@ class QtiModelTest extends TaoPhpUnitTestRunner
             
             $data = array('full' => $item->toArray(), 'core' => $dataForDelivery['core'], 'variable' => $dataForDelivery['variable']);
             $jsons[$item->getIdentifier()] = $data;
-            file_put_contents($outputDir.$item->getIdentifier().'.json', tao_helpers_Javascript::buildObject($data, true));
+//            file_put_contents($outputDir.$item->getIdentifier().'.json', tao_helpers_Javascript::buildObject($data, true));
         }
         file_put_contents($outputDir.'ALL.json', tao_helpers_Javascript::buildObject($jsons, true));
     }

@@ -24,7 +24,7 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n', 'taoQtiItem/qtiCreator/helper/ck
         $trigger = $editableContainer.find('[data-role="cke-launcher"]');
         $editable.attr('placeholder', options.placeholder);
 
-        ckeProtector.protect();
+//        ckeProtector.protect();
 
 
         return CKEditor.inline($editable[0], {

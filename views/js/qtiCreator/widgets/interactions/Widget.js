@@ -61,6 +61,8 @@ define([
         });
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
+        
+        return this;
     };
 
 

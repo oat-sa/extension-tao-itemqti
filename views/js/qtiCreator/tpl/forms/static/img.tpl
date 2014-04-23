@@ -13,10 +13,10 @@
 </div>
 
 <div class="panel">
-    <label for="alt">{{__ "description"}}</label>
+    <label for="longdesc">{{__ "description"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">A longer description of what the image represents.</div>
-    <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty"/>
+    <input type="text" name="longdesc" value="{{longdesc}}" data-validate="$notEmpty"/>
 </div>
 
 <div class="panel">
