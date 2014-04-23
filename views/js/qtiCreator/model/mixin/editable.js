@@ -21,10 +21,10 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
     };
 
     var removeSelf = function(element){
-        
-        var removed = false, 
+
+        var removed = false,
             item = element.getRelatedItem();
-        
+
         if(item){
             var found = item.find(element.getSerial());
             if(found){
@@ -45,16 +45,16 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 if(removed){
                     Element.unsetElement(element.serial);
                     $(document).off('.' + element.serial);
-                    $(document).trigger('deleted.qti-widget', {element : element, parent:parent});
+                    $(document).trigger('deleted.qti-widget', {element : element, parent : parent});
                 }
             }
         }
-        
+
         return removed;
     };
 
     var removeElement = function(element, containerPropName, eltToBeRemoved){
-        
+
         if(element[containerPropName]){
             var serial = '';
             if(typeof(eltToBeRemoved) === 'string'){
@@ -67,12 +67,15 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 Element.unsetElement(serial);
             }
         }
-        
+
         return element;
     };
 
     var methods = {
         init : function(serial, attributes){
+
+            //system properties, for item creator internal use only
+            this.meta = {};
 
             //init call in the format init(attributes)
             if(typeof(serial) === 'object'){
@@ -104,6 +107,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
             }else{
                 throw 'invalid number of argument given';
             }
+        },
+        setMeta : function(key, value){
+            this.meta[key] = value;
+        },
+        getMeta : function(key){
+            return this.meta[key];
         }
     };
 
