@@ -22,7 +22,8 @@
 <div class="panel">
     <h3>{{__ "Size and position"}}</h3>
     
-    <label>
+    <!--not available yet-->
+<!--    <label>
         <input name="responsive" type="checkbox" />
         <span class="icon-checkbox"></span>
         {{__ "adapt to item size"}}
@@ -32,7 +33,7 @@
         Recommended.
         Define whether the image size should automatically adapt to item size. 
         If this option is active, the image width and height will be a percentage of its text container.
-    </span>
+    </span>-->
     
     <p class="img-resizer-slider"></p>
     <div class="to-src clearfix">
