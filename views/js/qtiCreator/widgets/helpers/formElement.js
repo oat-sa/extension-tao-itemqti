@@ -117,7 +117,7 @@ define([
             callbacks[attributeNameMax] = formElement.getAttributeChangeCallback();
 
             return callbacks;
-        },
+        }
     };
 
     var _validationCallback = function _validationCallback(valid, results){
