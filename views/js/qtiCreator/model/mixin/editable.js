@@ -110,6 +110,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
         },
         setMeta : function(key, value){
             this.meta[key] = value;
+            $(document).trigger('metaChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
         },
         getMeta : function(key){
             return this.meta[key];
