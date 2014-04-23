@@ -3,16 +3,18 @@ define([
     'ui/incrementer',
     'ui/tooltipster',
     'ui/selecter',
+    'ui/toggler',
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators'
-], function(_, spinner, tooltip, select2){
+], function(_, spinner, tooltip, select2, toggler){
 
     var formElement = {
         initWidget : function($form){
             spinner($form);
             tooltip($form);
             select2($form);
+            toggler($form);
         },
         initDataBinding : function($form, element, attributes){
 

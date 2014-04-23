@@ -560,6 +560,15 @@
                 display:block;
                 top: -6px;
             }
+            &.widget-inline{
+                display:inline-block;
+                &:hover{
+                    @extend %editHover;
+                }
+                &.edit-active{
+                    @extend %editActive;
+                }
+            }
             &.widget-textBlock{
                 &:hover{
                     @extend %editHover;

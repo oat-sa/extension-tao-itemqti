@@ -5,7 +5,7 @@
     <div class="tooltip-content">
         A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions.
     </div>
-    <select name="view" class="select2">
+    <select name="view" class="select2" data-has-search="false">
         <option value="author">author</option>
         <option value="candidate">candidate</option>
         <option value="proctor">proctor</option>

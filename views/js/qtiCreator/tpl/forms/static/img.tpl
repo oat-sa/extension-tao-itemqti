@@ -20,9 +20,7 @@
 </div>
 
 <div class="panel">
-    <label for="size">{{__ "size"}}</label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">Size of the image</div>
+    <h3>{{__ "Size and position"}}</h3>
     
     <label>
         <input name="responsive" type="checkbox" />
@@ -38,8 +36,8 @@
     
     <p class="img-resizer-slider"></p>
     <div class="to-src clearfix">
-        <a href="#" data-hide-text="{{__ 'less'}}" data-toggle="~ .lightBlueGrey" class="toggler closed">more</a>
-        <div class="toggled" style="display: none;">
+        <a href="#" data-hide-text="{{__ 'less'}}" data-toggle="~ .advanced-options" class="toggler closed">more</a>
+        <div class="toggled advanced-options" style="display: none;">
             
             <label for="height">{{__ "height"}}</label><input type="text" name="height" value="{{height}}" data-validate="$integer"/>
             <label for="width">{{__ "width"}}</label><input type="text" name="width" value="{{width}}" data-validate="$integer"/>
@@ -47,7 +45,7 @@
             <label for="align">Positioning</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <div class="tooltip-content">Define whether the image should be align to left of right</div>
-            <select name="align" class="select2">
+            <select name="align" class="select2" data-has-search="false">
                 <option value="none">default</option>
                 <option value="left">left</option>
                 <option value="right">right</option>
