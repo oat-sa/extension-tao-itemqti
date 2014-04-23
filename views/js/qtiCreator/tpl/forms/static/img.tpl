@@ -47,7 +47,7 @@
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <div class="tooltip-content">Define whether the image should be align to left of right</div>
             <select name="align" class="select2" data-has-search="false">
-                <option value="none">default</option>
+                <option value="default">default</option>
                 <option value="left">left</option>
                 <option value="right">right</option>
             </select>

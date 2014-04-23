@@ -23,6 +23,9 @@ define([
         
         //remove class
         $container.removeClass('rgt lft');
+        
+        _removeClass(img, 'rgt');
+        _removeClass(img, 'lft');
         switch(position){
             case 'right':
                 $container.addClass('rgt');
@@ -34,7 +37,21 @@ define([
                 break;
         }
     };
-
+    
+    var _removeClass = function(element, className){
+        
+        var clazz = element.attr('class') || '';
+        if(clazz){
+            var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
+            clazz = clazz.replace(regex, '').replace( /^\s+/, '' );
+            if(clazz){
+                element.attr('class', clazz);
+            }else{
+                element.removeAttr('class');
+            }
+        }
+    };
+    
     var _addClass = function(element, className){
         var clazz = element.attr('class') || '';
         if(!_containClass(clazz, className)){
@@ -63,11 +80,12 @@ define([
             width : img.attr('width') || '',
             responsive : responsive
         }));
-
-        formElement.initWidget($form, img);
-
+        
+        //init slider and set align value before ...
         _initSlider(_widget);
         _initAlign(_widget);
+        //... init standard ui widget
+        formElement.initWidget($form, img);
 
         //init data change callbacks
         formElement.initDataBinding($form, img, {
@@ -92,7 +110,7 @@ define([
 
         var align = 'default',
             clazz = widget.element.attr('class') || '';
-
+        
         //init float positioning:
         if(_containClass(clazz, 'rgt')){
             align = 'right';
@@ -101,7 +119,7 @@ define([
         }
 
         _floatImg(widget, align);
-        widget.$form.find('align').val(align);
+        widget.$form.find('select[name=align]').val(align);
     };
 
     var _initSlider = function(widget){
