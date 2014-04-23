@@ -146,7 +146,6 @@
         .item-editor-item {
             
             [class*=" col-"], [class^="col-"] {
-                border: 1px #eee dotted;
                 padding: 6px;
             }
         }
@@ -416,14 +415,22 @@
                 @include font-size(13);
                 top: 5px;
             }
-            .color-picker-container {
+            #color-picker-container {
                 background: mix(#fff, $grey, 85%);
                 padding: 3px;
                 position: absolute;
                 left: 4px;
-                top: -205px;
-                @include box-shadow();
+                top: -235px;
+                -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+                -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+                box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
                 display:none;
+                z-index: 300;
+                .closer {
+                    position: absolute;
+                    top: 5px;
+                    right: 2px;
+                }
             }
             .color-picker {
                 margin-top: -5px
@@ -696,6 +703,28 @@
             }
         }
     }
+}
+
+.cke-cover-up {
+    padding: 0 !important;
+    margin: 0 !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    cursor: not-allowed !important;
+    border: none !important;
+    background: black !important;
+    opacity: .3 !important;
+    display: inline-block !important;
+}
+
+.cke-qti-wrapper {
+    position: relative !important;
+    display: inline-block !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 @media print {

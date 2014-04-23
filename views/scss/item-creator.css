@@ -228,7 +228,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       color: #3e7da7 !important; }
     .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
       color: #0e5d91 !important; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [data-role="score"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [data-role="score"] {
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button .score, .tao-scope #modalFeedbacks .mini-tlb .tlb-button .score {
       left: 0;
       min-width: 0;
       width: 35px !important;
@@ -336,7 +336,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: relative;
     background: #f2f0ee; }
     .tao-scope #item-editor-wrapper .item-editor-item [class*=" col-"], .tao-scope #item-editor-wrapper .item-editor-item [class^="col-"] {
-      border: 1px #eee dotted;
       padding: 6px; }
   .tao-scope .item-editor-css-editor select {
     min-width: 0 !important;
@@ -539,16 +538,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         font-size: 13px;
         font-size: 1.3rem;
         top: 5px; }
-      .tao-scope .item-editor-sidebar #item-editor-color-picker .color-picker-container {
+      .tao-scope .item-editor-sidebar #item-editor-color-picker #color-picker-container {
         background: #f2f0ee;
         padding: 3px;
         position: absolute;
         left: 4px;
-        top: -205px;
-        -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-        box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-        display: none; }
+        top: -235px;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        display: none;
+        z-index: 300; }
+        .tao-scope .item-editor-sidebar #item-editor-color-picker #color-picker-container .closer {
+          position: absolute;
+          top: 5px;
+          right: 2px; }
       .tao-scope .item-editor-sidebar #item-editor-color-picker .color-picker {
         margin-top: -5px; }
     .tao-scope .item-editor-sidebar .compass {
@@ -1040,6 +1044,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     margin-right: 0px; }
     .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
       border: 1px dotted #0e5d91; }
+
+.cke-cover-up {
+  padding: 0 !important;
+  margin: 0 !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  cursor: not-allowed !important;
+  border: none !important;
+  background: black !important;
+  opacity: .3 !important;
+  display: inline-block !important; }
+
+.cke-qti-wrapper {
+  position: relative !important;
+  display: inline-block !important;
+  padding: 0 !important;
+  margin: 0 !important; }
 
 @media print {
   #tabs {

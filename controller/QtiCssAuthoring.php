@@ -56,7 +56,7 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
 //            throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());
 //        }
 //
-        print CssHelper::loadCssFile();
+        print_r(CssHelper::loadCssFile());
     }
 
     private function getCssArray() {

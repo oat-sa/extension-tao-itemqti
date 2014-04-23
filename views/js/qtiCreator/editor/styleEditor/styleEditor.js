@@ -44,7 +44,8 @@ define([
                 return styleElem;
             }()),
             // the button to disable custom styles
-            customCssToggler = $('[data-custom-css]');
+            customCssToggler = $('[data-custom-css]'),
+            currentItem;
 
         /**
          * Create CSS and add it to DOM
@@ -249,12 +250,31 @@ define([
             insertMarker.before(cssTpl({ stylesheets: stylesheets }));
         };
 
+        /**
+         * retrieve the style object
+         *
+         * @returns {{}}
+         */
+        var getStyle = function() {
+            return style;
+        };
+
+        /**
+         * retrieve the current item
+         *
+         * @returns {*}
+         */
+        var getItem = function() {
+            return currentItem;
+        };
+
 
         /**
          * Initialize class
          * @param config
          */
         var init = function(item, config) {
+            currentItem = item;
             itemConfig = config;
 
             listStylesheets(item);
@@ -274,7 +294,9 @@ define([
             erase: erase,
             init: init,
             create: create,
-            hasStyle: hasStyle
+            hasStyle: hasStyle,
+            getStyle: getStyle,
+            getItem: getItem
         }
     }($));
 

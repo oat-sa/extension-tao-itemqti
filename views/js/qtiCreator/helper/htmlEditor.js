@@ -1,4 +1,4 @@
-define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
+define(['lodash', 'jquery', 'ckeditor', 'i18n', 'taoQtiItem/qtiCreator/helper/ckeProtector'], function(_, $, CKEditor, __, ckeProtector){
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
@@ -23,6 +23,10 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
 
         $trigger = $editableContainer.find('[data-role="cke-launcher"]');
         $editable.attr('placeholder', options.placeholder);
+
+        ckeProtector.protect();
+
+
         return CKEditor.inline($editable[0], {
             toolbarGroups : [
                 {name : 'basicstyles', groups : ['basicstyles', 'cleanup']},
@@ -31,7 +35,7 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
             autoParagraph : false,
             removePlugins : 'resize,elementspath',
             floatSpaceDockedOffsetY : 10,
-            extraPlugins: 'confighelper',
+            extraPlugins: 'confighelper'/*,
             floatSpace : {
                 debug : true,
                 initialHide : true,
@@ -61,7 +65,7 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
                         }
                     }
                 }
-            },
+            }*/,
             on : {
                 instanceReady : function(e){
                     e.editor.on('change', function(e){
@@ -72,11 +76,13 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
                     });
                 },
                 focus : function(e){
+                    //shield inner qti elements:
+                   // ckeProtector.protect();
+
+                    // @todo protect
                     //show trigger 
                     $editableContainer.find('[data-role="cke-launcher"]').hide();
                     $trigger.show();
-
-                    //shield inner qti elements:
 
                     //callback:
                     if(_.isFunction(options.focus)){
@@ -84,7 +90,8 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
                     }
                 },
                 blur : function(e){
-                    //unshield inner qti element
+                    // remove protection from qti element
+                    //ckeProtector.unprotect();
                     $trigger.hide();
                 }
             }
@@ -123,6 +130,7 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
         },
         buildEditor : function($container, editorOptions){
 
+
             _find($container, 'html-editable-container').each(function(){
 
                 var editor,
@@ -131,6 +139,7 @@ define(['lodash', 'jquery', 'ckeditor', 'i18n'], function(_, $, CKEditor, __){
 
                 //need to make the element html editable to enable ck inline editing:
                 $editable.attr('contenteditable', true);
+
 
                 //build it
                 editor = _buildEditor($editable, $editableContainer, editorOptions);

@@ -2,7 +2,7 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function($, styleEditor) {
+], function ($, styleEditor) {
     'use strict'
 
     // as found on http://stackoverflow.com/a/14238466
@@ -17,17 +17,17 @@ define([
             b = parseInt(nums[4], 10).toString(16);
         return "#" + (
             (r.length == 1 ? "0" + r : r) +
-            (g.length == 1 ? "0" + g : g) +
-            (b.length == 1 ? "0" + b : b)
-        );
+                (g.length == 1 ? "0" + g : g) +
+                (b.length == 1 ? "0" + b : b)
+            );
     }
 
-    var colorSelector = function() {
+    var colorSelector = function () {
         var colorPicker = $('#item-editor-color-picker'),
             target = colorPicker.data('target'),
             $target = $(target),
             widget = colorPicker.find('.color-picker'),
-            widgetBox = colorPicker.find('.color-picker-container'),
+            widgetBox = colorPicker.find('#color-picker-container'),
             titles = {
                 'background-color': widgetBox.find('h3.background-color'),
                 'color': widgetBox.find('h3.color')
@@ -39,7 +39,7 @@ define([
             currentColor,
             widgetObj;
 
-        var setTitle = function(property) {
+        var setTitle = function (property) {
             var title;
             for (title in titles) {
                 if (titles[title].hasClass(property)) {
@@ -52,14 +52,15 @@ define([
 
         widgetObj = $.farbtastic(widget).linkTo(input);
 
-        widget.on('colorchange.farbtastic', function(e, color) {
+        widget.on('colorchange.farbtastic', function (e, color) {
             styleEditor.apply(target, currentProperty, color);
-        })
+        });
 
-        colorTriggers.each(function() {
+        colorTriggers.each(function () {
             var $trigger = $(this);
             $trigger.css('background-color', $target.css($trigger.data('value')))
-                .on('click', function() {
+                .on('click', function () {
+                    widgetBox.hide();
                     currentProperty = $trigger.data('value');
                     setTitle(currentProperty);
                     widgetObj.setColor(rgbToHex($trigger.css('background-color')));
@@ -67,12 +68,21 @@ define([
                 });
         });
 
-        widgetBox.on('click', function() {
-            widgetBox.hide();
+
+        $(document).mouseup(function (e) {
+            if(e.target.className.indexOf('closer') > -1) {
+                widgetBox.hide();
+                return false;
+            }
+
+            if (!widgetBox.is(e.target)
+                && widgetBox.has(e.target).length === 0) {
+                widgetBox.hide();
+                return false;
+            }
         });
 
-
-        resetButtons.on('click', function() {
+        resetButtons.on('click', function () {
             styleEditor.apply(target, $(this).data('value'));
         });
     };
