@@ -174,6 +174,9 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        
+        // Exposed private methods for qtiCreator
+        resetGui : _resetGui
     };
 });
