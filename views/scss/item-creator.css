@@ -196,11 +196,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
-.tao-scope .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
+.tao-scope .item-editor-item .widget-box.widget-inline:hover, .tao-scope .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
+.tao-scope .item-editor-item .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
   border: 1px solid #3e7da7;
   cursor: default; }
 
@@ -759,6 +759,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-item .widget-box .float-space-bottom.cke_nose {
         display: block;
         top: -6px; }
+      .tao-scope .item-editor-item .widget-box.widget-inline {
+        display: inline-block; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
         min-height: 1.4rem; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-choice {
