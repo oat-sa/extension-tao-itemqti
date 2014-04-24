@@ -19,7 +19,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'mediaInteraction' : 'taoQtiItem/qtiCreator/model/interactions/MediaInteraction',
         'hotspotInteraction' : 'taoQtiItem/qtiCreator/model/interactions/HotspotInteraction',
         'hotspotChoice' : 'taoQtiItem/qtiCreator/model/choices/HotspotChoice',
-        'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration'
+        'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
+        'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing'
     }, qtiClasses);
 
 });

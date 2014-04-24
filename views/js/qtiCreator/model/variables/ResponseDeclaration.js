@@ -30,7 +30,7 @@ define([
             return this;
         },
         getCorrect: function() {
-            return this.correctResponse;
+            return _.clone(this.correctResponse);
         },
         setMappingAttribute: function(name, value) {
             this.mappingAttributes[name] = value;

@@ -4,11 +4,14 @@
     <div class="tooltip-content">Select the way the response of your interaction should be processed</div>
 
     <select name="template" class="select2" data-has-search="false">
-        <option value="MATCH_CORRECT">Correct</option>
-        <option value="MAP_RESPONSE">Map</option>
-        <option value="CUSTOM">Custom</option>
+        {{#each templates}}
+        <option value="{{@key}}">{{.}}</option>
+        {{/each}}
     </select>
 </div>
+
+{{#equal template "MATCH_CORRECT"}}
+{{else}}
 <hr/>
 
 <div class="panel" data-edit="map">
@@ -36,12 +39,15 @@
 
 <div class="panel" data-edit="map">
     <label>
-        <input name="defineCorrect" type="checkbox" data-role="defineCorrect">
+        <input name="defineCorrect" type="checkbox" data-role="defineCorrect"{{#if defineCorrect}} checked="checked"{{/if}} />
         <span class="icon-checkbox"></span>
         {{__ "define correct response"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">Define the correct response.</span>
 </div>
+{{/equal}}
+
+<hr/>
 
 <div class="panel feedbackRule-panel"></div>

@@ -82,7 +82,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedEl
             return found;
         },
         getResponses : function(){
-            return this.responses;
+            return _.clone(this.responses);
         },
         getRelatedItem : function(){
             return this;
