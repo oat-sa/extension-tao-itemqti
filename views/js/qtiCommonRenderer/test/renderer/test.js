@@ -108,6 +108,14 @@ define([
                             }
 
                             if(_.isArray(responses)){
+                                
+                                var $interactionContainer = interaction.getContainer();
+                                ok($interactionContainer.length, 'interaction container ok');
+                                $interactionContainer.on('responseSet', function(e, i, r){
+                                    equal(i.serial, interaction.serial);
+                                    ok(_.isPlainObject(r));
+                                });
+                                
                                 //test responses set() and get():
                                 _.each(responses, function(response){
                                     interaction.resetResponse();

@@ -1,4 +1,10 @@
-define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/interactionHelper'], function(_, Handlebars, Element, interactionHelper){
+define([
+    'lodash',
+    'jquery',
+    'handlebars',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/interactionHelper'
+], function(_, $, Handlebars, Element, interactionHelper){
 
     'use strict';
 
@@ -216,38 +222,54 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
             return ret;
         };
 
-        this.setResponse = function(qtiInteraction, response){
-            var ret = false, qtiClass = qtiInteraction.qtiClass;
-            if(_renderers[qtiClass]){
-                if(typeof(_renderers[qtiClass].setResponse) === 'function'){
-                    ret = _renderers[qtiClass].setResponse.call(this, qtiInteraction, response);
+        this.setResponse = function(qtiInteraction, response, qtiSubclass){
+            
+            var ret = false, 
+                qtiClass = qtiSubclass || qtiInteraction.qtiClass,
+                renderer = _getClassRenderer(qtiClass);
+            
+            if(renderer){
+                if(typeof(renderer.setResponse) === 'function'){
+                    ret = renderer.setResponse.call(this, qtiInteraction, response);
+                    var $container = renderer.getContainer.call(this, qtiInteraction);
+                    if($container instanceof $ && $container.length){
+                        $container.trigger('responseSet', [qtiInteraction, response]);
+                    }
                 }
             }else{
-                throw 'no renderer template registered under the name : ' + qtiClass;
+                throw 'no renderer registered under the name : ' + qtiClass;
             }
             return ret;
         };
 
-        this.getResponse = function(qtiInteraction){
-            var ret = false, qtiClass = qtiInteraction.qtiClass;
-            if(_renderers[qtiClass]){
-                if(typeof(_renderers[qtiClass].getResponse) === 'function'){
-                    ret = _renderers[qtiClass].getResponse.call(this, qtiInteraction);
+        this.getResponse = function(qtiInteraction, qtiSubclass){
+            
+            var ret = false, 
+                qtiClass = qtiSubclass || qtiInteraction.qtiClass,
+                renderer = _getClassRenderer(qtiClass);
+            
+            if(renderer){
+                if(typeof(renderer.getResponse) === 'function'){
+                    ret = renderer.getResponse.call(this, qtiInteraction);
                 }
             }else{
-                throw 'no renderer template registered under the name : ' + qtiClass;
+                throw 'no renderer registered under the name : ' + qtiClass;
             }
             return ret;
         };
         
-        this.resetResponse = function(qtiInteraction){
-            var ret = false, qtiClass = qtiInteraction.qtiClass;
-            if(_renderers[qtiClass]){
-                if(typeof(_renderers[qtiClass].resetResponse) === 'function'){
-                    ret = _renderers[qtiClass].resetResponse.call(this, qtiInteraction);
+        this.resetResponse = function(qtiInteraction, qtiSubclass){
+            
+            var ret = false, 
+                qtiClass = qtiSubclass || qtiInteraction.qtiClass,
+                renderer = _getClassRenderer(qtiClass);
+            
+            if(renderer){
+                if(typeof(renderer.resetResponse) === 'function'){
+                    ret = renderer.resetResponse.call(this, qtiInteraction);
                 }
             }else{
-                throw 'no renderer template registered under the name : ' + qtiClass;
+                throw 'no renderer registered under the name : ' + qtiClass;
             }
             return ret;
         };

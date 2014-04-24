@@ -1,17 +1,18 @@
-define(['taoQtiItem/qtiXmlRenderer/renderers/Renderer'], function(XmlRenderer) {
+define(['taoQtiItem/qtiXmlRenderer/renderers/Renderer'], function(XmlRenderer){
 
-    var _xmlRenderer = new XmlRenderer({shuffleChoices: false}).load();
+    var _xmlRenderer = new XmlRenderer({shuffleChoices : false}).load();
 
-    var _render = function(item) {
+    var _render = function(item){
         var xml = '';
-        try {
+        try{
             xml = item.render(_xmlRenderer);
-        } catch (e) {}
-        
+        }catch(e){
+        }
+
         return xml;
     };
 
     return {
-        render: _render
+        render : _render
     };
 });
