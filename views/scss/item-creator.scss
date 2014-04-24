@@ -174,7 +174,7 @@
                 padding: 0 6px;
                 letter-spacing: .06rem;
                 clear: left;
-                margin: 0 0 6px 0;
+                margin: 0 0 0 0;
                 color: black();
                 position: relative;
                 background: mix(#fff, $websiteBorder, 70%);
@@ -196,7 +196,7 @@
                 margin: 6px 8px 4px 8px;
             }
             .panel {
-                padding: 8px 5px;
+                padding: 15px 5px 8px 5px;
                 overflow: hidden;
                 h3 {
                     padding: 0 0 12px 0;
@@ -386,13 +386,8 @@
             }
         }
         
-        #style-sheet-uploader {
-            display:block;
-            .btn-info, .file-name {
-                display: block;
-                margin-bottom: 5px;
-            }
-            
+        #stylesheet-uploader {
+            width: 100%
         }
 
         .color-picker-panel {
@@ -718,16 +713,13 @@
     padding: 0 !important;
     margin: 0 !important;
     position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    cursor: not-allowed !important;
+    cursor: pointer !important;
     border: none !important;
     background: black !important;
-    opacity: .3 !important;
+    opacity: .05 !important;
     display: inline-block !important;
 }
+
 
 .cke-qti-wrapper {
     position: relative !important;

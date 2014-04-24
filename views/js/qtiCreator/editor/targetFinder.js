@@ -1,7 +1,7 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/dtdHandler'
+    'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
 ], function ($, _, dtdHandler) {
     'use strict'
 

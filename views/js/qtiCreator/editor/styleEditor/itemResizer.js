@@ -61,21 +61,24 @@ define([
             styleEditor.apply(target, 'width', val);
         };
 
-        var reset = function() {
-            slider.val(sliderSettings.range.min);
-            setResponsiveness(true);
-            styleEditor.apply(target, 'width');
-            input.val('');
-        };
-
+        /**
+         * Initialize radio buttons
+         */
         itemResizer.find('[name="item-width-prompt"]').on('click', function() {
+            // user intends to resize the item
             if(this.value === 'slider') {
                 resizeItem($target.width());
                 sliderBox.slideDown();
             }
+            // user wants to use default
             else {
-                reset();
+                slider.val(sliderSettings.start);
                 sliderBox.slideUp();
+                input.val('');
+
+                setResponsiveness(true);
+
+                styleEditor.apply(target, 'width');
             }
         });
 
@@ -92,7 +95,9 @@ define([
             this.value = parseInt(this.value).toString() + 'px';
         });
 
-        resetButton.on('click', reset);
+        resetButton.on('click', function() {
+            itemResizer.find('[value="no-slider"]').trigger('click');
+        });
     };
     return itemResizer;
 });

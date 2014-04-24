@@ -10,6 +10,7 @@ define([
         var init = function() {
 
             var cssToggler = $('#style-sheet-toggler'),
+                uploader = $('stylesheet-uploader'),
                 getContext = function(icon) {
                     icon = $(icon);
                     var li = icon.parent(),
@@ -50,6 +51,8 @@ define([
                     }
                 }
             });
+
+
 
 
             /**

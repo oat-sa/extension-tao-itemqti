@@ -5,21 +5,17 @@ define([
 ], function ($, styleEditor) {
     'use strict'
 
-    // as found on http://stackoverflow.com/a/14238466
+    // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
     function rgbToHex(color) {
         if (color.substr(0, 1) === "#") {
             return color;
         }
-        var nums = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
-            r = parseInt(nums[2], 10).toString(16),
-            g = parseInt(nums[3], 10).toString(16),
-            b = parseInt(nums[4], 10).toString(16);
-        return "#" + (
-            (r.length == 1 ? "0" + r : r) +
-                (g.length == 1 ? "0" + g : g) +
-                (b.length == 1 ? "0" + b : b)
-            );
+        var rgbArr = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
+            red   = ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2),
+            green = ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2),
+            blue  = ('0' + parseInt(rgbArr[4], 10).toString(16)).slice(-2);
+        return '#' + red + green + blue;
     }
 
     var colorSelector = function () {
@@ -36,8 +32,8 @@ define([
             resetButtons = colorPicker.find('.reset-button'),
             colorTriggers = colorPicker.find('.color-trigger'),
             currentProperty = 'color',
-            currentColor,
-            widgetObj;
+            widgetObj,
+            $doc = $(document);
 
         var setTitle = function (property) {
             var title;
@@ -50,26 +46,35 @@ define([
             }
         };
 
+        var setTriggerColor = function() {
+            colorTriggers.each(function () {
+                var $trigger = $(this);
+                $trigger.css('background-color', $target.css($trigger.data('value')));
+            });
+        };
+
         widgetObj = $.farbtastic(widget).linkTo(input);
 
+        // event received from modified farbtastic
         widget.on('colorchange.farbtastic', function (e, color) {
             styleEditor.apply(target, currentProperty, color);
+            setTriggerColor();
         });
 
-        colorTriggers.each(function () {
+
+        // open color picker
+        setTriggerColor();
+        colorTriggers.on('click', function () {
             var $trigger = $(this);
-            $trigger.css('background-color', $target.css($trigger.data('value')))
-                .on('click', function () {
-                    widgetBox.hide();
-                    currentProperty = $trigger.data('value');
-                    setTitle(currentProperty);
-                    widgetObj.setColor(rgbToHex($trigger.css('background-color')));
-                    widgetBox.show();
-                });
+            widgetBox.hide();
+            currentProperty = $trigger.data('value');
+            setTitle(currentProperty);
+            widgetObj.setColor(rgbToHex($trigger.css('background-color')));
+            widgetBox.show();
         });
 
-
-        $(document).mouseup(function (e) {
+        // close color picker, when clicking somewhere outside or on the x
+        $doc.on('mouseup', function(e) {
             if(e.target.className.indexOf('closer') > -1) {
                 widgetBox.hide();
                 return false;
@@ -82,8 +87,18 @@ define([
             }
         });
 
+        // close color picker on escape
+        $doc.on('keyup', function(e){
+            if (e.keyCode === 27) {
+                widgetBox.hide();
+                return false;
+            }
+        });
+
+        // reset to default
         resetButtons.on('click', function () {
             styleEditor.apply(target, $(this).data('value'));
+            setTriggerColor();
         });
     };
 

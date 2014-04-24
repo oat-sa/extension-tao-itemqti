@@ -151,12 +151,7 @@ use oat\taoQtiItem\helpers\Authoring;
                             </li>
 
                         </ul>
-                        <div class="file-upload" id="style-sheet-uploader">
-                            <span class="btn-info small"><?=__('Upload custom CSS')?></span>
-                            <span class="file-name truncate"><?=__('No file selected')?></span>
-                            <input type="file">
-                        </div>
-                        <span class="btn-info icon-upload small"></span>
+                        <button id="stylesheet-uploader" class="btn-info small block"><?=__('Upload your own CSS')?></button>
                     </div>
 
                     <hr>
@@ -167,7 +162,7 @@ use oat\taoQtiItem\helpers\Authoring;
                         <div id="item-editor-color-picker" data-target=".tao-scope div.qti-item">
                             <div id="color-picker-container">
                                 <h3 class="background-color"><?=__('Background color')?></h3>
-                                <h3 class="color"><?=__('Color')?></h3>
+                                <h3 class="color"><?=__('Text color')?></h3>
                                 <div class="color-picker"></div>
                                 <input id="color-picker-input" type="text" value="#000000">
 
@@ -175,12 +170,12 @@ use oat\taoQtiItem\helpers\Authoring;
                             </div>
                             <div class="reset-group">
                                 <div class="clearfix">
-                                    <label for="initial-bg">Background color</label>
+                                    <label for="initial-bg"><?=__('Background color')?></label>
                                     <span class="icon-reset reset-button" data-value="background-color" title="<?=__('Reset background color')?>"></span>
                                     <span class="color-trigger" id="initial-bg" data-value="background-color"></span>
                                 </div>
                                 <div class="clearfix">
-                                    <label for="initial-color">Text color</label>
+                                    <label for="initial-color"><?=__('Text color')?></label>
                                     <span class="icon-reset reset-button" data-value="color" title="<?=__('Reset text color')?>"></span>
                                     <span class="color-trigger" id="initial-color" data-value="color"></span>
                                 </div>
