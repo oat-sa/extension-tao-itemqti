@@ -100,24 +100,26 @@ define([
     		}
     	};
     	
+    	$input = $container.find('input');
+    	
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
-            $container.find('input').bind('change', changeListener);
+            $input.bind('change', changeListener);
         }
         else {
         	// Nope... :/
-            $container.find('input').fileReader({
+            $input.fileReader({
     	        id: 'fileReaderSWFObject',
     	        filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
     	        callback: function() {
-    	            $container.bind('change', changeListener);
+    	            $input.bind('change', changeListener);
     	        }
     	    });
         }
     	
     	// IE Specific hack. It prevents the button to slightly
     	// move on click. Special thanks to Dieter Rabber, OAT S.A.
-    	$container.find('input').bind('mousedown', function(e){
+    	$input.bind('mousedown', function(e) {
             e.preventDefault();
             $(this).blur();
             return false;
