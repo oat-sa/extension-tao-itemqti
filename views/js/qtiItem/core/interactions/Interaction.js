@@ -13,16 +13,6 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
             this.choices[choice.getSerial()] = choice;
             return this;
         },
-        removeChoice : function(choice){
-            var serial = '';
-            if(typeof(choice) === 'string'){
-                serial = choice;
-            }else if(Element.isA(choice, 'choice')){
-                serial = choice.getSerial();
-            }
-            delete this.choices[serial];
-            return this;
-        },
         getChoices : function(){
             var choices = {};
             for(var i in this.choices){//prevent passing the whole array by ref

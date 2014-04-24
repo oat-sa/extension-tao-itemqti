@@ -104,9 +104,20 @@ class Custom extends ResponseProcessing implements Rule
     }
     
     public function toArray($filterVariableContent = false, &$filtered = array()){
+        
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        $returnValue['processingType'] =  'custom';
-        $returnValue['data'] =  $this->data;
+        
+        $protectedData = array(
+            'processingType' => 'custom',
+            'data' => $this->data
+        );
+        
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $protectedData;
+        }else{
+            $returnValue = array_merge($returnValue, $protectedData);
+        }
+        
         return $returnValue;
     }
 }

@@ -277,14 +277,16 @@ define(['lodash', 'handlebars', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/q
                                 }else if(_locations[qtiClass]){
                                     required.push(_locations[qtiClass]);
                                 }else{
-                                    throw new Error('missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
+                                    throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
                                 }
                             });
                         }else{
-                            if(_locations[qtiClass]){
+                            if(_locations[qtiClass] === false){
+                                _renderers[qtiClass] = false;//mark this class as not renderable
+                            }else if(_locations[qtiClass]){
                                 required.push(_locations[qtiClass]);
                             }else{
-                                throw new Error('missing qti class location declaration: ' + qtiClass);
+                                throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass);
                             }
                         }
                     }

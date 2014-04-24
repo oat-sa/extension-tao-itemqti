@@ -50,6 +50,7 @@ define([
             }
 
             widget.$responseForm.html(responseFormTpl({
+                templates : {},
                 defaultValue : response.getMappingAttribute('defaultValue'),
                 lowerBound : response.getMappingAttribute('lowerBound'),
                 upperBound : response.getMappingAttribute('upperBound')

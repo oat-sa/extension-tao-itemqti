@@ -24,13 +24,15 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return ret;
         },
         loadRequiredClasses : function(data, callback, reload){
+        
             var requiredClasses = this.getRequiredClasses(data, reload), required = [];
+            
             for(var i in requiredClasses){
                 var requiredClass = requiredClasses[i];
                 if(this.classesLocation[requiredClass]){
                     required.push(this.classesLocation[requiredClass]);
                 }else{
-                    throw new Error('missing qti class location declaration: ' + requiredClass);
+                    throw new Error('missing qti class location declaration : ' + requiredClass);
                 }
             }
 
@@ -53,12 +55,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 if(typeof(data) === 'object' && data.qtiClass === 'assessmentItem'){
                     _this.item = new Qti.assessmentItem(data.serial, data.attributes || {});
                     _this.loadContainer(_this.item.getBody(), data.body);
-                    for(var i in data.responses){
-                        var response = _this.buildResponse(data.responses[i]);
-                        if(response){
-                            _this.item.addResponseDeclaration(response);
-                        }
-                    }
+                    
                     for(var i in data.outcomes){
                         var outcome = _this.buildOutcome(data.outcomes[i]);
                         if(outcome){
@@ -77,6 +74,22 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                             _this.item.addStylesheet(stylesheet);
                         }
                     }
+                    
+                    //important : build responses after all modal feedbacks and outcomes has been loaded, because the simple feedback rules need to reference them
+                    for(var i in data.responses){
+                        var response = _this.buildResponse(data.responses[i]);
+                        if(response){
+                            _this.item.addResponseDeclaration(response);
+                            
+                            var feedbackRules = data.responses[i].feedbackRules;
+                            if(feedbackRules){
+                                _.forIn(feedbackRules, function(fbData, serial){
+                                    response.feedbackRules[serial] = _this.buildSimpleFeedbackRule(fbData);
+                                });
+                            }
+                        }
+                    }
+                    
                     if(data.responseProcessing){
                         _this.item.setResponseProcessing(_this.buildResponseProcessing(data.responseProcessing));
                     }
@@ -118,13 +131,34 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
         },
         buildResponse : function(data){
+        
             var response = this.buildElement(data);
+            
             response.template = data.howMatch || null;
             response.defaultValue = data.defaultValue || null;
             response.correctResponse = data.correctResponses || null;
             response.mapEntries = data.mapping || data.areaMapping || {};
             response.mappingAttributes = data.mappingAttributes || {};
+            
             return response;
+        },
+        buildSimpleFeedbackRule : function(data){
+            
+            var feedbackRule = this.buildElement(data);
+            
+            if(data.condition){
+                feedbackRule.condition = data.condition;
+            }
+            if(data.comparedValue){
+                feedbackRule.comparedValue = data.comparedValue;
+            }
+            
+            feedbackRule.comparedOutcome = this.item.responses[data.comparedOutcome]||null;
+            feedbackRule.feedbackOutcome = this.item.outcomes[data.feedbackOutcome]||null;
+            feedbackRule.feedbackThen = this.item.modalFeedbacks[data.feedbackThen]||null;
+            feedbackRule.feedbackElse = this.item.modalFeedbacks[data.feedbackElse]||null;
+            
+            return feedbackRule;
         },
         buildOutcome : function(data){
             var outcome = this.buildElement(data);
@@ -173,7 +207,6 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     throw 'the qti element class does not exist: ' + className;
                 }
             }else{
-                console.log(elementData);
                 throw 'wrong elementData format';
             }
             return elt;

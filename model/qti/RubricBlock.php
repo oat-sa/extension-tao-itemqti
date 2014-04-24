@@ -71,10 +71,23 @@ class RubricBlock extends Element implements FlowContainer, ContentVariable
         );
     }
     
-    public function toFilteredArray(){
-        return array(
-            'serial' => $this->getSerial(),
-            'qtiClass' => $this->getQtiTag()
-        );
+    public function toArray($filterVariableContent = false, &$filtered = array()){
+
+        $data = parent::toArray($filterVariableContent, $filtered);
+
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $data;
+            $data = array(
+                'serial' => $data['serial'],
+                'qtiClass' => $data['qtiClass']
+            );
+        }
+
+        return $data;
     }
+
+    public function toFilteredArray(){
+        return $this->toArray(true);
+    }
+    
 }

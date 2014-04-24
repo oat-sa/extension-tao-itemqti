@@ -624,17 +624,15 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         $data['responses'] = array();
         foreach($this->getResponses() as $response){
-            $data['responses'][$response->getSerial()] = $response->toFilteredArray();
-            $filtered[$response->getSerial()] = $response->toArray($filterVariableContent, $filtered);
+            $data['responses'][$response->getSerial()] = $response->toArray($filterVariableContent, $filtered);
         }
 
         $data['feedbacks'] = array();
         foreach($this->getModalFeedbacks() as $feedback){
-            $data['feedbacks'][$feedback->getSerial()] = $feedback->toFilteredArray();
-            $filtered[$feedback->getSerial()] = $feedback->toArray($filterVariableContent, $filtered);
+            $data['feedbacks'][$feedback->getSerial()] = $feedback->toArray($filterVariableContent, $filtered);
         }
-
-        $data['responseProcessing'] = $this->responseProcessing->toArray();
+        
+        $data['responseProcessing'] = $this->responseProcessing->toArray($filterVariableContent, $filtered);
 
         return $data;
     }

@@ -40,7 +40,7 @@ define([
     ];
 
     var _renderFeedbackRule = function(feedbackRule){
-
+        
         var feedbackElseSerial,
             addElse,
             feedbackElse = feedbackRule.feedbackElse,
@@ -147,7 +147,7 @@ define([
                 fbRule = response.getFeedbackRule($btn.parents('.feedbackRule-container').data('serial')),
                 modalFeedback,
                 modalFeedbackWidget;
-
+            
             switch($btn.data('feedback')){
                 case 'then':
                     modalFeedback = fbRule.feedbackThen;
@@ -184,15 +184,17 @@ define([
     return {
         initFeedbacksPanel : function($feedbacksPanel, response){
 
-            var feedbackRules = [];
-
-            _.each(response.getFeedbackRules(), function(feedbackRule){
-                feedbackRules.push(_renderFeedbackRule(feedbackRule));
-            });
-
-            $feedbacksPanel.html(panelTpl({
-                feedbackRules : feedbackRules
-            }));
+            $feedbacksPanel.html(panelTpl());
+            
+            var $feedbackRules = $feedbacksPanel.find('.feedbackRules'),
+                feedbackRules = response.getFeedbackRules();
+            
+            if(feedbackRules && _.size(feedbackRules)){
+                $feedbackRules.empty();
+                _.each(feedbackRules, function(feedbackRule){
+                    $feedbackRules.append(_renderFeedbackRule(feedbackRule));
+                });
+            }
 
             _initFeedbackEventListener($feedbacksPanel, response);
         },

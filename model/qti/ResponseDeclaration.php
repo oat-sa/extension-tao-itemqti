@@ -37,7 +37,7 @@ use oat\taoQtiItem\model\qti\ContentVariable;
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10073
- 
+
  */
 class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 {
@@ -92,6 +92,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
     protected $simpleFeedbackRules = array();
 
     protected function generateIdentifier($prefix = ''){
+        
         if(empty($prefix)){
             $prefix = 'RESPONSE'; //QTI standard default value
         }
@@ -102,24 +103,40 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
     public function toArray($filterVariableContent = false, &$filtered = array()){
 
         $data = parent::toArray($filterVariableContent, $filtered);
-
-        $data['correctResponses'] = $this->getCorrectResponses();
-
-        $data['mapping'] = $this->mapping;
-        $data['areaMapping'] = $this->areaMapping;
-
         //@todo : clean this please: do not use a class attributes to store childdren's ones.
         unset($data['attributes']['mapping']);
         unset($data['attributes']['areaMapping']);
+        
+        //prepare the protected data:
+        $protectedData = array(
+            'correctResponses' => $this->getCorrectResponses(),
+            'mapping' => $this->mapping,
+            'areaMapping' => $this->areaMapping,
+            'howMatch' => $this->howMatch
+        );
+        
+        //add mapping attributes
         $mappingAttributes = array('defaultValue' => $this->mappingDefaultValue);
         if(is_array($this->getAttributeValue('mapping'))){
             $mappingAttributes = array_merge($mappingAttributes, $this->getAttributeValue('mapping'));
         }elseif(is_array($this->getAttributeValue('areaMapping'))){
             $mappingAttributes = array_merge($mappingAttributes, $this->getAttributeValue('areaMapping'));
         }
-        $data['mappingAttributes'] = $mappingAttributes;
-
-        $data['howMatch'] = $this->howMatch; //the template
+        $protectedData['mappingAttributes'] = $mappingAttributes;
+        
+        //add simple feedbacks
+        $feedbackRules = array();
+        $rules = $this->getFeedbackRules();
+        foreach($rules as $rule){
+            $feedbackRules[$rule->getSerial()] = $rule->toArray($filterVariableContent, $filtered);
+        }
+        $protectedData['feedbackRules'] = $feedbackRules;
+        
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $protectedData;
+        }else{
+            $data = array_merge($data, $protectedData);
+        }
 
         return $data;
     }
@@ -452,14 +469,9 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         unset($this->simpleFeedbackRules[$serial]);
         return true;
     }
-    
+
     public function toFilteredArray(){
-        
-        return array(
-            'serial' => $this->getSerial(),
-            'qtiClass' => $this->getQtiTag(),
-            'identifier' => $this->getIdentifier(),
-            'attributes' => $this->getAttributeValues()
-        );
+        return $this->toArray(true);
     }
+
 }

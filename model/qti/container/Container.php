@@ -330,12 +330,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
         );
         foreach($this->getElements() as $element){
             $elementSerial = $element->getSerial();
-            if($filterVariableContent && $element instanceof ContentVariable){
-                $data['elements'][$elementSerial] = $element->toFilteredArray();
-                $filtered[$elementSerial] = $element->toArray($filterVariableContent, $filtered);
-            }else{
-                $data['elements'][$elementSerial] = $element->toArray($filterVariableContent, $filtered);
-            }
+            $data['elements'][$elementSerial] = $element->toArray($filterVariableContent, $filtered);
         }
         
         $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());

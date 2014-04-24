@@ -242,9 +242,7 @@ define([
             }
 
             if(!hasCustomCss) {
-                item.createStyleSheet({
-                    href: 'css/custom/tao-user-styles.css'
-                });
+                item.createStyleSheet('css/custom/tao-user-styles.css');
             }
 
             insertMarker.before(cssTpl({ stylesheets: stylesheets }));

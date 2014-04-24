@@ -3,16 +3,6 @@ define(['taoQtiItem/qtiItem/core/interactions/ContainerInteraction', 'taoQtiItem
         qtiClass : 'hottextInteraction',
         getChoices : function(){
             return this.getBody().getElements('Hottext');
-        },
-        removeChoice:function(hottext){
-            var serial = '';
-            if(typeof(hottext) === 'string'){
-                serial = hottext;
-            }else if(Element.isA('hottext')){
-                serial = hottext.getSerial();
-            }
-            this.getBody().removeElement(serial);
-            return this;
         }
     });
     return HottextInteraction;

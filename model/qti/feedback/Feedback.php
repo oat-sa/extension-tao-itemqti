@@ -37,7 +37,7 @@ use oat\taoQtiItem\model\qti\ContentVariable;
  * @author Sam Sipasseuth, <sam.sipasseuth@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10243
- 
+
  */
 abstract class Feedback extends IdentifiedElement implements FlowContainer, ContentVariable
 {
@@ -46,7 +46,7 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
 
     public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
         parent::__construct($attributes, $relatedItem, $serial);
-        $this->body = new ContainerStatic('', $relatedItem);//@todo: implement interactive container
+        $this->body = new ContainerStatic('', $relatedItem); //@todo: implement interactive container
     }
 
     public function getBody(){
@@ -98,12 +98,24 @@ abstract class Feedback extends IdentifiedElement implements FlowContainer, Cont
 
         return $returnValue;
     }
-    
+
+    public function toArray($filterVariableContent = false, &$filtered = array()){
+
+        $data = parent::toArray($filterVariableContent, $filtered);
+
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $data;
+            $data = array(
+                'serial' => $data['serial'],
+                'qtiClass' => $data['qtiClass']
+            );
+        }
+
+        return $data;
+    }
+
     public function toFilteredArray(){
-        return array(
-            'serial' => $this->getSerial(),
-            'qtiClass' => $this->getQtiTag()
-        );
+        return $this->toArray(true);
     }
 
 }

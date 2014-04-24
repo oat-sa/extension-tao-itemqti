@@ -1,4 +1,9 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element, _, $){
+define([
+    'lodash', 
+    'jquery',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/model/helper/event'
+], function(_, $, Element, event){
 
     var _removeChoiceFromResponse = function(response, choice){
 
@@ -43,9 +48,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery'], function(Element
                 }
 
                 if(removed){
-                    Element.unsetElement(element.serial);
-                    $(document).off('.' + element.serial);
-                    $(document).trigger('deleted.qti-widget', {element : element, parent : parent});
+                    event.deleted(element, parent);
                 }
             }
         }

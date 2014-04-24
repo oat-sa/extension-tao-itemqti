@@ -1,11 +1,35 @@
-define(['taoQtiItem/qtiCreator/model/variables/ResponseDeclaration'], function(ResponseDeclaration){
+define([
+    'taoQtiItem/qtiItem/core/Element', 
+    'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration', 
+    'taoQtiItem/qtiCreator/model/helper/event'
+], function(Element, ResponseDeclaration, event){
 
     var methods = {
-        createResponse:function(attributes){
+        /**
+         * Remove a choice from the interaction
+         * 
+         * @param {string|choice} choice
+         * @returns {object} this
+         */
+        removeChoice : function(choice){
+            var serial = '', c;
+            if(typeof(choice) === 'string'){
+                serial = choice;
+            }else if(Element.isA(choice, 'choice')){
+                serial = choice.getSerial();
+            }
+            if(this.choices[serial]){
+                c = this.choices[serial];
+                delete this.choices[serial];
+                event.deleted(c, this);
+            }
+            return this;
+        },
+        createResponse:function(attrs){
             
             var response = new ResponseDeclaration();
-            if(attributes){
-                response.attr(attributes);
+            if(attrs){
+                response.attr(attrs);
             }
             
             //we assume in the context of edition, every element is created from the api so alwayd bound to an item:

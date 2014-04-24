@@ -1,5 +1,5 @@
 {{#if custom ~}}
-    {{xml}}
+    {{{xml}}}
 {{~/if ~}}
 
 {{~#if template ~}}

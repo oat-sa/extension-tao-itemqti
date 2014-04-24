@@ -32,7 +32,7 @@ use \taoItems_models_classes_TemplateRenderer;
 
 class SimpleFeedbackRule extends Element
 {
-
+    
     protected $condition = 'correct'; //lt, lte, equal, gte, gt
     protected $comparedOutcome = null;
     protected $comparedValue = 0.0; //value to be compared with, required is condition is different from correct
@@ -128,9 +128,11 @@ class SimpleFeedbackRule extends Element
 
         $data = array(
             'serial' => $this->getSerial(),
+            'qtiClass' => '_simpleFeedbackRule',
             'comparedOutcome' => is_null($this->comparedOutcome) ? '' : $this->comparedOutcome->getSerial(),
             'comparedValue' => $this->comparedValue,
             'condition' => $this->condition,
+            'feedbackOutcome' => is_null($this->feedbackOutcome) ? '' : $this->feedbackOutcome->getSerial(),
             'feedbackThen' => is_null($this->feedbackThen) ? '' : $this->feedbackThen->getSerial(),
             'feedbackElse' => is_null($this->feedbackElse) ? '' : $this->feedbackElse->getSerial()
         );

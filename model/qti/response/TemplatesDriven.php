@@ -324,8 +324,19 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     }
 
     public function toArray($filterVariableContent = false, &$filtered = array()){
+        
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        $returnValue['processingType'] =  'templateDriven';
+        
+        $protectedData = array(
+            'processingType' => 'templateDriven'
+        );
+        
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $protectedData;
+        }else{
+            $returnValue = array_merge($returnValue, $protectedData);
+        }
+        
         return $returnValue;
     }
 

@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
-    'taoQtiItem/qtiCreator/model/response/SimpleFeedbackRule',
+    'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
 ], function(_, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper) {
 
@@ -119,7 +119,7 @@ define([
                 outcomeIdentifier: outcome.id()
             });
             
-            var rule = new SimpleFeedbackRule(outcome, modalFeedback);
+            var rule = new SimpleFeedbackRule('', outcome, modalFeedback);
             
             rule.setCondition(this, 'correct');
             this.feedbackRules[rule.getSerial()] = rule;

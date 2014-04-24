@@ -194,9 +194,20 @@ class Template extends ResponseProcessing implements Rule
     }
 
     public function toArray($filterVariableContent = false, &$filtered = array()){
+        
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        $returnValue['processingType'] =  'template';
-        $returnValue['data'] =  $this->uri;
+        
+        $protectedData = array(
+            'processingType' => 'template',
+            'data' => $this->uri
+        );
+        
+        if($filterVariableContent){
+            $filtered[$this->getSerial()] = $protectedData;
+        }else{
+            $returnValue = array_merge($returnValue, $protectedData);
+        }
+        
         return $returnValue;
     }
 

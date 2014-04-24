@@ -11,7 +11,7 @@
 </div>
 <hr/>
 
-<div class="panel">
+<div class="panel" data-edit="map">
     <h3>{{__ "Score range"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">Define the minimal and maximal score for te interaction.</span>
@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="panel">
+<div class="panel" data-edit="map">
     <label for="defaultValue" class="spinner">{{__ "Score mapping default value"}}
         <input name="defaultValue" value="{{defaultValue}}" class="score" type="text" data-validate="$notEmpty; $numeric;" data-validate-option="$lazy; $event(type=keyup)" />
     </label>
@@ -34,7 +34,7 @@
     <span class="tooltip-content">The default value from the target set to be used when no explicit mapping for a source value is given.</span>
 </div>
 
-<div class="panel">
+<div class="panel" data-edit="map">
     <label>
         <input name="defineCorrect" type="checkbox" data-role="defineCorrect">
         <span class="icon-checkbox"></span>

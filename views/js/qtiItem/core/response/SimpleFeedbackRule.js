@@ -4,9 +4,9 @@ define(['taoQtiItem/qtiItem/core/Element'], function(Element){
         qtiClass : '_simpleFeedbackRule',
         serial : '',
         relatedItem : null,
-        init : function(feedbackOutcome, feedbackThen, feedbackElse){
+        init : function(serial, feedbackOutcome, feedbackThen, feedbackElse){
 
-            this._super();
+            this._super(serial, {});
 
             this.condition = 'correct';
             this.comparedOutcome = null;

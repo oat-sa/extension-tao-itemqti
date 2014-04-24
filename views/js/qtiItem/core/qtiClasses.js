@@ -3,6 +3,7 @@ define([], function(){
         '_container' : 'taoQtiItem/qtiItem/core/Container',
         'assessmentItem' : 'taoQtiItem/qtiItem/core/Item',
         'responseProcessing' : 'taoQtiItem/qtiItem/core/ResponseProcessing',
+        '_simpleFeedbackRule' : 'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
         'stylesheet' : 'taoQtiItem/qtiItem/core/Stylesheet',
         'math' : 'taoQtiItem/qtiItem/core/Math',
         'img' : 'taoQtiItem/qtiItem/core/Img',

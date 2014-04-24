@@ -60,7 +60,7 @@ define([
             switch(responseProcessing.processingType){
                 case 'custom':
                     defaultData.custom = true;
-                    defaultData.xml = this.xml;
+                    defaultData.xml = responseProcessing.xml;
                     break;
                 case 'templateDriven':
                     var interactions = responseProcessing.getRelatedItem().getInteractions();
@@ -86,7 +86,6 @@ define([
             }
             
             return _.merge(data || {}, defaultData);
-            
         }
     };
 });

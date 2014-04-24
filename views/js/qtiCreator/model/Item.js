@@ -27,12 +27,12 @@ define([
             return rp;
         },
         createStyleSheet : function(href){
-            if(href){
+            if(href && _.isString(href)){
                 var stylesheet = new Stylesheet({href : href});
                 this.addStylesheet(stylesheet);
                 return stylesheet;
             }else{
-                throw 'missing required arg "href"';
+                throw 'missing or invalid type for the required arg "href"';
                 return null;
             }
         },
