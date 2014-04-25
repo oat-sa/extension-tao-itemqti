@@ -85,7 +85,7 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $this->assertTrue(empty($responses));
     }
 
-    public function _testSimpleFeedback(){
+    public function testSimpleFeedback(){
 
         $response = new ResponseDeclaration(array('identifier' => 'RESPONSE'));
         $response->setHowMatch(Template::MAP_RESPONSE);
@@ -138,7 +138,7 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $this->assertEquals($feedbackIdentifierElse, 'feedbackTwo');
     }
 
-    public function _testSimpleFeedbackCorrect(){
+    public function testSimpleFeedbackCorrect(){
 
         $outcomeFeedback = new OutcomeDeclaration(array('identifier' => 'FEEDBACK'));
         $response2 = new ResponseDeclaration(array('identifier' => 'RESPONSE2'));
@@ -168,7 +168,7 @@ class QtiModelTest extends TaoPhpUnitTestRunner
     /**
      * test the building of item from all the samples
      */
-    public function _testSamples(){
+    public function testSamples(){
 
         //check if samples are loaded
         foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml') as $file){
