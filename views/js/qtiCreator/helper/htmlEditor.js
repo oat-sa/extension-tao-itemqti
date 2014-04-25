@@ -40,6 +40,9 @@ define([
 
             $(document).on('removeprotection.ckprotector', function(e, data) {
                 console.log(data.context, data.widget);
+                // destroy cke
+                // replace old widget with new one
+
                 //CKEditor.blur();
             });
 
@@ -59,12 +62,7 @@ define([
                     toolbarType = 'qtiFlow';
             }
 
-            var ckeConfig = {
-                allowedContent: true,
-                autoParagraph: false,
-                removePlugins: 'resize,elementspath',
-                floatSpaceDockedOffsetY: 10,
-                extraPlugins: 'confighelper',
+            var ckConfig = {
                 floatSpace: {
                     debug: true,
                     initialHide: true,
@@ -125,7 +123,7 @@ define([
                 }
             };
 
-            return CKEditor.inline($editable[0], ckeConfig);
+            return CKEditor.inline($editable[0], ckConfig);
         };
 
         var _find = function ($container, dataAttribute) {
