@@ -1,9 +1,11 @@
 define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, commonRenderConfig){
-    var locations = _.extend(_.clone(commonRenderConfig.locations), {
+    
+    var locations = _.defaults({
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
         'assessmentItem' : 'taoQtiItem/qtiCreator/renderers/Item',
         'rubricBlock' : 'taoQtiItem/qtiCreator/renderers/RubricBlock',
         'img' : 'taoQtiItem/qtiCreator/renderers/Img',
+        'math' : 'taoQtiItem/qtiCreator/renderers/Math',
         'modalFeedback' : 'taoQtiItem/qtiCreator/renderers/ModalFeedback',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/ChoiceInteraction',
         'orderInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/OrderInteraction',
@@ -18,7 +20,7 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, 
         'simpleChoice.orderInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.OrderInteraction',
         'simpleAssociableChoice.associateInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.AssociateInteraction',
         'simpleAssociableChoice.matchInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction'
-    });
+    }, commonRenderConfig.locations);
 
     return {
         name: 'creatorRenderer',

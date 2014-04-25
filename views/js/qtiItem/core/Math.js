@@ -19,6 +19,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
         init : function(serial, attributes){
             this._super(serial, attributes);
             this.ns = null;
+            this.annotations = {};
         },
         getNamespace : function(){
             if(this.ns){
@@ -43,10 +44,10 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             };
         },
         setAnnotation : function(encoding, value){
-            this.annotation[encoding] = value;
+            this.annotations[encoding] = value;
         },
         getAnnotations : function(encoding){
-            return this.annotation[encoding];
+            return this.annotations[encoding];
         },
         setMathML : function(mathML){
             var ns = this.getNamespace(),

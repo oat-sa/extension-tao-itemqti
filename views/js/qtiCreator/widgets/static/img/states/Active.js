@@ -24,41 +24,20 @@ define([
         //remove class
         $container.removeClass('rgt lft');
         
-        _removeClass(img, 'rgt');
-        _removeClass(img, 'lft');
+        img.removeClass('rgt');
+        img.removeClass('lft');
         switch(position){
             case 'right':
                 $container.addClass('rgt');
-                _addClass(img, 'rgt');
+                img.addClass('rgt');
                 break;
             case 'left':
                 $container.addClass('lft');
-                _addClass(img, 'lft');
+                img.addClass('lft');
                 break;
         }
     };
     
-    var _removeClass = function(element, className){
-        
-        var clazz = element.attr('class') || '';
-        if(clazz){
-            var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-            clazz = clazz.replace(regex, '').replace( /^\s+/, '' );
-            if(clazz){
-                element.attr('class', clazz);
-            }else{
-                element.removeAttr('class');
-            }
-        }
-    };
-    
-    var _addClass = function(element, className){
-        var clazz = element.attr('class') || '';
-        if(!_containClass(clazz, className)){
-            element.attr('class', clazz + (clazz.length ? ' ' : '') + className);
-        }
-    };
-
     var _containClass = function(allClassStr, className){
         var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
         return allClassStr && regex.test(allClassStr);
@@ -85,7 +64,7 @@ define([
         _initSlider(_widget);
         _initAlign(_widget);
         //... init standard ui widget
-        formElement.initWidget($form, img);
+        formElement.initWidget($form);
 
         //init data change callbacks
         formElement.initDataBinding($form, img, {
@@ -108,13 +87,12 @@ define([
 
     var _initAlign = function(widget){
 
-        var align = 'default',
-            clazz = widget.element.attr('class') || '';
+        var align = 'default';
         
         //init float positioning:
-        if(_containClass(clazz, 'rgt')){
+        if(widget.element.hasClass('rgt')){
             align = 'right';
-        }else if(_containClass(clazz, 'lft')){
+        }else if(widget.element.hasClass('lft')){
             align = 'left';
         }
 

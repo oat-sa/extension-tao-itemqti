@@ -7,6 +7,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
     return _.defaults({
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
         'img' : 'taoQtiItem/qtiCreator/model/Img',
+        'math' : 'taoQtiItem/qtiCreator/model/Math',
         'rubricBlock' : 'taoQtiItem/qtiCreator/model/RubricBlock',
         'modalFeedback' : 'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback',
         'choiceInteraction' : 'taoQtiItem/qtiCreator/model/interactions/ChoiceInteraction',

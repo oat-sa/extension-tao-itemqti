@@ -1,32 +1,36 @@
 define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
-    'taoQtiItem/qtiCreator/widgets/static/img/states/states',
+    'taoQtiItem/qtiCreator/widgets/static/math/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media'
 ], function(Widget, states, helper, toolbarTpl) {
 
-    var ImgWidget = Widget.clone();
+    var MathWidget = Widget.clone();
 
-    ImgWidget.initCreator = function() {
+    MathWidget.initCreator = function() {
 
         Widget.initCreator.call(this);
 
         this.registerStates(states);
     };
     
-    ImgWidget.buildContainer = function(){
+    MathWidget.buildContainer = function(){
         
-        helper.buildInlineContainer(this);
+        if(this.element.attr('display') === 'block'){
+            helper.buildBlockContainer(this);
+        }else{
+            helper.buildInlineContainer(this);
+        }
         
         return this;
     };
     
-    ImgWidget.createToolbar = function() {
+    MathWidget.createToolbar = function() {
         
          helper.createToolbar(this, toolbarTpl);
 
         return this;
     };
 
-    return ImgWidget;
+    return MathWidget;
 });

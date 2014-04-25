@@ -1,5 +1,5 @@
 define([
-    'lodash', 
+    'lodash',
     'jquery',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/event'
@@ -25,7 +25,7 @@ define([
         response.mapEntries = mapEntries;
     };
 
-    var removeSelf = function(element){
+    var _removeSelf = function(element){
 
         var removed = false,
             item = element.getRelatedItem();
@@ -56,22 +56,9 @@ define([
         return removed;
     };
 
-    var removeElement = function(element, containerPropName, eltToBeRemoved){
-
-        if(element[containerPropName]){
-            var serial = '';
-            if(typeof(eltToBeRemoved) === 'string'){
-                serial = eltToBeRemoved;
-            }else if(eltToBeRemoved instanceof Element){
-                serial = eltToBeRemoved.getSerial();
-            }
-            if(serial){
-                delete element[containerPropName][serial];
-                Element.unsetElement(serial);
-            }
-        }
-
-        return element;
+    var _containClass = function(allClassStr, className){
+        var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
+        return allClassStr && regex.test(allClassStr);
     };
 
     var methods = {
@@ -104,9 +91,9 @@ define([
         },
         remove : function(){
             if(arguments.length === 0){
-                return removeSelf(this);
+                return _removeSelf(this);
             }else if(arguments.length === 2){
-                return removeElement(this, arguments[0], arguments[1]);
+                return _removeElement(this, arguments[0], arguments[1]);
             }else{
                 throw 'invalid number of argument given';
             }
@@ -117,6 +104,28 @@ define([
         },
         getMeta : function(key){
             return this.meta[key];
+        },
+        addClass : function(className){
+            var clazz = this.attr('class') || '';
+            if(!_containClass(clazz, className)){
+                this.attr('class', clazz + (clazz.length ? ' ' : '') + className);
+            }
+        },
+        hasClass : function(className){
+            return _containClass(this.attr('class'), className);
+        },
+        removeClass : function(className){
+
+            var clazz = this.attr('class') || '';
+            if(clazz){
+                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
+                clazz = clazz.replace(regex, '').replace(/^\s+/, '');
+                if(clazz){
+                    this.attr('class', clazz);
+                }else{
+                    this.removeAttr('class');
+                }
+            }
         }
     };
 

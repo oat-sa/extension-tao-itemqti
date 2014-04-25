@@ -22,7 +22,8 @@ define([
                     loader.loadItemData(data[itemIdentifier].full, function(item){
                         
                         ok(Element.isA(item, 'assessmentItem'), itemIdentifier + ' item loaded');
-
+                        console.log(item);
+                        
                         //count interaction number:
                         var interactions = item.getInteractions();
                         ok(interactions.length, 'has ' + interactions.length + ' interaction(s)');
