@@ -19,18 +19,23 @@
  *
  */
 
-
-
 namespace oat\taoQtiItem\helpers;
 
-
-use Sabberworm\CSS\Parser;
 
 class CssHelper{
 
     public static function save($cssArr){
         $css = arrayToCss($cssArr);
-        // ItemsService::getItemFolder() . '/my.css'
+        $cssFile = self::getStylesheetPath();
+        file_put_contents($cssFile, $css);
+    }
+
+    /**
+     * Retrieve stylesheet path
+     */
+    private static function getStylesheetPath() {
+        $item = new \core_kernel_classes_Resource($_GET['uri']);
+        return \taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $_GET['lang']) . $_GET['stylesheetUri'] ;
     }
 
 
@@ -60,7 +65,12 @@ class CssHelper{
                 }
                 $match = trim($match);
                 if($key === 'rules') {
-                    $match = array_map('trim', explode(';', $match));
+                    $ruleSet = array_filter(array_map('trim', explode(';', $match)));
+                    $match = array();
+                    foreach($ruleSet as $rule) {
+                        $rule = array_map('trim', explode(':', $rule));
+                        $match[$rule[0]] = $rule[1];
+                    }
                 }
             }
 
@@ -105,15 +115,15 @@ class CssHelper{
 
     public static function loadCssFile() {
 
-//        // @TODO use ItemsService::getItemFolder() . '/my.css'
-        $cssFile = 'C:/htdocs/slider/css/main.css';
+        $cssFile = self::getStylesheetPath();
 
         // no user style sheet has been created yet
         if(!is_readable($cssFile)) {
             return '';
         }
 
-        return self::cssToArray(file_get_contents($cssFile));
+        $cssArr = self::cssToArray(file_get_contents($cssFile));
+        return json_encode($cssArr);
     }
 
 
