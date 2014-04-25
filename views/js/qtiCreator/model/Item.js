@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableContainer',
     'taoQtiItem/qtiItem/core/Item',
-    'taoQtiItem/qtiItem/core/Stylesheet',
+    'taoQtiItem/qtiCreator/model/Stylesheet',
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
