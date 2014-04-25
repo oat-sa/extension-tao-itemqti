@@ -33,7 +33,7 @@ define([
      * Manage style rules as CSS rather than style attributes.
      * Must be used by all widgets that change the style of an item.
      */
-    var styleEditor = (function ($) {
+    var styleEditor = (function ($, doc) {
 
         // stylesheet as object
         var style = {},
@@ -45,17 +45,18 @@ define([
             }()),
             // the button to disable custom styles
             customCssToggler = $('[data-custom-css]'),
-            currentItem;
+            currentItem,
+            common = {
+                title: __('Disable this style sheet temporarily'),
+                deleteTxt: __('Delete this style sheet'),
+                insertMarker: $('[data-custom-css="true"]')
+            };
 
         /**
          * Create CSS and add it to DOM
-         * Supports media queries that could come from an imported CSS
          *
-         * @param simulated true when called from style toggler
          */
-        var create = function(simulated) {
-            // simulated to boolean
-            simulated = !!simulated;
+        var create = function() {
 
             var key1, // first level key, could be selector or media query
                 key2, // second level key, could be css property or selector
@@ -93,9 +94,6 @@ define([
             }
 
             $styleElem.text(css);
-            if(!simulated) {
-                customCssToggler.removeClass('not-available');
-            }
         };
 
         /**
@@ -119,23 +117,16 @@ define([
             }
 
             // apply rule
-            create(false);
+            create();
 
         };
 
 
         /**
          * Delete all custom styles
-         *
-         * @param simulated true when called from style toggler
          */
-        var erase = function(simulated) {
-            simulated = !!simulated;
+        var erase = function() {
             $styleElem.text('');
-
-            if(!simulated) {
-                customCssToggler.addClass('not-available');
-            }
         };
 
         /**
@@ -166,12 +157,14 @@ define([
          *
          * @param uri
          */
-        var load = function (uri) {
-            $.getJSON(_getUri('load'), _.extend({}, itemConfig, { uri:uri }))
+        var load = function (stylesheetUri) {
+            $.getJSON(_getUri('load'), _.extend({}, itemConfig, { stylesheetUri: stylesheetUri }))
                 .done(function(json) {
-                    //style = json;
-                    // apply rule
-                    create(false);
+                    style = json;
+                    // apply rules
+                    console.log(json, style)
+                    create();
+                    $(doc).trigger('cssloaded.styleeditor')
                 });
         };
 
@@ -198,55 +191,68 @@ define([
         };
 
 
+        var addStylesheet = function(stylesheet) {
+            var fileName,
+                link,
+                stylesheets = [],
+                hasCustomCss = false,
+                listEntry;
+
+            // argument is uri
+            if(_.isString(stylesheet)) {
+                stylesheet = currentItem.createStyleSheet(stylesheet);
+            }
+
+            fileName = _basename(stylesheet.attr('href'));
+            link = $(stylesheet.render());
+
+            // the user stylesheet is purely virtual and will not be added to the head
+            if(fileName === 'tao-user-styles.css') {
+                load(stylesheet.attr('href'));
+                customCssToggler.data('css-res', stylesheet.attr('href'));
+                hasCustomCss = true;
+            }
+            else {
+                // add other stylesheets to head
+                $styleElem.before(link);
+
+                stylesheets.push({
+                    path: stylesheet.attr('href'),
+                    label: (stylesheet.attr('title') || fileName),
+                    title: common.title,
+                    deleteTxt: common.deleteTxt
+                });
+
+                // create list entry
+                listEntry = $(cssTpl({ stylesheets: stylesheets }));
+                // initialize download button
+                common.insertMarker.before(listEntry);
+            }
+
+            $('[data-role="css-download"]').on('click', download);
+
+            // if no custom css had been found, add empty stylesheet anyway
+            if(!hasCustomCss) {
+                currentItem.createStyleSheet('style/custom/tao-user-styles.css');
+            }
+            
+        };
+
+
         /**
          * Add style sheets to toggler
          * @param item
          */
-        var listStylesheets = function(item) {
+        var addItemStylesheets = function() {
 
-            // extract stylesheets
-            var stylesheets = [],
-                key,
-                stylesheet,
-                title = __('Disable this style sheet temporarily'),
-                deleteTxt = __('Delete this style sheet'),
-                insertMarker = $('[data-custom-css="true"]'),
-                fileName,
-                hasCustomCss = false,
-                link;
-
-            for(key in item.stylesheets) {
-                stylesheet = item.stylesheets[key];
-                fileName = _basename(stylesheet.attr('href')),
-                link = $(stylesheet.render());
-
-                if(!item.stylesheets.hasOwnProperty(key)) {
+            for(var key in currentItem.stylesheets) {
+                if(!currentItem.stylesheets.hasOwnProperty(key)) {
                     continue;
-                }
-
-                if(fileName === 'tao-user-styles.css') {
-                    load(link.attr('href'));
-                    customCssToggler.data('css-res', link.attr('href'))
-                    hasCustomCss = true;
-                }
-                else {
-                    $styleElem.before(link);
-
-                    stylesheets.push({
-                        path: stylesheet.attr('href'),
-                        label: (stylesheet.attr('title') || fileName),
-                        title: title,
-                        deleteTxt: deleteTxt
-                    });
-                }
+                }                
+                addStylesheet(currentItem.stylesheets[key]);
             }
-
-            if(!hasCustomCss) {
-                item.createStyleSheet('css/custom/tao-user-styles.css');
-            }
-
-            insertMarker.before(cssTpl({ stylesheets: stylesheets }));
         };
+        
 
         /**
          * retrieve the style object
@@ -275,13 +281,9 @@ define([
             currentItem = item;
             itemConfig = config;
 
-            listStylesheets(item);
+            addItemStylesheets();
 
-            // initialize download button
-            $('[data-role="css-download"]').on('click', download);
-
-
-            $(document).on('itemsave.qtiEdit', save);
+            $(doc).on('itemsave.qtiEdit', save);
         };
 
         // expose public functions
@@ -294,9 +296,10 @@ define([
             create: create,
             hasStyle: hasStyle,
             getStyle: getStyle,
-            getItem: getItem
+            getItem: getItem,
+            addStylesheet: addStylesheet
         }
-    }($));
+    }($, document));
 
     return styleEditor;
 });

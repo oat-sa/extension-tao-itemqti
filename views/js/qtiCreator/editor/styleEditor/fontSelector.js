@@ -48,6 +48,10 @@ define([
                 var originalOption = state.element;
                 if (!state.id) return state.text;
                 return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
+            },
+            reset = function() {
+                styleEditor.apply(target, 'font-family');
+                fontSelector.select2('val', '');
             };
 
 
@@ -75,10 +79,8 @@ define([
 
 
 
-        resetButton.on('click', function () {
-            styleEditor.apply(target, 'font-family');
-            fontSelector.select2('val', '');
-        });
+        resetButton.on('click', reset);
+        $(document).on('cssloaded.styleeditor', reset);
 
         fontSelector.on('change', function () {
             styleEditor.apply(target, 'font-family', $(this).val());

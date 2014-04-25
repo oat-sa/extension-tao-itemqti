@@ -47,7 +47,9 @@ define([
         currentItem.setMeta('responsive', isResponsive);
 
 
-
+        var reset = function() {
+            itemResizer.find('[value="no-slider"]').trigger('click');
+        };
 
         /**
          * Resize item
@@ -95,9 +97,8 @@ define([
             this.value = parseInt(this.value).toString() + 'px';
         });
 
-        resetButton.on('click', function() {
-            itemResizer.find('[value="no-slider"]').trigger('click');
-        });
+        resetButton.on('click', reset);
+        $(document).on('cssloaded.styleeditor', reset);
     };
     return itemResizer;
 });

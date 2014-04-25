@@ -14,6 +14,38 @@ define([
         var selector = '.widget-box';
 
         /**
+         * Observe changes to content editable elements
+         *
+         * @param context
+         */
+        var observeContentChanges = function($context) {
+
+            var contextDomNode = $context[0];
+
+            var MutationObserver = (window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver);
+
+            // IE 10
+            if (!MutationObserver) {
+                contextDomNode.addEventListener('DOMCharacterDataModified', function() {
+                    $context.trigger('contentchange.protector');
+                }, false);
+            }
+            // all recent browser apart from IE 10
+            else {
+                var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function() {
+                        $context.trigger('contentchange.protector');
+                    })
+                });
+                observer.observe(contextDomNode, {
+                    subtree: true,
+                    characterData: true
+                });
+            }
+
+        };
+
+        /**
          * Retrieve selector from the outside
          *
          * @returns {string}
@@ -35,13 +67,30 @@ define([
             }
             context.find(selector).each(function() {
                 var widget = $(this),
-                    iOffset = widget.offset(),
                     iWidth = widget.outerWidth(),
                     iHeight = widget.outerHeight(),
-                    iLeft = iOffset.left,
-                    iTop = iOffset.top,
                     cover = $('<button class="cke-cover-up">'),
-                    wrapper;
+                    wrapper,
+                    // cke copies the widget to a kind of shadow dom, hence this trickery
+                    getProtectedWidgetBySerial = function(serial) {
+                        console.log($('[data-serial="' + serial + '"]').length)
+                        $('[data-serial="' + serial + '"]').each(function() {
+                            var widget = $(this);
+                            if(widget.parent().hasClass('cke-qti-wrapper')) {
+                                return false;
+                            }
+                        });
+                        console.log({fn: widget})
+                        return widget.length ? widget : $();
+                    },
+                    positionCover = function(cover) {
+                        var wrapper = getProtectedWidgetBySerial(cover.prop('serial')).parent('.cke-qti-wrapper'),
+                            iOffset = wrapper.offset();
+                        cover.css({
+                            left: iOffset.left,
+                            top: iOffset.top
+                        })
+                    };
 
                 if(widget.parent('.cke-qti-wrapper').length) {
                     return false;
@@ -55,24 +104,13 @@ define([
                     }
                 });
 
-                widget.wrap($('<span class="cke-qti-wrapper"/>'));
+                widget.wrap($('<span class="cke-qti-wrapper" />'));
+
                 wrapper = widget.parent();
 
-//                // button part of wrapper
-//                cover.css({
-//                    width: iWidth,
-//                    height: iHeight,
-//                    left: 0,
-//                    top: 0
-//                });
-//                wrapper.append(cover);
-
-                // button part of body
                 cover.css({
                     width: iWidth,
-                    height: iHeight,
-                    left: iLeft,
-                    top: iTop
+                    height: iHeight
                 });
                 $('body').append(cover);
 
@@ -83,12 +121,24 @@ define([
                 wrapper.attr('contenteditable', false);
                 wrapper.prop('cover', cover);
 
+                cover.prop('serial', widget.data('serial'));
+
+                positionCover(cover);
+
                 cover.attr('title', __('Click to display interaction widget'));
 
                 cover.on('click', function() {
-                    unprotect(widget);
+                    var widget = getProtectedWidgetBySerial($(this).prop('serial'));
+                    console.log('click',widget.offset())
+                    //unprotect(widget);
                     $(document).trigger('removeprotection.ckprotector', { context: context, widget: widget });
-                })
+                });
+
+                observeContentChanges(context);
+
+                context.on('contentchange.protector', function() {
+                    positionCover(cover);
+                });
             });
         };
 
@@ -98,15 +148,13 @@ define([
          *
          * @param protectedArea optional
          */
-        var unprotect = function(protectedArea) {
-            protectedArea = protectedArea || $(selector);
-            protectedArea.each(function() {
-                var interaction = $(this),
-                    wrapper = interaction.parent('.cke-qti-wrapper');
-
+        var unprotect = function(widget) {
+            widget.each(function() {
+                var widget = $(this),
+                    wrapper = widget.parent('.cke-qti-wrapper');
                 if(wrapper.length) {
                     wrapper.prop('cover').remove();
-                    interaction.unwrap();
+                    widget.unwrap();
                 }
             });
         };

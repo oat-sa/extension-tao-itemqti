@@ -4,7 +4,6 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
 ], function (__, ckeditor, dtdHandler) {
     'use strict'
-
     /**
      * Cache original config
      */
@@ -215,8 +214,8 @@ define([
             if (toolbarType.indexOf('qti') === 0) {
                 toolbarType = toolbarType.slice(3).toLowerCase();
                 ckConfig.allowedContent = true;
-                ckConfig.protectedSource = ckConfig.protectedSource || [];
-                ckConfig.protectedSource.push(/<span[^>]*><\/span>/g);
+                ckConfig.autoParagraph = false;
+                //ckConfig.removePlugins = 'Paste';
                 dtdMode = 'qti';
             }
 

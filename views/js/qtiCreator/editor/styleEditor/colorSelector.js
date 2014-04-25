@@ -35,6 +35,11 @@ define([
             widgetObj,
             $doc = $(document);
 
+        var reset = function() {
+            styleEditor.apply(target, $(this).data('value'));
+            setTriggerColor();
+        };
+
         var setTitle = function (property) {
             var title;
             for (title in titles) {
@@ -95,11 +100,12 @@ define([
             }
         });
 
+
         // reset to default
-        resetButtons.on('click', function () {
-            styleEditor.apply(target, $(this).data('value'));
-            setTriggerColor();
-        });
+        resetButtons.on('click', reset);
+
+
+        $doc.on('cssloaded.styleeditor', reset);
     };
 
     return colorSelector;

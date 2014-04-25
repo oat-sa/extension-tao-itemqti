@@ -10,7 +10,8 @@ define([
         var init = function() {
 
             var cssToggler = $('#style-sheet-toggler'),
-                uploader = $('stylesheet-uploader'),
+                uploader = $('#stylesheet-uploader'),
+                customCssToggler = $('[data-custom-css]'),
                 getContext = function(icon) {
                     icon = $(icon);
                     var li = icon.parent(),
@@ -34,6 +35,21 @@ define([
             }
 
 
+            // mockup resource manager
+
+            var resourceManager = {
+                launch: function() {
+                    $(document).trigger('finished.resourcemanager', [ '/foo/bar/quux.css'] )
+                }
+            }
+
+            uploader.on('click', function() {
+                resourceManager.launch();
+                $(document).on('finished.resourcemanager', function(e, stylesheet) {
+                    styleEditor.addStylesheet(stylesheet);
+                })
+            });
+
             /**
              * Delete existing style sheet resp. custom styles
              */
@@ -43,7 +59,8 @@ define([
 
                 if(confirm(__('Are you sure you want to delete this stylesheet?\nWarning: This action cannot be undone!'))) {
                     if(context.isCustomCss) {
-                        styleEditor.erase(false);
+                        styleEditor.erase();
+                        customCssToggler.addClass('not-available');
                     }
                     else {
                         $('link[' + attr + '$="' + context.cssUri + '"]').remove();
@@ -67,10 +84,12 @@ define([
                 // custom styles are handled in a style element, not in a link
                 if(context.isCustomCss) {
                     if(context.isDisabled) {
-                        styleEditor.create(true);
+                        styleEditor.create();
+                        customCssToggler.removeClass('not-available');
                     }
                     else {
-                        styleEditor.erase(true);
+                        styleEditor.erase();
+                        customCssToggler.addClass('not-available');
                     }
                 }
                 // all other styles are handled via their link element
