@@ -18,7 +18,7 @@ define([
     
     TextWidget.buildContainer = function(){
         
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box widget-textBlock'})
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box widget-block widget-textBlock'})
             .append($('<div>', {'data-html-editable' : true}));
         
         this.$original.wrapInner($wrap);

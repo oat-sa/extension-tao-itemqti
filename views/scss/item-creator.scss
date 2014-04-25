@@ -208,6 +208,9 @@
                 select, input[type="text"] {
                     width: 100%;
                 }
+                select.short{
+                    min-width:100px;
+                }
                 .icon-help.tooltipstered {
                     float:right;
                 }
@@ -564,7 +567,7 @@
                     @extend %editActive;
                 }
             }
-            &.widget-textBlock{
+            &.widget-block{
                 &:hover{
                     @extend %editHover;
                 }
@@ -678,6 +681,7 @@
         @import "qtiCreator/_inline-choice";
         @import "qtiCreator/_gap-match";
         @import "qtiCreator/_rubric-block";
+        @import "qtiCreator/_math";
         // the following file is identical to gap-match
         // @import "qtiCreator/_graphic-gap";
     }

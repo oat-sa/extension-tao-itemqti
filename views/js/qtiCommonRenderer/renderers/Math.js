@@ -4,9 +4,8 @@ define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/math', 'taoQtiItem/qtiCommonRender
         template : tpl,
         getContainer : Helper.getContainer,
         render : function(math, data){
-            var $mathElt = $('#' + math.serial);
             if(typeof(MathJax) !== 'undefined' && MathJax){
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub, $mathElt.parent()[0]]);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, Helper.getContainer(math).parent()[0]]);
             }
         }
     };

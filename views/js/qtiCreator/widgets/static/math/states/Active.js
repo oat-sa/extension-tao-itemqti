@@ -28,7 +28,7 @@ define([
         }));
         
         //... init standard ui widget
-        formElement.initWidget($form);
+//        formElement.initWidget($form);
 
         //init data change callbacks
         formElement.initDataBinding($form, math, {

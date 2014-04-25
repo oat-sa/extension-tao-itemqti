@@ -8,6 +8,8 @@ define([
 
     CreatorMath.render = function(math, options){
         
+        Renderer.render(math);
+        
         return Widget.build(
             math,
             Renderer.getContainer(math),

@@ -20,7 +20,7 @@ define([
 
             attributes = attributes || {};
 
-            var callbackCall = function(name, value, $elt){
+            var _callbackCall = function(name, value, $elt){
                 console.log('change', name, value);
                 var cb = attributes[name];
                 if(_.isFunction(cb)){
@@ -28,39 +28,45 @@ define([
                 }
             };
 
-            $form.off('.databinding');
-            $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', function(){
+            var callback = {
+                simple : function(){
+                    
+                    var $elt = $(this),
+                        name = $elt.attr('name');
 
-                var $elt = $(this),
-                    name = $elt.attr('name');
+                    if($elt.is(':checkbox')){
 
-                if($elt.is(':checkbox')){
+                        _callbackCall(name, $elt.prop('checked'), $elt);
 
-                    callbackCall(name, $elt.prop('checked'), $elt);
+                    }else if($elt.prop('tagName') === 'SELECT' || $elt.is(':text')){
 
-                }else if($elt.prop('tagName') === 'SELECT' || $elt.is(':text')){
+                        _callbackCall(name, $elt.val(), $elt);
+                    }
+                },
+                withValidation : function(e, valid, elt){
 
-                    callbackCall(name, $elt.val(), $elt);
+                    if(e.namespace === 'group'){
+
+                        var $elt = $(elt),
+                            name = $elt.attr('name');
+
+                        if(valid){
+                            _callbackCall(name, $elt.val(), $elt);
+                        }
+                    }
                 }
-            });
+            };
+
+            $form.off('.databinding');
+            $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', callback.simple);
+            $form.on('input.databinding propertychange.databinding', 'textarea', callback.simple);
 
             $form.groupValidator({
                 events : ['change', 'blur', {type : 'keyup', length : 0}],
                 callback : _validationCallback
             });
 
-            $form.on('validated.group.databinding', function(e, valid, elt){
-
-                if(e.namespace === 'group'){
-
-                    var $elt = $(elt),
-                        name = $elt.attr('name');
-
-                    if(valid){
-                        callbackCall(name, $elt.val(), $elt);
-                    }
-                }
-            });
+            $form.on('validated.group.databinding', callback.withValidation);
 
         },
         initTitle : function($form, element){
@@ -75,13 +81,12 @@ define([
                 element.attr('title', $(this).text());
             });
         },
-            
         /**
          * the simplest form of save callback used in data binding 
          * @param {boolean} allowEmpty
          */
         getAttributeChangeCallback : function(allowEmpty){
-            
+
             return function(element, value, name){
                 if(!allowEmpty && value === ''){
                     element.removeAttr(name);
