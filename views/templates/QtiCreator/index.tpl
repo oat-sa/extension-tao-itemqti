@@ -147,7 +147,7 @@ use oat\taoQtiItem\helpers\Authoring;
                                 <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
                                 <span class="file-label truncate"><?=__('Custom styles')?></span>
                                 <span class="icon-bin" title="<?=__('Delete your custom styles')?>" data-role="css-delete"></span>
-                                <span class="icon-download" title="<?=__('Download this style sheet')?>" data-role="css-download"></span>
+                                <!--span class="icon-download" title="<?=__('Download this style sheet')?>" data-role="css-download"></span-->
                             </li>
 
                         </ul>
