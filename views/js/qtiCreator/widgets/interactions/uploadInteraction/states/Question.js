@@ -22,7 +22,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'type');
+        var callbacks = {};
         callbacks['type'] = function(interaction, attrValue, attrName){
             interaction.attr(attrName, attrValue);
         };
