@@ -90,8 +90,8 @@ define(['lodash'], function(_){
                 mappedCardinality = _qtiModelPciResponseCardinalities[cardinality];
 
                 if(_.isObject(response[mappedCardinality])){
-                    responseValues = response[mappedCardinality]
-                    if(responseValues[baseType]){
+                    responseValues = response[mappedCardinality];
+                    if(responseValues[baseType] !== undefined){
                         responseValues = responseValues[baseType];
                         responseValues = _.isArray(responseValues) ? responseValues : [responseValues];
                     }else{
