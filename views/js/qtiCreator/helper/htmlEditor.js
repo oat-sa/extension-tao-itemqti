@@ -4,7 +4,7 @@ define([
     'ckeditor',
     'i18n',
     'taoQtiItem/qtiCreator/editor/ckEditor/ckProtector',
-    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator'
+    'ckConfigurator'
 ],
     function (_, $, CKEditor, __, ckProtector, ckConfigurator) {
 
