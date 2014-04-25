@@ -38,50 +38,66 @@ use common_exception_InvalidArgumentType;
  */
 class QtiCssAuthoring extends tao_actions_CommonModule {
 
+    /**
+     * Save custom CSS as file
+     *
+     * @throws \common_exception_IsAjaxAction
+     */
     public function save() {
-
         if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
         }
         CssHelper::save($this -> getCssArray());
     }
 
+    /**
+     * Load the custom styles as JSON
+     *
+     * @throws \common_exception_IsAjaxAction
+     * @throws \common_exception_MissingParameter
+     */
     public function load() {
 
-//        if (!tao_helpers_Request::isAjax()) {
-//            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
-//        }
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+        }
 
-//        if (!$this->hasRequestParameter('uri')) {
-//            throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());
-//        }
-//
-        print_r(CssHelper::loadCssFile());
+        if (!$this->hasRequestParameter('stylesheetUri')) {
+            throw new common_exception_MissingParameter('stylesheetUri', __CLASS__.'::'.\Context::getInstance()->getActionName());
+        }
+
+        $cssJson = CssHelper::loadCssFile();
+        echo $cssJson;
     }
 
+    /**
+     * Convert CSS JSON to array
+     *
+     * @return mixed
+     * @throws \common_exception_MissingParameter
+     * @throws \common_exception_InvalidArgumentType
+     */
     private function getCssArray() {
-
         if (!$this->hasRequestParameter('cssJson')) {
             throw new common_exception_MissingParameter('cssJson', __CLASS__.'::'.\Context::getInstance()->getActionName());
         }
-
         $cssArr = json_decode($_POST['cssJson'], true);
-
         if(!is_array($cssArr)) {
             throw new common_exception_InvalidArgumentType(__CLASS__,\Context::getInstance()->getActionName(), 0, 'json encoded array');
         }
-
         return $cssArr;
 
     }
 
-
+    /**
+     * Download custom styles
+     */
     public function download(){
         $cssArr = $this -> getCssArray();
         header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ...
         setcookie('fileDownload','true', 0, '/');
         header('Content-type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=custom.css');
+        header('Content-Disposition: attachment; filename=tao-custom-styles.css');
         echo CssHelper::arrayToCss($cssArr);
     }
 
