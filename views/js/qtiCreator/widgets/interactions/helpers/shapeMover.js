@@ -13,7 +13,6 @@ define(['jquery', 'lodash'], function($, _){
      */
     var move =  function move (element, start, stop){
         var mover;
-        
         if(element && element.type){
             mover = _.bind(shapeMover[element.type], shapeMover);
           
@@ -39,8 +38,8 @@ define(['jquery', 'lodash'], function($, _){
          */
         rect : function moveRectangle(start, stop){
             return {
-                x : start.x + stop.x,
-                y : start.y + stop.y
+                x : stop.x - start.x,
+                y : stop.y - start.y
             };
         },
         
@@ -53,8 +52,8 @@ define(['jquery', 'lodash'], function($, _){
          */
         circle : function moveCircle(start, stop){
             return  {
-                cx : start.cx + stop.x,
-                cy : start.cy + stop.y
+                cx : stop.x,
+                cy : stop.y
             };
         },
 
@@ -67,8 +66,8 @@ define(['jquery', 'lodash'], function($, _){
          */
         ellipse : function moveEllipse(start, stop){
             return {
-                cx : start.cx + stop.x,
-                cy : start.cy + stop.y
+                cx : stop.x,
+                cy : stop.y
             };
         },
 
@@ -88,7 +87,7 @@ define(['jquery', 'lodash'], function($, _){
             _.forEach(start.path, function(point){
                 dest.path += point[0];
                 if(point.length === 3){
-                    dest.path += (point[1] + stop.x) + ',' + (point[2] + stop.y);
+                    dest.path += (point[1] + stop.x - start.x) + ',' + (point[2] + stop.y - start.y);
                 }                 
             });
             return dest;

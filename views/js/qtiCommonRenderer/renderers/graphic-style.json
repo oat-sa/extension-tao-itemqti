@@ -42,6 +42,13 @@
         "opacity" : 0, 
         "cursor": "pointer"
     },
+    "creator" : {
+        "fill-opacity" : 0.5,
+        "stroke" : "#3E7DA7",
+        "stroke-dasharray": "",
+        "fill" :  "#0E5D91", 
+        "cursor" : "pointer"
+    },
     "imageset-rect" : {
             "fill" : "#ffffff",
             "stroke" : "#000000",

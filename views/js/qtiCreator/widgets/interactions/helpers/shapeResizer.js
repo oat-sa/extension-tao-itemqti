@@ -166,7 +166,7 @@ define([
                _.forEach(options.path, function(point, index){
                    dest.path += point[0];
                    if(point.length === 3){
-                       if (index === options.pointIndex){
+                       if (index === options.pointIndex || options.pointIndex === 0 && index === 1){
                             dest.path += options.stop.x + ',' + options.stop.y;
                        } else {
                             dest.path += point[1] + ',' + point[2];

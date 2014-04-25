@@ -5,7 +5,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
 ], function($, _, Widget, states, graphic){
 
+      
     var HotspotInteractionWidget = _.extend(Widget.clone(), {
+
 
         initCreator : function(options){
 
@@ -14,7 +16,9 @@ define([
             this.registerStates(states);
            
             this._createPaper(options.baseUrl); 
-            
+           
+            this.choiceForm = options.choiceForm;
+ 
             //call render choice for each interaction's choices
             _.forEach(this.element.getChoices(), this._currentChoices, this);
         },
@@ -26,18 +30,19 @@ define([
                 height  : background.height,
                 img     :  baseUrl + background.data,
                 imgId   : 'bg-image-' + this.element.serial,
-                container : this.$container
+                container : this.$original
             });
         },
 
         _currentChoices : function(choice){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
-                id : choice.serial            
+                id          : choice.serial,
+                style       : 'creator',
+                hover       : false, 
+                touchEffect : false
             });
         }
-
    });
 
-    
     return HotspotInteractionWidget;
 });

@@ -3,7 +3,6 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiI
     _.extend(methods, editable);
     _.extend(methods, {
         getDefaultAttributes : function(){
-            console.log("model/c/h", 'getDefaultAttributes');
             return {
                 'fixed' : false,
                 'showHide' : 'show'

@@ -25,7 +25,7 @@ define([
     };
 
     //transform the coords from the QTI system to Raphael system
-    var coordsMapper = {
+    var qti2raphCoordsMapper = {
 
         /**
          * Rectangle coordinate mapper:  from left-x,top-y,right-x-bottom-y to x,y,w,h
@@ -76,37 +76,86 @@ define([
         }
     };
 
-    /**
-     * Get the Raphael coordinate from QTI coordinate
-     * @param {Raphael.Paper} paper - the interaction paper
-     * @param {String} type - the shape type
-     * @param {String|Array.<Number>} coords - qti coords as a string or an array of number
-     * @returns {Array} the arguments array of coordinate to give to the approriate raphael shapre creator
-     */
-    var getCoords =  function getCoords(paper, type, coords){
-        var shapeCoords;
-        if(_.isString(coords)){
-            coords = _.map(coords.split(','), function(coord){
-                return parseInt(coord, 10);
-            });
+    //transform the coords from a raphael shape to the QTI system
+    var raph2qtiCoordsMapper = {
+
+        /**
+         * Rectangle coordinate mapper: from x,y,w,h to left-x,top-y,right-x-bottom-y
+         * @param {Object} attr - Raphael Element's attributes
+         * @returns {Array} qti based coords
+         */
+        'rect' : function(attr){
+           return [
+                attr.x,
+                attr.y,
+                attr.x + attr.width,
+                attr.y + attr.height
+            ];
+        },
+
+        /**
+         * Circle coordinate mapper
+         * @param {Object} attr - Raphael Element's attributes
+         * @returns {Array} qti based coords
+         */
+        'circle' : function(attr){
+           return [
+                attr.cx,
+                attr.cy,
+                attr.r      
+           ];
+        },
+        
+        /**
+         * Ellispe coordinate mapper
+         * @param {Object} attr - Raphael Element's attributes
+         * @returns {Array} qti based coords
+         */
+        'ellispe' : function(attr){
+           return [
+                attr.cx,
+                attr.cy,
+                attr.rx,
+                attr.ry
+            ];
+        },
+
+        /**
+         * Get the coords for a default shape (a rectangle that covers all the paper)
+         * @param {Object} attr - Raphael Element's attributes
+         * @returns {Array} qti based coords
+         */
+        'default' : function(attr){
+           return this.rect(attr);
+        },
+        
+        /**
+         * polygone coordinate mapper:  from SVG path (available as segments) to x1,y1,...,xn,yn format
+         * @param {Raphael.Paper} paper - the paper
+         * @returns {Array} raphael coords
+         */
+        'path' : function(attr){
+            var poly = [];
+            var i;
+            if(_.isArray(attr.path)){
+               for(i = 1; i < attr.path.length; i++){
+                    if(attr.path[i].length === 3){
+                        poly.push(attr.path[i][1]);
+                        poly.push(attr.path[i][2]);
+                    }
+               }
+            }
+            return poly;
         }
-        if(!_.isArray(coords) || coords.length < coordsValidator[type]){
-            throw new Error('Invalid coords ' + JSON.stringify(coords) + '  for type ' + type);
-        } 
-        switch(type){
-            case 'rect' : shapeCoords = coordsMapper.rect(coords); break; 
-            case 'default' : shapeCoords = coordsMapper['default'].call(null, paper); break; 
-            case 'poly' : shapeCoords = coordsMapper.poly(coords); break; 
-            default : shapeCoords = coords; break;
-        }
-        return shapeCoords;
     };
+
+
 
     /**
      * Graphic interaction helper
      * @exports qtiCommonRenderer/helpers/Graphic
      */
-    return {
+    var GraphicHelper = {
    
         /**
          * Raw access to the styles
@@ -146,7 +195,7 @@ define([
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
             var responsive = $container.hasClass('responsive');
-
+            var resizer = _.throttle(resizePaper, 10, {leading: false, trailing : true});
 
             paper = factory.call(null ,id, width, height);
             image = paper.image(options.img, 0, 0, width, height);
@@ -157,10 +206,10 @@ define([
             if(raphael.type === 'SVG'){ 
                 
                 //scale on creation
-                resizePaper();
+                resizer();
                 
-                //execute the resize every 100ms when resizing
-                $(window).resize(_.throttle(resizePaper, 100));
+                $(window).resize(resizer);
+                $container.on('resize.qti-widget', resizer);
 
             } else {
                 paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
@@ -174,18 +223,19 @@ define([
              * scale the raphael paper
              * @private
              */
-            function resizePaper(){
-                var containerWidth = $container.width();
+            function resizePaper(e, containerWidth){
+                var diff = 22;
+                containerWidth = containerWidth || $container.width() - diff;
 
-                //TODO check where this diff of 22px comes from 
-                paper.changeSize(containerWidth - 22, height, false, false);
+                paper.changeSize(containerWidth, height, false, false);
               
-                if(responsive){ 
+                if(responsive){
                     paper.scaleAll( containerWidth / width );
                 }
                 if(typeof options.resize === 'function'){
                     options.resize(containerWidth);
                 }
+                $container.trigger('resized.qti-widget');
             }
 
             return paper;
@@ -199,6 +249,7 @@ define([
          * @param {Object} [options] - additional creation options
          * @param {String} [options.id] - to set the new element id
          * @param {String} [options.title] - to set the new element title
+         * @param {String} [options.style = basic] - to default style 
          * @param {Boolean} [options.hover = true] - to disable the default hover state
          * @param {Boolean} [options.touchEffect = true] - a circle appears on touch
          * @param {Boolean} [options.qtiCoords = true] - if the coords are in QTI format
@@ -209,7 +260,7 @@ define([
             var element;
             var bbox; 
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
-            var shapeCoords = options.qtiCoords !== false ? getCoords(paper, type, coords) : coords;
+            var shapeCoords = options.qtiCoords !== false ? self.raphaelCoords(paper, type, coords) : coords;
 
             if(typeof shaper === 'function'){
                element = shaper.apply(paper, shapeCoords);
@@ -220,7 +271,7 @@ define([
                     if(options.title){
                         element.attr('title', options.title);
                     }
-                    element.attr(gstyle.basic)
+                    element.attr(gstyle[options.style || 'basic'])
                             .toFront();
                     if(options.hover !== false){
                       element.hover(function(){
@@ -247,6 +298,49 @@ define([
             return element; 
         },
 
+        /**
+         * Get the Raphael coordinate from QTI coordinate
+         * @param {Raphael.Paper} paper - the interaction paper
+         * @param {String} type - the shape type
+         * @param {String|Array.<Number>} coords - qti coords as a string or an array of number
+         * @returns {Array} the arguments array of coordinate to give to the approriate raphael shapre creator
+         */
+        raphaelCoords :  function raphaelCoords(paper, type, coords){
+            var shapeCoords;
+            if(_.isString(coords)){
+                coords = _.map(coords.split(','), function(coord){
+                    return parseInt(coord, 10);
+                });
+            }
+            if(!_.isArray(coords) || coords.length < coordsValidator[type]){
+                throw new Error('Invalid coords ' + JSON.stringify(coords) + '  for type ' + type);
+            } 
+            switch(type){
+                case 'rect' : shapeCoords = qti2raphCoordsMapper.rect(coords); break; 
+                case 'default' : shapeCoords = qti2raphCoordsMapper['default'].call(null, paper); break; 
+                case 'poly' : shapeCoords = qti2raphCoordsMapper.poly(coords); break; 
+                default : shapeCoords = coords; break;
+            }
+            return shapeCoords;
+        },
+
+        /**
+         * Get the QTI coordinates from a Raphael Element
+         * @param {Raphael.Element} element - the shape to get the coords from
+         * @returns {String} the QTI coords
+         */
+        qtiCoords : function qtiCoords(element){
+            var mapper = raph2qtiCoordsMapper[element.type];
+            var result = '';
+            if(_.isFunction(mapper)){
+                console.log(mapper.call(raph2qtiCoordsMapper, element.attr()));
+                result = _.map(mapper.call(raph2qtiCoordsMapper, element.attr()), function(coord){
+                            return _.parseInt(coord);
+                        }).join(',');
+            }
+            return result;
+        },
+ 
         /**
          * Create a circle that animate and disapear from a shape.
          * 
@@ -467,4 +561,6 @@ define([
             return { x : x, y : y };
         }
     };
+
+    return GraphicHelper;
 });

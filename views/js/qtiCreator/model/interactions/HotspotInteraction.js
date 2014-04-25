@@ -11,7 +11,6 @@ define([
     _.extend(methods, editableInteraction);
     _.extend(methods, {
         getDefaultAttributes : function(){
-            console.log("model/i/h", 'getDefaultAttributes');
             return {
                 'shuffle' : false,
                 'maxChoices' : 0,
@@ -24,19 +23,21 @@ define([
         },
 
         afterCreate : function(){
-            console.log("model/i/h", 'afterCreate');
+            var relatedItem = this.getRelatedItem();
+            var isResponsive = relatedItem.getMeta('responsive');
+
+            if(isResponsive === true){
+                relatedItem.addClass('responsive');
+            }
             this.createChoice();
             this.createResponse({
                 baseType:'identifier',
                 cardinality:'single'
             });
-
         },
 
-        createChoice : function(){
-            console.log("model/i/h", 'createChoice');
-            var choice = new Choice();
-            
+        createChoice : function(attr){
+            var choice = new Choice('', attr);
 
             this.addChoice(choice);
             choice.buildIdentifier('hotspot');
@@ -46,7 +47,7 @@ define([
             }
             
             $(document).trigger('choiceCreated.qti-widget', {'choice' : choice, 'interaction' : this});
-            
+           
             return choice;
         }
     });

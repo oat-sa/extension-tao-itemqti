@@ -10,6 +10,7 @@ define([
 
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
+        options.choiceForm = this.getOption('choiceOptionForm');
         
         return HotspotInteractionWidget.build(
             interaction,

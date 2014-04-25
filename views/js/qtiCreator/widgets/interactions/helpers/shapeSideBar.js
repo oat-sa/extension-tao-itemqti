@@ -51,8 +51,12 @@ define([
                     $sideBar.trigger('shapedeactive.qti-widget');
                 }
             }); 
-        
-            $(window).trigger('resize');    
+       
+             
+            $container.on('resized.qti-widget', function(){
+                $sideBar.find('.forms').height($imageEditor.outerHeight());
+            });    
+            $container.trigger('resize.qti-widget', newWidth);    
 
             return $sideBar;
         },
@@ -66,7 +70,7 @@ define([
                 $imageBox.css('width', 'auto');
                 $imageEditor.css('width', 'auto');
 
-                $(window).trigger('resize');    
+                $container.trigger('resize');    
             }
         }
     };
