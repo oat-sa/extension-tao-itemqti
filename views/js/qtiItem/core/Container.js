@@ -78,6 +78,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                     }
                 }
             }else{
+                //@todo : check dangerous passing by ref usage here:
                 elts = this.elements;
             }
             return elts;

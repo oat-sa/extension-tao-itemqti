@@ -73,14 +73,12 @@ define([
                     wrapper,
                     // cke copies the widget to a kind of shadow dom, hence this trickery
                     getProtectedWidgetBySerial = function(serial) {
-                        console.log($('[data-serial="' + serial + '"]').length)
                         $('[data-serial="' + serial + '"]').each(function() {
                             var widget = $(this);
                             if(widget.parent().hasClass('cke-qti-wrapper')) {
                                 return false;
                             }
                         });
-                        console.log({fn: widget})
                         return widget.length ? widget : $();
                     },
                     positionCover = function(cover) {

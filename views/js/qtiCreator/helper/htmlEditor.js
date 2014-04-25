@@ -6,7 +6,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/ckProtector',
     'ckConfigurator'
 ],
-    function (_, $, CKEditor, __, ckProtector, ckConfigurator) {
+    function(_, $, CKEditor, __, ckProtector, ckConfigurator){
 
 
         //prevent auto inline editor creation:
@@ -15,10 +15,10 @@ define([
         //CKEDITOR.dtd.$editable.span = 1;//buggy!
 
         var _defaults = {
-            placeholder: __('some text ...')
+            placeholder : __('some text ...')
         };
 
-        var _buildEditor = function ($editable, $editableContainer, options) {
+        var _buildEditor = function($editable, $editableContainer, options){
 
             var $trigger,
                 widgetClass,
@@ -26,10 +26,10 @@ define([
 
             options = _.defaults(options, _defaults);
 
-            if (!$editable instanceof $ || !$editable.length) {
+            if(!$editable instanceof $ || !$editable.length){
                 throw 'invalid jquery element for $editable';
             }
-            if (!$editableContainer instanceof $ || !$editableContainer.length) {
+            if(!$editableContainer instanceof $ || !$editableContainer.length){
                 throw 'invalid jquery element for $editableContainer';
             }
 
@@ -38,7 +38,7 @@ define([
 
             ckProtector.protect($editable);
 
-            $(document).on('removeprotection.ckprotector', function(e, data) {
+            $(document).on('removeprotection.ckprotector', function(e, data){
                 console.log(data.context, data.widget);
                 // destroy cke
                 // replace old widget with new one
@@ -48,8 +48,8 @@ define([
 
             // build parameter for toolbar
             // @todo sam coreect class names
-            widgetClass =  $editable.parent().attr('class');
-            switch(true) {
+            widgetClass = $editable.parent().attr('class');
+            switch(true){
                 case widgetClass.indexOf('qti-blockInteraction') > -1:
                     toolbarType = 'qtiBlock';
                     break;
@@ -62,62 +62,80 @@ define([
                     toolbarType = 'qtiFlow';
             }
 
+            var _rebuildWidgets = function(container, $container){
+                //reinit all widgets:
+                _.each(_.values(container.elements), function(elt){
+                    var $widget = $container.find('.widget-box[data-serial=' + elt.serial + ']');
+                    elt.render($widget);
+                    elt.postRender();
+                });
+            };
+
             var ckConfig = {
-                floatSpace: {
-                    debug: true,
-                    initialHide: true,
-                    centerElement: function () {
+                floatSpace : {
+                    debug : true,
+                    initialHide : true,
+                    centerElement : function(){
                         //cke initialize the config too early.. so need to provide a callback to initialize it...
                         return $editableContainer.find('[data-role="cke-launcher"]')[0];
                     },
-                    on: {
-                        ready: function (floatSpaceApi) {
+                    on : {
+                        ready : function(floatSpaceApi){
 
                             floatSpaceApi.hide();
                             //@todo namespace this event: .editor.qti-widget or stuff...
-                            $trigger.on('click', function () {
-                                if ($trigger.hasClass('active')) {
+                            $trigger.on('click', function(){
+                                if($trigger.hasClass('active')){
                                     $trigger.removeClass('active');
                                     floatSpaceApi.hide();
-                                } else {
+                                }else{
                                     $trigger.addClass('active');
                                     floatSpaceApi.show();
                                 }
                             });
 
                         },
-                        changeMode: function (oldMode, newMode) {
-                            if (oldMode !== newMode) {
+                        changeMode : function(oldMode, newMode){
+                            if(oldMode !== newMode){
                                 $(this).find('.cke_nose').removeClass('float-space-' + oldMode).addClass('float-space-' + newMode);
                             }
                         }
                     }
                 },
-                on: {
-                    instanceReady: function (e) {
-                        e.editor.on('change', function (e) {
+                on : {
+                    instanceReady : function(e){
+                        e.editor.on('change', function(e){
                             //callback:
-                            if (_.isFunction(options.change)) {
+                            if(_.isFunction(options.change)){
                                 options.change.call(this, this.getData());
                             }
                         });
                     },
-                    focus: function (e) {
+                    focus : function(e){
+
+                        $editable.attr('contenteditable', true);
 
                         //show trigger
                         $editableContainer.find('[data-role="cke-launcher"]').hide();
                         $trigger.show();
 
                         //callback:
-                        if (_.isFunction(options.focus)) {
+                        if(_.isFunction(options.focus)){
                             options.focus.call(this, this.getData());
                         }
+
+                        _rebuildWidgets(options.data.element, $editable);
                     },
-                    blur: function (e) {
+                    blur : function(e){
+
+                        $editable.attr('contenteditable', false);
+
                         // remove protection from qti element
                         $trigger.hide();
+
+                        _rebuildWidgets(options.data.element, $editable);
                     },
-                    configLoaded: function(e) {
+                    configLoaded : function(e){
                         e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType);
                     }
                 }
@@ -126,13 +144,13 @@ define([
             return CKEditor.inline($editable[0], ckConfig);
         };
 
-        var _find = function ($container, dataAttribute) {
+        var _find = function($container, dataAttribute){
 
             var $collection;
 
-            if ($container.data(dataAttribute)) {
+            if($container.data(dataAttribute)){
                 $collection = $container;
-            } else {
+            }else{
                 $collection = $container.find('[data-' + dataAttribute + '=true]');
             }
             return $collection;
@@ -145,20 +163,20 @@ define([
              * @param {type} $container
              * @returns {undefined}
              */
-            hasEditor: function ($container) {
+            hasEditor : function($container){
 
                 var hasEditor = false;
 
-                _find($container, 'html-editable').each(function () {
+                _find($container, 'html-editable').each(function(){
                     hasEditor = !!$(this).data('editor');
                     return hasEditor;//continue if true, break if false
                 });
 
                 return hasEditor;
             },
-            buildEditor: function ($container, editorOptions) {
+            buildEditor : function($container, editorOptions){
 
-                _find($container, 'html-editable-container').each(function () {
+                _find($container, 'html-editable-container').each(function(){
 
                     var editor,
                         $editableContainer = $(this),
@@ -176,9 +194,9 @@ define([
                 });
 
             },
-            destroyEditor: function ($container) {
+            destroyEditor : function($container){
 
-                _find($container, 'html-editable-container').each(function () {
+                _find($container, 'html-editable-container').each(function(){
 
                     var $editableContainer = $(this),
                         $editable = $editableContainer.find('[data-html-editable]');
@@ -189,7 +207,7 @@ define([
                         .hide();
 
                     $editable.removeAttr('contenteditable');
-                    if ($editable.data('editor')) {
+                    if($editable.data('editor')){
                         $editable.data('editor').destroy();
                         $editable.removeData('editor');
                     }
