@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/interactions/InlineInteraction'], function(InlineInteraction){
+define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction'], function(InlineInteraction){
     var UploadInteraction = InlineInteraction.extend({
         'qtiClass' : 'uploadInteraction'
     });
