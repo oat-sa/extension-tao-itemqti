@@ -1,5 +1,6 @@
 <img 
     data-serial="{{serial}}" 
+    data-qti-class="img" 
     src="{{attributes.src}}" 
     alt="{{attributes.alt}}" 
     {{#if attributes.id}}id="{{attributes.id}}"{{/if}}
