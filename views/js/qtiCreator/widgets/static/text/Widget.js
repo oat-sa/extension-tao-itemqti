@@ -13,7 +13,6 @@ define([
 
         this.registerStates(states);
 
-        this.buildEditor();
     };
 
     TextWidget.buildContainer = function(){
@@ -43,29 +42,6 @@ define([
 
         return this;
     };
-
-    TextWidget.buildEditor = function(){
-
-        var _this = this,
-            $editableContainer = this.$container,
-            container = this.element;
-
-        $editableContainer.attr('data-html-editable-container', true);
-
-        if(!htmlEditor.hasEditor($editableContainer)){
-            htmlEditor.buildEditor($editableContainer, {
-                change : function(data){
-                    container.body(data);
-                },
-                focus : function(){
-                    _this.changeState('active');
-                },
-                data : {
-                    element : container
-                }
-            });
-        }
-    };
-
+    
     return TextWidget;
 });

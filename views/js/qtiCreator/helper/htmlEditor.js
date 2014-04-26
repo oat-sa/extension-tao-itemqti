@@ -36,15 +36,7 @@ define([
             $trigger = $editableContainer.find('[data-role="cke-launcher"]');
             $editable.attr('placeholder', options.placeholder);
 
-            ckProtector.protect($editable);
-
-            $(document).on('removeprotection.ckprotector', function(e, data){
-                console.log(data.context, data.widget);
-                // destroy cke
-                // replace old widget with new one
-
-                //CKEditor.blur();
-            });
+//            ckProtector.protect($editable);
 
             // build parameter for toolbar
             // @todo sam coreect class names
@@ -61,15 +53,6 @@ define([
                 default:
                     toolbarType = 'qtiFlow';
             }
-
-            var _rebuildWidgets = function(container, $container){
-                //reinit all widgets:
-                _.each(_.values(container.elements), function(elt){
-                    var $widget = $container.find('.widget-box[data-serial=' + elt.serial + ']');
-                    elt.render($widget);
-                    elt.postRender();
-                });
-            };
 
             var ckConfig = {
                 floatSpace : {
@@ -110,10 +93,13 @@ define([
                                 options.change.call(this, this.getData());
                             }
                         });
+                        
+                        if(options.data && options.data.element){
+                            _rebuildWidgets(options.data.element, $editable);
+                            $editable.data('qti-element', options.data.element);
+                        }
                     },
                     focus : function(e){
-
-                        $editable.attr('contenteditable', true);
 
                         //show trigger
                         $editableContainer.find('[data-role="cke-launcher"]').hide();
@@ -123,17 +109,53 @@ define([
                         if(_.isFunction(options.focus)){
                             options.focus.call(this, this.getData());
                         }
-
-                        _rebuildWidgets(options.data.element, $editable);
+                        
+                        //shield inner widgets:
+                        $editable.find('.widget-box').each(function(){
+                            
+                            var $widget = $(this);
+                            var containerWidget = options.data.widget;
+                            var targetWidgetSerial = $widget.data('widget').serial;
+                            var $shield = $('<button>', {}).css({
+                                position:'absolute',
+                                top:0,
+                                left:0,
+                                width:'100%',
+                                height:'100%',
+                                zIndex:999,
+                                opacity:0.1
+                            });
+                            
+                            $widget.append($shield);
+                            $shield.on('click', function(e){
+                                
+                                //click on shield: 
+                                //1. this.widget.changeState('sleep');
+                                //2. clicked widget.changeState('active');
+                                
+                                e.stopPropagation();
+                                
+                                $editable.one('widgetCreated', function(e, widgets){
+                                    var targetWidget = widgets[targetWidgetSerial];
+                                    if(targetWidget){
+                                        targetWidget.changeState('active');
+                                    }
+                                });
+                                
+                                containerWidget.changeState('sleep');
+                                        
+                            });
+                            
+                        });
+                        
+                        
                     },
                     blur : function(e){
 
-                        $editable.attr('contenteditable', false);
-
-                        // remove protection from qti element
+                        // unshield inner widgets:
+                        //@todo
+                        
                         $trigger.hide();
-
-                        _rebuildWidgets(options.data.element, $editable);
                     },
                     configLoaded : function(e){
                         e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType);
@@ -155,7 +177,20 @@ define([
             }
             return $collection;
         };
-
+        
+        var _rebuildWidgets = function(container, $container){
+            
+            var widgets = {};
+            //reinit all widgets:
+            _.each(_.values(container.elements), function(elt){
+                var $widget = $container.find('.widget-box[data-serial=' + elt.serial + ']');
+                elt.render($widget);
+                var widget = elt.postRender();
+                widgets[widget.serial] = widget;
+            });
+            $container.trigger('widgetCreated', [widgets, container]);
+        };
+            
         var editorFactory = {
             /**
              * Check if all data-html-editable has an editor
@@ -210,10 +245,14 @@ define([
                     if($editable.data('editor')){
                         $editable.data('editor').destroy();
                         $editable.removeData('editor');
+                        
+                        if($editable.data('qti-element')){
+                            _rebuildWidgets($editable.data('qti-element'), $editable);
+                        }
                     }
                 });
 
-                ckProtector.unprotect();
+//                ckProtector.unprotect();
             }
         };
 

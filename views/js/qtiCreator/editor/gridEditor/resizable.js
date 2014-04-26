@@ -124,7 +124,7 @@ define([
     };
 
     var _deleteResizables = function _deleteResizables($el) {
-        $el.find('[class^="col-"] .grid-edit-resizable-zone, [class*=" col-"] .grid-edit-resizable-zone').remove();
+        $el.find('.grid-edit-resizable-zone').remove();
     };
 
     var _setColUnits = function _setColUnits($elt, newUnits) {

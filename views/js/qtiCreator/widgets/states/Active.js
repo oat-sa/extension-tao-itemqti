@@ -3,6 +3,8 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
         
         var _widget = this.widget;
         
+        _widget.$container.attr('contenteditable', false);
+        
         _widget.beforeStateInit(function(e, element, state){
             var serial = element.getSerial();
             if(state.name === 'active' && serial !== _widget.serial){

@@ -31,7 +31,7 @@ define([
         
         this.initUiComponents();
 
-        //this.initTextWidgets();
+        this.initTextWidgets();
 
         this.initGridEditor();
 

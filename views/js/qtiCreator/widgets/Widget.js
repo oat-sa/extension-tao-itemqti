@@ -32,7 +32,8 @@ define([
 
                 //build container from origin element
                 this.buildContainer();
-
+                this.$container.data('widget', this);
+                
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
 
