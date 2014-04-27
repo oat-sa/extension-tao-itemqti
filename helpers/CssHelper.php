@@ -24,8 +24,36 @@ namespace oat\taoQtiItem\helpers;
 
 class CssHelper{
 
+    private static function _buildWarning() {
+       return <<<EOF
+       /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+
+EOF;
+
+    }
+
+
     public static function save($cssArr){
-        $css = arrayToCss($cssArr);
+        if(!$cssArr){
+            return false;
+        }
+        $css = self::_buildWarning() . self::arrayToCss($cssArr);
         $cssFile = self::getStylesheetPath();
         file_put_contents($cssFile, $css);
     }
@@ -50,6 +78,7 @@ class CssHelper{
         if(!$css) {
             return array();
         }
+        $css = str_replace(self::_buildWarning(), '', $css);
         $oldCssArr = explode("\n", $css);
         $newCssArr = array();
         foreach($oldCssArr as $line) {
