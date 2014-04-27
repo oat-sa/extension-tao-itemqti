@@ -133,9 +133,14 @@ define([
          * Save the resulting CSS to a file
          */
         var save = function () {
+            if(_.isEmpty(style)){
+                return false;
+            }
             verifyInit();
             $.post(_getUri('save'), _.extend({}, itemConfig, { cssJson: JSON.stringify(style) }));
         };
+
+        $(document).on('itemsave.qtiEdit', save);
 
 
         /**
