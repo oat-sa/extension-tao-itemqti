@@ -29,6 +29,17 @@ define([
         var image       = paper.getById('bg-image-' + interaction.serial);
         var $choiceForm = widget.choiceForm;
 
+        //set the edition shape style
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = paper.getById(choice.serial);
+            if(element){
+                element
+                    .attr(GraphicHelper._style.creator)
+                    .unmouseover()
+                    .unmouseout();
+            }
+        });
+
         //we need to stop the question mode on resize, to keep the coordinate system coherent, 
         //even in responsive (the side bar introduce a biais)
         $(window).on('resize.changestate', function(){
@@ -76,7 +87,6 @@ define([
                 editShape(shape);
             }
         });
-
 
         /**
          * Make a shape editable
@@ -197,7 +207,9 @@ define([
      * Exit the question state, leave the room cleaned up
      */
     var exitQuestionState = function initQuestionState(){
-        var $container = this.widget.$container;
+        var $container  = this.widget.$container;
+        var interaction = this.widget.element;
+        var paper       = interaction.paper;
         
         $(window).off('resize.changestate');
 
@@ -205,6 +217,24 @@ define([
         
         _.invoke(editors, 'destroy');
         editors = [];
+
+        //reset the shape style
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = paper.getById(choice.serial);
+            if(element){
+                element
+                    .attr(GraphicHelper._style.basic)
+                    .hover(function(){
+                        if(!element.flashing){
+                            GraphicHelper.updateElementState(this, 'hover'); 
+                        }
+                  }, function(){
+                        if(!element.flashing){
+                            GraphicHelper.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
+                        }
+                  });
+            }
+        });
     };
     
     /**

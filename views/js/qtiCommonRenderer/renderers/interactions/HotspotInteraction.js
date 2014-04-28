@@ -42,7 +42,10 @@ define([
             getResponse : _getRawResponse,
             onError : function(data){
                 if(data.target.active){
+                    data.target.active = false;
+                    graphic.updateElementState(this, 'basic', __('Select this area'));
                     graphic.highlightError(data.target);
+                    Helper.triggerResponseChangeEvent(interaction);
                 }
             }
         }); 
@@ -110,10 +113,14 @@ define([
         if(response && interaction.paper){
 
             try{
+
+                console.log('response', response);
                 responseValues = pciResponse.unserialize(response, interaction);
-            } catch(e){}
+
+            } catch(e){ }
             
             if(_.isArray(responseValues)){
+
                 _.forEach(interaction.getChoices(), function(choice){
                     var rElement;
                     if(_.contains(responseValues, choice.attributes.identifier)){
@@ -121,6 +128,7 @@ define([
                         if(rElement){
                             rElement.active = true;
                             graphic.updateElementState(rElement, 'active', __('Click again to remove')); 
+                            Helper.validateInstructions(interaction, { choice : choice, target : rElement });
                         }
                     }
                 });
@@ -150,6 +158,7 @@ define([
                 graphic.updateElementState(element, 'basic'); 
             }
         });
+        Helper.resetInstructions(interaction);
     };
 
 
@@ -172,6 +181,25 @@ define([
     };
 
     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function destroy(interaction){
+        var $container;
+        if(interaction.paper){
+            $container = Helper.getContainer(interaction);
+        
+            $(window).off('resize');
+
+            interaction.paper.clear();
+            Helper.removeInstructions(interaction);
+            
+            $('.main-image-box', $container).empty().removeAttr('style');            
+            $('.image-editor', $container).removeAttr('style'); 
+        }
+    };  
+
+    /**
      * Expose the common renderer for the hotspot interaction
      * @exports qtiCommonRenderer/renderers/interactions/HotspotInteraction
      */
@@ -182,6 +210,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

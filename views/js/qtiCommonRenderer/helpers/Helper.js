@@ -31,6 +31,7 @@ define([
             
             return _containers[serial];
         },
+
         validateInstructions : function(element, data){
             var serial = element.getSerial();
             if(_instructions[serial]){
@@ -39,6 +40,7 @@ define([
                 });
             }
         },
+
         appendInstruction : function(element, message, validateCallback){
             var serial = element.getSerial(),
                 instruction = new Instruction(element, message, validateCallback);
@@ -52,11 +54,24 @@ define([
 
             return instruction;
         },
+
         removeInstructions : function(element){
             _instructions[element.getSerial()] = {};
             this.getContainer(element).find('.instruction-container').empty();
         },
-        
+       
+        /**
+         * Reset the instructions states for an element (but keeps configuration)
+         * @param {Object} element - the qti object, ie. interaction, choice, etc.
+         */ 
+        resetInstructions : function(element){
+            var serial = element.getSerial();
+            if(_instructions[serial]){
+                _.each(_instructions[serial], function(instruction){
+                    instruction.reset();
+                });
+            }
+        },
         
         /** 
          * Default instuction set with a min/max constraints.
@@ -116,7 +131,7 @@ define([
 
                         if(getResponse(interaction).length >= max){
                  
-                           this.setLevel('success');
+                            this.setLevel('success');
                             this.setMessage(__('Maximum choices reached'));
                             if(this.checkState('fulfilled')){
                                 this.update({

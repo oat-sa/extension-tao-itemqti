@@ -13,7 +13,7 @@ define([
         responseWidget.setResponse(_.values(response.getCorrect()));
         
         this.widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(this.unformatResponse(data.response));
+            response.setCorrect(responseWidget.unformatResponse(data.response));
         });
 
     }, function(){

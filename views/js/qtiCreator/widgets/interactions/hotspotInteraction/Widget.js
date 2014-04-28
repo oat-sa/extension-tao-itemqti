@@ -8,37 +8,36 @@ define([
       
     var HotspotInteractionWidget = _.extend(Widget.clone(), {
 
-
         initCreator : function(options){
+
+            this.baseUrl = options.baseUrl;
+            this.choiceForm = options.choiceForm;
 
             Widget.initCreator.call(this);
 
             this.registerStates(states);
            
-            this._createPaper(options.baseUrl); 
-           
-            this.choiceForm = options.choiceForm;
- 
-            //call render choice for each interaction's choices
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            this.createPaper(options.baseUrl); 
         },
     
-        _createPaper : function(baseUrl){
+        createPaper : function(){
+
             var background = this.element.object.attributes;
             this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
-                width   : background.width, 
-                height  : background.height,
-                img     :  baseUrl + background.data,
-                imgId   : 'bg-image-' + this.element.serial,
-                container : this.$original
+                width       : background.width, 
+                height      : background.height,
+                img         : this.baseUrl + background.data,
+                imgId       : 'bg-image-' + this.element.serial,
+                container   : this.$original
             });
+            
+            //call render choice for each interaction's choices
+            _.forEach(this.element.getChoices(), this._currentChoices, this);
         },
 
         _currentChoices : function(choice){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,
-                style       : 'creator',
-                hover       : false, 
                 touchEffect : false
             });
         }

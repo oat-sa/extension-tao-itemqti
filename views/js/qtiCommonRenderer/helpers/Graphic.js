@@ -206,7 +206,7 @@ define([
             if(raphael.type === 'SVG'){ 
                 
                 //scale on creation
-                resizer();
+                resizePaper();
                 
                 $(window).resize(resizer);
                 $container.on('resize.qti-widget', resizer);
@@ -459,6 +459,7 @@ define([
         /**
          * Highlight an element with the error style
          * @param {Raphael.Element} element - the element to hightlight
+         * @param {String} [restorState = 'basic'] - the state to restore the elt into after flash
          */
         highlightError : function(element, restoredState){
             var self = this;
@@ -466,7 +467,7 @@ define([
                element.flashing = true; 
                self.updateElementState(element, 'error');
                 _.delay(function(){
-                    self.updateElementState(element, restoredState || 'active');
+                    self.updateElementState(element, restoredState || 'basic');
                     element.flashing = false; 
                 }, 800);
            }
