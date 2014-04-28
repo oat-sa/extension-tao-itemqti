@@ -60,7 +60,10 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
-        \tao_helpers_File::securityCheck($styleSheet);
+        if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
+            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+        }
+        
         
         CssHelper::saveCssFile($item, $lang, $styleSheet, $this -> getCssArray());
     }
@@ -89,7 +92,9 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
         $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
         $lang = $this->getRequestParameter('lang');
         $styleSheet = $this->getRequestParameter('stylesheetUri');
-        \tao_helpers_File::securityCheck($styleSheet);
+        if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
+            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+        }
 
         $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
         echo json_encode($cssArray);
