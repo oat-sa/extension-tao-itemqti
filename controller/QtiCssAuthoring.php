@@ -45,9 +45,24 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
      */
     public function save() {
         if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+            throw new common_exception_IsAjaxAction(__METHOD__);
         }
-        CssHelper::save($this -> getCssArray());
+        if (!$this->hasRequestParameter('uri')) {
+            throw new common_exception_MissingParameter('uri', __METHOD__);
+        }
+        if (!$this->hasRequestParameter('stylesheetUri')) {
+            throw new common_exception_MissingParameter('stylesheetUri', __METHOD__);
+        }
+        if (!$this->hasRequestParameter('lang')) {
+            throw new common_exception_MissingParameter('lang', __METHOD__);
+        }
+        
+        $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
+        $lang = $this->getRequestParameter('lang');
+        $styleSheet = $this->getRequestParameter('stylesheetUri');
+        \tao_helpers_File::securityCheck($styleSheet);
+        
+        CssHelper::saveCssFile($item, $lang, $styleSheet, $this -> getCssArray());
     }
 
     /**
@@ -59,15 +74,25 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
     public function load() {
 
         if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.\Context::getInstance()->getActionName());
+            throw new common_exception_IsAjaxAction(__METHOD__);
         }
-
+        if (!$this->hasRequestParameter('uri')) {
+            throw new common_exception_MissingParameter('uri', __METHOD__);
+        }
         if (!$this->hasRequestParameter('stylesheetUri')) {
-            throw new common_exception_MissingParameter('stylesheetUri', __CLASS__.'::'.\Context::getInstance()->getActionName());
+            throw new common_exception_MissingParameter('stylesheetUri', __METHOD__);
         }
+        if (!$this->hasRequestParameter('lang')) {
+            throw new common_exception_MissingParameter('lang', __METHOD__);
+        }
+        
+        $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
+        $lang = $this->getRequestParameter('lang');
+        $styleSheet = $this->getRequestParameter('stylesheetUri');
+        \tao_helpers_File::securityCheck($styleSheet);
 
-        $cssJson = CssHelper::loadCssFile();
-        echo $cssJson;
+        $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
+        echo json_encode($cssArray);
     }
 
     /**

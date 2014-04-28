@@ -48,24 +48,27 @@ EOF;
 
     }
 
-
-    public static function save($cssArr){
-        if(!$cssArr){
+    /**
+     * Stores an css array in the file
+     * 
+     * @param core_kernel_classes_resource $item
+     * @param string $lang
+     * @param string $styleSheetPath
+     * @param array $cssArr
+     * @return boolean true on success
+     */
+    public static function saveCssFile(core_kernel_classes_resource $item, $lang, $styleSheetPath, $cssArr){
+        if(empty($cssArr)) {
             return false;
         }
+        
+        $service = \taoItems_models_classes_ItemsService::singleton();
+        $cssFile  = $service->getItemFolder($item, $lang, $styleSheetPath);
+        
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
-        $cssFile = self::getStylesheetPath();
-        file_put_contents($cssFile, $css);
+        $count = file_put_contents($cssFile, $css);
+        return $count > 0;
     }
-
-    /**
-     * Retrieve stylesheet path
-     */
-    private static function getStylesheetPath() {
-        $item = new \core_kernel_classes_Resource($_GET['uri']);
-        return \taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $_GET['lang']) . $_GET['stylesheetUri'] ;
-    }
-
 
     /**
      * Convert incoming CSS to CSS array
@@ -142,17 +145,28 @@ EOF;
         return $css;
     }
 
-    public static function loadCssFile() {
+    /**
+     * Loads the content of a css file into a css array
+     * Returns an empty stylesheet if it does not yet exist
+     * 
+     * @param core_kernel_classes_resource $item
+     * @param string $lang
+     * @param string $styleSheet
+     * @return array array with structure of 'selector' => rules
+     */
+    public static function loadCssFile(core_kernel_classes_resource $item, $lang, $styleSheet) {
 
-        $cssFile = self::getStylesheetPath();
+        $service = \taoItems_models_classes_ItemsService::singleton();
+        $cssFile  = $service->getItemFolder($item, $lang, $styleSheet);
 
         // no user style sheet has been created yet
         if(!is_readable($cssFile)) {
-            return '';
+            \common_Logger::d('Stylesheet '.$cssFile.' does not exist yet, returning empty array');
+            return array();
         }
 
         $cssArr = self::cssToArray(file_get_contents($cssFile));
-        return json_encode($cssArr);
+        return $cssArr;
     }
 
 
