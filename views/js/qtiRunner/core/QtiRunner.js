@@ -26,11 +26,13 @@
  * @requires jquery {@link http://www.jquery.com}
  */
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Loader', 
     'taoQtiItem/qtiItem/helper/pci', 
-    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function(_, ItemLoader, pci, ModalFeedback){
+    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
+    'iframeNotifier'
+], function($, _, ItemLoader, pci, ModalFeedback, iframeNotifier){
 
     var QtiRunner = function(){
         this.item = null;
@@ -192,8 +194,8 @@ define([
         this.rpEngine = callback;
     };
     
-    QtiRunner.prototype.showFeedbacks = function(itemSession, callback){
-        
+    QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
+
         //currently only modal feedbacks are available
         var _this = this,
             feedbacksToBeDisplayed = [];
@@ -212,9 +214,13 @@ define([
         //record the number of feedbacks to be displayed:
         var count = feedbacksToBeDisplayed.length;
         
+        if (count > 0 && typeof onShowCallback != 'undefined') {
+            onShowCallback();
+        }
+        
         //show in reverse order
         var lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
-        _.eachRight(feedbacksToBeDisplayed, function(feedback){
+            _.eachRight(feedbacksToBeDisplayed, function(feedback){
             _this.showModalFeedback(feedback);
         });
         

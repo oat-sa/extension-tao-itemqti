@@ -57,7 +57,7 @@ define(['lodash'], function(_){
             print += (withType == true) ? '(intOrIdentifier) ' : '';
             print += value.base.intOrIdentifier;
         }
-        else if (typeof response.base.identifier != 'undefined') {
+        else if (typeof value.base.identifier != 'undefined') {
             print += (withType == true) ? '(identifier) ' : '';
             print += value.base.identifier;
         }

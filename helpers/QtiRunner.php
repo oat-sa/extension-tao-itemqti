@@ -21,22 +21,32 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use qtism\runtime\common\Variable;
 use qtism\common\enums\BaseType;
 use qtism\common\enums\Cardinality;
+use qtism\runtime\common\Variable;
+use qtism\runtime\tests\AssessmentItemSession;
+use \core_kernel_classes_Session;
+use \tao_models_classes_service_StorageDirectory;
 
 /**
  * Qti Item Runner helper
  *
- * @author OAT
+ * @author Somsack Sipasseuth <sam@taotesting.com>
+ * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @package taoQtiItem
-
+ *
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class QtiRunner
 {
 
-    public static function getVariableValues(Variable $variable){
+    /**
+     * Get the intrinsic values of a given QTI $variable.
+     * 
+     * @param Variable $variable
+     * @return array
+     */
+    public static function getVariableValues(Variable $variable) {
 
         $returnValue = array();
 
@@ -56,4 +66,97 @@ class QtiRunner
         return $returnValue;
     }
 
+    /**
+     * Get the absolute path to the compilation folder described by$directory.
+     * 
+     * @param tao_models_classes_service_StorageDirectory $director The root directory resource where the item is stored.
+     * @return string The local path to the private folder with a trailing directory separator.
+     */
+    public static function getPrivateFolderPath(tao_models_classes_service_StorageDirectory $directory) {
+        $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+        $basepath = $directory->getPath();
+        
+        if (!file_exists($basepath . $lang) && file_exists($basepath . DEFAULT_LANG)) {
+            $lang = DEFAULT_LANG;
+        }
+        
+        return $basepath . $lang . DIRECTORY_SEPARATOR;
+    }
+    
+    /**
+     * Get the JSON QTI Model representing the elements (A.K.A. components) that vary over time for
+     * the item stored in $directory.
+     * 
+     * @param tao_models_classes_service_StorageDirectory $directory
+     * @return array A JSON decoded array.
+     */
+    public static function getContentVariableElements(tao_models_classes_service_StorageDirectory $directory) {
+        $jsonFile = self::getPrivateFolderPath($directory) . 'variableElements.json';
+        $elements = file_get_contents($jsonFile);
+        return json_decode($elements, true);
+    }
+    
+    public static function getRubricBlocks(tao_models_classes_service_StorageDirectory $directory, $view) {
+        $elements = self::getContentVariableElements($directory);
+        
+        foreach ($elements as $serial => $data) {
+        
+            if (empty($data['qtiClass']) === false && $data['qtiClass'] == 'rubricBlock') {
+        
+                if (!empty($data['attributes']) && is_array($data['attributes']['view'])) {
+        
+                    if(in_array($view, $data['attributes']['view'])){
+                        $returnValue[$serial] = $data;
+                    }
+                }
+            }
+        }
+        
+        return $elements;
+    }
+    
+    public static function getFeedbacks(tao_models_classes_service_StorageDirectory $directory, AssessmentItemSession $itemSession) {
+        
+        $returnValue = array();
+        
+        $feedbackClasses = array('modalFeedback', 'feedbackInline', 'feedbackBlock');
+        $elements = self::getContentVariableElements($directory);
+        
+        $outcomes = array();
+        foreach ($elements as $data) {
+            if (empty($data['qtiClass']) === false && in_array($data['qtiClass'], $feedbackClasses)) {
+        
+                $feedbackIdentifier = $data['attributes']['identifier'];
+                $outcomeIdentifier = $data['attributes']['outcomeIdentifier'];
+        
+                if (!isset($outcomes[$outcomeIdentifier])) {
+                    $outcomes[$outcomeIdentifier] = array();
+                }
+        
+                $outcomes[$outcomeIdentifier][$feedbackIdentifier] = $data;
+            }
+        }
+        
+        foreach ($itemSession->getAllVariables() as $var) {
+        
+            $identifier = $var->getIdentifier();
+        
+            if (isset($outcomes[$identifier])) {
+        
+                $feedbacks = $outcomes[$identifier];
+                $feedbackIds = QtiRunner::getVariableValues($var);
+        
+                foreach($feedbackIds as $feedbackId) {
+        
+                    if (isset($feedbacks[$feedbackId])) {
+                        $data = $feedbacks[$feedbackId];
+                        $returnValue[$data['serial']] = $data;
+                    }
+                }
+        
+            }
+        }
+        
+        return $returnValue;
+    }
 }
