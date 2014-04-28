@@ -46,6 +46,8 @@ define([
                         widget.changeState('question');
                     }
                 });
+                
+                $('.widget-textEntry:last .icon-bin').css('display', 'inline');
             });
 
             //set button as initialized
