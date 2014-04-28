@@ -40,3 +40,5 @@
 
     <textarea name="mathml">{{{mathML}}}</textarea>
 </div>
+
+<div class="math-buffer"></div>

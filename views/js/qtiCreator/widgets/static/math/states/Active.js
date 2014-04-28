@@ -1,9 +1,10 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
+    'taoQtiItem/qtiCreator/editor/MathEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement'
-], function(stateFactory, Active, formTpl, formElement){
+], function(stateFactory, Active, MathEditor, formTpl, formElement){
 
     var MathActive = stateFactory.extend(Active, function(){
 
@@ -18,15 +19,18 @@ define([
 
         var _widget = this.widget,
             $form = _widget.$form,
-            math = _widget.element;
+            math = _widget.element,
+            mathML = math.mathML,
+            tex = math.getAnnotations('latex'),
+            display = math.attr('display') || 'inline';
 
         $form.html(formTpl({
-            display : math.attr('display') || 'inline',
+            display : display,
             editMode : 'latex',
-            latex : math.getAnnotations('latex'),
-            mathML : math.mathML
+            latex : tex,
+            mathML : mathML
         }));
-        
+
         //... init standard ui widget
 //        formElement.initWidget($form);
 
@@ -40,8 +44,15 @@ define([
                 }
             },
             editMode : function(){
-            
+
             }
+        });
+
+        var mathEditor = new MathEditor({
+            tex : tex,
+            mathML : mathML,
+            display : display,
+            buffer : $form.find('.math-buffer')
         });
     };
 
