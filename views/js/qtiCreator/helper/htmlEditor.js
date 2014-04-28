@@ -1,12 +1,13 @@
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ckeditor',
-    'i18n',
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/editor/ckEditor/ckProtector',
     'ckConfigurator'
 ],
-    function(_, $, CKEditor, __, ckProtector, ckConfigurator){
+    function(_, __, $, CKEditor, deletingHelper, ckProtector, ckConfigurator){
 
 
         //prevent auto inline editor creation:
@@ -87,7 +88,16 @@ define([
                 },
                 on : {
                     instanceReady : function(e){
+                        
+                        var widgets = {};
+                        
+                        //store it in editable elt data attr
+                        $editable.data('editor', e.editor);
+                        
                         e.editor.on('change', function(e){
+                            
+                            _detectWidgetDeletion($editable, widgets, e.editor);
+                            
                             //callback:
                             if(_.isFunction(options.change)){
                                 options.change.call(this, this.getData());
@@ -95,7 +105,7 @@ define([
                         });
 
                         if(options.data && options.data.element){
-                            _rebuildWidgets(options.data.element, $editable);
+                            widgets = _rebuildWidgets(options.data.element, $editable);
                             $editable.data('qti-element', options.data.element);
                             _shieldInnerContent($editable, options.data.widget);
                         }
@@ -110,9 +120,6 @@ define([
                         if(_.isFunction(options.focus)){
                             options.focus.call(this, this.getData());
                         }
-
-                        //shield inner widgets:
-//                        _shieldInnerContent($editable, options.data.widget);
 
                     },
                     blur : function(e){
@@ -146,6 +153,7 @@ define([
         var _rebuildWidgets = function(container, $container){
 
             var widgets = {};
+
             //reinit all widgets:
             _.each(_.values(container.elements), function(elt){
                 var $widget = $container.find('.widget-box[data-serial=' + elt.serial + ']');
@@ -154,6 +162,40 @@ define([
                 widgets[widget.serial] = widget;
             });
             $container.trigger('widgetCreated', [widgets, container]);
+
+            return widgets;
+        };
+
+        var _findWidgetContainer = function($container, serial){
+            return $container.find('.widget-box[data-serial=' + serial + ']');
+        };
+
+        var _detectWidgetDeletion = function($container, widgets, editor){
+
+            var deleted = [];
+
+            _.each(widgets, function(w){
+                var $widget = _findWidgetContainer($container, w.serial);
+                if(!$widget.length){
+                    deleted.push(w);
+                }
+            });
+            
+            if(deleted.length){
+                
+                var $messageBox = deletingHelper.createInfoBox(deleted);
+                $messageBox.on('confirm.deleting', function(){
+                    
+                    _.each(deleted, function(w){
+                        w.element.remove();
+                        w.destroy();
+                    });
+                }).on('undo.deleting', function(){
+                    
+                    editor.undoManager.undo();
+                });
+                
+            }
         };
 
         var _shieldInnerContent = function($container, containerWidget){
@@ -172,6 +214,7 @@ define([
                     opacity : 0.1
                 });
 
+                $widget.attr('contenteditable', false);
                 $widget.append($shield);
                 $shield.on('click', function(e){
 
@@ -194,7 +237,7 @@ define([
 
             });
 
-        }
+        };
 
         var editorFactory = {
             /**
@@ -225,12 +268,8 @@ define([
                     //need to make the element html editable to enable ck inline editing:
                     $editable.attr('contenteditable', true);
 
-
                     //build it
                     editor = _buildEditor($editable, $editableContainer, editorOptions);
-
-                    //store it in editable elt data attr
-                    $editable.data('editor', editor);
                 });
 
             },

@@ -1,16 +1,16 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox',
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/helper/gridUnits',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
     'lodash'
-], function(stateFactory, deletingInfoTpl, gridUnits, gridHelper, _){
+], function(stateFactory, deletingHelper, gridUnits, gridHelper, _){
 
     var DeletingState = stateFactory.create('deleting', function(){
-        
+
         //array to store new col untis
         this.refactoredUnits = [];
-        
+
         //reference to the dom element(s) to be remove on delete
         this.$elementToRemove = this.getElementToRemove();
 
@@ -26,20 +26,20 @@ define([
     });
 
     DeletingState.prototype.getElementToRemove = function(){
-        
+
         var $container = this.widget.$container;
-        
+
         //if is a choice widget:
-        
+
         if($container.hasClass('qti-choice')){
             return $container;
         }
-        
+
         //inline widget:
         if($container.hasClass('widget-inline')){
             return $().add($container).add(this.widget.$original);
         }
-        
+
         //block widget:
         var $col = $container.parent();
         var $row = $col.parent('.grid-row');
@@ -59,9 +59,9 @@ define([
     };
 
     DeletingState.prototype.hideWidget = function(){
-        
+
         var $elt = this.$elementToRemove;
-        
+
         if($elt.length){
             $elt.hide();
             if(_isCol($elt)){
@@ -70,18 +70,18 @@ define([
             }
         }
     };
-    
+
     var _isCol = function($col){
         var attrClass = $col.attr('class');
         return (attrClass && /col-([\d]+)/.test(attrClass));
     };
-    
+
     var _redistributeUnits = function($col){
 
         var usedUnits = $col.data('units');
         var $otherCols = $col.siblings();
         var cols = [];
-        
+
         $otherCols.each(function(){
 
             var $col = $(this),
@@ -104,12 +104,12 @@ define([
 
         //store results in the element for future ref?
         $col.data('redistributedUnits', cols);
-        
+
         return cols;
     };
 
     DeletingState.prototype.showWidget = function(){
-        
+
         var $elt = this.$elementToRemove;
         if($elt.length){
             $elt.show();
@@ -126,44 +126,16 @@ define([
     DeletingState.prototype.showMessage = function(){
 
         var _this = this,
-            _widget = this.widget,
-            serial = _widget.serial;
+            _widget = this.widget;
 
-        $('body').append(deletingInfoTpl({
-            serial : serial
-        }));
+        var $messageBox = deletingHelper.createInfoBox([_widget]);
 
-        var $messageBox = $('body>.feedback-info[data-for="' + serial + '"]');
-        $messageBox.css({
-            'display' : 'block',
-            'position' : 'fixed',
-            'top' : '50px',
-            'left' : '50%',
-            'margin-left' : '-200px',
-            'width' : '400px'
-        });
+        $messageBox.on('confirm.deleting', function(){
 
-        var timeout = setTimeout(function(){
             _this.deleteElement();
-            $messageBox.fadeOut(1000, function(){
-                $(this).remove();
-            });
-        }, 10000);
 
-        $messageBox.on('click', function(e){
-            e.stopPropagation();
-        });
-
-        $('body').on('click.deleting', function(){
-            _this.deleteElement();
-            $messageBox.fadeOut(600, function(){
-                $(this).remove();
-            });
-        });
-
-        $messageBox.find('a.undo').on('click', function(){
-            clearTimeout(timeout);
-            $messageBox.remove();
+        }).on('undo.deleting', function(){
+            
             try{
                 _widget.changeState('question');
             }catch(e){
@@ -171,14 +143,9 @@ define([
             }
         });
 
-        $messageBox.find('.close-trigger').on('click', function(){
-            _this.deleteElement();
-            $messageBox.remove();
-        });
-
         this.messageBox = $messageBox;
     };
-
+    
     DeletingState.prototype.deleteElement = function(){
         this.widget.element.remove();//remove from model
         this.$elementToRemove.remove();//remove html from the dom
