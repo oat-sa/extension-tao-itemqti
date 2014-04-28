@@ -93,10 +93,11 @@ define([
                                 options.change.call(this, this.getData());
                             }
                         });
-                        
+
                         if(options.data && options.data.element){
                             _rebuildWidgets(options.data.element, $editable);
                             $editable.data('qti-element', options.data.element);
+                            _shieldInnerContent($editable, options.data.widget);
                         }
                     },
                     focus : function(e){
@@ -109,52 +110,16 @@ define([
                         if(_.isFunction(options.focus)){
                             options.focus.call(this, this.getData());
                         }
-                        
+
                         //shield inner widgets:
-                        $editable.find('.widget-box').each(function(){
-                            
-                            var $widget = $(this);
-                            var containerWidget = options.data.widget;
-                            var targetWidgetSerial = $widget.data('widget').serial;
-                            var $shield = $('<button>', {}).css({
-                                position:'absolute',
-                                top:0,
-                                left:0,
-                                width:'100%',
-                                height:'100%',
-                                zIndex:999,
-                                opacity:0.1
-                            });
-                            
-                            $widget.append($shield);
-                            $shield.on('click', function(e){
-                                
-                                //click on shield: 
-                                //1. this.widget.changeState('sleep');
-                                //2. clicked widget.changeState('active');
-                                
-                                e.stopPropagation();
-                                
-                                $editable.one('widgetCreated', function(e, widgets){
-                                    var targetWidget = widgets[targetWidgetSerial];
-                                    if(targetWidget){
-                                        targetWidget.changeState('active');
-                                    }
-                                });
-                                
-                                containerWidget.changeState('sleep');
-                                        
-                            });
-                            
-                        });
-                        
-                        
+//                        _shieldInnerContent($editable, options.data.widget);
+
                     },
                     blur : function(e){
 
                         // unshield inner widgets:
                         //@todo
-                        
+
                         $trigger.hide();
                     },
                     configLoaded : function(e){
@@ -177,9 +142,9 @@ define([
             }
             return $collection;
         };
-        
+
         var _rebuildWidgets = function(container, $container){
-            
+
             var widgets = {};
             //reinit all widgets:
             _.each(_.values(container.elements), function(elt){
@@ -190,7 +155,47 @@ define([
             });
             $container.trigger('widgetCreated', [widgets, container]);
         };
-            
+
+        var _shieldInnerContent = function($container, containerWidget){
+
+            $container.find('.widget-box').each(function(){
+
+                var $widget = $(this);
+                var targetWidgetSerial = $widget.data('widget').serial;
+                var $shield = $('<button>', {}).css({
+                    position : 'absolute',
+                    top : 0,
+                    left : 0,
+                    width : '100%',
+                    height : '100%',
+                    zIndex : 999,
+                    opacity : 0.1
+                });
+
+                $widget.append($shield);
+                $shield.on('click', function(e){
+
+                    //click on shield: 
+                    //1. this.widget.changeState('sleep');
+                    //2. clicked widget.changeState('active');
+
+                    e.stopPropagation();
+
+                    $container.one('widgetCreated', function(e, widgets){
+                        var targetWidget = widgets[targetWidgetSerial];
+                        if(targetWidget){
+                            targetWidget.changeState('active');
+                        }
+                    });
+
+                    containerWidget.changeState('sleep');
+
+                });
+
+            });
+
+        }
+
         var editorFactory = {
             /**
              * Check if all data-html-editable has an editor
@@ -245,7 +250,7 @@ define([
                     if($editable.data('editor')){
                         $editable.data('editor').destroy();
                         $editable.removeData('editor');
-                        
+
                         if($editable.data('qti-element')){
                             _rebuildWidgets($editable.data('qti-element'), $editable);
                         }
