@@ -46,8 +46,11 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
         setAnnotation : function(encoding, value){
             this.annotations[encoding] = value;
         },
-        getAnnotations : function(encoding){
+        getAnnotation : function(encoding){
             return this.annotations[encoding];
+        },
+        removeAnnotation : function(encoding){
+            delete this.annotations[encoding];
         },
         setMathML : function(mathML){
             var ns = this.getNamespace(),
@@ -63,9 +66,9 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             return this.mathML;
         },
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer||this.getRenderer(),
+                renderer = args.renderer || this.getRenderer(),
                 tag = this.qtiClass,
                 body = this.mathML,
                 ns = this.getNamespace(),
@@ -94,7 +97,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
                 tag : tag,
                 ns : ns
             };
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });

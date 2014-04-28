@@ -75,11 +75,11 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
                 $importService = ImportService::singleton();
                 $report = $importService->importQTIFile($uploadedFile, $class, true);
             }catch(UnsupportedQtiElement $e){
-                $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()), $item);
+                $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
             }catch(ParsingException $e){
-                $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()), $item);
+                $report = common_report_Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
             }catch(common_Exception $e){
-                $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()), $item);
+                $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the QTI Item. The system returned the following error:", $e->getMessage()));
             }
 
             @unlink($uploadedFile);

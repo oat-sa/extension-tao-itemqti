@@ -51,9 +51,12 @@ class Parser extends tao_models_classes_Parser
      */
     public function validate($schema = ''){
         
-        if(empty($schema) || !file_exists($schema)){
+        if(empty($schema)){
             $schema = dirname(__FILE__).'/data/qtiv2p1/imsqti_v2p1.xsd';
+        }else if(!file_exists($schema)){
+            throw new \common_Exception('no schema found in the location '.$schema);
         }
+        
         $returnValue = parent::validate($schema);
 
         return (bool) $returnValue;

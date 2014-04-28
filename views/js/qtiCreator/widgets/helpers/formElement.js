@@ -21,7 +21,7 @@ define([
             attributes = attributes || {};
 
             var _callbackCall = function(name, value, $elt){
-                console.log('change', name, value);
+//                console.log('change', name, value);
                 var cb = attributes[name];
                 if(_.isFunction(cb)){
                     cb.call($elt[0], element, value, name);
@@ -35,13 +35,11 @@ define([
                         name = $elt.attr('name');
 
                     if($elt.is(':checkbox')){
-
                         _callbackCall(name, $elt.prop('checked'), $elt);
-
-                    }else if($elt.prop('tagName') === 'SELECT' || $elt.is(':text')){
-
+                    }else{
                         _callbackCall(name, $elt.val(), $elt);
                     }
+                    
                 },
                 withValidation : function(e, valid, elt){
 
@@ -59,8 +57,8 @@ define([
 
             $form.off('.databinding');
             $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', callback.simple);
-            $form.on('input.databinding propertychange.databinding', 'textarea', callback.simple);
-
+            $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
+            
             $form.groupValidator({
                 events : ['change', 'blur', {type : 'keyup', length : 0}],
                 callback : _validationCallback

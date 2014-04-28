@@ -1,4 +1,4 @@
-define(['jquery', 'mathJax'], function($, MathJax){
+define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
 
     var MathEditor = function MathEditor(config){
 
@@ -10,6 +10,7 @@ define(['jquery', 'mathJax'], function($, MathJax){
 
         //computed, system variables:
         this.processing = false;
+        this.$target = config.target || $();
 
         if(config.buffer && config.buffer instanceof $ && config.buffer.length){
             this.$buffer = config.buffer;
@@ -19,76 +20,119 @@ define(['jquery', 'mathJax'], function($, MathJax){
     };
 
     MathEditor.prototype.setMathML = function(mathMLstr){
-        this.mathML = mathMLstr;
+
+        this.mathML = _stripMathTags(mathMLstr);
+
+        return this;//for chaining purpose
     };
 
     MathEditor.prototype.setTex = function(texStr){
+
         this.tex = texStr;
+
+        //need to run renderFromTex
+
+        return this;//for chaining purpose
     };
 
-    MathEditor.prototype.renderFromMathML = function(strMath, $target, force){
+    var _processArguments = function(mathEditor, args){
+
+
+        var ret = {
+            target : null,
+            callback : null
+        };
+
+        _.each(args, function(arg){
+            if(_.isFunction(arg)){
+                ret.callback = arg;
+            }else if(arg instanceof $){
+                ret.target = arg;
+            }
+        });
+
+        if(!ret.target){
+            if(mathEditor.$target){
+                ret.target = mathEditor.$target;
+            }else{
+                throw 'no target defined for rendering';
+            }
+        }
+
+        return ret;
+    };
+
+    MathEditor.prototype.renderFromMathML = function(){
+
+        var args = _processArguments(this, arguments);
 
         if(typeof(MathJax) !== 'undefined'){
 
             if(this.processing){
                 return;
             }
-
-            //strip and wrap math tags to compare and clean it
-            strMath = _stripMathTags(strMath);
-            if(!force && strMath === this.mathML){
-                return;
-            }
-
-            strMath = _wrapMathTags(strMath);
-            this.$buffer.html(strMath);
+            var jaxQueue = MathJax.Hub.queue;
+            var mathStr = _wrapMathTags(this.mathML, (this.display === 'block'));
+            this.$buffer.html(mathStr);
 
             var _this = this;
-            MathJax.Hub.Queue(
+           jaxQueue.Push(
                 ["Typeset", MathJax.Hub, this.$buffer[0]],
                 function(){
                     _this.processing = false;
-                    $target.html(_this.$buffer.html());
-                    _this.mathML = _stripMathTags(strMath);
+                    
+                    args.target.html(_this.$buffer.html());
+                    _this.$buffer.empty();
                 }
             );
+
+            if(args.callback){
+                jaxQueue.Push(args.callback);
+            }
         }
 
     };
 
-    MathEditor.prototype.renderFromTex = function(strTeX, $target){
+    MathEditor.prototype.renderFromTex = function(){
+
+        var args = _processArguments(this, arguments);
 
         if(typeof(MathJax) !== 'undefined'){
+
             var _this = this;
             var jaxQueue = MathJax.Hub.queue;
-
-            if(!_this.texJax && false){
-                //programmatically typeset the mathOutput element and fetch the first one
-                jaxQueue.Push(
-                    ["Typeset", MathJax.Hub, $target[0]],
-                    function(){
-                        _this.texJax = _getJaxByElement($target);
-                        $target.css('visibility', 'hidden');
-                    }
-                );
+            if(this.display === 'block'){
+                _this.$buffer.html('\\[\\]');
+            }else{
+                _this.$buffer.html('\\(\\)');
             }
+
+            //programmatically typeset the buffer
+            jaxQueue.Push(
+                ["Typeset", MathJax.Hub, _this.$buffer[0]],
+                function(){
+                    _this.texJax = _getJaxByElement(_this.$buffer);
+                }
+            );
 
             //render preview:
             jaxQueue.Push(
+                ["Text", _this.texJax, "\\displaystyle{" + _this.tex + "}"],
                 function(){
-                    $target.css('visibility', 'hidden');
-                },
-                ["Text", _this.texJax, "\\displaystyle{" + strTeX + "}"],
-                function(){
-                    _this.setTex(strTeX);
+                
+                    args.target.html(_this.$buffer.html());
+                    _this.$buffer.empty();
+
+                    //sync MathML
                     _this.currentTexToMathML(function(mathML){
-                        _this.setMathML(MathEditor.stripMathTags(mathML));
+                        _this.setMathML(_stripMathTags(mathML));
                     });
-                },
-                function(){
-                    $target.css('visibility', 'visible');
                 }
             );
+
+            if(args.callback){
+                jaxQueue.Push(args.callback);
+            }
         }
 
     };
@@ -112,10 +156,10 @@ define(['jquery', 'mathJax'], function($, MathJax){
         }
     };
 
-    var _wrapMathTags = function(mathMLstr){
+    var _wrapMathTags = function(mathMLstr, displayBlock){
 
         if(!mathMLstr.match(/<math[^>]*>/)){
-            var display = (this.display === 'block') ? ' display="block"' : '';
+            var display = displayBlock ? ' display="block"' : '';
             mathMLstr = '<math' + display + '>' + mathMLstr;//always show preview in block mode
         }
         if(!mathMLstr.match(/<\/math[^>]*>/)){
