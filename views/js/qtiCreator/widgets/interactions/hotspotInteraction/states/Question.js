@@ -51,7 +51,7 @@ define([
             paper : interaction.paper, 
             background : image, 
             $container : $container.find('.main-image-box'), 
-            isResponsive : $container.hasClass('responsive'),
+            isResponsive : $container.hasClass('responsive')
         };
         
         //create the side bar 

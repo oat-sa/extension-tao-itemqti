@@ -5,9 +5,18 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
 ], function($, _, Widget, states, graphic){
 
-      
+    /**
+     * The Widget that provides components used by the QTI Creator for the Hotspot Interaction
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget
+     */      
     var HotspotInteractionWidget = _.extend(Widget.clone(), {
 
+        /**
+         * Set up the widget
+         * @param {Object} options - extra options 
+         * @param {String} options.baseUrl - the resource base url
+         * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
+         */
         initCreator : function(options){
 
             this.baseUrl = options.baseUrl;
@@ -17,24 +26,34 @@ define([
 
             this.registerStates(states);
            
-            this.createPaper(options.baseUrl); 
+            this.createPaper(); 
         },
-    
+   
+        /**
+         * Create a basic Raphael paper with the interaction choices 
+         */ 
         createPaper : function(){
 
+            var $container = this.$original;
             var background = this.element.object.attributes;
             this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
                 width       : background.width, 
                 height      : background.height,
                 img         : this.baseUrl + background.data,
                 imgId       : 'bg-image-' + this.element.serial,
-                container   : this.$original
+                diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
+                container   : $container
             });
             
             //call render choice for each interaction's choices
             _.forEach(this.element.getChoices(), this._currentChoices, this);
         },
 
+        /**
+         * Add shape to the Raphel paper for a QTI choice
+         * @private
+         * @param {Object} choice - the QTI choice 
+         */ 
         _currentChoices : function(choice){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,

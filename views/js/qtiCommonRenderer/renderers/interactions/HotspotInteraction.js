@@ -26,9 +26,10 @@ define([
         var baseUrl = this.getOption('baseUrl') || '';
         
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
-            width  : background.width, 
-            height : background.height,
-            img :  baseUrl + background.data,
+            width     : background.width, 
+            height    : background.height,
+            img       :  baseUrl + background.data,
+            diff      : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
             container : $container
         });
 
@@ -46,6 +47,7 @@ define([
                     graphic.updateElementState(this, 'basic', __('Select this area'));
                     graphic.highlightError(data.target);
                     Helper.triggerResponseChangeEvent(interaction);
+                    $container.trigger('inactiveChoice.qti-widget', [data.choice, data.target]);
                 }
             }
         }); 
@@ -59,6 +61,7 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
+        var $container = Helper.getContainer(interaction);
         var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
             id : choice.serial,
             title : __('Select this area')
@@ -67,9 +70,11 @@ define([
             if(this.active){
                 graphic.updateElementState(this, 'basic', __('Select this area'));
                 this.active = false;
+                $container.trigger('inactiveChoice.qti-widget', [choice, this]);
             } else {
                 graphic.updateElementState(this, 'active', __('Click again to remove'));
                 this.active = true;
+                $container.trigger('activeChoice.qti-widget', [choice, this]);
             }
             Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, { choice : choice, target : this });

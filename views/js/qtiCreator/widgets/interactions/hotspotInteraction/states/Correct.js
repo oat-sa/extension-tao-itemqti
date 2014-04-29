@@ -1,36 +1,48 @@
 define([
     'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
-    'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/ResponseWidget',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, stateFactory, Correct, HotspotInteraction, responseWidget, PciResponse){
+], function(_, __, stateFactory, Correct, HotspotInteraction, helper, PciResponse){
 
-    var HotspotInteractionStateCorrect = stateFactory.create(Correct, function(){
-
+    /**
+     * The correct answer state for the hotspot interaction
+     * @extends taoQtiItem/qtiCreator/widgets/states/Correct
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Correct
+     */
+    var HotspotInteractionStateCorrect = stateFactory.create(Correct, function init(){
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
 
-        responseWidget.destroy(widget); 
-        responseWidget.create(widget, false); 
+        //really need to destroy before ? 
+        HotspotInteraction.destroy(interaction);
+        
+        //add a specific instruction
+        helper.appendInstruction(interaction, __('Please select the correct hotspot choices below.'));
+        
+        //use the common Renderer
+        HotspotInteraction.render.call(interaction.getRenderer(), interaction);
 
-        responseWidget.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        HotspotInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
-        this.widget.$container.on('responseChange.qti-widget', function(e, data){
-            console.log('Response has changed', PciResponse.unserialize(data, interaction));
-            
+        widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(PciResponse.unserialize(data, interaction)); 
         });
 
-    }, function(){
+    }, function destroy(){
+        var widget = this.widget;
+        var interaction = widget.element;
 
         //stop listening responses changes
-        this.widget.$container.off('responseChange.qti-widget');
+        widget.$container.off('responseChange.qti-widget');
         
         //destroy the common renderer
-        responseWidget.destroy(this.widget); 
+        helper.removeInstructions(interaction);
+        HotspotInteraction.destroy(interaction); 
 
         //initialize again the widget's paper
         this.widget.createPaper();

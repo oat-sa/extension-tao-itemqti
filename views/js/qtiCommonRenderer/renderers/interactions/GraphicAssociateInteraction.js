@@ -29,7 +29,8 @@ define([
             height      : background.height,
             img         : this.getOption('baseUrl') + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            container   : $container
+            container   : $container,
+            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth()
         });
 
         //call render choice for each interaction's choices

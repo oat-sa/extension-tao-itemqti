@@ -31,6 +31,7 @@ define([
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
+            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
             resize      : function(newWidth){
                 $gapList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
             } 

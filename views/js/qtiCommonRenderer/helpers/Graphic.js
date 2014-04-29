@@ -195,6 +195,7 @@ define([
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
             var responsive = $container.hasClass('responsive');
+            var diff = options.diff || 22;
             var resizer = _.throttle(resizePaper, 10, {leading: false, trailing : true});
 
             paper = factory.call(null ,id, width, height);
@@ -224,8 +225,7 @@ define([
              * @private
              */
             function resizePaper(e, containerWidth){
-                var diff = 22;
-                containerWidth = containerWidth || $container.width() - diff;
+                containerWidth = containerWidth || $container.innerWidth() - diff;
 
                 paper.changeSize(containerWidth, height, false, false);
               
@@ -356,6 +356,26 @@ define([
                     tCircle.remove();
                 });     
             });
+        },
+
+        createShapeText : function(paper, shape, options){
+            var self    = this;
+            var content = options.content || '';
+            var style   = options.style || 'text';
+            var title   = options.title || '';
+            var bbox    = shape.getBBox();
+
+            var text = paper.text((bbox.x + (bbox.width / 2)) , (bbox.y + (bbox.height / 2)), content).toFront();
+            if(options.id){
+                text.id = options.id;
+            }
+            this.updateElementState(text, style, title);
+            if(options.shapeClick){
+                text.click(function(){
+                    self.trigger(shape, 'click');
+                });
+            }   
+            return text; 
         },
 
         /**
