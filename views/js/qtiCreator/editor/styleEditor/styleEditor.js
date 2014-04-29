@@ -165,6 +165,7 @@ define([
         var load = function (stylesheetUri) {
             $.getJSON(_getUri('load'), _.extend({}, itemConfig, { stylesheetUri: stylesheetUri }))
                 .done(function(json) {
+                    return;
                     style = json;
                     // apply rules
                     console.log(json, style)

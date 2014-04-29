@@ -89,6 +89,7 @@ define([
 
                 var distributedUnits = $row.data('distributed-units');
                 var $newCol = (location === 'left') ? $col.prev() : $col.next();
+                console.log('betwee', location);
                 _appendPlaceholder($newCol);
 
                 if(distributedUnits.refactoredTotalUnits > 12){
@@ -182,6 +183,7 @@ define([
         $el.on('mouseover.gridEdit.gridDragDrop', function(){
             
             var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
+            console.log('new empty');
             _appendPlaceholder($newCol);
             $newCol.addClass('col-12');
                 
@@ -216,6 +218,8 @@ define([
             var $newRow = (relY < h / 2) ? $(this).parent().prev() : $(this).parent().next();
             if(!$newRow.find('#qti-block-element-placeholder').length){//append row only not already included
                 var $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
+                console.log('insert from col');
+                if(!$newCol.length)debugger;
                 _appendPlaceholder($newCol);
             }
 

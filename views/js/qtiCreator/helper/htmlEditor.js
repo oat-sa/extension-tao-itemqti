@@ -56,6 +56,10 @@ define([
             }
 
             var ckConfig = {
+                autoParagraph : false,
+                removePlugins : 'resize,elementspath',
+                extraPlugins : 'confighelper',
+                floatSpaceDockedOffsetY : 10,
                 floatSpace : {
                     debug : true,
                     initialHide : true,
@@ -88,16 +92,16 @@ define([
                 },
                 on : {
                     instanceReady : function(e){
-                        
+
                         var widgets = {};
-                        
+
                         //store it in editable elt data attr
                         $editable.data('editor', e.editor);
-                        
+
                         e.editor.on('change', function(e){
-                            
+
                             _detectWidgetDeletion($editable, widgets, e.editor);
-                            
+
                             //callback:
                             if(_.isFunction(options.change)){
                                 options.change.call(this, this.getData());
@@ -105,8 +109,12 @@ define([
                         });
 
                         if(options.data && options.data.element){
-                            widgets = _rebuildWidgets(options.data.element, $editable);
+
+                            //store in data-qti-element attribute the editor instance as soon as it is ready
                             $editable.data('qti-element', options.data.element);
+
+                            //init editable
+                            widgets = _rebuildWidgets(options.data.element, $editable);
                             _shieldInnerContent($editable, options.data.widget);
                         }
                     },
@@ -161,6 +169,8 @@ define([
                 var widget = elt.postRender();
                 widgets[widget.serial] = widget;
             });
+
+            console.log('rebuild', container, widgets);
             $container.trigger('widgetCreated', [widgets, container]);
 
             return widgets;
@@ -180,21 +190,21 @@ define([
                     deleted.push(w);
                 }
             });
-            
+
             if(deleted.length){
-                
+
                 var $messageBox = deletingHelper.createInfoBox(deleted);
                 $messageBox.on('confirm.deleting', function(){
-                    
+
                     _.each(deleted, function(w){
                         w.element.remove();
                         w.destroy();
                     });
                 }).on('undo.deleting', function(){
-                    
+
                     editor.undoManager.undo();
                 });
-                
+
             }
         };
 
@@ -203,6 +213,7 @@ define([
             $container.find('.widget-box').each(function(){
 
                 var $widget = $(this);
+                console.log($widget);
                 var targetWidgetSerial = $widget.data('widget').serial;
                 var $shield = $('<button>', {}).css({
                     position : 'absolute',

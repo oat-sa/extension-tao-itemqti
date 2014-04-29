@@ -121,6 +121,7 @@ define([
                         elt.render($placeholder);
 
                         if(Element.isA(elt, '_container')){
+                            $colParent.empty();//clear the col content, and leave an empty text field
                             widget = _initTextWidget(elt, $colParent);
                             $widget = widget.$container;
                         }else{
