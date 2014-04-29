@@ -1,6 +1,6 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Active',
+    'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'lodash',

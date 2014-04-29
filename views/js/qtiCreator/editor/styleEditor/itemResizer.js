@@ -44,7 +44,7 @@ define([
 
         setResponsiveness(!!(style[target] && style[target].width));
 
-        currentItem.setMeta('responsive', isResponsive);
+        currentItem.data('responsive', isResponsive);
 
 
         var reset = function() {

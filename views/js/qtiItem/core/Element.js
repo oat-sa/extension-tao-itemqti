@@ -10,7 +10,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
 
             //init own attributes
             this.attributes = {};
-
+            
+            //system properties, for item creator internal use only
+            this.metaData = {};
+            
             //init call in the format init(attributes)
             if(typeof(serial) === 'object'){
                 attributes = serial;
@@ -74,6 +77,27 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                             return null;
                         }else{
                             return this.attributes[name];
+                        }
+                    }
+                }
+            }
+            return this;
+        },
+        data : function(name, value){
+            if(name){
+                if(value !== undefined){
+                    this.metaData[name] = value;
+                    $(document).trigger('metaChange.qti-widget', {element : this, key : name, value : value});
+                }else{
+                    if(typeof(name) === 'object'){
+                        for(var prop in name){
+                            this.data(prop, name[prop]);
+                        }
+                    }else if(typeof(name) === 'string'){
+                        if(this.metaData[name] === undefined){
+                            return null;
+                        }else{
+                            return this.metaData[name];
                         }
                     }
                 }

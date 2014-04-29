@@ -26,7 +26,7 @@ define([
     };
 
     var createDraggable = function createDraggable($el, $to, options){
-
+        
         $el.draggable({
             distance : (options && options.distance) ? parseInt(options.distance) : 1,
             helper : (options && options.helper) ? options.helper : 'original',

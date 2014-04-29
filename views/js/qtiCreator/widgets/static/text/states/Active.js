@@ -1,40 +1,15 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Active',
+    'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/helper/htmlEditor',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'lodash'
-], function(stateFactory, Active, htmlEditor, content, _){
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(stateFactory, Active, htmlEditor, content){
     
-    var TextActive = stateFactory.create(Active, function(){
-        
-        var _widget = this.widget;
-        
-        _widget.beforeStateInit(function(e, element, state){
-            
-            var serial = element.getSerial();
-            if(state.name === 'active' && serial !== _widget.serial){
-                //call sleep whenever other widget is active
-                _widget.changeState('sleep');
-            }
-            
-        }, 'otherActive');
-        
-        _widget.$container.on('click.active', function(e){
-           e.stopPropagation(); 
-        });
-        $('#item-editor-panel').on('click.active', function(){
-            _widget.changeState('sleep');
-        });
+    var TextActive = stateFactory.extend(Active, function(){
         
         this.buildEditor();
         
     }, function(){
-        
-        this.widget.$container.off('.active');
-        $('#item-editor-panel').off('.active');
-        
-        this.widget.offEvents('otherActive');
         
         this.destroyEditor();
     });

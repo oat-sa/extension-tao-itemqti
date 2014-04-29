@@ -64,9 +64,6 @@ define([
     var methods = {
         init : function(serial, attributes){
 
-            //system properties, for item creator internal use only
-            this.meta = {};
-
             //init call in the format init(attributes)
             if(typeof(serial) === 'object'){
                 attributes = serial;
@@ -97,13 +94,6 @@ define([
             }else{
                 throw 'invalid number of argument given';
             }
-        },
-        setMeta : function(key, value){
-            this.meta[key] = value;
-            $(document).trigger('metaChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
-        },
-        getMeta : function(key){
-            return this.meta[key];
         },
         addClass : function(className){
             var clazz = this.attr('class') || '';

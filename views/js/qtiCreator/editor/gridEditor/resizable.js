@@ -59,6 +59,9 @@ define([
                 axis : 'x',
                 cursor : 'col-resize',
                 start : function(){
+                    
+                    $col.trigger('beforeresizestart.gridEdit');
+                    
                     var $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
                     if($nextCol.length){
                         $overlay.width(parseFloat($col.outerWidth()) + marginWidth + parseFloat($nextCol.outerWidth()));
@@ -71,6 +74,8 @@ define([
                     $handle.addClass('grid-edit-resizable-active');
                     $el.find('.grid-edit-resizable-zone-active').removeClass('grid-edit-resizable-zone-active');
                     _syncOutlineHeight();
+                    
+                    $col.trigger('afterresizestart.gridEdit');
                 },
                 drag : function(){
 

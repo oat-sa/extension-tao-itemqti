@@ -1,6 +1,6 @@
-define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/states/Active', 'ui/modal'], function(stateFactory, Active){
+define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/static/states/Active', 'ui/modal'], function(stateFactory, Active){
 
-    var StaticStateActive = stateFactory.create(Active, function(){
+    var StaticStateActive = stateFactory.extend(Active, function(){
         
         var _widget = this.widget,
             $container = this.widget.$container;

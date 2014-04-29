@@ -32,7 +32,11 @@ define([
 
                 //build container from origin element
                 this.buildContainer();
+                
+                //attach the widget to widget $container and element:
                 this.$container.data('widget', this);
+                
+                this.element.data('widget', this);
                 
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
