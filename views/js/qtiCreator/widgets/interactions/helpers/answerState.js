@@ -42,8 +42,6 @@ define([
                 defineCorrect = corrects && _.size(corrects),
                 $correctWidgets = $();
 
-            console.log($correctWidgets);
-
             if(!template){
                 if(rp.processingType === 'custom'){
                     template = 'CUSTOM';
@@ -96,6 +94,10 @@ define([
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
 
             formElement.initWidget(widget.$responseForm);
+        },
+        isCorrectDefined : function(widget){
+            var response = widget.element.getResponseDeclaration();
+            return !!_.size(response.getCorrect());
         }
     };
 

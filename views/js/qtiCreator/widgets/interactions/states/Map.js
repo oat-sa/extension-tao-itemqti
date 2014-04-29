@@ -1,17 +1,20 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
-    'lodash'
-], function(stateFactory, Map, _){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState'
+], function(stateFactory, Map, answerState){
 
-    var ChoiceInteractionStateMap = stateFactory.create(Map, function(){
+    var InteractionStateMap = stateFactory.create(Map, function(){
         
         //use default [data-edit="map"].show();
         
-        //check if the interaction response has a correct define and show correct if so:
-        var response = this.widget.element.getResponseDeclaration();
-        if(_.size(response)){
-            this.widget.$container.find('[data-edit="correct"]').show();
+        var $correctWidgets = this.widget.$container.find('[data-edit="correct"]');
+        
+        //check if the interaction response has a correct defined and show correct if so:
+        if(answerState.isCorrectDefined(this.widget)){
+            $correctWidgets.show();
+        }else{
+            $correctWidgets.hide();
         }
         
     }, function(){
@@ -21,5 +24,5 @@ define([
         this.widget.$container.find('[data-edit="correct"]').hide();
     });
 
-    return ChoiceInteractionStateMap;
+    return InteractionStateMap;
 });
