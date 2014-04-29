@@ -60,7 +60,7 @@ define([
                 cursor : 'col-resize',
                 start : function(){
                     
-                    $col.trigger('beforeresizestart.gridEdit');
+                    $col.trigger('resizestart.gridEdit');
                     
                     var $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
                     if($nextCol.length){
@@ -75,7 +75,6 @@ define([
                     $el.find('.grid-edit-resizable-zone-active').removeClass('grid-edit-resizable-zone-active');
                     _syncOutlineHeight();
                     
-                    $col.trigger('afterresizestart.gridEdit');
                 },
                 drag : function(){
 
@@ -115,9 +114,13 @@ define([
 
                 },
                 stop : function(){
+                
                     $col.find('.grid-edit-resizable-outline').remove();
+                    
                     _deleteResizables($el);
                     _createResizables($el);
+                    
+                    $col.trigger('resizestop.gridEdit');
                 }
             }).css('position', 'absolute');
 
@@ -128,7 +131,9 @@ define([
         }).off('dragoverstop.gridEdit').on('dragoverstop.gridEdit', function(){
             _createResizables($el);
         }).off('contentChange.qtiEdit').on('contentChange.gridEdit', '.grid-row', function(){
-            _createResizables($(this));
+            var $row = $(this);
+            _deleteResizables($row);
+            _createResizables($row);
         });
     };
 

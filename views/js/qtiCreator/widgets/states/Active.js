@@ -12,7 +12,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
             _widget.changeState('sleep');
         });
         
-        itemWidget.$container.on('beforeresizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
+        itemWidget.$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
             _widget.changeState('sleep');
         });
         

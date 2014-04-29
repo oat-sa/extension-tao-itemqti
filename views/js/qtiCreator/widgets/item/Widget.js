@@ -28,7 +28,7 @@ define([
             throw new Error('missing required config parameter uri in item widget initialization');
         }
         this.itemUri = config.uri;
-        
+
         this.initUiComponents();
 
         this.initTextWidgets();
@@ -68,7 +68,7 @@ define([
 
         //init title inline edition
         formElement.initTitle(this.$container.find('.qti-title'), this.element);
-        
+
         //init save button:
         $('#save-trigger').on('click', function(){
             _widget.save();
@@ -81,12 +81,13 @@ define([
             $itemBody = this.$container.find('.qti-itemBody');
 
         $itemBody.gridEditor();
+        $itemBody.gridEditor('resizable');
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
 //            helper: function() {
 //                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999);
 //            }
         });
-        $itemBody.gridEditor('resizable');
+
 
         $itemBody.on('dropped.gridEdit', function(e, qtiClass, $targetContainer, $placeholder){
 
@@ -133,19 +134,23 @@ define([
                                 $widget = widget.$original;
                             }
                         }
-                        
+
                         //inform height modification
                         $widget.trigger('contentChange.gridEdit');
-                        
+
                         //active it right away:
                         widget.changeState('active');
-                        
+
                         //@todo : draggable not working with cke !!
 //                        draggable.createMovable($widget, $targetContainer);
                     }
                 }, this.getUsedClasses());
             });
 
+        }).on('resizestop.gridEdit', function(){
+            
+            item.body($itemBody.gridEditor('getContent'));
+            
         });
 
     };
@@ -179,13 +184,13 @@ define([
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
         $clonedContainer.find('.qti-itemBody > .grid-row > [data-text-block-id]').each(function(){
-            
+
             var $col = $(this),
                 textBlockId = $col.data('text-block-id'),
                 $subContainer = $col.clone(),
                 subContainerElements = contentHelper.serializeElements($subContainer),
                 subContainerBody = $subContainer.html();//get serialized body
-                
+
             $col.html('{{_container:new}}');
 
             subContainers.push({
@@ -234,7 +239,7 @@ define([
     };
 
     ItemWidget.debug = function(){
-        
+
         devTools.listenStateChange();
 
         var $code = $('<code>', {'class' : 'language-markup'}),
@@ -243,6 +248,6 @@ define([
         $('#item-editor-wrapper').append($pre);
         devTools.liveXmlPreview(this.element, $code);
     };
-    
+
     return ItemWidget;
 });
