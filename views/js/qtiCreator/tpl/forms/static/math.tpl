@@ -39,6 +39,5 @@
     <div class="tooltip-content">The identifier of the choice. This identifier must not be used by any other choice or item variable</div>
 
     <textarea name="mathml">{{{mathml}}}</textarea>
-
-    <div class="math-buffer" style="display:none;"></div>
+    <div class="math-buffer" style="visibility:hidden;"></div>
 </div>

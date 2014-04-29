@@ -102,27 +102,26 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
             var _this = this;
             var jaxQueue = MathJax.Hub.queue;
             if(this.display === 'block'){
-                _this.$buffer.html('\\[\\]');
+                _this.$buffer.html('\\[\\displaystyle{'+_this.tex +'}\\]');
             }else{
-                _this.$buffer.html('\\(\\)');
+                _this.$buffer.html('\\(\\displaystyle{'+_this.tex +'}\\)');
             }
-
-            //programmatically typeset the buffer
-            jaxQueue.Push(
-                ["Typeset", MathJax.Hub, _this.$buffer[0]],
-                function(){
-                    _this.texJax = _getJaxByElement(_this.$buffer);
-                }
-            );
 
             //render preview:
             jaxQueue.Push(
-                ["Text", _this.texJax, "\\displaystyle{" + _this.tex + "}"],
+                //programmatically typeset the buffer
+                ["Typeset", MathJax.Hub, _this.$buffer[0]],
                 function(){
-                
+                    
+                    //replace the target element
                     args.target.html(_this.$buffer.html());
+                    
+                    //store mathjax "tex", for tex for later mathML conversion
+                    _this.texJax = _getJaxByElement(_this.$buffer);
+                    
+                    //empty buffer;
                     _this.$buffer.empty();
-
+                    
                     //sync MathML
                     _this.currentTexToMathML(function(mathML){
                         _this.setMathML(_stripMathTags(mathML));

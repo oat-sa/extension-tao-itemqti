@@ -35,6 +35,7 @@ define([
         }));
 
         var $math = $form.find('textarea[name=mathml]');
+        var $tex = $form.find('input[name=latex]');
 
         var mathEditor = new MathEditor({
             tex : tex,
@@ -43,7 +44,6 @@ define([
             buffer : $form.find('.math-buffer'),
             target : _widget.$original
         });
-        console.log(mathEditor);
 
         //... init standard ui widget
         formElement.initWidget($form);
@@ -64,7 +64,8 @@ define([
 
                 mathEditor.setTex(value);
                 mathEditor.renderFromTex(function(){
-
+                    
+                    //saveTex
                     m.setAnnotation('latex', value);
 
                     //update mathML
@@ -73,17 +74,20 @@ define([
                 });
 
             }, _throttle),
-            
             mathml : _.throttle(function(m, value){
                 
                 mathEditor.setMathML(value).renderFromMathML(function(){
+                    
+                    //save mathML
                     m.setMathML(value);
+                    
+                    //clear tex:
+                    $tex.val('');
                     m.removeAnnotation('latex');
                 });
                 
             }, _throttle)
         });
-
 
     };
 
