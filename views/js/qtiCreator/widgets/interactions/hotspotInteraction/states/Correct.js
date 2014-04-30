@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'i18n',
@@ -9,11 +12,9 @@ define([
 ], function(_, __, stateFactory, Correct, HotspotInteraction, helper, PciResponse){
 
     /**
-     * The correct answer state for the hotspot interaction
-     * @extends taoQtiItem/qtiCreator/widgets/states/Correct
-     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Correct
+     * Initialize the state: use the common renderer to set the correct response.
      */
-    var HotspotInteractionStateCorrect = stateFactory.create(Correct, function init(){
+    function initCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
@@ -33,7 +34,12 @@ define([
             response.setCorrect(PciResponse.unserialize(data, interaction)); 
         });
 
-    }, function destroy(){
+    }
+
+    /**
+     * Exit the correct state
+     */
+    function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
 
@@ -46,7 +52,12 @@ define([
 
         //initialize again the widget's paper
         this.widget.createPaper();
-    });
+    }
 
-    return HotspotInteractionStateCorrect;
+    /**
+     * The correct answer state for the hotspot interaction
+     * @extends taoQtiItem/qtiCreator/widgets/states/Correct
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Correct
+     */
+    return stateFactory.create(Correct, initCorrectState, exitCorrectState);
 });

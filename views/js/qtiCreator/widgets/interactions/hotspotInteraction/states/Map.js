@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -15,7 +18,10 @@ define([
     'ui/tooltipster'
 ], function($, _, __, stateFactory, Map, HotspotInteraction, helper, graphicHelper, PciResponse, answerStateHelper,  mappingFormTpl, formElement, incrementer, tooltipster){
 
-    var HotspotInteractionStateaMap = stateFactory.create(Map, function init(){
+    /**
+     * Initialize the state.
+     */
+    function initMapState(){
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
@@ -32,9 +38,14 @@ define([
 
         initResponseMapping(widget);           
 
-        HotspotInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
-    
-    }, function destroy(){
+        //set the current corrects responses on the paper
+        HotspotInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
+    }
+
+    /**
+     * Exit the map state
+     */
+    function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
         
@@ -44,8 +55,14 @@ define([
 
         //initialize again the widget's paper
         this.widget.createPaper();
-    });
+    }
 
+
+    /**
+     * Set up all elements to set the response mapping.
+     * TODO this method needs to be split
+     * @param {Oject} widget - the current widget
+     */
     function initResponseMapping(widget){
         var $elements = {};
         var scoreTexts = {};
@@ -162,5 +179,12 @@ define([
             }
         });
     }
-    return HotspotInteractionStateaMap;
+
+
+    /**
+     * The map answer state for the hotspot interaction
+     * @extends taoQtiItem/qtiCreator/widgets/states/Map
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Map
+     */
+    return  stateFactory.create(Map, initMapState, exitMapState);
 });

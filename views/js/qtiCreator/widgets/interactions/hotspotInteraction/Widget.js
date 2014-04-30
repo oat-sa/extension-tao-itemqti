@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery', 'lodash',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
@@ -7,6 +10,7 @@ define([
 
     /**
      * The Widget that provides components used by the QTI Creator for the Hotspot Interaction
+     * @extends taoQtiItem/qtiCreator/widgets/interactions/Widget
      * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget
      */      
     var HotspotInteractionWidget = _.extend(Widget.clone(), {
@@ -18,10 +22,10 @@ define([
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         initCreator : function(options){
-
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
 
+            //call parent initCreator
             Widget.initCreator.call(this);
 
             this.registerStates(states);
