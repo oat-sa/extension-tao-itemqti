@@ -3,14 +3,14 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
-    'taoQtiItem/qtiItem/core/interactions/HotspotInteraction',
+    'taoQtiItem/qtiItem/core/interactions/GraphicOrderInteraction',
     'taoQtiItem/qtiCreator/model/choices/HotspotChoice'
 ], function($, _, editable, editableInteraction, Interaction, Choice){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {
-        
+
         /**
          * Set the default values for the model 
          */ 

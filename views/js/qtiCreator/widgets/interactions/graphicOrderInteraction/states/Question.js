@@ -181,7 +181,7 @@ define([
             if(choice){
                 
                 $choiceForm.empty().html(
-                    choiceFormTpl({
+                    choiceFormTmpl({
                         identifier  : choice.id(),
                         fixed       : choice.attr('fixed'),
                         serial      : serial
@@ -242,16 +242,16 @@ define([
     };
     
     /**
-     * The question state for the hotspot interaction
+     * The question state for the graphicOrder interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
-     * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Question
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Question
      */
-    var HotspotInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+    var GraphicOrderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
      * Initialize the form linked to the interaction
      */
-    HotspotInteractionStateQuestion.prototype.initForm = function(){
+    GraphicOrderInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -271,6 +271,5 @@ define([
         
         interactionFormElement.syncMaxChoices(_widget);
     };
-
-    return HotspotInteractionStateQuestion;
+    return GraphicOrderInteractionStateQuestion;
 });
