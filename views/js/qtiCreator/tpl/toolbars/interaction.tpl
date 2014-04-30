@@ -1,7 +1,7 @@
 <div class="tlb-wrapper" style="" data-edit="active" data-for="{{serial}}">
     <span class="tlb-title" title="{{title}}">{{title}}</span>
     <div class="tlb">
-        <div class="rgt tlb-button" data-role="cke-delete" title="{{__ 'delete'}}">
+        <div class="rgt tlb-button" data-role="delete" title="{{__ 'delete'}}">
             <span class="icon-bin"></span>
         </div>
         <div class="state-switcher">

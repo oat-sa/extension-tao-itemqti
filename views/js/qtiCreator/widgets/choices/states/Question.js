@@ -10,9 +10,15 @@ define([
 
         var _widget = this.widget;
 
-        //show option form
+        //add some event listeners
         _widget.$container.on('click.question', function(){
+            //show option form
             _widget.changeState('choice');
+        }).on('mouseenter.question', function(){
+            //add listener to display proper hover style
+            $(this).addClass('hover');
+        }).on('mouseleave.question', function(){
+            $(this).removeClass('hover');
         });
 
         //allow quick edit of internal element (toggle shuffle/fix, delete choices via minit-toolbar)
@@ -22,7 +28,6 @@ define([
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
         
-        this.widget.$container.find('[data-edit="choice"]').show();
     }, function(){
         
         //remove the question state toolbar properly
@@ -30,7 +35,6 @@ define([
         
         //disable/destroy editor, hide mini-toolbar
         this.destroyEditor();
-        this.widget.$container.find('[data-edit="choice"]').hide();
         
         //!! very important, always unbind the event on exit!
         this.widget.$container.off('.question');

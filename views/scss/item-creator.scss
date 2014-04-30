@@ -558,13 +558,32 @@
                     }
                     .tlb-button{
                         padding:1px 6px 0px;
+                        opacity:0.8;
                         &:hover{
                             cursor:pointer;
                             font-weight:bold;
-                            opacity:0.6;
+                            opacity:1;
                         }
                     }
                 }
+            }
+            >.common-tlb{
+                overflow:hidden;
+                margin:auto;
+                margin-left:auto;
+                margin-right:auto;
+                width:20px;
+                display:none;//initially hidden
+                position:absolute;
+                top:10px;
+                left:0;
+                right:0;
+                padding: 0;
+                background: rgba($uiClickableDefaultBg, .5);
+            }
+            &.hover > .common-tlb{
+                display:inline-block;
+                cursor:move;
             }
             .float-space-top.cke_nose{
                 display:block;
@@ -577,7 +596,7 @@
             }
             &.widget-inline{
                 display:inline-block;
-                &:hover{
+                &.hover{
                     @extend %editHover;
                 }
                 &.edit-active{
@@ -585,7 +604,7 @@
                 }
             }
             &.widget-block{
-                &:hover{
+                &.hover{
                     @extend %editHover;
                 }
                 &.edit-active{
@@ -593,7 +612,7 @@
                 }
             }
             &.widget-rubricBlock{
-                &:hover .qti-rubricBlock-body{
+                &.hover .qti-rubricBlock-body{
                     @extend %editHover;
                 }
                 &.edit-active .qti-rubricBlock-body{
@@ -601,7 +620,7 @@
                 }
             }
             &.widget-blockInteraction{
-                &:hover{
+                &.hover{
                     @extend %editHover;
                 }
                 &.edit-active{

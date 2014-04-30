@@ -1,6 +1,6 @@
 define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/states/Sleep'], function(stateFactory, SleepState){
     
-    var StaticStateSleep = stateFactory.create(SleepState, function(){
+    var StaticStateSleep = stateFactory.extend(SleepState, function(){
         
         var _widget = this.widget;
         

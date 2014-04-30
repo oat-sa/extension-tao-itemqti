@@ -5,7 +5,8 @@ define([
     
     return stateFactory.extend(Active, function(){
         
-        var _widget = this.widget;
+        var _widget = this.widget,
+            $container = _widget.$container;
         
         _widget.beforeStateInit(function(e, element, state){
             
@@ -17,11 +18,10 @@ define([
             
         }, 'otherActive');
         
-        _widget.$container.on('click.active', function(e){
-           e.stopPropagation(); 
-        });
-        $('#item-editor-panel').on('click.active', function(){
-            _widget.changeState('sleep');
+        $container.on('mouseenter.sleep', function(e){
+            $container.parent().trigger('mouseleave.sleep');
+        }).on('mouseleave.sleep', function(){
+            $container.parent().trigger('mouseenter.sleep');
         });
         
     }, function(){

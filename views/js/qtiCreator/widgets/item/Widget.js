@@ -89,7 +89,7 @@ define([
         });
 
 
-        $itemBody.on('dropped.gridEdit', function(e, qtiClass, $targetContainer, $placeholder){
+        $itemBody.on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
 
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
@@ -139,23 +139,64 @@ define([
                         $widget.trigger('contentChange.gridEdit');
 
                         //active it right away:
-                        widget.changeState('active');
+                        if(Element.isA(elt, 'interaction')){
+                            widget.changeState('question');
+                        }else{
+                            widget.changeState('active');
+                        }
 
-                        //@todo : draggable not working with cke !!
-//                        draggable.createMovable($widget, $targetContainer);
                     }
                 }, this.getUsedClasses());
             });
 
         }).on('resizestop.gridEdit', function(){
-            
+
             item.body($itemBody.gridEditor('getContent'));
+
+        }).on('dropped.gridEdit.movable', function(e, qtiClass, $placeholder, data){
             
+//            _renderElementWidget(data.widget.element, $placeholder, $itemBody);
+            
+            //reposition the element in the dom:
+//                $el.data('grid-element-dropped', true);
+//                $dropped.replaceWith($el);
+//                createMovable($el, $to);
+        
+            console.log('droppeddd', $placeholder, data.widget);
+//            debugger;
         });
 
     };
 
-    //initTextWidgets == initSubContainerEditor
+    var _renderElementWidget = function(element, $placeholder){
+
+        var $widget,
+            widget,
+            $colParent = $placeholder.parent();
+
+        element.render($placeholder);
+
+        if(Element.isA(element, '_container')){
+            $colParent.empty();//clear the col content, and leave an empty text field
+            widget = _initTextWidget(element, $colParent);
+            $widget = widget.$container;
+        }else{
+            widget = element.postRender();
+            if(Element.isA(element, 'blockInteraction')){
+                $widget = widget.$container;
+            }else{
+                //leave the container in place
+                $widget = widget.$original;
+            }
+        }
+
+        //inform height modification
+        $widget.trigger('contentChange.gridEdit');
+
+        //active it right away:
+        widget.changeState('active');
+
+    };
 
     ItemWidget.initTextWidgets = function(){
 

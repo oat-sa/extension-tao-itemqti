@@ -1,9 +1,10 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/Widget',
+    'taoQtiItem/qtiCreator/widgets/helpers/movable',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
-], function($, Widget, toolbarTpl, okButtonTpl){
+], function($, Widget, movable, toolbarTpl, okButtonTpl){
 
     /**
      * 
@@ -53,7 +54,7 @@ define([
      * It normally used this.$original as the start point : from there, you can wrap, innerWrap
      */
     InteractionWidget.buildContainer = function(){
-
+        
         var $wrap = $('<div>', {
             'data-serial' : this.element.serial,
             'class' : 'widget-box widget-blockInteraction clearfix',
@@ -62,9 +63,10 @@ define([
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
 
+//        movable.create(this);
+        
         return this;
     };
-
 
     /**
      * Below here, optional ui component init functions
@@ -74,10 +76,10 @@ define([
      * Create a toolbar
      */
     InteractionWidget.createToolbar = function(){
-        
+
         var _this = this,
             $toolbar;
-        
+
         $toolbar = $(toolbarTpl({
             title : this.element.qtiClass,
             serial : this.element.serial
@@ -85,24 +87,25 @@ define([
 
         this.$container.append($toolbar);
         $toolbar.hide();
-        
+
         $toolbar.on('click', '.link', function(){
             var $link = $(this),
                 state = $link.data('state');
-                
-                $link.siblings('.selected').removeClass('selected').addClass('link');
-                $link.removeClass('link').addClass('selected');
-                _this.changeState(state);
+
+            $link.siblings('.selected').removeClass('selected').addClass('link');
+            $link.removeClass('link').addClass('selected');
+            _this.changeState(state);
         });
-        
-        $toolbar.find('[data-role="cke-delete"]').click(function(){
+
+        $toolbar.find('[data-role="delete"]').click(function(e){
+            e.stopPropagation();//prevent direct deleting
             _this.changeState('deleting');
         });
-        
+
         //add stateChange event listener to auto toggle the question/answer trigger
         this.beforeStateInit(function(e, element, state){
             if(element.getSerial() === _this.serial){
-                var $link = $toolbar.find('.link[data-state="'+state.name+'"]');
+                var $link = $toolbar.find('.link[data-state="' + state.name + '"]');
                 if($link.length){
                     //a known active state:
                     $link.siblings('.selected').removeClass('selected').addClass('link');
@@ -110,7 +113,7 @@ define([
                 }
             }
         });
-        
+
         return this;
 
     };

@@ -5,31 +5,33 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/droppable',
     'jqueryui'
 ], function($, _, QtiElements, droppable){
-    
+
     var _insertableDefaultsOptions = {
         helper : function(){
             return $(this).clone().css('z-index', 99);
-        },
-        drop : function(){
-            //to be implemented
         }
     };
-    
+
     var createInsertable = function createInsertable($el, $to, opts){
 
-        var options = _.clone(_insertableDefaultsOptions);
-        _.extend(options, opts);
+        var options = _.defaults(opts, _insertableDefaultsOptions);
 
         createDraggable($el, $to, {
-            helper : options.helper
+            helper : options.helper,
+            namespace : 'insertable'
         });
     };
 
-    var createDraggable = function createDraggable($el, $to, options){
-        
+    var createDraggable = function createDraggable($el, $to, opts){
+
+        var options = _.defaults(opts, {
+            distance : 1,
+            helper : 'original'
+        });
+
         $el.draggable({
-            distance : (options && options.distance) ? parseInt(options.distance) : 1,
-            helper : (options && options.helper) ? options.helper : 'original',
+            distance : parseInt(options.distance),
+            helper : options.helper,
             appendTo : $to, //very important ! to enable movable correct positioning
             opacity : 0.5,
             scroll : false,
@@ -39,10 +41,10 @@ define([
                 $(this).addClass('grid-draggable');
             },
             start : function(e, ui){
-            
+
                 $to.trigger('beforedragoverstart.gridEdit');
-                
-                if(options && typeof(options.start) === 'function'){
+
+                if(typeof(options.start) === 'function'){
                     options.start.call(this, e, ui);
                 }
 
@@ -57,14 +59,14 @@ define([
                 }else{
                     throw 'undefined qti class';
                 }
-                
+
                 $to.trigger('dragoverstart.gridEdit');
             },
             stop : function(e, ui){
 
                 $to.trigger('beforedragoverstop.gridEdit');
 
-                if(options && typeof(options.stop) === 'function'){
+                if(typeof(options.stop) === 'function'){
                     options.stop.call(this, e, ui);
                 }
 
@@ -91,6 +93,7 @@ define([
         createDraggable($el, $to, {
             distance : 5,
             initialPosition : $el.parent(),
+            namespace : 'movable',
             start : function(e, ui){
 
                 $el.hide();
@@ -101,16 +104,13 @@ define([
                 }).attr('class', 'new-col');
             },
             helper : function(){
-                return $(this).clone().addClass('grid-draggable-helper');
-            },
-            drop : function($to, $dropped){
 
-                //reposition the element in the dom:
-                $el.data('grid-element-dropped', true);
-                $dropped.replaceWith($el);
-                _destroyDraggables($el);
-                createMovable($el, $to);
-
+                return $(this).clone()
+                    .addClass('grid-draggable-helper')
+                    .css({
+                    height : $(this).height(),
+                    width : $(this).width()
+                });
             },
             stop : function(e, ui){
 
@@ -121,19 +121,23 @@ define([
 
                 //re-init the dropped value:
                 $el.data('grid-element-dropped', false);
+//                $el.removeData('grid-element-dropped');
 
                 //show it
                 $el.show();
+
+                console.log('moved', $el, $(this));
+            },
+            data : {
+                widget : $el.data('widget')
             }
         });
 
-        $el.on("drag", function(e, ui){
-//            debugger;
-        });
     };
 
     var _destroyDraggables = function _destroyDraggables($el){
         $el.draggable('destroy');
+        $el.removeClass('grid-draggable');
         $el.off('.gridDraggable');
     };
 
@@ -143,6 +147,7 @@ define([
         },
         createMovable : function($el, $to, opts){
             createMovable($el, $to, opts);
-        }
+        },
+        destroy : _destroyDraggables
     };
 });
