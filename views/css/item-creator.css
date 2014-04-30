@@ -922,7 +922,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
             text-decoration: underline; }
         /* line 559, ../scss/item-creator.scss */
         .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .tlb-button {
-          padding: 1px 6px 0px;
+          padding: 2px 6px 0px;
           opacity: 0.8; }
           /* line 562, ../scss/item-creator.scss */
           .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .tlb-button:hover {
@@ -946,7 +946,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       /* line 584, ../scss/item-creator.scss */
       .tao-scope .item-editor-item .widget-box.hover > .common-tlb {
         display: inline-block;
-        cusor: move; }
+        cursor: move; }
       /* line 588, ../scss/item-creator.scss */
       .tao-scope .item-editor-item .widget-box .float-space-top.cke_nose {
         display: block;
