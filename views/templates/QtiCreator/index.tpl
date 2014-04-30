@@ -6,7 +6,7 @@ use oat\taoQtiItem\helpers\Authoring;
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
-    
+
     /* style to be integrated */
     .dropping{
         margin-left: -1.42857%;
@@ -15,7 +15,7 @@ use oat\taoQtiItem\helpers\Authoring;
     .new-col:first-child{
         margin-left: 1.42857%;
     }
-    
+
     /* style to be checked */
     .qti-droppable-ready{outline: 1px solid green;}
     .qti-droppable-active{outline: 1px solid yellow;}
@@ -125,14 +125,9 @@ use oat\taoQtiItem\helpers\Authoring;
             <div class="item-editor-item-related" id="item-editor-item-bar">
                 <section class="tool-group clearfix">
 
-                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
+                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Sheet Manager')?></h2>
                     <div class="panel">
-                        <h3><?=__('Manage style sheets')?></h3>
-                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
-                        <div class="tooltip-content">
-                            <?=__('Manage your style sheets. Note, that you can only edit your custom CSS.
-                            Disabling a style sheet is not a permanent change!')?>
-                        </div>
+
                         <ul class="none" id="style-sheet-toggler">
                             <!-- TAO style sheet -->
                             <li data-css-res="taoQtiItem/views/css/qti.css">
@@ -140,29 +135,16 @@ use oat\taoQtiItem\helpers\Authoring;
                                 <span><?=__('TAO default styles')?></span>
                             </li>
 
-                            <!-- item style sheet(s) go here -->
-
-                            <!-- custom style sheet -->
-                            <li data-css-res="css/custom/tao-user-styles.css" data-custom-css="true">
-                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
-                                <span class="file-label truncate"><?=__('Custom styles')?></span>
-                                <span class="icon-bin" title="<?=__('Delete your custom styles')?>" data-role="css-delete"></span>
-                                <!--span class="icon-download" title="<?=__('Download this style sheet')?>" data-role="css-download"></span-->
-                            </li>
-
                         </ul>
                         <button id="stylesheet-uploader" class="btn-info small block"><?=__('Upload your own CSS')?></button>
                     </div>
 
-                    <hr>
+                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
+
                     <div class="panel color-picker-panel">
-                        <h3><?=__('Change the colors')?></h3>
-                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
-                        <div class="tooltip-content"><?=__('Change the color of the text or the background of the item')?></div>
-                        <div id="item-editor-color-picker" data-target=".tao-scope div.qti-item">
+                        <div id="item-editor-color-picker">
                             <div id="color-picker-container">
-                                <h3 class="background-color"><?=__('Background color')?></h3>
-                                <h3 class="color"><?=__('Text color')?></h3>
+                                <h3 id="color-picker-title"></h3>
                                 <div class="color-picker"></div>
                                 <input id="color-picker-input" type="text" value="#000000">
 
@@ -171,66 +153,75 @@ use oat\taoQtiItem\helpers\Authoring;
                             <div class="reset-group">
                                 <div class="clearfix">
                                     <label for="initial-bg"><?=__('Background color')?></label>
-                                    <span class="icon-reset reset-button" data-value="background-color" title="<?=__('Reset background color')?>"></span>
-                                    <span class="color-trigger" id="initial-bg" data-value="background-color"></span>
+                                    <span class="icon-eraser reset-button" data-value="background-color" title="<?=__('Remove custom background color')?>"></span>
+                                    <span class="color-trigger" id="initial-bg" data-value="background-color" data-target=".tao-scope div.qti-item"></span>
                                 </div>
                                 <div class="clearfix">
                                     <label for="initial-color"><?=__('Text color')?></label>
-                                    <span class="icon-reset reset-button" data-value="color" title="<?=__('Reset text color')?>"></span>
-                                    <span class="color-trigger" id="initial-color" data-value="color"></span>
+                                    <span class="icon-eraser reset-button" data-value="color" title="<?=__('Remove custom text color')?>"></span>
+                                    <span class="color-trigger" id="initial-color" data-value="color" data-target=".tao-scope div.qti-item"></span>
+                                </div>
+                                <div class="clearfix">
+                                    <label for="initial-color"><?=__('Border color')?></label>
+                                    <span class="icon-eraser reset-button" data-value="color" title="<?=__('Remove custom border color')?>"></span>
+                                    <span class="color-trigger" id="initial-color" data-value="border-color" data-target=".tao-scope div.qti-item .solid"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Change the font family')?></h3>
-                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
-                        <div class="tooltip-content"><?=__('Change the font family of the item')?></div>
+
+                        <div><?=__('Font family')?></div>
 
                         <div class="reset-group">
-                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" data-placeholder="<?=__('Select font family')?>"
+                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" data-placeholder="<?=__('Default')?>"
                                     class="select2" data-role="font-selector"></select>
-                            <span class="icon-reset reset-button" data-role="font-selector-reset" title="<?=__('Reset font family')?>"></span>
+                            <span class="icon-eraser reset-button" data-role="font-selector-reset" title="<?=__('Remove custom font family')?>"></span>
                         </div>
 
                     </div>
-                    <hr>
                     <div class="panel">
-                        <h3><?=__('Change the font size')?></h3>
-                        <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
-                        <div class="tooltip-content"><?=__('Change the font size of the item')?></div>
+                        <div><?=__('Font size')?></div>
                         <div class="reset-group">
                             <span id="item-editor-font-size-changer" data-target=".tao-scope div.qti-item">
                                 <a href="#" data-action="reduce" title="<?=__('Reduce font size')?>" class="icon-smaller"></a>
                                 <a href="#" data-action="enlarge" title="<?=__('Enlarge font size')?>" class="icon-larger"></a>
                             </span>
-                            <span class="icon-reset reset-button" data-role="font-size-reset" title="<?=__('Reset font size')?>"></span>
+
+                            <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
+                                <input type="text" id="item-editor-font-size-text" placeholder="<?=__('e.g. 13')?>">
+                                <span class="unit-indicator">px</span>
+                            </span>
+                            <span class="icon-eraser reset-button" data-role="font-size-reset" title="<?=__('Remove custom font size')?>"></span>
                         </div>
 
                     </div>
                     <hr>
                     <div class="panel">
-                        <h3><?=__('Set the item with')?></h3>
+                        <h3><?=__('Item width')?></h3>
                         <span class="icon-help tooltipstered" data-tooltip-theme="info" data-tooltip="~ .tooltip-content:first"></span>
                         <div class="tooltip-content">
-                            <?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen')?>
+                            <?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with.')?>
                         </div>
                         <div id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
                             <label class="smaller-prompt">
                                 <input type="radio" name="item-width-prompt" checked value="no-slider">
                                 <span class="icon-radio"></span>
-                                <?=__('Item should always adapt to screen size')?>
+                                <?=__('Adapt to screen size')?>
                             </label>
                             <label class="smaller-prompt">
                                 <input type="radio" name="item-width-prompt" value="slider">
                                 <span class="icon-radio"></span>
-                                <?=__('I want to hard code the item width')?>
+                                <?=__('Defined width')?>
                             </label>
                             <div class="reset-group slider-box">
                                 <p id="item-editor-item-resizer-slider"></p>
-                                <input type="text" id="item-editor-item-resizer-text" placeholder="Fixed item width">
-                                <span class="icon-reset reset-button" data-role="item-width-reset" title="<?=__('Reset item width')?>"></span>
+                                <span id="item-editor-item-resizer-manual-input" class="item-editor-unit-input-box">
+                                    <input type="text" id="item-editor-item-resizer-text" placeholder="<?=__('e.g. 960')?>">
+                                    <span class="unit-indicator">px</span>
+                                </span>
+                                <span class="icon-eraser reset-button" data-role="item-width-reset" title="<?=__('Remove custom item width')?>"></span>
                             </div>
                         </div>
 

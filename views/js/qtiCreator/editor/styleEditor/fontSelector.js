@@ -2,8 +2,9 @@ define([
     'jquery',
     'json!taoQtiItem/qtiCreator/editor/resources/font-stacks.json',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'i18n',
     'select2'
-], function ($, fontStacks, styleEditor) {
+], function ($, fontStacks, styleEditor, __) {
     'use strict'
 
     /**
@@ -26,6 +27,7 @@ define([
     var fontSelector = function () {
         var fontSelector = $('select#item-editor-font-selector'),
             target = fontSelector.data('target'),
+            $target = $(target),
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
@@ -51,11 +53,11 @@ define([
             },
             reset = function() {
                 styleEditor.apply(target, 'font-family');
-                fontSelector.select2('val', '');
+                fontSelector.select2('val', $target.css('font-family'));
             };
 
 
-        fontSelector.append('<option/>');
+        fontSelector.append('<option value="">' + __('Default')  + '</option>');
 
         for (generic in fontStacks) {
             if (fontStacks.hasOwnProperty(generic)) {
@@ -80,14 +82,21 @@ define([
 
 
         resetButton.on('click', reset);
-        $(document).on('cssloaded.styleeditor', reset);
 
-        fontSelector.on('change', function () {
-            styleEditor.apply(target, 'font-family', $(this).val());
-        }).select2({
+        fontSelector.select2({
             formatResult: format,
             formatSelection: format,
             width: 'resolve'
+        });
+
+        $(document).on('customcssloaded.styleeditor', function(e, style) {
+            if(style[target] && style[target]['font-family']) {
+                fontSelector.select2('val', style[target]['font-family']);
+            }
+        });
+
+        fontSelector.on('change', function () {
+            styleEditor.apply(target, 'font-family', $(this).val());
         });
     };
 

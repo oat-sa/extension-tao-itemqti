@@ -196,11 +196,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
-.tao-scope .item-editor-item .widget-box.widget-inline:hover, .tao-scope .item-editor-item .widget-box.widget-textBlock:hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock:hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction:hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
+.tao-scope .item-editor-item .widget-box.widget-inline.hover, .tao-scope .item-editor-item .widget-box.widget-block.hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover {
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope .item-editor-item .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .widget-box.widget-textBlock.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
+.tao-scope .item-editor-item .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice {
   border: 1px solid #3e7da7;
   cursor: default; }
 
@@ -334,7 +334,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope #item-editor-wrapper {
     margin: 0;
     position: relative;
-    background: #f2f0ee; }
+    background-color: #f2f0ee; }
     .tao-scope #item-editor-wrapper .item-editor-item [class*=" col-"], .tao-scope #item-editor-wrapper .item-editor-item [class^="col-"] {
       padding: 6px; }
   .tao-scope .item-editor-css-editor select {
@@ -386,6 +386,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         display: inline-block; }
       .tao-scope .item-editor-sidebar .tool-group .panel select, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"] {
         width: 100%; }
+      .tao-scope .item-editor-sidebar .tool-group .panel select.short {
+        min-width: 100px; }
       .tao-scope .item-editor-sidebar .tool-group .panel .icon-help.tooltipstered {
         float: right; }
       .tao-scope .item-editor-sidebar .tool-group .panel:last-child, .tao-scope .item-editor-sidebar .tool-group .panel .panel-row {
@@ -442,11 +444,28 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       cursor: pointer; }
       .tao-scope .item-editor-sidebar .reset-group .reset-button:hover {
         color: #3e7da7; }
-    .tao-scope .item-editor-sidebar #item-editor-item-resizer-text {
-      width: 133px;
-      min-width: 133px;
-      max-width: 133px;
-      margin-left: 4px; }
+    .tao-scope .item-editor-sidebar .item-editor-unit-input-box {
+      position: relative;
+      display: inline-block; }
+      .tao-scope .item-editor-sidebar .item-editor-unit-input-box input {
+        width: 133px;
+        min-width: 133px;
+        max-width: 133px;
+        margin-left: 4px;
+        padding-right: 28px; }
+      .tao-scope .item-editor-sidebar .item-editor-unit-input-box .unit-indicator {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        display: block;
+        width: 28px;
+        line-height: 28px;
+        height: 28px;
+        text-align: center;
+        color: #909090;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px; }
     .tao-scope .item-editor-sidebar #item-editor-item-resizer .reset-group {
       display: none; }
     .tao-scope .item-editor-sidebar .cbr-right {
@@ -499,6 +518,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
         font-family: 'tao';
         display: inline-block; }
+    .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-label-editor {
+      display: none;
+      width: 100px;
+      min-width: 100px;
+      padding: 1px 3px;
+      font-size: 13px;
+      font-size: 1.3rem; }
     .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-download, .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-bin {
       float: right;
       cursor: pointer;
@@ -510,8 +536,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       cursor: default !important; }
     .tao-scope .item-editor-sidebar #style-sheet-toggler .file-label {
       display: inline-block;
+      cursor: pointer;
       width: 100px;
-      line-height: 0.9; }
+      line-height: .9;
+      position: relative;
+      font-size: 13px;
+      font-size: 1.3rem;
+      top: 2px; }
+      .tao-scope .item-editor-sidebar #style-sheet-toggler .file-label:hover {
+        color: #3e7da7; }
     .tao-scope .item-editor-sidebar #stylesheet-uploader {
       width: 100%; }
     .tao-scope .item-editor-sidebar .color-picker-panel {
@@ -581,46 +614,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 20px;
     border: 1px white solid;
     border-bottom: none;
-    background: #dcdee1;
+    background-color: #dcdee1;
+    background-image: url(data:image/gif;base64,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);
+    background-position: center 250px;
     position: relative; }
-    .tao-scope #item-editor-panel #item-editor-overlay {
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      text-align: center;
-      width: 100%;
-      position: absolute;
-      left: 0px;
-      top: 0px; }
-    .tao-scope #item-editor-panel #item-width-indicator-box {
-      margin: auto;
-      display: none;
-      font-weight: 400;
-      padding: 0;
-      z-index: 10;
-      position: relative; }
-      .tao-scope #item-editor-panel #item-width-indicator-box div {
-        padding: 2px 0;
-        height: 40px; }
-        .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-devices {
-          width: 98%;
-          line-height: 40px;
-          margin: auto; }
-        .tao-scope #item-editor-panel #item-width-indicator-box div#item-width-px {
-          border-top: 5px white solid;
-          font-size: 18px;
-          font-size: 1.8rem; }
-      .tao-scope #item-editor-panel #item-width-indicator-box span {
-        position: absolute;
-        top: 4px;
-        right: -20px;
-        font-size: 50px;
-        font-size: 5rem;
-        line-height: 1.61; }
-        .tao-scope #item-editor-panel #item-width-indicator-box span:first-child {
-          right: auto;
-          left: -20px; }
-      .tao-scope #item-editor-panel #item-width-indicator-box hr {
-        height: 5px; }
+    .tao-scope #item-editor-panel.has-item {
+      background-image: none; }
     .tao-scope #item-editor-panel h1 {
       font-weight: 300;
       margin: 0; }
@@ -634,12 +633,34 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope .item-editor-item {
     background: white;
     margin: auto;
+    max-width: 1024px;
     border: 1px solid #dddddd;
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -webkit-box-shadow: 0px 0px 8px #b7b1ac;
     -moz-box-shadow: 0px 0px 8px #b7b1ac;
     box-shadow: 0px 0px 8px #b7b1ac;
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
     /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
     /**
      * Use icon within sass: @inclue icon('down');
@@ -752,6 +773,57 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: relative; }
       .tao-scope .item-editor-item .widget-box .tlb-bar {
         z-index: 99; }
+      .tao-scope .item-editor-item .widget-box .tlb-wrapper {
+        position: absolute;
+        width: 100%;
+        top: -24px;
+        display: block;
+        cursor: default;
+        color: white;
+        background: #3e7da7;
+        z-index: 999;
+        -webkit-box-shadow: 0 0 0 1px #3e7da7;
+        box-shadow: 0 0 0 1px #3e7da7; }
+        .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb-title {
+          margin-top: 1px;
+          line-height: 1.4; }
+        .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher {
+          float: right;
+          padding-top: 4px 4px 1px; }
+        .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb > div {
+          margin: 1px 0 2px; }
+        .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher {
+          margin-right: 15px; }
+          .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher .selected {
+            font-weight: bold; }
+          .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher .link:hover {
+            cursor: pointer;
+            text-decoration: underline; }
+        .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .tlb-button {
+          padding: 3px 6px 0px;
+          opacity: 0.8;
+          font-size: 13px;
+          font-size: 1.3rem; }
+          .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .tlb-button:hover {
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 1; }
+      .tao-scope .item-editor-item .widget-box > .common-tlb {
+        overflow: hidden;
+        margin: auto;
+        margin-left: auto;
+        margin-right: auto;
+        width: 20px;
+        display: none;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        padding: 0;
+        background: rgba(243, 241, 239, 0.5); }
+      .tao-scope .item-editor-item .widget-box.hover > .common-tlb {
+        display: inline-block;
+        cursor: move; }
       .tao-scope .item-editor-item .widget-box .float-space-top.cke_nose {
         display: block;
         right: 5px;
@@ -799,8 +871,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover {
           opacity: 0.8; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .widget-ok {
-        margin: 5px 10px;
-        display: none; }
+        display: none;
+        float: right;
+        margin: 5px 10px; }
     .tao-scope .item-editor-item .widget-box-placeholder {
       display: inline-block;
       margin: 0;
@@ -983,6 +1056,68 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb {
       top: 7px;
       right: 7px; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
+    .tao-scope .item-editor-item .graphic-mapping-editor {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      background: #f2f0ee;
+      padding: 15px 15px 0 15px;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+      box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+      z-index: 300;
+      min-width: 150px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .closer {
+        position: absolute;
+        top: 10px;
+        right: 8px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor h2 {
+        font-size: 15px;
+        font-size: 1.5rem; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .arrow {
+        position: absolute;
+        z-index: 301;
+        left: -6px;
+        top: 10px;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        border: 1px #f3f1ef solid;
+        border-left: none;
+        border-top: none;
+        width: 12px;
+        height: 12px;
+        background: #f3f1ef;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
+      .tao-scope .item-editor-item .graphic-mapping-editor .arrow-cover {
+        background: #f3f1ef;
+        width: 15px;
+        height: 30px;
+        position: absolute;
+        z-index: 302;
+        left: 0px;
+        top: 2px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .score {
+        border: 1px solid #dddddd;
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        text-align: right;
+        min-width: 40px;
+        max-width: 60px;
+        position: relative;
+        top: -5px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .grid-row, .tao-scope .item-editor-item .graphic-mapping-editor .preview-overlay .preview-utility-bar-inner, .preview-overlay .tao-scope .item-editor-item .graphic-mapping-editor .preview-utility-bar-inner {
+        line-height: 1.6;
+        padding-top: 8px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .tooltipstered {
+        text-align: right; }
+      .tao-scope .item-editor-item .graphic-mapping-editor .icon-checkbox {
+        margin-left: 20px; }
   .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
     content: "\1cb"; }
   .tao-scope #modalFeedbacks .mini-tlb {
@@ -1043,6 +1178,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     margin-right: 0px; }
     .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
       border: 1px dotted #0e5d91; }
+  .tao-scope .widget-textBlock [data-html-editable] {
+    min-height: 6rem; }
 
 .cke-cover-up {
   padding: 0 !important;

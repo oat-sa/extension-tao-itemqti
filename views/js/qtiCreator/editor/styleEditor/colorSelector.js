@@ -21,13 +21,9 @@ define([
     var colorSelector = function () {
         var colorPicker = $('#item-editor-color-picker'),
             target = colorPicker.data('target'),
-            $target = $(target),
             widget = colorPicker.find('.color-picker'),
             widgetBox = colorPicker.find('#color-picker-container'),
-            titles = {
-                'background-color': widgetBox.find('h3.background-color'),
-                'color': widgetBox.find('h3.color')
-            },
+            titleElement =  colorPicker.find('#color-picker-title'),
             input = colorPicker.find('#color-picker-input'),
             resetButtons = colorPicker.find('.reset-button'),
             colorTriggers = colorPicker.find('.color-trigger'),
@@ -36,24 +32,37 @@ define([
             $doc = $(document);
 
         var reset = function() {
+
+//            colorTriggers.each(function() {
+//                var $trigger = $(this),
+//                    target = $trigger.data('target'),
+//                    value = $trigger.data('value');
+//                console.log(target, value)
+//                styleEditor.apply(target, $(this).data('value'));
+//
+//            });
             styleEditor.apply(target, $(this).data('value'));
             setTriggerColor();
         };
 
-        var setTitle = function (property) {
-            var title;
-            for (title in titles) {
-                if (titles[title].hasClass(property)) {
-                    titles[title].show();
-                } else {
-                    titles[title].hide();
-                }
-            }
+
+        /**
+         * Widget title
+         *
+         * @param property
+         * @param trigger
+         */
+        var setTitle = function (property, trigger) {
+            titleElement.text(trigger.parent().find('label').text());
         };
 
+        /**
+         * Trigger button background
+         */
         var setTriggerColor = function() {
             colorTriggers.each(function () {
-                var $trigger = $(this);
+                var $trigger = $(this),
+                    $target = $($trigger.data('target'));
                 $trigger.css('background-color', $target.css($trigger.data('value')));
             });
         };
@@ -62,7 +71,7 @@ define([
 
         // event received from modified farbtastic
         widget.on('colorchange.farbtastic', function (e, color) {
-            styleEditor.apply(target, currentProperty, color);
+            styleEditor.apply(widget.prop('target'), currentProperty, color);
             setTriggerColor();
         });
 
@@ -71,9 +80,14 @@ define([
         setTriggerColor();
         colorTriggers.on('click', function () {
             var $trigger = $(this);
+
+            if(!$($trigger.data('target')).length) {
+                return;
+            }
+            widget.prop('target', $trigger.data('target'));
             widgetBox.hide();
             currentProperty = $trigger.data('value');
-            setTitle(currentProperty);
+            setTitle(currentProperty, $trigger);
             widgetObj.setColor(rgbToHex($trigger.css('background-color')));
             widgetBox.show();
         });
@@ -105,7 +119,7 @@ define([
         resetButtons.on('click', reset);
 
 
-        $doc.on('cssloaded.styleeditor', reset);
+        $doc.on('customcssloaded.styleeditor', reset);
     };
 
     return colorSelector;

@@ -31,6 +31,9 @@ define([
     var _initUiComponents = function (item, config) {
 
         styleEditor.init(item, config);
+
+        // do this when init is finished
+
         styleSheetToggler.init();
 
         // CSS widgets
@@ -45,6 +48,8 @@ define([
         toggleAppearance();
 
         listStyler();
+
+        $('#item-editor-panel').addClass('has-item');
 
         $('.item-editor-sidebar').fadeTo(2000, 1);
     };

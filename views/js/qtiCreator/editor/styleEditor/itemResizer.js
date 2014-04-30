@@ -24,27 +24,11 @@ define([
             resetButton =  itemResizer.find('[data-role="item-width-reset"]'),
             sliderSettings = {
                 range : {
-                    min: Math.min(768,targetWidth),
-                    max: Math.max(1200,targetWidth)
+                    min: Math.min(768, targetWidth),
+                    max: Math.max(1200, targetWidth)
                 },
                 start: targetWidth
-            },
-            isResponsive = true,
-            style = styleEditor.getStyle(),
-            currentItem = styleEditor.getItem();
-
-
-        /**
-         * is the item width dynamic or fixed?
-         */
-        var setResponsiveness = function(value) {
-            isResponsive = value;
-            $target.trigger('modechange.itemresizer', [isResponsive]);
-        };
-
-        setResponsiveness(!!(style[target] && style[target].width));
-
-        currentItem.data('responsive', isResponsive);
+            };
 
 
         var reset = function() {
@@ -59,8 +43,8 @@ define([
         var resizeItem = function(val) {
             // to make sure the value can come as int or string
             val = parseInt(val).toString() + 'px';
-            setResponsiveness(false);
             styleEditor.apply(target, 'width', val);
+            styleEditor.apply(target, 'max-width', 'none');
         };
 
         /**
@@ -70,6 +54,7 @@ define([
             // user intends to resize the item
             if(this.value === 'slider') {
                 resizeItem($target.width());
+                input.val($target.width());
                 sliderBox.slideDown();
             }
             // user wants to use default
@@ -78,9 +63,8 @@ define([
                 sliderBox.slideUp();
                 input.val('');
 
-                setResponsiveness(true);
-
                 styleEditor.apply(target, 'width');
+                styleEditor.apply(target, 'max-width');
             }
         });
 
@@ -88,17 +72,31 @@ define([
         slider.noUiSlider(sliderSettings);
         slider.on('slide', function() {
             var value = Math.round(slider.val());
-            input.val(value.toString() + 'px');
+            input.val(value);
             resizeItem(value);
+        });
+
+        input.on('keydown', function(e) {
+            var c = e.keyCode;
+            return (_.contains([8, 37, 39, 46], c)
+                || (c >= 48 && c <= 57)
+                || (c >= 96 && c <= 105));
         });
 
         input.on('blur', function() {
             resizeItem(this.value);
-            this.value = parseInt(this.value).toString() + 'px';
         });
 
         resetButton.on('click', reset);
-        $(document).on('cssloaded.styleeditor', reset);
+        $(document).on('customcssloaded.styleeditor', function(e, style) {
+            var width;
+            if(style[target] && style[target].width) {
+                width = parseInt(style[target].width, 10);
+                input.val(width);
+                slider.val(width);
+                itemResizer.find('[value="slider"]').trigger('click');
+            }
+        });
     };
     return itemResizer;
 });

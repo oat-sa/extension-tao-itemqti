@@ -5,7 +5,13 @@ define([
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'lib/jquery.fileDownload'
-], function ($, _, helpers, __, cssTpl) {
+], function (
+    $,
+    _,
+    helpers,
+    __,
+    cssTpl
+    ) {
     'use strict'
 
     var itemConfig;
@@ -43,14 +49,14 @@ define([
                 $('head').append(styleElem);
                 return styleElem;
             }()),
-            // the button to disable custom styles
-            customCssToggler = $('[data-custom-css]'),
             currentItem,
             common = {
                 title: __('Disable this style sheet temporarily'),
                 deleteTxt: __('Delete this style sheet'),
-                insertMarker: $('[data-custom-css="true"]')
-            };
+                editLabelTxt: __('Edit style sheet label'),
+                listing: $('#style-sheet-toggler')
+            },
+            customStylesheet = '';
 
         /**
          * Create CSS and add it to DOM
@@ -134,7 +140,7 @@ define([
          */
         var save = function () {
             if(_.isEmpty(style)){
-                return false;
+                //@todo remove stylesheet from item
             }
             verifyInit();
             $.post(_getUri('save'), _.extend({}, itemConfig, { cssJson: JSON.stringify(style) }));
@@ -157,22 +163,6 @@ define([
             });
         };
 
-        /**
-         * Load an existing CSS file as JSON
-         *
-         * @param uri
-         */
-        var load = function (stylesheetUri) {
-            $.getJSON(_getUri('load'), _.extend({}, itemConfig, { stylesheetUri: stylesheetUri }))
-                .done(function(json) {
-                    return;
-                    style = json;
-                    // apply rules
-                    console.log(json, style)
-                    create();
-                    $(doc).trigger('cssloaded.styleeditor')
-                });
-        };
 
         /**
          * Has the class been initialized
@@ -186,22 +176,17 @@ define([
             return true;
         };
 
-
         /**
-         * Are there any custom styles available?
+         * Add a single stylesheet, the custom stylesheet will be loaded as object
          *
-         * @returns {boolean}
+         * @param stylesheet
+         * @returns {*} promise
          */
-        var hasStyle = function() {
-            return _.size(style) !== 0;
-        };
-
-
         var addStylesheet = function(stylesheet) {
+
             var fileName,
                 link,
                 stylesheets = [],
-                hasCustomCss = false,
                 listEntry;
 
             // argument is uri
@@ -212,36 +197,22 @@ define([
             fileName = _basename(stylesheet.attr('href'));
             link = $(stylesheet.render());
 
-            // the user stylesheet is purely virtual and will not be added to the head
-            if(fileName === 'tao-user-styles.css') {
-                load(stylesheet.attr('href'));
-                customCssToggler.data('css-res', stylesheet.attr('href'));
-                hasCustomCss = true;
-            }
-            else {
-                // add other stylesheets to head
-                $styleElem.before(link);
+            // add other stylesheets to head
+            $styleElem.before(link);
 
-                stylesheets.push({
-                    path: stylesheet.attr('href'),
-                    label: (stylesheet.attr('title') || fileName),
-                    title: common.title,
-                    deleteTxt: common.deleteTxt
-                });
+            stylesheets.push({
+                path: stylesheet.attr('href'),
+                label: (stylesheet.attr('title') || fileName),
+                title: common.title,
+                deleteTxt: common.deleteTxt,
+                editLabelTxt: common.editLabelTxt
+            });
 
-                // create list entry
-                listEntry = $(cssTpl({ stylesheets: stylesheets }));
-                // initialize download button
-                common.insertMarker.before(listEntry);
-            }
+            // create list entry
+            listEntry = $(cssTpl({ stylesheets: stylesheets }));
 
-            $('[data-role="css-download"]').on('click', download);
-
-            // if no custom css had been found, add empty stylesheet anyway
-            if(!hasCustomCss) {
-                currentItem.createStyleSheet('style/custom/tao-user-styles.css');
-            }
-            
+            // initialize download button
+            common.listing.append(listEntry);
         };
 
 
@@ -250,25 +221,36 @@ define([
          * @param item
          */
         var addItemStylesheets = function() {
+            var currentStylesheet;
 
             for(var key in currentItem.stylesheets) {
                 if(!currentItem.stylesheets.hasOwnProperty(key)) {
                     continue;
-                }                
+                }
+
+                currentStylesheet = currentItem.stylesheets[key];
+
+                if('tao-user-styles.css' === _basename(currentStylesheet.attr('href'))) {
+                    customStylesheet = currentStylesheet.attr('href');
+                    continue;
+                }
+
+                // add those that are loaded asynchronously
                 addStylesheet(currentItem.stylesheets[key]);
             }
+
+
+            $('[data-role="css-download"]').on('click', download);
+
+            // if no custom css had been found, add empty stylesheet anyway
+            if(!customStylesheet) {
+                currentItem.createStyleSheet('style/custom/tao-user-styles.css');
+            }
+
+
+
         };
         
-
-        /**
-         * retrieve the style object
-         *
-         * @returns {{}}
-         */
-        var getStyle = function() {
-            return style;
-        };
-
         /**
          * retrieve the current item
          *
@@ -284,24 +266,47 @@ define([
          * @param config
          */
         var init = function(item, config) {
+            // promise
             currentItem = item;
             itemConfig = config;
 
+            var stylesheetUri = _getUri('load') + '?',
+                resizerTarget = $('#item-editor-item-resizer').data('target');
+
             addItemStylesheets();
 
+            currentItem.data('responsive', true);
+
+            if(customStylesheet) {
+                stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: customStylesheet }));
+                require(['json!' + stylesheetUri], function(_style) {
+
+                    // copy style to global style
+                    style = _style;
+
+                    // apply rules
+                    create();
+
+                    // reset meta in case the width is set in the custom stylesheet
+                    currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width);
+
+                    // inform editors about custom sheet
+                    $(doc).trigger('customcssloaded.styleeditor', style);
+                })
+            }
+
+
             $(doc).on('itemsave.qtiEdit', save);
+
         };
 
         // expose public functions
         return {
             apply: apply,
             save: save,
-            load: load,
             erase: erase,
             init: init,
             create: create,
-            hasStyle: hasStyle,
-            getStyle: getStyle,
             getItem: getItem,
             addStylesheet: addStylesheet
         }

@@ -1,13 +1,14 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'i18n'
-], function ($, styleEditor, __) {
+    'i18n',
+    'ui/resourcemgr'
+], function ($, styleEditor, __, resourcemgr) {
     'use strict'
 
     var styleSheetToggler = (function () {
 
-        var init = function() {
+        var init = function(hasCustomStyles) {
 
             var cssToggler = $('#style-sheet-toggler'),
                 uploader = $('#stylesheet-uploader'),
@@ -30,25 +31,22 @@ define([
                 };
 
             // disable the custom style element
-            if(!styleEditor.hasStyle()) {
+            if(!hasCustomStyles) {
                 cssToggler.find('[data-custom-css]').addClass('not-available');
             }
 
-
-            // mockup resource manager
-
-            var resourceManager = {
-                launch: function() {
-                    $(document).trigger('finished.resourcemanager', [ '/foo/bar/quux.css'] )
-                }
-            }
-
-            uploader.on('click', function() {
-                resourceManager.launch();
-                $(document).on('finished.resourcemanager', function(e, stylesheet) {
-                    styleEditor.addStylesheet(stylesheet);
-                })
-            });
+//            uploader.resourcemgr({
+//                type : 'text/css',
+//                create : function (e){
+//
+//                },
+//                select : function(e, uris){
+//                    var i, l = uris.length;
+//                    for(i = 0; i < l; i++) {
+//                        styleEditor.addStylesheet(uris[i]);
+//                    }
+//                }
+//            });
 
             /**
              * Delete existing style sheet resp. custom styles
@@ -58,17 +56,46 @@ define([
                     attr = context.isDisabled ? 'disabled-href' : 'href';
 
                 if(confirm(__('Are you sure you want to delete this stylesheet?\nWarning: This action cannot be undone!'))) {
-                    if(context.isCustomCss) {
-                        styleEditor.erase();
-                        customCssToggler.addClass('not-available');
-                    }
-                    else {
-                        $('link[' + attr + '$="' + context.cssUri + '"]').remove();
-                        context.li.remove();
-                    }
+                    styleEditor.getItem().remove();
+                    $('link[' + attr + '$="' + context.cssUri + '"]').remove();
+                    context.li.remove();
                 }
             });
 
+
+            /**
+             * Modify stylesheet title (enable)
+             */
+            cssToggler.find('span.file-label').on('click', function() {
+                var label = $(this),
+                    input = label.next('.style-sheet-label-editor');
+                label.hide();
+                input.show();
+            });
+
+
+            /**
+             * Modify stylesheet title (edit)
+             */
+            cssToggler.find('.style-sheet-label-editor').on('blur', function() {
+                var input = $(this),
+                    label = input.prev('.file-label'),
+                    title = $.trim(input.val());
+
+                if(!title) {
+                    styleEditor.getItem().attr('title', '');
+                    return false;
+                }
+
+                styleEditor.getItem().attr('title', title);
+                input.hide();
+                label.html(title).show();
+            }).on('keydown', function(e) {
+                var c = e.keyCode;
+                if(c === 13) {
+                    $(this).trigger('blur');
+                }
+            });
 
 
 

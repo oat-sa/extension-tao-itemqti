@@ -76,9 +76,6 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
      */
     public function load() {
 
-        if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__METHOD__);
-        }
         if (!$this->hasRequestParameter('uri')) {
             throw new common_exception_MissingParameter('uri', __METHOD__);
         }
