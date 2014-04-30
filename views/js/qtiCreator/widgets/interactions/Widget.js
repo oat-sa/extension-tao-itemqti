@@ -1,9 +1,9 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/Widget',
-    'taoQtiItem/qtiCreator/editor/widgetToolbar',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
-], function($, Widget, toolbar, okButtonTpl){
+], function($, Widget, toolbarTpl, okButtonTpl){
 
     /**
      * 
@@ -55,13 +55,13 @@ define([
     InteractionWidget.buildContainer = function(){
 
         var $wrap = $('<div>', {
-            'data-serial' : this.element.serial, 
-            'class' : 'widget-box widget-blockInteraction', 
+            'data-serial' : this.element.serial,
+            'class' : 'widget-box widget-blockInteraction clearfix',
             'data-qti-class' : this.element.qtiClass
         });
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
-        
+
         return this;
     };
 
@@ -74,75 +74,45 @@ define([
      * Create a toolbar
      */
     InteractionWidget.createToolbar = function(){
-
+        
         var _this = this,
-            $toolbar = toolbar.attach([
-            [
-                {
-                    title : 'Question',
-                    'class' : 'question-trigger',
-                    status : 'off', // on | disabled | off => default
-                    fn : function(e){
-                        e.stopPropagation();
-                        _this.changeState('question');
-                    }
-                },
-                {
-                    title : 'Answer',
-                    'class' : 'answer-trigger',
-                    fn : function(e){
-                        e.stopPropagation();
-                        _this.changeState('answer');
-                    }
-                }
-            ],
-            'spacer',
-            [
-                {
-                    icon : 'bin',
-                    'class' : 'delete-trigger',
-                    title : 'Delete',
-                    fn : function(e){
-                        e.stopPropagation();//to prevent direct deleting;
-                        var $tlb = arguments[2];
-                        $tlb.find('.delete-trigger').removeClass('tlb-button-on').addClass('tlb-button-off');
-                        _this.changeState('deleting');
-                    }
-                }
-            ]
-        ], {
-            target : this.$container,
+            $toolbar;
+        
+        $toolbar = $(toolbarTpl({
             title : this.element.qtiClass,
-            offsetTop : -5
-        });
-        $toolbar.attr({'data-edit' : 'active', 'data-for' : this.serial});
+            serial : this.element.serial
+        }));
+
+        this.$container.append($toolbar);
         $toolbar.hide();
-
-
+        
+        $toolbar.on('click', '.link', function(){
+            var $link = $(this),
+                state = $link.data('state');
+                
+                $link.siblings('.selected').removeClass('selected').addClass('link');
+                $link.removeClass('link').addClass('selected');
+                _this.changeState(state);
+        });
+        
+        $toolbar.find('[data-role="cke-delete"]').click(function(){
+            _this.changeState('deleting');
+        });
+        
         //add stateChange event listener to auto toggle the question/answer trigger
-
-        var $triggerQuestion = $toolbar.find('.question-trigger a'),
-            $triggerAnswer = $toolbar.find('.answer-trigger a');
-
         this.beforeStateInit(function(e, element, state){
             if(element.getSerial() === _this.serial){
-                switch(state.name){
-                    case 'question':
-                        $triggerQuestion.removeClass('tlb-text-button-off').addClass('tlb-text-button-on');
-                        $triggerAnswer.removeClass('tlb-text-button-on').addClass('tlb-text-button-off');
-                        break;
-                    case 'answer':
-                        $triggerAnswer.removeClass('tlb-text-button-off').addClass('tlb-text-button-on');
-                        $triggerQuestion.removeClass('tlb-text-button-on').addClass('tlb-text-button-off');
-                        break;
-                    case 'sleep':
-                        $toolbar.hide();
-                        break;
+                var $link = $toolbar.find('.link[data-state="'+state.name+'"]');
+                if($link.length){
+                    //a known active state:
+                    $link.siblings('.selected').removeClass('selected').addClass('link');
+                    $link.removeClass('link').addClass('selected');
                 }
             }
         });
-
+        
         return this;
+
     };
 
     InteractionWidget.createOkButton = function(){
@@ -152,9 +122,9 @@ define([
         this.$container
             .append($(okButtonTpl())
             .on('click.qti-widget', function(e){
-                e.stopPropagation();
-                _this.changeState('sleep');
-            }));
+            e.stopPropagation();
+            _this.changeState('sleep');
+        }));
     };
 
     return InteractionWidget;

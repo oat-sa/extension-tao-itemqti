@@ -168,18 +168,39 @@ define([
             //clean old referenced event
             this.offEvents();
         },
-        reload : function(options){
+        rebuild : function(options){
 
             options = options || {};
-
-            var opts = {};
+            
+            var element = this.element;
+            var postRenderOpts = {};
             if(_.isFunction(options.ready)){
-                opts['ready'] = options.ready;
+                postRenderOpts['ready'] = options.ready;
             }
-
-            //we assume that the element still has its renderer set
-            this.element.render({}, this.$container);
-            this.element.postRender(opts);
+            
+            var $container = null;
+            if(options.context && options.context.length){
+                //if the context option is provided, the function will fetch the widget container that in this context
+                //mendatory for detached of duplicated DOM element (e.g. ckEditor)
+                $container = options.context.find('.widget-box[data-serial=' + element.serial + ']');
+            }else{
+                $container = this.$container;
+            }
+            
+            //we assume that the element still has its renderer set, check renderer:
+            var renderer = element.getRenderer();
+            if(renderer && renderer.isRenderer){
+                if(renderer.name === 'creatorRenderer'){
+                    element.render($container);
+                    return element.postRender(postRenderOpts);
+                }else{
+                    throw new Error('The renderer is no longer the creatorRenderer');
+                }
+            }else{
+                throw new Error('No renderer found to rebuild the widget')
+            }
+            
+            return null;
         },
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback){

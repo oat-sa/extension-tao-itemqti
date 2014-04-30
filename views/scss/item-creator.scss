@@ -290,7 +290,7 @@
         }
         
         
-
+        
         .item-editor-unit-input-box {
             position: relative;
             display:inline-block;
@@ -517,12 +517,54 @@
         [class*=" col-"], [class^="col-"] {
             position:relative;
         }
-
         .widget-box{
             border : 1px solid transparent;
             position:relative;
             .tlb-bar{
                 z-index:99;
+            }
+            .tlb-wrapper{
+                position: absolute; 
+                width: 100%; 
+                top: -24px; 
+                display: block;
+                cursor:default;
+                color:white;
+                background:whiten($info, .2);
+                z-index:999;
+                .tlb-title{
+                    margin-top:1px;
+                    line-height:1.4;
+                }
+                .tlb{
+                    .state-switcher{
+                        float:right;
+                        padding-top:4px 4px 1px;
+                    }
+                    &>div{
+                        margin:1px 0 2px;
+                    }
+                    .state-switcher{
+                        .selected{
+                            font-weight:bold;
+                        }
+                        .link{
+                            &:hover{
+                                cursor:pointer;
+                                text-decoration:underline;
+                            }
+                        }
+                        margin-right:15px
+                    }
+                    .tlb-button{
+                        padding:1px 6px 0px;
+                        &:hover{
+                            cursor:pointer;
+                            font-weight:bold;
+                            opacity:0.6;
+                        }
+                    }
+                }
             }
             .float-space-top.cke_nose{
                 display:block;
@@ -618,8 +660,9 @@
                     }
                 }
                 .widget-ok{
-                    margin: 5px 10px;
                     display:none;
+                    float:right;
+                    margin: 5px 10px;
                 }
             }
         }

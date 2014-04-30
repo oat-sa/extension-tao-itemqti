@@ -16,8 +16,8 @@ define([
     };
 
     TextWidget.buildContainer = function(){
-        
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'class' : 'widget-box widget-block widget-textBlock'})
+
+        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'data-qti-class' : '_container', 'class' : 'widget-box widget-block widget-textBlock'})
             .append($('<div>', {'data-html-editable' : true}));
 
         this.$original.wrapInner($wrap);
@@ -42,6 +42,6 @@ define([
 
         return this;
     };
-    
+
     return TextWidget;
 });
