@@ -31,7 +31,7 @@ define([
          */ 
         afterCreate : function(){
             var relatedItem = this.getRelatedItem();
-            var isResponsive = relatedItem.getMeta('responsive');
+            var isResponsive = relatedItem.data('responsive');
 
             if(isResponsive === true){
                 this.addClass('responsive');
