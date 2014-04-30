@@ -71,13 +71,34 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedEl
             return elts;
         },
         find : function(serial){
-            var found = this._super(serial);
+        
+            var _this = this,
+                found = this._super(serial);
+            
             if(!found){
-                //@todo: missing outcomes and responses here!
-                var elt = this.modalFeedbacks[serial];
-                if(elt){
-                    found = {'parent' : this, 'element' : elt};
-                }
+                
+                _.each(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
+
+                    var elt = _this[elementCollection][serial];
+
+                    if(elt){
+                        found = {'parent' : this, 'element' : elt};
+                        return false;//break the each loop
+                    }
+
+                    //search inside each elements:
+                    _.each(_this[elementCollection], function(elt){
+                        found = elt.find(serial);
+                        if(found){
+                            return false;//break the each loop
+                        }
+                    });
+
+                    if(found){
+                        return false;//break the each loop
+                    }
+
+                });
             }
             return found;
         },
@@ -102,7 +123,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedEl
             }
             return this;
         },
-        setResponseProcessing:function(rp){
+        setResponseProcessing : function(rp){
             if(Element.isA(rp, 'responseProcessing')){
                 rp.setRelatedItem(this);
                 this.responseProcessing = rp;
