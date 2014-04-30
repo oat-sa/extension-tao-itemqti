@@ -17,6 +17,7 @@
     }
     .result-area {
         width: 40%;
+        min-width: 260px;
         margin: auto;
         & > li {
             display: block;

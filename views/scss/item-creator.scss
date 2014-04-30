@@ -203,7 +203,7 @@
                     margin: 0;
                     @include font-size(14);
                     max-width:140px;
-                    display:inline-block
+                    display:inline-block;
                 }
                 select, input[type="text"] {
                     width: 100%;
@@ -290,11 +290,28 @@
         }
         
         
-        #item-editor-item-resizer-text {
-            width: 133px;
-            min-width: 133px;
-            max-width: 133px;
-            margin-left: 4px;
+
+        .item-editor-unit-input-box {
+            position: relative;
+            display:inline-block;
+            input {
+                width: 133px;
+                min-width: 133px;
+                max-width: 133px;
+                margin-left: 4px;
+            }
+            span {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                background: mix(#fff, $websiteBorder, 70%);
+                display:block;
+                width: 28px;
+                line-height: 28px;
+                height: 28px;
+                text-align: center;
+                @include border-radius();
+            }
         }
         
         #item-editor-item-resizer {
@@ -474,50 +491,6 @@
         border-bottom: none;
         background: mix(white, $websiteBorder, 70%);
         position: relative;
-        #item-editor-overlay {
-            background: black(.4);
-            color: white;
-            text-align: center;
-            width: 100%;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
-        #item-width-indicator-box {
-            margin: auto;
-            display: none;
-            font-weight: 400;
-            padding: 0;
-            z-index: 10;
-            position: relative;
-            div {
-                padding: 2px 0;
-                height: 40px;
-                &#item-width-devices {
-                    width: 98%;
-                    line-height: 40px;
-                    margin: auto;
-                }
-                &#item-width-px {
-                    border-top: 5px white solid;
-                    @include font-size(18);
-                }
-            }
-            span {
-                position: absolute;
-                top: 4px;
-                right: -20px;
-                @include font-size(50);
-                line-height: 1.61;
-                &:first-child {
-                    right: auto;
-                    left: -20px;
-                }
-            }
-            hr {
-                height: 5px
-            }
-        }
         h1 {
             font-weight: 300;
             margin: 0;
@@ -536,6 +509,7 @@
     .item-editor-item {
         background: white();
         margin: auto;
+        max-width: 1024px;
         @include simple-border();
         -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
         -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
@@ -543,6 +517,7 @@
         [class*=" col-"], [class^="col-"] {
             position:relative;
         }
+
         .widget-box{
             border : 1px solid transparent;
             position:relative;
@@ -682,6 +657,7 @@
         @import "qtiCreator/_gap-match";
         @import "qtiCreator/_rubric-block";
         @import "qtiCreator/_math";
+        @import "qtiCreator/graphic-mapping-editor";
         // the following file is identical to gap-match
         // @import "qtiCreator/_graphic-gap";
     }

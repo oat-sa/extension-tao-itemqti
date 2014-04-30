@@ -58,7 +58,7 @@
 .block-listing {
     & > li {
         @include simple-border(#eee);
-        background: white;
+        background: transparent;
         padding: 5px;
         margin: 3px;
         cursor: pointer;
@@ -94,8 +94,10 @@
 .qti-interaction {
     
     .solid {
-        background: whiten($uiClickableDefaultBg, .4);
-        @include simple-border(whiten($uiClickableDefaultBg, .4));
+        //background: whiten($uiClickableDefaultBg, .4);
+       // @include simple-border(whiten($uiClickableDefaultBg, .4));
+        // original: above; new: below
+        border: 6px solid  whiten($uiClickableDefaultBg, .4);
     }
     .bordered {
         @include simple-border(#eee);
