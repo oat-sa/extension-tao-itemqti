@@ -55,7 +55,25 @@ define([
 
         return removed;
     };
+    
+    var _removeElement = function(element, containerPropName, eltToBeRemoved){
 
+        if(element[containerPropName]){
+            var serial = '';
+            if(typeof(eltToBeRemoved) === 'string'){
+                serial = eltToBeRemoved;
+            }else if(eltToBeRemoved instanceof Element){
+                serial = eltToBeRemoved.getSerial();
+            }
+            if(serial){
+                delete element[containerPropName][serial];
+                Element.unsetElement(serial);
+            }
+        }
+
+        return element;
+    };
+    
     var _containClass = function(allClassStr, className){
         var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
         return allClassStr && regex.test(allClassStr);

@@ -532,6 +532,10 @@
                 color:white;
                 background:whiten($info, .2);
                 z-index:999;
+                
+                -webkit-box-shadow: 0 0 0 1px whiten($info, .2);
+                box-shadow: 0 0 0 1px whiten($info, .2);
+                
                 .tlb-title{
                     margin-top:1px;
                     line-height:1.4;
@@ -557,8 +561,9 @@
                         margin-right:15px
                     }
                     .tlb-button{
-                        padding:2px 6px 0px;
+                        padding:3px 6px 0px;
                         opacity:0.8;
+                        @include font-size(13);
                         &:hover{
                             cursor:pointer;
                             font-weight:bold;
