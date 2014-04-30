@@ -14,9 +14,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'ui/incrementer',
+    'ui/deleter',
     'ui/tooltipster'
-], function($, _, __, stateFactory, Map, HotspotInteraction, helper, graphicHelper, PciResponse, answerStateHelper,  mappingFormTpl, formElement, incrementer, tooltipster){
+], function($, _, __, stateFactory, Map, HotspotInteraction, helper, graphicHelper, PciResponse, answerStateHelper,  mappingFormTpl, formElement, deleter, tooltipster){
 
     /**
      * Initialize the state.
@@ -64,10 +64,9 @@ define([
      * @param {Oject} widget - the current widget
      */
     function initResponseMapping(widget){
-        var $elements = {};
         var scoreTexts = {};
         var interaction = widget.element;
-        var $container = widget.$container; 
+        var $container = widget.$original; 
         var responseDeclaration = interaction.getResponseDeclaration();
         var mapEntries = responseDeclaration.getMapEntries(); 
         var corrects = _.values(responseDeclaration.getCorrect());
@@ -103,6 +102,7 @@ define([
             }));
 
             //set up the form data binding
+
             formElement.initDataBinding($form, responseDeclaration, {
                 score : function(response, value){
                     var scoreText = scoreTexts[choice.serial];
@@ -141,17 +141,18 @@ define([
                 'position'  : 'absolute',
                 'width'     : '150px',
                 'height'    : '150px',
-                'background': 'white',
-                'border'    : 'solid 1px grey',
+                //'background': 'white',
+                //'border'    : 'solid 1px grey',
                 'text-align': 'left',
                 'z-index'   : 10009,
-                'top'       : offset.top - boxOffset.top,
-                'left'      : offset.left - boxOffset.left + bbox.width 
+                'top'       : offset.top - boxOffset.top - 10,
+                'left'      : offset.left - boxOffset.left + bbox.width + 10
             }).appendTo($imageBox).append($form);
-            $imageBox.css('overflow', 'visible'); 
-    
-            $elements[choice.serial] = $element; 
 
+            
+
+
+            $imageBox.css('overflow', 'visible'); 
     
             shape.click(function(){
                 $('.graphic-mapping-editor', $container).hide();
@@ -159,13 +160,14 @@ define([
             });
         });
 
-        //set up ui components used by the form
-        incrementer($container);
-        tooltipster($container);
+            //set up ui components used by the form
+            deleter($container);
+            tooltipster($container);
+
 
         
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
-            _.invoke($elements, 'hide');
+            $('.graphic-mapping-editor', $container).hide();
         });
 
         //update the elements on attribute changes
