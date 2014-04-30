@@ -19,7 +19,10 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'inlineChoice' : 'taoQtiItem/qtiCreator/model/choices/InlineChoice',
         'mediaInteraction' : 'taoQtiItem/qtiCreator/model/interactions/MediaInteraction',
         'hotspotInteraction' : 'taoQtiItem/qtiCreator/model/interactions/HotspotInteraction',
-        'graphicOrderInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicOrderInteraction',
+        'selectPointInteraction' : 'taoQtiItem/qtiCreator/model/interactions/SelectPointInteraction',
+        'graphicInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicOrderInteraction',
+        'graphicAssociateInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicAssociateInteraction',
+        'graphicGapMatchInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicGapMatchInteraction',
         'hotspotChoice' : 'taoQtiItem/qtiCreator/model/choices/HotspotChoice',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing'
