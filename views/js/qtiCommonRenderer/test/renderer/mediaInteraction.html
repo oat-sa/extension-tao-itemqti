@@ -19,7 +19,12 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-                    Test.testRender('mediaTest', {});
+                    Test.testRender('mediaTest', {maxPlays: 2, loop: true, autostart: true}, [
+                            {
+                                'set' : { 'base' : {'integer' : 1 } },
+                                'get' : { 'base' : {'integer' : 1 } }
+                            }
+                        ]);
                 });
             });
         </script>
