@@ -118,8 +118,6 @@ define([
         if(response && interaction.paper){
 
             try{
-
-                console.log('response', response);
                 responseValues = pciResponse.unserialize(response, interaction);
 
             } catch(e){ }

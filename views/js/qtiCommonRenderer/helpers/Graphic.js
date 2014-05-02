@@ -333,7 +333,6 @@ define([
             var mapper = raph2qtiCoordsMapper[element.type];
             var result = '';
             if(_.isFunction(mapper)){
-                console.log(mapper.call(raph2qtiCoordsMapper, element.attr()));
                 result = _.map(mapper.call(raph2qtiCoordsMapper, element.attr()), function(coord){
                             return _.parseInt(coord);
                         }).join(',');
