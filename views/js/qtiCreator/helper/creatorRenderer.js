@@ -4,6 +4,7 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer'], function(Renderer){
     var _creatorRenderer = new Renderer({
         baseUrl:'',
         shuffleChoices : false,
+        itemOptionForm : $('#item-editor-item-property-bar .panel'),
         interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
         choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
         responseOptionForm : $('#item-editor-response-property-bar .panel'),

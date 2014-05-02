@@ -252,6 +252,8 @@ define([
         //on element drop (mouseout in the drop area $el)
         $el.one('dragoverstop.gridEdit', function(){
 
+            $el.off('.gridEdit.gridDragDrop');
+
             var $selectedCol = $placeholder.parent('.new-col'),
                 dropped = !!$selectedCol.length;
 
@@ -332,8 +334,8 @@ define([
             }
         });
 
-        var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'class' : 'qti-droppable-inline-hover', 'data-inline' : true}).hide();
-
+        var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true}).hide();
+        $placeholder.append($('<span>', {'class':'cursor-h'})).append($('<span>', {'class':'cursor-v'}));
         var _resetPlaceholder = function($el){
             $el.after($placeholder.hide());
             dropped = false;
@@ -401,16 +403,21 @@ define([
 
     var _destroyDroppableInlines = function($el){
 
+        $el.off('.gridEdit.gridDragDrop');
+
         $el.find('span.qti-word-wrap, span.qti-droppable').replaceWith(function(){
             return $(this).text();
         });
 
         $el.find('.drop-target').removeClass('drop-target');
         $el.find('#qti-inline-element-placeholder').remove();
-        $el.off('.gridEdit.gridDragDrop');
     };
 
     var _destroyDroppableBlocks = function($el){
+
+        $el.removeClass('dropping').off('.gridEdit.gridDragDrop');
+
+        $el.find('[class^="col-"], [class*=" col-"]').removeAttr('style');
 
         _restoreTmpCol($el);
 
@@ -423,12 +430,6 @@ define([
 
         $el.find(_toBeRemoved.join(',')).remove();
 
-        $el.removeClass('dropping')
-            .off('.gridEdit.gridDragDrop');
-
-        $el.find('[class^="col-"], [class*=" col-"]')
-            .off('.gridEdit.gridDragDrop')
-            .removeAttr('style');
     };
 
     var _getNewRow = function _getNewRow(){

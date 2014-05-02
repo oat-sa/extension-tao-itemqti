@@ -1353,7 +1353,31 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         border-color: 1px solid #56b281 !important; }
       /* line 17, ../scss/qtiCreator/_grid-editor.scss */
       .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder {
-        display: inline-block; }
+        position: relative;
+        display: inline-block;
+        width: 8px;
+        height: 16px;
+        margin: 0px 2px;
+        background-color: transparent; }
+        /* line 24, ../scss/qtiCreator/_grid-editor.scss */
+        .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-h {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+          position: absolute;
+          top: 2px;
+          left: 0;
+          border-top: 2px solid #0e5d91;
+          border-bottom: 2px solid #0e5d91; }
+        /* line 34, ../scss/qtiCreator/_grid-editor.scss */
+        .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-v {
+          width: 0px;
+          height: 100%;
+          display: inline-block;
+          position: absolute;
+          top: 2px;
+          left: 3px;
+          border-left: 2px solid #0e5d91; }
   /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
   .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
     content: "\1cb"; }

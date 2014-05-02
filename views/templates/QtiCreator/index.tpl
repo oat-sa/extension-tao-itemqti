@@ -80,13 +80,14 @@ use oat\taoQtiItem\helpers\Authoring;
             <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
             <li id="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
             <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
-            <li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>
+            <!--<li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>-->
         </ul>
         <ul class="plain clearfix item-editor-menu rgt">
             <li id="item-editor-status">&nbsp;</li>
-            <li id="appearance-trigger" data-widget="<?=__('Edit Widget')?>" data-item="<?=__('Edit Item')?>"><span
-                    class="icon-document"></span><span class="menu-label"><?=__('Edit Item')?></span></li>
-            <li><span class="icon-settings"></span><?=__('Settings')?></li>
+            <li id="appearance-trigger" data-widget="<?=__('Edit Widget')?>" data-item="<?=__('Edit Item')?>">
+                <span class="icon-edit"></span><span class="menu-label"><?=__('Appearance')?></span>
+            </li>
+            <!--<li><span class="icon-settings"></span><?=__('Settings')?></li>-->
         </ul>
     </div>
 
@@ -230,7 +231,12 @@ use oat\taoQtiItem\helpers\Authoring;
                 </section>
 
             </div>
-
+            <div class="item-editor-item-related" id="item-editor-item-property-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Item Properties')?></h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
             <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
                 <section class="tool-group clearfix">
                     <h2><?=__('Body Element Properties')?></h2>
