@@ -30,7 +30,7 @@ define([
 
             var callback = {
                 simple : function(){
-                    
+
                     var $elt = $(this),
                         name = $elt.attr('name');
 
@@ -39,7 +39,7 @@ define([
                     }else{
                         _callbackCall(name, $elt.val(), $elt);
                     }
-                    
+
                 },
                 withValidation : function(e, valid, elt){
 
@@ -58,7 +58,7 @@ define([
             $form.off('.databinding');
             $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', callback.simple);
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
-            
+
             $form.groupValidator({
                 events : ['change', 'blur', {type : 'keyup', length : 0}],
                 callback : _validationCallback
@@ -119,7 +119,19 @@ define([
                 $max.incrementer('options', newOptions).keyup();
             };
 
-            callbacks[attributeNameMax] = formElement.getAttributeChangeCallback();
+            callbacks[attributeNameMax] = function(interaction, value, name){
+                
+                var responseDeclaration = interaction.getResponseDeclaration();
+                value = value || 0;
+                
+                if(value <= 1){
+                    responseDeclaration.attr('cadinality', 'single');
+                }else{
+                    responseDeclaration.attr('cadinality', 'multiple');
+                }
+                
+                interaction.attr(name, value);
+            };
 
             return callbacks;
         }
