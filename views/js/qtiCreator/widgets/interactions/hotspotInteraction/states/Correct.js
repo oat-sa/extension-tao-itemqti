@@ -31,7 +31,7 @@ define([
         HotspotInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(PciResponse.unserialize(data, interaction)); 
+            response.setCorrect(PciResponse.unserialize(data.response, interaction)); 
         });
 
     }

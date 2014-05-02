@@ -80,31 +80,34 @@ define(['lodash'], function(_){
          */
         unserialize : function(response, interaction){
             
-            var responseValues = [],
+            var ret = [],
                 responseDeclaration = interaction.getResponseDeclaration(),
                 baseType = responseDeclaration.attr('baseType'),
                 cardinality = responseDeclaration.attr('cardinality'),
                 mappedCardinality;
-
+            
             if(_qtiModelPciResponseCardinalities[cardinality]){
                 mappedCardinality = _qtiModelPciResponseCardinalities[cardinality];
-
-                if(_.isObject(response[mappedCardinality])){
-                    responseValues = response[mappedCardinality];
+                var responseValues = response[mappedCardinality];
+                
+                if(responseValues === null){
+                    ret = [];
+                }else if(_.isObject(responseValues)){
                     if(responseValues[baseType] !== undefined){
-                        responseValues = responseValues[baseType];
-                        responseValues = _.isArray(responseValues) ? responseValues : [responseValues];
+                        ret = responseValues[baseType];
+                        ret = _.isArray(ret) ? ret : [ret];
                     }else{
                         throw 'invalid response baseType';
                     }
                 }else{
+                    console.log(response);
                     throw 'invalid response cardinality, expected '+cardinality+' ('+mappedCardinality+')';
                 }
             }else{
                 throw 'unknown cardinality in the responseDeclaration of the interaction';
             }
             
-            return responseValues;
+            return ret;
         },
         /**
          * Serialize the input response array into the format to be send to result server according to IMS PCI recommendation :
