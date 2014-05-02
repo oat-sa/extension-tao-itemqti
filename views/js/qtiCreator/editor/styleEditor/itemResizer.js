@@ -89,6 +89,10 @@ define([
 
         resetButton.on('click', reset);
         $(document).on('customcssloaded.styleeditor', function(e, style) {
+            
+            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
+            return;
+            
             var width;
             if(style[target] && style[target].width) {
                 width = parseInt(style[target].width, 10);

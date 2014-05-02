@@ -90,6 +90,8 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function(e, style) {
+            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
+            return;
             if(style[target] && style[target]['font-family']) {
                 fontSelector.select2('val', style[target]['font-family']);
             }
