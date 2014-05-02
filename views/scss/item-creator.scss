@@ -146,7 +146,7 @@
         .item-editor-item {
             
             [class*=" col-"], [class^="col-"] {
-                padding: 6px;
+                padding: 3px;//not consistent with commonRenderer ! @todo : fix this
             }
         }
     }

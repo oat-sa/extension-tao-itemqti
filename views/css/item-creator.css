@@ -404,7 +404,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background-color: #f2f0ee; }
     /* line 148, ../scss/item-creator.scss */
     .tao-scope #item-editor-wrapper .item-editor-item [class*=" col-"], .tao-scope #item-editor-wrapper .item-editor-item [class^="col-"] {
-      padding: 6px; }
+      padding: 3px; }
   /* line 155, ../scss/item-creator.scss */
   .tao-scope .item-editor-css-editor select {
     min-width: 0 !important;
