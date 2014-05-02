@@ -58,7 +58,7 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
             $qtiParser = new PackageParser($file);
 
             $qtiParser->validate();
-
+            
             $this->assertFalse($qtiParser->isValid());
             $this->assertTrue(count($qtiParser->getErrors()) > 0);
             $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
