@@ -20,10 +20,10 @@ define([
             data = options.data || {};
 
         var $placeholder = $('<div>', {'id' : 'qti-block-element-placeholder', 'class' : 'qti-droppable-block-hover'}),
-            marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
+        marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
             isEmpty = ($el.children('.grid-row').length === 0);
 
-        //add dropping class:
+        //add dropping class (used to fix col-*:first margin issue);
         $el.addClass('dropping');
 
         //prepare tmp rows and cols
@@ -320,9 +320,9 @@ define([
             data = options.data || {},
             $targets = targetFinder.getTargetsFor(qtiClass, $el),
             dropped = false;
-        
+
         $targets.addClass('drop-target');
-        
+
         $targets.contents().each(function(){
             //a text node
             if(this.nodeType === 3 && !this.nodeValue.match(/^\s+$/)){
@@ -339,14 +339,14 @@ define([
             dropped = false;
         };
         _resetPlaceholder($el);
-        
+
         var _showPlaceholder = function(){
             dropped = true;
             return $placeholder.css('display', 'inline-block');
         };
-        
+
         $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
-            
+
             var w = $(this).width(),
                 parentOffset = $(this).offset(),
                 relX = e.pageX - parentOffset.left;
@@ -360,17 +360,17 @@ define([
             }
 
         }).on('mouseover.gridEdit.gridDragDrop', function(e){
-            
+
             var $target = $(e.target);
             if(!dropped && $target.children('.qti-word-wrap').length){
                 //make first insertion easier
                 $target.append(_showPlaceholder());
             }
-            
-            if( $target[0] !== $placeholder[0]
-                && !$target.hasClass('qti-word-wrap') 
+
+            if($target[0] !== $placeholder[0]
+                && !$target.hasClass('qti-word-wrap')
                 && !$target.children('.qti-word-wrap').length){
-                
+
                 _resetPlaceholder($el);
             }
         });
@@ -404,7 +404,7 @@ define([
         $el.find('span.qti-word-wrap, span.qti-droppable').replaceWith(function(){
             return $(this).text();
         });
-        
+
         $el.find('.drop-target').removeClass('drop-target');
         $el.find('#qti-inline-element-placeholder').remove();
         $el.off('.gridEdit.gridDragDrop');
@@ -423,7 +423,8 @@ define([
 
         $el.find(_toBeRemoved.join(',')).remove();
 
-        $el.off('.gridEdit.gridDragDrop');
+        $el.removeClass('dropping')
+            .off('.gridEdit.gridDragDrop');
 
         $el.find('[class^="col-"], [class*=" col-"]')
             .off('.gridEdit.gridDragDrop')

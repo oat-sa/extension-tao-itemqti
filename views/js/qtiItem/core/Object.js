@@ -1,11 +1,11 @@
 define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, rendererConfig){
-    
+
     var QtiObject = Element.extend({
         qtiClass : 'object',
         getMediaType : function(){
             var type = 'undefined';
             var mimetype = this.attr('type');
-            if(mimetype !== ''){
+            if(mimetype){
                 if(mimetype.indexOf('video') === 0){
                     type = 'video';
                 }else if(mimetype.indexOf('audio') === 0){
@@ -19,12 +19,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
             return type;
         },
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
-                renderer = args.renderer||this.getRenderer(),
+                renderer = args.renderer || this.getRenderer(),
                 defaultData = {},
-                baseUrl = renderer.getOption('baseUrl')||'',
-                src = this.attr('data');
+                baseUrl = renderer.getOption('baseUrl') || '',
+                src = this.attr('data') || '';
 
             switch(this.getMediaType()){
                 case 'video':
@@ -37,14 +37,14 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
                 default:
                     defaultData.object = true;
             }
-            
+
             if(!src.match(/^http/i)){
                 defaultData.attributes = {data : baseUrl + src};
             }
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });
-    
+
     return QtiObject;
 });
