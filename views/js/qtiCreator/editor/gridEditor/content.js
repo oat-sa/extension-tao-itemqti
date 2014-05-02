@@ -5,27 +5,39 @@ define([
 ], function($, _, resizable){
 
     var contentHelper = {};
-    
-    contentHelper.getChangeCallback = function(container){
+
+    /**
+     * Get html string content foe a qti container
+     * 
+     * @param {string|domelement|jquery} element
+     * @returns {string}
+     */
+    contentHelper.getContent = function(element){
         
+        var $body = $('<div>', {'class' : 'col-fictive content-helper-wrapper'}).append($(element).clone());
+
+        contentHelper.destroyGridWidgets($body);
+
+        contentHelper.serializeElements($body);
+
+        return $body.html();
+    };
+
+    contentHelper.getChangeCallback = function(container){
+
         return _.throttle(function(data){
-            
-            var $body = $('<div>', {'class' : 'col-fictive content-helper-wrapper'}).append(data);
-            
-            contentHelper.destroyGridWidgets($body);
-            
-            contentHelper.serializeElements($body);
-            
-            container.body($body.html());
+
+            container.body(contentHelper.getContent(data));
+
         }, 800);
     };
-                
+
     contentHelper.serializeElements = function($el){
-        
+
         var existingElements = [];
-        
+
         $el.find('.widget-box').each(function(){
-            
+
             var $qtiElementWidget = $(this);
 
             if($qtiElementWidget.data('serial')){
@@ -34,7 +46,7 @@ define([
                 var serial = $qtiElementWidget.data('serial');
                 $qtiElementWidget.replaceWith('{{' + serial + '}}');
                 existingElements.push(serial);
-                
+
             }else if($qtiElementWidget.data('new') && $qtiElementWidget.data('qti-class')){
 
                 //a newly inserted qti element
@@ -46,24 +58,24 @@ define([
             }
 
         });
-        
+
         return existingElements;
     };
-    
+
     contentHelper.destroyGridWidgets = function($elt){
-        
+
         $elt.removeData('qti-grid-options');
-        
+
         $elt.find('.grid-row, [class*=" col-"], [class^="col-"]')
-                .removeAttr('style')
-                .removeAttr('data-active')
-                .removeAttr('data-units');
-        
+            .removeAttr('style')
+            .removeAttr('data-active')
+            .removeAttr('data-units');
+
         $elt.children('.ui-draggable-dragging').remove();
-        
+
         resizable.destroy($elt);
-        
+
     };
-    
+
     return contentHelper;
 });

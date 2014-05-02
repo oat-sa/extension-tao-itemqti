@@ -748,6 +748,8 @@
         @import "qtiCreator/graphic-mapping-editor";
         // the following file is identical to gap-match
         // @import "qtiCreator/_graphic-gap";
+        
+        @import "qtiCreator/_grid-editor"
     }
     /*style for modal feedback*/
     @import "qtiCreator/_modal-feedback";

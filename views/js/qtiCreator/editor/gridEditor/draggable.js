@@ -64,17 +64,12 @@ define([
             },
             stop : function(e, ui){
 
-                $to.trigger('beforedragoverstop.gridEdit');
-
                 if(typeof(options.stop) === 'function'){
                     options.stop.call(this, e, ui);
                 }
 
                 //restore dom:
                 $('body').css('cursor', 'auto');//...
-
-                //destroy droppables:
-                droppable.destroyDroppables($to);
 
                 $to.trigger('dragoverstop.gridEdit');
             }

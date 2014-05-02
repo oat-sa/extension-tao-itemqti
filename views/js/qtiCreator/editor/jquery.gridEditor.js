@@ -98,16 +98,8 @@ define([
 
     function destroy($elt) {
         
-        $elt.removeData('qti-grid-options');
+        contentHelper.destroyGridWidgets($elt);
         
-        $elt.find('.grid-row, [class*=" col-"], [class^="col-"]')
-                .removeAttr('style')
-                .removeAttr('data-active')
-                .removeAttr('data-units');
-        
-        $elt.children('.ui-draggable-dragging').remove();
-        
-        resizable.destroy($elt);
     }
 
     function getContent($el) {

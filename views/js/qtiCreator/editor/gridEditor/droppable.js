@@ -2,9 +2,11 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/helper/gridUnits',
+    'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
-    'taoQtiItem/qtiCreator/editor/gridEditor/arrow'
-], function($, _, gridUnits, helper, arrow){
+    'taoQtiItem/qtiCreator/editor/gridEditor/arrow',
+    'taoQtiItem/qtiCreator/editor/targetFinder'
+], function($, _, gridUnits, qtiElements, helper, arrow, targetFinder){
 
     var droppableGridEditor = {};
 
@@ -55,7 +57,7 @@ define([
 
             }).last().after(_getNewRow().append(_getNewCol()));
         }
-        
+
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
 
@@ -222,7 +224,7 @@ define([
                 relY = e.pageY - $col.offset().top;
 
             //insert on top or bottom:
-            var $newRow = (relY < h / 2) ? $(this).parent().prev() : $(this).parent().next();
+            var $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
             if(!$newRow.find('#qti-block-element-placeholder').length){//append row only not already included
                 var $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
                 console.log('insert from col');
@@ -245,106 +247,187 @@ define([
             _restoreTmpCol($el);
 
         });
-        
+
         //listen to the end of the dragging
         //on element drop (mouseout in the drop area $el)
-        $el.one('beforedragoverstop.gridEdit', function(){
+        $el.one('dragoverstop.gridEdit', function(){
 
-            $el.find('.grid-edit-insert-box').remove();
+            var $selectedCol = $placeholder.parent('.new-col'),
+                dropped = !!$selectedCol.length;
 
-            //make the dropped col permanent
-            var $selectedCol = $placeholder.parent('.new-col')
-                .data('qti-class', qtiClass)
-                .removeClass('new-col')
-                .removeAttr('data-index');
+            if(dropped){//has been properly dropped:
 
-            helper.setUnitsFromClass($selectedCol);
+                //make the placeholder permanent
+                $placeholder.removeAttr('id').removeClass('qti-droppable-block-hover');
 
-            //remove all other tmp cols
-            $el.find('.new-col').remove();
+                //make the dropped col permanent
+                $selectedCol
+                    .data('qti-class', qtiClass)
+                    .removeClass('new-col')
+                    .removeAttr('data-index');
 
-            //manage the temp grid-new-row:
-            $el.find('.grid-row[data-active=true]').each(function(){
-                $(this).removeClass('grid-row-new');
+                helper.setUnitsFromClass($selectedCol);
 
-                //make the modified  col-n class permanent and update data attribute "data-units"
-                $(this).children().removeAttr('data-original-class').each(function(){
-                    helper.setUnitsFromClass($(this));
+                //make the dropped row permanent
+                $selectedCol.parent('.grid-row-new').removeClass('grid-row-new');
+
+                //manage the temp grid-new-row:
+                $el.find('.grid-row[data-active=true]').each(function(){
+
+                    var $row = $(this);
+
+                    $row.removeClass('grid-row-new');
+
+                    //make the modified  col-n class permanent and update data attribute "data-units"
+                    $row.children().removeAttr('data-original-class').each(function(){
+                        helper.setUnitsFromClass($(this));
+                    });
                 });
-            });
-
-            //manage the temp grid-row-new:
-            $selectedCol.parent('.grid-row-new').removeClass('grid-row-new');//make the dropped row permanent
-            $el.find('.grid-row-new').remove();//remove tmp rows
-
-            //call callback function:
-            if($placeholder.data('dropped')){
-                $el.trigger('dropped.gridEdit'+ns, [qtiClass, $placeholder, data]);
             }
 
-            $el.off('.gridEdit.gridDragDrop');
-            $el.find('[class^="col-"], [class*=" col-"]')
-                .off('.gridEdit.gridDragDrop')
-                .removeAttr('style');
+            _destroyDroppableBlocks($el);
+
+            if(dropped && $placeholder.data('dropped')){
+                //trigger dropped event
+                $el.trigger('dropped.gridEdit' + ns, [qtiClass, $placeholder, data]);
+            }
 
         });
 
     };
 
+    var _mapQtiToHtml = function _mapQtiToHtml(qtiClass){
+
+        if(qtiElements.is(qtiClass, 'inlineInteraction')){
+            return 'object';//an inlineInteraction is a flow, like xhtml "object" elements
+        }else{
+            switch(qtiClass){
+                case 'math':
+                    return 'div';
+                case 'object.audio':
+                case 'object.video':
+                    return 'object';
+            }
+        }
+
+        //else return the html itself : a qti img is an img:
+        return qtiClass;
+    };
+
     droppableGridEditor.createDroppableInlines = function createDroppableInlines(qtiClass, $el, options){
 
-        var onDrop = (options && typeof options.drop === 'function') ? options.drop : null;
-
-        (function wrap($el){
-            QtiElements.getAllowedContainersElements(qtiElementClass, $el).filter(':not(script)').contents().each(function(){
-                //a text node
-                if(this.nodeType === 3 && !this.nodeValue.match(/^\s+$/)){
-                    $(this).replaceWith($.map(this.nodeValue.split(/(\S+)/), function(w){
-                        return w.match(/^\s*$/) ? document.createTextNode(w) : $('<span>', {'id' : 'w' + ($.fn.gridEditor.count++), 'text' : w, 'class' : 'qti-word-wrap'}).get();
-                    }));
-                }
-            });
-        }($el));
+        var ns = options.namespace ? '.' + options.namespace : '',
+            data = options.data || {},
+            $targets = targetFinder.getTargetsFor(qtiClass, $el),
+            dropped = false;
+        
+        $targets.addClass('drop-target');
+        
+        $targets.contents().each(function(){
+            //a text node
+            if(this.nodeType === 3 && !this.nodeValue.match(/^\s+$/)){
+                $(this).replaceWith($.map(this.nodeValue.split(/(\S+)/), function(w){
+                    return w.match(/^\s*$/) ? document.createTextNode(w) : $('<span>', {'text' : w, 'class' : 'qti-word-wrap'}).get();
+                }));
+            }
+        });
 
         var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'class' : 'qti-droppable-inline-hover', 'data-inline' : true}).hide();
-        $el.after($placeholder);
-        var $droppables = $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
-            var w = $(this).width();
-            var parentOffset = $(this).offset();
-            var relX = e.pageX - parentOffset.left;
+
+        var _resetPlaceholder = function($el){
+            $el.after($placeholder.hide());
+            dropped = false;
+        };
+        _resetPlaceholder($el);
+        
+        var _showPlaceholder = function(){
+            dropped = true;
+            return $placeholder.css('display', 'inline-block');
+        };
+        
+        $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
+            
+            var w = $(this).width(),
+                parentOffset = $(this).offset(),
+                relX = e.pageX - parentOffset.left;
+
             $placeholder.data('dropped', true);
             $placeholder.show().css('display', 'inline-block');
             if(relX < w / 2){
-                $(this).before($placeholder);
+                $(this).before(_showPlaceholder());
             }else{
-                $(this).after($placeholder);
+                $(this).after(_showPlaceholder());
+            }
+
+        }).on('mouseover.gridEdit.gridDragDrop', function(e){
+            
+            var $target = $(e.target);
+            if(!dropped && $target.children('.qti-word-wrap').length){
+                //make first insertion easier
+                $target.append(_showPlaceholder());
+            }
+            
+            if( $target[0] !== $placeholder[0]
+                && !$target.hasClass('qti-word-wrap') 
+                && !$target.children('.qti-word-wrap').length){
+                
+                _resetPlaceholder($el);
             }
         });
 
         //listen to the end of the dragging 
-        $el.one('beforedragoverstop.gridEdit', function(){
-            if($placeholder.data('dropped') && typeof onDrop === 'function'){
-                onDrop($el, $placeholder);
+        $el.one('dragoverstop.gridEdit', function(){
+
+            //make placeholder permanent
+            if(dropped){
+                $placeholder.removeAttr('id').removeAttr('class');
             }
-            $droppables.off('.gridEdit.gridDragDrop');
+
+            //destroy droppable
+            _destroyDroppableInlines($el);
+
+            //call callback function:
+            if(dropped && $placeholder.data('dropped')){
+                $el.trigger('dropped.gridEdit' + ns, [qtiClass, $placeholder, data]);
+            }
         });
     };
 
     droppableGridEditor.destroyDroppables = function destroyDroppables($el){
 
-        //inline droppables:
+        _destroyDroppableInlines($el);
+        _destroyDroppableBlocks($el);
+    };
+
+    var _destroyDroppableInlines = function($el){
+
         $el.find('span.qti-word-wrap, span.qti-droppable').replaceWith(function(){
             return $(this).text();
         });
+        
+        $el.find('.drop-target').removeClass('drop-target');
+        $el.find('#qti-inline-element-placeholder').remove();
+        $el.off('.gridEdit.gridDragDrop');
+    };
+
+    var _destroyDroppableBlocks = function($el){
 
         _restoreTmpCol($el);
 
-        $el.find('#qti-inline-element-placeholder, #qti-block-element-placeholder, .new-col, .grid-row-new').remove();
+        var _toBeRemoved = [
+            '#qti-block-element-placeholder',
+            '.new-col',
+            '.grid-row-new',
+            '.grid-edit-insert-box'
+        ];
 
-        $el.removeClass('dropping');
+        $el.find(_toBeRemoved.join(',')).remove();
+
         $el.off('.gridEdit.gridDragDrop');
 
-        $el.find('[class^="col-"], [class*=" col-"]').off('.gridEdit.gridDragDrop').removeAttr('style');
+        $el.find('[class^="col-"], [class*=" col-"]')
+            .off('.gridEdit.gridDragDrop')
+            .removeAttr('style');
     };
 
     var _getNewRow = function _getNewRow(){

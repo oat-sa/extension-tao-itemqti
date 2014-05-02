@@ -1,0 +1,20 @@
+
+//need to offset default col display rules because new tmp columns have been added
+.dropping{
+    margin-left: -1.42857%;
+    margin-right: 1.42857%;
+}
+.new-col:first-child{
+    margin-left: 1.42857%;
+}
+
+//inline drop target containers:
+.drop-target{
+    border:1px dashed whiten($success, .5) !important;
+    &:hover{
+        border-color:1px solid whiten($success, .3) !important;
+    }
+    #qti-inline-element-placeholder {
+        display:inline-block;
+    }
+}

@@ -1,26 +1,33 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
-], function ($, _, dtdHandler) {
+    'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler',
+    'taoQtiItem/qtiCreator/helper/qtiElements'
+], function($, _, dtdHandler, qtiElements){
     'use strict'
+
+    var _qtiHtmlEditableTypes = {
+        'itemBody' : '.widget-textBlock > [data-html-editable]',
+        'prompt' : '.qti-prompt[data-html-editable]',
+        'choice' : '.qti-choice [data-html-editable]'
+    };
 
     /**
      * Extends taoQtiItem/qtiCreator/editor/dtdHandler
      * to retrieve a collection of jQuery elements within a given context
      */
-    var targetFinder = (function ($, _, dh) {
+    var targetFinder = (function($, _, dh){
 
         /**
          * Inherit functions from parent class
          */
-        var inheritedFunctions = (function () {
+        var inheritedFunctions = (function(){
             var fns = {}, fn;
-            for (fn in dh) {
-                if (!dh.hasOwnProperty(fn)) {
+            for(fn in dh){
+                if(!dh.hasOwnProperty(fn)){
                     continue;
                 }
-                if (!(dh[fn] instanceof Function)) {
+                if(!(dh[fn] instanceof Function)){
                     continue;
                 }
                 fns[fn] = dh[fn];
@@ -35,18 +42,55 @@ define([
          * @param context (string|DOM element|jQuery element), defaults to document.body
          * @returns {*}
          */
-        var getTargetsFor = function (child, context) {
-            var parentSelector = dh.getParentsOf(child).join(',');
+        var getTargetsFor = function(qtiClass, context){
+
+            var child,
+                $qtiContainers,
+                $targets = $();
+
             context = context || document.body;
             context = $(context);
-            return context.find(parentSelector).not('[data-edit],[data-edit] *');
+
+            if(qtiElements.is(qtiClass, 'inlineInteraction')){
+                
+                $qtiContainers = context.find(_qtiHtmlEditableTypes['itemBody']);
+                child = 'object';
+                
+            }else{
+                
+                $qtiContainers = context.find(_.values(_qtiHtmlEditableTypes).join(','));
+                switch(qtiClass){
+                    case 'math':
+                        child = 'object';
+                        break;
+                    case 'object.audio':
+                    case 'object.video':
+                        child = 'object';
+                        break;
+                    default:
+                        child = qtiClass;
+                }
+            }
+
+            var parents = dh.getParentsOf(child),
+                parentSelector = parents.join(',');
+
+            $qtiContainers.each(function(){
+                var $elt = $(this);
+                if($elt.is(parentSelector)){
+                    $targets = $targets.add($elt);
+                }
+                $targets = $targets.add($elt.find(parentSelector).not('script'));
+            });
+
+            return $targets;
         };
 
         /**
          * return both parent and own functions
          */
         return _.extend(inheritedFunctions, {
-            getTargetsFor: getTargetsFor
+            getTargetsFor : getTargetsFor
         });
 
     }(jQuery, _, dtdHandler));

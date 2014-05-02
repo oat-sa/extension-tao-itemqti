@@ -8,14 +8,13 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/helper/container',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'taoQtiItem/qtiCreator/editor/gridEditor/draggable',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, draggable, xmlRenderer, devTools, TextWidget, formElement){
-
+], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement){
+    
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
@@ -84,10 +83,9 @@ define([
         $itemBody.gridEditor('resizable');
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
 //            helper: function() {
-//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999);
+//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999999);
 //            }
         });
-
 
         $itemBody.on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
 
@@ -101,14 +99,24 @@ define([
                 $placeholder = $placeholder.parent('.col-12').parent('.grid-row');
             }
 
-            $placeholder.addClass('widget-box');//necessary?
+            $placeholder.addClass('widget-box');//required for it to be considered as a widget during container serialization
             $placeholder.attr({
                 'data-new' : true,
                 'data-qti-class' : qtiClass
             });//add data attribute to get the dom ready to be replaced by rendering
-
-            item.createElements($itemBody.gridEditor('getContent'), function(newElts){
-
+            
+            var $widget = $placeholder.parent().closest('.widget-box, .qti-item');
+            var $editable = $placeholder.closest('[data-html-editable], .qti-itemBody');
+            var widget = $widget.data('widget');
+            var element = widget.element;
+            var container = Element.isA(element, '_container') ? element : element.getBody();
+          
+            if(!element || !$editable.length){
+                throw new Error('cannot create new element');
+            }
+            
+            containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
+                
                 creatorRenderer.get().load(function(){
 
                     for(var serial in newElts){
@@ -162,8 +170,6 @@ define([
 //                $dropped.replaceWith($el);
 //                createMovable($el, $to);
         
-            console.log('droppeddd', $placeholder, data.widget);
-//            debugger;
         });
 
     };
@@ -204,7 +210,6 @@ define([
             $originalContainer = this.$container,
             i = 1,
             subContainers = [];
-
 
         //temporarily tag col that need to be transformed into 
         $originalContainer.find('.qti-itemBody > .grid-row').each(function(){
