@@ -3,9 +3,8 @@ define([
     'helpers',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Item',
-    'taoQtiItem/qtiCreator/model/qtiClasses',
-    'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function($, helpers, Loader, Item, qtiClasses, DATA) {
+    'taoQtiItem/qtiCreator/model/qtiClasses'
+], function($, helpers, Loader, Item, qtiClasses) {
 
     var _generateIdentifier = function(uri) {
         var pos = uri.lastIndexOf('#');
@@ -28,8 +27,6 @@ define([
 
                         var loader = new Loader().setClassesLocation(qtiClasses),
                             itemData = data.itemData;
-
-//                        itemData = DATA['choice'].full;
 
                         loader.loadItemData(itemData, function(item) {
                             callback(item, this.getLoadedClasses());
