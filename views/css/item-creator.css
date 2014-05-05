@@ -1338,20 +1338,28 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       /* line 67, ../scss/qtiCreator/_graphic-mapping-editor.scss */
       .tao-scope .item-editor-item .graphic-mapping-editor .icon-checkbox {
         margin-left: 20px; }
-    /* line 3, ../scss/qtiCreator/_grid-editor.scss */
+    /* line 2, ../scss/qtiCreator/_grid-editor.scss */
+    .tao-scope .item-editor-item span.dragging {
+      opacity: 0.8 !important;
+      z-index: 999999;
+      font-size: 5rem;
+      padding: 20px 80px;
+      position: absolute;
+      background: rgba(243, 241, 239, 0.8); }
+    /* line 12, ../scss/qtiCreator/_grid-editor.scss */
     .tao-scope .item-editor-item .dropping {
       margin-left: -1.42857%;
       margin-right: 1.42857%; }
-    /* line 7, ../scss/qtiCreator/_grid-editor.scss */
+    /* line 16, ../scss/qtiCreator/_grid-editor.scss */
     .tao-scope .item-editor-item .new-col:first-child {
       margin-left: 1.42857%; }
-    /* line 12, ../scss/qtiCreator/_grid-editor.scss */
+    /* line 21, ../scss/qtiCreator/_grid-editor.scss */
     .tao-scope .item-editor-item .drop-target {
       border: 1px dashed #86c8a5 !important; }
-      /* line 14, ../scss/qtiCreator/_grid-editor.scss */
+      /* line 23, ../scss/qtiCreator/_grid-editor.scss */
       .tao-scope .item-editor-item .drop-target:hover {
         border-color: 1px solid #56b281 !important; }
-      /* line 17, ../scss/qtiCreator/_grid-editor.scss */
+      /* line 26, ../scss/qtiCreator/_grid-editor.scss */
       .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder {
         position: relative;
         display: inline-block;
@@ -1359,7 +1367,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         height: 16px;
         margin: 0px 2px;
         background-color: transparent; }
-        /* line 24, ../scss/qtiCreator/_grid-editor.scss */
+        /* line 33, ../scss/qtiCreator/_grid-editor.scss */
         .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-h {
           width: 100%;
           height: 100%;
@@ -1369,7 +1377,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           left: 0;
           border-top: 2px solid #0e5d91;
           border-bottom: 2px solid #0e5d91; }
-        /* line 34, ../scss/qtiCreator/_grid-editor.scss */
+        /* line 43, ../scss/qtiCreator/_grid-editor.scss */
         .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-v {
           width: 0px;
           height: 100%;

@@ -82,9 +82,10 @@ define([
         $itemBody.gridEditor();
         $itemBody.gridEditor('resizable');
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]'), {
-//            helper: function() {
-//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 999999);
-//            }
+            helper: function() {
+                return $(this).find('span').clone().addClass('dragging');
+//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 99999999);
+            }
         });
 
         $itemBody.on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){

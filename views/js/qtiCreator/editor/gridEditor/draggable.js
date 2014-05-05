@@ -8,7 +8,7 @@ define([
 
     var _insertableDefaultsOptions = {
         helper : function(){
-            return $(this).clone().css('z-index', 99);
+            return $(this).clone();
         }
     };
 
@@ -33,7 +33,7 @@ define([
             distance : parseInt(options.distance),
             helper : options.helper,
             appendTo : $to, //very important ! to enable movable correct positioning
-            opacity : 0.5,
+            opacity : 0.9,
             scroll : false,
             cursor : 'crosshair',
             cursorAt : {left : -5, bottom : -5},

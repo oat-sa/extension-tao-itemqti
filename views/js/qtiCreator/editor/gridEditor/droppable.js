@@ -316,6 +316,28 @@ define([
         return qtiClass;
     };
 
+    var _pulseTimer = null;
+    var _pulse = function($el){
+
+        if(_pulseTimer){
+            clearInterval(_pulseTimer);
+        }
+        var intervalDuration = 2000;
+        
+        setInterval(function(){
+
+            $el.animate({
+                opacity : 0.3
+            }, intervalDuration * 0.5, function(){
+                $el.animate({
+                    opacity : 0.9
+                }, intervalDuration * 0.5);
+            });
+
+        }, intervalDuration);
+
+    };
+
     droppableGridEditor.createDroppableInlines = function createDroppableInlines(qtiClass, $el, options){
 
         var ns = options.namespace ? '.' + options.namespace : '',
@@ -335,7 +357,8 @@ define([
         });
 
         var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true}).hide();
-        $placeholder.append($('<span>', {'class':'cursor-h'})).append($('<span>', {'class':'cursor-v'}));
+        $placeholder.append($('<span>', {'class' : 'cursor-h'})).append($('<span>', {'class' : 'cursor-v'}));
+        _pulse($placeholder);
         var _resetPlaceholder = function($el){
             $el.after($placeholder.hide());
             dropped = false;

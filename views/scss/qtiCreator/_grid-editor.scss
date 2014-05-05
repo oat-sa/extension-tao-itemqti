@@ -1,3 +1,12 @@
+//graddable handler:
+span.dragging{
+    opacity:0.8 !important;
+    z-index:999999;
+    font-size : 5rem;
+    padding:20px 80px;
+    position:absolute;
+    background: rgba($uiClickableDefaultBg, .8);
+}
 
 //need to offset default col display rules because new tmp columns have been added
 .dropping{
