@@ -6,10 +6,10 @@ define([
     var MediaInteractionWidget = Widget.clone();
 
     MediaInteractionWidget.initCreator = function(){
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
+        
+        Widget.initCreator.call(this);
         
         //do some initialization, if needed
         this.functionToInitMyInteractionCreatorWidget();

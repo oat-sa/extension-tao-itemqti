@@ -6,9 +6,8 @@ define([
     var MatchInteractionWidget = Widget.clone();
 
     MatchInteractionWidget.initCreator = function(){
-
-        Widget.initCreator.call(this);
         this.registerStates(states);
+        Widget.initCreator.call(this);
     };
     
     return MatchInteractionWidget;

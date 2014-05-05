@@ -6,10 +6,10 @@ define([
     var OrderInteractionWidget = Widget.clone();
 
     OrderInteractionWidget.initCreator = function(){
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
+        
+        Widget.initCreator.call(this);
     };
     
     return OrderInteractionWidget;

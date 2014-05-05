@@ -82,26 +82,20 @@ define([
 
         $toolbar = $(toolbarTpl({
             title : this.element.qtiClass,
-            serial : this.element.serial
+            serial : this.element.serial,
+            switcher : !!this.registeredStates.answer
         }));
 
         this.$container.append($toolbar);
         $toolbar.hide();
-
-
 
         $toolbar.find('[data-role="delete"]').click(function(e){
             e.stopPropagation();//prevent direct deleting
             _this.changeState('deleting');
         });
 
-
-        if(!this.registeredStates.answer){
-
-            //if no answer state has been registered (not wanted)
-            $toolbar.find('.state-switcher').hide();
-
-        }else{
+        //if the answer state has been registered
+        if(this.registeredStates.answer){
 
             //initialize the state switcher
             $toolbar.on('click', '.link', function(){

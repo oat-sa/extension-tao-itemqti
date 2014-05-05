@@ -24,11 +24,11 @@ define([
         initCreator : function(options){
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
-
+            
+            this.registerStates(states);
+            
             //call parent initCreator
             Widget.initCreator.call(this);
-
-            this.registerStates(states);
            
             this.createPaper(); 
         },

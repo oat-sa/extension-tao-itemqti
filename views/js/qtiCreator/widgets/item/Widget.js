@@ -18,10 +18,10 @@ define([
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
+        
+        Widget.initCreator.call(this);
 
         if(!config || !config.uri){
             throw new Error('missing required config parameter uri in item widget initialization');
