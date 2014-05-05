@@ -8,7 +8,7 @@ define([
     // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
     function rgbToHex(color) {
-        if (color.substr(0, 1) === "#") {
+        if(0 !== color.indexOf('rgb')) {
             return color;
         }
         var rgbArr = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
@@ -20,7 +20,6 @@ define([
 
     var colorSelector = function () {
         var colorPicker = $('#item-editor-color-picker'),
-            target = colorPicker.data('target'),
             widget = colorPicker.find('.color-picker'),
             widgetBox = colorPicker.find('#color-picker-container'),
             titleElement =  colorPicker.find('#color-picker-title'),
@@ -30,20 +29,6 @@ define([
             currentProperty = 'color',
             widgetObj,
             $doc = $(document);
-
-        var reset = function() {
-
-//            colorTriggers.each(function() {
-//                var $trigger = $(this),
-//                    target = $trigger.data('target'),
-//                    value = $trigger.data('value');
-//                console.log(target, value)
-//                styleEditor.apply(target, $(this).data('value'));
-//
-//            });
-            styleEditor.apply(target, $(this).data('value'));
-            setTriggerColor();
-        };
 
 
         /**
@@ -81,9 +66,6 @@ define([
         colorTriggers.on('click', function () {
             var $trigger = $(this);
 
-            if(!$($trigger.data('target')).length) {
-                return;
-            }
             widget.prop('target', $trigger.data('target'));
             widgetBox.hide();
             currentProperty = $trigger.data('value');
@@ -116,11 +98,29 @@ define([
 
 
         // reset to default
-        resetButtons.on('click', reset);
+        resetButtons.on('click', function () {
+            var $this = $(this),
+                $colorTrigger = $this.parent().find('.color-trigger'),
+                target = $colorTrigger.data('target'),
+                value = $colorTrigger.data('value');
+            styleEditor.apply(target, value);
+            setTriggerColor();
+        });
 
 
-        $doc.on('customcssloaded.styleeditor', reset);
+        $doc.on('customcssloaded.styleeditor', setTriggerColor);
     };
 
     return colorSelector;
 });
+
+/*
+ .tao-scope div.qti-item{width:933px;font-family:Calibri,Candara,Segoe,'Segoe UI',Optima,Arial,sans-serif;}
+ .tao-scope div.qti-item .item-title{font-size:24px;}
+ .tao-scope div.qti-item .qti-itemBody{font-size:14px;}
+ .tao-scope div.qti-item .solid{border-color:#33d863;}
+
+ .tao-scope div.qti-item background-color colorSelector.js:109
+ .tao-scope div.qti-item .solid border-color
+
+ */

@@ -162,7 +162,7 @@
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
         position: absolute;
-        overflow: hidden;
+       // overflow: hidden;
         top: 0;
         right: 0;
         .tool-group {
@@ -392,8 +392,10 @@
                 display:none;
                 width: 100px;
                 min-width: 100px;
-                padding: 1px 3px;
+                padding: 0px 3px;
                 @include font-size(13);
+                position: relative;
+                top: 1px;
             }
             .icon-download, .icon-bin{
                 float:right;
@@ -564,7 +566,7 @@
                 .tlb{
                     .state-switcher{
                         float:right;
-                        padding-top:4px 4px 1px;
+                        padding:4px 4px 1px;
                     }
                     &>div{
                         margin:1px 0 2px;
@@ -749,7 +751,7 @@
         // the following file is identical to gap-match
         // @import "qtiCreator/_graphic-gap";
         
-        @import "qtiCreator/_grid-editor"
+        @import "qtiCreator/_grid-editor";
     }
     /*style for modal feedback*/
     @import "qtiCreator/_modal-feedback";

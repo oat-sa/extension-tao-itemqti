@@ -12,7 +12,7 @@ define([
     __,
     cssTpl
     ) {
-    'use strict'
+   // 'use strict'
 
     var itemConfig;
 
@@ -103,7 +103,7 @@ define([
         };
 
         /**
-         * Apply new rule to CSS
+         * Apply rule to CSS
          *
          * @param {{string}} selector
          * @param {{string}} property
@@ -112,12 +112,14 @@ define([
         var apply = function (selector, property, value) {
             style[selector] = style[selector] || {};
 
+            // delete this rule
             if (!value) {
                 delete(style[selector][property]);
                 if(_.size(style[selector]) === 0) {
                     delete(style[selector]);
                 }
             }
+            // add this rule
             else {
                 style[selector][property] = value;
             }
@@ -132,6 +134,7 @@ define([
          * Delete all custom styles
          */
         var erase = function() {
+            style = {};
             $styleElem.text('');
         };
 
