@@ -30,6 +30,22 @@ define([
         formElement.initDataBinding($form, interaction, callbacks);
         
         interactionFormElement.syncMaxChoices(_widget);
+        
+        //modify the checkbox/radio input appearances
+        _widget.on('attributeChange', function(data){
+            
+            var $checkboxIcons = _widget.$container.find('.real-label > span');
+            
+            if(data.element.serial === interaction.serial && data.key === 'maxChoices'){
+                if(parseInt(data.value) === 1){
+                    //radio
+                    $checkboxIcons.removeClass('icon-checkbox').addClass('icon-radio');
+                }else{
+                    //checkbox
+                    $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
+                }
+            }
+        });
     };
 
     return ChoiceInteractionStateQuestion;
