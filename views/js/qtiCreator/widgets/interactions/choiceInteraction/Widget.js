@@ -10,8 +10,6 @@ define([
         Widget.initCreator.call(this);
 
         this.registerStates(states);
-        
-        this.$container.find('.qti-choice > .pseudo-label-box input').prop('disabled', 'disabled');
     };
     
     return ChoiceInteractionWidget;
