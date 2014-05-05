@@ -35,6 +35,7 @@ define([
                 
                 //attach the widget to widget $container and element:
                 this.$container.data('widget', this);
+                this.$original.data('widget', this);
                 
                 this.element.data('widget', this);
                 
@@ -186,6 +187,9 @@ define([
             }else{
                 $container = this.$container;
             }
+            
+            //once required data ref has been set, destroy it:
+            this.destroy();
             
             //we assume that the element still has its renderer set, check renderer:
             var renderer = element.getRenderer();

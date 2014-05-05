@@ -10,10 +10,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
 
             //init own attributes
             this.attributes = {};
-            
+
             //system properties, for item creator internal use only
             this.metaData = {};
-            
+
             //init call in the format init(attributes)
             if(typeof(serial) === 'object'){
                 attributes = serial;
@@ -138,6 +138,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return elts;
         },
         getUsedClasses : function(){
+        
             var ret = [this.qtiClass],
                 composingElts = this.getComposingElements();
 
@@ -148,26 +149,21 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return _.uniq(ret);
         },
         find : function(serial){
+
+            var found = null;
+            
             if(typeof this.initObject === 'function'){
                 var object = this.getObject();
                 if(object.serial === serial){
-                    return {'parent' : this, 'element' : object, 'location' : 'object'};
+                    found = {'parent' : this, 'element' : object, 'location' : 'object'};
                 }
             }
-            if(typeof this.initContainer === 'function'){
-                var elts = this.getBody().getElements();
-                if(elts[serial]){
-                    return {'parent' : this, 'element' : elts[serial], 'location' : 'body'};
-                }else{
-                    for(var i in elts){
-                        var found = elts[i].find(serial);
-                        if(found){
-                            return found;
-                        }
-                    }
-                }
+            
+            if(!found && typeof this.initContainer === 'function'){
+                found = this.getBody().find(serial, this);
             }
-            return null;
+            
+            return found;
         },
         parent : function(){
             var item = this.getRelatedItem();
@@ -224,7 +220,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 'serial' : this.serial,
                 'attributes' : this.getAttributes()
             };
-            
+
             if(!renderer){
                 throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
@@ -244,7 +240,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                     }
                 }
             }
-            
+
             tplData = _.merge(defaultData, args.data || {});
             tplData = renderer.getData(this, tplData, args.subclass);
             var rendering = renderer.renderTpl(this, tplData, args.subclass);
@@ -255,7 +251,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return rendering;
         },
         postRender : function(data, altClassName, renderer){
-            
+
             renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
@@ -313,15 +309,15 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
     Element.isA = function(qtiElement, qtiClass){
         return (qtiElement instanceof Element && qtiElement.is(qtiClass));
     };
-    
+
     Element.getElementBySerial = function(serial){
         return _instances[serial];
     };
-    
+
     Element.unsetElement = function(serial){
         delete _instances[serial];
     };
-    
+
     return Element;
 });
 

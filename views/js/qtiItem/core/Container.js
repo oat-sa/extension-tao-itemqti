@@ -8,7 +8,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             }
             this.bdy = '';
             this.body(body || '');
-            this.elements = [];
+            this.elements = {};
             this._super();//generate serial, attributes array always empty
         },
         body : function(body){
@@ -18,8 +18,8 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                 if(typeof body === 'string'){
                     this.bdy = body;
                     $(document).trigger('containerBodyChange', {
-                        body: body,
-                        container: this
+                        body : body,
+                        container : this
                     });
                 }else{
                     throw 'body must be a string';
@@ -28,31 +28,31 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
         },
         setElements : function(elements, body){
             var returnValue = false;
-            
+
             for(var i in elements){
                 var elt = elements[i];
                 if(elt instanceof Element){
-                    
+
                     if(body.indexOf(elt.placeholder()) === -1){
                         body += elt.placeholder();//append the element if no placeholder found
                     }
-                    
+
                     elt.setRelatedItem(this.getRelatedItem() || null);
                     this.elements[elt.getSerial()] = elt;
                     $(document).trigger('containerElementAdded', {
-                        element: elt,
-                        container: this
+                        element : elt,
+                        container : this
                     });
-                    
+
                     returnValue = true;
                 }else{
                     returnValue = false;
                     throw 'expected a qti element';
                 }
             }
-            
+
             this.body(body);
-            
+
             return returnValue;
         },
         setElement : function(element, body){
@@ -66,7 +66,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                 serial = element.getSerial();
             }
             delete this.elements[serial];
-            this.body(this.body().replace('{{'+serial+'}}', ''));
+            this.body(this.body().replace('{{' + serial + '}}', ''));
             return this;
         },
         getElements : function(qtiClass){
@@ -96,12 +96,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             return elts;
         },
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 elementsData = [],
                 tpl = this.body();
-            
+
             for(var serial in this.elements){
                 var elt = this.elements[serial];
                 if(typeof elt.render === 'function'){
@@ -116,20 +116,20 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                     throw 'render() is not defined for the qti element: ' + serial;
                 }
             }
-           
+
             if(renderer.isRenderer){
                 return this._super({
                     'body' : renderer.renderDirect(tpl, elementsData),
-                    'contentModel':this.contentModel||'flow'
+                    'contentModel' : this.contentModel || 'flow'
                 }, renderer);
             }else{
                 throw 'invalid qti renderer for qti container';
             }
         },
         postRender : function(data, altClassName, renderer){
-            
+
             renderer = renderer || this.getRenderer();
-            
+
             for(var serial in this.elements){
                 var elt = this.elements[serial];
                 if(typeof elt.postRender === 'function'){
@@ -150,6 +150,27 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             }
 
             return arr;
+        },
+        find : function(serial, parent){
+
+            var found = null;
+
+            if(this.elements[serial]){
+                
+                found = {'parent' : parent || this, 'element' : this.elements[serial], 'location' : 'body'};
+                
+            }else{
+                
+                _.each(this.elements, function(elt){
+                    
+                    found = elt.find(serial);
+                    if(found){
+                        return false;//break loop
+                    }
+                });
+            }
+
+            return found;
         }
     });
 

@@ -32,14 +32,15 @@ define([
         var item1 = new Item().setElement(interaction1, newBody);
         
         var found = item1.find(interaction1.serial);
-        ok(_.size(found) === 2, 'found interaction');
-        ok(found.parent.serial === item1.serial, 'found parent ok');
-        ok(found.element.serial === interaction1.serial, 'found elment ok');
+        equal(_.size(found), 3, 'found interaction');
+        equal(found.parent.serial, item1.serial, 'found parent ok');
+        equal(found.element.serial, interaction1.serial, 'found elment ok');
+        equal(found.location, 'body', 'found elment ok');
         
         found = item1.find(choice2.serial);
-        ok(_.size(found) === 2, 'found choice2');
-        ok(found.parent.serial === interaction1.serial, 'found parent ok');
-        ok(found.element.serial === choice2.serial, 'found elment ok');
+        equal(_.size(found), 2, 'found choice2');
+        equal(found.parent.serial, interaction1.serial, 'found parent ok');
+        equal(found.element.serial, choice2.serial, 'found elment ok');
         
         found = item1.find(choice4.serial);
         ok(_.isNull(found), 'not found choice4');
