@@ -6,10 +6,10 @@ define([
     var ChoiceInteractionWidget = Widget.clone();
 
     ChoiceInteractionWidget.initCreator = function(){
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
+        
+        Widget.initCreator.call(this);
     };
     
     return ChoiceInteractionWidget;

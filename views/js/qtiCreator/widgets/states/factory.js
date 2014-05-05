@@ -164,24 +164,31 @@ define(['lodash'], function(_){
 
             return Clone;
         },
-        createBundle : function(arg0, arg1){
+        createBundle : function(arg0, arg1, arg2){
 
             var stateBundle = {},
-                newStates = [];
-
+                newStates = [],
+                excluded = [];
+            
             if(arguments.length >= 2){
                 stateBundle = _.clone(arguments[0]);
                 newStates = arguments[1];
+                excluded = arguments[2] || excluded;
             }else{
                 newStates = arguments[0];
             }
 
             _.each(newStates, function(state){
+                
                 if(_isValidStateDefinition(state)){
                     stateBundle[state.prototype.name] = state;
                 }
             });
-
+            
+            _.each(excluded, function(state){
+                delete stateBundle[state];
+            });
+            
             return stateBundle;
         },
         throwMissingRequiredImplementationError : function(functionName){

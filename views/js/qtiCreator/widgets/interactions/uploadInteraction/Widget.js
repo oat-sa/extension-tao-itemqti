@@ -6,13 +6,10 @@ define([
     var UploadInteractionWidget = Widget.clone();
 
     UploadInteractionWidget.initCreator = function(){
-
-        Widget.initCreator.call(this);
-
-        this.registerStates(states);
-
-        //do some initialization, if needed
         
+        this.registerStates(states);
+        
+        Widget.initCreator.call(this);
     };
 
     return UploadInteractionWidget;

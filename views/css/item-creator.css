@@ -931,7 +931,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         /* line 567, ../scss/item-creator.scss */
         .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher {
           float: right;
-          padding: 4px 4px 1px; }
+          padding: 0; }
         /* line 571, ../scss/item-creator.scss */
         .tao-scope .item-editor-item .widget-box .tlb-wrapper .tlb > div {
           margin: 1px 0 2px; }

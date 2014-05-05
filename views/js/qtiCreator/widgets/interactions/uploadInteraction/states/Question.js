@@ -14,20 +14,15 @@ define([
             interaction = _widget.element;
 
         $form.html(formTpl({
-
-            //tpl data for the interaction
-            type : interaction.attr('type'),
+            type : interaction.attr('type')
         }));
 
         formElement.initWidget($form);
 
         //init data change callbacks
-        var callbacks = {};
-        callbacks['type'] = function(interaction, attrValue, attrName){
-            interaction.attr(attrName, attrValue);
-        };
-
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.initDataBinding($form, interaction, {
+            type : formElement.getAttributeChangeCallback()
+        });
     };
 
     return UploadInteractionStateQuestion;
