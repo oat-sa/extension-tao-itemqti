@@ -94,8 +94,23 @@ class PackageParser
 			try{
 	    		$zip = new ZipArchive();
 	    		//check the archive opening and the consistency
-				if($zip->open($this->source, ZIPARCHIVE::CHECKCONS) !== true){
-					throw new Exception($zip->getStatusString());
+	    		$res = $zip->open($this->source, ZIPARCHIVE::CHECKCONS);
+				if( $res !== true){
+				   
+				    switch($res) {
+				        case ZipArchive::ER_NOZIP :
+				             $msg = 'not a zip archive';
+				             break;
+				        case ZipArchive::ER_INCONS :
+				            $msg ='consistency check failed';
+				            break;
+				        case ZipArchive::ER_CRC :
+				            $msg = 'checksum failed';
+				            break;
+				        default:
+				            $msg ='Bad Zip file';
+				    }
+					throw new Exception($msg);
 				}
 				else{
 					//check if the manifest is there
@@ -109,7 +124,6 @@ class PackageParser
 			}
 			catch(Exception $e){
 				$this->addError($e);
-				$zip->close();
 			}
         }
         
