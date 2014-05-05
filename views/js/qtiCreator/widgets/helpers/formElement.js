@@ -56,7 +56,7 @@ define([
             };
 
             $form.off('.databinding');
-            $form.on('change.databinding keyup.databinding', ':checkbox, select, :text:not([data-validate])', callback.simple);
+            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate])', callback.simple);
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
 
             $form.groupValidator({

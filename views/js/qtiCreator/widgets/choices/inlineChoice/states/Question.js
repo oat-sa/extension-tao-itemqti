@@ -11,15 +11,10 @@ define([
 
         var _widget = this.widget,
             $toolbar = _widget.$container.find('td:last');
-        
-        if(!$toolbar.data('initialized')){
-            
-            //set toolbar button behaviour:
-            formElement.initShufflePinToggle(_widget);
-            formElement.initDelete(_widget);
-            
-            $toolbar.data('initialized', true);
-        }
+
+        //set toolbar button behaviour:
+        formElement.initShufflePinToggle(_widget);
+        formElement.initDelete(_widget);
 
         return $toolbar;
     };
@@ -28,29 +23,29 @@ define([
 
         var _widget = this.widget,
             $editableContainer = _widget.$container.children('td:first');
-        
+
         $editableContainer.attr('contentEditable', true);
-        
+
         $editableContainer.on('keyup.qti-widget', _.throttle(function(){
-            
+
             //update model
             _widget.element.val($(this).text());
-            
+
             //update placeholder
             _widget.$original.width($(this).width());
-            
+
         }, 200)).on('focus.qti-widget', function(){
             _widget.changeState('choice')
         });
     };
 
     ChoiceStateQuestion.prototype.destroyEditor = function(){
-        
+
         var $container = this.widget.$container;
-        
+
         $container.find('td').removeAttr('contentEditable');
         $container.children('td:first').off('keyup.qti-widget');
     };
-    
+
     return ChoiceStateQuestion;
 });

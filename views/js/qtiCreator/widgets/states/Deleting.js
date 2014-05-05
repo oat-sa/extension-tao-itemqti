@@ -30,7 +30,6 @@ define([
         var $container = this.widget.$container;
 
         //if is a choice widget:
-
         if($container.hasClass('qti-choice')){
             return $container;
         }

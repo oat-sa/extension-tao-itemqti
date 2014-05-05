@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Choice'
 ], function(stateFactory, Choice){
 
-    var SimpleChoiceStateChoice = stateFactory.create(Choice, function(){
+    var ChoiceStateChoice = stateFactory.create(Choice, function(){
         
         var _widget = this.widget;
         
@@ -26,9 +26,9 @@ define([
         this.widget.$form.empty().hide();
     });
 
-    SimpleChoiceStateChoice.prototype.initForm = function(){
+    ChoiceStateChoice.prototype.initForm = function(){
         stateFactory.throwMissingRequiredImplementationError('initForm');
     };
     
-    return SimpleChoiceStateChoice;
+    return ChoiceStateChoice;
 });

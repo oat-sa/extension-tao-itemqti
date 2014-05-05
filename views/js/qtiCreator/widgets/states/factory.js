@@ -31,18 +31,20 @@ define(['lodash'], function(_){
         if(init && exit){
             State.prototype.init = function(){
                 
-                if(this.widget.$container.data('edit') === name){
-                    this.widget.$container.show();
+                var $container = this.widget.$container;
+                
+                if($container.data('edit') === name){
+                    $container.show();
                 }
                 
-                var $container = this.widget.$container;
-                $container.find('[data-edit="' + name + '"]').filter(function(){
+                var $editableWidgets = $container.find('[data-edit="' + name + '"]').filter(function(){
                     var $parentWidget = $(this).closest('.widget-box');
                     if($parentWidget.length && $parentWidget[0] === $container[0]){
                         return true;
                     }
                     return false;
-                }).show();
+                });
+                $editableWidgets.show();
                 
                 this.widget.$container.addClass('edit-' + name);
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
