@@ -20,10 +20,10 @@ define([
 
         var $container = widget.$container,
             img = widget.element;
-        
+
         //remove class
         $container.removeClass('rgt lft');
-        
+
         img.removeClass('rgt');
         img.removeClass('lft');
         switch(position){
@@ -37,10 +37,30 @@ define([
                 break;
         }
     };
-    
+
     var _containClass = function(allClassStr, className){
         var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
         return allClassStr && regex.test(allClassStr);
+    };
+
+    /**
+     * Greately throttled callback function
+     * 
+     * @param {jQuery} $img
+     * @param {string} propertyName
+     * @returns {function}
+     */
+    var _getImgSizeChangeCallback = function($img, propertyName){
+
+        var _setAttr = _.debounce(function(img, value, name){
+            img.attr(name, value);
+        }, 1000);
+
+        return _.throttle(function(img, value, name){
+            $img[propertyName](value);
+            _setAttr(img, value, name);
+        }, 100);
+
     };
 
     ImgStateActive.prototype.initForm = function(){
@@ -59,7 +79,7 @@ define([
             width : img.attr('width') || '',
             responsive : responsive
         }));
-        
+
         //init slider and set align value before ...
         _initSlider(_widget);
         _initAlign(_widget);
@@ -74,21 +94,15 @@ define([
             align : function(img, value){
                 _floatImg(_widget, value);
             },
-            height : function(img, value, name){
-                img.attr(name, value);
-                $img.height(value);
-            },
-            width : function(img, value, name){
-                img.attr(name, value);
-                $img.width(value);
-            }
+            height : _getImgSizeChangeCallback($img, 'height'),
+            width : _getImgSizeChangeCallback($img, 'width')
         });
     };
 
     var _initAlign = function(widget){
 
         var align = 'default';
-        
+
         //init float positioning:
         if(widget.element.hasClass('rgt')){
             align = 'right';
@@ -110,10 +124,10 @@ define([
             $height = $form.find('[name=height]'),
             $width = $form.find('[name=width]'),
             original = {
-                h : img.attr('height') || $img.height(),
-                w : img.attr('width') || $img.width()
-            };
-            
+            h : img.attr('height') || $img.height(),
+            w : img.attr('width') || $img.width()
+        };
+
         $slider.noUiSlider({
             range : {
                 min : 10,
@@ -130,7 +144,7 @@ define([
 
             $width.val(w).change();
             $height.val(h).change();
-        },200));
+        }, 100));
     };
 
     return ImgStateActive;

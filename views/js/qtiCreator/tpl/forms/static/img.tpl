@@ -40,8 +40,8 @@
         <a href="#" data-hide-text="{{__ 'less'}}" data-toggle="~ .advanced-options" class="toggler closed">more</a>
         <div class="toggled advanced-options" style="display: none;">
             
-            <label for="height">{{__ "height"}}</label><input type="text" name="height" value="{{height}}" data-validate="$integer"/>
-            <label for="width">{{__ "width"}}</label><input type="text" name="width" value="{{width}}" data-validate="$integer"/>
+            <label for="height">{{__ "height"}}</label><input type="text" name="height" value="{{height}}" />
+            <label for="width">{{__ "width"}}</label><input type="text" name="width" value="{{width}}" />
             
             <label for="align">Positioning</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
