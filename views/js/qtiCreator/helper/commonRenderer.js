@@ -21,7 +21,7 @@ define([
             _renderer.load(function(){
                 
                 $container.append(item.render(this));
-                item.postRender(this);
+                item.postRender({}, '', this);
                 
             }, item.getUsedClasses());
             
