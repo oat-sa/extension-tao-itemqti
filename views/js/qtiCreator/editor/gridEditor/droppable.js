@@ -60,7 +60,7 @@ define([
 
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
-
+            
             if($col.length){
                 
                 $placeholder
@@ -79,7 +79,7 @@ define([
 
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
-
+            
             $placeholder.parent().parent().removeData('active');
 
             $placeholder
@@ -264,7 +264,7 @@ define([
         $el.one('dragoverstop.gridEdit', function(){
 
             $el.off('.gridEdit.gridDragDrop');
-
+            
             var $selectedCol = $placeholder.parent('.new-col'),
                 dropped = !!$selectedCol.length;
 

@@ -124,9 +124,9 @@ define([
                 value = value || 0;
                 
                 if(value <= 1){
-                    responseDeclaration.attr('cadinality', 'single');
+                    responseDeclaration.attr('cardinality', 'single');
                 }else{
-                    responseDeclaration.attr('cadinality', 'multiple');
+                    responseDeclaration.attr('cardinality', 'multiple');
                 }
                 
                 interaction.attr(name, value);

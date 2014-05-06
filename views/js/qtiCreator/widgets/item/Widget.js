@@ -87,9 +87,9 @@ define([
 //                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 99999999);
             }
         });
-
+        
         $itemBody.on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
-
+            
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
@@ -162,15 +162,6 @@ define([
 
             item.body($itemBody.gridEditor('getContent'));
 
-        }).on('dropped.gridEdit.movable', function(e, qtiClass, $placeholder, data){
-            
-//            _renderElementWidget(data.widget.element, $placeholder, $itemBody);
-            
-            //reposition the element in the dom:
-//                $el.data('grid-element-dropped', true);
-//                $dropped.replaceWith($el);
-//                createMovable($el, $to);
-        
         });
 
     };

@@ -1,9 +1,11 @@
 define([
+    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/editor/gridEditor/config',
+    'taoQtiItem/qtiCreator/editor/gridEditor/helper',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'jqueryui'
-], function($, config, qtiElements){
+], function(_, $, config, helper, qtiElements){
 
     var _syncHandleHeight = function($row){
         var h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
@@ -59,9 +61,9 @@ define([
                 axis : 'x',
                 cursor : 'col-resize',
                 start : function(){
-                    
+
                     $col.trigger('resizestart.gridEdit');
-                    
+
                     var $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
                     if($nextCol.length){
                         $overlay.width(parseFloat($col.outerWidth()) + marginWidth + parseFloat($nextCol.outerWidth()));
@@ -74,13 +76,13 @@ define([
                     $handle.addClass('grid-edit-resizable-active');
                     $el.find('.grid-edit-resizable-zone-active').removeClass('grid-edit-resizable-zone-active');
                     _syncOutlineHeight();
-                    
+
                 },
-                drag : function(){
+                drag : _.throttle(function(){
 
                     var width = ($(this).offset().left + activeWidth / 2) - offset.left,
-                        units = _getColUnits($col),
-                        nextUnits = $nextCol.length ? _getColUnits($nextCol) : 0;
+                        units = helper.getColUnits($col),
+                        nextUnits = $nextCol.length ? helper.getColUnits($nextCol) : 0;
 
                     if(!$nextCol.length){
                         //need to resize the outline element:
@@ -88,7 +90,6 @@ define([
                     }
 
                     if(width + marginWidth * 0 < (units - 1) * unitWidth){//need to compensate for the width of the active zone
-
                         units--;
                         _setColUnits($col, units);
 
@@ -100,7 +101,6 @@ define([
                         _syncOutlineHeight();
 
                     }else if(width + marginWidth + 20 > (units + 1) * unitWidth){//need to compensate for the width of the active zone
-
                         units++;
                         _setColUnits($col, units);
 
@@ -112,33 +112,39 @@ define([
                         _syncOutlineHeight();
                     }
 
-                },
+                }, config.throttle.resize),
                 stop : function(){
-                
+
                     $col.find('.grid-edit-resizable-outline').remove();
-                    
+
                     _deleteResizables($el);
                     _createResizables($el);
-                    
+
                     $col.trigger('resizestop.gridEdit');
                 }
             }).css('position', 'absolute');
 
         });
 
-        $el.off('dragoverstart.gridEdit').on('dragoverstart.gridEdit', function(){
+        $el.off('.gridEdit.resizable').on('dragoverstart.gridEdit.resizable', function(){
+
             _deleteResizables($el);
-        }).off('dragoverstop.gridEdit').on('dragoverstop.gridEdit', function(){
+
+        }).on('dragoverstop.gridEdit.resizable', function(){
+
             _createResizables($el);
-        }).off('contentChange.qtiEdit').on('contentChange.gridEdit', '.grid-row', function(){
-            var $row = $(this);
-            _deleteResizables($row);
-            _createResizables($row);
+
+        }).on('contentChange.gridEdit.resizable', '.grid-row', function(){
+
+             _deleteResizables($el);
+             _createResizables($el);
         });
     };
 
     var _deleteResizables = function _deleteResizables($el){
         $el.find('.grid-edit-resizable-zone').remove();
+//        $el.off('.gridEdit.resizable');
+
     };
 
     var _setColUnits = function _setColUnits($elt, newUnits){
@@ -152,10 +158,6 @@ define([
         }else{
             throw $.error('the element is not a grid column');
         }
-    };
-
-    var _getColUnits = function _getColUnits($elt){
-        return parseInt($elt.attr('class').match(/col-([\d]+)/).pop());
     };
 
     return {

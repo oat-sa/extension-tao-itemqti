@@ -1,9 +1,12 @@
-define(function() {
+define(function(){
     return {
-        min: {
-            interaction: 2,
-            text: 1,
-            rubricBlock: 12
+        min : {
+            interaction : 2,
+            text : 1,
+            rubricBlock : 12
+        },
+        throttle : {
+            resize : 100
         }
     };
 });
