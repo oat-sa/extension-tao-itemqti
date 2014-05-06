@@ -30,9 +30,8 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/core/Loader', 
     'taoQtiItem/qtiItem/helper/pci', 
-    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
-    'iframeNotifier'
-], function($, _, ItemLoader, pci, ModalFeedback, iframeNotifier){
+    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
+], function($, _, ItemLoader, pci, ModalFeedback){
 
     var QtiRunner = function(){
         this.item = null;
@@ -45,10 +44,35 @@ define([
     QtiRunner.prototype.updateItemApi = function() {
         var responses = this.getResponses();
         
+        // Transform responses into state variables.
         for (var key in responses) {
-            this.itemApi.setVariable(key, responses[key]);
+        	
+        	var value = responses[key];
+        	
+        	// This is where we set variables that will be collected and stored
+        	// as the Item State. We do not want to store large files into
+        	// the state, and force the client to download these files
+        	// all over again. We then transform them as a place holder, that will
+        	// simply indicate that a file composes the state.
+        	
+        	if (typeof(value.base) != 'undefined') {
+                
+                for (var property in value.base) {
+
+                    if (property === 'file') {
+                        
+                        var file = value.base.file;
+                        // QTI File found! Replace it with an appropriate placeholder.
+                        // The data is base64('qti_file_datatype_placeholder_data')
+                        value = {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}};
+                    }
+                }
+            }
+        	
+            this.itemApi.setVariable(key, value);
         }
         
+        // Save the responses that will be used for response processing.
         this.itemApi.saveResponses(responses);
         this.itemApi.resultApi.setQtiRunner(this);
     }
@@ -169,20 +193,6 @@ define([
             
             var interaction = interactions[serial];
             var response = interaction.getResponse();
-            
-            if (typeof(response.base) != 'undefined') {
-                
-                for (var property in response.base) {
-
-                    if (property === 'file') {
-                        
-                        var file = response.base.file;
-                        // QTI File found! Replace it with an appropriate placeholder.
-                        // The data is base64('qti_file_datatype_placeholder_data')
-                        response = {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}};
-                    }
-                }
-            }
             
             responses[interaction.attr('responseIdentifier')] = response;
         }
