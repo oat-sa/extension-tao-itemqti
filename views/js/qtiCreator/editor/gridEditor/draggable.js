@@ -63,13 +63,18 @@ define([
                 $to.trigger('dragoverstart.gridEdit');
             },
             stop : function(e, ui){
-
+                
+                //restore dom:
+                $('body').css('cursor', 'auto');
+                
+                //no longer needed
+                ui.helper.remove();
+                
+                //fire "stop" events
+                
                 if(typeof(options.stop) === 'function'){
                     options.stop.call(this, e, ui);
                 }
-
-                //restore dom:
-                $('body').css('cursor', 'auto');//...
 
                 $to.trigger('dragoverstop.gridEdit');
             }

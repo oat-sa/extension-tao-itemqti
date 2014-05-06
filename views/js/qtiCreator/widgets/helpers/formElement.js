@@ -21,7 +21,6 @@ define([
             attributes = attributes || {};
 
             var _callbackCall = function(name, value, $elt){
-//                console.log('change', name, value);
                 var cb = attributes[name];
                 if(_.isFunction(cb)){
                     cb.call($elt[0], element, value, name);
@@ -42,7 +41,7 @@ define([
 
                 },
                 withValidation : function(e, valid, elt){
-
+                
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),

@@ -61,17 +61,20 @@ define([
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
 
-            $placeholder
-                .data('dropped', true)
-                .show()
-                .parent().removeClass('col-12')
-                .parent().removeData('active');
+            if($col.length){
+                
+                $placeholder
+                    .data('dropped', true)
+                    .show()
+                    .parent().removeClass('col-12')
+                    .parent().removeData('active');
 
-            if(!$col.length){
+                $col.append($placeholder);
+                
+            }else{
+                
                 debugger;
             }
-
-            $col.append($placeholder);
         };
 
         //restore the dropping element placeholder back to its default location:
@@ -92,6 +95,8 @@ define([
             if(location === 'left' || location === 'right'){
                 _restoreTmpCol($el);
                 var $row = $col.parent().attr('data-active', true);
+                
+                //store temporary the original classes before columns are resized
                 $row.children(':not(.new-col)').each(function(){
                     $(this).attr('data-original-class', $(this).attr('class'));
                 });
@@ -106,7 +111,8 @@ define([
                     var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
                     $newCol.attr('class', 'new-col col-' + newUnit);
 
-                    var cumulatedUnits = 0, index = $newCol.data('index');
+                    var cumulatedUnits = 0, 
+                        index = $newCol.data('index');
 
                     var _appendToNextRow = function _appendToNextRow($row, $newCol){
                         $row.next().attr('data-active', true).append($newCol);
@@ -126,7 +132,7 @@ define([
 
                             var col = distributedUnits.cols[i];
                             if(cumulatedUnits + col.refactoredUnits > 12){
-                                _appendToNextRow($row, col.elt)
+                                _appendToNextRow($row, col.elt);
                             }
                             col.elt.attr('class', 'col-' + col.refactoredUnits);
                             cumulatedUnits += col.refactoredUnits;
@@ -190,7 +196,11 @@ define([
 
         //bind all event handlers:
         $el.on('mouseover.gridEdit.gridDragDrop', function(){
-
+            
+            var $previousCol = $placeholder.parent('.new-col');
+            _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
+            _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
+            
             var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
             console.log('new empty');
             _appendPlaceholder($newCol);
@@ -207,7 +217,7 @@ define([
             _resetPlaceholder();//remove the placeholder from the previous location
             _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
 
-            _resetColsHeight($previousCol, false);//recalculate the height of the reviously located row
+            _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
             _resetColsHeight($col);//recalculate the height for the current row
 
             arrow.create($col, {marginWidth : marginWidth});
@@ -227,10 +237,11 @@ define([
             var $newRow = (relY < h / 2) ? $col.parent().prev() : $col.parent().next();
             if(!$newRow.find('#qti-block-element-placeholder').length){//append row only not already included
                 var $newCol = $newRow.attr('data-active', true).children('.new-col').addClass('col-12');
-                console.log('insert from col');
-                if(!$newCol.length)
-                    debugger;
-                _appendPlaceholder($newCol);
+                if($newCol.length){
+                    _appendPlaceholder($newCol);
+                }else{
+                    console.log('insert form col failure ', $col, $newRow);
+                }
             }
 
         }, 100)).on('mouseleave.gridEdit.gridDragDrop', '[class^="col-"], [class*=" col-"]', function(e){
@@ -267,7 +278,7 @@ define([
                     .data('qti-class', qtiClass)
                     .removeClass('new-col')
                     .removeAttr('data-index');
-
+                
                 helper.setUnitsFromClass($selectedCol);
 
                 //make the dropped row permanent
@@ -281,7 +292,7 @@ define([
                     $row.removeClass('grid-row-new');
 
                     //make the modified  col-n class permanent and update data attribute "data-units"
-                    $row.children().removeAttr('data-original-class').each(function(){
+                    $row.children(':not(.new-col)').removeAttr('data-original-class').each(function(){
                         helper.setUnitsFromClass($(this));
                     });
                 });
@@ -323,7 +334,7 @@ define([
             clearInterval(_pulseTimer);
         }
         var intervalDuration = 2000;
-        
+
         setInterval(function(){
 
             $el.animate({

@@ -8,7 +8,7 @@
         <div class="state-switcher">
             <span class="selected" data-state="question">{{__ "Question"}}</span>
             <span class="separator"> | </span>
-            <span class="link" data-state="answer">{{__ "Answer"}}</span>
+            <span class="link" data-state="answer">{{__ "Response"}}</span>
         </div>
         {{/if}}
     </div>

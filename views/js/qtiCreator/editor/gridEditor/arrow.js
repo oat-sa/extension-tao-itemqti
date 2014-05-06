@@ -16,6 +16,7 @@ define(['lodash'], function(_){
         var $insertRight = $('<div>', {'class' : 'grid-edit-insert-box'})
             .css({
                 top : 0,
+                width: options.insertZoneWidth,
                 right : -(options.marginWidth + (options.insertZoneWidth - options.marginWidth) / 2),
                 height : $col.parent('.grid-row').height() - parseFloat($col.css('margin-bottom'))
             })
@@ -29,7 +30,7 @@ define(['lodash'], function(_){
 
         var $insertLeft = $insertRight
             .clone()
-            .css({'left' : -(options.marginWidth + 10), 'right' : 'auto'})
+            .css({'left' : -(options.marginWidth + 5), 'right' : 'auto'})
             .on('mouseenter', '.grid-edit-insert-triangle, .grid-edit-insert-square', function(){
                 $col.trigger(_eventName, ['left']);
                 _removeArrows($col);

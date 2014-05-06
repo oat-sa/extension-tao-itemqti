@@ -97,20 +97,11 @@ define([
     }
 
     function destroy($elt) {
-        
         contentHelper.destroyGridWidgets($elt);
-        
     }
 
     function getContent($el) {
-        
-        var $content = $el.clone();
-        
-        destroy($content);
-        
-        contentHelper.serializeElements($content);
-        
-        return $content.html();
+        return contentHelper.getContent($el);
     }
 
 });

@@ -51,6 +51,8 @@ define([
             }
 
             widget.$responseForm.html(responseFormTpl({
+                identifier : response.id(),
+                serial : response.getSerial(),
                 defineCorrect : defineCorrect,
                 template : template,
                 templates : _getAvailableRpTemplates(interaction),
@@ -76,6 +78,10 @@ define([
             _toggleCorrectWidgets(defineCorrect);
             
             formElement.initDataBinding(widget.$responseForm, response, {
+                identifier : function(response, value){
+                    response.id(value);
+                    interaction.attr('responseIdentifier', value);
+                },
                 defaultValue : _saveCallbacks.mappingAttr,
                 lowerBound : _saveCallbacks.mappingAttr,
                 upperBound : _saveCallbacks.mappingAttr,

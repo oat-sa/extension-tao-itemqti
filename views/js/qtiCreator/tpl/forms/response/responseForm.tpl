@@ -1,5 +1,17 @@
-<div class="panel panel-row">
-    <label for="">Response processing template</label>
+<div class="panel">
+    <label for="">{{__ "Response identifier"}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">The identifier of the response. This identifier must not be assigned to any other response or item variable</div>
+
+    <input type="text" 
+           name="identifier" 
+           value="{{identifier}}" 
+           placeholder="RESPONSE" 
+           data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
+</div>
+
+<div class="panel">
+    <label for="">{{__ "Response processing template"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">Select the way the response of your interaction should be processed</div>
 

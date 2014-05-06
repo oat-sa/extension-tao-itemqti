@@ -238,7 +238,7 @@ define([
                 subContainerElements = contentHelper.serializeElements($subContainer),
                 subContainerBody = $subContainer.html();//get serialized body
 
-            $col.html('{{_container:new}}');
+            $col.removeAttr('data-text-block-id').html('{{_container:new}}');
 
             subContainers.push({
                 body : subContainerBody,
@@ -246,7 +246,7 @@ define([
                 $original : $originalContainer.find('[data-text-block-id="' + textBlockId + '"]').removeAttr('data-text-block-id')
             });
         });
-
+        
         //create new container model with the created sub containers
         contentHelper.serializeElements($clonedContainer);
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),

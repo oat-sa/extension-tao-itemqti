@@ -29,6 +29,8 @@ define([
                         var available = (!ids[value] || ids[value].serial === element.serial);
                         callback(available);
                     }
+                }else{
+                    throw 'missing required option "serial"';
                 }
             }
         }
