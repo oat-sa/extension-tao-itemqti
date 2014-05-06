@@ -23,11 +23,15 @@ $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARA
 
 return array(
 	'name' => 'taoQtiItem',
+    'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
     'version' => '2.6',
 	'author' => 'Open Assessment Technologies',
-	'dependencies' => array('taoItems', 'taoQtiCommon'),
+	'requires' => array(
+	    'taoItems' => '2.6',
+	    'taoQtiCommon' => '*'
+	),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAOItem.rdf'
 	),
