@@ -1,23 +1,47 @@
-define(['taoQtiItem/qtiCreator/renderers/Renderer'], function(Renderer){
+define([
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
+], function(Renderer, commonHelper){
+    
+    //store the curret execution context of the common renderer (preview)
+    var _$previousContext = null;
     
     //configure and instanciate once only:
-    var _creatorRenderer = new Renderer({
-        baseUrl:'',
-        shuffleChoices : false,
-        itemOptionForm : $('#item-editor-item-property-bar .panel'),
-        interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
-        choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
-        responseOptionForm : $('#item-editor-response-property-bar .panel'),
-        bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel')
+    var _renderer = new Renderer({
+        baseUrl : '',
+        shuffleChoices : true
     });
     
-    return {
-        get:function(){
-            return _creatorRenderer;
+    
+    var commonRenderer = {
+        render : function(item, $placeholder){
+
+            commonRenderer.setContext($placeholder.parent());
+            
+            _renderer.load(function(){
+                
+                item.render(this, $placeholder);
+                item.postRender(this);
+                
+            }, item.getUsedClasses());
+            
         },
-        setOption:function(name, value){
-            _creatorRenderer.setOption(name, value);
-        }
+        get : function(){
+            return _renderer;
+        },
+        setOption : function(name, value){
+            _renderer.setOption(name, value);
+        },
+        setContext : function($context){
+            _$previousContext = $context;
+            commonHelper.setContext($context);
+        },
+        restoreContext : function(){
+             commonHelper.setContext(_$previousContext);
+             _$previousContext = null;
+        }    
     };
+
+    return commonRenderer;
 
 });

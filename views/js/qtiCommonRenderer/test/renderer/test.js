@@ -89,7 +89,7 @@ define([
 
                             //set renderer
                             item.setRenderer(this);
-
+                            
                             //render tpl:
                             try{
                                 item.render({}, $placeholder);

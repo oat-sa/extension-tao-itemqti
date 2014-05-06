@@ -489,10 +489,14 @@ define([
 
             $(launcher).on('click', function(){
                 overlay.fadeIn(function(){
-
+                    
+                    //call the render
                     var $placeholder = $('#placeholder');
                     commonRenderer.render(item, $placeholder);
-
+                    
+                    //important ! don't forget to restore the context before leaving the preview, otherwise the selectors based on data-serial will all fail!
+                    commonRenderer.restoreContext();
+                    
                     overlay.height($(document).outerHeight());
                 });
             });

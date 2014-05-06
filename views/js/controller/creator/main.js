@@ -6,6 +6,7 @@ define([
     'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',//for the preview
     // css editor related
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
@@ -21,6 +22,7 @@ define([
     listStyler,
     loader,
     creatorRenderer,
+    commonRenderer,
     fontSelector,
     colorSelector,
     fontSizeChanger,
@@ -111,20 +113,26 @@ define([
 
     return {
         start : function(config){
-
+            
             _initFormVisibilityListener();
 
             //load item from serice REST
             loader.loadItem({uri : config.uri}, function(item){
-
-                //load renderer
+                
+                var $itemContainer = $('#item-editor-panel');
+                
+                //configure commonRenderer for the preview
+                commonRenderer.setOption('baseUrl', config.baseUrl);
+                commonRenderer.setContext($itemContainer);
+                
+                //load creator renderer
                 creatorRenderer.setOption('baseUrl', config.baseUrl);
                 creatorRenderer.get().load(function(){
 
                     item.setRenderer(this);
 
                     //render item (body only) into the "drop-area"
-                    $('#item-editor-panel').append(item.render());
+                    $itemContainer.append(item.render());
 
                     //"post-render it" to initialize the widget
                     item.postRender({uri : config.uri});
