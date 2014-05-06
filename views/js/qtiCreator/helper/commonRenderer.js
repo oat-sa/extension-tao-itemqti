@@ -14,13 +14,13 @@ define([
     
     
     var commonRenderer = {
-        render : function(item, $placeholder){
+        render : function(item, $container){
 
-            commonRenderer.setContext($placeholder.parent());
+            commonRenderer.setContext($container);
             
             _renderer.load(function(){
                 
-                item.render(this, $placeholder);
+                $container.append(item.render(this));
                 item.postRender(this);
                 
             }, item.getUsedClasses());
