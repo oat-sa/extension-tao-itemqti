@@ -44,7 +44,7 @@ define([
         fontSizeChanger(config);
         itemResizer(config);
 
-        preview.init('#preview-trigger');
+        preview.init('#preview-trigger', item);
         preparePrint();
 
         toggleAppearance();
