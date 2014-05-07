@@ -212,6 +212,7 @@
                     width: 100%;
                 }
                 select.short{
+                    width:auto;
                     min-width:100px;
                 }
                 .icon-help.tooltipstered {
@@ -663,6 +664,7 @@
                 &.edit-active{
                     @extend %editActive;
                 }
+                
             }
             &.widget-block{
                 &.hover{

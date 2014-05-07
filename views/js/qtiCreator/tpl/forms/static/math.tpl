@@ -14,7 +14,7 @@
     <label for="editMode">{{__ "Editing Mode"}}</label>
 
     <select name="editMode" class="select2 short" data-has-search="false">
-        <option value="latex">LaTex (math)</option>
+        <option value="latex">LaTex</option>
         <option value="mathml">MathML</option>
     </select>
 

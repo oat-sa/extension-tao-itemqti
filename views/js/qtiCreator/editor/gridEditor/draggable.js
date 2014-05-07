@@ -52,10 +52,10 @@ define([
 
                 //define the type of draggable block/inline?
                 var qtiClass = $(this).data('qti-class');
-                if(QtiElements.isBlock(qtiClass)){
-                    droppable.createDroppableBlocks(qtiClass, $to, options);
-                }else if(QtiElements.isInline(qtiClass)){
+                if(QtiElements.isInline(qtiClass)){
                     droppable.createDroppableInlines(qtiClass, $to, options);
+                }else if(QtiElements.isBlock(qtiClass)){
+                    droppable.createDroppableBlocks(qtiClass, $to, options);
                 }else{
                     throw 'undefined qti class';
                 }

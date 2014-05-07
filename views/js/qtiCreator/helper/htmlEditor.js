@@ -100,7 +100,8 @@ define([
 
                         //callback:
                         if(_.isFunction(options.change)){
-                            options.change.call(this, this.getData());
+                            var data = this.getData();
+                            options.change.call(this, _htmlEncode(data));
                         }
                     });
 
@@ -160,7 +161,7 @@ define([
 
         //reinit all widgets:
         _.each(_.values(container.elements), function(elt){
-            
+
             widgets[elt.serial] = elt.data('widget').rebuild({
                 context : $container
             });
@@ -242,6 +243,29 @@ define([
 
         });
 
+    };
+
+    /**
+     * Special encoding of ouput html generated from ie8
+     */
+    var _htmlEncode = function(encodedStr){
+
+        var returnValue = '';
+
+        if(encodedStr){
+            //<br...> are replaced by <br... />
+            returnValue = encodedStr;
+            returnValue = returnValue.replace(/<br([^>]*)?>/ig, '<br />');
+            returnValue = returnValue.replace(/<hr([^>]*)?>/ig, '<hr />');
+
+            //<img...> are replaced by <img... />
+            returnValue = returnValue.replace(/(<img([^>]*)?\s?[^\/]>)+/ig,
+                function($0, $1){
+                    return $0.replace('>', ' />');
+                });
+        }
+
+        return returnValue;
     };
 
     var editorFactory = {

@@ -13,11 +13,11 @@ define([
      * @returns {string}
      */
     contentHelper.getContent = function(element, opts){
-        
+
         var options = _.defaults({
-            inner:true
+            inner : true
         }, opts);
-        
+
         var $body = options.inner ? $(element).clone() : $('<div>', {'class' : 'col-fictive content-helper-wrapper'}).append($(element).clone());
 
         contentHelper.destroyGridWidgets($body, true);//working on clone only, so destroyGridWidgetsClone
@@ -34,11 +34,10 @@ define([
      */
     contentHelper.getChangeCallback = function(container){
 
-        return _.throttle(function(){
+        return _.throttle(function(data){
 
-            var editor = this,
-                $editable = $(editor.element.$),
-                newBody = contentHelper.getContent($editable);
+            var $pseudoContainer = $('<div>').html(data),
+                newBody = contentHelper.getContent($pseudoContainer);
 
             container.body(newBody);
 
@@ -85,7 +84,7 @@ define([
             .removeAttr('data-units');
 
         $elt.children('.ui-draggable-dragging').remove();
-        
+
         resizable.destroy($elt, inClone);
     };
 

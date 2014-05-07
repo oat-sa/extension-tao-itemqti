@@ -5,7 +5,7 @@ define(['jquery', 'lodash'], function($, _){
             
             var $wrap = $('<span>', {
                 'data-serial' : widget.element.serial,
-                'class' : 'widget-box widget-inline',
+                'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass,
                 'data-qti-class' : widget.element.qtiClass
             });
             widget.$container = widget.$original.wrap($wrap).parent();
@@ -14,7 +14,7 @@ define(['jquery', 'lodash'], function($, _){
         
             var $wrap = $('<div>', {
                 'data-serial' : widget.element.serial,
-                'class' : 'widget-box widget-block',
+                'class' : 'widget-box widget-block widget-'+widget.element.qtiClass,
                 'data-qti-class' : widget.element.qtiClass
             });
             widget.$container = widget.$original.wrap($wrap).parent();
