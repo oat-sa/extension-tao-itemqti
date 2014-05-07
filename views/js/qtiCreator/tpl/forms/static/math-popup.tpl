@@ -11,6 +11,6 @@
         <label>{{__ "Label"}}</label>
         <input name="latex" id="math-inp" value="" type="text">
         <span>…</span>
-        
+
     </div>
 </div>

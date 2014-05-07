@@ -230,24 +230,6 @@ use oat\taoQtiItem\helpers\Authoring;
 
                     </div>
 
-                    <!-- mockup math editor -->
-                    <div class="panel">
-                        <div id="item-editor-math-editor" class="sidebar-popup-container-box">
-                            <div id="math-editor-container" class="sidebar-popup">
-                                <h3 id="math-editor-title">Random title</h3>
-                                <span class="icon-grip-h"></span>
-                                <textarea id="math-editor-textarea" onkeydown="document.getElementById('math-inp').value = this.innerHTML"></textarea>
-
-                                <a class="closer" href="#" data-close="#math-editor-container"></a>
-                            </div>
-                                <div class="clearfix">
-                                    <label for="initial-bg"><?=__('Background color')?></label>
-                                    <input name="latex" id="math-inp" value="" type="text">
-                                    <span onclick="document.getElementById('math-editor-container').style.display='block';document.getElementById('math-editor-textarea').innerHTML = document.getElementById('math-inp').value">&hellip;</span>
-                                </div>
-                        </div>
-                    </div>
-
                 </section>
 
             </div>
