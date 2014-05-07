@@ -20,7 +20,7 @@ define([
         
         var $body = options.inner ? $(element).clone() : $('<div>', {'class' : 'col-fictive content-helper-wrapper'}).append($(element).clone());
 
-        contentHelper.destroyGridWidgets($body);
+        contentHelper.destroyGridWidgets($body, true);//working on clone only, so destroyGridWidgetsClone
 
         contentHelper.serializeElements($body);
 
@@ -75,7 +75,7 @@ define([
         return existingElements;
     };
 
-    contentHelper.destroyGridWidgets = function($elt){
+    contentHelper.destroyGridWidgets = function($elt, inClone){
 
         $elt.removeData('qti-grid-options');
 
@@ -85,9 +85,8 @@ define([
             .removeAttr('data-units');
 
         $elt.children('.ui-draggable-dragging').remove();
-
-        resizable.destroy($elt);
-
+        
+        resizable.destroy($elt, inClone);
     };
 
     return contentHelper;

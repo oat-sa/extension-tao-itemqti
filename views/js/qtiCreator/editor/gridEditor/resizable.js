@@ -136,47 +136,56 @@ define([
 
         }).on('contentChange.gridEdit.resizable', '.grid-row', function(){
 
-             _deleteResizables($el);
-             _createResizables($el);
+            _deleteResizables($el);
+            _createResizables($el);
         });
+
     };
 
     var _deleteResizables = function _deleteResizables($el){
+        
         $el.find('.grid-edit-resizable-zone').remove();
-//        $el.off('.gridEdit.resizable');
-
     };
 
     var _setColUnits = function _setColUnits($elt, newUnits){
+        
         if($elt.attr('class').match(/col-([\d]+)/)){
+            
             var oldUnits = $elt.attr('data-units');
             var $parentRow = $elt.parent('.grid-row');
             var totalUnits = $parentRow.attr('data-units');
             $parentRow.attr('data-units', totalUnits - oldUnits + newUnits);//update parent
             $elt.attr('data-units', newUnits);//update element
             $elt.removeClass('col-' + oldUnits).addClass('col-' + newUnits);
+            
         }else{
+            
             throw $.error('the element is not a grid column');
         }
     };
 
     return {
         create : function($element){
-
+            
             _createResizables($element);
-
-            $(window).on('resize.qtiEdit.resizable', function(){
+            
+            $(window).off('resize.qtiEdit.resizable').on('resize.qtiEdit.resizable', function(){
+                
                 _deleteResizables($element);
                 _createResizables($element);
             });
         },
-        destroy : function($element){
-
+        destroy : function($element, preserveGlobalEvents){
+            
             _deleteResizables($element);
-
-            $(window).off('resize.qtiEdit.resizable');
+            
+            if(!preserveGlobalEvents){
+                
+                $(window).off('resize.qtiEdit.resizable');
+            }
         },
         syncHandleHeight : function($row){
+        
             if($row.hasClass('grid-row')){
                 _syncHandleHeight($row);
             }else{
