@@ -73,22 +73,24 @@ use oat\taoQtiItem\helpers\Authoring;
 <link href="<?=BASE_WWW?>css/item-creator.css" rel="stylesheet">
 <div id="item-editor-scope" class="tao-scope">
     <div id="item-editor-toolbar">
-        <div id="item-editor-logo">
-            <?=__('Item creator')?>
+        <div id="item-editor-toolbar-inner">
+            <div id="item-editor-logo">
+                <?=__('Item creator')?>
+            </div>
+            <ul class="plain clearfix item-editor-menu lft">
+                <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
+                <li id="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
+                <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
+                <!--<li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>-->
+            </ul>
+            <ul class="plain clearfix item-editor-menu rgt">
+                <li id="item-editor-status">&nbsp;</li>
+                <li id="appearance-trigger" data-widget="<?=__('Edit Widget')?>" data-item="<?=__('Edit Item')?>">
+                    <span class="icon-edit"></span><span class="menu-label"><?=__('Appearance')?></span>
+                </li>
+                <!--<li><span class="icon-settings"></span><?=__('Settings')?></li>-->
+            </ul>
         </div>
-        <ul class="plain clearfix item-editor-menu lft">
-            <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
-            <li id="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
-            <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
-            <!--<li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>-->
-        </ul>
-        <ul class="plain clearfix item-editor-menu rgt">
-            <li id="item-editor-status">&nbsp;</li>
-            <li id="appearance-trigger" data-widget="<?=__('Edit Widget')?>" data-item="<?=__('Edit Item')?>">
-                <span class="icon-edit"></span><span class="menu-label"><?=__('Appearance')?></span>
-            </li>
-            <!--<li><span class="icon-settings"></span><?=__('Settings')?></li>-->
-        </ul>
     </div>
 
     <div class="wrapper clearfix content" id="item-editor-wrapper">
@@ -143,8 +145,8 @@ use oat\taoQtiItem\helpers\Authoring;
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
 
                     <div class="panel color-picker-panel">
-                        <div id="item-editor-color-picker">
-                            <div id="color-picker-container">
+                        <div id="item-editor-color-picker" class="sidebar-popup-container-box">
+                            <div id="color-picker-container" class="sidebar-popup">
                                 <h3 id="color-picker-title"></h3>
                                 <div class="color-picker"></div>
                                 <input id="color-picker-input" type="text" value="#000000">
@@ -226,6 +228,24 @@ use oat\taoQtiItem\helpers\Authoring;
                             </div>
                         </div>
 
+                    </div>
+
+                    <!-- mockup math editor -->
+                    <div class="panel">
+                        <div id="item-editor-math-editor" class="sidebar-popup-container-box">
+                            <div id="math-editor-container" class="sidebar-popup">
+                                <h3 id="math-editor-title">Random title</h3>
+                                <span class="icon-grip-h"></span>
+                                <textarea id="math-editor-textarea" onkeydown="document.getElementById('math-inp').value = this.innerHTML"></textarea>
+
+                                <a class="closer" href="#" data-close="#math-editor-container"></a>
+                            </div>
+                                <div class="clearfix">
+                                    <label for="initial-bg"><?=__('Background color')?></label>
+                                    <input name="latex" id="math-inp" value="" type="text">
+                                    <span onclick="document.getElementById('math-editor-container').style.display='block';document.getElementById('math-editor-textarea').innerHTML = document.getElementById('math-inp').value">&hellip;</span>
+                                </div>
+                        </div>
                     </div>
 
                 </section>

@@ -70,6 +70,10 @@ define([
                 mProp, // property inside a media query
                 css = '';
 
+            if(_.isEmpty(style)){
+                return erase();
+            }
+
             // rebuild CSS
             for (key1 in style) {
                 if (!style.hasOwnProperty(key1)) {
@@ -136,20 +140,21 @@ define([
         var erase = function() {
             style = {};
             $styleElem.text('');
+            return false;
         };
 
         /**
          * Save the resulting CSS to a file
          */
         var save = function () {
-            if(_.isEmpty(style)){
-                //@todo remove stylesheet from item
-            }
             verifyInit();
-            $.post(_getUri('save'), _.extend({}, itemConfig, { cssJson: JSON.stringify(style) }));
+            $.post(_getUri('save'), _.extend({}, itemConfig,
+                {
+                    cssJson: JSON.stringify(style),
+                    stylesheetUri: customStylesheet.attr('href')
+                }
+            ));
         };
-
-        $(document).on('itemsave.qtiEdit', save);
 
 
         /**
@@ -234,11 +239,11 @@ define([
                 currentStylesheet = currentItem.stylesheets[key];
 
                 if('tao-user-styles.css' === _basename(currentStylesheet.attr('href'))) {
-                    customStylesheet = currentStylesheet.attr('href');
+                    customStylesheet = currentStylesheet;
                     continue;
                 }
 
-                // add those that are loaded asynchronously
+                // add those that are loaded synchronously
                 addStylesheet(currentItem.stylesheets[key]);
             }
 
@@ -247,11 +252,8 @@ define([
 
             // if no custom css had been found, add empty stylesheet anyway
             if(!customStylesheet) {
-                currentItem.createStyleSheet('style/custom/tao-user-styles.css');
+                customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
             }
-
-
-
         };
         
         /**
@@ -276,31 +278,31 @@ define([
             var stylesheetUri = _getUri('load') + '?',
                 resizerTarget = $('#item-editor-item-resizer').data('target');
 
+            // this creates at the same time customStylesheet in case it doesn't exist yet
             addItemStylesheets();
 
             currentItem.data('responsive', true);
 
-            if(customStylesheet) {
-                stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: customStylesheet }));
-                require(['json!' + stylesheetUri], function(_style) {
+            stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: customStylesheet.attr('href') }));
+            require(['json!' + stylesheetUri], function(_style) {
 
-                    // copy style to global style
-                    style = _style;
+                // copy style to global style
+                style = _style;
 
-                    // apply rules
-                    create();
+                // apply rules
+                create();
 
-                    // reset meta in case the width is set in the custom stylesheet
-                    currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width);
+                // reset meta in case the width is set in the custom stylesheet
+                currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width);
 
-                    // inform editors about custom sheet
-                    $(doc).trigger('customcssloaded.styleeditor', style);
-                })
-            }
+                // inform editors about custom sheet
+                $(doc).trigger('customcssloaded.styleeditor', style);
+            });
 
+        };
 
-            $(doc).on('itemsave.qtiEdit', save);
-
+        var getStyle = function() {
+            return style;
         };
 
         // expose public functions
@@ -311,6 +313,7 @@ define([
             init: init,
             create: create,
             getItem: getItem,
+            getStyle: getStyle,
             addStylesheet: addStylesheet
         }
     }($, document));

@@ -12,8 +12,9 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement){
+], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor){
     
     var ItemWidget = Widget.clone();
 
@@ -70,6 +71,7 @@ define([
 
         //init save button:
         $('#save-trigger').on('click', function(){
+            styleEditor.save();
             _widget.save();
         });
     };

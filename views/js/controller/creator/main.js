@@ -3,7 +3,6 @@ define([
     'taoQtiItem/qtiCreator/editor/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
     'taoQtiItem/qtiCreator/editor/toggleAppearance',
-    'taoQtiItem/qtiCreator/editor/listStyler',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer',//for the preview
@@ -19,7 +18,6 @@ define([
     preview,
     preparePrint,
     toggleAppearance,
-    listStyler,
     loader,
     creatorRenderer,
     commonRenderer,
@@ -36,26 +34,22 @@ define([
 
         styleEditor.init(item, config);
 
-        // do this when init is finished
-
         styleSheetToggler.init();
 
         // CSS widgets
         fontSelector();
-        colorSelector(config);
-        fontSizeChanger(config);
-        itemResizer(config);
+        colorSelector();
+        fontSizeChanger();
+        itemResizer();
 
         preview.init('#preview-trigger', item);
+
         preparePrint();
-
         toggleAppearance();
-
-        listStyler();
 
         $('#item-editor-panel').addClass('has-item');
 
-        $('.item-editor-sidebar').fadeTo(2000, 1);
+        $('.item-editor-sidebar, #item-editor-toolbar-inner').fadeTo(2000, 1);
     };
 
     var _initFormVisibilityListener = function(){

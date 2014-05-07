@@ -1,21 +1,31 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function ($, styleEditor) {
+], function ($, styleEditor, __) {
     'use strict'
 
     // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
     function rgbToHex(color) {
-        if(0 !== color.indexOf('rgb')) {
+        // undefined can happen when no color is defined for a particular element
+        // isString on top of that should cover all sorts of weird input
+        if(!_.isString(color)) {
             return color;
         }
-        var rgbArr = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
-            red   = ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2),
-            green = ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2),
-            blue  = ('0' + parseInt(rgbArr[4], 10).toString(16)).slice(-2);
-        return '#' + red + green + blue;
+
+        var rgbArr = /rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/i.exec(color);
+
+        // color is not rgb
+        if(!_.isArray(rgbArr) || rgbArr.length !== 4) {
+            return color;
+        }
+
+        return ('#'
+            + ('0' + parseInt(rgbArr[1], 10).toString(16)).slice(-2)
+            + ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2)
+            + ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2));
     }
 
     var colorSelector = function () {
@@ -29,6 +39,7 @@ define([
             currentProperty = 'color',
             widgetObj,
             $doc = $(document);
+
 
 
         /**
@@ -47,8 +58,29 @@ define([
         var setTriggerColor = function() {
             colorTriggers.each(function () {
                 var $trigger = $(this),
-                    $target = $($trigger.data('target'));
-                $trigger.css('background-color', $target.css($trigger.data('value')));
+                    target   = $trigger.data('target'),
+                    $target  = $(target),
+                    style    = styleEditor.getStyle() || {},
+                    value;
+
+                // elements have a color from usage of style editor
+                if(style[target] && style[target][$trigger.data('value')]) {
+                    value = style[target][$trigger.data('value')];
+                    $trigger.css('background-color', value);
+                    $trigger.attr('title', rgbToHex(value));
+                }
+                // elements have a default color from tao css
+                else if($target.css($trigger.data('value'))) {
+                    value = $target.css($trigger.data('value'));
+                    $trigger.css('background-color', value);
+                    $trigger.attr('title', rgbToHex(value));
+                }
+                // elements have no color at all
+                else {
+                    $trigger.css('background-color', '');
+                    $trigger.attr('title', __('No value set'));
+                }
+
             });
         };
 
@@ -64,7 +96,8 @@ define([
         // open color picker
         setTriggerColor();
         colorTriggers.on('click', function () {
-            var $trigger = $(this);
+            var $trigger = $(this),
+                value = $trigger.css('background-color');
 
             widget.prop('target', $trigger.data('target'));
             widgetBox.hide();
@@ -113,14 +146,3 @@ define([
 
     return colorSelector;
 });
-
-/*
- .tao-scope div.qti-item{width:933px;font-family:Calibri,Candara,Segoe,'Segoe UI',Optima,Arial,sans-serif;}
- .tao-scope div.qti-item .item-title{font-size:24px;}
- .tao-scope div.qti-item .qti-itemBody{font-size:14px;}
- .tao-scope div.qti-item .solid{border-color:#33d863;}
-
- .tao-scope div.qti-item background-color colorSelector.js:109
- .tao-scope div.qti-item .solid border-color
-
- */

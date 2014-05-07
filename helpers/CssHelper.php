@@ -26,7 +26,7 @@ class CssHelper{
 
     private static function _buildWarning() {
        return <<<EOF
-       /*
+                                  /*
                                  /  \
                                 |    |
                               --:'''':--
@@ -43,6 +43,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
+
 
 EOF;
 

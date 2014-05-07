@@ -10,7 +10,8 @@ define([
     'use strict'
 
     var overlay,
-        container;
+        container,
+        togglersByTarget = {};
 
     /**
      *
@@ -50,7 +51,9 @@ define([
          */
         var createTool = function (tool, type) {
             var className = type ? 'lft ' + type + '-only' : 'lft';
-            return $('<li>', {class: className}).append(tool);
+            return $('<li>', {
+                class: className
+            }).append(tool);
         };
 
         /**
@@ -63,7 +66,9 @@ define([
                 devices,
                 currDevice = store.get('current-' + type + '-device') || '',
                 option,
-                select = $('<select>', {class: type + '-device-selector'}),
+                select = $('<select>', {
+                    class: type + '-device-selector'
+                }),
                 container = $('.' + type + '-preview-container');
 
             // @todo this part is a bit dodgy, device list should be generated differently
@@ -97,14 +102,22 @@ define([
          * @returns {*|HTMLElement}
          */
         var createOrientationSelector = function () {
-            var select = $('<select>', {class: 'mobile-orientation-selector'}),
-                orientations = {landscape: __('Landscape'), portrait: __('Portrait')},
+            var select = $('<select>', {
+                    class: 'mobile-orientation-selector'
+                }),
+                orientations = {
+                    landscape: __('Landscape'),
+                    portrait: __('Portrait')
+                },
                 currOrientation = store.get('preview-orientation') || 'landscape',
                 orientation,
                 option;
             for (orientation in orientations) {
                 if (orientations.hasOwnProperty(orientation)) {
-                    option = $('<option>', {value: orientation, text: orientations[orientation]});
+                    option = $('<option>', {
+                        value: orientation,
+                        text: orientations[orientation]
+                    });
                     if (currOrientation === orientation) {
                         option.prop('selected', true);
                     }
@@ -148,7 +161,9 @@ define([
                 });
             });
 
-            deviceSelector.select2({minimumResultsForSearch: -1});
+            deviceSelector.select2({
+                minimumResultsForSearch: -1
+            });
 
             // set initial size of mobile device
             deviceSelector.trigger('change');
@@ -198,7 +213,9 @@ define([
                 });
             });
 
-            deviceSelector.select2({minimumResultsForSearch: -1});
+            deviceSelector.select2({
+                minimumResultsForSearch: -1
+            });
 
             // set initial size of mobile device
             deviceSelector.trigger('change');
@@ -237,7 +254,9 @@ define([
             });
 
 
-            orientationSelector.select2({minimumResultsForSearch: -1});
+            orientationSelector.select2({
+                minimumResultsForSearch: -1
+            });
 
             // set initial orientation of mobile device
             orientationSelector.trigger('change');
@@ -249,14 +268,15 @@ define([
          * @returns {*|HTMLElement}
          */
         var createFeedback = function () {
-            var feedback = $('<div>', {class: 'tbl-cell'});
+            var feedback = $('<div>', {
+                class: 'tbl-cell'
+            });
             feedback.append($('<div>', {
-                    class: 'feedback-info small',
-                    html: '<span class="icon-info"/>' + __('Final rendering may differ from this preview!')}
-            ));
+                class: 'feedback-info small',
+                html: '<span class="icon-info"/>' + __('Final rendering may differ from this preview!')
+            }));
             return feedback;
         };
-
 
 
         /**
@@ -266,9 +286,15 @@ define([
          * @returns {*|HTMLElement}
          */
         var createPreviewFrame = function (type) {
-            var previewFrame = $('<div>', {class: type + '-preview-frame ' + type + '-only preview-outer-frame'});
-            var previewContainer = $('<div>', {class: type + '-preview-container'});
-            var previewItemContainer = $('<div>', {class: type + '-preview-item-container item-container'});
+            var previewFrame = $('<div>', {
+                class: type + '-preview-frame ' + type + '-only preview-outer-frame'
+            });
+            var previewContainer = $('<div>', {
+                class: type + '-preview-container'
+            });
+            var previewItemContainer = $('<div>', {
+                class: type + '-preview-item-container item-container'
+            });
             if (type === 'mobile') {
                 previewFrame.addClass(mobile.orientationToClass(mobile.getOrientation()));
             }
@@ -301,21 +327,27 @@ define([
                 icon = 'icon-mobile-preview';
             }
 
+
             toggler = $('<span>', {
                 class: 'btn-info toggle-view small',
                 html: '<span class="' + icon + '"/>' + toggleText
             }).prop('target', toggleTarget);
 
             toggler.on('click', function () {
-
                 var target = $(this).prop('target'),
                     newClass = 'preview-' + target,
-                    oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop';
+                    oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop',
+                    targetContainer =  $('.' + target + '-preview-item-container');
+
                 overlay.removeClass(oldClass).addClass(newClass);
                 store.set('preview-type', target);
-
-                commonRenderer.render(item, $('.' + type + '-preview-item-container'));
+                targetContainer.empty();
+                commonRenderer.render(item, targetContainer);
             });
+
+            // add toggler to global object
+            togglersByTarget[toggleTarget] = toggler;
+
             return toggler;
         };
 
@@ -325,7 +357,10 @@ define([
          * @returns {*|HTMLElement}
          */
         var createCloser = function () {
-            var closer = $('<span>', {class: 'btn-info small', html: __('Close') + ' <span class="icon-close r"/>'});
+            var closer = $('<span>', {
+                class: 'btn-info small',
+                html: __('Close') + ' <span class="icon-close r"/>'
+            });
             closer.on('click', function () {
 
                 commonRenderer.setContext($('.item-editor-item'));
@@ -356,17 +391,27 @@ define([
                 iT = types.length,
                 previews = {},
                 headings = {},
-                form = $('<form>', {class: 'preview-utility-bar plain', autocomplete: 'off'}),
-                formInner = $('<div>', {class: 'preview-utility-bar-inner tbl'}),
-                canvas = $('<div>', {class: 'preview-canvas'}),
+                form = $('<form>', {
+                    class: 'preview-utility-bar plain',
+                    autocomplete: 'off'
+                }),
+                formInner = $('<div>', {
+                    class: 'preview-utility-bar-inner tbl'
+                }),
+                canvas = $('<div>', {
+                    class: 'preview-canvas'
+                }),
                 feedback = createFeedback(),
                 deviceSelectors = {},
                 orientationSelector = createOrientationSelector(),
                 viewTogglers = {},
-                tools = $('<ul>', {class: 'plain tbl-cell clearfix'}),
+                tools = $('<ul>', {
+                    class: 'plain tbl-cell clearfix'
+                }),
                 closer = createCloser();
 
-            overlay = $('<div>', {class: 'preview-overlay tao-scope overlay preview-' + type});
+            overlay = $('<div>', {
+                class: 'preview-overlay tao-scope overlay preview-' + type});
             container = $('<div>', {class: 'preview-container'});
 
 
@@ -434,16 +479,7 @@ define([
          */
         var init = function (launchers, item) {
 
-            var widget = createWidget(item),
-                itemContainers = widget.find('.item-container'),
-                viewTogglers = (function() {
-                    var togglers = {};
-                    widget.find('toggle-view').each(function() {
-                        var toggler = $(this);
-                        togglers[toggler.prop('target')] = toggler;
-                    });
-                    return togglers;
-                });
+            createWidget(item);
 
             $(launchers).on('click', function () {
                 // launch the correct preview
@@ -451,13 +487,12 @@ define([
                 // by adding something like '<span class="icon-mobile-preview" data-preview-type="mobile">
                 // to the DOM
                 var type = $(this).data('preview-type') || 'desktop';
-                    
-                    //call the render
+
+                if (togglersByTarget[type]) {
+                    togglersByTarget[type].trigger('click');
+                }
+
                 overlay.fadeIn(function () {
-                    if(viewTogglers[type]) {
-                        viewTogglers[type].trigger('click');
-                    }
-                    
                     overlay.height($(document).outerHeight());
                 });
             });

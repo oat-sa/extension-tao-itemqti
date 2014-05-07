@@ -8,7 +8,7 @@ define([
 
     var styleSheetToggler = (function () {
 
-        var init = function(hasCustomStyles) {
+        var init = function() {
 
             var cssToggler = $('#style-sheet-toggler'),
                 uploader = $('#stylesheet-uploader'),
@@ -30,10 +30,6 @@ define([
 
                 };
 
-            // disable the custom style element
-            if(!hasCustomStyles) {
-                cssToggler.find('[data-custom-css]').addClass('not-available');
-            }
 
 //            uploader.resourcemgr({
 //                type : 'text/css',
