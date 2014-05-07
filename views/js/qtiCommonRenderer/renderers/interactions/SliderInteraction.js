@@ -21,6 +21,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
+        console.log('heelloooo');
 
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
