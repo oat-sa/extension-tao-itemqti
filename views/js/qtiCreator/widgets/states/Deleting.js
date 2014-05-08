@@ -128,7 +128,7 @@ define([
             _widget = this.widget;
 
         var $messageBox = deletingHelper.createInfoBox([_widget]);
-
+        
         $messageBox.on('confirm.deleting', function(){
             
             _this.deleteElement();

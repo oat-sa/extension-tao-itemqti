@@ -143,8 +143,15 @@ define([
                 }
             }
         });
+        
+        _freezeSize($container);
     };
-
+    
+    var _freezeSize = function($container){
+        var $orderArea = $container.find('.order-interaction-area');
+        $orderArea.height($orderArea.height());
+    };
+    
     var _setInstructions = function(interaction){
 
         var $choiceArea = Helper.getContainer(interaction).find('.choice-area'),
@@ -262,8 +269,9 @@ define([
     };
 
     var destroy = function(interaction){
-
-        Helper.getContainer(interaction).find('.qti-choice.active').mousedown();
+        
+        var $container = Helper.getContainer(interaction);
+        $container.find('.qti-choice.active').mousedown();
 
         //first, remove all events
         var selectors = [
@@ -274,9 +282,11 @@ define([
             '.icon-move-before',
             '.icon-move-after'
         ];
-        Helper.getContainer(interaction).find(selectors.join(',')).andSelf().off('.commonRenderer');
+        $container.find(selectors.join(',')).andSelf().off('.commonRenderer');
         $(document).off('.commonRenderer');
-
+        
+        $container.find('.order-interaction-area').removeAttr('style');
+        
         _resetResponse(interaction);
 
         Helper.removeInstructions(interaction);

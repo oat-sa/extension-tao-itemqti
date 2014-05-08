@@ -9,7 +9,7 @@ define([
 
     var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
 
-    ChoiceInteractionStateQuestion.prototype.initForm = function(){
+    ChoiceInteractionStateQuestion.prototype.initForm = function(updateCardinality){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -25,7 +25,7 @@ define([
         formElement.initWidget($form);
         
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', updateCardinality);
         callbacks['shuffle'] = formElement.getAttributeChangeCallback();
         formElement.initDataBinding($form, interaction, callbacks);
         

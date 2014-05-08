@@ -7,7 +7,9 @@ define([
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
     
     //reuse the same exact same form as choice interaction
-    OrderInteractionStateQuestion.prototype.initForm = ChoiceInteractionQuestionState.prototype.initForm;
+    OrderInteractionStateQuestion.prototype.initForm = function(){
+         ChoiceInteractionQuestionState.prototype.initForm.call(this, false);
+    };
 
     return OrderInteractionStateQuestion;
 });

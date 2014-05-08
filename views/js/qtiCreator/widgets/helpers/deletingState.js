@@ -1,14 +1,11 @@
-define(['jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function($, deletingInfoTpl){
+define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function(_, $, deletingInfoTpl){
 
     var _timeout = 10000;
     
     var _bindEvents = function($messageBox){
 
         var timeout = setTimeout(function(){
-            $messageBox.trigger('confirm.deleting');
-            $messageBox.fadeOut(1000, function(){
-                $(this).remove();
-            });
+            _confirmDeletion($messageBox, 1000);
         }, _timeout);
 
         $messageBox.on('click', function(e){
@@ -16,10 +13,7 @@ define(['jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox']
         });
 
         $('body').on('click.deleting', function(){
-            $messageBox.trigger('confirm.deleting');
-            $messageBox.fadeOut(600, function(){
-                $(this).remove();
-            });
+            _confirmDeletion($messageBox, 400);
         });
 
         $messageBox.find('a.undo').on('click', function(){
@@ -29,12 +23,18 @@ define(['jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox']
         });
         
         $messageBox.find('.close-trigger').on('click', function(){
-            $messageBox.trigger('confirm.deleting');
-            $messageBox.remove();
+            _confirmDeletion($messageBox, 0);
         });
     };
 
-
+    var _confirmDeletion = function($messageBox, fadeDelay){
+        
+        $messageBox.trigger('confirm.deleting');
+        $messageBox.fadeOut(fadeDelay, function(){
+            $(this).remove();
+        });
+    };
+    
     var deletingHelper = {
         createInfoBox : function(widgets){
 
@@ -57,6 +57,12 @@ define(['jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox']
             
             _bindEvents($messageBox);
             
+            _.each(widgets, function(w){
+                w.on('beforeStateInit', function(){
+                    _confirmDeletion($messageBox, 400);
+                });
+            });
+        
             return $messageBox;
         }
     };

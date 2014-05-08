@@ -41,7 +41,7 @@ define([
 
                 },
                 withValidation : function(e, valid, elt){
-                
+
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),
@@ -92,7 +92,9 @@ define([
                 }
             }
         },
-        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax){
+        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, updateCardinality){
+
+            updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
 
             var $max = $form.find('input[name=' + attributeNameMax + ']'),
                 callbacks = {};
@@ -119,16 +121,27 @@ define([
             };
 
             callbacks[attributeNameMax] = function(interaction, value, name){
-                
+
                 var responseDeclaration = interaction.getResponseDeclaration();
                 value = value || 0;
-                
-                if(value <= 1){
-                    responseDeclaration.attr('cardinality', 'single');
-                }else{
-                    responseDeclaration.attr('cardinality', 'multiple');
+
+                if(updateCardinality){
+                    responseDeclaration.attr('cardinality', (value <= 1) ? 'single' : 'multiple');
                 }
-                
+
+                if(value){
+                    //always update the correct response then:
+                    var correct = [];
+                    _.each(responseDeclaration.getCorrect(), function(c){
+                        if(correct.length < value){
+                            correct.push(c);
+                        }else{
+                            return false;
+                        }
+                    });
+                    responseDeclaration.setCorrect(correct);
+                }
+
                 interaction.attr(name, value);
             };
 
