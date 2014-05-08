@@ -6,6 +6,6 @@
     <input type="text" 
            name="identifier" 
            value="{{identifier}}" 
-           placeholder="choice_id" 
+           placeholder="e.g. my-choice_1" 
            data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
 </div>
