@@ -14,7 +14,7 @@ define([
         var _this = this;
         
         //choiceInteraction:
-        //prevent checkbox/radio to be selectionable
+        //prevent checkbox/radio from being selectable
         var $realLabel = this.$container.find('.real-label');
         $realLabel.on('mousedown.qti-widget, click.qti-widget', function(e){
             var currentState = _this.getCurrentState();

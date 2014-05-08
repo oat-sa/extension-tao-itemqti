@@ -79,7 +79,14 @@ use oat\taoQtiItem\helpers\Authoring;
             </div>
             <ul class="plain clearfix item-editor-menu lft">
                 <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
-                <li id="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
+
+                <li class="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
+                <!-- toggle comments above below to enable/disable device specific previews -->
+                <!--
+                <li class="preview-trigger" data-preview-type="desktop"><span class="icon-desktop-preview"></span><?=__('Desktop preview')?></li>
+                <li class="preview-trigger" data-preview-type="mobile"><span class="icon-mobile-preview"></span><?=__('Mobile preview')?></li>
+                -->
+
                 <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
                 <!--<li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>-->
             </ul>
@@ -167,7 +174,12 @@ use oat\taoQtiItem\helpers\Authoring;
                                 <div class="clearfix">
                                     <label for="initial-color"><?=__('Border color')?></label>
                                     <span class="icon-eraser reset-button" data-value="color" title="<?=__('Remove custom border color')?>"></span>
-                                    <span class="color-trigger" id="initial-color" data-value="border-color" data-target=".tao-scope div.qti-item .solid"></span>
+                                    <span class="color-trigger" id="initial-color" data-value="border-color" data-target=".tao-scope div.qti-item .solid,.tao-scope div.qti-item .matrix, .tao-scope div.qti-item table.matrix th, .tao-scope div.qti-item table.matrix td"></span>
+                                </div>
+                                <div class="clearfix">
+                                    <label for="initial-color"><?=__('Table headings')?></label>
+                                    <span class="icon-eraser reset-button" data-value="color" title="<?=__('Remove custom background color')?>"></span>
+                                    <span class="color-trigger" id="initial-color" data-value="background-color" data-target=".tao-scope div.qti-item .matrix th"></span>
                                 </div>
                             </div>
                         </div>

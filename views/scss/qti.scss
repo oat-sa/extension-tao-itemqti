@@ -18,6 +18,13 @@
 
 
 .mini-tlb {
+    .tlb-button {
+        color: $textColor !important;
+        padding-top: 3px;
+        &:hover {
+            color: $uiClickableHoverBg !important;
+        }
+    }
     ul[data-button-group] {
         background: transparent !important;
         border:none;
@@ -114,6 +121,7 @@
         list-style-type: none;
         position: relative;
         cursor: pointer !important;
+        color: $info !important;
         border-radius: 3px;
         background-color: mix(#fff, $info, 90%);
         [class^="icon-"], [class*=" icon-"] {

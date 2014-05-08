@@ -3,6 +3,7 @@
 
 @import "inc/farbtastic";
 
+
 %editHover {
     border:1px solid whiten($info, .5);
     cursor:pointer;
@@ -205,7 +206,7 @@
                     padding: 0 0 12px 0;
                     margin: 0;
                     @include font-size(14);
-                    max-width:140px;
+                    max-width:450px;
                     display:inline-block;
                 }
                 select, input[type="text"] {
@@ -562,11 +563,16 @@
             overflow-y: visible;
         }
     }
+
+
+    .qti-item {
+        padding: 15px;
+        background: white();
+        margin:auto;
+        max-width: 1024px;
+    }
     
     .item-editor-item {
-        background: white();
-        margin: auto;
-        max-width: 1024px;
         @include simple-border();
         -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
         -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
@@ -632,8 +638,6 @@
             >.common-tlb{
                 overflow:hidden;
                 margin:auto;
-                margin-left:auto;
-                margin-right:auto;
                 width:20px;
                 display:none;//initially hidden
                 position:absolute;
@@ -697,12 +701,12 @@
                         @extend %editActive;
                     }
                 }
+                .qti-choice:not(th) {
+                    border:1px solid transparent;
+                }
                 .qti-interaction {
                     .qti-prompt{
                         min-height: 1.4rem;
-                    }
-                    .qti-choice{
-                        border:1px solid transparent;
                     }
                     .add-option {
                         border: 1px mix(#fff, $info, 20%) dashed !important;
@@ -861,7 +865,7 @@
         border: none !important;
         background: none !important;
     }
-    .item-editor-item {
+    .qti-item {
         border-radius: 0;
         box-shadow: none;
         margin: 0 !important;
@@ -871,4 +875,8 @@
             border-color: transparent;
         }
     }
+    [data-edit], .mini-tlb {
+        display:none
+    }
+;
 }

@@ -42,7 +42,7 @@ define([
         fontSizeChanger();
         itemResizer();
 
-        preview.init('#preview-trigger', item);
+        preview.init($('.preview-trigger'), item);
 
         preparePrint();
         toggleAppearance();

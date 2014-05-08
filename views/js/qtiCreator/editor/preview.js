@@ -1,17 +1,19 @@
 define([
     'jquery',
-    'store',
     'i18n',
     'taoQtiItem/qtiCreator/editor/base',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
     'select2'
-], function ($, store, __, base, commonRenderer, deviceList) {
+], function ($, __, base, commonRenderer, deviceList) {
     'use strict'
 
     var overlay,
         container,
-        togglersByTarget = {};
+        togglersByTarget = {},
+        currOrientation = 'landscape',
+        currPreviewType = 'desktop',
+        $doc = $(document);
 
     /**
      *
@@ -24,25 +26,6 @@ define([
         }
 
         /**
-         * Mobile-only functions
-         */
-        var mobile = (function () {
-
-            var orientationToClass = function (orientation) {
-                return 'mobile-preview-' + orientation;
-            };
-
-            var getOrientation = function () {
-                return store.get('orientation') === 'landscape' ? 'landscape' : 'portrait';
-            };
-
-            return {
-                getOrientation: getOrientation,
-                orientationToClass: orientationToClass
-            }
-        }());
-
-        /**
          * Create an item on the toolbar
          *
          * @param tool
@@ -50,9 +33,8 @@ define([
          * @returns {void|*}
          */
         var createTool = function (tool, type) {
-            var className = type ? 'lft ' + type + '-only' : 'lft';
             return $('<li>', {
-                class: className
+                class: (type ? 'lft ' + type + '-only' : 'lft')
             }).append(tool);
         };
 
@@ -64,14 +46,19 @@ define([
         var createDeviceSelector = function (type) {
             var device,
                 devices,
-                currDevice = store.get('current-' + type + '-device') || '',
                 option,
                 select = $('<select>', {
                     class: type + '-device-selector'
-                }),
-                container = $('.' + type + '-preview-container');
+                });
 
-            // @todo this part is a bit dodgy, device list should be generated differently
+
+            /*
+             * @todo
+             * The device list is currently based on the devices found on the Chrome emulator.
+             * This is not ideal and should be changed in the future.
+             * I have http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density in mind but we
+             * will need to figure what criteria to apply when generating the list.
+            */
             switch (type) {
                 case 'mobile':
                     devices = deviceList['tablets'];
@@ -84,15 +71,52 @@ define([
             for (device in devices) {
                 if (devices.hasOwnProperty(device)) {
                     option = $('<option>', {
-                        value: [devices[device].dpWidth, devices[device].dpHeight].join(','),
+                        value: [devices[device].width, devices[device].height].join(','),
                         text: devices[device].label
                     });
-                    if (currDevice === devices[device].label) {
+                    if (currPreviewType === devices[device].label) {
                         option.prop('selected', true);
                     }
                     select.append(option);
                 }
             }
+
+            select.on('change', function() {
+                var elem = $(this),
+                    val = elem.val().split(','),
+                    animationSettings,
+                    i = val.length,
+                    container = $('.' + type + '-preview-container');
+
+
+                while (i--) {
+                    val[i] = parseFloat(val[i]);
+                }
+
+                if (type === 'mobile' && currOrientation === 'portrait') {
+                    animationSettings = {
+                        width: val[1],
+                        height: val[0]
+                    };
+                }
+                else {
+                    animationSettings = {
+                        width: val[0],
+                        height: val[1]
+                    };
+                }
+                console.log(animationSettings, '.' + type + '-preview-container', container);
+
+                if (animationSettings.width === container.width()
+                    && animationSettings.height === container.height()) {
+                    return false;
+                }
+
+                container.animate(animationSettings, function () {
+                    currPreviewType = type;
+                });
+            });
+
             return select;
         };
 
@@ -101,7 +125,10 @@ define([
          *
          * @returns {*|HTMLElement}
          */
-        var createOrientationSelector = function () {
+        var createOrientationSelector = function (mobilePreviewContainer) {
+
+            mobilePreviewContainer = mobilePreviewContainer.find('.preview-container');
+
             var select = $('<select>', {
                     class: 'mobile-orientation-selector'
                 }),
@@ -109,7 +136,6 @@ define([
                     landscape: __('Landscape'),
                     portrait: __('Portrait')
                 },
-                currOrientation = store.get('preview-orientation') || 'landscape',
                 orientation,
                 option;
             for (orientation in orientations) {
@@ -124,119 +150,12 @@ define([
                     select.append(option);
                 }
             }
-            return select;
-        };
-
-        // @todo this is the old version written for mobile only
-        // this version is working, function 'setupDeviceSelector' below has a bug
-        // possible (even likely) reason: wrong preset from storage
-        var legacySetupDeviceSelector = function (deviceSelector, mobilePreviewContainer) {
-
-            deviceSelector.on('change', function () {
-                var elem = $(this),
-                    val = elem.val().split(','),
-                    scaleFactor = parseFloat(val.pop()),
-                    text = elem.find('option:selected').text(),
-                    isLandscape = mobile.getOrientation() === 'landscape',
-                    animationSettings,
-                    i = val.length;
-
-                while (i--) {
-                    val[i] = parseFloat(val[i]) / scaleFactor;
-                }
-
-                animationSettings = {
-                    width: isLandscape ? val[0] : val[1],
-                    height: isLandscape ? val[1] : val[0]
-                };
-
-                if (animationSettings.width === container.width()
-                    && animationSettings.height === container.height()) {
-                    return false;
-                }
-
-                console.log(animationSettings, mobilePreviewContainer);
-                mobilePreviewContainer.animate(animationSettings, function () {
-                    store.set('device', text);
-                });
-            });
-
-            deviceSelector.select2({
-                minimumResultsForSearch: -1
-            });
-
-            // set initial size of mobile device
-            deviceSelector.trigger('change');
-        };
-
-        /**
-         * functionality of device selector
-         *
-         * @param type
-         */
-        var setupDeviceSelector = function (type) {
-
-            var deviceSelector = $('.' + type + '-device-selector'),
-                previewContainer = $('.' + type + '-preview-frame');
-
-            deviceSelector.on('change', function () {
-                var elem = $(this),
-                    val = elem.val().split(','),
-                    text = elem.find('option:selected').text(),
-                    animationSettings,
-                    i = val.length;
-
-                while (i--) {
-                    val[i] = parseFloat(val[i]);
-                }
-
-                if (type === 'mobile' && mobile.getOrientation() === 'portrait') {
-                    animationSettings = {
-                        width: val[1],
-                        height: val[0]
-                    };
-                }
-                else {
-                    animationSettings = {
-                        width: val[0],
-                        height: val[1]
-                    };
-                }
-
-                if (animationSettings.width === container.width()
-                    && animationSettings.height === container.height()) {
-                    return false;
-                }
-
-                previewContainer.animate(animationSettings, function () {
-                    store.set(type + '-device-selector', text);
-                });
-            });
-
-            deviceSelector.select2({
-                minimumResultsForSearch: -1
-            });
-
-            // set initial size of mobile device
-            deviceSelector.trigger('change');
-        };
-
-
-        /**
-         * functionality of orientation selector
-         *
-         * @param orientationSelector
-         * @param mobilePreviewContainer
-         */
-        var setupOrientationSelector = function (orientationSelector, mobilePreviewContainer) {
-
-            orientationSelector.on('change', function () {
+            select.on('change', function () {
                 var newOrientation = $(this).val(),
-                    oldOrientation = mobile.getOrientation(),
                     animationSettings,
                     mobilePreviewFrame = $('.preview-mobile-frame');
 
-                if (newOrientation === oldOrientation) {
+                if (newOrientation === currOrientation) {
                     return false;
                 }
 
@@ -246,20 +165,15 @@ define([
                 };
 
                 mobilePreviewContainer.animate(animationSettings, function () {
-                    mobilePreviewFrame.removeClass(mobile.orientationToClass(mobile.getOrientation()))
-                        .addClass(mobile.orientationToClass(newOrientation));
-                    store.set('orientation', newOrientation);
+                    mobilePreviewFrame.removeClass('mobile-preview-' + currOrientation)
+                        .addClass('mobile-preview-' + newOrientation);
+
+                    // reset global orientation
+                    currOrientation = newOrientation;
                 });
 
             });
-
-
-            orientationSelector.select2({
-                minimumResultsForSearch: -1
-            });
-
-            // set initial orientation of mobile device
-            orientationSelector.trigger('change');
+            return select;
         };
 
         /**
@@ -278,7 +192,6 @@ define([
             return feedback;
         };
 
-
         /**
          * Create container for item
          *
@@ -290,15 +203,11 @@ define([
                 class: type + '-preview-frame ' + type + '-only preview-outer-frame'
             });
             var previewContainer = $('<div>', {
-                class: type + '-preview-container'
-            });
-            var previewItemContainer = $('<div>', {
-                class: type + '-preview-item-container item-container'
+                class: type + '-preview-container preview-container'
             });
             if (type === 'mobile') {
-                previewFrame.addClass(mobile.orientationToClass(mobile.getOrientation()));
+                previewFrame.addClass('mobile-preview-' + currOrientation);
             }
-            previewContainer.append(previewItemContainer);
             previewFrame.append(previewContainer);
             return previewFrame;
         };
@@ -337,15 +246,15 @@ define([
                 var target = $(this).prop('target'),
                     newClass = 'preview-' + target,
                     oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop',
-                    targetContainer =  $('.' + target + '-preview-item-container');
+                    targetContainer =  $('.' + target + '-preview-container');
 
                 overlay.removeClass(oldClass).addClass(newClass);
-                store.set('preview-type', target);
+                currPreviewType = target;
                 targetContainer.empty();
                 commonRenderer.render(item, targetContainer);
             });
 
-            // add toggler to global object
+            // add toggler to global collection
             togglersByTarget[toggleTarget] = toggler;
 
             return toggler;
@@ -362,7 +271,6 @@ define([
                 html: __('Close') + ' <span class="icon-close r"/>'
             });
             closer.on('click', function () {
-
                 commonRenderer.setContext($('.item-editor-item'));
                 overlay.fadeOut();
             });
@@ -385,9 +293,8 @@ define([
         /**
          * Build the whole shebang
          */
-        var setup = function () {
-            var type = store.get('preview-type') || 'desktop',
-                types = ['mobile', 'desktop'],
+        (function () {
+            var types = ['mobile', 'desktop'],
                 iT = types.length,
                 previews = {},
                 headings = {},
@@ -403,7 +310,7 @@ define([
                 }),
                 feedback = createFeedback(),
                 deviceSelectors = {},
-                orientationSelector = createOrientationSelector(),
+                orientationSelector,
                 viewTogglers = {},
                 tools = $('<ul>', {
                     class: 'plain tbl-cell clearfix'
@@ -411,8 +318,11 @@ define([
                 closer = createCloser();
 
             overlay = $('<div>', {
-                class: 'preview-overlay tao-scope overlay preview-' + type});
-            container = $('<div>', {class: 'preview-container'});
+                class: 'preview-overlay tao-scope overlay preview-' + currPreviewType
+            });
+            container = $('<div>', {
+                class: 'preview-container-outer'
+            });
 
 
             while (iT--) {
@@ -423,6 +333,7 @@ define([
                 formInner.append(headings[types[iT]]);
             }
 
+            orientationSelector = createOrientationSelector(previews['mobile']);
 
             tools.append(createTool(deviceSelectors['desktop'], 'desktop'));
             tools.append(createTool(viewTogglers['desktop'], 'desktop'));
@@ -446,35 +357,32 @@ define([
 
             overlay.append(container);
 
-            setupDeviceSelector('mobile');
-            setupDeviceSelector('desktop');
+            overlay.find('select').select2({
+                minimumResultsForSearch: -1
+            });
 
-            setupOrientationSelector(orientationSelector, previews['mobile']);
-
-            $(document.body).append(overlay);
+            $doc.find('body').append(overlay);
 
             overlay.hide();
 
-            $(document).keyup(function (e) {
+            $doc.keyup(function (e) {
                 if (e.keyCode == 27) {
                     closer.trigger('click');
                 }
             });
-        };
-
-        setup();
+        })();
 
         return container;
     };
 
 
-    var preview = (function ($) {
+    return (function ($) {
 
 
         /**
          * Create preview
          *
-         * @param launchers button to launch preview
+         * @param launchers - buttons to launch preview
          * @param item
          */
         var init = function (launchers, item) {
@@ -482,18 +390,15 @@ define([
             createWidget(item);
 
             $(launchers).on('click', function () {
-                // launch the correct preview
-                // currently not in use but could easily be created
-                // by adding something like '<span class="icon-mobile-preview" data-preview-type="mobile">
-                // to the DOM
-                var type = $(this).data('preview-type') || 'desktop';
+                currPreviewType = $(this).data('preview-type') || 'desktop';
 
-                if (togglersByTarget[type]) {
-                    togglersByTarget[type].trigger('click');
+                if (togglersByTarget[currPreviewType]) {
+                    togglersByTarget[currPreviewType].trigger('click');
                 }
 
                 overlay.fadeIn(function () {
-                    overlay.height($(document).outerHeight());
+                    overlay.height($doc.outerHeight());
+                    overlay.find('select').trigger('change');
                 });
             });
         };
@@ -502,8 +407,4 @@ define([
             init: init
         }
     }($));
-
-    return preview;
 });
-
-
