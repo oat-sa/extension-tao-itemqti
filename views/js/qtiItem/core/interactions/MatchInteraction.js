@@ -19,17 +19,6 @@ define([
                 this.choices[matchSet][choice.getSerial()] = choice;
             }
         },
-        removeChoice : function(choice){
-            var serial = '';
-            if(typeof(choice) === 'string'){
-                serial = choice;
-            }else if(Element.isA('choice')){
-                serial = choice.getSerial();
-            }
-            delete this.choices[0][serial];
-            delete this.choices[1][serial];
-            return this;
-        },
         getChoices : function(matchSet){
             matchSet = parseInt(matchSet);
             if(this.choices[matchSet]){
