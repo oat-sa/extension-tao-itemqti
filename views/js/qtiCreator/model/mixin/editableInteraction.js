@@ -1,8 +1,9 @@
 define([
     'taoQtiItem/qtiItem/core/Element', 
     'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration', 
-    'taoQtiItem/qtiCreator/model/helper/event'
-], function(Element, ResponseDeclaration, event){
+    'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/model/helper/response'
+], function(Element, ResponseDeclaration, event, responseHelper){
 
     var methods = {
         /**
@@ -12,6 +13,7 @@ define([
          * @returns {object} this
          */
         removeChoice : function(choice){
+            
             var serial = '', c;
             if(typeof(choice) === 'string'){
                 serial = choice;
@@ -19,8 +21,15 @@ define([
                 serial = choice.getSerial();
             }
             if(this.choices[serial]){
+                
+                //remove choice
                 c = this.choices[serial];
                 delete this.choices[serial];
+                
+                //update the response
+                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                
+                //trigger event
                 event.deleted(c, this);
             }
             return this;

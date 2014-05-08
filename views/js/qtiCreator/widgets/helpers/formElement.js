@@ -124,7 +124,8 @@ define([
 
                 var responseDeclaration = interaction.getResponseDeclaration();
                 value = value || 0;
-
+                value = parseInt(value);
+                
                 if(updateCardinality){
                     responseDeclaration.attr('cardinality', (value <= 1) ? 'single' : 'multiple');
                 }
@@ -182,5 +183,3 @@ define([
 
     return formElement;
 });
-
-

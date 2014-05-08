@@ -37,6 +37,7 @@ define([
                 
                 if(data.parent.serial === widget.element.serial
                     && Element.isA(data.element, 'choice')){
+                    
                     _syncMaxChoices();
                 }
             });

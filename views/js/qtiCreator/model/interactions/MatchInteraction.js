@@ -5,8 +5,9 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/MatchInteraction',
     'taoQtiItem/qtiCreator/model/choices/SimpleAssociableChoice',
-    'taoQtiItem/qtiCreator/model/helper/event'
-], function(_, Element, editable, editableInteraction, Interaction, Choice, event){
+    'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/model/helper/response'
+], function(_, Element, editable, editableInteraction, Interaction, Choice, event, responseHelper){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
@@ -57,9 +58,17 @@ define([
             }
             
             c = this.choices[0][serial] || this.choices[1][serial] || null;
+            
             if(c){
+                
+                //remove choice
                 delete this.choices[0][serial];
                 delete this.choices[1][serial];
+                
+                //update the response
+                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                
+                //trigger event
                 event.deleted(c, this);
             }
             

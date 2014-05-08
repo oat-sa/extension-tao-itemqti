@@ -5,42 +5,19 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event'
 ], function(_, $, Element, event){
 
-    var _removeChoiceFromResponse = function(response, choice){
-
-        var escapedIdentifier = choice.id().replace(/([.-])/g, '\\$1'),
-            regex = new RegExp('([^a-z_\-\d\.]*)(' + escapedIdentifier + ')([^a-z_\-\d\.]*)');
-
-        for(var i in response.correctResponse){
-            if(response.correctResponse[i].match(regex)){
-                delete response.correctResponse[i];
-            }
-        }
-
-        var mapEntries = {};
-        _.forIn(response.mapEntries, function(value, mapKey){
-            if(!mapKey.match(regex)){
-                mapEntries[mapKey] = value;
-            }
-        });
-        response.mapEntries = mapEntries;
-    };
-
     var _removeSelf = function(element){
-
+        
         var removed = false,
             item = element.getRelatedItem();
 
         if(item){
+            
             var found = item.find(element.getSerial());
             if(found){
+                
                 var parent = found.parent;
-
                 if(Element.isA(parent, 'interaction') && Element.isA(element, 'choice')){
                     parent.removeChoice(element);
-
-                    //update the response:
-                    _removeChoiceFromResponse(parent.getResponseDeclaration(), element);
-
                     removed = true;
                 }else if(typeof parent.initContainer === 'function' && found.location === 'body'){
                     parent.getBody().removeElement(element);
