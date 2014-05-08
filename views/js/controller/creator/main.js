@@ -2,7 +2,6 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/editor/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
-    'taoQtiItem/qtiCreator/editor/toggleAppearance',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer',//for the preview
@@ -17,7 +16,6 @@ define([
     _,
     preview,
     preparePrint,
-    toggleAppearance,
     loader,
     creatorRenderer,
     commonRenderer,
@@ -45,7 +43,6 @@ define([
         preview.init($('.preview-trigger'), item);
 
         preparePrint();
-        toggleAppearance();
 
         $('#item-editor-panel').addClass('has-item');
 
@@ -61,7 +58,12 @@ define([
             $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
             $formResponsePanel = $('#item-editor-response-property-bar').hide(),
             $formItemPanel = $('#item-editor-item-property-bar').hide(),
-            $formBodyElementPanel = $('#item-editor-body-element-property-bar').hide();
+            $formBodyElementPanel = $('#item-editor-body-element-property-bar').hide(),
+            $appearanceToggler = $('#appearance-trigger');
+
+        $appearanceToggler.on('click', function() {
+
+        });
 
         $(document).on('afterStateInit.qti-widget', function(e, element, state){
 
