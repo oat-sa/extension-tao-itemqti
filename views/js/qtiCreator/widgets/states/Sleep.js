@@ -11,7 +11,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
             $container.removeClass('hover');
             $container.parent().trigger('mouseenter.sleep');
         });
-
+        
     }, function(){
 
         this.widget.$container.removeClass('hover').off('.sleep');

@@ -18,9 +18,12 @@ define([
             
         }, 'otherActive');
         
-        $container.on('mouseenter.sleep', function(e){
+        //@todo : fix this
+        $container.on('mouseenter.active', function(e){
+            e.stopPropagation();
             $container.parent().trigger('mouseleave.sleep');
-        }).on('mouseleave.sleep', function(){
+        }).on('mouseleave.active', function(e){
+            e.stopPropagation();
             $container.parent().trigger('mouseenter.sleep');
         });
         

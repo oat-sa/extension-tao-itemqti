@@ -387,7 +387,6 @@ define([
                 parentOffset = $(this).offset(),
                 relX = e.pageX - parentOffset.left;
 
-            $placeholder.data('dropped', true);
             $placeholder.show().css('display', 'inline-block');
             if(relX < w / 2){
                 $(this).before(_showPlaceholder());
@@ -423,7 +422,7 @@ define([
             _destroyDroppableInlines($el);
 
             //call callback function:
-            if(dropped && $placeholder.data('dropped')){
+            if(dropped){
                 $el.trigger('dropped.gridEdit' + ns, [qtiClass, $placeholder, data]);
             }
         });

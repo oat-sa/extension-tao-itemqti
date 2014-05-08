@@ -74,15 +74,21 @@ define([
 
             var parents = dh.getParentsOf(child),
                 parentSelector = parents.join(',');
-
+            
             $qtiContainers.each(function(){
-                var $elt = $(this);
-                if($elt.is(parentSelector)){
-                    $targets = $targets.add($elt);
+                
+                var $qtiContainer = $(this),
+                    $widget = $qtiContainer.closest('.widget-box');
+                    
+                if($qtiContainer.is(parentSelector)){
+                    $targets = $targets.add($qtiContainer);
                 }
-                $targets = $targets.add($elt.find(parentSelector).not('script'));
+                $targets = $targets.add($qtiContainer.find(parentSelector).not(function(){
+                    var $closest = $(this).closest('.widget-box');
+                    return ($closest.length && $closest[0] !== $widget[0]);
+                }));
             });
-
+            
             return $targets;
         };
 
