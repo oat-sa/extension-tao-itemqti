@@ -6,6 +6,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
     //clone the qtiClasses instead of modifying it by direct extend:
     return _.defaults({
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
+        '_container' : 'taoQtiItem/qtiCreator/model/Container',
         'img' : 'taoQtiItem/qtiCreator/model/Img',
         'math' : 'taoQtiItem/qtiCreator/model/Math',
         'rubricBlock' : 'taoQtiItem/qtiCreator/model/RubricBlock',
