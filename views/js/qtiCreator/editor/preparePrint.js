@@ -1,7 +1,6 @@
 define([
-  'jquery',
-  'taoQtiItem/qtiCreator/editor/base'
-], function($, base){
+  'jquery'
+], function($){
   'use strict'
 
   /**
@@ -18,12 +17,12 @@ define([
       return elem.parent();
     }
 
-    var parent = initHideOnPrint(base.scope.parent());
+    var parent = initHideOnPrint($('#item-editor-scope').parent());
     while(parent.length && parent.get(0).nodeName.toLowerCase() !== 'body') {
       parent = initHideOnPrint(parent);
     }
 
-    base.toolbar.add(base.sidebars).add(base.overlay).addClass('item-no-print');
+      $('#item-editor-toolbar, .item-editor-sidebar, #item-editor-overlay').addClass('item-no-print');
   }
 
   $('#print-trigger').on('click', function() {

@@ -1,11 +1,10 @@
 define([
     'jquery',
     'i18n',
-    'taoQtiItem/qtiCreator/editor/base',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
     'select2'
-], function ($, __, base, commonRenderer, deviceList) {
+], function ($, __, commonRenderer, deviceList) {
     'use strict'
 
     var overlay,
@@ -105,7 +104,6 @@ define([
                         height: val[1]
                     };
                 }
-                console.log(animationSettings, '.' + type + '-preview-container', container);
 
                 if (animationSettings.width === container.width()
                     && animationSettings.height === container.height()) {
