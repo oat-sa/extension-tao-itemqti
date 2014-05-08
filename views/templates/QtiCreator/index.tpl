@@ -132,7 +132,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
         <!-- right sidebar -->
         <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
-            <div class="item-editor-item-related" id="item-editor-item-bar">
+            <div class="item-editor-item-related" id="item-style-editor-bar">
                 <section class="tool-group clearfix">
 
                     <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Sheet Manager')?></h2>

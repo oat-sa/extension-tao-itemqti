@@ -10,6 +10,8 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
             if(!$.contains(_widget.$container[0], e.target)){
                 _widget.changeState('sleep');
             }
+        }).on('styleedit.active', function(){
+            _widget.changeState('sleep');
         });
         
         itemWidget.$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
@@ -25,6 +27,6 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
         
         this.widget.offEvents('otherActive');
         
-        itemWidget.$container.off('.gridEdit.active');
+        itemWidget.$container.off('.active');
     });
 });
