@@ -60,9 +60,9 @@ define([
 
         //append the dropping element placeholder:
         var _appendPlaceholder = function($col){
-            
+
             if($col.length){
-                
+
                 $placeholder
                     .data('dropped', true)
                     .show()
@@ -70,16 +70,16 @@ define([
                     .parent().removeData('active');
 
                 $col.append($placeholder);
-                
+
             }else{
-                
+
                 debugger;
             }
         };
 
         //restore the dropping element placeholder back to its default location:
         var _resetPlaceholder = function(){
-            
+
             $placeholder.parent().parent().removeData('active');
 
             $placeholder
@@ -95,7 +95,7 @@ define([
             if(location === 'left' || location === 'right'){
                 _restoreTmpCol($el);
                 var $row = $col.parent().attr('data-active', true);
-                
+
                 //store temporary the original classes before columns are resized
                 $row.children(':not(.new-col)').each(function(){
                     $(this).attr('data-original-class', $(this).attr('class'));
@@ -111,7 +111,7 @@ define([
                     var newUnit = ($newCol.is(':last-child') && distributedUnits.last) ? distributedUnits.last : distributedUnits.middle;
                     $newCol.attr('class', 'new-col col-' + newUnit);
 
-                    var cumulatedUnits = 0, 
+                    var cumulatedUnits = 0,
                         index = $newCol.data('index');
 
                     var _appendToNextRow = function _appendToNextRow($row, $newCol){
@@ -196,11 +196,11 @@ define([
 
         //bind all event handlers:
         $el.on('mouseover.gridEdit.gridDragDrop', function(){
-            
+
             var $previousCol = $placeholder.parent('.new-col');
             _restoreTmpCol($el);//restore tmp columns before reevaluating the heights
             _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
-            
+
             var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
             console.log('new empty');
             _appendPlaceholder($newCol);
@@ -264,7 +264,7 @@ define([
         $el.one('dragoverstop.gridEdit', function(){
 
             $el.off('.gridEdit.gridDragDrop');
-            
+
             var $selectedCol = $placeholder.parent('.new-col'),
                 dropped = !!$selectedCol.length;
 
@@ -278,7 +278,7 @@ define([
                     .data('qti-class', qtiClass)
                     .removeClass('new-col')
                     .removeAttr('data-index');
-                
+
                 helper.setUnitsFromClass($selectedCol);
 
                 //make the dropped row permanent
@@ -333,12 +333,12 @@ define([
         if(_pulseTimer){
             clearInterval(_pulseTimer);
         }
-        var intervalDuration = 2000;
+        var intervalDuration = 1000;
 
         setInterval(function(){
 
             $el.animate({
-                opacity : 0.3
+                opacity : 0.2
             }, intervalDuration * 0.5, function(){
                 $el.animate({
                     opacity : 0.9
@@ -395,14 +395,16 @@ define([
             }
 
         }).on('mouseover.gridEdit.gridDragDrop', function(e){
-
+            
+            e.stopPropagation();
             var $target = $(e.target);
-            if(!dropped && $target.children('.qti-word-wrap').length){
+            
+            if($target.hasClass('drop-target') && !$target.find($placeholder).length){
+                
                 //make first insertion easier
                 $target.append(_showPlaceholder());
-            }
-
-            if($target[0] !== $placeholder[0]
+                
+            }else if($target[0] !== $placeholder[0]
                 && !$target.hasClass('qti-word-wrap')
                 && !$target.children('.qti-word-wrap').length){
 
