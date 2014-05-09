@@ -29,6 +29,14 @@ define([
                     height : 150
                 },
                 text: 'Video'
+            },
+            media: {
+                css: {
+                    backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-media.png)',
+                    width : 200,
+                    height : 150
+                },
+                text: 'Media'
             }
         };
 
@@ -42,7 +50,7 @@ define([
          * -> <span class="dummy-element"></span>
          *
          * 2. Pre-defined placeholder
-         * dummyElement.get('maths|image|video|...')
+         * dummyElement.get('math|images|video|...')
          * -> <span style="background-image: url(...); width: 200px; height: 150px; background-size: auto;" class="dummy-element">Image</span>
          *
          * 3. Freestyle

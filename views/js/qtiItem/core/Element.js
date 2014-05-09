@@ -138,7 +138,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return elts;
         },
         getUsedClasses : function(){
-        
+
             var ret = [this.qtiClass],
                 composingElts = this.getComposingElements();
 
@@ -151,18 +151,18 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
         find : function(serial){
 
             var found = null;
-            
+
             if(typeof this.initObject === 'function'){
                 var object = this.getObject();
                 if(object.serial === serial){
                     found = {'parent' : this, 'element' : object, 'location' : 'object'};
                 }
             }
-            
+
             if(!found && typeof this.initContainer === 'function'){
                 found = this.getBody().find(serial, this);
             }
-            
+
             return found;
         },
         parent : function(){
@@ -290,6 +290,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return arr;
         },
         remove : function(containerPropName, element){
+            console.log('element.remove() : deprecated method')
             if(this[containerPropName]){
                 var serial = '';
                 if(typeof(element) === 'string'){
@@ -302,6 +303,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 }
             }
             return this;
+        },
+        isEmpty : function(){
+            //tells whether the element should be considered empty or not, from the rendering point of view
+            return false;
         }
     });
 

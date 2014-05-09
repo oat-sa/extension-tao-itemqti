@@ -4,9 +4,10 @@ define([
     'taoQtiItem/qtiCreator/editor/MathEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'i18n'
-], function(stateFactory, Active, MathEditor, formTpl, formElement, _, __){
+], function(stateFactory, Active, MathEditor, formTpl, formElement, inlineHelper, _, __){
 
     var _throttle = 300;
 
@@ -34,13 +35,13 @@ define([
         }
 
         $form.html(formTpl({
-            display : display,
             editMode : editMode,
             latex : tex,
             mathml : mathML
         }));
 
-        //editMode
+        //init selectboxes
+        $form.find('select[name=display]').val(display);
         $form.find('select[name=editMode]').val(editMode);
         $form.children('.panel[data-role="' + editMode + '"]').show();
 
@@ -54,6 +55,7 @@ define([
     MathActive.prototype.initFormChangeListener = function(){
 
         var _widget = this.widget,
+            $container = _widget.$container,
             $form = _widget.$form,
             math = _widget.element,
             mathML = math.mathML,
@@ -76,15 +78,15 @@ define([
             display : function(m, value){
                 if(value === 'block'){
                     m.attr('display', 'block');
+                    $container.removeClass('widget-inline').addClass('widget-block');
                 }else{
                     m.removeAttr('display');
+                    $container.removeClass('widget-block').addClass('widget-inline');
                 }
             },
             editMode : function(m, value){
 
                 _toggleMode($form, value);
-
-
             },
             latex : _.throttle(function(m, value){
 
@@ -96,6 +98,8 @@ define([
                     //update mathML
                     $math.html(mathEditor.mathML);
                     m.setMathML(mathEditor.mathML);
+
+                    inlineHelper.togglePlaceholder(_widget);
                 });
 
             }, _throttle),
@@ -109,6 +113,8 @@ define([
                     //clear tex:
                     $tex.val('');
                     m.removeAnnotation('latex');
+
+                    inlineHelper.togglePlaceholder(_widget);
                 });
 
             }, _throttle)

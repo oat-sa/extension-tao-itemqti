@@ -17,7 +17,8 @@ define(['jquery', 'lodash'], function($, _){
             }
         },
         buildBlockContainer : function(widget){
-        
+            
+            //absolutely need a div here (not span), otherwise mathjax will break
             var $wrap = $('<div>', {
                 'data-serial' : widget.element.serial,
                 'class' : 'widget-box widget-block widget-'+widget.element.qtiClass,

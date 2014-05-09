@@ -99,8 +99,26 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             };
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
+        },
+        isEmpty : function(){
+            return _isEmptyMathML(this.mathML) && (!this.annotations['latex'] || !this.annotations['latex'].trim());
         }
     });
+
+    var _isEmptyMathML = function(mathStr){
+
+        var hasContent = false;
+
+        if(mathStr && mathStr.trim()){
+            var $math = $(mathStr);
+            var $row = $math.prop('tagName').toLowerCase() === 'mrow' ? $math : $math.find('mrow');
+            if($row.length && $row.text().trim()){
+                hasContent = true;
+            }
+        }
+
+        return !hasContent;
+    }
 
     return Math;
 });

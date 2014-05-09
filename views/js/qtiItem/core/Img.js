@@ -15,6 +15,9 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
             }
             
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
+        },
+        isEmpty : function(){
+            return (!this.attr('src'));
         }
     });
     

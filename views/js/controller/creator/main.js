@@ -13,8 +13,6 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
-    // various dummy elements
-    'taoQtiItem/qtiCreator/editor/dummyElement'
 ], function(
     _,
     Element,
@@ -28,8 +26,7 @@ define([
     fontSizeChanger,
     itemResizer,
     styleEditor,
-    styleSheetToggler,
-    dummyElement
+    styleSheetToggler
     ){
 
 
@@ -76,7 +73,7 @@ define([
                 $appearanceToggler.addClass('active');
                 $formStylePanel.show();
                 $formItemPanel.hide();
-                
+
                 //current widget sleep:
                 $itemContainer.trigger('styleedit');
 
@@ -88,7 +85,7 @@ define([
         };
 
         $appearanceToggler.on('click', function(){
-            
+
             if($appearanceToggler.hasClass('active')){
                 _toggleAppearanceEditor(false);
             }else{

@@ -695,9 +695,9 @@
                 &.edit-active{
                     @extend %editActive;
                 }
-                
             }
             &.widget-block{
+                display:block;
                 &.hover{
                     @extend %editHover;
                 }
