@@ -89,6 +89,10 @@ class Authoring
         return $returnValue;
     }
 
+    public static function normalizeAuthoringElementKey($text) {
+        return strtolower(preg_replace('~[\W]+~', '-', $text));
+    }
+
     public static function getAvailableAuthoringElements(){
         return array(
             'Content Block' => array(

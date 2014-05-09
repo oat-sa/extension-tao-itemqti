@@ -78,6 +78,7 @@
         display: none;
     }
     
+    
     #item-editor-toolbar {
         position: relative;
         color: black();
@@ -86,7 +87,8 @@
         padding-left: $sidebarWidth * 1px;
         height: $toolbarHeight * 1px;
         #item-editor-toolbar-inner {
-            //display: none;
+            //@todo reset to 0
+            //opacity: 0;
         }
         #item-editor-logo {
             text-indent: -1000px;
@@ -174,12 +176,11 @@
 
 
     .item-editor-sidebar {
-        // @todo reset to 0
-        opacity: 1;
+        //@todo reset to 0
+        //opacity: 0;
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
         position: absolute;
-       // overflow: hidden;
         top: 0;
         right: 0;
         .tool-group {

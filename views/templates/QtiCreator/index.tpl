@@ -98,8 +98,8 @@ use oat\taoQtiItem\helpers\Authoring;
 
             <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues): ?>
 
-                <section class="tool-group clearfix">
-                    <h2><?=$group?></h2>
+                <section class="tool-group clearfix" id="sidebar-left-section-<?=Authoring::normalizeAuthoringElementKey($group)?>">
+                    <h2><?=__($group)?></h2>
                     <div class="panel">
                         <ul class="tool-list plain">
                             <?php foreach($groupValues as $record):?>
@@ -124,7 +124,7 @@ use oat\taoQtiItem\helpers\Authoring;
         <!-- right sidebar -->
         <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
             <div class="item-editor-item-related" id="item-style-editor-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-css-manager">
 
                     <h2><?=__('Style Sheet Manager')?></h2>
                     <div class="panel">
@@ -141,7 +141,7 @@ use oat\taoQtiItem\helpers\Authoring;
                     </div>
                 </section>
 
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-style-editor">
 
                     <h2><?=__('Style Editor')?></h2>
 
@@ -240,37 +240,37 @@ use oat\taoQtiItem\helpers\Authoring;
 
             </div>
             <div class="item-editor-item-related" id="item-editor-item-property-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-item-properties">
                     <h2><?=__('Item Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
-                <section class="tool-group clearfix">
-                    <h2>Body Element Properties</h2>
+                <section class="tool-group clearfix" id="sidebar-right-body-element-properties">
+                    <h2><?=__('Body Element Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-item-related" id="item-editor-text-property-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-text-block-properties">
                     <h2><?=__('Text Block Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-interaction-related" id="item-editor-interaction-property-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-interaction-properties">
                     <h2><?=__('Interaction Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-choice-related" id="item-editor-choice-property-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-choice-properties">
                     <h2><?=__('Choice Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
             <div class="item-editor-response-related" id="item-editor-response-property-bar">
-                <section class="tool-group clearfix">
+                <section class="tool-group clearfix" id="sidebar-right-response-properties">
                     <h2><?=__('Response Properties')?></h2>
                     <div class="panel"></div>
                 </section>

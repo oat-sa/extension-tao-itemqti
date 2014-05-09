@@ -41,7 +41,6 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer();
-
         preview.init($('.preview-trigger'), item);
 
         preparePrint();
@@ -83,7 +82,26 @@ define([
                 //current widget sleep:
                 $itemContainer.trigger('styleedit');
 
-            }else{
+                /* At the time of writing this the following sections are available:
+                 *
+                 * #sidebar-left-section-text
+                 * #sidebar-left-section-block-interactions
+                 * #sidebar-left-section-inline-interactions
+                 * #sidebar-left-section-graphic-interactions
+                 * #sidebar-left-section-media
+                 * #sidebar-right-css-manager
+                 * #sidebar-right-style-editor
+                 * #sidebar-right-item-properties
+                 * #sidebar-right-body-element-properties
+                 * #sidebar-right-text-block-properties
+                 * #sidebar-right-interaction-properties
+                 * #sidebar-right-choice-properties
+                 * #sidebar-right-response-properties
+                 */
+                editor.openSections($('#sidebar-right-css-manager, #sidebar-right-style-editor'));
+
+            }
+            else{
                 $appearanceToggler.removeClass('active');
                 $formStylePanel.hide();
                 $formItemPanel.show();
@@ -94,7 +112,8 @@ define([
 
             if($appearanceToggler.hasClass('active')){
                 _toggleAppearanceEditor(false);
-            }else{
+            }
+            else{
                 _toggleAppearanceEditor(true);
             }
         });

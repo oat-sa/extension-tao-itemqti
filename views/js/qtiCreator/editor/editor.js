@@ -20,37 +20,56 @@ define([
             elements.sidebars.each(function () {
                 var $sidebar = $(this),
                     $sections = $sidebar.find('section'),
-                    $allPanels = $sidebar.find('hr, .panel'),
+                    $allPanels = $sidebar.find('hr, .panel').hide(),
                     $allTriggers = $sidebar.find('h2');
 
                 $allTriggers.each(function () {
-                    var $closer = $('<span>', { 'class': 'icon-up'}),
+                    var $heading = $(this),
+                        $section = $heading.parents('section'),
+                        $panel   = $section.find('hr, .panel'),
+                        $closer = $('<span>', { 'class': 'icon-up'}),
                         $opener = $('<span>', { 'class': 'icon-down'});
-                    $(this).append($closer).append($opener).addClass('closed');
+
+                    $heading.append($closer).append($opener).addClass('closed');
+
+                    $panel.on('panelclose.accordion', function(e, args) {
+                        args.heading.addClass('closed');
+                    });
+
+                    $panel.on('panelopen.accordion', function(e, args) {
+                        args.heading.removeClass('closed');
+                    });
+
+                    if($panel.is(':visible')) {
+                        $panel.trigger('panelopen.accordion', { heading: $heading });
+                    }
+                    else {
+                        $panel.trigger('panelclose.accordion', { heading: $heading });
+                    }
                 });
 
                 $sections.each(function () {
-                    var $section = $(this),
-                        $trigger = $section.find('h2'),
-                        $panel = $section.find('hr, .panel');
 
-                    $trigger.on('click', function (e, args) {
-                        var $currTrigger = $(this),
+                    $(this).find('h2').on('click', function (e, args) {
+                        var $heading = $(this),
+                            $panel   = $heading.parents('section').find('hr, .panel'),
                             preserveOthers = !!(args && args.preserveOthers);
-                        // whether or not to close other sections in the same sidebar
 
+                        // whether or not to close other sections in the same sidebar
                         if(!preserveOthers) {
-                            $allPanels.not($panel).slideUp();
-                            $allTriggers.not($currTrigger).addClass('closed');
+                            $allPanels.not($panel).each(function() {
+                                var $panel = $(this),
+                                    $heading = $panel.parent().find('h2');
+
+                                $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
+                            })
                         }
 
-                        if($currTrigger.hasClass('closed')) {
-                            $currTrigger.removeClass('closed');
-                            $panel.slideDown();
+                        if($heading.hasClass('closed')) {
+                            $panel.trigger('panelopen.accordion', { heading: $heading }).slideDown();
                         }
                         else {
-                            $trigger.addClass('closed');
-                            $panel.slideUp();
+                            $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
                         }
                     })
 
@@ -85,16 +104,29 @@ define([
             // note that this must happen _after_ the height has been adapted
             sidebarAccordionInit();
 
+            /* At the time of writing this the following sections are available:
+             *
+             * #sidebar-left-section-text
+             * #sidebar-left-section-block-interactions
+             * #sidebar-left-section-inline-interactions
+             * #sidebar-left-section-graphic-interactions
+             * #sidebar-left-section-media
+             * #sidebar-right-css-manager
+             * #sidebar-right-style-editor
+             * #sidebar-right-item-properties
+             * #sidebar-right-body-element-properties
+             * #sidebar-right-text-block-properties
+             * #sidebar-right-interaction-properties
+             * #sidebar-right-choice-properties
+             * #sidebar-right-response-properties
+             */
 
-            openSections( elements.sidebars.find('section').first(), true)
-
+            openSections($('#sidebar-left-section-text, #sidebar-left-section-block-interactions'), true);
 
             elements.itemPanel.addClass('has-item');
 
             // display toolbar and sidebar
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
-            //elements.sidebars.add(elements.toolbarInner).show().css('opacity', 1);
-            //console.log(elements.sidebars.add(elements.toolbarInner))
         };
 
         return {

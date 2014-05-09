@@ -335,7 +335,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     min-width: 0 !important;
     width: auto !important; }
   .tao-scope .item-editor-sidebar {
-    opacity: 1;
     background: #f2f0ee;
     border-bottom: 1px white solid;
     position: absolute;
@@ -645,7 +644,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       margin: 0; }
     .tao-scope #item-editor-panel .item-editor-drop-area {
       min-height: 300px;
-      padding-bottom: 20px; }
+      padding-bottom: 20px;
+      margin-top: 20px; }
     .tao-scope #item-editor-panel .item-editor-row {
       min-height: 100px;
       overflow-x: hidden;
@@ -932,7 +932,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
-      cursor: default !important; }
+      cursor: pointer !important; }
     .tao-scope .item-editor-item .qti-choiceInteraction .add-option {
       position: relative;
       padding: 5px 5px 5px 6px; }
@@ -1172,34 +1172,42 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       margin-right: 1.42857%; }
     .tao-scope .item-editor-item .new-col:first-child {
       margin-left: 1.42857%; }
-    .tao-scope .item-editor-item .drop-target {
+    .tao-scope .item-editor-item .drop-target[data-html-editable] {
       border: 1px dashed #86c8a5 !important; }
-      .tao-scope .item-editor-item .drop-target:hover {
+      .tao-scope .item-editor-item .drop-target[data-html-editable]:hover {
         border-color: 1px solid #56b281 !important; }
-      .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder {
-        position: relative;
+    .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder {
+      position: relative;
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      margin: 0px 2px;
+      background-color: transparent; }
+      .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-h {
+        width: 100%;
+        height: 100%;
         display: inline-block;
-        width: 8px;
-        height: 16px;
-        margin: 0px 2px;
-        background-color: transparent; }
-        .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-h {
-          width: 100%;
-          height: 100%;
-          display: inline-block;
-          position: absolute;
-          top: 2px;
-          left: 0;
-          border-top: 2px solid #0e5d91;
-          border-bottom: 2px solid #0e5d91; }
-        .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-v {
-          width: 0px;
-          height: 100%;
-          display: inline-block;
-          position: absolute;
-          top: 2px;
-          left: 3px;
-          border-left: 2px solid #0e5d91; }
+        position: absolute;
+        top: 2px;
+        left: 0;
+        border-top: 2px solid #0e5d91;
+        border-bottom: 2px solid #0e5d91; }
+      .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-v {
+        width: 0px;
+        height: 100%;
+        display: inline-block;
+        position: absolute;
+        top: 2px;
+        left: 3px;
+        border-left: 2px solid #0e5d91; }
+    .tao-scope .item-editor-item .widget-box .html-editable-shield {
+      background: rgba(243, 241, 239, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999; }
   .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
     content: "\1cb"; }
   .tao-scope #modalFeedbacks .mini-tlb {
