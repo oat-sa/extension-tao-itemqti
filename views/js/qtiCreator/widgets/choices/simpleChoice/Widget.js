@@ -10,20 +10,11 @@ define([
         Widget.initCreator.call(this);
 
         this.registerStates(states);
-        
-        var _this = this;
-        
+
         //choiceInteraction:
         //prevent checkbox/radio from being selectable
         var $realLabel = this.$container.find('.real-label');
-        $realLabel.on('mousedown.qti-widget, click.qti-widget', function(e){
-            var currentState = _this.getCurrentState();
-            if(currentState && currentState.name === 'question'){
-                e.preventDefault();
-            }
-        });
-        
-        $realLabel.find('input').prop('disabled', 'disabled');
+        $realLabel.children('input').prop('disabled', 'disabled');
     };
 
     return SimpleChoiceWidget;

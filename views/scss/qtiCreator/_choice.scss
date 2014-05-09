@@ -1,7 +1,7 @@
 @import "inc/bootstrap";
 .qti-choiceInteraction {
      .real-label input[disabled] ~ [class^="icon-"]{
-        cursor:default !important;
+        cursor:pointer !important;
     }
     .add-option{
         position:relative;

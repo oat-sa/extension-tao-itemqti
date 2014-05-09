@@ -1109,7 +1109,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_choice.scss */
     .tao-scope .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
-      cursor: default !important; }
+      cursor: pointer !important; }
     /* line 6, ../scss/qtiCreator/_choice.scss */
     .tao-scope .item-editor-item .qti-choiceInteraction .add-option {
       position: relative;
