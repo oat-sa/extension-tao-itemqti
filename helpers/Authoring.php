@@ -91,7 +91,7 @@ class Authoring
 
     public static function getAvailableAuthoringElements(){
         return array(
-            'Text' => array(
+            'Content Block' => array(
                 array('title' => __('Text Block'),
                     'icon' => 'font',
                     'short' => __('Text'),
@@ -101,6 +101,18 @@ class Authoring
                     'icon' => 'rubric',
                     'short' => __('Rubric'),
                     'qtiClass' => 'rubricBlock'
+                )
+            ),
+            'Content Element' => array(
+                array('title' => __('Image'),
+                    'icon' => 'image',
+                    'short' => __('Image'),
+                    'qtiClass' => 'img'
+                ),
+                array('title' => __('Media'),
+                    'icon' => 'media',
+                    'short' => __('Media'),
+                    'qtiClass' => 'object'
                 ),
                 array('title' => __('Math'),
                     'icon' => 'maths',
@@ -198,18 +210,6 @@ class Authoring
                     'icon' => 'select-point',
                     'short' => __('Select Point'),
                     'qtiClass' => 'selectPointInteraction'
-                )
-            ),
-            'Media' => array(
-                array('title' => __('Image'),
-                    'icon' => 'image',
-                    'short' => __('Image'),
-                    'qtiClass' => 'img'
-                ),
-                array('title' => __('Video'),
-                    'icon' => 'video',
-                    'short' => __('Video'),
-                    'qtiClass' => 'object.video'
                 )
             )
         );

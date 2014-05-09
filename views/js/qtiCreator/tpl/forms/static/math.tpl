@@ -25,9 +25,9 @@
 <div class="panel" data-role="latex" style="display:none;">
     <label for="">{{__ "Latex"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">Edit math expression using LaTex, e.g. x = {-b \pm \sqrt{b^2-4ac} \over 2a}</div>
+    <div class="tooltip-content">Edit math expression using LaTex typesetting system, e.g. e^{i \pi} = -1</div>
 
-    <input type="text" name="latex" value="{{latex}}"/>
+    <input type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
 </div>
 
 <div class="panel" data-role="mathml" style="display:none;">

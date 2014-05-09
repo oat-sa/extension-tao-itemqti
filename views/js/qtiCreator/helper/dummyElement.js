@@ -13,7 +13,7 @@ define([
                     width : 50,
                     height : 18
                 },
-                text: ' '
+                text: ''
             },
             image: {
                 css: {
@@ -21,7 +21,7 @@ define([
                     width : 150,
                     height : 100
                 },
-                text: 'Image'
+                text: ''
             },
             video: {
                 css: {
@@ -29,7 +29,7 @@ define([
                     width : 200,
                     height : 150
                 },
-                text: 'Video'
+                text: ''
             },
             media: {
                 css: {
@@ -37,7 +37,7 @@ define([
                     width : 150,
                     height : 100
                 },
-                text: 'Media'
+                text: ''
             }
         };
 

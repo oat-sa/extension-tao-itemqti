@@ -3,9 +3,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'nouislider'
-], function(stateFactory, Active, formTpl, formElement, _){
+], function(stateFactory, Active, formTpl, formElement, inlineHelper, _){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -72,7 +73,7 @@ define([
             responsive = true;
 
         $form.html(formTpl({
-            src : img.attr('view'),
+            src : img.attr('src'),
             alt : img.attr('alt'),
             longdesc : img.attr('longdesc'),
             height : img.attr('height') || '',
@@ -88,7 +89,11 @@ define([
 
         //init data change callbacks
         formElement.initDataBinding($form, img, {
-            src : formElement.getAttributeChangeCallback(),
+            src : function(img, value){
+                img.attr('src', value);
+                $img.attr('src', value);
+                inlineHelper.togglePlaceholder(_widget);
+            },
             alt : formElement.getAttributeChangeCallback(),
             longdesc : formElement.getAttributeChangeCallback(),
             align : function(img, value){
