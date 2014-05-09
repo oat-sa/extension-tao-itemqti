@@ -54,9 +54,10 @@ define([
                         var $heading = $(this),
                             $panel   = $heading.parents('section').find('hr, .panel'),
                             preserveOthers = !!(args && args.preserveOthers);
-
+                            
                         // whether or not to close other sections in the same sidebar
-                        if(!preserveOthers) {
+                        //@todo : to change the style to accordion
+                        if(false && !preserveOthers) {
                             $allPanels.not($panel).each(function() {
                                 var $panel = $(this),
                                     $heading = $panel.parent().find('h2');
@@ -87,8 +88,6 @@ define([
                 $(this).find('h2').trigger('click', { preserveOthers: !!preserveOthers })
             });
         };
-
-
 
         var initGui = function () {
 
@@ -121,7 +120,7 @@ define([
              * #sidebar-right-response-properties
              */
 
-            openSections($('#sidebar-left-section-text, #sidebar-left-section-block-interactions'), true);
+            openSections($('#sidebar-left-section-content-block, #sidebar-left-section-block-interactions'), true);
 
             elements.itemPanel.addClass('has-item');
 

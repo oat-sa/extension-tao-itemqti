@@ -45,8 +45,6 @@ define([
 
         preparePrint();
 
-//        $('#item-editor-panel').addClass('has-item');
-//        $('.item-editor-sidebar, #item-editor-toolbar-inner').fadeTo(2000, 1);
         editor.initGui();
     };
 
@@ -142,6 +140,7 @@ define([
                     break;
                 case 'choice':
                     $formChoicePanel.show();
+                    editor.openSections($formChoicePanel);
                     break;
                 case 'answer':
                     $formResponsePanel.show();
