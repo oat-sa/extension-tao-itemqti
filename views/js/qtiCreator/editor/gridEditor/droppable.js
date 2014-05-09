@@ -338,7 +338,7 @@ define([
         setInterval(function(){
 
             $el.animate({
-                opacity : 0.2
+                opacity : 0.1
             }, intervalDuration * 0.5, function(){
                 $el.animate({
                     opacity : 0.9
