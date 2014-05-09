@@ -13,6 +13,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
+    'taoQtiItem/qtiCreator/editor/editor'
 ], function(
     _,
     Element,
@@ -26,7 +27,8 @@ define([
     fontSizeChanger,
     itemResizer,
     styleEditor,
-    styleSheetToggler
+    styleSheetToggler,
+    editor
     ){
 
 
@@ -46,9 +48,7 @@ define([
 
         preparePrint();
 
-        $('#item-editor-panel').addClass('has-item');
-
-        $('.item-editor-sidebar, #item-editor-toolbar-inner').fadeTo(2000, 1);
+        editor.initGui();
 
     };
 
@@ -56,20 +56,13 @@ define([
 
         var $itemContainer = $('#item-editor-panel');
 
-        var _staticElements  = {
-            'img' : 'Image',
-            'object' : 'Media',
-            'rubricBlock' : 'Rubric Block',
-            'modalFeedback' : 'Modal Feedback',
-            'math' : 'Math'
-        };
-        
+        var _staticElements = ['img', 'object', 'rubricBlock', 'modalFeedback', 'math'];
+
         var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
             $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
             $formResponsePanel = $('#item-editor-response-property-bar').hide(),
             $formItemPanel = $('#item-editor-item-property-bar').show(),
             $formBodyElementPanel = $('#item-editor-body-element-property-bar').hide(),
-            $formTextBlockPanel = $('#item-editor-text-property-bar').hide(),
             $formStylePanel = $('#item-style-editor-bar').hide(),
             $appearanceToggler = $('#appearance-trigger');
 
@@ -80,7 +73,7 @@ define([
                 $appearanceToggler.addClass('active');
                 $formStylePanel.show();
                 $formItemPanel.hide();
-
+                
                 //current widget sleep:
                 $itemContainer.trigger('styleedit');
 
@@ -92,7 +85,7 @@ define([
         };
 
         $appearanceToggler.on('click', function(){
-
+            
             if($appearanceToggler.hasClass('active')){
                 _toggleAppearanceEditor(false);
             }else{
@@ -104,20 +97,13 @@ define([
 
             switch(state.name){
                 case 'active':
-                    
                     _toggleAppearanceEditor(false);
                     if(!Element.isA(element, 'assessmentItem')){
                         $formItemPanel.hide();
                     }
-                    
-                    var label = _staticElements[element.qtiClass];
-                    if(label){
-                        $formBodyElementPanel.find('h2').html(label+' Properties');
+                    if(_.indexOf(_staticElements, element.qtiClass) >= 0){
                         $formBodyElementPanel.show();
-                    }else if(element.qtiClass === '_container'){
-                        $formTextBlockPanel.show();
                     }
-                    
                     break;
                 case 'question':
                     $formInteractionPanel.show();
@@ -129,17 +115,11 @@ define([
                     $formResponsePanel.show();
                     break;
                 case 'sleep':
-                    
-                    if(_staticElements[element.qtiClass]){
+                    if(_.indexOf(_staticElements, element.qtiClass) >= 0){
                         $formBodyElementPanel.hide();
-                    }else if(element.qtiClass === '_container'){
-                        $formTextBlockPanel.hide();
                     }
-                    
                     if(!Element.isA(element, 'choice')){
-                        if(!$itemContainer.find('.widget-box.edit-active').length){
-                            $formItemPanel.show();
-                        }
+                        $formItemPanel.show();
                     }
                     break;
             }

@@ -95,7 +95,6 @@ use oat\taoQtiItem\helpers\Authoring;
                 <li id="appearance-trigger" data-widget="<?=__('Edit Widget')?>" data-item="<?=__('Edit Item')?>">
                     <span class="icon-edit"></span><span class="menu-label"><?=__('Appearance')?></span>
                 </li>
-                <!--<li><span class="icon-settings"></span><?=__('Settings')?></li>-->
             </ul>
         </div>
     </div>
@@ -104,12 +103,10 @@ use oat\taoQtiItem\helpers\Authoring;
         <!-- left sidebar -->
         <form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off">
 
-            <section class="tool-group clearfix">
-                <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues):
-                    ?>
+            <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues): ?>
 
-                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=$group?></h2>
-
+                <section class="tool-group clearfix">
+                    <h2><?=$group?></h2>
                     <div class="panel">
                         <ul class="tool-list plain">
                             <?php foreach($groupValues as $record):?>
@@ -125,8 +122,9 @@ use oat\taoQtiItem\helpers\Authoring;
 
                         </ul>
                     </div>
-                <?php endforeach;?>
-            </section>
+                </section>
+
+            <?php endforeach;?>
         </form>
         <!-- /left sidebar -->
 
@@ -135,7 +133,7 @@ use oat\taoQtiItem\helpers\Authoring;
             <div class="item-editor-item-related" id="item-style-editor-bar">
                 <section class="tool-group clearfix">
 
-                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Sheet Manager')?></h2>
+                    <h2><?=__('Style Sheet Manager')?></h2>
                     <div class="panel">
 
                         <ul class="none" id="style-sheet-toggler">
@@ -148,8 +146,11 @@ use oat\taoQtiItem\helpers\Authoring;
                         </ul>
                         <button id="stylesheet-uploader" class="btn-info small block"><?=__('Upload your own CSS')?></button>
                     </div>
+                </section>
 
-                    <h2 class="toggler" data-toggle="~ .panel, hr"><?=__('Style Editor')?></h2>
+                <section class="tool-group clearfix">
+
+                    <h2><?=__('Style Editor')?></h2>
 
                     <div class="panel color-picker-panel">
                         <div id="item-editor-color-picker" class="sidebar-popup-container-box">

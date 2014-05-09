@@ -174,6 +174,7 @@
             width: auto !important
         }
     }
+    
 
     .item-editor-sidebar {
         opacity: 0;
@@ -197,8 +198,19 @@
                 position: relative;
                 background: mix(#fff, $websiteBorder, 70%);
                 cursor: pointer;
+                .icon-down {
+                    display:none;
+                }
+                .icon-up {
+                    display:block;
+                }
                 &.closed {
-                    margin-bottom: 0;
+                    .icon-down {
+                        display:block;
+                    }
+                    .icon-up {
+                        display:none;
+                    }
                 }
                 span {
                     position: absolute;

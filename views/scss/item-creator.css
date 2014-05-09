@@ -320,6 +320,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           line-height: 53px;
           cursor: default;
           background: transparent; }
+    .tao-scope #item-editor-toolbar #appearance-trigger.active {
+      background: #EEE;
+      -webkit-box-shadow: inset 2px 2px 3px 2px #CCC;
+      box-shadow: inset 2px 2px 3px 2px #CCC; }
+      .tao-scope #item-editor-toolbar #appearance-trigger.active:hover {
+        color: #9a918a; }
+        .tao-scope #item-editor-toolbar #appearance-trigger.active:hover [class^="icon-"], .tao-scope #item-editor-toolbar #appearance-trigger.active:hover [class*=" icon-"] {
+          color: #9a918a; }
   .tao-scope #item-editor-wrapper {
     margin: 0;
     position: relative;
@@ -351,8 +359,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: relative;
       background: #dcdee1;
       cursor: pointer; }
-      .tao-scope .item-editor-sidebar .tool-group h2.closed {
-        margin-bottom: 0; }
+      .tao-scope .item-editor-sidebar .tool-group h2 .icon-down {
+        display: none; }
+      .tao-scope .item-editor-sidebar .tool-group h2 .icon-up {
+        display: block; }
+      .tao-scope .item-editor-sidebar .tool-group h2.closed .icon-down {
+        display: block; }
+      .tao-scope .item-editor-sidebar .tool-group h2.closed .icon-up {
+        display: none; }
       .tao-scope .item-editor-sidebar .tool-group h2 span {
         position: absolute;
         top: 9px;
@@ -640,7 +654,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       overflow-x: hidden;
       overflow-y: visible; }
   .tao-scope .dummy-element {
-    min-width: 100px;
+    min-width: 50px;
     border: 1px solid #dddddd;
     border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -856,6 +870,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: -6px; }
       .tao-scope .item-editor-item .widget-box.widget-inline {
         display: inline-block; }
+      .tao-scope .item-editor-item .widget-box.widget-block {
+        display: block; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice:not(th) {
         border: 1px solid transparent; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
@@ -1247,7 +1263,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     margin-right: 0px; }
     .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
       border: 1px dotted #0e5d91; }
-  .tao-scope .widget-textBlock [data-html-editable] {
+  .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] {
     min-height: 6rem; }
 
 .cke-cover-up {
