@@ -12,7 +12,9 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler'
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
+    // various dummy elements
+    'taoQtiItem/qtiCreator/editor/dummyElement'
 ], function(
     _,
     Element,
@@ -26,7 +28,8 @@ define([
     fontSizeChanger,
     itemResizer,
     styleEditor,
-    styleSheetToggler
+    styleSheetToggler,
+    dummyElement
     ){
 
 
@@ -49,6 +52,7 @@ define([
         $('#item-editor-panel').addClass('has-item');
 
         $('.item-editor-sidebar, #item-editor-toolbar-inner').fadeTo(2000, 1);
+
     };
 
     var _initFormVisibilityListener = function(){

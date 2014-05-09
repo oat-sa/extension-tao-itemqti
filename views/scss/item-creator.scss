@@ -146,7 +146,7 @@
                     color:mix(#fff, $darkBrown, 30%);
                     [class^="icon-"], [class*=" icon-"] {
                         color: mix(#fff, $darkBrown, 30%);
-                    }
+    }
                 }
                 background:#EEE;
                 -webkit-box-shadow:inset 2px 2px 3px 2px #CCC;
@@ -174,13 +174,13 @@
             width: auto !important
         }
     }
-    
+
     .item-editor-sidebar {
         opacity: 0;
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
         position: absolute;
-        // overflow: hidden;
+       // overflow: hidden;
         top: 0;
         right: 0;
         .tool-group {
@@ -445,7 +445,7 @@
             width: 100%
         }
         
-        
+
         #item-editor-color-picker {
             .color-trigger {
                 width: 40px;
@@ -468,11 +468,11 @@
                 margin-top: -5px
             }
         }
-        
+
         .sidebar-popup-container-box {
             position: relative;
         }
-        
+
         .sidebar-popup  {
             background: mix(#fff, $grey, 85%);
             padding: 3px;
@@ -489,8 +489,8 @@
                 right: 2px;
             }
         }
-        
-        
+
+
         #math-editor-container {
             top: -285px;
             textarea {
@@ -576,8 +576,22 @@
             overflow-y: visible;
         }
     }
-    
-    
+
+    .dummy-element {
+        min-width: 100px;
+        @include simple-border();
+        background-color: white;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        font-style: italic;
+        color: #D2D2D2;
+        padding: 2px 4px;
+        display: inline-block;
+        line-height: 20px
+    }
+
+
     .qti-item {
         padding: 15px;
         background: white();
@@ -891,5 +905,5 @@
     [data-edit], .mini-tlb {
         display:none
     }
-    ;
+;
 }

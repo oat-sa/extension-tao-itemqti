@@ -639,6 +639,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       min-height: 100px;
       overflow-x: hidden;
       overflow-y: visible; }
+  .tao-scope .dummy-element {
+    min-width: 100px;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-style: italic;
+    color: #D2D2D2;
+    padding: 2px 4px;
+    display: inline-block;
+    line-height: 20px; }
   .tao-scope .qti-item {
     padding: 15px;
     background: white;
