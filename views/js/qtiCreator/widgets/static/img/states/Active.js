@@ -93,6 +93,7 @@ define([
                 img.attr('src', value);
                 $img.attr('src', value);
                 inlineHelper.togglePlaceholder(_widget);
+                _initSlider(_widget);
             },
             alt : formElement.getAttributeChangeCallback(),
             longdesc : formElement.getAttributeChangeCallback(),
@@ -139,9 +140,9 @@ define([
                 max : 200
             },
             start : 100
-        });
+        }, $slider.hasClass('noUi-target'));
 
-        $slider.on('slide', _.throttle(function(e, value){
+        $slider.off('slide').on('slide', _.throttle(function(e, value){
 
             var ratio = (value / 100),
                 w = parseInt(ratio * original.w),
