@@ -274,8 +274,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     overflow: hidden;
     padding-left: 180px;
     height: 50px; }
-    .tao-scope #item-editor-toolbar #item-editor-toolbar-inner {
-      display: none; }
     .tao-scope #item-editor-toolbar #item-editor-logo {
       text-indent: -1000px;
       overflow: hidden;
@@ -315,25 +313,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           color: white;
           background: #ba122b; }
           .tao-scope #item-editor-toolbar ul li:hover [class^="icon-"], .tao-scope #item-editor-toolbar ul li:hover [class*=" icon-"] {
-            color: white; }
-        .tao-scope #item-editor-toolbar ul li .active {
+            color: white;
+            text-shadow: none !important; }
+        .tao-scope #item-editor-toolbar ul li.active {
           color: white;
           background: #7d7269; }
-          .tao-scope #item-editor-toolbar ul li .active [class^="icon-"], .tao-scope #item-editor-toolbar ul li .active [class*=" icon-"] {
+          .tao-scope #item-editor-toolbar ul li.active [class^="icon-"], .tao-scope #item-editor-toolbar ul li.active [class*=" icon-"] {
             color: white;
             text-shadow: none !important; }
         .tao-scope #item-editor-toolbar ul li#item-editor-status {
           line-height: 53px;
           cursor: default;
           background: transparent; }
-    .tao-scope #item-editor-toolbar #appearance-trigger.active {
-      background: #EEE;
-      -webkit-box-shadow: inset 2px 2px 3px 2px #CCC;
-      box-shadow: inset 2px 2px 3px 2px #CCC; }
-      .tao-scope #item-editor-toolbar #appearance-trigger.active:hover {
-        color: #9a918a; }
-        .tao-scope #item-editor-toolbar #appearance-trigger.active:hover [class^="icon-"], .tao-scope #item-editor-toolbar #appearance-trigger.active:hover [class*=" icon-"] {
-          color: #9a918a; }
   .tao-scope #item-editor-wrapper {
     margin: 0;
     position: relative;
@@ -344,7 +335,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     min-width: 0 !important;
     width: auto !important; }
   .tao-scope .item-editor-sidebar {
-    opacity: 0;
+    opacity: 1;
     background: #f2f0ee;
     border-bottom: 1px white solid;
     position: absolute;

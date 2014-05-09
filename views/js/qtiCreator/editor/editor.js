@@ -38,10 +38,12 @@ define([
                         var $currTrigger = $(this),
                             preserveOthers = !!(args && args.preserveOthers);
                         // whether or not to close other sections in the same sidebar
+
                         if(!preserveOthers) {
                             $allPanels.not($panel).slideUp();
                             $allTriggers.not($currTrigger).addClass('closed');
                         }
+
                         if($currTrigger.hasClass('closed')) {
                             $currTrigger.removeClass('closed');
                             $panel.slideDown();
@@ -91,7 +93,8 @@ define([
 
             // display toolbar and sidebar
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
-            elements.sidebars.add(elements.toolbarInner).show().css('opacity', 1);
+            //elements.sidebars.add(elements.toolbarInner).show().css('opacity', 1);
+            //console.log(elements.sidebars.add(elements.toolbarInner))
         };
 
         return {

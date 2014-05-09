@@ -86,7 +86,7 @@
         padding-left: $sidebarWidth * 1px;
         height: $toolbarHeight * 1px;
         #item-editor-toolbar-inner {
-            display: none;
+            //display: none;
         }
         #item-editor-logo {
             text-indent: -1000px;
@@ -131,9 +131,10 @@
                     background: $logoRed;
                     [class^="icon-"], [class*=" icon-"] {
                         color: white();
+                        text-shadow: none !important
                     }
                 }
-                .active {
+                &.active {
                     color: white();
                     background: mix(#fff, $darkBrown, 10%);
                     [class^="icon-"], [class*=" icon-"] {
@@ -147,19 +148,6 @@
                     cursor: default;
                     background: transparent
                 }
-            }
-        }
-        #appearance-trigger{
-            &.active {
-                &:hover{
-                    color:mix(#fff, $darkBrown, 30%);
-                    [class^="icon-"], [class*=" icon-"] {
-                        color: mix(#fff, $darkBrown, 30%);
-    }
-                }
-                background:#EEE;
-                -webkit-box-shadow:inset 2px 2px 3px 2px #CCC;
-                box-shadow:inset 2px 2px 3px 2px #CCC;
             }
         }
     }
@@ -186,7 +174,8 @@
 
 
     .item-editor-sidebar {
-        opacity: 0;
+        // @todo reset to 0
+        opacity: 1;
         background: mix(#fff, $grey, 85%);
         border-bottom: 1px white solid;
         position: absolute;
