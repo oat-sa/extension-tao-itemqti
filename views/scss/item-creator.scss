@@ -126,13 +126,22 @@
                     display: block;
                     text-decoration: none;
                 }
-                &:hover, .active {
+                &:hover {
                     color: white();
                     background: $logoRed;
                     [class^="icon-"], [class*=" icon-"] {
                         color: white();
                     }
                 }
+                .active {
+                    color: white();
+                    background: mix(#fff, $darkBrown, 10%);
+                    [class^="icon-"], [class*=" icon-"] {
+                        color: white();
+                        text-shadow: none !important
+                    }
+                }
+
                 &#item-editor-status {
                     line-height: 53px;
                     cursor: default;
@@ -174,7 +183,7 @@
             width: auto !important
         }
     }
-    
+
 
     .item-editor-sidebar {
         opacity: 0;

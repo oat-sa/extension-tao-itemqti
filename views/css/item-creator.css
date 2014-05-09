@@ -311,11 +311,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         .tao-scope #item-editor-toolbar ul li a {
           display: block;
           text-decoration: none; }
-        .tao-scope #item-editor-toolbar ul li:hover, .tao-scope #item-editor-toolbar ul li .active {
+        .tao-scope #item-editor-toolbar ul li:hover {
           color: white;
           background: #ba122b; }
-          .tao-scope #item-editor-toolbar ul li:hover [class^="icon-"], .tao-scope #item-editor-toolbar ul li:hover [class*=" icon-"], .tao-scope #item-editor-toolbar ul li .active [class^="icon-"], .tao-scope #item-editor-toolbar ul li .active [class*=" icon-"] {
+          .tao-scope #item-editor-toolbar ul li:hover [class^="icon-"], .tao-scope #item-editor-toolbar ul li:hover [class*=" icon-"] {
             color: white; }
+        .tao-scope #item-editor-toolbar ul li .active {
+          color: white;
+          background: #7d7269; }
+          .tao-scope #item-editor-toolbar ul li .active [class^="icon-"], .tao-scope #item-editor-toolbar ul li .active [class*=" icon-"] {
+            color: white;
+            text-shadow: none !important; }
         .tao-scope #item-editor-toolbar ul li#item-editor-status {
           line-height: 53px;
           cursor: default;
