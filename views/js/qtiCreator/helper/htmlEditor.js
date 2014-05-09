@@ -210,15 +210,7 @@ define([
 
             var $widget = $(this);
             var targetWidgetSerial = $widget.data('widget').serial;
-            var $shield = $('<button>', {}).css({
-                position : 'absolute',
-                top : 0,
-                left : 0,
-                width : '100%',
-                height : '100%',
-                zIndex : 999,
-                opacity : 0.1
-            });
+            var $shield = $('<button>', {'class':'html-editable-shield'});
 
             $widget.attr('contenteditable', false);
             $widget.append($shield);

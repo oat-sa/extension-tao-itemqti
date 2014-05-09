@@ -43,9 +43,9 @@ define([
 
         Widget.initCreator.call(this);
 
-        //create toolbar and hide it
         this.createToolbar();
         this.createOkButton();
+        this.listenToChoiceStates();
     };
 
     /**
@@ -134,6 +134,27 @@ define([
             e.stopPropagation();
             _this.changeState('sleep');
         }));
+    };
+
+    InteractionWidget.listenToChoiceStates = function(){
+
+        var _this = this;
+
+        this.afterStateInit(function(e, element, state){
+
+            if(element.is('choice')
+                && _this.element.getChoice(element.getSerial())
+                && state.name !== _this.getCurrentState().name){
+
+                switch(state.name){
+                    case 'choice':
+                        _this.changeState(state.name);
+                        break;
+                }
+
+            }
+        });
+
     };
 
     return InteractionWidget;

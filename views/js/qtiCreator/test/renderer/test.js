@@ -53,7 +53,8 @@ define([
                             choiceOptionForm : $choiceForm,
                             responseOptionForm : $responseForm,
                             bodyElementOptionForm : $bodyElementForm,
-                            itemOptionForm : $()
+                            itemOptionForm : $(),
+                            textOptionForm : $()
                         });
 
                         creatorRenderer.load(function(){

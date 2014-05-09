@@ -12,11 +12,12 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
         this.interaction = this.element.getInteraction();
 
-        var _this = this;
+        this.listenToInteractionStates();
+    };
 
-        /**
-         * init event binding
-         */
+    ChoiceWidget.listenToInteractionStates = function(){
+
+        var _this = this;
 
         //follow interaction state change
         this.afterStateInit(function(e, element, state){

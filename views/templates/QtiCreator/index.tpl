@@ -8,13 +8,6 @@ use oat\taoQtiItem\helpers\Authoring;
 <style>
 
     /* style to be integrated */
-    .dropping{
-        margin-left: -1.42857%;
-        margin-right: 1.42857%;
-    }
-    .new-col:first-child{
-        margin-left: 1.42857%;
-    }
 
     /* style to be checked */
     .qti-droppable-ready{outline: 1px solid green;}
