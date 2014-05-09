@@ -52,7 +52,8 @@ define([
                             interactionOptionForm : $interactionForm,
                             choiceOptionForm : $choiceForm,
                             responseOptionForm : $responseForm,
-                            bodyElementOptionForm : $bodyElementForm
+                            bodyElementOptionForm : $bodyElementForm,
+                            itemOptionForm : $()
                         });
 
                         creatorRenderer.load(function(){
