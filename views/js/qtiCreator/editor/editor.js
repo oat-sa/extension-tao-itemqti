@@ -1,8 +1,8 @@
 define([
     'jquery'
 ], function ($) {
-    'use strict'
-
+    
+    'use strict';
 
     var editor = (function () {
 
@@ -63,7 +63,7 @@ define([
                                     $heading = $panel.parent().find('h2');
 
                                 $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
-                            })
+                            });
                         }
 
                         if($heading.hasClass('closed')) {
@@ -72,7 +72,7 @@ define([
                         else {
                             $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
                         }
-                    })
+                    });
 
                 });
             });
@@ -85,7 +85,7 @@ define([
          */
         var openSections = function(sections, preserveOthers) {
             sections.each(function(){
-                $(this).find('h2').trigger('click', { preserveOthers: !!preserveOthers })
+                $(this).find('h2').trigger('click', { preserveOthers: !!preserveOthers });
             });
         };
 
@@ -131,7 +131,7 @@ define([
         return {
             initGui: initGui,
             openSections: openSections
-        }
+        };
 
     }());
     return editor;

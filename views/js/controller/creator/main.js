@@ -137,10 +137,11 @@ define([
                     break;
                 case 'question':
                     $formInteractionPanel.show();
+                    editor.openSections($formInteractionPanel.children('section'));//@todo fix toggle
                     break;
                 case 'choice':
                     $formChoicePanel.show();
-                    editor.openSections($formChoicePanel);
+                    editor.openSections($formChoicePanel.children('section'));//@todo fix toggle
                     break;
                 case 'answer':
                     $formResponsePanel.show();
