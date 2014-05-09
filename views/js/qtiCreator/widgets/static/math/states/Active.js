@@ -55,7 +55,6 @@ define([
     MathActive.prototype.initFormChangeListener = function(){
 
         var _widget = this.widget,
-            $container = _widget.$container,
             $form = _widget.$form,
             math = _widget.element,
             mathML = math.mathML,
@@ -78,11 +77,14 @@ define([
             display : function(m, value){
                 if(value === 'block'){
                     m.attr('display', 'block');
-                    $container.removeClass('widget-inline').addClass('widget-block');
                 }else{
                     m.removeAttr('display');
-                    $container.removeClass('widget-block').addClass('widget-inline');
                 }
+                _widget.rebuild({
+                    ready:function(widget){
+                        widget.changeState('active');
+                    }
+                });
             },
             editMode : function(m, value){
 
