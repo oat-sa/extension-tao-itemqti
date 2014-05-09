@@ -30,6 +30,7 @@ define([
         
         options = options || {};
         options.state = 'active';//the item widget never sleeps ! <- this sounds very scary!
+        options.renderer = this;
         
         return Widget.build(
             item,

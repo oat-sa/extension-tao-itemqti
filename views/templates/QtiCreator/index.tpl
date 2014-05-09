@@ -253,7 +253,13 @@ use oat\taoQtiItem\helpers\Authoring;
             </div>
             <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
                 <section class="tool-group clearfix">
-                    <h2><?=__('Body Element Properties')?></h2>
+                    <h2>Body Element Properties</h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
+            <div class="item-editor-item-related" id="item-editor-text-property-bar">
+                <section class="tool-group clearfix">
+                    <h2><?=__('Text Block Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>

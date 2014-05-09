@@ -8,7 +8,7 @@ define([
 
     tools.listenStateChange = function() {
 
-        $(document).on('beforeStateInit.qti-widget', function(e, element, state) {
+        $(document).on('afterStateInit.qti-widget', function(e, element, state) {
             console.log('->state : ' + state.name + ' : ' + element.serial);
         });
 

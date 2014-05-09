@@ -56,13 +56,20 @@ define([
 
         var $itemContainer = $('#item-editor-panel');
 
-        var _staticElements = ['img', 'object', 'rubricBlock', 'modalFeedback', 'math'];
-
+        var _staticElements  = {
+            'img' : 'Image',
+            'object' : 'Media',
+            'rubricBlock' : 'Rubric Block',
+            'modalFeedback' : 'Modal Feedback',
+            'math' : 'Math'
+        };
+        
         var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
             $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
             $formResponsePanel = $('#item-editor-response-property-bar').hide(),
             $formItemPanel = $('#item-editor-item-property-bar').show(),
             $formBodyElementPanel = $('#item-editor-body-element-property-bar').hide(),
+            $formTextBlockPanel = $('#item-editor-text-property-bar').hide(),
             $formStylePanel = $('#item-style-editor-bar').hide(),
             $appearanceToggler = $('#appearance-trigger');
 
@@ -97,13 +104,20 @@ define([
 
             switch(state.name){
                 case 'active':
+                    
                     _toggleAppearanceEditor(false);
                     if(!Element.isA(element, 'assessmentItem')){
                         $formItemPanel.hide();
                     }
-                    if(_.indexOf(_staticElements, element.qtiClass) >= 0){
+                    
+                    var label = _staticElements[element.qtiClass];
+                    if(label){
+                        $formBodyElementPanel.find('h2').html(label+' Properties');
                         $formBodyElementPanel.show();
+                    }else if(element.qtiClass === '_container'){
+                        $formTextBlockPanel.show();
                     }
+                    
                     break;
                 case 'question':
                     $formInteractionPanel.show();
@@ -115,11 +129,17 @@ define([
                     $formResponsePanel.show();
                     break;
                 case 'sleep':
-                    if(_.indexOf(_staticElements, element.qtiClass) >= 0){
+                    
+                    if(_staticElements[element.qtiClass]){
                         $formBodyElementPanel.hide();
+                    }else if(element.qtiClass === '_container'){
+                        $formTextBlockPanel.hide();
                     }
+                    
                     if(!Element.isA(element, 'choice')){
-                        $formItemPanel.show();
+                        if(!$itemContainer.find('.widget-box.edit-active').length){
+                            $formItemPanel.show();
+                        }
                     }
                     break;
             }

@@ -8,7 +8,8 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer'], function(Renderer){
         interactionOptionForm : $('#item-editor-interaction-property-bar .panel'),
         choiceOptionForm : $('#item-editor-choice-property-bar .panel'),
         responseOptionForm : $('#item-editor-response-property-bar .panel'),
-        bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel')
+        bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel'),
+        textOptionForm : $('#item-editor-text-property-bar .panel')
     });
     
     return {

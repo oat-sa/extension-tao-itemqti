@@ -10,15 +10,16 @@ define([
             maths: {
                 css: {
                     backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-maths.png)',
-                    width : 200
+                    width : 50,
+                    height : 18
                 },
-                text: 'Maths'
+                text: ' '
             },
             image: {
                 css: {
                     backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-image.png)',
-                    width : 200,
-                    height : 150
+                    width : 150,
+                    height : 100
                 },
                 text: 'Image'
             },
@@ -33,8 +34,8 @@ define([
             media: {
                 css: {
                     backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-media.png)',
-                    width : 200,
-                    height : 150
+                    width : 150,
+                    height : 100
                 },
                 text: 'Media'
             }

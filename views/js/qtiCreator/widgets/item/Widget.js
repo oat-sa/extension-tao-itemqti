@@ -27,6 +27,9 @@ define([
         if(!config || !config.uri){
             throw new Error('missing required config parameter uri in item widget initialization');
         }
+        
+        this.renderer = config.renderer;
+        
         this.itemUri = config.uri;
 
         this.initUiComponents();
@@ -78,7 +81,8 @@ define([
 
     ItemWidget.initGridEditor = function(){
 
-        var item = this.element,
+        var _this = this,
+            item = this.element,
             $itemBody = this.$container.find('.qti-itemBody');
 
         $itemBody.gridEditor();
@@ -134,7 +138,7 @@ define([
 
                         if(Element.isA(elt, '_container')){
                             $colParent.empty();//clear the col content, and leave an empty text field
-                            widget = _initTextWidget(elt, $colParent);
+                            widget = _this.initTextWidget(elt, $colParent);
                             $widget = widget.$container;
                         }else{
                             widget = elt.postRender();
@@ -168,39 +172,10 @@ define([
 
     };
 
-    var _renderElementWidget = function(element, $placeholder){
-
-        var $widget,
-            widget,
-            $colParent = $placeholder.parent();
-
-        element.render($placeholder);
-
-        if(Element.isA(element, '_container')){
-            $colParent.empty();//clear the col content, and leave an empty text field
-            widget = _initTextWidget(element, $colParent);
-            $widget = widget.$container;
-        }else{
-            widget = element.postRender();
-            if(Element.isA(element, 'blockInteraction')){
-                $widget = widget.$container;
-            }else{
-                //leave the container in place
-                $widget = widget.$original;
-            }
-        }
-
-        //inform height modification
-        $widget.trigger('contentChange.gridEdit');
-
-        //active it right away:
-        widget.changeState('active');
-
-    };
-
     ItemWidget.initTextWidgets = function(){
 
-        var item = this.element,
+        var _this = this,
+            item = this.element,
             $originalContainer = this.$container,
             i = 1,
             subContainers = [];
@@ -257,7 +232,7 @@ define([
 
                     container.setElements(containerElements, containerData.body);
 
-                    _initTextWidget(container, containerData.$original);
+                    _this.initTextWidget(container, containerData.$original);
                 });
             }
         });
@@ -273,9 +248,9 @@ define([
         return containerElements;
     };
 
-    var _initTextWidget = function(container, $col){
+    ItemWidget.initTextWidget = function(container, $col){
 
-        return TextWidget.build(container, $col, null, {});
+        return TextWidget.build(container, $col, this.renderer.getOption('textOptionForm'), {});
     };
 
     ItemWidget.debug = function(){

@@ -578,7 +578,7 @@
     }
 
     .dummy-element {
-        min-width: 100px;
+        min-width: 50px;
         @include simple-border();
         background-color: white;
         background-position: center;
@@ -844,7 +844,7 @@
             }
         }
     }
-    .widget-textBlock{
+    .widget-rubricBlock, .widget-textBlock{
         [data-html-editable]{
             min-height: 6rem;
         }

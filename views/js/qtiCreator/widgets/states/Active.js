@@ -25,8 +25,6 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
         this.widget.$container.off('.active');
         $('#item-editor-panel').off('.active');
         
-        this.widget.offEvents('otherActive');
-        
         itemWidget.$container.off('.active');
     });
 });
