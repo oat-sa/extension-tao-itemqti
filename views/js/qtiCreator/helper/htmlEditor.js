@@ -114,6 +114,8 @@ define([
                         widgets = _rebuildWidgets(options.data.element, $editable);
                         _shieldInnerContent($editable, options.data.widget);
                     }
+                    
+                    $editable.trigger('editorready');
                 },
                 focus : function(e){
 

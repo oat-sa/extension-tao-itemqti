@@ -1,9 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/text/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock',
-    'taoQtiItem/qtiCreator/helper/htmlEditor'
-], function(Widget, states, toolbarTpl, htmlEditor){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
+], function(Widget, states, toolbarTpl){
 
     var TextWidget = Widget.clone();
 

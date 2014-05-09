@@ -103,7 +103,6 @@ define([
 
                 var distributedUnits = $row.data('distributed-units');
                 var $newCol = (location === 'left') ? $col.prev() : $col.next();
-                console.log('betwee', location);
                 _appendPlaceholder($newCol);
 
                 if(distributedUnits.refactoredTotalUnits > 12){
@@ -202,7 +201,6 @@ define([
             _resetColsHeight($previousCol, false);//recalculate the height of the previously located row
 
             var $newCol = $el.find('.new-col:last').css('background', '1px solid red');
-            console.log('new empty');
             _appendPlaceholder($newCol);
             $newCol.addClass('col-12');
 
