@@ -18,13 +18,14 @@ define([
             
         }, 'otherActive');
         
-        //@todo : fix this
         $container.on('mouseenter.active', function(e){
             e.stopPropagation();
             $container.parent().trigger('mouseleave.sleep');
         }).on('mouseleave.active', function(e){
             e.stopPropagation();
             $container.parent().trigger('mouseenter.sleep');
+        }).on('click.active', function(e){
+            e.stopPropagation();
         });
         
     }, function(){
