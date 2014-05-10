@@ -43,8 +43,11 @@ define([
         //init selectboxes
         $form.find('select[name=display]').val(display);
         $form.find('select[name=editMode]').val(editMode);
+        
+        console.log('todo : fix edit form visibility according to math editMode', editMode);
         $form.children('.panel[data-role="' + editMode + '"]').show();
-
+        _toggleMode($form, editMode);
+        
         //... init standard ui widget
         formElement.initWidget($form);
 

@@ -120,7 +120,7 @@ define([
              * #sidebar-right-response-properties
              */
 
-            openSections($('#sidebar-left-section-content-block, #sidebar-left-section-block-interactions'), true);
+            openSections($('#sidebar-left-section-content-block, #sidebar-left-section-content-element, #sidebar-left-section-block-interactions'), true);
 
             elements.itemPanel.addClass('has-item');
 

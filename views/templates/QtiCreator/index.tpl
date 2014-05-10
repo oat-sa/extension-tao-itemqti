@@ -8,7 +8,8 @@ use oat\taoQtiItem\helpers\Authoring;
 <style>
 
     /* style to be integrated */
-
+    [data-role="latex"], [data-role="mathml"] {display:none;}
+    
     /* style to be checked */
     .qti-droppable-ready{outline: 1px solid green;}
     .qti-droppable-active{outline: 1px solid yellow;}

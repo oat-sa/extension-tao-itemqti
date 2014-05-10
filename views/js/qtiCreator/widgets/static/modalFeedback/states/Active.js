@@ -7,6 +7,7 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/w
         
         $container.modal({startClosed:true});
         $container.modal('open');
+        console.log('todo : issue : modal open does not work in ic, but test only');
         $container.on('closed.modal', function(){
             _widget.changeState('sleep');
         });
