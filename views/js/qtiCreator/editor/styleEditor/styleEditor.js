@@ -51,9 +51,12 @@ define([
             }()),
             currentItem,
             common = {
-                title: __('Disable this style sheet temporarily'),
-                deleteTxt: __('Delete this style sheet'),
-                editLabelTxt: __('Edit style sheet label'),
+                title: __('Disable this stylesheet temporarily'),
+                deleteTxt: __('Delete this stylesheet'),
+                editLabelTxt: __('Edit stylesheet label'),
+                downloadTxt: __('Download this stylesheet'),
+                preparingMessageHtml: __('Preparing CSS, please wait…'),
+                failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
                 listing: $('#style-sheet-toggler')
             },
             customStylesheet = '';
@@ -160,14 +163,14 @@ define([
         /**
          * Download CSS as file
          */
-        var download = function() {
+        var download = function(uri) {
             verifyInit();
             $.fileDownload(_getUri('download'), {
-                preparingMessageHtml: __('We are preparing your CSS, please wait...'),
-                failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
+                preparingMessageHtml: common.preparingMessageHtml,
+                failMessageHtml: common.failMessageHtml,
                 successCallback: function () { },
                 httpMethod: 'POST',
-                data: _.extend({}, itemConfig, { cssJson: JSON.stringify(style) })
+                data: _.extend({}, itemConfig, { stylesheetUri: uri })
             });
         };
 
@@ -213,6 +216,7 @@ define([
                 label: (stylesheet.attr('title') || fileName),
                 title: common.title,
                 deleteTxt: common.deleteTxt,
+                downloadTxt: common.downloadTxt,
                 editLabelTxt: common.editLabelTxt
             });
 
@@ -246,9 +250,6 @@ define([
                 // add those that are loaded synchronously
                 addStylesheet(currentItem.stylesheets[key]);
             }
-
-
-            $('[data-role="css-download"]').on('click', download);
 
             // if no custom css had been found, add empty stylesheet anyway
             if(!customStylesheet) {
@@ -309,6 +310,7 @@ define([
         return {
             apply: apply,
             save: save,
+            download: download,
             erase: erase,
             init: init,
             create: create,

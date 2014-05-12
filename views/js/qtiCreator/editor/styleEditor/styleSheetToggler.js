@@ -2,20 +2,22 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'i18n',
+    'helpers',
+    'lodash',
     'ui/resourcemgr'
-], function ($, styleEditor, __, resourcemgr) {
+], function ($, styleEditor, __, helpers, _) {
     'use strict'
 
     var styleSheetToggler = (function () {
 
-        var init = function() {
+        var init = function (itemConfig) {
 
             var cssToggler = $('#style-sheet-toggler'),
                 uploader = $('#stylesheet-uploader'),
                 customCssToggler = $('[data-custom-css]'),
-                getContext = function(icon) {
+                getContext = function (icon) {
                     icon = $(icon);
-                    var li = icon.parent(),
+                    var li = icon.closest('li'),
                         cssUri = li.data('css-res'),
                         isDisabled = li.find('.icon-preview').hasClass('disabled'),
                         isCustomCss = !!li.data('custom-css');
@@ -31,54 +33,76 @@ define([
                 };
 
 
-//            uploader.resourcemgr({
-//                type : 'text/css',
-//                create : function (e){
-//
-//                },
-//                select : function(e, uris){
-//                    var i, l = uris.length;
-//                    for(i = 0; i < l; i++) {
-//                        styleEditor.addStylesheet(uris[i]);
-//                    }
-//                }
-//            });
+            /**
+             * Upload custom stylesheets
+             */
+            uploader.on('click', function () {
+
+                uploader.resourcemgr({
+                    appendContainer: '#item-editor-panel',
+                    type: 'text/css',
+                    root: '/',
+                    browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
+                    uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
+                    deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),
+                    downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
+                    params: {
+                        uri: itemConfig.uri,
+                        lang: itemConfig.lang
+                    },
+                    pathParam: 'path',
+                    select: function (e, uris) {
+                        var i, l = uris.length;
+                        for (i = 0; i < l; i++) {
+                            styleEditor.addStylesheet(uris[i]);
+                        }
+                    }
+                });
+            });
 
             /**
              * Delete existing style sheet resp. custom styles
              */
-            cssToggler.find('span.icon-bin').on('click', function() {
-                var context = getContext(this),
+            var deleteStylesheet = function (trigger) {
+                var context = getContext(trigger),
                     attr = context.isDisabled ? 'disabled-href' : 'href';
 
-                if(confirm(__('Are you sure you want to delete this stylesheet?\nWarning: This action cannot be undone!'))) {
+                if (confirm(__('Are you sure you want to delete this stylesheet?\nWarning: This action cannot be undone!'))) {
                     styleEditor.getItem().remove();
                     $('link[' + attr + '$="' + context.cssUri + '"]').remove();
                     context.li.remove();
                 }
-            });
+            };
 
 
             /**
              * Modify stylesheet title (enable)
              */
-            cssToggler.find('span.file-label').on('click', function() {
-                var label = $(this),
+            var initLabelEditor = function (trigger) {
+                var label = $(trigger),
                     input = label.next('.style-sheet-label-editor');
                 label.hide();
                 input.show();
-            });
-
+            };
 
             /**
-             * Modify stylesheet title (edit)
+             * Download current stylesheet
+             *
+             * @param trigger
              */
-            cssToggler.find('.style-sheet-label-editor').on('blur', function() {
-                var input = $(this),
+            var downloadStylesheet = function(trigger) {
+                styleEditor.download(getContext(trigger).cssUri);
+            };
+
+            /**
+             * Modify stylesheet title (save modification)
+             */
+            var saveLabel = function (trigger) {
+                var input = $(trigger),
                     label = input.prev('.file-label'),
                     title = $.trim(input.val());
 
-                if(!title) {
+                if (!title) {
                     styleEditor.getItem().attr('title', '');
                     return false;
                 }
@@ -86,27 +110,20 @@ define([
                 styleEditor.getItem().attr('title', title);
                 input.hide();
                 label.html(title).show();
-            }).on('keydown', function(e) {
-                var c = e.keyCode;
-                if(c === 13) {
-                    $(this).trigger('blur');
-                }
-            });
-
-
+            };
 
             /**
              * Dis/enable style sheets
              */
-            cssToggler.find('span.icon-preview').on('click', function() {
-                var context = getContext(this),
+            var handleAvailability = function (trigger) {
+                var context = getContext(trigger),
                     link,
                     attrTo = 'disabled-href',
                     attrFrom = 'href';
 
                 // custom styles are handled in a style element, not in a link
-                if(context.isCustomCss) {
-                    if(context.isDisabled) {
+                if (context.isCustomCss) {
+                    if (context.isDisabled) {
                         styleEditor.create();
                         customCssToggler.removeClass('not-available');
                     }
@@ -117,7 +134,7 @@ define([
                 }
                 // all other styles are handled via their link element
                 else {
-                    if(context.isDisabled) {
+                    if (context.isDisabled) {
                         attrTo = 'href';
                         attrFrom = 'disabled-href';
                     }
@@ -128,7 +145,48 @@ define([
 
                 // add some visual feed back to the triggers
                 context.icon.toggleClass('disabled');
+            };
+
+            /**
+             * Distribute click events
+             */
+            cssToggler.on('click', function (e) {
+                var target = e.target,
+                    className = target.className;
+
+                // distribute actions
+                if (className.indexOf('icon-bin') > -1) {
+                    deleteStylesheet(e.target);
+                }
+                else if (className.indexOf('file-label') > -1) {
+                    initLabelEditor(e.target);
+                }
+                else if (className.indexOf('icon-preview') > -1) {
+                    handleAvailability(e.target)
+                }
+                else if(className.indexOf('icon-download') > -1) {
+                    downloadStylesheet(e.target);
+                }
             });
+
+
+            /**
+             * Handle renaming on enter
+             */
+            cssToggler.on('keydown', 'input', function (e) {
+                if (e.keyCode === 13) {
+                    $(e.target).trigger('blur');
+                }
+            });
+
+            /**
+             * Handle renaming on blur
+             */
+            cssToggler.on('blur', 'input', function (e) {
+                saveLabel(e.target)
+            });
+
+
         };
 
         return {

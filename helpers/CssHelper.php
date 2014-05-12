@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\helpers;
 class CssHelper{
 
     private static function _buildWarning() {
-       return <<<EOF
+        return <<<EOF
                                   /*
                                  /  \
                                 |    |
@@ -51,7 +51,7 @@ EOF;
 
     /**
      * Stores an css array in the file
-     * 
+     *
      * @param \core_kernel_classes_resource $item
      * @param string $lang
      * @param string $styleSheetPath
@@ -59,17 +59,33 @@ EOF;
      * @return boolean true on success
      */
     public static function saveCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath, $cssArr){
-        
+
         $service = \taoItems_models_classes_ItemsService::singleton();
         $cssFile  = $service->getItemFolder($item, $lang) . $styleSheetPath;
 
         if(empty($cssArr)) {
             unlink($cssFile);
         }
-        
+
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
         $count = file_put_contents($cssFile, $css);
         return $count > 0;
+    }
+
+    /**
+     * Download existing CSS file
+     *
+     * @param \core_kernel_classes_resource $item
+     * @param string $lang
+     * @param string $styleSheetPath
+     * @return string css on success
+     */
+    public static function downloadCssFile(\core_kernel_classes_resource $item, $lang, $styleSheetPath){
+
+        $service = \taoItems_models_classes_ItemsService::singleton();
+        $cssFile  = $service->getItemFolder($item, $lang) . $styleSheetPath;
+
+        return file_get_contents($cssFile);
     }
 
     /**
@@ -150,7 +166,7 @@ EOF;
     /**
      * Loads the content of a css file into a css array
      * Returns an empty stylesheet if it does not yet exist
-     * 
+     *
      * @param \core_kernel_classes_resource $item
      * @param string $lang
      * @param string $styleSheet
@@ -163,7 +179,7 @@ EOF;
 
         // no user style sheet has been created yet
         if(!is_file($cssFile)) {
-            \common_Logger::d('Stylesheet '.$cssFile.' does not exist yet, returning empty array');
+            \common_Logger::d('Stylesheet ' . $cssFile . ' does not exist yet, returning empty array');
             return array();
         }
 

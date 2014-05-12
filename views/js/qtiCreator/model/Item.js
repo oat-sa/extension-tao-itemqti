@@ -29,6 +29,7 @@ define([
         createStyleSheet : function(href){
             if(href && _.isString(href)){
                 var stylesheet = new Stylesheet({href : href});
+                stylesheet.setRenderer(this.getRenderer());
                 this.addStylesheet(stylesheet);
                 return stylesheet;
             }else{

@@ -19,14 +19,14 @@ define([
 
             elements.sidebars.each(function () {
                 var $sidebar = $(this),
-                    $sections = $sidebar.find('section'),
-                    $allPanels = $sidebar.find('hr, .panel').hide(),
-                    $allTriggers = $sidebar.find('h2');
+                    $sections = $sidebar.children('section'),
+                    $allPanels = $sidebar.children('hr, .panel').hide(),
+                    $allTriggers = $sidebar.children('h2');
 
                 $allTriggers.each(function () {
                     var $heading = $(this),
                         $section = $heading.parents('section'),
-                        $panel   = $section.find('hr, .panel'),
+                        $panel   = $section.children('hr, .panel'),
                         $closer = $('<span>', { 'class': 'icon-up'}),
                         $opener = $('<span>', { 'class': 'icon-down'});
 
@@ -50,9 +50,9 @@ define([
 
                 $sections.each(function () {
 
-                    $(this).find('h2').on('click', function (e, args) {
+                    $(this).children('h2').on('click', function (e, args) {
                         var $heading = $(this),
-                            $panel   = $heading.parents('section').find('hr, .panel'),
+                            $panel   = $heading.parents('section').children('hr, .panel'),
                             preserveOthers = !!(args && args.preserveOthers);
                             
                         // whether or not to close other sections in the same sidebar
@@ -60,7 +60,7 @@ define([
                         if(false && !preserveOthers) {
                             $allPanels.not($panel).each(function() {
                                 var $panel = $(this),
-                                    $heading = $panel.parent().find('h2');
+                                    $heading = $panel.parent().children('h2');
 
                                 $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
                             });
@@ -85,7 +85,7 @@ define([
          */
         var openSections = function(sections, preserveOthers) {
             sections.each(function(){
-                $(this).find('h2').trigger('click', { preserveOthers: !!preserveOthers });
+                $(this).children('h2').trigger('click', { preserveOthers: !!preserveOthers });
             });
         };
 
@@ -126,6 +126,7 @@ define([
 
             // display toolbar and sidebar
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
+
         };
 
         return {

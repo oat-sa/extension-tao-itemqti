@@ -93,6 +93,8 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
             throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
         }
 
+
+
         $cssArray = CssHelper::loadCssFile($item, $lang, $styleSheet);
         echo json_encode($cssArray);
     }
@@ -120,12 +122,31 @@ class QtiCssAuthoring extends tao_actions_CommonModule {
      * Download custom styles
      */
     public function download(){
-        $cssArr = $this -> getCssArray();
-        header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ...
+
+        if (!$this->hasRequestParameter('uri')) {
+            throw new common_exception_MissingParameter('uri', __METHOD__);
+        }
+        if (!$this->hasRequestParameter('stylesheetUri')) {
+            throw new common_exception_MissingParameter('stylesheetUri', __METHOD__);
+        }
+        if (!$this->hasRequestParameter('lang')) {
+            throw new common_exception_MissingParameter('lang', __METHOD__);
+        }
+
+
+        $item = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
+        $lang = $this->getRequestParameter('lang');
+        $styleSheet = $this->getRequestParameter('stylesheetUri');
+
+        if (!\tao_helpers_File::securityCheck($styleSheet, true)) {
+            throw new \common_exception_Error('invalid stylesheet path "'.$styleSheet.'"');
+        }
+
+        header('Set-Cookie: fileDownload=true');
         setcookie('fileDownload','true', 0, '/');
         header('Content-type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=tao-custom-styles.css');
-        echo CssHelper::arrayToCss($cssArr);
+        header(sprintf('Content-Disposition: attachment; filename=%s', basename($styleSheet)));
+        echo CssHelper::downloadCssFile($item, $lang, $styleSheet);
     }
 
 }

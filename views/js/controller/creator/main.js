@@ -30,11 +30,17 @@ define([
     ){
 
 
+    // workaround to get ajax loader out of the way
+    // item editor has its own loader with the correct background color
+    var $loader = $('#ajax-loading');
+    var loaderLeft = $loader.css('left');
+
     var _initUiComponents = function(item, config){
+
 
         styleEditor.init(item, config);
 
-        styleSheetToggler.init();
+        styleSheetToggler.init(config);
 
         // CSS widgets
         fontSelector();
@@ -47,9 +53,14 @@ define([
 
         editor.initGui();
 
+        $loader.css('left', loaderLeft);
+
     };
 
     var _initFormVisibilityListener = function(){
+
+
+        $loader.css('left', '-10000px');
 
         var $itemContainer = $('#item-editor-panel');
 

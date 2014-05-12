@@ -36,6 +36,7 @@ define([
             input = colorPicker.find('#color-picker-input'),
             resetButtons = colorPicker.find('.reset-button'),
             colorTriggers = colorPicker.find('.color-trigger'),
+            colorTriggerLabels = colorPicker.find('label'),
             currentProperty = 'color',
             widgetObj,
             $doc = $(document);
@@ -95,8 +96,11 @@ define([
 
         // open color picker
         setTriggerColor();
-        colorTriggers.on('click', function () {
-            var $trigger = $(this),
+        colorTriggers.add(colorTriggerLabels).on('click', function () {
+            var $tmpTrigger = $(this),
+                $trigger = (this.nodeName.toLowerCase() === 'label'
+                    ? $tmpTrigger.parent().find('.color-trigger')
+                    : $tmpTrigger),
                 value = $trigger.css('background-color');
 
             widget.prop('target', $trigger.data('target'));
