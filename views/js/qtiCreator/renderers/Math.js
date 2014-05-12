@@ -11,17 +11,13 @@ define([
 
         //initial rendering:
         Renderer.render(math);
-
-        var widget = Widget.build(
+        
+        return Widget.build(
             math,
             Renderer.getContainer(math),
             this.getOption('bodyElementOptionForm'),
             options
         );
-
-        inlineHelper.togglePlaceholder(widget);
-
-        return widget;
     };
 
     return CreatorMath;

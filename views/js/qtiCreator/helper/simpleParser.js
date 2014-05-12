@@ -1,16 +1,40 @@
-define(['lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(_, $, util){
+define([
+    'lodash',
+    'jquery',
+    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/qtiItem/core/Loader'
+], function(_, $, util, Loader){
 
     var _parsableElements = ['img', 'object'];
+    var _qtiClassNames = {
+        rubricblock : 'rubricBlock'
+    };
 
     var _defaultOptions = {
         ns : {
             math : ''
-        }
+        },
+        loaded : null,
+        model : null
     };
+
+    function _getElementSelector(qtiClass, ns){
+        return ns ? ns + "\\:" + qtiClass : qtiClass;
+    }
+
+    function getQtiClassFromXmlDom($node){
+
+        var qtiClass = $node.prop('tagName').toLowerCase();
+
+        //remove ns : 
+        qtiClass = qtiClass.replace(/.*:/, '');
+
+        return _qtiClassNames[qtiClass] ? _qtiClassNames[qtiClass] : qtiClass;
+    }
 
     function buildElement($elt){
 
-        var qtiClass = $elt.prop('tagName').toLowerCase();
+        var qtiClass = getQtiClassFromXmlDom($elt);
 
         var elt = {
             qtiClass : qtiClass,
@@ -27,12 +51,28 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(_, $, ut
         return elt;
     }
 
-    function buildMath($elt){
+    function buildMath($elt, options){
 
         var elt = buildElement($elt);
 
+        //set math xml
         elt.mathML = $elt.html();
+
+        //set annotations:
         elt.annotations = {};
+        $elt.find(_getElementSelector('annotation', options.ns.math)).each(function(){
+            var $annotation = $(this);
+            var encoding = $annotation.attr('encoding');
+            if(encoding){
+                elt.annotations[encoding] = $annotation.html();
+            }
+        });
+
+        //set ns: 
+        elt.ns = {
+            name : 'm',
+            uri : 'http://www.w3.org/1998/Math/MathML'//@todo : remove hardcoding there
+        };
 
         return elt;
     }
@@ -52,7 +92,7 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(_, $, ut
             $container.find(qtiClass).each(function(){
 
                 var $qtiElement = $(this);
-                var element = buildElement($qtiElement);
+                var element = buildElement($qtiElement, opts);
 
                 ret.elements[element.serial] = element;
                 $qtiElement.replaceWith(_placeholder(element));
@@ -61,11 +101,10 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(_, $, ut
 
         });
 
-        var mathSelector = options.ns.math ? options.ns.math + "\\:math" : 'math';
-        $container.find(mathSelector).each(function(){
-            
+        $container.find(_getElementSelector('math', options.ns.math)).each(function(){
+
             var $qtiElement = $(this);
-            var element = buildMath($qtiElement);
+            var element = buildMath($qtiElement, opts);
 
             ret.elements[element.serial] = element;
             $qtiElement.replaceWith(_placeholder(element));
@@ -85,13 +124,18 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(_, $, ut
         parse : function(xmlStr, options){
 
             var $container = $(xmlStr);
-            
+
             var element = buildElement($container, options);
 
             var data = parseContainer($container, options);
 
             if(data.body){
                 element.body = data;
+            }
+
+            if(_.isFunction(options.loaded) && options.model){
+                var loader = new Loader().setClassesLocation(options.model);
+                loader.loadElement(element, options.loaded);
             }
 
             return element;

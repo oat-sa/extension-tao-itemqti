@@ -4,7 +4,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
 
         var _widget = this.widget,
             container = _widget.$container[0],
-            itemWidget = this.widget.element.getRelatedItem().data('widget');
+            item = this.widget.element.getRelatedItem();
 
         //move to sleep state by clicking everywhere outside the interaction 
         $('#item-editor-panel').on('click.active', function(e){
@@ -15,17 +15,22 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
             _widget.changeState('sleep');
         });
 
-        itemWidget.$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
-            _widget.changeState('sleep');
-        });
+        if(item){
+            //in item editing context:
+            item.data('widget').$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
+                _widget.changeState('sleep');
+            });
+        }
 
     }, function(){
-
-        var itemWidget = this.widget.element.getRelatedItem().data('widget');
-
+        
         this.widget.$container.off('.active');
         $('#item-editor-panel').off('.active');
-
-        itemWidget.$container.off('.active');
+        
+        var item = this.widget.element.getRelatedItem();
+        if(item){
+            item.data('widget').$container.off('.active');
+        }
+        
     });
 });

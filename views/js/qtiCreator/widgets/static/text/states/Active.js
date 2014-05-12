@@ -27,7 +27,7 @@ define([
         
         if (!htmlEditor.hasEditor($editableContainer)) {
             
-            _protoGapInsertion($editableContainer.find('[data-html-editable]'));
+//            _protoGapInsertion($editableContainer.find('[data-html-editable]'));
             
             htmlEditor.buildEditor($editableContainer, {
                 change : content.getChangeCallback(container),
@@ -35,8 +35,8 @@ define([
                     widget.changeState('sleep');
                 },
                 data : {
-                    element : container,
-                    widget : widget
+                    widget : widget,
+                    container : container
                 }
             });
         }

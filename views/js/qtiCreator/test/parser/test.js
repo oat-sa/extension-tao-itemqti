@@ -8,18 +8,16 @@ function($, _, simpleParser, sampleXML){
 
     test('parse inline sample', function(){
         
-        expect(0);
-        
-        $('#item').html(sampleXML);
         var $rubricBlockXml = $(sampleXML).find('rubricBlock');
-        var mathNs = 'm';//'http://www.w3.org/1998/Math/MathML'
+        var mathNs = 'm';//for 'http://www.w3.org/1998/Math/MathML'
         var data = simpleParser.parse($rubricBlockXml, {
             ns:{
                 math:mathNs
             }
         });
         
-        console.log(data);
+        ok(data.body.body, 'has body');
+        equal(_.size(data.body.elements), 4, 'elements ok');
     });
 
 });

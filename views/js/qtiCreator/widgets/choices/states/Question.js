@@ -1,4 +1,4 @@
-define([
+ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',

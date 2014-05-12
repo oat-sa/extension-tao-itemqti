@@ -18,6 +18,6 @@
 <div class="panel">
     <label for="use">{{__ "Description"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">The identifier of the choice. This identifier must not be used by any other choice or item variable</div>
+    <div class="tooltip-content">The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example.</div>
     <input type="text" name="use" value="{{use}}" />
 </div>

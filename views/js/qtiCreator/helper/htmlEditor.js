@@ -105,13 +105,13 @@ define([
                         }
                     });
 
-                    if(options.data && options.data.element){
+                    if(options.data && options.data.widget && options.data.container){
 
-                        //store in data-qti-element attribute the editor instance as soon as it is ready
-                        $editable.data('qti-element', options.data.element);
+                        //store in data-qti-container attribute the editor instance as soon as it is ready
+                        $editable.data('qti-container', options.data.container);
 
                         //init editable
-                        widgets = _rebuildWidgets(options.data.element, $editable);
+                        widgets = _rebuildWidgets(options.data.container, $editable);
                         _shieldInnerContent($editable, options.data.widget);
                     }
                     
@@ -209,7 +209,7 @@ define([
     var _shieldInnerContent = function($container, containerWidget){
 
         $container.find('.widget-box').each(function(){
-
+            
             var $widget = $(this);
             var targetWidgetSerial = $widget.data('widget').serial;
             var $shield = $('<button>', {'class':'html-editable-shield'});
@@ -313,8 +313,8 @@ define([
                     $editable.data('editor').destroy();
                     $editable.removeData('editor');
 
-                    if($editable.data('qti-element')){
-                        _rebuildWidgets($editable.data('qti-element'), $editable);
+                    if($editable.data('qti-container')){
+                        _rebuildWidgets($editable.data('qti-container'), $editable);
                     }
                 }
             });

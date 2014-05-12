@@ -70,7 +70,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 tag = this.qtiClass,
-                body = this.mathML,
+                raw = this.mathML,
+                body,
                 ns = this.getNamespace(),
                 annotations = '';
 
@@ -79,21 +80,22 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             }
 
             if(annotations){
-                if(body.indexOf('</semantics>') > 0){
-                    body = body.replace('</semantics>', annotations + '</semantics>');
+                if(raw.indexOf('</semantics>') > 0){
+                    raw = raw.replace('</semantics>', annotations + '</semantics>');
                 }else{
-                    body = '<semantics>' + body + annotations + '</semantics>';
+                    raw = '<semantics>' + raw + annotations + '</semantics>';
                 }
             }
 
             if(ns && ns.name){
-                body = body.replace(/<(\/)?([^!])/g, '<$1' + ns.name + ':$2');
+                body = raw.replace(/<(\/)?([^!])/g, '<$1' + ns.name + ':$2');
                 tag = ns.name + ':' + tag;
             }
 
             var defaultData = {
                 block : (this.attr('display') === 'block') ? true : false,
                 body : body,
+                raw : raw,
                 tag : tag,
                 ns : ns
             };

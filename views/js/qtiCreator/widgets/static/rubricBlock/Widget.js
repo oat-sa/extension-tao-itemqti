@@ -1,9 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/rubricBlock/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock',
-    'taoQtiItem/qtiCreator/helper/htmlEditor'
-], function(Widget, states, toolbarTpl, htmlEditor) {
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
+], function(Widget, states, toolbarTpl) {
 
     var RubricBlockWidget = Widget.clone();
 
@@ -12,12 +11,10 @@ define([
     };
 
     RubricBlockWidget.initCreator = function() {
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
-
-        this.buildEditor();
+        
+        Widget.initCreator.call(this);
     };
 
     RubricBlockWidget.createToolbar = function() {
@@ -36,27 +33,6 @@ define([
         });
 
         return this;
-    };
-
-    RubricBlockWidget.buildEditor = function() {
-
-        var _this = this,
-            $editableContainer = this.$container,
-            rubricBlock = this.element;
-
-        $editableContainer.attr('data-html-editable-container', true);
-
-        if (!htmlEditor.hasEditor($editableContainer)) {
-
-            htmlEditor.buildEditor($editableContainer, {
-                change: function(data) {
-                    rubricBlock.body(data);
-                },
-                focus: function() {
-                    _this.changeState('active');
-                }
-            });
-        }
     };
 
     return RubricBlockWidget;

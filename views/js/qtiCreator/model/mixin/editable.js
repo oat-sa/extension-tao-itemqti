@@ -28,6 +28,8 @@ define([
                     event.deleted(element, parent);
                 }
             }
+        }else{
+            throw 'no related item found';
         }
 
         return removed;
