@@ -3,9 +3,13 @@ define([
 'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
 'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Widget'
 ], function(_, SliderInteraction, SliderInteractionWidget){
-    var SliderInteraction = _.clone(SliderInteraction);
     
-    SliderInteraction.render = function(interaction, options){
+    var CreatorSliderInteraction = _.clone(SliderInteraction);
+    
+    CreatorSliderInteraction.render = function(interaction, options){
+        
+        SliderInteraction.render(interaction);
+        
         return SliderInteractionWidget.build(
                 interaction,
                 SliderInteraction.getContainer(interaction),
@@ -15,5 +19,5 @@ define([
         );
     };
     
-    return SliderInteraction;
+    return CreatorSliderInteraction;
 });
