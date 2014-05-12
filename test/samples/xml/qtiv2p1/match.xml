@@ -19,25 +19,20 @@
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
     <itemBody>
-        <div class="col-12">
-            <matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="4">
-                <prompt>Match the following characters to the Shakespeare play they appeared in:</prompt>
-                <simpleMatchSet>
-                    <simpleAssociableChoice identifier="C" matchMax="1" fixed="true">Capulet</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="D" matchMax="1">Demetrius</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="L" matchMax="1">Lysander</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="P" matchMax="1">Prospero</simpleAssociableChoice>
-                </simpleMatchSet>
-                <simpleMatchSet>
-                    <simpleAssociableChoice identifier="R" matchMax="4" fixed="true">Romeo and Juliet</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="M" matchMax="4">A Midsummer-Night's Dream</simpleAssociableChoice>
-                    <simpleAssociableChoice identifier="T" matchMax="4">The Tempest</simpleAssociableChoice>
-                </simpleMatchSet>
-            </matchInteraction>
-        </div>
-        <div class="col-12">
-            
-        </div>
+        <matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="4">
+            <prompt>Match the following characters to the Shakespeare play they appeared in:</prompt>
+            <simpleMatchSet>
+                <simpleAssociableChoice identifier="C" matchMax="1" fixed="true">Capulet</simpleAssociableChoice>
+                <simpleAssociableChoice identifier="D" matchMax="1">Demetrius</simpleAssociableChoice>
+                <simpleAssociableChoice identifier="L" matchMax="1">Lysander</simpleAssociableChoice>
+                <simpleAssociableChoice identifier="P" matchMax="1">Prospero</simpleAssociableChoice>
+            </simpleMatchSet>
+            <simpleMatchSet>
+                <simpleAssociableChoice identifier="R" matchMax="4" fixed="true">Romeo and Juliet</simpleAssociableChoice>
+                <simpleAssociableChoice identifier="M" matchMax="4">A Midsummer-Night's Dream</simpleAssociableChoice>
+                <simpleAssociableChoice identifier="T" matchMax="4">The Tempest</simpleAssociableChoice>
+            </simpleMatchSet>
+        </matchInteraction>
     </itemBody>
     <responseProcessing
         template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>

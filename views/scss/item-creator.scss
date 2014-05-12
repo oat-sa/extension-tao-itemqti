@@ -77,7 +77,7 @@
     #item-editor-widget-bar {
         display: none;
     }
-
+    
     
     #item-editor-toolbar {
         position: relative;
@@ -144,7 +144,7 @@
                         text-shadow: none !important
                     }
                 }
-
+                
                 &#item-editor-status {
                     line-height: 53px;
                     cursor: default;
@@ -173,8 +173,8 @@
             width: auto !important
         }
     }
-
-
+    
+    
     .item-editor-sidebar {
         //@todo reset to 0
         //opacity: 0;
@@ -456,7 +456,7 @@
             width: 100%
         }
         
-
+        
         #item-editor-color-picker {
             .color-trigger {
                 width: 40px;
@@ -479,11 +479,11 @@
                 margin-top: -5px
             }
         }
-
+        
         .sidebar-popup-container-box {
             position: relative;
         }
-
+        
         .sidebar-popup  {
             background: mix(#fff, $grey, 85%);
             padding: 3px;
@@ -500,8 +500,8 @@
                 right: 2px;
             }
         }
-
-
+        
+        
         #math-editor-container {
             top: -285px;
             textarea {
@@ -589,7 +589,7 @@
             overflow-y: visible;
         }
     }
-
+    
     .dummy-element {
         min-width: 50px;
         @include simple-border();
@@ -606,7 +606,7 @@
             width: 100%;
         }
     }
-
+    
     .qti-item {
         padding: 15px;
         background: white();
@@ -738,16 +738,38 @@
                 &.edit-active{
                     @extend %editActive;
                 }
-                &.edit-question .qti-choice{
-                    &:hover{
-                        @extend %editHover;
-                    }
-                    &.edit-choice{
-                        @extend %editActive;
+                &.edit-question{
+                    .qti-choice{
+                        
+                        &:not(th){
+                            &:hover{
+                                @extend %editHover;
+                            }
+                            &.edit-choice{
+                                @extend %editActive;
+                            }
+                        }
+                        
+                        &:hover{
+                            .inner-wrapper{
+                                @extend %editHover;
+                            }
+                        }
+                        &.edit-choice{
+                            .inner-wrapper{
+                                @extend %editActive;
+                            }
+                        }
+                        
                     }
                 }
-                .qti-choice:not(th) {
-                    border:1px solid transparent;
+                .qti-choice{
+                    &:not(th) {
+                        border:1px solid transparent;
+                    }
+                    .inner-wrapper{
+                        border:1px solid transparent;
+                    }
                 }
                 .qti-interaction {
                     .qti-prompt{
@@ -824,9 +846,15 @@
                 }
             }
         }
+        
+        .inner-wrapper{
+            position:relative;
+        }
+        
         @import "qtiCreator/_choice";
         @import "qtiCreator/_order";
         @import "qtiCreator/_associate";
+        @import "qtiCreator/_match";
         @import "qtiCreator/_inline-choice";
         @import "qtiCreator/_gap-match";
         @import "qtiCreator/_rubric-block";
@@ -906,7 +934,7 @@
         margin: 0 !important;
         padding: 0 !important;
     }
-
+    
     .item-editor-row {
         border: none !important;
         background: none !important;
@@ -924,5 +952,5 @@
     [data-edit], .mini-tlb {
         display:none
     }
-;
+    ;
 }

@@ -14,6 +14,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'choiceInteraction' : 'taoQtiItem/qtiCreator/model/interactions/ChoiceInteraction',
         'orderInteraction' : 'taoQtiItem/qtiCreator/model/interactions/OrderInteraction',
         'associateInteraction' : 'taoQtiItem/qtiCreator/model/interactions/AssociateInteraction',
+        'matchInteraction' : 'taoQtiItem/qtiCreator/model/interactions/MatchInteraction',
         'inlineChoiceInteraction' : 'taoQtiItem/qtiCreator/model/interactions/InlineChoiceInteraction',
         'simpleChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleChoice',
         'simpleAssociableChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleAssociableChoice',
