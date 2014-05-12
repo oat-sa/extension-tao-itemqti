@@ -8,36 +8,32 @@ define([
 
         var types = {
             maths: {
+                icon: 'maths',
                 css: {
-                    backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-maths.png)',
-                    width : 50,
-                    height : 18
-                },
-                text: ''
+                    width : 80,
+                    height : 22
+                }
             },
             image: {
+                icon: 'image',
                 css: {
-                    backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-image.png)',
                     width : 150,
                     height : 100
-                },
-                text: ''
+                }
             },
             video: {
+                icon: 'video',
                 css: {
-                    backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-video.png)',
                     width : 200,
                     height : 150
-                },
-                text: ''
+                }
             },
             media: {
+                icon: 'media',
                 css: {
-                    backgroundImage: 'url(../../taoQtiItem/views/img/qtiIconsPng/icon-media.png)',
                     width : 150,
                     height : 100
-                },
-                text: ''
+                }
             }
         };
 
@@ -48,16 +44,20 @@ define([
          *
          * 1. Generic placeholder
          * dummyElement.get();
-         * -> <span class="dummy-element"></span>
+         * -> <span class="dummy-element" style="width:80px; height: 22px"></span>
          *
          * 2. Pre-defined placeholder
          * dummyElement.get('math|images|video|...')
-         * -> <span style="background-image: url(...); width: 200px; height: 150px; background-size: auto;" class="dummy-element">Image</span>
+         * -> <span style="width: 150px; height: 100px; font-size: 80px; padding-top: 9px;" class="dummy-element">
+         *       <span class="icon-image"></span>
+         *    </span>
          *
          * 3. Freestyle
          * works almost like $('<element>'), except that 'element' and 'css' (both optionally) are part of an object
-         * dummyElement.get({ element: 'div', text: 'Whatever', class: 'foo bar', css: { color: 'red'}})
-         * <div class="dummy-element foo bar" style="color: red">Whatever</div>
+         * dummyElement.get({ element: 'div', class: 'foo bar', css: { color: 'red'}})
+         * -> <div class="dummy-element foo bar" style="color: red; width:80px; height: 22px">
+         *       <span class="icon-image"></span>
+         *    </div>
          *
          *
          * @param arg {} | string
@@ -67,10 +67,14 @@ define([
             var options = {
                 element: 'span',
                 'class': 'dummy-element',
-                css: {}
+                css: {
+                    width : 80,
+                    height : 22
+                }
             },
             element,
             $element,
+            $icon,
             css;
             if(arg) {
                 if($.isPlainObject(arg)) {
@@ -87,6 +91,9 @@ define([
                 }
             }
 
+            // icon
+            $icon = options.icon ? $('<span>', { class: 'icon-' + options.icon.replace('icon-', '') }) : false;
+            delete(options.icon);
 
             element = '<' + options.element + '>';
             delete(options.element);
@@ -94,12 +101,27 @@ define([
             css = options.css;
             delete(options.css);
 
+            // adapt font size to container size
+            css['font-size'] = css.height && !css['font-size']
+                ? (css.height * .8)
+                : 14;
+
+            if(css['height'] > 30) {
+                css['padding-top'] = ((css['height'] - css['font-size']) / 2) * .9;
+            }
+
             // don't scale background-picture on large elements
             if(css.height && css.height > 100) {
                 css['background-size'] = 'auto';
             }
 
+            console.log(options,css, $icon)
+
             $element = $(element, options).css(css);
+
+            if($icon) {
+                $element.append($icon);
+            }
 
             return $element;
         };

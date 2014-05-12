@@ -655,15 +655,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border: 1px solid #dddddd;
     border-radius: 2px;
     -webkit-border-radius: 2px;
-    background-color: white;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-color: #eee;
     font-style: italic;
-    color: #D2D2D2;
-    padding: 2px 4px;
+    color: white;
+    padding: 0;
     display: inline-block;
-    line-height: 20px; }
+    line-height: 20px;
+    cursor: default; }
+    .tao-scope .dummy-element [class^="icon-"], .tao-scope .dummy-element [class*=" icon-"] {
+      display: inline-block;
+      text-align: center;
+      width: 100%; }
   .tao-scope .qti-item {
     padding: 15px;
     background: white;

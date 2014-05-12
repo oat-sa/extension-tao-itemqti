@@ -77,7 +77,7 @@
     #item-editor-widget-bar {
         display: none;
     }
-    
+
     
     #item-editor-toolbar {
         position: relative;
@@ -592,17 +592,19 @@
     .dummy-element {
         min-width: 50px;
         @include simple-border();
-        background-color: white;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
+        background-color: #eee;
         font-style: italic;
-        color: #D2D2D2;
-        padding: 2px 4px;
+        color: white;
+        padding: 0;
         display: inline-block;
-        line-height: 20px
+        line-height: 20px;
+        cursor: default;
+        [class^="icon-"], [class*=" icon-"] {
+            display: inline-block;
+            text-align:center;
+            width: 100%;
+        }
     }
-
 
     .qti-item {
         padding: 15px;

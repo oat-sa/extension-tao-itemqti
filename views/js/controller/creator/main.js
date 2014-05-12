@@ -46,6 +46,7 @@ define([
         preparePrint();
 
         editor.initGui();
+
     };
 
     var _initFormVisibilityListener = function(){
