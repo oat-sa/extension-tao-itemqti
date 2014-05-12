@@ -34,6 +34,63 @@
                     <li>Check for gramatical errors: -0.1 per error.</li>
                     <li>Possibly add in .1 increments extra bonus points for extra good answers.</li>
                 </ul>
+                <p>
+                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum 
+                    deleniti atque corrupti quos <img src="http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png" alt="tao logo" width="104" height="66"/>
+                    dolores et quas molestias excepturi sint occaecati cupiditate non provident,
+                    similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. 
+                    <m:math display="block">
+                        <m:semantics>
+                            <m:mstyle>
+                                <m:mrow class="MJX-TeXAtom-ORD">
+                                    <m:mi>x</m:mi>
+                                    <m:mo>=</m:mo>
+                                    <m:mrow class="MJX-TeXAtom-ORD">
+                                        <m:mfrac>
+                                            <m:mrow>
+                                                <m:mo>−<!-- − --></m:mo>
+                                                <m:mi>b</m:mi>
+                                                <m:mo>±<!-- ± --></m:mo>
+                                                <m:msqrt>
+                                                    <m:msup>
+                                                        <m:mi>b</m:mi>
+                                                        <m:mn>2</m:mn>
+                                                    </m:msup>
+                                                    <m:mo>−<!-- − --></m:mo>
+                                                    <m:mn>4</m:mn>
+                                                    <m:mi>a</m:mi>
+                                                    <m:mi>c</m:mi>
+                                                </m:msqrt>
+                                            </m:mrow>
+                                            <m:mrow>
+                                                <m:mn>2</m:mn>
+                                                <m:mi>a</m:mi>
+                                            </m:mrow>
+                                        </m:mfrac>
+                                    </m:mrow>
+                                </m:mrow>
+                            </m:mstyle>
+                            <m:annotation encoding="latex">x = {-b \pm \sqrt{b^2-4ac} \over 2a}</m:annotation>
+                        </m:semantics>
+                    </m:math>
+                    Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est 
+                    eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas
+                    assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut 
+                    <m:math>
+                        <m:mrow>
+                            <m:mi>E</m:mi>
+                            <m:mo>=</m:mo>
+                            <m:mi>m</m:mi>
+                            <m:msup>
+                                <m:mi>c</m:mi>
+                                <m:mn>2</m:mn>
+                            </m:msup>
+                        </m:mrow>
+                    </m:math> officiis debitis aut rerum
+                    necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+                    Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias 
+                    consequatur aut perferendis doloribus asperiores repellat.
+                </p>
             </div>
         </rubricBlock>
         <p>

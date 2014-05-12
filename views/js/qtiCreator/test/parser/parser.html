@@ -6,50 +6,50 @@
         <meta name="viewport" content="width=device-width">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>
-            $(function() {
+            $(function(){
 
                 var $container = $('assessmentItem');
                 var mathNs = 'http://www.w3.org/1998/Math/MathML';
                 var elements = [];
 
                 console.log(
-                        mathNs,
-                        $container.find('[nodeName="m:math"]'),
-                        $container.find("m\\:math"),
-                        $container[0].getElementsByTagNameNS('m', 'math'),
-                        $container[0].getElementsByTagNameNS(mathNs, 'math')
-                        );
+                    mathNs,
+                    $container.find('[nodeName="m:math"]'),
+                    $container.find("m\\:math"),
+                    $container[0].getElementsByTagNameNS('m', 'math'),
+                    $container[0].getElementsByTagNameNS(mathNs, 'math')
+                    );
 
                 var $math = $container.find("m\\:math");
 
-                $math.each(function() {
+                $math.each(function(){
                     var $m = $(this);
                     var element = {
-                        math: $m.html(),
-                        display: $m.attr('display') === 'block' ? 'block' : 'inline',
-                        tex: $m.find("m\\:annotation[encoding=tex]").text()
+                        math : $m.html(),
+                        display : $m.attr('display') === 'block' ? 'block' : 'inline',
+                        tex : $m.find("m\\:annotation[encoding=tex]").text()
                     };
                     elements.push(element);
                     $m.replaceWith(_placeholder($m));
                 });
 
-                function buildElement($elt) {
+                function buildElement($elt){
                     var elt = {};
-                    $.each($elt[0].attributes, function() {
-                        if (this.specified) {
+                    $.each($elt[0].attributes, function(){
+                        if(this.specified){
                             elt[this.name] = this.value;
                         }
                     });
                     return elt;
                 }
-                
+
                 function  _placeholder($elt){
-                    return '{{'+$elt.prop('tagName').toLowerCase()+'}}';
+                    return '{{' + $elt.prop('tagName').toLowerCase() + '}}';
                 }
-                
+
                 var $object = $container.find('object');
                 var $img = $container.find('img');
-                $img.add($object).each(function() {
+                $img.add($object).each(function(){
                     var $elt = $(this);
                     var element = buildElement($elt);
                     elements.push(element);
