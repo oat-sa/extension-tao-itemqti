@@ -1225,23 +1225,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody .mini-tlb {
       right: auto;
       left: -86px; }
-    /* line 18, ../scss/qtiCreator/_match.scss */
+    /* line 19, ../scss/qtiCreator/_match.scss */
+    .tao-scope .item-editor-item .qti-matchInteraction table.matrix td input[disabled] ~ [class^="icon-"] {
+      cursor: pointer !important; }
+    /* line 23, ../scss/qtiCreator/_match.scss */
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb {
       width: auto;
       margin: 0;
       min-width: 78px; }
-      /* line 22, ../scss/qtiCreator/_match.scss */
+      /* line 27, ../scss/qtiCreator/_match.scss */
       .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb .tlb-button {
         margin: 0;
         padding: 0; }
-      /* line 26, ../scss/qtiCreator/_match.scss */
+      /* line 31, ../scss/qtiCreator/_match.scss */
       .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb .icon-* {
         padding: 0; }
-    /* line 31, ../scss/qtiCreator/_match.scss */
+    /* line 36, ../scss/qtiCreator/_match.scss */
     .tao-scope .item-editor-item .qti-matchInteraction .add-option {
       position: relative;
       padding: 5px 5px 5px 6px; }
-      /* line 34, ../scss/qtiCreator/_match.scss */
+      /* line 39, ../scss/qtiCreator/_match.scss */
       .tao-scope .item-editor-item .qti-matchInteraction .add-option .icon-add {
         font-size: 1.8rem;
         left: 6px;

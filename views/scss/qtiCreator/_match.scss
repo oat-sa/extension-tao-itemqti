@@ -15,6 +15,11 @@
                 left:-86px;
             }
         }
+        td{
+            input[disabled] ~ [class^="icon-"]{
+                cursor:pointer !important;
+            }
+        }
         .mini-tlb{
             width:auto;
             margin:0;
