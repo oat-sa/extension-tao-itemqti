@@ -201,7 +201,18 @@ class ImportService extends tao_models_classes_GenerisService
             ));
             if(!$qtiManifestParser->isValid()){
                 tao_helpers_File::delTree($folder);
-                $report->add(__("The IMS Manifest file could not be validated."));
+                
+                $eStrs = array();
+                foreach ($qtiManifestParser->getErrors() as $libXmlError) {
+                    $eStrs[] = __('XML error at line %1$d "%2$s".', $libXmlError['line'], str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
+                }
+                
+                $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("The IMS Manifest file could not be validated:\n%s", implode($eStrs, "\n"))));
+                
+                $report->setType(common_report_Report::TYPE_ERROR);
+                $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
+                
+                return $report;
             }
         }
 
