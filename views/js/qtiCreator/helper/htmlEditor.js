@@ -20,7 +20,6 @@ define([
     var _buildEditor = function($editable, $editableContainer, options){
 
         var $trigger,
-            widgetClass,
             toolbarType;
 
         options = _.defaults(options, _defaults);
@@ -36,19 +35,20 @@ define([
         $editable.attr('placeholder', options.placeholder);
 
         // build parameter for toolbar
-        // @todo sam correct class names
-        widgetClass = $editable.parent().attr('class');
-        switch(true){
-            case widgetClass.indexOf('qti-blockInteraction') > -1:
-                toolbarType = 'qtiBlock';
-                break;
+        if($editableContainer.hasClass('widget-blockInteraction')
+            || $editableContainer.hasClass('widget-textBlock')
+            || $editableContainer.hasClass('widget-rubricBlock')){
 
-            case widgetClass.indexOf('widget-box widget-textBlock edit-sleep') > -1:
-                toolbarType = 'qtiInline';
-                break;
+            toolbarType = 'qtiBlock';
 
-            default:
-                toolbarType = 'qtiFlow';
+        }else if($editableContainer.hasClass('qti-prompt-container')
+            || $editableContainer.hasClass('widget-hottext')){
+
+            toolbarType = 'qtiInline';
+
+        }else{
+
+            toolbarType = 'qtiFlow';
         }
 
         var ckConfig = {
@@ -114,7 +114,7 @@ define([
                         widgets = _rebuildWidgets(options.data.container, $editable);
                         _shieldInnerContent($editable, options.data.widget);
                     }
-                    
+
                     $editable.trigger('editorready');
                 },
                 focus : function(e){
@@ -209,10 +209,10 @@ define([
     var _shieldInnerContent = function($container, containerWidget){
 
         $container.find('.widget-box').each(function(){
-            
+
             var $widget = $(this);
             var targetWidgetSerial = $widget.data('widget').serial;
-            var $shield = $('<button>', {'class':'html-editable-shield'});
+            var $shield = $('<button>', {'class' : 'html-editable-shield'});
 
             $widget.attr('contenteditable', false);
             $widget.append($shield);
