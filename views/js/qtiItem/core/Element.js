@@ -265,10 +265,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
         },
-        getContainer : function($scope){
+        getContainer : function($scope, subclass){
             var renderer = this.getRenderer();
             if(renderer){
-                return renderer.getContainer(this, $scope);
+                return renderer.getContainer(this, $scope, subclass);
             }else{
                 throw 'getContainer: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }

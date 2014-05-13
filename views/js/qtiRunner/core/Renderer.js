@@ -192,10 +192,11 @@ define([
             return Handlebars.compile(tpl)(data);
         };
 
-        this.getContainer = function(qtiElement, $scope){
+        this.getContainer = function(qtiElement, $scope, qtiSubclass){
 
             var ret = null,
-                renderer = _getClassRenderer(qtiElement.qtiClass);
+                qtiClass = qtiSubclass || qtiElement.qtiClass,
+                renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
                 ret = renderer.getContainer(qtiElement, $scope);
