@@ -207,16 +207,19 @@ define([
             return null;
         },
         //assign an event listener that lives with the state
-        on : function(qtiElementEventName, callback){
+        on : function(qtiElementEventName, callback, live){
             
             var _this = this;
 
             var eventNameToken = [
                 qtiElementEventName,
                 'qti-widget',
-                this.getCurrentState().name,
                 this.serial
             ];
+            
+            if(!live){
+                eventNameToken.push(this.getCurrentState().name);
+            }
             
             $(document).on(eventNameToken.join('.'), function(e, data){
                 callback.call(_this, data);
