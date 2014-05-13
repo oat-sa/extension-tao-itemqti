@@ -11,10 +11,15 @@ define([
 
     var formElement = {
         initWidget : function($form){
-            spinner($form);
-            tooltip($form);
-            select2($form);
-            toggler($form);
+            
+            if($form.length){
+                spinner($form);
+                tooltip($form);
+                select2($form);
+                toggler($form);
+            }else{
+                throw 'attempt to initialize ui widgets for an empty form';
+            }
         },
         initDataBinding : function($form, element, attributes){
 
@@ -125,7 +130,7 @@ define([
                 var responseDeclaration = interaction.getResponseDeclaration();
                 value = value || 0;
                 value = parseInt(value);
-                
+
                 if(updateCardinality){
                     responseDeclaration.attr('cardinality', (value <= 1) ? 'single' : 'multiple');
                 }
