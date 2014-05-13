@@ -41,8 +41,11 @@ function($, _, qtiClasses, CreatorRenderer, XmlRenderer, simpleParser, sampleXML
 
                     rubricBlock.setRenderer(this);
                     $container.append(rubricBlock.render());
-                    rubricBlock.postRender({});
-
+                    var widget = rubricBlock.postRender({});
+                    widget.on('containerBodyChange', function(){
+                        console.log('changed!');
+                    }, true);
+                    
                 }, this.getLoadedClasses());
 
                 //save xml
