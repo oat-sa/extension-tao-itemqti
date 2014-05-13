@@ -231,6 +231,10 @@
             }
             .panel {
                 padding: 15px 5px 8px 5px;
+                .panel {
+                    padding: 0;
+                    margin-bottom: 15px;
+                }
                 h3 {
                     padding: 0 0 12px 0;
                     margin: 0;
@@ -268,6 +272,7 @@
                 }
             }
         }
+        
         .inset {
             margin-left: 6px;
             margin-right: 6px;

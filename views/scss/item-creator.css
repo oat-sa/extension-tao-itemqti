@@ -376,6 +376,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       margin: 6px 8px 4px 8px; }
     .tao-scope .item-editor-sidebar .tool-group .panel {
       padding: 15px 5px 8px 5px; }
+      .tao-scope .item-editor-sidebar .tool-group .panel .panel {
+        padding: 0;
+        margin-bottom: 15px; }
       .tao-scope .item-editor-sidebar .tool-group .panel h3 {
         padding: 0 0 12px 0;
         margin: 0;
@@ -1023,10 +1026,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix th {
       padding: 0; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix thead .mini-tlb {
-      top: -24px; }
+      top: -25px; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody .mini-tlb {
       right: auto;
-      left: -68px; }
+      left: -86px; }
+    .tao-scope .item-editor-item .qti-matchInteraction table.matrix td input[disabled] ~ [class^="icon-"] {
+      cursor: pointer !important; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb {
       width: auto;
       margin: 0;

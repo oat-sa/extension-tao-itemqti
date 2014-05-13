@@ -184,8 +184,13 @@ use oat\taoQtiItem\helpers\Authoring;
                         <div><?=__('Font family')?></div>
 
                         <div class="reset-group">
-                            <select data-target=".tao-scope div.qti-item" id="item-editor-font-selector" data-has-search="false" data-placeholder="<?=__('Default')?>"
-                                    class="select2" data-role="font-selector"></select>
+                            <select
+                                data-target=".tao-scope div.qti-item"
+                                id="item-editor-font-selector"
+                                data-has-search="false"
+                                data-placeholder="<?=__('Default')?>"
+                                class="select2 short"
+                                data-role="font-selector"></select>
                             <span class="icon-eraser reset-button" data-role="font-selector-reset" title="<?=__('Remove custom font family')?>"></span>
                         </div>
 

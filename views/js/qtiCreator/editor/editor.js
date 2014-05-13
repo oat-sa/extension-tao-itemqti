@@ -15,63 +15,72 @@ define([
             itemPanel: $('#item-editor-panel')
         };
 
+        // selectors and classes
+        var heading = 'h2',
+            section = 'section',
+            panel   = 'hr, .panel',
+            closed  = 'closed',
+            ns      = 'accordion';
+
+        /**
+         * setup accordion
+         */
         var sidebarAccordionInit = function () {
 
             elements.sidebars.each(function () {
                 var $sidebar = $(this),
-                    $sections = $sidebar.children('section'),
-                    $allPanels = $sidebar.children('hr, .panel').hide(),
-                    $allTriggers = $sidebar.children('h2');
+                    $sections = $sidebar.children(section),
+                    $allPanels = $sidebar.children(panel).hide(),
+                    $allTriggers = $sidebar.find(heading);
 
+                // setup events
                 $allTriggers.each(function () {
                     var $heading = $(this),
-                        $section = $heading.parents('section'),
-                        $panel   = $section.children('hr, .panel'),
+                        $section = $heading.parents(section),
+                        $panel   = $section.children(panel),
                         $closer = $('<span>', { 'class': 'icon-up'}),
-                        $opener = $('<span>', { 'class': 'icon-down'});
+                        $opener = $('<span>', { 'class': 'icon-down'}),
+                        action  = $panel.is(':visible') ? 'open' : 'close';
 
-                    $heading.append($closer).append($opener).addClass('closed');
+                    $heading.append($closer).append($opener).addClass(closed);
 
-                    $panel.on('panelclose.accordion', function(e, args) {
-                        args.heading.addClass('closed');
+                    // toggle heading class arrow (actually switch arrow)
+                    $panel.on('panelclose.' + ns + ' panelopen.' + ns, function(e, args) {
+                        var fn = e.type === 'panelclose' ? 'add' : 'remove';
+                        args.heading[fn + 'Class'](closed);
                     });
 
-                    $panel.on('panelopen.accordion', function(e, args) {
-                        args.heading.removeClass('closed');
-                    });
 
-                    if($panel.is(':visible')) {
-                        $panel.trigger('panelopen.accordion', { heading: $heading });
-                    }
-                    else {
-                        $panel.trigger('panelclose.accordion', { heading: $heading });
-                    }
+                    $panel.trigger('panel' + action + '.' + ns, { heading: $heading });
                 });
 
                 $sections.each(function () {
 
-                    $(this).children('h2').on('click', function (e, args) {
+                    // assign click action to headings
+                    $(this).find(heading).on('click', function (e, args) {
                         var $heading = $(this),
-                            $panel   = $heading.parents('section').children('hr, .panel'),
-                            preserveOthers = !!(args && args.preserveOthers);
+                            $panel   = $heading.parents(section).children(panel),
+                            preserveOthers = !!(args && args.preserveOthers),
+                            actions = {
+                                close: 'hide',
+                                open: 'fadeIn'
+                            },
+                            action = $heading.hasClass(closed) ? 'open' : 'close';
                             
                         // whether or not to close other sections in the same sidebar
-                        //@todo : to change the style to accordion
+                        // @todo (optional): remove 'false' in the condition below
+                        // to change the style to accordion, i.e. to allow for only one open section
                         if(false && !preserveOthers) {
                             $allPanels.not($panel).each(function() {
                                 var $panel = $(this),
-                                    $heading = $panel.parent().children('h2');
+                                    $heading = $panel.parent().find(heading),
+                                    _action = 'close';
 
-                                $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
+                                $panel.trigger('panel' + _action + '.' + ns, { heading: $heading })[actions[_action]]();
                             });
                         }
 
-                        if($heading.hasClass('closed')) {
-                            $panel.trigger('panelopen.accordion', { heading: $heading }).slideDown();
-                        }
-                        else {
-                            $panel.trigger('panelclose.accordion', { heading: $heading }).hide();
-                        }
+                        $panel.trigger('panel' + action + '.' + ns, { heading: $heading })[actions[action]]();
                     });
 
                 });
@@ -85,12 +94,14 @@ define([
          */
         var openSections = function(sections, preserveOthers) {
             sections.each(function(){
-                $(this).children('h2').trigger('click', { preserveOthers: !!preserveOthers });
+                $(this).find(heading).trigger('click', { preserveOthers: preserveOthers });
             });
         };
 
+        /**
+         * Initialize interface
+         */
         var initGui = function () {
-
 
             // adapt height of sidebars and item area
             var height = 0;
@@ -120,7 +131,10 @@ define([
              * #sidebar-right-response-properties
              */
 
-            openSections($('#sidebar-left-section-content-block, #sidebar-left-section-content-element, #sidebar-left-section-block-interactions'), true);
+            openSections(
+                $('#sidebar-left-section-content-block, #sidebar-left-section-content-element, #sidebar-left-section-block-interactions'),
+                true
+            );
 
             elements.itemPanel.addClass('has-item');
 
