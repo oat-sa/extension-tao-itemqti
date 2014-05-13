@@ -76,6 +76,10 @@ define([
                     name: 'insert',
                     items: ['Image', 'Table', 'SpecialChar']
                 },
+                {
+                    name: 'styles',
+                    items: ['Format']
+                },
                 '/',
                 {
                     name: 'basicstyles',
