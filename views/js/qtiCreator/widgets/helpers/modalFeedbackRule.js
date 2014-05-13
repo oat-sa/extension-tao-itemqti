@@ -70,7 +70,8 @@ define([
     var _initFeedbackEventListener = function($feedbacksPanel, response){
 
         var $feedbacks = $feedbacksPanel.find('.feedbackRules');
-        $feedbacksPanel.on('click', '.feedbackRule-add', function(){
+        $feedbacksPanel.on('click', '.feedbackRule-add', function(e){
+            e.preventDefault();
 
             var feedbackRule = response.createFeedbackRule(),
                 $lastRule = $feedbacks.children('.feedbackRule-container:last');
