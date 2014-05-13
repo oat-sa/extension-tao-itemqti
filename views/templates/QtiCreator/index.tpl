@@ -108,8 +108,8 @@ use oat\taoQtiItem\helpers\Authoring;
                                     <span class="icon-<?=$record['icon']?>"></span>
 
                                     <div class="truncate"><?=$record['short']?></div>
-                                    <img class="viewport-hidden"
-                                         src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/>
+                                    <!--img class="viewport-hidden"
+                                         src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/-->
                                 </li>
                             <?php endforeach;?>
 
@@ -189,7 +189,7 @@ use oat\taoQtiItem\helpers\Authoring;
                                 id="item-editor-font-selector"
                                 data-has-search="false"
                                 data-placeholder="<?=__('Default')?>"
-                                class="select2 short"
+                                class="select2 has-icon"
                                 data-role="font-selector"></select>
                             <span class="icon-eraser reset-button" data-role="font-selector-reset" title="<?=__('Remove custom font family')?>"></span>
                         </div>
@@ -204,8 +204,8 @@ use oat\taoQtiItem\helpers\Authoring;
                             </span>
 
                             <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-                                <input type="text" id="item-editor-font-size-text" placeholder="<?=__('e.g. 13')?>">
-                                <span class="unit-indicator">px</span>
+                                <input type="text" id="item-editor-font-size-text" class="has-icon" placeholder="<?=__('e.g. 13')?>">
+                                    <span class="unit-indicator">px</span>
                             </span>
                             <span class="icon-eraser reset-button" data-role="font-size-reset" title="<?=__('Remove custom font size')?>"></span>
                         </div>
@@ -232,7 +232,7 @@ use oat\taoQtiItem\helpers\Authoring;
                             <div class="reset-group slider-box">
                                 <p id="item-editor-item-resizer-slider"></p>
                                 <span id="item-editor-item-resizer-manual-input" class="item-editor-unit-input-box">
-                                    <input type="text" id="item-editor-item-resizer-text" placeholder="<?=__('e.g. 960')?>">
+                                    <input type="text" id="item-editor-item-resizer-text" class="has-icon" placeholder="<?=__('e.g. 960')?>">
                                     <span class="unit-indicator">px</span>
                                 </span>
                                 <span class="icon-eraser reset-button" data-role="item-width-reset" title="<?=__('Remove custom item width')?>"></span>

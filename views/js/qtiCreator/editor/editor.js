@@ -29,9 +29,10 @@ define([
 
             elements.sidebars.each(function () {
                 var $sidebar = $(this),
-                    $sections = $sidebar.children(section),
+                    $sections = $sidebar.find(section),
                     $allPanels = $sidebar.children(panel).hide(),
                     $allTriggers = $sidebar.find(heading);
+
 
                 // setup events
                 $allTriggers.each(function () {
@@ -98,17 +99,47 @@ define([
             });
         };
 
+        // display the sidebar and its sections temporarily to calculate the height
+        var _tmpDisplay = function($elements, reset) {
+            $elements.each(function() {
+                var $element = $(this);
+                if(reset) {
+                    $element.css('display', $element.prop('old-display'));
+                    $element.css('left', $element.prop('old-left'));
+                    $element.prop('old-display', null);
+                    $element.prop('old-left', null);
+                }
+                else {
+                    $element.prop('old-display', $element.css('display'));
+                    $element.prop('old-left', $element.css('left'));
+                    $element.css('display', 'block');
+                    $element.css('left', '-20000px');
+                }
+            });
+        };
+
+        /**
+         * Adapt height of sidebars and content
+         */
+        var adaptHeight = function() {
+            var height = 0;
+            elements.sidebars.add(elements.itemPanel).each(function () {
+                var block = $(this),
+                    blocks = block.add(block.find('section'));
+                // work around the fact that the sidebars might be hidden at this point
+                _tmpDisplay(blocks);
+                height = Math.max($(this).height(), height);
+                _tmpDisplay(blocks, true);
+            }).height(height);
+        };
+
         /**
          * Initialize interface
          */
         var initGui = function () {
 
-            // adapt height of sidebars and item area
-            var height = 0;
-            elements.sidebars.add(elements.itemPanel).each(function () {
-                height = Math.max($(this).height(), height);
-            }).height(height);
 
+            adaptHeight();
 
             // toggle blocks in sidebar
             // note that this must happen _after_ the height has been adapted
@@ -145,7 +176,8 @@ define([
 
         return {
             initGui: initGui,
-            openSections: openSections
+            openSections: openSections,
+            adaptHeight: adaptHeight
         };
 
     }());

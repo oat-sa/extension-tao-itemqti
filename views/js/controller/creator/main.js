@@ -62,6 +62,11 @@ define([
 
         $loader.css('left', '-10000px');
 
+        // needs to be done twice, before and after the item is loaded
+        // to avoid incorrect display. 2nd call is done internally
+        editor.adaptHeight();
+
+
         var $itemContainer = $('#item-editor-panel');
 
         var _staticElements = {

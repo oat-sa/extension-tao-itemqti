@@ -75,7 +75,9 @@ define([
             element,
             $element,
             $icon,
-            css;
+            css,
+            finalOptions;
+
             if(arg) {
                 if($.isPlainObject(arg)) {
                     // class names must be added to 'dummy-element'
@@ -93,13 +95,10 @@ define([
 
             // icon
             $icon = options.icon ? $('<span>', { class: 'icon-' + options.icon.replace('icon-', '') }) : false;
-            delete(options.icon);
 
             element = '<' + options.element + '>';
-            delete(options.element);
 
-            css = options.css;
-            delete(options.css);
+            css = _.cloneDeep(options.css);
 
             // adapt font size to container size
             css['font-size'] = css.height && !css['font-size']
@@ -115,9 +114,12 @@ define([
                 css['background-size'] = 'auto';
             }
 
-            console.log(options,css, $icon)
+            finalOptions = _.cloneDeep(options);
+            delete(finalOptions.icon);
+            delete(finalOptions.element);
+            delete(finalOptions.css);
 
-            $element = $(element, options).css(css);
+            $element = $(element, finalOptions).css(css);
 
             if($icon) {
                 $element.append($icon);

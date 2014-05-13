@@ -184,12 +184,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     cursor: crosshair; }
 
 .tao-scope .item-editor-item .widget-box.widget-inline.hover, .tao-scope .item-editor-item .widget-box.widget-block.hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:not(th):hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:hover .inner-wrapper, .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
+  cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
 
 .tao-scope .item-editor-item .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
+  cursor: default;
   border: 1px solid #3e7da7;
-  cursor: default; }
+  -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
+  box-shadow: 1px 1px 3px 1px #3e7da7; }
 
 .tao-scope .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb {
   display: none;
@@ -379,6 +382,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-sidebar .tool-group .panel .panel {
         padding: 0;
         margin-bottom: 15px; }
+      .tao-scope .item-editor-sidebar .tool-group .panel hr {
+        margin-bottom: 15px; }
       .tao-scope .item-editor-sidebar .tool-group .panel h3 {
         padding: 0 0 12px 0;
         margin: 0;
@@ -386,8 +391,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         font-size: 1.4rem;
         max-width: 450px;
         display: inline-block; }
-      .tao-scope .item-editor-sidebar .tool-group .panel select, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"] {
+      .tao-scope .item-editor-sidebar .tool-group .panel select, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"], .tao-scope .item-editor-sidebar .tool-group .panel textarea {
         width: 100%; }
+        .tao-scope .item-editor-sidebar .tool-group .panel select.has-icon, .tao-scope .item-editor-sidebar .tool-group .panel input[type="text"].has-icon, .tao-scope .item-editor-sidebar .tool-group .panel textarea.has-icon {
+          width: 140px;
+          min-width: 140px;
+          max-width: 140px; }
       .tao-scope .item-editor-sidebar .tool-group .panel select.short {
         width: auto;
         min-width: 100px; }
@@ -399,6 +408,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         padding: 0;
         font-size: 13px;
         font-size: 1.3rem; }
+        .tao-scope .item-editor-sidebar .tool-group .panel label.has-icon {
+          width: 140px;
+          min-width: 140px;
+          max-width: 140px;
+          display: inline-block; }
       .tao-scope .item-editor-sidebar .tool-group .panel input.score {
         width: 40px;
         min-width: 40px; }
@@ -451,10 +465,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: relative;
       display: inline-block; }
       .tao-scope .item-editor-sidebar .item-editor-unit-input-box input {
-        width: 133px;
-        min-width: 133px;
-        max-width: 133px;
-        margin-left: 4px;
         padding-right: 28px; }
       .tao-scope .item-editor-sidebar .item-editor-unit-input-box .unit-indicator {
         position: absolute;
@@ -986,6 +996,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: 5px; }
     .tao-scope .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
       right: -60px; }
+    .tao-scope .item-editor-item [data-qti-class="orderInteraction"].edit-question .arrow-bar {
+      visibility: hidden; }
     .tao-scope .item-editor-item .qti-associateInteraction .add-option {
       position: relative;
       padding: 5px 5px 5px 6px; }
@@ -1026,12 +1038,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix th {
       padding: 0; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix thead .mini-tlb {
-      top: -25px; }
+      top: auto;
+      bottom: -26px; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody .mini-tlb {
       right: auto;
       left: -86px; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix td input[disabled] ~ [class^="icon-"] {
-      cursor: pointer !important; }
+      cursor: default !important; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb {
       width: auto;
       margin: 0;

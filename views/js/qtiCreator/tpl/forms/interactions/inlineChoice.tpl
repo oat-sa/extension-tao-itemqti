@@ -2,12 +2,12 @@
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
-        {{__ "shuffle choices"}}
+        {{__ "Shuffle choices"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
-        If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented.
-        However each choice may be "shuffled" of "fixed" individually.
+{{__ "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented.
+        However each choice may be “shuffled” of “fixed” individually."}}
     </span>
 </div>
 <div class="panel">
@@ -18,6 +18,6 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
-        Define whether a choice must be selected by the candidate in order to form a valid response to the interaction.
+{{__ "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."}}
     </span>
 </div>

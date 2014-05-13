@@ -2,7 +2,7 @@
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
-        {{__ "shuffle choices"}}
+        {{__ "Shuffle choices"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
