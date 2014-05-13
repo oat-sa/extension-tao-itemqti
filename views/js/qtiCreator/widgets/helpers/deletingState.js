@@ -21,7 +21,7 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             clearTimeout(timeout);
             $messageBox.remove();
         });
-        
+
         $messageBox.find('.close-trigger').on('click', function(){
             _confirmDeletion($messageBox, 0);
         });

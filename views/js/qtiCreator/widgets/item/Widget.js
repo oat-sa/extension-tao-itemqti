@@ -13,8 +13,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor){
+], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor, genericFeedbackPopup){
     
     var ItemWidget = Widget.clone();
 
@@ -47,20 +48,13 @@ define([
     };
 
     ItemWidget.save = function(){
-        $.ajax({
+        return $.ajax({
             url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem'),
             type : 'POST',
             dataType : 'json',
             data : {
                 uri : this.itemUri,
                 xml : xmlRenderer.render(this.element)
-            }
-        }).done(function(data){
-
-            if(data.success){
-                alert('saved');
-            }else{
-                alert('failed');
             }
         });
     };
@@ -74,8 +68,29 @@ define([
 
         //init save button:
         $('#save-trigger').on('click', function(){
-            styleEditor.save();
-            _widget.save();
+            var $saveButton = $(this);
+            $saveButton.addClass('active');
+            $.when(styleEditor.save(), _widget.save()).done(function() {
+                var feedbackArgs = {
+                        message: 'Your item has been saved',
+                        type: 'success'
+                    },
+                    i = arguments.length;
+
+                $saveButton.removeClass('active');
+
+                while(i--) {
+                    if(arguments[i][1].toLowerCase() !== 'success') {
+                        feedbackArgs = {
+                            message: 'Failed to save item',
+                            type: 'error'
+                        };
+                        break;
+                    }
+                }
+
+                _createInfoBox(feedbackArgs);
+            });
         });
     };
 
@@ -262,6 +277,26 @@ define([
 
         $('#item-editor-wrapper').append($pre);
         devTools.liveXmlPreview(this.element, $code);
+    };
+
+
+    var _createInfoBox = function(data){
+        var $messageBox = $(genericFeedbackPopup(data)),
+            closeTrigger = $messageBox.find('.close-trigger');
+
+        $('body').append($messageBox);
+
+        closeTrigger.on('click', function(){
+            $messageBox.fadeOut(function(){
+                $(this).remove();
+            });
+        });
+
+        setTimeout(function() {
+            closeTrigger.trigger('click');
+        }, 2000);
+
+        return $messageBox;
     };
 
     return ItemWidget;

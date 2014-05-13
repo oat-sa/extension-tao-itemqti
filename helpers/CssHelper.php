@@ -68,6 +68,9 @@ EOF;
         }
 
         $css = self::_buildWarning() . self::arrayToCss($cssArr);
+        if(!is_dir(dirname($cssFile))) {
+            mkdir(dirname($cssFile), 0755, 1);
+        }
         $count = file_put_contents($cssFile, $css);
         return $count > 0;
     }

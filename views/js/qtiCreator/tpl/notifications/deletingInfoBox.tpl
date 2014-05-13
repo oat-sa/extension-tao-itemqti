@@ -1,10 +1,10 @@
-<div class="feedback-info" data-for="{{serial}}">
+<div class="feedback-info popup" data-for="{{serial}}">
     <span class="icon-info"></span>
     {{#equal count 1}}
-        {{__ "You have delete an element"}}.
+        {{__ "You have deleted an element"}}.
     {{else}}
-        {{__ "You have delete"}} {{count}} {{__ "elements"}}.
+        {{__ "You have deleted"}} {{count}} {{__ "elements"}}.
     {{/equal}}
     <a class="undo" href="#">{{__ "undo"}}</a>
-    <span title="Remove Message" class="icon-close close-trigger"></span>
+    <span title="{{__ "Remove Message"}}" class="icon-close close-trigger"></span>
 </div>

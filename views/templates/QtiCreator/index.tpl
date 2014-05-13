@@ -75,14 +75,13 @@ use oat\taoQtiItem\helpers\Authoring;
                 <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
 
                 <li class="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
-                <!-- toggle comments above below to enable/disable device specific previews -->
+                <!-- toggle comments above/below to enable/disable device specific previews -->
                 <!--
                 <li class="preview-trigger" data-preview-type="desktop"><span class="icon-desktop-preview"></span><?=__('Desktop preview')?></li>
                 <li class="preview-trigger" data-preview-type="mobile"><span class="icon-mobile-preview"></span><?=__('Mobile preview')?></li>
                 -->
 
                 <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
-                <!--<li id="download-trigger"><span class="icon-download"></span><?=__('Export')?></li>-->
             </ul>
             <ul class="plain clearfix item-editor-menu rgt">
                 <li id="item-editor-status">&nbsp;</li>
@@ -124,7 +123,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
         <!-- right sidebar -->
         <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
-            <div class="item-editor-item-related" id="item-style-editor-bar">
+            <div class="item-editor-item-related sidebar-right-section-box" id="item-style-editor-bar">
                 <section class="tool-group clearfix" id="sidebar-right-css-manager">
 
                     <h2><?=__('Style Sheet Manager')?></h2>
@@ -133,7 +132,7 @@ use oat\taoQtiItem\helpers\Authoring;
                         <ul class="none" id="style-sheet-toggler">
                             <!-- TAO style sheet -->
                             <li data-css-res="taoQtiItem/views/css/qti.css">
-                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this style sheet temporarily')?>"></span>
+                                <span class="icon-preview style-sheet-toggler" title="<?=__('Disable this stylesheet temporarily')?>"></span>
                                 <span><?=__('TAO default styles')?></span>
                             </li>
 
@@ -240,37 +239,37 @@ use oat\taoQtiItem\helpers\Authoring;
                 </section>
 
             </div>
-            <div class="item-editor-item-related" id="item-editor-item-property-bar">
+            <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-item-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-item-properties">
                     <h2><?=__('Item Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-body-element-related" id="item-editor-body-element-property-bar">
+            <div class="item-editor-body-element-related sidebar-right-section-box" id="item-editor-body-element-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-body-element-properties">
                     <h2><?=__('Body Element Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-item-related" id="item-editor-text-property-bar">
+            <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-text-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-text-block-properties">
                     <h2><?=__('Text Block Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-interaction-related" id="item-editor-interaction-property-bar">
+            <div class="item-editor-interaction-related sidebar-right-section-box" id="item-editor-interaction-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-interaction-properties">
                     <h2><?=__('Interaction Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-choice-related" id="item-editor-choice-property-bar">
+            <div class="item-editor-choice-related sidebar-right-section-box" id="item-editor-choice-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-choice-properties">
                     <h2><?=__('Choice Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-response-related" id="item-editor-response-property-bar">
+            <div class="item-editor-response-related sidebar-right-section-box" id="item-editor-response-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-response-properties">
                     <h2><?=__('Response Properties')?></h2>
                     <div class="panel"></div>

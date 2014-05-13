@@ -15,19 +15,17 @@ define([
             var cssToggler = $('#style-sheet-toggler'),
                 uploader = $('#stylesheet-uploader'),
                 customCssToggler = $('[data-custom-css]'),
-                getContext = function (icon) {
-                    icon = $(icon);
-                    var li = icon.closest('li'),
-                        cssUri = li.data('css-res'),
-                        isDisabled = li.find('.icon-preview').hasClass('disabled'),
-                        isCustomCss = !!li.data('custom-css');
+                getContext = function (trigger) {
+                    trigger = $(trigger);
+                    var li = trigger.closest('li'),
+                        stylesheetObj = li.data('stylesheetObj');
 
                     return {
-                        icon: icon,
                         li: li,
-                        cssUri: cssUri,
-                        isCustomCss: isCustomCss,
-                        isDisabled: isDisabled
+                        isCustomCss: !!li.data('custom-css'),
+                        isDisabled: li.find('.icon-preview').hasClass('disabled'),
+                        stylesheetObj: stylesheetObj,
+                        cssUri: stylesheetObj.attr('href')
                     }
 
                 };
@@ -40,7 +38,6 @@ define([
 
                 uploader.resourcemgr({
                     appendContainer: '#item-editor-panel',
-                    type: 'text/css',
                     root: '/',
                     browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
                     uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
@@ -48,7 +45,8 @@ define([
                     downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
                     params: {
                         uri: itemConfig.uri,
-                        lang: itemConfig.lang
+                        lang: itemConfig.lang,
+                        filters: 'text/css'
                     },
                     pathParam: 'path',
                     select: function (e, uris) {
@@ -99,15 +97,16 @@ define([
              */
             var saveLabel = function (trigger) {
                 var input = $(trigger),
+                    context = getContext(trigger),
                     label = input.prev('.file-label'),
                     title = $.trim(input.val());
 
                 if (!title) {
-                    styleEditor.getItem().attr('title', '');
+                    context.stylesheetObj.attr('title', '');
                     return false;
                 }
 
-                styleEditor.getItem().attr('title', title);
+                context.stylesheetObj.attr('title', title);
                 input.hide();
                 label.html(title).show();
             };
@@ -144,7 +143,7 @@ define([
                 }
 
                 // add some visual feed back to the triggers
-                context.icon.toggleClass('disabled');
+                $(trigger).toggleClass('disabled');
             };
 
             /**
@@ -154,7 +153,7 @@ define([
                 var target = e.target,
                     className = target.className;
 
-                // distribute actions
+                // distribute click actions
                 if (className.indexOf('icon-bin') > -1) {
                     deleteStylesheet(e.target);
                 }

@@ -72,13 +72,14 @@ define([
             'math' : 'Math'
         };
 
-        var $formInteractionPanel = $('#item-editor-interaction-property-bar').hide(),
-            $formChoicePanel = $('#item-editor-choice-property-bar').hide(),
-            $formResponsePanel = $('#item-editor-response-property-bar').hide(),
+        // all sections on the right sidebar are invisible by default
+        var $formInteractionPanel = $('#item-editor-interaction-property-bar'),
+            $formChoicePanel = $('#item-editor-choice-property-bar'),
+            $formResponsePanel = $('#item-editor-response-property-bar'),
             $formItemPanel = $('#item-editor-item-property-bar').show(),
-            $formBodyElementPanel = $('#item-editor-body-element-property-bar').hide(),
-            $formTextBlockPanel = $('#item-editor-text-property-bar').hide(),
-            $formStylePanel = $('#item-style-editor-bar').hide(),
+            $formBodyElementPanel = $('#item-editor-body-element-property-bar'),
+            $formTextBlockPanel = $('#item-editor-text-property-bar'),
+            $formStylePanel = $('#item-style-editor-bar'),
             $appearanceToggler = $('#appearance-trigger');
 
         var _toggleAppearanceEditor = function(active){
@@ -195,7 +196,7 @@ define([
 
             _initFormVisibilityListener();
 
-            //load item from serice REST
+            //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
 
                 var $itemContainer = $('#item-editor-panel');

@@ -151,7 +151,7 @@ define([
          */
         var save = function () {
             verifyInit();
-            $.post(_getUri('save'), _.extend({}, itemConfig,
+            return $.post(_getUri('save'), _.extend({}, itemConfig,
                 {
                     cssJson: JSON.stringify(style),
                     stylesheetUri: customStylesheet.attr('href')
@@ -222,6 +222,8 @@ define([
 
             // create list entry
             listEntry = $(cssTpl({ stylesheets: stylesheets }));
+
+            listEntry.data('stylesheetObj', stylesheet);
 
             // initialize download button
             common.listing.append(listEntry);
