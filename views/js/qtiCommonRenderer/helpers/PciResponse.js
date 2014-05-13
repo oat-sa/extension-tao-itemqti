@@ -97,6 +97,7 @@ define(['lodash'], function(_){
                         ret = responseValues[baseType];
                         ret = _.isArray(ret) ? ret : [ret];
                     }else{
+                        console.log(response);
                         throw 'invalid response baseType';
                     }
                 }else{

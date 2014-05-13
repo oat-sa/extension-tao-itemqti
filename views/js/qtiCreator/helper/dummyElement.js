@@ -47,7 +47,7 @@ define([
          * -> <span class="dummy-element" style="width:80px; height: 22px"></span>
          *
          * 2. Pre-defined placeholder
-         * dummyElement.get('math|images|video|...')
+         * dummyElement.get('math|image|video|...')
          * -> <span style="width: 150px; height: 100px; font-size: 80px; padding-top: 9px;" class="dummy-element">
          *       <span class="icon-image"></span>
          *    </span>

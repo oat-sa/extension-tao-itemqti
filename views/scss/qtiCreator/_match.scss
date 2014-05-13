@@ -6,7 +6,8 @@
         }
         thead{
             .mini-tlb{
-                top:-25px;
+                top:auto;
+                bottom:-26px;
             }
         }
         tbody{
@@ -17,7 +18,7 @@
         }
         td{
             input[disabled] ~ [class^="icon-"]{
-                cursor:pointer !important;
+                cursor:default !important;
             }
         }
         .mini-tlb{
