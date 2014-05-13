@@ -1,9 +1,12 @@
 define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.score',
     'lodash',
-    'i18n'
-], function(commonRenderer, helper, _, __){
+    'i18n',
+    'polyfill/placeholders'
+], function(commonRenderer, helper, formElement, scoreTpl, _, __){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
@@ -14,9 +17,12 @@ define([
 
             if(responseMappingMode){
                 helper.appendInstruction(widget.element, __('Please define the correct response and the score below.'));
-                interaction.responseMappingMode = true;
+                interaction.data('responseMappingMode', true);
+                ResponseWidget.createScoreWidgets(widget);
+                ResponseWidget.createCorrectWidgets(widget);
             }else{
                 helper.appendInstruction(widget.element, __('Please define the correct response below.'));
+                ResponseWidget.createCorrectWidgets(widget);
             }
 
             commonRenderer.render(interaction);
@@ -27,8 +33,8 @@ define([
                 .attr('data-role', 'correct');
         },
         setResponse : function(interaction, response){
-            
-            commonRenderer.setResponse(interaction, this.formatResponse(response));
+
+            commonRenderer.setResponse(interaction, ResponseWidget.formatResponse(response));
         },
         destroy : function(widget){
 
@@ -36,9 +42,69 @@ define([
 
             commonRenderer.destroy(interaction);
 
-            delete interaction.responseMappingMode;
+            interaction.removeData('responseMappingMode');
 
             widget.$container.find('table.matrix input[type=checkbox]').prop('disabled', 'disabled');
+            widget.$container.find('table.matrix .score').remove();
+            widget.$container.off('responseChange.qti-widget');
+        },
+        createScoreWidgets : function(widget){
+
+            var $container = widget.$container,
+                interaction = widget.element,
+                response = interaction.getResponseDeclaration(),
+                mapEntries = response.getMapEntries(),
+                defaultValue = response.getMappingAttribute('defaultValue');
+
+            $container.find('table.matrix td>label').each(function(){
+
+                var pairId = commonRenderer.inferValue(this).join(' ');
+
+                $(this).append(scoreTpl({
+                    serial : interaction.getSerial(),
+                    choiceIdentifier : pairId,
+                    score : mapEntries[pairId] ? mapEntries[pairId] : '',
+                    placeholder : defaultValue
+                }));
+            });
+
+            //add placeholder text to show the default value
+            var $scores = $container.find('table.matrix .score');
+            $scores.on('click', function(e){
+                e.stopPropagation();
+                e.preventDefault();
+            });
+
+            widget.on('mappingAttributeChange', function(data){
+                if(data.key === 'defaultValue'){
+                    $scores.attr('placeholder', data.value);
+                }
+            });
+
+            formElement.initDataBinding($container, response, {
+                score : function(response, value){
+
+                    var key = $(this).data('for');
+
+                    if(value === ''){
+                        response.removeMapEntry(key);
+                    }else{
+                        response.setMapEntry(key, value, true);
+                    }
+
+                }
+            });
+
+        },
+        createCorrectWidgets : function(widget){
+            
+            var interaction = widget.element,
+                response = interaction.getResponseDeclaration();
+
+            widget.$container.on('responseChange.qti-widget', function(e, data){
+                response.setCorrect(ResponseWidget.unformatResponse(data.response));
+            });
+
         },
         getResponseSummary : function(responseDeclaration){
 

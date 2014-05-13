@@ -158,13 +158,13 @@ define([
             // involved in the selection.
             e.preventDefault();
             Helper.validateInstructions(interaction, choice);
-            
+
         }else{
-            
+
             Helper.triggerResponseChangeEvent(interaction, {});
             Helper.validateInstructions(interaction);
         }
-        
+
     };
 
     var _maxMatchReached = function(interaction, input){
@@ -386,11 +386,11 @@ define([
     }
 
     var destroy = function(interaction){
-        
+
         Helper.getContainer(interaction).off('.commonRenderer');
-        
+
         resetResponse(interaction);
-        
+
         Helper.removeInstructions(interaction);
     };
 
@@ -402,6 +402,7 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        inferValue : _inferValue
     };
 });

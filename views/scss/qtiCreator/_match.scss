@@ -32,7 +32,15 @@
             .icon-*{
                 padding:0;
             }
-        } 
+        }
+        .score {
+            left:0;
+            min-width:0; 
+            width: 35px !important;
+            height:20px;
+            position: relative;
+            top: 0;
+        }
     }
     .add-option{
         position:relative;

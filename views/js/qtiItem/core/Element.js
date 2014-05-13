@@ -104,6 +104,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             }
             return this;
         },
+        removeData : function(name){
+            delete this.metaData[name];
+            return this;
+        },
         removeAttr : function(name){
             return this.removeAttributes(name);
         },
