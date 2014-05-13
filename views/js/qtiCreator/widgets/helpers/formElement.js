@@ -16,7 +16,6 @@ define([
                 spinner($form);
                 tooltip($form);
                 select2($form);
-                toggler($form);
             }else{
                 throw 'attempt to initialize ui widgets for an empty form';
             }
