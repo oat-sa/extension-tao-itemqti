@@ -15,9 +15,9 @@
     
     <div>
         <label for="orientation" class="spinner">{{__ "Orientation"}}</label>
-        <select name="type" class="select2" data-has-search="false">
-    		<option value="">{{__ "Horizontal"}}</option>
-    		<option value="application/zip">{{__ "Vertical"}}</option>
+        <select name="orientation" class="select2" data-has-search="false">
+    		<option value="horizontal">{{__ "Horizontal"}}</option>
+    		<option value="vertical">{{__ "Vertical"}}</option>
     	</select>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
 		<span class="tooltip-content">{{__ "Orientation attribute"}}</span>
@@ -35,14 +35,17 @@
     
     <div>
         <label for="step" class="spinner">{{__ "Step"}}</label>
-        <input name="step" value="{{step}}" data-increment="1" data-min="0" type="text" />
+        <input name="step" value="{{step}}" data-increment="1" data-min="1" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
 		<span class="tooltip-content">{{__ "Step Attribute"}}</span>
     </div>
     
     <div>
-        <label for="stepLabel" class="spinner">{{__ "Step Label"}}</label>
-        <input name="stepLabel" value="{{stepLabel}}" type="text" />
+        <label>
+        	<input name="stepLabel" type="checkbox" {{#if reverse}}checked="checked"{{/if}}/>
+        	<span class="icon-checkbox"></span>
+        	{{__ "StepLabel"}}
+    	</label>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
 		<span class="tooltip-content">{{__ "StepLabel Attribute"}}</span>
     </div>

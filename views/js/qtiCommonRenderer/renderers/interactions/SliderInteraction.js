@@ -21,11 +21,10 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
-        console.log('heelloooo');
 
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
-            $el = $('<div />').attr({'id' : attributes.identifier + '-qti-slider'}), //slider element
+            $el = $('<div />').attr({'id' : attributes.identifier + '-qti-slider', 'class' : 'qti-slider'}), //slider element
         $sliderLabels = $('<div />').attr({'class' : 'qti-slider-values'}),
         $sliderCurrentValue = $('<div />').attr({'id' : attributes.identifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
         $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.identifier + '-qti-slider-value'}); //the input that always holds the slider value
@@ -95,7 +94,7 @@ define([
             orientation : orientation
         }).on('slide', function(e){
             var val = parseInt($(this).val());
-            if((reverse)){
+            if((interaction.attr('reverse'))){
                 val = (max + min) - val;
             }
             val = Math.round(val * 1000) / 1000;
