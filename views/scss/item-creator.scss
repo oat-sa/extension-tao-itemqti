@@ -232,7 +232,7 @@
             hr {
                 margin: 6px 8px 4px 8px;
             }
-
+            
             .panel {
                 padding: 15px 5px 8px 5px;
                 .panel {
@@ -257,7 +257,7 @@
                         max-width: 140px;
                     }
                 }
-
+                
                 select.short{
                     width:auto;
                     min-width:100px;
@@ -291,7 +291,7 @@
                 }
             }
         }
-
+        
         .inset {
             margin-left: 6px;
             margin-right: 6px;
@@ -653,6 +653,23 @@
         .widget-box{
             border : 1px solid transparent;
             position:relative;
+            .overlay{
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                background : rgba($uiClickableDefaultBg, .5);
+                .message{
+                    background : rgba($uiClickableDefaultBg, .6);
+                    margin: auto;
+                    position: absolute;
+                    top: 40%; left: 0; bottom: 0; right: 0;
+                    display: table;
+                    min-height: 50px;
+                    min-width: 50px;
+                }
+            }
             .tlb-bar{
                 z-index:99;
             }

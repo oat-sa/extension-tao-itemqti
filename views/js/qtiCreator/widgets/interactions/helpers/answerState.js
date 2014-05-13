@@ -29,6 +29,9 @@ define([
                 responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')){
 
                 widget.changeState('map');
+            }else{
+
+                widget.changeState('custom');
             }
         },
         initResponseForm : function(widget){
@@ -54,6 +57,8 @@ define([
                 identifier : response.id(),
                 serial : response.getSerial(),
                 defineCorrect : defineCorrect,
+                editMapping : (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
+                editFeedbacks : (template !== 'CUSTOM'),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction),
                 defaultValue : response.getMappingAttribute('defaultValue'),
@@ -63,7 +68,7 @@ define([
             widget.$responseForm.find('select[name=template]').val(template);
 
             var _toggleCorrectWidgets = function(show){
-                
+
                 if(!$correctWidgets.length){
                     $correctWidgets = widget.$container.find('[data-edit=correct]');
                 }
@@ -74,9 +79,9 @@ define([
                     $correctWidgets.hide();
                 }
             };
-            
+
             _toggleCorrectWidgets(defineCorrect);
-            
+
             formElement.initDataBinding(widget.$responseForm, response, {
                 identifier : function(response, value){
                     response.id(value);

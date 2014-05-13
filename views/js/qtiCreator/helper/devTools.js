@@ -20,7 +20,7 @@ define([
     tools.liveXmlPreview = function(item, $destination) {
 
         //render qti xml:
-
+        
         var events = [
             'containerBodyChange',
             'attributeChange.qti-widget',

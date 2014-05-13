@@ -22,8 +22,7 @@
     </select>
 </div>
 
-{{#equal template "MATCH_CORRECT"}}
-{{else}}
+{{#if editMapping}}
 <hr/>
 
 <div class="panel" data-edit="map">
@@ -58,8 +57,10 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "Define the correct response."}}</span>
 </div>
-{{/equal}}
+{{/if}}
 
+{{#if editFeedbacks}}
 <hr/>
 
 <div class="panel feedbackRule-panel"></div>
+{{/if}}

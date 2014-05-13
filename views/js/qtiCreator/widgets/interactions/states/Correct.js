@@ -3,11 +3,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct'
 ], function(stateFactory, Correct){
 
-    var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
+    var InteractionStateCorrect = stateFactory.create(Correct, function(){
         //use default [data-edit="correct"].show();
     }, function(){
         //use default [data-edit="correct"].hide();
     });
 
-    return ChoiceInteractionStateCorrect;
+    return InteractionStateCorrect;
 });
