@@ -1,1 +1,0 @@
-<?include('form_interaction_without_choiceform.tpl');?>

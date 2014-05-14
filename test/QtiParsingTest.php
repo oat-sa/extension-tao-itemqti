@@ -87,7 +87,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p0/*.xml') as $file){
             
             $qtiParser = new Parser($file);
-            $qtiv2p1xsd = BASE_PATH.'models/classes/QTI/data/qtiv2p0/imsqti_v2p0.xsd';
+            $qtiv2p1xsd = BASE_PATH.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
             $qtiParser->validate($qtiv2p1xsd);
             if(!$qtiParser->isValid()){
                 echo $qtiParser->displayErrors();
@@ -121,7 +121,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         foreach(glob(dirname(__FILE__).'/samples/xml/apipv1p0/*.xml') as $file){
             
             $qtiParser = new Parser($file);
-            $qtiParser->validate(BASE_PATH.'models/classes/QTI/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
+            $qtiParser->validate(BASE_PATH.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
             if(!$qtiParser->isValid()){
                 echo $qtiParser->displayErrors();
             }

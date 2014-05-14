@@ -25,7 +25,6 @@ use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
-use oat\taoQtiItem\helpers\qti\ItemAuthoring;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
@@ -202,7 +201,7 @@ class ParserFactory
         
         //finally, add all body elements to the body
         $bodyData = $this->getBodyData($data);
-        $bodyData = ItemAuthoring::cleanHTML($bodyData);
+        //there use to be $bodyData = ItemAuthoring::cleanHTML($bodyData); there
 
         if(empty($bodyElements)){
             $container->edit($bodyData);

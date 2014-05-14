@@ -30,7 +30,7 @@ include_once dirname(__FILE__).'/../includes/raw_start.php';
  *
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package taoQTI
- 
+
  */
 class QtiOutputTest extends TaoPhpUnitTestRunner
 {
@@ -42,17 +42,6 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      */
     public function setUp(){
         TaoPhpUnitTestRunner::initTest();
-
-        $parameters = array(
-            'root_url' => ROOT_URL,
-            'base_www' => BASE_WWW,
-            'taobase_www' => TAOBASE_WWW,
-            'qti_lib_www' => BASE_WWW.'js/QTI/',
-            'qti_base_www' => BASE_WWW.'js/QTI/',
-            'raw_preview' => false,
-            'debug' => false
-        );
-        taoItems_models_classes_TemplateRenderer::setContext($parameters, 'ctx_');
     }
 
     /**
@@ -62,8 +51,6 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
         $qtiItemFiles = array_merge(
                 glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')
-//                glob(dirname(__FILE__).'/samples/cito/TOA_NoExtensions/items/*.xml'),
-//                glob(dirname(__FILE__).'/samples/cito/TAO_Extensions/depitems/*.xml')
         );
 
         foreach($qtiItemFiles as $file){
@@ -74,7 +61,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
             $qtiParser = new Parser($file);
             $item = $qtiParser->load();
-            
+
             //test if content has been exported
             $qti = $item->toXML();
             $this->assertFalse(empty($qti));
