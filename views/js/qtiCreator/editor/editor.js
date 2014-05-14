@@ -105,11 +105,15 @@ define([
                 var $element = $(this);
                 if(reset) {
                     $element.css('display', $element.prop('old-display'));
-                    $element.prop('old-display', null);
+                    $element.css('opacity', $element.prop('old-opacity'));
+                    $element.removeProp('old-display');
+                    $element.removeProp('old-opacity');
                 }
                 else {
                     $element.prop('old-display', $element.css('display'));
+                    $element.prop('old-opacity', $element.css('opacity'));
                     $element.css('display', 'block');
+                    $element.css('opacity', 0);
                 }
             });
         };
@@ -124,7 +128,7 @@ define([
                     blocks = block.add(block.find('section'));
                 // work around the fact that the sidebars might be hidden at this point
                 _tmpDisplay(blocks);
-                height = Math.max($(this).height(), height);
+                height = Math.max(block.height(), height);
                 _tmpDisplay(blocks, true);
             }).height(height);
         };

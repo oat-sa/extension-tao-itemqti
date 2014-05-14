@@ -14,6 +14,12 @@
             cursor: default !important;
         }
         margin-bottom: 30px;
+        & > .qti-choice {
+            min-width: 100px;
+            min-height: 30px;
+            max-width: 150px;
+            max-height: 150px;
+        }
     }
     .result-area {
         width: 40%;
@@ -46,7 +52,7 @@
                 position: relative;
                 z-index: 2;
                 min-width: 100px;
-                min-height: 100px;
+                min-height: 30px;
                 max-width: 150px;
                 max-height: 150px;
                 outline: 5px whiten($uiClickableDefaultBg, .5) solid;
