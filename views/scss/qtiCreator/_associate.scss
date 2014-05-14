@@ -9,18 +9,7 @@
             top: 5px;
         }
     }
-    .qti-choice{
-        .mini-tlb{
-            top:auto;
-            bottom:-47px;
-            right:-4px;
-            .tlb-button{
-                min-width:25px;
-                height:20px;
-                margin:0;
-            }
-        }
-    }
+
     .result-area > li {
         & > .mini-tlb[data-edit]{
             top:40%;

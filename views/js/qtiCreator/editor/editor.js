@@ -105,15 +105,11 @@ define([
                 var $element = $(this);
                 if(reset) {
                     $element.css('display', $element.prop('old-display'));
-                    $element.css('left', $element.prop('old-left'));
                     $element.prop('old-display', null);
-                    $element.prop('old-left', null);
                 }
                 else {
                     $element.prop('old-display', $element.css('display'));
-                    $element.prop('old-left', $element.css('left'));
                     $element.css('display', 'block');
-                    $element.css('left', '-20000px');
                 }
             });
         };

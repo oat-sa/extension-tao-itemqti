@@ -282,6 +282,10 @@
                     width: 40px;
                     min-width: 40px;
                 }
+                button.block {
+                    width: 100%;
+                    margin-top: 5px;
+                }
                 .feedbackRule-panel{
                     .adder{
                         :before{
@@ -346,8 +350,7 @@
                 }
             }
         }
-        
-        
+
         
         .item-editor-unit-input-box {
             position: relative;

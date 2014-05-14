@@ -45,6 +45,26 @@
     }
 }
 
+.edit-question .qti-blockInteraction .horizontal {
+    .add-option {
+        margin-top: 25px;
+    }
+    .qti-choice {
+        margin-top: 25px;
+        .mini-tlb{
+            white-space: nowrap;
+            top:-26px;
+            right:-4px;
+            .tlb-button{
+                min-width:25px;
+                height:20px;
+                margin:0;
+            }
+        }
+    }
+}
+
+
 //scope all hover, active style for delivery under the runtime class
 .runtime {
     .block-listing {

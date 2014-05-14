@@ -137,7 +137,7 @@ use oat\taoQtiItem\helpers\Authoring;
                             </li>
 
                         </ul>
-                        <button id="stylesheet-uploader" class="btn-info small block"><?=__('Upload your own CSS')?></button>
+                        <button id="stylesheet-uploader" class="btn-default small block"><?=__('Add your own CSS')?></button>
                     </div>
                 </section>
 
