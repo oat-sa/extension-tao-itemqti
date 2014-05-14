@@ -69,10 +69,10 @@ class SetOutcomeVariable
      */
     public function __construct($identifier,  Expression $expression)
     {
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062AE begin
+        
         $this->outcomeVariableIdentifier	= $identifier;
         $this->expression					= $expression;
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062AE end
+        
     }
 
     /**
@@ -86,9 +86,9 @@ class SetOutcomeVariable
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062A2 begin
+        
 		$returnValue = 'setOutcomeValue("'.$this->outcomeVariableIdentifier.'", '.$this->expression->getRule().');';
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062A2 end
+        
 
         return (string) $returnValue;
     }

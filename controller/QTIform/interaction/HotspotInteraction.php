@@ -51,10 +51,10 @@ class HotspotInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050A2 begin
+        
 		parent::setCommonElements();
 		$this->form->addElement(AssessmentItem::createTextboxElement($this->getInteraction(), 'maxChoices', __('Maximum selectable choices')));
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050A2 end
+        
     }
 
 }

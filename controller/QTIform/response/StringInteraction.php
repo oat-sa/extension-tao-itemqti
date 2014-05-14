@@ -52,7 +52,7 @@ abstract class StringInteraction
      */
     public function setCommonElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050D5 begin
+        
 		parent::setCommonElements();
 		
 		$baseTypeElt = tao_helpers_form_FormFactory::getElement('baseType', 'Radiobox');
@@ -72,7 +72,7 @@ abstract class StringInteraction
 			}
 		}
 		$this->form->addElement($baseTypeElt);
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050D5 end
+        
     }
 
 }

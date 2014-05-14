@@ -63,7 +63,7 @@ abstract class Template
     {
         $returnValue = null;
 
-        // section 127-0-1-1--2c448032:1355d3fa7bf:-8000:00000000000037B1 begin
+        
     switch ($templateUri) {
 			case Template::MATCH_CORRECT :
 				$returnValue = self::create(MatchCorrectTemplate::CLASS_ID, $response, $item);
@@ -77,7 +77,7 @@ abstract class Template
 			default :
 				throw new ParsingException('Cannot create interactionResponseProcessing for unknown Template '.$templateUri);
 		}
-        // section 127-0-1-1--2c448032:1355d3fa7bf:-8000:00000000000037B1 end
+        
 
         return $returnValue;
     }

@@ -53,9 +53,9 @@ class TakeoverFailedException
      */
     public function __construct($message = '')
     {
-        // section 127-0-1-1-6f11fd4b:1350ab5145f:-8000:000000000000361F begin
+        
         parent::__construct(empty($message) ? 'Impossible to takeover ResponseProcessing for QTI item' : $message);
-        // section 127-0-1-1-6f11fd4b:1350ab5145f:-8000:000000000000361F end
+        
     }
 
 } /* end of class oat\taoQtiItem\model\qti\response\TakeoverFailedException */

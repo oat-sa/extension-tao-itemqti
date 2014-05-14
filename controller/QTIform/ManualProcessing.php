@@ -70,13 +70,13 @@ class ManualProcessing
      */
     public function __construct( Interaction $interaction,  ResponseProcessing $responseProcessing,  OutcomeDeclaration $outcome)
     {
-        // section 127-0-1-1--3304025a:135345a8f39:-8000:00000000000036B0 begin
+        
         $this->outcome = $outcome;
     	if (!$responseProcessing instanceof Composite) {
     		throw new common_exception_Error('Call to manualprocessing form in non-composite mode');
     	}
         parent::__construct($interaction, $responseProcessing);
-        // section 127-0-1-1--3304025a:135345a8f39:-8000:00000000000036B0 end
+        
     }
 
     /**
@@ -88,7 +88,7 @@ class ManualProcessing
      */
     public function initElements()
     {
-        // section 127-0-1-1-249123f:13519689c9e:-8000:0000000000003690 begin
+        
     	parent::initElements();
     	$irp = $this->responseProcessing->getInteractionResponseProcessing($this->interaction->getResponse());
     	if (!$irp instanceof None) {
@@ -155,7 +155,7 @@ class ManualProcessing
 				//@todo scale not supported message
 			}
 		}
-		// section 127-0-1-1-249123f:13519689c9e:-8000:0000000000003690 end
+		
     }
 
 }

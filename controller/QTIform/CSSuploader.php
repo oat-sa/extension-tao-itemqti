@@ -73,13 +73,13 @@ class CSSuploader
      */
     public function __construct( Item $item, $itemUri)
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FAF begin
+        
 
 		$this->item = $item;
 		$this->itemUri = $itemUri;
 		$returnValue = parent::__construct(array(), array());
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FAF end
+        
     }
 
     /**
@@ -90,7 +90,7 @@ class CSSuploader
      */
     public function initForm()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FB3 begin
+        
 
 		$this->form = tao_helpers_form_FormFactory::getForm('css_uploader');
 
@@ -107,7 +107,7 @@ class CSSuploader
 		$submitElt->setValue('Upload');
 		$this->form->setActions(array($submitElt), 'bottom');
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FB3 end
+        
     }
 
     /**
@@ -118,7 +118,7 @@ class CSSuploader
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FB5 begin
+        
 
 		$serialElt = tao_helpers_form_FormFactory::getElement('itemSerial', 'Hidden');
 		$serialElt->setValue($this->item->getSerial());
@@ -143,7 +143,7 @@ class CSSuploader
 		));
 		$this->form->addElement($importFileElt);
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FB5 end
+        
     }
 
 } /* end of class oat\taoQtiItem\controller\QTIform\CSSuploader */

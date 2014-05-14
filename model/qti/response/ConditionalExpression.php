@@ -69,7 +69,7 @@ class ConditionalExpression
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
+        
         
         $returnValue = 'if('.$this->getCondition()->getRule().') {';
         foreach ($this->getActions() as $actions) {
@@ -77,7 +77,7 @@ class ConditionalExpression
         }
         $returnValue .= '}';
         
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
 
         return (string) $returnValue;
     }
@@ -93,10 +93,10 @@ class ConditionalExpression
      */
     public function __construct( Expression $condition, $actions)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE9 begin
+        
         $this->condition	= $condition;
         $this->actions		= $actions;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE9 end
+        
     }
 
     /**
@@ -110,9 +110,9 @@ class ConditionalExpression
     {
         $returnValue = null;
 
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004907 begin
+        
         $returnValue = $this->condition;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004907 end
+        
 
         return $returnValue;
     }
@@ -128,9 +128,9 @@ class ConditionalExpression
     {
         $returnValue = array();
 
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004909 begin
+        
         $returnValue = $this->actions;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004909 end
+        
 
         return (array) $returnValue;
     }

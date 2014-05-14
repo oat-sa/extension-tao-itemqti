@@ -52,7 +52,7 @@ class HotspotChoice
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000500C begin
+        
 		
 		parent::setCommonElements();
 		
@@ -81,7 +81,7 @@ class HotspotChoice
 		
 		$this->form->createGroup('choicePropOptions_'.$this->choice->getSerial(), __('Advanced properties'), array('fixed', 'hotspotLabel'));
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000500C end
+        
     }
 
 } /* end of class oat\taoQtiItem\controller\QTIform\choice\HotspotChoice */

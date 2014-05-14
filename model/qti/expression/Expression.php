@@ -53,8 +53,8 @@ abstract class Expression
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
+        
 
         return (string) $returnValue;
     }

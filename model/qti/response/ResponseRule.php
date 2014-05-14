@@ -54,9 +54,9 @@ abstract class ResponseRule
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
+        
         throw new common_Exception('class '.get_class($this).' needs to implement getRule', array('TAOITEMS', 'QTI', 'HARD'));
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
 
         return (string) $returnValue;
     }

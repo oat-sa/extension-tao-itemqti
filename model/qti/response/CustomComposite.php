@@ -60,8 +60,8 @@ class CustomComposite
     {
         $returnValue = array();
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003608 begin
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003608 end
+        
+        
 
         return (array) $returnValue;
     }
@@ -77,8 +77,8 @@ class CustomComposite
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003634 begin
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003634 end
+        
+        
 
         return (string) $returnValue;
     }

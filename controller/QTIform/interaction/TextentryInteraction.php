@@ -50,9 +50,9 @@ class TextentryInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005091 begin
+        
 		parent::setCommonElements();
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005091 end
+        
     }
 
 }

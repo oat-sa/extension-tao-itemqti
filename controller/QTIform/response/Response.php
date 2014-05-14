@@ -63,12 +63,12 @@ abstract class Response
      */
     public function __construct( ResponseDeclaration $response)
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050BC begin
+        
 		
 		$this->response = $response;
 		$returnValue = parent::__construct(array(), array());
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050BC end
+        
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class Response
      */
     public function initForm()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050BF begin
+        
 		
 		$this->form = tao_helpers_form_FormFactory::getForm('Response_Form');
 		
@@ -90,7 +90,7 @@ abstract class Response
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions(array(), 'bottom');
 			
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050BF end
+        
     }
 
     /**
@@ -104,9 +104,9 @@ abstract class Response
     {
         $returnValue = null;
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050C1 begin
+        
 		$returnValue = $this->response;
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050C1 end
+        
 
         return $returnValue;
     }
@@ -120,12 +120,12 @@ abstract class Response
      */
     public function setCommonElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050C3 begin
+        
 		//serial
 		$serialElt = tao_helpers_form_FormFactory::getElement('responseSerial', 'Hidden');
 		$serialElt->setValue($this->response->getSerial());
 		$this->form->addElement($serialElt);
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050C3 end
+        
     }
 
 } /* end of abstract class oat\taoQtiItem\controller\QTIform\response\Response */

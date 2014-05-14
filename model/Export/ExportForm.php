@@ -58,7 +58,7 @@ class ExportForm
      */
     public function initForm()
     {
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
+        
 
     	$this->form = new tao_helpers_form_xhtml_Form('export');
 
@@ -74,7 +74,7 @@ class ExportForm
 		$exportElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/export.png' /> ".__('Export')."</a>");
 
 		$this->form->setActions(array($exportElt), 'bottom');
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
+        
     }
     
     /**

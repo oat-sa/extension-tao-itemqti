@@ -60,7 +60,7 @@ class GapmatchInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005082 begin
+        
 		
 		$interaction = $this->getInteraction();
 		
@@ -68,7 +68,7 @@ class GapmatchInteraction
 				
 		$this->form->addElement(AssessmentItem::createBooleanElement($interaction, 'shuffle', __('Shuffle choices')));
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005082 end
+        
     }
 
 }

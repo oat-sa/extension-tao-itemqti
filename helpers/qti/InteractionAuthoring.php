@@ -62,7 +62,7 @@ class InteractionAuthoring
     {
         $returnValue = array();
 
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:0000000000003928 begin
+        
 		$responseProcessing = $item->getResponseProcessing();
 		$response = $interaction->getResponse();
 		
@@ -97,7 +97,7 @@ class InteractionAuthoring
 				.__('The response form is not available for the selected response processing.<br/>')
 				.'</b>';
 		}
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:0000000000003928 end
+        
 
         return (array) $returnValue;
     }
@@ -115,7 +115,7 @@ class InteractionAuthoring
     {
         $returnValue = null;
 
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:000000000000392C begin
+        
         $irp = $item->getResponseProcessing()->getInteractionResponseProcessing($interaction->getResponse());
         $outcome = null;
 		foreach ($item->getOutcomes() as $outcomeCandidate) {
@@ -135,7 +135,7 @@ class InteractionAuthoring
 			'displayGrid'	=> false,
 			'forms'			=> $xhtmlForms
 		);
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:000000000000392C end
+        
 
         return $returnValue;
     }
@@ -153,7 +153,7 @@ class InteractionAuthoring
     {
         $returnValue = array();
 
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:000000000000392E begin
+        
         $responseProcessing = $item->getResponseProcessing();
         $service = QtiAuthoringService::singleton();
 		$columnModel = $service->getInteractionResponseColumnModel($interaction, $item->getResponseProcessing(), true);
@@ -173,7 +173,7 @@ class InteractionAuthoring
 			'setResponseMappingMode' => true,
 			'forms'			=> $forms
 		);
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:000000000000392E end
+        
 
         return (array) $returnValue;
     }
@@ -191,7 +191,7 @@ class InteractionAuthoring
     {
         $returnValue = array();
 
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:0000000000003930 begin
+        
         $service = QtiAuthoringService::singleton();
 		$columnModel = $service->getInteractionResponseColumnModel($interaction, $item->getResponseProcessing(), false);
 		$responseData = $service->getInteractionResponseData($interaction);
@@ -202,7 +202,7 @@ class InteractionAuthoring
 			'setResponseMappingMode' => false,
 			'forms'			=> array()
 		);
-        // section 127-0-1-1-b1084d2:136c9f75e99:-8000:0000000000003930 end
+        
 
         return (array) $returnValue;
     }

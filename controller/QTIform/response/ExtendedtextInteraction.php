@@ -51,7 +51,7 @@ class ExtendedtextInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050DD begin
+        
 		
 		parent::setCommonElements();
 		
@@ -68,7 +68,7 @@ class ExtendedtextInteraction
 		}
 		$this->form->addElement($orderedCardinalityElt);
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050DD end
+        
     }
 
 }

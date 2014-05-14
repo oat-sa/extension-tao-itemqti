@@ -52,10 +52,10 @@ class UploadInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39--340dbb51:12d5574289f:-8000:0000000000002F7A begin
+        
 		parent::setCommonElements();
 		$this->form->addElement(AssessmentItem::createTextboxElement($this->getInteraction(), 'mimieType', __('MIME type')));
-        // section 10-13-1-39--340dbb51:12d5574289f:-8000:0000000000002F7A end
+        
     }
 
 }

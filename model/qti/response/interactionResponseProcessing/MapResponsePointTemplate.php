@@ -60,12 +60,12 @@ class MapResponsePointTemplate
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009015 begin
+        
         $returnValue = 'if(isNull(null, getResponse("'.$this->getResponse()->getIdentifier().'"))) { '.
         	'setOutcomeValue("'.$this->getOutcome()->getIdentifier().'", 0); } else { '.
         	'setOutcomeValue("'.$this->getOutcome()->getIdentifier().'", '.
         		'mapResponsePoint(null, getMap("'.$this->getResponse()->getIdentifier().'", "area"), getResponse("'.$this->getResponse()->getIdentifier().'"))); };';
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009015 end
+        
 
         return (string) $returnValue;
     }
@@ -81,7 +81,7 @@ class MapResponsePointTemplate
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362C begin
+        
         $returnValue = '<responseCondition>
 		    <responseIf>
 		        <not>
@@ -94,7 +94,7 @@ class MapResponsePointTemplate
 		        </setOutcomeValue>
 		    </responseIf>
 		</responseCondition>';
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362C end
+        
 
         return (string) $returnValue;
     }

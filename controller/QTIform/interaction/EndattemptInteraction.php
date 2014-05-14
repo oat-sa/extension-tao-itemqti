@@ -51,10 +51,10 @@ class EndattemptInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39--1553ee98:12ddcd3839e:-8000:000000000000300B begin
+        
 		parent::setCommonElements();
 		$this->form->addElement(AssessmentItem::createTextboxElement($this->getInteraction(), 'title', __('Title')));//mendatory
-        // section 10-13-1-39--1553ee98:12ddcd3839e:-8000:000000000000300B end
+        
     }
 
 }

@@ -53,7 +53,7 @@ abstract class StringInteraction
      */
     public function setCommonElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000508E begin
+        
 		
 		$interaction = $this->getInteraction();
 		$response = $interaction->getResponse();
@@ -123,7 +123,7 @@ abstract class StringInteraction
 		}
 		$this->form->addElement($placeHolderTextElt);
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000508E end
+        
     }
 
     /**
@@ -135,8 +135,8 @@ abstract class StringInteraction
      */
     public function newOperation()
     {
-        // section 10-13-1-39--340dbb51:12d5574289f:-8000:0000000000002F66 begin
-        // section 10-13-1-39--340dbb51:12d5574289f:-8000:0000000000002F66 end
+        
+        
     }
 
 }

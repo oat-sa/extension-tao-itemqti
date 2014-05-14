@@ -88,14 +88,14 @@ class ResponseProcessing
      */
     public function __construct( Item $item)
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FD3 begin
+        
 		
 		$this->item = $item;
 		
 		$this->responseProcessing = $item->getResponseProcessing();
 		parent::__construct();
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FD3 end
+        
     }
 
     /**
@@ -106,7 +106,7 @@ class ResponseProcessing
      */
     public function initForm()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDA begin
+        
 		
 		$this->form = tao_helpers_form_FormFactory::getForm('ResponseProcessingForm');
 		
@@ -115,7 +115,7 @@ class ResponseProcessing
 		$this->form->setActions(array(), 'top');
 		$this->form->setActions($actions, 'bottom');
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDA end
+        
     }
 
     /**
@@ -126,7 +126,7 @@ class ResponseProcessing
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDC begin
+        
 		
 		//add hidden id element, to know what the old id is:
 		$itemSerialElt = tao_helpers_form_FormFactory::getElement('itemSerial', 'Hidden');
@@ -167,7 +167,7 @@ class ResponseProcessing
 			$this->form->addElement($ruleElt);
 		}
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDC end
+        
     }
 
     /**
@@ -181,9 +181,9 @@ class ResponseProcessing
     {
         $returnValue = null;
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDF begin
+        
 		$returnValue = $this->responseProcessing;
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FDF end
+        
 
         return $returnValue;
     }
@@ -199,9 +199,9 @@ class ResponseProcessing
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FE2 begin
+        
 		$returnValue = $this->processingType;
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000004FE2 end
+        
 
         return (string) $returnValue;
     }

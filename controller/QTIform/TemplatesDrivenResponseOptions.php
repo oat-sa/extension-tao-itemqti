@@ -74,11 +74,11 @@ class TemplatesDrivenResponseOptions
      */
     public function __construct( ResponseProcessing $responseProcessing,  ResponseDeclaration $response)
     {
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003684 begin
+        
 		$this->responseProcessing = $responseProcessing;
         $this->response = $response;
         parent::__construct();
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003684 end
+        
     }
 
     /**
@@ -90,11 +90,11 @@ class TemplatesDrivenResponseOptions
      */
     public function initForm()
     {
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003680 begin
+        
         $this->form = tao_helpers_form_FormFactory::getForm('InteractionResponseProcessingForm');
 
 		$this->form->setActions(array(), 'bottom');
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003680 end
+        
     }
 
     /**
@@ -106,7 +106,7 @@ class TemplatesDrivenResponseOptions
      */
     public function initElements()
     {
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003682 begin
+        
         $serialElt = tao_helpers_form_FormFactory::getElement('responseSerial', 'Hidden');
 		$serialElt->setValue($this->response->getSerial());
 		$this->form->addElement($serialElt);
@@ -145,7 +145,7 @@ class TemplatesDrivenResponseOptions
 		$ResponseProcessingTplElt->setOptions($availableTemplates);
 		$ResponseProcessingTplElt->setValue($this->responseProcessing->getTemplate($this->response));
 		$this->form->addElement($ResponseProcessingTplElt);
-        // section 127-0-1-1-53d7bbd:135145c7d03:-8000:0000000000003682 end
+        
     }
 
 } /* end of class oat\taoQtiItem\controller\QTIform\TemplatesDrivenResponseOptions */

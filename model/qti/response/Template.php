@@ -113,7 +113,7 @@ class Template extends ResponseProcessing implements Rule
     public function getRule(){
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
+        
         if($this->uri == self::MATCH_CORRECT){
             $returnValue = taoQTI_models_classes_Matching_Matching::MATCH_CORRECT;
         }else if($this->uri == self::MAP_RESPONSE){
@@ -122,7 +122,7 @@ class Template extends ResponseProcessing implements Rule
             $returnValue = taoQTI_models_classes_Matching_Matching::MAP_RESPONSE_POINT;
         }
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
 
         return (string) $returnValue;
     }

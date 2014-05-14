@@ -51,9 +51,9 @@ class GraphicgapmatchInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050A9 begin
+        
 		parent::setCommonElements();
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:00000000000050A9 end
+        
     }
 
 } /* end of class oat\taoQtiItem\controller\QTIform\interaction\GraphicgapmatchInteraction */

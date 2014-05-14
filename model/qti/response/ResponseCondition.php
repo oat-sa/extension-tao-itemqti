@@ -72,7 +72,7 @@ class ResponseCondition
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
+        
         
         // Get the if / elseif conditions and the associated actions
         foreach ($this->responseIfs as $responseElseIf){
@@ -88,7 +88,7 @@ class ResponseCondition
             $returnValue .= '}';
         }
         
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
 
         return (string) $returnValue;
     }
@@ -104,9 +104,9 @@ class ResponseCondition
      */
     public function addResponseIf( Expression $condition, $actions)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE0 begin
+        
         $this->responseIfs[] = new ConditionalExpression($condition, $actions);
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE0 end
+        
     }
 
     /**
@@ -119,9 +119,9 @@ class ResponseCondition
      */
     public function setResponseElse($actions)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE6 begin
+        
         $this->responseElse = $actions;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AE6 end
+        
     }
 
 } /* end of class oat\taoQtiItem\model\qti\response\ResponseCondition */

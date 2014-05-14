@@ -52,9 +52,9 @@ class ExitResponse
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062A6 begin
+        
         $returnValue = 'exitResponse();';
-        // section 127-0-1-1-dbb9044:134e695b13f:-8000:00000000000062A6 end
+        
 
         return (string) $returnValue;
     }

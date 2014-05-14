@@ -68,9 +68,9 @@ class None
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--7e5cf656:136ee8922cb:-8000:00000000000039BF begin
+        
         return $this->default;
-        // section 127-0-1-1--7e5cf656:136ee8922cb:-8000:00000000000039BF end
+        
 
         return (string) $returnValue;
     }
@@ -85,9 +85,9 @@ class None
      */
     public function setDefaultValue($value)
     {
-        // section 127-0-1-1--7e5cf656:136ee8922cb:-8000:00000000000039BC begin
+        
         $this->default = $value;
-        // section 127-0-1-1--7e5cf656:136ee8922cb:-8000:00000000000039BC end
+        
     }
 
     /**
@@ -101,10 +101,10 @@ class None
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009017 begin
+        
         $returnValue = 'if(isNull(null, getResponse("'.$this->getResponse()->getIdentifier().'"))) { '.
         	'setOutcomeValue("'.$this->getOutcome()->getIdentifier().'", '.$this->getDefaultValue().'); };';
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009017 end
+        
 
         return (string) $returnValue;
     }
@@ -121,7 +121,7 @@ class None
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362E begin
+        
 		$returnValue = '<responseCondition>
 		    <responseIf>
 	            <isNull>
@@ -132,7 +132,7 @@ class None
 		        </setOutcomeValue>
 		    </responseIf>
 		</responseCondition>';
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362E end
+        
 
         return (string) $returnValue;
     }

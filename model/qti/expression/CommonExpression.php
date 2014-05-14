@@ -87,7 +87,7 @@ class CommonExpression
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF begin
+        
     // Get subExpressions
         $subExpressionsRules = array();
         foreach ($this->subExpressions as $subExpression){
@@ -139,7 +139,7 @@ class CommonExpression
                         . ($subExpressionsJSON!="" ? ', '.$subExpressionsJSON : '')
                     .')';
         }
-        // section 127-0-1-1-3397f61e:12c15e8566c:-8000:0000000000002AFF end
+        
 
         return (string) $returnValue;
     }
@@ -155,10 +155,10 @@ class CommonExpression
      */
     public function __construct($name, $attributes)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004900 begin
+        
         $this->name = $name;
         $this->attributes = $attributes;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000004900 end
+        
     }
 
     /**
@@ -171,9 +171,9 @@ class CommonExpression
      */
     public function setSubExpressions($expressions)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AC7 begin
+        
         $this->subExpressions = $expressions;
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AC7 end
+        
     }
 
     /**
@@ -186,7 +186,7 @@ class CommonExpression
      */
     public function setValue(   $value)
     {
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AD8 begin
+        
      
         // Set the value of the expression and cast it function of the (defined) base type of the variable
         if ($this->attributes['baseType']){
@@ -220,7 +220,7 @@ class CommonExpression
                     break;
             }   
         }
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002AD8 end
+        
     }
 
 } /* end of class oat\taoQtiItem\model\qti\expression\CommonExpression */

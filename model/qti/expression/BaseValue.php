@@ -53,7 +53,7 @@ class BaseValue
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A98 begin
+        
          // JSON ENCODE the value to get quote when quote are required function of the variable base type
         // not so easy ;)
         //$returnValue = json_encode($this->value);
@@ -96,7 +96,7 @@ class BaseValue
             . (count($options) ? '"'.addslashes(json_encode($options)).'"' : 'null') .
             ', '. $value .
         ')';
-        // section 127-0-1-1-605722c1:12c112b6508:-8000:0000000000002A98 end
+        
 
         return (string) $returnValue;
     }

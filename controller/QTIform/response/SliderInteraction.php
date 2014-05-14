@@ -51,7 +51,7 @@ class SliderInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39--1553ee98:12ddcd3839e:-8000:000000000000300E begin
+        
 		parent::setCommonElements();
 		
 		$baseTypeElt = tao_helpers_form_FormFactory::getElement('baseType', 'Radiobox');
@@ -70,7 +70,7 @@ class SliderInteraction
 			}
 		}
 		$this->form->addElement($baseTypeElt);
-        // section 10-13-1-39--1553ee98:12ddcd3839e:-8000:000000000000300E end
+        
     }
 
 }

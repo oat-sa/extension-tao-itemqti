@@ -60,8 +60,8 @@ class Custom
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009019 begin
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009019 end
+        
+        
 
         return (string) $returnValue;
     }
@@ -77,8 +77,8 @@ class Custom
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003630 begin
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:0000000000003630 end
+        
+        
 
         return (string) $returnValue;
     }

@@ -60,12 +60,12 @@ class MapResponseTemplate
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009013 begin
+        
         $returnValue = 'if(isNull(null, getResponse("'.$this->getResponse()->getIdentifier().'"))) { '.
         	'setOutcomeValue("'.$this->getOutcome()->getIdentifier().'", 0); } else { '.
         	'setOutcomeValue("'.$this->getOutcome()->getIdentifier().'", '.
         		'mapResponse(null, getMap("'.$this->getResponse()->getIdentifier().'"), getResponse("'.$this->getResponse()->getIdentifier().'"))); };';
-        // section 127-0-1-1-786830e4:134f066fb13:-8000:0000000000009013 end
+        
 
         return (string) $returnValue;
     }
@@ -81,7 +81,7 @@ class MapResponseTemplate
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362A begin
+        
         $returnValue = '<responseCondition>
 		    <responseIf>
 		        <not>
@@ -94,7 +94,7 @@ class MapResponseTemplate
 		        </setOutcomeValue>
 		    </responseIf>
 		</responseCondition>';
-        // section 127-0-1-1-4c0a0972:134fa47975d:-8000:000000000000362A end
+        
 
         return (string) $returnValue;
     }

@@ -52,7 +52,7 @@ class OrderInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005077 begin
+        
 		
 		$interaction = $this->getInteraction();
 		
@@ -75,7 +75,7 @@ class OrderInteraction
 		}
 		$this->form->addElement($orientationElt);
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005077 end
+        
     }
 
 }

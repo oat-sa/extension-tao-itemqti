@@ -51,7 +51,7 @@ class AssociateInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005070 begin
+        
 		
 		$interaction = $this->getInteraction();
 		
@@ -61,7 +61,7 @@ class AssociateInteraction
 		
 		$this->form->addElement(AssessmentItem::createTextboxElement($interaction, 'maxAssociations', __('Maximum allowed associations')));
 		
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:0000000000005070 end
+        
     }
 
 } /* end of class oat\taoQtiItem\controller\QTIform\interaction\AssociateInteraction */

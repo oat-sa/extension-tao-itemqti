@@ -53,7 +53,7 @@ class ExpressionParserFactory
     {
         $returnValue = null;
 
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002ADB begin
+        
         $expression = null;
         $expressionName = $data->getName();
         
@@ -88,7 +88,7 @@ class ExpressionParserFactory
 
         $returnValue = $expression;
 
-        // section 127-0-1-1-2d3ac2b0:12c120718cc:-8000:0000000000002ADB end
+        
 
         return $returnValue;
     }

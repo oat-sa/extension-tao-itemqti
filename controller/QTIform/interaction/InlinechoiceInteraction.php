@@ -51,13 +51,13 @@ class InlinechoiceInteraction
      */
     public function initElements()
     {
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000509A begin
+        
 		
 		parent::setCommonElements();
 				
 		$this->form->addElement(AssessmentItem::createBooleanElement($this->interaction, 'shuffle', __('Shuffle choices')));
     
-        // section 10-13-1-39-643eb156:12d51696e7c:-8000:000000000000509A end
+        
     }
 
 }
