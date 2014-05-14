@@ -22,11 +22,12 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
 
             if(!serial){
                 serial = util.buildSerial(this.qtiClass + '_');
-
             }
+
             if(serial && (typeof serial !== 'string' || !serial.match(/^[a-z_0-9]*$/i))){
                 throw 'invalid QTI serial : (' + (typeof serial) + ') ' + serial;
             }
+
             if(!_instances[serial]){
                 _instances[serial] = this;
                 this.serial = serial;
@@ -34,6 +35,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             }else{
                 throw 'a QTI Element with the same serial already exists ' + serial;
             }
+
             if(typeof this.initContainer === 'function'){
                 this.initContainer(arguments[2] || '');
             }
@@ -311,8 +313,35 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
         isEmpty : function(){
             //tells whether the element should be considered empty or not, from the rendering point of view
             return false;
+        },
+        addClass : function(className){
+            var clazz = this.attr('class') || '';
+            if(!_containClass(clazz, className)){
+                this.attr('class', clazz + (clazz.length ? ' ' : '') + className);
+            }
+        },
+        hasClass : function(className){
+            return _containClass(this.attr('class'), className);
+        },
+        removeClass : function(className){
+
+            var clazz = this.attr('class') || '';
+            if(clazz){
+                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
+                clazz = clazz.replace(regex, '').replace(/^\s+/, '');
+                if(clazz){
+                    this.attr('class', clazz);
+                }else{
+                    this.removeAttr('class');
+                }
+            }
         }
     });
+
+    var _containClass = function(allClassStr, className){
+        var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
+        return allClassStr && regex.test(allClassStr);
+    };
 
     //helpers
     Element.isA = function(qtiElement, qtiClass){

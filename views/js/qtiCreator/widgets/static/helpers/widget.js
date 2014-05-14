@@ -3,9 +3,16 @@ define(['jquery', 'lodash'], function($, _){
     var helper = {
         buildInlineContainer : function(widget){
             
+            var float = '';
+            if(widget.element.hasClass('lft')){
+                float = ' lft';
+            }else if(widget.element.hasClass('rgt')){
+                float = ' rgt';
+            }
+            
             var $wrap = $('<span>', {
                 'data-serial' : widget.element.serial,
-                'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass,
+                'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass+float,
                 'data-qti-class' : widget.element.qtiClass
             });
             widget.$container = widget.$original.wrap($wrap).parent();

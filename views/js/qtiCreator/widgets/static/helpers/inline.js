@@ -39,21 +39,21 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement'], function(_, dumm
         positionFloat : function(widget, position){
         
             var $container = widget.$container,
-                img = widget.element;
+                elt = widget.element;
 
             //remove class
             $container.removeClass('rgt lft');
 
-            img.removeClass('rgt');
-            img.removeClass('lft');
+            elt.removeClass('rgt');
+            elt.removeClass('lft');
             switch(position){
                 case 'right':
                     $container.addClass('rgt');
-                    img.addClass('rgt');
+                    elt.addClass('rgt');
                     break;
                 case 'left':
                     $container.addClass('lft');
-                    img.addClass('lft');
+                    elt.addClass('lft');
                     break;
             }
         }

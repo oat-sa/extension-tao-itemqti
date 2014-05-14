@@ -53,11 +53,6 @@ define([
         return element;
     };
     
-    var _containClass = function(allClassStr, className){
-        var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-        return allClassStr && regex.test(allClassStr);
-    };
-
     var methods = {
         init : function(serial, attributes){
 
@@ -91,29 +86,7 @@ define([
             }else{
                 throw 'invalid number of argument given';
             }
-        },
-        addClass : function(className){
-            var clazz = this.attr('class') || '';
-            if(!_containClass(clazz, className)){
-                this.attr('class', clazz + (clazz.length ? ' ' : '') + className);
-            }
-        },
-        hasClass : function(className){
-            return _containClass(this.attr('class'), className);
-        },
-        removeClass : function(className){
-
-            var clazz = this.attr('class') || '';
-            if(clazz){
-                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-                clazz = clazz.replace(regex, '').replace(/^\s+/, '');
-                if(clazz){
-                    this.attr('class', clazz);
-                }else{
-                    this.removeAttr('class');
-                }
-            }
-        }
+        }        
     };
 
     return methods;

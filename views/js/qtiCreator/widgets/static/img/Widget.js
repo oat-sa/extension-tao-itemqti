@@ -15,9 +15,6 @@ define([
         Widget.initCreator.call(this);
         
         inlineHelper.togglePlaceholder(this);
-        
-        console.log('init');
-        inlineHelper.positionFloat(this);
     };
     
     ImgWidget.buildContainer = function(){
