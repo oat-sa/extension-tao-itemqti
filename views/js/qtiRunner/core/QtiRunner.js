@@ -134,7 +134,7 @@ define([
         }
     };
 
-    QtiRunner.prototype.renderItem = function(data){
+    QtiRunner.prototype.renderItem = function(data, callback){
 
         var _this = this;
         var render = function(){
@@ -150,6 +150,10 @@ define([
                     _this.item.postRender();
                     _this.initInteractionsResponse();
 
+                    if (typeof callback != 'undefined') {
+                        callback();
+                    }
+                    
                 }, _this.getLoader().getLoadedClasses());
 
             }else{

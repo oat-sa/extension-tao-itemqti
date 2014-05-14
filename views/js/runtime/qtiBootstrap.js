@@ -46,22 +46,20 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
 
                 qtiRunner.loadElements(variableElementsData, function() {
                     
-                    qtiRunner.renderItem();
-
-                    $("#qti-submit-response").one('click', function() {
-                        qtiRunner.validate();
-                    });
-
-                    //exec user scripts
-                    if (_.isArray(runnerContext.userScripts)) {
-                        require(runnerContext.userScripts, function() {
-                            _.forEach(arguments, function(dependency) {
-                                if (_.isFunction(dependency.exec)) {
-                                    dependency.exec.call(null, runnerContext.userVars);
-                                }
+                    qtiRunner.renderItem(undefined, function() {
+                      //exec user scripts
+                        if (_.isArray(runnerContext.userScripts)) {
+                            require(runnerContext.userScripts, function() {
+                                _.forEach(arguments, function(dependency) {
+                                    if (_.isFunction(dependency.exec)) {
+                                        dependency.exec.call(null, runnerContext.userVars);
+                                    }
+                                });
                             });
-                        });
-                    }
+                        }
+                        
+                        iframeNotifier.parent('itemloaded');
+                    });
                 });
             });
         };
