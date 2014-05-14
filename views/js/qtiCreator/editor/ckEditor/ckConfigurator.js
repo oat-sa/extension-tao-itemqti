@@ -106,7 +106,8 @@ define([
             floatSpaceDockedOffsetY: 0,
             forcePasteAsPlainText: true,
             skin: 'tao',
-            removePlugins: '' //floatingspace
+            removePlugins: '' //floatingspaceliststyle,contextmenu
+
         };
 
 
@@ -200,6 +201,7 @@ define([
          * @param editor instance of ckeditor
          * @param toolbarType block | inline | flow | qtiBlock | qtiInline | qtiFlow | reset to get back to normal
          * @param options is based on the CKEDITOR config object with some additional sugar
+         *        Note that it's here you need to add parameters for the resource manager
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
         var getConfig = function (editor, toolbarType, options) {
@@ -208,6 +210,8 @@ define([
             }
 
             options = options || {};
+
+            options.resourcemgr = options.resourcemgr || {};
 
             var toolbar,
                 toolbars = _.clone(toolbarPresets, true),
@@ -219,7 +223,6 @@ define([
                 toolbarType = toolbarType.slice(3).toLowerCase();
                 ckConfig.allowedContent = true;
                 ckConfig.autoParagraph = false;
-                //ckConfig.removePlugins = 'Paste';
                 dtdMode = 'qti';
             }
 
@@ -261,6 +264,13 @@ define([
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
             });
+            // remove title 'Rich Text Editor, instance n' that CKE sets by default
+            // ref: http://tinyurl.com/keedruc
+            editor.on('instanceReady', function(e) {
+                $(e.editor.element.$).removeAttr("title");
+            });
+
+            //console.log(config)
 
             return config;
 
@@ -275,3 +285,4 @@ define([
 
     return ckConfigurator;
 });
+
