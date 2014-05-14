@@ -2,7 +2,7 @@ define([
     'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
-], function(__, ckeditor, dtdHandler){
+], function(_, ckeditor, dtdHandler){
     'use strict'
     /**
      * Cache original config
@@ -87,11 +87,11 @@ define([
         var ckConfig = {
             disableAutoInline : true,
             autoParagraph : false,
-            extraPlugins : '', //taofloatingspace
+            extraPlugins : 'confighelper',
             floatSpaceDockedOffsetY : 0,
             forcePasteAsPlainText : true,
             skin : 'tao',
-            removePlugins : '' //floatingspaceliststyle,contextmenu
+            removePlugins : ''
         };
 
 
@@ -254,16 +254,12 @@ define([
                 $(e.editor.element.$).removeAttr("title");
             });
 
-            //console.log(config)
-
             return config;
-
         };
-
 
         return {
             getConfig : getConfig
-        }
+        };
 
     }());
 

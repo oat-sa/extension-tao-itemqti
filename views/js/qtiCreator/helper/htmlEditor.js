@@ -7,11 +7,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
 ], function(_, __, $, CKEditor, ckConfigurator, deletingHelper){
 
-
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
-
-    //CKEDITOR.dtd.$editable.span = 1;//buggy!
 
     var _defaults = {
         placeholder : __('some text ...')
@@ -53,8 +50,6 @@ define([
 
         var ckConfig = {
             autoParagraph : false,
-            removePlugins : 'resize,elementspath',
-            extraPlugins : 'confighelper',
             floatSpaceDockedOffsetY : 10,
             floatSpace : {
                 debug : true,
@@ -65,7 +60,7 @@ define([
                 },
                 on : {
                     ready : function(floatSpaceApi){
-
+                        
                         floatSpaceApi.hide();
                         //@todo namespace this event: .editor.qti-widget or stuff...
                         $trigger.on('click', function(){
@@ -137,7 +132,7 @@ define([
                     $trigger.hide();
                 },
                 configLoaded : function(e){
-                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType);
+                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 }
             }
         };
