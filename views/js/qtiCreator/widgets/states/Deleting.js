@@ -25,13 +25,38 @@ define([
         $('body').off('.deleting');
     });
 
+    /**
+     * Move widget specific code to their respective location
+     * 
+     * @returns {jQuery} container
+     */
     DeletingState.prototype.getElementToRemove = function(){
 
         var $container = this.widget.$container;
 
         //if is a choice widget:
         if($container.hasClass('qti-choice')){
-            return $container;
+
+            if($container.prop('tagName') === 'TH'){
+                
+                //matchInteraction:
+                if($container.parent().parent().prop('tagName') === 'THEAD'){
+                    
+                    //hide col
+                    var $tbody = $container.closest('table.matrix').children('tbody');
+                    var $tds = $tbody.children('tr').find('td:last');
+                    console.log($tbody, $tds);
+                    return $container.add($tds);
+                    
+                }else if($container.parent().parent().prop('tagName') === 'TBODY'){
+                    
+                    //hide row
+                    return $container.parent();
+                }
+            }else{
+                return $container;
+            }
+
         }
 
         //inline widget:
@@ -128,13 +153,13 @@ define([
             _widget = this.widget;
 
         var $messageBox = deletingHelper.createInfoBox([_widget]);
-        
+
         $messageBox.on('confirm.deleting', function(){
-            
+
             _this.deleteElement();
 
         }).on('undo.deleting', function(){
-            
+
             try{
                 _widget.changeState('question');
             }catch(e){
@@ -144,7 +169,7 @@ define([
 
         this.messageBox = $messageBox;
     };
-    
+
     DeletingState.prototype.deleteElement = function(){
         this.widget.element.remove();//remove from model
         this.$elementToRemove.remove();//remove html from the dom

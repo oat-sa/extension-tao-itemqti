@@ -1,5 +1,6 @@
 define([
     'lodash',
+    'taoQtiItem/qtiItem/core/Element',
     'ui/incrementer',
     'ui/tooltipster',
     'ui/selecter',
@@ -7,7 +8,7 @@ define([
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
-], function(_, spinner, tooltip, select2){
+], function(_, Element, spinner, tooltip, select2){
 
     var formElement = {
         initWidget : function($form){
@@ -93,20 +94,18 @@ define([
         },
         getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, updateCardinality){
 
-            updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
-
             var $max = $form.find('input[name=' + attributeNameMax + ']'),
                 callbacks = {};
 
-            callbacks[attributeNameMin] = function(interaction, value, name){
+            callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : null};
 
                 if(value === ''){
-                    interaction.removeAttr(name);
+                    element.removeAttr(name);
                 }else{
                     value = parseInt(value);
-                    interaction.attr(name, value);
+                    element.attr(name, value);
                     newOptions.min = value;
 
                     var max = parseInt($max.val());
@@ -119,34 +118,45 @@ define([
                 $max.incrementer('options', newOptions).keyup();
             };
 
-            callbacks[attributeNameMax] = function(interaction, value, name){
+            callbacks[attributeNameMax] = function(element, value, name){
 
-                var responseDeclaration = interaction.getResponseDeclaration();
                 value = value || 0;
                 value = parseInt(value);
 
-                if(updateCardinality){
-                    responseDeclaration.attr('cardinality', (value <= 1) ? 'single' : 'multiple');
+                if(Element.isA(element, 'interaction')){
+                    //update response
+                    _updateResponseDeclaration(element, value, updateCardinality);
                 }
 
-                if(value){
-                    //always update the correct response then:
-                    var correct = [];
-                    _.each(responseDeclaration.getCorrect(), function(c){
-                        if(correct.length < value){
-                            correct.push(c);
-                        }else{
-                            return false;
-                        }
-                    });
-                    responseDeclaration.setCorrect(correct);
-                }
-
-                interaction.attr(name, value);
+                element.attr(name, value);//required
             };
 
             return callbacks;
         }
+    };
+
+    var _updateResponseDeclaration = function(interaction, maxChoice, updateCardinality){
+        
+        updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
+        
+        var responseDeclaration = interaction.getResponseDeclaration();
+        if(updateCardinality){
+            responseDeclaration.attr('cardinality', (maxChoice <= 1) ? 'single' : 'multiple');
+        }
+
+        if(maxChoice){
+            //always update the correct response then:
+            var correct = [];
+            _.each(responseDeclaration.getCorrect(), function(c){
+                if(correct.length < maxChoice){
+                    correct.push(c);
+                }else{
+                    return false;
+                }
+            });
+            responseDeclaration.setCorrect(correct);
+        }
+
     };
 
     var _validationCallback = function _validationCallback(valid, results){

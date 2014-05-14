@@ -27,6 +27,9 @@ define([
                 return _.clone(this.choices);
             }
         },
+        getChoice : function(serial){
+            return this.choices[0][serial] || this.choices[1][serial] || null;
+        },
         getComposingElements : function(){
 
             var elts = this._super();
@@ -57,7 +60,7 @@ define([
             return found;
         },
         render : function(){
-        
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 choices,
@@ -92,9 +95,9 @@ define([
         postRender : function(data, altClassName, renderer){
 
             renderer = renderer || this.getRenderer();
-            
+
             var choices = this.getChoices();
-            
+
             for(var i = 0; i < 2; i++){
                 _.forIn(choices[i], function(c){
                     if(c instanceof SimpleAssociableChoice){

@@ -12,6 +12,7 @@ define([
         }));
         var $e = this.widget.$container.find('[data-edit=map], [data-edit=correct]').hide();
         
+        //ok button z-index
     }, function(){
         //use default [data-edit="custom"].hide();
         this.widget.$container.children('.overlay').remove();

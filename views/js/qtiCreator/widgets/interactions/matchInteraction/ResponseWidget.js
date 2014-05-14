@@ -49,7 +49,7 @@ define([
             widget.$container.off('responseChange.qti-widget');
         },
         createScoreWidgets : function(widget){
-
+            
             var $container = widget.$container,
                 interaction = widget.element,
                 response = interaction.getResponseDeclaration(),

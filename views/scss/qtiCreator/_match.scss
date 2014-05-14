@@ -1,13 +1,17 @@
 @import "inc/bootstrap";
 .qti-matchInteraction {
+    
+    .qti-prompt-container{
+        margin: 5px 0 15px;
+    }
+    
     table.matrix{
         th{
             padding:0;
         }
         thead{
             .mini-tlb{
-                top:auto;
-                bottom:-26px;
+                top:-26px;
             }
         }
         tbody{
@@ -42,14 +46,20 @@
             top: 0;
         }
     }
-    .add-option{
-        position:relative;
-        padding: 5px 5px 5px 6px;
-        .icon-add{
-            font-size: 1.8rem;
-            left: 6px;
-            position: absolute;
-            top: 5px;
+    
+    .add-options{
+        margin:15px 5px 8px 0;
+        .add-option{
+            margin-left:2px;
+            position:relative;
+            padding: 5px 5px 5px 6px;
+            .icon-add{
+                font-size: 1.8rem;
+                left: 6px;
+                position: absolute;
+                top: 5px;
+            }
         }
     }
+    
 }

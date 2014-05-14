@@ -37,7 +37,7 @@ define([
             interaction = widget.element;
 
         //init add choice button if needed
-        if(!$choiceArea.children('.add-option').length){
+        if($choiceArea.length && !$choiceArea.children('.add-option').length){
 
             $choiceArea.append(addChoiceTpl({
                 serial : this.serial,
