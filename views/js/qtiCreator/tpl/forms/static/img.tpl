@@ -2,7 +2,7 @@
     <label for="src">{{__ 'File'}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The file path to the image.'}}</div>
-    <input type="text" name="src" value="{{src}}" />
+    <input type="text" name="src" value="{{src}}" data-validate="$notEmpty; $fileExists(baseUrl={{baseUrl}})"/>
     <button class="btn-default small block">{{__ 'Add your own image'}}</button>
 </div>
 
@@ -10,7 +10,7 @@
     <label for="alt">{{__ "Label"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The text to be displayed if the image is not available.'}}</div>
-    <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty"/>
+    <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty" placeholder="e.g. a picture"/>
 </div>
 
 <div class="panel">
