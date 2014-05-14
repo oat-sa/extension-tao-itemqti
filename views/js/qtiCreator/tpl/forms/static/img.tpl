@@ -20,8 +20,7 @@
     <input type="text" name="longdesc" value="{{longdesc}}" data-validate="$notEmpty"/>
 </div>
 
-<div id="img-advanced-properties" style="display:none">
-    <hr />
+<div data-role="advanced" style="display:none">
     <div class="panel">
         <h3>{{__ 'Size and position'}}</h3>
 
@@ -41,18 +40,18 @@
         <p class="img-resizer-slider"></p>
 
         <label for="height">{{__ 'Height (optional)'}}</label>
-    <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-        <input type="text" name="height" value="{{height}}" />
-        <span class="unit-indicator">px</span>
-    </span>
+        <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
+            <input type="text" name="height" value="{{height}}" />
+            <span class="unit-indicator">px</span>
+        </span>
     </div>
     <div class="panel">
 
         <label for="width">{{__ 'Width (optional)'}}</label>
-    <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-        <input type="text" name="width" value="{{width}}" />
-        <span class="unit-indicator">px</span>
-    </span>
+        <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
+            <input type="text" name="width" value="{{width}}" />
+            <span class="unit-indicator">px</span>
+        </span>
     </div>
     <div class="panel">
 

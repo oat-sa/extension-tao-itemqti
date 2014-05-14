@@ -9,12 +9,15 @@ define([
     var ImgWidget = Widget.clone();
 
     ImgWidget.initCreator = function() {
-
-        Widget.initCreator.call(this);
-
+        
         this.registerStates(states);
         
+        Widget.initCreator.call(this);
+        
         inlineHelper.togglePlaceholder(this);
+        
+        console.log('init');
+        inlineHelper.positionFloat(this);
     };
     
     ImgWidget.buildContainer = function(){

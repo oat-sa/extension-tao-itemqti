@@ -7,7 +7,9 @@ define([
     'lodash',
     'nouislider'
 ], function(stateFactory, Active, formTpl, formElement, inlineHelper, _){
-
+    
+    
+    
     var ImgStateActive = stateFactory.extend(Active, function(){
 
         this.initForm();
@@ -16,28 +18,6 @@ define([
 
         this.widget.$form.empty();
     });
-
-    var _floatImg = function(widget, position){
-
-        var $container = widget.$container,
-            img = widget.element;
-
-        //remove class
-        $container.removeClass('rgt lft');
-
-        img.removeClass('rgt');
-        img.removeClass('lft');
-        switch(position){
-            case 'right':
-                $container.addClass('rgt');
-                img.addClass('rgt');
-                break;
-            case 'left':
-                $container.addClass('lft');
-                img.addClass('lft');
-                break;
-        }
-    };
 
     var _containClass = function(allClassStr, className){
         var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
@@ -82,8 +62,10 @@ define([
         }));
 
         //init slider and set align value before ...
+        _initAdvanced(_widget);
         _initSlider(_widget);
         _initAlign(_widget);
+        
         //... init standard ui widget
         formElement.initWidget($form);
 
@@ -94,11 +76,12 @@ define([
                 $img.attr('src', value);
                 inlineHelper.togglePlaceholder(_widget);
                 _initSlider(_widget);
+                _initAdvanced(_widget);
             },
             alt : formElement.getAttributeChangeCallback(),
             longdesc : formElement.getAttributeChangeCallback(),
             align : function(img, value){
-                _floatImg(_widget, value);
+                inlineHelper.positionFloat(_widget, value);
             },
             height : _getImgSizeChangeCallback($img, 'height'),
             width : _getImgSizeChangeCallback($img, 'width')
@@ -116,7 +99,7 @@ define([
             align = 'left';
         }
 
-        _floatImg(widget, align);
+        inlineHelper.positionFloat(widget, align);
         widget.$form.find('select[name=align]').val(align);
     };
 
@@ -151,6 +134,18 @@ define([
             $width.val(w).change();
             $height.val(h).change();
         }, 100));
+    };
+    
+    var _initAdvanced = function(widget){
+        
+        var $form = widget.$form,
+            src = widget.element.attr('src');
+        
+        if(src){
+            $form.find('[data-role=advanced]').show();
+        }else{
+            $form.find('[data-role=advanced]').hide();
+        }
     };
 
     return ImgStateActive;
