@@ -5,9 +5,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
+    'helpers',
     'ui/resourcemgr',
     'nouislider'
-], function(stateFactory, Active, formTpl, formElement, inlineHelper, _){
+], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, helpers){
     
     
     
@@ -160,19 +161,21 @@ define([
             $uploadTrigger.resourcemgr({
                 appendContainer: '#item-editor-panel',
                 root: '/',
-                browseUrl: '/taoItems/ItemContent/files',// helpers._url('files', 'ItemContent', 'taoItems'),
-                uploadUrl: '/taoItems/ItemContent/upload',// helpers._url('upload', 'ItemContent', 'taoItems'),
-                deleteUrl: '/taoItems/ItemContent/delete',// helpers._url('delete', 'ItemContent', 'taoItems'),
-                downloadUrl: '/taoItems/ItemContent/download',// helpers._url('download', 'ItemContent', 'taoItems'),
+                browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
+                uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
+                deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),
+                downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
                 params: {
-                    uri: 'http://tao.lan/tao.rdf#i1397825397545324', //itemConfig.uri,
-                    lang: 'en-US', //itemConfig.lang,
+                    //@todo: get config.uri + config.lang
+                    uri: 'http://tao.lan/tao.rdf#i1397825397545324', // config.uri,
+                    lang: 'en-US', // config.lang,
                     filters: 'image/jpeg,image/png,image/gif'
                 },
                 pathParam: 'path',
                 select: function (e, uris) {
                     var i, l = uris.length;
                     for (i = 0; i < l; i++) {
+                        //@todo: do something with the picture
                         console.log('Ready to add %s', uris[i]);
                     }
                 }
