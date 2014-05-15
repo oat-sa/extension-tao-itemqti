@@ -115,6 +115,7 @@ define([
     /**
      * Get available rp templates accoding to interaction type and response processing type
      * 
+     * @todo refactor this : check if 
      * @param {object} interaction
      * @returns {object} templates
      */
@@ -135,14 +136,12 @@ define([
                 delete templates.MAP_RESPONSE;
                 delete templates.MAP_RESPONSE_POINT;
                 break;
-            case 'selectPointInteraction':
-                delete templates.MAP_RESPONSE;
-                break;
             default:
                 delete templates.MAP_RESPONSE_POINT;
         }
 
         if(interaction.qtiClass === 'selectPointInteraction'){
+            delete templates.MATCH_CORRECT;
             delete templates.MAP_RESPONSE;
         }else{
             delete templates.MAP_RESPONSE_POINT;
