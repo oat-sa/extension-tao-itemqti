@@ -232,7 +232,7 @@
             hr {
                 margin: 6px 8px 4px 8px;
             }
-
+            
             .panel {
                 padding: 15px 5px 8px 5px;
                 .panel {
@@ -328,7 +328,7 @@
                 }
             }
         }
-
+        
         
         .reset-group {
             select {
@@ -351,8 +351,8 @@
                 }
             }
         }
-
-
+        
+        
         
         .item-editor-unit-input-box {
             position: relative;
@@ -920,6 +920,11 @@
     [data-html-editable]{
         border:1px solid transparent;
         outline:1px solid transparent !important;
+        [html-editable-shield]{
+            padding:0;
+            min-width:0;
+            margin:0;
+        }
     }
     .edit-question .qti-interaction, .qti-modalFeedback.edit-active{
         [data-html-editable-container]:hover{

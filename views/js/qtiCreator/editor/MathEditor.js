@@ -76,11 +76,11 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
             this.$buffer.html(mathStr);
 
             var _this = this;
-           jaxQueue.Push(
+            jaxQueue.Push(
                 ["Typeset", MathJax.Hub, this.$buffer[0]],
                 function(){
                     _this.processing = false;
-                    
+
                     args.target.html(_this.$buffer.html());
                     _this.$buffer.empty();
                 }
@@ -102,90 +102,90 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
             var _this = this;
             var jaxQueue = MathJax.Hub.queue;
             if(this.display === 'block'){
-                _this.$buffer.html('\\[\\displaystyle{'+_this.tex +'}\\]');
+                _this.$buffer.html('\\[\\displaystyle{' + _this.tex + '}\\]');
             }else{
-                _this.$buffer.html('\\(\\displaystyle{'+_this.tex +'}\\)');
+                _this.$buffer.html('\\(\\displaystyle{' + _this.tex + '}\\)');
             }
 
             //render preview:
             jaxQueue.Push(
                 //programmatically typeset the buffer
-                ["Typeset", MathJax.Hub, _this.$buffer[0]],
-                function(){
-                    
-                    //replace the target element
-                    args.target.html(_this.$buffer.html());
-                    
-                    //store mathjax "tex", for tex for later mathML conversion
-                    _this.texJax = _getJaxByElement(_this.$buffer);
-                    
-                    //empty buffer;
-                    _this.$buffer.empty();
-                    
-                    //sync MathML
-                    _this.currentTexToMathML(function(mathML){
-                        _this.setMathML(_stripMathTags(mathML));
-                    });
+                    ["Typeset", MathJax.Hub, _this.$buffer[0]],
+                    function(){
+
+                        //replace the target element
+                        args.target.html(_this.$buffer.html());
+
+                        //store mathjax "tex", for tex for later mathML conversion
+                        var texJax = _getJaxByElement(_this.$buffer);
+
+                        //empty buffer;
+                        _this.$buffer.empty();
+
+                        //sync MathML
+                        _this.texToMathML(texJax, function(mathML){
+                            _this.setMathML(_stripMathTags(mathML));
+                        });
+                    }
+                );
+
+                if(args.callback){
+                    jaxQueue.Push(args.callback);
                 }
-            );
-
-            if(args.callback){
-                jaxQueue.Push(args.callback);
             }
-        }
 
-    };
+        };
 
-    var _stripMathTags = function(mathMLstr){
+        var _stripMathTags = function(mathMLstr){
 
-        mathMLstr = mathMLstr.replace(/<(\/)?math[^>]*>/g, '');
-        mathMLstr = mathMLstr.replace(/^\s*[\r\n]/gm, '');//remove first blank line
-        mathMLstr = mathMLstr.replace(/\s*[\r\n]$/gm, '');//last blank line
+            mathMLstr = mathMLstr.replace(/<(\/)?math[^>]*>/g, '');
+            mathMLstr = mathMLstr.replace(/^\s*[\r\n]/gm, '');//remove first blank line
+            mathMLstr = mathMLstr.replace(/\s*[\r\n]$/gm, '');//last blank line
 
-        return mathMLstr;
-    };
+            return mathMLstr;
+        };
 
-    var _getJaxByElement = function($element){
+        var _getJaxByElement = function($element){
 
-        if($element instanceof $ && $element.length){
-            var $script = $element.find('script');
-            if($script.length && $script[0].MathJax && $script[0].MathJax.elementJax){
-                return $script[0].MathJax.elementJax;
+            if($element instanceof $ && $element.length){
+                var $script = $element.find('script');
+                if($script.length && $script[0].MathJax && $script[0].MathJax.elementJax){
+                    return $script[0].MathJax.elementJax;
+                }
             }
-        }
-    };
+        };
 
-    var _wrapMathTags = function(mathMLstr, displayBlock){
+        var _wrapMathTags = function(mathMLstr, displayBlock){
 
-        if(!mathMLstr.match(/<math[^>]*>/)){
-            var display = displayBlock ? ' display="block"' : '';
-            mathMLstr = '<math' + display + '>' + mathMLstr;//always show preview in block mode
-        }
-        if(!mathMLstr.match(/<\/math[^>]*>/)){
-            mathMLstr += '</math>';
-        }
-
-        return mathMLstr;
-    };
-
-    MathEditor.prototype.currentTexToMathML = function(callback){
-
-        var _this = this;
-        var mathML = '';
-
-        try{
-            mathML = _this.texJax.root.toMathML('');
-        }catch(err){
-            if(!err.restart){
-                throw err;
+            if(!mathMLstr.match(/<math[^>]*>/)){
+                var display = displayBlock ? ' display="block"' : '';
+                mathMLstr = '<math' + display + '>' + mathMLstr;//always show preview in block mode
             }
-            return MathJax.Callback.After(function(){
-                _this.currentTexToMathML(callback);
-            }, err.restart);
-        }
+            if(!mathMLstr.match(/<\/math[^>]*>/)){
+                mathMLstr += '</math>';
+            }
 
-        MathJax.Callback(callback)(mathML);
-    };
+            return mathMLstr;
+        };
 
-    return MathEditor;
-});
+        MathEditor.prototype.texToMathML = function(texJax, callback){
+
+            var _this = this;
+            var mathML = '';
+
+            try{
+                mathML = texJax.root.toMathML('');
+            }catch(err){
+                if(!err.restart){
+                    throw err;
+                }
+                return MathJax.Callback.After(function(){
+                    _this.texToMathML(texJax, callback);
+                }, err.restart);
+            }
+
+            MathJax.Callback(callback)(mathML);
+        };
+
+        return MathEditor;
+    });

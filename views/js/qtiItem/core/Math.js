@@ -19,22 +19,35 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
         init : function(serial, attributes){
             this._super(serial, attributes);
             this.ns = null;
+            this.mathML = '';
             this.annotations = {};
         },
         getNamespace : function(){
-            if(this.ns){
+
+            if(this.ns && this.ns.name && this.ns.uri){
                 return _.clone(this.ns);
             }else{
-                var namespaces = this.getRelatedItem().getNamespaces();
-                for(ns in namespaces){
-                    if(namespaces[ns].indexOf('MathML') > 0){
-                        return {
-                            name : ns,
-                            uri : namespaces[ns]
-                        };
+                
+                var relatedItem = this.getRelatedItem();
+                if(relatedItem){
+                    var namespaces = relatedItem.getNamespaces();
+                    for(ns in namespaces){
+                        if(namespaces[ns].indexOf('MathML') > 0){
+                            return {
+                                name : ns,
+                                uri : namespaces[ns]
+                            };
+                        }
                     }
+                    //if no ns found in the item, set the default one!
+                    relatedItem.namespaces[this.defaultNsName] = this.defaultNsUri;
+                    return {
+                        name : this.defaultNsName,
+                        uri : this.defaultNsUri
+                    };
                 }
             }
+
             return {};
         },
         setNamespace : function(name, uri){
@@ -71,7 +84,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
                 renderer = args.renderer || this.getRenderer(),
                 tag = this.qtiClass,
                 raw = this.mathML,
-                body,
+                body = raw,
                 ns = this.getNamespace(),
                 annotations = '';
 
@@ -113,10 +126,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
 
         if(mathStr && mathStr.trim()){
             var $math = $(mathStr);
-            var $row = $math.prop('tagName').toLowerCase() === 'mrow' ? $math : $math.find('mrow');
-            if($row.length && $row.text().trim()){
-                hasContent = true;
-            }
+            hasContent = !!$math.text();
         }
 
         return !hasContent;

@@ -21,7 +21,7 @@ define([
     });
 
     MathActive.prototype.initForm = function(){
-
+    
         var _widget = this.widget,
             $form = _widget.$form,
             math = _widget.element,
@@ -44,7 +44,6 @@ define([
         $form.find('select[name=display]').val(display);
         $form.find('select[name=editMode]').val(editMode);
         
-        console.log('todo : fix edit form visibility according to math editMode', editMode);
         $form.children('.panel[data-role="' + editMode + '"]').show();
         _toggleMode($form, editMode);
         
