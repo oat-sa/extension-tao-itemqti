@@ -86,7 +86,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
             $langReport = $this->deployItem($item, $compilationLanguage, $compiledFolder, $privateFolder);
             $report->add($langReport);
-            if($langReport->getType() == common_report_Report::TYPE_ERROR){
+            if ($langReport->getType() == common_report_Report::TYPE_ERROR) {
                 $report->setType(common_report_Report::TYPE_ERROR);
                 break;
             }
@@ -122,7 +122,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     protected function deployItem(core_kernel_classes_Resource $item, $language, $destination, $privateFolder){
 
 //        start debugging here
-        common_Logger::w('destination original '.$destination.' '.$privateFolder);
+        common_Logger::d('destination original '.$destination.' '.$privateFolder);
 
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
@@ -161,7 +161,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         //copy the event.xml if not present
         $eventsXmlFile = $destination.'events.xml';
         if(!file_exists($eventsXmlFile)){
-            $eventXml = file_get_contents(ROOT_PATH.'/taoItems/data/events_ref.xml');
+            $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
+            $eventsReference = $qtiItemDir.'model'.DIRECTORY_SEPARATOR.'qti'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'events_ref.xml';
+            $eventXml = file_get_contents($eventsReference);
             if(is_string($eventXml) && !empty($eventXml)){
                 $eventXml = str_replace('{ITEM_URI}', $item->getUri(), $eventXml);
                 @file_put_contents($eventsXmlFile, $eventXml);
