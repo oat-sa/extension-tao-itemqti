@@ -161,7 +161,15 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             response.template = data.howMatch || null;
             response.defaultValue = data.defaultValue || null;
             response.correctResponse = data.correctResponses || null;
-            response.mapEntries = data.mapping || data.areaMapping || {};
+            
+            if(_.size(data.mapping)){
+                response.mapEntries = data.mapping;
+            }else if(_.size(data.areaMapping)){
+                response.mapEntries = data.areaMapping;
+            }else{
+                response.mapEntries = {};
+            }
+            
             response.mappingAttributes = data.mappingAttributes || {};
 
             return response;

@@ -26,13 +26,15 @@ require([
 
         for(var identifier in data){
 
-            if(identifier !== 'choice')
+            if(identifier !== 'selectPoint')
                 continue;
 
             stop();//wait for the next start()
 
             loader.loadItemData(data[identifier].full, function(item){
-
+                
+                console.log(item);
+                
                 ok(Element.isA(item, 'assessmentItem'), identifier + ' item loaded');
 
                 //set renderer

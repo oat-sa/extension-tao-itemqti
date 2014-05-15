@@ -28,7 +28,7 @@
         {{~#if mapEntries~}}
         <areaMapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
             {{~#each mapEntries}}
-            <areaMapEntry{{#each mapEntries}} {{@key}}="{{.}}"{{/each}} />
+            <areaMapEntry shape="{{shape}}" coords="{{coords}}" mappedValue="{{mappedValue}}" />
             {{~/each}}
         </areaMapping>
         {{/if}}
