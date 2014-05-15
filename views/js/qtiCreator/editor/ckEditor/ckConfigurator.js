@@ -18,22 +18,22 @@ define([
         // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
         var positionedPlugins = {
             TaoMediaManager: {
-                insertAfter: 'Anchor',
+                insertAfter: 'Link',
                 separator: true
             }
         };
 
         var qtiPositionedPlugins = {
             TaoQtiMedia: {
-                insertAfter: 'Anchor',
+                insertAfter: 'Link',
                 separator: true
             },
             TaoQtiImage: {
-                insertAfter: 'Anchor',
+                insertAfter: 'Link',
                 separator: true
             },
             TaoQtiMaths: {
-                insertAfter: 'Anchor',
+                insertAfter: 'Link',
                 separator: true
             }
         };
@@ -104,7 +104,8 @@ define([
          */
         var _updatePlugins = function(ckConfig, positionedPlugins) {
             var itCnt,
-                tbCnt = ckConfig.toolbar.length,
+                //tbCnt = ckConfig.toolbar.length,
+                tbCnt,
                 itLen,
                 method,
                 plugin,
@@ -112,6 +113,7 @@ define([
                 separator,
                 idxItem,
                 numToReplace;
+
 
             // add positioned plugins to extraPlugins and let CKEDITOR take care of their registration
             ckConfig.extraPlugins = (function(positionedPluginArr, extraPlugins) {
@@ -129,6 +131,9 @@ define([
 
             // add positioned plugins to toolbar
             for (plugin in positionedPlugins) {
+
+                tbCnt = ckConfig.toolbar.length;
+
                 method = (function(pluginProps) {
                     var i = pluginProps.length;
                     while (i--) {
@@ -140,6 +145,7 @@ define([
                     throw 'Missing key insertBefore | insertAfter | replace in positionedPlugins';
 
                 }(_.keys(positionedPlugins[plugin])));
+
 
                 // the item to insert before | after
                 idxItem = positionedPlugins[plugin][method].toLowerCase();
@@ -157,6 +163,7 @@ define([
                             break;
                         }
                     }
+                    //continue
                     if (index > -1) {
                         // ~~ converts bool to number
                         numToReplace = ~~ (method === 'replace');
@@ -213,7 +220,7 @@ define([
 
             // if there is a toolbar in the options add it to the set
             if (options.toolbar) {
-                toolbars[toolbarType] = options.toolbar;
+                toolbars[toolbarType] = _.clone(options.toolbar);
                 delete(options.toolbar);
             }
 
@@ -231,9 +238,10 @@ define([
 
             // modify plugins - this will change the toolbar too
             if (options.positionedPlugins) {
-                positionedPlugins = _.assign(positionedPlugins, options.positionedPlugins);
-                //delete(options.positionedPlugins);
+                positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
+                delete(options.positionedPlugins);
             }
+
             // automatically add qti plugins if applicable
             if (dtdMode === 'qti') {
                 positionedPlugins = _.assign(positionedPlugins, qtiPositionedPlugins);
