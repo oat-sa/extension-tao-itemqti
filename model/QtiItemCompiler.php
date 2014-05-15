@@ -21,18 +21,18 @@
 namespace oat\taoQtiItem\model;
 
 use oat\taoQtiItem\model\QtiItemCompiler;
-use \taoItems_models_classes_ItemCompiler;
-use \core_kernel_classes_Resource;
-use \tao_models_classes_service_StorageDirectory;
-use \tao_models_classes_service_ServiceCall;
-use \tao_models_classes_service_ConstantParameter;
-use \taoItems_models_classes_ItemsService;
-use \taoItems_helpers_Deployment;
-use \common_report_Report;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
+use taoItems_models_classes_ItemCompiler;
+use core_kernel_classes_Resource;
+use tao_models_classes_service_StorageDirectory;
+use tao_models_classes_service_ServiceCall;
+use tao_models_classes_service_ConstantParameter;
+use taoItems_models_classes_ItemsService;
+use taoItems_helpers_Deployment;
+use common_report_Report;
+use common_ext_ExtensionsManager;
+use common_Logger;
 use oat\taoQtiItem\model\qti\Service;
-use \tao_helpers_File;
+use tao_helpers_File;
 use qtism\data\storage\xml\XmlAssessmentItemDocument;
 
 /**
@@ -49,14 +49,12 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     /**
      * Compile qti item
      * 
-     * @todo move this
-     * @param core_kernel_file_File $destinationDirectory
      * @throws taoItems_models_classes_CompilationFailedException
      * @return tao_models_classes_service_ServiceCall
      */
-    public function compile(){
+    public function compile() {
 
-        $destinationDirectory = $this->spawnPublicDirectory();
+        $publicDirectory = $this->spawnPublicDirectory();
         $privateDirectory = $this->spawnPrivateDirectory();
         $item = $this->getResource();
 
@@ -67,24 +65,24 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         $langs = $this->getContentUsedLanguages();
         foreach($langs as $compilationLanguage){
-            $compiledFolder = $this->getLanguageCompilationPath($destinationDirectory, $compilationLanguage);
-            if(!is_dir($compiledFolder)){
-                if(!@mkdir($compiledFolder)){
-                    common_Logger::e('Could not create directory '.$compiledFolder, 'COMPILER');
+            $publicLangDir = $this->getLanguageCompilationPath($publicDirectory, $compilationLanguage);
+            if(!is_dir($publicLangDir)){
+                if(!@mkdir($publicLangDir)){
+                    common_Logger::e('Could not create directory '.$publicLangDir, 'COMPILER');
                     return $this->fail(__('Could not create language specific directory for item \'%s\'', $item->getLabel()));
                 }
             }
 
-            $privateFolder = $this->getLanguageCompilationPath($privateDirectory, $compilationLanguage);
-            if(!is_dir($compiledFolder)){
-                if(!@mkdir($compiledFolder)){
-                    common_Logger::e('Could not create directory '.$compiledFolder, 'COMPILER');
+            $privateLangDir = $this->getLanguageCompilationPath($privateDirectory, $compilationLanguage);
+            if(!is_dir($privateLangDir)){
+                if(!@mkdir($privateLangDir)){
+                    common_Logger::e('Could not create directory '.$privateLangDir, 'COMPILER');
                     return $this->fail(__('Could not create language specific directory for item \'%s\'', $item->getLabel()));
                 }
             }
 
 
-            $langReport = $this->deployItem($item, $compilationLanguage, $compiledFolder, $privateFolder);
+            $langReport = $this->deployQtiItem($item, $compilationLanguage, $publicLangDir, $privateLangDir);
             $report->add($langReport);
             if ($langReport->getType() == common_report_Report::TYPE_ERROR) {
                 $report->setType(common_report_Report::TYPE_ERROR);
@@ -92,18 +90,26 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             }
         }
         if($report->getType() == common_report_Report::TYPE_SUCCESS){
-            $report->setData($this->createService($item, $destinationDirectory, $privateDirectory));
+            $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
         }else{
             $report->setMessage(__('Failed to publish %s', $item->getLabel()));
         }
         return $report;
     }
 
-    protected function createService(core_kernel_classes_Resource $item, tao_models_classes_service_StorageDirectory $destinationDirectory, tao_models_classes_service_StorageDirectory $privateDirectory){
+    /**
+     * Create a servicecall that runs the prepared qti item
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @param tao_models_classes_service_StorageDirectory $publicDirectory
+     * @param tao_models_classes_service_StorageDirectory $privateDirectory
+     * @return tao_models_classes_service_ServiceCall
+     */
+    protected function createQtiService(core_kernel_classes_Resource $item, tao_models_classes_service_StorageDirectory $publicDirectory, tao_models_classes_service_StorageDirectory $privateDirectory){
 
         $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(INSTANCE_QTI_SERVICE_ITEMRUNNER));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMPATH), $destinationDirectory->getId()
+                new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMPATH), $publicDirectory->getId()
         ));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
                 new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMDATAPATH), $privateDirectory->getId()
@@ -116,20 +122,25 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     }
 
     /**
-     * (non-PHPdoc)
-     * @see taoItems_models_classes_ItemCompiler::deployItem()
+     * Desploy all the required files into the provided directories
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @param string $language
+     * @param string $publicDirectory
+     * @param string $privateFolder
+     * @return common_report_Report
      */
-    protected function deployItem(core_kernel_classes_Resource $item, $language, $destination, $privateFolder){
+    protected function deployQtiItem(core_kernel_classes_Resource $item, $language, $publicDirectory, $privateFolder){
 
 //        start debugging here
-        common_Logger::d('destination original '.$destination.' '.$privateFolder);
+        common_Logger::d('destination original '.$publicDirectory.' '.$privateFolder);
 
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
 
         //copy all item folder (but the qti.xml)
         $itemFolder = $itemService->getItemFolder($item, $language);
-        taoItems_helpers_Deployment::copyResources($itemFolder, $destination, array('qti.xml'));
+        taoItems_helpers_Deployment::copyResources($itemFolder, $publicDirectory, array('qti.xml'));
 
         //copy item.xml file to private directory
         tao_helpers_File::copy($itemFolder.'qti.xml', $privateFolder.'qti.xml', false);
@@ -147,7 +158,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
 
         // retrieve external resources
-        $report = taoItems_helpers_Deployment::retrieveExternalResources($xhtml, $destination);//@todo (optional) : exclude 'require.js' from copying
+        $report = taoItems_helpers_Deployment::retrieveExternalResources($xhtml, $publicDirectory);//@todo (optional) : exclude 'require.js' from copying
         if($report->getType() == common_report_Report::TYPE_SUCCESS){
             $xhtml = $report->getData();
         }else{
@@ -156,10 +167,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
         // write index.html
-        file_put_contents($destination.'index.html', $xhtml);
+        file_put_contents($publicDirectory.'index.html', $xhtml);
 
         //copy the event.xml if not present
-        $eventsXmlFile = $destination.'events.xml';
+        $eventsXmlFile = $publicDirectory.'events.xml';
         if(!file_exists($eventsXmlFile)){
             $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $eventsReference = $qtiItemDir.'model'.DIRECTORY_SEPARATOR.'qti'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'events_ref.xml';
