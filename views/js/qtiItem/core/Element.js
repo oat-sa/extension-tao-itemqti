@@ -76,7 +76,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                         }
                     }else if(typeof(name) === 'string'){
                         if(this.attributes[name] === undefined){
-                            return null;
+                            return undefined;
                         }else{
                             return this.attributes[name];
                         }
@@ -97,7 +97,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                         }
                     }else if(typeof(name) === 'string'){
                         if(this.metaData[name] === undefined){
-                            return null;
+                            return undefined;
                         }else{
                             return this.metaData[name];
                         }

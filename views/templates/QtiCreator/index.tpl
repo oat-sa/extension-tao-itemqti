@@ -6,9 +6,9 @@ use oat\taoQtiItem\helpers\Authoring;
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
 <style>
-
+    
     /* style to be integrated */
-    [data-role="latex"], [data-role="mathml"] {display:none;}
+    [data-edit]{display:none;}
     
     /* style to be checked */
     .qti-droppable-ready{outline: 1px solid green;}

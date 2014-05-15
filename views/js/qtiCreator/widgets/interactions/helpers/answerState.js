@@ -42,7 +42,8 @@ define([
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),
                 corrects = response.getCorrect(),
-                defineCorrect = corrects && _.size(corrects),
+                editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
+                defineCorrect = false,
                 $correctWidgets = $();
 
             if(!template){
@@ -52,12 +53,22 @@ define([
                     throw 'invalid response template';
                 }
             }
+            
+            if(editMapping){
+                if(response.data('defineCorrect') !== undefined){
+                    defineCorrect = !!response.data('defineCorrect');
+                }else{
+                    //infer it : 
+                    defineCorrect = (corrects && _.size(corrects));
+                    response.data('defineCorrect', defineCorrect);
+                }
+            }
 
             widget.$responseForm.html(responseFormTpl({
                 identifier : response.id(),
                 serial : response.getSerial(),
                 defineCorrect : defineCorrect,
-                editMapping : (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
+                editMapping : editMapping,
                 editFeedbacks : (template !== 'CUSTOM'),
                 template : template,
                 templates : _getAvailableRpTemplates(interaction),
@@ -80,8 +91,10 @@ define([
                 }
             };
 
-            _toggleCorrectWidgets(defineCorrect);
-
+            if(editMapping){
+                _toggleCorrectWidgets(defineCorrect);
+            }
+            
             formElement.initDataBinding(widget.$responseForm, response, {
                 identifier : function(response, value){
                     response.id(value);
@@ -99,6 +112,11 @@ define([
                 },
                 defineCorrect : function(response, value){
                     _toggleCorrectWidgets(value);
+                    if(value){
+                        response.data('defineCorrect', defineCorrect);
+                    }else{
+                        response.removeData('defineCorrect');
+                    }
                 }
             });
 

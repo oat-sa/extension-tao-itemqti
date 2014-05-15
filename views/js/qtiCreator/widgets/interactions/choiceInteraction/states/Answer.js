@@ -13,9 +13,11 @@ define([
         var _widget = this.widget;
         
         //add title to first:
-        _widget.$container.find('.qti-choice:first .pseudo-label-box').append(responseToolbarTitleTpl({
+        var $label = $(responseToolbarTitleTpl({
             interactionSerial : _widget.serial
-        }));
+        })).show();
+        
+        _widget.$container.find('.qti-choice:first .pseudo-label-box').append($label);
         
         _widget.$container.on('click.qti-widget.answer', '.qti-choice', function(e){
             e.stopPropagation();

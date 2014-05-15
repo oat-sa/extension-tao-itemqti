@@ -874,7 +874,7 @@
             background-color:#eee;
         }
         [data-edit] {
-            /*display: none;*/
+            display: none;
             & > [class*=" col-"], [class^="col-"] {
                 margin-bottom: 0 !important;
             }
