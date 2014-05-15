@@ -67,11 +67,11 @@ define([
                     name: 'insert',
                     items: ['Image', 'Table', 'SpecialChar']
                 },
-                 '/', 
                 {
                     name: 'links',
                     items: ['Link']
-                }, {
+                },
+                 '/', {
                     name: 'styles',
                     items: ['Format']
                 }, {
