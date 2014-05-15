@@ -237,15 +237,15 @@ define([
             }
 
             // modify plugins - this will change the toolbar too
-            if (options.positionedPlugins) {
-                positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
-                delete(options.positionedPlugins);
-            }
-
-            // automatically add qti plugins if applicable
+            // this would add the qti plugins qtiPositionedPlugins
             if (dtdMode === 'qti') {
-                positionedPlugins = _.assign(positionedPlugins, qtiPositionedPlugins);
+                positionedPlugins = _.assign(qtiPositionedPlugins, _.clone(options.positionedPlugins));
             }
+            // this would add positionedPlugins (e.g. the media manager)
+            else {
+                positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
+            }
+            delete(options.positionedPlugins);
 
             _updatePlugins(ckConfig, positionedPlugins);
 
