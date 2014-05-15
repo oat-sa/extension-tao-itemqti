@@ -2,35 +2,34 @@ define([
     'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
-], function(_, ckeditor, dtdHandler) {
+], function(_, ckeditor, dtdHandler){
     'use strict'
     /**
      * Cache original config
      */
     var originalConfig = _.cloneDeep(CKEDITOR.config);
 
-    var ckConfigurator = (function() {
-
+    var ckConfigurator = (function(){
 
         // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
         // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
         // separator bool, defaults to false
         // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
         var positionedPlugins = {
-            TaoMediaManager: {
-                insertAfter: 'Link'
+            TaoMediaManager : {
+                insertAfter : 'SpecialChar'
             }
         };
 
         var qtiPositionedPlugins = {
-            TaoQtiMedia: {
-                insertAfter: 'Link'
+            TaoQtiMedia : {
+                insertAfter : 'SpecialChar'
             },
-            TaoQtiImage: {
-                insertAfter: 'Link'
+            TaoQtiImage : {
+                insertAfter : 'SpecialChar'
             },
-            TaoQtiMaths: {
-                insertAfter: 'Link'
+            TaoQtiMaths : {
+                insertAfter : 'SpecialChar'
             }
         };
 
@@ -39,39 +38,44 @@ define([
          * The argument 'toolbarType' determines which toolbar to use
          */
         var toolbarPresets = {
-            inline: [{
-                name: 'basicstyles',
-                items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-            }, {
-                name: 'insert',
-                items: ['SpecialChar']
-            }, {
-                name: 'links',
-                items: ['Link']
-            }],
-            flow: [{
-                name: 'basicstyles',
-                items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-            }, {
-                name: 'insert',
-                items: ['SpecialChar']
-            }, {
-                name: 'links',
-                items: ['Link']
-            }],
-            block: [{
-                    name: 'basicstyles',
-                    items: ['Bold', 'Italic', 'Subscript', 'Superscript']
+            inline : [{
+                    name : 'basicstyles',
+                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
                 }, {
-                    name: 'insert',
-                    items: ['Image', 'Table', 'Link', 'SpecialChar']
+                    name : 'insert',
+                    items : ['SpecialChar']
+                }, {
+                    name : 'links',
+                    items : ['Link']
+                }],
+            flow : [{
+                    name : 'basicstyles',
+                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                }, {
+                    name : 'insert',
+                    items : ['SpecialChar']
+                }, {
+                    name : 'links',
+                    items : ['Link']
+                }],
+            block : [{
+                    name : 'basicstyles',
+                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                }, {
+                    name : 'insert',
+                    items : ['Image', 'Table', 'SpecialChar']
                 },
-                '/', {
-                    name: 'styles',
-                    items: ['Format']
+                {
+                    name : 'links',
+                    items : ['Link']
+                },
+                '/',
+                {
+                    name : 'styles',
+                    items : ['Format']
                 }, {
-                    name: 'paragraph',
-                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    name : 'paragraph',
+                    items : ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
                 }
             ]
         };
@@ -80,13 +84,13 @@ define([
          * defaults for editor configuration
          */
         var ckConfig = {
-            disableAutoInline: true,
-            autoParagraph: false,
-            extraPlugins: 'confighelper',
-            floatSpaceDockedOffsetY: 0,
-            forcePasteAsPlainText: true,
-            skin: 'tao',
-            removePlugins: ''
+            disableAutoInline : true,
+            autoParagraph : false,
+            extraPlugins : 'confighelper',
+            floatSpaceDockedOffsetY : 0,
+            forcePasteAsPlainText : true,
+            skin : 'tao',
+            removePlugins : ''
         };
 
 
@@ -96,7 +100,7 @@ define([
          * @param ckConfig
          * @param positionedPlugins
          */
-        var _updatePlugins = function(ckConfig, positionedPlugins) {
+        var _updatePlugins = function(ckConfig, positionedPlugins){
             var itCnt,
                 tbCnt = ckConfig.toolbar.length,
                 itLen,
@@ -111,11 +115,11 @@ define([
                 i;
 
             // add positioned plugins to extraPlugins and let CKEDITOR take care of their registration
-            ckConfig.extraPlugins = (function(positionedPluginArr, extraPlugins) {
+            ckConfig.extraPlugins = (function(positionedPluginArr, extraPlugins){
                 var i = positionedPluginArr.length,
                     extraPluginArr = extraPlugins.split(',');
 
-                while (i--) {
+                while(i--){
                     positionedPluginArr[i] = positionedPluginArr[i].toLowerCase();
                 }
 
@@ -126,22 +130,22 @@ define([
 
             // capture line breaks (/) and such
             // and turn them into a objects temporarily
-            for (i = 0; i < tbCnt; i++) {
-                if (_.isString(ckConfig.toolbar[i])) {
+            for(i = 0; i < tbCnt; i++){
+                if(_.isString(ckConfig.toolbar[i])){
                     stringVals[i] = ckConfig.toolbar[i];
                     ckConfig.toolbar[i] = {
-                        items: []
+                        items : []
                     };
                 }
             }
 
             // add positioned plugins to toolbar
-            for (plugin in positionedPlugins) {
+            for(plugin in positionedPlugins){
 
-                method = (function(pluginProps) {
+                method = (function(pluginProps){
                     var i = pluginProps.length;
-                    while (i--) {
-                        if (pluginProps[i].indexOf('insert') === 0 || pluginProps[i] === 'replace') {
+                    while(i--){
+                        if(pluginProps[i].indexOf('insert') === 0 || pluginProps[i] === 'replace'){
                             return pluginProps[i];
                         }
                     }
@@ -157,24 +161,24 @@ define([
                 index = -1;
 
                 // each button row
-                while (tbCnt--) {
+                while(tbCnt--){
                     itLen = ckConfig.toolbar[tbCnt].items.length;
 
                     // each item in row
-                    for (itCnt = 0; itCnt < itLen; itCnt++) {
-                        if (ckConfig.toolbar[tbCnt].items[itCnt].toLowerCase() === idxItem) {
+                    for(itCnt = 0; itCnt < itLen; itCnt++){
+                        if(ckConfig.toolbar[tbCnt].items[itCnt].toLowerCase() === idxItem){
                             index = itCnt;
                             break;
                         }
                     }
                     //continue
-                    if (index > -1) {
+                    if(index > -1){
                         // ~~ converts bool to number
-                        numToReplace = ~~ (method === 'replace');
-                        if (method === 'insertAfter') {
+                        numToReplace = ~~(method === 'replace');
+                        if(method === 'insertAfter'){
                             index++;
                         }
-                        if (separator) {
+                        if(separator){
                             ckConfig.toolbar[tbCnt].items.splice(index, numToReplace, '-');
                             index++;
                         }
@@ -188,7 +192,7 @@ define([
 
 
             // re-add toolbar line breaks
-            for (stringVal in stringVals) {
+            for(stringVal in stringVals){
                 ckConfig.toolbar[stringVal] = stringVals[stringVal];
             }
 
@@ -208,8 +212,8 @@ define([
          *        Note that it's here you need to add parameters for the resource manager
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
-        var getConfig = function(editor, toolbarType, options) {
-            if (toolbarType === 'reset') {
+        var getConfig = function(editor, toolbarType, options){
+            if(toolbarType === 'reset'){
                 return originalConfig;
             }
 
@@ -223,7 +227,7 @@ define([
                 dtdMode = 'html';
 
             // modify DTD to either comply with QTI or XHTML
-            if (toolbarType.indexOf('qti') === 0) {
+            if(toolbarType.indexOf('qti') === 0){
                 toolbarType = toolbarType.slice(3).toLowerCase();
                 ckConfig.allowedContent = true;
                 ckConfig.autoParagraph = false;
@@ -231,30 +235,30 @@ define([
             }
 
             // if there is a toolbar in the options add it to the set
-            if (options.toolbar) {
+            if(options.toolbar){
                 toolbars[toolbarType] = _.clone(options.toolbar);
                 delete(options.toolbar);
             }
 
             // add toolbars to config
-            for (toolbar in toolbars) {
-                if (toolbars.hasOwnProperty(toolbar)) {
+            for(toolbar in toolbars){
+                if(toolbars.hasOwnProperty(toolbar)){
                     ckConfig['toolbar_' + toolbar] = toolbars[toolbar];
                 }
             }
 
             // add the toolbar
-            if (typeof toolbars[toolbarType] !== 'undefined') {
+            if(typeof toolbars[toolbarType] !== 'undefined'){
                 ckConfig.toolbar = toolbars[toolbarType];
             }
 
             // modify plugins - this will change the toolbar too
             // this would add the qti plugins qtiPositionedPlugins
-            if (dtdMode === 'qti') {
+            if(dtdMode === 'qti'){
                 positionedPlugins = _.assign(qtiPositionedPlugins, _.clone(options.positionedPlugins));
             }
             // this would add positionedPlugins (e.g. the media manager)
-            else {
+            else{
                 positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
             }
             delete(options.positionedPlugins);
@@ -268,7 +272,7 @@ define([
 
             // toggle global DTD
             // I know that this is rather ugly
-            editor.on('focus', function(e) {
+            editor.on('focus', function(e){
                 dtdHandler.setMode(dtdMode);
                 CKEDITOR.dtd = dtdHandler.getDtd();
                 // should be 1 on html, undefined on qti
@@ -276,7 +280,7 @@ define([
             });
             // remove title 'Rich Text Editor, instance n' that CKE sets by default
             // ref: http://tinyurl.com/keedruc
-            editor.on('instanceReady', function(e) {
+            editor.on('instanceReady', function(e){
                 $(e.editor.element.$).removeAttr("title");
             });
 
@@ -284,7 +288,7 @@ define([
         };
 
         return {
-            getConfig: getConfig
+            getConfig : getConfig
         };
 
     }());
