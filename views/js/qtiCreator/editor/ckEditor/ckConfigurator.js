@@ -18,19 +18,19 @@ define([
         // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
         var positionedPlugins = {
             TaoMediaManager: {
-                insertAfter: 'SpecialChar'
+                insertAfter: 'Link'
             }
         };
 
         var qtiPositionedPlugins = {
             TaoQtiMedia: {
-                insertAfter: 'SpecialChar'
+                insertAfter: 'Link'
             },
             TaoQtiImage: {
-                insertAfter: 'SpecialChar'
+                insertAfter: 'Link'
             },
             TaoQtiMaths: {
-                insertAfter: 'SpecialChar'
+                insertAfter: 'Link'
             }
         };
 
@@ -62,16 +62,11 @@ define([
             block: [{
                     name: 'basicstyles',
                     items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-                },
-                {
+                }, {
                     name: 'insert',
-                    items: ['Image', 'Table', 'SpecialChar']
+                    items: ['Image', 'Table', 'Link', 'SpecialChar']
                 },
-                {
-                    name: 'links',
-                    items: ['Link']
-                },
-                 '/', {
+                '/', {
                     name: 'styles',
                     items: ['Format']
                 }, {
@@ -103,16 +98,17 @@ define([
          */
         var _updatePlugins = function(ckConfig, positionedPlugins) {
             var itCnt,
-                //tbCnt = ckConfig.toolbar.length,
-                tbCnt,
+                tbCnt = ckConfig.toolbar.length,
                 itLen,
                 method,
                 plugin,
                 index,
                 separator,
                 idxItem,
-                numToReplace;
-
+                numToReplace,
+                stringVal,
+                stringVals = {},
+                i;
 
             // add positioned plugins to extraPlugins and let CKEDITOR take care of their registration
             ckConfig.extraPlugins = (function(positionedPluginArr, extraPlugins) {
@@ -128,10 +124,19 @@ define([
 
             }(_.keys(positionedPlugins), ckConfig.extraPlugins));
 
+            // capture line breaks (/) and such
+            // and turn them into a objects temporarily
+            for (i = 0; i < tbCnt; i++) {
+                if (_.isString(ckConfig.toolbar[i])) {
+                    stringVals[i] = ckConfig.toolbar[i];
+                    ckConfig.toolbar[i] = {
+                        items: []
+                    };
+                }
+            }
+
             // add positioned plugins to toolbar
             for (plugin in positionedPlugins) {
-
-                tbCnt = ckConfig.toolbar.length;
 
                 method = (function(pluginProps) {
                     var i = pluginProps.length;
@@ -177,6 +182,14 @@ define([
                         break;
                     }
                 }
+                // reset tbCnt
+                tbCnt = ckConfig.toolbar.length;
+            }
+
+
+            // re-add toolbar line breaks
+            for (stringVal in stringVals) {
+                ckConfig.toolbar[stringVal] = stringVals[stringVal];
             }
 
         };
