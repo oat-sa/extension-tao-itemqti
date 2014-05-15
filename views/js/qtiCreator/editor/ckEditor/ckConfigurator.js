@@ -60,21 +60,23 @@ define([
                 items: ['Link']
             }],
             block: [{
-                name: 'basicstyles',
-                items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-            }, {
-                name: 'insert',
-                items: ['Image', 'Table', 'SpecialChar']
-            }, {
-                name: 'links',
-                items: ['Link']
-            }, {
-                name: 'styles',
-                items: ['Format']
-            }, {
-                name: 'paragraph',
-                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-            }]
+                    name: 'basicstyles',
+                    items: ['Bold', 'Italic', 'Subscript', 'Superscript']
+                }, {
+                    name: 'insert',
+                    items: ['Image', 'Table', 'SpecialChar']
+                },
+                '/', {
+                    name: 'links',
+                    items: ['Link']
+                }, {
+                    name: 'styles',
+                    items: ['Format']
+                }, {
+                    name: 'paragraph',
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                }
+            ]
         };
 
         /**
