@@ -1,4 +1,3 @@
-var theItem;
 define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/preview',
@@ -226,8 +225,6 @@ define([
                     _initUiComponents(item, config);
 
                 }, item.getUsedClasses());
-
-                theItem = item;
 
             });
 

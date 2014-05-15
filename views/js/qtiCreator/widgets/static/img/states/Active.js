@@ -5,6 +5,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
+    'ui/resourcemgr',
     'nouislider'
 ], function(stateFactory, Active, formTpl, formElement, inlineHelper, _){
     
@@ -65,6 +66,7 @@ define([
         _initAdvanced(_widget);
         _initSlider(_widget);
         _initAlign(_widget);
+        _initUpload(_widget);
         
         //... init standard ui widget
         formElement.initWidget($form);
@@ -146,6 +148,37 @@ define([
         }else{
             $form.find('[data-role=advanced]').hide();
         }
+    };
+
+
+    var _initUpload = function(widget){
+
+        var $form = widget.$form,
+            $uploadTrigger = $form.find('[data-role="upload-trigger"]');
+
+        $uploadTrigger.on('click', function () {
+            $uploadTrigger.resourcemgr({
+                appendContainer: '#item-editor-panel',
+                root: '/',
+                browseUrl: '/taoItems/ItemContent/files',// helpers._url('files', 'ItemContent', 'taoItems'),
+                uploadUrl: '/taoItems/ItemContent/upload',// helpers._url('upload', 'ItemContent', 'taoItems'),
+                deleteUrl: '/taoItems/ItemContent/delete',// helpers._url('delete', 'ItemContent', 'taoItems'),
+                downloadUrl: '/taoItems/ItemContent/download',// helpers._url('download', 'ItemContent', 'taoItems'),
+                params: {
+                    uri: 'http://tao.lan/tao.rdf#i1397825397545324', //itemConfig.uri,
+                    lang: 'en-US', //itemConfig.lang,
+                    filters: 'image/jpeg,image/png,image/gif'
+                },
+                pathParam: 'path',
+                select: function (e, uris) {
+                    var i, l = uris.length;
+                    for (i = 0; i < l; i++) {
+                        console.log('Ready to add %s', uris[i]);
+                    }
+                }
+            });
+        });
+
     };
 
     return ImgStateActive;

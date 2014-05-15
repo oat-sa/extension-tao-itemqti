@@ -3,7 +3,7 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The file path to the image.'}}</div>
     <input type="text" name="src" value="{{src}}" data-validate="$notEmpty; $fileExists(baseUrl={{baseUrl}})"/>
-    <button class="btn-info small block">{{__ 'Add your own image'}}</button>
+    <button class="btn-info small block" data-role="upload-trigger">{{__ 'Add your own image'}}</button>
 </div>
 
 <div class="panel">
