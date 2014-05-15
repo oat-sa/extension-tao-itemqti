@@ -18,19 +18,19 @@ define([
         // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
         var positionedPlugins = {
             TaoMediaManager: {
-                insertAfter: 'Link'
+                insertAfter: 'SpecialChar'
             }
         };
 
         var qtiPositionedPlugins = {
             TaoQtiMedia: {
-                insertAfter: 'Link'
+                insertAfter: 'SpecialChar'
             },
             TaoQtiImage: {
-                insertAfter: 'Link'
+                insertAfter: 'SpecialChar'
             },
             TaoQtiMaths: {
-                insertAfter: 'Link'
+                insertAfter: 'SpecialChar'
             }
         };
 
@@ -62,11 +62,13 @@ define([
             block: [{
                     name: 'basicstyles',
                     items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-                }, {
+                },
+                {
                     name: 'insert',
                     items: ['Image', 'Table', 'SpecialChar']
                 },
-                '/', {
+                 '/', 
+                {
                     name: 'links',
                     items: ['Link']
                 }, {
