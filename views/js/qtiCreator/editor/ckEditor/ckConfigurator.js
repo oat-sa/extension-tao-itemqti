@@ -18,26 +18,21 @@ define([
         // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
         var positionedPlugins = {
             TaoMediaManager: {
-                insertAfter: 'Link',
-                separator: true
+                insertAfter: 'Link'
             }
         };
 
         var qtiPositionedPlugins = {
             TaoQtiMedia: {
-                insertAfter: 'Link',
-                separator: true
+                insertAfter: 'Link'
             },
             TaoQtiImage: {
-                insertAfter: 'Link',
-                separator: true
+                insertAfter: 'Link'
             },
             TaoQtiMaths: {
-                insertAfter: 'Link',
-                separator: true
+                insertAfter: 'Link'
             }
         };
-
 
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
