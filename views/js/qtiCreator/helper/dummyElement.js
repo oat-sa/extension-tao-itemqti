@@ -1,7 +1,8 @@
 define([
-    'jquery'
-], function ($) {
-    'use strict'
+    'jquery',
+    'lodash'
+], function ($, _) {
+    'use strict';
 
 
     var dummyElement = (function () {
