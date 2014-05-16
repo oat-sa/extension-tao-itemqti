@@ -178,7 +178,7 @@ define([
             var matchMax = choice.attributes.matchMax;
             var assoc = _countAssociations(interaction, choice);
 
-            if(assoc > matchMax){
+            if(matchMax > 0 && assoc > matchMax){
                 overflow = choice;
             }
         });
@@ -296,7 +296,7 @@ define([
                     var responseCount = _.size(_getRawResponse(interaction));
                     var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount <= maxAssociations){
@@ -317,7 +317,7 @@ define([
                 Helper.appendInstruction(interaction, msg, function(choice){
                     var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else{
@@ -335,7 +335,7 @@ define([
                     var responseCount = _.size(_getRawResponse(interaction));
                     var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
@@ -366,7 +366,7 @@ define([
                     var responseCount = _.size(_getRawResponse(interaction));
                     var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
