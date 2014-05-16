@@ -8,7 +8,7 @@ define([
 
     var ImgWidget = Widget.clone();
 
-    ImgWidget.initCreator = function() {
+    ImgWidget.initCreator = function(options) {
         
         this.registerStates(states);
         
@@ -16,6 +16,10 @@ define([
         
         inlineHelper.togglePlaceholder(this);
     };
+    
+    ImgWidget.getRequiredOptions = function(){
+        return ['baseUrl', 'uri', 'lang', 'mediaManager'];
+    }
     
     ImgWidget.buildContainer = function(){
         

@@ -119,8 +119,8 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
 
             if(renderer.isRenderer){
                 return this._super({
-                    'body' : renderer.renderDirect(tpl, elementsData),
-                    'contentModel' : this.contentModel || 'flow'
+                    body : renderer.renderDirect(tpl, elementsData),
+                    contentModel : this.contentModel || 'flow'
                 }, renderer);
             }else{
                 throw 'invalid qti renderer for qti container';

@@ -235,6 +235,7 @@ define([
          * @param item
          */
         var addItemStylesheets = function() {
+            
             var currentStylesheet;
 
             for(var key in currentItem.stylesheets) {
@@ -252,7 +253,7 @@ define([
                 // add those that are loaded synchronously
                 addStylesheet(currentItem.stylesheets[key]);
             }
-
+            
             // if no custom css had been found, add empty stylesheet anyway
             if(!customStylesheet) {
                 customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
@@ -274,19 +275,27 @@ define([
          * @param config
          */
         var init = function(item, config) {
+            
             // promise
             currentItem = item;
-            itemConfig = config;
-
-            var stylesheetUri = _getUri('load') + '?',
-                resizerTarget = $('#item-editor-item-resizer').data('target');
-
+            
+            //prepare config object (don't pass all of them, otherwise, $.param will break)
+            itemConfig = {
+                uri : config.uri,
+                lang : config.lang,
+                baseUrl : config.baseUrl
+            };
+            
             // this creates at the same time customStylesheet in case it doesn't exist yet
             addItemStylesheets();
 
+            var stylesheetUri = _getUri('load') + '?',
+                resizerTarget = $('#item-editor-item-resizer').data('target'),
+                href = customStylesheet.attr('href');
+            
             currentItem.data('responsive', true);
-
-            stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: customStylesheet.attr('href') }));
+            
+            stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: href }));
             require(['json!' + stylesheetUri], function(_style) {
 
                 // copy style to global style

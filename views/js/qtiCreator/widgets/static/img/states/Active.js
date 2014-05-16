@@ -9,9 +9,7 @@ define([
     'ui/resourcemgr',
     'nouislider'
 ], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, helpers){
-    
-    
-    
+
     var ImgStateActive = stateFactory.extend(Active, function(){
 
         this.initForm();
@@ -52,9 +50,11 @@ define([
             $img = _widget.$original,
             $form = _widget.$form,
             img = _widget.element,
+            baseUrl = _widget.options.baseUrl,
             responsive = true;
 
         $form.html(formTpl({
+            baseUrl : baseUrl || '',
             src : img.attr('src'),
             alt : img.attr('alt'),
             longdesc : img.attr('longdesc'),
@@ -68,15 +68,21 @@ define([
         _initSlider(_widget);
         _initAlign(_widget);
         _initUpload(_widget);
-        
+
         //... init standard ui widget
         formElement.initWidget($form);
 
         //init data change callbacks
         formElement.initDataBinding($form, img, {
             src : function(img, value){
+
                 img.attr('src', value);
+
+                if(!value.match(/^http/i)){
+                    value = baseUrl + '/' + value;
+                }
                 $img.attr('src', value);
+
                 inlineHelper.togglePlaceholder(_widget);
                 _initSlider(_widget);
                 _initAdvanced(_widget);
@@ -138,12 +144,12 @@ define([
             $height.val(h).change();
         }, 100));
     };
-    
+
     var _initAdvanced = function(widget){
-        
+
         var $form = widget.$form,
             src = widget.element.attr('src');
-        
+
         if(src){
             $form.find('[data-role=advanced]').show();
         }else{
@@ -155,28 +161,29 @@ define([
     var _initUpload = function(widget){
 
         var $form = widget.$form,
-            $uploadTrigger = $form.find('[data-role="upload-trigger"]');
+            options = widget.options,
+            $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
+            $src = $form.find('input[name=src]');
 
-        $uploadTrigger.on('click', function () {
+        $uploadTrigger.on('click', function(){
             $uploadTrigger.resourcemgr({
-                appendContainer: '#item-editor-panel',
-                root: '/',
-                browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
-                uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
-                deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),
-                downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
-                params: {
-                    //@todo: get config.uri + config.lang
-                    uri: 'http://tao.lan/tao.rdf#i1397825397545324', // config.uri,
-                    lang: 'en-US', // config.lang,
-                    filters: 'image/jpeg,image/png,image/gif'
+                appendContainer : options.mediaManager.appendContainer,
+                root : '/',
+                browseUrl : options.mediaManager.browseUrl,
+                uploadUrl : options.mediaManager.uploadUrl,
+                deleteUrl : options.mediaManager.deleteUrl,
+                downloadUrl : options.mediaManager.downloadUrl,
+                params : {
+                    uri : options.uri,
+                    lang : options.lang,
+                    filters : 'image/jpeg,image/png,image/gif'
                 },
-                pathParam: 'path',
-                select: function (e, uris) {
+                pathParam : 'path',
+                select : function(e, uris){
                     var i, l = uris.length;
-                    for (i = 0; i < l; i++) {
-                        //@todo: do something with the picture
-                        console.log('Ready to add %s', uris[i]);
+                    for(i = 0; i < l; i++){
+                        $src.val(uris[i]).change();
+                        break;
                     }
                 }
             });

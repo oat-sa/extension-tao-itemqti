@@ -1,4 +1,5 @@
 define([
+    'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
@@ -15,6 +16,7 @@ define([
 
     'taoQtiItem/qtiCreator/editor/editor'
 ], function(
+    _,
     Element,
     preview,
     preparePrint,
@@ -198,13 +200,17 @@ define([
     };
 
     return {
+        /**
+         * 
+         * @param {object} config (baseUrl, uri, lang)
+         */
         start : function(config){
 
             _initFormVisibilityListener();
 
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
-
+                
                 var $itemContainer = $('#item-editor-panel');
 
                 //configure commonRenderer for the preview
@@ -212,16 +218,16 @@ define([
                 commonRenderer.setContext($itemContainer);
 
                 //load creator renderer
-                creatorRenderer.setOption('baseUrl', config.baseUrl);
+                creatorRenderer.setOptions(config);
                 creatorRenderer.get().load(function(){
-
+                    
                     item.setRenderer(this);
 
                     //render item (body only) into the "drop-area"
                     $itemContainer.append(item.render());
 
                     //"post-render it" to initialize the widget
-                    item.postRender({uri : config.uri});
+                    item.postRender(_.clone(config));
 
                     _initUiComponents(item, config);
 

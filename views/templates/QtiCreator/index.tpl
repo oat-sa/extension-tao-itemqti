@@ -289,6 +289,7 @@ use oat\taoQtiItem\helpers\Authoring;
         <!-- /item panel -->
     </div>
     <div id="modalFeedbacks"></div>
+    <div id="mediaManager"></div>
 </div>
 
 <script>

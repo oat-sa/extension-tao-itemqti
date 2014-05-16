@@ -145,6 +145,11 @@ define([
             return this;
         };
         
+        this.setOptions = function(opts){
+            _.extend(options, opts);
+            return this;
+        };
+        
         this.getOption = function(key){
             if(typeof(key) === 'string' && options[key]){
                 return options[key];
@@ -153,7 +158,7 @@ define([
         };
 
         this.renderTpl = function(element, data, qtiSubclass){
-
+            
             var ret = '',
                 tplFound = false,
                 qtiClass = qtiSubclass || element.qtiClass,
@@ -165,7 +170,7 @@ define([
                     tplFound = true;
                 }
             }
-
+            
             if(!tplFound){
                 throw new Error('no renderer template loaded under the class name : ' + qtiClass);
             }

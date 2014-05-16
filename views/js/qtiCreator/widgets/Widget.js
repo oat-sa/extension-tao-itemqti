@@ -32,19 +32,25 @@ define([
 
                 //build container from origin element
                 this.buildContainer();
-                
+
                 //attach the widget to widget $container and element:
                 this.$container.data('widget', this);
                 this.$original.data('widget', this);
-                
+
                 this.element.data('widget', this);
-                
+
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
 
                 //pass the options to the initCreator for custom options usage 
+                _.each(this.getRequiredOptions(), function(opt){
+                    if(!options[opt]){
+                        throw new Error('missing required option for image creator : '+opt);
+                    }
+                });
+                this.options = options;
                 this.initCreator(options);
-
+                
                 //init state after creator init
                 if(options.state){
                     this.changeState(options.state);
@@ -60,6 +66,9 @@ define([
                 throw new Error('element is not a QTI Element');
             }
             return this;
+        },
+        getRequiredOptions : function(){
+            return [];
         },
         buildContainer : function(){
             throw new Error('method buildContainer must be implemented');
@@ -172,13 +181,13 @@ define([
         rebuild : function(options){
 
             options = options || {};
-            
+
             var element = this.element;
             var postRenderOpts = {};
             if(_.isFunction(options.ready)){
                 postRenderOpts['ready'] = options.ready;
             }
-            
+
             var $container = null;
             if(options.context && options.context.length){
                 //if the context option is provided, the function will fetch the widget container that in this context
@@ -187,10 +196,10 @@ define([
             }else{
                 $container = this.$container;
             }
-            
+
             //once required data ref has been set, destroy it:
             this.destroy();
-            
+
             //we assume that the element still has its renderer set, check renderer:
             var renderer = element.getRenderer();
             if(renderer && renderer.isRenderer){
@@ -203,12 +212,12 @@ define([
             }else{
                 throw new Error('No renderer found to rebuild the widget')
             }
-            
+
             return null;
         },
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback, live){
-            
+
             var _this = this;
 
             var eventNameToken = [
@@ -216,15 +225,15 @@ define([
                 'qti-widget',
                 this.serial
             ];
-            
+
             if(!live){
                 eventNameToken.push(this.getCurrentState().name);
             }
-            
+
             $(document).on(eventNameToken.join('.'), function(e, data){
                 callback.call(_this, data);
             });
-            
+
             return this;//for chaining
         }
     };

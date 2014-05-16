@@ -51,6 +51,11 @@ define([
         var ckConfig = {
             autoParagraph : false,
             floatSpaceDockedOffsetY : 10,
+            taoQtiItem : {
+                insert : function(){
+                    console.log('do some insert', this, arguments);
+                }
+            },
             floatSpace : {
                 debug : true,
                 initialHide : true,

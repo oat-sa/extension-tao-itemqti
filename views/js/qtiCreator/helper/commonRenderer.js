@@ -32,6 +32,9 @@ define([
         setOption : function(name, value){
             _renderer.setOption(name, value);
         },
+        setOptions : function(options){
+            _renderer.setOptions(options);
+        },
         setContext : function($context){
             _$previousContext = $context;
             commonHelper.setContext($context);
