@@ -32,7 +32,9 @@ define([
                 insertAfter : 'SpecialChar'
             }
         };
-
+        
+        qtiPositionedPlugins = {};
+        
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
          * The argument 'toolbarType' determines which toolbar to use
