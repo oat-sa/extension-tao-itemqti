@@ -35,6 +35,12 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction) {
+        theRender( interaction );
+    };
+    
+
+    var theRender = function realRender(interaction, isCreator) {
+
 
         var $container = Helper.getContainer(interaction);
         var media = interaction.object.attributes;
@@ -81,7 +87,7 @@ define([
                 
                 var bigPlayButtonLayerDetached = null;
                 var flashOverlayDiv = null;
-                
+
                 if (interaction.attributes.autostart && ((interaction.attributes.maxPlays==0) || $container.data('timesPlayed') < interaction.attributes.maxPlays) ) {
                     if (mediaType == 'video/youtube') {
                         mediaElement.addEventListener('canplay', function() {
@@ -152,6 +158,13 @@ define([
         
         var meHtmlContainer = $container.children('.instruction-container').first();
         
+        if (mediaOptions.videoWidth === undefined) {
+            mediaOptions.videoWidth = mediaOptions.defaultVideoWidth;
+        }
+        if (mediaOptions.videoHeight === undefined) {
+            mediaOptions.videoHeight = mediaOptions.defaultVideoHeight;
+        }
+        
         if (mediaType == 'video') {
             var meTag = $('<video src="' + media.data + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
         } else if (mediaType == 'video/youtube') {
@@ -174,11 +187,15 @@ define([
         });
         
         
-        $container.on('responseSet', function(e, interaction, response){
+        if (isCreator) {
             new MediaElementPlayer(meTag, mediaOptions);
-        });
-    };
+        } else {
+            $container.on('responseSet', function(e, interaction, response){
+                new MediaElementPlayer(meTag, mediaOptions);
+            });
+        }
 
+    }
 
     /**
      * Get the responses from the interaction
@@ -188,6 +205,11 @@ define([
      */
     var _getRawResponse = function _getRawResponse(interaction) {
         var response = [ Helper.getContainer(interaction).data('timesPlayed') ];
+        /*try {
+            response = [ Helper.getContainer(interaction).data('timesPlayed') ];
+        } catch(e) {
+            response = [0];
+        }*/
         return response;
     };
 
@@ -264,6 +286,7 @@ define([
         getContainer: Helper.getContainer,
         setResponse: setResponse,
         getResponse: getResponse,
-        resetResponse: resetResponse
+        resetResponse: resetResponse,
+        theRender: theRender
     };
 });
