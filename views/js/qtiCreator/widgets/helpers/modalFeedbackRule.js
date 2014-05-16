@@ -81,8 +81,10 @@ define([
             }else{
                 $feedbacks.html(_renderFeedbackRule(feedbackRule));
             }
-        }).on('click', '.feedbackRule-add-else', function(){
-
+        }).on('click', '.feedbackRule-add-else', function(e){
+            
+            e.preventDefault();
+            
             var $fbContainer = $(this).parents('.feedbackRule-container'),
                 fbSerial = $fbContainer.data('serial'),
                 fbRule = response.getFeedbackRule(fbSerial),
