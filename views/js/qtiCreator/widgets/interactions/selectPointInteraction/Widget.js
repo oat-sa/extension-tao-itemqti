@@ -48,22 +48,21 @@ define([
                 diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
                 container   : $container
             });
-            
-            //call render choice for each interaction's choices
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
         },
 
+        
         /**
-         * Add shape to the Raphel paper for a QTI choice
-         * @private
-         * @param {Object} choice - the QTI choice 
+         * Create shapes for the response mapping areas
+         * @param {String} shapeType - the QTI shape type 
+         * @param {String} coords - the QTI shape coords
+         * @returns {Raphael.Element} the shape
          */ 
-        _currentChoices : function(choice){
-            graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
-                id          : choice.serial,
+        createResponseArea : function(shapeType, coords){
+            return graphic.createElement(this.element.paper, shapeType, coords, {
                 touchEffect : false
             });
         }
+
    });
 
     return SelectPointInteractionWidget;
