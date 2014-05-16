@@ -3,7 +3,7 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The file path to the image.'}}</div>
     <input type="text" name="src" value="{{src}}" data-validate="$notEmpty; $fileExists(baseUrl={{baseUrl}})"/>
-    <button class="btn-info small block" data-role="upload-trigger">{{__ 'Add your own image'}}</button>
+    <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
 </div>
 
 <div class="panel">
@@ -41,7 +41,7 @@
 
         <label for="height">{{__ 'Height (optional)'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="height" value="{{height}}" />
+            <input type="text" name="height" value="{{height}}" data-validate="$numeric"/>
             <span class="unit-indicator">px</span>
         </span>
     </div>
@@ -49,7 +49,7 @@
 
         <label for="width">{{__ 'Width (optional)'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="width" value="{{width}}" />
+            <input type="text" name="width" value="{{width}}" data-validate="$numeric"/>
             <span class="unit-indicator">px</span>
         </span>
     </div>
