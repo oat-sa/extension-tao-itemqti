@@ -126,14 +126,13 @@ define([
 
     InteractionWidget.createOkButton = function(){
 
-        var _this = this;
+        var _this = this,
+            $ok = $(okButtonTpl()).on('click.qti-widget', function(e){
+                e.stopPropagation();
+                _this.changeState('sleep');
+            });
 
-        this.$container
-            .append($(okButtonTpl())
-            .on('click.qti-widget', function(e){
-            e.stopPropagation();
-            _this.changeState('sleep');
-        }));
+        this.$container.append($ok);
     };
 
     InteractionWidget.listenToChoiceStates = function(){

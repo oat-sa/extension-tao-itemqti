@@ -44,7 +44,7 @@ define([
                 text : __('Add choice')
             }));
 
-            $choiceArea.children('.add-option').on('click.qti-widget', function(e){
+            $choiceArea.children('.add-option').show().on('click.qti-widget', function(e){
 
                 e.stopPropagation();
 
