@@ -1,4 +1,4 @@
- define([
+define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
@@ -27,15 +27,15 @@
         this.buildEditor();
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
-        
+
     }, function(){
-        
+
         //remove the question state toolbar properly
         this.removeToolbar();
-        
+
         //disable/destroy editor, hide mini-toolbar
         this.destroyEditor();
-        
+
         //!! very important, always unbind the event on exit!
         this.widget.$container.off('.question');
     });
@@ -51,7 +51,7 @@
         if(!$toolbar.length){
 
             interaction = choice.getInteraction();
-            
+
             //add mini toolbars
             $toolbar = $(contentToolbarTpl({
                 choiceSerial : choice.getSerial(),
@@ -59,9 +59,9 @@
                 fixed : choice.attr('fixed'),
                 interactionShuffle : interaction.attr('shuffle')
             }));
-            
+
             $container.append($toolbar);
-            
+
             //set toolbar button behaviour:
             formElement.initShufflePinToggle(_widget);
             formElement.initDelete(_widget);
@@ -69,9 +69,9 @@
 
         return $toolbar;
     };
-    
+
     ChoiceStateQuestion.prototype.removeToolbar = function(){
-        
+
         this.widget.$container.find('.mini-tlb[data-edit=question]').remove()
     };
 
@@ -91,6 +91,10 @@
                 },
                 focus : function(){
                     _widget.changeState('choice');
+                },
+                data : {
+                    container : _widget.element.getBody(),
+                    widget : _widget
                 }
             });
         }
@@ -100,6 +104,6 @@
         //search and destroy the editor
         htmlEditor.destroyEditor(this.widget.$container);
     };
-    
+
     return ChoiceStateQuestion;
 });

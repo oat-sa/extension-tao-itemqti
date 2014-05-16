@@ -1,8 +1,11 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
-], function($, _, resizable){
+    'taoQtiItem/qtiCreator/editor/gridEditor/resizable',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiCreator/model/helper/container'
+], function($, _, resizable, Element, creatorRenderer, containerHelper){
 
     var contentHelper = {};
 
@@ -49,7 +52,7 @@ define([
         var existingElements = [];
 
         $el.find('.widget-box').each(function(){
-
+            
             var $qtiElementWidget = $(this);
 
             if($qtiElementWidget.data('serial')){
@@ -87,6 +90,53 @@ define([
 
         resizable.destroy($elt, inClone);
     };
+    
+    contentHelper.createElements = function(container, $container, data){
+        
+        var $dummy = $('<div>').html(data);
+        
+        containerHelper.createElements(container, contentHelper.getContent($dummy), function(newElts){
 
+            creatorRenderer.get().load(function(){
+                
+                for(var serial in newElts){
+
+                    var elt = newElts[serial],
+                        $placeholder = $container.find('.widget-box[data-new][data-qti-class='+elt.qtiClass+']'),
+                        $widget,
+                        widget;
+
+                    elt.setRenderer(this);
+                    elt.render($placeholder);
+                    
+                    //render widget
+                    widget = elt.postRender();
+                    $widget = widget.$original;
+                    
+                    //inform height modification
+                    $widget.trigger('contentChange.gridEdit');
+                    
+                    //active it right away:
+                    if(Element.isA(elt, 'interaction')){
+                        widget.changeState('question');
+                    }else{
+                        widget.changeState('active');
+                    }
+                    
+                    return;
+                    if(element.qtiClass === '_container'){
+                        containerWidget.changeState('sleep');
+                    }else if(Element.isA(element, 'choice')){
+                        element.getInteraction().changeState('sleep');
+                    }else if(Element.isA(element, 'interaction')){
+                        element.changeState('sleep');
+                    }
+
+                }
+            }, this.getUsedClasses());
+        });
+
+    };
+    
     return contentHelper;
 });

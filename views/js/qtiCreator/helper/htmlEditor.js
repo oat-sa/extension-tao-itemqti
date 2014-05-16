@@ -4,8 +4,10 @@ define([
     'jquery',
     'ckeditor',
     'ckConfigurator',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(_, __, $, CKEditor, ckConfigurator, deletingHelper){
+], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
@@ -53,7 +55,9 @@ define([
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
-                    console.log('do some insert', this, arguments);
+                    if(options.data && options.data.container){
+                        contentHelper.createElements(options.data.container, $editable, this.getData());
+                    }
                 }
             },
             floatSpace : {
@@ -72,10 +76,10 @@ define([
                         var nose = $(this).find('.cke_nose'),
                             oldParent = nose.parent(),
                             newParent = $(this).find('.cke_toolbox');
-                        if(oldParent.is('.cke')) {
+                        if(oldParent.is('.cke')){
                             newParent.append(nose);
                         }
-                        
+
                         floatSpaceApi.hide();
                         //@todo namespace this event: .editor.qti-widget or stuff...
                         $trigger.on('click', function(){
@@ -223,7 +227,8 @@ define([
             var $widget = $(this);
             var targetWidgetSerial = $widget.data('widget').serial;
             var $shield = $('<button>', {'class' : 'html-editable-shield'});
-
+            var element = containerWidget.element;
+            
             $widget.attr('contenteditable', false);
             $widget.append($shield);
             $shield.on('click', function(e){
@@ -241,7 +246,13 @@ define([
                     }
                 });
 
-                containerWidget.changeState('sleep');
+                if(element.qtiClass === '_container'){
+                    containerWidget.changeState('sleep');
+                }else if(Element.isA(element, 'choice')){
+                    element.getInteraction().changeState('sleep');
+                }else if(Element.isA(element, 'interaction')){
+                    element.changeState('sleep');
+                }
 
             });
 
