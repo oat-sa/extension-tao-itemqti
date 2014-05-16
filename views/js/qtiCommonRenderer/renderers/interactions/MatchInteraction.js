@@ -252,7 +252,7 @@ define([
 
             var onMatchMaxReached = function(interaction, choice, report, msg, level){
 
-                $container = Helper.getContainer(interaction);
+                var $container = Helper.getContainer(interaction);
 
                 if(inWarning === false){
                     inWarning = true;

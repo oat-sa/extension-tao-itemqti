@@ -1,10 +1,9 @@
 define([
-    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
     'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice',
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig'
-], function(Element, BlockInteraction, SimpleAssociableChoice, _, rendererConfig){
+], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig){
 
     var MatchInteraction = BlockInteraction.extend({
         qtiClass : 'matchInteraction',

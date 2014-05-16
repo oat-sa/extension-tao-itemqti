@@ -20,8 +20,10 @@ define([
             };
         },
         afterCreate : function(){
-            this.createChoice();
-            this.createChoice();
+            this.createChoice(0);
+            this.createChoice(0);
+            this.createChoice(1);
+            this.createChoice(1);
             this.createResponse({
                 baseType:'directedPair',
                 cardinality:'multiple'
