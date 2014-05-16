@@ -27,7 +27,7 @@ define([
     };
 
     /**
-     * Greately throttled callback function
+     * Greatly throttled callback function
      * 
      * @param {jQuery} $img
      * @param {string} propertyName

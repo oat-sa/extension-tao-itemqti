@@ -12,6 +12,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
+
     'taoQtiItem/qtiCreator/editor/editor'
 ], function(
     Element,

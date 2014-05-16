@@ -22,8 +22,8 @@ define([
             parent = initHideOnPrint(parent);
         }
 
-        $('#item-editor-toolbar, .item-editor-sidebar, #item-editor-overlay').addClass('item-no-print');
-    }
+        $('#item-editor-toolbar, .item-editor-sidebar').addClass('item-no-print');
+    };
 
     $('#print-trigger').on('click', function () {
         window.print();

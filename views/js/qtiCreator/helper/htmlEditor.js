@@ -60,6 +60,16 @@ define([
                 },
                 on : {
                     ready : function(floatSpaceApi){
+
+                        // works around tiny bug in tao floating space
+                        // nose must be in .cke_toolbox rather than .cke
+                        // otherwise z-indexing will fail
+                        var nose = $(this).find('.cke_nose'),
+                            oldParent = nose.parent(),
+                            newParent = $(this).find('.cke_toolbox');
+                        if(oldParent.is('.cke')) {
+                            newParent.append(nose);
+                        }
                         
                         floatSpaceApi.hide();
                         //@todo namespace this event: .editor.qti-widget or stuff...
