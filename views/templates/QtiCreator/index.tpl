@@ -294,6 +294,10 @@ use oat\taoQtiItem\helpers\Authoring;
 </div>
 
 <script>
+<?if(tao_helpers_Mode::is('production')):?>
+require(['taoQtiItem/controllers.min'], function(){
+<? endif ?>
+
     require(['taoQtiItem/controller/creator/main'], function(controller){
         controller.start({
             uri : '<?=get_data('uri')?>',
@@ -301,4 +305,8 @@ use oat\taoQtiItem\helpers\Authoring;
             baseUrl : '<?=get_data('baseUrl')?>'
         });
     });
+
+<?if(tao_helpers_Mode::is('production')):?>
+});
+<? endif ?>
 </script>

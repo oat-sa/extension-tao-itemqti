@@ -254,19 +254,57 @@ define([
     HotspotInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget,
+            options = _widget.options,
             $form = _widget.$form,
+            $uploadTrigger,
+            $src,
             interaction = _widget.element;
 
         $form.html(formTpl({
+            baseUrl : options.baseUrl,
             maxChoices : parseInt(interaction.attr('maxChoices')),
             minChoices : parseInt(interaction.attr('minChoices')),
-            choicesCount : _.size(_widget.element.getChoices())
+            choicesCount : _.size(_widget.element.getChoices()),
+            data : interaction.object.attributes.data
         }));
+
+        $uploadTrigger = $form.find('[data-role="upload-trigger"]');
+        $src = $form.find('input[name=data]');
+
+        $uploadTrigger.on('click', function(){
+            $uploadTrigger.resourcemgr({
+                appendContainer : options.mediaManager.appendContainer,
+                root : '/',
+                browseUrl : options.mediaManager.browseUrl,
+                uploadUrl : options.mediaManager.uploadUrl,
+                deleteUrl : options.mediaManager.deleteUrl,
+                downloadUrl : options.mediaManager.downloadUrl,
+                params : {
+                    uri : options.uri,
+                    lang : options.lang,
+                    filters : 'image/jpeg,image/png,image/gif'
+                },
+                pathParam : 'path',
+                select : function(e, files){
+                    $src.val(files[0].file).trigger('change');
+                }
+            });
+        });
 
         formElement.initWidget($form);
         
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
+        callbacks.data = function(value){
+            interaction.object.attr('data', value);
+            
+            _widget.changeState('sleep');
+            //_widget.rebuild({
+                //ready:function(widget){
+                    //widget.changeState('question');
+                //}
+            //});
+        };
         formElement.initDataBinding($form, interaction, callbacks);
         
         interactionFormElement.syncMaxChoices(_widget);

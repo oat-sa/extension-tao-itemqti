@@ -24,7 +24,9 @@ define([
          */
         initCreator : function(options){
             var $container  = this.$original;
-
+   
+            console.log(this.options);
+ 
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -34,7 +36,7 @@ define([
             Widget.initCreator.call(this);
           
             if(!this.element.object.attributes.data){
-                dummyElement.get('image').appendTo($container);
+                dummyElement.get('image').appendTo($container.find('.main-image-box'));
             }
             this.createPaper(); 
         },

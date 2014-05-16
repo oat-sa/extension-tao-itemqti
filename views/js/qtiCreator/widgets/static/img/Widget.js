@@ -19,7 +19,7 @@ define([
     
     ImgWidget.getRequiredOptions = function(){
         return ['baseUrl', 'uri', 'lang', 'mediaManager'];
-    }
+    };
     
     ImgWidget.buildContainer = function(){
         
