@@ -285,10 +285,12 @@ use oat\taoQtiItem\helpers\Authoring;
         <!-- /right sidebar -->
 
         <!-- item panel -->
-        <main id="item-editor-panel" class="clearfix tao-scope"></main>
+        <main id="item-editor-panel" class="clearfix tao-scope">
+            <div id="modalFeedbacks"></div>
+        </main>
         <!-- /item panel -->
     </div>
-    <div id="modalFeedbacks"></div>
+    
     <div id="mediaManager"></div>
 </div>
 
