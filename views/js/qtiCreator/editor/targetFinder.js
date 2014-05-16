@@ -59,6 +59,7 @@ define([
             }else{
                 
                 $qtiContainers = context.find(_.values(_qtiHtmlEditableTypes).join(','));
+                $qtiContainers = context.find(_qtiHtmlEditableTypes['itemBody']);//beta limitation
                 switch(qtiClass){
                     case 'math':
                         child = 'object';

@@ -104,12 +104,11 @@ use oat\taoQtiItem\helpers\Authoring;
                         <ul class="tool-list plain">
                             <?php foreach($groupValues as $record):?>
 
-                                <li title="<?=$record['title']?>" data-qti-class="<?=$record['qtiClass']?>">
+                                <li data-qti-class="<?=$record['qtiClass']?>" <?if(isset($record['disabled']) && $record['disabled']):?> class="disabled" title="element available in the final release" <?else:?>title="<?=$record['title']?>" <?endif;?>>
                                     <span class="icon-<?=$record['icon']?>"></span>
 
                                     <div class="truncate"><?=$record['short']?></div>
-                                    <!--img class="viewport-hidden"
-                                         src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/-->
+                                    <!--img class="viewport-hidden" src="<?=BASE_WWW?>img/qtiScreenshots/<?=$record['icon']?>.png"/-->
                                 </li>
                             <?php endforeach;?>
 
@@ -250,12 +249,6 @@ use oat\taoQtiItem\helpers\Authoring;
                     <div class="panel"></div>
                 </section>
             </div>
-            <div class="item-editor-body-element-related sidebar-right-section-box" id="item-editor-body-element-property-bar">
-                <section class="tool-group clearfix" id="sidebar-right-body-element-properties">
-                    <h2><?=__('Body Element Properties')?></h2>
-                    <div class="panel"></div>
-                </section>
-            </div>
             <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-text-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-text-block-properties">
                     <h2><?=__('Text Block Properties')?></h2>
@@ -271,6 +264,12 @@ use oat\taoQtiItem\helpers\Authoring;
             <div class="item-editor-choice-related sidebar-right-section-box" id="item-editor-choice-property-bar">
                 <section class="tool-group clearfix" id="sidebar-right-choice-properties">
                     <h2><?=__('Choice Properties')?></h2>
+                    <div class="panel"></div>
+                </section>
+            </div>
+            <div class="item-editor-body-element-related sidebar-right-section-box" id="item-editor-body-element-property-bar">
+                <section class="tool-group clearfix" id="sidebar-right-body-element-properties">
+                    <h2><?=__('Body Element Properties')?></h2>
                     <div class="panel"></div>
                 </section>
             </div>

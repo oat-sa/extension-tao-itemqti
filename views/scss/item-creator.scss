@@ -329,9 +329,16 @@
                     @include font-size(28);
                     opacity: .9;
                 }
+                &.disabled{
+                    cursor:default;
+                    background-color:  #eee !important;
+                    &:hover {
+                        background: white(.6);
+                        border: 1px dotted transparent;
+                    }
+                }
             }
         }
-        
         
         .reset-group {
             select {
@@ -978,7 +985,7 @@
 
 
 @media print {
-
+    
     html body #tabs {
         margin: 0 !important;
         min-height: 0 !important;
@@ -990,12 +997,12 @@
     html body .item-no-print {
         display: none !important;
     }
-
+    
     html body #item-editor-panel {
         margin: 0 !important;
         padding: 0 !important;
     }
-
+    
     html body .item-editor-row {
         border: none !important;
         background: none !important;

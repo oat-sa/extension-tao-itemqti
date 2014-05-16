@@ -89,7 +89,7 @@ class Authoring
         return $returnValue;
     }
 
-    public static function normalizeAuthoringElementKey($text) {
+    public static function normalizeAuthoringElementKey($text){
         return strtolower(preg_replace('~[\W]+~', '-', $text));
     }
 
@@ -104,7 +104,8 @@ class Authoring
                 array('title' => __('Rubric Block'),
                     'icon' => 'rubric',
                     'short' => __('Rubric'),
-                    'qtiClass' => 'rubricBlock'
+                    'qtiClass' => 'rubricBlock',
+                    'disabled' => true
                 )
             ),
             'Content Elements' => array(
@@ -116,7 +117,8 @@ class Authoring
                 array('title' => __('Media'),
                     'icon' => 'media',
                     'short' => __('Media'),
-                    'qtiClass' => 'object'
+                    'qtiClass' => 'object',
+                    'disabled' => true
                 ),
                 array('title' => __('Math'),
                     'icon' => 'maths',
@@ -126,14 +128,16 @@ class Authoring
             ),
             'Inline Interactions' => array(
                 array('title' => __('Inline Choice Interaction'),
-                      'icon' => 'inline-choice',
-                      'short' => __('Inline Choice'),
-                      'qtiClass' => 'inlineChoiceInteraction'
+                    'icon' => 'inline-choice',
+                    'short' => __('Inline Choice'),
+                    'qtiClass' => 'inlineChoiceInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Text Entry Interaction'),
-                      'icon' => 'text-entry',
-                      'short' => __('Text Entry'),
-                      'qtiClass' => 'textEntryInteraction'
+                    'icon' => 'text-entry',
+                    'short' => __('Text Entry'),
+                    'qtiClass' => 'textEntryInteraction',
+                    'disabled' => true
                 )
             ),
             'Block Interactions' => array(
@@ -157,26 +161,29 @@ class Authoring
                     'short' => __('Match'),
                     'qtiClass' => 'matchInteraction'
                 ),
-                
                 array('title' => __('Hottext Interaction'),
                     'icon' => 'hottext',
                     'short' => __('Hottext'),
-                    'qtiClass' => 'hottextInteraction'
+                    'qtiClass' => 'hottextInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Gap Match Interaction'),
                     'icon' => 'gap-match',
                     'short' => __('Gap Match'),
-                    'qtiClass' => 'gapMatchInteraction'
+                    'qtiClass' => 'gapMatchInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Slider Interaction'),
                     'icon' => 'slider',
                     'short' => __('Slider'),
-                    'qtiClass' => 'sliderInteraction'
+                    'qtiClass' => 'sliderInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Extended Text Interaction'),
                     'icon' => 'extended-text',
                     'short' => __('Extended Text'),
-                    'qtiClass' => 'extendedTextInteraction'
+                    'qtiClass' => 'extendedTextInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Upload Interaction'),
                     'icon' => 'upload',
@@ -186,7 +193,8 @@ class Authoring
                 array('title' => __('Media Interaction'),
                     'icon' => 'media',
                     'short' => __('Media'),
-                    'qtiClass' => 'mediaInteraction'
+                    'qtiClass' => 'mediaInteraction',
+                    'disabled' => true
                 )
             ),
             'Graphic Interactions' => array(
@@ -203,17 +211,20 @@ class Authoring
                 array('title' => __('Graphic Associate Interaction'),
                     'icon' => 'graphic-associate',
                     'short' => __('Graphic Associate'),
-                    'qtiClass' => 'graphicAssociateInteraction'
+                    'qtiClass' => 'graphicAssociateInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Graphic Gap Interaction'),
                     'icon' => 'graphic-gap',
                     'short' => __('Graphic Gap'),
-                    'qtiClass' => 'graphicGapInteraction'
+                    'qtiClass' => 'graphicGapInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Select Point Interaction'),
                     'icon' => 'select-point',
                     'short' => __('Select Point'),
-                    'qtiClass' => 'selectPointInteraction'
+                    'qtiClass' => 'selectPointInteraction',
+                    'disabled' => true
                 )
             )
         );
