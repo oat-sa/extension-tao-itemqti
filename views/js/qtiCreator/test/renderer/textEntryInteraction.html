@@ -21,7 +21,7 @@
         <style>
             .widget-inlineChoiceInteraction{
     display:none;
-    
+    background: none repeat scroll 0 0 rgba(243, 241, 239, 0.5);
 }
 
 .testEntryInteraction-placeholder {
@@ -35,8 +35,12 @@
 
 
 .qti-textEntryInteraction {
-    
+    background: none;
     padding: 20px 10px 5px 30px;
+    position: relative;
+}
+.qti-textEntryInteraction:hover {
+    background: none;
 }
 
 .qti-textEntryInteraction [data-edit]{
@@ -73,6 +77,7 @@
         width:20px;
         height:20px;
         padding-top: 3px;
+        cursor:default;
     }
     
     .qti-textEntryInteraction td.option, .qti-textEntryInteraction .main-option {
@@ -109,9 +114,7 @@
     padding:0;
     margin-bottom:10px;
 }
-            .qti-textEntryInteraction {
-                position: relative;
-            }
+
         </style>
         <script  type="text/javascript">
             QUnit.config.autostart = false;
