@@ -179,10 +179,10 @@ define([
                     filters : 'image/jpeg,image/png,image/gif'
                 },
                 pathParam : 'path',
-                select : function(e, uris){
-                    var i, l = uris.length;
+                select : function(e, files){
+                    var i, l = files.length;
                     for(i = 0; i < l; i++){
-                        $src.val(uris[i]).change();
+                        $src.val(files[i].file).change();
                         break;
                     }
                 }
