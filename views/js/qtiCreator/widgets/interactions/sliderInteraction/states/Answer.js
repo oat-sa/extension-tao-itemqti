@@ -5,12 +5,10 @@ define([
 ], function(stateFactory, Answer, answerStateHelper){
 
     var SliderInteractionStateAnswer = stateFactory.extend(Answer, function(){
-        
-        var _widget = this.widget;
-        
+        answerStateHelper.forward(this.widget);
         
     }, function(){
-        var _widget = this.widget;
+        
     });
     return SliderInteractionStateAnswer;
 });
