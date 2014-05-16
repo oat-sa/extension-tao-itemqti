@@ -237,7 +237,7 @@ class Authoring
                 $parserValidator = new Parser($returnValue);
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
-                    common_Logger::w('Invalid QTI output : '.PHP_EOL.' '.$parserValidator->displayErrors());
+                    common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
 //                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
                 }
             }
