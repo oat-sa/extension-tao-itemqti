@@ -32,8 +32,9 @@ define([
 
                 stop = paper.circle(point.x, point.y, 3)
                             .attr({'stroke' : 'black', 'stroke-width': 1, 'fill' : 'white', 'opacity' : 0.7, 'cursor' : 'pointer'})
-                            .click(function(event){
-                                event.preventDefault();
+                            .click(function(e){
+                                e.preventDefault();
+                                e.stopPropagation();             
                                 if(self.points.length > 2){
                                     this.attr('fill', 'green');
                                     self.close();

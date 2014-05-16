@@ -22,7 +22,7 @@ define([
             $imageBox.width(newWidth);
             $imageEditor.width(newWidth);
 
-            $sideBar.find('.forms').height($imageEditor.outerHeight());
+            $sideBar.find('.forms').height($imageEditor.innerHeight());
 
             $sideBar.on('enablebin.qti-widget', function(){
                $bin.removeClass('disabled')
@@ -54,7 +54,7 @@ define([
        
              
             $container.on('resized.qti-widget', function(){
-                $sideBar.find('.forms').height($imageEditor.outerHeight());
+                $sideBar.find('.forms').height($imageEditor.innerHeight());
             });    
             $container.trigger('resize.qti-widget', newWidth);    
 

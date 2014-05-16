@@ -6,7 +6,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-], function($, _, Widget, states, graphic){
+    'taoQtiItem/qtiCreator/helper/dummyElement'
+], function($, _, Widget, states, graphic, dummyElement){
 
     /**
      * The Widget that provides components used by the QTI Creator for the Hotspot Interaction
@@ -22,6 +23,8 @@ define([
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         initCreator : function(options){
+            var $container  = this.$original;
+
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -29,7 +32,10 @@ define([
             
             //call parent initCreator
             Widget.initCreator.call(this);
-           
+          
+            if(!this.element.object.attributes.data){
+                dummyElement.get('image').appendTo($container);
+            }
             this.createPaper(); 
         },
    

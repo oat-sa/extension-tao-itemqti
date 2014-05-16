@@ -46,11 +46,12 @@ define([
                 self.setState('drawing', true);
                 
                 builder.onClose(created);
-                background.click(function(event){
-                    event.preventDefault();                    
+                background.click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();             
                     if(self.is('drawing')){
                         builder.add(
-                            graphicHelper.getPoint(event, paper, $container, isResponsive)
+                            graphicHelper.getPoint(e, paper, $container, isResponsive)
                         );
                     }
                 });

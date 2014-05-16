@@ -195,7 +195,7 @@ define([
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
             var responsive = $container.hasClass('responsive');
-            var diff = options.diff || 22;
+            var diff = options.diff || 0;// || 22;
             var resizer = _.throttle(resizePaper, 10, {leading: false, trailing : true});
 
             paper = factory.call(null ,id, width, height);

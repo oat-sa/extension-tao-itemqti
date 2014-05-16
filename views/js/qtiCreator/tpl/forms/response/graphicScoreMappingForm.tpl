@@ -2,7 +2,7 @@
     <div class="form-container">
         <h2>{{identifier}}</h2>
 
-        <div class="panel" data-edit="correct" {{#unless correctDefined}} style="display:none;" {{/unless}}>
+        <div class="panel" data-edit="correct">
             <label>
                 {{__ "Correct"}}
                 <input name="correct" type="checkbox" {{#if correct}} checked="checked"{{/if}} />
