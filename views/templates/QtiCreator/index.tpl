@@ -74,7 +74,7 @@ use oat\taoQtiItem\helpers\Authoring;
             <ul class="plain clearfix item-editor-menu lft">
                 <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
 
-                <li class="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
+                <li class="preview-trigger"><span class="icon-preview"></span><?=__('Quick Preview')?></li>
                 <!-- toggle comments above/below to enable/disable device specific previews -->
                 <!--
                 <li class="preview-trigger" data-preview-type="desktop"><span class="icon-desktop-preview"></span><?=__('Desktop preview')?></li>

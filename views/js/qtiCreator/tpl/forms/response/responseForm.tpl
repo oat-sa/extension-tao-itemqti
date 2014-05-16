@@ -11,7 +11,7 @@
 </div>
 
 <div class="panel">
-    <label for="" class="has-icon">{{__ "Response processing template"}}</label>
+    <label for="" class="has-icon">{{__ "Response processing"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Select the way the response of your interaction should be processed"}}</div>
 
@@ -27,23 +27,24 @@
 
 <div class="panel" data-editx="map">
     <h3>{{__ "Score range"}}
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">{{__ "Define the minimal and maximal score for te interaction."}}</span>
     </h3>
     <div>
-        <label for="lowerBound" class="spinner short">Min</label>
+        <label for="lowerBound" class="spinner">Min</label>
         <input name="lowerBound" value="{{lowerBound}}" class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "Minimal  score for this interaction."}}</span>
     </div>
     <div>
-        <label for="upperBound" class="spinner short">Max</label>
+        <label for="upperBound" class="spinner">Max</label>
         <input name="upperBound" value="{{upperBound}}" class="score" type="text" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "Maximal score for this interaction."}}</span>
     </div>
 </div>
 
 <div class="panel" data-editx="map">
-    <label for="defaultValue" class="spinner">{{__ "Score mapping default value"}}
-        <input name="defaultValue" value="{{defaultValue}}" class="score" type="text" data-validate="$notEmpty; $numeric;" data-validate-option="$lazy; $event(type=keyup)" />
-    </label>
+    <label for="defaultValue" class="spinner">{{__ "Mapping default"}}</label>
+    <input name="defaultValue" value="{{defaultValue}}" class="score" type="text" data-validate="$notEmpty; $numeric;" data-validate-option="$lazy; $event(type=keyup)" />
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The default value from the target set to be used when no explicit mapping for a source value is given."}}</span>
 </div>
@@ -52,7 +53,7 @@
     <label>
         <input name="defineCorrect" type="checkbox" data-role="defineCorrect"{{#if defineCorrect}} checked="checked"{{/if}} />
         <span class="icon-checkbox"></span>
-        {{__ "define correct response"}}
+        {{__ "Define correct response"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "Define the correct response."}}</span>

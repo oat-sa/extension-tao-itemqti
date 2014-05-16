@@ -4,4 +4,4 @@
 <div class="feedbackRules">
     <p><i>{{__ "None defined yet."}}</i></p>
 </div>
-<a title="add else feedback" href="#" class="adder feedbackRule-add">{{__ "Add a modal feedback"}}</a>
+<a href="#" class="adder feedbackRule-add">{{__ "Add a modal feedback"}}</a>

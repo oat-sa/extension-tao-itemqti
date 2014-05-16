@@ -140,7 +140,7 @@ define([
         }else if(mode === 'mathml'){
             $mathPanel.show();
             if($tex.val()){
-                //show a warning here, stating that the content in TeX will be removed
+                //show a warning here, stating that the content in LaTeX will be removed
                 if(!$math.hasClass('tooltipstered')){
                     _createWarningTooltip($math);
                 }
@@ -153,7 +153,7 @@ define([
     var _createWarningTooltip = function($math){
 
         var $content = $('<span>')
-            .html(__('No MathML conversion to LaTeX is currently available. If you editing MathML here, any LaTex code will be discarded.'));
+            .html(__('Currently a conversion from MathML to LaTeX is not available. If you editing MathML here, any LaTex code will be discarded.'));
 
         $math.tooltipster({
             theme : 'tao-warning-tooltip',

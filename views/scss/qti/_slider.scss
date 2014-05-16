@@ -1,3 +1,4 @@
+@import "inc/bootstrap";
 .qti-sliderInteraction {
     .ui-slider-horizontal {
         margin: 0 20px;
@@ -19,6 +20,7 @@
             width: 40px;
             margin-left: -20px;
             text-align: center;
+            @include font-size(12);
         }
         .slider-min{
             left: 0%;

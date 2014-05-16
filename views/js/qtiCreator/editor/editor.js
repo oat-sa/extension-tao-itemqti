@@ -125,7 +125,7 @@ define([
             var height = 0;
             elements.sidebars.add(elements.itemPanel).each(function () {
                 var block = $(this),
-                    blocks = block.add(block.find('section'));
+                    blocks = block.add(block.find('section hr .panel'));
                 // work around the fact that the sidebars might be hidden at this point
                 _tmpDisplay(blocks);
                 height = Math.max(block.height(), height);

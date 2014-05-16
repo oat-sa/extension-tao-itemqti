@@ -1,3 +1,24 @@
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .qti-sliderInteraction .ui-slider-horizontal {
   margin: 0 20px; }
 .qti-sliderInteraction .ui-slider-vertical {
@@ -12,7 +33,9 @@
   position: absolute;
   width: 40px;
   margin-left: -20px;
-  text-align: center; }
+  text-align: center;
+  font-size: 12px;
+  font-size: 1.2rem; }
 .qti-sliderInteraction.qti-slider-horizontal .slider-min {
   left: 0%; }
 .qti-sliderInteraction.qti-slider-horizontal .slider-max {
