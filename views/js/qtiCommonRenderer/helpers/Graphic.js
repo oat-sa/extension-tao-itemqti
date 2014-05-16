@@ -195,21 +195,23 @@ define([
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
             var responsive = $container.hasClass('responsive');
-            var diff = options.diff || 0;// || 22;
-            var resizer = _.throttle(resizePaper, 10, {leading: false, trailing : true});
+            var diff = options.diff || ($container.parent().outerWidth() - width);
+            var resizer = _.throttle(resizePaper, 10);
 
             paper = factory.call(null ,id, width, height);
             image = paper.image(options.img, 0, 0, width, height);
             if(options.imgId){
                 image.id = options.imgId;
-            }               
+            } 
 
             if(raphael.type === 'SVG'){ 
                 
                 //scale on creation
-                resizePaper();
+                resizer();
+                _.delay(resizer, 15);
                 
                 $(window).resize(resizer);
+
                 $container.on('resize.qti-widget', resizer);
 
             } else {
@@ -225,7 +227,7 @@ define([
              * @private
              */
             function resizePaper(e, containerWidth){
-                containerWidth = containerWidth || $container.innerWidth() - diff;
+                containerWidth = containerWidth || $container.innerWidth() - (diff + 4);
 
                 paper.changeSize(containerWidth, height, false, false);
               
