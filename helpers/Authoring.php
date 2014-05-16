@@ -114,16 +114,16 @@ class Authoring
                     'short' => __('Image'),
                     'qtiClass' => 'img'
                 ),
+                array('title' => __('Math'),
+                    'icon' => 'maths',
+                    'short' => __('Math'),
+                    'qtiClass' => 'math'
+                ),
                 array('title' => __('Media'),
                     'icon' => 'media',
                     'short' => __('Media'),
                     'qtiClass' => 'object',
                     'disabled' => true
-                ),
-                array('title' => __('Math'),
-                    'icon' => 'maths',
-                    'short' => __('Math'),
-                    'qtiClass' => 'math'
                 )
             ),
             'Inline Interactions' => array(
