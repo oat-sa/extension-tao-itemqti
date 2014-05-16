@@ -13,7 +13,6 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
-
     'taoQtiItem/qtiCreator/editor/editor'
 ], function(
     _,
@@ -60,8 +59,17 @@ define([
 
     };
 
-    var _initFormVisibilityListener = function(){
+    var _showPanel = function($panel, $fold){
+        
+        $panel.show();
+        editor.openSections($panel.children('section'));
+        
+        if($fold && $fold.length){
+            editor.closeSections($fold.children('section'));
+        }
+    };
 
+    var _initFormVisibilityListener = function(){
 
         $loader.css('left', '-10000px');
 
@@ -117,13 +125,11 @@ define([
                  * #sidebar-right-choice-properties
                  * #sidebar-right-response-properties
                  */
-                editor.openSections($('#sidebar-right-css-manager, #sidebar-right-style-editor'));
-
-            }
-            else{
+                _showPanel($formStylePanel);
+            }else{
                 $appearanceToggler.removeClass('active');
                 $formStylePanel.hide();
-                $formItemPanel.show();
+                _showPanel($formItemPanel);
             }
         };
 
@@ -150,24 +156,20 @@ define([
                     var label = _staticElements[element.qtiClass];
                     if(label){
                         $formBodyElementPanel.find('h2').html(label + ' Properties');
-                        $formBodyElementPanel.show();
+                        _showPanel($formBodyElementPanel);
                     }else if(element.qtiClass === '_container'){
-                        $formTextBlockPanel.show();
+                        _showPanel($formTextBlockPanel);
                     }
 
                     break;
                 case 'question':
-                    $formInteractionPanel.show();
-                    editor.openSections($formInteractionPanel.children('section'));
+                    _showPanel($formInteractionPanel);
                     break;
                 case 'choice':
-                    $formChoicePanel.show();
-                    editor.closeSections($formInteractionPanel.children('section'));
-                    editor.openSections($formChoicePanel.children('section'));
+                    _showPanel($formChoicePanel, $formInteractionPanel);
                     break;
                 case 'answer':
-                    $formResponsePanel.show();
-                    editor.openSections($formChoicePanel.children('section'));
+                    _showPanel($formResponsePanel);
                     break;
                 case 'sleep':
 
@@ -179,7 +181,7 @@ define([
 
                     if(!Element.isA(element, 'choice')){
                         if(!$itemContainer.find('.widget-box.edit-active').length){
-                            $formItemPanel.show();
+                            _showPanel($formItemPanel);
                         }
                     }
                     break;
@@ -212,7 +214,7 @@ define([
 
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
-                
+
                 var $itemContainer = $('#item-editor-panel');
 
                 //configure commonRenderer for the preview
@@ -222,7 +224,7 @@ define([
                 //load creator renderer
                 creatorRenderer.setOptions(config);
                 creatorRenderer.get().load(function(){
-                    
+
                     item.setRenderer(this);
 
                     //render item (body only) into the "drop-area"
