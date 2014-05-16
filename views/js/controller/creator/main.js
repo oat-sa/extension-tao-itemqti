@@ -158,14 +158,16 @@ define([
                     break;
                 case 'question':
                     $formInteractionPanel.show();
-                    editor.openSections($formInteractionPanel.children('section'));//@todo fix toggle
+                    editor.openSections($formInteractionPanel.children('section'));
                     break;
                 case 'choice':
                     $formChoicePanel.show();
-                    editor.openSections($formChoicePanel.children('section'));//@todo fix toggle
+                    editor.closeSections($formInteractionPanel.children('section'));
+                    editor.openSections($formChoicePanel.children('section'));
                     break;
                 case 'answer':
                     $formResponsePanel.show();
+                    editor.openSections($formChoicePanel.children('section'));
                     break;
                 case 'sleep':
 

@@ -95,7 +95,7 @@ class Authoring
 
     public static function getAvailableAuthoringElements(){
         return array(
-            'Content Block' => array(
+            'Content Blocks' => array(
                 array('title' => __('Text Block'),
                     'icon' => 'font',
                     'short' => __('Text'),
@@ -107,7 +107,7 @@ class Authoring
                     'qtiClass' => 'rubricBlock'
                 )
             ),
-            'Content Element' => array(
+            'Content Elements' => array(
                 array('title' => __('Image'),
                     'icon' => 'image',
                     'short' => __('Image'),
@@ -122,6 +122,18 @@ class Authoring
                     'icon' => 'maths',
                     'short' => __('Math'),
                     'qtiClass' => 'math'
+                )
+            ),
+            'Inline Interactions' => array(
+                array('title' => __('Inline Choice Interaction'),
+                      'icon' => 'inline-choice',
+                      'short' => __('Inline Choice'),
+                      'qtiClass' => 'inlineChoiceInteraction'
+                ),
+                array('title' => __('Text Entry Interaction'),
+                      'icon' => 'text-entry',
+                      'short' => __('Text Entry'),
+                      'qtiClass' => 'textEntryInteraction'
                 )
             ),
             'Block Interactions' => array(
@@ -175,18 +187,6 @@ class Authoring
                     'icon' => 'media',
                     'short' => __('Media'),
                     'qtiClass' => 'mediaInteraction'
-                )
-            ),
-            'Inline Interactions' => array(
-                array('title' => __('Inline Choice Interaction'),
-                    'icon' => 'inline-choice',
-                    'short' => __('Inline Choice'),
-                    'qtiClass' => 'inlineChoiceInteraction'
-                ),
-                array('title' => __('Text Entry Interaction'),
-                    'icon' => 'text-entry',
-                    'short' => __('Text Entry'),
-                    'qtiClass' => 'textEntryInteraction'
                 )
             ),
             'Graphic Interactions' => array(

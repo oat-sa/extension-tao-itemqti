@@ -59,6 +59,7 @@ define([
 
                     // assign click action to headings
                     $(this).find(heading).on('click', function (e, args) {
+
                         var $heading = $(this),
                             $panel   = $heading.parents(section).children(panel),
                             preserveOthers = !!(args && args.preserveOthers),
@@ -66,8 +67,17 @@ define([
                                 close: 'hide',
                                 open: 'fadeIn'
                             },
-                            action = $heading.hasClass(closed) ? 'open' : 'close';
-                            
+                            action,
+                            forceState = (args && args.forceState ? args.forceState : false),
+                            classFn;
+
+                        if(forceState) {
+                            classFn = forceState === 'open' ? 'addClass' : 'removeClass';
+                            $heading[classFn](closed);
+                        }
+
+                        action = $heading.hasClass(closed) ? 'open' : 'close';
+
                         // whether or not to close other sections in the same sidebar
                         // @todo (optional): remove 'false' in the condition below
                         // to change the style to accordion, i.e. to allow for only one open section
@@ -89,14 +99,32 @@ define([
         };
 
         /**
+         * Toggle section display
+         *
+         * @param sections
+         */
+        var _toggleSections = function(sections, preserveOthers, state) {
+            sections.each(function(){
+                $(this).find(heading).trigger('click', { preserveOthers: preserveOthers, forceState: state });
+            });
+        };
+
+        /**
+         * Close specific sections
+         *
+         * @param sections
+         */
+        var closeSections = function(sections, preserveOthers) {
+            _toggleSections(sections, !!preserveOthers, 'close');
+        };
+
+        /**
          * Open specific sections
          *
          * @param sections
          */
         var openSections = function(sections, preserveOthers) {
-            sections.each(function(){
-                $(this).find(heading).trigger('click', { preserveOthers: preserveOthers });
-            });
+            _toggleSections(sections, !!preserveOthers, 'open');
         };
 
         // display the sidebar and its sections temporarily to calculate the height
@@ -139,11 +167,14 @@ define([
         var initGui = function () {
 
 
-            adaptHeight();
-
             // toggle blocks in sidebar
             // note that this must happen _after_ the height has been adapted
             sidebarAccordionInit();
+
+            // close all
+            closeSections(elements.sidebars.find(section));
+
+            adaptHeight();
 
             /* At the time of writing this the following sections are available:
              *
@@ -163,8 +194,8 @@ define([
              */
 
             openSections(
-                $('#sidebar-left-section-content-block, #sidebar-left-section-content-element, #sidebar-left-section-block-interactions'),
-                true
+                $('#sidebar-left-section-content-blocks, #sidebar-left-section-content-elements, #sidebar-left-section-block-interactions'),
+                false
             );
 
             elements.itemPanel.addClass('has-item');
@@ -177,6 +208,7 @@ define([
         return {
             initGui: initGui,
             openSections: openSections,
+            closeSections: closeSections,
             adaptHeight: adaptHeight
         };
 
