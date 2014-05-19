@@ -401,9 +401,6 @@ define([
                     togglersByTarget[currPreviewType].trigger('click');
                 }
                 
-                
-                console.log(overlay);
-                
                 overlay.fadeIn(function(){
                     overlay.height($doc.outerHeight());
                     overlay.find('select').trigger('change');
