@@ -57,8 +57,6 @@
     }
 }
 
-
-
 .tao-scope {
     // the icon creator specific part
     @import "inc/widgets";
@@ -185,6 +183,7 @@
     .sidebar-right-section-box {
         display:none;
     }
+
     
     .item-editor-sidebar {
         //@todo reset to 0
@@ -298,7 +297,49 @@
                 }
             }
         }
-        
+
+        .sub-group {
+            position: relative;
+            padding-top: 0 !important;
+            .sub-group-cover {
+                display: none;
+                position: absolute;
+                left: 0;
+                top: -7px;
+                width: 96%;
+                height: 100%;
+                background-color: rgba(mix(#fff, $grey, 85%), 0.3) !important;
+                z-index: 2;
+                border: 1px $websiteBorder solid;
+                @include border-radius(3);
+                margin: 2%;
+            }
+
+            .sub-group-cover:after,.sub-group-cover:before {
+                bottom: 100%;
+                left: 25%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .sub-group-cover:after {
+                border-color: transparent;
+                border-bottom-color: mix(#fff, $grey, 85%);
+                border-width: 8px;
+                margin-left: -8px;
+            }
+
+            .sub-group-cover:before {
+                border-color: transparent;
+                border-bottom-color: $websiteBorder;
+                border-width: 9px;
+                margin-left: -9px;
+            }
+        }
         .inset {
             margin-left: 6px;
             margin-right: 6px;
@@ -310,6 +351,13 @@
         }
         .tool-list {
             margin-top: -3px;
+            @extend .clearfix;
+            &:before {
+                @extend .clearfix:before;
+            }
+            &:after {
+                @extend .clearfix:after;
+            }
             li {
                 width: widthPerc(($sidebarWidth / 2) - $sidebarGutter, $sidebarWidth);
                 margin: 0 widthPerc(($sidebarGutter / 2), $sidebarWidth);

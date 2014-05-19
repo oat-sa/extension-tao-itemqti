@@ -49,10 +49,10 @@ define([
                         filters: 'text/css'
                     },
                     pathParam: 'path',
-                    select: function (e, uris) {
-                        var i, l = uris.length;
+                    select: function (e, files) {
+                        var i, l = files.length;
                         for (i = 0; i < l; i++) {
-                            styleEditor.addStylesheet(uris[i]);
+                            styleEditor.addStylesheet(files[i].file);
                         }
                     }
                 });

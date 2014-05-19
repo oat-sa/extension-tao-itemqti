@@ -22,6 +22,36 @@ define([
             closed  = 'closed',
             ns      = 'accordion';
 
+
+        var buildSubGroups = function () {
+            elements.sidebars.find('[data-sub-group]').each(function() {
+                var $element   = $(this),
+                    $section   = $element.parents('section'),
+                    subGroup   = $element.data('sub-group'),
+                    $subGroupPanel,
+                    $subGroupList,
+                    $cover;
+
+                if(!subGroup) {
+                    return;
+                }
+
+                $subGroupPanel = $section.find('.sub-group.' + subGroup);
+                $subGroupList = $subGroupPanel.find('.tool-list');
+                if(!$subGroupPanel.length) {
+                    $subGroupPanel = $('<div>', { 'class': 'panel clearfix sub-group ' + subGroup });
+                    $subGroupList = $('<ul>', { 'class': 'tool-list plain clearfix' });
+                    $subGroupPanel.append($subGroupList);
+                    $section.append($subGroupPanel);
+                    $cover = $('<div>', { 'class': 'sub-group-cover'});
+                    $subGroupPanel.append($cover);
+                    $subGroupPanel.data('cover', $cover);
+                }
+                $subGroupList.append($element);
+            });
+
+        };
+
         /**
          * setup accordion
          */
@@ -161,11 +191,38 @@ define([
             }).height(height);
         };
 
+
+        /**
+         * toggle availability of sub group
+         * @param subGroup
+         */
+        var _toggleSubGroup = function(subGroup, state) {
+            $(subGroup).data('cover')[state]();
+        };
+
+
+        /**
+         * enable sub group
+         * @param subGroup
+         */
+        var enableSubGroup = function(subGroup) {
+            _toggleSubGroup(subGroup, 'hide');
+        };
+
+        /**
+         * disable sub group
+         * @param subGroup
+         */
+        var disableSubGroup = function(subGroup) {
+            _toggleSubGroup(subGroup, 'show');
+        };
+
         /**
          * Initialize interface
          */
         var initGui = function () {
 
+            buildSubGroups();
 
             // toggle blocks in sidebar
             // note that this must happen _after_ the height has been adapted
@@ -209,7 +266,9 @@ define([
             initGui: initGui,
             openSections: openSections,
             closeSections: closeSections,
-            adaptHeight: adaptHeight
+            adaptHeight: adaptHeight,
+            enableSubGroup: enableSubGroup,
+            disableSubGroup: disableSubGroup
         };
 
     }());

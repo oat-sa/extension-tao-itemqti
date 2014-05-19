@@ -183,12 +183,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     position: absolute;
     cursor: crosshair; }
 
-.tao-scope .item-editor-item .widget-box.widget-inline.hover, .tao-scope .item-editor-item .widget-box.widget-block.hover, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice:not(th):hover, .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice:not(th):hover, .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
   cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope .item-editor-item .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
   cursor: default;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
@@ -325,6 +325,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           .tao-scope #item-editor-toolbar ul li.active [class^="icon-"], .tao-scope #item-editor-toolbar ul li.active [class*=" icon-"] {
             color: white;
             text-shadow: none !important; }
+        .tao-scope #item-editor-toolbar ul li.preview-trigger {
+          padding: 12px 5px 0 5px; }
         .tao-scope #item-editor-toolbar ul li#item-editor-status {
           line-height: 53px;
           cursor: default;
@@ -422,6 +424,42 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         margin-top: 5px; }
       .tao-scope .item-editor-sidebar .tool-group .panel .feedbackRule-panel .adder :before {
         font-size: 1.4rem; }
+    .tao-scope .item-editor-sidebar .sub-group {
+      position: relative;
+      padding-top: 0 !important; }
+      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: -7px;
+        width: 96%;
+        height: 100%;
+        background-color: rgba(242, 240, 238, 0.3) !important;
+        z-index: 2;
+        border: 1px #8d949e solid;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        margin: 2%; }
+      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:after, .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:before {
+        bottom: 100%;
+        left: 25%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none; }
+      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:after {
+        border-color: transparent;
+        border-bottom-color: #f2f0ee;
+        border-width: 8px;
+        margin-left: -8px; }
+      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:before {
+        border-color: transparent;
+        border-bottom-color: #8d949e;
+        border-width: 9px;
+        margin-left: -9px; }
     .tao-scope .item-editor-sidebar .inset {
       margin-left: 6px;
       margin-right: 6px; }
@@ -449,6 +487,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           font-size: 28px;
           font-size: 2.8rem;
           opacity: .9; }
+        .tao-scope .item-editor-sidebar .tool-list li.disabled {
+          cursor: default;
+          background-color: #eee !important; }
+          .tao-scope .item-editor-sidebar .tool-list li.disabled:hover {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px dotted transparent; }
     .tao-scope .item-editor-sidebar .reset-group select {
       width: 140px;
       min-width: 140px;
@@ -850,6 +894,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                              <*_/   <*/ }
     .tao-scope .item-editor-item [class*=" col-"], .tao-scope .item-editor-item [class^="col-"] {
       position: relative; }
+    .tao-scope .item-editor-item .hoverable .widget-box.widget-inline {
+      display: inline-block; }
+    .tao-scope .item-editor-item .hoverable .widget-box.widget-block {
+      display: block; }
     .tao-scope .item-editor-item .widget-box {
       border: 1px solid transparent;
       position: relative; }
@@ -929,10 +977,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-item .widget-box .float-space-bottom.cke_nose {
         display: block;
         top: -6px; }
-      .tao-scope .item-editor-item .widget-box.widget-inline {
-        display: inline-block; }
-      .tao-scope .item-editor-item .widget-box.widget-block {
-        display: block; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice:not(th) {
         border: 1px solid transparent; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice .inner-wrapper {
@@ -1279,9 +1323,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .new-col:first-child {
       margin-left: 1.42857%; }
     .tao-scope .item-editor-item .drop-target[data-html-editable] {
-      border: 1px dashed #86c8a5 !important; }
+      border: 2px dashed #86c8a5 !important; }
       .tao-scope .item-editor-item .drop-target[data-html-editable]:hover {
-        border-color: 1px solid #56b281 !important; }
+        background: rgba(14, 145, 75, 0.1) !important; }
     .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder {
       position: relative;
       display: inline-block;

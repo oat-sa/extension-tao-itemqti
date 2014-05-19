@@ -12,19 +12,19 @@ define([
 
     var adaptSize = (function () {
 
-        var height = function(elements, animate) {
-            _resize(elements, { height: 0 }, animate);
+        var height = function(elements) {
+            _resize(elements, { height: 0 });
         };
 
-        var width = function(elements, animate) {
-            _resize(elements, { width: 0 }, animate);
+        var width = function(elements) {
+            _resize(elements, { width: 0 });
         };
 
-        var both = function(elements, animate) {
-            _resize(elements, { height: 0, width: 0 }, animate);
+        var both = function(elements) {
+            _resize(elements, { height: 0, width: 0 });
         };
 
-        var _resize = function(elements, dimensions, animate) {
+        var _resize = function(elements, dimensions) {
 
             var dimension;
 
@@ -49,12 +49,7 @@ define([
                 }
             });
 
-            if(!!animate) {
-                elements.animate(dimensions, 200);
-            }
-            else {
-                elements.css(dimensions);
-            }
+            elements.css(dimensions);
         };
 
         return {
