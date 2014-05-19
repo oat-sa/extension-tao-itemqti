@@ -1,4 +1,9 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, rendererConfig){
+define([
+    'taoQtiItem/qtiItem/core/Element', 
+    'lodash', 
+    'taoQtiItem/qtiItem/helper/rendererConfig',
+    'taoQtiItem/qtiItem/helper/util'
+], function(Element, _, rendererConfig, util){
 
     var QtiObject = Element.extend({
         qtiClass : 'object',
@@ -38,9 +43,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
                     defaultData.object = true;
             }
 
-            if(!src.match(/^http/i)){
-                defaultData.attributes = {data : baseUrl + src};
-            }
+            defaultData.attributes = {data : util.fullpath(src, baseUrl)};
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
