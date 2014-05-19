@@ -128,22 +128,24 @@ define([
 
         var _this = this,
             $ok = $(okButtonTpl()).on('click.qti-widget', function(e){
-                e.stopPropagation();
-                _this.changeState('sleep');
-            });
+            e.stopPropagation();
+            _this.changeState('sleep');
+        });
 
         this.$container.append($ok);
     };
 
     InteractionWidget.listenToChoiceStates = function(){
 
-        var _this = this;
+        var _this = this,
+            currentState = _this.getCurrentState();
 
         this.afterStateInit(function(e, element, state){
 
             if(element.is('choice')
                 && _this.element.getChoice(element.getSerial())
-                && state.name !== _this.getCurrentState().name){
+                && currentState
+                && state.name !== currentState.name){
 
                 switch(state.name){
                     case 'choice':
