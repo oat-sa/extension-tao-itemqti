@@ -112,7 +112,6 @@ class Authoring{
                       'icon'      => 'inline-choice',
                       'short'     => __('Inline Choice'),
                       'qtiClass'  => 'inlineChoiceInteraction',
-                      'disabled'  => true,
                       'sub-group' => 'inline-interactions' // creates a panel with a subgroup for this element
                 ),
                 array('title'     => __('Text Entry Interaction'),
@@ -129,6 +128,11 @@ class Authoring{
                       'icon'     => 'image',
                       'short'    => __('Image'),
                       'qtiClass' => 'img'
+                ),
+                array('title'    => __('Maths'),
+                      'icon'     => 'maths',
+                      'short'    => __('Maths'),
+                      'qtiClass' => 'math'
                 ),
                 array('title'    => __('Media'),
                       'icon'     => 'media',
