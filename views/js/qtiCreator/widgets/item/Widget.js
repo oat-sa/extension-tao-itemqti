@@ -109,7 +109,15 @@ define([
             }
         });
         
-        $itemBody.on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
+        $itemBody.on('beforedragoverstart.gridEdit', function(){
+            
+            $itemBody.removeClass('hoverable');
+            
+        }).on('dragoverstop.gridEdit', function(){
+            
+            $itemBody.addClass('hoverable');
+            
+        }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
             
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted

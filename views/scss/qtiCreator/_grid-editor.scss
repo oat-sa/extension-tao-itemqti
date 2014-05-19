@@ -20,9 +20,9 @@ span.dragging{
 //inline drop target containers:
 .drop-target{
     &[data-html-editable] {
-        border:1px dashed whiten($success, .5) !important;
+        border:2px dashed whiten($success, .5) !important;
         &:hover{
-            border-color:1px solid whiten($success, .3) !important;
+            background:rgba($success, .1) !important;
         }
     }
     #qti-inline-element-placeholder {

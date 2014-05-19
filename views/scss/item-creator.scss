@@ -666,6 +666,71 @@
         [class*=" col-"], [class^="col-"] {
             position:relative;
         }
+        
+        .hoverable{
+            .widget-box{
+                &.widget-inline{
+                    display:inline-block;
+                    &.hover{
+                        @extend %editHover;
+                    }
+                    &.edit-active{
+                        @extend %editActive;
+                    }
+                }
+                &.widget-block{
+                    display:block;
+                    &.hover{
+                        @extend %editHover;
+                    }
+                    &.edit-active{
+                        @extend %editActive;
+                    }
+                }
+                &.widget-rubricBlock{
+                    &.hover .qti-rubricBlock-body{
+                        @extend %editHover;
+                    }
+                    &.edit-active .qti-rubricBlock-body{
+                        @extend %editActive;
+                    }
+                }
+                &.widget-blockInteraction{
+                    &.hover{
+                        @extend %editHover;
+                    }
+                    &.edit-active{
+                        @extend %editActive;
+                    }
+                    &.edit-question{
+                        .qti-choice{
+                            
+                            &:not(th){
+                                &:hover{
+                                    @extend %editHover;
+                                }
+                                &.edit-choice{
+                                    @extend %editActive;
+                                }
+                            }
+                            
+                            &:hover{
+                                .inner-wrapper{
+                                    //@extend %editHover;
+                                }
+                            }
+                            &.edit-choice{
+                                .inner-wrapper{
+                                    //@extend %editActive;
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
         .widget-box{
             border : 1px solid transparent;
             position:relative;
@@ -763,64 +828,8 @@
                 display:block;
                 top: -6px;
             }
-            &.widget-inline{
-                display:inline-block;
-                &.hover{
-                    @extend %editHover;
-                }
-                &.edit-active{
-                    @extend %editActive;
-                }
-            }
-            &.widget-block{
-                display:block;
-                &.hover{
-                    @extend %editHover;
-                }
-                &.edit-active{
-                    @extend %editActive;
-                }
-            }
-            &.widget-rubricBlock{
-                &.hover .qti-rubricBlock-body{
-                    @extend %editHover;
-                }
-                &.edit-active .qti-rubricBlock-body{
-                    @extend %editActive;
-                }
-            }
+            
             &.widget-blockInteraction{
-                &.hover{
-                    @extend %editHover;
-                }
-                &.edit-active{
-                    @extend %editActive;
-                }
-                &.edit-question{
-                    .qti-choice{
-                        
-                        &:not(th){
-                            &:hover{
-                                @extend %editHover;
-                            }
-                            &.edit-choice{
-                                @extend %editActive;
-                            }
-                        }
-                        
-                        &:hover{
-                            .inner-wrapper{
-                                //@extend %editHover;
-                            }
-                        }
-                        &.edit-choice{
-                            .inner-wrapper{
-                                //@extend %editActive;
-                            }
-                        }
-                        
-                    }
-                }
                 .qti-choice{
                     &:not(th) {
                         border:1px solid transparent;
