@@ -286,6 +286,7 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
+                    console.log(files);
                     $src.val(files[0].file).trigger('change');
                 }
             });
@@ -295,15 +296,14 @@ define([
         
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
-        callbacks.data = function(value){
+        callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
-            
-            _widget.changeState('sleep');
-            //_widget.rebuild({
-                //ready:function(widget){
-                    //widget.changeState('question');
-                //}
-            //});
+            //_widget.changeState('sleep');
+            _widget.rebuild({
+                ready:function(widget){
+                    widget.changeState('question');
+                }
+            });
         };
         formElement.initDataBinding($form, interaction, callbacks);
         

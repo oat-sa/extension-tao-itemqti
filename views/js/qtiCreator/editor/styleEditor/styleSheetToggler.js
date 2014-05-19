@@ -37,7 +37,7 @@ define([
             uploader.on('click', function () {
 
                 uploader.resourcemgr({
-                    appendContainer: '#item-editor-panel',
+                    appendContainer: '#mediaManager',
                     root: '/',
                     browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
                     uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
