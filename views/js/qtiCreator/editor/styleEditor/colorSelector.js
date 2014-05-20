@@ -113,7 +113,7 @@ define([
 
         // close color picker, when clicking somewhere outside or on the x
         $doc.on('mouseup', function(e) {
-            if(e.target.className && e.target.className.indexOf('closer') > -1) {
+            if($(e.target).hasClass('closer')) {
                 widgetBox.hide();
                 return false;
             }
