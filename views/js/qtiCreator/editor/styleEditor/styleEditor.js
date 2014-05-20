@@ -64,8 +64,9 @@ define([
         /**
          * Create CSS and add it to DOM
          *
+         * @param dontAppend whether or not to append the stylesheet to the DOM. This is used by the iframe preview
          */
-        var create = function() {
+        var create = function(dontAppend) {
 
             var key1, // first level key, could be selector or media query
                 key2, // second level key, could be css property or selector
@@ -106,7 +107,11 @@ define([
                 css += '}\n';
             }
 
-            $styleElem.text(css);
+            if(!dontAppend) {
+                $styleElem.text(css);
+            }
+            return css;
+
         };
 
         /**
@@ -305,7 +310,7 @@ define([
                 create();
 
                 // reset meta in case the width is set in the custom stylesheet
-                currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width);
+                currentItem.data('responsive', style[resizerTarget].length && style[resizerTarget].width > 0);
 
                 // inform editors about custom sheet
                 $(doc).trigger('customcssloaded.styleeditor', style);

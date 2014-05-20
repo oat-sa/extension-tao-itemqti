@@ -35,7 +35,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     display: none !important; }
   .preview-overlay.preview-mobile .desktop-only {
     display: none !important; }
-  .preview-overlay .preview-item-container {
+  .preview-overlay .preview-container {
     background: white; }
   .preview-overlay .preview-container-outer {
     display: table;
@@ -72,7 +72,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .preview-overlay .preview-utility-bar-inner .toogle-view {
       min-width: 185px; }
     .preview-overlay .preview-utility-bar-inner .mobile-device-selector {
-      min-width: 150px; }
+      width: 200px; }
+    .preview-overlay .preview-utility-bar-inner .mobile-orientation-selector,
+    .preview-overlay .preview-utility-bar-inner .desktop-device-selector {
+      width: 130px; }
   .preview-overlay .desktop-preview-container {
     width: 1024px;
     background: white;
@@ -100,7 +103,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .preview-overlay .preview-iframe {
     border: none;
     width: 100%;
-    height: 100%; }
+    height: 100%;
+    /*
+    // interesting idea
+    -moz-transform: scale(0.75, 0.75);
+    -webkit-transform: scale(0.75, 0.75);
+    -o-transform: scale(0.75, 0.75);
+    -ms-transform: scale(0.75, 0.75);
+    transform: scale(0.75, 0.75);
+    */ }
   .preview-overlay .mobile-preview-container {
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;

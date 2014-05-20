@@ -1,5 +1,5 @@
 <div class="panel">
-    <label for="">{{__ "identifier"}}</label>
+    <label for="" class="has-icon">{{__ "Identifier"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The identifier of the choice. This identifier must not be used by any other choice or item variable'}}</div>
 
