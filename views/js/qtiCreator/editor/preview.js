@@ -1,10 +1,14 @@
 define([
     'jquery',
+    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
+    'tpl!taoQtiItem/qtiCreator/tpl/preview/preview',
+    'tpl!taoQtiItem/qtiCreator/tpl/preview/iframe',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'select2'
-], function($, __, commonRenderer, deviceList){
+], function ($, _, __, commonRenderer, deviceList, previewTpl, iframeTpl, styleEditor) {
     'use strict'
 
     var overlay,
@@ -15,372 +19,253 @@ define([
         $doc = $(document);
 
     /**
+     * Create data set for device selectors
      *
-     * @returns {boolean}
+     * @param type
+     * @returns {Array}
+     * @private
      */
-    var createWidget = function(item){
+    var _getDeviceSelectorData = function(type) {
 
-        if(!!overlay && overlay.length){
-            return false;
+        /*
+         * @todo
+         * The device list is currently based on the devices found on the Chrome emulator.
+         * This is not ideal and should be changed in the future.
+         * I have http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density in mind but we
+         * will need to figure what criteria to apply when generating the list.
+         */
+        var devices = type === 'mobile' ? deviceList['tablets'] : deviceList['screens'],
+            options = [];
+
+        _.forEach(devices, function(value) {
+            options.push({
+                value: [value.width, value.height].join(','),
+                label: value.label,
+                selected: currPreviewType === value.label
+            });
+        });
+
+        return options;
+    };
+
+    /**
+     * Add functionality to device selectors
+     *
+     * @private
+     */
+    var _setupDeviceSelectors = function() {
+
+        overlay.find('.preview-device-selector').on('change', function() {
+            var elem = $(this),
+                type = (this.className.indexOf('mobile') > -1 ? 'mobile' : 'desktop'),
+                val = elem.val().split(','),
+                animationSettings,
+                i = val.length,
+                container = $('.' + type + '-preview-container');
+
+
+            while (i--) {
+                val[i] = parseFloat(val[i]);
+            }
+
+            if (type === 'mobile' && currOrientation === 'portrait') {
+                animationSettings = {
+                    width: val[1],
+                    height: val[0]
+                };
+            }
+            else {
+                animationSettings = {
+                    width: val[0],
+                    height: val[1]
+                };
+            }
+
+            if (animationSettings.width === container.width()
+                && animationSettings.height === container.height()) {
+                return false;
+            }
+
+            container.animate(animationSettings, function () {
+                currPreviewType = type;
+            });
+        }).select2({
+            minimumResultsForSearch: -1
+        });
+    };
+
+    /**
+     * Setup orientation selector
+     * @private
+     */
+    var _setupOrientationSelector = function() {
+        $('.mobile-orientation-selector').on('change', function () {
+            var newOrientation = $(this).val(),
+                animationSettings,
+                mobilePreviewFrame = $('.mobile-preview-frame'),
+                mobilePreviewContainer = mobilePreviewFrame.find('.mobile-preview-container');
+
+            if (newOrientation === currOrientation) {
+                return false;
+            }
+
+            animationSettings = {
+                height: mobilePreviewContainer.width(),
+                width: mobilePreviewContainer.height()
+            };
+
+            mobilePreviewContainer.animate(animationSettings, function () {
+                mobilePreviewFrame.removeClass('mobile-preview-' + currOrientation)
+                    .addClass('mobile-preview-' + newOrientation);
+
+                // reset global orientation
+                currOrientation = newOrientation;
+            });
+
+        }).select2({
+            minimumResultsForSearch: -1
+        });
+    };
+
+    /**
+     * Close preview
+     *
+     * @returns {*|HTMLElement}
+     */
+    var _setupCloser = function () {
+        var closer = overlay.find('.preview-closer');
+        closer.on('click', function () {
+            commonRenderer.setContext($('.item-editor-item'));
+            overlay.fadeOut();
+        });
+
+        $doc.keyup(function (e) {
+            if (e.keyCode == 27) {
+                closer.trigger('click');
+            }
+        });
+    };
+
+    /**
+     * Toggle between mobile and desktop
+     *
+     * @returns {*}
+     */
+    var _setupTogglers = function () {
+
+        var togglers = overlay.find('.toggle-view');
+
+        togglers.each(function() {
+            var toggler = $(this);
+            togglersByTarget[toggler.data('target')] = toggler;
+        });
+
+        togglers.on('click', function () {
+            var target = $(this).data('target'),
+                newClass = 'preview-' + target,
+                oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop';
+
+            overlay.removeClass(oldClass).addClass(newClass);
+            currPreviewType = target;
+        });
+    };
+
+    var _getIframeContentWindow = function(type) {
+        var dfd = new jQuery.Deferred();
+
+        var iframe = overlay.find('.' + type + '-preview-iframe');
+        if(iframe.contents().length){
+            dfd.resolve(iframe[0]);
         }
 
-        /**
-         * Create an item on the toolbar
-         *
-         * @param tool
-         * @param type
-         * @returns {void|*}
-         */
-        var createTool = function(tool, type){
-            return $('<li>', {
-                class : (type ? 'lft ' + type + '-only' : 'lft')
-            }).append(tool);
-        };
-
-        /**
-         * creates list of devices from devices.json
-         *
-         * @returns {*|HTMLElement}
-         */
-        var createDeviceSelector = function(type){
-            var device,
-                devices,
-                option,
-                select = $('<select>', {
-                class : type + '-device-selector'
-            });
-
-
-            /*
-             * @todo
-             * The device list is currently based on the devices found on the Chrome emulator.
-             * This is not ideal and should be changed in the future.
-             * I have http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density in mind but we
-             * will need to figure what criteria to apply when generating the list.
-             */
-            switch(type){
-                case 'mobile':
-                    devices = deviceList['tablets'];
-                    break;
-                case 'desktop':
-                    devices = deviceList['screens'];
-                    break;
-            }
-
-            for(device in devices){
-                if(devices.hasOwnProperty(device)){
-                    option = $('<option>', {
-                        value : [devices[device].width, devices[device].height].join(','),
-                        text : devices[device].label
-                    });
-                    if(currPreviewType === devices[device].label){
-                        option.prop('selected', true);
-                    }
-                    select.append(option);
-                }
-            }
-
-            select.on('change', function(){
-                var elem = $(this),
-                    val = elem.val().split(','),
-                    animationSettings,
-                    i = val.length,
-                    container = $('.' + type + '-preview-container');
-
-
-                while(i--){
-                    val[i] = parseFloat(val[i]);
-                }
-
-                if(type === 'mobile' && currOrientation === 'portrait'){
-                    animationSettings = {
-                        width : val[1],
-                        height : val[0]
-                    };
-                }
-                else{
-                    animationSettings = {
-                        width : val[0],
-                        height : val[1]
-                    };
-                }
-
-                if(animationSettings.width === container.width()
-                    && animationSettings.height === container.height()){
-                    return false;
-                }
-
-                container.animate(animationSettings, function(){
-                    currPreviewType = type;
-                });
-            });
-
-            return select;
-        };
-
-        /**
-         * Change orientation of the tablet preview
-         *
-         * @returns {*|HTMLElement}
-         */
-        var createOrientationSelector = function(mobilePreviewContainer){
-
-            mobilePreviewContainer = mobilePreviewContainer.find('.preview-container');
-
-            var select = $('<select>', {
-                class : 'mobile-orientation-selector'
-            }),
-            orientations = {
-                landscape : __('Landscape'),
-                portrait : __('Portrait')
-            },
-            orientation,
-                option;
-            for(orientation in orientations){
-                if(orientations.hasOwnProperty(orientation)){
-                    option = $('<option>', {
-                        value : orientation,
-                        text : orientations[orientation]
-                    });
-                    if(currOrientation === orientation){
-                        option.prop('selected', true);
-                    }
-                    select.append(option);
-                }
-            }
-            select.on('change', function(){
-                var newOrientation = $(this).val(),
-                    animationSettings,
-                    mobilePreviewFrame = $('.preview-mobile-frame');
-
-                if(newOrientation === currOrientation){
-                    return false;
-                }
-
-                animationSettings = {
-                    height : mobilePreviewContainer.width(),
-                    width : mobilePreviewContainer.height()
-                };
-
-                mobilePreviewContainer.animate(animationSettings, function(){
-                    mobilePreviewFrame.removeClass('mobile-preview-' + currOrientation)
-                        .addClass('mobile-preview-' + newOrientation);
-
-                    // reset global orientation
-                    currOrientation = newOrientation;
-                });
-
-            });
-            return select;
-        };
-
-        /**
-         * The little warning at the very top
-         *
-         * @returns {*|HTMLElement}
-         */
-        var createFeedback = function(){
-            var feedback = $('<div>', {
-                class : 'tbl-cell'
-            });
-            feedback.append($('<div>', {
-                class : 'feedback-info small',
-                html : '<span class="icon-info"/>' + __('Final rendering may differ from this preview!')
-            }));
-            return feedback;
-        };
-
-        /**
-         * Create container for item
-         *
-         * @param type
-         * @returns {*|HTMLElement}
-         */
-        var createPreviewFrame = function(type){
-            var previewFrame = $('<div>', {
-                class : type + '-preview-frame ' + type + '-only preview-outer-frame'
-            });
-            var previewContainer = $('<div>', {
-                class : type + '-preview-container preview-container'
-            });
-            if(type === 'mobile'){
-                previewFrame.addClass('mobile-preview-' + currOrientation);
-            }
-            previewFrame.append(previewContainer);
-            return previewFrame;
-        };
-
-        /**
-         * Toggle between mobile and desktop
-         *
-         * @param type
-         * @returns {*}
-         */
-        var createToggler = function(type){
-            var toggler,
-                toggleText,
-                toggleTarget,
-                icon;
-
-            // view togglers
-            if(type === 'mobile'){
-                toggleText = __('Switch to desktop');
-                toggleTarget = 'desktop';
-                icon = 'icon-desktop-preview';
-            }
-            else{
-                toggleText = __('Switch to mobile');
-                toggleTarget = 'mobile';
-                icon = 'icon-mobile-preview';
-            }
-
-
-            toggler = $('<span>', {
-                class : 'btn-info toggle-view small',
-                html : '<span class="' + icon + '"/>' + toggleText
-            }).prop('target', toggleTarget);
-
-            toggler.on('click', function(){
-                var target = $(this).prop('target'),
-                    newClass = 'preview-' + target,
-                    oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop',
-                    targetContainer = $('.' + target + '-preview-container');
-
-                overlay.removeClass(oldClass).addClass(newClass);
-                currPreviewType = target;
-                targetContainer.empty();
-                commonRenderer.render(item, targetContainer);
-            });
-
-            // add toggler to global collection
-            togglersByTarget[toggleTarget] = toggler;
-
-            return toggler;
-        };
-
-        /**
-         * Close preview
-         *
-         * @returns {*|HTMLElement}
-         */
-        var createCloser = function(){
-            var closer = $('<span>', {
-                class : 'btn-info small',
-                html : __('Close') + ' <span class="icon-close r"/>'
-            });
-            closer.on('click', function(){
-                commonRenderer.setContext($('.item-editor-item'));
-                overlay.fadeOut();
-            });
-            return closer;
-        };
-
-        /**
-         * Heading, i.e. Desktop preview|Mobile preview
-         * @param type
-         * @returns {*|HTMLElement}
-         */
-        var createPreviewHeading = function(type){
-
-            return $('<h1>', {
-                class : type + '-preview-heading ' + type + '-only preview-heading tbl-cell',
-                text : (type === 'mobile') ? __('Mobile Preview') : __('Desktop Preview')
-            });
-        };
-
-        /**
-         * Build the whole shebang
-         */
-        (function(){
-            var types = ['mobile', 'desktop'],
-                iT = types.length,
-                previews = {},
-                headings = {},
-                form = $('<form>', {
-                class : 'preview-utility-bar plain',
-                autocomplete : 'off'
-            }),
-            formInner = $('<div>', {
-                class : 'preview-utility-bar-inner tbl'
-            }),
-            canvas = $('<div>', {
-                class : 'preview-canvas'
-            }),
-            feedback = createFeedback(),
-                deviceSelectors = {},
-                orientationSelector,
-                viewTogglers = {},
-                tools = $('<ul>', {
-                class : 'plain tbl-cell clearfix'
-            }),
-            closer = createCloser();
-
-            overlay = $('<div>', {
-                class : 'preview-overlay tao-scope overlay preview-' + currPreviewType
-            });
-            container = $('<div>', {
-                class : 'preview-container-outer'
-            });
-
-
-            while(iT--){
-                previews[types[iT]] = createPreviewFrame(types[iT]);
-                viewTogglers[types[iT]] = createToggler(types[iT]);
-                deviceSelectors[types[iT]] = createDeviceSelector(types[iT]);
-                headings[types[iT]] = createPreviewHeading(types[iT]);
-                formInner.append(headings[types[iT]]);
-            }
-
-            orientationSelector = createOrientationSelector(previews['mobile']);
-
-            tools.append(createTool(deviceSelectors['desktop'], 'desktop'));
-            tools.append(createTool(viewTogglers['desktop'], 'desktop'));
-
-            tools.append(createTool(deviceSelectors['mobile'], 'mobile'));
-            tools.append(createTool(orientationSelector, 'mobile'));
-            tools.append(createTool(viewTogglers['mobile'], 'mobile'));
-
-            tools.append(createTool(closer, false));
-
-            formInner.append(feedback);
-            formInner.append(tools);
-
-            form.append(formInner);
-
-            canvas.append(form);
-            canvas.append(previews['desktop']);
-            canvas.append(previews['mobile']);
-
-            container.append(canvas);
-
-            overlay.append(container);
-
-            overlay.find('select').select2({
-                minimumResultsForSearch : -1
-            });
-
-            $doc.find('body').append(overlay);
-
-            overlay.hide();
-
-            $doc.keyup(function(e){
-                if(e.keyCode == 27){
-                    closer.trigger('click');
-                }
-            });
-        })();
-
-        return container;
+        iframe.on('load', function() {
+            dfd.resolve(iframe[0]);
+        });
+        return dfd.promise();
     };
 
 
-    return (function($){
+    var _setupIframes = function(item) {
 
-        var destroy = function(){
-            $('.preview-overlay').remove();
-            overlay = null;
-            container = null;
-        };
+        $.when(_getIframeContentWindow('mobile'), _getIframeContentWindow('desktop'))
+            .then(function(mobile, desktop){
+
+                var iframeBoilerPlate = iframeTpl(),
+                    iframes = {},
+                    name;
+
+                _.forEach([mobile, desktop], function(iframe){
+                    name = iframe.name.replace('-preview-iframe', '');
+                    iframes[name] = $(iframe).contents()[0];
+                    iframes[name].open();
+                    iframes[name].write(_.clone(iframeBoilerPlate));
+                    iframes[name].close();
+
+                    iframes[name].$head = $(iframes[name].getElementsByTagName('head')[0]);
+                    iframes[name].$body = $(iframes[name].body);
+
+                    // build item
+                    iframes[name].itemWrapper = $(iframes[name].getElementById('item-wrapper'));
+                    iframes[name].itemWrapper.empty();
+
+                    // item style sheets
+                    commonRenderer.render(item, iframes[name].itemWrapper);
+                    _.forEach(item.stylesheets, function(stylesheet){
+                        iframes[name].$head.append($(stylesheet.render()));
+                    });
+
+                    // add custom styles
+                    iframes[name].userStyles = $(iframes[name].getElementById('iframe-user-styles'));
+                    iframes[name].userStyles.text(styleEditor.create(false));
+                });
+            });
+    };
+
+
+    /**
+     * Remove possibly existing widgets and create a new one
+     *
+     * @param item
+     * @private
+     */
+    var _initWidget = function(item) {
+        $('.preview-overlay').remove();
+        container = null;
+        overlay = $(previewTpl({
+            mobileDevices: _getDeviceSelectorData('mobile'),
+            desktopDevices: _getDeviceSelectorData('desktop')
+        }));
+
+        $('body').append(overlay);
+        _setupDeviceSelectors();
+        _setupOrientationSelector();
+        _setupTogglers();
+        _setupCloser();
+        _setupIframes(item);
+    };
+
+
+    /**
+     * Display the preview
+     *
+     * @private
+     */
+    var _showWidget = function(launcher) {
+
+        currPreviewType = $(launcher).data('preview-type') || 'desktop';
+
+        if (togglersByTarget[currPreviewType]) {
+            togglersByTarget[currPreviewType].trigger('click');
+        }
+
+        overlay.fadeIn(function () {
+            overlay.height($doc.outerHeight());
+            overlay.find('select').trigger('change');
+        });
+    };
+
+
+    return (function ($) {
 
         /**
          * Create preview
@@ -389,27 +274,16 @@ define([
          * @param item
          */
         var init = function(launchers, item){
-            
-            destroy();
-            
-            createWidget(item);
 
-            $(launchers).on('click', function(){
-                currPreviewType = $(this).data('preview-type') || 'desktop';
+            _initWidget(item);
 
-                if(togglersByTarget[currPreviewType]){
-                    togglersByTarget[currPreviewType].trigger('click');
-                }
-                
-                overlay.fadeIn(function(){
-                    overlay.height($doc.outerHeight());
-                    overlay.find('select').trigger('change');
-                });
+            $(launchers).on('click', function() {
+                _showWidget(this);
             });
         };
 
         return {
-            init : init
+            init: init
         }
     }($));
 });
