@@ -195,7 +195,8 @@ define([
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
             var responsive = $container.hasClass('responsive');
-            var diff = options.diff || ($container.parent().outerWidth() - width);
+            var parentWidth = $container.parent().outerWidth();
+            var diff = options.diff || (parentWidth > width ? parentWidth - width : 28);
             var resizer = _.throttle(resizePaper, 10);
 
             paper = factory.call(null ,id, width, height);
@@ -208,7 +209,6 @@ define([
                 
                 //scale on creation
                 resizer();
-                _.delay(resizer, 15);
                 
                 $(window).resize(resizer);
 
