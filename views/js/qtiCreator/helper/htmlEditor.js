@@ -55,8 +55,10 @@ define([
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
-                    if(options.data && options.data.container){
-                        contentHelper.createElements(options.data.container, $editable, this.getData());
+                    if(options.data && options.data.container && options.data.widget){
+                        contentHelper.createElements(options.data.container, $editable, this.getData(), function(createdWidget){
+                            _activateInnerWidget(options.data.widget, createdWidget)
+                        });
                     }
                 }
             },
@@ -103,6 +105,7 @@ define([
             on : {
                 instanceReady : function(e){
 
+
                     var widgets = {};
 
                     //store it in editable elt data attr
@@ -119,7 +122,7 @@ define([
                         }
                     });
 
-                    if(options.data && options.data.widget && options.data.container){
+                    if(options.data && options.data.container){
 
                         //store in data-qti-container attribute the editor instance as soon as it is ready
                         $editable.data('qti-container', options.data.container);
@@ -128,6 +131,8 @@ define([
                         widgets = _rebuildWidgets(options.data.container, $editable);
                         _shieldInnerContent($editable, options.data.widget);
                     }
+
+                    _focus(e.editor);
 
                     $editable.trigger('editorready');
                 },
@@ -171,13 +176,20 @@ define([
         return $collection;
     };
 
+    var _destroyWidgets = function(container){
+
+        _.each(_.values(container.elements), function(elt){
+            elt.data('widget').destroy();
+        });
+
+    };
+
     var _rebuildWidgets = function(container, $container){
 
         var widgets = {};
 
         //reinit all widgets:
         _.each(_.values(container.elements), function(elt){
-
             widgets[elt.serial] = elt.data('widget').rebuild({
                 context : $container
             });
@@ -225,10 +237,9 @@ define([
         $container.find('.widget-box').each(function(){
 
             var $widget = $(this);
-            var targetWidgetSerial = $widget.data('widget').serial;
+            var innerWidget = $widget.data('widget');
             var $shield = $('<button>', {'class' : 'html-editable-shield'});
-            var element = containerWidget.element;
-            
+
             $widget.attr('contenteditable', false);
             $widget.append($shield);
             $shield.on('click', function(e){
@@ -238,26 +249,36 @@ define([
                 //2. clicked widget.changeState('active');
 
                 e.stopPropagation();
-
-                $container.one('widgetCreated', function(e, widgets){
-                    var targetWidget = widgets[targetWidgetSerial];
-                    if(targetWidget){
-                        targetWidget.changeState('active');
-                    }
-                });
-
-                if(element.qtiClass === '_container'){
-                    containerWidget.changeState('sleep');
-                }else if(Element.isA(element, 'choice')){
-                    element.getInteraction().changeState('sleep');
-                }else if(Element.isA(element, 'interaction')){
-                    element.changeState('sleep');
-                }
+                
+                _activateInnerWidget(containerWidget, innerWidget);
 
             });
 
         });
 
+    };
+
+    var _activateInnerWidget = function(containerWidget, innerWidget){
+
+        if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
+            
+            containerWidget.$container.one('widgetCreated', function(e, widgets){
+                var targetWidget = widgets[innerWidget.serial];
+                if(targetWidget){
+                    targetWidget.changeState('active');
+                }
+            });
+
+            if(Element.isA(containerWidget.element, '_container')){
+                containerWidget.changeState('sleep');
+            }else if(Element.isA(containerWidget.element, 'choice')){
+                containerWidget.changeState('question');
+            }
+
+        }else{
+            innerWidget.changeState('active');
+
+        }
     };
 
     /**
@@ -281,6 +302,14 @@ define([
         }
 
         return returnValue;
+    };
+
+    var _focus = function(editor){
+
+        editor.focus();
+        var range = editor.createRange();
+        range.moveToElementEditablePosition(editor.editable(), true);
+        editor.getSelection().selectRanges([range]);
     };
 
     var editorFactory = {
@@ -331,7 +360,11 @@ define([
 
                 $editable.removeAttr('contenteditable');
                 if($editable.data('editor')){
-                    $editable.data('editor').destroy();
+                    
+                    var editor = $editable.data('editor');
+                    editor.focusManager.blur();
+                    editor.destroy();
+                    
                     $editable.removeData('editor');
 
                     if($editable.data('qti-container')){

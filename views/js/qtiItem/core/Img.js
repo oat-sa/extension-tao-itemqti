@@ -18,7 +18,7 @@ define([
                         src : util.fullpath(src, baseUrl)
                     }
                 };
-
+                
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         isEmpty : function(){

@@ -66,7 +66,7 @@ define([
                 choice.postRender({
                     ready : function(widget){
                         //transition state directly back to "question"
-                        widget.changeState('question');
+                        widget.changeState('choice');
                     }
                 }, qtiChoiceClassName);
             });

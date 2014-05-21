@@ -11,6 +11,9 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
         Widget.initCreator.call(this);
 
         this.interaction = this.element.getInteraction();
+        if(!this.interaction){
+            throw new Error('cannot find related interaction');
+        }
 
         this.listenToInteractionStates();
     };

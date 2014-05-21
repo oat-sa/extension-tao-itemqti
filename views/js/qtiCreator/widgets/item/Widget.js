@@ -39,7 +39,7 @@ define([
 
         this.initGridEditor();
 
-//        this.debug();
+        this.debug();
     };
 
     ItemWidget.buildContainer = function(){
@@ -111,11 +111,11 @@ define([
         
         $itemBody.on('beforedragoverstart.gridEdit', function(){
             
-            $itemBody.removeClass('hoverable');
+            $itemBody.removeClass('hoverable').addClass('inserting');
             
         }).on('dragoverstop.gridEdit', function(){
             
-            $itemBody.addClass('hoverable');
+            $itemBody.addClass('hoverable').removeClass('inserting');
             
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
             

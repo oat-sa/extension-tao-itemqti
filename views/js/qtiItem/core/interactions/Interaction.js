@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, rendererConfig){
+define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig', 'taoQtiItem/qtiItem/helper/util'], function(Element, _, rendererConfig, util){
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){
@@ -49,9 +49,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
         find : function(serial){
             var found = this._super(serial);
             if(!found){
-                if(this.choices[serial]){
-                    found = {'parent' : this, 'element' : this.choices[serial]};
-                }
+                found = util.findInCollection(this, 'choices', serial);
             }
             return found;
         },

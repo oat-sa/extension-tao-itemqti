@@ -2,9 +2,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/helper/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'i18n'
-], function(stateFactory, Question, htmlEditor, promptToolbarTpl, __){
+], function(stateFactory, Question, htmlEditor, contentHelper, promptToolbarTpl, __){
 
     var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
 
@@ -20,7 +21,7 @@ define([
         var _widget = this.widget,
             $editableContainer = _widget.$container.find('.qti-prompt-container'),
             $editable = $editableContainer.find('.qti-prompt'),
-            prompt = _widget.element.prompt;
+            container = _widget.element.prompt.getBody();
 
         //@todo set them in the tpl
         $editableContainer.attr('data-html-editable-container', true);
@@ -28,16 +29,21 @@ define([
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            //add toolbar once only:
-            $editableContainer.append(promptToolbarTpl({
+            var $promptTlb = $(promptToolbarTpl({
                 serial : _widget.serial,
                 state : 'question'
             }));
 
+            //add toolbar once only:
+            $editableContainer.append($promptTlb);
+            $promptTlb.show();
+
             htmlEditor.buildEditor($editableContainer, {
                 placeholder : __('define prompt'),
-                change : function(data){
-                    prompt.body(data);
+                change : contentHelper.getChangeCallback(container),
+                data : {
+                    container : container,
+                    widget : _widget
                 }
             });
         }

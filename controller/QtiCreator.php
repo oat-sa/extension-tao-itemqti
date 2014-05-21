@@ -60,6 +60,7 @@ class QtiCreator extends tao_actions_CommonModule
                 'uri' => $itemUri,
                 'lang' => $lang
             ));
+            
             $this->setData('baseUrl', $url.'&relPath=');
         }
 

@@ -1,4 +1,10 @@
-define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedElement', 'taoQtiItem/qtiItem/mixin/ContainerItemBody', 'lodash'], function(Element, IdentifiedElement, Container, _){
+define([
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/core/IdentifiedElement',
+    'taoQtiItem/qtiItem/mixin/ContainerItemBody',
+    'lodash',
+    'taoQtiItem/qtiItem/helper/util'
+], function(Element, IdentifiedElement, Container, _, util){
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',
@@ -72,34 +78,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/core/IdentifiedEl
         },
         find : function(serial){
         
-            var _this = this,
-                found = this._super(serial);
+            var found = this._super(serial);
             
             if(!found){
-                
-                _.each(['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], function(elementCollection){
-
-                    var elt = _this[elementCollection][serial];
-
-                    if(elt){
-                        found = {'parent' : this, 'element' : elt};
-                        return false;//break the each loop
-                    }
-
-                    //search inside each elements:
-                    _.each(_this[elementCollection], function(elt){
-                        found = elt.find(serial);
-                        if(found){
-                            return false;//break the each loop
-                        }
-                    });
-
-                    if(found){
-                        return false;//break the each loop
-                    }
-
-                });
+                found = util.findInCollection(this, ['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], serial);
             }
+            
             return found;
         },
         getResponses : function(){

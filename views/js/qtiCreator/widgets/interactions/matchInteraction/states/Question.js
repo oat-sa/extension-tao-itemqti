@@ -30,24 +30,41 @@ define([
         };
 
         if(!$matchArea.find('.add-option').length){
+            
             $matchArea.append(adderTpl());
 
             $matchArea.find('.add-option[data-role=add-col]').on('click', function(){
+                
                 //match set 0
                 var choice = interaction.createChoice(0);
+                
                 $matchArea.find('thead > tr').append(choice.render(qtiChoiceClassName));
                 $matchArea.find('tbody > tr').append(cellTpl({}));
-                postRender(choice);
+                
+                postRender({
+                    ready : function(widget){
+                        //transition state directly back to "question"
+                        widget.changeState('choice');
+                    }
+                }, choice);
             });
 
             $matchArea.find('.add-option[data-role=add-row]').on('click', function(){
+                
                 //match set 1
                 var choice = interaction.createChoice(1);
+                
                 $matchArea.find('tbody').append(rowTpl({
                     choice : choice.render(qtiChoiceClassName),
                     otherMatchSetCount : _.size(interaction.choices[0])
                 }));
-                postRender(choice);
+                
+                postRender({
+                    ready : function(widget){
+                        //transition state directly back to "question"
+                        widget.changeState('choice');
+                    }
+                }, choice);
             });
         }
 

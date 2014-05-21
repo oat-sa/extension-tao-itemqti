@@ -183,7 +183,7 @@
     .sidebar-right-section-box {
         display:none;
     }
-
+    
     
     .item-editor-sidebar {
         //@todo reset to 0
@@ -297,7 +297,7 @@
                 }
             }
         }
-
+        
         .sub-group {
             position: relative;
             padding-top: 0 !important;
@@ -314,7 +314,7 @@
                 @include border-radius(3);
                 margin: 2%;
             }
-
+            
             .sub-group-cover:after,.sub-group-cover:before {
                 bottom: 100%;
                 left: 25%;
@@ -325,14 +325,14 @@
                 position: absolute;
                 pointer-events: none;
             }
-
+            
             .sub-group-cover:after {
                 border-color: transparent;
                 border-bottom-color: mix(#fff, $grey, 85%);
                 border-width: 8px;
                 margin-left: -8px;
             }
-
+            
             .sub-group-cover:before {
                 border-color: transparent;
                 border-bottom-color: $websiteBorder;
@@ -715,6 +715,12 @@
             position:relative;
         }
         
+        .inserting{
+            .widget-block, .widget-blockInteraction{
+                border : 1px dashed #ddd;
+            }
+        }
+        
         .hoverable{
             .widget-box{
                 &.widget-inline{
@@ -1000,7 +1006,7 @@
     }
     .edit-question .qti-interaction, .qti-modalFeedback.edit-active{
         [data-html-editable-container]:hover{
-            [data-html-editable]{
+            [data-html-editable][contenteditable=true]{
                 border:1px dotted $info;
             }
             [data-role="cke-launcher"]{
@@ -1009,7 +1015,7 @@
         }
         [data-html-editable]{
             margin-right:0px;//@todo value to be determined
-            &:focus{
+            &[contenteditable=true]:focus{
                 border:1px dotted $info;
             }
         }

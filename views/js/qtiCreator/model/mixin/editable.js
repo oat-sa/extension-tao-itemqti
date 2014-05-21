@@ -13,6 +13,7 @@ define([
         if(item){
             
             var found = item.find(element.getSerial());
+            
             if(found){
                 
                 var parent = found.parent;

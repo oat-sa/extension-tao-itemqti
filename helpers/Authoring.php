@@ -195,7 +195,7 @@ class Authoring{
                       'icon'     => 'media',
                       'short'    => __('Media'),
                       'qtiClass' => 'mediaInteraction',
-                      'disabled' => true
+                      'disabled' => false
                 )
             ),
             'Graphic Interactions' => array(

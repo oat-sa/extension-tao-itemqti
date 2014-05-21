@@ -172,6 +172,7 @@ define([
 
     DeletingState.prototype.deleteElement = function(){
         this.widget.element.remove();//remove from model
+//        console.log(this.$elementToRemove);
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing)
     };

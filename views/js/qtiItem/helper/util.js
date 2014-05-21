@@ -15,7 +15,7 @@ define(['lodash'], function(_){
 
             src = src || '';
             baseUrl = baseUrl || '';
-
+            
             if(src){
 
                 src = src.replace(/^\//, '');
@@ -73,5 +73,5 @@ define(['lodash'], function(_){
             return found;
 
         }
-    }
+    };
 });

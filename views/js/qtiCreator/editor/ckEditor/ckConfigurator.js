@@ -33,8 +33,6 @@ define([
             }
         };
         
-        qtiPositionedPlugins = {};
-        
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
          * The argument 'toolbarType' determines which toolbar to use
@@ -87,6 +85,8 @@ define([
          */
         var ckConfig = {
             disableAutoInline : true,
+            entities: false,
+            entities_processNumerical: true,
             autoParagraph : false,
             extraPlugins : 'confighelper',
             floatSpaceDockedOffsetY : 0,
@@ -285,7 +285,7 @@ define([
             editor.on('instanceReady', function(e){
                 $(e.editor.element.$).removeAttr("title");
             });
-
+            
             return config;
         };
 

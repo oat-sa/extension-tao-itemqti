@@ -3,10 +3,10 @@ define([
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/qtiClasses',
-    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function($, Loader, Element, qtiClasses, Renderer, devTools, data){
+], function($, Loader, Element, qtiClasses, creatorRenderer, devTools, data){
 
     var Test = {
         testRender : function(itemIdentifier, attributes){
@@ -45,9 +45,10 @@ define([
                             .append($responseForm)
                             .append($bodyElementForm);
 
-                        var creatorRenderer = new Renderer({
-                            shuffleChoices:false,
-                            baseUrl:'/taoQtiItem/test/samples/test_base_www/',
+                        creatorRenderer.setOptions({
+                            baseUrl : '/taoQtiItem/test/samples/test_base_www/',
+                            lang : 'en-US',
+                            uri : '#test_item',
                             interactionOptionForm : $interactionForm,
                             choiceOptionForm : $choiceForm,
                             responseOptionForm : $responseForm,
@@ -56,7 +57,7 @@ define([
                             textOptionForm : $()
                         });
 
-                        creatorRenderer.load(function(){
+                        creatorRenderer.get().load(function(){
 
                             start();
 
