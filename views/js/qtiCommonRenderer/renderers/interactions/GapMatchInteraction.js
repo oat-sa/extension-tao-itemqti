@@ -4,9 +4,10 @@ define([
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/gapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'eyecatcher'
-], function(_, __, $, tpl, Helper, eyecatcher){
-    
+], function(_, __, $, tpl, Helper, pciResponse, eyecatcher){
+
     /**
      * Global variable to count number of choice usages:
      * @type type
@@ -59,7 +60,7 @@ define([
     var getChoice = function(interaction, identifier){
         return Helper.getContainer(interaction).find('.choice-area [data-identifier=' + identifier + ']');
     };
-    
+
     var getGap = function(interaction, identifier){
         return Helper.getContainer(interaction).find('.qti-flow-container [data-identifier=' + identifier + ']');
     };
@@ -72,7 +73,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
-        
+
         var $container = Helper.getContainer(interaction),
             $choiceArea = $container.find('.choice-area'),
             $flowContainer = $container.find('.qti-flow-container'),
@@ -106,15 +107,15 @@ define([
         var _isModeEditing = function(){
             return ($activeChoice && !$activeChoice.data('identifier'));
         };
-        
+
         $container.on('mousedown.commonRenderer', function(e){
             _resetSelection();
         });
-        
+
         $choiceArea.on('mousedown', '>li', function(e){
-            
+
             e.stopPropagation();
-            
+
             if($(this).hasClass('deactivated')){
                 e.preventDefault();
                 return;
@@ -142,9 +143,9 @@ define([
         });
 
         $flowContainer.on('mousedown', '.gapmatch-content', function(e){
-            
+
             e.stopPropagation();
-            
+
             if(_isInsertionMode()){
 
                 var $target = $(this),
@@ -209,7 +210,7 @@ define([
             }
 
         });
-        
+
         //run eyecatcher:
         eyecatcher();
     };
@@ -217,6 +218,15 @@ define([
     var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
             unsetChoice(interaction, $(this));
+        });
+    };
+
+    var _setPairs = function(interaction, pairs){
+        
+        _.each(pairs, function(pair){
+            if(pair){
+                setChoice(interaction, getChoice(interaction, pair[0]), getGap(interaction, pair[1]));
+            }
         });
     };
 
@@ -234,26 +244,11 @@ define([
      */
     var setResponse = function(interaction, response){
 
-        var _setPairs = function(pairs){
-            _.each(pairs, function(pair){
-                if(pair){
-                    setChoice(interaction, getChoice(interaction, pair[0]), getGap(interaction, pair[1]));
-                }
-           });
-        };
-
-        if(response.base && response.base.directedPair && _.isArray(response.base.directedPair) && response.base.directedPair.length === 2){
-            _setPairs([response.base.directedPair]);
-        }else if(response.list && response.list.directedPair && _.isArray(response.list.directedPair)){
-            _setPairs(response.list.directedPair);
-        }else if(_.isEmpty(response)){
-            resetResponse(interaction);
-        }else{
-            throw new Error('wrong response format in argument: ');
-        }
+        _setPairs(interaction, pciResponse.unserialize(response, interaction));
     };
 
     var _getRawResponse = function(interaction){
+        
         var response = [];
         Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
             var choiceSerial = $(this).data('serial'),
@@ -263,7 +258,7 @@ define([
                 pair.push(interaction.getChoice(choiceSerial).attr('identifier'));
             }
             pair.push($(this).data('identifier'));
-            
+
             if(pair.length === 2){
                 response.push(pair);
             }
@@ -284,17 +279,12 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var ret = {}, values = _getRawResponse(interaction);
-        if(values.length === 1){
-            ret = {base : {directedPair : values[0]}};
-        }else{
-            ret = {list : {directedPair : values}};
-        }
-        return ret;
-    };
-    
-    var destroy = function(interaction){
         
+        return pciResponse.serialize(_getRawResponse(interaction), interaction);
+    };
+
+    var destroy = function(interaction){
+
         var $container = Helper.getContainer(interaction);
 
         //restore selected choices:
@@ -309,7 +299,7 @@ define([
 
         Helper.getContainer(interaction).find('.gapmatch-content').empty();
     };
-    
+
     return {
         qtiClass : 'gapMatchInteraction',
         template : tpl,
