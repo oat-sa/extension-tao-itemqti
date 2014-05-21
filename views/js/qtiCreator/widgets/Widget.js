@@ -185,7 +185,7 @@ define([
             var element = this.element;
             var postRenderOpts = {};
             if(_.isFunction(options.ready)){
-                postRenderOpts['ready'] = options.ready;
+                postRenderOpts.ready = options.ready;
             }
 
             var $container = null;
@@ -196,6 +196,9 @@ define([
             }else{
                 $container = this.$container;
             }
+
+            //to call exit method and clean up listeners
+            this.changeState('sleep');
 
             //once required data ref has been set, destroy it:
             this.destroy();
@@ -210,7 +213,7 @@ define([
                     throw new Error('The renderer is no longer the creatorRenderer');
                 }
             }else{
-                throw new Error('No renderer found to rebuild the widget')
+                throw new Error('No renderer found to rebuild the widget');
             }
 
             return null;
