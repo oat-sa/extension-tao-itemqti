@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/preview',
@@ -15,6 +16,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
     'taoQtiItem/qtiCreator/editor/editor'
 ], function(
+    $,
     _,
     Element,
     preview,
@@ -49,7 +51,7 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer();
-        preview.init($('.preview-trigger'), item);
+        //preview.init($('.preview-trigger'), item);
 
         preparePrint();
 
