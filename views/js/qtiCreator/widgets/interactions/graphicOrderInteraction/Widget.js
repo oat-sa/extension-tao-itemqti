@@ -2,11 +2,12 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash',
+    'jquery', 'lodash', 'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-], function($, _, Widget, states, graphic){
+    'taoQtiItem/qtiCreator/helper/dummyElement'
+], function($, _, __, Widget, states, graphic, dummyElement){
 
     /**
      * The Widget that provides components used by the QTI Creator for the GraphicOrder Interaction
@@ -34,23 +35,51 @@ define([
         },
    
         /**
+         * Creates a dummy placeholder if there is no image set
+         */
+        createPlaceholder : function(){
+
+            var $container = this.$original;
+            var $imageBox  = $container.find('.main-image-box');
+            dummyElement.get({
+                icon: 'image',
+                css: {
+                    width  : $container.innerWidth() - 35,
+                    height : 200
+                },
+                title : __('Select an image first.')
+            }).appendTo($imageBox);
+        },
+
+
+        /**
          * Create a basic Raphael paper with the interaction choices 
          */ 
         createPaper : function(){
 
             var $container = this.$original;
+            var $orderList = $('ul', $container);
             var background = this.element.object.attributes;
-            this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
-                width       : background.width, 
-                height      : background.height,
-                img         : this.baseUrl + background.data,
-                imgId       : 'bg-image-' + this.element.serial,
-                diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
-                container   : $container
-            });
-            
-            //call render choice for each interaction's choices
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            if(!background.data){
+                this.createPlaceholder();
+            } else {
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
+                    width       : background.width, 
+                    height      : background.height,
+                    img         : this.baseUrl + background.data,
+                    imgId       : 'bg-image-' + this.element.serial,
+                    diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
+                    container   : $container,
+                    resize      : function(newWidth){
+                        $orderList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
+                    }
+                });
+                
+                //call render choice for each interaction's choices
+                _.forEach(this.element.getChoices(), this._currentChoices, this);
+
+                this._renderOrderList(this.element, $orderList);
+            }
         },
 
         /**
@@ -62,6 +91,37 @@ define([
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,
                 touchEffect : false
+            });
+        },
+
+
+        /**
+         * Render the list of numbers
+         * @private
+         * @param {Object} interaction
+         * @param {jQueryElement} $orderList - the list than contains the orderers
+         */
+         _renderOrderList : function _renderOrderList(interaction, $orderList){
+            var $orderers;
+            var size = _.size(interaction.getChoices());
+            var min = interaction.attr('minChoices');
+            var max = interaction.attr('maxChoices');
+
+            //calculate the number of orderer to display
+            if(max > 0 && max < size){
+                size = max;
+            } else if(min > 0 && min < size){
+               size = min;
+            }
+
+            //add them to the list
+            _.times(size, function(index){
+                var position = index + 1;
+                var $orderer = $('<li class="selectable" data-number="' + position + '">' + position +  '</li>');
+                if(index === 0){
+                    $orderer.addClass('active');
+                }
+                $orderList.append($orderer);
             });
         }
    });

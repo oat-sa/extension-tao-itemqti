@@ -21,6 +21,10 @@ define([
 
         //really need to destroy before ? 
         GraphicOrderInteraction.destroy(interaction);
+
+        if(!interaction.paper){
+            return;
+        }
         
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please order the choices below to set the correct answer'));
@@ -42,6 +46,10 @@ define([
     function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
+        
+        if(!interaction.paper){
+            return;
+        }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');

@@ -189,7 +189,7 @@ define([
         function enterChoiceForm(serial){
             var choice = interaction.getChoice(serial);
             if(choice){
-                //widget.changeState('choice');
+                
                 $choiceForm.empty().html(
                     choiceFormTpl({
                         identifier  : choice.id(),
@@ -231,8 +231,6 @@ define([
         var $container  = this.widget.$container;
         var interaction = this.widget.element;
         var paper       = interaction.paper;
-
-
 
         if(!paper){
             return;

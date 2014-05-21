@@ -26,6 +26,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'graphicInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicOrderInteraction',
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicAssociateInteraction',
         'graphicGapMatchInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicGapMatchInteraction',
+        'graphicOrderInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GraphicOrderInteraction',
         'hotspotChoice' : 'taoQtiItem/qtiCreator/model/choices/HotspotChoice',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing'

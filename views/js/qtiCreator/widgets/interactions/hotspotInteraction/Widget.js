@@ -23,9 +23,6 @@ define([
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         initCreator : function(options){
-            var $container  = this.$original;
-           
-   
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -37,6 +34,9 @@ define([
             this.createPaper(); 
         },
 
+        /**
+         * Creates a dummy placeholder if there is no image set
+         */
         createPlaceholder : function(){
 
             var $container = this.$original;
