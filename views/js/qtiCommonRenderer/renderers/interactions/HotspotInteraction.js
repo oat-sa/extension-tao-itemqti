@@ -24,11 +24,15 @@ define([
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
+        var imageUrl = baseUrl + background.data;
+        if(/^\//.test(imageUrl)){
+            imageUrl  = imageUrl.replace(/^\//, '');
+        } 
         
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width     : background.width, 
             height    : background.height,
-            img       :  baseUrl + background.data,
+            img       : imageUrl,
             diff      : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
             container : $container
         });

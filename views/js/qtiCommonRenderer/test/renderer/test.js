@@ -1,11 +1,12 @@
 define([
     'lodash',
     'jquery',
+    'context',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'
-], function(_, $, Loader, Element, Renderer, data){
+], function(_, $, context, Loader, Element, Renderer, data){
 
     var _responseEqual = function(actual, expected, ordered){
         ordered = ordered || false;
@@ -44,7 +45,7 @@ define([
 
                     var loader = new Loader();
                     var renderer = new Renderer({
-                        baseUrl:'/taoQtiItem/test/samples/test_base_www/'
+                        baseUrl: context.root_url +'/taoQtiItem/test/samples/test_base_www/'
                     });
 
                     stop();//wait for the next start()
