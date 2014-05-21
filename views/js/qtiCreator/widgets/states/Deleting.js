@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/helper/gridUnits',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'lodash'
-], function(stateFactory, deletingHelper, gridUnits, gridHelper, _){
+], function(stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper, _){
 
     var DeletingState = stateFactory.create('deleting', function(){
 
@@ -38,18 +39,18 @@ define([
         if($container.hasClass('qti-choice')){
 
             if($container.prop('tagName') === 'TH'){
-                
+
                 //matchInteraction:
                 if($container.parent().parent().prop('tagName') === 'THEAD'){
-                    
+
                     //hide col
                     var $tbody = $container.closest('table.matrix').children('tbody');
                     var $tds = $tbody.children('tr').find('td:last');
                     console.log($tbody, $tds);
                     return $container.add($tds);
-                    
+
                 }else if($container.parent().parent().prop('tagName') === 'TBODY'){
-                    
+
                     //hide row
                     return $container.parent();
                 }
@@ -171,10 +172,23 @@ define([
     };
 
     DeletingState.prototype.deleteElement = function(){
+
+        var isRow = this.$elementToRemove.hasClass('grid-row');
+
         this.widget.element.remove();//remove from model
-//        console.log(this.$elementToRemove);
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing)
+        
+        if(isRow){
+
+            //need to update item body
+            
+            var item = this.widget.element.getRelatedItem();
+            var $item = item.data('widget').$container.find('.qti-itemBody');
+            var newBody = contentHelper.getContent($item);
+
+            item.body(newBody);
+        }
     };
 
     return DeletingState;
