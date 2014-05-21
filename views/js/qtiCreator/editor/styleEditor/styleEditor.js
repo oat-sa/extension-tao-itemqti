@@ -310,7 +310,7 @@ define([
                 create();
 
                 // reset meta in case the width is set in the custom stylesheet
-                currentItem.data('responsive', style[resizerTarget].length && style[resizerTarget].width > 0);
+                currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width > 0);
 
                 // inform editors about custom sheet
                 $(doc).trigger('customcssloaded.styleeditor', style);

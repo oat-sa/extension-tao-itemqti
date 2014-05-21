@@ -56,6 +56,7 @@ define([
                 resizeItem($target.width());
                 input.val($target.width());
                 sliderBox.slideDown();
+                slider.val($target.width()).trigger('slide');
             }
             // user wants to use default
             else {
