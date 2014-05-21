@@ -5,10 +5,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
+    'util/image',
     'helpers',
     'ui/resourcemgr',
     'nouislider'
-], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, helpers){
+], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, imageUtil, helpers){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -57,9 +58,8 @@ define([
             baseUrl : baseUrl || '',
             src : img.attr('src'),
             alt : img.attr('alt'),
-            longdesc : img.attr('longdesc'),
-            height : img.attr('height') || '',
-            width : img.attr('width') || '',
+            height : img.attr('height') || 0,
+            width : img.attr('width') || 0,
             responsive : responsive
         }));
 
@@ -163,7 +163,9 @@ define([
         var $form = widget.$form,
             options = widget.options,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
-            $src = $form.find('input[name=src]');
+            $src = $form.find('input[name=src]'),
+            $width = $form.find('input[name=width]'),
+            $height = $form.find('input[name=height]');
 
         $uploadTrigger.on('click', function(){
             $uploadTrigger.resourcemgr({
@@ -182,7 +184,13 @@ define([
                 select : function(e, files){
                     var i, l = files.length;
                     for(i = 0; i < l; i++){
-                        $src.val(files[i].file).change();
+                        imageUtil.getSize(options.baseUrl + files[i].file, function(size){
+                            if(size && size.width >= 0){
+                                $width.val(size.width).trigger('change');
+                                $height.val(size.height).trigger('change');
+                            }
+                            $src.val(files[i].file).trigger('change');
+                        });
                         break;
                     }
                 }

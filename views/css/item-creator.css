@@ -117,11 +117,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background: #dcdee1;
     margin-bottom: 30px;
     z-index: 9996;
-    position: relative; }
+    position: relative;
+    height: 47px; }
   .preview-overlay .preview-utility-bar-inner {
     margin: auto;
     border-collapse: separate;
     border-spacing: 25px 0px; }
+    .preview-overlay .preview-utility-bar-inner.positioned {
+      position: absolute; }
     .preview-overlay .preview-utility-bar-inner h1 {
       font-size: 18px;
       font-size: 1.8rem;
@@ -144,7 +147,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       min-width: 185px; }
     .preview-overlay .preview-utility-bar-inner .mobile-device-selector {
       width: 200px; }
-    .preview-overlay .preview-utility-bar-inner .mobile-orientation-selector,
+    .preview-overlay .preview-utility-bar-inner .orientation-selector,
     .preview-overlay .preview-utility-bar-inner .desktop-device-selector {
       width: 130px; }
   .preview-overlay .desktop-preview-container {
@@ -174,15 +177,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .preview-overlay .preview-iframe {
     border: none;
     width: 100%;
-    height: 100%;
-    /*
-    // interesting idea
-    -moz-transform: scale(0.75, 0.75);
-    -webkit-transform: scale(0.75, 0.75);
-    -o-transform: scale(0.75, 0.75);
-    -ms-transform: scale(0.75, 0.75);
-    transform: scale(0.75, 0.75);
-    */ }
+    height: 100%; }
   .preview-overlay .mobile-preview-container {
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;

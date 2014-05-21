@@ -9,8 +9,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 src : '',
-                alt : '',
-                longdesc : 'uri'
+                alt : ''
             };
         }
     });

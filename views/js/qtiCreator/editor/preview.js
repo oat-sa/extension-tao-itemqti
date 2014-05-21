@@ -14,9 +14,10 @@ define([
     var overlay,
         container,
         togglersByTarget = {},
-        currOrientation = 'landscape',
-        currPreviewType = 'desktop',
-        $doc = $(document);
+        orientation = 'landscape',
+        previewType = 'desktop',
+        $doc = $(document),
+        screenWidth = $doc.width();
 
     /**
      * Create data set for device selectors
@@ -41,11 +42,24 @@ define([
             options.push({
                 value: [value.width, value.height].join(','),
                 label: value.label,
-                selected: currPreviewType === value.label
+                selected: previewType === value.label
             });
         });
 
         return options;
+    };
+
+    var _center = function() {
+        var previewContainer = $('.' + previewType + '-preview-frame'),
+            previewWidth = previewContainer.outerWidth(),
+            previewLeft = (previewWidth - screenWidth) / 2;
+
+        if(previewWidth <= screenWidth) {
+            return;
+        }
+
+        $(window).scrollLeft(previewLeft);
+
     };
 
     /**
@@ -59,7 +73,7 @@ define([
             var elem = $(this),
                 type = (this.className.indexOf('mobile') > -1 ? 'mobile' : 'desktop'),
                 val = elem.val().split(','),
-                animationSettings,
+                sizeSettings,
                 i = val.length,
                 container = $('.' + type + '-preview-container');
 
@@ -68,59 +82,63 @@ define([
                 val[i] = parseFloat(val[i]);
             }
 
-            if (type === 'mobile' && currOrientation === 'portrait') {
-                animationSettings = {
+            if (type === 'mobile' && orientation === 'portrait') {
+                sizeSettings = {
                     width: val[1],
                     height: val[0]
                 };
             }
             else {
-                animationSettings = {
+                sizeSettings = {
                     width: val[0],
                     height: val[1]
                 };
             }
 
-            if (animationSettings.width === container.width()
-                && animationSettings.height === container.height()) {
+            if (sizeSettings.width === container.width()
+                && sizeSettings.height === container.height()) {
                 return false;
             }
 
-            container.animate(animationSettings, function () {
-                currPreviewType = type;
-            });
+            container.css(sizeSettings);
+            previewType = type;
+            _center();
+
         }).select2({
             minimumResultsForSearch: -1
         });
     };
 
     /**
-     * Setup orientation selector
+     * Setup orientation selector. There is no actual orientation switch for desktop but it could
+     * be added easily if required.
      * @private
      */
-    var _setupOrientationSelector = function() {
-        $('.mobile-orientation-selector').on('change', function () {
-            var newOrientation = $(this).val(),
-                animationSettings,
-                mobilePreviewFrame = $('.mobile-preview-frame'),
-                mobilePreviewContainer = mobilePreviewFrame.find('.mobile-preview-container');
+    var _setupOrientationSelectors = function() {
 
-            if (newOrientation === currOrientation) {
-                return false;
-            }
+        $('.orientation-selector').on('change', function () {
+            var type = $(this).data('target'),
+                previewFrame = $('.' + type + '-preview-frame'),
+                previewContainer = previewFrame.find('.' + type + '-preview-container'),
+                sizeSettings,
+                newOrientation = $(this).val();
 
-            animationSettings = {
-                height: mobilePreviewContainer.width(),
-                width: mobilePreviewContainer.height()
-            };
+                if (newOrientation === orientation) {
+                    return false;
+                }
 
-            mobilePreviewContainer.animate(animationSettings, function () {
-                mobilePreviewFrame.removeClass('mobile-preview-' + currOrientation)
-                    .addClass('mobile-preview-' + newOrientation);
+                sizeSettings = {
+                    height: previewContainer.width(),
+                    width: previewContainer.height()
+                };
+
+                previewContainer.css(sizeSettings);
+                previewFrame.removeClass(type + '-preview-' + orientation).addClass(type + '-preview-' + newOrientation);
 
                 // reset global orientation
-                currOrientation = newOrientation;
-            });
+                orientation = newOrientation;
+                // scroll to center
+                _center();
 
         }).select2({
             minimumResultsForSearch: -1
@@ -149,9 +167,10 @@ define([
     /**
      * Toggle between mobile and desktop
      *
+     * @param item @todo this needs to be removed if we decide to use iframes, see further notes below
      * @returns {*}
      */
-    var _setupTogglers = function () {
+    var _setupTogglers = function (item) {
 
         var togglers = overlay.find('.toggle-view');
 
@@ -163,10 +182,22 @@ define([
         togglers.on('click', function () {
             var target = $(this).data('target'),
                 newClass = 'preview-' + target,
-                oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop';
+                oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop',
+                targetContainer;
 
             overlay.removeClass(oldClass).addClass(newClass);
-            currPreviewType = target;
+            previewType = target;
+
+            /**
+             * @todo: Workaround to provide an easy switch between <div> and <iframe> rendering
+             * If we ultimately go for <iframes> the argument 'item' as well as the if-condition need to be removed
+             * If we stick to <div> the if-condition should be removed since 'item' would be mandatory
+             */
+            if(item) {
+                targetContainer =  $('.' + target + '-preview-container');
+                targetContainer.empty();
+                commonRenderer.render(item, targetContainer);
+            }
         });
     };
 
@@ -185,6 +216,15 @@ define([
     };
 
 
+    /**
+     * Create and populate iframes
+     *
+     * @todo this whole section is questionable. If we decide to use iframes rather than divs
+     * the iframe should be loaded as external resource
+     *
+     * @param item
+     * @private
+     */
     var _setupIframes = function(item) {
 
         $.when(_getIframeContentWindow('mobile'), _getIframeContentWindow('desktop'))
@@ -205,14 +245,15 @@ define([
                     iframes[name].$body = $(iframes[name].body);
 
                     // build item
-                    iframes[name].itemWrapper = $(iframes[name].getElementById('item-wrapper'));
+                    iframes[name].itemWrapper = $(iframes[name].getElementById('iframe-item-container'));
                     iframes[name].itemWrapper.empty();
 
                     // item style sheets
-                    commonRenderer.render(item, iframes[name].itemWrapper);
                     _.forEach(item.stylesheets, function(stylesheet){
                         iframes[name].$head.append($(stylesheet.render()));
                     });
+                    // @todo - this is broken but could be solved by loading external iframe rather than creating one
+                    //commonRenderer.render(item, iframes[name].itemWrapper);
 
                     // add custom styles
                     iframes[name].userStyles = $(iframes[name].getElementById('iframe-user-styles'));
@@ -236,12 +277,23 @@ define([
             desktopDevices: _getDeviceSelectorData('desktop')
         }));
 
+
         $('body').append(overlay);
+        _center();
+
         _setupDeviceSelectors();
-        _setupOrientationSelector();
-        _setupTogglers();
+        _setupOrientationSelectors();
         _setupCloser();
+
+        // @todo make decision between <iframe> and <div> rendering and remove irrelevant code below
+        // <div> version, see also comments in _setupTogglers()
+        _setupTogglers(item);
+
+        // <iframe> version, note the missing argument for _setupTogglers(), see also comments there
+        /*
+        _setupTogglers();
         _setupIframes(item);
+        */
     };
 
 
@@ -252,10 +304,10 @@ define([
      */
     var _showWidget = function(launcher) {
 
-        currPreviewType = $(launcher).data('preview-type') || 'desktop';
+        previewType = $(launcher).data('preview-type') || 'desktop';
 
-        if (togglersByTarget[currPreviewType]) {
-            togglersByTarget[currPreviewType].trigger('click');
+        if (togglersByTarget[previewType]) {
+            togglersByTarget[previewType].trigger('click');
         }
 
         overlay.fadeIn(function () {

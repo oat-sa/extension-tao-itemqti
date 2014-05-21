@@ -32,7 +32,7 @@
               </select>
             </li>
             <li class="lft mobile-only">
-              <select tabindex="-1" class="mobile-orientation-selector">
+              <select tabindex="-1" class="mobile-orientation-selector orientation-selector" data-target="mobile">
                 <option value="landscape">{{__ 'Landscape'}}</option>
                 <option value="portrait">{{__ 'Portrait'}}</option>
               </select></li>

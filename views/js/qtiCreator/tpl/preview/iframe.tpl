@@ -10,7 +10,7 @@
         <style id="iframe-user-styles"></style>
     </head>
     <body>
-        <div id="item-wrapper"></div>
+        <div id="iframe-item-container"></div>
 
     </body>
 </html>

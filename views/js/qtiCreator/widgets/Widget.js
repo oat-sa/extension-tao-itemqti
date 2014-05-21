@@ -191,7 +191,7 @@ define([
             var $container = null;
             if(options.context && options.context.length){
                 //if the context option is provided, the function will fetch the widget container that in this context
-                //mendatory for detached of duplicated DOM element (e.g. ckEditor)
+                //mandatory for detached of duplicated DOM element (e.g. ckEditor)
                 $container = options.context.find('.widget-box[data-serial=' + element.serial + ']');
             }else{
                 $container = this.$container;

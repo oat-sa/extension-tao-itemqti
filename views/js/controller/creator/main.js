@@ -56,6 +56,7 @@ define([
         editor.initGui();
 
         $loader.css('left', loaderLeft);
+
     };
 
     var _showPanel = function($panel, $fold){
