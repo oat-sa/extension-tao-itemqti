@@ -20,10 +20,10 @@
         "fill-opacity" : 0.5
     },
     "active" : {
-        "fill-opacity" : 0.5,
         "stroke" : "#3E7DA7",
         "stroke-dasharray": "",
-        "fill" :  "#0E5D91"  
+        "fill" :  "#0E5D91",
+        "fill-opacity" : 0.5
     },
     "error" : {
         "stroke" : "#C74155",
@@ -34,8 +34,8 @@
     "success" : {
         "stroke" : "#C74155",
         "stroke-dasharray": "",
-        "fill-opacity" : 0.5,
-        "fill" :  "#0E914B"  
+        "fill" :  "#0E914B",
+        "fill-opacity" : 0.5
     },
     "layer" : {
         "fill" :  "#ffffff", 

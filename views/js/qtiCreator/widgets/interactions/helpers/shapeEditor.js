@@ -236,16 +236,17 @@ define([
                 function resized(){
 
                     self.shape.animate(
-                        _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path'])
+                        _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
+                        200,
+                        function animationEnd(){
+                            self.setState('resizing', false)
+                                .trigger('shapechange.qti-widget');
+                        }
                     );
-
                     self.layer.remove();
                     
                     _.invoke(self.handlers, 'remove');
                     self.handlers = [];
-                    
-                    self.setState('resizing', false)
-                        .trigger('shapechange.qti-widget');
                 } 
                
                 /**

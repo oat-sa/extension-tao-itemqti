@@ -111,7 +111,7 @@ define([
          * @param {Object} attr - Raphael Element's attributes
          * @returns {Array} qti based coords
          */
-        'ellispe' : function(attr){
+        'ellipse' : function(attr){
            return [
                 attr.cx,
                 attr.cy,
@@ -448,9 +448,6 @@ define([
             if(element && element.animate){
                 element.animate(gstyle[state], 200, 'linear', function(){
                     element.attr(gstyle[state]); //for attr that don't animate
-                    if(element.type === 'path'){
-                        element.attr('fill-opacity', 1);
-                    }
                 });
         
                 if(title){
