@@ -21,6 +21,10 @@ define([
 
         //really need to destroy before ? 
         HotspotInteraction.destroy(interaction);
+
+        if(!interaction.paper){
+            return;
+        }
         
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please select the correct hotspot choices below.'));
@@ -42,6 +46,10 @@ define([
     function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
+        
+        if(!interaction.paper){
+            return;
+        }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');

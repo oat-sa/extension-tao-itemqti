@@ -4,6 +4,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
+    'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Sleep',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Correct',

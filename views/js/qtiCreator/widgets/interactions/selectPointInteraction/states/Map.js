@@ -108,7 +108,6 @@ define([
                         graphicHelper.updateElementState(scoreText, 'score-text');
                     }
                     area.mappedValue = parseFloat(value);
-                    console.log(area.mapEntries);
                     response.setMapEntry(index, area, true);
                 }
             });

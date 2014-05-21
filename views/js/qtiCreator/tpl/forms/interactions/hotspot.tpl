@@ -11,6 +11,18 @@
         <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
     </div>
 
+    <div>
+        <label for="width">{{__ 'Width'}}</label>
+        <input name="width" value="{{width}}" type="text" />
+    </div>
+
+    <div>
+        <label for="height">{{__ 'Height'}}</label>
+        <input name="height" value="{{height}}" type="text" />
+    </div>
+
+    <hr>
+
     <h3>{{__ "Allowed number of choices"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">

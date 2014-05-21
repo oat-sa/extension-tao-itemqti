@@ -12,6 +12,7 @@ define([
     var shapeSideBar  = {
 
         create : function create($container){
+
             var $imageEditor = $container.find('.image-editor');
             var $imageBox = $('.main-image-box', $imageEditor);
             var $sideBar = $(sidebarTmpl()).insertBefore($imageEditor);
@@ -21,8 +22,6 @@ define([
             
             $imageBox.width(newWidth);
             $imageEditor.width(newWidth);
-
-            $sideBar.find('.forms').height($imageEditor.innerHeight());
 
             $sideBar.on('enablebin.qti-widget', function(){
                $bin.removeClass('disabled')
@@ -53,7 +52,7 @@ define([
             }); 
        
              
-            $container.on('resized.qti-widget', function(){
+            $container.on('resize.qti-widget', function(){
                 $sideBar.find('.forms').height($imageEditor.innerHeight());
             });    
             $container.trigger('resize.qti-widget', newWidth);    

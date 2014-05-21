@@ -30,6 +30,10 @@ define([
         //really need to destroy before ? 
         HotspotInteraction.destroy(interaction);
         
+        if(!interaction.paper){
+            return;
+        }
+
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please the score of each hotspot choice.'));
         interaction.responseMappingMode = true;
@@ -50,6 +54,10 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         
+        if(!interaction.paper){
+            return;
+        }
+
         //destroy the common renderer
         helper.removeInstructions(interaction);
         HotspotInteraction.destroy(interaction); 

@@ -2,12 +2,12 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash',
+    'jquery', 'lodash', 'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/helper/dummyElement'
-], function($, _, Widget, states, graphic, dummyElement){
+], function($, _, __, Widget, states, graphic, dummyElement){
 
     /**
      * The Widget that provides components used by the QTI Creator for the Hotspot Interaction
@@ -24,9 +24,8 @@ define([
          */
         initCreator : function(options){
             var $container  = this.$original;
+           
    
-            console.log(this.options);
- 
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -35,10 +34,21 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
           
-            if(!this.element.object.attributes.data){
-                dummyElement.get('image').appendTo($container.find('.main-image-box'));
-            }
             this.createPaper(); 
+        },
+
+        createPlaceholder : function(){
+
+            var $container = this.$original;
+            var $imageBox  = $container.find('.main-image-box');
+            dummyElement.get({
+                icon: 'image',
+                css: {
+                    width  : $container.innerWidth() - 35,
+                    height : 200
+                },
+                title : __('Select an image first.')
+            }).appendTo($imageBox);
         },
    
         /**
@@ -48,17 +58,21 @@ define([
 
             var $container = this.$original;
             var background = this.element.object.attributes;
-            this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
-                width       : background.width, 
-                height      : background.height,
-                img         : this.baseUrl + background.data,
-                imgId       : 'bg-image-' + this.element.serial,
-                diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
-                container   : $container
-            });
-            
-            //call render choice for each interaction's choices
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            if(!background.data){
+                this.createPlaceholder();
+            } else {
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
+                    width       : background.width, 
+                    height      : background.height,
+                    img         : this.baseUrl + background.data,
+                    imgId       : 'bg-image-' + this.element.serial,
+                    diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
+                    container   : $container
+                });
+                
+                //call render choice for each interaction's choices
+                _.forEach(this.element.getChoices(), this._currentChoices, this);
+            }
         },
 
         /**

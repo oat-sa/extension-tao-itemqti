@@ -14,8 +14,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot'
-], function($, _, GraphicHelper, stateFactory, Question, shapeFactory, shapeEditor, shapeSideBar, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
+    'util/image',
+    'taoQtiItem/qtiCreator/editor/editor'
+], function($, _, GraphicHelper, stateFactory, Question, shapeFactory, shapeEditor, shapeSideBar, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, imageUtil, editor){
 
     //keep the shape editors to destroy them easily
     var editors = [];
@@ -28,10 +30,18 @@ define([
         var factories   = {};
         var widget      = this.widget;
         var $container  = widget.$container;
+        var $original   = widget.$original;
         var interaction = widget.element;
         var paper       = interaction.paper;
-        var image       = paper.getById('bg-image-' + interaction.serial);
-        var $choiceForm = widget.choiceForm;
+
+        if(!paper){
+            return;
+        }
+
+        var image        = paper.getById('bg-image-' + interaction.serial);
+        var $choiceForm  = widget.choiceForm;
+        var $formInteractionPanel = $('#item-editor-interaction-property-bar');
+        var $formChoicePanel = $('#item-editor-choice-property-bar');
 
         //set the edition shape style
         _.forEach(interaction.getChoices(), function(choice){
@@ -55,9 +65,9 @@ define([
             paper : interaction.paper, 
             background : image, 
             $container : $container.find('.main-image-box'), 
-            isResponsive : $container.hasClass('responsive')
+            isResponsive : $original.hasClass('responsive')
         };
-        
+    
         //create the side bar 
         var $sideBar = shapeSideBar.create($container); 
 
@@ -179,7 +189,7 @@ define([
         function enterChoiceForm(serial){
             var choice = interaction.getChoice(serial);
             if(choice){
-                
+                //widget.changeState('choice');
                 $choiceForm.empty().html(
                     choiceFormTpl({
                         identifier  : choice.id(),
@@ -195,6 +205,11 @@ define([
                     identifier  : identifierHelper.updateChoiceIdentifier,
                     fixed       : formElement.getAttributeChangeCallback() 
                 });
+
+
+                $formChoicePanel.show();
+                editor.openSections($formChoicePanel.children('section'));
+                editor.closeSections($formInteractionPanel.children('section'));
             }
         }
         
@@ -203,6 +218,8 @@ define([
          * @private
          */
         function leaveChoiceForm(){
+            editor.openSections($formInteractionPanel.children('section'));
+            $formChoicePanel.hide();
             $choiceForm.empty();
         }
     };
@@ -214,6 +231,12 @@ define([
         var $container  = this.widget.$container;
         var interaction = this.widget.element;
         var paper       = interaction.paper;
+
+
+
+        if(!paper){
+            return;
+        }
         
         $(window).off('resize.changestate');
 
@@ -257,19 +280,23 @@ define([
             options = _widget.options,
             $form = _widget.$form,
             $uploadTrigger,
-            $src,
+            $src, $width, $height,
             interaction = _widget.element;
 
         $form.html(formTpl({
-            baseUrl : options.baseUrl,
-            maxChoices : parseInt(interaction.attr('maxChoices')),
-            minChoices : parseInt(interaction.attr('minChoices')),
-            choicesCount : _.size(_widget.element.getChoices()),
-            data : interaction.object.attributes.data
+            baseUrl         : options.baseUrl,
+            maxChoices      : parseInt(interaction.attr('maxChoices')),
+            minChoices      : parseInt(interaction.attr('minChoices')),
+            choicesCount    : _.size(_widget.element.getChoices()),
+            data            : interaction.object.attributes.data,
+            width           : interaction.object.attributes.width,
+            height          : interaction.object.attributes.height
         }));
 
         $uploadTrigger = $form.find('[data-role="upload-trigger"]');
         $src = $form.find('input[name=data]');
+        $width = $form.find('input[name=width]');
+        $height = $form.find('input[name=height]');
 
         $uploadTrigger.on('click', function(){
             $uploadTrigger.resourcemgr({
@@ -286,7 +313,16 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-                    $src.val(files[0].file).trigger('change');
+                    if(files.length > 0){ 
+                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                            
+                            if(size && size.width >= 0){
+                                $width.val(size.width).trigger('change');
+                                $height.val(size.height).trigger('change');
+                            }
+                            $src.val(files[0].file).trigger('change');
+                        });
+                    }
                 }
             });
         });
@@ -303,10 +339,18 @@ define([
                 }
             });
         };
+        callbacks.width = function(inteaction, value){
+            interaction.object.attr('width', value);
+        };
+        callbacks.height = function(inteaction, value){
+            interaction.object.attr('height', value);
+        };
         formElement.initDataBinding($form, interaction, callbacks);
         
         interactionFormElement.syncMaxChoices(_widget);
     };
+
+    
 
     return HotspotInteractionStateQuestion;
 });
