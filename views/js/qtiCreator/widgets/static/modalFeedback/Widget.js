@@ -4,8 +4,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/helper/htmlEditor'
-], function(Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor){
+    'taoQtiItem/qtiCreator/helper/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor, contentHelper){
 
     var ModalFeedbackWidget = Widget.clone();
 
@@ -39,17 +40,17 @@ define([
 
         var _this = this,
             $editableContainer = _this.$container.find('.modal-body'),
-            element = _this.element;
+            element = _this.element,
+            container = element.getBody();
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
             htmlEditor.buildEditor($editableContainer, {
-                change : function(data){
-                    element.body(data);
-                },
-                focus : function(){
-                    _this.changeState('active');
+                change : contentHelper.getChangeCallback(container),
+                data : {
+                    container : container,
+                    widget : _this
                 }
             });
         }
