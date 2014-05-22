@@ -9,13 +9,49 @@ define([
     'i18n',
     'polyfill/placeholders'
 ], function(commonRenderer, helper, pciResponse, formElement, scoreTpl, labelTpl, _, __){
-
+    
+    var _fixInputs = function(widget){
+        
+        if(widget.element.attr('maxChoices') === 1){
+            //enforce radios:
+            widget.$container.find('.real-label > :checkbox').replaceWith(function(){
+                
+                var $checkbox = $(this);
+                
+                return $('<input>', {
+                   type:'radio',
+                   value:$checkbox.attr('value'),
+                   name:$checkbox.attr('name')
+                });
+                
+            });
+            
+        }else{
+            
+            //enforce radios:
+            widget.$container.find('.real-label > :radio').replaceWith(function(){
+                
+                var $radio = $(this);
+                
+                return $('<input>', {
+                   type:'checkbox',
+                   value:$radio.attr('value'),
+                   name:$radio.attr('name')
+                });
+                
+            });
+        }
+        
+    };
+    
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
 
             var interaction = widget.element;
 
             commonRenderer.destroy(interaction);
+            
+            _fixInputs(widget);
             
             if(responseMappingMode){
                 helper.appendInstruction(widget.element, __('Please define the correct response and the score below.'));

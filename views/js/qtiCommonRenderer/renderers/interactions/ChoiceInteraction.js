@@ -30,18 +30,10 @@ define([
                 $radios.not(':checked').prop('checked', true);
                 $radios.trigger('change');
             }
-            
-            //re-render interaction here because of the issue checkbox/radio??
+
             if($checkboxes.length){
-                if($checkboxes.siblings('.icon-radio').length){
-                    //simulate radio:
-                    $container.find('.real-label > input').prop('checked', false);
-                    $checkboxes.prop('checked', true);
-                    $checkboxes.trigger('change');
-                }else{
-                    $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-                    $checkboxes.trigger('change');
-                }
+                $checkboxes.prop('checked', !$checkboxes.prop('checked'));
+                $checkboxes.trigger('change');
             }
 
             Helper.validateInstructions(interaction, {choice : $box});
