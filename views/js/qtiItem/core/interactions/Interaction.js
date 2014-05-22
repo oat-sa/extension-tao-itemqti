@@ -3,7 +3,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){
             this._super(serial, attributes);
-            this.choices = [];
+            this.choices = {};
         },
         is : function(qtiClass){
             return (qtiClass === 'interaction') || this._super(qtiClass);
