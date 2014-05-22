@@ -102,6 +102,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   position: absolute;
   left: 0;
   top: 0; }
+  .preview-overlay.quick-show {
+    display: block;
+    left: -10000px; }
   .preview-overlay.preview-desktop .mobile-only {
     display: none !important; }
   .preview-overlay.preview-mobile .desktop-only {
@@ -213,7 +216,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border: 2px solid;
     border-color: #444 #999 #999 #444; }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice:not(th):hover, .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
   cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
@@ -761,13 +764,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       text-align: center;
       width: 100%;
       text-shadow: 1px 1px 0px #cccccc; }
-  .tao-scope .qti-item {
-    padding: 15px;
-    background: white;
-    margin: auto;
-    max-width: 1024px; }
-    .tao-scope .qti-item.runtime {
-      min-height: 100%; }
   .tao-scope .item-editor-item {
     border: 1px solid #dddddd;
     border-radius: 2px;
@@ -1008,6 +1004,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                              <*_/   <*/ }
     .tao-scope .item-editor-item [class*=" col-"], .tao-scope .item-editor-item [class^="col-"] {
       position: relative; }
+    .tao-scope .item-editor-item .inserting .widget-block, .tao-scope .item-editor-item .inserting .widget-blockInteraction {
+      border: 1px dashed #ddd; }
     .tao-scope .item-editor-item .hoverable .widget-box.widget-inline {
       display: inline-block; }
     .tao-scope .item-editor-item .hoverable .widget-box.widget-block {
@@ -1539,13 +1537,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       padding: 0;
       min-width: 0;
       margin: 0; }
-  .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable] {
+  .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable][contenteditable=true], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable][contenteditable=true] {
     border: 1px dotted #0e5d91; }
-  .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-role="cke-launcher"], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-role="cke-launcher"] {
-    display: block !important; }
   .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] {
     margin-right: 0px; }
-    .tao-scope .edit-question .qti-interaction [data-html-editable]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable]:focus {
+    .tao-scope .edit-question .qti-interaction [data-html-editable][contenteditable=true]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable][contenteditable=true]:focus {
       border: 1px dotted #0e5d91; }
   .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] {
     min-height: 6rem; }

@@ -1,5 +1,4 @@
 @import "../../../tao/views/scss/inc/bootstrap";
-
 @import "inc/farbtastic";
 @import "inc/preview";
 
@@ -544,7 +543,6 @@
             width: 100%
         }
         
-        
         #item-editor-color-picker {
             .color-trigger {
                 width: 40px;
@@ -693,16 +691,6 @@
             text-align:center;
             width: 100%;
             text-shadow: 1px 1px 0px #ccc
-        }
-    }
-    
-    .qti-item {
-        padding: 15px;
-        background: white();
-        margin:auto;
-        max-width: 1024px;
-        &.runtime {
-            min-height: 100%;
         }
     }
     

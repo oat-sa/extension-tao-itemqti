@@ -1,6 +1,15 @@
 @import "inc/bootstrap";
 @import "inc/main";
 
+.qti-item {
+    padding: 15px;
+    background: white();
+    margin:auto;
+    max-width: 1024px;
+    &.runtime {
+        min-height: 100%;
+    }
+}
 
 %selectableHover {
     background: whiten($info, .95) !important;
@@ -15,7 +24,6 @@
     box-shadow: 0 0 5px whiten($info, .2);
     z-index:9;
 }
-
 
 .mini-tlb {
     .tlb-button {

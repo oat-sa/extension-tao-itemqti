@@ -39,10 +39,10 @@ define([
     var $loader = $('#ajax-loading');
     var loaderLeft = $loader.css('left');
 
-    var _initUiComponents = function(item, config){
+    var _initUiComponents = function(widget, config){
 
 
-        styleEditor.init(item, config);
+        styleEditor.init(widget.element, config);
 
         styleSheetToggler.init(config);
 
@@ -51,7 +51,7 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer();
-        //preview.init($('.preview-trigger'), item);
+        //preview.init($('.preview-trigger'), widget);
 
         preparePrint();
 
@@ -62,10 +62,10 @@ define([
     };
 
     var _showPanel = function($panel, $fold){
-
+        
         $panel.show();
         editor.openSections($panel.children('section'));
-
+        
         if($fold && $fold.length){
             editor.closeSections($fold.children('section'));
         }
@@ -229,16 +229,18 @@ define([
                 creatorRenderer.setOptions(config);
                 creatorRenderer.get().load(function(){
 
+                    var widget;
+
                     item.setRenderer(this);
 
                     //render item (body only) into the "drop-area"
                     $itemContainer.append(item.render());
 
                     //"post-render it" to initialize the widget
-                    item.postRender(_.clone(config));
+                    widget = item.postRender(_.clone(config));
                     
                     _initFormVisibilityListener();
-                    _initUiComponents(item, config);
+                    _initUiComponents(widget, config);
 
                 }, item.getUsedClasses());
 

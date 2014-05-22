@@ -7,6 +7,10 @@
     position: absolute;
     left: 0;
     top: 0;
+    &.quick-show {
+        display:block;
+        left: -10000px;
+    }
     &.preview-desktop {
         .mobile-only {
             display: none !important;

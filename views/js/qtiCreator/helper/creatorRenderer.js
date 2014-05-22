@@ -25,7 +25,7 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery'], functi
                     browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
                     uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
                     deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
-                    downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
+                    downloadUrl : helpers._url('download', 'ItemContent', 'taoItems')
                 }
             });
             

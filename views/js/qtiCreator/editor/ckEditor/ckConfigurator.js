@@ -285,7 +285,7 @@ define([
             editor.on('instanceReady', function(e){
                 $(e.editor.element.$).removeAttr("title");
             });
-            
+
             return config;
         };
 
