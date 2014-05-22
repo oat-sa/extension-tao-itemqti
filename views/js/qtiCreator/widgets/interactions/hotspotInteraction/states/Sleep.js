@@ -17,7 +17,6 @@ define([
         });
     };
 
-
     var exitSleepState = function exitSleepState(){};
  
     return stateFactory.extend(SleepState, initSleepState, exitSleepState); 

@@ -36,7 +36,9 @@ define([
             container   : $container,
             diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
             resize      : function(newWidth){
-                $orderList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
+                var diff = $orderList.outerWidth(true) -$orderList.width();
+                var width = (newWidth < background.width ?  newWidth : background.width) - (diff > 0 ? diff : 0) + 8;
+                $orderList.width( width );
             }
         });
 
