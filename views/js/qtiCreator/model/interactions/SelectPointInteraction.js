@@ -38,7 +38,7 @@ define([
             this.createResponse({
                 baseType:'identifier',
                 cardinality:'single'
-            });
+            }, 'MAP_RESPONSE_POINT');
         }
     });
     return Interaction.extend(methods);

@@ -34,7 +34,7 @@ define([
             }
             return this;
         },
-        createResponse:function(attrs){
+        createResponse:function(attrs, template){
             
             var response = new ResponseDeclaration();
             if(attrs){
@@ -46,7 +46,7 @@ define([
             
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
-            response.setTemplate('MATCH_CORRECT');
+            response.setTemplate(template || 'MATCH_CORRECT');
             this.attr('responseIdentifier', response.id());
             
             return response;
