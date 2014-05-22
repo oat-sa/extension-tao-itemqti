@@ -17,16 +17,16 @@
                 require(['taoQtiItem/qtiCommonRenderer/test/renderer/test'], function(Test){
                     QUnit.start();
 
-//                    Test.testRender('choice', {}, [
-//                        {'base' : {identifier : 'ChoiceA'}}
-//                    ]);
-
+                    Test.testRender('choiceMultiple', {}, [
+                        {list : {identifier : ['H', 'O']}}
+                    ]);
+                    
                     Test.testRender('choice', {
                         response : {
                             cardinality : 'single'
                         }
                     }, [
-                        {'base' : null}
+                        {base : null}
                     ]);
 
 

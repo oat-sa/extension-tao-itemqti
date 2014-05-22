@@ -1,7 +1,13 @@
 @import "inc/bootstrap";
 .qti-choiceInteraction {
-     .real-label input[disabled] ~ [class^="icon-"]{
+    .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
+    }
+    .mini-tlb[data-edit=answer]{
+        .tlb-button{
+            margin:0;
+            padding:0;
+        }
     }
     .add-option{
         position:relative;

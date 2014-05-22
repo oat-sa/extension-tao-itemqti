@@ -1,4 +1,4 @@
-<li class="qti-choice qti-simpleChoice pseudo-label-box" data-identifier="{{attributes.identifier}}" data-serial="{{serial}}">
+<li class="qti-choice qti-simpleChoice" data-identifier="{{attributes.identifier}}" data-serial="{{serial}}">
     <div class="pseudo-label-box">
         <label class="real-label">
             {{#if unique}}

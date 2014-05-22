@@ -944,18 +944,17 @@
             &.mini-tlb {
                 @extend %mini-tlb;
             }
-            &.mini-tlb-title {
+            &.mini-tlb-label {
                 position:absolute;
                 top:-30px;
-                right:0;
-                background: rgba($uiClickableDefaultBg, .5);
-                @include simple-border(whiten($uiClickableDefaultBg, .8));
+                left:-10px;
+                background: $uiClickableDefaultBg;
                 label{
                     color:$info;
                     cursor:default;
-                    display:none;
                     @include font-size(12);
                     padding: 2px 4px;
+                    margin:0;
                 }
             }
         }

@@ -1,48 +1,54 @@
 define([
     'lodash',
     'jquery',
+    'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'i18n'
-], function(_, $, tpl, Helper, pciResponse, __){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
+], function(_, $, __, tpl, Helper, pciResponse){
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
      */
     var pseudoLabel = function(interaction){
-    
+
         var $container = Helper.getContainer(interaction);
 
-        var setChoice = function($choice){
-            var $input = $choice.find('input');
+        $container.off('.commonRenderer');
 
-            if($input.prop('checked')){
-                $input.prop('checked', false)
-                        .parent().removeClass('checked');
-            } else{
-                //simulate radio behavior
-                if($input.attr('type') === 'radio'){
-                    $('input[name="' + $input.attr('name') + '"]')
-                        .attr('checked', false)     
-                        .parent().removeClass('checked');
-                }
-                $input.prop('checked', true)
-                        .parent().addClass('checked');
-            }
-            Helper.validateInstructions(interaction, {choice : $choice});
-        };
+        $container.on('click.commonRenderer', '.qti-choice', function(e){
 
-        $('.qti-choice', $container).on('click', function(e){
-            setChoice($(this));
             e.preventDefault();
+            e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
+
+            var $box = $(this);
+            var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
+            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+
+            if($radios.length){
+                $radios.not(':checked').prop('checked', true);
+                $radios.trigger('change');
+            }
+            
+            //re-render interaction here because of the issue checkbox/radio??
+            if($checkboxes.length){
+                if($checkboxes.siblings('.icon-radio').length){
+                    //simulate radio:
+                    $container.find('.real-label > input').prop('checked', false);
+                    $checkboxes.prop('checked', true);
+                    $checkboxes.trigger('change');
+                }else{
+                    $checkboxes.prop('checked', !$checkboxes.prop('checked'));
+                    $checkboxes.trigger('change');
+                }
+            }
+
+            Helper.validateInstructions(interaction, {choice : $box});
+            Helper.triggerResponseChangeEvent(interaction);
+
         });
 
-        $('input', $container).on('click', function(e){
-            Helper.validateInstructions(interaction, {choice : $(this).parents('.qti-choice')});
-            e.stopPopagation();
-        });
     };
 
     /**
@@ -69,7 +75,7 @@ define([
         if(max > 1 && max < choiceCount){
 
             var highlightInvalidInput = function($choice){
-                var $input = $choice.find('input'),
+                var $input = $choice.find('.real-label > input'),
                     $li = $choice.css('color', '#BA122B'),
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
 
@@ -140,7 +146,7 @@ define([
     };
 
     var resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('input').prop('checked', false);
+        Helper.getContainer(interaction).find('.real-label > input').prop('checked', false);
     };
 
     /**
@@ -158,10 +164,10 @@ define([
     var setResponse = function(interaction, response){
 
         var $container = Helper.getContainer(interaction);
-        
+
         try{
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
-                $container.find('input[value=' + identifier + ']').prop('checked', true);
+                $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
             });
             Helper.validateInstructions(interaction);
         }catch(e){
@@ -171,7 +177,7 @@ define([
 
     var _getRawResponse = function(interaction){
         var values = [];
-        Helper.getContainer(interaction).find('input[name=response-' + interaction.getSerial() + ']:checked').each(function(){
+        Helper.getContainer(interaction).find('.real-label > input[name=response-' + interaction.getSerial() + ']:checked').each(function(){
             values.push($(this).val());
         });
         return values;
@@ -199,6 +205,20 @@ define([
         });
     };
 
+    var destroy = function(interaction){
+
+        //remove event
+        $(document).off('.commonRenderer');
+        Helper.getContainer(interaction).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        Helper.removeInstructions(interaction);
+
+    };
+
     return {
         qtiClass : 'choiceInteraction',
         template : tpl,
@@ -207,6 +227,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

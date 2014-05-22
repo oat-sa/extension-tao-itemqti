@@ -106,42 +106,6 @@ define([
             });
 
         },
-        getResponseSummary : function(responseDeclaration){
-
-            var pairs = [],
-                correctResponse = _.values(responseDeclaration.getCorrect()),
-                mapEntries = responseDeclaration.getMapEntries();
-
-            _.each(correctResponse, function(pair){
-
-                var sortedIdPair = pair.split(' ').sort(),
-                    sortedIdPairKey = sortedIdPair.join(' ');
-
-                pairs[sortedIdPairKey] = {
-                    pair : sortedIdPair,
-                    correct : true,
-                    score : undefined
-                };
-            });
-
-            _.forIn(mapEntries, function(score, pair){
-
-                var sortedIdPair = pair.split(' ').sort(),
-                    sortedIdPairKey = sortedIdPair.join(' ');
-
-                if(!pairs[sortedIdPairKey]){
-                    pairs[sortedIdPairKey] = {
-                        pair : sortedIdPair,
-                        correct : false,
-                        score : score
-                    };
-                }else{
-                    pairs[sortedIdPairKey].score = score;
-                }
-            });
-
-            return pairs;
-        },
         formatResponse : function(response){
 
             var formatedRes = {list : {directedPair : []}};
