@@ -10,7 +10,7 @@ define([
     var qtiValidators = [
         {
             name: 'qtiIdentifier',
-            message: __('invalid qti'),
+            message: __('invalid identifier'),
             validate: function(value, callback) {
                 if (typeof callback === 'function') {
                     callback(_qtiIdPattern.test(value));
