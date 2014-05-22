@@ -12,12 +12,13 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicScorePopup',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/incrementer',
     'ui/tooltipster'
-], function($, _, __, stateFactory, Map, SelectPointInteraction, helper, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
+], function($, _, __, stateFactory, Map, SelectPointInteraction, helper, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
 
     /**
      * Initialize the state.
@@ -26,7 +27,11 @@ define([
         var widget      = this.widget;
         var interaction = widget.element;
         var response    = interaction.getResponseDeclaration();
+        var paper       = interaction.paper;
 
+        if(!paper){
+            return;
+        }
 
         //really need to destroy before ? 
         SelectPointInteraction.destroy(interaction);
@@ -36,7 +41,26 @@ define([
         interaction.responseMappingMode = true;
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
-        widget.createPaper();     
+        widget.createPaper(); 
+
+        //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
+        widget._editor = shapeEditor(widget, {
+            currents : [],
+            target : true,
+            shapeCreated : function(shape, type){
+            },
+            shapeRemoved : function(id){
+            },
+            enterHandling : function(shape){
+            },
+            quitHandling : function(){
+            },
+            shapeChange : function(shape){
+            }
+        });
+
+        //and create it
+        widget._editor.create();
 
         initResponseMapping(widget);           
 

@@ -7,9 +7,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeFactory',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeEditor',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeSideBar',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
@@ -17,20 +15,14 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
     'util/image',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, GraphicHelper, stateFactory, Question, shapeFactory, shapeEditor, shapeSideBar, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, imageUtil, editor){
-
-    //keep the shape editors to destroy them easily
-    var editors = [];
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, imageUtil, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
     var initQuestionState = function initQuestionState(){
 
-        var factories   = {};
         var widget      = this.widget;
-        var $container  = widget.$container;
-        var $original   = widget.$original;
         var interaction = widget.element;
         var paper       = interaction.paper;
 
@@ -38,45 +30,13 @@ define([
             return;
         }
 
-        var image        = paper.getById('bg-image-' + interaction.serial);
         var $choiceForm  = widget.choiceForm;
         var $formInteractionPanel = $('#item-editor-interaction-property-bar');
         var $formChoicePanel = $('#item-editor-choice-property-bar');
 
-        //set the edition shape style
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = paper.getById(choice.serial);
-            if(element){
-                element
-                    .attr(GraphicHelper._style.creator)
-                    .unmouseover()
-                    .unmouseout();
-            }
-        });
-
-        //we need to stop the question mode on resize, to keep the coordinate system coherent, 
-        //even in responsive (the side bar introduce a biais)
-        $(window).on('resize.changestate', function(){
-            widget.changeState('sleep');
-        });
-
-        //set up shape cnotextual options
-        var options = {
-            paper : interaction.paper, 
-            background : image, 
-            $container : $container.find('.main-image-box'), 
-            isResponsive : $original.hasClass('responsive')
-        };
-    
-        //create the side bar 
-        var $sideBar = shapeSideBar.create($container); 
-
-        //once a shape type is selected
-        $sideBar.on('shapeactive.qti-widget', function(e, $form, type){
-    
-            //enable to create a shape of the given type
-            createShape(type, function shapeCreated (shape){
-
+        //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
+        widget._editor = shapeEditor(widget, {
+            shapeCreated : function(shape, type){
                 var newChoice = interaction.createChoice({
                     shape  : type === 'path' ? 'poly' : type,
                     coords : GraphicHelper.qtiCoords(shape) 
@@ -84,102 +44,32 @@ define([
 
                 //link the shape to the choice
                 shape.id = newChoice.serial;
-
-                //deactivate the form in the sidebar
-                $form.removeClass('active');
-
-                //start the shape editor (hnadling, resize, move)
-                editShape(shape, true);
-                
-            });
-        });
-
-        //retrieve the current shapes and make them editable
-        _.forEach(this.widget.element.getChoices(), function(choice){
-            var shape = paper.getById(choice.serial);
-            if(shape){
-                editShape(shape);
-            }
-        });
-
-        /**
-         * Make a shape editable
-         * @private
-         * @param {Raphael.Element} shape - the shape to make editable
-         * @param {Boolean} [enterHandling = false]  - wether to enter handling directly
-         */
-        function editShape(shape, enterHandling){
-
-            var editor = shapeEditor(shape, options); 
-            editor.on('enterhandling.qti-widget', function(){
-
-                //only one shape handling at a time
-                _.invoke(_.reject(editors, editor), 'quitHandling');
-
-                //enable to bin the shape
-                $sideBar
-                    .trigger('enablebin.qti-widget')
-                    .on('bin.qti-widget', function(){
-                        
-                        //remove the shape and the editor
-                        editor.removeShape();
-                        editor.destroy();
-                        editors = _.reject(editors, editor);
-                        editor = undefined;
-                    });
-                 
-                 //set up manually the choice form
-                 enterChoiceForm(editor.shape.id);
-
-            }).on('shapechange.qti-widget', function(){
-                
-                //update choice coords in the model
+            },
+            shapeRemoved : function(id){
+                interaction.removeChoice(id);
+            },
+            enterHandling : function(shape){
+                enterChoiceForm(shape.id);
+            },
+            quitHandling : function(){
+                leaveChoiceForm();
+            },
+            shapeChange : function(shape){
                 var choice = interaction.getChoice(shape.id);
                 if(choice){
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
                 }
-
-            }).on('quithandling.qti-widget', function(){
-
-                //leave the choice form
-                leaveChoiceForm();
-
-                //update the side bar
-                $sideBar
-                    .trigger('disablebin.qti-widget')
-                    .off('click')
-                    .off('bin.qti-widget');
-
-            }).on('remove.qti-widget', function(id){
-                interaction.removeChoice(id);
-            });
-
-            editors.push(editor);
-            if(enterHandling){
-                editor.enterHandling();
             }
-        }
+        });
+    
+        //and create an instance
+        widget._editor.create();
 
-        /**
-         * Enables to create a shape of the given type
-         * @private
-         * @param {String} type - the shape type (rect, circle, ellipse or path)
-         * @param {Function} created - call back once a new shape is created
-         */
-        function createShape(type, created){
-            var factory = factories[type];
-            if(!factories[type]){
-                factory = shapeFactory(_.merge({type : type}, options));
-                factories[type] = factory;
-            } 
-            
-            factory.on('created.qti-widget', created);          
-            if( type === 'path'){
-                factory.startDrawingPath();
-            } else {    
-                factory.startWithMouse();
-            }
-        }
+        //we need to stop the question mode on resize, to keep the coordinate system coherent, 
+        //even in responsive (the side bar introduce a biais)
+        $(window).on('resize.changestate', function(){
+            widget.changeState('sleep');
+        });
 
         /**
          * Set up the choice form
@@ -206,7 +96,6 @@ define([
                     fixed       : formElement.getAttributeChangeCallback() 
                 });
 
-
                 $formChoicePanel.show();
                 editor.openSections($formChoicePanel.children('section'));
                 editor.closeSections($formInteractionPanel.children('section'));
@@ -218,9 +107,11 @@ define([
          * @private
          */
         function leaveChoiceForm(){
-            editor.openSections($formInteractionPanel.children('section'));
-            $formChoicePanel.hide();
-            $choiceForm.empty();
+            if($formChoicePanel.css('display') !== 'none'){
+                editor.openSections($formInteractionPanel.children('section'));
+                $formChoicePanel.hide();
+                $choiceForm.empty();
+            }
         }
     };
 
@@ -228,8 +119,8 @@ define([
      * Exit the question state, leave the room cleaned up
      */
     var exitQuestionState = function initQuestionState(){
-        var $container  = this.widget.$container;
-        var interaction = this.widget.element;
+        var widget      = this.widget;
+        var interaction = widget.element;
         var paper       = interaction.paper;
 
         if(!paper){
@@ -238,28 +129,9 @@ define([
         
         $(window).off('resize.changestate');
 
-        shapeSideBar.remove($container);
-        
-        _.invoke(editors, 'destroy');
-        editors = [];
-
-        //reset the shape style
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = paper.getById(choice.serial);
-            if(element){
-                element
-                    .attr(GraphicHelper._style.basic)
-                    .hover(function(){
-                        if(!element.flashing){
-                            GraphicHelper.updateElementState(this, 'hover'); 
-                        }
-                  }, function(){
-                        if(!element.flashing){
-                            GraphicHelper.updateElementState(this, this.active ? 'active' : this.selectable ? 'selectable' : 'basic');
-                        }
-                  });
-            }
-        });
+        if(widget._editor){
+            widget._editor.destroy();
+        }
     };
     
     /**
@@ -347,8 +219,6 @@ define([
         
         interactionFormElement.syncMaxChoices(_widget);
     };
-
-    
 
     return HotspotInteractionStateQuestion;
 });

@@ -224,8 +224,7 @@ class Authoring{
                 array('title'    => __('Select Point Interaction'),
                       'icon'     => 'select-point',
                       'short'    => __('Select Point'),
-                      'qtiClass' => 'selectPointInteraction',
-                      'disabled' => true
+                      'qtiClass' => 'selectPointInteraction'
                 )
             )
 

@@ -11,7 +11,8 @@ define([
      * Just forward to the correct/map states
      */
     function initAnswerState(){
-        answerStateHelper.forward(this.widget);
+        //answerStateHelper.forward(this.widget);
+        this.widget.changeState('map');
     }
     
     

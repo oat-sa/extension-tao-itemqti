@@ -51,7 +51,7 @@ define([
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
 
             //call parent destroy
-            Widget.initCreator.call(this);
+            Widget.destroy.call(this);
         },
 
         /**
@@ -63,7 +63,7 @@ define([
             var $itemBody   = $container.parents('.qti-itemBody');
             var background = this.element.object.attributes;
             if(!background.data){
-                this.createPlaceholder();
+                this._createPlaceholder();
             } else {
            
                 this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {

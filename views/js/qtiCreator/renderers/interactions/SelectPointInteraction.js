@@ -24,6 +24,9 @@ define([
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
         options.choiceForm = this.getOption('choiceOptionForm');
+        options.uri = this.getOption('uri');
+        options.lang = this.getOption('lang');
+        options.mediaManager = this.getOption('mediaManager');
         
         return SelectPointInteractionWidget.build(
             interaction,

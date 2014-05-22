@@ -7,15 +7,29 @@ define([
 ], function($, _, sidebarTmpl){
 
     /**
+     * Helps you to create the side bar used to select shapes to draw in the QTI Create
      * @exports qtiCreator/widgets/interaction/helpers/shapeSideBar
      */
     var shapeSideBar  = {
 
-        create : function create($container){
+        /**
+         * Create the side bar and add it the container.
+         * It will resize the container accordingly.
+         * @param {jQueryElement} $container - a graphic interaction container
+         * @param {Boolean} [showTarget = false] - if the target data type has to be shown
+         * @returns {jQueryElement} the side bar element
+         * @fires shapeSideBar#shapeactive.qti-widget 
+         * @fires shapeSideBar#shapedeactive.qti-widget 
+         * @fires resize.qti-widget
+         */
+        create : function create($container, showTarget){
 
+            
             var $imageEditor = $container.find('.image-editor');
             var $imageBox = $('.main-image-box', $imageEditor);
-            var $sideBar = $(sidebarTmpl()).insertBefore($imageEditor);
+            var $sideBar = $(sidebarTmpl({
+                    showTarget : !!showTarget 
+                 })).insertBefore($imageEditor);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
             var newWidth = parseInt($imageBox.width(), 10) - parseInt($sideBar.outerWidth(), 10) - 2;
@@ -23,6 +37,10 @@ define([
             $imageBox.width(newWidth);
             $imageEditor.width(newWidth);
 
+            /**
+             * To enable the bin 
+             * @event shapeSideBar#enabalebin.qti-widget 
+             */
             $sideBar.on('enablebin.qti-widget', function(){
                $bin.removeClass('disabled')
                     .on('click', function(e){
@@ -30,6 +48,11 @@ define([
                         $sideBar.trigger('bin.qti-widget');
                     });
             });
+            
+            /**
+             * To disable the bin 
+             * @event shapeSideBar#disabalebin.qti-widget 
+             */
             $sideBar.on('disablebin.qti-widget', function(){
                $bin.addClass('disabled')
                     .off('click'); 
@@ -44,9 +67,20 @@ define([
                     $forms.removeClass('active');
                     $form.addClass('active');
 
+                    /**
+                     * When a shape is activated 
+                     * @event shapeSideBar#shapeactive.qti-widget 
+                     * @param {jQueryElement} $form - the shape element
+                     * @param {String} type - the shape type
+                     */
                     $sideBar.trigger('shapeactive.qti-widget', [$form, $form.data('type')]);
                 } else {
                     $forms.removeClass('active');
+                    
+                    /**
+                     * A shape is deactivated 
+                     * @event shapeSideBar#shapedeactive.qti-widget 
+                     */
                     $sideBar.trigger('shapedeactive.qti-widget');
                 }
             }); 
@@ -54,7 +88,8 @@ define([
              
             $container.on('resize.qti-widget', function(){
                 $sideBar.find('.forms').height($imageEditor.innerHeight());
-            });    
+            });
+ 
             $container.trigger('resize.qti-widget', newWidth);    
 
             return $sideBar;

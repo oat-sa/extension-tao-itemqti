@@ -16,11 +16,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 'maxChoices' : 0,
-                'minChoices' : 0,
-                'object' : {
-                    'width'  : '100%',
-                    'height' : '100%'  
-                }
+                'minChoices' : 0
             };
         },
 

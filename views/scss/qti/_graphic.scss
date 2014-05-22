@@ -81,6 +81,16 @@
             min-height: 292px;
             float: left;
         }
+
+        &.tall{
+            min-height: 320px;
+            .forms {
+                min-height: 320px;
+            }
+            & ~ .image-editor {
+                min-height: 332px;
+            }
+        }
     }
 
 }

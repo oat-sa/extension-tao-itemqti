@@ -51,7 +51,7 @@ define([
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
 
             //call parent destroy
-            Widget.initCreator.call(this);
+            Widget.destroy.call(this);
         },
 
         /**
@@ -64,7 +64,7 @@ define([
             var $orderList = $('ul', $container);
             var background = this.element.object.attributes;
             if(!background.data){
-                this.createPlaceholder();
+                this._createPlaceholder();
             } else {
                 this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
                     width       : background.width, 
@@ -95,7 +95,7 @@ define([
         /**
          * Creates a dummy placeholder if there is no image set
          */
-        createPlaceholder : function(){
+        _createPlaceholder : function(){
 
             var $container = this.$original;
             var $imageBox  = $container.find('.main-image-box');
