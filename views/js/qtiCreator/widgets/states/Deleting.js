@@ -174,10 +174,10 @@ define([
     DeletingState.prototype.deleteElement = function(){
 
         var isRow = this.$elementToRemove.hasClass('grid-row');
-
+        
+        this.widget.destroy();//remove what remains of the widget (almost nothing)
         this.widget.element.remove();//remove from model
         this.$elementToRemove.remove();//remove html from the dom
-        this.widget.destroy();//remove what remains of the widget (almost nothing)
         
         if(isRow){
 
