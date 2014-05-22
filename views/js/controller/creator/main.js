@@ -62,10 +62,10 @@ define([
     };
 
     var _showPanel = function($panel, $fold){
-        
+
         $panel.show();
         editor.openSections($panel.children('section'));
-        
+
         if($fold && $fold.length){
             editor.closeSections($fold.children('section'));
         }
@@ -83,11 +83,10 @@ define([
         var $itemContainer = $('#item-editor-panel');
 
         var _staticElements = {
-            'img' : 'Image',
-            'object' : 'Media',
-            'rubricBlock' : 'Rubric Block',
-            'modalFeedback' : 'Modal Feedback',
-            'math' : 'Math'
+            img : 'Image',
+            object : 'Media',
+            rubricBlock : 'Rubric Block',
+            math : 'Math'
         };
 
         // all sections on the right sidebar are invisible by default
