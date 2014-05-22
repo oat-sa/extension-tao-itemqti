@@ -93,7 +93,7 @@ define([
         var $formInteractionPanel = $('#item-editor-interaction-property-bar'),
             $formChoicePanel = $('#item-editor-choice-property-bar'),
             $formResponsePanel = $('#item-editor-response-property-bar'),
-            $formItemPanel = $('#item-editor-item-property-bar').show(),
+            $formItemPanel = $('#item-editor-item-property-bar'),
             $formBodyElementPanel = $('#item-editor-body-element-property-bar'),
             $formTextBlockPanel = $('#item-editor-text-property-bar'),
             $formStylePanel = $('#item-style-editor-bar'),
@@ -143,9 +143,14 @@ define([
                 _toggleAppearanceEditor(true);
             }
         });
-
+        
+        //@todo : fix this timeout event
+        _.delay(function(){
+            _showPanel($formItemPanel);
+        }, 200);
+        
         $(document).on('afterStateInit.qti-widget', function(e, element, state){
-
+            
             switch(state.name){
                 case 'active':
 
@@ -211,8 +216,6 @@ define([
          */
         start : function(config){
 
-            _initFormVisibilityListener();
-
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
 
@@ -233,7 +236,8 @@ define([
 
                     //"post-render it" to initialize the widget
                     item.postRender(_.clone(config));
-
+                    
+                    _initFormVisibilityListener();
                     _initUiComponents(item, config);
 
                 }, item.getUsedClasses());
