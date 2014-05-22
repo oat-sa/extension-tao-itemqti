@@ -760,7 +760,7 @@
                         .qti-choice{
                             
                             &:not(th){
-                                &:hover{
+                                &.hover{
                                     @extend %editHover;
                                 }
                                 &.edit-choice{
@@ -768,7 +768,7 @@
                                 }
                             }
                             
-                            &:hover{
+                            &.hover{
                                 .inner-wrapper{
                                     //@extend %editHover;
                                 }

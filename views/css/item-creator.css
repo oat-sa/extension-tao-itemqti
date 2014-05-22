@@ -253,7 +253,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-color: #444 #999 #999 #444; }
 
 /* line 6, ../scss/item-creator.scss */
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice:not(th):hover, .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
   cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
