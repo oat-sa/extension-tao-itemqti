@@ -5,7 +5,7 @@ define([
     'ckeditor',
     'ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
 ], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
 

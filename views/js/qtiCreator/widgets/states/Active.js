@@ -1,4 +1,8 @@
-define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, stateFactory){
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/widgets/states/factory',
+    'taoQtiItem/qtiCreator/widgets/helpers/content'
+], function($, stateFactory, contentHelper){
 
     return stateFactory.create('active', function(){
 
@@ -23,6 +27,8 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/states/factory'], function($, s
         }
 
     }, function(){
+        
+        contentHelper.changeInnerWidgetState(this.widget, 'sleep');
         
         this.widget.$container.off('.active');
         $('#item-editor-panel').off('.active');

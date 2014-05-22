@@ -1,11 +1,8 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiCreator/editor/gridEditor/resizable',
-    'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/model/helper/container'
-], function($, _, resizable, Element, creatorRenderer, containerHelper){
+    'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
+], function($, _, resizable){
 
     var contentHelper = {};
 
@@ -125,6 +122,6 @@ define([
         });
 
     };
-
+    
     return contentHelper;
 });

@@ -45,12 +45,12 @@ define([
                 //pass the options to the initCreator for custom options usage 
                 _.each(this.getRequiredOptions(), function(opt){
                     if(!options[opt]){
-                        throw new Error('missing required option for image creator : '+opt);
+                        throw new Error('missing required option for image creator : ' + opt);
                     }
                 });
                 this.options = options;
                 this.initCreator(options);
-                
+
                 //init state after creator init
                 if(options.state){
                     this.changeState(options.state);
@@ -172,6 +172,10 @@ define([
             $(document).off(evtName);
         },
         destroy : function(){
+
+            //to call exit method and clean up listeners
+            this.changeState('sleep');
+
             //remove editable widgets
             this.$container.find('[data-edit]').remove();
 
@@ -196,9 +200,6 @@ define([
             }else{
                 $container = this.$container;
             }
-
-            //to call exit method and clean up listeners
-            this.changeState('sleep');
 
             //once required data ref has been set, destroy it:
             this.destroy();

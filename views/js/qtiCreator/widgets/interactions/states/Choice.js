@@ -1,7 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/states/Choice'
-], function(stateFactory, Choice){
+    'taoQtiItem/qtiCreator/widgets/states/Choice',
+    'taoQtiItem/qtiCreator/widgets/helpers/content'
+], function(stateFactory, Choice, contentHelper){
 
     var InteractionStateChoice = stateFactory.create(Choice, function(){
         
@@ -14,6 +15,8 @@ define([
                 _widget.changeState('question');
             }
         });
+        
+        contentHelper.changeInnerWidgetState(this.widget, 'sleep');
         
     }, function(){
         
