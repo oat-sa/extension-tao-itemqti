@@ -34,7 +34,7 @@ define([
     DeletingState.prototype.getElementToRemove = function(){
 
         var $container = this.widget.$container;
-
+        
         //if is a choice widget:
         if($container.hasClass('qti-choice')){
 
@@ -46,7 +46,6 @@ define([
                     //hide col
                     var $tbody = $container.closest('table.matrix').children('tbody');
                     var $tds = $tbody.children('tr').find('td:last');
-                    console.log($tbody, $tds);
                     return $container.add($tds);
 
                 }else if($container.parent().parent().prop('tagName') === 'TBODY'){
@@ -62,7 +61,7 @@ define([
 
         //inline widget:
         if($container.hasClass('widget-inline')){
-            return $().add($container).add(this.widget.$original);
+            return $container.add(this.widget.$original);
         }
 
         //block widget:

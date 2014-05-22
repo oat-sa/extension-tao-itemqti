@@ -44,7 +44,7 @@ define([], function(){
 
             var $container = widget.$container;
 
-            $container.find('[data-role="delete"]').on('mousedown', function(e){
+            $container.find('[data-role="delete"]:not([data-html-editable] *)').on('mousedown', function(e){
                 e.stopPropagation();
                 widget.changeState('deleting');
             });
