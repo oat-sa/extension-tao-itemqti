@@ -1009,9 +1009,6 @@
             [data-html-editable][contenteditable=true]{
                 border:1px dotted $info;
             }
-            [data-role="cke-launcher"]{
-                display:block !important;
-            }
         }
         [data-html-editable]{
             margin-right:0px;//@todo value to be determined

@@ -1841,20 +1841,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   /* line 1009, ../scss/item-creator.scss */
   .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable][contenteditable=true], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable][contenteditable=true] {
     border: 1px dotted #0e5d91; }
-  /* line 1012, ../scss/item-creator.scss */
-  .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-role="cke-launcher"], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-role="cke-launcher"] {
-    display: block !important; }
-  /* line 1016, ../scss/item-creator.scss */
+  /* line 1013, ../scss/item-creator.scss */
   .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] {
     margin-right: 0px; }
-    /* line 1018, ../scss/item-creator.scss */
+    /* line 1015, ../scss/item-creator.scss */
     .tao-scope .edit-question .qti-interaction [data-html-editable][contenteditable=true]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable][contenteditable=true]:focus {
       border: 1px dotted #0e5d91; }
-  /* line 1024, ../scss/item-creator.scss */
+  /* line 1021, ../scss/item-creator.scss */
   .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] {
     min-height: 6rem; }
 
-/* line 1030, ../scss/item-creator.scss */
+/* line 1027, ../scss/item-creator.scss */
 .cke-cover-up {
   padding: 0 !important;
   margin: 0 !important;
@@ -1865,7 +1862,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   opacity: .05 !important;
   display: inline-block !important; }
 
-/* line 1042, ../scss/item-creator.scss */
+/* line 1039, ../scss/item-creator.scss */
 .cke-qti-wrapper {
   position: relative !important;
   display: inline-block !important;
@@ -1873,7 +1870,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   margin: 0 !important; }
 
 @media print {
-  /* line 1052, ../scss/item-creator.scss */
+  /* line 1049, ../scss/item-creator.scss */
   html body #tabs {
     margin: 0 !important;
     min-height: 0 !important;
@@ -1881,36 +1878,36 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 0 !important;
     border: none !important; }
 
-  /* line 1060, ../scss/item-creator.scss */
+  /* line 1057, ../scss/item-creator.scss */
   html body .item-no-print {
     display: none !important; }
 
-  /* line 1064, ../scss/item-creator.scss */
+  /* line 1061, ../scss/item-creator.scss */
   html body #item-editor-panel {
     margin: 0 !important;
     padding: 0 !important; }
 
-  /* line 1069, ../scss/item-creator.scss */
+  /* line 1066, ../scss/item-creator.scss */
   html body .item-editor-row {
     border: none !important;
     background: none !important; }
 
-  /* line 1073, ../scss/item-creator.scss */
+  /* line 1070, ../scss/item-creator.scss */
   html body .qti-item {
     border-radius: 0;
     box-shadow: none;
     margin: 0 !important;
     border: none !important;
     width: 100% !important; }
-    /* line 1079, ../scss/item-creator.scss */
+    /* line 1076, ../scss/item-creator.scss */
     html body .qti-item [class*="col-"] {
       border-color: transparent !important; }
 
-  /* line 1083, ../scss/item-creator.scss */
+  /* line 1080, ../scss/item-creator.scss */
   html body [data-edit], html body .mini-tlb {
     display: none !important; }
 
-  /* line 1090, ../scss/item-creator.scss */
+  /* line 1087, ../scss/item-creator.scss */
   html body [class^="btn-"],
   html body [class*=" btn-"],
   html body button,
