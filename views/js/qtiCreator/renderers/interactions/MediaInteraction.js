@@ -11,12 +11,15 @@ define([
     
     MediaInteraction.render = function(interaction, options){
         
-        var defAtt = interaction.getDefaultAttributes();
-        _.extend(interaction.attributes, defAtt);
-        delete interaction.attributes.media;
-        _.extend(interaction.object.attributes, defAtt.media);
+        
+        options = options || {};
+        options.baseUrl = this.getOption('baseUrl');
+        //options.choiceForm = this.getOption('choiceOptionForm');
+        options.uri = this.getOption('uri');
+        options.lang = this.getOption('lang');
+        options.mediaManager = this.getOption('mediaManager');
 
-        //MediaInteraction.theRender(interaction, true);
+        MediaInteraction.theRender(interaction, true);
         
         return MediaInteractionWidget.build(
             interaction,

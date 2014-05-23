@@ -40,11 +40,22 @@ define([
     
 
     var theRender = function realRender(interaction, isCreator) {
-
-
+        
         var $container = Helper.getContainer(interaction);
-        var media = interaction.object.attributes;
 
+        if (isCreator) {
+            //use this defaults when creating new empty item in the creator
+            var mediaDefaults = {
+                data: '',
+                type: 'video/mp4',
+                //type: 'video/youtube',
+                width: 480,
+                height: 270
+            };
+            _.defaults(interaction.object.attributes, mediaDefaults);
+        }
+
+        var media = interaction.object.attributes;
         
         var mediaType = getMediaType(media);
         var playFromPauseEvent = false;
@@ -88,8 +99,12 @@ define([
                 var bigPlayButtonLayerDetached = null;
                 var flashOverlayDiv = null;
 
-                if (interaction.attributes.autostart && ((interaction.attributes.maxPlays==0) || $container.data('timesPlayed') < interaction.attributes.maxPlays) ) {
-                    if (mediaType == 'video/youtube') {
+                if ($container.data('timesPlayed') === undefined) {
+                    $container.data('timesPlayed', 0);
+                }
+                if (interaction.attributes.autostart && ((interaction.attributes.maxPlays===0) || $container.data('timesPlayed') < interaction.attributes.maxPlays) ) {
+                    
+                    if (mediaType === 'video/youtube') {
                         mediaElement.addEventListener('canplay', function() {
                             mediaElement.play();
                         }, false);
@@ -152,6 +167,10 @@ define([
                         mediaElement.play();
                     }
                 });
+            },
+            
+            error: function(playerDom) {
+                $(playerDom).closest('div.mejs-container').find('.me-cannotplay').remove();
             }
         };
 
@@ -187,13 +206,13 @@ define([
         });
         
         
-        if (isCreator) {
-            new MediaElementPlayer(meTag, mediaOptions);
-        } else {
-            $container.on('responseSet', function(e, interaction, response){
+            if (isCreator) {
                 new MediaElementPlayer(meTag, mediaOptions);
-            });
-        }
+            } else {
+                $container.on('responseSet', function(e, interaction, response){
+                    new MediaElementPlayer(meTag, mediaOptions);
+                });
+            }
 
     }
 

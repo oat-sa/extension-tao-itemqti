@@ -4,7 +4,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
-    'helpers',
     'ui/resourcemgr'
 ], function(stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer, helpers) {
     
@@ -34,6 +33,7 @@ define([
         
         var _widget = this.widget,
             $form = _widget.$form,
+            options = _widget.options,
             interaction = _widget.element;
 
         //initialization binding
@@ -44,7 +44,7 @@ define([
             //tpl data for the interaction
             autostart : !!interaction.attr('autostart'),
             loop : !!interaction.attr('loop'),
-            minPlays : parseInt(interaction.attr('minPlays')),
+            //minPlays : parseInt(interaction.attr('minPlays')),
             maxPlays : parseInt(interaction.attr('maxPlays')),
             
             //tpl data for the "object", this part is going to be reused by the "objectWidget", http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
@@ -61,15 +61,23 @@ define([
         var callbacks = [];
         callbacks['autostart'] = formElement.getAttributeChangeCallback();
         callbacks['loop'] = formElement.getAttributeChangeCallback();
-        callbacks['width'] = formElement.getAttributeChangeCallback();
-        callbacks['height'] = formElement.getAttributeChangeCallback();
-        callbacks['data'] = formElement.getAttributeChangeCallback();
-        /*callbacks['data'] = function(interaction, attrValue, attrName){
-            //some callback method when the input has been validated
-            
-            //something like:
-            interaction.attr(attrName, attrValue);
-        };*/
+        callbacks['maxPlays'] = formElement.getAttributeChangeCallback();
+        
+        //callbacks['width'] = formElement.getAttributeChangeCallback();
+        callbacks['width'] = function(interaction, attrValue, attrName){
+            interaction.object.attr(attrName, attrValue);
+            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
+        }
+        
+        callbacks['height'] = function(interaction, attrValue, attrName){
+            interaction.object.attr(attrName, attrValue);
+            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
+        }
+        
+        callbacks['data'] = function(interaction, attrValue, attrName){
+            interaction.object.attr(attrName, attrValue);
+            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
+        };
         //and so on for the other attributes...
         
         formElement.initDataBinding($form, interaction, callbacks);
@@ -77,36 +85,34 @@ define([
         _widget.on('attributeChange', function(data){
             //if the template changes, forward the modification to a helper
             //answerStateHelper.forward(_widget);
-            //console.log(data);
-               
+            console.log(data);
+            //debugger;
+            
         });
          
          
         var selectMediaButton = $(_widget.$form).find(".selectMediaFile");
         selectMediaButton.on('click', function() {
             $(this).resourcemgr({
-                root        : '/',
-                browseUrl   : helpers._url('files', 'ItemContent', 'taoItems'),
-                uploadUrl   : helpers._url('upload', 'ItemContent', 'taoItems'),
-                deleteUrl   : helpers._url('delete', 'ItemContent', 'taoItems'),
-                downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
+                appendContainer : options.mediaManager.appendContainer,
+                root : '/',
+                browseUrl : options.mediaManager.browseUrl,
+                uploadUrl : options.mediaManager.uploadUrl,
+                deleteUrl : options.mediaManager.deleteUrl,
+                downloadUrl : options.mediaManager.downloadUrl,
                 params : {
-                    filters : null,
-                    uri : null,
-                    lang : 'en-US'
+                    uri : options.uri,
+                    lang : options.lang,
+                    //filters : 'image/jpeg,image/png,image/gif'
+                    filters : 'video/mp4,audio/mp3'
                 },
                 pathParam : 'path',
-                create : function(e){
-                    console.log('created');
-                },
-                open : function(e){
-                    console.log('opened');
-                },
-                close : function(e){
-                    console.log('closed');
-                },
                 select : function(e, files){
-                    console.log( files );
+                    if(files.length > 0){ 
+                        console.log(files);
+                        // set data field content and meybe detect and set media type here
+                        
+                    }
                 }
             });
         });
