@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
     'lodash',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.response'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/associableChoice.answer'
 ], function(stateFactory, Map, responseWidget, _, responseToolbarTpl){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){

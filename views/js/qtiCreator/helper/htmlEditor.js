@@ -150,10 +150,6 @@ define([
                 },
                 blur : function(e){
 
-                    // unshield inner widgets:
-                    //@todo
-
-                    $trigger.hide();
                 },
                 configLoaded : function(e){
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);

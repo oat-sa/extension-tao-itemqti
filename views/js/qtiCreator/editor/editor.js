@@ -197,7 +197,7 @@ define([
          * @param subGroup
          */
         var _toggleSubGroup = function(subGroup, state) {
-            $(subGroup).data('cover')[state]();
+            $('.'+subGroup).data('cover')[state]();
         };
 
 

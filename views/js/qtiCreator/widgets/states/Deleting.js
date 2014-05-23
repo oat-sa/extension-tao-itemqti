@@ -150,9 +150,8 @@ define([
     DeletingState.prototype.showMessage = function(){
 
         var _this = this,
-            _widget = this.widget;
-
-        var $messageBox = deletingHelper.createInfoBox([_widget]);
+            _widget = this.widget,
+            $messageBox = deletingHelper.createInfoBox([_widget]);
 
         $messageBox.on('confirm.deleting', function(){
 
@@ -175,8 +174,8 @@ define([
         var isRow = this.$elementToRemove.hasClass('grid-row');
         
         this.widget.destroy();//remove what remains of the widget (almost nothing)
-        this.widget.element.remove();//remove from model
         this.$elementToRemove.remove();//remove html from the dom
+        this.widget.element.remove();//remove from model
         
         if(isRow){
 
