@@ -356,6 +356,9 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
+        console.log('getResponse', 
+                    _getRawResponse(interaction),
+                    pciResponse.serialize(_getRawResponse(interaction), interaction));
         return  pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 

@@ -58,19 +58,21 @@ define([
          * Create a basic Raphael paper with the interaction choices 
          */ 
         createPaper : function(){
-
-            var $container = this.$original;
+            var self = this;
+            var interaction = this.element;
+            var $container  = this.$original;
             var $itemBody   = $container.parents('.qti-itemBody');
-            var $orderList = $('ul', $container);
-            var background = this.element.object.attributes;
+            var $orderList  = $('ul.block-listing', $container);
+            var background  = interaction.object.attributes;
+
             if(!background.data){
                 this._createPlaceholder();
             } else {
-                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
                     width       : background.width, 
                     height      : background.height,
                     img         : this.baseUrl + background.data,
-                    imgId       : 'bg-image-' + this.element.serial,
+                    imgId       : 'bg-image-' + interaction.serial,
                     diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
                     container   : $container,
                     resize      : function(newWidth){
@@ -81,14 +83,16 @@ define([
                 });
 
                 //listen for internal size change
-                $itemBody.on('resizestop.gridEdit.' + this.element.serial, function(){
+                $itemBody.on('resizestop.gridEdit.' + interaction.serial, function(){
                     $container.trigger('resize.qti-widget');
                 });
 
                 //call render choice for each interaction's choices
-                _.forEach(this.element.getChoices(), this._currentChoices, this);
+                _.forEach(interaction.getChoices(), this._currentChoices, this);
 
-                this._renderOrderList(this.element, $orderList);
+                //creates the order list
+                this.renderOrderList();
+
             }
         },
 
@@ -124,15 +128,13 @@ define([
 
         /**
          * Render the list of numbers
-         * @private
-         * @param {Object} interaction
-         * @param {jQueryElement} $orderList - the list than contains the orderers
          */
-         _renderOrderList : function _renderOrderList(interaction, $orderList){
-            var $orderers;
-            var size = _.size(interaction.getChoices());
-            var min = interaction.attr('minChoices');
-            var max = interaction.attr('maxChoices');
+         renderOrderList : function renderOrderList(){
+            var interaction = this.element;
+            var size        = _.size(interaction.getChoices());
+            var min         = interaction.attr('minChoices');
+            var max         = interaction.attr('maxChoices');
+            var $orderList  = $('ul.block-listing', this.$original);
 
             //calculate the number of orderer to display
             if(max > 0 && max < size){
@@ -140,6 +142,8 @@ define([
             } else if(min > 0 && min < size){
                size = min;
             }
+    
+            $orderList.empty();
 
             //add them to the list
             _.times(size, function(index){

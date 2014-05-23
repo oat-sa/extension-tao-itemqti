@@ -71,6 +71,12 @@ define([
             widget.changeState('sleep');
         });
 
+
+        widget.on('attributeChange', function(data){
+            if(data.key === 'maxChoices'){
+                widget.renderOrderList();
+            }
+        });
         /**
          * Set up the choice form
          * @private
@@ -200,7 +206,7 @@ define([
         formElement.initWidget($form);
         
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', false);
         callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
             _widget.rebuild({

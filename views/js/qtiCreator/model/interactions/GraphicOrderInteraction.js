@@ -34,7 +34,7 @@ define([
             }
             this.createResponse({
                 baseType:'identifier',
-                cardinality:'single'
+                cardinality:'ordered'
             });
         },
 
