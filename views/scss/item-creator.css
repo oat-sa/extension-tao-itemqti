@@ -460,8 +460,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-sidebar .sub-group {
       position: relative;
       padding-top: 0 !important; }
+      .tao-scope .item-editor-sidebar .sub-group .tool-list {
+        position: relative;
+        z-index: 4; }
       .tao-scope .item-editor-sidebar .sub-group .sub-group-cover {
-        display: none;
         position: absolute;
         left: 0;
         top: -7px;
@@ -474,6 +476,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         -webkit-border-radius: 3px;
         border-radius: 3px;
         margin: 2%; }
+        .tao-scope .item-editor-sidebar .sub-group .sub-group-cover.blocking {
+          z-index: 10; }
       .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:after, .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:before {
         bottom: 100%;
         left: 25%;
@@ -1143,27 +1147,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       display: none; }
       .tao-scope .item-editor-item [data-edit] > [class*=" col-"], .tao-scope .item-editor-item [data-edit] [class^="col-"] {
         margin-bottom: 0 !important; }
-      .tao-scope .item-editor-item [data-edit].mini-tlb-title {
+      .tao-scope .item-editor-item [data-edit].mini-tlb-label {
         position: absolute;
         top: -30px;
-        right: 0;
-        background: rgba(243, 241, 239, 0.5);
-        border: 1px solid #fcfcfb;
-        border-radius: 2px;
-        -webkit-border-radius: 2px; }
-        .tao-scope .item-editor-item [data-edit].mini-tlb-title label {
+        left: -10px;
+        background: #f3f1ef; }
+        .tao-scope .item-editor-item [data-edit].mini-tlb-label label {
           color: #0e5d91;
           cursor: default;
-          display: none;
           font-size: 12px;
           font-size: 1.2rem;
-          padding: 2px 4px; }
+          padding: 2px 4px;
+          margin: 0; }
     .tao-scope .item-editor-item .inner-wrapper {
       position: relative; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] {
       cursor: pointer !important; }
+    .tao-scope .item-editor-item .qti-choiceInteraction .mini-tlb[data-edit=answer] .tlb-button {
+      margin: 0;
+      padding: 0; }
     .tao-scope .item-editor-item .qti-choiceInteraction .add-option {
       position: relative;
       padding: 5px 5px 5px 6px; }

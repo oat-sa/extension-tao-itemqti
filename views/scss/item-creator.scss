@@ -296,12 +296,16 @@
                 }
             }
         }
+
         
         .sub-group {
             position: relative;
             padding-top: 0 !important;
+            .tool-list {
+                position: relative;
+                z-index: 4;
+            }
             .sub-group-cover {
-                display: none;
                 position: absolute;
                 left: 0;
                 top: -7px;
@@ -312,6 +316,9 @@
                 border: 1px $websiteBorder solid;
                 @include border-radius(3);
                 margin: 2%;
+                &.blocking {
+                    z-index: 10;
+                }
             }
             
             .sub-group-cover:after,.sub-group-cover:before {

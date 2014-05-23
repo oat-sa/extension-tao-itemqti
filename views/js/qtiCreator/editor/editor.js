@@ -43,7 +43,7 @@ define([
                     $subGroupList = $('<ul>', { 'class': 'tool-list plain clearfix' });
                     $subGroupPanel.append($subGroupList);
                     $section.append($subGroupPanel);
-                    $cover = $('<div>', { 'class': 'sub-group-cover'});
+                    $cover = $('<div>', { 'class': 'sub-group-cover blocking'});
                     $subGroupPanel.append($cover);
                     $subGroupPanel.data('cover', $cover);
                 }
@@ -62,6 +62,10 @@ define([
                     $sections = $sidebar.find(section),
                     $allPanels = $sidebar.children(panel).hide(),
                     $allTriggers = $sidebar.find(heading);
+
+//                if($allTriggers.length === 0) {
+//                    return true;
+//                }
 
 
                 // setup events
@@ -197,7 +201,8 @@ define([
          * @param subGroup
          */
         var _toggleSubGroup = function(subGroup, state) {
-            $('.'+subGroup).data('cover')[state]();
+            var fn = state === 'disable' ? 'addClass' : 'removeClass';
+            $('.' + subGroup).data('cover')[fn]('blocking');
         };
 
 
@@ -206,7 +211,7 @@ define([
          * @param subGroup
          */
         var enableSubGroup = function(subGroup) {
-            _toggleSubGroup(subGroup, 'hide');
+            _toggleSubGroup(subGroup, 'enable');
         };
 
         /**
@@ -214,7 +219,7 @@ define([
          * @param subGroup
          */
         var disableSubGroup = function(subGroup) {
-            _toggleSubGroup(subGroup, 'show');
+            _toggleSubGroup(subGroup, 'disable');
         };
 
         /**

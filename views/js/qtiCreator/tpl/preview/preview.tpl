@@ -1,4 +1,4 @@
-<div class="preview-overlay tao-scope overlay preview-desktop item-no-print">
+<div class="preview-overlay tao-scope overlay preview-{{previewType}} item-no-print">
     <div class="preview-container-outer">
         <div class="preview-canvas">
             <form class="preview-utility-bar plain">
@@ -15,7 +15,7 @@
                     </div>
                     <ul class="plain tbl-cell clearfix">
                         <li class="lft desktop-only">
-                            <select class="desktop-device-selector preview-device-selector">
+                            <select class="desktop-device-selector preview-device-selector" data-target="desktop">
                                 {{#each desktopDevices}}
                                 <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
                                 {{/each}}
@@ -27,7 +27,7 @@
                   {{__ 'Switch to mobile'}}</span>
                         </li>
                         <li class="lft mobile-only">
-                            <select class="mobile-device-selector preview-device-selector">
+                            <select class="mobile-device-selector preview-device-selector" data-target="mobile">
                                 {{#each mobileDevices}}
                                 <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
                                 {{/each}}
@@ -53,9 +53,12 @@
                     </ul>
                 </div>
             </form>
-            <div class="{{previewType}}-preview-frame preview-outer-frame {{previewType}}-preview-landscape">
-                <div class="{{previewType}}-preview-container preview-container">
-                    <iframe class="preview-iframe"></iframe>
+            <div class="preview-modal-feedback"></div>
+            <div class="preview-scale-container">
+                <div class="{{previewType}}-preview-frame preview-outer-frame {{previewType}}-preview-landscape">
+                    <div class="{{previewType}}-preview-container preview-container">
+                        <iframe class="preview-iframe"></iframe>
+                    </div>
                 </div>
             </div>
         </div>

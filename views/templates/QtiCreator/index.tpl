@@ -508,7 +508,6 @@ use oat\taoQtiItem\helpers\Authoring;
 
 <!-- item panel -->
 <main id="item-editor-panel" class="clearfix tao-scope">
-    <div id="modalFeedbacks"></div>
 </main>
 <!-- /item panel -->
 </div>

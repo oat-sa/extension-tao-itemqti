@@ -25,6 +25,11 @@
     z-index:9;
 }
 
+#modalFeedbacks {
+    max-height:0;
+}
+
+
 .mini-tlb {
     .tlb-button {
         color: $textColor !important;

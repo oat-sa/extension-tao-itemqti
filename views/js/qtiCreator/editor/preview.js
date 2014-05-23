@@ -5,10 +5,11 @@ define([
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
     'tpl!taoQtiItem/qtiCreator/tpl/preview/preview',
-    'tpl!taoQtiItem/qtiCreator/tpl/preview/iframe',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'helpers',
+    'ui/modal',
     'select2'
-], function ($, _, __, commonRenderer, deviceList, previewTpl, iframeTpl, styleEditor) {
+], function ($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers) {
     'use strict'
 
     var overlay,
@@ -16,8 +17,14 @@ define([
         togglersByTarget = {},
         orientation = 'landscape',
         previewType = 'desktop',
+        previewTypes = ['desktop', 'mobile'],
         $doc = $(document),
-        screenWidth = $doc.width();
+        $window = $(window),
+        screenWidth = $doc.width(),
+        maxDeviceWidth = 0,
+        scaleFactor = 1,
+        hasBeenSavedOnce = false,
+        typeDependant;
 
     /**
      * Create data set for device selectors
@@ -39,6 +46,10 @@ define([
             options = [];
 
         _.forEach(devices, function(value) {
+
+            // figure out the widest possible screen to calculate the scale factor
+            maxDeviceWidth = Math.max(maxDeviceWidth, value.width);
+
             options.push({
                 value: [value.width, value.height].join(','),
                 label: value.label,
@@ -49,6 +60,62 @@ define([
         return options;
     };
 
+    /**
+     * Collect all elements that can toggle their class name between mobile-* and desktop-*
+     *
+     * @private
+     */
+    var _setupTypeDependantElements = function() {
+        typeDependant = overlay.add(overlay.find('.preview-scale-container').find('[class*="' + previewType + '"]'));
+    };
+
+
+    /**
+     * Change the class name of all type dependant elements
+     *
+     * @param type
+     */
+    var _setPreviewType = function(newType){
+
+        if(newType === previewType) {
+            return;
+        }
+        var re = new RegExp(previewType,'g');
+
+        typeDependant.each(function() {
+            this.className = this.className.replace(re, newType);
+        });
+
+        previewType = newType;
+    };
+
+
+    /**
+     * Set orientation
+     *
+     * @param newOrientation
+     * @private
+     */
+    var _setOrientation = function(newOrientation) {
+        if(newOrientation === orientation) {
+            return;
+        }
+
+        var re = new RegExp(orientation,'g'),
+            previewFrame = $('.preview-outer-frame')[0];
+
+        previewFrame.className = previewFrame.className.replace(re, newOrientation);
+
+        // reset global orientation
+        orientation = newOrientation;
+    };
+
+
+    /**
+     * Center the horizontal scroll bar if any
+     *
+     * @private
+     */
     var _center = function() {
         var previewContainer = $('.' + previewType + '-preview-frame'),
             previewWidth = previewContainer.outerWidth(),
@@ -58,8 +125,62 @@ define([
             return;
         }
 
-        $(window).scrollLeft(previewLeft);
+        $window.scrollLeft(previewLeft);
+    };
 
+
+
+    /**
+     * get with and height with scale factor taken in account
+     *
+     * @param sizeSettings
+     * @returns {*}
+     * @private
+     */
+    var _getScaledSettings = function(sizeSettings) {
+        var scaledSettings = _.clone(sizeSettings);
+        _(scaledSettings).forEach(function(value, key) {
+            scaledSettings[key] *= scaleFactor;
+        });
+        return scaledSettings;
+    };
+
+    var _scale = function(domElement) {
+        domElement.style['-webkit-transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
+        domElement.style['-ms-transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
+        domElement.style['transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
+        domElement.style['-webkit-transform-origin'] = 'top center';
+        domElement.style['-ms-transform-origin'] = 'top center';
+        domElement.style['transform-origin'] = 'top center';
+    };
+
+    /**
+     * Calculate the largest device frame width
+     *
+     * @returns {number}
+     * @private
+     */
+    var _getLargestFrameWidth = function() {
+        var i = previewTypes.length,
+            frameWidth = 0,
+            previewFrame;
+
+        while(i--) {
+            overlay.find('.toggle-view[data-target="' + previewTypes[i] + '"]').trigger('click');
+            previewFrame = overlay.find('.' + previewTypes[i] + '-preview-frame');
+            overlay.addClass('quick-show');
+            frameWidth = Math.max(frameWidth, previewFrame.outerWidth() - previewFrame.find('.preview-container').outerWidth());
+            overlay.removeClass('quick-show');
+        }
+
+        return frameWidth;
+    };
+
+    var _computeScaleFactor = function() {
+        var requiredWidth = maxDeviceWidth + _getLargestFrameWidth() + 20; // 20 = allow for some margin around the device
+        if(requiredWidth > screenWidth) {
+            scaleFactor = screenWidth / requiredWidth;
+        }
     };
 
     /**
@@ -71,11 +192,12 @@ define([
 
         overlay.find('.preview-device-selector').on('change', function() {
             var elem = $(this),
-                type = (this.className.indexOf('mobile') > -1 ? 'mobile' : 'desktop'),
+                type = elem.data('target'),
                 val = elem.val().split(','),
                 sizeSettings,
                 i = val.length,
-                container = $('.' + type + '-preview-container');
+                container = overlay.find('.' + type + '-preview-container'),
+                iframe = overlay.find('.preview-iframe');
 
 
             while (i--) {
@@ -101,7 +223,11 @@ define([
             }
 
             container.css(sizeSettings);
-            previewType = type;
+
+            _scale($('.preview-scale-container')[0]);
+
+
+            _setPreviewType(type);
             _center();
 
         }).select2({
@@ -119,26 +245,32 @@ define([
         $('.orientation-selector').on('change', function () {
             var type = $(this).data('target'),
                 previewFrame = $('.' + type + '-preview-frame'),
-                previewContainer = previewFrame.find('.' + type + '-preview-container'),
+                container = previewFrame.find('.' + type + '-preview-container'),
+                iframe = overlay.find('.preview-iframe'),
                 sizeSettings,
+                scaledSettings,
                 newOrientation = $(this).val();
 
-                if (newOrientation === orientation) {
-                    return false;
-                }
+            if (newOrientation === orientation) {
+                return false;
+            }
 
-                sizeSettings = {
-                    height: previewContainer.width(),
-                    width: previewContainer.height()
-                };
+            sizeSettings = {
+                height: container.width(),
+                width: container.height()
+            };
 
-                previewContainer.css(sizeSettings);
-                previewFrame.removeClass(type + '-preview-' + orientation).addClass(type + '-preview-' + newOrientation);
+            scaledSettings = _getScaledSettings(sizeSettings);
 
-                // reset global orientation
-                orientation = newOrientation;
-                // scroll to center
-                _center();
+            container.css(scaledSettings);
+
+//            iframe.css(sizeSettings);
+//            _scale(iframe[0]);
+
+            _setOrientation(newOrientation);
+
+            // scroll to center
+            _center();
 
         }).select2({
             minimumResultsForSearch: -1
@@ -167,10 +299,11 @@ define([
     /**
      * Toggle between mobile and desktop
      *
-     * @param item @todo this needs to be removed if we decide to use iframes, see further notes below
+     *
      * @returns {*}
      */
-    var _setupTogglers = function (item) {
+    var _setupTogglers = function () {
+
 
         var togglers = overlay.find('.toggle-view');
 
@@ -180,88 +313,13 @@ define([
         });
 
         togglers.on('click', function () {
-            var target = $(this).data('target'),
-                newClass = 'preview-' + target,
-                oldClass = newClass === 'preview-desktop' ? 'preview-mobile' : 'preview-desktop',
-                targetContainer;
+            var newPreviewType = $(this).data('target');
 
-            overlay.removeClass(oldClass).addClass(newClass);
-            previewType = target;
+            _setPreviewType(newPreviewType);
 
-            /**
-             * @todo: Workaround to provide an easy switch between <div> and <iframe> rendering
-             * If we ultimately go for <iframes> the argument 'item' as well as the if-condition need to be removed
-             * If we stick to <div> the if-condition should be removed since 'item' would be mandatory
-             */
-            if(item) {
-                targetContainer =  $('.' + target + '-preview-container');
-                targetContainer.empty();
-                commonRenderer.render(item, targetContainer);
-            }
+            $('.' + newPreviewType + '-device-selector').trigger('change');
         });
     };
-
-    var _getIframeContentWindow = function(type) {
-        var dfd = new jQuery.Deferred();
-
-        var iframe = overlay.find('.' + type + '-preview-iframe');
-        if(iframe.contents().length){
-            dfd.resolve(iframe[0]);
-        }
-
-        iframe.on('load', function() {
-            dfd.resolve(iframe[0]);
-        });
-        return dfd.promise();
-    };
-
-
-    /**
-     * Create and populate iframes
-     *
-     * @todo this whole section is questionable. If we decide to use iframes rather than divs
-     * the iframe should be loaded as external resource
-     *
-     * @param item
-     * @private
-     */
-    var _setupIframes = function(item) {
-
-        $.when(_getIframeContentWindow('mobile'), _getIframeContentWindow('desktop'))
-            .then(function(mobile, desktop){
-
-                var iframeBoilerPlate = iframeTpl(),
-                    iframes = {},
-                    name;
-
-                _.forEach([mobile, desktop], function(iframe){
-                    name = iframe.name.replace('-preview-iframe', '');
-                    iframes[name] = $(iframe).contents()[0];
-                    iframes[name].open();
-                    iframes[name].write(_.clone(iframeBoilerPlate));
-                    iframes[name].close();
-
-                    iframes[name].$head = $(iframes[name].getElementsByTagName('head')[0]);
-                    iframes[name].$body = $(iframes[name].body);
-
-                    // build item
-                    iframes[name].itemWrapper = $(iframes[name].getElementById('iframe-item-container'));
-                    iframes[name].itemWrapper.empty();
-
-                    // item style sheets
-                    _.forEach(item.stylesheets, function(stylesheet){
-                        iframes[name].$head.append($(stylesheet.render()));
-                    });
-                    // @todo - this is broken but could be solved by loading external iframe rather than creating one
-                    //commonRenderer.render(item, iframes[name].itemWrapper);
-
-                    // add custom styles
-                    iframes[name].userStyles = $(iframes[name].getElementById('iframe-user-styles'));
-                    iframes[name].userStyles.text(styleEditor.create(false));
-                });
-            });
-    };
-
 
     /**
      * Remove possibly existing widgets and create a new one
@@ -269,31 +327,42 @@ define([
      * @param item
      * @private
      */
-    var _initWidget = function(item) {
+    var _initWidget = function() {
         $('.preview-overlay').remove();
         container = null;
         overlay = $(previewTpl({
             mobileDevices: _getDeviceSelectorData('mobile'),
-            desktopDevices: _getDeviceSelectorData('desktop')
+            desktopDevices: _getDeviceSelectorData('desktop'),
+            previewType: previewType
         }));
 
 
         $('body').append(overlay);
-        _center();
 
+        _setupTypeDependantElements();
         _setupDeviceSelectors();
         _setupOrientationSelectors();
         _setupCloser();
-
-        // @todo make decision between <iframe> and <div> rendering and remove irrelevant code below
-        // <div> version, see also comments in _setupTogglers()
-        _setupTogglers(item);
-
-        // <iframe> version, note the missing argument for _setupTogglers(), see also comments there
-        /*
         _setupTogglers();
-        _setupIframes(item);
-        */
+        _computeScaleFactor();
+        _center();
+
+        _setPreviewType(previewType);
+        _setOrientation(orientation);
+
+//        $window.on('resize, orientationchange', function() {
+//           // _computeScaleFactor();
+//        })
+    };
+
+    /**
+     * This should long term be done with a modal window
+     */
+    var _confirmPreview = function() {
+        if(!hasBeenSavedOnce) {
+            hasBeenSavedOnce = confirm(__('The item will be saved before it can be previewed\nPress cancel to abort'));
+        }
+        return hasBeenSavedOnce;
     };
 
 
@@ -302,17 +371,26 @@ define([
      *
      * @private
      */
-    var _showWidget = function(launcher) {
+    var _showWidget = function(launcher, widget) {
 
-        previewType = $(launcher).data('preview-type') || 'desktop';
+        var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
 
-        if (togglersByTarget[previewType]) {
-            togglersByTarget[previewType].trigger('click');
-        }
+        $('.preview-iframe').attr('src', itemUri);
 
-        overlay.fadeIn(function () {
-            overlay.height($doc.outerHeight());
-            overlay.find('select').trigger('change');
+
+        $.when(styleEditor.save(), widget.save()).done(function() {
+
+            previewType = $(launcher).data('preview-type') || 'desktop';
+
+            if (togglersByTarget[previewType]) {
+                togglersByTarget[previewType].trigger('click');
+            }
+
+            overlay.fadeIn(function () {
+                overlay.height($doc.outerHeight());
+                overlay.find('select').trigger('change');
+            });
+
         });
     };
 
@@ -323,14 +401,17 @@ define([
          * Create preview
          *
          * @param launchers - buttons to launch preview
-         * @param item
+         * @param widget
          */
-        var init = function(launchers, item){
+        var init = function(launchers, widget){
 
-            _initWidget(item);
+            _initWidget();
 
             $(launchers).on('click', function() {
-                _showWidget(this);
+                if(!_confirmPreview()) {
+                    return
+                };
+                _showWidget(this, widget);
             });
         };
 
