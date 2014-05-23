@@ -105,9 +105,8 @@ define([
             on : {
                 instanceReady : function(e){
 
-
                     var widgets = {};
-
+                    
                     //store it in editable elt data attr
                     $editable.data('editor', e.editor);
 
@@ -134,7 +133,7 @@ define([
 
                     _focus(e.editor);
 
-                    $editable.trigger('editorready');
+                    $editable.trigger('editorready', [e.editor]);
                 },
                 focus : function(e){
 

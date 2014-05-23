@@ -1,96 +1,113 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
+    'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
+    'jquery',
     'ui/modal'
-], function (
-    stateFactory,
-    Active
-    ) {
+], function(stateFactory, Active, commonRenderer, sizeFinder, $){
+
+    var _maxWidth = 800;
 
     /**
      * handle z-indices of sidebar and ckeditor
      */
-    var indices = (function () {
+    var indices = (function(){
 
-        var elements = {
-            sidebar: '#item-editor-item-widget-bar',
-            cke: '.cke',
-            ckeBase: '.cke_inner',
-            ckeNose: '.cke_nose',
-            ckeToolbar: '.cke_toolbar'
+        var selectors = {
+            sidebar : '#item-editor-item-widget-bar',
+            cke : '.cke',
+            ckeBase : '.cke_inner',
+            ckeNose : '.cke_nose',
+            ckeToolbar : '.cke_toolbar'
         };
 
         var raised = false,
-            element;
+            selector,
+            elements = {};
 
         return {
-            raise: function (baseIndex) {
-                var $elem,
-                    newIndex;
+            raise : function(baseIndex){
+
+                var $elem, index;
 
                 baseIndex = parseInt(baseIndex, 10);
 
-                for (element in elements) {
-                    $elem = $(elements[element]);
-                    elements[element] = {
-                        element: $elem,
-                        index: parseInt($elem.css('z-index'), 10)
+                for(selector in selectors){
+
+                    $elem = $(selectors[selector]);
+
+                    index = parseInt($elem.css('z-index'), 10);
+                    if(isNaN(index)){
+                        index = 100;
+                    }
+
+                    elements[selector] = {
+                        element : $elem,
+                        index : index
                     };
 
-                    newIndex = isNaN(elements[element].index) ? baseIndex + 100 : elements[element].index + baseIndex;
-                    $elem.css('z-index', newIndex);
+                    $elem.css('z-index', elements[selector].index + baseIndex);
                 }
             },
-            reset: function () {
-                if (!raised) {
+            reset : function(){
+                if(!raised){
                     return;
                 }
-                for (element in elements) {
-                    elements[element].element.css('z-index', elements[element].index);
+                for(selector in elements){
+                    elements[selector].element.css('z-index', elements[selector].index);
                 }
             }
         }
     }());
 
-    var _ckeIsReady = function() {
-        var dfd = new jQuery.Deferred(),
+    var _ckeIsReady = function($editable){
+        
+        var dfd = new $.Deferred(),
             iteration = 0;
 
-        var poll = function() {
-            if(iteration > 20) {
-              return;
+        var poll = function(){
+            
+            var editor = $editable.data('editor')
+            
+            if(iteration > 20){
+                return;
             }
-            var cke = $('.cke');
-            if(cke.length){
+            
+            if(editor){
                 dfd.resolve();
-            }
-            else {
+            }else{
                 setTimeout(poll, 200);
             }
+            
         };
         poll();
 
         return dfd.promise();
     };
 
-
-    var StaticStateActive = stateFactory.extend(Active, function () {
+    var StaticStateActive = stateFactory.extend(Active, function(){
 
         var _widget = this.widget,
-            $container = this.widget.$container;
+            $container = this.widget.$container,
+            $editable = $container.find('[data-html-editable]');
 
-        $container.modal({startClosed: true, width:500});
-        $container.modal('open');
+        sizeFinder.measure($container, null, function(size){
 
-        $.when(_ckeIsReady()).then(function(){
-            indices.raise($container.css('z-index'));
+            $container.modal({startClosed : true, width : Math.min(size.width, commonRenderer.maxWidth)});
+            $container.modal('open');
+
+            $.when(_ckeIsReady($editable)).then(function(){
+                indices.raise($container.css('z-index'));
+            });
+
+            $container.on('closed.modal', function(){
+                _widget.changeState('sleep');
+            });
+
         });
 
-        $container.on('closed.modal', function () {
-            _widget.changeState('sleep');
-        });
-
-    }, function () {
+    }, function(){
 
         var $container = this.widget.$container;
 
@@ -99,6 +116,9 @@ define([
 
         // reset ck and sidebar
         indices.reset();
+        
+        //close ck tlb
+        $container.find('.tlb-button.active[data-role=cke-launcher]').click();
     });
 
     return StaticStateActive;
