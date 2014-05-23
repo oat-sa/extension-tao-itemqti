@@ -79,7 +79,7 @@ define([
         var _widget = this.widget,
             $container = this.widget.$container;
 
-        $container.modal({startClosed: true});
+        $container.modal({startClosed: true, width:500});
         $container.modal('open');
 
         $.when(_ckeIsReady()).then(function(){

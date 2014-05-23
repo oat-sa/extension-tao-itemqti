@@ -13,7 +13,7 @@ define([
             
             data = data || {};
             
-            var $modal = $('#' + modalFeedback.getSerial()).modal();
+            var $modal = $('#' + modalFeedback.getSerial()).modal({startClosed: false, width:500});
             
             $modal.on('closed.modal', function(){
                if(_.isFunction(data.callback)){
