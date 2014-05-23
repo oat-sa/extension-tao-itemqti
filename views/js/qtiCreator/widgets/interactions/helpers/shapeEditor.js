@@ -172,7 +172,8 @@ define([
                  */ 
                 function startResize (){ 
                     var handler  = this; 
-                    self.setState('resizing', true);
+                    self.setState('resizing', true)
+                        .trigger('shapechanging.qti-widget');
                     
                     //create a layer to be reiszed
                     self.layer = self.shape.clone();
@@ -300,7 +301,8 @@ define([
                  * @private
                  */ 
                 function startMove(x, y , event){
-                    self.setState('moving', true);
+                    self.setState('moving', true)
+                        .trigger('shapechanging.qti-widget');
                     
                     var mousePoint = graphicHelper.getPoint(event, paper, $container, isResponsive);
                     this.startPoint = {

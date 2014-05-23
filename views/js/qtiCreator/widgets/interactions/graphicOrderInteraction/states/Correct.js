@@ -19,8 +19,6 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
        
-        console.log(response);
-
         //really need to destroy before ? 
         GraphicOrderInteraction.destroy(interaction);
 
@@ -37,7 +35,6 @@ define([
         GraphicOrderInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            console.log('response change', data);
             response.setCorrect(PciResponse.unserialize(data.response, interaction)); 
         });
 

@@ -98,6 +98,7 @@ define([
                 title : __('Select an image first.')
             }).appendTo($imageBox);
         },
+
         /**
          * Create shapes for the response mapping areas
          * @param {String} shapeType - the QTI shape type 

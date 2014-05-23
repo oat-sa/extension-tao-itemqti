@@ -21,6 +21,7 @@ define([
      * @param {shapeCreated} [options.shapeCreated]
      * @param {shapeRemoved} [options.shapeRemoved]
      * @param {shapeChange} [options.shapeChange]
+     * @param {shapeChanging} [options.shapeChanging]
      * @param {enterHandling} [options.enterHandling]
      * @param {quitHandling} [options.quitHandling]
      * @returns {InteractionShapeEditor}
@@ -62,10 +63,10 @@ define([
 
                 //once a shape type is selected
                 $sideBar.on('shapeactive.qti-widget', function(e, $form, type){
-            
+                
                     //enable to create a shape of the given type
                     createShape(type, function shapeCreated (shape){
-
+                        
                         if(_.isFunction(options.shapeCreated)){
                         
                             /**
@@ -81,8 +82,9 @@ define([
                         $form.removeClass('active');
 
                         //start the shape editor (hnadling, resize, move)
-                        editShape(shape, true);
-                        
+                        if(type !== 'target'){
+                            editShape(shape, true);
+                        }
                     });
                 });
 
@@ -133,6 +135,18 @@ define([
                              */
                             options.enterHandling(shape);
                         }                
+                    }).on('shapechanging.qti-widget', function(){
+
+                        if(_.isFunction(options.shapeChanging)){
+                            
+                            /**
+                             * Called back when a shape is being changed
+                             * @callback shapeChanging
+                             * @param {Raphael.Element} shape - the shape
+                             */
+                            options.shapeChanging(shape);
+                        }                
+
                     }).on('shapechange.qti-widget', function(){
 
                         if(_.isFunction(options.shapeChange)){
@@ -196,11 +210,7 @@ define([
                     } 
                     
                     factory.on('created.qti-widget', created); 
-                    if( type === 'path'){
-                        factory.startDrawingPath();
-                    } else {    
-                        factory.startWithMouse();
-                    }
+                    factory.start();
                 }
             },
 

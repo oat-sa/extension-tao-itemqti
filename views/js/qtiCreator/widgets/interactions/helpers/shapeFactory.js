@@ -39,6 +39,42 @@ define([
                 this.states[state] = value;
             },
 
+            /**
+             * Start the shape creation
+             */ 
+            start : function(){
+                switch(type){
+                    case 'path'     : this.startDrawingPath(); break;
+                    case 'target'   : this.startPositionTarget(); break;
+                    default         : this.startWithMouse(); break;
+                }
+            },
+
+            startPositionTarget : function startPositionTarget(){
+                var self = this;
+                self.setState('drawing', true);
+
+                background.click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+ 
+                    //get the current mouse point, even on a responsive paper
+                    var point = graphicHelper.getPoint(e, paper, $container, isResponsive);
+                    
+                    //add the point to the paper
+                    graphicHelper.createTarget(paper, {
+                        point : point, 
+                        create : function created(target){
+                            self.setState('drawing', false);
+                            background.unclick();
+                            if(self._events['created.qti-widget']){
+                               self._events['created.qti-widget'].call(this, target); 
+                            }
+                        }
+                    });
+                });
+            },
+
             startDrawingPath : function startDrawingPath(){
                 var self = this;
                 var builder = pathBuilder(paper);

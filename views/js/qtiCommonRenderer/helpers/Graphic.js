@@ -301,6 +301,78 @@ define([
         },
 
         /**
+         * Create target point
+         * @param {Raphael.Paper} paper - the paper
+         * @param {Object} [options]
+         * @param {Object} [options.id] - and id to identify the target
+         * @param {Object} [options.point] - the point to add to the paper
+         * @param {Number} [options.point.x = 0] - point's x coord
+         * @param {Number} [options.point.y = 0] - point's y coord 
+         * @param {Function} [options.create] - call once created
+         * @param {Function} [options.remove] - call once removed
+         */
+        createTarget : function createTarget(paper, options){
+            var self    = this;
+            options     = options || {};
+            var point   = options.point || {x : 0, y : 0};
+            var x       = point.x >= 9 ? point.x - 9 : 0;
+            var y       = point.y >= 9 ? point.y - 9 : 0;
+        
+            //create the target from a path
+            var target = paper
+                .path(gstyle.target.path)
+                .transform('T' + (point.x - 9) + ',' + (point.y - 9))
+                .attr(gstyle.target)
+                .attr('title', _('Click again to remove'));
+
+            //generate an id if not set in options
+            if(options.id){
+                target.id = options.id;
+            } else {
+                var count = 0;
+                paper.forEach(function(element){
+                    if(element.data('target')){
+                        count++;
+                    }   
+                });
+                target.id = 'target-' + count;
+            }
+
+            //create an invisible rect over the target to ensure path selection
+            var layer = paper
+                .rect(point.x - 9, point.y - 9, 18, 18)
+                .attr(gstyle.layer)
+                .hover(function(){
+                    if(!target.flashing){
+                        self.setStyle(target, 'target-hover');
+                    }
+                }, function(){
+                    if(!target.flashing){
+                        self.setStyle(target, 'target-success');
+                    }
+                })
+                .click(function(){
+                    var id = target.id;
+                    this.remove();
+                    target.remove();
+                    if(_.isFunction(options.remove)){
+                        options.remove(id);
+                    }
+                });
+
+
+            layer.data('point', point);
+            target.data('target', point);
+
+            if(_.isFunction(options.create)){
+                options.create(target);
+            }
+    
+            return target;
+        },
+
+
+        /**
          * Get the Raphael coordinate from QTI coordinate
          * @param {Raphael.Paper} paper - the interaction paper
          * @param {String} type - the shape type

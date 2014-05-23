@@ -27,9 +27,8 @@ define([
         var widget      = this.widget;
         var interaction = widget.element;
         var response    = interaction.getResponseDeclaration();
-        var paper       = interaction.paper;
 
-        if(!paper){
+        if(!interaction.paper){
             return;
         }
 
@@ -37,35 +36,141 @@ define([
         SelectPointInteraction.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score'));
+        helper.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response.'));
         interaction.responseMappingMode = true;
+        if(_.isPlainObject(response.mapEntries)){
+            response.mapEntries = _.values(response.mapEntries);
+        }
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
         widget.createPaper(); 
 
+        _.forEach(response.mapEntries, function(area){
+            var id = areaId(area);        
+            var shape = widget.createResponseArea(area.shape, area.coords); 
+            var scoreElt = graphicHelper.createShapeText(interaction.paper, shape, {
+                        id          : 'score-' + id,
+                        content     : area.mappedValue + '',
+                        style       : 'score-text-default',
+                        title       : __('Score value'),
+                        shapeClick  : true
+                    });
+            shape.id = id; 
+        });
+
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
-            currents : [],
+            currents : response.mapEntries.map(areaId),
             target : true,
             shapeCreated : function(shape, type){
+
+                if(type === 'target'){
+                    
+                    var point = shape.data('target');
+                    response.setCorrect(point.x + ',' + point.y);
+                } else {
+
+                    //create an area for the mapping
+                    var area = {
+                        shape  : type === 'path' ? 'poly' : type,
+                        coords : graphicHelper.qtiCoords(shape),
+                        mappedValue :  response.mappingAttributes.defaultValue || '0'
+                    };
+                    var id = areaId(area);
+
+                    //display thedefault  score
+                    var scoreElt = graphicHelper.createShapeText(interaction.paper, shape, {
+                        id          : 'score-' + id,
+                        content     : area.mappedValue + '',
+                        style       : 'score-text-default',
+                        title       : __('Score value'),
+                        shapeClick  : true
+                    });
+
+                    //the score use the default value
+                    scoreElt.data('default', true); 
+
+                    //add an id to the shape                    
+                    shape.id = areaId(area);
+
+                    response.mapEntries.push(area);
+                }
             },
             shapeRemoved : function(id){
+                _.remove(response.mapEntries, function(area){
+                    return id && areaId(area) === id;
+                });
             },
             enterHandling : function(shape){
+                shape.toFront();
             },
-            quitHandling : function(){
+            quitHandling : function(shape){
+                var scoreElt = interaction.paper.getById('score-' + shape.id);
+                if(scoreElt){
+                    scoreElt.show().toFront();
+                }
+            },
+            shapeChanging : function(shape){
+                var scoreElt = interaction.paper.getById('score-' + shape.id);
+                if(scoreElt){
+                    scoreElt.hide();
+                }
             },
             shapeChange : function(shape){
+                var found = false;
+                _.forEach(response.mapEntries, function(area, index){
+                    if(areaId(area) === shape.id){
+                        found = index;
+                        return false;
+                    }
+                });
+                if(found !== false){
+                    response.mapEntries[found].coords = graphicHelper.qtiCoords(shape);
+
+                    //update the scoreTextPosition
+                    var scoreElt = interaction.paper.getById('score-' + shape.id);
+                    if(scoreElt){
+                        var bbox = shape.getBBox();
+                        var defaultState = scoreElt.data('default');
+                        scoreElt.attr({
+                            x : bbox.x + (bbox.width / 2), 
+                            y : bbox.y + (bbox.height / 2)
+                        }).show()
+                          .toFront();
+                        scoreElt.id = 'score-' + areaId(response.mapEntries[found]);
+                        //need to set data again because of the id change
+                        scoreElt.data('default', !!defaultState);
+                    }
+                    shape.id = areaId(response.mapEntries[found]);
+                }
+
+
             }
         });
 
         //and create it
         widget._editor.create();
 
-        initResponseMapping(widget);           
+        //initResponseMapping(widget);          
+
+        //update the elements on attribute changes
+        widget.on('mappingAttributeChange', function(data){
+            if(data.key === 'defaultValue'){
+                interaction.paper.forEach(function(element){
+                    if(/^score/.test(element.id) && element.data('default') === true){
+                        element.attr({text : data.value });
+                    }
+                });
+            }
+        });
 
         //set the current corrects responses on the paper
         //SelectPointInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
+
+        function areaId(area){
+            return area.shape + '-' + area.coords;
+        }
+        
     }
 
     /**
@@ -74,6 +179,14 @@ define([
     function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
+
+        if(!interaction.paper){
+            return;
+        }
+
+        if(widget._editor){
+            widget._editor.destroy();
+        }
         
         //destroy the common renderer
         helper.removeInstructions(interaction);

@@ -32,7 +32,7 @@ define([
                 this.addClass('responsive');
             }
             this.createResponse({
-                baseType:'identifier',
+                baseType:'point',
                 cardinality:'single'
             }, 'MAP_RESPONSE_POINT');
         }

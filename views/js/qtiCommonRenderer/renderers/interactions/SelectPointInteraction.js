@@ -43,7 +43,9 @@ define([
             choiceCount : false,
             getResponse : _getRawResponse,
             onError : function(data){
-                graphic.highlightError(data.target, 'success');
+                if(data){
+                    graphic.highlightError(data.target, 'success');
+                }
             }
         }); 
     };
@@ -54,11 +56,12 @@ define([
      * @param {object} interaction
      */
     var _enableSelection = function _enableSelection(interaction){
-        var $container = Helper.getContainer(interaction);
-        var isResponsive = $container.hasClass('responsive');
-        var $imageBox = $container.find('.main-image-box');
-        var image = interaction.paper.getById('bg-image-' + interaction.serial);
-        var isTouch = false;
+        var maxChoices      = interaction.attr('maxChoices');
+        var $container      = Helper.getContainer(interaction);
+        var $imageBox       = $container.find('.main-image-box');
+        var isResponsive    = $container.hasClass('responsive');
+        var image           = interaction.paper.getById('bg-image-' + interaction.serial);
+        var isTouch         = false;
 
         //used to see if we are in a touch context
         image.touchstart(function(){
@@ -68,71 +71,36 @@ define([
 
         //get the point on click
         image.click(function imageClicked(event){
+
+            if(maxChoices > 0 && _getRawResponse(interaction).length >= maxChoices){
+                Helper.validateInstructions(interaction);
+                return;
+            } 
     
             //get the current mouse point, even on a responsive paper
             var point = graphic.getPoint(event, interaction.paper, $imageBox, isResponsive);
             
             //add the point to the paper
-            _addPoint(interaction, point, function pointAdded (target){
-                if(isTouch && target){
-                    graphic.createTouchCircle(interaction.paper, target.getBBox());
+            graphic.createTarget(interaction.paper, {
+                point : point, 
+                create : changePoint,
+                remove : function pointRemoved (){
+                    changePoint();
                 }
-                Helper.triggerResponseChangeEvent(interaction);
-                Helper.validateInstructions(interaction, {target : target});
             });
         });
-    };
 
-    /**
-     * Add a new point to the paper
-     * @private
-     * @param {Object} interaction
-     * @param {Object} point - the point to add to the paper
-     * @param {Number} point.x - point's x coord
-     * @param {Number} point.y - point's y coord 
-     * @param {Function} cb - call on change, added/removed
-     */
-    var _addPoint = function _addPoint(interaction, point, cb){
-        var x = point.x >= 9 ? point.x - 9 : 0;
-        var y = point.y >= 9 ? point.y - 9 : 0;
-
-        //create the target from a path
-        var target = interaction.paper
-            .path(graphic._style.target.path)
-            .transform('T' + (point.x - 9) + ',' + (point.y - 9))
-            .attr(graphic._style.target)
-            .attr('title', _('Click again to remove'));
-
-
-        //create an invisible rect over the target to ensure path selection
-        var layer = interaction.paper
-            .rect(point.x - 9, point.y - 9, 18, 18)
-            .attr(graphic._style.layer)
-            .hover(function(){
-                if(!target.flashing){
-                    graphic.setStyle(target, 'target-hover');
-                }
-            }, function(){
-                if(!target.flashing){
-                    graphic.setStyle(target, 'target-success');
-                }
-            })
-            .click(function(){
-                this.remove();
-                target.remove();
-                if(typeof cb === 'function'){
-                    cb();
-                }
-            });
-
-
-        layer.data('point', point);
-
-        if(typeof cb === 'function'){
-            cb(target);
+        /**
+         * When there is point added or reomved
+         */
+        function changePoint(target){
+            if(isTouch && target){
+                graphic.createTouchCircle(interaction.paper, target.getBBox());
+            }
+            Helper.triggerResponseChangeEvent(interaction);
+            Helper.validateInstructions(interaction, {target : target});
         }
     };
-
     /**
      * Get the responses from the interaction
      * @private 
@@ -181,7 +149,11 @@ define([
                     }
                 })
                 .filter(_.isObject)
-                .forEach(_.partial(_addPoint, interaction));
+                .forEach(function(point){
+                   graphic.createTarget(interaction.paper, {
+                        point : point
+                   }); 
+                });
             }
         }
     };
