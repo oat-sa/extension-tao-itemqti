@@ -11,8 +11,13 @@
     width: 150px;
     line-height: 24px;
     position: relative;
-    padding: 0 10px;
+    padding: 0;
+    margin-right: 1px;
     cursor: pointer;
+    label{
+        padding:0 10px;
+        margin:0;
+    }
     .icon-down {
         position: absolute;
         @include font-size(11);

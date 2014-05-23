@@ -1,4 +1,4 @@
 <span class="widget-box inlineChoiceInteraction-placeholder" data-serial="{{serial}}" data-qti-class="inlineChoiceInteraction">
-    -- {{__ "edit choices"}} --
+    <label>-- {{__ "edit choices"}} --</label>
     <span class="icon-down"></span>
 </span>

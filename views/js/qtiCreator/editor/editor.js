@@ -255,10 +255,7 @@ define([
              * #sidebar-right-response-properties
              */
 
-            openSections(
-                $('#sidebar-left-section-content-blocks, #sidebar-left-section-content-elements, #sidebar-left-section-block-interactions'),
-                false
-            );
+            openSections($('#sidebar-left-section-block-content, #sidebar-left-section-common-interactions'), false);
 
             elements.itemPanel.addClass('has-item');
 

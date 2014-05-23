@@ -34,7 +34,8 @@ use oat\taoQtiItem\model\qti\Parser;
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  */
-class Authoring{
+class Authoring
+{
 
     public static function setMediaResouceUrl($data){
 
@@ -44,13 +45,13 @@ class Authoring{
         if(!empty($data)){
             try{ //Parse data and replace img src by the media service URL
                 $updated = false;
-                $doc     = new DOMDocument;
+                $doc = new DOMDocument;
                 if($doc->loadHTML($data)){
 
-                    $tags    = array('img', 'object');
+                    $tags = array('img', 'object');
                     $srcAttr = array('src', 'data');
-                    $xpath   = new DOMXpath($doc);
-                    $query   = implode(' | ', array_map(create_function('$a', "return '//'.\$a;"), $tags));
+                    $xpath = new DOMXpath($doc);
+                    $query = implode(' | ', array_map(create_function('$a', "return '//'.\$a;"), $tags));
                     foreach($xpath->query($query) as $element){
                         foreach($srcAttr as $attr){
                             if($element->hasAttribute($attr)){
@@ -67,8 +68,7 @@ class Authoring{
                 if($updated){
                     $returnValue = $doc->saveHTML();
                 }
-            }
-            catch(DOMException $de){
+            }catch(DOMException $de){
                 //we render it anyway
                 common_Logger::w('DOMException in QTI data filtering');
             }
@@ -79,11 +79,11 @@ class Authoring{
 
     public static function restoreMediaResourceUrl($data){
 
-        $regex       = '/' . preg_quote(_url('getMediaResource', 'Items', 'taoItems') . '?path=', '/') . '([^"\']*)/im';
+        $regex = '/'.preg_quote(_url('getMediaResource', 'Items', 'taoItems').'?path=', '/').'([^"\']*)/im';
         $returnValue = preg_replace_callback(
-            $regex, function ($matches){
-            return isset($matches[1]) ? urldecode($matches[1]) : urldecode($matches[0]);
-        }, $data);
+                $regex, function ($matches){
+                    return isset($matches[1]) ? urldecode($matches[1]) : urldecode($matches[0]);
+                }, $data);
 
         return $returnValue;
     }
@@ -95,139 +95,113 @@ class Authoring{
     public static function getAvailableAuthoringElements(){
 
         $elements = array(
-            'Content Blocks'       => array(
-                array('title'    => __('Text Block'),
-                      'icon'     => 'font',
-                      'short'    => __('Text'),
-                      'qtiClass' => '_container', //a pseudo class introduced in TAO
+            'Block Elements & Inline Interactions' => array(
+                array('title' => __('Text Block'),
+                    'icon' => 'font',
+                    'short' => __('Block'),
+                    'qtiClass' => '_container', //a pseudo class introduced in TAO
                 ),
-                array('title'    => __('Rubric Block'),
-                      'icon'     => 'rubric',
-                      'short'    => __('Rubric'),
-                      'qtiClass' => 'rubricBlock',
-                      'disabled' => true
+                /*
+                array('title' => __('Rubric Block'),
+                    'icon' => 'rubric',
+                    'short' => __('Rubric'),
+                    'qtiClass' => 'rubricBlock',
+                    'disabled' => true
+                ),*/
+                array('title' => __('Inline Choice Interaction'),
+                    'icon' => 'inline-choice',
+                    'short' => __('Inline Choice'),
+                    'qtiClass' => 'inlineChoiceInteraction',
+                    'sub-group' => 'inline-interactions' // creates a panel with a subgroup for this element
                 ),
-                /* 'Inline Interactions' => array(*/
-                array('title'     => __('Inline Choice Interaction'),
-                      'icon'      => 'inline-choice',
-                      'short'     => __('Inline Choice'),
-                      'qtiClass'  => 'inlineChoiceInteraction',
-                      'sub-group' => 'inline-interactions' // creates a panel with a subgroup for this element
-                ),
-                array('title'     => __('Text Entry Interaction'),
-                      'icon'      => 'text-entry',
-                      'short'     => __('Text Entry'),
-                      'qtiClass'  => 'textEntryInteraction',
-                      'disabled'  => true,
-                      'sub-group' => 'inline-interactions'
-                    /* )*/
+                array('title' => __('Text Entry Interaction'),
+                    'icon' => 'text-entry',
+                    'short' => __('Text Entry'),
+                    'qtiClass' => 'textEntryInteraction',
+                    'sub-group' => 'inline-interactions'
                 ),
             ),
-            'Content Elements'     => array(
-                array('title'    => __('Image'),
-                      'icon'     => 'image',
-                      'short'    => __('Image'),
-                      'qtiClass' => 'img'
+            //other possibilities : basic, common, usual ... 
+            'Common Interactions' => array(
+                array('title' => __('Choice Interaction'),
+                    'icon' => 'choice',
+                    'short' => __('Choice'),
+                    'qtiClass' => 'choiceInteraction'
                 ),
-                array('title'    => __('Maths'),
-                      'icon'     => 'maths',
-                      'short'    => __('Maths'),
-                      'qtiClass' => 'math'
+                array('title' => __('Order Interaction'),
+                    'icon' => 'order',
+                    'short' => __('Order'),
+                    'qtiClass' => 'orderInteraction'
                 ),
-                array('title'    => __('Media'),
-                      'icon'     => 'media',
-                      'short'    => __('Media'),
-                      'qtiClass' => 'object',
-                      'disabled' => true
-                )
-            ),
-            'Block Interactions'   => array(
-                array('title'    => __('Choice Interaction'),
-                      'icon'     => 'choice',
-                      'short'    => __('Choice'),
-                      'qtiClass' => 'choiceInteraction'
+                array('title' => __('Associate Interaction'),
+                    'icon' => 'associate',
+                    'short' => __('Associate'),
+                    'qtiClass' => 'associateInteraction'
                 ),
-                array('title'    => __('Order Interaction'),
-                      'icon'     => 'order',
-                      'short'    => __('Order'),
-                      'qtiClass' => 'orderInteraction'
+                array('title' => __('Match Interaction'),
+                    'icon' => 'match',
+                    'short' => __('Match'),
+                    'qtiClass' => 'matchInteraction'
                 ),
-                array('title'    => __('Associate Interaction'),
-                      'icon'     => 'associate',
-                      'short'    => __('Associate'),
-                      'qtiClass' => 'associateInteraction'
+                array('title' => __('Hottext Interaction'),
+                    'icon' => 'hottext',
+                    'short' => __('Hottext'),
+                    'qtiClass' => 'hottextInteraction'
                 ),
-                array('title'    => __('Match Interaction'),
-                      'icon'     => 'match',
-                      'short'    => __('Match'),
-                      'qtiClass' => 'matchInteraction'
+                array('title' => __('Gap Match Interaction'),
+                    'icon' => 'gap-match',
+                    'short' => __('Gap Match'),
+                    'qtiClass' => 'gapMatchInteraction'
                 ),
-                array('title'    => __('Hottext Interaction'),
-                      'icon'     => 'hottext',
-                      'short'    => __('Hottext'),
-                      'qtiClass' => 'hottextInteraction',
-                      'disabled' => true
+                array('title' => __('Slider Interaction'),
+                    'icon' => 'slider',
+                    'short' => __('Slider'),
+                    'qtiClass' => 'sliderInteraction'
                 ),
-                array('title'    => __('Gap Match Interaction'),
-                      'icon'     => 'gap-match',
-                      'short'    => __('Gap Match'),
-                      'qtiClass' => 'gapMatchInteraction',
-                      'disabled' => true
+                array('title' => __('Extended Text Interaction'),
+                    'icon' => 'extended-text',
+                    'short' => __('Extended Text'),
+                    'qtiClass' => 'extendedTextInteraction',
+                    'disabled' => true
                 ),
-                array('title'    => __('Slider Interaction'),
-                      'icon'     => 'slider',
-                      'short'    => __('Slider'),
-                      'qtiClass' => 'sliderInteraction',
-                      'disabled' => true
+                array('title' => __('Upload Interaction'),
+                    'icon' => 'upload',
+                    'short' => __('File Upload'),
+                    'qtiClass' => 'uploadInteraction'
                 ),
-                array('title'    => __('Extended Text Interaction'),
-                      'icon'     => 'extended-text',
-                      'short'    => __('Extended Text'),
-                      'qtiClass' => 'extendedTextInteraction',
-                      'disabled' => true
-                ),
-                array('title'    => __('Upload Interaction'),
-                      'icon'     => 'upload',
-                      'short'    => __('Upload'),
-                      'qtiClass' => 'uploadInteraction'
-                ),
-                array('title'    => __('Media Interaction'),
-                      'icon'     => 'media',
-                      'short'    => __('Media'),
-                      'qtiClass' => 'mediaInteraction',
-                      'disabled' => false
+                array('title' => __('Media Interaction'),
+                    'icon' => 'media',
+                    'short' => __('Media'),
+                    'qtiClass' => 'mediaInteraction'
                 )
             ),
             'Graphic Interactions' => array(
-                array('title'    => __('Hotspot Interaction'),
-                      'icon'     => 'hotspot',
-                      'short'    => __('Hotspot'),
-                      'qtiClass' => 'hotspotInteraction'
+                array('title' => __('Hotspot Interaction'),
+                    'icon' => 'hotspot',
+                    'short' => __('Hotspot'),
+                    'qtiClass' => 'hotspotInteraction'
                 ),
-                array('title'    => __('Graphic Order Interaction'),
-                      'icon'     => 'graphic-order',
-                      'short'    => __('Graphic Order'),
-                      'qtiClass' => 'graphicOrderInteraction'
+                array('title' => __('Graphic Order Interaction'),
+                    'icon' => 'graphic-order',
+                    'short' => __('Graphic Order'),
+                    'qtiClass' => 'graphicOrderInteraction'
                 ),
-                array('title'    => __('Graphic Associate Interaction'),
-                      'icon'     => 'graphic-associate',
-                      'short'    => __('Graphic Associate'),
-                      'qtiClass' => 'graphicAssociateInteraction',
-                      'disabled' => true
+                array('title' => __('Graphic Associate Interaction'),
+                    'icon' => 'graphic-associate',
+                    'short' => __('Graphic Associate'),
+                    'qtiClass' => 'graphicAssociateInteraction'
                 ),
-                array('title'    => __('Graphic Gap Interaction'),
-                      'icon'     => 'graphic-gap',
-                      'short'    => __('Graphic Gap'),
-                      'qtiClass' => 'graphicGapInteraction',
-                      'disabled' => true
+                array('title' => __('Graphic Gap Interaction'),
+                    'icon' => 'graphic-gap',
+                    'short' => __('Graphic Gap'),
+                    'qtiClass' => 'graphicGapInteraction'
                 ),
-                array('title'    => __('Select Point Interaction'),
-                      'icon'     => 'select-point',
-                      'short'    => __('Select Point'),
-                      'qtiClass' => 'selectPointInteraction'
+                array('title' => __('Select Point Interaction'),
+                    'icon' => 'select-point',
+                    'short' => __('Select Point'),
+                    'qtiClass' => 'selectPointInteraction'
                 )
             )
-
         );
         foreach($elements as &$valueArr){
             foreach($valueArr as &$values){
@@ -248,10 +222,10 @@ class Authoring{
         $returnValue = '';
 
         // render and clean the xml
-        $dom                     = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput       = true;
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse    = false;
+        $dom->validateOnParse = false;
 
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
@@ -261,12 +235,11 @@ class Authoring{
                 $parserValidator = new Parser($returnValue);
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
-                    common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
+                    common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
 //                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
                 }
             }
-        }
-        else{
+        }else{
             $parserValidator = new Parser($qti);
             $parserValidator->validate();
             if(!$parserValidator->isValid()){
@@ -274,7 +247,7 @@ class Authoring{
             }
         }
 
-        return (string)$returnValue;
+        return (string) $returnValue;
     }
 
 }

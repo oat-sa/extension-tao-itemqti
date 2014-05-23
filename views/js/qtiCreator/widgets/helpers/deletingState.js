@@ -12,7 +12,7 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             e.stopPropagation();
         });
 
-        $('body').on('click.deleting', function(){
+        $('body').on('mousedown.deleting', function(){
             _confirmDeletion($messageBox, 400);
         });
 
