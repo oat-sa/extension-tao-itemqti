@@ -1,0 +1,869 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-24T15:15:20\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: sk-SK\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "-- Any kind of file --"
+msgstr ""
+
+msgid "A choice must be selected"
+msgstr ""
+
+msgid "A longer description of what the image represents."
+msgstr ""
+
+msgid "Adapt to item size"
+msgstr ""
+
+msgid "Adapt to screen size"
+msgstr ""
+
+msgid "Add a modal feedback"
+msgstr ""
+
+msgid "Add choice"
+msgstr ""
+
+msgid "Add else feedback"
+msgstr ""
+
+msgid "Add your own CSS"
+msgstr ""
+
+msgid "Alignment (optional)"
+msgstr ""
+
+msgid "Allowed number of choices"
+msgstr ""
+
+msgid "Allowed number of uses"
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Are you sure you want to delete this stylesheet?\n"
+"Warning: This action cannot be undone!"
+msgstr ""
+
+msgid "Associate"
+msgstr ""
+
+msgid "Associate Interaction"
+msgstr ""
+
+msgid "association pairs"
+msgstr ""
+
+msgid "autostart"
+msgstr ""
+
+msgid "Background color"
+msgstr ""
+
+msgid "block"
+msgstr ""
+
+msgid "Body Element Properties"
+msgstr ""
+
+msgid "Border color"
+msgstr ""
+
+msgid "Browse your computer and select the appropriate file."
+msgstr ""
+
+msgid "Browse..."
+msgstr ""
+
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgstr ""
+
+msgid "Choice"
+msgstr ""
+
+msgid "Choice Interaction"
+msgstr ""
+
+msgid "Choice Properties"
+msgstr ""
+
+msgid "choices"
+msgstr ""
+
+msgid "Click again to remove"
+msgstr ""
+
+msgid "Click to display interaction widget"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Correct"
+msgstr ""
+
+msgid "correct"
+msgstr ""
+
+msgid "CSV file"
+msgstr ""
+
+msgid "Currently a conversion from MathML to LaTeX is not available. If you editing MathML here, any LaTex code will be discarded."
+msgstr ""
+
+msgid "Custom Response Processing Mode"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Define correct response"
+msgstr ""
+
+msgid "define prompt"
+msgstr ""
+
+msgid "Define the correct response."
+msgstr ""
+
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr ""
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr ""
+
+msgid "Defined width"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "Delete else statement"
+msgstr ""
+
+msgid "Delete this modal feedback"
+msgstr ""
+
+msgid "Delete this stylesheet"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Desktop preview"
+msgstr ""
+
+msgid "Desktop Preview"
+msgstr ""
+
+msgid "Disable this stylesheet temporarily"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display larger editor"
+msgstr ""
+
+msgid "Display steps"
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid "Download this stylesheet"
+msgstr ""
+
+msgid "Draw a circle on the image"
+msgstr ""
+
+msgid "Draw a free form on the image"
+msgstr ""
+
+msgid "Draw a rectangle on the image"
+msgstr ""
+
+msgid "Draw an ellipsis on the image"
+msgstr ""
+
+msgid "e.g. 13"
+msgstr ""
+
+msgid "e.g. 960"
+msgstr ""
+
+msgid "edit choices"
+msgstr ""
+
+msgid "Edit Item"
+msgstr ""
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
+msgid "Edit math expression using MathML"
+msgstr ""
+
+msgid "Edit stylesheet label"
+msgstr ""
+
+msgid "Edit Widget"
+msgstr ""
+
+msgid "Editing Mode"
+msgstr ""
+
+msgid "elements"
+msgstr ""
+
+msgid "Enlarge font size"
+msgstr ""
+
+msgid "Extended Text"
+msgstr ""
+
+msgid "Extended Text Interaction"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Final rendering may differ from this preview!"
+msgstr ""
+
+msgid "Flash video"
+msgstr ""
+
+msgid "Font family"
+msgstr ""
+
+msgid "Font size"
+msgstr ""
+
+msgid "Gap Match"
+msgstr ""
+
+msgid "Gap Match Interaction"
+msgstr ""
+
+msgid "GIF image"
+msgstr ""
+
+msgid "Graphic Associate"
+msgstr ""
+
+msgid "Graphic Associate Interaction"
+msgstr ""
+
+msgid "Graphic Gap"
+msgstr ""
+
+msgid "Graphic Gap Interaction"
+msgstr ""
+
+msgid "Graphic Order"
+msgstr ""
+
+msgid "Graphic Order Interaction"
+msgstr ""
+
+msgid "Height (optional)"
+msgstr ""
+
+msgid "Horizontal"
+msgstr ""
+
+msgid "Hotspot"
+msgstr ""
+
+msgid "Hotspot Interaction"
+msgstr ""
+
+msgid "Hottext"
+msgstr ""
+
+msgid "Hottext Interaction"
+msgstr ""
+
+msgid "How the math expression should be displayed."
+msgstr ""
+
+msgid "How the math expression should be edited"
+msgstr ""
+
+msgid "identical pair already exists"
+msgstr ""
+
+msgid "identifier"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "incorrect"
+msgstr ""
+
+msgid "inline"
+msgstr ""
+
+msgid "Inline Choice"
+msgstr ""
+
+msgid "Inline Choice Interaction"
+msgstr ""
+
+msgid "Interaction Background"
+msgstr ""
+
+msgid "Interaction Properties"
+msgstr ""
+
+msgid "Invalid pattern"
+msgstr ""
+
+msgid "invalid qti"
+msgstr ""
+
+msgid "Is this choice the correct response?"
+msgstr ""
+
+msgid "Item creator"
+msgstr ""
+
+msgid "Item Properties"
+msgstr ""
+
+msgid "Item width"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Landscape"
+msgstr ""
+
+msgid "Latex"
+msgstr ""
+
+msgid "LaTex"
+msgstr ""
+
+msgid "leave empty"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "loop"
+msgstr ""
+
+msgid "Lower Bound"
+msgstr ""
+
+msgid "Lowerbound attribute"
+msgstr ""
+
+msgid "Make the slider pause at certain intervals"
+msgstr ""
+
+msgid "Mapping default"
+msgstr ""
+
+msgid "Match"
+msgstr ""
+
+msgid "Match Interaction"
+msgstr ""
+
+msgid "MathML"
+msgstr ""
+
+msgid "Maths"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Maximal score for this interaction."
+msgstr ""
+
+msgid "Maximum choices reached"
+msgstr ""
+
+msgid "Maximum number of choices reached."
+msgstr ""
+
+msgid "Media"
+msgstr ""
+
+msgid "Media Interaction"
+msgstr ""
+
+msgid "Microsoft Excel file"
+msgstr ""
+
+msgid "Microsoft Powerpoint file"
+msgstr ""
+
+msgid "Microsoft Word file"
+msgstr ""
+
+msgid "MIME-type"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Minimal  score for this interaction."
+msgstr ""
+
+msgid "Mobile preview"
+msgstr ""
+
+msgid "Mobile Preview"
+msgstr ""
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr ""
+
+msgid "Modal Feedbacks"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG media"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "new option"
+msgstr ""
+
+msgid "no configuration property needed"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "No value set"
+msgstr ""
+
+msgid "None defined yet."
+msgstr ""
+
+msgid "Number of associations"
+msgstr ""
+
+msgid "Number of choices"
+msgstr ""
+
+msgid "Number of steps"
+msgstr ""
+
+msgid "OGG media"
+msgstr ""
+
+msgid "one association pair"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Order Interaction"
+msgstr ""
+
+msgid "Orientation"
+msgstr ""
+
+msgid "PDF file"
+msgstr ""
+
+msgid "placeholder"
+msgstr ""
+
+msgid "Plain text"
+msgstr ""
+
+msgid "Please create areas that correspond to the response and associate them a score"
+msgstr ""
+
+msgid "Please define association pairs and their scores below."
+msgstr ""
+
+msgid "Please define the correct association pairs below."
+msgstr ""
+
+msgid "Please define the correct order in the box to the right."
+msgstr ""
+
+msgid "Please define the correct response and the score below."
+msgstr ""
+
+msgid "Please define the correct response below."
+msgstr ""
+
+msgid "Please order the choices below to set the correct answer"
+msgstr ""
+
+msgid "Please select the correct graphicAssociate choices below."
+msgstr ""
+
+msgid "Please select the correct graphicGapMatch choices below."
+msgstr ""
+
+msgid "Please select the correct hotspot choices below."
+msgstr ""
+
+msgid "Please select the correct selectPoint choices below."
+msgstr ""
+
+msgid "Please the score of each graphicAssociate choice."
+msgstr ""
+
+msgid "Please the score of each graphicGapMatch choice."
+msgstr ""
+
+msgid "Please the score of each hotspot choice."
+msgstr ""
+
+msgid "PNG image"
+msgstr ""
+
+msgid "Portrait"
+msgstr ""
+
+msgid "Preparing CSS, please wait…"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Question"
+msgstr ""
+
+msgid "Quick Preview"
+msgstr ""
+
+msgid "Quicktime video"
+msgstr ""
+
+msgid "Reduce font size"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "Remove custom background color"
+msgstr ""
+
+msgid "Remove custom border color"
+msgstr ""
+
+msgid "Remove custom font family"
+msgstr ""
+
+msgid "Remove custom font size"
+msgstr ""
+
+msgid "Remove custom item width"
+msgstr ""
+
+msgid "Remove custom text color"
+msgstr ""
+
+msgid "Remove Message"
+msgstr ""
+
+msgid "Remove the selected shape"
+msgstr ""
+
+msgid "required"
+msgstr ""
+
+msgid "Response"
+msgstr ""
+
+msgid "Response identifier"
+msgstr ""
+
+msgid "Response processing"
+msgstr ""
+
+msgid "Response Properties"
+msgstr ""
+
+msgid "Reverse"
+msgstr ""
+
+msgid "right"
+msgstr ""
+
+msgid "Rubric"
+msgstr ""
+
+msgid "Rubric Block"
+msgstr ""
+
+msgid "Same with an input"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "score"
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+msgid "Score range"
+msgstr ""
+
+msgid "select a choice"
+msgstr ""
+
+msgid "Select an image first"
+msgstr ""
+
+msgid "Select another area to complete the association"
+msgstr ""
+
+msgid "select correct choice"
+msgstr ""
+
+msgid "Select image"
+msgstr ""
+
+msgid "Select Point"
+msgstr ""
+
+msgid "Select Point Interaction"
+msgstr ""
+
+msgid "Select the area to add an image"
+msgstr ""
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr ""
+
+msgid "Select this area"
+msgstr ""
+
+msgid "Select this area to start an association"
+msgstr ""
+
+msgid "Set the score for this response"
+msgstr ""
+
+msgid "shuffle"
+msgstr ""
+
+msgid "Shuffle choices"
+msgstr ""
+
+msgid "Size and position"
+msgstr ""
+
+msgid "Slider"
+msgstr ""
+
+msgid "Slider Interaction"
+msgstr ""
+
+msgid "some text ..."
+msgstr ""
+
+msgid "Style Editor"
+msgstr ""
+
+msgid "Style Sheet Manager"
+msgstr ""
+
+msgid "SVG image"
+msgstr ""
+
+msgid "Switch to desktop"
+msgstr ""
+
+msgid "Switch to mobile"
+msgstr ""
+
+msgid "Table headings"
+msgstr ""
+
+msgid "TAO default styles"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Text Block"
+msgstr ""
+
+msgid "Text Block Properties"
+msgstr ""
+
+msgid "Text color"
+msgstr ""
+
+msgid "Text Entry"
+msgstr ""
+
+msgid "Text Entry Interaction"
+msgstr ""
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr ""
+
+msgid "The file path to the image."
+msgstr ""
+
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable"
+msgstr ""
+
+msgid "The identifier of the response. This identifier must not be assigned to any other response or item variable"
+msgstr ""
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr ""
+
+msgid "The maximum number of association is unlimited."
+msgstr ""
+
+msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr ""
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr ""
+
+msgid "The minimum number of answers is  "
+msgstr ""
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr ""
+
+msgid "The selected file is ready to be sent."
+msgstr ""
+
+msgid "The text to be displayed if the image is not available."
+msgstr ""
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr ""
+
+msgid "this identifier is already in use"
+msgstr ""
+
+msgid "Time dependent"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "undo"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload Interaction"
+msgstr ""
+
+msgid "Upper Bound"
+msgstr ""
+
+msgid "UpperBound attribute"
+msgstr ""
+
+msgid "Vertical"
+msgstr ""
+
+msgid "WAV audio"
+msgstr ""
+
+msgid "Width (optional)"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "You can select maximum"
+msgstr ""
+
+msgid "You can use maximum ' + max + ' choices"
+msgstr ""
+
+msgid "You have deleted"
+msgstr ""
+
+msgid "You have deleted an element"
+msgstr ""
+
+msgid "You have deleted an element."
+msgstr ""
+
+msgid "You may make as many association pairs as you want."
+msgstr ""
+
+msgid "You must select %1$d to %2$d choices."
+msgstr ""
+
+msgid "You must select 0 to %d choices."
+msgstr ""
+
+msgid "You must select at least"
+msgstr ""
+
+msgid "You must select exactly"
+msgstr ""
+
+msgid "You must select exactly %d choice(s)."
+msgstr ""
+
+msgid "You must use at least ' + min + ' choices"
+msgstr ""
+
+msgid "You need to make at least"
+msgstr ""
+
+msgid "ZIP file"
+msgstr ""
+
