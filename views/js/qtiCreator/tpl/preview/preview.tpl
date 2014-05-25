@@ -1,4 +1,4 @@
-<div class="preview-overlay tao-scope overlay preview-{{previewType}} item-no-print">
+<div class="preview-overlay tao-scope overlay preview-{{previewType}} item-no-print" style="overflow-x: hidden">
     <div class="preview-container-outer">
         <div class="preview-canvas">
             <form class="preview-utility-bar plain">
@@ -54,7 +54,7 @@
                 </div>
             </form>
             <div class="preview-modal-feedback"></div>
-            <div class="preview-scale-container">
+            <div class="preview-scale-container" style="position: relative;float:left">
                 <div class="{{previewType}}-preview-frame preview-outer-frame {{previewType}}-preview-landscape">
                     <div class="{{previewType}}-preview-container preview-container">
                         <iframe class="preview-iframe"></iframe>

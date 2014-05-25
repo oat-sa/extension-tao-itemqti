@@ -9,7 +9,7 @@ define([
     'helpers',
     'ui/modal',
     'select2'
-], function ($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers) {
+], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers) {
     'use strict'
 
     var overlay,
@@ -20,8 +20,14 @@ define([
         previewTypes = ['desktop', 'mobile'],
         $doc = $(document),
         $window = $(window),
-        screenWidth = $doc.width(),
-        maxDeviceWidth = 0,
+        screenSize = {
+            width: $window.width(),
+            height: $window.height()
+        },
+        maxDeviceSize = {
+            width: 0,
+            height: 0
+        },
         scaleFactor = 1,
         hasBeenSavedOnce = false,
         typeDependant;
@@ -48,7 +54,10 @@ define([
         _.forEach(devices, function(value) {
 
             // figure out the widest possible screen to calculate the scale factor
-            maxDeviceWidth = Math.max(maxDeviceWidth, value.width);
+            maxDeviceSize = {
+                width: Math.max(maxDeviceSize.width, value.width),
+                height: Math.max(maxDeviceSize.height, value.height)
+            };
 
             options.push({
                 value: [value.width, value.height].join(','),
@@ -75,12 +84,12 @@ define([
      *
      * @param type
      */
-    var _setPreviewType = function(newType){
+    var _setPreviewType = function(newType) {
 
-        if(newType === previewType) {
+        if (newType === previewType) {
             return;
         }
-        var re = new RegExp(previewType,'g');
+        var re = new RegExp(previewType, 'g');
 
         typeDependant.each(function() {
             this.className = this.className.replace(re, newType);
@@ -97,11 +106,11 @@ define([
      * @private
      */
     var _setOrientation = function(newOrientation) {
-        if(newOrientation === orientation) {
+        if (newOrientation === orientation) {
             return;
         }
 
-        var re = new RegExp(orientation,'g'),
+        var re = new RegExp(orientation, 'g'),
             previewFrame = $('.preview-outer-frame')[0];
 
         previewFrame.className = previewFrame.className.replace(re, newOrientation);
@@ -111,47 +120,19 @@ define([
     };
 
 
-    /**
-     * Center the horizontal scroll bar if any
-     *
-     * @private
-     */
-    var _center = function() {
-        var previewContainer = $('.' + previewType + '-preview-frame'),
-            previewWidth = previewContainer.outerWidth(),
-            previewLeft = (previewWidth - screenWidth) / 2;
-
-        if(previewWidth <= screenWidth) {
-            return;
-        }
-
-        $window.scrollLeft(previewLeft);
-    };
-
-
-
-    /**
-     * get with and height with scale factor taken in account
-     *
-     * @param sizeSettings
-     * @returns {*}
-     * @private
-     */
-    var _getScaledSettings = function(sizeSettings) {
-        var scaledSettings = _.clone(sizeSettings);
-        _(scaledSettings).forEach(function(value, key) {
-            scaledSettings[key] *= scaleFactor;
+    var _scale = function() {
+        var $scaleContainer = $('.preview-scale-container');
+        var containerScaledWidth = $scaleContainer.width() * scaleFactor;
+        var left = (screenSize.width - containerScaledWidth) / 2;
+        $scaleContainer.css({
+            left: left,
+            '-webkit-transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
+            '-ms-transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
+            'transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
+            '-webkit-transform-origin': '0 0',
+            '-ms-transform-origin': '0 0',
+            'transform-origin': '0 0'
         });
-        return scaledSettings;
-    };
-
-    var _scale = function(domElement) {
-        domElement.style['-webkit-transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
-        domElement.style['-ms-transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
-        domElement.style['transform'] = 'scale(' + scaleFactor + ',' + scaleFactor + ')';
-        domElement.style['-webkit-transform-origin'] = 'top center';
-        domElement.style['-ms-transform-origin'] = 'top center';
-        domElement.style['transform-origin'] = 'top center';
     };
 
     /**
@@ -160,27 +141,58 @@ define([
      * @returns {number}
      * @private
      */
-    var _getLargestFrameWidth = function() {
+    var _getLargestFrameSize = function() {
         var i = previewTypes.length,
-            frameWidth = 0,
-            previewFrame;
+            frameSize = {
+                width: 0,
+                height: 0
+            },
+            previewFrame,
+            previewContainer;
 
-        while(i--) {
+        while (i--) {
             overlay.find('.toggle-view[data-target="' + previewTypes[i] + '"]').trigger('click');
             previewFrame = overlay.find('.' + previewTypes[i] + '-preview-frame');
+            previewContainer = previewFrame.find('.preview-container');
+
             overlay.addClass('quick-show');
-            frameWidth = Math.max(frameWidth, previewFrame.outerWidth() - previewFrame.find('.preview-container').outerWidth());
+
+            frameSize = {
+                width: Math.max(frameSize.width, previewFrame.outerWidth() - previewContainer.outerWidth()),
+                height: Math.max(frameSize.height, previewFrame.outerHeight() - previewContainer.outerHeight())
+            },
             overlay.removeClass('quick-show');
         }
 
-        return frameWidth;
+        return frameSize;
     };
 
+
     var _computeScaleFactor = function() {
-        var requiredWidth = maxDeviceWidth + _getLargestFrameWidth() + 20; // 20 = allow for some margin around the device
-        if(requiredWidth > screenWidth) {
-            scaleFactor = screenWidth / requiredWidth;
+        var frameSize = _getLargestFrameSize();
+
+        var scaleValues = {
+            x: 1,
+            y: 1
+        };
+
+        // 60 = allow for some margin around the device
+        var requiredSize = {
+            width: maxDeviceSize.width + frameSize.width + 60,
+            height: maxDeviceSize.height + frameSize.height + 100 + $('.preview-utility-bar').outerHeight()
         }
+
+        if (requiredSize.width > screenSize.width) {
+            scaleValues.x = screenSize.width / requiredSize.width;
+        }
+
+        if (requiredSize.height > screenSize.height) {
+            scaleValues.y = screenSize.height / requiredSize.height;
+        }
+
+        console.log(requiredSize, screenSize, scaleValues)
+
+        scaleFactor = Math.min(scaleValues.x, scaleValues.y);
     };
 
     /**
@@ -209,26 +221,23 @@ define([
                     width: val[1],
                     height: val[0]
                 };
-            }
-            else {
+            } else {
                 sizeSettings = {
                     width: val[0],
                     height: val[1]
                 };
             }
 
-            if (sizeSettings.width === container.width()
-                && sizeSettings.height === container.height()) {
+            if (sizeSettings.width === container.width() && sizeSettings.height === container.height()) {
                 return false;
             }
 
             container.css(sizeSettings);
 
-            _scale($('.preview-scale-container')[0]);
+            _scale();
 
 
             _setPreviewType(type);
-            _center();
 
         }).select2({
             minimumResultsForSearch: -1
@@ -242,13 +251,12 @@ define([
      */
     var _setupOrientationSelectors = function() {
 
-        $('.orientation-selector').on('change', function () {
+        $('.orientation-selector').on('change', function() {
             var type = $(this).data('target'),
                 previewFrame = $('.' + type + '-preview-frame'),
                 container = previewFrame.find('.' + type + '-preview-container'),
                 iframe = overlay.find('.preview-iframe'),
                 sizeSettings,
-                scaledSettings,
                 newOrientation = $(this).val();
 
             if (newOrientation === orientation) {
@@ -260,17 +268,10 @@ define([
                 width: container.height()
             };
 
-            scaledSettings = _getScaledSettings(sizeSettings);
-
-            container.css(scaledSettings);
-
-//            iframe.css(sizeSettings);
-//            _scale(iframe[0]);
+            container.css(sizeSettings);
+            _scale();
 
             _setOrientation(newOrientation);
-
-            // scroll to center
-            _center();
 
         }).select2({
             minimumResultsForSearch: -1
@@ -282,14 +283,14 @@ define([
      *
      * @returns {*|HTMLElement}
      */
-    var _setupCloser = function () {
+    var _setupCloser = function() {
         var closer = overlay.find('.preview-closer');
-        closer.on('click', function () {
+        closer.on('click', function() {
             commonRenderer.setContext($('.item-editor-item'));
             overlay.fadeOut();
         });
 
-        $doc.keyup(function (e) {
+        $doc.keyup(function(e) {
             if (e.keyCode == 27) {
                 closer.trigger('click');
             }
@@ -302,7 +303,7 @@ define([
      *
      * @returns {*}
      */
-    var _setupTogglers = function () {
+    var _setupTogglers = function() {
 
 
         var togglers = overlay.find('.toggle-view');
@@ -312,7 +313,7 @@ define([
             togglersByTarget[toggler.data('target')] = toggler;
         });
 
-        togglers.on('click', function () {
+        togglers.on('click', function() {
             var newPreviewType = $(this).data('target');
 
             _setPreviewType(newPreviewType);
@@ -340,26 +341,31 @@ define([
         $('body').append(overlay);
 
         _setupTypeDependantElements();
+
         _setupDeviceSelectors();
         _setupOrientationSelectors();
-        _setupCloser();
         _setupTogglers();
+
+        _setupCloser();
+
         _computeScaleFactor();
-        _center();
 
         _setPreviewType(previewType);
         _setOrientation(orientation);
 
-//        $window.on('resize, orientationchange', function() {
-//           // _computeScaleFactor();
-//        })
+        $window.on('resize, orientationchange', function() {
+            if (overlay.is(':visible')) {
+                _computeScaleFactor();
+                _scale();
+            }
+        })
     };
 
     /**
      * This should long term be done with a modal window
      */
     var _confirmPreview = function() {
-        if(!hasBeenSavedOnce) {
+        if (!hasBeenSavedOnce) {
             hasBeenSavedOnce = confirm(__('The item will be saved before it can be previewed\nPress cancel to abort'));
         }
         return hasBeenSavedOnce;
@@ -386,16 +392,16 @@ define([
                 togglersByTarget[previewType].trigger('click');
             }
 
-            overlay.fadeIn(function () {
+            overlay.fadeIn(function() {
                 overlay.height($doc.outerHeight());
-                overlay.find('select').trigger('change');
+                overlay.find('select:visible').trigger('change');
             });
 
         });
     };
 
 
-    return (function ($) {
+    return (function($) {
 
         /**
          * Create preview
@@ -403,12 +409,12 @@ define([
          * @param launchers - buttons to launch preview
          * @param widget
          */
-        var init = function(launchers, widget){
+        var init = function(launchers, widget) {
 
             _initWidget();
 
             $(launchers).on('click', function() {
-                if(!_confirmPreview()) {
+                if (!_confirmPreview()) {
                     return
                 };
                 _showWidget(this, widget);
