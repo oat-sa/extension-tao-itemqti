@@ -141,7 +141,7 @@ define([
         
         var responseDeclaration = interaction.getResponseDeclaration();
         if(updateCardinality){
-            responseDeclaration.attr('cardinality', (maxChoice <= 1) ? 'single' : 'multiple');
+            responseDeclaration.attr('cardinality', (maxChoice === 1) ? 'single' : 'multiple');
         }
 
         if(maxChoice){
