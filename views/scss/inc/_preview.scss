@@ -7,6 +7,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    background: rgba(0, 0, 0, 0.7);
     &.quick-show {
         display:block;
         left: -10000px;
@@ -21,7 +22,12 @@
             display: none !important;
         }
     }
+    .preview-scale-container {
+        position: relative;
+        float:left
+    }
     .preview-container {
+
         background: white;
     }
     .preview-container-outer {
@@ -31,12 +37,25 @@
         height: 100%;
     }
     .preview-utility-bar {
-        background: mix(#fff, $websiteBorder, 70%);
-        margin-bottom: 30px;
+        background: mix(#fff, $grey, 85%);
+        margin-bottom: 20px;
         z-index: 9996;
         position: relative;
-        height: 47px;
+        overflow:hidden;
+        padding: 10px;
+        .preview-heading {
+            min-width: 140px;
+        }
+        .device-orientation {
+            min-width: 340px;
+            text-align: right
+        }
+        .device-toggle .btn-info {
+            display:inline-block;
+            min-width: 135px;
+        }
     }
+
     .preview-utility-bar-inner {
         &.positioned {
             position: absolute;
@@ -50,11 +69,6 @@
         }
         .tbl-cell {
             vertical-align: middle;
-        }
-        .feedback-info {
-           padding: 6px 20px 5px 35px;
-            position: relative;
-            top: 3px;
         }
         .icon-info {
             top: 7px;
@@ -77,13 +91,42 @@
             width: 130px;
         }
     }
+    .preview-message-box {
+        .feedback-info {
+            margin: 10px auto 0px;
+            width: 700px;
+        }
+    }
     .desktop-preview-container {
         width: 1024px;
         background:white;
-        @include simple-border();
-        -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-        -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-        box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+    }
+    .desktop-preview-frame {
+        &.desktop-preview-landscape {
+            padding: 30px 30px;
+            .desktop-device-toolbar {
+                padding-right: 30px;
+            }
+        }
+        &.desktop-preview-portrait {
+            padding: 30px 30px;
+            .desktop-device-toolbar {
+                padding-right: 30px;
+            }
+        }
+        position: relative;
+        border: 3px #aaa solid;
+        border-radius: 5px;
+        background: rgb(90, 90, 90);
+        background: -moz-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgb(90, 90, 90)), color-stop(7%, rgb(86, 86, 86)), color-stop(15%, rgb(68, 68, 68)), color-stop(30%, rgb(20, 20, 20)));
+        background: -webkit-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+        background: -o-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+        background: -ms-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+        background: linear-gradient(135deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5a5a5a', endColorstr='#141414', GradientType=1);
+        -webkit-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, .5);
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, .7);
     }
     .desktop-preview-item-container {
         min-height: 500px;

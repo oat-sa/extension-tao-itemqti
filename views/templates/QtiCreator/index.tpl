@@ -359,28 +359,28 @@ use oat\taoQtiItem\helpers\Authoring;
                             <span class="icon-eraser reset-button" data-value="background-color"
                                   title="<?=__('Remove custom background color')?>"></span>
                             <span class="color-trigger" id="initial-bg" data-value="background-color"
-                                  data-target=".tao-scope div.qti-item"></span>
+                                  data-target="body div.qti-item.tao-scope"></span>
                         </div>
                         <div class="clearfix">
                             <label for="initial-color"><?=__('Text color')?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?=__('Remove custom text color')?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="color"
-                                  data-target=".tao-scope div.qti-item"></span>
+                                  data-target="body div.qti-item.tao-scope"></span>
                         </div>
                         <div class="clearfix">
                             <label for="initial-color"><?=__('Border color')?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?=__('Remove custom border color')?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="border-color"
-                                  data-target=".tao-scope div.qti-item .solid,.tao-scope div.qti-item .matrix, .tao-scope div.qti-item table.matrix th, .tao-scope div.qti-item table.matrix td"></span>
+                                  data-target="body div.qti-item.tao-scope .solid,body div.qti-item.tao-scope .matrix, body div.qti-item.tao-scope table.matrix th, body div.qti-item.tao-scope table.matrix td"></span>
                         </div>
                         <div class="clearfix">
                             <label for="initial-color"><?=__('Table headings')?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?=__('Remove custom background color')?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="background-color"
-                                  data-target=".tao-scope div.qti-item .matrix th"></span>
+                                  data-target="body div.qti-item.tao-scope .matrix th"></span>
                         </div>
                     </div>
                 </div>
@@ -392,7 +392,7 @@ use oat\taoQtiItem\helpers\Authoring;
 
                 <div class="reset-group">
                     <select
-                        data-target=".tao-scope div.qti-item"
+                        data-target="body div.qti-item.tao-scope"
                         id="item-editor-font-selector"
                         data-has-search="false"
                         data-placeholder="<?=__('Default')?>"
@@ -406,7 +406,7 @@ use oat\taoQtiItem\helpers\Authoring;
             <div class="panel">
                 <div><?=__('Font size')?></div>
                 <div class="reset-group">
-                            <span id="item-editor-font-size-changer" data-target=".tao-scope div.qti-item">
+                            <span id="item-editor-font-size-changer" data-target="body div.qti-item.tao-scope">
                                 <a href="#" data-action="reduce" title="<?=__('Reduce font size')?>"
                                    class="icon-smaller"></a>
                                 <a href="#" data-action="enlarge" title="<?=__('Enlarge font size')?>"
@@ -432,7 +432,7 @@ use oat\taoQtiItem\helpers\Authoring;
                 <div class="tooltip-content">
                     <?=__('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with.')?>
                 </div>
-                <div id="item-editor-item-resizer" data-target=".tao-scope div.qti-item">
+                <div id="item-editor-item-resizer" data-target="body div.qti-item.tao-scope">
                     <label class="smaller-prompt">
                         <input type="radio" name="item-width-prompt" checked value="no-slider">
                         <span class="icon-radio"></span>
@@ -515,10 +515,20 @@ use oat\taoQtiItem\helpers\Authoring;
 
 <!-- item panel -->
 <main id="item-editor-panel" class="clearfix tao-scope">
+
+
 </main>
 <!-- /item panel -->
 </div>
-
+<div class="preview-modal-feedback modal">
+    <div class="modal-body clearfix">
+        <p><?=__('The item needs to be saved before it can be previewed')?></p>
+        <div class="rgt">
+            <button class="btn-info small save" type="button"><?=__('Save')?></button>
+            <button class="btn-regular small cancel" type="button"><?=__('Cancel')?></button>
+        </div>
+    </div>
+</div>
 <div id="mediaManager"></div>
 </div>
 

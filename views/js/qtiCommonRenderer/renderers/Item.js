@@ -1,7 +1,15 @@
-define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/item', 'taoQtiItem/qtiCommonRenderer/helpers/Helper'], function(tpl, Helper){
+define([
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/item',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/itemStylesheetHandler'
+], function(tpl, Helper, itemStylesheetHandler){
     return {
         qtiClass : 'assessmentItem',
         template : tpl,
-        getContainer : Helper.getContainer
+        getContainer : Helper.getContainer,
+        render: function(item) {
+            console.log(item)
+            itemStylesheetHandler.attach(item.stylesheets);
+        }
     };
 });

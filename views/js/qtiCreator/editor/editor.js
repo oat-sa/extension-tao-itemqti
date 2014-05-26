@@ -201,8 +201,11 @@ define([
          * @param subGroup
          */
         var _toggleSubGroup = function(subGroup, state) {
-            var fn = state === 'disable' ? 'addClass' : 'removeClass';
-            $('.' + subGroup).data('cover')[fn]('blocking');
+            subGroup = $('.' + subGroup);
+            if(subGroup.length){
+                var fn = state === 'disable' ? 'addClass' : 'removeClass';
+                subGroup.data('cover')[fn]('blocking');
+            }
         };
 
 

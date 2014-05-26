@@ -21,8 +21,8 @@ define([
         $doc = $(document),
         $window = $(window),
         screenSize = {
-            width: $window.width(),
-            height: $window.height()
+            width: $window.innerWidth(),
+            height: $window.innerWidth()
         },
         maxDeviceSize = {
             width: 0,
@@ -119,7 +119,10 @@ define([
         orientation = newOrientation;
     };
 
-
+    /**
+     * Scale devices down to fit screen
+     * @private
+     */
     var _scale = function() {
         var $scaleContainer = $('.preview-scale-container');
         var containerScaledWidth = $scaleContainer.width() * scaleFactor;
@@ -133,12 +136,14 @@ define([
             '-ms-transform-origin': '0 0',
             'transform-origin': '0 0'
         });
+
+        $('.preview-utility-bar, .preview-message-box').width(screenSize.width);
     };
 
     /**
      * Calculate the largest device frame width
      *
-     * @returns {number}
+     * @returns {{width: number, height: number}}
      * @private
      */
     var _getLargestFrameSize = function() {
@@ -160,14 +165,18 @@ define([
             frameSize = {
                 width: Math.max(frameSize.width, previewFrame.outerWidth() - previewContainer.outerWidth()),
                 height: Math.max(frameSize.height, previewFrame.outerHeight() - previewContainer.outerHeight())
-            },
+            };
             overlay.removeClass('quick-show');
         }
 
         return frameSize;
     };
 
-
+    /**
+     * Compute scale factor based on screen size and device size
+     *
+     * @private
+     */
     var _computeScaleFactor = function() {
         var frameSize = _getLargestFrameSize();
 
@@ -176,11 +185,11 @@ define([
             y: 1
         };
 
-        // 60 = allow for some margin around the device
+        // 60/100 = allow for some margin around the device
         var requiredSize = {
             width: maxDeviceSize.width + frameSize.width + 60,
             height: maxDeviceSize.height + frameSize.height + 100 + $('.preview-utility-bar').outerHeight()
-        }
+        };
 
         if (requiredSize.width > screenSize.width) {
             scaleValues.x = screenSize.width / requiredSize.width;
@@ -189,8 +198,6 @@ define([
         if (requiredSize.height > screenSize.height) {
             scaleValues.y = screenSize.height / requiredSize.height;
         }
-
-        console.log(requiredSize, screenSize, scaleValues)
 
         scaleFactor = Math.min(scaleValues.x, scaleValues.y);
     };
@@ -271,6 +278,7 @@ define([
             container.css(sizeSettings);
             _scale();
 
+
             _setOrientation(newOrientation);
 
         }).select2({
@@ -283,8 +291,9 @@ define([
      *
      * @returns {*|HTMLElement}
      */
-    var _setupCloser = function() {
-        var closer = overlay.find('.preview-closer');
+    var _setupClosers = function() {
+        var closer = overlay.find('.preview-closer'),
+            feedbackCloser = overlay.find('.preview-message-box .close-trigger');
         closer.on('click', function() {
             commonRenderer.setContext($('.item-editor-item'));
             overlay.fadeOut();
@@ -295,6 +304,10 @@ define([
                 closer.trigger('click');
             }
         });
+
+        feedbackCloser.on('click', function() {
+            overlay.find('.preview-message-box').hide();
+        })
     };
 
     /**
@@ -346,7 +359,7 @@ define([
         _setupOrientationSelectors();
         _setupTogglers();
 
-        _setupCloser();
+        _setupClosers();
 
         _computeScaleFactor();
 
@@ -362,13 +375,26 @@ define([
     };
 
     /**
-     * This should long term be done with a modal window
+     * Confirm to save the item
      */
     var _confirmPreview = function() {
-        if (!hasBeenSavedOnce) {
-            hasBeenSavedOnce = confirm(__('The item will be saved before it can be previewed\nPress cancel to abort'));
-        }
-        return hasBeenSavedOnce;
+
+        var confirmBox = $('.preview-modal-feedback'),
+            cancel = confirmBox.find('.cancel'),
+            save = confirmBox.find('.save'),
+            close = confirmBox.find('.modal-close');
+
+            confirmBox.modal({ width: 500 });
+
+        save.on('click', function() {
+            hasBeenSavedOnce = true;
+            overlay.trigger('save.preview');
+            confirmBox.modal('close');
+        });
+
+        cancel.on('click', function() {
+            confirmBox.modal('close');
+        });
     };
 
 
@@ -379,25 +405,43 @@ define([
      */
     var _showWidget = function(launcher, widget) {
 
-        var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
+        var preview = function() {
+            var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
 
-        $('.preview-iframe').attr('src', itemUri);
+            $('.preview-iframe').attr('src', itemUri);
 
+            $.when(styleEditor.save(), widget.save()).done(function() {
 
-        $.when(styleEditor.save(), widget.save()).done(function() {
+                previewType = $(launcher).data('preview-type') || 'desktop';
 
-            previewType = $(launcher).data('preview-type') || 'desktop';
+                if (togglersByTarget[previewType]) {
+                    togglersByTarget[previewType].trigger('click');
+                }
 
-            if (togglersByTarget[previewType]) {
-                togglersByTarget[previewType].trigger('click');
-            }
-
-            overlay.fadeIn(function() {
+                overlay.show();
                 overlay.height($doc.outerHeight());
                 overlay.find('select:visible').trigger('change');
+                _scale();
             });
+            return true;
+        };
 
-        });
+
+
+        // wait for confirmation to save the item
+        if(!hasBeenSavedOnce) {
+            _confirmPreview();
+            overlay.on('save.preview', function() {
+                overlay.off('save.preview');
+                return preview();
+            });
+        }
+
+        else {
+            return preview();
+        }
+
+
     };
 
 
@@ -414,9 +458,6 @@ define([
             _initWidget();
 
             $(launchers).on('click', function() {
-                if (!_confirmPreview()) {
-                    return
-                };
                 _showWidget(this, widget);
             });
         };
