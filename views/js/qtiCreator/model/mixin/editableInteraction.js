@@ -49,6 +49,12 @@ define([
             response.setTemplate(template || 'MATCH_CORRECT');
             this.attr('responseIdentifier', response.id());
             
+            //set renderer
+            var renderer = this.getRenderer();
+            if(renderer){
+                response.setRenderer(renderer);
+            }
+            
             return response;
         },
         /**
