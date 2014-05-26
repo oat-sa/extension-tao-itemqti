@@ -19,6 +19,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'simpleChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleChoice',
         'simpleAssociableChoice' : 'taoQtiItem/qtiCreator/model/choices/SimpleAssociableChoice',
         'inlineChoice' : 'taoQtiItem/qtiCreator/model/choices/InlineChoice',
+        'textEntry' : 'taoQtiItem/qtiCreator/model/choices/TextEntry',
         'mediaInteraction' : 'taoQtiItem/qtiCreator/model/interactions/MediaInteraction',
         'sliderInteraction' : 'taoQtiItem/qtiCreator/model/interactions/SliderInteraction',
         'hotspotInteraction' : 'taoQtiItem/qtiCreator/model/interactions/HotspotInteraction',

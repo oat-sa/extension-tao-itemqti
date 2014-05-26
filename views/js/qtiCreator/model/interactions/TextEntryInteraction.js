@@ -26,7 +26,7 @@ define([
         },
         createChoice : function(){
             var choice = new Choice();
-            alert(1);
+
             this.addChoice(choice);
 
             var rank = _.size(this.getChoices());
