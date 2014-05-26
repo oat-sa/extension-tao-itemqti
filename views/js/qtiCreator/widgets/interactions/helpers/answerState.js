@@ -112,11 +112,7 @@ define([
                 },
                 defineCorrect : function(response, value){
                     _toggleCorrectWidgets(value);
-                    if(value){
-                        response.data('defineCorrect', defineCorrect);
-                    }else{
-                        response.removeData('defineCorrect');
-                    }
+                    response.data('defineCorrect', defineCorrect);
                 }
             });
 
