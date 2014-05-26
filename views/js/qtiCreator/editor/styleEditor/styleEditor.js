@@ -94,14 +94,14 @@ define([
                         for (mSelector in style[key1][key2]) {
                             css += key2 + '{';
                             for (mProp in style[key1][key2]) {
-                                css += mProp + ':' + style[key1][key2][mSelector] + ';'
+                                css += mProp + ':' + style[key1][key2][mSelector] + ';';
                             }
                             css += '}';
                         }
                     }
                     // regular selectors
                     else {
-                        css += key2 + ':' + style[key1][key2] + ';'
+                        css += key2 + ':' + style[key1][key2] + ';';
                     }
                 }
                 css += '}\n';
@@ -187,7 +187,7 @@ define([
          */
         var verifyInit = function() {
             if(!itemConfig) {
-                throw new Error('Missing itemConfig, did you call styleEditor.init()?')
+                throw new Error('Missing itemConfig, did you call styleEditor.init()?');
             }
             return true;
         };
@@ -310,10 +310,10 @@ define([
                 create();
 
                 // reset meta in case the width is set in the custom stylesheet
-                currentItem.data('responsive', style[resizerTarget] && style[resizerTarget].width > 0);
+                currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
 
                 // inform editors about custom sheet
-                $(doc).trigger('customcssloaded.styleeditor', style);
+                $(doc).trigger('customcssloaded.styleeditor', [style]);
             });
 
         };
@@ -333,7 +333,7 @@ define([
             getItem: getItem,
             getStyle: getStyle,
             addStylesheet: addStylesheet
-        }
+        };
     }($, document));
 
     return styleEditor;

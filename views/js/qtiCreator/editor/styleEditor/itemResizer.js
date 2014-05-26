@@ -1,23 +1,24 @@
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'nouislider',
     'jqueryui'
 
-], function ($, styleEditor) {
-    'use strict'
-
-
+], function ($, _, styleEditor) {
+    'use strict';
 
     /**
      * Adapt the image editor to the target screen the students will be using
+     * @param {Object} item - the current item
      */
-    var itemResizer = function () {
+    var itemResizer = function (item) {
 
         var itemResizer = $('#item-editor-item-resizer'),
             target = itemResizer.data('target'),
             $target = $(target),
             targetWidth = $target.width(),
+            itemWidthPrompt = itemResizer.find('[name="item-width-prompt"]'),
             sliderBox = itemResizer.find('.slider-box'),
             slider = itemResizer.find('#item-editor-item-resizer-slider'),
             input = $('#item-editor-item-resizer-text'),
@@ -50,13 +51,14 @@ define([
         /**
          * Initialize radio buttons
          */
-        itemResizer.find('[name="item-width-prompt"]').on('click', function() {
+        itemWidthPrompt.on('click', function() {
             // user intends to resize the item
             if(this.value === 'slider') {
                 resizeItem($target.width());
                 input.val($target.width());
                 sliderBox.slideDown();
                 slider.val($target.width()).trigger('slide');
+                item.data('responsive', false); 
             }
             // user wants to use default
             else {
@@ -66,6 +68,7 @@ define([
 
                 styleEditor.apply(target, 'width');
                 styleEditor.apply(target, 'max-width');
+                item.data('responsive', true); 
             }
         });
 
@@ -90,16 +93,14 @@ define([
 
         resetButton.on('click', reset);
         $(document).on('customcssloaded.styleeditor', function(e, style) {
-            
-            //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
-            return;
-            
             var width;
             if(style[target] && style[target].width) {
                 width = parseInt(style[target].width, 10);
                 input.val(width);
                 slider.val(width);
                 itemResizer.find('[value="slider"]').trigger('click');
+            } else {
+                itemResizer.find('[value="no-slider"]').trigger('click');
             }
         });
     };

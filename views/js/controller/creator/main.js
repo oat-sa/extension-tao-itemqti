@@ -50,7 +50,7 @@ define([
         fontSelector();
         colorSelector();
         fontSizeChanger();
-        itemResizer();
+        itemResizer(widget.element);
         preview.init($('.preview-trigger'), widget);
 
         preparePrint();
