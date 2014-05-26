@@ -16,6 +16,15 @@
         margin: 30px 0px 0px;
         display:none;
     }
+    .widget-inline{
+        display:inline-block;
+        &.hover{
+            @extend %editHover;
+        }
+        &.edit-active{
+            @extend %editActive;
+        }
+    }
 }
 
 .feedbackRules{

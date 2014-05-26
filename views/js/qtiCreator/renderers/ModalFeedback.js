@@ -14,7 +14,7 @@ define([
         var widget = Widget.build(
             modalFeedback,
             Renderer.getContainer(modalFeedback),
-            $(),
+            this.getOption('modalFeedbackOptionForm'),
             options
         );
                 

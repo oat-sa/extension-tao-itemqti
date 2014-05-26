@@ -20,6 +20,7 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery'], functi
                 responseOptionForm : $('#item-editor-response-property-bar .panel'),
                 bodyElementOptionForm : $('#item-editor-body-element-property-bar .panel'),
                 textOptionForm : $('#item-editor-text-property-bar .panel'),
+                modalFeedbackOptionForm : $('#item-editor-modal-feedback-property-bar .panel'),
                 mediaManager : {
                     appendContainer : '#mediaManager',
                     browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),

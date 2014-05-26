@@ -44,6 +44,7 @@ define([
             $formItemPanel = $('#item-editor-item-property-bar'),
             $formBodyElementPanel = $('#item-editor-body-element-property-bar'),
             $formTextBlockPanel = $('#item-editor-text-property-bar'),
+            $formModalFeedbackPanel = $('#item-editor-modal-feedback-property-bar'),
             $formStylePanel = $('#item-style-editor-bar'),
             $appearanceToggler = $('#appearance-trigger');
 
@@ -114,7 +115,11 @@ define([
                     }else if(element.qtiClass === '_container'){
                         showPanel($formTextBlockPanel);
                     }
-
+                    
+                    if(element.qtiClass === 'modalFeedback'){
+                        showPanel($formModalFeedbackPanel);
+                        $formResponsePanel.hide();
+                    }
                     break;
                 case 'question':
                     showPanel($formInteractionPanel);
@@ -143,6 +148,12 @@ define([
             
         }).on('beforeStateExit.qti-widget.panel', function(e, element, state){
             switch(state.name){
+                case 'active':
+                    if(element.qtiClass === 'modalFeedback'){
+                        showPanel($formResponsePanel);
+                        $formModalFeedbackPanel.hide();
+                    }
+                    break;
                 case 'question':
                     $formInteractionPanel.hide();
                     break;

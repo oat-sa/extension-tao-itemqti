@@ -496,6 +496,13 @@ use oat\taoQtiItem\helpers\Authoring;
             <div class="panel"></div>
         </section>
     </div>
+    <div class="item-editor-modal-feedback-related sidebar-right-section-box" id="item-editor-modal-feedback-property-bar">
+        <section class="tool-group clearfix" id="sidebar-right-response-properties">
+            <h2><?=__('Modal Feedback Prop.')?></h2>
+
+            <div class="panel"></div>
+        </section>
+    </div>
     <div class="item-editor-body-element-related sidebar-right-section-box" id="item-editor-body-element-property-bar">
         <section class="tool-group clearfix" id="sidebar-right-body-element-properties">
             <h2><?=__('Element Properties')?></h2>

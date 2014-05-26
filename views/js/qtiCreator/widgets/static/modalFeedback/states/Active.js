@@ -3,11 +3,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/modalFeedback',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, sizeFinder, $){
-
-    var _maxWidth = 800;
+], function(stateFactory, Active, commonRenderer, sizeFinder, formTpl, formElement, $){
 
     /**
      * handle z-indices of sidebar and ckeditor
@@ -86,7 +86,7 @@ define([
         return dfd.promise();
     };
 
-    var StaticStateActive = stateFactory.extend(Active, function(){
+    var ModalFeedbackStateActive = stateFactory.extend(Active, function(){
 
         var _widget = this.widget,
             $container = this.widget.$container,
@@ -100,18 +100,24 @@ define([
             $.when(_ckeIsReady($editable)).then(function(){
                 indices.raise($container.css('z-index'));
             });
-
+            
             $container.on('closed.modal', function(){
                 _widget.changeState('sleep');
             });
 
         });
-
+        
+        this.widget.offEvents('otherActive');
+        
+        //show option form
+        this.initForm();
+        this.widget.$form.show();
+        
     }, function(){
 
         var $container = this.widget.$container;
 
-        $container.off('opened.modal');
+        $container.off('opened.modal').off('.active');
         $container.modal('close');
 
         // reset ck and sidebar
@@ -119,7 +125,30 @@ define([
         
         //close ck tlb
         $container.find('.tlb-button.active[data-role=cke-launcher]').click();
+        
+        //destroy and hide it
+        this.widget.$form.empty().hide();
     });
+    
+    ModalFeedbackStateActive.prototype.initForm = function(){
 
-    return StaticStateActive;
+        var _widget = this.widget;
+
+        //build form:
+        _widget.$form.html(formTpl({
+            serial : _widget.element.getSerial(),
+            identifier : _widget.element.id()
+        }));
+
+        formElement.initWidget(_widget.$form);
+
+        //init data validation and binding
+        formElement.initDataBinding(_widget.$form, _widget.element, {
+            identifier : function(fb, value){
+                fb.id(value);
+            }
+        });
+    };
+    
+    return ModalFeedbackStateActive;
 });

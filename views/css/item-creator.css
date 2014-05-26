@@ -257,13 +257,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-color: #444 #999 #999 #444; }
 
 /* line 5, ../scss/item-creator.scss */
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
   cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
 
 /* line 10, ../scss/item-creator.scss */
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
   cursor: default;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
@@ -1786,7 +1786,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope #modalFeedbacks .widget-ok {
     margin: 30px 0px 0px;
     display: none; }
-  /* line 22, ../scss/qtiCreator/_modal-feedback.scss */
+  /* line 19, ../scss/qtiCreator/_modal-feedback.scss */
+  .tao-scope #modalFeedbacks .widget-inline {
+    display: inline-block; }
+  /* line 31, ../scss/qtiCreator/_modal-feedback.scss */
   .tao-scope .feedbackRules .feedbackRule-container {
     position: relative;
     margin: 5px 0;
@@ -1796,27 +1799,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -webkit-border-radius: 2px;
     background-color: rgba(255, 255, 255, 0.8);
     max-width: 500px; }
-    /* line 23, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 32, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container select {
       width: 190px; }
-    /* line 32, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 41, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-condition {
       width: 86px;
       min-width: 40px; }
-    /* line 36, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 45, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-desc {
       margin-bottom: 5px;
       width: 35px;
       display: inline-block; }
-    /* line 41, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 50, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-then-else {
       position: relative;
       margin-top: 5px; }
-      /* line 44, ../scss/qtiCreator/_modal-feedback.scss */
+      /* line 53, ../scss/qtiCreator/_modal-feedback.scss */
       .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-then-else .feedbackRule-button-delete {
         top: 5px;
         right: 2px; }
-    /* line 49, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 58, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-button-delete {
       position: absolute;
       top: 12px;
@@ -1824,14 +1827,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       cursor: pointer;
       font-size: 13px;
       font-size: 1.3rem; }
-      /* line 55, ../scss/qtiCreator/_modal-feedback.scss */
+      /* line 64, ../scss/qtiCreator/_modal-feedback.scss */
       .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-button-delete:hover {
         color: #3e7da7; }
-    /* line 59, ../scss/qtiCreator/_modal-feedback.scss */
+    /* line 68, ../scss/qtiCreator/_modal-feedback.scss */
     .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-compared-value {
       min-width: 35px;
       width: 35px; }
-  /* line 65, ../scss/qtiCreator/_modal-feedback.scss */
+  /* line 74, ../scss/qtiCreator/_modal-feedback.scss */
   .tao-scope .feedbackRules .feedbackRule-add,
   .tao-scope .feedbackRules .feedbackRule-add-else {
     display: block;
