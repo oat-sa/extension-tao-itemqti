@@ -12,17 +12,22 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             e.stopPropagation();
         });
 
-        $('body').on('mousedown.deleting', function(){
-            _confirmDeletion($messageBox, 400);
+        $('body').on('mousedown.deleting', function(e){
+            //confirm deleting whenever user interact with another object
+            if(e.target !== $messageBox[0] && !$.contains($messageBox[0], e.target)){
+                _confirmDeletion($messageBox, 400);
+            }
         });
-
-        $messageBox.find('a.undo').on('click', function(){
+        
+        $messageBox.find('a.undo').on('click', function(e){
+            e.preventDefault();
             $messageBox.trigger('undo.deleting');
             clearTimeout(timeout);
             $messageBox.remove();
         });
 
-        $messageBox.find('.close-trigger').on('click', function(){
+        $messageBox.find('.close-trigger').on('click', function(e){
+            e.preventDefault();
             _confirmDeletion($messageBox, 0);
         });
     };
