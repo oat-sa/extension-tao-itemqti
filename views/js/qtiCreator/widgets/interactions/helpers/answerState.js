@@ -155,6 +155,10 @@ define([
                 delete templates.MATCH_CORRECT;
                 delete templates.MAP_RESPONSE;
                 break;
+            case 'sliderInteraction':
+                delete templates.MAP_RESPONSE_POINT;
+                delete templates.MAP_RESPONSE;
+                break
             default:
                 delete templates.MAP_RESPONSE_POINT;
         }

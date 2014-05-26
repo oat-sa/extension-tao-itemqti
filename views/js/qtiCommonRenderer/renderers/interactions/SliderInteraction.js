@@ -103,6 +103,8 @@ define([
                 'sliderValue' : $sliderValue,
                 'sliderCurrentValue' : $sliderCurrentValue
             });
+            
+            Helper.triggerResponseChangeEvent(interaction);
         });
 
         _slideTo({
@@ -195,6 +197,12 @@ define([
     var getResponse = function(interaction){
         return pciResponse.serialize([_getRawResponse(interaction)], interaction);
     };
+    
+    var destroy = function(interaction) {
+        var $container = interaction.getContainer();
+        
+        $container.empty();
+    }
 
     return {
         qtiClass : 'sliderInteraction',
@@ -203,6 +211,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy: destroy
     };
 });

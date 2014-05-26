@@ -31,8 +31,9 @@ define([
             
             var lowerBound = interaction.attr('lowerBound');
             var upperBound = interaction.attr('upperBound');
+            var reverse = !!interaction.attr('reverse');
             
-            _widget.$container.find('.slider-min').text(attrValue);
+            _widget.$container.find((!reverse) ? '.slider-min' : '.slider-max').text(attrValue);
             _widget.$container.find('span.qti-slider-cur-value').text(lowerBound);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': lowerBound, 'max': upperBound }}, true);
             _widget.$container.find('.qti-slider').val(lowerBound);
@@ -45,8 +46,9 @@ define([
             
             var lowerBound = interaction.attr('lowerBound');
             var upperBound = interaction.attr('upperBound');
+            var reverse = !!interaction.attr('reverse');
             
-            _widget.$container.find('.slider-max').text(attrValue);
+            _widget.$container.find((!reverse) ? '.slider-max' : '.slider-min').text(attrValue);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': interaction.attr('lowerBound'), 'max': interaction.attr('upperBound') } }, true);
         };
         

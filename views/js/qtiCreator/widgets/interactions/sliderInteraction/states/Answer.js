@@ -5,7 +5,9 @@ define([
 ], function(stateFactory, Answer, answerStateHelper){
 
     var SliderInteractionStateAnswer = stateFactory.extend(Answer, function(){
-        answerStateHelper.forward(this.widget);
+        
+        // By default, select the correct state when entering response edition.
+        this.widget.changeState('correct');
         
     }, function(){
         
