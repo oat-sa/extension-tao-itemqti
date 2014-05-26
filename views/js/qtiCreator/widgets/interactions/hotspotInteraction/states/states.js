@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Map',
+    'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/Map'
 ], function(factory, states){
 
     //creates a state bundle for the interaction

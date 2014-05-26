@@ -12,11 +12,12 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicScorePopup',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'ui/incrementer',
+    'ui/deleter',
     'ui/tooltipster'
-], function($, _, __, stateFactory, Map, GraphicGapMatchInteraction, helper, graphicHelper, PciResponse, answerStateHelper,  mappingFormTpl, formElement, incrementer, tooltipster){
+], function($, _, __, stateFactory, Map, GraphicGapMatchInteraction, helper, graphicHelper, PciResponse, answerStateHelper,  grahicScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
 
     /**
      * Initialize the state.
@@ -29,6 +30,10 @@ define([
         //really need to destroy before ? 
         GraphicGapMatchInteraction.destroy(interaction);
         
+        if(!interaction.paper){
+            return;
+        }
+
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please the score of each graphicGapMatch choice.'));
         interaction.responseMappingMode = true;
@@ -49,6 +54,10 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         
+        if(!interaction.paper){
+            return;
+        }
+
         //destroy the common renderer
         helper.removeInstructions(interaction);
         GraphicGapMatchInteraction.destroy(interaction); 
@@ -64,51 +73,45 @@ define([
      * @param {Oject} widget - the current widget
      */
     function initResponseMapping(widget){
-        var $elements = {};
         var scoreTexts = {};
         var interaction = widget.element;
-        var $container = widget.$container; 
-        var responseDeclaration = interaction.getResponseDeclaration();
-        var mapEntries = responseDeclaration.getMapEntries(); 
-        var corrects = _.values(responseDeclaration.getCorrect());
-
+        var $container = widget.$original; 
         var $imageBox = $('.main-image-box', $container);
-        var boxOffset = $imageBox.offset();
-
+        var response = interaction.getResponseDeclaration();
+        var mapEntries = response.getMapEntries(); 
+        var corrects = _.values(response.getCorrect());
+        
         //get the shape of each choice
-        _.forEach(interaction.getChoices(), function(choice){    
-
+        _.forEach(interaction.getChoices(), function(choice){
             var shape = interaction.paper.getById(choice.serial);
-            var $shape = $(shape.node);
-            var $element = $('<div class="graphic-mapping-editor"></div>'); 
-            var offset = $shape.offset();
-            var bbox = shape.getBBox();
+            var $popup = grahicScorePopup(shape, $imageBox);
+            var score = mapEntries[choice.id()] || response.mappingAttributes.defaultValue || '0'; 
 
             //create an SVG  text from the default mapping value
             scoreTexts[choice.serial] = graphicHelper.createShapeText(interaction.paper, shape, {
                 id          : 'score-' + choice.serial,
-                content     : responseDeclaration.mappingAttributes.defaultValue || '0',
+                content     : score,
                 style       : 'score-text-default',
                 shapeClick  : true
             }).data('default', true); 
-                      
+          
             //create manually the mapping form (detached)
             var $form = $(mappingFormTpl({
-                identifier  : choice.id(),
-                correctDefined : answerStateHelper.isCorrectDefined(widget),
-                correct     : _.contains(responseDeclaration.getCorrect(), choice.id()),
-                score       : mapEntries[choice.id()] || responseDeclaration.mappingAttributes.defaultValue,
-                scoreMin    : responseDeclaration.getMappingAttribute('lowerBound'),
-                scoreMax    : responseDeclaration.getMappingAttribute('upperBound')
+                identifier          : choice.id(),
+                correctDefined      : answerStateHelper.isCorrectDefined(widget),
+                correct             : _.contains(response.getCorrect(), choice.id()),
+                score               : score,
+                scoreMin            : response.getMappingAttribute('lowerBound'),
+                scoreMax            : response.getMappingAttribute('upperBound')
             }));
 
             //set up the form data binding
-            formElement.initDataBinding($form, responseDeclaration, {
+            formElement.initDataBinding($form, response, {
                 score : function(response, value){
                     var scoreText = scoreTexts[choice.serial];
                     if(value === ''){
                         response.removeMapEntry(choice.id());
-                        scoreText.attr({text : responseDeclaration.mappingAttributes.defaultValue})
+                        scoreText.attr({text : response.mappingAttributes.defaultValue})
                                                  .data('default', true);
                         graphicHelper.updateElementState(scoreText, 'score-text-default');
                     } else {
@@ -134,38 +137,15 @@ define([
                 }
             });
 
-            //TODO move to scss
-            //style and attach the form
-            $element.css({
-                'display'   : 'none',  
-                'position'  : 'absolute',
-                'width'     : '150px',
-                'height'    : '150px',
-                'background': 'white',
-                'border'    : 'solid 1px grey',
-                'text-align': 'left',
-                'z-index'   : 10009,
-                'top'       : offset.top - boxOffset.top,
-                'left'      : offset.left - boxOffset.left + bbox.width 
-            }).appendTo($imageBox).append($form);
-            $imageBox.css('overflow', 'visible'); 
-    
-            $elements[choice.serial] = $element; 
-
-    
-            shape.click(function(){
-                $('.graphic-mapping-editor', $container).hide();
-                $element.show();
-            });
+            $popup.append($form);
         });
 
         //set up ui components used by the form
-        incrementer($container);
+        deleter($container);
         tooltipster($container);
-
         
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
-            _.invoke($elements, 'hide');
+            $('.graphic-mapping-editor', $container).hide();
         });
 
         //update the elements on attribute changes

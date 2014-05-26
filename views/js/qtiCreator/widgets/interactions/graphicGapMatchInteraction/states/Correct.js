@@ -21,6 +21,10 @@ define([
 
         //really need to destroy before ? 
         GraphicGapMatchInteraction.destroy(interaction);
+
+        if(!interaction.paper){
+            return;
+        }
         
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please select the correct graphicGapMatch choices below.'));
@@ -31,7 +35,7 @@ define([
         GraphicGapMatchInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(PciResponse.unserialize(data, interaction)); 
+            response.setCorrect(PciResponse.unserialize(data.response, interaction)); 
         });
 
     }
@@ -42,6 +46,10 @@ define([
     function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
+        
+        if(!interaction.paper){
+            return;
+        }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');

@@ -194,7 +194,7 @@ class Authoring
                 array('title' => __('Graphic Gap Interaction'),
                     'icon' => 'graphic-gap',
                     'short' => __('Graphic Gap'),
-                    'qtiClass' => 'graphicGapInteraction'
+                    'qtiClass' => 'graphicGapMatchInteraction'
                 ),
                 array('title' => __('Select Point Interaction'),
                     'icon' => 'select-point',

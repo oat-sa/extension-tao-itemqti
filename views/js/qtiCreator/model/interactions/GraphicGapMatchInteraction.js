@@ -3,22 +3,15 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
-    'taoQtiItem/qtiItem/core/interactions/GraphicGapMatchInteraction'
-], function($, _, editable, editableInteraction, Interaction){
+    'taoQtiItem/qtiItem/core/interactions/GraphicGapMatchInteraction',
+    'taoQtiItem/qtiItem/core/choices/GapImg',
+    'taoQtiItem/qtiItem/core/choices/AssociableHotspot',
+], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {
         
-        /**
-         * Set the default values for the model 
-         */ 
-        getDefaultAttributes : function(){
-            return {
-                'maxChoices' : 0,
-                'minChoices' : 0
-            };
-        },
 
         /**
          * Once the interaction model is created, 
@@ -32,10 +25,50 @@ define([
                 this.addClass('responsive');
             }
             this.createResponse({
-                baseType:'identifier',
-                cardinality:'single'
+                baseType : 'directedPair',
+                cardinality : 'multiple'
             });
         },
+
+        /**
+         * Create a new gap image
+         * @param {Object} object - the qti object
+         * @param {String} object.data - the image url
+         * @param {String|Number} object.width - the image width
+         * @param {String|Number} object.height - the image height
+         * @param {String} object.type - the image mime type
+         * @param {String} [label] - the object label (ie. alt)
+         */
+        createGapImg : function(object, label){
+            var gapImg = new GapImg();
+            gapImg.object.attributes = object; 
+            if(label){
+                gapImg.attr('objectLabel', label); 
+            }
+            if(!this.gapImgs){
+                this.gapImgs = [];
+            }
+            this.gapImgs.push(gapImg);
+        },
+        /**
+         * Create a choice for the interaction
+         * @param {Object} attr - the choice attributes
+         * @returns {Object} the created choice
+         */
+        createChoice : function(attr){
+            var choice = new AssociableHotspot('', attr);
+
+            this.addChoice(choice);
+            choice.buildIdentifier('associablehotspot');
+            
+            if(this.getRenderer()){
+                choice.setRenderer(this.getRenderer());
+            }
+            
+            $(document).trigger('choiceCreated.qti-widget', {'choice' : choice, 'interaction' : this});
+           
+            return choice;
+        }
     });
     return Interaction.extend(methods);
 });
