@@ -33,7 +33,7 @@ define([
             distance : parseInt(options.distance),
             helper : options.helper,
             appendTo : $to, //very important ! to enable movable correct positioning
-            opacity : 0.9,
+            opacity : 1,
             scroll : false,
             cursor : 'crosshair',
             cursorAt : {left : -5, bottom : -5},

@@ -1,5 +1,5 @@
 <!--currently only visible to the candidate-->
-<!--<div class="panel">
+<div class="panel">
     <label for="view">Visible by</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <div class="tooltip-content">
@@ -13,7 +13,7 @@
         <option value="testConstructor">test constructor</option>
         <option value="tutor">tutor</option>
     </select>
-</div>-->
+</div>
 
 <div class="panel">
     <label for="use">{{__ "Description"}}</label>

@@ -182,7 +182,7 @@
     .sidebar-right-section-box {
         display:none;
     }
-        
+    
     .item-editor-sidebar {
         //@todo reset to 0
         //opacity: 0;
@@ -314,6 +314,7 @@
                 border: 1px $websiteBorder solid;
                 @include border-radius(3);
                 margin: 2%;
+                cursor:no-drop !important;
                 &.blocking {
                     z-index: 10;
                 }
@@ -652,7 +653,7 @@
     
     #item-editor-panel {
         margin: 0 180px;
-        overflow: auto;
+        overflow: visible;//show overflown toolbars and draggable
         padding: 20px;
         border: 1px white solid;
         border-bottom: none;
@@ -750,28 +751,25 @@
                         @extend %editActive;
                     }
                     &.edit-question{
-                        .qti-choice{
-                            
-                            &:not(th){
-                                &.hover{
-                                    @extend %editHover;
-                                }
-                                &.edit-choice{
-                                    @extend %editActive;
-                                }
-                            }
-                            
+                        th.qti-choice{
                             &.hover{
                                 .inner-wrapper{
-                                    //@extend %editHover;
+                                    @extend %editHover;
                                 }
                             }
                             &.edit-choice{
                                 .inner-wrapper{
-                                    //@extend %editActive;
+                                    @extend %editActive;
                                 }
                             }
-                            
+                        }
+                        .qti-choice:not(th){
+                            &.hover{
+                                @extend %editHover;
+                            }
+                            &.edit-choice{
+                                @extend %editActive;
+                            }
                         }
                     }
                 }

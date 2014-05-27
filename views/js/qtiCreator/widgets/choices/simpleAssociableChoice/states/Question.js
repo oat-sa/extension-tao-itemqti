@@ -2,24 +2,23 @@
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
-    'taoQtiItem/qtiCreator/helper/htmlEditor',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
-], function(stateFactory, QuestionState, contentToolbarTpl, htmlEditor, formElement){
+], function(stateFactory, QuestionState, contentToolbarTpl, formElement){
 
-    var ChoiceStateQuestion = stateFactory.extend(QuestionState, function(){
+    var SimpleAssociableChoiceStateQuestion = stateFactory.extend(QuestionState, function(){
         
     }, function(){
         
     });
 
-    ChoiceStateQuestion.prototype.createToolbar = function(){
+    SimpleAssociableChoiceStateQuestion.prototype.createToolbar = function(){
 
         var _widget = this.widget,
             $container = _widget.$container,
             choice = _widget.element,
             interaction,
-            $toolbar = $container.find('.mini-tlb');
-
+            $toolbar = $container.find('.mini-tlb').not('[data-html-editable] *');
+        
         if(!$toolbar.length){
 
             interaction = choice.getInteraction();
@@ -42,5 +41,5 @@
         return $toolbar;
     };
     
-    return ChoiceStateQuestion;
+    return SimpleAssociableChoiceStateQuestion;
 });

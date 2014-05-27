@@ -6,7 +6,9 @@ span.dragging{
     font-size : 5rem;
     padding:20px 80px;
     position:absolute;
-    background: rgba($uiClickableDefaultBg, .8);
+    background: rgba($uiClickableDefaultBg, 1);
+    -webkit-box-shadow: 1px 1px 6px 2px #777;
+    box-shadow: 1px 1px 6px 2px #777;
 }
 
 //need to offset default col display rules because new tmp columns have been added

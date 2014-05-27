@@ -95,32 +95,6 @@ class Authoring
     public static function getAvailableAuthoringElements(){
 
         $elements = array(
-            'Block Elements & Inline Interactions' => array(
-                array('title' => __('Text Block'),
-                    'icon' => 'font',
-                    'short' => __('Block'),
-                    'qtiClass' => '_container', //a pseudo class introduced in TAO
-                ),
-                /*
-                array('title' => __('Rubric Block'),
-                    'icon' => 'rubric',
-                    'short' => __('Rubric'),
-                    'qtiClass' => 'rubricBlock',
-                    'disabled' => true
-                ),*/
-                array('title' => __('Inline Choice Interaction'),
-                    'icon' => 'inline-choice',
-                    'short' => __('Inline Choice'),
-                    'qtiClass' => 'inlineChoiceInteraction',
-                    'sub-group' => 'inline-interactions' // creates a panel with a subgroup for this element
-                ),
-                array('title' => __('Text Entry Interaction'),
-                    'icon' => 'text-entry',
-                    'short' => __('Text Entry'),
-                    'qtiClass' => 'textEntryInteraction',
-                    'sub-group' => 'inline-interactions'
-                ),
-            ),
             //other possibilities : basic, common, usual ... 
             'Common Interactions' => array(
                 array('title' => __('Choice Interaction'),
@@ -161,8 +135,7 @@ class Authoring
                 array('title' => __('Extended Text Interaction'),
                     'icon' => 'extended-text',
                     'short' => __('Extended Text'),
-                    'qtiClass' => 'extendedTextInteraction',
-                    'disabled' => true
+                    'qtiClass' => 'extendedTextInteraction'
                 ),
                 array('title' => __('Upload Interaction'),
                     'icon' => 'upload',
@@ -174,6 +147,25 @@ class Authoring
                     'short' => __('Media'),
                     'qtiClass' => 'mediaInteraction'
                 )
+            ),
+            'Inline Interactions' => array(
+                array('title' => __('Text Block'),
+                    'icon' => 'font',
+                    'short' => __('Block'),
+                    'qtiClass' => '_container', //a pseudo class introduced in TAO
+                ),
+                array('title' => __('Inline Choice Interaction'),
+                    'icon' => 'inline-choice',
+                    'short' => __('Inline Choice'),
+                    'qtiClass' => 'inlineChoiceInteraction',
+                    'sub-group' => 'inline-interactions' // creates a panel with a subgroup for this element
+                ),
+                array('title' => __('Text Entry Interaction'),
+                    'icon' => 'text-entry',
+                    'short' => __('Text Entry'),
+                    'qtiClass' => 'textEntryInteraction',
+                    'sub-group' => 'inline-interactions'
+                ),
             ),
             'Graphic Interactions' => array(
                 array('title' => __('Hotspot Interaction'),
@@ -202,6 +194,19 @@ class Authoring
                     'qtiClass' => 'selectPointInteraction'
                 )
             )
+            /*
+            ,'Block Containers' => array(
+                array('title' => __('Text Block'),
+                    'icon' => 'font',
+                    'short' => __('Block'),
+                    'qtiClass' => '_container' //a pseudo class introduced in TAO
+                ),
+                array('title' => __('Rubric Block'),
+                    'icon' => 'rubric',
+                    'short' => __('Rubric'),
+                    'qtiClass' => 'rubricBlock'
+                )
+            )*/
         );
         foreach($elements as &$valueArr){
             foreach($valueArr as &$values){

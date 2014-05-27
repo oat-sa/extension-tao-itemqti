@@ -22,7 +22,7 @@ define([
                         $placeholder = $container.find('.widget-box[data-new][data-qti-class=' + elt.qtiClass + ']'),
                         $widget,
                         widget;
-
+                        
                     elt.setRenderer(this);
                     elt.render($placeholder);
 

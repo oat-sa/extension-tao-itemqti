@@ -105,7 +105,6 @@ define([
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]:not(.disabled)'), {
             helper: function() {
                 return $(this).find('span').clone().addClass('dragging');
-//                return $(this).children('img').clone().removeClass('viewport-hidden').css('z-index', 99999999);
             }
         });
         

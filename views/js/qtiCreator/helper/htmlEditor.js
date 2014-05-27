@@ -254,7 +254,7 @@ define([
     };
 
     var _activateInnerWidget = function(containerWidget, innerWidget){
-
+        
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
             
             containerWidget.$container.one('widgetCreated', function(e, widgets){
@@ -344,7 +344,7 @@ define([
         destroyEditor : function($container){
 
             _find($container, 'html-editable-container').each(function(){
-
+                
                 var $editableContainer = $(this),
                     $editable = $editableContainer.find('[data-html-editable]');
 
@@ -361,7 +361,6 @@ define([
                     editor.destroy();
                     
                     $editable.removeData('editor');
-
                     if($editable.data('qti-container')){
                         _rebuildWidgets($editable.data('qti-container'), $editable);
                     }
