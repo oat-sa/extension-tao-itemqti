@@ -26,11 +26,12 @@ use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiPackageImport;
 use oat\taoQtiItem\model\import\QtiItemImport;
-use \taoItems_models_classes_ExportableItemModel;
-use \taoItems_models_classes_ImportableItemModel;
+use \tao_models_classes_export_ExportProvider;
+use \tao_models_classes_import_ImportProvider;
 use \common_ext_ExtensionsManager;
 use \core_kernel_classes_Resource;
 use \common_Logger;
+use taoItems_models_classes_itemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -41,8 +42,9 @@ use \common_Logger;
  
  */
 class ItemModel
-        implements taoItems_models_classes_ExportableItemModel,
-                    taoItems_models_classes_ImportableItemModel
+        implements taoItems_models_classes_itemModel,
+                   tao_models_classes_export_ExportProvider,
+                   tao_models_classes_import_ImportProvider
 {
 
     /**
@@ -93,7 +95,7 @@ class ItemModel
     
     /**
      * (non-PHPdoc)
-     * @see taoItems_models_classes_ExportableItemModel::getExportHandlers()
+     * @see tao_models_classes_export_ExportProvider::getExportHandlers()
      */
     public function getExportHandlers() {
     	return array(
