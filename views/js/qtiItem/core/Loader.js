@@ -329,9 +329,11 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadObjectData : function(object, data){
             object.setAttributes(data.attributes);
             //@todo: manage object like a container
-            if(data.alt){
-                if(data.alt.qtiClass && data.alt.qtiClass === 'object'){
-                    object.alt = data.alt;
+            if(data._alt){
+                if(data._alt.qtiClass === 'object'){
+                    object._alt = Loader.buildElement(data._alt);
+                }else{
+                    object._alt = data._alt;
                 }
             }
         },

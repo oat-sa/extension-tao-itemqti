@@ -14,32 +14,35 @@ require([
 
     test('render', function(){
 
-        var loader = new Loader();
-        var renderer = new Renderer({
-            shuffleChoices:false,
+        var identifier,
+            itemData,
+            loader = new Loader(),
+            renderer = new Renderer({
+            shuffleChoices : false,
             runtimeContext : {
-                runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
-                root_url : '',
-                debug : true
-            }
-        });
+                    runtime_base_www : '/taoQtiItem/test/samples/test_base_www/',
+                    root_url : '',
+                    debug : true
+                }
+            });
 
         for(var identifier in data){
 
-            if(identifier !== 'selectPoint')
+            if(identifier !== 'graphicGapfill'){
                 continue;
-
+            }
+            
             stop();//wait for the next start()
+            
+            itemData = data[identifier].full;
 
-            loader.loadItemData(data[identifier].full, function(item){
-                
-                console.log(item);
-                
+            loader.loadItemData(itemData, function(item){
+
                 ok(Element.isA(item, 'assessmentItem'), identifier + ' item loaded');
 
                 //set renderer
                 item.setRenderer(renderer);
-                
+
                 //append item placeholder and render it:
                 var $placeholder = $('<div>', {id : 'qtiItem-' + item.id()});
                 $("#qunit-fixture").after($placeholder);

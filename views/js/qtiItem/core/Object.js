@@ -42,9 +42,10 @@ define([
                 default:
                     defaultData.object = true;
             }
-
+            
             defaultData.attributes = {data : util.fullpath(src, baseUrl)};
-
+            defaultData.body = this._alt;
+            
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         isEmpty : function(){

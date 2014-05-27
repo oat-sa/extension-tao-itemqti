@@ -1,6 +1,10 @@
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function(tpl){
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/choices/gapImg'], function(tpl){
     return {
         qtiClass : 'gapImg',
-        template : tpl
+        template : tpl,
+        getData:function(gapImg, data){
+            data.renderedObject = gapImg.object.render();
+            return data;
+        }
     };
 });
