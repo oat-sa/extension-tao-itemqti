@@ -4,50 +4,58 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltipster'
 ], function($, __, tooltipTpl, tooltip){
-
+    
     'use strict';
 
-    var editor = (function(){
+    var editor = (function () {
 
-        var elements = {
-            scope : $('#item-editor-scope'),
-            toolbar : $('#item-editor-toolbar'),
-            toolbarInner : $('#item-editor-toolbar-inner'),
-            sidebars : $('.item-editor-sidebar'),
-            itemBar : $('#item-editor-item-bar'),
-            itemPanel : $('#item-editor-panel')
+        var elements = {};
+
+        var _setupElements = function() {
+            var _elements = {
+                scope: '#item-editor-scope',
+                toolbar: '#item-editor-toolbar',
+                toolbarInner: '#item-editor-toolbar-inner',
+                sidebars: '.item-editor-sidebar',
+                itemBar: '#item-editor-item-bar',
+                itemPanel: '#item-editor-panel'
+                },
+            element;
+            for(element in _elements) {
+                elements[element] = $(_elements[element]);
+            }
         };
 
         // selectors and classes
         var heading = 'h2',
             section = 'section',
-            panel = 'hr, .panel',
-            closed = 'closed',
-            ns = 'accordion';
+            panel   = 'hr, .panel',
+            closed  = 'closed',
+            ns      = 'accordion';
 
 
-        var buildSubGroups = function(){
+        var buildSubGroups = function () {
 
-            elements.sidebars.find('[data-sub-group]').each(function(){
-                var $element = $(this),
-                    $section = $element.parents('section'),
-                    subGroup = $element.data('sub-group'),
+            elements.sidebars.find('[data-sub-group]').each(function() {
+                var $element   = $(this),
+                    $section   = $element.parents('section'),
+                    subGroup   = $element.data('sub-group'),
                     $subGroupPanel,
                     $subGroupList,
                     $cover;
 
-                if(!subGroup){
+                if(!subGroup) {
                     return;
                 }
 
                 $subGroupPanel = $section.find('.sub-group.' + subGroup);
                 $subGroupList = $subGroupPanel.find('.tool-list');
-                if(!$subGroupPanel.length){
-                    $subGroupPanel = $('<div>', {'class' : 'panel clearfix sub-group ' + subGroup});
-                    $subGroupList = $('<ul>', {'class' : 'tool-list plain clearfix'});
+                if(!$subGroupPanel.length) {
+                    $subGroupPanel = $('<div>', { 'class': 'panel clearfix sub-group ' + subGroup });
+                    $subGroupList = $('<ul>', { 'class': 'tool-list plain clearfix' });
                     $subGroupPanel.append($subGroupList);
                     $section.append($subGroupPanel);
-                    $cover = $('<div>', {'class' : 'sub-group-cover blocking'});
+                    $cover = $('<div>', { 'class': 'sub-group-cover blocking'});
                     $subGroupPanel.append($cover);
                     $subGroupPanel.data('cover', $cover);
                 }
@@ -60,57 +68,62 @@ define([
         /**
          * setup accordion
          */
-        var sidebarAccordionInit = function(){
+        var sidebarAccordionInit = function () {
 
-            elements.sidebars.each(function(){
+            elements.sidebars.each(function () {
                 var $sidebar = $(this),
                     $sections = $sidebar.find(section),
                     $allPanels = $sidebar.children(panel).hide(),
                     $allTriggers = $sidebar.find(heading);
 
-//                if($allTriggers.length === 0) {
-//                    return true;
-//                }
+                if($allTriggers.length === 0) {
+                    return true;
+                }
+
+
+
 
 
                 // setup events
-                $allTriggers.each(function(){
+                $allTriggers.each(function () {
                     var $heading = $(this),
                         $section = $heading.parents(section),
-                        $panel = $section.children(panel),
-                        $closer = $('<span>', {'class' : 'icon-up'}),
-                    $opener = $('<span>', {'class' : 'icon-down'}),
-                    action = $panel.is(':visible') ? 'open' : 'close';
+                        $panel   = $section.children(panel),
+                        $closer = $('<span>', { 'class': 'icon-up'}),
+                        $opener = $('<span>', { 'class': 'icon-down'}),
+                        action  = $panel.is(':visible') ? 'open' : 'close';
 
                     $heading.append($closer).append($opener).addClass(closed);
 
                     // toggle heading class arrow (actually switch arrow)
-                    $panel.on('panelclose.' + ns + ' panelopen.' + ns, function(e, args){
+                    $panel.on('panelclose.' + ns + ' panelopen.' + ns, function(e, args) {
                         var fn = e.type === 'panelclose' ? 'add' : 'remove';
                         args.heading[fn + 'Class'](closed);
                     });
 
 
-                    $panel.trigger('panel' + action + '.' + ns, {heading : $heading});
+
+                    $panel.trigger('panel' + action + '.' + ns, { heading: $heading });
                 });
 
-                $sections.each(function(){
+
+                $sections.each(function () {
 
                     // assign click action to headings
-                    $(this).find(heading).on('click', function(e, args){
+                    $(this).find(heading).on('click', function (e, args) {
 
                         var $heading = $(this),
-                            $panel = $heading.parents(section).children(panel),
+                            $panel   = $heading.parents(section).children(panel),
                             preserveOthers = !!(args && args.preserveOthers),
                             actions = {
-                            close : 'hide',
-                            open : 'fadeIn'
-                        },
-                        action,
+                                close: 'hide',
+                                open: 'fadeIn'
+                            },
+                            action,
                             forceState = (args && args.forceState ? args.forceState : false),
                             classFn;
 
-                        if(forceState){
+                        if(forceState) {
                             classFn = forceState === 'open' ? 'addClass' : 'removeClass';
                             $heading[classFn](closed);
                         }
@@ -120,17 +133,17 @@ define([
                         // whether or not to close other sections in the same sidebar
                         // @todo (optional): remove 'false' in the condition below
                         // to change the style to accordion, i.e. to allow for only one open section
-                        if(false && !preserveOthers){
-                            $allPanels.not($panel).each(function(){
+                        if(false && !preserveOthers) {
+                            $allPanels.not($panel).each(function() {
                                 var $panel = $(this),
                                     $heading = $panel.parent().find(heading),
                                     _action = 'close';
 
-                                $panel.trigger('panel' + _action + '.' + ns, {heading : $heading})[actions[_action]]();
+                                $panel.trigger('panel' + _action + '.' + ns, { heading: $heading })[actions[_action]]();
                             });
                         }
 
-                        $panel.trigger('panel' + action + '.' + ns, {heading : $heading})[actions[action]]();
+                        $panel.trigger('panel' + action + '.' + ns, { heading: $heading })[actions[action]]();
                     });
 
                 });
@@ -142,9 +155,9 @@ define([
          *
          * @param sections
          */
-        var _toggleSections = function(sections, preserveOthers, state){
+        var _toggleSections = function(sections, preserveOthers, state) {
             sections.each(function(){
-                $(this).find(heading).trigger('click', {preserveOthers : preserveOthers, forceState : state});
+                $(this).find(heading).trigger('click', { preserveOthers: preserveOthers, forceState: state });
             });
         };
 
@@ -153,7 +166,7 @@ define([
          *
          * @param sections
          */
-        var closeSections = function(sections, preserveOthers){
+        var closeSections = function(sections, preserveOthers) {
             _toggleSections(sections, !!preserveOthers, 'close');
         };
 
@@ -162,21 +175,21 @@ define([
          *
          * @param sections
          */
-        var openSections = function(sections, preserveOthers){
+        var openSections = function(sections, preserveOthers) {
             _toggleSections(sections, !!preserveOthers, 'open');
         };
 
         // display the sidebar and its sections temporarily to calculate the height
-        var _tmpDisplay = function($elements, reset){
-            $elements.each(function(){
+        var _tmpDisplay = function($elements, reset) {
+            $elements.each(function() {
                 var $element = $(this);
-                if(reset){
+                if(reset) {
                     $element.css('display', $element.prop('old-display'));
                     $element.css('opacity', $element.prop('old-opacity'));
                     $element.removeProp('old-display');
                     $element.removeProp('old-opacity');
                 }
-                else{
+                else {
                     $element.prop('old-display', $element.css('display'));
                     $element.prop('old-opacity', $element.css('opacity'));
                     $element.css('display', 'block');
@@ -188,9 +201,9 @@ define([
         /**
          * Adapt height of sidebars and content
          */
-        var adaptHeight = function(){
+        var adaptHeight = function() {
             var height = 0;
-            elements.sidebars.add(elements.itemPanel).each(function(){
+            elements.sidebars.add(elements.itemPanel).each(function () {
                 var block = $(this),
                     blocks = block.add(block.find('section hr .panel'));
                 // work around the fact that the sidebars might be hidden at this point
@@ -205,7 +218,7 @@ define([
          * toggle availability of sub group
          * @param subGroup
          */
-        var _toggleSubGroup = function(subGroup, state){
+        var _toggleSubGroup = function(subGroup, state) {
             subGroup = $('.' + subGroup);
             if(subGroup.length){
                 var fn = state === 'disable' ? 'addClass' : 'removeClass';
@@ -218,7 +231,7 @@ define([
          * enable sub group
          * @param subGroup
          */
-        var enableSubGroup = function(subGroup){
+        var enableSubGroup = function(subGroup) {
             _toggleSubGroup(subGroup, 'enable');
         };
 
@@ -226,10 +239,10 @@ define([
          * disable sub group
          * @param subGroup
          */
-        var disableSubGroup = function(subGroup){
+        var disableSubGroup = function(subGroup) {
             _toggleSubGroup(subGroup, 'disable');
         };
-        
+
         /**
          * add tooltip to explain special requirement and behaviours for inline interactions
          */
@@ -266,7 +279,10 @@ define([
         /**
          * Initialize interface
          */
-        var initGui = function(){
+        var initGui = function () {
+
+
+            _setupElements();
 
             buildSubGroups();
 
@@ -306,12 +322,12 @@ define([
         };
 
         return {
-            initGui : initGui,
-            openSections : openSections,
-            closeSections : closeSections,
-            adaptHeight : adaptHeight,
-            enableSubGroup : enableSubGroup,
-            disableSubGroup : disableSubGroup
+            initGui: initGui,
+            openSections: openSections,
+            closeSections: closeSections,
+            adaptHeight: adaptHeight,
+            enableSubGroup: enableSubGroup,
+            disableSubGroup: disableSubGroup
         };
 
     }());

@@ -8,17 +8,21 @@
     left: 0;
     top: 0;
     background: rgba(0, 0, 0, 0.7);
-    &.quick-show {
-        display:block;
-        left: -10000px;
-    }
     &.preview-desktop {
-        .mobile-only {
+        .mobile-only,
+        .standard-only {
             display: none !important;
         }
     }
     &.preview-mobile {
-        .desktop-only {
+        .desktop-only,
+        .standard-only {
+            display: none !important;
+        }
+    }
+    &.preview-standard {
+        .desktop-only,
+        .mobile-only {
             display: none !important;
         }
     }
@@ -46,29 +50,18 @@
         .preview-heading {
             min-width: 140px;
         }
-        .device-orientation {
+        .device-type-and-orientation {
             min-width: 340px;
             text-align: right
-        }
-        .device-toggle .btn-info {
-            display:inline-block;
-            min-width: 135px;
         }
     }
 
     .preview-utility-bar-inner {
-        &.positioned {
-            position: absolute;
-        }
+        width: 900px;
         margin: auto;
-        border-collapse: separate;
-        border-spacing: 25px 0px;
         h1 {
             @include font-size(18);
             text-shadow: 1px 1px 0px #eee;
-        }
-        .tbl-cell {
-            vertical-align: middle;
         }
         .icon-info {
             top: 7px;
@@ -80,9 +73,6 @@
         .btn-info {
             margin-top: 1px
         }
-        .toogle-view {
-            min-width: 185px;
-        }
         .mobile-device-selector {
             width: 200px;
         }
@@ -90,8 +80,12 @@
         .desktop-device-selector{
             width: 130px;
         }
+        [class*=" col-"], [class^="col-"] {
+            margin-bottom: 0 !important;
+        }
     }
     .preview-message-box {
+        display:none;
         .feedback-info {
             margin: 10px auto 0px;
             width: 700px;
@@ -133,9 +127,6 @@
         -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
         -moz-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
         box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
-        iframe {
-            overflow: hidden;
-        }
     }
     .preview-canvas {
         display: table-cell;
@@ -196,6 +187,12 @@
         border-radius: 3px;
         border: 2px solid;
         border-color: #444 #999 #999 #444;
+    }
+
+    .standard-preview-frame {
+        -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, .7);
+        -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, .7);
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, .7);
     }
 }
 

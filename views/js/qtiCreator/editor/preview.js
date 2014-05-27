@@ -14,12 +14,17 @@ define([
 
     var overlay,
         container,
-        togglersByTarget = {},
         orientation = 'landscape',
         previewType = 'desktop',
-        previewTypes = ['desktop', 'mobile'],
+        previewTypes = {
+            desktop: __('Desktop preview'),
+            mobile: __('Mobile preview'),
+            standard: __('Standard preview')
+        },
         $doc = $(document),
         $window = $(window),
+        $html = $('html'),
+        $body = $(document.body),
         screenSize = {
             width: $window.innerWidth(),
             height: $window.innerWidth()
@@ -30,7 +35,16 @@ define([
         },
         scaleFactor = 1,
         hasBeenSavedOnce = false,
-        typeDependant;
+        typeDependant,
+        displayScaleMsg = true,
+        bodyCss = {
+            overflow: $body.css('overflow'),
+            minHeight: $body.css('minHeight')
+        },
+        htmlCss = {
+            overflow: $html.css('overflow'),
+            minHeight: $html.css('minHeight')
+        };
 
     /**
      * Create data set for device selectors
@@ -124,53 +138,30 @@ define([
      * @private
      */
     var _scale = function() {
-        var $scaleContainer = $('.preview-scale-container');
-        var containerScaledWidth = $scaleContainer.width() * scaleFactor;
-        var left = (screenSize.width - containerScaledWidth) / 2;
+
+        var $feedbackMsg = $('.preview-message-box'),
+            $scaleContainer = $('.preview-scale-container'),
+            _scaleFactor = previewType === 'standard' ? 1 : scaleFactor,
+            containerScaledWidth = $scaleContainer.width() * _scaleFactor,
+            left = (screenSize.width - containerScaledWidth) / 2;
+
         $scaleContainer.css({
             left: left,
-            '-webkit-transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
-            '-ms-transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
-            'transform': 'scale(' + scaleFactor + ',' + scaleFactor + ')',
+            '-webkit-transform': 'scale(' + _scaleFactor + ',' + _scaleFactor + ')',
+            '-ms-transform': 'scale(' + _scaleFactor + ',' + _scaleFactor + ')',
+            'transform': 'scale(' + _scaleFactor + ',' + _scaleFactor + ')',
             '-webkit-transform-origin': '0 0',
             '-ms-transform-origin': '0 0',
             'transform-origin': '0 0'
         });
 
+        if(displayScaleMsg && _scaleFactor !== 1) {
+            $feedbackMsg.show();
+        }
+
         $('.preview-utility-bar, .preview-message-box').width(screenSize.width);
     };
 
-    /**
-     * Calculate the largest device frame width
-     *
-     * @returns {{width: number, height: number}}
-     * @private
-     */
-    var _getLargestFrameSize = function() {
-        var i = previewTypes.length,
-            frameSize = {
-                width: 0,
-                height: 0
-            },
-            previewFrame,
-            previewContainer;
-
-        while (i--) {
-            overlay.find('.toggle-view[data-target="' + previewTypes[i] + '"]').trigger('click');
-            previewFrame = overlay.find('.' + previewTypes[i] + '-preview-frame');
-            previewContainer = previewFrame.find('.preview-container');
-
-            overlay.addClass('quick-show');
-
-            frameSize = {
-                width: Math.max(frameSize.width, previewFrame.outerWidth() - previewContainer.outerWidth()),
-                height: Math.max(frameSize.height, previewFrame.outerHeight() - previewContainer.outerHeight())
-            };
-            overlay.removeClass('quick-show');
-        }
-
-        return frameSize;
-    };
 
     /**
      * Compute scale factor based on screen size and device size
@@ -178,17 +169,16 @@ define([
      * @private
      */
     var _computeScaleFactor = function() {
-        var frameSize = _getLargestFrameSize();
 
         var scaleValues = {
             x: 1,
             y: 1
         };
 
-        // 60/100 = allow for some margin around the device
+        // 150 = device frames plus some margin
         var requiredSize = {
-            width: maxDeviceSize.width + frameSize.width + 60,
-            height: maxDeviceSize.height + frameSize.height + 100 + $('.preview-utility-bar').outerHeight()
+            width: maxDeviceSize.width + 150,
+            height: maxDeviceSize.height + 150 + $('.preview-utility-bar').outerHeight()
         };
 
         if (requiredSize.width > screenSize.width) {
@@ -209,7 +199,9 @@ define([
      */
     var _setupDeviceSelectors = function() {
 
-        overlay.find('.preview-device-selector').on('change', function() {
+        var previewDeviceSelectors = overlay.find('.preview-device-selector');
+
+        previewDeviceSelectors.on('change', function() {
             var elem = $(this),
                 type = elem.data('target'),
                 val = elem.val().split(','),
@@ -217,7 +209,6 @@ define([
                 i = val.length,
                 container = overlay.find('.' + type + '-preview-container'),
                 iframe = overlay.find('.preview-iframe');
-
 
             while (i--) {
                 val[i] = parseFloat(val[i]);
@@ -241,14 +232,22 @@ define([
 
             container.css(sizeSettings);
 
-            _scale();
-
-
             _setPreviewType(type);
 
-        }).select2({
-            minimumResultsForSearch: -1
+            _scale();
+
         });
+
+        previewDeviceSelectors.each(function() {
+            if(this.nodeName.toLowerCase() === 'select'){
+                $(this).select2({
+                    minimumResultsForSearch: -1
+                })
+            }
+        });
+
+
+
     };
 
     /**
@@ -258,7 +257,7 @@ define([
      */
     var _setupOrientationSelectors = function() {
 
-        $('.orientation-selector').on('change', function() {
+        $('select.orientation-selector').on('change', function() {
             var type = $(this).data('target'),
                 previewFrame = $('.' + type + '-preview-frame'),
                 container = previewFrame.find('.' + type + '-preview-container'),
@@ -296,7 +295,9 @@ define([
             feedbackCloser = overlay.find('.preview-message-box .close-trigger');
         closer.on('click', function() {
             commonRenderer.setContext($('.item-editor-item'));
-            overlay.fadeOut();
+            overlay.hide();
+            $body.css(bodyCss);
+            $html.css(htmlCss);
         });
 
         $doc.keyup(function(e) {
@@ -306,33 +307,58 @@ define([
         });
 
         feedbackCloser.on('click', function() {
+            displayScaleMsg = false;
             overlay.find('.preview-message-box').hide();
         })
     };
 
     /**
-     * Toggle between mobile and desktop
+     * Build options for preview types
      *
-     *
-     * @returns {*}
+     * @returns {Array}
+     * @private
      */
-    var _setupTogglers = function() {
+    var _getPreviewTypes = function() {
+        var options = [];
+        _(previewTypes).forEach(function(_previewLabel, _previewType) {
+            options.push({
+                value: _previewType,
+                label: _previewLabel,
+                selected: previewType === _previewType
+            })
+        });
+        return options;
+    };
 
+    /**
+     * Select preview type
+     *
+     * @private
+     */
+    var _setupViewSelector = function() {
 
-        var togglers = overlay.find('.toggle-view');
+        $('select.preview-type-selector').on('change', function() {
+            var _previewType = $(this),
+                value = _previewType.val();
 
-        togglers.each(function() {
-            var toggler = $(this);
-            togglersByTarget[toggler.data('target')] = toggler;
+            _setPreviewType(value);
+
+            $('.' + value + '-device-selector').trigger('change');
+        }).select2({
+            minimumResultsForSearch: -1
         });
 
-        togglers.on('click', function() {
-            var newPreviewType = $(this).data('target');
+    };
 
-            _setPreviewType(newPreviewType);
-
-            $('.' + newPreviewType + '-device-selector').trigger('change');
-        });
+    /**
+     * The size of the item as it is right now
+     *
+     * @returns {string}
+     * @private
+     */
+    var _getNaturalItemSize = function() {
+        var originalItem = $('#item-editor-panel .qti-item');
+        return originalItem.outerWidth().toString() + ',' + originalItem.outerHeight().toString();
     };
 
     /**
@@ -342,22 +368,27 @@ define([
      * @private
      */
     var _initWidget = function() {
+
         $('.preview-overlay').remove();
         container = null;
         overlay = $(previewTpl({
             mobileDevices: _getDeviceSelectorData('mobile'),
             desktopDevices: _getDeviceSelectorData('desktop'),
-            previewType: previewType
+            previewTypes: _getPreviewTypes(),
+            previewType: previewType,
+            naturalItemSize: _getNaturalItemSize()
         }));
 
+        console.log($doc[0].nodeName)
 
-        $('body').append(overlay);
+
+        $body.append(overlay);
 
         _setupTypeDependantElements();
 
         _setupDeviceSelectors();
         _setupOrientationSelectors();
-        _setupTogglers();
+        _setupViewSelector();
 
         _setupClosers();
 
@@ -414,12 +445,10 @@ define([
 
                 previewType = $(launcher).data('preview-type') || 'desktop';
 
-                if (togglersByTarget[previewType]) {
-                    togglersByTarget[previewType].trigger('click');
-                }
-
                 overlay.show();
                 overlay.height($doc.outerHeight());
+                $body.css( {overflow: 'hidden', minHeight: '100%'} );
+                $html.css( {overflow: 'hidden', minHeight: '100%'} );
                 overlay.find('select:visible').trigger('change');
                 _scale();
             });

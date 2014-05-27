@@ -55,6 +55,8 @@ define([
 
         preparePrint();
 
+
+
         editor.initGui();
 
         $loader.css('left', loaderLeft);

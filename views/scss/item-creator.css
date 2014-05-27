@@ -103,12 +103,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.7); }
-  .preview-overlay.quick-show {
-    display: block;
-    left: -10000px; }
-  .preview-overlay.preview-desktop .mobile-only {
+  .preview-overlay.preview-desktop .mobile-only,
+  .preview-overlay.preview-desktop .standard-only {
     display: none !important; }
-  .preview-overlay.preview-mobile .desktop-only {
+  .preview-overlay.preview-mobile .desktop-only,
+  .preview-overlay.preview-mobile .standard-only {
+    display: none !important; }
+  .preview-overlay.preview-standard .desktop-only,
+  .preview-overlay.preview-standard .mobile-only {
     display: none !important; }
   .preview-overlay .preview-scale-container {
     position: relative;
@@ -129,24 +131,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     padding: 10px; }
     .preview-overlay .preview-utility-bar .preview-heading {
       min-width: 140px; }
-    .preview-overlay .preview-utility-bar .device-orientation {
+    .preview-overlay .preview-utility-bar .device-type-and-orientation {
       min-width: 340px;
       text-align: right; }
-    .preview-overlay .preview-utility-bar .device-toggle .btn-info {
-      display: inline-block;
-      min-width: 135px; }
   .preview-overlay .preview-utility-bar-inner {
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 25px 0px; }
-    .preview-overlay .preview-utility-bar-inner.positioned {
-      position: absolute; }
+    width: 900px;
+    margin: auto; }
     .preview-overlay .preview-utility-bar-inner h1 {
       font-size: 18px;
       font-size: 1.8rem;
       text-shadow: 1px 1px 0px #eee; }
-    .preview-overlay .preview-utility-bar-inner .tbl-cell {
-      vertical-align: middle; }
     .preview-overlay .preview-utility-bar-inner .icon-info {
       top: 7px;
       font-size: 15px;
@@ -155,16 +149,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       margin-left: 10px; }
     .preview-overlay .preview-utility-bar-inner .btn-info {
       margin-top: 1px; }
-    .preview-overlay .preview-utility-bar-inner .toogle-view {
-      min-width: 185px; }
     .preview-overlay .preview-utility-bar-inner .mobile-device-selector {
       width: 200px; }
     .preview-overlay .preview-utility-bar-inner .orientation-selector,
     .preview-overlay .preview-utility-bar-inner .desktop-device-selector {
       width: 130px; }
-  .preview-overlay .preview-message-box .feedback-info {
-    margin: 10px auto 0px;
-    width: 700px; }
+    .preview-overlay .preview-utility-bar-inner [class*=" col-"], .preview-overlay .preview-utility-bar-inner [class^="col-"] {
+      margin-bottom: 0 !important; }
+  .preview-overlay .preview-message-box {
+    display: none; }
+    .preview-overlay .preview-message-box .feedback-info {
+      margin: 10px auto 0px;
+      width: 700px; }
   .preview-overlay .desktop-preview-container {
     width: 1024px;
     background: white; }
@@ -195,8 +191,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -webkit-box-shadow: 0px 0px 8px #b7b1ac;
     -moz-box-shadow: 0px 0px 8px #b7b1ac;
     box-shadow: 0px 0px 8px #b7b1ac; }
-    .preview-overlay .desktop-preview-item-container iframe {
-      overflow: hidden; }
   .preview-overlay .preview-canvas {
     display: table-cell;
     text-align: center; }
@@ -243,13 +237,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-radius: 3px;
     border: 2px solid;
     border-color: #444 #999 #999 #444; }
+  .preview-overlay .standard-preview-frame {
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
   cursor: pointer;
   border: 1px solid #86aec8;
   cursor: pointer; }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
   cursor: default;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
@@ -485,46 +483,48 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         margin-top: 5px; }
       .tao-scope .item-editor-sidebar .tool-group .panel .feedbackRule-panel .adder :before {
         font-size: 1.4rem; }
-    .tao-scope .item-editor-sidebar .sub-group {
-      position: relative;
-      padding-top: 0 !important; }
-      .tao-scope .item-editor-sidebar .sub-group .tool-list {
+      .tao-scope .item-editor-sidebar .tool-group .panel.sub-group {
         position: relative;
-        z-index: 4; }
-      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover {
-        position: absolute;
-        left: 0;
-        top: -7px;
-        width: 96%;
-        height: 100%;
-        background-color: rgba(242, 240, 238, 0.3) !important;
-        z-index: 2;
-        border: 1px #8d949e solid;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-        border-radius: 3px;
-        margin: 2%; }
-        .tao-scope .item-editor-sidebar .sub-group .sub-group-cover.blocking {
-          z-index: 10; }
-      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:after, .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:before {
-        bottom: 100%;
-        left: 25%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none; }
-      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:after {
-        border-color: transparent;
-        border-bottom-color: #f2f0ee;
-        border-width: 8px;
-        margin-left: -8px; }
-      .tao-scope .item-editor-sidebar .sub-group .sub-group-cover:before {
-        border-color: transparent;
-        border-bottom-color: #8d949e;
-        border-width: 9px;
-        margin-left: -9px; }
+        padding-top: 0 !important;
+        padding-bottom: 4px; }
+        .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .tool-list {
+          position: relative;
+          z-index: 4; }
+        .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover {
+          position: absolute;
+          left: 0;
+          top: -7px;
+          width: 96%;
+          height: 100%;
+          background-color: rgba(242, 240, 238, 0.3) !important;
+          z-index: 2;
+          border: 1px #8d949e solid;
+          -moz-border-radius: 3px;
+          -webkit-border-radius: 3px;
+          border-radius: 3px;
+          margin: 2%;
+          cursor: no-drop !important; }
+          .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover.blocking {
+            z-index: 10; }
+        .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:after, .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:before {
+          bottom: 100%;
+          left: 25%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none; }
+        .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:after {
+          border-color: transparent;
+          border-bottom-color: #f2f0ee;
+          border-width: 8px;
+          margin-left: -8px; }
+        .tao-scope .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:before {
+          border-color: transparent;
+          border-bottom-color: #8d949e;
+          border-width: 9px;
+          margin-left: -9px; }
     .tao-scope .item-editor-sidebar .inset {
       margin-left: 6px;
       margin-right: 6px; }
@@ -757,7 +757,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           float: right; }
   .tao-scope #item-editor-panel {
     margin: 0 180px;
-    overflow: auto;
+    overflow: visible;
     padding: 20px;
     border: 1px white solid;
     border-bottom: none;
@@ -1472,7 +1472,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       font-size: 5rem;
       padding: 20px 80px;
       position: absolute;
-      background: rgba(243, 241, 239, 0.8); }
+      background: #f3f1ef;
+      -webkit-box-shadow: 1px 1px 6px 2px #777;
+      box-shadow: 1px 1px 6px 2px #777; }
     .tao-scope .item-editor-item .dropping {
       margin-left: -1.42857%;
       margin-right: 1.42857%; }
