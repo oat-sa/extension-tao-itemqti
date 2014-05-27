@@ -136,26 +136,32 @@ define([
     };
 
     var _updateResponseDeclaration = function(interaction, maxChoice, updateCardinality){
-        
-        updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
-        
-        var responseDeclaration = interaction.getResponseDeclaration();
-        if(updateCardinality){
-            responseDeclaration.attr('cardinality', (maxChoice === 1) ? 'single' : 'multiple');
+
+        if(Element.isA(interaction, 'interaction')){
+            updateCardinality = (updateCardinality === undefined) ? true : !!updateCardinality;
+
+            var responseDeclaration = interaction.getResponseDeclaration();
+            if(updateCardinality){
+                responseDeclaration.attr('cardinality', (maxChoice === 1) ? 'single' : 'multiple');
+            }
+
+            if(maxChoice){
+                //always update the correct response then:
+                var correct = [];
+                _.each(responseDeclaration.getCorrect(), function(c){
+                    if(correct.length < maxChoice){
+                        correct.push(c);
+                    }else{
+                        return false;
+                    }
+                });
+                responseDeclaration.setCorrect(correct);
+            }
+            
+        }else{
+            throw new Error('the first argument must be an interaction, the current element is ' + interaction.qtiClass);
         }
 
-        if(maxChoice){
-            //always update the correct response then:
-            var correct = [];
-            _.each(responseDeclaration.getCorrect(), function(c){
-                if(correct.length < maxChoice){
-                    correct.push(c);
-                }else{
-                    return false;
-                }
-            });
-            responseDeclaration.setCorrect(correct);
-        }
 
     };
 

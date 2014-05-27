@@ -156,13 +156,14 @@ define([
                             $colParent = $placeholder.parent();
 
                         elt.setRenderer(this);
-                        elt.render($placeholder);
-
+                        
                         if(Element.isA(elt, '_container')){
                             $colParent.empty();//clear the col content, and leave an empty text field
+                            $colParent.html(elt.render());
                             widget = _this.initTextWidget(elt, $colParent);
                             $widget = widget.$container;
                         }else{
+                            elt.render($placeholder);
                             widget = elt.postRender();
                             if(Element.isA(elt, 'blockInteraction')){
                                 $widget = widget.$container;

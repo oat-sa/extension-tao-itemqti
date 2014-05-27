@@ -235,9 +235,10 @@ define([
          */
         var addInlineInteractionTooltip = function(){
             
-            var $inlineInteractionsPanel = $('#sidebar-left-section-inline-interactions .inline-interactions'),
+            var timer,
+                $inlineInteractionsPanel = $('#sidebar-left-section-inline-interactions .inline-interactions'),
                 $tooltip = $(tooltipTpl({
-                    message : __('Inline interactions need to be inserted into a container block')
+                    message : __('Inline interactions need to be inserted into a text block.')
                 }));
             
             $inlineInteractionsPanel.append($tooltip);
@@ -248,6 +249,17 @@ define([
                 zIndex:11,
                 top : 0,
                 right : 10
+            });
+            
+            $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
+                
+                timer = setTimeout(function(){
+                    $tooltip.find('[data-tooltip]').tooltipster('show');
+                },300);
+                
+            }).on('mouseleave', '.sub-group-cover', function(){
+                $tooltip.find('[data-tooltip]').tooltipster('hide');
+                clearTimeout(timer);
             });
         };
 

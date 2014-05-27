@@ -1,4 +1,9 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/rendererConfig', 'taoQtiItem/qtiItem/helper/util'], function(Element, _, rendererConfig, util){
+define([
+    'taoQtiItem/qtiItem/core/Element', 
+    'lodash', 
+    'taoQtiItem/qtiItem/helper/rendererConfig',
+    'taoQtiItem/qtiItem/helper/util'
+], function(Element, _, rendererConfig, util){
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){

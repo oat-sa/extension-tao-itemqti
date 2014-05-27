@@ -120,7 +120,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
                 return this._super({
                     body : renderer.renderDirect(tpl, elementsData),
                     contentModel : this.contentModel || 'flow'
-                }, renderer);
+                }, renderer, args.placeholder);
             }else{
                 throw 'invalid qti renderer for qti container';
             }

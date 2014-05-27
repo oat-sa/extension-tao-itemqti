@@ -21,6 +21,9 @@ define([
                     parent.removeChoice(element);
                     removed = true;
                 }else if(typeof parent.initContainer === 'function' && found.location === 'body'){
+                    if(_.isFunction(element.beforeRemove)){
+                        element.beforeRemove();
+                    }
                     parent.getBody().removeElement(element);
                     removed = true;
                 }

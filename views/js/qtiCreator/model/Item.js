@@ -59,6 +59,16 @@ define([
             modalFeedback.body('Some feedback text.');
 
             return modalFeedback;
+        },
+        deleteResponseDeclaration : function(response){
+            var serial;
+            if(_.isString(response)){
+                serial = response;
+            }else if(response && response.qtiClass === 'responseDeclaration'){
+                serial = response.getSerial();
+            }
+            delete this.responses[serial];
+            return this;
         }
     });
     return Item.extend(methods);

@@ -8,7 +8,6 @@ define([
     _.extend(methods, {
         afterCreate: function() {
             this.body('Lorem ipsum dolor sit amet, consectetur adipisicing ...');
-            //console.log(this);
         }
     });
     return Container.extend(methods);

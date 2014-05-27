@@ -2,8 +2,9 @@ define([
     'taoQtiItem/qtiItem/core/interactions/BlockInteraction',
     'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice',
     'lodash',
-    'taoQtiItem/qtiItem/helper/rendererConfig'
-], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig){
+    'taoQtiItem/qtiItem/helper/rendererConfig',
+    'taoQtiItem/qtiItem/helper/util'
+], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig, util){
 
     var MatchInteraction = BlockInteraction.extend({
         qtiClass : 'matchInteraction',
@@ -48,13 +49,7 @@ define([
         find : function(serial){
             var found = this._super(serial);
             if(!found){
-                for(var i = 0; i < 2; i++){
-                    var matchSet = this.getChoices(i);
-                    if(matchSet[serial]){
-                        found = {parent : this, element : matchSet[serial]};
-                        break;
-                    }
-                }
+                found = util.findInCollection(this, ['choices.0', 'choices.1'], serial);
             }
             return found;
         },

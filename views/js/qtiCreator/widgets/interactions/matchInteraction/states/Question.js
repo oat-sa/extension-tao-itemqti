@@ -14,7 +14,6 @@ define([
 
     MatchInteractionStateQuestion.prototype.addNewChoiceButton = function(){
 
-
         var interaction = this.widget.element,
             $matchArea = this.widget.$container.find('.match-interaction-area'),
             qtiChoiceClassName = 'simpleAssociableChoice.matchInteraction';
@@ -47,7 +46,8 @@ define([
                         widget.changeState('choice');
                     }
                 }, choice);
-            });
+                
+            }).show();
 
             $matchArea.find('.add-option[data-role=add-row]').on('click', function(){
                 
@@ -65,7 +65,8 @@ define([
                         widget.changeState('choice');
                     }
                 }, choice);
-            });
+                
+            }).show();
         }
 
     };
