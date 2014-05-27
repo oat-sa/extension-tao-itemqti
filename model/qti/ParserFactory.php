@@ -622,6 +622,7 @@ class ParserFactory
         $responses = array();
         foreach($correctResponseNodes as $correctResponseNode){
             foreach($correctResponseNode->value as $value){
+                //@todo : Bug #2629
                 $responses[] = (string) $value;
             }
             break;
