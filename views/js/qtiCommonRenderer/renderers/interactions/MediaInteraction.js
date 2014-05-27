@@ -34,13 +34,13 @@ define([
      * 
      * @param {object} interaction
      */
-    var render = function render(interaction) {
-        theRender( interaction );
+    var render = function render(interaction, isCreator) {
+        /*theRender( interaction );
     };
     
 
     var theRender = function realRender(interaction, isCreator) {
-        
+        */
         var $container = Helper.getContainer(interaction);
 
         if (isCreator) {
@@ -54,8 +54,19 @@ define([
             };
             _.defaults(interaction.object.attributes, mediaDefaults);
         }
-
+        
         var media = interaction.object.attributes;
+        console.log('THISA ', this);
+        
+        if (isCreator) {
+            //console.log( 'ARE BE HUI SPLESKAN ', interaction.renderer.getOption('baseUrl') );
+            var baseUrl = interaction.renderer.getOption('baseUrl');
+        } else {
+            var baseUrl = this.getOption('baseUrl') || '';
+        }
+        
+        //var baseUrl = this.getOption('baseUrl') || '';
+        console.log(baseUrl);
         
         var mediaType = getMediaType(media);
         var playFromPauseEvent = false;
@@ -184,6 +195,14 @@ define([
             mediaOptions.videoHeight = mediaOptions.defaultVideoHeight;
         }
         
+        if (mediaType === 'video' || mediaType === 'audio') {
+            media.data = media.data.trim();
+            var mediaDataLower = media.data.toLowerCase();
+            if ( mediaDataLower.indexOf('http://www.') !== 0 && mediaDataLower.indexOf('http://') !== 0 && mediaDataLower.indexOf('www.') !== 0 ) {
+                media.data = baseUrl+media.data;
+            }
+        }
+        
         if (mediaType == 'video') {
             var meTag = $('<video src="' + media.data + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
         } else if (mediaType == 'video/youtube') {
@@ -305,7 +324,7 @@ define([
         getContainer: Helper.getContainer,
         setResponse: setResponse,
         getResponse: getResponse,
-        resetResponse: resetResponse,
-        theRender: theRender
+        resetResponse: resetResponse//,
+        //theRender: theRender
     };
 });

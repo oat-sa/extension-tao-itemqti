@@ -16,7 +16,8 @@ define([
             //_widget.$container.find('[data-state=answer]').html('Media settings');
             
             if ( _widget.$container.find('.instruction-container .mejs-container').length == 0 ) {
-                MediaInteractionCommonRenderer.theRender(interaction, true);
+                //MediaInteractionCommonRenderer.theRender(interaction, true);
+                MediaInteractionCommonRenderer.render(interaction, true);
             }
         },
         function() {
@@ -93,6 +94,10 @@ define([
          
         var selectMediaButton = $(_widget.$form).find(".selectMediaFile");
         selectMediaButton.on('click', function() {
+            
+            console.log( $form );
+            console.log( $form.find('input[name=data]') );
+            
             $(this).resourcemgr({
                 appendContainer : options.mediaManager.appendContainer,
                 root : '/',
@@ -109,9 +114,13 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
                     if(files.length > 0){ 
-                        console.log(files);
+                        console.log(files, files[0].file, files[0].mime);
                         // set data field content and meybe detect and set media type here
-                        
+                        var dataInput = $($form.find('input[name=data]'));
+                        dataInput.val( files[0].file );
+                        dataInput.trigger('change');
+                        interaction.object.attr('type', files[0].mime);
+                        console.log(interaction, options.baseUrl+files[0].file );
                     }
                 }
             });

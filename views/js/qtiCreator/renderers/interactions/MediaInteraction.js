@@ -19,7 +19,7 @@ define([
         options.lang = this.getOption('lang');
         options.mediaManager = this.getOption('mediaManager');
 
-        MediaInteraction.theRender(interaction, true);
+        //MediaInteraction.theRender(interaction, true);
         
         return MediaInteractionWidget.build(
             interaction,
