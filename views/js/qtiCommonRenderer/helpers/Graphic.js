@@ -353,14 +353,18 @@ define([
                 })
                 .click(function(){
                     var id = target.id;
-                    this.remove();
-                    target.remove();
+                    var point = this.data('point');
+                    if(_.isFunction(options.select)){
+                        options.select(target, point, this);
+                    }
                     if(_.isFunction(options.remove)){
-                        options.remove(id);
+                        this.remove();
+                        target.remove();
+                        options.remove(id, point);
                     }
                 });
 
-
+            layer.id = 'layer-' + target.id;
             layer.data('point', point);
             target.data('target', point);
 
@@ -595,7 +599,6 @@ define([
             //recalculate point coords in case of scaled image.
             if(paper.w && paper.w !== paper.width){
                 if(isResponsive){
-                    wfactor = paper.w / paper.width;
                     wfactor = paper.w / paper.width;
                     point.x = Math.round(point.x * wfactor);
                     point.y = Math.round(point.y * wfactor);

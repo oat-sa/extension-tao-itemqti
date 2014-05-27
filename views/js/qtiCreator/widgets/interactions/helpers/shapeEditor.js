@@ -136,6 +136,11 @@ define([
                 //enter handling
                 self.setState('handling', true)
                     .trigger('enterhandling.qti-widget');
+    
+                //do not move set
+                if(self.shape.type === 'set'){
+                    return;
+                }                   
 
                 //create handlers to resize the shape
                 self.handlers = shapeHandlers(paper, self.shape);
@@ -374,12 +379,13 @@ define([
              * @returns {shapeEditor.editor} the shape editor instance
              */ 
             removeShape : function removeShape(){
-                var id;
+                var id, data;
                 if(this.shape){
                     this.quitHandling();
                     id = this.shape.id;
+                    data = this.shape.data;
                     this.shape.remove();
-                    this.trigger('remove.qti-widget', id); 
+                    this.trigger('remove.qti-widget', id, data); 
                 }
                 
                 return this;

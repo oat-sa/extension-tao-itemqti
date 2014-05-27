@@ -70,7 +70,8 @@ define([
                             if(self._events['created.qti-widget']){
                                self._events['created.qti-widget'].call(this, target); 
                             }
-                        }
+                        },
+                        remove : false
                     });
                 });
             },

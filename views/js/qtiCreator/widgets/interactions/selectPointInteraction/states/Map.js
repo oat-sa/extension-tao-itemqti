@@ -21,12 +21,15 @@ define([
 ], function($, _, __, stateFactory, Map, SelectPointInteraction, helper, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
 
     /**
-     * Initialize the state.
+     * Initialize the Map state.
      */
     function initMapState(){
-        var widget      = this.widget;
-        var interaction = widget.element;
-        var response    = interaction.getResponseDeclaration();
+        var widget          = this.widget;
+        var interaction     = widget.element;
+        var $container      = widget.$original; 
+        var response        = interaction.getResponseDeclaration();
+
+        widget._targets = [];
 
         if(!interaction.paper){
             return;
@@ -36,7 +39,8 @@ define([
         SelectPointInteraction.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response.'));
+        helper.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' + 
+                                                 'You can also position the target to the exact point as the correct response.'));
         interaction.responseMappingMode = true;
         if(_.isPlainObject(response.mapEntries)){
             response.mapEntries = _.values(response.mapEntries);
@@ -44,116 +48,248 @@ define([
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
         widget.createPaper(); 
+       
+        //we create the shapes from the response mapping 
+        setCurrentResponses(widget);
+        
+        //set up of the shape editor
+        widget._editor = createEditor(widget);
+     
+        listenResponseAttrChange(widget);
+  
+    }
 
+    /**
+     * Creates an identifier based on an areaMapping entry
+     * @private
+     * @param {Object} area - the map entry
+     * @returns {String} the identifier
+     */
+    function areaId(area){
+        return area.shape + '-' + area.coords.replace(/,*/g, '-');
+    }
+
+    /**
+     * Get the index of a area map entry in the entries
+     * @private
+     * @param {Object} response - the response declaration
+     * @param {String} id - the identifier from areaId used to retrieve the index
+     * @returns {Number|Boolean} the index or false
+     */
+    function getAreaIndex(response, id){
+        var found = false;
+        _.forEach(response.mapEntries, function(area, index){
+            if(areaId(area) === id){
+                found = index;
+                return false;
+            }
+        });
+        return found;
+    }
+ 
+     
+    /**
+     * Creates the shapes on the paper from the responses
+     * @private
+     * @param {Object} widget - the current widget
+     */
+    function setCurrentResponses(widget){
+        var interaction = widget.element;
+        var $container  = widget.$original; 
+        var response    = interaction.getResponseDeclaration();
+
+        //set up for the existing areas
         _.forEach(response.mapEntries, function(area){
-            var id = areaId(area);        
-            var shape = widget.createResponseArea(area.shape, area.coords); 
-            var scoreElt = graphicHelper.createShapeText(interaction.paper, shape, {
-                        id          : 'score-' + id,
-                        content     : area.mappedValue + '',
-                        style       : 'score-text-default',
-                        title       : __('Score value'),
-                        shapeClick  : true
-                    });
-            shape.id = id; 
+            var shape = widget.createResponseArea(area.shape, area.coords);
+            setUpScoringArea(widget, area, shape, false); 
         });
 
+        //set up a target if
+        if(answerStateHelper.isCorrectDefined(widget) && response.getCorrect().length){
+             _.forEach(response.getCorrect(), function(correct){
+                var point = correct.split(',');
+                if(point.length >= 2){
+                   var target = graphicHelper.createTarget(interaction.paper, {
+                        point : {
+                            x : point[0],
+                            y : point[1]
+                        }
+                   }); 
+                   widget._targets.push(target.id);
+                }
+           });
+        }
+
+        //hide popups by clicking the paper 
+        interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
+            $('.graphic-mapping-editor', $container).hide();
+        });
+    }
+
+    /**
+     * Creates and initialize the shape editor 
+     * @private
+     * @param {Object} widget - the current widget
+     * @return {ShapeEditor} the editor
+     */
+    function createEditor(widget){
+        var interaction = widget.element;
+        var response = interaction.getResponseDeclaration();
+
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
-        widget._editor = shapeEditor(widget, {
-            currents : response.mapEntries.map(areaId),
+        var editor = shapeEditor(widget, {
+            currents : response.mapEntries.map(areaId).concat(widget._targets),
             target : true,
             shapeCreated : function(shape, type){
-
+                var point, corrects, area;
                 if(type === 'target'){
-                    
-                    var point = shape.data('target');
-                    response.setCorrect(point.x + ',' + point.y);
-                } else {
+                    //add a correct response 
+                    point = shape.data('target');
+                    corrects = response.getCorrect() || [];
+                    corrects.push(point.x + ',' + point.y);
+                    response.setCorrect(corrects);
 
+                } else {
                     //create an area for the mapping
-                    var area = {
+                    area = {
                         shape  : type === 'path' ? 'poly' : type,
                         coords : graphicHelper.qtiCoords(shape),
                         mappedValue :  response.mappingAttributes.defaultValue || '0'
                     };
-                    var id = areaId(area);
-
-                    //display thedefault  score
-                    var scoreElt = graphicHelper.createShapeText(interaction.paper, shape, {
-                        id          : 'score-' + id,
-                        content     : area.mappedValue + '',
-                        style       : 'score-text-default',
-                        title       : __('Score value'),
-                        shapeClick  : true
-                    });
-
-                    //the score use the default value
-                    scoreElt.data('default', true); 
-
-                    //add an id to the shape                    
-                    shape.id = areaId(area);
+                    setUpScoringArea(widget, area, shape, true);
 
                     response.mapEntries.push(area);
                 }
             },
-            shapeRemoved : function(id){
-                _.remove(response.mapEntries, function(area){
-                    return id && areaId(area) === id;
-                });
+            shapeRemoved : function(id, data){
+                var scoreElt;
+                if(/^target/.test(id) && data.target){
+                    //remove from the correct response
+                    response.setCorrect(
+                        _.without(response.getCorrect(), data.target.x + ',' + data.target.y)
+                    );
+                } else {
+                    //remove the score and the popup
+                    scoreElt = interaction.paper.getById('score-' + id);
+                    if(scoreElt){
+                        scoreElt.remove();
+                    }
+                    $('#score-popup-' + id).remove(); 
+                    
+                    //remove the area from the mapping
+                    _.remove(response.mapEntries, function(area){
+                        return id && areaId(area) === id;
+                    });
+                }
             },
             enterHandling : function(shape){
+                //move the score back the shape and show the popup
                 shape.toFront();
+                $('#score-popup-' + shape.id).show(); 
             },
             quitHandling : function(shape){
+                //move the score in above the shape and hide the popup
                 var scoreElt = interaction.paper.getById('score-' + shape.id);
                 if(scoreElt){
                     scoreElt.show().toFront();
                 }
+                $('#score-popup-' + shape.id).hide(); 
             },
             shapeChanging : function(shape){
+                //move the score and the popup to create them again once the shape has moved
                 var scoreElt = interaction.paper.getById('score-' + shape.id);
                 if(scoreElt){
-                    scoreElt.hide();
+                    scoreElt.remove();
                 }
+                $('#score-popup-' + shape.id).remove(); 
             },
             shapeChange : function(shape){
-                var found = false;
-                _.forEach(response.mapEntries, function(area, index){
-                    if(areaId(area) === shape.id){
-                        found = index;
-                        return false;
-                    }
-                });
-                if(found !== false){
-                    response.mapEntries[found].coords = graphicHelper.qtiCoords(shape);
-
-                    //update the scoreTextPosition
-                    var scoreElt = interaction.paper.getById('score-' + shape.id);
-                    if(scoreElt){
-                        var bbox = shape.getBBox();
-                        var defaultState = scoreElt.data('default');
-                        scoreElt.attr({
-                            x : bbox.x + (bbox.width / 2), 
-                            y : bbox.y + (bbox.height / 2)
-                        }).show()
-                          .toFront();
-                        scoreElt.id = 'score-' + areaId(response.mapEntries[found]);
-                        //need to set data again because of the id change
-                        scoreElt.data('default', !!defaultState);
-                    }
-                    shape.id = areaId(response.mapEntries[found]);
+                //now the shape has moved, so we update the mapping and create again the score and the popup
+                var index = getAreaIndex(response, shape.id);
+                var mapEntry;
+                if(index !== false){
+                    mapEntry = response.mapEntries[index];
+                    response.mapEntries[index].coords = graphicHelper.qtiCoords(shape);
+                    setUpScoringArea(widget, mapEntry, shape, mapEntry.mappedValue === response.mappingAttributes.defaultValue);
+                    shape.id = areaId(mapEntry);
                 }
-
-
             }
         });
 
-        //and create it
-        widget._editor.create();
+        //Create our brand new editor
+        editor.create();
 
-        //initResponseMapping(widget);          
+        return editor;
+    }
+ 
+    /**
+     * Creates the score element and the popup to view/edit the score 
+     * @private
+     * @param {Object} widget - the current widget
+     * @param {Object} area   - the response area entry
+     * @param {Raphael.Element} shape   - the related shape
+     * @param {Boolean} default - if the score uses the default value
+     */
+    function setUpScoringArea(widget, area, shape, defaults){
+        var interaction     = widget.element;
+        var $container      = widget.$original; 
+        var isResponsive    = $container.hasClass('responsive');
+        var response        = interaction.getResponseDeclaration();
+        var id              = areaId(area);        
+        var $imageBox       = $('.main-image-box', $container);
+        var $popup          = grahicScorePopup(interaction.paper, shape, $imageBox, isResponsive);
+        var score           = area.mappedValue || response.mappingAttributes.defaultValue || '0';
 
-        //update the elements on attribute changes
+        var scoreElt    = graphicHelper.createShapeText(interaction.paper, shape, {
+                    id          : 'score-' + id,
+                    content     : area.mappedValue + '',
+                    style       : 'score-text-default',
+                    title       : __('Score value'),
+                    shapeClick  : true
+                });
+        scoreElt.data('default', !!defaults);
+        shape.id = id; 
+
+        $popup.attr('id', 'score-popup-' + id);
+
+        //create manually the mapping form (detached)
+        var $form = $(mappingFormTpl({
+            score     : area.mappedValue,
+            scoreMin  : response.getMappingAttribute('lowerBound'),
+            scoreMax  : response.getMappingAttribute('upperBound'),
+            noCorrect : true
+        }));
+        
+        //set up the form data binding
+        formElement.initDataBinding($form, response, {
+            score : function(response, value){
+                if(value === ''){
+                    scoreElt.attr({text : response.mappingAttributes.defaultValue})
+                             .data('default', true);
+                    graphicHelper.updateElementState(scoreElt, 'score-text-default');
+                } else {
+                    scoreElt.attr({text : value})
+                             .data('default', false);
+                    graphicHelper.updateElementState(scoreElt, 'score-text');
+                }
+                area.mappedValue = parseFloat(value);
+            }
+        });
+        $form.appendTo($popup);
+    }
+
+    /**
+     * Listen for changes in the response form that affects the creator : defaultValue and defineCorrect. 
+     * @private
+     * @param {Object} widget - the current widget
+     */
+    function listenResponseAttrChange(widget){
+        var interaction = widget.element;
+        var $container = widget.$container;        
+        var $target = $container.find('[data-type="target"]');
+        var $separator = $target.prev('.separator');
+
+        //update the default scores when the form value change
         widget.on('mappingAttributeChange', function(data){
             if(data.key === 'defaultValue'){
                 interaction.paper.forEach(function(element){
@@ -164,13 +300,18 @@ define([
             }
         });
 
-        //set the current corrects responses on the paper
-        //SelectPointInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
-
-        function areaId(area){
-            return area.shape + '-' + area.coords;
-        }
-        
+        //update the targets when the defineCorrect field cahnges
+        widget.on('metaChange', function(data){
+            if(data.key === 'defineCorrect'){
+                if(data.value === 1){
+                    $target.show();
+                    $separator.show();
+                } else {
+                    $target.hide();
+                    $separator.hide();
+                }
+            } 
+        });
     }
 
     /**
@@ -195,83 +336,6 @@ define([
         //initialize again the widget's paper
         this.widget.createPaper();
     }
-
-
-    /**
-     * Set up all elements to set the response mapping.
-     * TODO this method needs to be split
-     * @param {Oject} widget - the current widget
-     */
-    function initResponseMapping(widget){
-        var interaction = widget.element;
-        var $container  = widget.$container; 
-        var $imageBox   = $('.main-image-box', $container);
-        var response    = interaction.getResponseDeclaration();
-        var areas       = _.values(response.getMapEntries());
-        
-        var scoreTexts = {};
-
-        _.forEach(areas, function(area, index){
-            var shape = widget.createResponseArea(area.shape, area.coords);  
-            var $popup = grahicScorePopup(shape, $imageBox);
-            var score = area.mappedValue || response.mappingAttributes.defaultValue || '0'; 
-
-            //create an SVG  text from the default mapping value
-            scoreTexts[index] = graphicHelper.createShapeText(interaction.paper, shape, {
-                id          : 'score-' + index,
-                content     : score,
-                style       : 'score-text-default',
-                shapeClick  : true
-            }).data('default', true); 
-                      
-            //create manually the mapping form (detached)
-            var $form = $(mappingFormTpl({
-                score       : score,
-                scoreMin    : response.getMappingAttribute('lowerBound'),
-                scoreMax    : response.getMappingAttribute('upperBound')
-            }));
-
-            //set up the form data binding
-            formElement.initDataBinding($form, response, {
-                score : function(response, value){
-                    var scoreText = scoreTexts[index];
-                    if(value === ''){
-                        scoreText.attr({text : response.mappingAttributes.defaultValue})
-                                 .data('default', true);
-                        graphicHelper.updateElementState(scoreText, 'score-text-default');
-                    } else {
-                        scoreText.attr({text : value})
-                                 .data('default', false);
-                        graphicHelper.updateElementState(scoreText, 'score-text');
-                    }
-                    area.mappedValue = parseFloat(value);
-                    response.setMapEntry(index, area, true);
-                }
-            });
-            $form.appendTo($popup);
-        });
-
-        //set up ui components used by the form
-        incrementer($container);
-        tooltipster($container);
-
-         
-        interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
-            $('.graphic-mapping-editor', $container).hide();
-        });
-
-        //update the elements on attribute changes
-        widget.on('mappingAttributeChange', function(data){
-            if(data.key === 'defaultValue'){
-                _.forEach(scoreTexts, function(scoreText){
-                    if(scoreText.data('default') === true){
-                        scoreText.attr({text : data.value });
-                    }
-                });
-            }
-        });
-    }
-
 
     /**
      * The map answer state for the selectPoint interaction

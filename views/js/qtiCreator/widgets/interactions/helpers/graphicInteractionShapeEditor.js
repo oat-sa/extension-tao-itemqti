@@ -82,9 +82,7 @@ define([
                         $form.removeClass('active');
 
                         //start the shape editor (hnadling, resize, move)
-                        if(type !== 'target'){
-                            editShape(shape, true);
-                        }
+                        editCreatedShape(type, shape);
                     });
                 });
 
@@ -96,7 +94,11 @@ define([
                             .attr(GraphicHelper._style.creator)
                             .unmouseover()
                             .unmouseout();
-                        editShape(element);
+                        if(/^target/.test(element.id)){
+                            editCreatedShape('target', element);
+                        } else {
+                            editCreatedShape(element.type, element, false);
+                        }
                     }
                 });
 
@@ -177,7 +179,7 @@ define([
                             .off('click')
                             .off('bin.qti-widget');
 
-                    }).on('remove.qti-widget', function(id){
+                    }).on('remove.qti-widget', function(id, data){
                         if(_.isFunction(options.shapeRemoved)){
                             
                             /**
@@ -185,7 +187,7 @@ define([
                              * @callback shapeRemoved
                              * @param {String} id - the id of the passed away shape
                              */
-                            options.shapeRemoved(id);
+                            options.shapeRemoved(id, data);
                         }                
                         _.remove(currents, id);
                     });
@@ -211,6 +213,27 @@ define([
                     
                     factory.on('created.qti-widget', created); 
                     factory.start();
+                }
+
+                /**
+                 * Make the created shape editable
+                 * @private
+                 * @param {String} type - the shape type (rect, circle, ellipse or path)
+                 * @param {Raphael.Element} shape - the new shape
+                 * @param {Boolean} enterHandling - if the shape start in handling mode
+                 */
+                function editCreatedShape(type, shape, enterHandling){
+                    var layer, set;
+                    if(type !== 'target'){
+                        editShape(shape, enterHandling);
+                    } else {
+                        //for the target, we group the elements into a set
+                        layer    = paper.getById('layer-' + shape.id);
+                        set      = paper.set(shape, layer);
+                        set.id   = shape.id;
+                        set.data = shape.data(); 
+                        editShape(set, enterHandling);
+                    }
                 }
             },
 

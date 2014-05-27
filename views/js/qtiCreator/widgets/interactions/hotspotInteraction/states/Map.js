@@ -73,18 +73,19 @@ define([
      * @param {Oject} widget - the current widget
      */
     function initResponseMapping(widget){
-        var scoreTexts = {};
-        var interaction = widget.element;
-        var $container = widget.$original; 
-        var $imageBox = $('.main-image-box', $container);
-        var response = interaction.getResponseDeclaration();
-        var mapEntries = response.getMapEntries(); 
-        var corrects = _.values(response.getCorrect());
-        
+        var scoreTexts      = {};
+        var interaction     = widget.element;
+        var $container      = widget.$original; 
+        var isResponsive    = $container.hasClass('responsive');
+        var $imageBox       = $('.main-image-box', $container);
+        var response        = interaction.getResponseDeclaration();
+        var mapEntries      = response.getMapEntries(); 
+        var corrects        = _.values(response.getCorrect());
+
         //get the shape of each choice
         _.forEach(interaction.getChoices(), function(choice){    
             var shape = interaction.paper.getById(choice.serial);
-            var $popup = grahicScorePopup(shape, $imageBox);
+            var $popup = grahicScorePopup(interaction.paper, shape, $imageBox, isResponsive);
             var score = mapEntries[choice.id()] || response.mappingAttributes.defaultValue || '0'; 
 
             //create an SVG  text from the default mapping value
@@ -135,6 +136,11 @@ define([
                     }
                     response.setCorrect(corrects);
                 }
+            });
+
+            shape.click(function(){
+                $('.graphic-mapping-editor', $container).hide();
+                $popup.show();
             });
 
             $popup.append($form);

@@ -13,6 +13,7 @@ define([
                 } else {
                     interaction.removeClass('responsive');
                 }
+                widget.rebuild();
             }
         });
     };
