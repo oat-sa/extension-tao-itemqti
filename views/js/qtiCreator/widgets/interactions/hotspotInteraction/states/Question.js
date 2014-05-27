@@ -147,7 +147,10 @@ define([
     HotspotInteractionStateQuestion.prototype.initForm = function(){
 
         var _widget = this.widget,
+            options = _widget.options,
             $form = _widget.$form,
+            $uploadTrigger,
+            $src, $width, $height,
             interaction = _widget.element;
 
         $form.html(formTpl({
