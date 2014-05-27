@@ -178,14 +178,10 @@ define([
         this.widget.element.remove();//remove from model
         
         if(isRow){
-
             //need to update item body
-            
             var item = this.widget.element.getRelatedItem();
             var $item = item.data('widget').$container.find('.qti-itemBody');
-            var newBody = contentHelper.getContent($item);
-
-            item.body(newBody);
+            item.body(contentHelper.getContent($item));
         }
     };
 

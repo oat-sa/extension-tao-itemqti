@@ -11,15 +11,15 @@ define([
             maths: {
                 icon: 'maths',
                 css: {
-                    width : 80,
+                    width : 40,
                     height : 22
                 }
             },
             image: {
                 icon: 'image',
                 css: {
-                    width : 150,
-                    height : 100
+                    width : 50,
+                    height : 35
                 }
             },
             video: {
