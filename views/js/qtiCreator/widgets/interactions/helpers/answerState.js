@@ -34,6 +34,40 @@ define([
                 widget.changeState('custom');
             }
         },
+        defineCorrect : function(response, define){
+
+            var defineCorrect = false,
+                template = responseHelper.getTemplateNameFromUri(response.template),
+                corrects = response.getCorrect();
+
+            if(define === undefined){
+                //get:
+
+                if(template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT'){
+                    
+                    if(response.data('defineCorrect') !== undefined){
+                        defineCorrect = !!response.data('defineCorrect');
+                    }else{
+                        //infer it : 
+                        defineCorrect = (corrects && _.size(corrects));
+                        response.data('defineCorrect', defineCorrect);//set it
+                    }
+                    
+                }else if(template === 'MATCH_CORRECT'){
+                    defineCorrect = true;
+                }
+
+            }else{
+                //set:
+                if(!define){
+                    //empty correct response
+                    response.correctResponse = [];
+                }
+                response.data('defineCorrect', define);
+            }
+
+            return defineCorrect;
+        },
         initResponseForm : function(widget){
 
             var interaction = widget.element,
@@ -41,9 +75,8 @@ define([
                 rp = item.responseProcessing,
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),
-                corrects = response.getCorrect(),
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
-                defineCorrect = false,
+                defineCorrect = answerStateHelper.defineCorrect(response),
                 $correctWidgets = $();
 
             if(!template){
@@ -51,16 +84,6 @@ define([
                     template = 'CUSTOM';
                 }else{
                     throw 'invalid response template';
-                }
-            }
-            
-            if(editMapping){
-                if(response.data('defineCorrect') !== undefined){
-                    defineCorrect = !!response.data('defineCorrect');
-                }else{
-                    //infer it : 
-                    defineCorrect = (corrects && _.size(corrects));
-                    response.data('defineCorrect', defineCorrect);
                 }
             }
 
@@ -94,7 +117,7 @@ define([
             if(editMapping){
                 _toggleCorrectWidgets(defineCorrect);
             }
-            
+
             formElement.initDataBinding(widget.$responseForm, response, {
                 identifier : function(response, value){
                     response.id(value);
@@ -111,8 +134,9 @@ define([
                     answerStateHelper.initResponseForm(widget)
                 },
                 defineCorrect : function(response, value){
+                
                     _toggleCorrectWidgets(value);
-                    response.data('defineCorrect', defineCorrect);
+                    answerStateHelper.defineCorrect(response, !!value);
                 }
             });
 
