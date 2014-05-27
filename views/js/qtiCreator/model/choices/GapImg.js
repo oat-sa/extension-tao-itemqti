@@ -8,7 +8,8 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                object : {}
+                matchMin : 0,
+                matchMax : 0  
             };
         }
     });

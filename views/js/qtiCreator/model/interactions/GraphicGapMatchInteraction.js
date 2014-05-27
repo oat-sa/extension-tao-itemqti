@@ -4,8 +4,8 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/GraphicGapMatchInteraction',
-    'taoQtiItem/qtiItem/core/choices/GapImg',
-    'taoQtiItem/qtiItem/core/choices/AssociableHotspot',
+    'taoQtiItem/qtiCreator/model/choices/GapImg',
+    'taoQtiItem/qtiCreator/model/choices/AssociableHotspot',
 ], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot){
     var methods = {};
     _.extend(methods, editable);
@@ -48,8 +48,17 @@ define([
             if(!this.gapImgs){
                 this.gapImgs = [];
             }
-            this.gapImgs.push(gapImg);
+            this.addGapImg(gapImg);
+
+            if(this.getRenderer()){
+                gapImg.setRenderer(this.getRenderer());
+            }
+
+            $(document).trigger('choiceCreated.qti-widget', {'choice' : gapImg, 'interaction' : this});
+
+            return gapImg;
         },
+
         /**
          * Create a choice for the interaction
          * @param {Object} attr - the choice attributes

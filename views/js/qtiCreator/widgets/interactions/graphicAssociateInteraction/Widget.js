@@ -17,6 +17,7 @@ define([
 
         /**
          * Set up the widget
+         * @see {taoQtiItem/qtiCreator/widgets/interactions/Widget#initCreator}
          * @param {Object} options - extra options 
          * @param {String} options.baseUrl - the resource base url
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
@@ -31,6 +32,23 @@ define([
             Widget.initCreator.call(this);
            
             this.createPaper(); 
+        },
+
+        /**
+         * Gracefull destroy the widget
+         * @see {taoQtiItem/qtiCreator/widgets/Widget#destroy}
+         */
+        destroy : function(){
+
+            var $container = this.$original;
+            var $itemBody   = $container.parents('.qti-itemBody');
+
+            //stop listening the resize
+            $itemBody.off('resizestop.gridEdit.' + this.element.serial);
+            $(window).off('resize.qti-widget');
+
+            //call parent destroy
+            Widget.destroy.call(this);
         },
    
         /**

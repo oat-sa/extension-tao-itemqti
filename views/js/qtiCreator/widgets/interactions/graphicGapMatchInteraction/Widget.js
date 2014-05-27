@@ -7,7 +7,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg'
 ], function($, _, __, Widget, states, graphic, dummyElement, gapImgTpl){
 
     /**
@@ -39,9 +39,6 @@ define([
         /**
          * Gracefull destroy the widget
          * @see {taoQtiItem/qtiCreator/widgets/Widget#destroy}
-         * @param {Object} options - extra options 
-         * @param {String} options.baseUrl - the resource base url
-         * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         destroy : function(){
 
@@ -50,6 +47,7 @@ define([
 
             //stop listening the resize
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
+            $(window).off('resize.qti-widget');
 
             //call parent destroy
             Widget.destroy.call(this);
@@ -128,7 +126,7 @@ define([
     
             $gapList.empty();
             _.forEach(interaction.gapImgs, function(gapImg){
-                $gapList.append(gapImgTpl(gapImg));            
+                $gapList.append(gapImg.render());            
             });
         }
    });

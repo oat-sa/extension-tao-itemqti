@@ -210,7 +210,7 @@ define([
                 //scale on creation
                 resizer();
                 
-                $(window).resize(resizer);
+                $(window).on('resize.qti-widget', resizer);
 
                 $container.on('resize.qti-widget', resizer);
 

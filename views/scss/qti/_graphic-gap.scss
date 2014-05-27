@@ -7,13 +7,12 @@
         padding: 0 !important;
         clear: both;
         & > li {
-            width: 30px;
+            min-width: 30px;
             line-height: 30px;
             text-align: center;
             @include font-size(20);
             margin: 0;
             background: white();
-
             margin-right: 3px;
             &:hover{
                 @extend %selectableHover;
@@ -38,6 +37,9 @@
                 color: #333 !important;
                 background-color: transparent !important;
             }
+            &.empty {
+                margin: 0 !important;
+            } 
         }
     }
 

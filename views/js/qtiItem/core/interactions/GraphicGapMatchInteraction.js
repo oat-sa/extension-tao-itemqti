@@ -2,7 +2,10 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
 
     var GraphicGapMatchInteraction = GraphicInteraction.extend({
         qtiClass : 'graphicGapMatchInteraction',
-        gapImgs : {},
+        init : function(serial, attributes){
+            this._super(serial, attributes);
+            this.gapImgs = {};
+        },
         addGapImg : function(gapImg){
             if(Element.isA(gapImg, 'gapImg')){
                 gapImg.setRelatedItem(this.getRelatedItem() || null);
@@ -25,6 +28,9 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
                 gapImgs[id] = this.gapImgs[id];
             }
             return gapImgs;
+        },
+        getGapImg : function(serial){
+            return this.gapImgs[serial];
         },
         getComposingElements : function(){
             var elts = this._super();

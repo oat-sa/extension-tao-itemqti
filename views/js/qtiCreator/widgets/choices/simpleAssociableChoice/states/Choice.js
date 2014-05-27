@@ -35,7 +35,7 @@ define([
 
         //init data validation and binding
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'matchMin', 'matchMax');
-        callbacks['identifier'] = identifierHelper.updateChoiceIdentifier;
+        callbacks.identifier = identifierHelper.updateChoiceIdentifier;
         formElement.initDataBinding($form, choice, callbacks);
     };
     

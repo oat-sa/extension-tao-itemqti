@@ -364,16 +364,37 @@ define([
     };
 
     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function destroy(interaction){
+        var $container;
+        if(interaction.paper){
+            $container = Helper.getContainer(interaction);
+        
+            $(window).off('resize.qti-widget');
+
+            interaction.paper.clear();
+            Helper.removeInstructions(interaction);
+            
+            $('.main-image-box', $container).empty().removeAttr('style');            
+            $('.image-editor', $container).removeAttr('style'); 
+            $('ul', $container).empty();
+        }
+    };
+  
+    /**
      * Expose the common renderer for the hotspot interaction
      * @exports qtiCommonRenderer/renderers/interactions/HotspotInteraction
      */
     return {
-        qtiClass : 'graphicGapMatchInteraction',
-        template : tpl,
-        render : render,
-        getContainer : Helper.getContainer,
-        setResponse : setResponse,
-        getResponse : getResponse,
-        resetResponse : resetResponse
+        qtiClass        : 'graphicGapMatchInteraction',
+        template        : tpl,
+        render          : render,
+        getContainer    : Helper.getContainer,
+        setResponse     : setResponse,
+        getResponse     : getResponse,
+        resetResponse   : resetResponse,
+        destroy         : destroy
     };
 });

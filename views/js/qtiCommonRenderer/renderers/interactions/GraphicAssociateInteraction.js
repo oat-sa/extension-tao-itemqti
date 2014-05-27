@@ -431,6 +431,26 @@ define([
     };
 
     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function destroy(interaction){
+        var $container;
+        if(interaction.paper){
+            $container = Helper.getContainer(interaction);
+        
+            $(window).off('resize.qti-widget');
+
+            interaction.paper.clear();
+            Helper.removeInstructions(interaction);
+            
+            $('.main-image-box', $container).empty().removeAttr('style');            
+            $('.image-editor', $container).removeAttr('style'); 
+            $('ul', $container).empty();
+        }
+    };
+  
+    /**
      * Expose the common renderer for the hotspot interaction
      * @exports qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction
      */
@@ -441,6 +461,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

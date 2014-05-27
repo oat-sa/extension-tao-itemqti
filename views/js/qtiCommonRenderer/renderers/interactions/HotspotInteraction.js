@@ -196,7 +196,7 @@ define([
         if(interaction.paper){
             $container = Helper.getContainer(interaction);
         
-            $(window).off('resize');
+            $(window).off('resize.qti-widget');
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

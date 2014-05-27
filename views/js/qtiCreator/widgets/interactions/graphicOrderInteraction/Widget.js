@@ -49,6 +49,7 @@ define([
 
             //stop listening the resize
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
+            $(window).off('resize.qti-widget');
 
             //call parent destroy
             Widget.destroy.call(this);

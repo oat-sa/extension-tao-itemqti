@@ -1,6 +1,9 @@
 define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg'], function(tpl){
     return {
         qtiClass : 'gapImg',
-        template : tpl
+        template : tpl,
+        render : function(){
+
+        }
     };
 });

@@ -4,6 +4,7 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
@@ -11,11 +12,14 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg',
+    'taoQtiItem/qtiCreator/helper/dummyElement',
     'util/image',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, imageUtil, editor){
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, gapImgTpl, dummyElement, imageUtil, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -24,6 +28,7 @@ define([
 
         var widget      = this.widget;
         var interaction = widget.element;
+        var options     = widget.options; 
         var paper       = interaction.paper;
 
         if(!paper){
@@ -65,6 +70,8 @@ define([
         //and create an instance
         widget._editor.create();
 
+        _.forEach(interaction.getGapImgs(), setUpGapImg);
+        
         createGapImgPlaceholder();
 
         //we need to stop the question mode on resize, to keep the coordinate system coherent, 
@@ -74,44 +81,48 @@ define([
         });
 
         function createGapImgPlaceholder(){
-            var options      = widget.options; 
+
+
             var $gapList     = $('ul.source', widget.$original);
             var $placeholder = 
                 $('<li class="empty add-option">' +
                      '<div><span class="icon-add"></span></div>' +
                    '</li>') ;
             $placeholder.on('click', function(){
-                $placeholder.resourcemgr({
-                    appendContainer : options.mediaManager.appendContainer,
-                    root : '/',
-                    browseUrl : options.mediaManager.browseUrl,
-                    uploadUrl : options.mediaManager.uploadUrl,
-                    deleteUrl : options.mediaManager.deleteUrl,
-                    downloadUrl : options.mediaManager.downloadUrl,
-                    params : {
-                        uri : options.uri,
-                        lang : options.lang,
-                        filters : 'image/jpeg,image/png,image/gif'
-                    },
-                    pathParam : 'path',
-                    select : function(e, files){
-                        if(files.length > 0){ 
-                            imageUtil.getSize(options.baseUrl + files[0].file, function(size){
-                                if(size && size.width >= 0){
-                                    interaction.createGapImg({
-                                        data    : files[0].file,
-                                        width   : size.width,
-                                        height  : size.height,
-                                        type    : files[0].type
-                                    });
-                                    //add a gap img before the placeholder
-                                }
-                            });
-                        }
-                    }
-                });
+                var gapImg = interaction.createGapImg({});
+                setUpGapImg(gapImg);    
+            }); 
+            $placeholder.appendTo($gapList);
+        }
+
+        function setUpGapImg(gapImg){
+            var $gapList  = $('ul.source', widget.$original);
+            var $placeholder = $('.empty', $gapList);
+            var $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
+
+            if(!$gapImg.length){
+                $gapImg = $("<li></li>").insertBefore($placeholder);
+            }
+
+            if(gapImg.object && gapImg.object.attributes.data){
+                $gapImg.replaceWith(gapImg.render());
+
+            } else {
+                $gapImg.empty().append(
+                    dummyElement.get({
+                        icon: 'image',
+                        css: {
+                            width  : 60,
+                            height : 60
+                        },
+                        title : __('Select an image.')
+                    })
+                );
+            }
+
+            $gapImg.off('click').on('click', function(){
+                enterGapImgForm(gapImg.serial);
             });
-            $placeholder.appendTo($gapList); 
         }
 
         /**
@@ -127,17 +138,21 @@ define([
                     choiceFormTpl({
                         identifier  : choice.id(),
                         fixed       : choice.attr('fixed'),
-                        serial      : serial
+                        serial      : serial,
+                        matchMin    : choice.attr('matchMin'),
+                        matchMax    : choice.attr('matchMax'),
+                        choicesCount: _.size(interaction.getChoices())
                     })
                 );
 
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                formElement.initDataBinding($choiceForm, choice, {
-                    identifier  : identifierHelper.updateChoiceIdentifier,
-                    fixed       : formElement.getAttributeChangeCallback() 
-                });
+                var callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks.identifier = identifierHelper.updateChoiceIdentifier;
+                callbacks.fixed = formElement.getAttributeChangeCallback();
+
+                formElement.initDataBinding($choiceForm, choice, callbacks);
 
                 $formChoicePanel.show();
                 editor.openSections($formChoicePanel.children('section'));
@@ -154,6 +169,88 @@ define([
                 editor.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
+            }
+        }
+        
+        /**
+         * Set up the gapImg form
+         * @private
+         * @param {String} serial - the gapImg serial
+         */
+        function enterGapImgForm(serial){
+            var gapImg = interaction.getGapImg(serial);
+            var $uploadTrigger, $src, $width, $height, callbacks;
+            if(gapImg){
+                
+                $choiceForm.empty().html(
+                    gapImgFormTpl({
+                        identifier      : gapImg.id(),
+                        fixed           : gapImg.attr('fixed'),
+                        serial          :  serial,
+                        matchMin        : gapImg.attr('matchMin'),
+                        matchMax        : gapImg.attr('matchMax'),
+                        choicesCount    : _.size(interaction.getChoices()),
+                        baseUrl         : options.baseUrl,
+                        data            : gapImg.object.attributes.data,
+                        width           : gapImg.object.attributes.width,
+                        height          : gapImg.object.attributes.height
+                    })
+                );
+
+                $uploadTrigger = $choiceForm.find('[data-role="upload-trigger"]');
+                $src = $choiceForm.find('input[name=data]');
+                $width = $choiceForm.find('input[name=width]');
+                $height = $choiceForm.find('input[name=height]');
+
+                $uploadTrigger.on('click', function(){
+                    $uploadTrigger.resourcemgr({
+                        appendContainer : options.mediaManager.appendContainer,
+                        root : '/',
+                        browseUrl : options.mediaManager.browseUrl,
+                        uploadUrl : options.mediaManager.uploadUrl,
+                        deleteUrl : options.mediaManager.deleteUrl,
+                        downloadUrl : options.mediaManager.downloadUrl,
+                        params : {
+                            uri : options.uri,
+                            lang : options.lang,
+                            filters : 'image/jpeg,image/png,image/gif'
+                        },
+                        pathParam : 'path',
+                        select : function(e, files){
+                            if(files.length > 0){ 
+                                imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                                    if(size && size.width >= 0){
+                                        $width.val(size.width).trigger('change');
+                                        $height.val(size.height).trigger('change');
+                                    }
+                                    $src.val(files[0].file).trigger('change');
+                                });
+                            }
+                        }
+                    });
+                });
+
+                formElement.initWidget($choiceForm);
+
+                //init data validation and binding
+                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks.identifier = identifierHelper.updateChoiceIdentifier;
+                callbacks.fixed = formElement.getAttributeChangeCallback();
+                callbacks.data = function(element, value){
+                    gapImg.object.attr('data', value);
+                    setUpGapImg(gapImg);
+                };
+                callbacks.width = function(element, value){
+                    gapImg.object.attr('width', value);
+                };
+                callbacks.height = function(element, value){
+                    gapImg.object.attr('height', value);
+                };
+                formElement.initDataBinding($choiceForm, gapImg, callbacks);
+
+                $formChoicePanel.show();
+                editor.openSections($formChoicePanel.children('section'));
+                editor.closeSections($formInteractionPanel.children('section'));
             }
         }
     };
@@ -175,6 +272,9 @@ define([
         if(widget._editor){
             widget._editor.destroy();
         }
+
+        //remove gapImg placeholder
+        $('ul.source .empty', widget.$original).remove();
     };
     
     /**
@@ -198,9 +298,6 @@ define([
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
-            maxChoices      : parseInt(interaction.attr('maxChoices')),
-            minChoices      : parseInt(interaction.attr('minChoices')),
-            choicesCount    : _.size(_widget.element.getChoices()),
             data            : interaction.object.attributes.data,
             width           : interaction.object.attributes.width,
             height          : interaction.object.attributes.height
@@ -243,7 +340,7 @@ define([
         formElement.initWidget($form);
         
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
+        var callbacks  =  {};        
         callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
             _widget.rebuild({
@@ -260,7 +357,7 @@ define([
         };
         formElement.initDataBinding($form, interaction, callbacks);
         
-        interactionFormElement.syncMaxChoices(_widget);
+        //interactionFormElement.syncMaxChoices(_widget);
     };
 
     return GraphicGapMatchInteractionStateQuestion;
