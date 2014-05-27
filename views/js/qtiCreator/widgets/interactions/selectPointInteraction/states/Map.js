@@ -303,12 +303,20 @@ define([
         //update the targets when the defineCorrect field cahnges
         widget.on('metaChange', function(data){
             if(data.key === 'defineCorrect'){
-                if(data.value === 1){
+               if(data.value){
                     $target.show();
                     $separator.show();
                 } else {
                     $target.hide();
                     $separator.hide();
+    
+                    //remove targets
+                    _.forEach(widget._targets, function(targetId){
+                        var target = interaction.paper.getById(targetId);
+                        var layer  = interaction.paper.getById('layer-' + targetId);
+                        target.remove();
+                        layer.remove();
+                    }); 
                 }
             } 
         });
