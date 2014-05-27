@@ -16,10 +16,11 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
     'util/image',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, gapImgTpl, dummyElement, imageUtil, editor){
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, gapImgTpl, mediaTlbTpl, dummyElement, imageUtil, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -81,8 +82,6 @@ define([
         });
 
         function createGapImgPlaceholder(){
-
-
             var $gapList     = $('ul.source', widget.$original);
             var $placeholder = 
                 $('<li class="empty add-option">' +
@@ -102,11 +101,13 @@ define([
 
             if(!$gapImg.length){
                 $gapImg = $("<li></li>").insertBefore($placeholder);
+                $gapImg.data('serial', gapImg.serial)
+                       .attr('data-serial', gapImg.serial);
             }
 
             if(gapImg.object && gapImg.object.attributes.data){
-                $gapImg.replaceWith(gapImg.render());
-
+       //         $gapImg.replaceWith(gapImg.render());
+                  console.log('update gap img');
             } else {
                 $gapImg.empty().append(
                     dummyElement.get({
@@ -119,6 +120,17 @@ define([
                     })
                 );
             }
+            //add the delete
+            $gapImg.addClass('widget-box');
+            $(mediaTlbTpl())
+              .appendTo($gapImg)
+              .show()
+              .click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                $gapImg.remove();
+                interaction.removeGapImg(gapImg); 
+            });
 
             $gapImg.off('click').on('click', function(){
                 enterGapImgForm(gapImg.serial);
