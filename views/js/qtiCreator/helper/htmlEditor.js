@@ -260,7 +260,10 @@ define([
             containerWidget.$container.one('widgetCreated', function(e, widgets){
                 var targetWidget = widgets[innerWidget.serial];
                 if(targetWidget){
-                    targetWidget.changeState('active');
+                    //@todo : fix this race condition
+                    _.delay(function(){
+                        targetWidget.changeState('active');
+                    }, 100);
                 }
             });
 
