@@ -64,14 +64,10 @@ class QtiItemImportForm
      */
     public function initElements()
     {
-
-    	$descElt = tao_helpers_form_FormFactory::getElement('qti_desc', 'Label');
-		$descElt->setValue(__('A QTI item file is an XML file following the version 2.x of the QTI standard.'));
-		$this->form->addElement($descElt);
     	
     	//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file"));
+		$fileElt->setDescription(__("Add a QTI XML file"));
     	if(isset($_POST['import_sent_qti'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -85,7 +81,7 @@ class QtiItemImportForm
     	
 		$this->form->addElement($fileElt);
 		
-		$this->form->createGroup('file', __('Upload QTI File'), array('source','qti_desc', 'disable_validation'));
+		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source','qti_desc', 'disable_validation'));
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
 		$qtiSentElt->setValue(1);
