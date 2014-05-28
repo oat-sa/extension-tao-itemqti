@@ -27,11 +27,6 @@ define(function(){
             'actions' : {
                 'index' : 'taoItems/controller/preview/itemRunner'
             }
-        },
-        'QtiCreator' : {
-          'actions' : {
-            'index' : 'controller/creator/main'
-          }
         }
     };
 });

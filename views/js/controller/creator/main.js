@@ -70,6 +70,10 @@ define([
          */
         start : function(config){
 
+            var $tabs = $('#tabs');
+            var $tabNav = $('ul.ui-tabs-nav > li', $tabs);
+            var currentTab = $tabs.tabs('option', 'selected');
+
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
 
@@ -96,6 +100,17 @@ define([
                     _initUiComponents(widget, config);
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
+
+                    //leaving the tab, we try to let the place as clean as possible.
+                    $tabs.off('tabsselect.qti-creator').on('tabsselect.qti-creator', function(e, ui){
+                        var index = $tabNav.index($(this).parents('li'));
+                        if(index !== currentTab){
+                            //remove global events
+                            $(window).off('.qti-widget');
+                            $(document).off('.qti-widget');
+                            $tabs.off('tabsselect.qti-creator');
+                        }
+                    });
                     
                 }, item.getUsedClasses());
 
