@@ -214,6 +214,16 @@ define([
                 },
                 extraData
             ]);
+        },
+        targetBlank : function($container){
+            
+            $container.on('click', 'a', function(e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                if(href && href.match(/^http/i)){
+                    window.open(href, '_blank');
+                }
+            });
         }
     };
 });
