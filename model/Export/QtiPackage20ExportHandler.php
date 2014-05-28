@@ -35,4 +35,7 @@ use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
  */
 class QtiPackage20ExportHandler extends QtiPackageExportHandler 
 {
+    public function getLabel() {
+        return __('QTI Package 2.0');
+    }
 }
