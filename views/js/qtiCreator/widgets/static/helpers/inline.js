@@ -35,9 +35,10 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement'], function(_, dumm
                 $placeholder.hide();
             }
 
+            widget.$container.trigger('contentChange.qti-widget');
         },
         positionFloat : function(widget, position){
-        
+
             var $container = widget.$container,
                 elt = widget.element;
 

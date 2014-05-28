@@ -5,7 +5,9 @@ define([
 ], function(stateFactory, Choice, adaptSize){
 
     var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){
-
+        
+        var $container = this.widget.$container;
+        
         var resultArea = this.widget.$container.find('.result-area'),
             choiceArea = this.widget.$container.find('.choice-area'),
             addOption = choiceArea.find('.add-option'),
@@ -13,15 +15,15 @@ define([
                 return choiceArea.find('.qti-choice').add(resultArea.find('.target')).add(addOption);
             };
 
-        choiceArea.on('keyup', function(){
+        $container.on('keyup.choice contentChange.gridEdit.choice contentChange.qti-widget.choice', '.choice-area', function(){
             adaptSize.height(getElements(), false);
-        });
-
-        addOption.on('click', function() {
+        }).on('click.choice', '.add-option', function(){
             adaptSize.height(getElements());
-        })
+        });
         
     }, function(){
+        
+        this.widget.$container.off('.choice');
         
     });
 

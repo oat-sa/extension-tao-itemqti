@@ -137,16 +137,14 @@ define([
 
     InteractionWidget.listenToChoiceStates = function(){
 
-        var _this = this,
-            currentState = _this.getCurrentState();
+        var _this = this;
 
         this.afterStateInit(function(e, element, state){
-
+            
             if(element.is('choice')
                 && _this.element.getChoice(element.getSerial())
-                && currentState
-                && state.name !== currentState.name){
-
+                && state.name !== _this.getCurrentState().name){
+                
                 switch(state.name){
                     case 'choice':
                         _this.changeState(state.name);

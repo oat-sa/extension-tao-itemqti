@@ -24,13 +24,12 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
         //follow interaction state change
         this.afterStateInit(function(e, element, state){
-
+            
             if(element.is('interaction')
                 && element.getSerial() === _this.interaction.getSerial()
                 && state.name !== _this.getCurrentState().name){
-
+                
                 switch(state.name){
-                    case 'active':
                     case 'answer':
                     case 'sleep':
                     case 'question':
@@ -43,7 +42,16 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
             }
         });
-
+        
+        this.beforeStateExit(function(e, element, state){
+            if(element.is('interaction')
+                && element.getSerial() === _this.interaction.getSerial()
+                && state.name === 'choice'){
+                
+                _this.changeState('question');
+            }
+            
+        });
     };
 
     return ChoiceWidget;

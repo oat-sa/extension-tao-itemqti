@@ -28,6 +28,7 @@ define([
                 this.$original = $original;
                 this.$form = $form;
                 this.stateStack = [];
+                
                 this.registeredStates = {};
 
                 //build container from origin element
@@ -94,21 +95,21 @@ define([
          * @returns {object} this
          */
         changeState : function(stateName){
-
+            
             var _this = this,
                 state,
                 superStateName,
                 currentState = this.getCurrentState();
-
+            
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName];
             }else{
                 throw new Error('unknown target state : ' + stateName);
                 return null;
             }
-
+            
             if(currentState){
-
+                
                 if(currentState.name === state.name){
                     return this;
                 }else if(_.indexOf(state.superState, currentState.name) >= 0){
@@ -118,6 +119,16 @@ define([
                         superStateName = state.superState[i];
                         _pushState(this, superStateName);
                     }
+                    
+                }else if(_.indexOf(currentState.superState, state.name) >= 0){
+                    
+                    //just exit as much state as needed to get to it:
+                    for(var i = 0; i <= _.indexOf(currentState.superState, state.name); i++){
+                        _popState(_this);
+                    }
+                    
+                    return this;
+                    
                 }else{
 
                     //first, exit the current state
@@ -143,7 +154,6 @@ define([
             }
 
             _pushState(this, stateName);
-
             return this;
         },
         registerState : function(name, State){
@@ -165,6 +175,10 @@ define([
         },
         beforeStateInit : function(callback, ns){
             var evtName = 'beforeStateInit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
+            $(document).on(evtName, callback);
+        },
+        beforeStateExit : function(callback, ns){
+            var evtName = 'beforeStateExit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
             $(document).on(evtName, callback);
         },
         offEvents : function(ns){

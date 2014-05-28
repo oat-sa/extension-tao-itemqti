@@ -41,6 +41,7 @@ define([
         return _.throttle(function(img, value, name){
             $img[propertyName](value);
             _setAttr(img, value, name);
+            $img.trigger('contentChange.qti-widget');
         }, 100);
 
     };
