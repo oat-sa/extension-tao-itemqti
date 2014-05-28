@@ -18,7 +18,7 @@ define([
             $matchArea = this.widget.$container.find('.match-interaction-area'),
             qtiChoiceClassName = 'simpleAssociableChoice.matchInteraction';
 
-        var postRender = function(choice){
+        var _postRender = function(choice){
             
             choice.postRender({
                 ready : function(widget){
@@ -31,7 +31,9 @@ define([
         if(!$matchArea.find('.add-option').length){
             
             $matchArea.append(adderTpl());
-
+            
+            $matchArea.find('.add-options').show();
+            
             $matchArea.find('.add-option[data-role=add-col]').on('click', function(){
                 
                 //match set 0
@@ -40,14 +42,8 @@ define([
                 $matchArea.find('thead > tr').append(choice.render(qtiChoiceClassName));
                 $matchArea.find('tbody > tr').append(cellTpl({}));
                 
-                postRender({
-                    ready : function(widget){
-                        //transition state directly back to "question"
-                        widget.changeState('choice');
-                    }
-                }, choice);
-                
-            }).show();
+                _postRender(choice);
+            });
 
             $matchArea.find('.add-option[data-role=add-row]').on('click', function(){
                 
@@ -59,14 +55,8 @@ define([
                     otherMatchSetCount : _.size(interaction.choices[0])
                 }));
                 
-                postRender({
-                    ready : function(widget){
-                        //transition state directly back to "question"
-                        widget.changeState('choice');
-                    }
-                }, choice);
-                
-            }).show();
+                _postRender(choice);
+            });
         }
 
     };
