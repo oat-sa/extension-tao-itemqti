@@ -86,7 +86,21 @@ define([
         'simpleAssociableChoice',
         'simpleChoice'
     ];
-
+    
+    var _dependencies = {
+        associateInteraction : ['simpleAssociableChoice'],
+        choiceInteraction : ['simpleChoice'],
+        gapMatchInteraction : ['gap', 'gapText'],
+        graphicAssociateInteraction : ['associableHotspot'],
+        graphicGapMatchInteraction : ['associableHotspot', 'gapImg'],
+        graphicOrderInteraction : ['hotspotChoice'],
+        hotspotInteraction : ['hotspotChoice'],
+        hottextInteraction : ['hottext'],
+        inlineChoiceInteraction : ['inlineChoice'],
+        matchInteraction : ['simpleAssociableChoice'],
+        orderInteraction : ['simpleChoice']
+    };
+    
     var _renderableSubclasses = {
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
@@ -106,6 +120,7 @@ define([
         this.name = '';
         this.shuffleChoices = (options.shuffleChoices !== undefined)? options.shuffleChoices : true;
         
+        //store shuffled choice here
         this.shuffledChoices = [];
 
         /**
@@ -293,8 +308,18 @@ define([
             var required = [];
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
+                    
                     requiredClasses = _.intersection(requiredClasses, _renderableClasses);
                     requiredClasses = _.union(requiredClasses, _alwaysRequiredClasses);
+                    
+                    //add dependencies
+                    _.each(requiredClasses, function(reqClass){
+                        var deps = _dependencies[reqClass];
+                        if(deps){
+                            requiredClasses = _.union(requiredClasses, deps);
+                        }
+                    });
+                    
                     for(var i in requiredClasses){
                         var qtiClass = requiredClasses[i];
                         if(_renderableSubclasses[qtiClass]){
