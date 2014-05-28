@@ -98,8 +98,11 @@ define([
                 throw 'The given response is not compliant with PCI JSON representation.';
             }
             else{
-                // It's a base, Is it a directedPair?
-                if(typeof response.base.directedPair == 'undefined'){
+                // It's a base, Is it a directedPair? Null?
+                if (response.base == null) {
+                    return {"list" : {"directedPair" : []}};
+                }
+                else if (typeof response.base.directedPair == 'undefined'){
                     // Oops again, it is not a directedPair.
                     throw 'The matchInteraction only accepts directedPair values as responses.';
                 }
