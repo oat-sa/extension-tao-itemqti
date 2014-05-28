@@ -17,10 +17,17 @@ define([
             if(found){
                 
                 var parent = found.parent;
-                if(Element.isA(parent, 'interaction') && Element.isA(element, 'choice')){
-                    parent.removeChoice(element);
+                if(Element.isA(parent, 'interaction')){
+                    
+                    if(element.qtiClass === 'gapImg'){
+                        parent.removeGapImg(element);
+                    }else if(Element.isA(element, 'choice')){
+                        parent.removeChoice(element);
+                    }
                     removed = true;
+                    
                 }else if(typeof parent.initContainer === 'function' && found.location === 'body'){
+                    
                     if(_.isFunction(element.beforeRemove)){
                         element.beforeRemove();
                     }
