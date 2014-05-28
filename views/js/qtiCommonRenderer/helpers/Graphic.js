@@ -190,7 +190,9 @@ define([
         responsivePaper : function(id, options){
 
             var paper, image;
+
             var $container = options.container || $('#' + id).parent();
+            var $body  = $container.closest('.qti-itemBody');
             var width = options.width || $container.width();
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
@@ -227,8 +229,11 @@ define([
              * @private
              */
             function resizePaper(e, containerWidth){
-                containerWidth = containerWidth || $container.innerWidth() - (diff + 4);
-
+                var maxWidth   = $body.innerWidth();
+                containerWidth = containerWidth || $container.innerWidth() - (diff + 8);
+                if(containerWidth > maxWidth){
+                    containerWidth = maxWidth - (diff + 8);
+                }
                 paper.changeSize(containerWidth, height, false, false);
               
                 if(responsive){
