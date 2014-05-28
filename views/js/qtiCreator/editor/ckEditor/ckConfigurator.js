@@ -256,16 +256,22 @@ define([
 
             // modify plugins - this will change the toolbar too
             // this would add the qti plugins qtiPositionedPlugins
-            if(dtdMode === 'qti'){
-                positionedPlugins = _.assign(qtiPositionedPlugins, _.clone(options.positionedPlugins));
+            if(typeof options.positionedPlugins !== 'undefined') {
+                options.positionedPlugins = {}
             }
-            // this would add positionedPlugins (e.g. the media manager)
-            else{
-                positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
-            }
-            delete(options.positionedPlugins);
 
-            _updatePlugins(ckConfig, positionedPlugins);
+            // set options.positionedPlugins to false to prevent the class from using them at all
+            if(false !== options.positionedPlugins) {
+                if(dtdMode === 'qti'){
+                    positionedPlugins = _.assign(qtiPositionedPlugins, _.clone(options.positionedPlugins));
+                }
+                // this would add positionedPlugins (e.g. the media manager)
+                else{
+                    positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
+                }
+                delete(options.positionedPlugins);
+                _updatePlugins(ckConfig, positionedPlugins);
+            }
 
             config = _.assign({}, _.cloneDeep(originalConfig), ckConfig, options);
 
