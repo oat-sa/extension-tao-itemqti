@@ -8,7 +8,6 @@ define([
         template : tpl,
         getContainer : Helper.getContainer,
         render: function(item) {
-            console.log(item)
             itemStylesheetHandler.attach(item.stylesheets);
         }
     };

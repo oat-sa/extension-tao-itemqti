@@ -43,8 +43,8 @@
                 <div class="preview-message-box">
                     <div class="feedback-info small">
                         <span class="icon-info"></span>
-                        <span class="preview-scale-down">{{__ 'This preview may be scaled to fit your screen.'}}</span>
-                        {{__ 'The final rendering may differ!'}}
+                        {{__ 'This preview may be scaled to fit your screen. The final rendering may differ.'}}
+                        <a href="#">{{__ 'Don’t show this again!'}}</a>
                         <span title="{{__ 'Remove this message'}}" class="icon-close close-trigger"></span>
                     </div>
                 </div>

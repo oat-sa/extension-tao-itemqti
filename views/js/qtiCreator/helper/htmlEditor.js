@@ -95,10 +95,37 @@ define([
                         });
 
                     },
-                    changeMode : function(oldMode, newMode){
-                        if(oldMode !== newMode){
-                            $(this).find('.cke_nose').removeClass('float-space-' + oldMode).addClass('float-space-' + newMode);
+                    changeMode : function(oldYMode, newYMode){
+                        var element = this,
+                            $element = $(element),
+                            $nose = $element.find('.cke_nose');
+
+                        var xModeIsReady = function(domElem) {
+                            var dfd = new jQuery.Deferred(),
+                                counter = 0,
+                                check = setInterval(function () {
+                                    var style = domElem.getAttribute('style');
+                                    if (counter > 5 || style.indexOf('left') > -1 || style.indexOf('right') > -1) {
+                                        dfd.resolve();
+                                        clearInterval(check);
+                                    }
+                                    counter++;
+                                }, 1000);
+                            return dfd.promise();
+                        };
+
+                        if(oldYMode !== newYMode){
+                            $nose.removeClass('float-space-' + oldYMode).addClass('float-space-' + newYMode);
                         }
+
+                        $.when(xModeIsReady(element)).done(function() {
+                            if(!!element.style.left && !element.style.right){
+                                $nose.removeClass('float-space-right').addClass('float-space-left');
+                            }
+                            else {
+                                $nose.removeClass('float-space-left').addClass('float-space-right');
+                            }
+                        });
                     }
                 }
             },
@@ -136,7 +163,6 @@ define([
                     $editable.trigger('editorready', [e.editor]);
                 },
                 focus : function(e){
-
                     //show trigger
                     $editableContainer.find('[data-role="cke-launcher"]').hide();
                     $trigger.show();
