@@ -57,6 +57,20 @@ define([
         
         var $el, expectedLength, expectedLines, placeholderType;
  
+        // ckEditor config event.
+        ckEditor.on('instanceCreated', function(event) {
+            var editor = event.editor,
+                toolbarType = 'block';
+
+            editor.on('configLoaded', function(e) {
+                editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
+            });
+            
+            editor.on('change', function(e) {
+                Helper.triggerResponseChangeEvent(interaction, {});
+            });
+        });
+        
         // if the input is textarea
         if (!multiple) {
             $el = $container.find('textarea');
@@ -72,18 +86,14 @@ define([
 
             // Enable ckeditor only if text format is 'xhtml'.
             if (_getFormat(interaction) == 'xhtml') {
-                ckEditor.on('instanceCreated', function(event) {
-                    var editor = event.editor,
-                        toolbarType = 'block';
-
-                    editor.on('configLoaded', function(e) {
-                        editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
-                    });
-                });
-              
                 //replace the textarea with ckEditor
                 ckEditor.replace(interaction.attr('identifier'));
                 $container.find('#text-container').addClass('solid');
+            }
+            else {
+                $el.bind('keyup change', function(e) {
+                    Helper.triggerResponseChangeEvent(interaction, {});
+                })
             }
         } 
         else {
@@ -307,6 +317,55 @@ define([
             default:
                 return 'plain';
         }
+    };
+    
+    var updateFormat = function(interaction, from) {
+        var $container = Helper.getContainer(interaction);
+        
+        if (interaction.attr('format') == 'xhtml') {
+            ckEditor.replace(interaction.attr('identifier'));
+        }
+        else {
+            // preFormatted or plain
+            if (from == 'xhtml') {
+                ckEditor.instances[interaction.attr('identifier')].destroy();
+            }
+        }
+    };
+    
+    var enable = function(interaction) {
+        var $container = Helper.getContainer(interaction);
+        $container.find('input, textarea').removeAttr('disabled');
+        
+        if (interaction.attr('format') == 'xhtml') {
+            ckEditor.instances[interaction.attr('identifier')].destroy();
+            ckEditor.replace(interaction.attr('identifier'));
+        }
+    };
+    
+    var disable = function(interaction) {
+        var $container = Helper.getContainer(interaction);
+        $container.find('input, textarea').attr('disabled', 'disabled');
+        
+        if (interaction.attr('format') == 'xhtml') {
+            ckEditor.instances[interaction.attr('identifier')].destroy();
+            ckEditor.replace(interaction.attr('identifier'));
+        }
+    };
+    
+    var clearText = function(interaction) {
+        setText(interaction, '');
+    };
+    
+    var setText = function(interaction, text) {
+        var $container = Helper.getContainer(interaction);
+        
+        if (interaction.attr('format') == 'xhtml') {
+            ckEditor.instances[interaction.attr('identifier')].setData(text);
+        }
+        else {
+            $container.find('textarea').val(text);
+        }
     }
 
     return {
@@ -316,6 +375,11 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        updateFormat : updateFormat,
+        enable : enable,
+        disable : disable,
+        clearText : clearText,
+        setText : setText
     };
 });
