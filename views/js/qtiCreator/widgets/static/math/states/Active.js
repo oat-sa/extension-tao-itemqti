@@ -130,8 +130,9 @@ define([
         var $mathPanel = $form.children('.panel[data-role="mathml"]'),
             $texPanel = $form.children('.panel[data-role="latex"]'),
             $tex = $form.find('input[name=latex]'),
-            $math = $form.find('textarea[name=mathml]');
-
+            $math = $form.find('textarea[name=mathml]'),
+            $editMode = $form.find('select[name=editMode]');
+        
         //toggle form visibility
         $mathPanel.hide();
         $texPanel.hide();
@@ -145,7 +146,9 @@ define([
                     _createWarningTooltip($math);
                 }
                 $math.tooltipster('show');
-
+                $editMode.off('change.editMode').one('change.editMode', function(){
+                    $math.tooltipster('hide');
+                });
             }
         }
     };
@@ -153,7 +156,7 @@ define([
     var _createWarningTooltip = function($math){
 
         var $content = $('<span>')
-            .html(__('Currently a conversion from MathML to LaTeX is not available. If you editing MathML here, any LaTex code will be discarded.'));
+            .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
 
         $math.tooltipster({
             theme : 'tao-warning-tooltip',
