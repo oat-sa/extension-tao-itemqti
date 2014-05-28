@@ -19,41 +19,7 @@ define([
     }, function(){
         
         $(document).off('.qti-widget.question');
-    });
-
-    TextEntryInteractionStateQuestion.prototype.addNewChoiceButton = function(){
-
-        var _widget = this.widget,
-            $addChoice = _widget.$container.find('.add-option'),
-            interaction = _widget.element;
-
-        //init add choice button once only
-        if(!$addChoice.data('initialized')){
-
-            $addChoice.on('click.qti-widget', function(e){
-
-                e.stopPropagation();
-
-                //add a new choice
-                var choice = new Choice();
-                interaction.addChoice(choice);      
-                  
-                //append render choice:
-                $(this).closest('tr').before(_widget.renderChoice(choice));
-                _widget.buildChoice(choice, {
-                    ready : function(widget){
-                        //transition state directly back to "question"
-                        widget.changeState('question');
-                    }
-                });
-                
-                $('.widget-textEntry:last .icon-bin').css('display', 'inline');
-            });
-
-            //set button as initialized
-            $addChoice.data('initialized', true);
-        }
-    };
+    });    
 
     TextEntryInteractionStateQuestion.prototype.initForm = function(){
 
