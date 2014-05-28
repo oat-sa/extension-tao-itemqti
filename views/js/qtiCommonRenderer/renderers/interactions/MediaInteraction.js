@@ -53,13 +53,14 @@ define([
         
         var media = interaction.object.attributes;
         
-        if (isCreator) {
+        //if (isCreator) {
             var baseUrl = interaction.renderer.getOption('baseUrl');
-        } else {
-            var baseUrl = this.getOption('baseUrl') || '';
-        }
+        //} else {
+            //var baseUrl = this.getOption('baseUrl') || '';
+        //}
         
         var mediaType = getMediaType(media);
+        //console.log('mediaType', mediaType);
         var playFromPauseEvent = false;
         var pauseFromClick = false;
         
@@ -193,7 +194,7 @@ define([
             }
         }
         
-        //console.log(mediaFullUrl);
+        //console.log('mediaFullUrl', mediaFullUrl);
         
         if (mediaType == 'video') {
             var meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
@@ -230,6 +231,7 @@ define([
     var _destroy = function(interaction) {
         var $container = Helper.getContainer(interaction);
         $container.children('.instruction-container').empty();
+        Helper.getContainer(interaction).data('timesPlayed', 0);
     }
 
     /**
