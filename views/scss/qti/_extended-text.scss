@@ -21,6 +21,11 @@
             border-color: mix(#fff, $info, 20%);
         }
     }
-
+    
+    textarea {
+        max-width: 100%!important;
+        width: 100%;
+        height: 150px;
+        resize: none;
+    }
 }
-
