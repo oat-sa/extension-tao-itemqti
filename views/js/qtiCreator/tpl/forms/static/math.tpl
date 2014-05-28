@@ -29,12 +29,18 @@
     <input type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
 </div>
 
-<div class="panel" data-role="mathml" style="display:none;">
+<div class="panel sidebar-popup-container-box" data-role="mathml" style="display:none;">
     <label for="" class="has-icon">{{__ "MathML"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "Edit math expression using MathML"}}</div>
 
     <textarea name="mathml">{{{mathml}}}</textarea>
-    <a href="#">{{__ "Display larger editor"}}</a>
+    <a href="#" id="math-editor-trigger">{{__ "Display larger editor"}}</a>
+    <div id="math-editor-container" class="sidebar-popup">
+        <h3 id="math-editor-title">{{__ "MathML"}}</h3>
+        <span class="icon-grip-h dragger"></span>
+        <textarea id="math-editor-textarea">{{{mathml}}}</textarea>
+        <a class="closer" href="#" title="{{__ 'Close'}}"></a>
+    </div>
     <div class="math-buffer" style="visibility:hidden;"></div>
 </div>

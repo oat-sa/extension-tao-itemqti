@@ -43,6 +43,8 @@ define([
         //init selectboxes
         $form.find('select[name=display]').val(display);
         $form.find('select[name=editMode]').val(editMode);
+
+
         
         $form.children('.panel[data-role="' + editMode + '"]').show();
         _toggleMode($form, editMode);
@@ -63,7 +65,29 @@ define([
             tex = math.getAnnotation('latex'),
             display = math.attr('display') || 'inline',
             $math = $form.find('textarea[name=mathml]'),
-            $tex = $form.find('input[name=latex]');
+            $tex = $form.find('input[name=latex]'),
+            $enlarger = $form.find('#math-editor-trigger'),
+            $popup = $form.find('#math-editor-container'),
+            $largeTextArea = $popup.find('textarea'),
+            $closer = $popup.find('.closer'),
+            $dragger = $popup.find('.dragger');
+
+        // display popup
+        $enlarger.on('click', function(e){
+            e.preventDefault();
+            $largeTextArea.val($math.val());
+            $math.prop('disabled', true);
+            $popup.show();
+        });
+
+        // hide popup
+        $closer.on('click', function(){
+            $math.val($largeTextArea.val());
+            $math.prop('disabled', false);
+            $popup.hide();
+        });
+
+        $popup.draggable({ handle: $dragger });
 
 
         var mathEditor = new MathEditor({
