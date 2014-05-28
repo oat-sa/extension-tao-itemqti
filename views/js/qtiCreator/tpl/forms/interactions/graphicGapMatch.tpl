@@ -21,4 +21,8 @@
         <input name="height" value="{{height}}" type="text" />
     </div>
 
+    <div>
+        <label for="type">{{__ 'Mime Type'}}</label>
+        <input name="type" value="{{type}}" type="text" />
+    </div>
 </div>

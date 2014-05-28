@@ -28,14 +28,21 @@ define([
         
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please select the correct graphicGapMatch choices below.'));
-        
+       
+        widget._createGapImgs(); 
+ 
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
 
         GraphicGapMatchInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(PciResponse.unserialize(data.response, interaction)); 
+           //if(data.response && data.response.list){
+               //response.setCorrect(_.map(response.list.directedPair, function(pair){
+                        //return pair.join(' ');
+                    //})
+                //); 
+           //}
         });
 
     }

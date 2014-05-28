@@ -8,14 +8,14 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicOrder',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
-    'util/image',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, imageUtil, editor){
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement, identifierHelper, formTpl, choiceFormTpl, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -152,64 +152,31 @@ define([
      */
     GraphicOrderInteractionStateQuestion.prototype.initForm = function(){
 
-        var _widget = this.widget,
-            options = _widget.options,
-            $form = _widget.$form,
-            $uploadTrigger,
-            $src, $width, $height,
-            interaction = _widget.element;
+        var widget = this.widget;
+        var options = widget.options;
+        var interaction = widget.element;
+        var $form = widget.$form;
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
             maxChoices      : parseInt(interaction.attr('maxChoices')),
             minChoices      : parseInt(interaction.attr('minChoices')),
-            choicesCount    : _.size(_widget.element.getChoices()),
-            data            : interaction.object.attributes.data,
-            width           : interaction.object.attributes.width,
-            height          : interaction.object.attributes.height
+            choicesCount    : _.size(interaction.getChoices()),
+            data            : interaction.object.attr('data'),
+            width           : interaction.object.attr('width'),
+            height          : interaction.object.attr('height'),
+            type            : interaction.object.attr('type')
         }));
 
-        $uploadTrigger = $form.find('[data-role="upload-trigger"]');
-        $src = $form.find('input[name=data]');
-        $width = $form.find('input[name=width]');
-        $height = $form.find('input[name=height]');
-
-        $uploadTrigger.on('click', function(){
-            $uploadTrigger.resourcemgr({
-                appendContainer : options.mediaManager.appendContainer,
-                root : '/',
-                browseUrl : options.mediaManager.browseUrl,
-                uploadUrl : options.mediaManager.uploadUrl,
-                deleteUrl : options.mediaManager.deleteUrl,
-                downloadUrl : options.mediaManager.downloadUrl,
-                params : {
-                    uri : options.uri,
-                    lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
-                },
-                pathParam : 'path',
-                select : function(e, files){
-                    if(files.length > 0){ 
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
-                            
-                            if(size && size.width >= 0){
-                                $width.val(size.width).trigger('change');
-                                $height.val(size.height).trigger('change');
-                            }
-                            $src.val(files[0].file).trigger('change');
-                        });
-                    }
-                }
-            });
-        });
+        imageSelector($form, options); 
 
         formElement.initWidget($form);
         
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', false);
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
         callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
-            _widget.rebuild({
+            widget.rebuild({
                 ready:function(widget){
                     widget.changeState('question');
                 }
@@ -221,9 +188,12 @@ define([
         callbacks.height = function(inteaction, value){
             interaction.object.attr('height', value);
         };
+        callbacks.type = function(inteaction, value){
+            interaction.object.attr('type', value);
+        };
         formElement.initDataBinding($form, interaction, callbacks);
         
-        interactionFormElement.syncMaxChoices(_widget);
+        interactionFormElement.syncMaxChoices(widget);
     };
 
     return GraphicOrderInteractionStateQuestion;

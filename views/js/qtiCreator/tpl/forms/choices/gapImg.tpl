@@ -21,6 +21,11 @@
         <input name="height" value="{{height}}" type="text" />
     </div>
 
+    <div>
+        <label for="type">{{__ 'Mime type'}}</label>
+        <input name="type" value="{{type}}" type="text" />
+    </div>
+
     <hr>
 
     <h3>{{__ "Allowed number of matches"}}

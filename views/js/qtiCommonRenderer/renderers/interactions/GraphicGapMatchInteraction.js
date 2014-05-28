@@ -21,8 +21,10 @@ define([
     var render = function render(interaction){
         var $container = Helper.getContainer(interaction);
         var $gapList = $('ul', $container);
+        var $imageBox  = $('.main-image-box', $container);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
+        var diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
 
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
@@ -31,10 +33,14 @@ define([
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
+            diff        : diff,
             resize      : function(newWidth){
-                $gapList.width( ((newWidth < background.width ?  newWidth : background.width) ) + 'px');
-            } 
+                var boxWidth = $imageBox.innerWidth() - diff;
+                if(background.width < boxWidth){
+                    boxWidth = background.width;
+                }
+                $gapList.width( (newWidth < boxWidth ?  newWidth : boxWidth)  + 'px');
+        } 
         });
         
         //call render choice for each interaction's choices
@@ -45,6 +51,8 @@ define([
 
         //clicking the paper to reset selection
         _paperUnSelect(interaction);
+
+
     };
 
 
@@ -124,11 +132,16 @@ define([
      * @private
      * @param {Object} interaction
      * @param {Raphael.Element} element - the selected shape
+     * @param {Boolean} [trackResponse = true] - if the selection trigger a response chane
      */
-    var _selectShape = function _selectShape(interaction, element){
+    var _selectShape = function _selectShape(interaction, element, trackResponse){
         var $img, gapFiller, id, 
             bbox, startx,
             matching, currentCount;
+
+        if(typeof trackResponse === 'undefined'){
+            trackResponse = true;
+        }
             
         //lookup for the active element
         var $container = Helper.getContainer(interaction);
@@ -178,8 +191,10 @@ define([
                         
                         //and remove the filler
                         gapFiller.remove();
-                        
-                        Helper.triggerResponseChangeEvent(interaction);
+                       
+                        if(trackResponse){ 
+                            Helper.triggerResponseChangeEvent(interaction);
+                        }
                     }
                 });
             
@@ -299,7 +314,10 @@ define([
         var responseValues;
         if(response && interaction.paper){
             try{
+
+                                console.log('response received', response)
                 responseValues = pciResponse.unserialize(response, interaction);
+                                console.log('responseValues', responseValues)
             } catch(e){ }
             
             if(_.isArray(responseValues)){
@@ -309,9 +327,11 @@ define([
                     if(element){
                         _.forEach(responseValues, function(pair){
                             var index = _.indexOf(pair, choice.id());
+                                console.log('response match', pair, choice.id())
                             if(index > -1 && pair.length === 2){
+
                                 $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
-                                _selectShape(interaction, element);                  
+                                _selectShape(interaction, element, false); 
                             }
                         });
                     }

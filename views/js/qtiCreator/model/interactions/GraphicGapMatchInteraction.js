@@ -24,6 +24,7 @@ define([
             if(isResponsive === true){
                 this.addClass('responsive');
             }
+            
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'
@@ -49,6 +50,7 @@ define([
                 this.gapImgs = [];
             }
             this.addGapImg(gapImg);
+            gapImg.buildIdentifier('gapimg');
 
             if(this.getRenderer()){
                 gapImg.setRenderer(this.getRenderer());

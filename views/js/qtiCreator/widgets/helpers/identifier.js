@@ -28,11 +28,16 @@ define(['lodash'], function(_){
             //finally, set the new identifier to the choice
             choice.id(newId);
 
-            //update dom
+            //update domi
             var interaction = _get('interactionFromChoice', choice, function(){
                 return choice.getInteraction();
             });
-            choice.getContainer(null, choice.qtiClass+'.'+interaction.qtiClass).attr('data-identifier', choice.id());
+                
+            //FIXME some choices may not have a renderer, so we catch the thrown exception silently
+            try{
+                choice.getContainer(null, choice.qtiClass+'.'+interaction.qtiClass).attr('data-identifier', choice.id());
+            } catch(ex){}
+
         }
     }, 500);
 

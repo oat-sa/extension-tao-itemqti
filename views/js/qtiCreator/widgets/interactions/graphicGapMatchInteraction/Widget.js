@@ -60,18 +60,28 @@ define([
 
             var $container = this.$original;
             var $itemBody  = $container.parents('.qti-itemBody');
+            var $gapList   = $('ul.source', $container);
+            var $imageBox  = $('.main-image-box', $container);
             var background = this.element.object.attributes;
+            var diff;
             if(!background.data){
                 this._createPlaceholder();
             } else {
-           
+                diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
                 this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
                     width       : background.width, 
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + this.element.serial,
-                    diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
-                    container   : $container
+                    diff        : diff,
+                    container   : $container,
+                    resize      : function(newWidth){
+                        var boxWidth = $imageBox.innerWidth() - diff;
+                        if(background.width < boxWidth){
+                            boxWidth = background.width;
+                        }
+                        $gapList.width( (newWidth < boxWidth ?  newWidth : boxWidth)  + 'px');
+                    } 
                 });
 
                 //listen for internal size change

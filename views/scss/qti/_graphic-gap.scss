@@ -7,11 +7,13 @@
         padding: 0 !important;
         clear: both;
         & > li {
-            min-width: 30px;
-            line-height: 30px;
+            min-width: 60px;
+            line-height: 60px;
+            min-height : 60px;
             text-align: center;
             @include font-size(20);
             margin: 0;
+            padding: 0;
             background: white();
             margin-right: 3px;
             cursor: pointer;
@@ -39,6 +41,14 @@
             }
             &.empty {
                 margin: 0 !important;
+                width: 60px;
+                height: 60px;
+            }
+            .dummy-element {
+                cursor : pointer;
+            }       
+            .mini-tlb {
+                @include font-size(14);
             } 
         }
     }

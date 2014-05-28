@@ -9,18 +9,17 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'util/image',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, gapImgTpl, mediaTlbTpl, dummyElement, imageUtil, editor){
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -106,7 +105,7 @@ define([
             }
 
             if(gapImg.object && gapImg.object.attributes.data){
-       //         $gapImg.replaceWith(gapImg.render());
+                  $gapImg.replaceWith(gapImg.render());
                   console.log('update gap img');
             } else {
                 $gapImg.empty().append(
@@ -126,10 +125,10 @@ define([
               .appendTo($gapImg)
               .show()
               .click(function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                $gapImg.remove();
-                interaction.removeGapImg(gapImg); 
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $gapImg.remove();
+                    gapImg.remove();
             });
 
             $gapImg.off('click').on('click', function(){
@@ -203,44 +202,14 @@ define([
                         matchMax        : gapImg.attr('matchMax'),
                         choicesCount    : _.size(interaction.getChoices()),
                         baseUrl         : options.baseUrl,
-                        data            : gapImg.object.attributes.data,
-                        width           : gapImg.object.attributes.width,
-                        height          : gapImg.object.attributes.height
+                        data            : gapImg.object.attr('data'),
+                        width           : gapImg.object.attr('width'),
+                        height          : gapImg.object.attr('height'),
+                        type            : gapImg.object.attr('type')
                     })
                 );
 
-                $uploadTrigger = $choiceForm.find('[data-role="upload-trigger"]');
-                $src = $choiceForm.find('input[name=data]');
-                $width = $choiceForm.find('input[name=width]');
-                $height = $choiceForm.find('input[name=height]');
-
-                $uploadTrigger.on('click', function(){
-                    $uploadTrigger.resourcemgr({
-                        appendContainer : options.mediaManager.appendContainer,
-                        root : '/',
-                        browseUrl : options.mediaManager.browseUrl,
-                        uploadUrl : options.mediaManager.uploadUrl,
-                        deleteUrl : options.mediaManager.deleteUrl,
-                        downloadUrl : options.mediaManager.downloadUrl,
-                        params : {
-                            uri : options.uri,
-                            lang : options.lang,
-                            filters : 'image/jpeg,image/png,image/gif'
-                        },
-                        pathParam : 'path',
-                        select : function(e, files){
-                            if(files.length > 0){ 
-                                imageUtil.getSize(options.baseUrl + files[0].file, function(size){
-                                    if(size && size.width >= 0){
-                                        $width.val(size.width).trigger('change');
-                                        $height.val(size.height).trigger('change');
-                                    }
-                                    $src.val(files[0].file).trigger('change');
-                                });
-                            }
-                        }
-                    });
-                });
+                imageSelector($choiceForm, options);
 
                 formElement.initWidget($choiceForm);
 
@@ -257,6 +226,9 @@ define([
                 };
                 callbacks.height = function(element, value){
                     gapImg.object.attr('height', value);
+                };
+                callbacks.type = function(element, value){
+                    gapImg.object.attr('type', value);
                 };
                 formElement.initDataBinding($choiceForm, gapImg, callbacks);
 
@@ -301,53 +273,20 @@ define([
      */
     GraphicGapMatchInteractionStateQuestion.prototype.initForm = function(){
 
-        var _widget = this.widget,
-            options = _widget.options,
-            $form = _widget.$form,
-            $uploadTrigger,
-            $src, $width, $height,
-            interaction = _widget.element;
+        var widget = this.widget;
+        var options = widget.options;
+        var interaction = widget.element;
+        var $form = widget.$form;
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
-            data            : interaction.object.attributes.data,
-            width           : interaction.object.attributes.width,
-            height          : interaction.object.attributes.height
+            data            : interaction.object.attr('data'),
+            width           : interaction.object.attr('width'),
+            height          : interaction.object.attr('height'),
+            type            : interaction.object.attr('type')
         }));
 
-        $uploadTrigger = $form.find('[data-role="upload-trigger"]');
-        $src = $form.find('input[name=data]');
-        $width = $form.find('input[name=width]');
-        $height = $form.find('input[name=height]');
-
-        $uploadTrigger.on('click', function(){
-            $uploadTrigger.resourcemgr({
-                appendContainer : options.mediaManager.appendContainer,
-                root : '/',
-                browseUrl : options.mediaManager.browseUrl,
-                uploadUrl : options.mediaManager.uploadUrl,
-                deleteUrl : options.mediaManager.deleteUrl,
-                downloadUrl : options.mediaManager.downloadUrl,
-                params : {
-                    uri : options.uri,
-                    lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
-                },
-                pathParam : 'path',
-                select : function(e, files){
-                    if(files.length > 0){ 
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
-                            
-                            if(size && size.width >= 0){
-                                $width.val(size.width).trigger('change');
-                                $height.val(size.height).trigger('change');
-                            }
-                            $src.val(files[0].file).trigger('change');
-                        });
-                    }
-                }
-            });
-        });
+        imageSelector($form, options); 
 
         formElement.initWidget($form);
         
@@ -355,7 +294,7 @@ define([
         var callbacks  =  {};        
         callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
-            _widget.rebuild({
+            widget.rebuild({
                 ready:function(widget){
                     widget.changeState('question');
                 }
@@ -367,9 +306,10 @@ define([
         callbacks.height = function(inteaction, value){
             interaction.object.attr('height', value);
         };
+        callbacks.type = function(inteaction, value){
+            interaction.object.attr('type', value);
+        };
         formElement.initDataBinding($form, interaction, callbacks);
-        
-        //interactionFormElement.syncMaxChoices(_widget);
     };
 
     return GraphicGapMatchInteractionStateQuestion;
