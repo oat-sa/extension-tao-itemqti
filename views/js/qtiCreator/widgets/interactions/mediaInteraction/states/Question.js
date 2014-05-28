@@ -16,8 +16,7 @@ define([
             //_widget.$container.find('[data-state=answer]').html('Media settings');
             
             if ( _widget.$container.find('.instruction-container .mejs-container').length == 0 ) {
-                //MediaInteractionCommonRenderer.theRender(interaction, true);
-                MediaInteractionCommonRenderer.render(interaction, true);
+                //MediaInteractionCommonRenderer.render(interaction, true);
             }
         },
         function() {
@@ -78,6 +77,17 @@ define([
         callbacks['data'] = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
             interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
+            
+            var dataValue = attrValue.trim().toLowerCase();
+            //console.log('dataValue ', dataValue);
+            if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
+                interaction.object.attr('type', 'video/youtube');
+            }
+            
+            //console.log('change data');
+            MediaInteractionCommonRenderer.destroy(interaction);
+            MediaInteractionCommonRenderer.render(interaction, true);
+            
         };
         //and so on for the other attributes...
         
@@ -86,7 +96,7 @@ define([
         _widget.on('attributeChange', function(data){
             //if the template changes, forward the modification to a helper
             //answerStateHelper.forward(_widget);
-            console.log(data);
+            //console.log(data);
             //debugger;
             
         });
@@ -95,8 +105,8 @@ define([
         var selectMediaButton = $(_widget.$form).find(".selectMediaFile");
         selectMediaButton.on('click', function() {
             
-            console.log( $form );
-            console.log( $form.find('input[name=data]') );
+            //console.log( $form );
+            //console.log( $form.find('input[name=data]') );
             
             $(this).resourcemgr({
                 appendContainer : options.mediaManager.appendContainer,
@@ -114,13 +124,13 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
                     if(files.length > 0){ 
-                        console.log(files, files[0].file, files[0].mime);
+                        //console.log(files, files[0].file, files[0].mime);
                         // set data field content and meybe detect and set media type here
                         var dataInput = $($form.find('input[name=data]'));
                         dataInput.val( files[0].file );
                         dataInput.trigger('change');
                         interaction.object.attr('type', files[0].mime);
-                        console.log(interaction, options.baseUrl+files[0].file );
+                        //console.log(interaction, options.baseUrl+files[0].file );
                     }
                 }
             });

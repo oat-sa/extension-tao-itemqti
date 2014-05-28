@@ -18,8 +18,6 @@ define([
         options.uri = this.getOption('uri');
         options.lang = this.getOption('lang');
         options.mediaManager = this.getOption('mediaManager');
-
-        //MediaInteraction.theRender(interaction, true);
         
         return MediaInteractionWidget.build(
             interaction,

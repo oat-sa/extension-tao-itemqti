@@ -35,12 +35,6 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction, isCreator) {
-        /*theRender( interaction );
-    };
-    
-
-    var theRender = function realRender(interaction, isCreator) {
-        */
         var $container = Helper.getContainer(interaction);
 
         if (isCreator) {
@@ -55,18 +49,15 @@ define([
             _.defaults(interaction.object.attributes, mediaDefaults);
         }
         
+        //console.log('interaction', interaction);
+        
         var media = interaction.object.attributes;
-        console.log('THISA ', this);
         
         if (isCreator) {
-            //console.log( 'ARE BE HUI SPLESKAN ', interaction.renderer.getOption('baseUrl') );
             var baseUrl = interaction.renderer.getOption('baseUrl');
         } else {
             var baseUrl = this.getOption('baseUrl') || '';
         }
-        
-        //var baseUrl = this.getOption('baseUrl') || '';
-        console.log(baseUrl);
         
         var mediaType = getMediaType(media);
         var playFromPauseEvent = false;
@@ -113,15 +104,11 @@ define([
                 if ($container.data('timesPlayed') === undefined) {
                     $container.data('timesPlayed', 0);
                 }
+                
                 if (interaction.attributes.autostart && ((interaction.attributes.maxPlays===0) || $container.data('timesPlayed') < interaction.attributes.maxPlays) ) {
-                    
-                    if (mediaType === 'video/youtube') {
-                        mediaElement.addEventListener('canplay', function() {
-                            mediaElement.play();
-                        }, false);
-                    } else {
+                    mediaElement.addEventListener('canplay', function() {
                         mediaElement.play();
-                    }
+                    }, false);
                 }
 
                 
@@ -181,6 +168,7 @@ define([
             },
             
             error: function(playerDom) {
+                //console.log('error on mediaelement init');
                 $(playerDom).closest('div.mejs-container').find('.me-cannotplay').remove();
             }
         };
@@ -195,22 +183,26 @@ define([
             mediaOptions.videoHeight = mediaOptions.defaultVideoHeight;
         }
         
+        mediaFullUrl = media.data;
+        
         if (mediaType === 'video' || mediaType === 'audio') {
-            media.data = media.data.trim();
-            var mediaDataLower = media.data.toLowerCase();
+            mediaFullUrl = media.data.trim();
+            var mediaDataLower = mediaFullUrl.toLowerCase();
             if ( mediaDataLower.indexOf('http://www.') !== 0 && mediaDataLower.indexOf('http://') !== 0 && mediaDataLower.indexOf('www.') !== 0 ) {
-                media.data = baseUrl+media.data;
+                mediaFullUrl = baseUrl+mediaFullUrl;
             }
         }
         
+        //console.log(mediaFullUrl);
+        
         if (mediaType == 'video') {
-            var meTag = $('<video src="' + media.data + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
+            var meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
         } else if (mediaType == 'video/youtube') {
             var meTag = $('<video width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" preload="none"> '+
-                ' <source type="video/youtube" src="'+ media.data +'" /> ' +
+                ' <source type="video/youtube" src="'+ mediaFullUrl +'" /> ' +
                 '</video>').appendTo(meHtmlContainer);
         } else if (mediaType == 'audio') {
-            var meTag = $('<audio src="' + media.data + '" width="' + mediaOptions.audioWidth + 'px" ></audio>').appendTo(meHtmlContainer);
+            var meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px" ></audio>').appendTo(meHtmlContainer);
         }
         
         $(meTag).on('contextmenu', function(event) {
@@ -233,6 +225,11 @@ define([
                 });
             }
 
+    }
+    
+    var _destroy = function(interaction) {
+        var $container = Helper.getContainer(interaction);
+        $container.children('.instruction-container').empty();
     }
 
     /**
@@ -324,7 +321,7 @@ define([
         getContainer: Helper.getContainer,
         setResponse: setResponse,
         getResponse: getResponse,
-        resetResponse: resetResponse//,
-        //theRender: theRender
+        resetResponse: resetResponse,
+        destroy: _destroy
     };
 });
