@@ -18,7 +18,7 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-
+        var corrects  = _.values(response.getCorrect());
         //really need to destroy before ? 
         GraphicGapMatchInteraction.destroy(interaction);
 
@@ -33,16 +33,20 @@ define([
  
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
-
-        GraphicGapMatchInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+    
+        GraphicGapMatchInteraction.setResponse(
+            interaction, 
+            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+        );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-           //if(data.response && data.response.list){
-               //response.setCorrect(_.map(response.list.directedPair, function(pair){
-                        //return pair.join(' ');
-                    //})
-                //); 
-           //}
+           if(data.response && data.response.list){
+                response.setCorrect(
+                    _.map(data.response.list.directedPair, function(pair){
+                        return pair.join(' ');
+                    })
+                ); 
+           }
         });
 
     }

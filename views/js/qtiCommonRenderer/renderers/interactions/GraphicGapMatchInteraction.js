@@ -175,8 +175,8 @@ define([
                 .data('identifier', id)
                 .toFront()
                 .move(bbox.x + (3 * (currentCount)), bbox.y + (3 * (currentCount)))
-                .click(function(){
-
+                .click(function(e){
+                    e.stopPropagation();
                     if($gapList.find('.active').length > 0){
 
                         //simulate a click on the shape
@@ -192,9 +192,7 @@ define([
                         //and remove the filler
                         gapFiller.remove();
                        
-                        if(trackResponse){ 
-                            Helper.triggerResponseChangeEvent(interaction);
-                        }
+                        Helper.triggerResponseChangeEvent(interaction);
                     }
                 });
             
@@ -314,10 +312,7 @@ define([
         var responseValues;
         if(response && interaction.paper){
             try{
-
-                                console.log('response received', response)
                 responseValues = pciResponse.unserialize(response, interaction);
-                                console.log('responseValues', responseValues)
             } catch(e){ }
             
             if(_.isArray(responseValues)){
@@ -327,7 +322,6 @@ define([
                     if(element){
                         _.forEach(responseValues, function(pair){
                             var index = _.indexOf(pair, choice.id());
-                                console.log('response match', pair, choice.id())
                             if(index > -1 && pair.length === 2){
 
                                 $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');

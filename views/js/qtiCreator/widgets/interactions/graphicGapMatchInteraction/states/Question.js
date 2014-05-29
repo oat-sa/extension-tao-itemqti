@@ -106,7 +106,6 @@ define([
 
             if(gapImg.object && gapImg.object.attributes.data){
                   $gapImg.replaceWith(gapImg.render());
-                  console.log('update gap img');
             } else {
                 $gapImg.empty().append(
                     dummyElement.get({
