@@ -8,7 +8,7 @@ define([
 
         var found = false,
             modalFeedbacks = [];
-        
+
         _.each(response.feedbackRules, function(rule){
             if(rule.feedbackThen && rule.feedbackThen.qtiClass === 'modalFeedback'){
                 modalFeedbacks.push(rule.feedbackThen);
@@ -24,13 +24,14 @@ define([
                 return false;//break
             }
         });
-        
+
         return found;
     };
-    
+
     var InteractionStateActive = stateFactory.extend(Active, function(){
 
         var _widget = this.widget,
+            $container = _widget.$container,
             interaction = _widget.element,
             response = interaction.getResponseDeclaration();
 
@@ -52,6 +53,16 @@ define([
                 }
             }
         }, 'otherActive');
+
+        $container.on('mouseenter.active', function(e){
+            e.stopPropagation();
+            $container.parent().trigger('mouseleave.sleep');
+        }).on('mouseleave.active', function(e){
+            e.stopPropagation();
+            $container.parent().trigger('mouseenter.sleep');
+        }).on('click.active', function(e){
+            e.stopPropagation();
+        });
 
     }, function(){
 
