@@ -47,9 +47,10 @@ define([
     contentHelper.serializeElements = function($el){
 
         var existingElements = [];
-
-        $el.find('.widget-box').each(function(){
-
+        
+        //select only the first level of ".widget-box" found
+        $el.find('.widget-box:not(.widget-box *)').each(function(){
+            
             var $qtiElementWidget = $(this);
 
             if($qtiElementWidget.data('serial')){
@@ -57,6 +58,8 @@ define([
                 //an existing qti element:
                 var serial = $qtiElementWidget.data('serial');
                 $qtiElementWidget.replaceWith('{{' + serial + '}}');
+                
+                //store existing element
                 existingElements.push(serial);
 
             }else if($qtiElementWidget.data('new') && $qtiElementWidget.data('qti-class')){
@@ -70,7 +73,7 @@ define([
             }
 
         });
-
+        
         return existingElements;
     };
 

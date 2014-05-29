@@ -218,11 +218,11 @@ define([
                 });
             }
         });
-
+        
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
         $clonedContainer.find('.qti-itemBody > .grid-row > [data-text-block-id]').each(function(){
-
+            
             var $col = $(this),
                 textBlockId = $col.data('text-block-id'),
                 $subContainer = $col.clone(),
@@ -242,7 +242,7 @@ define([
         contentHelper.serializeElements($clonedContainer);
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),
             itemBody = item.getBody();
-
+        
         containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
 
             if(_.size(newElts) !== subContainers.length){
