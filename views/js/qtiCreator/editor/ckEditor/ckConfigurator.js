@@ -92,7 +92,9 @@ define([
             floatSpaceDockedOffsetY : 0,
             forcePasteAsPlainText : true,
             skin : 'tao',
-            removePlugins : ''
+            removePlugins : '',
+            linkShowAdvancedTab:false,
+            linkShowTargetTab:false
         };
 
 
