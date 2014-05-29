@@ -16,18 +16,14 @@ define(['taoQtiItem/qtiItem/core/interactions/GraphicInteraction', 'taoQtiItem/q
             var serial = '';
             if(typeof(gapImg) === 'string'){
                 serial = gapImg;
-            }else if(Element.isA('gapImg')){
+            }else if(Element.isA(gapImg, 'gapImg')){
                 serial = gapImg.getSerial();
             }
             delete this.gapImgs[serial];
             return this;
         },
         getGapImgs : function(){
-            var gapImgs = {};
-            for(var id in this.gapImgs){
-                gapImgs[id] = this.gapImgs[id];
-            }
-            return gapImgs;
+            return _.clone(this.gapImgs);
         },
         getGapImg : function(serial){
             return this.gapImgs[serial];
