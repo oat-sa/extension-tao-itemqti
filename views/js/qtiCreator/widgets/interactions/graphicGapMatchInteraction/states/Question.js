@@ -93,7 +93,7 @@ define([
             $placeholder.appendTo($gapList);
         }
 
-        function setUpGapImg(gapImg){
+        function setUpGapImg(gapImg, update){
             var $gapList  = $('ul.source', widget.$original);
             var $placeholder = $('.empty', $gapList);
             var $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
@@ -105,7 +105,9 @@ define([
             }
 
             if(gapImg.object && gapImg.object.attributes.data){
-                  $gapImg.replaceWith(gapImg.render());
+                  if(update === true){
+                    $gapImg.replaceWith(gapImg.render());
+                  }
             } else {
                 $gapImg.empty().append(
                     dummyElement.get({
@@ -127,7 +129,7 @@ define([
                     e.preventDefault();
                     e.stopPropagation();
                     $gapImg.remove();
-                    gapImg.remove();
+                    interaction.removeGapImg(gapImg);
             });
 
             $gapImg.off('click').on('click', function(){
@@ -218,7 +220,7 @@ define([
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function(element, value){
                     gapImg.object.attr('data', value);
-                    setUpGapImg(gapImg);
+                    setUpGapImg(gapImg, true);
                 };
                 callbacks.width = function(element, value){
                     gapImg.object.attr('width', value);

@@ -23,8 +23,6 @@
     .arrow {
         position: absolute;
         z-index: 301;
-        left: -6px;
-        top: 10px;
         -webkit-transform: rotate(45deg);
         -moz-transform: rotate(45deg);
         -o-transform: rotate(45deg);
@@ -41,12 +39,31 @@
     }
     .arrow-cover {
         background: $uiClickableDefaultBg;
-        width: 15px;
-        height:30px;
         position: absolute;
         z-index: 302;
-        left: 0px;
-        top: 2px;
+    }
+    &.arrow-left-top {
+        .arrow {
+            left: -6px;
+            top: 10px;
+        }
+        .arrow-cover {
+            left: 0;
+            top: 2px;
+            width: 15px;
+            height: 30px;
+        }
+    }
+    &.arrow-top-left{
+        .arrow {
+            top: -6px;
+        }
+        .arrow-cover {
+            left: 6px;
+            top: 0;
+            width: 30px;
+            height: 15px;
+        }
     }
     .score {
         @include simple-border();

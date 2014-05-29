@@ -27,7 +27,7 @@ define([
         }
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please select the correct graphicGapMatch choices below.'));
+        helper.appendInstruction(interaction, __('Please fill the gap with the correct choices below.'));
        
         widget._createGapImgs(); 
  
@@ -48,7 +48,6 @@ define([
                 ); 
            }
         });
-
     }
 
     /**
