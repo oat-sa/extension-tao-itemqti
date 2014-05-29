@@ -26,7 +26,8 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-
+        var corrects  = _.values(response.getCorrect());
+        
         //really need to destroy before ? 
         GraphicGapMatchInteraction.destroy(interaction);
         
@@ -38,13 +39,27 @@ define([
         helper.appendInstruction(interaction, __('Please the score of each graphicGapMatch choice.'));
         interaction.responseMappingMode = true;
 
-        //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
-        widget.createPaper();     
+        widget._createGapImgs(); 
+ 
+        //use the common Renderer
+        GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
+    
+        GraphicGapMatchInteraction.setResponse(
+            interaction, 
+            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+        );
 
-        mappingForm(widget);
-
-        //set the current corrects responses on the paper
-        GraphicGapMatchInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
+        if(_.size(response.getMapEntries()) === 0){
+            mappingForm(widget, corrects);
+        } else {
+            mappingForm(widget);
+        }
+        
+        widget.$container.on('responseChange.qti-widget', function(e, data){
+            mappingForm(widget, _.map(data.response.list.directedPair, function(pair){
+                return pair.join(' ');
+            }));
+        });
     }
 
     /**
@@ -68,14 +83,62 @@ define([
         this.widget.createPaper();
     }
 
-    function mappingForm(widget){
+    function mappingForm(widget, entries){
         var $container = widget.$container;
+        var interaction = widget.element;
+        var response = interaction.getResponseDeclaration();
+        var corrects  = _.values(response.getCorrect());
+        var mapping = [];
 
+        //reformat entries/for the form
+        if(entries){
+            _.forEach(entries , function(value){
+                var pair = value.split(' ');
+                mapping.push({
+                    mappedValue : response.mappingAttributes.defaultValue,
+                    choice : pair[0],
+                    gapImg : pair[1],
+                    id : value.replace(' ', '-'),
+                    correct : _.contains(corrects, value) 
+                });
+            });
+        } else {
+            _.forEach(response.getMapEntries(), function(entry, key){
+                var pair = key.split(' ');
+                mapping.push({
+                    mappedValue : entry.mappedValue,
+                    choice : pair[0],
+                    gapImg : pair[1],
+                    id : key.replace(' ', '-'),
+                    correct : _.contains(corrects, key) 
+                });
+            });
+        }
+        
         var $popup = pairScorePopup($container);
-        $popup.append(mappingFormTpl({}));
+        var $form = $(mappingFormTpl({
+            'title'             : __('Pair scoring'),
+            'correctDefined'    : answerStateHelper.isCorrectDefined(widget),
+            'scoreMin'          : response.getMappingAttribute('lowerBound'),
+            'scoreMax'          : response.getMappingAttribute('upperBound'),
+            'mapping'           : mapping
+        }));
+        
+        var callbacks = {};
+        _.forEach(mapping, function(map){
+            callbacks[map.id + '_score'] = function(response, value){
+                console.log(map.id + '_score', value);
+            };
+            callbacks[map.id + '_correct'] = function(response, value){
+                console.log(map.id + '_corect', value);
+            };
+        });
+        
+        //set up the form data binding
+        formElement.initDataBinding($form, response, callbacks);
+
+        $popup.empty().html($form);
     }
-
-
 
     /**
      * The map answer state for the graphicGapMatch interaction
