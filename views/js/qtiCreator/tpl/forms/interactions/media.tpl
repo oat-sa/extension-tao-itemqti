@@ -8,7 +8,7 @@
     
     <div>
         <label>
-            <div>{{ __'Media file path or YouTube video address'}}</div>
+            <div>{{__ 'Media file path or YouTube video address'}}</div>
             <input type="text" name="data" placeholder="Please select media file" value="{{data}}" />
             <div><button class='selectMediaFile small'>Select media file</button></div>
         </label>

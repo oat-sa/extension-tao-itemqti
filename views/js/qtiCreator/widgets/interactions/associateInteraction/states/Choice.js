@@ -2,7 +2,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Choice',
     'taoQtiItem/qtiCreator/helper/adaptSize',
-    'jquery.sizeChange'
+    'jquery.sizechange'
 ], function(stateFactory, Choice, adaptSize){
 
     var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){

@@ -7,7 +7,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.cell',
     'taoQtiItem/qtiCreator/helper/adaptSize',
     'lodash',
-    'jquery.sizeChange'
+    'jquery.sizechange'
 ], function(stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, adaptSize, _){
 
     var MatchInteractionStateQuestion = stateFactory.extend(Question);
