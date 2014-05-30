@@ -86,7 +86,7 @@ class ImportService extends tao_models_classes_GenerisService
         $valid = true;
         
         if($validate){
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_PATH');
+            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $this->validateMultiple($qtiParser, array(
                 $basePath.'model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
                 $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd',
@@ -194,7 +194,7 @@ class ImportService extends tao_models_classes_GenerisService
         //load and validate the manifest
         $qtiManifestParser = new ManifestParser($folder.'imsmanifest.xml');
         if($validate){
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_PATH');
+            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $this->validateMultiple($qtiManifestParser, array(
                 $basePath.'models/classes/QTI/data/imscp_v1p1.xsd',
                 $basePath.'models/classes/QTI/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
