@@ -1,5 +1,7 @@
 @import "inc/bootstrap";
 .qti-associateInteraction {
+
+
     .add-option{
         position:relative;
         padding: 5px 5px 5px 6px;
@@ -8,6 +10,22 @@
             left: 6px;
             position: absolute;
             top: 5px;
+        }
+    }
+
+    .choice-area {
+        .qti-choice {
+            &:not(th) {
+                azimuth: nonsense;
+                @include simple-border();
+                //border-color: #ddd !important;
+                &:hover {
+                    border-color: mix(#fff, $info, 20%);
+                }
+            }
+            & .mini-tlb[data-edit]{
+                top:-30px !important;
+            }
         }
     }
 

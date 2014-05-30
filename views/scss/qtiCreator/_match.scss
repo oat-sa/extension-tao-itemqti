@@ -11,8 +11,13 @@
         }
         thead{
             .mini-tlb{
-                top:-26px;
-            }
+                 top:-32px;
+                [class^="icon-"], [class*=" icon-"]{
+                    padding:0;
+                    position: relative;
+                    top: 3px;
+                }
+             }
         }
         tbody{
             .mini-tlb{
@@ -28,12 +33,13 @@
         .mini-tlb{
             width:auto;
             margin:0;
-            min-width:78px;
+            [class^="icon-"], [class*=" icon-"]{
+                padding:0;
+                position: relative;
+                top: 3px;
+            }
             .tlb-button{
                 margin:0;
-                padding:0;
-            }
-            .icon-*{
                 padding:0;
             }
         }

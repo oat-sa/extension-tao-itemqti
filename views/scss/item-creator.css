@@ -243,12 +243,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope .item-editor-item .textEntryInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
   cursor: pointer;
-  border: 1px solid #86aec8;
-  cursor: pointer; }
+  border: 1px solid #86aec8; }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
+.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
   cursor: default;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
@@ -260,8 +259,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   top: 0;
   right: 0;
   padding: 0;
-  background: rgba(243, 241, 239, 0.5);
-  border: 1px solid #fcfcfb;
+  background: #f9f8f7;
+  border: 1px solid #dddddd;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   margin-bottom: 5px;
@@ -274,6 +273,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     cursor: pointer;
     margin: 0 2px;
     display: inline-block; }
+    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class^="icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class^="icon-"], .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class*=" icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class*=" icon-"] {
+      font-size: 14px !important; }
     .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button:hover, .tao-scope #modalFeedbacks .mini-tlb .tlb-button:hover {
       color: #3e7da7 !important; }
     .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
@@ -714,13 +715,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         top: 5px;
         right: 2px; }
     .tao-scope .item-editor-sidebar #math-editor-container {
-      top: -285px; }
-      .tao-scope .item-editor-sidebar #math-editor-container textarea {
-        width: 350px;
-        max-width: none;
-        height: 250px;
-        font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-        display: block; }
+      z-index: 2000; }
+      .tao-scope .item-editor-sidebar #math-editor-container.mathml {
+        top: -270px;
+        width: 357px; }
+        .tao-scope .item-editor-sidebar #math-editor-container.mathml input {
+          display: none; }
+        .tao-scope .item-editor-sidebar #math-editor-container.mathml textarea {
+          width: 350px;
+          max-width: none;
+          height: 250px;
+          font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+          display: block; }
+      .tao-scope .item-editor-sidebar #math-editor-container.latex {
+        top: -90px;
+        width: 427px; }
+        .tao-scope .item-editor-sidebar #math-editor-container.latex textarea {
+          display: none; }
+        .tao-scope .item-editor-sidebar #math-editor-container.latex input {
+          width: 420px;
+          max-width: none;
+          font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
       .tao-scope .item-editor-sidebar #math-editor-container .icon-grip-h {
         opacity: .5;
         font-size: 20px;
@@ -797,6 +812,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       text-align: center;
       width: 100%;
       text-shadow: 1px 1px 0px #cccccc; }
+    .tao-scope .dummy-element ~ .mini-tlb {
+      top: -2px !important;
+      right: -32px !important; }
+      .tao-scope .dummy-element ~ .mini-tlb .tlb-button {
+        margin: 0 !important;
+        padding: 0 !important; }
   .tao-scope .item-editor-item {
     border: 1px solid #dddddd;
     border-radius: 2px;
@@ -804,6 +825,27 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -webkit-box-shadow: 0px 0px 8px #b7b1ac;
     -moz-box-shadow: 0px 0px 8px #b7b1ac;
     box-shadow: 0px 0px 8px #b7b1ac;
+    /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+    /**
+     * Use icon within sass: @inclue icon('down');
+     */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
     /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
     /**
      * Use icon within sass: @inclue icon('down');
@@ -1127,7 +1169,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice .inner-wrapper {
         border: 1px solid transparent; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt {
-        min-height: 1.4rem; }
+        min-height: 3rem; }
       .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option {
         border: 1px #3e7da7 dashed !important;
         list-style-type: none;
@@ -1229,6 +1271,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         left: 6px;
         position: absolute;
         top: 5px; }
+    .tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice:not(th) {
+      azimuth: nonsense;
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px; }
+      .tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice:not(th):hover {
+        border-color: #3e7da7; }
+    .tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice .mini-tlb[data-edit] {
+      top: -30px !important; }
     .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit] {
       top: 40%;
       right: -150px; }
@@ -1252,7 +1303,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix th {
       padding: 0; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix thead .mini-tlb {
-      top: -26px; }
+      top: -32px; }
+      .tao-scope .item-editor-item .qti-matchInteraction table.matrix thead .mini-tlb [class^="icon-"], .tao-scope .item-editor-item .qti-matchInteraction table.matrix thead .mini-tlb [class*=" icon-"] {
+        padding: 0;
+        position: relative;
+        top: 3px; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody .mini-tlb {
       right: auto;
       left: -86px; }
@@ -1260,12 +1315,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       cursor: default !important; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb {
       width: auto;
-      margin: 0;
-      min-width: 78px; }
+      margin: 0; }
+      .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb [class^="icon-"], .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb [class*=" icon-"] {
+        padding: 0;
+        position: relative;
+        top: 3px; }
       .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb .tlb-button {
         margin: 0;
-        padding: 0; }
-      .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb .icon-* {
         padding: 0; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .score {
       left: 0;
@@ -1289,7 +1345,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       content: "\1cb"; }
     .tao-scope .item-editor-item .widget-box.widget-inlineChoiceInteraction {
       display: none;
-      background: rgba(243, 241, 239, 0.5); }
+      background: rgba(243, 241, 239, 0.8); }
     .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder {
       border: 1px solid #dddddd;
       border-radius: 2px;
@@ -1366,6 +1422,72 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       margin-bottom: 10px; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
+    .tao-scope .item-editor-item .widget-box.widget-textEntryInteraction {
+      display: none;
+      background: rgba(243, 241, 239, 0.8); }
+    .tao-scope .item-editor-item .textEntryInteraction-placeholder {
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      display: inline-block;
+      width: 150px;
+      line-height: 24px;
+      position: relative;
+      padding: 0;
+      margin-right: 1px;
+      cursor: pointer; }
+      .tao-scope .item-editor-item .textEntryInteraction-placeholder label {
+        padding: 0 10px;
+        margin: 0; }
+      .tao-scope .item-editor-item .textEntryInteraction-placeholder .icon-down {
+        position: absolute;
+        font-size: 11px;
+        font-size: 1.1rem;
+        right: 6px;
+        top: 6px; }
+    .tao-scope .item-editor-item .qti-textEntryInteraction {
+      padding: 20px 10px 5px 30px; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction [data-edit] {
+        display: none; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction table {
+        border-collapse: separate; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction tr {
+        height: 27px;
+        white-space: nowrap; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-pin, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-shuffle {
+        text-align: center;
+        padding: 0 5px;
+        cursor: pointer;
+        vertical-align: middle; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin:hover, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-pin:hover, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-shuffle:hover {
+        color: #3e7da7; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction td.option, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option {
+        padding: 0 18px 0 10px;
+        border-left: 1px #dddddd solid;
+        border-right: 1px #dddddd solid;
+        background: white; }
+        .tao-scope .item-editor-item .qti-textEntryInteraction td.option:last, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option:last {
+          border-bottom: 1px #dddddd solid; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction .main-option {
+        border-top: 1px #dddddd solid;
+        border-bottom: 1px #dddddd solid;
+        min-width: 150px; }
+        .tao-scope .item-editor-item .qti-textEntryInteraction .main-option > div {
+          padding: 0;
+          position: relative; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction td.icon-title {
+        font-size: 12px;
+        color: #0e5d91;
+        padding: 0 5px; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction td input {
+        width: 122px;
+        height: 28px; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable] {
+        cursor: text !important; }
+      .tao-scope .item-editor-item .qti-textEntryInteraction input.score {
+        width: 30px; }
+    .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
+      content: "\1cb"; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .response-pair-editor {
@@ -1426,8 +1548,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-item .graphic-mapping-editor .arrow {
         position: absolute;
         z-index: 301;
-        left: -6px;
-        top: 10px;
         -webkit-transform: rotate(45deg);
         -moz-transform: rotate(45deg);
         -o-transform: rotate(45deg);
@@ -1443,12 +1563,23 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
       .tao-scope .item-editor-item .graphic-mapping-editor .arrow-cover {
         background: #f3f1ef;
-        width: 15px;
-        height: 30px;
         position: absolute;
-        z-index: 302;
-        left: 0px;
-        top: 2px; }
+        z-index: 302; }
+      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-left-top .arrow {
+        left: -6px;
+        top: 10px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-left-top .arrow-cover {
+        left: 0;
+        top: 2px;
+        width: 15px;
+        height: 30px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-top-left .arrow {
+        top: -6px; }
+      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-top-left .arrow-cover {
+        left: 6px;
+        top: 0;
+        width: 30px;
+        height: 15px; }
       .tao-scope .item-editor-item .graphic-mapping-editor .score {
         border: 1px solid #dddddd;
         border-radius: 2px;

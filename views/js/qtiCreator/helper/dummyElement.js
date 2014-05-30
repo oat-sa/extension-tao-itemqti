@@ -125,7 +125,6 @@ define([
             if($icon) {
                 $element.append($icon);
             }
-
             return $element;
         };
 

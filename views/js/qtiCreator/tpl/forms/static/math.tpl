@@ -43,10 +43,11 @@
 
 <div class="sidebar-popup-container-box">    
 
-    <div id="math-editor-container" class="sidebar-popup" style="width: 357px">
+    <div id="math-editor-container" class="sidebar-popup">
         <h3 id="math-editor-title"></h3>
         <span class="icon-grip-h dragger"></span>
-        <textarea id="math-editor-textarea"></textarea>
+        <textarea id="math-editor-textarea" data-target="mathml"></textarea>
+        <input id="math-editor-input" data-target="latex"/>
         <a class="closer" href="#" title="{{__ 'Close'}}"></a>
     </div>
     <div class="math-buffer" style="visibility:hidden;"></div>

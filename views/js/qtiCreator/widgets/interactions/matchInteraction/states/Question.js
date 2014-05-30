@@ -5,8 +5,10 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.adder',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.row',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.cell',
-    'lodash'
-], function(stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, _){
+    'taoQtiItem/qtiCreator/helper/adaptSize',
+    'lodash',
+    'jquery.sizeChange'
+], function(stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, adaptSize, _){
 
     var MatchInteractionStateQuestion = stateFactory.extend(Question);
 
@@ -58,6 +60,21 @@ define([
                 _postRender(choice);
             });
         }
+
+        $('.qti-item').on('toolbarchange', function() {
+            $matchArea.find('tbody .mini-tlb').each(function() {
+                var $toolbar = $(this);
+                $toolbar.css('left', ($toolbar.width() + 10) * -1);
+            });
+        });
+
+        //
+        $matchArea.find('tr').each(function() {
+            var $elements = $(this).find('[data-html-editable=true]');
+            $elements.sizeChange(function() {
+                adaptSize.height($elements);
+            });
+        });
 
     };
 
