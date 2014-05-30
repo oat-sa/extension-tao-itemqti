@@ -1,12 +1,9 @@
 @import "inc/bootstrap";
 .qti-textEntryInteraction {
-    background: rgba($uiClickableDefaultBg, .85);
+    
+    /*background: rgba($uiClickableDefaultBg, .85);*/
 
-    &:hover {
-        background: rgba(whiten($uiClickableHoverBg, .7), .85);
-    }
-    padding: 50px 10px 10px 30px;
-    position: absolute;
+    /*padding: 50px 10px 10px 30px;*/
 
     table {
         border-collapse: separate;

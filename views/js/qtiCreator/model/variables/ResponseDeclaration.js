@@ -22,6 +22,11 @@ define([
         getTemplate : function(){
             return this.template;
         },
+        resetCorrect : function(){
+            this.correctResponse = null;
+            $(document).trigger('correctResponseChange.qti-widget', {'element' : this, 'value' : null});
+            return this;
+        },
         setCorrect : function(value){
             if(_.isString(value)){
                 value = [value];

@@ -13,7 +13,6 @@ define([
 
         //need to pass choice option form to the interaction widget because it will manage everything
         options = options || {};
-        options.choiceOptionForm = this.getOption('choiceOptionForm');
 
         return TextEntryInteractionWidget.build(
             interaction,
