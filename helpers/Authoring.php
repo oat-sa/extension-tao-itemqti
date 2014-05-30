@@ -120,12 +120,14 @@ class Authoring
                 array('title' => __('Hottext Interaction'),
                     'icon' => 'hottext',
                     'short' => __('Hottext'),
-                    'qtiClass' => 'hottextInteraction'
+                    'qtiClass' => 'hottextInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Gap Match Interaction'),
                     'icon' => 'gap-match',
                     'short' => __('Gap Match'),
-                    'qtiClass' => 'gapMatchInteraction'
+                    'qtiClass' => 'gapMatchInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Slider Interaction'),
                     'icon' => 'slider',

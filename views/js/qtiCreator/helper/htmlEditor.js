@@ -101,7 +101,7 @@ define([
                             $nose = $element.find('.cke_nose');
 
                         var xModeIsReady = function(domElem) {
-                            var dfd = new jQuery.Deferred(),
+                            var dfd = new $.Deferred(),
                                 counter = 0,
                                 check = setInterval(function () {
                                     var style = domElem.getAttribute('style');
