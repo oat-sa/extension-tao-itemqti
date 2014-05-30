@@ -207,11 +207,26 @@ define([
         $originalContainer.find('.qti-itemBody > .grid-row').each(function(){
 
             var $row = $(this);
+            
             if(!$row.hasClass('widget-box')){//not a rubricBlock
                 $row.children().each(function(){
-                    var $col = $(this);
+                    
+                    var $col = $(this),
+                        isTextBlock = false;
+                    
+                    $col.contents().each(function(){
+                       if(this.nodeType === 3 && this.nodeValue && this.nodeValue.trim()){
+                           isTextBlock = true;
+                           return false;
+                       }
+                    });
+                    
                     var $widget = $col.children();
-                    if($widget.length > 1 || !$widget.data('qti-class')){//not an immediate qti element
+                    if($widget.length > 1 || !$widget.hasClass('widget-blockInteraction')){//not an immediate qti element
+                        isTextBlock = true;
+                    }
+                    
+                    if(isTextBlock){
                         $col.attr('data-text-block-id', 'text-block-' + i);
                         i++;
                     }
