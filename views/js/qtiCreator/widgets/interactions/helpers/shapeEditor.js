@@ -163,11 +163,11 @@ define([
                         keyResizer(code);
                     }
                     //delete and backspace
-                    if(e.which === 8 || e.which === 46){
-                        e.preventDefault();
-                        self.quitHandling();
-                        self.removeShape();
-                    }
+                    //if(e.which === 8 || e.which === 46){
+                        //e.preventDefault();
+                        //self.quitHandling();
+                        //self.removeShape();
+                    //}
                 });
 
                 /**
