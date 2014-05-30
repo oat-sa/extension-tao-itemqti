@@ -140,11 +140,14 @@ define([
         var _this = this;
 
         this.afterStateInit(function(e, element, state){
-            
+
+            var currentState = _this.getCurrentState();
+
             if(element.is('choice')
                 && _this.element.getChoice(element.getSerial())
-                && state.name !== _this.getCurrentState().name){
-                
+                && currentState
+                && state.name !== currentState.name){
+
                 switch(state.name){
                     case 'choice':
                         _this.changeState(state.name);

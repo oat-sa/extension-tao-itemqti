@@ -5,7 +5,11 @@ define([
     'lodash'
 ], function(stateFactory, QuestionState, formElement, _){
 
-    var ChoiceStateQuestion = stateFactory.extend(QuestionState);
+    var ChoiceStateQuestion = stateFactory.extend(QuestionState, function(){
+        this.buildEditor();
+    }, function(){
+        this.destroyEditor();
+    });
 
     ChoiceStateQuestion.prototype.createToolbar = function(){
 
@@ -27,6 +31,8 @@ define([
         $editableContainer.attr('contentEditable', true);
 
         $editableContainer.on('keyup.qti-widget', _.throttle(function(){
+
+            console.log('edit')
 
             //update model
             _widget.element.val($(this).text());
