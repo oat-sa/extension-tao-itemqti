@@ -41,7 +41,17 @@ define([
             _widget.$original.width($(this).width());
 
         }, 200)).on('focus.qti-widget', function(){
-            _widget.changeState('choice')
+
+            _widget.changeState('choice');
+
+        }).on('keypress.qti-widget', function(e){
+
+            if(e.which === 13){
+                e.preventDefault();
+                $(this).blur();
+                _widget.changeState('question');
+            }
+
         });
     };
 
