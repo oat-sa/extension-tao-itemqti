@@ -1,4 +1,4 @@
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function(tpl){
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/blockInteraction'], function(tpl){
     return {
         qtiClass : 'uploadInteraction',
         template : tpl
