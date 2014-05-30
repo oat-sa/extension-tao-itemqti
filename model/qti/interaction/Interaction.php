@@ -30,6 +30,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
+use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
@@ -37,7 +38,7 @@ use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \Exception;
 
-abstract class Interaction extends IdentifiedElement implements IdentifiedElementContainer
+abstract class Interaction extends Element implements IdentifiedElementContainer
 {
 
     /**
