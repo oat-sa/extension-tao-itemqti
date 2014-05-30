@@ -1,8 +1,9 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'lodash'
-], function(stateFactory, Correct, _){
+], function($, stateFactory, Correct, _){
 
     var TextEntryInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -10,7 +11,6 @@ define([
             response = this.widget.element.getResponseDeclaration(),
             correct = _.values(response.getCorrect()).pop() || '';
             
-        console.log(response);
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correct);
         $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function(){
             var value = $(this).val();

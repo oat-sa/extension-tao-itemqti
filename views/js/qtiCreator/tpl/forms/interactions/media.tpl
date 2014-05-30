@@ -8,7 +8,7 @@
     
     <div>
         <label>
-            <div>Media file path or YouTube video address</div>
+            <div>{{ __'Media file path or YouTube video address'}}</div>
             <input type="text" name="data" placeholder="Please select media file" value="{{data}}" />
             <div><button class='selectMediaFile small'>Select media file</button></div>
         </label>
@@ -33,8 +33,7 @@
         {{__ "autostart"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "
-        The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."}}
+    <span class="tooltip-content">{{__ "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."}}
     </span>
 </div>
 
@@ -74,7 +73,7 @@
         <input name="maxPlays" value="{{maxPlays}}" data-increment="1" data-min="0" data-max="1000" type="text" style='min-width: 55px!important;' />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">
-            The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit.
+            {{__ "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."}}
         </span>
     </div>
 </div>

@@ -3,6 +3,7 @@ define(['taoQtiItem/qtiDefaultRenderer/widgets/Widgets'], function(Widgets){
     var Interaction = {
         render : function(interaction, data){
 
+            var interactionName;
             var wwwPath = '';
             var graphicDebug = false;
             var runtimeContext = this.getOption('runtimeContext');
@@ -17,7 +18,7 @@ define(['taoQtiItem/qtiDefaultRenderer/widgets/Widgets'], function(Widgets){
                     }
                 }
 
-                var interactionName = interaction.qtiClass.charAt(0).toUpperCase() + interaction.qtiClass.slice(1);
+                interactionName = interaction.qtiClass.charAt(0).toUpperCase() + interaction.qtiClass.slice(1);
                 if(typeof(runtimeContext.debug) !== 'undefined' && runtimeContext.debug){
                     graphicDebug = runtimeContext.debug;
                     if(!Widgets[interactionName]){

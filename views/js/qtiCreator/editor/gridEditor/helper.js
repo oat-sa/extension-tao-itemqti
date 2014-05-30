@@ -1,12 +1,10 @@
-define([], function(){
+define(function(){
     
     var helpers = {
         getColUnits : function getColUnits($elt){
 
             var cssClasses = $elt.attr('class');
             if(!cssClasses){
-                console.log($elt);
-                debugger;
                 throw new Error('the element has no css class');
             }
 
@@ -14,8 +12,6 @@ define([], function(){
             if(colMatch && colMatch.length){
                 return parseInt(colMatch.pop());
             }else{
-                console.log($elt);
-                debugger;
                 throw 'the element has no col-* class';
             }
         },

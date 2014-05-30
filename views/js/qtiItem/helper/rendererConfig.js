@@ -27,8 +27,6 @@ define(['lodash', 'jquery'], function(_, $){
             }
         });
         
-//        console.log('args', options);
-        
         return options;
     };
     

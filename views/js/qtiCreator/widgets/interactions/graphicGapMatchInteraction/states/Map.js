@@ -36,7 +36,7 @@ define([
         }
 
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please the score of each graphicGapMatch choice.'));
+        helper.appendInstruction(interaction, __('Please fill the gap with the images below, then edit the score for each gap/image pair.'));
         interaction.responseMappingMode = true;
 
         widget._createGapImgs(); 
@@ -63,7 +63,6 @@ define([
         }
         
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            console.log(data.response.list.directedPair);
             mappingForm(widget, _.map(data.response.list.directedPair, function(pair){
                 return pair.join(' ');
             }));

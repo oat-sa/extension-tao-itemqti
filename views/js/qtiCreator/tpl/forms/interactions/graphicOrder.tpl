@@ -31,8 +31,8 @@
     <h3>{{__ "Allowed number of choices"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">
-            The minimum number of choices that the candidate is required to select to form a valid response.
-            The maximum number of choices that the candidate is allowed to select.
+            {{__ 'The minimum number of choices that the candidate is required to select to form a valid response.'}}<br>
+            {{__ 'The maximum number of choices that the candidate is allowed to select.'}}
         </span>
     </h3>
 

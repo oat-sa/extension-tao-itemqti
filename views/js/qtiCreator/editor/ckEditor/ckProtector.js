@@ -2,7 +2,7 @@ define([
     'jquery',
     'i18n'
 ], function($, __){
-    'use strict'
+    'use strict';
 
     /**
      * Protect / unprotect an element to avoid edition by CK EDITOR
@@ -127,7 +127,6 @@ define([
 
                 cover.on('click', function() {
                     var widget = getProtectedWidgetBySerial($(this).prop('serial'));
-                    console.log('click',widget.offset())
                     //unprotect(widget);
                     $(document).trigger('removeprotection.ckprotector', { context: context, widget: widget });
                 });
@@ -161,7 +160,7 @@ define([
             protect: protect,
             unprotect: unprotect,
             getSelector: getSelector
-        }
+        };
     }());
     return ckeProtector;
 });

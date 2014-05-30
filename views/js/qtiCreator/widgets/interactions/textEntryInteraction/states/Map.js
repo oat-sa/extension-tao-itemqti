@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/textEntry',
     'lodash'
-], function(stateFactory, Map, formElement, optionTpl, _){
+], function($, stateFactory, Map, formElement, optionTpl, _){
 
     var _getRelatedTextKey = function($elt){
         return $elt.closest('tr').find('input[name=text]').val();
@@ -38,7 +39,6 @@ define([
             $correct.hide();
         }, 200);
         
-//        console.log($correct);debugger;
     };
     
     TextEntryInteractionStateMap.prototype.initFormCallbacks = function(){

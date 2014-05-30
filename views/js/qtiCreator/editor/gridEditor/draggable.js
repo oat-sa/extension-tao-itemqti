@@ -126,7 +126,6 @@ define([
                 //show it
                 $el.show();
 
-                console.log('moved', $el, $(this));
             },
             data : {
                 widget : $el.data('widget')

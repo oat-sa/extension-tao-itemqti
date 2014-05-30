@@ -31,7 +31,7 @@
     <h3>{{__ "Allowed number of matches"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">
-            {{__ 'The maximum number of choices this choice may be associated with.'}}
+            {{__ 'The maximum number of choices this choice may be associated with.'}}<br>
             {{__ 'The minimum number of choices this choice must be associated with to form a valid response.'}}
         </span>
     </h3>

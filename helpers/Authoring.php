@@ -183,7 +183,8 @@ class Authoring
                 array('title' => __('Graphic Associate Interaction'),
                     'icon' => 'graphic-associate',
                     'short' => __('Graphic Associate'),
-                    'qtiClass' => 'graphicAssociateInteraction'
+                    'qtiClass' => 'graphicAssociateInteraction',
+                    'disabled' => true
                 ),
                 array('title' => __('Graphic Gap Interaction'),
                     'icon' => 'graphic-gap',

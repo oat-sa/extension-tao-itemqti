@@ -88,6 +88,7 @@ define([
                    '</li>') ;
             $placeholder.on('click', function(){
                 var gapImg = interaction.createGapImg({});
+                gapImg.object.removeAttr('type');
                 setUpGapImg(gapImg);    
             }); 
             $placeholder.appendTo($gapList);
@@ -229,13 +230,21 @@ define([
                     gapImg.object.attr('height', value);
                 };
                 callbacks.type = function(element, value){
-                    gapImg.object.attr('type', value);
+                    if(!value || value === ''){
+                        interaction.object.removeAttr('type');
+                    } else {
+                        gapImg.object.attr('type', value);
+                    }
                 };
                 formElement.initDataBinding($choiceForm, gapImg, callbacks);
 
                 $formChoicePanel.show();
                 editor.openSections($formChoicePanel.children('section'));
                 editor.closeSections($formInteractionPanel.children('section'));
+
+                if(typeof window.scroll === 'function'){
+                    window.scroll(0, $choiceForm.offset().top);
+                }   
             }
         }
     };
@@ -308,7 +317,11 @@ define([
             interaction.object.attr('height', value);
         };
         callbacks.type = function(inteaction, value){
-            interaction.object.attr('type', value);
+            if(!value || value === ''){
+                interaction.object.removeAttr('type');
+            } else {
+                interaction.object.attr('type', value);
+            }
         };
         formElement.initDataBinding($form, interaction, callbacks);
     };

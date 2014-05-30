@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'lodash'
-], function(stateFactory, QuestionState, formElement, _){
+], function($, stateFactory, QuestionState, formElement, _){
 
     var ChoiceStateQuestion = stateFactory.extend(QuestionState, function(){
         this.buildEditor();
@@ -31,8 +32,6 @@ define([
         $editableContainer.attr('contentEditable', true);
 
         $editableContainer.on('keyup.qti-widget', _.throttle(function(){
-
-            console.log('edit')
 
             //update model
             _widget.element.val($(this).text());

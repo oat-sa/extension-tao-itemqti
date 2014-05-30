@@ -189,7 +189,11 @@ define([
             interaction.object.attr('height', value);
         };
         callbacks.type = function(inteaction, value){
-            interaction.object.attr('type', value);
+            if(!value || value === ''){
+                interaction.object.removeAttr('type');
+            } else {
+                interaction.object.attr('type', value);
+            }
         };
         formElement.initDataBinding($form, interaction, callbacks);
         

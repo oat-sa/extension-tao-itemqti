@@ -1,32 +1,17 @@
 define([
+    'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
     'ui/resourcemgr'
-], function(stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer, helpers) {
+], function($, _, stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer, helpers) {
     
     var MediaInteractionStateQuestion = stateFactory.extend(Question,
-        function() {
-            // enter question state
-            var _widget = this.widget,
-                interaction = _widget.element;
-            //_widget.$container.find('[data-state=question]').html('Preview');
-            //_widget.$container.find('[data-state=answer]').html('Media settings');
-            
-            if ( _widget.$container.find('.instruction-container .mejs-container').length == 0 ) {
-                //MediaInteractionCommonRenderer.render(interaction, true);
-            }
-        },
-        function() {
-            // exit question state
-            var _widget = this.widget,
-                interaction = _widget.element;
-            //_widget.$container.find('.instruction-container').css('display', 'block');
-            //_widget.$container.find('.mediadata-container').css('display', 'none');
-            //_widget.pause();
-        }
+        _.noop,
+        _.noop
     );
 
     MediaInteractionStateQuestion.prototype.initForm = function(){
@@ -59,32 +44,30 @@ define([
         //init data change callbacks
         //var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minPlays', 'maxPlays');
         var callbacks = [];
-        callbacks['autostart'] = formElement.getAttributeChangeCallback();
-        callbacks['loop'] = formElement.getAttributeChangeCallback();
-        callbacks['maxPlays'] = formElement.getAttributeChangeCallback();
+        callbacks.autostart = formElement.getAttributeChangeCallback();
+        callbacks.loop = formElement.getAttributeChangeCallback();
+        callbacks.maxPlays = formElement.getAttributeChangeCallback();
         
         //callbacks['width'] = formElement.getAttributeChangeCallback();
-        callbacks['width'] = function(interaction, attrValue, attrName){
+        callbacks.width = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
             interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
-        }
+        };
         
-        callbacks['height'] = function(interaction, attrValue, attrName){
+        callbacks.height = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
             interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
-        }
+        };
         
-        callbacks['data'] = function(interaction, attrValue, attrName){
+        callbacks.data = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
             interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
             
             var dataValue = attrValue.trim().toLowerCase();
-            //console.log('dataValue ', dataValue);
             if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
                 interaction.object.attr('type', 'video/youtube');
             }
             
-            //console.log('change data');
             MediaInteractionCommonRenderer.destroy(interaction);
             MediaInteractionCommonRenderer.render(interaction, true);
             
@@ -93,20 +76,14 @@ define([
         
         formElement.initDataBinding($form, interaction, callbacks);
         
-        _widget.on('attributeChange', function(data){
+        //_widget.on('attributeChange', function(data){
             //if the template changes, forward the modification to a helper
             //answerStateHelper.forward(_widget);
-            //console.log(data);
-            //debugger;
-            
-        });
+        //});
          
          
         var selectMediaButton = $(_widget.$form).find(".selectMediaFile");
         selectMediaButton.on('click', function() {
-            
-            //console.log( $form );
-            //console.log( $form.find('input[name=data]') );
             
             $(this).resourcemgr({
                 appendContainer : options.mediaManager.appendContainer,
@@ -118,19 +95,16 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    //filters : 'image/jpeg,image/png,image/gif'
-                    filters : 'video/mp4,audio/mp3'
+                    filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg'
                 },
                 pathParam : 'path',
                 select : function(e, files){
                     if(files.length > 0){ 
-                        //console.log(files, files[0].file, files[0].mime);
                         // set data field content and meybe detect and set media type here
                         var dataInput = $($form.find('input[name=data]'));
                         dataInput.val( files[0].file );
                         dataInput.trigger('change');
                         interaction.object.attr('type', files[0].mime);
-                        //console.log(interaction, options.baseUrl+files[0].file );
                     }
                 }
             });

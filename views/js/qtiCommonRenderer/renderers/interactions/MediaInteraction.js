@@ -15,7 +15,7 @@ define([
         var type = '';
         var mimetype = media.type;
         if(mimetype !== ''){
-            if (mimetype.indexOf('youtube') != -1) {
+            if (mimetype.indexOf('youtube') !== -1) {
                 type = 'video/youtube';
             } else if(mimetype.indexOf('video') === 0){
                 type = 'video';
@@ -24,8 +24,7 @@ define([
             }
         }
         return type;
-    }
-
+    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -49,32 +48,21 @@ define([
             _.defaults(interaction.object.attributes, mediaDefaults);
         }
         
-        //console.log('interaction', interaction);
-        
         var media = interaction.object.attributes;
-        
-        //if (isCreator) {
-            var baseUrl = interaction.renderer.getOption('baseUrl');
-        //} else {
-            //var baseUrl = this.getOption('baseUrl') || '';
-        //}
-        
+        var mimeType = media.type;
+        var baseUrl = interaction.renderer.getOption('baseUrl');
         var mediaType = getMediaType(media);
-        //console.log('mediaType', mediaType);
         var playFromPauseEvent = false;
         var pauseFromClick = false;
         
         var mediaOptions = {
             defaultVideoWidth: 480,
             defaultVideoHeight: 270,
-            //videoWidth: -1,
-            //videoHeight: -1,
             videoWidth: media.width,
             videoHeight: media.height,
             audioWidth: media.width ? media.width : 400,
             audioHeight: 30,
-            //features: ['playpause', 'progress', 'current', 'duration', 'tracks', 'volume', 'fullscreen']
-            features: (mediaType=='audio') ? ['playpause', 'current', 'duration', 'volume'] : ['current', 'duration', 'volume'],
+            features: (mediaType ==='audio') ? ['playpause', 'current', 'duration', 'volume'] : ['current', 'duration', 'volume'],
             startVolume: 1,
             loop: interaction.attributes.loop ? interaction.attributes.loop : false,
             enableAutosize: true,
@@ -83,11 +71,8 @@ define([
             iPhoneUseNativeControls: false,
             AndroidUseNativeControls: false,
             alwaysShowHours: false,
-            //showTimecodeFrameCount: true,
-            //framesPerSecond: 25,
             enableKeyboard: false,
             pauseOtherPlayers: false,
-            //keyActions: []
             
             success: function(mediaElement, playerDom) {
                 var audioPlayPauseControls = $(playerDom).closest('div.mejs-container').find('.mejs-playpause-button');
@@ -120,13 +105,13 @@ define([
                     //  but it brings a whole lot more problems, also timeupdate is not fired when flash fallback is used
                     $container.data('timesPlayed', $container.data('timesPlayed')+1);
                     Helper.triggerResponseChangeEvent(interaction);
-                    if ((interaction.attributes.maxPlays==0) || $container.data('timesPlayed') < interaction.attributes.maxPlays) {
+                    if ((interaction.attr('maxPlays') === 0 ) || $container.data('timesPlayed') < interaction.attr('maxPlays')) {
                         if (mediaType=='audio') {
                             //
-                        } else if (mediaType=='video' && mediaElement.pluginType!=='flash') {
+                        } else if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
                             var PlayButtonPlaceholder = $(playerDom).closest('div.mejs-container').find('.mejs-layers');
                             PlayButtonPlaceholder.append(bigPlayButtonLayerDetached);
-                        } else if (mediaType == 'video/youtube' || mediaElement.pluginType==='flash') {
+                        } else if (mediaType === 'video/youtube' || mediaElement.pluginType==='flash') {
                             flashOverlayDiv.remove();
                         }
                     }
@@ -134,21 +119,21 @@ define([
                 
                 
                 mediaElement.addEventListener('play', function(event) {
-                    if (playFromPauseEvent == true) {
+                    if (playFromPauseEvent === true) {
                         playFromPauseEvent = false;
                     } else {
-                        if ((interaction.attributes.maxPlays!=0) && $container.data('timesPlayed') >= interaction.attributes.maxPlays) {
+                        if ((interaction.attributes.maxPlays!==0) && $container.data('timesPlayed') >= interaction.attributes.maxPlays) {
                             mediaElement.pause();
                             mediaElement.setSrc('');
-                            if (mediaType == "video/youtube") {
+                            if (mediaType === "video/youtube") {
                                 $(playerDom).empty();
                             }
                         } else {
-                            if (mediaType == 'audio') {
+                            if (mediaType === 'audio') {
                                 //
-                            } else if (mediaType == 'video' && mediaElement.pluginType!=='flash') {
+                            } else if (mediaType === 'video' && mediaElement.pluginType!=='flash') {
                                 bigPlayButtonLayerDetached = $(playerDom).closest('div.mejs-container').find('.mejs-overlay-play').detach();
-                            } else if(mediaType == 'video/youtube' || mediaElement.pluginType==='flash') {
+                            } else if(mediaType === 'video/youtube' || mediaElement.pluginType==='flash') {
                                 var controlsHeight = $(playerDom).closest('div.mejs-container').find('div.mejs-controls').outerHeight();
                                 $(playerDom).closest('div.mejs-container').find('.mejs-layers').append('<div class="flashOverlayDiv" style="background:#000; width: '+mediaOptions.videoWidth+'px; height: '+(mediaOptions.videoHeight-controlsHeight)+'px; z-iindex: 99; position:relative;"></div>');
                                 flashOverlayDiv = $(playerDom).closest('div.mejs-container').find('.mejs-layers').find('.flashOverlayDiv');
@@ -160,7 +145,7 @@ define([
                 
                 mediaElement.addEventListener('pause', function(event) {
                     // there is a "pause" event fired at the end of a movie and we need to differentiate it from pause event caused by a click
-                    if (pauseFromClick == true) {
+                    if (pauseFromClick) {
                         playFromPauseEvent = true;
                         pauseFromClick = false;
                         mediaElement.play();
@@ -169,7 +154,6 @@ define([
             },
             
             error: function(playerDom) {
-                //console.log('error on mediaelement init');
                 $(playerDom).closest('div.mejs-container').find('.me-cannotplay').remove();
             }
         };
@@ -184,7 +168,7 @@ define([
             mediaOptions.videoHeight = mediaOptions.defaultVideoHeight;
         }
         
-        mediaFullUrl = media.data;
+        var mediaFullUrl = media.data;
         
         if (mediaType === 'video' || mediaType === 'audio') {
             mediaFullUrl = media.data.trim();
@@ -194,23 +178,21 @@ define([
             }
         }
         
-        //console.log('mediaFullUrl', mediaFullUrl);
-        
-        if (mediaType == 'video') {
-            var meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px"></video>').appendTo(meHtmlContainer);
-        } else if (mediaType == 'video/youtube') {
-            var meTag = $('<video width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" preload="none"> '+
+        var $meTag;
+        if (mediaType === 'video') {
+            $meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" type="'+ mimeType +'"></video>').appendTo(meHtmlContainer);
+        } else if (mediaType === 'video/youtube') {
+            $meTag = $('<video width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" preload="none"> '+
                 ' <source type="video/youtube" src="'+ mediaFullUrl +'" /> ' +
                 '</video>').appendTo(meHtmlContainer);
-        } else if (mediaType == 'audio') {
-            var meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px" ></audio>').appendTo(meHtmlContainer);
+        } else if (mediaType === 'audio') {
+            $meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px"  type="'+ mimeType +'"></audio>').appendTo(meHtmlContainer);
         }
         
-        $(meTag).on('contextmenu', function(event) {
+        $meTag.on('contextmenu', function(event) {
             event.preventDefault();
-        });
-        
-        $(meTag).on('click', function(event) {
+        })
+        .on('click', function(event) {
             pauseFromClick = true;
             event.preventDefault();
             event.stopPropagation();
@@ -218,21 +200,21 @@ define([
         });
         
         
-            if (isCreator) {
-                new MediaElementPlayer(meTag, mediaOptions);
-            } else {
-                $container.on('responseSet', function(e, interaction, response){
-                    new MediaElementPlayer(meTag, mediaOptions);
-                });
-            }
+        if (isCreator) {
+            new MediaElementPlayer($meTag, mediaOptions);
+        } else {
+            $container.on('responseSet', function(e, interaction, response){
+                new MediaElementPlayer($meTag, mediaOptions);
+            });
+        }
 
-    }
+    };
     
     var _destroy = function(interaction) {
         var $container = Helper.getContainer(interaction);
         $container.children('.instruction-container').empty();
-        Helper.getContainer(interaction).data('timesPlayed', 0);
-    }
+        Helper.getContainer(interaction).removeData('timesPlayed', 0);
+    };
 
     /**
      * Get the responses from the interaction
@@ -241,13 +223,7 @@ define([
      * @returns {Array} of points
      */
     var _getRawResponse = function _getRawResponse(interaction) {
-        var response = [ Helper.getContainer(interaction).data('timesPlayed') ];
-        /*try {
-            response = [ Helper.getContainer(interaction).data('timesPlayed') ];
-        } catch(e) {
-            response = [0];
-        }*/
-        return response;
+        return [ Helper.getContainer(interaction).data('timesPlayed') ];
     };
 
     /**
@@ -292,7 +268,7 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction) {
-        //Helper.getContainer(interaction).data('timesPlayed', 0);
+        Helper.getContainer(interaction).data('timesPlayed', 0);
     };
 
 

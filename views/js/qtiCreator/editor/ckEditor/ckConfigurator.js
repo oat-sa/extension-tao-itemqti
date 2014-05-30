@@ -3,7 +3,7 @@ define([
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
 ], function(_, ckeditor, dtdHandler){
-    'use strict'
+    'use strict';
     /**
      * Cache original config
      */
@@ -259,7 +259,7 @@ define([
             // modify plugins - this will change the toolbar too
             // this would add the qti plugins qtiPositionedPlugins
             if(typeof options.positionedPlugins !== 'undefined') {
-                options.positionedPlugins = {}
+                options.positionedPlugins = {};
             }
 
             // set options.positionedPlugins to false to prevent the class from using them at all

@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/helper/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text'
-], function(stateFactory, Active, htmlEditor, content, formTpl){
+], function($, stateFactory, Active, htmlEditor, content, formTpl){
 
     var TextActive = stateFactory.extend(Active, function(){
 
@@ -73,9 +74,6 @@ define([
         var sel = getSelection();
         if (sel.rangeCount) {
             var range = sel.getRangeAt(0).cloneRange();
-
-            console.log('range', range);
-
             if (range.startOffset !== range.endOffset) { //prevent empty selection
                 range.surroundContents(wrap);
                 sel.removeAllRanges();

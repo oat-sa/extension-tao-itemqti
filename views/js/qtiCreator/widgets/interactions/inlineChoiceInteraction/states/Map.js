@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/helper/interactionHelper',
     'lodash',
-], function(stateFactory, Map, formElement, interactionHelper, _){
+], function($, stateFactory, Map, formElement, interactionHelper, _){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
@@ -26,7 +27,6 @@ define([
 
         formElement.initDataBinding($container, response, {
             correct : function(response, value){
-                console.log(value);
                 response.setCorrect(interactionHelper.serialToIdentifier(interaction, value));
             },
             score : function(response, value){

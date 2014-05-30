@@ -1,4 +1,9 @@
-define(['taoQtiItem/qtiCreator/widgets/states/factory', 'taoQtiItem/qtiCreator/widgets/interactions/states/Active', 'lodash'], function(stateFactory, Active, _){
+define([
+    'jquery', 
+    'lodash',
+    'taoQtiItem/qtiCreator/widgets/states/factory', 
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Active'], 
+function($, _, stateFactory, Active){
 
     var InteractionStateActive = stateFactory.extend(Active, function(){
         
