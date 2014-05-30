@@ -4,10 +4,10 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/HottextInteraction',
-    'taoQtiItem/qtiCreator/model/choices/Hottext',
+    'taoQtiItem/qtiCreator/model/choices/InlineChoice',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
-], function(_, Element, editable, editableInteraction, Interaction, Choice, event, responseHelper){
+], function(_, Element, editable, editableInteraction, Interaction, Choice,event, responseHelper){
     
     var methods = {};
     _.extend(methods, editable);
