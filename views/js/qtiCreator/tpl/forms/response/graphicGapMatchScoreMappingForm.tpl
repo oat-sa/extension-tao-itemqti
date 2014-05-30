@@ -2,7 +2,8 @@
         <h2>{{title}}</h2>
 
         <div class="panel grid-row">
-            <div class="col-7"></div>
+             <div class="col-4">{{__ 'Gap'}}</div>
+             <div class="col-4">{{__ 'Image'}}</div>
             
             {{#unless noCorrect}}
             <div class="col-2" data-edit="correct">
@@ -18,59 +19,34 @@
                 <span class="tooltip-content">{{__ 'Set the score for this response'}}</span>
             </div>
         </div>
-        {{#each mapping}}
+        {{#each mappings}}
         <div class="panel grid-row">
-            <div class="col-3">
+            <div class="col-4">
                {{choice}}
             </div>
             <div class="col-4">
                {{gapImg}}
+               {{#if gapImgSrc}}
+               <img src="{{gapImgSrc}}" width="32" alt="{{gapImg}}" />
+               {{/if}}
             </div>
             
             {{#unless noCorrect}}
             <div class="col-2" data-edit="correct">
                 <label>
-                    <input name="{{id}}_correct" type="checkbox" {{#if correct}} checked="checked"{{/if}} />
+                    <input name="{{id}}-correct" type="checkbox" {{#if correct}} checked="checked"{{/if}} />
                     <span class="icon-checkbox"></span>
                 </label>
             </div>
             {{/unless}}
 
             <div class="col-2">
-                <input value="{{score}}" type="text" name="{{id}}_score" class="score" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-            </div>
-            <div class="col-1">
-                <a href="#"><span class="icon-bin"></span></a>
+                <input value="{{score}}" type="text" name="{{id}}-score" class="score" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
             </div>
         </div>
         <hr>
         {{/each}}
-{{!--
-        <div class="panel grid-row">
-            <div class="col-3">
-               gap_id_12334
-            </div>
-            <div class="col-4">
-               gap_img_876
-            </div>
-            
-            {{#unless noCorrect}}
-            <div class="col-2" data-edit="correct">
-                <label>
-                    <input name="correct" type="checkbox" {{#if correct}} checked="checked"{{/if}} />
-                    <span class="icon-checkbox"></span>
-                </label>
-            </div>
-            {{/unless}}
 
-            <div class="col-2">
-                <input value="{{score}}" type="text" data-for="{{identifier}}" name="score" class="score" data-validate="$numeric" data-validate-option="$allowEmpty; $event(type=keyup)" />
-            </div>
-            <div class="col-1">
-                <a href="#"><span class="icon-bin"></span></a>
-            </div>
-        </div>
---}}
         <span class="arrow"></span>
         <span class="arrow-cover"></span>
     </div>

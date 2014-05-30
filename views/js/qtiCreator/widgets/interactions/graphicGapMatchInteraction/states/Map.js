@@ -13,7 +13,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScorePopup',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreMappingForm',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicGapMatchScoreMappingForm',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/deleter',
     'ui/tooltipster'
@@ -44,18 +44,26 @@ define([
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
     
-        GraphicGapMatchInteraction.setResponse(
-            interaction, 
-            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
-        );
+
 
         if(_.size(response.getMapEntries()) === 0){
+
+            GraphicGapMatchInteraction.setResponse(
+                interaction, 
+                PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+            );
             mappingForm(widget, corrects);
+
         } else {
+            GraphicGapMatchInteraction.setResponse(
+                interaction, 
+                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+            );
             mappingForm(widget);
         }
         
         widget.$container.on('responseChange.qti-widget', function(e, data){
+            console.log(data.response.list.directedPair);
             mappingForm(widget, _.map(data.response.list.directedPair, function(pair){
                 return pair.join(' ');
             }));
@@ -73,7 +81,7 @@ define([
             return;
         }
         
-        $('.mapping-editor').remove();
+        $('.graphic-mapping-editor').remove();
 
         //destroy the common renderer
         helper.removeInstructions(interaction);
@@ -84,53 +92,81 @@ define([
     }
 
     function mappingForm(widget, entries){
+        var mappings = [];
         var $container = widget.$container;
         var interaction = widget.element;
+        var options = widget.options;
         var response = interaction.getResponseDeclaration();
+        var correctDefined = answerStateHelper.isCorrectDefined(widget);
         var corrects  = _.values(response.getCorrect());
-        var mapping = [];
+        var mapEntries = response.getMapEntries();
+        var gapImgs  = {};
+        _.forEach(interaction.getGapImgs(), function(gapImg){
+            gapImgs[gapImg.id()] = gapImg;
+        });
+
 
         //reformat entries/for the form
         if(entries){
+            response.removeMapEntries();
             _.forEach(entries , function(value){
                 var pair = value.split(' ');
-                mapping.push({
-                    mappedValue : response.mappingAttributes.defaultValue,
+                var isCorrect = _.contains(corrects, value);
+                var score =  mapEntries[value] || response.mappingAttributes.defaultValue;
+
+                mappings.push({
+                    score : score,
                     choice : pair[0],
                     gapImg : pair[1],
-                    id : value.replace(' ', '-'),
+                    gapImgSrc : options.baseUrl + gapImgs[pair[1]].object.attr('data'), 
+                    id : value.replace(' ', '__'),
+                    correctDefined : correctDefined,
                     correct : _.contains(corrects, value) 
                 });
+                //add the related map entries 
+                response.setMapEntry(value, score);
             });
         } else {
-            _.forEach(response.getMapEntries(), function(entry, key){
+            _.forEach(mapEntries, function(value, key){
                 var pair = key.split(' ');
-                mapping.push({
-                    mappedValue : entry.mappedValue,
+                mappings.push({
+                    score : value,
                     choice : pair[0],
-                    gapImg : pair[1],
-                    id : key.replace(' ', '-'),
+                    gapImgId : pair[1],
+                    gapImgSrc : options.baseUrl + gapImgs[pair[1]].object.attr('data'), 
+                    id : key.replace(' ', '__'),
+                    correctDefined : correctDefined,
                     correct : _.contains(corrects, key) 
                 });
             });
         }
         
+        $('.graphic-mapping-editor').remove();
+
         var $popup = pairScorePopup($container);
         var $form = $(mappingFormTpl({
             'title'             : __('Pair scoring'),
             'correctDefined'    : answerStateHelper.isCorrectDefined(widget),
             'scoreMin'          : response.getMappingAttribute('lowerBound'),
             'scoreMax'          : response.getMappingAttribute('upperBound'),
-            'mapping'           : mapping
+            'mappings'          : mappings
         }));
         
         var callbacks = {};
-        _.forEach(mapping, function(map){
-            callbacks[map.id + '_score'] = function(response, value){
-                console.log(map.id + '_score', value);
+        _.forEach(mappings, function(map){
+            var id = map.id.replace('__', ' ');
+            callbacks[map.id + '-score'] = function(response, value){
+                response.setMapEntry(id, value);
             };
-            callbacks[map.id + '_correct'] = function(response, value){
-                console.log(map.id + '_corect', value);
+            callbacks[map.id + '-correct'] = function(response, value){
+                if(value === true){
+                    if(!_.contains(corrects, id)){
+                        corrects.push(id);
+                    }
+                } else {
+                    corrects = _.without(corrects, id);
+                }
+                response.setCorrect(corrects);
             };
         });
         

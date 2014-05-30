@@ -26,6 +26,8 @@ define([
         var baseUrl = this.getOption('baseUrl') || '';
         var diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
 
+        interaction.gapFillers = [];
+
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width       : background.width, 
@@ -51,8 +53,6 @@ define([
 
         //clicking the paper to reset selection
         _paperUnSelect(interaction);
-
-
     };
 
 
@@ -73,7 +73,8 @@ define([
             title : __('Select an image first'),
             hover : false
         })
-        .data('max', choice.attr('matchMax') ) 
+        .data('max', choice.attr('matchMax') )
+        .data('matching', []) 
         .click(function onClickShape(){
         
             // check if can make the shape selectable on click
@@ -175,7 +176,9 @@ define([
                 .data('identifier', id)
                 .toFront()
                 .move(bbox.x + (3 * (currentCount)), bbox.y + (3 * (currentCount)))
+                .unclick()
                 .click(function(e){
+                    e.preventDefault();
                     e.stopPropagation();
                     if($gapList.find('.active').length > 0){
 
@@ -184,10 +187,10 @@ define([
 
                     } else {
                         //update the element matching array
-                        element.data('matching', _.remove(element.data('matching') || [], this.data('identifier')));
+                        element.data('matching', _.without(element.data('matching') || [], this.data('identifier')));
                         
                         //delete interaction.gapFillers[interaction.gapFillers.indexOf(gapFiller)];
-                        interaction.gapFillers = _.reject(interaction.gapFillers, gapFiller);
+                        interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
                         
                         //and remove the filler
                         gapFiller.remove();
@@ -195,10 +198,7 @@ define([
                         Helper.triggerResponseChangeEvent(interaction);
                     }
                 });
-            
-            if(!interaction.gapFillers){
-                interaction.gapFillers = [];
-            }
+
             interaction.gapFillers.push(gapFiller); 
 
             //then reset the state of the shapes and the gap images
@@ -289,7 +289,6 @@ define([
                 });
             } 
        });
-
        return pairs;
     };
  

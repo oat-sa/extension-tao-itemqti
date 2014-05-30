@@ -1,11 +1,12 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
-], function(_, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
+], function($, _, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
 
     var methods = {};
     _.extend(methods, editable);
@@ -103,6 +104,9 @@ define([
         },
         getMapEntries : function(){
             return _.clone(this.mapEntries);
+        },
+        removeMapEntries : function(){
+            _(this.mapEntries).keys().forEach(this.removeMapEntry, this);
         },
         createFeedbackRule : function(){
 

@@ -14,7 +14,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicAssociate',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/graphicAssociate'
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot'
 ], function($, _, GraphicHelper, stateFactory, Question, shapeFactory, shapeEditor, shapeSideBar, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl){
 
     //keep the shape editors to destroy them easily
