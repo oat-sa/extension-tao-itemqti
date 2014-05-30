@@ -89,6 +89,7 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
         }
 
         //check if manifest samples are valid
+        $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         foreach(glob(dirname(__FILE__).'/samples/package/*.xml') as $file){
 
             $qtiParser = new ManifestParser($file);
@@ -96,7 +97,7 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
             $schema = '';
             $fileContent = file_get_contents($file);
             if(strpos($fileContent, 'xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"')){
-                $schema = BASE_PATH.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd';
+                $schema = $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd';
             }
 
             $qtiParser->validate($schema);
