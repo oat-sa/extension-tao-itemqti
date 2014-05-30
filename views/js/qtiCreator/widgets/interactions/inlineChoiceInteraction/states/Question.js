@@ -59,9 +59,7 @@ define([
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            maxChoices : parseInt(interaction.attr('maxChoices')),
-            minChoices : parseInt(interaction.attr('minChoices')),
-            choicesCount : _.size(_widget.element.getChoices())
+            required : !!interaction.attr('required')
         }));
 
         formElement.initWidget($form);
