@@ -33,9 +33,11 @@ define([
             renderer.updateFormat(interaction, previousFormat);
             
             if (previousFormat == 'xhtml') {
-                // Get a correct response with all possible html tags removed.
-                // (Why not let jquery do that :-) ?)
-                response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
+                if (typeof correctResponse[0] != 'undefined') {
+                 // Get a correct response with all possible html tags removed.
+                    // (Why not let jquery do that :-) ?)
+                    response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
+                }
             }
         };
         

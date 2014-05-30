@@ -7,7 +7,7 @@
     </div>
     {{else}}
         <div id="text-container">
-            <textarea id="{{attributes.identifier}}" class="solid{{#if attributes.class}} attributes.class"{{/if}} cols="72"></textarea>
+            <textarea id="{{attributes.identifier}}" class="solid{{#if attributes.class}} attributes.class{{/if}}" cols="72"></textarea>
         </div>
     {{/if}}
 </div>
