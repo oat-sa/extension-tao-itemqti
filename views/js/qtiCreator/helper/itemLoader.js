@@ -34,11 +34,12 @@ define([
                     }else{
 
                         var item = new Item().id(_generateIdentifier(config.uri));
-                        item.createOutcomeDeclaration({
-                            identifier : 'SCORE',
+                        var outcome = item.createOutcomeDeclaration({
                             cardinality : 'single',
                             baseType : 'float'
                         });
+                        outcome.buildIdentifier('SCORE', false);
+                        
                         item.createResponseProcessing();
                         callback(item);
                     }

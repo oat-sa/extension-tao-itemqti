@@ -287,7 +287,14 @@ define([
                 if (targetWidget) {
                     //@todo : fix this race condition
                     _.delay(function() {
-                        targetWidget.changeState('active');
+                        
+                        if(Element.isA(innerWidget.element, 'interaction')){
+                            targetWidget.changeState('question');
+                        }else{
+                            targetWidget.changeState('active');
+                        }
+                        
+                        
                     }, 100);
                 }
             });

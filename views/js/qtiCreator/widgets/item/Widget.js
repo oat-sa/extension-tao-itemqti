@@ -39,7 +39,7 @@ define([
 
         this.initGridEditor();
 
-//        this.debug();
+        this.debug();
     };
 
     ItemWidget.buildContainer = function(){
@@ -292,14 +292,14 @@ define([
     };
 
     ItemWidget.debug = function(){
-        return;
-        //devTools.listenStateChange();
+        
+        devTools.listenStateChange();
 
-        //var $code = $('<code>', {'class' : 'language-markup'}),
-        //$pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
+        var $code = $('<code>', {'class' : 'language-markup'}),
+        $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
 
-        //$('#item-editor-wrapper').append($pre);
-        //devTools.liveXmlPreview(this.element, $code);
+        $('#item-editor-wrapper').append($pre);
+        devTools.liveXmlPreview(this.element, $code);
     };
 
 
