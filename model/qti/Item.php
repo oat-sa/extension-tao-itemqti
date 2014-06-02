@@ -40,7 +40,7 @@ use \DOMDocument;
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#section10042
- 
+
  */
 class Item extends IdentifiedElement implements FlowContainer, IdentifiedElementContainer, common_Serializable
 {
@@ -416,7 +416,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function toXHTML($options = array(), &$filtered = array()){
 
         $template = static::getTemplatePath().'/xhtml.item.tpl.php';
-        
+
         // get the variables to use in the template
         $variables = $this->getAttributeValues();
         $variables['stylesheets'] = array();
@@ -444,68 +444,19 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             }
         }
 
-        // these variables enables to get only the needed resources
-        $variables['hasUpload'] = false;
-        $variables['hasGraphics'] = false;
-        $variables['hasSlider'] = false;
-        $variables['hasMath'] = false;
-        $variables['hasMedia'] = false;
-        $variables['useLegacyApi'] = true;
-
-        //check if specific (and heavy) libs are required:
-        $composingElements = $this->getComposingElements();
-        foreach($composingElements as $elt){
-            if($elt instanceof Math){
-                $variables['hasMath'] = true;
-                continue;
-            }
-            if($elt instanceof Object){
-                $variables['hasMedia'] = true;
-                continue;
-            }
-            if($elt instanceof GraphicInteraction){
-                $variables['hasGraphics'] = true;
-                continue;
-            }
-            if($elt instanceof SliderInteraction){
-                $variables['hasSlider'] = true;
-                continue;
-            }
-            if($elt instanceof UploadInteraction){
-                $variables['hasUpload'] = true;
-                continue;
-            }
-        }
-
         $dataForDelivery = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
-        
+
         //copy all variable data into filtered array
         foreach($dataForDelivery['variable'] as $serial => $data){
             $filtered[$serial] = $data;
         }
-        
+
         $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : array();
-
-        $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
-        $qtifolder = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
-        $tplRenderer->setData('ctx_qtiItem_lib_www', $qtifolder.'js/qtiItem/');
-        $tplRenderer->setData('ctx_qtiDefaultRenderer_lib_www', $qtifolder.'js/qtiDefaultRenderer/');
-        $tplRenderer->setData('ctx_qti_matching_www', $qtifolder.'js/responseProcessing/');
-
-        $taoBaseWww = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
-        $itemBaseWww = common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems')->getConstant('BASE_WWW');
+        $variables['tao_lib_path'] = isset($options['path']) && isset($options['path']['tao']) ? $options['path']['tao'] : '';
+        $variables['taoQtiItem_lib_path'] = isset($options['path']) && isset($options['path']['taoQtiItem']) ? $options['path']['taoQtiItem'] : '';
         
-        $tplRenderer->setData('ctx_taobase_www', $taoBaseWww);
-        $tplRenderer->setData('ctx_base_www', $qtifolder);
-        $tplRenderer->setData('runtimeContext', array(
-            'lang' => isset($options['lang']) ? $options['lang'] : 'en-US',
-            'tao_base_www' => $taoBaseWww,
-            'runtime_base_www' => $itemBaseWww,
-            'root_url' => ROOT_URL,
-            'debug' => true
-        ));
-        // ctx_delivery_server_mode,ctx_matching_server,ctx_base_www,ctx_root_url,ctx_taobase_www,ctx_debug,ctx_raw_preview
+        $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
 
         $returnValue = $tplRenderer->render();
 
@@ -631,7 +582,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         foreach($this->getModalFeedbacks() as $feedback){
             $data['feedbacks'][$feedback->getSerial()] = $feedback->toArray($filterVariableContent, $filtered);
         }
-        
+
         $data['responseProcessing'] = $this->responseProcessing->toArray($filterVariableContent, $filtered);
 
         return $data;

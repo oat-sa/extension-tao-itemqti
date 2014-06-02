@@ -171,12 +171,21 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
         $rubricBlocks = $this->getRubricBlocks($qtiItem);
         
+        $taofolder = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
         $qtifolder = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
+        
+        $taoLibFolder = $taofolder.'js'. DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR;
+        $taoQtiItemLibFolder = $qtifolder.'js'. DIRECTORY_SEPARATOR.'runtime'.DIRECTORY_SEPARATOR;
+        
         $xhtml = $qtiItem->toXHTML(array(
             'contentVariableElements' => $rubricBlocks,
             'js' => array($qtifolder.'js/preview/qtiViewSelector.js'),
             'js_var' => array('view' => $this->getRequestView()),
-            'css' => array($qtifolder.'css/preview/qtiViewSelector.css')
+            'css' => array($qtifolder.'css/preview/qtiViewSelector.css'),
+            'path' => array(
+                'tao' => $taoLibFolder,
+                'taoQtiItem' => $taoQtiItemLibFolder
+            )
         ));
 
         return $xhtml;
