@@ -94,9 +94,10 @@ define([
             skin : 'tao',
             removePlugins : '',
             linkShowAdvancedTab:false,
+            enterMode: 2, // = CKEDITOR.ENTER_BR,
+            justifyClasses: ['txt-lft', 'txt-ctr', 'txt-rgt', 'txt-jty'],
             linkShowTargetTab:false
         };
-
 
         /**
          * Insert positioned plugins at position specified in options.positionedPlugins
@@ -287,6 +288,7 @@ define([
                 CKEDITOR.dtd = dtdHandler.getDtd();
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
+                console.log(config)
             });
             // remove title 'Rich Text Editor, instance n' that CKE sets by default
             // ref: http://tinyurl.com/keedruc
@@ -305,3 +307,4 @@ define([
 
     return ckConfigurator;
 });
+

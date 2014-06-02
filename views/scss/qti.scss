@@ -78,6 +78,12 @@
 }
 
 
+.qti-choice, .qti-prompt-container {
+    p:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
 //scope all hover, active style for delivery under the runtime class
 .runtime {
     .block-listing {
@@ -230,3 +236,4 @@
     margin-right: auto;
     margin-left: auto;
 }
+
