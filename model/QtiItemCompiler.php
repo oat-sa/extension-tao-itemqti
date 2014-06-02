@@ -144,7 +144,20 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         //copy item.xml file to private directory
         tao_helpers_File::copy($itemFolder.'qti.xml', $privateFolder.'qti.xml', false);
-        
+       
+
+        //copy client side resources (javascript loader)
+        $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
+        $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
+        $assetPath      = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
+        $assetLibPath   = $taoDir     . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
+        if(\tao_helpers_Mode::is('production')){
+            tao_helpers_File::copy( $assetPath . 'qtiLoader.min.js', $publicDirectory.'qtiLoader.min.js', false);
+        } else {
+            tao_helpers_File::copy( $assetPath . 'qtiLoader.js', $publicDirectory.'qtiLoader.js', false);
+            tao_helpers_File::copy( $assetLibPath . 'require.js', $publicDirectory.'require.js', false);
+        }
+
         //load item in php object : 
         //warning:  use the same instance of php qti item because the serial is regenerated each time:
         $qtiItem = $qtiService->getDataItemByRdfItem($item, $language);

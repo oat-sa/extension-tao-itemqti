@@ -33,7 +33,7 @@
             (function(){
                 window.tao = window.tao || {};
                 window.tao.qtiRunnerContext = {
-                    ctx : <?=json_encode(get_data('runtimeContext'))?>,
+                    //ctx : <?=json_encode(get_data('runtimeContext'))?>,
                     itemData : <?=json_encode(get_data('itemData'))?>,
                     variableElements : <?=json_encode(get_data('contentVariableElements'))?>,
                     userVars : <?=json_encode(get_data('js_variables'))?>,
@@ -43,12 +43,9 @@
         </script>
 
         <?if(tao_helpers_Mode::is('production')):?>
-            <script type="text/javascript" src="<?=get_data('ctx_base_www')?>js/runtime/qtiLoader.min.js"></script>
+            <script type="text/javascript" src="qtiLoader.min.js"></script>
         <?else:?>
-            <script type="text/javascript" 
-                    src="<?=get_data('ctx_taobase_www')?>js/lib/require.js"
-                    data-main="<?=get_data('ctx_base_www')?>js/runtime/qtiLoader">
-            </script>
+            <script type="text/javascript" src="require.js" data-main="qtiLoader"></script>
         <?endif;?>
 
     </head>
