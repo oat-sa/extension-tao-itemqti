@@ -64,6 +64,10 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         }
 
         $langs = $this->getContentUsedLanguages();
+        if (empty($langs)) {
+            $report->setType(common_report_Report::TYPE_ERROR);
+            $report->setMessage(__('Item "%s" is not available in any language', $item->getLabel()));
+        }
         foreach($langs as $compilationLanguage){
             $publicLangDir = $this->getLanguageCompilationPath($publicDirectory, $compilationLanguage);
             if(!is_dir($publicLangDir)){
@@ -86,13 +90,12 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             $report->add($langReport);
             if ($langReport->getType() == common_report_Report::TYPE_ERROR) {
                 $report->setType(common_report_Report::TYPE_ERROR);
+                $report->setMessage(__('Failed to publish %1$s in %2$s', $item->getLabel(), $compilationLanguage));
                 break;
             }
         }
         if($report->getType() == common_report_Report::TYPE_SUCCESS){
             $report->setData($this->createQtiService($item, $publicDirectory, $privateDirectory));
-        }else{
-            $report->setMessage(__('Failed to publish %s', $item->getLabel()));
         }
         return $report;
     }
