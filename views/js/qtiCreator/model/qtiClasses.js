@@ -2,7 +2,7 @@
  * Define the location of all qti classes used in the QTI Creator
  */
 define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses){
-    
+
     //clone the qtiClasses instead of modifying it by direct extend:
     return _.defaults({
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
@@ -33,6 +33,11 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'hotspotChoice' : 'taoQtiItem/qtiCreator/model/choices/HotspotChoice',
         'gapImg' : 'taoQtiItem/qtiCreator/model/choices/GapImg',
         'associableHotspot' : 'taoQtiItem/qtiCreator/model/choices/AssociableHotspot',
+        'gapMatchInteraction' : 'taoQtiItem/qtiCreator/model/interactions/GapMatchInteraction',
+        'hottextInteraction' : 'taoQtiItem/qtiCreator/model/interactions/HottextInteraction',
+        'hottext' : 'taoQtiItem/qtiCreator/model/choices/Hottext',
+        'gapText' : 'taoQtiItem/qtiCreator/model/choices/GapText',
+        'gap' : 'taoQtiItem/qtiCreator/model/choices/Gap',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing'
     }, qtiClasses);

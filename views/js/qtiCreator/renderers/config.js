@@ -1,5 +1,5 @@
 define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, commonRenderConfig){
-    
+
     var locations = _.defaults({
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
         'assessmentItem' : 'taoQtiItem/qtiCreator/renderers/Item',
@@ -25,11 +25,16 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, 
         'simpleChoice.choiceInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.ChoiceInteraction',
         'simpleChoice.orderInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleChoice.OrderInteraction',
         'simpleAssociableChoice.associateInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.AssociateInteraction',
-        'simpleAssociableChoice.matchInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction'
+        'simpleAssociableChoice.matchInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction',
+        'gapMatchInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/GapMatchInteraction',
+        'hottextInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/HottextInteraction',
+        'gap' : 'taoQtiItem/qtiCreator/renderers/choices/Gap',
+        'gapText' : 'taoQtiItem/qtiCreator/renderers/choices/GapText',
+        'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext'
     }, commonRenderConfig.locations);
 
     return {
-        name: 'creatorRenderer',
+        name : 'creatorRenderer',
         locations : locations
     };
 });
