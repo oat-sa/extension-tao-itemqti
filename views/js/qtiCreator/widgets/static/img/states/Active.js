@@ -39,9 +39,16 @@ define([
         }, 1000);
 
         return _.throttle(function(img, value, name){
-            $img[propertyName](value);
-            _setAttr(img, value, name);
+            
+            if(value){
+                $img[propertyName](value);
+                _setAttr(img, value, name);
+            }else{
+                $img[propertyName]('auto');
+                img.removeAttr(propertyName);
+            }
             $img.trigger('contentChange.qti-widget');
+            
         }, 100);
 
     };
@@ -54,13 +61,13 @@ define([
             img = _widget.element,
             baseUrl = _widget.options.baseUrl,
             responsive = true;
-
+        
         $form.html(formTpl({
             baseUrl : baseUrl || '',
             src : img.attr('src'),
             alt : img.attr('alt'),
-            height : img.attr('height') || 0,
-            width : img.attr('width') || 0,
+            height : img.attr('height'),
+            width : img.attr('width'),
             responsive : responsive
         }));
 

@@ -35,7 +35,7 @@
 
         <label for="height">{{__ 'Height (optional)'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="height" value="{{height}}" data-validate="$numeric"/>
+            <input type="text" name="height" value="{{height}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
             <span class="unit-indicator">px</span>
         </span>
     </div>
@@ -43,7 +43,7 @@
 
         <label for="width">{{__ 'Width (optional)'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
-            <input type="text" name="width" value="{{width}}" data-validate="$numeric"/>
+            <input type="text" name="width" value="{{width}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
             <span class="unit-indicator">px</span>
         </span>
     </div>
