@@ -3,6 +3,7 @@
 
 .qti-gapMatchInteraction {
     .qti-flow-container{
+        position:relative;
         [data-html-editable]{
             min-height:3rem;
         }
