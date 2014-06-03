@@ -205,7 +205,7 @@ define([
             if(_.isFunction(options.ready)){
                 postRenderOpts.ready = options.ready;
             }
-
+            
             var $container = null;
             if(options.context && options.context.length){
                 //if the context option is provided, the function will fetch the widget container that in this context
@@ -220,6 +220,7 @@ define([
 
             //we assume that the element still has its renderer set, check renderer:
             var renderer = element.getRenderer();
+            
             if(renderer && renderer.isRenderer){
                 if(renderer.name === 'creatorRenderer'){
                     element.render($container);

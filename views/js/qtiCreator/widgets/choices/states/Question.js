@@ -8,7 +8,7 @@ define([
     var ChoiceStateQuestion = stateFactory.create(QuestionState, function(){
 
         var _widget = this.widget;
-
+        
         //add some event listeners
         _widget.$container.on('click.question', function(){
             //show option form

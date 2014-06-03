@@ -38,7 +38,8 @@ define(['jquery'], function($){
             
             $editable.on('mouseup.textwrapper', function() {
                 
-                var $wrapper = $('<span>', {id: 'selection-wrapper'}).css({fontWeight: 'bold', color: 'green'});
+                var $wrapper = $('<span>', {id: 'selection-wrapper'});
+//                $wrapper.css({fontWeight: 'bold', color: 'green'});
                 wrapSelection($wrapper[0]);
                 
                 var wrappedText = $wrapper.text().trim();

@@ -10,7 +10,7 @@ define([
     
     contentHelper.createElements = function(container, $container, data, callback){
 
-        var $dummy = data ? $('<div>').html(data) : $container;
+        var $dummy = $('<div>').html(data);
 
         containerHelper.createElements(container, gridContentHelper.getContent($dummy), function(newElts){
 

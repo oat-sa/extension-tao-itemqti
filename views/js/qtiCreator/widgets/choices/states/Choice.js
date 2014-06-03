@@ -13,7 +13,7 @@ define([
         //listener to other siblings choice mode
         _widget.beforeStateInit(function(e, element, state){
             
-            if(Element.isA(element, 'choice') && _widget.interaction.getChoice(element.serial)){
+            if(Element.isA(element, 'choice') && _widget.interaction.getChoice(element.serial)){//@todo hottext an
                 
                 if(state.name === 'choice' && element.serial !== _widget.serial){
                     _widget.changeState('question');
@@ -28,7 +28,7 @@ define([
                 }
                 
             }
-        });
+        }, 'otherActive');
 
         //add options form
         this.initForm();
@@ -38,6 +38,8 @@ define([
 
         //destroy and hide the form
         this.widget.$form.empty().hide();
+        
+        this.widget.offEvents('otherActive');
     });
 
     ChoiceStateChoice.prototype.initForm = function(){

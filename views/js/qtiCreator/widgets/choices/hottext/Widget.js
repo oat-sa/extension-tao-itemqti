@@ -12,6 +12,10 @@ define([
         this.registerStates(states);
         
     };
-
+    
+    HottextWidget.buildContainer = function(){
+        this.$container = this.$original.addClass('widget-box');
+    };
+    
     return HottextWidget;
 });

@@ -49,7 +49,7 @@ define([
         var existingElements = [];
         
         //select only the first level of ".widget-box" found
-        $el.find('.widget-box:not(.widget-box *)').each(function(){
+        var $serialized = $el.find('.widget-box:not(.widget-box *)').each(function(){
             
             var $qtiElementWidget = $(this);
 
@@ -73,6 +73,8 @@ define([
             }
 
         });
+        
+//        console.log($serialized);//@todo : issue tlb in div moved outside of scope... :s
         
         return existingElements;
     };

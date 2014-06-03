@@ -11,7 +11,7 @@ define([
         _widget.beforeStateInit(function(e, element, state){
             
             var serial = element.getSerial();
-            if(state.name === 'active' && serial !== _widget.serial){
+            if((state.name === 'active' && serial !== _widget.serial) || state.name === 'choice'){
                 //call sleep whenever other widget is active
                 _widget.changeState('sleep');
             }

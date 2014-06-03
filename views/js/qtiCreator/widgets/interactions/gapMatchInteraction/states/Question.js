@@ -41,15 +41,14 @@ define([
     };
 
     GapMatchInteractionStateQuestion.prototype.buildEditor = function(){
-
+        
         var _this = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container.find('.qti-flow-container');
 
-        //@todo set them in the tpl
         $editableContainer.attr('data-html-editable-container', true);
-
+        
         if(!htmlEditor.hasEditor($editableContainer)){
 
             var $bodyTlb = $(toolbarTpl({
@@ -90,10 +89,11 @@ define([
 
         $gapTlb.on('mousedown', function(e){
 
-            e.stopPropagation();
+            e.stopPropagation();//prevent rewrapping
 
             var $wrapper = $gapTlb.parent(),
-                text = $wrapper.text().trim();
+                text = $wrapper.text().trim(),
+                editor = $editable.data('editor');
                 
             //create choice:
             var choice = interaction.createChoice(text);
@@ -106,10 +106,12 @@ define([
                 .attr('data-new', true)
                 .attr('data-qti-class', 'gap');
             
-            htmlContentHelper.createElements(interaction.getBody(), $editable, null, function(widget){
+            htmlContentHelper.createElements(interaction.getBody(), $editable, editor.getData(), function(widget){
                 widget.changeState('question');
             });
 
+        }).on('mouseup', function(e){
+            e.stopPropagation();//prevent rewrapping
         });
 
         //init text wrapper:
