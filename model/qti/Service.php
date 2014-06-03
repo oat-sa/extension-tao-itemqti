@@ -55,55 +55,50 @@ class Service extends tao_models_classes_Service
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource item
-     * @return oat\taoQtiItem\model\qti\Item
+     * @throws \common_Exception If $item is not representing an item with a QTI item model.
+     * @return oat\taoQtiItem\model\qti\Item An item as a business object.
      */
     public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = ''){
         
         $returnValue = null;
+        $itemService = taoItems_models_classes_ItemsService::singleton();
 
-        if(!is_null($item)){
+        //check if the item is QTI item
+        if ($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))) {
 
-            try{
+            //get the QTI xml
+            $itemContent = $itemService->getItemContent($item, $langCode);
 
-                $itemService = taoItems_models_classes_ItemsService::singleton();
+            if (!empty($itemContent)) {
+                //Parse it and build the QTI_Data_Item
+                $qtiParser = new Parser($itemContent);
+                $returnValue = $qtiParser->load();
 
-                //check if the item is QTI item
-                if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
-
-                    //get the QTI xml
-                    $itemContent = $itemService->getItemContent($item, $langCode);
-
-                    if(!empty($itemContent)){
-                        //Parse it and build the QTI_Data_Item
-                        $qtiParser = new Parser($itemContent);
-                        $returnValue = $qtiParser->load();
-
-                        if(!$returnValue->getAttributeValue('xml:lang')){
-                            $returnValue->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
-                        }
-
-                        //load Measures
-                        $measurements = $itemService->getItemMeasurements($item);
-                        foreach($returnValue->getOutcomes() as $outcome){
-                            foreach($measurements as $measurement){
-                                if($measurement->getIdentifier() == $outcome->getIdentifier() && !is_null($measurement->getScale())){
-                                    $outcome->setScale($measurement->getScale());
-                                    break;
-                                }
-                            }
-                        }
-                    }else{
-                        // fail silently, since file might not have been created yet
-                        common_Logger::d('item('.$item->getUri().') is empty, newly created?');
-                    }
-                }else{
-                    throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
+                if (!$returnValue->getAttributeValue('xml:lang')) {
+                    $returnValue->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
                 }
-            }catch(common_Exception $ce){
-                print $ce;
+
+                //load Measures
+                $measurements = $itemService->getItemMeasurements($item);
+                foreach ($returnValue->getOutcomes() as $outcome) {
+                    foreach ($measurements as $measurement) {
+                        if ($measurement->getIdentifier() == $outcome->getIdentifier() && !is_null($measurement->getScale())) {
+                            $outcome->setScale($measurement->getScale());
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                // fail silently, since file might not have been created yet
+                // $returnValue is then NULL.
+                common_Logger::d('item('.$item->getUri().') is empty, newly created?');
             }
         }
-
+        else {
+            throw new common_Exception('Non QTI item('.$item->getUri().') opened via QTI Service');
+        }
+        
         return $returnValue;
     }
 

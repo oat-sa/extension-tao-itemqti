@@ -31,6 +31,7 @@ use \DOMDocument;
 use \tao_helpers_Uri;
 use \taoItems_models_classes_TemplateRenderer;
 use \tao_helpers_Display;
+use \common_Exception;
 
 class QTIPackedItemExporter extends AbstractQTIItemExporter {
 
@@ -74,7 +75,9 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	}
 	
 	/**
-	 * Build, merge and export the IMS Manifest
+	 * Build, merge and export the IMS Manifest into the target ZIP archive.
+	 * 
+	 * @throws 
 	 */
 	public function exportManifest() {
 	    
@@ -100,62 +103,67 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		//@todo add support of multi language packages
 		$qtiItem = $qtiItemService->getDataItemByRdfItem($this->getItem());
 		
-		// -- Prepare data transfer to the imsmanifest.tpl template.
-		$qtiItemData = array();
-		
-		// alter identifier for export to avoid any "clash".
-		$qtiItemData['identifier'] = $this->buildIdentifier();
-		$qtiItemData['filePath'] = $qtiFile;
-		$qtiItemData['medias'] = $qtiResources;
-		$qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
-		$qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
-		$qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
-		$qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
-		$qtiItemData['interactions'] = array();
-		
-		foreach ($qtiItem->getInteractions() as $interaction) {
-		    $interactionData = array();
-		    $interactionData['type'] = $interaction->getQtiTag();
-		    $qtiItemData['interactions'][] = $interactionData;
+		if (!is_null($qtiItem)) {
+		    // -- Prepare data transfer to the imsmanifest.tpl template.
+		    $qtiItemData = array();
+		    
+		    // alter identifier for export to avoid any "clash".
+		    $qtiItemData['identifier'] = $this->buildIdentifier();
+		    $qtiItemData['filePath'] = $qtiFile;
+		    $qtiItemData['medias'] = $qtiResources;
+		    $qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
+		    $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
+		    $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
+		    $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
+		    $qtiItemData['interactions'] = array();
+		    
+		    foreach ($qtiItem->getInteractions() as $interaction) {
+		        $interactionData = array();
+		        $interactionData['type'] = $interaction->getQtiTag();
+		        $qtiItemData['interactions'][] = $interactionData;
+		    }
+		    
+		    // -- Build a brand new IMS Manifest.
+		    $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
+		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($dir.'model/qti/templates/imsmanifest.tpl.php', array(
+		                    'qtiItems' 				=> array($qtiItemData),
+		                    'manifestIdentifier'    => 'QTI-MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+		    ));
+		    	
+		    $renderedManifest = $templateRenderer->render();
+		    $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
+		    $newManifest->loadXML($renderedManifest);
+		    
+		    if ($this->hasManifest()) {
+		        // Merge old manifest and new one.
+		        $dom1 = $this->getManifest();
+		        $dom2 = $newManifest;
+		        $dom2->loadXML($renderedManifest);
+		        $resourceNodes = $dom2->getElementsByTagName('resource');
+		        $resourcesNodes = $dom1->getElementsByTagName('resources');
+		    
+		        foreach ($resourcesNodes as $resourcesNode) {
+		    
+		            foreach ($resourceNodes as $resourceNode) {
+		                $newResourceNode = $dom1->importNode($resourceNode, true);
+		                $resourcesNode->appendChild($newResourceNode);
+		            }
+		        }
+		    
+		        // rendered manifest is now useless.
+		        unset($dom2);
+		    }
+		    else {
+		        // Brand new manifest.
+		        $this->setManifest($newManifest);
+		    }
+		    
+		    // -- Overwrite manifest in the current ZIP archive.
+		    $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
 		}
-
-		// -- Build a brand new IMS Manifest.
-		$dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-		$templateRenderer = new taoItems_models_classes_TemplateRenderer($dir.'model/qti/templates/imsmanifest.tpl.php', array(
-            'qtiItems' 				=> array($qtiItemData),
-            'manifestIdentifier'    => 'QTI-MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
-		));
-			
-		$renderedManifest = $templateRenderer->render();
-		$newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
-		$newManifest->loadXML($renderedManifest);
-		
-    	if ($this->hasManifest()) {
-            // Merge old manifest and new one.
-            $dom1 = $this->getManifest();
-            $dom2 = $newManifest;
-            $dom2->loadXML($renderedManifest);
-            $resourceNodes = $dom2->getElementsByTagName('resource');
-            $resourcesNodes = $dom1->getElementsByTagName('resources');
-            
-            foreach ($resourcesNodes as $resourcesNode) {
-            
-                foreach ($resourceNodes as $resourceNode) {
-                    $newResourceNode = $dom1->importNode($resourceNode, true);
-                    $resourcesNode->appendChild($newResourceNode);
-                }
-            }
-            
-            // rendered manifest is now useless.
-            unset($dom2);
-    	}
-    	else {
-            // Brand new manifest.
-            $this->setManifest($newManifest);
-        }
-
-        // -- Overwrite manifest in the current ZIP archive.
-    	$zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
+		else {
+		    throw new common_Exception("An item involved in the export process has no content.");
+		}
 	}
 }
 ?>
