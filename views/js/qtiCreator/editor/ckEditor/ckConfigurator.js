@@ -22,9 +22,9 @@ define([
         };
 
         var qtiPositionedPlugins = {
-//            TaoQtiMedia : {
-//                insertAfter : 'SpecialChar'
-//            },
+            TaoQtiMedia : {
+                insertAfter : 'SpecialChar'
+            },
             TaoQtiImage : {
                 insertAfter : 'SpecialChar'
             },
@@ -288,7 +288,6 @@ define([
                 CKEDITOR.dtd = dtdHandler.getDtd();
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
-                console.log(config)
             });
             // remove title 'Rich Text Editor, instance n' that CKE sets by default
             // ref: http://tinyurl.com/keedruc

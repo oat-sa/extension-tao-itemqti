@@ -1815,6 +1815,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       /* line 7, ../scss/qtiCreator/_gap-match.scss */
       .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container [data-html-editable] {
         min-height: 3rem; }
+      /* line 10, ../scss/qtiCreator/_gap-match.scss */
+      .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container .mini-tlb[data-role=create-gap-tlb] {
+        postion: absolute;
+        right: -30px; }
+      /* line 14, ../scss/qtiCreator/_gap-match.scss */
+      .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container #selection-wrapper {
+        z-index: 1000;
+        position: relative; }
     /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }

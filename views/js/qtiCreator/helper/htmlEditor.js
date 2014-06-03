@@ -54,7 +54,7 @@ define([
                 insert: function() {
                     if (options.data && options.data.container && options.data.widget) {
                         contentHelper.createElements(options.data.container, $editable, this.getData(), function(createdWidget) {
-                            _activateInnerWidget(options.data.widget, createdWidget)
+                            _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
                 }
@@ -293,7 +293,6 @@ define([
                         }else{
                             targetWidget.changeState('active');
                         }
-                        
                         
                     }, 100);
                 }

@@ -28,8 +28,6 @@ define([
         
         if (!htmlEditor.hasEditor($editableContainer)) {
             
-//            _protoGapInsertion($editableContainer.find('[data-html-editable]'));
-            
             htmlEditor.buildEditor($editableContainer, {
                 change : content.getChangeCallback(container),
                 blur : function(){
@@ -50,62 +48,6 @@ define([
 
     TextActive.prototype.initForm = function(){
         this.widget.$form.html(formTpl());
-    };
-
-    /**
-     * Prototyping gap match and hottext editor
-     */
-    
-    function getSelection() {
-
-        var selection;
-
-        if (window.getSelection) {
-            selection = window.getSelection();
-        } else if (document.selection) {
-            selection = document.selection.createRange();
-        }
-
-        return selection;
-    }
-
-    function wrapSelection(wrap) {
-
-        var sel = getSelection();
-        if (sel.rangeCount) {
-            var range = sel.getRangeAt(0).cloneRange();
-            if (range.startOffset !== range.endOffset) { //prevent empty selection
-                range.surroundContents(wrap);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
-        }
-    }
-    
-    function unwrapSelection($editable) {
-        
-        $editable.find('#selection-wrapper').replaceWith(function() {
-            return $(this).text();
-        });
-    }
-        
-    var _protoGapInsertion = function($editable) {
-            
-        $editable.on('editorready', function() {
-            
-            $editable.on('mouseup', function() {
-                
-                var $wrapper = $('<span>', {id: 'selection-wrapper'}).css({fontWeight: 'bold', color: 'green'});
-                wrapSelection($wrapper[0]);
-                $wrapper.append($('<span>', {'class':'tlb'}).text('x'));
-                
-            }).on('mousedown', function() {
-                
-                unwrapSelection($editable);
-            });
-
-        });
-
     };
 
     return TextActive;
