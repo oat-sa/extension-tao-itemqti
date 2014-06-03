@@ -1809,6 +1809,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       /* line 33, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .cb {
         top: 5px; }
+    /* line 6, ../scss/qtiCreator/_gap-match.scss */
+    .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container [data-html-editable] {
+      min-height: 3rem; }
     /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
@@ -2063,7 +2066,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       border: 1px dotted #0e5d91; }
   /* line 1044, ../scss/item-creator.scss */
   .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] {
-    min-height: 6rem; }
+    min-height: 3rem; }
 
 /* line 1050, ../scss/item-creator.scss */
 .cke-cover-up {

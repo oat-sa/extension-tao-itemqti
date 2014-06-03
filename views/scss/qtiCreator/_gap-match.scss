@@ -1,2 +1,10 @@
 @import "inc/bootstrap";
 @import 'qtiCreator/response-pairs';
+
+.qti-gapMatchInteraction {
+    .qti-flow-container{
+        [data-html-editable]{
+            min-height:3rem;
+        }
+    }
+}

@@ -126,8 +126,7 @@ class Authoring
                 array('title' => __('Gap Match Interaction'),
                     'icon' => 'gap-match',
                     'short' => __('Gap Match'),
-                    'qtiClass' => 'gapMatchInteraction',
-                    'disabled' => true
+                    'qtiClass' => 'gapMatchInteraction'
                 ),
                 array('title' => __('Slider Interaction'),
                     'icon' => 'slider',
