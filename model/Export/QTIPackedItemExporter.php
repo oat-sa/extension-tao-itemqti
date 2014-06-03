@@ -162,7 +162,8 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
 		}
 		else {
-		    throw new common_Exception("An item involved in the export process has no content.");
+		    $itemLabel = $this->getItem()->getLabel();
+		    throw new common_Exception("the item '${itemLabel}' involved in the export process has no content.");
 		}
 	}
 }
