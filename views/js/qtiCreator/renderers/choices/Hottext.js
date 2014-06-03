@@ -8,7 +8,7 @@ define([
 
     CreatorHottext.render = function(choice, options){
         
-        HottextWidget.build(
+        return HottextWidget.build(
             choice,
             Hottext.getContainer(choice),
             this.getOption('choiceOptionForm'),

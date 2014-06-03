@@ -1,6 +1,6 @@
 define([
-    'lodash', 
-    'taoQtiItem/qtiCreator/model/mixin/editable', 
+    'lodash',
+    'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/choices/GapText'
 ], function(_, editable, Choice){
     var methods = {};
@@ -8,8 +8,9 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-               matchMax : 1,
-               matchMin : 0 
+                fixed : false,
+                matchMax : 1,
+                matchMin : 0
             };
         }
     });

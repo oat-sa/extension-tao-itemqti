@@ -18,7 +18,7 @@ define(['jquery'], function($){
         var sel = getSelection();
         if (sel.rangeCount) {
             var range = sel.getRangeAt(0).cloneRange();
-            if (range.startOffset !== range.endOffset) { //prevent empty selection
+            if (range.startOffset !== range.endOffset && range.toString().trim()) { //prevent empty selection
                 range.surroundContents(wrap);
                 sel.removeAllRanges();
                 sel.addRange(range);
@@ -34,20 +34,27 @@ define(['jquery'], function($){
     }
     
     var textWrapper = {
-        init : function($editable){
+        create : function($editable){
             
-            $editable.on('mouseup', function() {
+            $editable.on('mouseup.textwrapper', function() {
                 
                 var $wrapper = $('<span>', {id: 'selection-wrapper'}).css({fontWeight: 'bold', color: 'green'});
                 wrapSelection($wrapper[0]);
-                $editable.trigger('wrapped', [$wrapper]);
                 
-            }).on('mousedown', function() {
+                var wrappedText = $wrapper.text().trim();
+                $editable.trigger('wrapped', [$wrapper, wrappedText]);
+                
+            }).on('mousedown.textwrapper', function() {
                 $editable.trigger('beforeunwrap');
                 unwrapSelection($editable);
                 $editable.trigger('unwrapped');
             });
             
+        },
+        destroy : function($editable){
+            
+            unwrapSelection($editable);
+            $editable.off('.textwrapper');
         }
     };
     

@@ -10,7 +10,7 @@ define([
     
     contentHelper.createElements = function(container, $container, data, callback){
 
-        var $dummy = $('<div>').html(data);
+        var $dummy = data ? $('<div>').html(data) : $container;
 
         containerHelper.createElements(container, gridContentHelper.getContent($dummy), function(newElts){
 
@@ -26,7 +26,6 @@ define([
                     elt.setRenderer(this);
                     elt.render($placeholder);
 
-
                     //render widget
                     widget = elt.postRender();
                     $widget = widget.$original;
@@ -34,8 +33,10 @@ define([
                     //inform height modification
                     $widget.trigger('contentChange.gridEdit');
 
-                    //active it right away:
-                    callback(widget);
+                    if(_.isFunction(callback)){
+                        callback(widget);
+                    }
+                    
                 }
 
             }, this.getUsedClasses());

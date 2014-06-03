@@ -8,7 +8,7 @@ define([
 
     CreatorGapText.render = function(choice, options){
         
-        GapTextWidget.build(
+        return GapTextWidget.build(
             choice,
             GapText.getContainer(choice),
             this.getOption('choiceOptionForm'),

@@ -7,7 +7,7 @@ define([
     var contentHelper = {};
 
     /**
-     * Get html string content foe a qti container
+     * Get html string content for a qti container
      * 
      * @param {string|domelement|jquery} element
      * @returns {string}

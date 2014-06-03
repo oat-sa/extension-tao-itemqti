@@ -315,7 +315,7 @@ textarea {
     min-height: 100%; }
 
 /* line 15, ../scss/qti.scss */
-.runtime .block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicGapMatchInteraction ul.source > li:hover, .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-GapMatchInteraction .gapmatch-content:hover {
+.runtime .block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicGapMatchInteraction ul.source > li:hover, .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-gapMatchInteraction .gapmatch-content:hover {
   background: #f2f6f9 !important;
   cursor: pointer !important; }
 
@@ -1345,26 +1345,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   content: "\1b4"; }
 
 /* line 4, ../scss/qti/_gap-match.scss */
-.qti-GapMatchInteraction .gapmatch-content {
+.qti-gapMatchInteraction .gapmatch-content {
   background: #f3f1ef;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
   position: relative;
-  min-width: 80px;
+  min-width: 60px;
   min-height: 20px;
   display: inline-block; }
   /* line 5, ../scss/qti/_gap-match.scss */
-  .qti-GapMatchInteraction .gapmatch-content audio, .qti-GapMatchInteraction .gapmatch-content canvas, .qti-GapMatchInteraction .gapmatch-content img, .qti-GapMatchInteraction .gapmatch-content video {
+  .qti-gapMatchInteraction .gapmatch-content audio, .qti-gapMatchInteraction .gapmatch-content canvas, .qti-gapMatchInteraction .gapmatch-content img, .qti-gapMatchInteraction .gapmatch-content video {
     vertical-align: baseline; }
   /* line 17, ../scss/qti/_gap-match.scss */
-  .qti-GapMatchInteraction .gapmatch-content.empty {
+  .qti-gapMatchInteraction .gapmatch-content.empty {
     min-height: 20px; }
   /* line 20, ../scss/qti/_gap-match.scss */
-  .qti-GapMatchInteraction .gapmatch-content .remove {
+  .qti-gapMatchInteraction .gapmatch-content .remove {
     float: right; }
 /* line 25, ../scss/qti/_gap-match.scss */
-.qti-GapMatchInteraction .choice-area .deactivated {
+.qti-gapMatchInteraction .choice-area .deactivated {
   cursor: default;
   opacity: 0.2; }
 

@@ -8,7 +8,7 @@ define([
 
     CreatorSimpleChoice.render = function(choice, options){
         
-        SimpleChoiceWidget.build(
+        return SimpleChoiceWidget.build(
             choice,
             SimpleAssociableChoice.getContainer(choice),
             this.getOption('choiceOptionForm'),

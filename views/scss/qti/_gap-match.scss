@@ -1,6 +1,6 @@
 @import "inc/bootstrap";
 
-.qti-GapMatchInteraction {
+.qti-gapMatchInteraction {
     .gapmatch-content {
         audio, canvas, img, video {
             vertical-align: baseline;
@@ -11,7 +11,7 @@
         background: $uiClickableDefaultBg;
         @include border-radius();
         position: relative;
-        min-width: 80px;
+        min-width: 60px;
         min-height: 20px;
         display: inline-block;
         &.empty {

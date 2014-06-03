@@ -18,7 +18,8 @@ define([
     }, function(){
 
         this.destroyEditor();
-
+        this.destroyTextWrapper();
+        
     });
 
     GapMatchInteractionStateQuestion.prototype.initForm = function(){
@@ -41,7 +42,8 @@ define([
 
     GapMatchInteractionStateQuestion.prototype.buildEditor = function(){
 
-        var _widget = this.widget,
+        var _this = this,
+            _widget = this.widget,
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container.find('.qti-flow-container');
 
@@ -60,7 +62,7 @@ define([
             $bodyTlb.show();
 
             //init text wrapper
-            _initTextWrapper($editableContainer.find('[data-html-editable]'));
+            _this.initTextWrapper();
 
             //create editor
             htmlEditor.buildEditor($editableContainer, {
@@ -79,27 +81,53 @@ define([
         htmlEditor.destroyEditor(this.widget.$container.find('.qti-flow-container'));
     };
 
-    var _initTextWrapper = function($editable){
+    GapMatchInteractionStateQuestion.prototype.initTextWrapper = function(){
 
-        //create gap creation tlb:
-        var $gapTlb = $(gapTpl()).show();
-        
+        var interaction = this.widget.element,
+            $editable = this.widget.$container.find('.qti-flow-container [data-html-editable]'),
+            $gapTlb = $(gapTpl()).show(),
+            $addOption = this.widget.$container.find('.choice-area .add-option');
+
         $gapTlb.on('mousedown', function(e){
+
             e.stopPropagation();
-            var $wrapper = $gapTlb.parent();
-            var text = $wrapper.text();
-            console.log('create gap ', text);
-            htmlContentHelper.createElements();
+
+            var $wrapper = $gapTlb.parent(),
+                text = $wrapper.text().trim();
+                
+            //create choice:
+            var choice = interaction.createChoice(text);
+            $addOption.before(choice.render());
+            choice.postRender().changeState('question');
+
+            //create gap:
+            $wrapper
+                .addClass('widget-box')
+                .attr('data-new', true)
+                .attr('data-qti-class', 'gap');
+            
+            htmlContentHelper.createElements(interaction.getBody(), $editable, null, function(widget){
+                widget.changeState('question');
+            });
+
         });
 
         //init text wrapper:
-        $editable.on('editorready', function(){
-            textWrapper.init($(this));
-        }).on('wrapped', function(e, $wrapper){
+        $editable.on('editorready.wrapper', function(){
+            textWrapper.create($(this));
+        }).on('wrapped.wrapper', function(e, $wrapper){
             $wrapper.append($gapTlb);
-        }).on('beforeunwrap', function(){
+        }).on('beforeunwrap.wrapper', function(){
             $gapTlb.detach();
         });
+    };
+
+    GapMatchInteractionStateQuestion.prototype.destroyTextWrapper = function(){
+
+        //destroy text wrapper:
+        var $editable = this.widget.$container.find('.qti-flow-container [data-html-editable]');
+        $editable.off('.wrapper');
+        textWrapper.destroy($editable);
     };
 
     return GapMatchInteractionStateQuestion;
