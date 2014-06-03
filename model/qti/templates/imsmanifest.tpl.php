@@ -28,7 +28,7 @@
     <organizations/>
     <resources>
         <?php foreach ($qtiItems as $qtiItem): ?>
-        <resource identifier="<?php echo $qtiItem['identifier']; ?>" type="imsqti_item_xmlv2p1" href="<?php echo $qtiItem['filePath']; ?>">
+        <resource identifier="<?php echo $qtiItem['identifier']; ?>" type="imsqti_item_xmlv2p1" href="<?php echo tao_helpers_Uri::encodeRelativeUrl($qtiItem['filePath']); ?>">
             <metadata>
                 <schema>IMS QTI Item</schema>
                 <schemaversion>2.1</schemaversion>
@@ -44,7 +44,7 @@
                     <imsqti:toolVendor>Open Assessment Technologies S.A.</imsqti:toolVendor>
                 </imsqti:qtiMetadata>
             </metadata>
-            <file href="<?php echo $qtiItem['filePath']; ?>"/>
+            <file href="<?php echo tao_helpers_Uri::encodeRelativeUrl($qtiItem['filePath']); ?>"/>
             <?php foreach ($qtiItem['medias'] as $media):?>
             <file href="<?php echo tao_helpers_Uri::encodeRelativeUrl($media); ?>"/>
             <?php endforeach ?>
