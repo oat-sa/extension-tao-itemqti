@@ -17,20 +17,19 @@ define([
         },
         afterCreate : function(){
             this.createChoice();
-            this.createChoice();
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'
             });
         },
-        createChoice : function(body){
+        createChoice : function(text){
         
             var choice = new Choice();
 
             this.addChoice(choice);
 
             choice
-                .body(body || 'choice #' + _.size(this.getChoices()))
+                .val(text || 'choice #' + _.size(this.getChoices()))
                 .buildIdentifier('choice');
 
             if(this.getRenderer()){

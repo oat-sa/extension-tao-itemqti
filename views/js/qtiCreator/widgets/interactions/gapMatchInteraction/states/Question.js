@@ -20,7 +20,7 @@ define([
         formElement.initWidget($form);
         
         formElement.initDataBinding($form, interaction, {
-            'shuffle' : formElement.getAttributeChangeCallback()
+            shuffle : formElement.getAttributeChangeCallback()
         });
         
     };
