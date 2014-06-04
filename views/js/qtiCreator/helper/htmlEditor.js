@@ -68,7 +68,7 @@ define([
                 },
                 on : {
                     ready : function(floatSpaceApi){
-                        
+
                         // works around tiny bug in tao floating space
                         // nose must be in .cke_toolbox rather than .cke
                         // otherwise z-indexing will fail
@@ -127,7 +127,7 @@ define([
             },
             on : {
                 instanceReady : function(e){
-                    
+
                     var widgets = {};
 
                     //store it in editable elt data attr
@@ -143,7 +143,7 @@ define([
                             options.change.call(this, _htmlEncode(data));
                         }
                     });
-                    
+
                     if(options.data && options.data.container){
 
                         //store in data-qti-container attribute the editor instance as soon as it is ready
@@ -202,21 +202,25 @@ define([
 
     };
 
-    var _rebuildWidgets = function(container, $container){
+    var _rebuildWidgets = function(container, $container, options){
+
+        options = options || {};
 
         var widgets = {};
-        
+
         //re-init all widgets:
         _.each(_.values(container.elements), function(elt){
-            
+
             var widget = elt.data('widget'),
-                state = widget.getCurrentState().name;
-            
+                currentState = widget.getCurrentState().name;
+
             widgets[elt.serial] = widget.rebuild({
                 context : $container,
-                ready:function(widget){
-                    //restore current state
-                    widget.changeState(state);
+                ready : function(widget){
+                    if(options.restoreState){
+                        //restore current state
+                        widget.changeState(currentState);
+                    }
                 }
             });
         });
@@ -259,15 +263,14 @@ define([
     };
 
     var _shieldInnerContent = function($container, containerWidget){
-        
-//        return;
+
         $container.find('.widget-box').each(function(){
 
             var $widget = $(this),
                 innerWidget = $widget.data('widget'),
                 $shield = $('<button>', {
-                    'class' : 'html-editable-shield'
-                });
+                'class' : 'html-editable-shield'
+            });
 
             $widget.attr('contenteditable', false);
             $widget.append($shield);
@@ -288,42 +291,49 @@ define([
     };
 
     var _activateInnerWidget = function(containerWidget, innerWidget){
-        
+
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
-            containerWidget.$container.off('widgetCreated').one('widgetCreated', function(e, widgets){
-                var targetWidget = widgets[innerWidget.serial];
-                if(targetWidget){
-                    //@todo : fix this race condition
-                    _.delay(function(){
+            var listenToWidgetCreation = function(){
 
-                        if(Element.isA(innerWidget.element, 'interaction')){
-                            
-                            targetWidget.changeState('question');
-                            
-                        }else{
-                            
-                            targetWidget.changeState('active');
-                        }
+                containerWidget.$container.off('widgetCreated').one('widgetCreated', function(e, widgets){
+                    var targetWidget = widgets[innerWidget.serial];
+                    if(targetWidget){
+                        //@todo : fix this race condition
 
-                    }, 100);
-                }
-            });
+                        _.delay(function(){
+
+                            if(Element.isA(innerWidget.element, 'interaction')){
+
+                                targetWidget.changeState('question');
+
+                            }else{
+
+                                targetWidget.changeState('active');
+                            }
+
+                        }, 100);
+                    }
+                });
+
+            };
 
             if(Element.isA(containerWidget.element, '_container')){
                 
+                listendToWidgetCreation();
                 containerWidget.changeState('sleep');
                 
             }else if(Element.isA(containerWidget.element, 'choice')){
                 
+                listendToWidgetCreation();
                 containerWidget.changeState('question');
-                
+
             }else if(Element.isA(innerWidget.element, 'choice')){
-                
+
                 innerWidget.changeState('choice');
-                
+
             }else{
-                
+
                 innerWidget.changeState('active');
             }
 

@@ -16,7 +16,22 @@ define([
             console.log('<-state : ' + state.name + ' : ' + element.serial);
         });
     };
-
+    
+    tools.getStates = function(item){
+        
+        var states = {},
+            elements = item.getComposingElements();
+        
+        _.each(elements, function(element){
+           var widget = element.data('widget');
+           if(widget){
+               states[element.getSerial()] = widget.getCurrentState().name;
+           }
+        });
+        
+        return states;
+    };
+    
     tools.liveXmlPreview = function(item, $destination) {
 
         //render qti xml:
