@@ -19,7 +19,7 @@ define([
         }, opts);
 
         var $body = options.inner ? $(element).clone() : $('<div>', {'class' : 'col-fictive content-helper-wrapper'}).append($(element).clone());
-
+        
         contentHelper.destroyGridWidgets($body, true);//working on clone only, so destroyGridWidgetsClone
 
         contentHelper.serializeElements($body);
@@ -49,7 +49,7 @@ define([
         var existingElements = [];
         
         //select only the first level of ".widget-box" found
-        var $serialized = $el.find('.widget-box:not(.widget-box *)').each(function(){
+        $el.find('.widget-box:not(.widget-box *)').each(function(){
             
             var $qtiElementWidget = $(this);
 
@@ -67,14 +67,13 @@ define([
                 //a newly inserted qti element
                 var qtiClass = $qtiElementWidget.data('qti-class');
                 $qtiElementWidget.replaceWith('{{' + qtiClass + ':new}}');
+                
             }else{
-
+                
                 throw 'unknown qti-widget type';
             }
 
         });
-        
-//        console.log($serialized);//@todo : issue tlb in div moved outside of scope... :s
         
         return existingElements;
     };
