@@ -8,19 +8,41 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/textWrapper',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/gap-create'
-], function(stateFactory, Question, formElement, formTpl, htmlEditor, gridContentHelper, htmlContentHelper, textWrapper, toolbarTpl, gapTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/gap-create',
+    'lodash'
+], function(stateFactory, Question, formElement, formTpl, htmlEditor, gridContentHelper, htmlContentHelper, textWrapper, toolbarTpl, gapTpl, _){
 
     var GapMatchInteractionStateQuestion = stateFactory.extend(Question, function(){
 
         this.buildEditor();
+        this.initCardinalityUpdateListener();
 
     }, function(){
 
         this.destroyEditor();
         this.destroyTextWrapper();
-        
     });
+
+    GapMatchInteractionStateQuestion.prototype.initCardinalityUpdateListener = function(){
+
+        var interaction = this.widget.element,
+            response = interaction.getResponseDeclaration();
+
+        var updateCardinality = function(data){
+            
+            var cardinality,
+                choice = data.element || data.choice;
+
+            if(choice.qtiClass === 'gap'){
+                cardinality = _.size(interaction.getGaps()) === 1 ? 'single' : 'multiple';
+                response.attr('cardinality', cardinality);
+            }
+        };
+
+        this.widget
+            .on('elementCreated', updateCardinality)
+            .on('deleted', updateCardinality);
+    };
 
     GapMatchInteractionStateQuestion.prototype.initForm = function(){
 
@@ -41,14 +63,14 @@ define([
     };
 
     GapMatchInteractionStateQuestion.prototype.buildEditor = function(){
-        
+
         var _this = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
             $editableContainer = _widget.$container.find('.qti-flow-container');
 
         $editableContainer.attr('data-html-editable-container', true);
-        
+
         if(!htmlEditor.hasEditor($editableContainer)){
 
             var $bodyTlb = $(toolbarTpl({
@@ -93,7 +115,7 @@ define([
 
             var $wrapper = $gapTlb.parent(),
                 text = $wrapper.text().trim();
-                
+
             //create choice:
             var choice = interaction.createChoice(text);
             $addOption.before(choice.render());
@@ -104,7 +126,7 @@ define([
                 .addClass('widget-box')
                 .attr('data-new', true)
                 .attr('data-qti-class', 'gap');
-            
+
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(widget){
                 widget.changeState('question');
             });

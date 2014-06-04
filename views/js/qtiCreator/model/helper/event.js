@@ -13,6 +13,8 @@ define(['jquery', 'taoQtiItem/qtiItem/core/Element'], function($, Element){
         
             return [
                 'containerBodyChange',
+                'containerElementAdded',
+                'elementCreated.qti-widget',
                 'attributeChange.qti-widget',
                 'choiceCreated.qti-widget',
                 'correctResponseChange.qti-widget',
