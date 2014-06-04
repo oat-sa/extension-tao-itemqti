@@ -6,7 +6,7 @@
                 <div class="preview-utility-bar-inner grid-row">
 
                     <div class="col-4">
-                        <input type="hidden" value="{{naturalItemSize}}" class="standard-device-selector preview-device-selector" data-target="standard">
+                        <input type="hidden" value="" class="standard-device-selector preview-device-selector" data-target="standard">
                         <select class="preview-type-selector">
                             {{#each previewTypes}}
                             <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>

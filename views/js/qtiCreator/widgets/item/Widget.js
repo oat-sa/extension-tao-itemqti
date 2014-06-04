@@ -99,7 +99,8 @@ define([
 
         var _this = this,
             item = this.element,
-            $itemBody = this.$container.find('.qti-itemBody');
+            $itemBody = this.$container.find('.qti-itemBody'),
+            $itemEditorPanel = $('#item-editor-panel');
 
         $itemBody.gridEditor();
         $itemBody.gridEditor('resizable');
@@ -110,11 +111,12 @@ define([
         });
         
         $itemBody.on('beforedragoverstart.gridEdit', function(){
-            
+            $itemEditorPanel.addClass('dragging');
             $itemBody.removeClass('hoverable').addClass('inserting');
             
         }).on('dragoverstop.gridEdit', function(){
-            
+
+            $itemEditorPanel.removeClass('dragging');
             $itemBody.addClass('hoverable').removeClass('inserting');
             
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){

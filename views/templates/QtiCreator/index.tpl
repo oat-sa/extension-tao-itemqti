@@ -524,8 +524,8 @@ use oat\taoQtiItem\helpers\Authoring;
     <div class="modal-body clearfix">
         <p><?=__('The item needs to be saved before it can be previewed')?></p>
         <div class="rgt">
-            <button class="btn-info small save" type="button"><?=__('Save')?></button>
             <button class="btn-regular small cancel" type="button"><?=__('Cancel')?></button>
+            <button class="btn-info small save" type="button"><?=__('Save')?></button>
         </div>
     </div>
 </div>

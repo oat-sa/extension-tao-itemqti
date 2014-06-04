@@ -94,7 +94,6 @@ define([
             skin : 'tao',
             removePlugins : '',
             linkShowAdvancedTab:false,
-            enterMode: 2, // = CKEDITOR.ENTER_BR,
             justifyClasses: ['txt-lft', 'txt-ctr', 'txt-rgt', 'txt-jty'],
             linkShowTargetTab:false
         };

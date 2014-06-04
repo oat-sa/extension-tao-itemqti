@@ -188,8 +188,8 @@
         //@todo reset to 0
         //opacity: 0;
         background: mix(#fff, $grey, 85%);
-        border-bottom: 1px white solid;
         position: absolute;
+        z-index: 2000;
         top: 0;
         right: 0;
         .tool-group {
@@ -674,7 +674,10 @@
 
     #item-editor-panel {
         margin: 0 180px;
-        overflow: visible;//show overflown toolbars and draggable
+        //overflow: auto;
+        //&.dragging {
+            overflow: visible;
+        //}
         padding: 20px;
         border: 1px white solid;
         border-bottom: none;

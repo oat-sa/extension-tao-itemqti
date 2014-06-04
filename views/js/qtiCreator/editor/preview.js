@@ -7,10 +7,11 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/preview/preview',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'helpers',
+    'iframeResizer',
     'ui/modal',
     'select2',
     'jquery.cookie'
-], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers) {
+], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer) {
     'use strict'
 
     var overlay,
@@ -20,7 +21,7 @@ define([
         previewTypes = {
             desktop: __('Desktop preview'),
             mobile: __('Mobile preview'),
-            standard: __('Standard preview')
+            standard: __('Actual size')
         },
         $doc = $(document),
         $window = $(window),
@@ -36,7 +37,9 @@ define([
         scaleFactor = 1,
         hasBeenSavedOnce = false,
         typeDependant,
-        $feedbackBox;
+        $feedbackBox,
+        previewContainerMaxWidth;
+
 
 
     /**
@@ -148,6 +151,11 @@ define([
         });
 
 
+        _adaptUtilityBar();
+    };
+
+    var _adaptUtilityBar = function() {
+        _computeScaleFactor();
         $('.preview-utility-bar, .preview-message-box').width(screenSize.width);
     };
 
@@ -189,6 +197,8 @@ define([
      */
     var _setupDeviceSelectors = function() {
 
+
+
         var previewDeviceSelectors = overlay.find('.preview-device-selector');
 
         previewDeviceSelectors.on('change', function() {
@@ -219,12 +229,11 @@ define([
             if (sizeSettings.width === container.width() && sizeSettings.height === container.height()) {
                 return false;
             }
-
-            container.css(sizeSettings);
-
             _setPreviewType(type);
-
+            container.css(sizeSettings);
             _scale();
+
+
 
         });
 
@@ -248,6 +257,7 @@ define([
     var _setupOrientationSelectors = function() {
 
         $('select.orientation-selector').on('change', function() {
+
             var type = $(this).data('target'),
                 previewFrame = $('.' + type + '-preview-frame'),
                 container = previewFrame.find('.' + type + '-preview-container'),
@@ -345,16 +355,21 @@ define([
 
     };
 
+
     /**
-     * The size of the item as it is right now
-     *
-     * @returns {string}
+     * Set the size for the standard preview
+     * @param height
      * @private
      */
-    var _getNaturalItemSize = function() {
-        var originalItem = $('#item-editor-panel .qti-item');
-        return originalItem.outerWidth().toString() + ',auto';
+    var _updateStandardPreviewSize = function(height) {
+        var $selector = $('.standard-device-selector'),
+            values = ($selector.val() ? $selector.val().split(',') : '') || [$window.width().toString()];
+
+        values[1] = height || values[1] || '1200';
+
+        $selector.val(values.join(','));
     };
+
 
     /**
      * Remove possibly existing widgets and create a new one
@@ -370,17 +385,20 @@ define([
             mobileDevices: _getDeviceSelectorData('mobile'),
             desktopDevices: _getDeviceSelectorData('desktop'),
             previewTypes: _getPreviewTypes(),
-            previewType: previewType,
-            naturalItemSize: _getNaturalItemSize()
+            previewType: previewType
         }));
 
 
         $body.append(overlay);
 
+        previewContainerMaxWidth = parseInt($('.preview-container').css('max-width'), 10);
+
         $feedbackBox = overlay.find('.preview-message-box');
         if($.cookie('hidePreviewFeedback')) {
             $feedbackBox.hide();
         }
+
+        _updateStandardPreviewSize();
 
         _setupTypeDependantElements();
 
@@ -395,12 +413,16 @@ define([
         _setPreviewType(previewType);
         _setOrientation(orientation);
 
-        $window.on('resize, orientationchange', function() {
-            if (overlay.is(':visible')) {
-                _computeScaleFactor();
-                _scale();
-            }
-        })
+        $window.on('resize orientationchange', function(e) {
+            screenSize = {
+                width: $window.innerWidth(),
+                height: $window.innerHeight()
+            };
+            _updateStandardPreviewSize();
+            _computeScaleFactor();
+            _scale();
+        });
+
     };
 
     /**
@@ -438,9 +460,15 @@ define([
     var _showWidget = function(launcher, widget) {
 
         var preview = function() {
-            var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
 
-            $('.preview-iframe').attr('src', itemUri);
+
+            var $iframe = $('.preview-iframe'),
+                itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
+
+            iframeResizer.eventHeight($iframe);
+
+            $iframe.attr('src', itemUri);
+
 
             $.when(styleEditor.save(), widget.save()).done(function() {
 
@@ -472,6 +500,12 @@ define([
 
 
     };
+
+
+
+    $doc.on('iframeheightchange', function(e, data) {
+        _updateStandardPreviewSize(data.height);
+    });
 
 
     return (function($) {

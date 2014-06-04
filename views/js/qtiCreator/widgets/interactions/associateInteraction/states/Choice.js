@@ -16,11 +16,6 @@ define([
                 return choiceArea.find('.qti-choice').add(resultArea.find('.target')).add(addOption);
             };
 
-//        $container.on('keyup.choice contentChange.gridEdit.choice contentChange.qti-widget.choice', '.choice-area', function(){
-//            adaptSize.height(getElements(), false);
-//        }).on('click.choice', '.add-option', function(){
-//            adaptSize.height(getElements());
-//        });
 
         $container.sizeChange(function() {
             adaptSize.height(getElements());

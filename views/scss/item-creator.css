@@ -405,8 +405,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     display: none; }
   .tao-scope .item-editor-sidebar {
     background: #f2f0ee;
-    border-bottom: 1px white solid;
     position: absolute;
+    z-index: 2000;
     top: 0;
     right: 0;
     width: 180px; }
@@ -1512,6 +1512,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         cursor: pointer; }
       .tao-scope .item-editor-item .response-pair-editor .cb {
         top: 5px; }
+    .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container {
+      position: relative; }
+      .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container [data-html-editable] {
+        min-height: 3rem; }
+      .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container .mini-tlb[data-role=create-gap-tlb] {
+        postion: absolute;
+        right: -30px; }
+      .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container #selection-wrapper {
+        z-index: 1000;
+        position: relative; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb {
@@ -1716,7 +1726,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .edit-question .qti-interaction [data-html-editable][contenteditable=true]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable][contenteditable=true]:focus {
       border: 1px dotted #0e5d91; }
   .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] {
-    min-height: 6rem; }
+    min-height: 3rem; }
 
 .cke-cover-up {
   padding: 0 !important;

@@ -19,23 +19,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 5, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 html,
 button,
 input,
@@ -45,45 +40,36 @@ textarea {
   background: white;
   border-width: 1px; }
 
-/* line 11, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 html {
   line-height: 1.4; }
 
-/* line 15, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 html {
   font-size: 62.5%; }
 
-/* line 24, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 body {
   font-size: 14px;
   background-color: white; }
 
-/* line 29, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h1 {
   font-size: 24px;
   font-size: 2.4rem; }
 
-/* line 33, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h2 {
   font-size: 22px;
   font-size: 2.2rem; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h3 {
   font-size: 20px;
   font-size: 2rem; }
 
-/* line 41, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h4 {
   font-size: 18px;
   font-size: 1.8rem; }
 
-/* line 45, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h5 {
   font-size: 16px;
   font-size: 1.6rem; }
 
-/* line 49, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 h6 {
   font-size: 14px;
   font-size: 1.4rem; }
@@ -93,20 +79,16 @@ h6 {
  * These selection rule sets have to be separate.
  * Customize the background color to match your design.
  */
-/* line 59, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none; }
 
-/* line 64, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 ::selection {
   background: #b3d4fc;
   text-shadow: none; }
 
-/* line 70, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 [data-edit] ::selection {
   background: transparent; }
-/* line 73, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 [data-edit] ::-moz-selection {
   background: transparent;
   text-shadow: none; }
@@ -114,7 +96,6 @@ h6 {
 /*
  * A better looking default horizontal rule
  */
-/* line 83, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 hr {
   display: block;
   height: 1px;
@@ -127,7 +108,6 @@ hr {
  * Remove the gap between images, videos, audio and canvas and the bottom of
  * their containers: h5bp.com/i/440
  */
-/* line 100, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 audio,
 canvas,
 img,
@@ -137,7 +117,6 @@ video {
 /*
  * Remove default fieldset styles.
  */
-/* line 108, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 fieldset {
   border: 0;
   margin: 0;
@@ -146,14 +125,12 @@ fieldset {
 /*
  * Allow only vertical resizing of textareas.
  */
-/* line 118, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 textarea {
   resize: vertical; }
 
 /*
  * Hide from both screenreaders and browsers: h5bp.com/u
  */
-/* line 126, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .hidden {
   display: none !important;
   visibility: hidden; }
@@ -161,7 +138,6 @@ textarea {
 /*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  */
-/* line 135, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -176,7 +152,6 @@ textarea {
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
  */
-/* line 152, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -189,7 +164,6 @@ textarea {
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
-/* line 165, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .invisible {
   visibility: hidden; }
 
@@ -204,7 +178,6 @@ textarea {
  * 2. The use of `table` rather than `block` is only necessary if using
  *    `:before` to contain the top-margins of child elements.
  */
-/* line 182, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .clearfix:before, .block-listing.horizontal:before, .qti-associateInteraction .result-area > li:before,
 .clearfix:after,
 .block-listing.horizontal:after,
@@ -214,7 +187,6 @@ textarea {
   display: table;
   /* 2 */ }
 
-/* line 187, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .clearfix:after, .block-listing.horizontal:after, .qti-associateInteraction .result-area > li:after {
   clear: both; }
 
@@ -222,7 +194,6 @@ textarea {
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
  */
-/* line 196, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
 .clearfix, .block-listing.horizontal, .qti-associateInteraction .result-area > li {
   background-repeat: no-repeat; }
 
@@ -240,7 +211,6 @@ textarea {
    Inlined to avoid required HTTP connection: h5bp.com/r
    ========================================================================== */
 @media print {
-  /* line 224, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   * {
     background: transparent !important;
     color: #000 !important;
@@ -248,137 +218,109 @@ textarea {
     box-shadow: none !important;
     text-shadow: none !important; }
 
-  /* line 232, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   a,
   a:visited {
     text-decoration: underline; }
 
-  /* line 236, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   a[href]:after {
     content: " (" attr(href) ")"; }
 
-  /* line 240, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   abbr[title]:after {
     content: " (" attr(title) ")"; }
 
   /*
    * Don't show links for images, or javascript/internal links
    */
-  /* line 250, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   .ir a:after,
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: ""; }
 
-  /* line 255, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid; }
 
-  /* line 260, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   thead {
     display: table-header-group;
     /* h5bp.com/t */ }
 
-  /* line 265, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   tr,
   img {
     page-break-inside: avoid; }
 
-  /* line 269, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   img {
     max-width: 100% !important; }
 
   @page {
     margin: 0.5cm; }
 
-  /* line 279, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3; }
 
-  /* line 285, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_main.scss */
   h2,
   h3 {
     page-break-after: avoid; } }
-/* line 5, ../scss/qti.scss */
 .qti-item {
   padding: 15px;
   background: white;
   margin: auto;
   max-width: 1024px; }
-  /* line 10, ../scss/qti.scss */
   .qti-item.runtime {
     min-height: 100%; }
 
-/* line 15, ../scss/qti.scss */
 .runtime .block-listing > li:hover, .qti-associateInteraction .empty:hover, .qti-graphicGapMatchInteraction ul.source > li:hover, .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover, .qti-graphicOrderInteraction ul.ordinals > li:hover, .qti-hottextInteraction .hottext:hover, .qti-gapMatchInteraction .gapmatch-content:hover {
   background: #f2f6f9 !important;
   cursor: pointer !important; }
 
-/* line 19, ../scss/qti.scss */
 .runtime .block-listing > li.active:hover, .qti-associateInteraction .result-area > li > .target.active:hover {
   background: #e9f0f5 !important; }
 
-/* line 29, ../scss/qti.scss */
 #modalFeedbacks {
   max-height: 0; }
 
-/* line 34, ../scss/qti.scss */
 .mini-tlb .tlb-button {
   color: #222222 !important;
   padding-top: 3px; }
-  /* line 37, ../scss/qti.scss */
   .mini-tlb .tlb-button:hover {
     color: #3e7da7 !important; }
-/* line 41, ../scss/qti.scss */
 .mini-tlb ul[data-button-group] {
   background: transparent !important;
   border: none; }
-  /* line 44, ../scss/qti.scss */
   .mini-tlb ul[data-button-group] > li {
     display: none;
     background: transparent !important;
     min-width: 0;
     padding: 0;
     float: none; }
-    /* line 50, ../scss/qti.scss */
     .mini-tlb ul[data-button-group] > li span {
       color: #222222;
       text-shadow: none !important; }
-    /* line 54, ../scss/qti.scss */
     .mini-tlb ul[data-button-group] > li.active {
       display: inline-block; }
 
-/* line 62, ../scss/qti.scss */
 .edit-question .qti-blockInteraction .horizontal .add-option {
   margin-top: 25px; }
-/* line 65, ../scss/qti.scss */
 .edit-question .qti-blockInteraction .horizontal .qti-choice {
   margin-top: 25px; }
-  /* line 67, ../scss/qti.scss */
   .edit-question .qti-blockInteraction .horizontal .qti-choice .mini-tlb {
     white-space: nowrap;
     top: -26px;
     right: -4px; }
-    /* line 71, ../scss/qti.scss */
     .edit-question .qti-blockInteraction .horizontal .qti-choice .mini-tlb .tlb-button {
       min-width: 25px;
       height: 20px;
       margin: 0; }
 
-/* line 82, ../scss/qti.scss */
 .qti-choice p:last-child, .qti-prompt-container p:last-child {
   margin-bottom: 0 !important; }
 
-/* line 91, ../scss/qti.scss */
 .runtime .block-listing > li.active {
   border-color: #3e7da7 !important; }
 
-/* line 105, ../scss/qti.scss */
 .block-listing > li {
   border: 1px solid #eeeeee;
   border-radius: 2px;
@@ -388,38 +330,30 @@ textarea {
   margin: 3px;
   cursor: pointer;
   position: relative; }
-/* line 121, ../scss/qti.scss */
 .block-listing.horizontal > li {
   display: block;
   float: left; }
-/* line 126, ../scss/qti.scss */
 .block-listing.solid, .block-listing.bordered {
   padding-top: 3px;
   padding-right: 3px;
   padding-bottom: 3px; }
-  /* line 130, ../scss/qti.scss */
   .block-listing.solid.none, .block-listing.bordered.none {
     padding-left: 3px; }
 
-/* line 137, ../scss/qti.scss */
 .qti-block {
   border: 1px solid transparent; }
 
-/* line 143, ../scss/qti.scss */
 .qti-interaction .solid {
   border: 6px solid #f7f6f5; }
-/* line 149, ../scss/qti.scss */
 .qti-interaction .bordered {
   border: 1px solid #eeeeee;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   background: white; }
-/* line 153, ../scss/qti.scss */
 .qti-interaction .empty {
   border: 1px #3e7da7 dashed !important;
   min-height: 50px;
   cursor: default; }
-/* line 158, ../scss/qti.scss */
 .qti-interaction .add-option {
   border: 1px #3e7da7 dashed !important;
   list-style-type: none;
@@ -428,7 +362,6 @@ textarea {
   color: #0e5d91 !important;
   border-radius: 3px;
   background-color: #e6eef4; }
-  /* line 166, ../scss/qti.scss */
   .qti-interaction .add-option [class^="icon-"], .qti-interaction .add-option [class*=" icon-"] {
     font-size: 14px;
     font-size: 1.4rem;
@@ -437,12 +370,10 @@ textarea {
     left: 2px;
     color: #0e5d91;
     padding-right: 5px; }
-  /* line 174, ../scss/qti.scss */
   .qti-interaction .add-option > div {
     display: table;
     width: 100%;
     height: 100%; }
-    /* line 178, ../scss/qti.scss */
     .qti-interaction .add-option > div [class^="icon-"], .qti-interaction .add-option > div [class*=" icon-"] {
       display: table-cell;
       font-size: 60px;
@@ -455,10 +386,8 @@ textarea {
       top: 0;
       left: auto;
       padding: 0; }
-  /* line 191, ../scss/qti.scss */
   .qti-interaction .add-option:hover {
     opacity: 0.8; }
-/* line 212, ../scss/qti.scss */
 .qti-interaction input[type="color"],
 .qti-interaction input[type="date"],
 .qti-interaction input[type="datetime"],
@@ -500,26 +429,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_choice.scss */
 .qti-choiceInteraction .qti-choice .real-label {
   top: 1px; }
-/* line 8, ../scss/qti/_choice.scss */
 .qti-choiceInteraction .block-listing > li {
   margin-top: 0;
   margin-bottom: 0;
@@ -528,7 +451,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px; }
-  /* line 14, ../scss/qti/_choice.scss */
   .qti-choiceInteraction .block-listing > li:first-child {
     margin-top: 3px;
     border-top: 1px solid #eee;
@@ -538,7 +460,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -moz-border-radius-topright: 2px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px; }
-  /* line 19, ../scss/qti/_choice.scss */
   .qti-choiceInteraction .block-listing > li:last-child {
     margin-bottom: 3px;
     border-bottom: 1px solid #eee;
@@ -548,7 +469,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
-/* line 37, ../scss/qti/_choice.scss */
 .qti-choiceInteraction .real-label input {
   position: absolute;
   left: -10000px; }
@@ -574,26 +494,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 3, ../scss/qti/_order.scss */
 .qti-orderInteraction .arrow-bar {
   text-align: center; }
-  /* line 5, ../scss/qti/_order.scss */
   .qti-orderInteraction .arrow-bar span {
     margin: 3px auto;
     font-size: 25px;
@@ -602,58 +516,45 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background: #f9f8f7;
     cursor: default;
     height: 40px; }
-    /* line 12, ../scss/qti/_order.scss */
     .qti-orderInteraction .arrow-bar span.active {
       background: #f3f1ef;
       cursor: pointer;
       color: #222222; }
-      /* line 16, ../scss/qti/_order.scss */
       .qti-orderInteraction .arrow-bar span.active:hover {
         color: white;
         background: #3e7da7; }
-    /* line 21, ../scss/qti/_order.scss */
     .qti-orderInteraction .arrow-bar span.triggered {
       color: white;
       background: #3e7da7; }
-/* line 29, ../scss/qti/_order.scss */
 .qti-orderInteraction.qti-vertical .order-interaction-area {
   display: table;
   border-collapse: separate;
   border-spacing: 5px 5px 5px 0;
   width: 100%; }
-/* line 36, ../scss/qti/_order.scss */
 .qti-orderInteraction.qti-vertical ul.source, .qti-orderInteraction.qti-vertical ul.target,
 .qti-orderInteraction.qti-vertical ol.source, .qti-orderInteraction.qti-vertical ol.target {
   display: table-cell;
   width: 43%; }
-/* line 40, ../scss/qti/_order.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar {
   display: table-cell;
   vertical-align: middle;
   padding: 5px; }
-  /* line 50, ../scss/qti/_order.scss */
   .qti-orderInteraction.qti-vertical .arrow-bar span {
     padding: 8px 0;
     display: block;
     width: 50px; }
-    /* line 54, ../scss/qti/_order.scss */
     .qti-orderInteraction.qti-vertical .arrow-bar span.inactive {
       visibility: hidden; }
-  /* line 59, ../scss/qti/_order.scss */
   .qti-orderInteraction.qti-vertical .arrow-bar.middle span.inactive {
     display: none; }
-/* line 67, ../scss/qti/_order.scss */
 .qti-orderInteraction.qti-horizontal .block-listing {
   min-height: 38px; }
-/* line 70, ../scss/qti/_order.scss */
 .qti-orderInteraction.qti-horizontal .arrow-bar {
   margin-bottom: 10px; }
-  /* line 73, ../scss/qti/_order.scss */
   .qti-orderInteraction.qti-horizontal .arrow-bar span {
     padding: 0 15px;
     display: inline-block;
     line-height: 1.6; }
-    /* line 77, ../scss/qti/_order.scss */
     .qti-orderInteraction.qti-horizontal .arrow-bar span.inactive {
       visibility: hidden; }
 
@@ -678,45 +579,35 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_extended-text.scss */
 .qti-extendedTextInteraction input {
   width: 100%; }
-/* line 9, ../scss/qti/_extended-text.scss */
 .qti-extendedTextInteraction .solid > li, .qti-extendedTextInteraction .bordered > li {
   padding: 0;
   border: none; }
-/* line 13, ../scss/qti/_extended-text.scss */
 .qti-extendedTextInteraction .solid ~ input, .qti-extendedTextInteraction .solid ~ textarea, .qti-extendedTextInteraction .bordered ~ input, .qti-extendedTextInteraction .bordered ~ textarea {
   border: 1px solid #eeeeee;
   border-radius: 2px;
   -webkit-border-radius: 2px; }
-/* line 20, ../scss/qti/_extended-text.scss */
 .qti-extendedTextInteraction .active > input, .qti-extendedTextInteraction .active > textarea,
 .qti-extendedTextInteraction .active input.active, .qti-extendedTextInteraction .active textarea.active {
   border-color: #3e7da7; }
-/* line 25, ../scss/qti/_extended-text.scss */
 .qti-extendedTextInteraction textarea {
   max-width: 100% !important;
   width: 100%;
   height: 150px;
   resize: none; }
-  /* line 31, ../scss/qti/_extended-text.scss */
   .qti-extendedTextInteraction textarea[disabled="disabled"] {
     background-color: white;
     opacity: 1 !important; }
@@ -742,50 +633,39 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_associate.scss */
 .qti-associateInteraction .empty {
   cursor: pointer;
   min-height: 0; }
-/* line 11, ../scss/qti/_associate.scss */
 .qti-associateInteraction .choice-area {
   margin-bottom: 30px; }
-  /* line 12, ../scss/qti/_associate.scss */
   .qti-associateInteraction .choice-area .deactivated {
     opacity: 0.2;
     cursor: default !important; }
-  /* line 17, ../scss/qti/_associate.scss */
   .qti-associateInteraction .choice-area > .qti-choice {
     min-width: 100px;
     min-height: 30px;
     max-width: 150px;
     max-height: 150px; }
-/* line 24, ../scss/qti/_associate.scss */
 .qti-associateInteraction .result-area {
   width: 40%;
   min-width: 260px;
   margin: auto; }
-  /* line 28, ../scss/qti/_associate.scss */
   .qti-associateInteraction .result-area > li {
     display: block;
     margin-bottom: 30px;
     position: relative; }
-    /* line 33, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area > li:before {
       border-top: 1px solid #86aec8;
       display: block;
@@ -795,7 +675,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       z-index: 1;
       top: 50%; }
-    /* line 47, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area > li > .target {
       background: white;
       padding: 5px;
@@ -812,22 +691,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       border-radius: 2px;
       -webkit-border-radius: 2px;
       overflow: hidden; }
-      /* line 61, ../scss/qti/_associate.scss */
       .qti-associateInteraction .result-area > li > .target.active {
         border-color: #3e7da7; }
-      /* line 67, ../scss/qti/_associate.scss */
       .qti-associateInteraction .result-area > li > .target:first-child {
         float: left; }
-    /* line 71, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area > li.removing > div {
       background-color: #eee; }
-    /* line 74, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area > li.incomplete-pair {
       display: none; }
-      /* line 76, ../scss/qti/_associate.scss */
       .qti-associateInteraction .result-area > li.incomplete-pair > div {
         border: 1px dashed #ccc; }
-  /* line 82, ../scss/qti/_associate.scss */
   .qti-associateInteraction .result-area .remove-choice {
     cursor: pointer;
     position: absolute;
@@ -835,17 +708,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     bottom: 0;
     margin: 0 2px 2px 0;
     color: #0e5d91; }
-    /* line 89, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area .remove-choice:hover {
       opacity: 0.6; }
-  /* line 93, ../scss/qti/_associate.scss */
   .qti-associateInteraction .result-area .filled {
     cursor: pointer; }
-    /* line 95, ../scss/qti/_associate.scss */
     .qti-associateInteraction .result-area .filled:hover {
       background: #f2f6f9; }
 
-/* line 102, ../scss/qti/_associate.scss */
 .result-area > li > div.filled ~ div.filled:before {
   border-top: 1px solid #86c8a5 !important; }
 
@@ -870,26 +739,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 3, ../scss/qti/_match.scss */
 .qti-matchInteraction .matrix {
   table-layout: fixed; }
-  /* line 5, ../scss/qti/_match.scss */
   .qti-matchInteraction .matrix tbody [data-edit] {
     width: 30px; }
 
@@ -914,32 +777,25 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 7, ../scss/qti/_graphic.scss */
 .qti-graphicInteraction .active > input, .qti-graphicInteraction .active > textarea,
 .qti-graphicInteraction .active input.active, .qti-graphicInteraction .active textarea.active {
   border-color: #3e7da7; }
-/* line 11, ../scss/qti/_graphic.scss */
 .qti-graphicInteraction .image-editor {
   position: relative;
   float: left;
   padding: 10px; }
-  /* line 16, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-editor .graphic-mapping-editor {
     display: none;
     position: absolute;
@@ -947,13 +803,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     height: 150px;
     text-align: left;
     z-index: 10009; }
-/* line 26, ../scss/qti/_graphic.scss */
 .qti-graphicInteraction .main-image-box {
   margin: 0 auto;
   padding: 0;
   text-align: center;
   overflow: visible; }
-/* line 33, ../scss/qti/_graphic.scss */
 .qti-graphicInteraction .image-sidebar {
   float: left;
   width: 50px;
@@ -961,55 +815,43 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   min-height: 280px;
   top: 0;
   z-index: 1000; }
-  /* line 41, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-sidebar .forms {
     overflow: hidden;
     min-height: 230px;
     font-size: 40px;
     font-size: 4rem;
     border-right: solid 1px #fff; }
-    /* line 46, ../scss/qti/_graphic.scss */
     .qti-graphicInteraction .image-sidebar .forms li {
       border: 1px solid transparent;
       line-height: 40px;
       padding: 5px 0 3px 0;
       cursor: pointer;
       text-align: center; }
-      /* line 52, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.active {
         color: #3e7da7; }
-      /* line 55, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li:hover {
         background: #3e7da7;
         color: white; }
-      /* line 59, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.separator {
         height: 1px;
         background-color: #ccc;
         padding: 0;
         margin: 0 3px; }
-      /* line 65, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.disabled {
         background: #f7f6f5 !important;
         color: #ccc !important; }
-      /* line 69, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.bin {
         color: #c74155; }
-      /* line 72, ../scss/qti/_graphic.scss */
       .qti-graphicInteraction .image-sidebar .forms li.bin:hover {
         background: #ba122b;
         color: white; }
-  /* line 78, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-sidebar ~ .image-editor {
     min-height: 292px;
     float: left; }
-  /* line 83, ../scss/qti/_graphic.scss */
   .qti-graphicInteraction .image-sidebar.tall {
     min-height: 320px; }
-    /* line 85, ../scss/qti/_graphic.scss */
     .qti-graphicInteraction .image-sidebar.tall .forms {
       min-height: 320px; }
-    /* line 88, ../scss/qti/_graphic.scss */
     .qti-graphicInteraction .image-sidebar.tall ~ .image-editor {
       min-height: 332px; }
 
@@ -1034,28 +876,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 5, ../scss/qti/_graphic-gap.scss */
 .qti-graphicGapMatchInteraction ul.source {
   margin: 10px auto;
   padding: 0 !important;
   clear: both; }
-  /* line 9, ../scss/qti/_graphic-gap.scss */
   .qti-graphicGapMatchInteraction ul.source > li {
     min-width: 60px;
     line-height: 60px;
@@ -1068,39 +904,31 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background: white;
     margin-right: 3px;
     cursor: pointer; }
-    /* line 23, ../scss/qti/_graphic-gap.scss */
     .qti-graphicGapMatchInteraction ul.source > li.active {
       border: solid 1px #3e7da7;
       -webkit-transition: background 0.4s ease-out;
       -moz-transition: background 0.4s ease-out;
       -o-transition: background 0.4s ease-out;
       transition: background 0.4s ease-out; }
-      /* line 26, ../scss/qti/_graphic-gap.scss */
       .qti-graphicGapMatchInteraction ul.source > li.active:hover {
         background: white !important;
         cursor: default !important; }
-      /* line 31, ../scss/qti/_graphic-gap.scss */
       .qti-graphicGapMatchInteraction ul.source > li.active.selectable:hover {
         cursor: pointer !important; }
-    /* line 36, ../scss/qti/_graphic-gap.scss */
     .qti-graphicGapMatchInteraction ul.source > li.disabled {
       border: none;
       cursor: default !important;
       color: #333 !important;
       background-color: transparent !important; }
-    /* line 42, ../scss/qti/_graphic-gap.scss */
     .qti-graphicGapMatchInteraction ul.source > li.empty {
       margin: 0 !important;
       width: 60px;
       height: 60px; }
-    /* line 47, ../scss/qti/_graphic-gap.scss */
     .qti-graphicGapMatchInteraction ul.source > li .dummy-element {
       cursor: pointer; }
-    /* line 50, ../scss/qti/_graphic-gap.scss */
     .qti-graphicGapMatchInteraction ul.source > li .mini-tlb {
       font-size: 14px;
       font-size: 1.4rem; }
-/* line 56, ../scss/qti/_graphic-gap.scss */
 .qti-graphicGapMatchInteraction .gap-filler {
   display: block;
   position: absolute;
@@ -1127,28 +955,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 5, ../scss/qti/_graphic-order.scss */
 .qti-graphicOrderInteraction ul.ordinals {
   margin: 0 auto;
   padding: 0 10px !important;
   clear: both; }
-  /* line 9, ../scss/qti/_graphic-order.scss */
   .qti-graphicOrderInteraction ul.ordinals > li {
     width: 30px;
     line-height: 30px;
@@ -1158,21 +980,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     margin: 0;
     background: white;
     margin-right: 1px; }
-    /* line 18, ../scss/qti/_graphic-order.scss */
     .qti-graphicOrderInteraction ul.ordinals > li:hover {
       cursor: pointer; }
-    /* line 22, ../scss/qti/_graphic-order.scss */
     .qti-graphicOrderInteraction ul.ordinals > li.active {
       border: solid 1px #3e7da7;
       -webkit-transition: background 0.4s ease-out;
       -moz-transition: background 0.4s ease-out;
       -o-transition: background 0.4s ease-out;
       transition: background 0.4s ease-out; }
-      /* line 25, ../scss/qti/_graphic-order.scss */
       .qti-graphicOrderInteraction ul.ordinals > li.active:hover {
         background: white !important;
         cursor: default !important; }
-    /* line 30, ../scss/qti/_graphic-order.scss */
     .qti-graphicOrderInteraction ul.ordinals > li.disabled {
       border: none;
       cursor: default !important;
@@ -1200,23 +1018,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_select-point.scss */
 .qti-SelectPointInteraction .txt-success:hover {
   background: transparent !important; }
 
@@ -1241,23 +1054,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_hottext.scss */
 .qti-hottextInteraction .hottext {
   background: #f3f1ef;
   padding-right: 5px;
@@ -1265,19 +1073,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-border-radius: 2px;
   border-radius: 2px;
   position: relative; }
-  /* line 8, ../scss/qti/_hottext.scss */
   .qti-hottextInteraction .hottext .hottext-checkmark {
     padding-right: 0;
     min-width: auto;
     width: auto; }
-  /* line 18, ../scss/qti/_hottext.scss */
   .qti-hottextInteraction .hottext [class^="icon-"].small, .qti-hottextInteraction .hottext [class*=" icon-"].small {
     font-size: 12px;
     font-size: 1.2rem;
     text-shadow: none;
     line-height: 10px;
     top: 1px; }
-  /* line 25, ../scss/qti/_hottext.scss */
   .qti-hottextInteraction .hottext .mini-tlb[data-edit] {
     background: transparent;
     border: none;
@@ -1286,24 +1091,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     top: -22px;
     padding-right: 10px;
     width: auto !important; }
-    /* line 33, ../scss/qti/_hottext.scss */
     .qti-hottextInteraction .hottext .mini-tlb[data-edit].icon-undo {
       padding-right: 8px; }
-    /* line 36, ../scss/qti/_hottext.scss */
     .qti-hottextInteraction .hottext .mini-tlb[data-edit] label {
       padding: 0 3px; }
-    /* line 39, ../scss/qti/_hottext.scss */
     .qti-hottextInteraction .hottext .mini-tlb[data-edit] [data-role="score"] {
       width: 30px; }
 
-/* line 47, ../scss/qti/_hottext.scss */
 .item-editor-item .hottext {
   height: 24px;
   display: inline-block; }
-  /* line 48, ../scss/qti/_hottext.scss */
   .item-editor-item .hottext .hottext-checkmark {
     display: none; }
-/* line 55, ../scss/qti/_hottext.scss */
 .item-editor-item [class^="icon-"].small, .item-editor-item [class*=" icon-"].small {
   display: none; }
 
@@ -1328,23 +1127,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 4, ../scss/qti/_gap-match.scss */
 .qti-gapMatchInteraction .gapmatch-content {
   background: #f3f1ef;
   -moz-border-radius: 2px;
@@ -1354,16 +1148,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   min-width: 60px;
   min-height: 20px;
   display: inline-block; }
-  /* line 5, ../scss/qti/_gap-match.scss */
   .qti-gapMatchInteraction .gapmatch-content audio, .qti-gapMatchInteraction .gapmatch-content canvas, .qti-gapMatchInteraction .gapmatch-content img, .qti-gapMatchInteraction .gapmatch-content video {
     vertical-align: baseline; }
-  /* line 17, ../scss/qti/_gap-match.scss */
   .qti-gapMatchInteraction .gapmatch-content.empty {
     min-height: 20px; }
-  /* line 20, ../scss/qti/_gap-match.scss */
   .qti-gapMatchInteraction .gapmatch-content .remove {
     float: right; }
-/* line 25, ../scss/qti/_gap-match.scss */
 .qti-gapMatchInteraction .choice-area .deactivated {
   cursor: default;
   opacity: 0.2; }
@@ -1389,37 +1179,28 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 3, ../scss/qti/_slider.scss */
 .qti-sliderInteraction .ui-slider-horizontal {
   margin: 0 20px; }
-/* line 6, ../scss/qti/_slider.scss */
 .qti-sliderInteraction .ui-slider-vertical {
   margin: 0 20px;
   display: inline-block; }
-/* line 10, ../scss/qti/_slider.scss */
 .qti-sliderInteraction .qti-slider-values {
   position: relative; }
-/* line 14, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-horizontal .qti-slider-values {
   height: 20px;
   margin: 0 20px; }
-/* line 18, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-horizontal .slider-min, .qti-sliderInteraction.qti-slider-horizontal .slider-max, .qti-sliderInteraction.qti-slider-horizontal .slider-middle {
   position: absolute;
   width: 40px;
@@ -1427,26 +1208,19 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   text-align: center;
   font-size: 12px;
   font-size: 1.2rem; }
-/* line 25, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-horizontal .slider-min {
   left: 0%; }
-/* line 28, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-horizontal .slider-max {
   left: 100%; }
-/* line 33, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-vertical .qti-slider-values {
   width: 30px;
   display: inline-block; }
-/* line 37, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-vertical .slider-min, .qti-sliderInteraction.qti-slider-vertical .slider-max, .qti-sliderInteraction.qti-slider-vertical .slider-middle {
   position: absolute; }
-/* line 40, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-vertical .slider-min {
   bottom: -10px; }
-/* line 43, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-vertical .slider-max {
   top: -10px; }
-/* line 46, ../scss/qti/_slider.scss */
 .qti-sliderInteraction.qti-slider-vertical .ui-slider-handle {
   width: 17px !important;
   height: 10px !important;
@@ -1473,19 +1247,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
@@ -1510,54 +1280,42 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 2, ../scss/qti/_text-entry.scss */
 .qti-textEntryInteraction {
   /*background: rgba($uiClickableDefaultBg, .85);*/
   /*padding: 50px 10px 10px 30px;*/ }
-  /* line 8, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction table {
     border-collapse: separate;
     border-spacing: 2px; }
-  /* line 13, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction tr {
     height: 27px;
     white-space: nowrap; }
-  /* line 18, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction .icon-bin, .qti-textEntryInteraction .icon-pin, .qti-textEntryInteraction .icon-shuffle {
     text-align: center;
     padding: 0 5px;
     cursor: pointer;
     vertical-align: middle; }
-  /* line 26, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction .icon-radio, .qti-textEntryInteraction .icon-checkbox, .qti-textEntryInteraction .icon-radio-checked, .qti-textEntryInteraction .icon-checkbox-checked {
     font-size: 13px !important; }
-  /* line 30, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction .icon-bin:hover, .qti-textEntryInteraction .icon-pin:hover, .qti-textEntryInteraction .icon-shuffle:hover {
     color: #3e7da7; }
-  /* line 35, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction td[contenteditable], .qti-textEntryInteraction .main-option {
     padding: 0 7px;
     background: white;
     border: 1px solid #dddddd;
     border-radius: 2px;
     -webkit-border-radius: 2px; }
-  /* line 41, ../scss/qti/_text-entry.scss */
   .qti-textEntryInteraction .main-option {
     border-top: 1px #dddddd solid;
     border-bottom: 1px #dddddd solid;
@@ -1585,35 +1343,26 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 2, ../scss/qti/_upload.scss */
 .qti-uploadInteraction {
   padding: 6px 6px 0 6px; }
-  /* line 6, ../scss/qti/_upload.scss */
   .qti-uploadInteraction .grid-row {
     margin-bottom: 0 !important; }
-  /* line 9, ../scss/qti/_upload.scss */
   .qti-uploadInteraction .progressbar {
     margin-bottom: 6px; }
-  /* line 12, ../scss/qti/_upload.scss */
   .qti-uploadInteraction .btn-info {
     padding-top: 0 !important; }
-  /* line 15, ../scss/qti/_upload.scss */
   .qti-uploadInteraction .file-name {
     padding: 2px 3px !important; }
 
@@ -1638,31 +1387,24 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 36, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
-/* line 37, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* line 176, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-radio:before {
   content: "\1b1"; }
 
-/* line 179, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
-/* line 3, ../scss/qti/_rubric-block.scss */
 .qti-rubricBlock .qti-rubricBlock-body {
   border: 1px solid transparent; }
-/* line 6, ../scss/qti/_rubric-block.scss */
 .qti-rubricBlock > .col-12 {
   border: 1px solid #DDD !important;
   background-color: rgba(243, 241, 239, 0.3); }
 
-/* line 232, ../scss/qti.scss */
 #qti-submit-response {
   display: block;
   width: 100px;

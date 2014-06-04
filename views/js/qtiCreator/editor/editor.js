@@ -2,7 +2,8 @@ define([
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/tooltipster'
+    'ui/tooltipster',
+    'jquery.sizechange'
 ], function($, __, tooltipTpl, tooltip){
     
     'use strict';
@@ -24,6 +25,7 @@ define([
             for(element in _elements) {
                 elements[element] = $(_elements[element]);
             }
+            elements.columns = elements.sidebars.add(elements.itemPanel);
         };
 
         // selectors and classes
@@ -179,37 +181,14 @@ define([
             _toggleSections(sections, !!preserveOthers, 'open');
         };
 
-        // display the sidebar and its sections temporarily to calculate the height
-        var _tmpDisplay = function($elements, reset) {
-            $elements.each(function() {
-                var $element = $(this);
-                if(reset) {
-                    $element.css('display', $element.prop('old-display'));
-                    $element.css('opacity', $element.prop('old-opacity'));
-                    $element.removeProp('old-display');
-                    $element.removeProp('old-opacity');
-                }
-                else {
-                    $element.prop('old-display', $element.css('display'));
-                    $element.prop('old-opacity', $element.css('opacity'));
-                    $element.css('display', 'block');
-                    $element.css('opacity', 0);
-                }
-            });
-        };
-
         /**
          * Adapt height of sidebars and content
          */
         var adaptHeight = function() {
             var height = 0;
-            elements.sidebars.add(elements.itemPanel).each(function () {
-                var block = $(this),
-                    blocks = block.add(block.find('section hr .panel'));
-                // work around the fact that the sidebars might be hidden at this point
-                _tmpDisplay(blocks);
+            elements.columns.each(function () {
+                var block = $(this);
                 height = Math.max(block.height(), height);
-                _tmpDisplay(blocks, true);
             }).height(height);
         };
 
@@ -293,7 +272,7 @@ define([
             // close all
             closeSections(elements.sidebars.find(section));
 
-            adaptHeight();
+            //adaptHeight();
 
             /* At the time of writing this the following sections are available:
              *
@@ -320,6 +299,7 @@ define([
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
 
         };
+
 
         return {
             initGui: initGui,
