@@ -52,8 +52,7 @@ define([
         $editable.attr('contentEditable', true);
 
         //focus then reset content to have the cursor at the end:
-        $editable.focus();
-        $editable.html($editable.html());
+        _focus($editable);
 
         $editable.on('keyup.qti-widget', _.throttle(function(){
 
@@ -79,5 +78,29 @@ define([
         $container.children('td:first').off('keyup.qti-widget');
     };
 
+    var _focus = function($el){
+        
+        var range, sel, el = $el[0];
+        
+        el.focus();
+        if(window.getSelection !== undefined && document.createRange !== undefined){
+            
+            range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            
+        }else if(document.body.createTextRange !== undefined){
+            
+            range = document.body.createTextRange();
+            range.moveToElementText(el);
+            range.collapse(false);
+            range.select();
+        }
+
+    };
     return GapTextStateChoice;
 });
