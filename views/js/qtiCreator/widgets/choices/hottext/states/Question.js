@@ -1,13 +1,13 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/gap',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
 ], function(stateFactory, QuestionState, gapTpl, formElement){
 
-    var GapStateQuestion = stateFactory.extend(QuestionState);
+    var HottextStateQuestion = stateFactory.extend(QuestionState);
 
-    GapStateQuestion.prototype.createToolbar = function(){
+    HottextStateQuestion.prototype.createToolbar = function(){
 
         var _widget = this.widget,
             $container = _widget.$container,
@@ -15,7 +15,7 @@ define([
             $toolbar = $container.find('.mini-tlb').not('[data-html-editable] *');
         
         if(!$toolbar.length){
-            
+
             //add mini toolbars
             $toolbar = $(gapTpl({
                 serial : gap.getSerial(),
@@ -30,5 +30,5 @@ define([
         return $toolbar;
     };
 
-    return GapStateQuestion;
+    return HottextStateQuestion;
 });
