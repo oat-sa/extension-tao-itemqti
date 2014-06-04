@@ -1,8 +1,9 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItem/qtiCreator/helper/xmlRenderer'
-], function(_, $, xmlRenderer) {
+    'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'taoQtiItem/qtiCreator/model/helper/event'
+], function(_, $, xmlRenderer, event) {
 
     var tools = {};
 
@@ -35,26 +36,7 @@ define([
     tools.liveXmlPreview = function(item, $destination) {
 
         //render qti xml:
-        
-        var events = [
-            'containerBodyChange',
-            'attributeChange.qti-widget',
-            'choiceCreated.qti-widget',
-            'correctResponseChange.qti-widget',
-            'mapEntryChange.qti-widget',
-            'mapEntryRemove.qti-widget',
-            'deleted.qti-widget',
-            'choiceTextChange.qti-widget',
-            'responseTemplateChange.qti-widget',
-            'mappingAttributeChange.qti-widget',
-            'feedbackRuleConditionChange.qti-widget',
-            'feedbackRuleCreated.qti-widget',
-            'feedbackRuleRemoved.qti-widget',
-            'feedbackRuleElseCreated.qti-widget',
-            'feedbackRuleElseRemoved.qti-widget'
-        ];
-
-        $(document).on(events.join(' '), _.throttle(function(){
+        $(document).on(event.getList().join(' '), _.throttle(function(){
             
             var rawXml = xmlRenderer.render(item);
             
