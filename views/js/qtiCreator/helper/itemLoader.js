@@ -29,6 +29,12 @@ define([
                             itemData = data.itemData;
 
                         loader.loadItemData(itemData, function(item){
+                            
+                            //hack to fix #2652
+                            if(item.isEmpty()){
+                                item.body('');
+                            }
+                            
                             callback(item, this.getLoadedClasses());
                         });
                     }else{

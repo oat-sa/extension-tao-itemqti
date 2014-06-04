@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiItem/core/IdentifiedElement',
     'taoQtiItem/qtiItem/mixin/ContainerItemBody',
     'lodash',
+    'jquery',
     'taoQtiItem/qtiItem/helper/util'
-], function(Element, IdentifiedElement, Container, _, util){
+], function(Element, IdentifiedElement, Container, _, $, util){
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',
@@ -77,13 +78,13 @@ define([
             return elts;
         },
         find : function(serial){
-        
+
             var found = this._super(serial);
-            
+
             if(!found){
                 found = util.findInCollection(this, ['responses', 'outcomes', 'modalFeedbacks', 'stylesheets'], serial);
             }
-            
+
             return found;
         },
         getResponses : function(){
@@ -129,6 +130,25 @@ define([
             arr.namespaces = this.namespaces;
             arr.stylesheets = this.stylesheets;
             return arr;
+        },
+        isEmpty : function(){
+        
+            var body = this.body().trim();
+            
+            if(body){
+                
+                //hack to fix #2652
+                var $dummy = $('<div>').html(body),
+                    $children = $dummy.children();
+                
+                if($children.length === 1 && $children.hasClass('empty')){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return true;
+            }
         }
     });
 

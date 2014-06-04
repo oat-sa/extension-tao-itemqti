@@ -13,7 +13,13 @@
         {{{.}}}
     {{~/stylesheets}}
     
-    <itemBody>{{{body}}}</itemBody>
+    <itemBody>
+        {{#if empty}}
+            <div class="empty"></div>
+        {{else}}
+            {{{body}}}
+        {{/if}}
+    </itemBody>
     
     {{{responseProcessing}}}
     
