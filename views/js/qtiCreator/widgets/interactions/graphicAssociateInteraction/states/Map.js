@@ -43,6 +43,8 @@ define([
         //use the common Renderer
         GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);    
 
+
+
         //set the responses already defined
         GraphicAssociateInteraction.setResponse(
             interaction, 
@@ -54,7 +56,10 @@ define([
             mappingForm(widget);
         }
 
-        widget.$container.on('responseChange.qti-widget', function(e, data){
+        //display the choices ids
+        showChoicesId(interaction);
+ 
+        widget.$container.on('responseChange.qti-widget.mapstate', function(e, data){
             mappingForm(widget, _.map(data.response.list.pair, function(pair){
                 return pair.join(' ');
             }));
@@ -73,6 +78,7 @@ define([
         }
         
         $('.graphic-mapping-editor').remove();
+        widget.$container.off('responseChange.qti-widget.mapstate');
 
         //destroy the common renderer
         helper.removeInstructions(interaction);
@@ -80,6 +86,18 @@ define([
 
         //initialize again the widget's paper
         this.widget.createPaper();
+    }
+
+    function showChoicesId(interaction){
+        _.forEach(interaction.getChoices(), function(choice){
+            var element = interaction.paper.getById(choice.serial);
+            if(element){
+                graphicHelper.createShapeText(interaction.paper, element, {
+                    shapeClick: true,
+                    content : choice.id()
+                }).transform('t0,-10').toFront();
+            }
+        });
     }
 
     function mappingForm(widget, entries){

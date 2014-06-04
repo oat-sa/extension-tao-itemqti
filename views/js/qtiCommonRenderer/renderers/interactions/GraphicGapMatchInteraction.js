@@ -265,7 +265,7 @@ define([
         var matchable = false;
         var matching, matchMax;
         if(element){
-            matchMax = element.data('max') || 1;
+            matchMax = element.data('max') || 0;
             matching = element.data('matching') || [];
             matchable = (matchMax === 0 || matchMax > matching.length);
         }
