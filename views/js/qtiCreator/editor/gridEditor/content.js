@@ -27,27 +27,6 @@ define([
         return $body.html();
     };
     
-    var _htmlEncode = function(encodedStr){
-
-        var returnValue = '';
-
-        if(encodedStr){
-            
-            //<br...> are replaced by <br... />
-            returnValue = encodedStr;
-            returnValue = returnValue.replace(/<br([^>]*)?>/ig, '<br />');
-            returnValue = returnValue.replace(/<hr([^>]*)?>/ig, '<hr />');
-
-            //<img...> are replaced by <img... />
-            returnValue = returnValue.replace(/(<img([^>]*)?\s?[^\/]>)+/ig,
-                function($0, $1){
-                    return $0.replace('>', ' />');
-                });
-        }
-
-        return returnValue;
-    };
-    
     /**
      * Create a callback function for the ck edit:
      * 
@@ -58,9 +37,7 @@ define([
         return _.throttle(function(data){
 
             var $pseudoContainer = $('<div>').html(data),
-                newBody = _htmlEncode(contentHelper.getContent($pseudoContainer));
-
-            console.log(container);
+                newBody = contentHelper.getContent($pseudoContainer);
 
             container.body(newBody);
 

@@ -323,12 +323,12 @@ define([
 
             if(Element.isA(containerWidget.element, '_container')){
 
-                listendToWidgetCreation();
+                listenToWidgetCreation();
                 containerWidget.changeState('sleep');
 
             }else if(Element.isA(containerWidget.element, 'choice')){
 
-                listendToWidgetCreation();
+                listenToWidgetCreation();
                 containerWidget.changeState('question');
 
             }else if(Element.isA(innerWidget.element, 'choice')){
@@ -347,7 +347,7 @@ define([
     };
 
     /**
-     * Special encoding of ouput html generated from ie8, moved to qtiCreator/editor/gridEditor/content.js
+     * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
      */
     var _htmlEncode = function(encodedStr){
         return encodedStr;
