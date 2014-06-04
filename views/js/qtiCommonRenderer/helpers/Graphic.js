@@ -213,8 +213,7 @@ define([
                 resizer();
                 
                 $(window).on('resize.qti-widget', resizer);
-
-                $container.on('resize.qti-widget', resizer);
+                $container.on('resize.qti-widget', resizePaper);
 
             } else {
                 paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
@@ -228,10 +227,13 @@ define([
              * scale the raphael paper
              * @private
              */
-            function resizePaper(e, containerWidth){
+            function resizePaper(e, givenWidth){
+                
                 var maxWidth   = $body.innerWidth();
-                containerWidth = containerWidth || $container.innerWidth() - (diff + 8);
-                if(containerWidth > maxWidth){
+                var containerWidth = $container.innerWidth() - (diff + 8);
+                if(givenWidth < containerWidth && givenWidth < maxWidth){
+                    containerWidth = givenWidth - diff;
+                } else if(containerWidth > maxWidth){
                     containerWidth = maxWidth - (diff + 8);
                 }
                 paper.changeSize(containerWidth, height, false, false);

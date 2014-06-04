@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash', 
     'taoQtiItem/qtiCreator/model/mixin/editable', 
@@ -6,6 +9,11 @@ define([
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
+        
+        /**
+         * Set the default values for the model
+         * @returns {Object} the default attributes 
+         */ 
         getDefaultAttributes : function(){
             return {
                 matchMin : 0,

@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -5,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/GraphicGapMatchInteraction',
     'taoQtiItem/qtiCreator/model/choices/GapImg',
-    'taoQtiItem/qtiCreator/model/choices/AssociableHotspot',
+    'taoQtiItem/qtiCreator/model/choices/AssociableHotspot'
 ], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot){
     var methods = {};
     _.extend(methods, editable);

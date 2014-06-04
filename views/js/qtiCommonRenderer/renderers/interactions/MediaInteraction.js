@@ -73,7 +73,6 @@ define([
             alwaysShowHours: false,
             enableKeyboard: false,
             pauseOtherPlayers: false,
-            
             success: function(mediaElement, playerDom) {
                 var audioPlayPauseControls = $(playerDom).closest('div.mejs-container').find('.mejs-playpause-button');
                 

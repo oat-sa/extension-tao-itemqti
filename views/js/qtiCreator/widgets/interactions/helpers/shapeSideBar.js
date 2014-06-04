@@ -32,10 +32,10 @@ define([
                  })).insertBefore($imageEditor);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
-            var newWidth = parseInt($imageBox.width(), 10) - parseInt($sideBar.outerWidth(), 10) - 2;
+            var newWidth = parseInt($imageBox.outerWidth(true), 10) - parseInt($sideBar.outerWidth(), 10);
             
-            $imageBox.width(newWidth);
-            $imageEditor.width(newWidth);
+            //$imageBox.width(newWidth);
+            //$imageEditor.width(newWidth);
 
             /**
              * To enable the bin 
@@ -86,8 +86,11 @@ define([
             }); 
        
              
-            $container.on('resize.qti-widget', function(){
-                $sideBar.find('.forms').height($imageEditor.innerHeight());
+            $container.on('resize.qti-widget.sidebar', function(){
+                //need to delay because of the throttle on 10ms
+                _.delay(function(){
+                    $sideBar.find('.forms').height($imageEditor.innerHeight());
+                }, 10);
             });
  
             $container.trigger('resize.qti-widget', newWidth);    
@@ -104,6 +107,7 @@ define([
                 $imageBox.css('width', 'auto');
                 $imageEditor.css('width', 'auto');
 
+                $container.off('resize.qti-widget.sidebar');
                 $container.trigger('resize');    
             }
         }

@@ -2,11 +2,12 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash',
+    'jquery', 'lodash', 'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-], function($, _, Widget, states, graphic){
+    'taoQtiItem/qtiCreator/helper/dummyElement'
+], function($, _, __, Widget, states, graphic, dummyElement){
 
     /**
      * The Widget that provides components used by the QTI Creator for the GraphicAssociate Interaction
@@ -57,18 +58,48 @@ define([
         createPaper : function(){
 
             var $container = this.$original;
+            var $itemBody  = $container.parents('.qti-itemBody');
+            var $imageBox  = $('.main-image-box', $container);
             var background = this.element.object.attributes;
-            this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
-                width       : background.width, 
-                height      : background.height,
-                img         : this.baseUrl + background.data,
-                imgId       : 'bg-image-' + this.element.serial,
-                diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
-                container   : $container
-            });
-            
-            //call render choice for each interaction's choices
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            var diff;
+            if(!background.data){
+                this._createPlaceholder();
+            } else {
+                diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
+                    width       : background.width, 
+                    height      : background.height,
+                    img         : this.baseUrl + background.data,
+                    imgId       : 'bg-image-' + this.element.serial,
+                    diff        : diff,
+                    container   : $container
+                });
+
+                //listen for internal size change
+                $itemBody.on('resizestop.gridEdit.' + this.element.serial, function(){
+                    $container.trigger('resize.qti-widget');
+                });
+
+                //call render choice for each interaction's choices
+                _.forEach(this.element.getChoices(), this._currentChoices, this);
+            }
+        },
+
+        /**
+         * Creates a dummy placeholder if there is no image set
+         */
+        _createPlaceholder : function(){
+
+            var $container = this.$original;
+            var $imageBox  = $container.find('.main-image-box');
+            dummyElement.get({
+                icon: 'image',
+                css: {
+                    width  : $container.innerWidth() - 35,
+                    height : 200
+                },
+                title : __('Select an image first.')
+            }).appendTo($imageBox);
         },
 
         /**

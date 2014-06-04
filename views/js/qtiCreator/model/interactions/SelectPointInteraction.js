@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -11,7 +14,8 @@ define([
     _.extend(methods, {
         
         /**
-         * Set the default values for the model 
+         * Set the default values for the model
+         * @returns {Object} the default attributes 
          */ 
         getDefaultAttributes : function(){
             return {
@@ -33,7 +37,7 @@ define([
             }
             this.createResponse({
                 baseType:'point',
-                cardinality:'single'
+                cardinality:'multiple'
             }, 'MAP_RESPONSE_POINT');
         }
     });

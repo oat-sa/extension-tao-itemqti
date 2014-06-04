@@ -27,6 +27,7 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
+        var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
         
         //really need to destroy before ? 
         GraphicGapMatchInteraction.destroy(interaction);
@@ -44,23 +45,19 @@ define([
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
     
+        GraphicGapMatchInteraction.setResponse(
+            interaction, 
+            PciResponse.serialize(_.invoke(currentResponses, String.prototype.split, ' '), interaction)
+        );
 
-
+        //set the responses already defined
         if(_.size(response.getMapEntries()) === 0){
-
-            GraphicGapMatchInteraction.setResponse(
-                interaction, 
-                PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
-            );
             mappingForm(widget, corrects);
-
         } else {
-            GraphicGapMatchInteraction.setResponse(
-                interaction, 
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
-            );
             mappingForm(widget);
         }
+
+
         
         widget.$container.on('responseChange.qti-widget', function(e, data){
             mappingForm(widget, _.map(data.response.list.directedPair, function(pair){
@@ -118,7 +115,7 @@ define([
                     choice : pair[0],
                     gapImg : pair[1],
                     gapImgSrc : options.baseUrl + gapImgs[pair[1]].object.attr('data'), 
-                    id : value.replace(' ', '__'),
+                    id : value.replace(' ', '::'),
                     correctDefined : correctDefined,
                     correct : _.contains(corrects, value) 
                 });
@@ -133,7 +130,7 @@ define([
                     choice : pair[0],
                     gapImgId : pair[1],
                     gapImgSrc : options.baseUrl + gapImgs[pair[1]].object.attr('data'), 
-                    id : key.replace(' ', '__'),
+                    id : key.replace(' ', '::'),
                     correctDefined : correctDefined,
                     correct : _.contains(corrects, key) 
                 });
@@ -153,7 +150,7 @@ define([
         
         var callbacks = {};
         _.forEach(mappings, function(map){
-            var id = map.id.replace('__', ' ');
+            var id = map.id.replace('::', ' ');
             callbacks[map.id + '-score'] = function(response, value){
                 response.setMapEntry(id, value);
             };

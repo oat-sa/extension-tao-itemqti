@@ -19,7 +19,7 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
-        //really need to destroy before ? 
+        
         GraphicGapMatchInteraction.destroy(interaction);
 
         if(!interaction.paper){

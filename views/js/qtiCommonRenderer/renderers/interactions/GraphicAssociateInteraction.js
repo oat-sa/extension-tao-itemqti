@@ -45,7 +45,7 @@ define([
             max: interaction.attr('maxAssociations'),
             getResponse : _getRawResponse,
             onError : function(data){
-                if(data.target.active){
+                if(data && data.target){
                     graphic.highlightError(data.target);
                 }
             }
@@ -63,6 +63,7 @@ define([
     var _renderChoice  =  function _renderChoice(interaction, choice){
         var shape = choice.attr('shape');
         var coords = choice.attr('coords');
+        var maxAssociations = interaction.attr('maxAssociations');
 
         var rElement = graphic.createElement(interaction.paper, shape, coords, {
             id : choice.serial,
@@ -70,9 +71,18 @@ define([
         })
         .data('max', choice.attr('matchMax')) 
         .data('matching', 0) 
+        .removeData('assocs')
         .click(function(){
             var self = this;
             var active, assocs;
+
+            //can't create more associations than the maxAssociations attr
+            if(maxAssociations > 0 && _getRawResponse(interaction).length >= maxAssociations){
+                _shapesUnSelectable(interaction);
+                Helper.validateInstructions(interaction, { choice : choice, target : this });
+                return;
+            } 
+
             if(this.selectable) {
                 active = _getActiveElement(interaction);
                 if(active){
@@ -103,13 +113,13 @@ define([
                 _shapesUnSelectable(interaction);
  
             } else if(this.active) {
-                graphic.updateElementState(this, 'basic', __('Select this area to start an association'));
+                graphic.updateElementState(this, 'basic', __('Select another area to complete the association'));
                 this.active = false;
                 _shapesUnSelectable(interaction);
             } else if(_isMatchable(this)){
-                graphic.updateElementState(this, 'active', __('Select another area to complete the association'));
+                graphic.updateElementState(this, 'active', __('Select this area to start an association'));
                 this.active = true;
-                _shapesSelectable(interaction);
+                _shapesSelectable(interaction, this);
             }
            
             Helper.triggerResponseChangeEvent(interaction);
@@ -264,15 +274,21 @@ define([
      * Makes the shapes selectable
      * @private
      * @param {Object} interaction
+     * @param {Raphael.Element} active - the active shape
      */
-    var _shapesSelectable = function _shapesSelectable(interaction){
-
+    var _shapesSelectable = function _shapesSelectable(interaction, active){
+    
+        var assocs = active.data('assocs') || [];       
+ 
         //update the shape state
         _.forEach(interaction.getChoices(), function(choice){
-            var element = interaction.paper.getById(choice.serial);
-            if(_isMatchable(element) && !element.active){
-                element.selectable = true;
-                graphic.updateElementState(element, 'selectable');
+            var element;
+            if(!_.contains(assocs, choice.id())){
+                element = interaction.paper.getById(choice.serial);
+                if(!element.active && element.id !== active.id &&  _isMatchable(element, active)){
+                    element.selectable = true;
+                    graphic.updateElementState(element, 'selectable');
+                }
             }
         });
     };
@@ -303,7 +319,7 @@ define([
         var matchable = false;
         var matching, matchMax;
         if(element){
-            matchMax = element.data('max') || 1;
+            matchMax = element.data('max') || 0;
             matching = element.data('matching') || 0;
             matchable = (matchMax === 0 || matchMax > matching);
         }

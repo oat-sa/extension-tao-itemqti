@@ -18,9 +18,13 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
+        var corrects  = _.values(response.getCorrect());
 
-        //really need to destroy before ? 
         GraphicAssociateInteraction.destroy(interaction);
+
+        if(!interaction.paper){
+            return;
+        }
         
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please select the correct graphicAssociate choices below.'));
@@ -28,10 +32,19 @@ define([
         //use the common Renderer
         GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);
 
-        GraphicAssociateInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        GraphicAssociateInteraction.setResponse(
+            interaction, 
+            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+        );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(PciResponse.unserialize(data, interaction)); 
+           if(data.response && data.response.list){
+                response.setCorrect(
+                    _.map(data.response.list.pair, function(pair){
+                        return pair.join(' ');
+                    })
+                ); 
+           }
         });
 
     }
@@ -42,6 +55,10 @@ define([
     function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
+        
+        if(!interaction.paper){
+            return;
+        }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');

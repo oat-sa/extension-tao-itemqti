@@ -14,15 +14,24 @@ define([
         init : function(widget){
             formElement.initWidget(widget.$form);
         },
-        syncMaxChoices : function(widget){
 
-            var attributeNameMin = 'minChoices',
-                attributeNameMax = 'maxChoices',
-                $min = widget.$form.find('input[name=' + attributeNameMin + ']'),
+        /**
+         * Helps you to synchrnonize min/max widgets so the min isn't greater than the max, etc.
+         * @param {Object} widget - the interacion's widget (where widget.element is the interaction)
+         * @param {String} [attributeNameMin = minChoices] - the name of the min field and attribute
+         * @param {String} [attributeNameMax = maxChoices] - the name of the max field and attribute
+         * @param {Function} [getMax = _.size] - how to get the max value from the choices lists (in attributes)
+         */
+        syncMaxChoices : function(widget, attributeNameMin, attributeNameMax, getMax){
+
+            attributeNameMin = attributeNameMin || 'minChoices';
+            attributeNameMax = attributeNameMax || 'maxChoices';
+            getMax = getMax || _.size;
+            var $min = widget.$form.find('input[name=' + attributeNameMin + ']'),
                 $max = widget.$form.find('input[name=' + attributeNameMax + ']');
 
             var _syncMaxChoices = function(){
-                var newOptions = {max : _.size(widget.element.getChoices())};
+                var newOptions = {max : getMax(widget.element.getChoices())};
                 $min.incrementer('options', newOptions).keyup();
                 $max.incrementer('options', newOptions).keyup();
             };
