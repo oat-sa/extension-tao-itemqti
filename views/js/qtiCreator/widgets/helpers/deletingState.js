@@ -8,7 +8,7 @@ define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletin
             _confirmDeletion($messageBox, 1000);
         }, _timeout);
 
-        $('body').on('mousedown.deleting', function(e){
+        $('body').on('mousedown.deleting keydown.deleting', function(e){
             //confirm deleting whenever user interact with another object
             if(e.target !== $messageBox[0] && !$.contains($messageBox[0], e.target)){
                 _confirmDeletion($messageBox, 400);

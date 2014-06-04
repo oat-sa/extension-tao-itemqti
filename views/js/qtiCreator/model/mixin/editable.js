@@ -36,6 +36,8 @@ define([
                 }
 
                 if(removed){
+                    //mark it instantly as removed in case its is being used somewhere else
+                    element.data('removed', true);
                     event.deleted(element, parent);
                 }
             }

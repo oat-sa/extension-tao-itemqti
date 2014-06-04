@@ -53,7 +53,7 @@ define([
             taoQtiItem : {
                 insert : function(){
                     if(options.data && options.data.container && options.data.widget){
-                        contentHelper.createElements(options.data.container, $editable, this.getData(), function(createdWidget){
+                        contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
                             _activateInnerWidget(options.data.widget, createdWidget);
                         });
                     }
@@ -139,8 +139,7 @@ define([
 
                         //callback:
                         if(_.isFunction(options.change)){
-                            var data = this.getData();
-                            options.change.call(this, _htmlEncode(data));
+                            options.change.call(this, _htmlEncode(this.getData()));
                         }
                     });
 
@@ -166,7 +165,7 @@ define([
 
                     //callback:
                     if(_.isFunction(options.focus)){
-                        options.focus.call(this, this.getData());
+                        options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
                 },
@@ -239,10 +238,14 @@ define([
         var deleted = [];
 
         _.each(widgets, function(w){
-            var $widget = _findWidgetContainer($container, w.serial);
-            if(!$widget.length){
-                deleted.push(w);
+
+            if(!w.element.data('removed')){
+                var $widget = _findWidgetContainer($container, w.serial);
+                if(!$widget.length){
+                    deleted.push(w);
+                }
             }
+
         });
 
         if(deleted.length){
@@ -319,12 +322,12 @@ define([
             };
 
             if(Element.isA(containerWidget.element, '_container')){
-                
+
                 listendToWidgetCreation();
                 containerWidget.changeState('sleep');
-                
+
             }else if(Element.isA(containerWidget.element, 'choice')){
-                
+
                 listendToWidgetCreation();
                 containerWidget.changeState('question');
 
@@ -344,26 +347,10 @@ define([
     };
 
     /**
-     * Special encoding of ouput html generated from ie8
+     * Special encoding of ouput html generated from ie8, moved to qtiCreator/editor/gridEditor/content.js
      */
     var _htmlEncode = function(encodedStr){
-
-        var returnValue = '';
-
-        if(encodedStr){
-            //<br...> are replaced by <br... />
-            returnValue = encodedStr;
-            returnValue = returnValue.replace(/<br([^>]*)?>/ig, '<br />');
-            returnValue = returnValue.replace(/<hr([^>]*)?>/ig, '<hr />');
-
-            //<img...> are replaced by <img... />
-            returnValue = returnValue.replace(/(<img([^>]*)?\s?[^\/]>)+/ig,
-                function($0, $1){
-                    return $0.replace('>', ' />');
-                });
-        }
-
-        return returnValue;
+        return encodedStr;
     };
 
     var _focus = function(editor){
@@ -433,6 +420,14 @@ define([
                     }
                 }
             });
+        },
+        getData : function($editable){
+            var editor = $editable.data('editor');
+            if(editor){
+                return _htmlEncode(editor.getData());
+            }else{
+                throw  'no editor attached to the DOM element';
+            }
         }
     };
 

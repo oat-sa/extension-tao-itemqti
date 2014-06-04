@@ -92,8 +92,7 @@ define([
             e.stopPropagation();//prevent rewrapping
 
             var $wrapper = $gapTlb.parent(),
-                text = $wrapper.text().trim(),
-                editor = $editable.data('editor');
+                text = $wrapper.text().trim();
                 
             //create choice:
             var choice = interaction.createChoice(text);
@@ -106,7 +105,7 @@ define([
                 .attr('data-new', true)
                 .attr('data-qti-class', 'gap');
             
-            htmlContentHelper.createElements(interaction.getBody(), $editable, editor.getData(), function(widget){
+            htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(widget){
                 widget.changeState('question');
             });
 

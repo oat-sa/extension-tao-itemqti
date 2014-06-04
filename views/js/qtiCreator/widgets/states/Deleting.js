@@ -27,7 +27,7 @@ define([
     });
 
     /**
-     * Move widget specific code to their respective location
+     * @todo move widget specific code to their respective location
      * 
      * @returns {jQuery} container
      */
