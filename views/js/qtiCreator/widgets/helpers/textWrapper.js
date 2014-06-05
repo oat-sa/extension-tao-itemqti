@@ -36,16 +36,20 @@ define(['jquery'], function($){
     var textWrapper = {
         create : function($editable){
             
-            $editable.on('mouseup.textwrapper', function() {
+            //reset it first:
+            textWrapper.destroy($editable);
+            
+            //add listeners:
+            $editable.on('mouseup.textwrapper', function(e) {
                 
                 var $wrapper = $('<span>', {id: 'selection-wrapper'});
-//                $wrapper.css({fontWeight: 'bold', color: 'green'});
                 wrapSelection($wrapper[0]);
                 
                 var wrappedText = $wrapper.text().trim();
                 $editable.trigger('wrapped', [$wrapper, wrappedText]);
                 
             }).on('mousedown.textwrapper', function() {
+                
                 $editable.trigger('beforeunwrap');
                 unwrapSelection($editable);
                 $editable.trigger('unwrapped');

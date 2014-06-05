@@ -16,7 +16,7 @@ define([
             };
         },
         afterCreate : function(){
-            this.createChoice();
+            this.body('Lorem ipsum dolor sit amet, consectetur adipisicing ...');
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'

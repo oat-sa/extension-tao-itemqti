@@ -110,12 +110,15 @@ define([
             $addOption = this.widget.$container.find('.choice-area .add-option');
 
         $gapTlb.on('mousedown', function(e){
-
+            
             e.stopPropagation();//prevent rewrapping
 
             var $wrapper = $gapTlb.parent(),
                 text = $wrapper.text().trim();
-
+            
+            //detach it from the DOM for another usage in the next future
+            $gapTlb.detach();
+            
             //create choice:
             var choice = interaction.createChoice(text);
             $addOption.before(choice.render());
@@ -123,12 +126,15 @@ define([
 
             //create gap:
             $wrapper
+                .removeAttr('id')
                 .addClass('widget-box')
                 .attr('data-new', true)
                 .attr('data-qti-class', 'gap');
-
+            
+            textWrapper.destroy($editable);
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(widget){
                 widget.changeState('question');
+                textWrapper.create($editable);
             });
 
         }).on('mouseup', function(e){
