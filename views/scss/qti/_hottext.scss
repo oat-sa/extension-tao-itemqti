@@ -1,7 +1,7 @@
 @import "inc/bootstrap";
 
 .qti-hottextInteraction {
-    .hottext {
+    .hottext {//@todo : change it to qti-hottext
         &:hover {
             @extend %selectableHover;
         }
@@ -39,21 +39,6 @@
             [data-role="score"] {
                 width: 30px;
             }
-        }
-    }
-}
-
-.item-editor-item {
-    .hottext {
-        .hottext-checkmark {
-            display:none;
-        }
-        height: 24px;
-        display:inline-block;
-    }
-    [class^="icon-"], [class*=" icon-"] {
-        &.small {
-            display:none;
         }
     }
 }

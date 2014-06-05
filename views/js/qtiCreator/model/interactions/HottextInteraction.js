@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/HottextInteraction',
-    'taoQtiItem/qtiCreator/model/choices/InlineChoice',
+    'taoQtiItem/qtiCreator/model/choices/Hottext',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
 ], function(_, Element, editable, editableInteraction, Interaction, Choice,event, responseHelper){
@@ -20,6 +20,7 @@ define([
             };
         },
         afterCreate : function(){
+            this.body('Lorem ipsum dolor sit amet, consectetur adipisicing ...');
             this.createResponse({
                 baseType : 'identifier',
                 cardinality : 'single'
@@ -30,7 +31,7 @@ define([
             var choice = new Choice('', attr);
 
             this.addChoice(choice);
-            choice.buildIdentifier('hotspot');
+            choice.buildIdentifier('hottext');
             choice.body(body);
                 
             if(this.getRenderer()){

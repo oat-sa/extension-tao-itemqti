@@ -2,7 +2,7 @@ define(['taoQtiItem/qtiItem/core/interactions/ContainerInteraction', 'taoQtiItem
     var HottextInteraction = ContainerInteraction.extend({
         qtiClass : 'hottextInteraction',
         getChoices : function(){
-            return this.getBody().getElements('Hottext');
+            return this.getBody().getElements('hottext');
         },
         getChoice : function(serial){
             var element = this.getBody().getElement(serial);

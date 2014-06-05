@@ -14,5 +14,3 @@ define([
     });
     return Choice.extend(methods);
 });
-
-

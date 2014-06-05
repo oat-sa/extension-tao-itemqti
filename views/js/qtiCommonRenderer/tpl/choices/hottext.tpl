@@ -1,4 +1,4 @@
-<span class="hottext" data-identifier="{{attributes.identifier}}" data-serial="{{serial}}">
+<span class="qti-choice qti-hottext hottext" data-identifier="{{attributes.identifier}}" data-serial="{{serial}}">
     <label class="hottext-checkmark">
         <input type="checkbox" value="{{attributes.identifier}}">
         <span class="icon-checkbox small"></span>

@@ -1,6 +1,6 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
+    'taoQtiItem/qtiCreator/widgets/interactions/containerInteraction/states/states',
     'taoQtiItem/qtiCreator/widgets/interactions/gapMatchInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/gapMatchInteraction/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/gapMatchInteraction/states/Correct',

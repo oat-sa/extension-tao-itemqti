@@ -120,8 +120,7 @@ class Authoring
                 array('title' => __('Hottext Interaction'),
                     'icon' => 'hottext',
                     'short' => __('Hottext'),
-                    'qtiClass' => 'hottextInteraction',
-                    'disabled' => true
+                    'qtiClass' => 'hottextInteraction'
                 ),
                 array('title' => __('Gap Match Interaction'),
                     'icon' => 'gap-match',

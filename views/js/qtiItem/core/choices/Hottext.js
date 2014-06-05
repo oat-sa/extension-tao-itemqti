@@ -1,8 +1,12 @@
-define(['taoQtiItem/qtiItem/core/choices/ContainerChoice'], function(QtiContainerChoice){
-    var QtiHottext = QtiContainerChoice.extend({
+define(['taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/mixin/ContainerInline'], function(Choice, Container){
+    
+    var Hottext = Choice.extend({
         qtiClass : 'hottext'
     });
-    return QtiHottext;
+    
+    Container.augment(Hottext);
+    
+    return Hottext;
 });
 
 

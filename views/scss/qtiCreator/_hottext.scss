@@ -1,0 +1,18 @@
+@import "inc/bootstrap";
+
+.qti-hottextInteraction {
+    .qti-flow-container{
+        position:relative;
+        [data-html-editable]{
+            min-height:3rem;
+        }
+        .mini-tlb[data-role=create-hottext-tlb]{
+            postion:absolute;
+            right:-30px;
+        }
+        #selection-wrapper{
+            z-index:1000;
+            position:relative;
+        }
+    }
+}
