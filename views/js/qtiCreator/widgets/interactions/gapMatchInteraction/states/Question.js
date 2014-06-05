@@ -64,7 +64,7 @@ define([
                 
                 //after the gap is created, delete it
                 var choice = interactionWidget.element.createChoice(text);
-                widget.$container.find('.qti-flow-container [data-html-editable]').before(choice.render());
+                interactionWidget.$container.find('.choice-area .add-option').before(choice.render());
                 choice.postRender().changeState('question');
 
             }

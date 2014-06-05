@@ -69,8 +69,7 @@ define([
             interaction = widget.element,
             $editable = widget.$container.find('.qti-flow-container [data-html-editable]'),
             gapModel = this.getGapModel(),
-            $gapTlb = $(gapModel.toolbarTpl()).show(),
-            $addOption = widget.$container.find('.choice-area .add-option');
+            $gapTlb = $(gapModel.toolbarTpl()).show();
 
         $gapTlb.on('mousedown', function(e){
             
