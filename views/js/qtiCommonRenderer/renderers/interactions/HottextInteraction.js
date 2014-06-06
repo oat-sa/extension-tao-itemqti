@@ -22,6 +22,7 @@ define([
             }else{
                 $inupt.prop('checked', true);
             }
+            Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, {choice : $choice});
         };
 
@@ -190,6 +191,21 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
+    /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function destroy(interaction){
+        var $container = Helper.getContainer(interaction);
+
+        //restore response
+        resetResponse(interaction);
+
+        //restore selected choices:
+        $container.find('.hottext').off('click');
+    };  
+    
+
     return {
         qtiClass : 'hottextInteraction',
         template : tpl,
@@ -197,6 +213,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

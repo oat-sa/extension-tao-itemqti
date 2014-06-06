@@ -1,27 +1,56 @@
 define([
+    'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/ResponseWidget',
-    'lodash'
-], function(stateFactory, Correct, responseWidget, _){
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
+], function(_, __, stateFactory, Correct, HottextInteraction, helper, PciResponse){
 
-    var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
+    /**
+     * Initialize the state: use the common renderer to set the correct response.
+     */
+    function initCorrectState(){
+        var widget = this.widget;
+        var interaction = widget.element;
+        var response = interaction.getResponseDeclaration();
+        
+        //really need to destroy before ? 
+        HottextInteraction.destroy(interaction);
+        
+        //add a specific instruction
+        helper.appendInstruction(interaction, __('Please select the correct hottext choices below.'));
+        
+        //use the common Renderer
+        HottextInteraction.render.call(interaction.getRenderer(), interaction);
 
-        var _widget = this.widget,
-            interaction = _widget.element,
-            response = interaction.getResponseDeclaration();
+        HottextInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
-        //init response widget in responseMapping mode:
-        responseWidget.create(_widget);
+        widget.$container.on('responseChange.qti-widget', function(e, data){
+            response.setCorrect(PciResponse.unserialize(data.response, interaction));
+        });
+    }
 
-        //finally, apply defined correct response and response mapping:
-        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
+    /**
+     * Exit the correct state
+     */
+    function exitCorrectState(){
+        var widget = this.widget;
+        var interaction = widget.element;
+        
+        //stop listening responses changes
+        widget.$container.off('responseChange.qti-widget');
+        
+        //destroy the common renderer
+        helper.removeInstructions(interaction);
+        HottextInteraction.destroy(interaction); 
+    }
 
-    }, function(){
-
-        responseWidget.destroy(this.widget);
-
-    });
-
-    return ChoiceInteractionStateCorrect;
+    /**
+     * The correct answer state for the hottext interaction
+     * @extends taoQtiItem/qtiCreator/widgets/states/Correct
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hottextInteraction/states/Correct
+     */
+    return stateFactory.create(Correct, initCorrectState, exitCorrectState);
 });

@@ -1,10 +1,12 @@
 define([
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/containerInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hottext',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create'
-], function(stateFactory, Question, formElement, formTpl, hottextTpl){
+], function(_, stateFactory, Question, formElement, interactionFormElement, formTpl, hottextTpl){
 
     var HottextInteractionStateQuestion = stateFactory.extend(Question, function(){
 
@@ -19,15 +21,16 @@ define([
             interaction = _widget.element;
 
         $form.html(formTpl({
-            matchMin : interaction.attr('matchMin'),
-            matchMax : interaction.attr('matchMax')
+            maxChoices : interaction.attr('maxChoices'),
+            minChoices : interaction.attr('minChoices'),
+            choicesCount : _.size(interaction.getChoices())
         }));
 
         formElement.initWidget($form);
 
-        var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'matchMin', 'matchMax', true);
+        var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', true);
         formElement.initDataBinding($form, interaction, callbacks);
-
+        interactionFormElement.syncMaxChoices(_widget);
     };
 
     HottextInteractionStateQuestion.prototype.getGapModel = function(){

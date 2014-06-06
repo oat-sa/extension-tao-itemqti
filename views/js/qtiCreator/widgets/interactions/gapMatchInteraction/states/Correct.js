@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function(_, __,stateFactory, Correct, GapMatchInteraction, helper, PciResponse){
 
-    var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
+    var GapMatchInteractionStateCorrect = stateFactory.create(Correct, function(){
 
         var widget = this.widget;
         var interaction = widget.element;
@@ -55,5 +55,5 @@ define([
         helper.removeInstructions(interaction);
     });
 
-    return ChoiceInteractionStateCorrect;
+    return GapMatchInteractionStateCorrect;
 });
