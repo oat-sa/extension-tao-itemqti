@@ -6,8 +6,8 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery'], functi
     var _singleton = function(){
         
         if(!_creatorRenderer 
-            || !_creatorRenderer.getOption('interactionOptionForm') 
-            || !$.contains(document, _creatorRenderer.getOption('interactionOptionForm')[0])){
+            || !_creatorRenderer.getOption('bodyElementOptionForm') 
+            || !$.contains(document, _creatorRenderer.getOption('bodyElementOptionForm')[0])){
             
             _creatorRenderer = new Renderer({
                 baseUrl : '',

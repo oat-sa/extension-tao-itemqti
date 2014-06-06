@@ -54,7 +54,7 @@ define([
     };
 
     ImgStateActive.prototype.initForm = function(){
-
+        
         var _widget = this.widget,
             $img = _widget.$original,
             $form = _widget.$form,
@@ -83,7 +83,7 @@ define([
         //init data change callbacks
         formElement.initDataBinding($form, img, {
             src : function(img, value){
-
+                
                 img.attr('src', value);
 
                 if(!value.match(/^http/i)){
