@@ -122,7 +122,7 @@ define([
 
         //hide popups by clicking the paper 
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
-            $('.graphic-mapping-editor', $container).hide();
+            $('.-mapping-editor', $container).hide();
         });
     }
 

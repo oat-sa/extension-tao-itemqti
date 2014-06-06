@@ -77,7 +77,7 @@ define([
             return;
         }
         
-        $('.graphic-mapping-editor').remove();
+        $('.mapping-editor').remove();
         widget.$container.off('responseChange.qti-widget.mapstate');
 
         //destroy the common renderer
@@ -151,7 +151,7 @@ define([
             });
         }
         
-        $('.graphic-mapping-editor').remove();
+        $('.mapping-editor').remove();
 
         var $popup = pairScorePopup($container);
         var $form = $(mappingFormTpl({

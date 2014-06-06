@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
@@ -19,7 +20,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -97,7 +98,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+/* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -1467,7 +1468,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     /* line 1000, ../scss/item-creator.scss */
     .tao-scope .item-editor-item .inner-wrapper {
       position: relative; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_choice.scss */
@@ -1487,7 +1488,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         left: 6px;
         position: absolute;
         top: 5px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_order.scss */
@@ -1506,7 +1507,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     /* line 20, ../scss/qtiCreator/_order.scss */
     .tao-scope .item-editor-item [data-qti-class="orderInteraction"].edit-question .arrow-bar {
       visibility: hidden; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 5, ../scss/qtiCreator/_associate.scss */
@@ -1551,7 +1552,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 label {
           position: relative;
           top: 5px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 4, ../scss/qtiCreator/_match.scss */
@@ -1610,7 +1611,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
           left: 6px;
           position: absolute;
           top: 5px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_inline-choice.scss */
@@ -1711,7 +1712,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope .item-editor-item .widget-response .qti-inlineChoiceInteraction {
       padding: 0;
       margin-bottom: 10px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_text-entry.scss */
@@ -1796,55 +1797,59 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       /* line 100, ../scss/qtiCreator/_text-entry.scss */
       .tao-scope .item-editor-item .qti-textEntryInteraction input.score {
         width: 30px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
-    /* line 3, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+    /* line 3, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
     .tao-scope .item-editor-item .response-pair-editor {
       min-width: 350px;
       background: rgba(243, 241, 239, 0.85);
       padding: 20px 30px 20px 30px; }
-      /* line 8, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 8, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .title {
         position: relative;
         top: -5px;
         left: -10px; }
-      /* line 14, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 14, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .indicator {
         color: #3e7da7;
         position: relative;
         top: 10px;
         font-size: 13px;
         font-size: 1.3rem; }
-      /* line 23, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 23, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .col-2 {
         text-align: center; }
-      /* line 27, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 27, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .icon-bin {
         position: relative;
         top: 7px;
         cursor: pointer; }
-      /* line 33, /home/sam/NetBeansProjects/TAO/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
+      /* line 33, /home/bertrand/dev/projects/tao26/taoQtiItem/views/scss/qtiCreator/_response-pairs.scss */
       .tao-scope .item-editor-item .response-pair-editor .cb {
         top: 5px; }
-    /* line 5, ../scss/qtiCreator/_gap-match.scss */
+    /* line 6, ../scss/qtiCreator/_gap-match.scss */
     .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container {
       position: relative; }
-      /* line 7, ../scss/qtiCreator/_gap-match.scss */
+      /* line 9, ../scss/qtiCreator/_gap-match.scss */
       .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container [data-html-editable] {
         min-height: 3rem; }
-      /* line 10, ../scss/qtiCreator/_gap-match.scss */
+      /* line 12, ../scss/qtiCreator/_gap-match.scss */
       .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container .mini-tlb[data-role=create-gap-tlb] {
         postion: absolute;
         right: -30px; }
-      /* line 14, ../scss/qtiCreator/_gap-match.scss */
+      /* line 16, ../scss/qtiCreator/_gap-match.scss */
       .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container #selection-wrapper {
         z-index: 1000;
         position: relative; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 22, ../scss/qtiCreator/_gap-match.scss */
+    .tao-scope .item-editor-item .qti-gapMatchInteraction .gap-info {
+      color: #0e5d91;
+      font-style: italic; }
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 5, ../scss/qtiCreator/_hottext.scss */
@@ -1867,14 +1872,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container #selection-wrapper {
         z-index: 1000;
         position: relative; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_rubric-block.scss */
     .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb {
       top: 7px;
       right: 7px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_math.scss */
@@ -1884,11 +1889,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       width: 28px;
       padding: 2px;
       margin: 0; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
-    /* line 3, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-    .tao-scope .item-editor-item .graphic-mapping-editor {
+    /* line 3, ../scss/qtiCreator/_mapping-editor.scss */
+    .tao-scope .item-editor-item .mapping-editor {
       position: absolute;
       left: 15px;
       top: 15px;
@@ -1899,17 +1904,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
       z-index: 300;
       min-width: 150px; }
-      /* line 14, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .closer {
+      /* line 14, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .closer {
         position: absolute;
         top: 10px;
         right: 8px; }
-      /* line 20, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor h2 {
+      /* line 20, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor h2 {
         font-size: 15px;
         font-size: 1.5rem; }
-      /* line 23, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .arrow {
+      /* line 23, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .arrow {
         position: absolute;
         z-index: 301;
         -webkit-transform: rotate(45deg);
@@ -1925,32 +1930,32 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
         -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
         box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
-      /* line 40, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .arrow-cover {
+      /* line 40, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .arrow-cover {
         background: #f3f1ef;
         position: absolute;
         z-index: 302; }
-      /* line 46, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-left-top .arrow {
+      /* line 46, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow {
         left: -6px;
         top: 10px; }
-      /* line 50, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-left-top .arrow-cover {
+      /* line 50, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow-cover {
         left: 0;
         top: 2px;
         width: 15px;
         height: 30px; }
-      /* line 58, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-top-left .arrow {
+      /* line 58, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow {
         top: -6px; }
-      /* line 61, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor.arrow-top-left .arrow-cover {
+      /* line 61, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow-cover {
         left: 6px;
         top: 0;
         width: 30px;
         height: 15px; }
-      /* line 68, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .score {
+      /* line 68, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .score {
         border: 1px solid #dddddd;
         border-radius: 2px;
         -webkit-border-radius: 2px;
@@ -1959,17 +1964,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         max-width: 60px;
         position: relative;
         top: -5px; }
-      /* line 76, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .grid-row {
+      /* line 76, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .grid-row {
         line-height: 1.6;
         padding-top: 8px; }
-      /* line 81, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .tooltipstered {
+      /* line 81, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .tooltipstered {
         text-align: right; }
-      /* line 84, ../scss/qtiCreator/_graphic-mapping-editor.scss */
-      .tao-scope .item-editor-item .graphic-mapping-editor .icon-checkbox {
+      /* line 84, ../scss/qtiCreator/_mapping-editor.scss */
+      .tao-scope .item-editor-item .mapping-editor .icon-checkbox {
         margin-left: 20px; }
-    /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+    /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     /* line 3, ../scss/qtiCreator/_grid-editor.scss */
@@ -2031,7 +2036,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       width: 100%;
       height: 100%;
       z-index: 999; }
-  /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
+  /* line 89, /home/bertrand/dev/projects/tao26/tao/views/scss/inc/_tao-icon-vars.scss */
   .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
     content: "\1cb"; }
   /* line 4, ../scss/qtiCreator/_modal-feedback.scss */

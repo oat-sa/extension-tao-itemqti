@@ -139,7 +139,7 @@ define([
             });
 
             shape.click(function(){
-                $('.graphic-mapping-editor', $container).hide();
+                $('.mapping-editor', $container).hide();
                 $popup.show();
             });
 
@@ -151,7 +151,7 @@ define([
         tooltipster($container);
         
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
-            $('.graphic-mapping-editor', $container).hide();
+            $('.mapping-editor', $container).hide();
         });
 
         //update the elements on attribute changes

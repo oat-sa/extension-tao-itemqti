@@ -12,7 +12,7 @@ define([
      * Global variable to count number of choice usages:
      * @type type
      */
-    var _choiceUsages = {}
+    var _choiceUsages = {};
 
     var setChoice = function(interaction, $choice, $target){
 
@@ -29,12 +29,14 @@ define([
             .html($choice.html())
             .addClass('filled');
 
-        if(!interaction.responseMappingMode
-            && choice.attr('matchMax')
-            && _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+        if(!interaction.responseMappingMode && 
+            choice.attr('matchMax') && 
+            _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
             $choice.addClass('deactivated');
         }
+        
+        Helper.triggerResponseChangeEvent(interaction);
     };
 
     var unsetChoice = function(interaction, $choice, animate){
@@ -112,7 +114,7 @@ define([
             _resetSelection();
         });
 
-        $choiceArea.on('mousedown', '>li', function(e){
+        $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
 
             e.stopPropagation();
 
@@ -142,7 +144,7 @@ define([
 
         });
 
-        $flowContainer.on('mousedown', '.gapmatch-content', function(e){
+        $flowContainer.on('mousedown.commonRenderer', '.gapmatch-content', function(e){
 
             e.stopPropagation();
 
@@ -183,7 +185,7 @@ define([
 
                 _resetSelection();
 
-            }else if($(this).data('serial')){
+            }else if($(this).data('serial') && $(this).hasClass('filled')){
 
                 //selecting a choice in editing mode:
                 var serial = $(this).data('serial');
@@ -212,7 +214,7 @@ define([
         });
 
         //run eyecatcher:
-        eyecatcher();
+        //eyecatcher();
     };
 
     var resetResponse = function(interaction){
@@ -225,7 +227,7 @@ define([
         
         _.each(pairs, function(pair){
             if(pair){
-                setChoice(interaction, getChoice(interaction, pair[0]), getGap(interaction, pair[1]));
+                setChoice(interaction, getChoice(interaction, pair[0]), getGap(interaction, pair[1]).find('.gapmatch-content'));
             }
         });
     };
@@ -243,7 +245,7 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-
+        resetResponse(interaction);
         _setPairs(interaction, pciResponse.unserialize(response, interaction));
     };
 
@@ -288,11 +290,13 @@ define([
         var $container = Helper.getContainer(interaction);
 
         //restore selected choices:
-        $container.find('.gapmatch-content .active').mousedown();
+        $container.find('.gapmatch-content .active').trigger('mousedown.commonRenderer');
 
         //remove event
         $(document).off('.commonRenderer');
-        $container.find('.choice-area, .gapmatch-content').andSelf().off('.commonRenderer');
+        $container.off('.commonRenderer');
+        $container.find('.choice-area').off('.commonRenderer');
+        $container.find('.qti-flow-container').off('.commonRenderer');
 
         //restore response
         resetResponse(interaction);

@@ -23,7 +23,7 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
         var _this = this;
 
         //follow interaction state change
-        this.afterStateInit(function(e, element, state){
+        this.beforeStateInit(function(e, element, state){
             
             if(element.is('interaction')
                 && element.getSerial() === _this.interaction.getSerial()

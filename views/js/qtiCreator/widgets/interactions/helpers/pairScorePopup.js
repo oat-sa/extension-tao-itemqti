@@ -14,7 +14,7 @@ define([
      * @returns {jQueryElement} the popup
      */
     return function createPairPopup($container){
-        var $element    = $('<div class="graphic-mapping-editor arrow-top-left"></div>'); 
+        var $element    = $('<div class="mapping-editor arrow-top-left"></div>'); 
         var offset      = $container.offset();
         var width       = $container.innerWidth();
         var height      = $container.innerHeight();

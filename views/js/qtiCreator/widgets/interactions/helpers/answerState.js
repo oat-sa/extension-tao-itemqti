@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule'
-], function(_, responseHelper, formElement, responseFormTpl, modalFeedbackRule){
+], function($, _, responseHelper, formElement, responseFormTpl, modalFeedbackRule){
 
     var _saveCallbacks = {
         mappingAttr : function(response, value, key){
@@ -76,8 +77,7 @@ define([
                 response = interaction.getResponseDeclaration(),
                 template = responseHelper.getTemplateNameFromUri(response.template),
                 editMapping = (_.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0),
-                defineCorrect = answerStateHelper.defineCorrect(response),
-                $correctWidgets = $();
+                defineCorrect = answerStateHelper.defineCorrect(response);
 
             if(!template){
                 if(rp.processingType === 'custom'){
@@ -103,9 +103,7 @@ define([
 
             var _toggleCorrectWidgets = function(show){
 
-                if(!$correctWidgets.length){
-                    $correctWidgets = widget.$container.find('[data-edit=correct]');
-                }
+                var $correctWidgets = widget.$container.find('[data-edit=correct]');
 
                 if(show){
                     $correctWidgets.show();
@@ -131,7 +129,7 @@ define([
                     rp.setProcessingType('templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
-                    answerStateHelper.initResponseForm(widget)
+                    answerStateHelper.initResponseForm(widget);
                 },
                 defineCorrect : function(response, value){
                 
@@ -182,7 +180,7 @@ define([
             case 'sliderInteraction':
                 delete templates.MAP_RESPONSE_POINT;
                 delete templates.MAP_RESPONSE;
-                break
+                break;
             default:
                 delete templates.MAP_RESPONSE_POINT;
         }

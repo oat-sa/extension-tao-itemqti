@@ -17,7 +17,7 @@ define([
         var wfactor;
         var margin      = 10;
         var $shape      = $(shape.node);
-        var $element    = $('<div class="graphic-mapping-editor arrow-left-top"></div>'); 
+        var $element    = $('<div class="mapping-editor arrow-left-top"></div>'); 
         var boxOffset   = $container.offset();
         var offset      = $shape.offset();
         var bbox        = shape.getBBox();

@@ -1,4 +1,4 @@
-    <a class="closer" href="#" data-close=":parent .graphic-mapping-editor"></a>
+    <a class="closer" href="#" data-close=":parent .mapping-editor"></a>
     <div class="form-container">
         <h2>{{identifier}}</h2>
 

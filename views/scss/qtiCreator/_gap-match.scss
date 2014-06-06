@@ -2,18 +2,25 @@
 @import 'qtiCreator/response-pairs';
 
 .qti-gapMatchInteraction {
-    .qti-flow-container{
-        position:relative;
+
+    .qti-flow-container {
+
+        position: relative;
         [data-html-editable]{
-            min-height:3rem;
+            min-height: 3rem;
         }
         .mini-tlb[data-role=create-gap-tlb]{
-            postion:absolute;
-            right:-30px;
+            postion: absolute;
+            right: -30px;
         }
         #selection-wrapper{
-            z-index:1000;
-            position:relative;
+            z-index: 1000;
+            position: relative;
         }
+    }
+
+    .gap-info {
+        color: $info;
+        font-style: italic;
     }
 }
