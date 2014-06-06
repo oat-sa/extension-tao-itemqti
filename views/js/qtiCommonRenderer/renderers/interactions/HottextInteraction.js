@@ -17,7 +17,7 @@ define([
 
         var setChoice = function($choice){
             var $inupt = $choice.find('input');
-            if($inupt.prop('checked')){
+            if($inupt.prop('checked') || $inupt.hasClass('disabled')){
                 $inupt.prop('checked', false);
             }else{
                 $inupt.prop('checked', true);
@@ -33,7 +33,7 @@ define([
 
         Helper.getContainer(interaction).find('input').on('click', function(e){
             Helper.validateInstructions(interaction, {choice : $(this).parents('.hottext')});
-            e.stopPopagation();
+            e.stopPropagation();
         });
     };
 

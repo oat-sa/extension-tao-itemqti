@@ -1,27 +1,133 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
+    'jquery',
+    'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/ResponseWidget',
-    'lodash'
-], function(stateFactory, Map, responseWidget, _){
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse' 
+], function($, _, __, stateFactory, Map, HottextInteraction, answerStateHelper, helper, formElement, PciResponse){
 
-    var ChoiceInteractionStateMap = stateFactory.create(Map, function(){
+    /**
+     * Initialize the state.
+     */
+    function initMapState(){
+        var widget = this.widget;
+        var interaction = widget.element;
+        var response = interaction.getResponseDeclaration();
+        var corrects  = _.values(response.getCorrect());
+        
+        //really need to destroy before ? 
+        HottextInteraction.destroy(interaction);
+        
+        //add a specific instruction
+        helper.appendInstruction(interaction, __('Please enter the score for the given hottexts.'));
+        
+        //set the current mapping mode, needed by the common renderer
+        interaction.responseMappingMode = true;
+ 
+        //must be done prior to the render to override clicks        
+        createScoreForm(interaction, widget.$container);
 
-        var _widget = this.widget,
-            interaction = _widget.element,
-            response = interaction.getResponseDeclaration();
+        //use the common Renderer
+        HottextInteraction.render.call(interaction.getRenderer(), interaction);
 
-        //init response widget in responseMapping mode:
-        responseWidget.create(_widget, true);
+        //each response change leads to an update of the scoring form
+        widget.$container.on('responseChange.qti-widget', function(e, data){
+            var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            if(data && data.response &&  data.response[type]){
+                response.setCorrect(data.response[type].identifier);
+            }
+        });
 
-        //finally, apply defined correct response and response mapping:
-        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
+       widget.on('metaChange', function(meta){
+            if(meta.key === 'defineCorrect'){
+                
+                toggleCorrectState(widget.$container, meta.value);
+                if(meta.value === false){
+                    response.setCorrect([]);
+                }
+            }
+        });
+        toggleCorrectState(widget.$container, answerStateHelper.defineCorrect(response));
+    }
 
-    }, function(){
+    /**
+     * Exit the map state
+     */
+    function exitMapState(){
+        var widget = this.widget;
+        var interaction = widget.element;
+        
+        widget.$container.off('responseChange.qti-widget');
 
-        responseWidget.destroy(this.widget);
+        widget.$container.off('metaChange');
 
-    });
+        //destroy the common renderer
+        helper.removeInstructions(interaction);
+        HottextInteraction.destroy(interaction); 
+    }
 
-    return ChoiceInteractionStateMap;
+    function toggleCorrectState($container, enable){
+        if(enable){
+            $('.hottext-checkmark > input', $container)
+                .removeProp('disabled') 
+                .removeClass('disabled');
+        } else {
+            $('.hottext-checkmark > input', $container)
+                .prop('disabled', true)
+                .prop('checked', false)
+                .addClass('disabled');
+        }
+    }
+
+    function createScoreForm(interaction, $container){
+        var callbacks = {};
+        var response = interaction.getResponseDeclaration();
+        var mapEntries = response.getMapEntries();
+
+        //do not trigger the responseChange in the score field
+        $('.hottext', $container).on('click', function(e){
+            if($(e.target).hasClass('score') || answerStateHelper.defineCorrect(response) === false){
+                e.preventDefault();
+                e.stopPropagation();
+            } 
+        });
+
+        _.forEach(interaction.getChoices(), function(choice){
+            var $score;
+            var id = choice.serial + '-score';
+            var $hottext = $('[data-serial="' + choice.serial + '"]', $container);
+            if($hottext.length){
+    
+                $score = $("<input type='text' name='" + id + "' class='score' title='" + __('Score value') + "' data-validate='$numeric' data-validate-option='$allowEmpty; $event(type=keyup)' />"); 
+                $score.val(mapEntries[choice.id()] !== undefined ? mapEntries[choice.id()] : response.mappingAttributes.defaultValue);                
+                $hottext.append($score);
+                
+
+                callbacks[id] = function(response, value){
+                    if(value === ''){
+                        response.removeMapEntry(choice.id());
+                    } else {
+                        response.setMapEntry(choice.id(), value, true);
+                    }
+                };
+            }
+        });
+        formElement.initDataBinding($container, response, callbacks);
+    }
+
+
+    /**
+     * The map answer state for the HottextInteraction
+     * @extends taoQtiItem/qtiCreator/widgets/states/Map
+     * @exports taoQtiItem/qtiCreator/widgets/interactions/hottextInteraction/states/Map
+     */
+    return  stateFactory.create(Map, initMapState, exitMapState);
 });

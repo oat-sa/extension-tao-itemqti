@@ -28,7 +28,7 @@ define([
         GapMatchInteraction.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please fill the gap with the images below, then edit the score for each gap/image pair.'));
+        helper.appendInstruction(interaction, __('Please fill the gap with the texts below, then edit the score for each pair.'));
         
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
