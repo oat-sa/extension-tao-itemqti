@@ -39,7 +39,7 @@ define([
             
                 newHottextWidget.element.body(text);
                 newHottextWidget.$container.find('.hottext-content').html(text);//add this manually the first time
-                newHottextWidget.changeState('active');
+                newHottextWidget.changeState('choice');
             }
         };
     };

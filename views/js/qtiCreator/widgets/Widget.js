@@ -101,6 +101,10 @@ define([
                 superStateName,
                 currentState = this.getCurrentState();
             
+            if(stateName === 'active' && this.element.qtiClass === 'hottext'){
+                debugger;
+            }
+            
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName];
             }else{

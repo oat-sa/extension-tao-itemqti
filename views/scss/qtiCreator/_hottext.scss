@@ -1,6 +1,14 @@
 @import "inc/bootstrap";
 
 .qti-hottextInteraction {
+    .qti-hottext{
+        .mini-tlb{
+            display:inline-block;
+            postion:absolute;
+            right:-30px;
+            z-index:1000;
+        }
+    }
     .qti-flow-container{
         position:relative;
         [data-html-editable]{

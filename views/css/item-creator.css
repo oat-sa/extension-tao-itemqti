@@ -1847,17 +1847,23 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     /* line 89, /home/sam/NetBeansProjects/TAO/tao/views/scss/inc/_tao-icon-vars.scss */
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
-    /* line 4, ../scss/qtiCreator/_hottext.scss */
+    /* line 5, ../scss/qtiCreator/_hottext.scss */
+    .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb {
+      display: inline-block;
+      postion: absolute;
+      right: -30px;
+      z-index: 1000; }
+    /* line 12, ../scss/qtiCreator/_hottext.scss */
     .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container {
       position: relative; }
-      /* line 6, ../scss/qtiCreator/_hottext.scss */
+      /* line 14, ../scss/qtiCreator/_hottext.scss */
       .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container [data-html-editable] {
         min-height: 3rem; }
-      /* line 9, ../scss/qtiCreator/_hottext.scss */
+      /* line 17, ../scss/qtiCreator/_hottext.scss */
       .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container .mini-tlb[data-role=create-hottext-tlb] {
         postion: absolute;
         right: -30px; }
-      /* line 13, ../scss/qtiCreator/_hottext.scss */
+      /* line 21, ../scss/qtiCreator/_hottext.scss */
       .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container #selection-wrapper {
         z-index: 1000;
         position: relative; }

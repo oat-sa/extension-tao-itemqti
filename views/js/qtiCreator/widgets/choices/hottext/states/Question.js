@@ -11,20 +11,25 @@ define([
 
         var _widget = this.widget,
             $container = _widget.$container,
-            gap = _widget.element,
+            hottext = _widget.element,
             $toolbar = $container.find('.mini-tlb').not('[data-html-editable] *');
         
         if(!$toolbar.length){
 
             //add mini toolbars
             $toolbar = $(gapTpl({
-                serial : gap.getSerial(),
+                serial : hottext.getSerial(),
                 state : 'question'
             }));
 
             $container.append($toolbar);
-
-            formElement.initDelete(_widget);
+            
+            //init delete:
+            $toolbar.find('[data-role=restore]').on('mousedown.question', function(){
+                $container.replaceWith(hottext.body());
+                _widget.destroy();
+                hottext.remove();
+            });
         }
 
         return $toolbar;

@@ -43,6 +43,7 @@ define([
 
             //create editor
             htmlEditor.buildEditor($editableContainer, {
+                shieldInnerContent : false,
                 change : gridContentHelper.getChangeCallback(container),
                 data : {
                     container : container,

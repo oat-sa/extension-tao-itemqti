@@ -13,7 +13,8 @@ define([
     CKEditor.disableAutoInline = true;
 
     var _defaults = {
-        placeholder : __('some text ...')
+        placeholder : __('some text ...'),
+        shieldInnerContent : true
     };
 
     var _buildEditor = function($editable, $editableContainer, options){
@@ -149,8 +150,11 @@ define([
                         $editable.data('qti-container', options.data.container);
 
                         //init editable
-                        widgets = _rebuildWidgets(options.data.container, $editable);
-                        _shieldInnerContent($editable, options.data.widget);
+                        widgets = _rebuildWidgets(options.data.container, $editable, {restoreState : true});
+                        
+                        if(options.shieldInnerContent){
+                            _shieldInnerContent($editable, options.data.widget);
+                        }
                     }
 
                     _focus(e.editor);
