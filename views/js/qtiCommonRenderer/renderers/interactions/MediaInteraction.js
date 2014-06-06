@@ -97,6 +97,10 @@ define([
                 }
 
                 
+                mediaElement.addEventListener('loadedmetadata', function() {
+                    
+                });
+                
                 
                 mediaElement.addEventListener('ended', function(event) {
                     // this event does not get fired on Chrome under Linux, this is fixed in Chrome version 35 which at this moment is in beta,
@@ -110,6 +114,14 @@ define([
                         } else if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
                             var PlayButtonPlaceholder = $(playerDom).closest('div.mejs-container').find('.mejs-layers');
                             PlayButtonPlaceholder.append(bigPlayButtonLayerDetached);
+                            
+                            // fix problem with Chrome not being able to loop videos served by TAO's PHP
+                            // !!!!! this fix works, BUT IT CAUSES THE MEDIA FILE TO BE RELOADED, WHICH WILL CAUSE MORE TRAFFIC OVER THE NETWORK
+                            // THE FOLLOWING THREE LINES SHOULD BE REMOVED ONCE THE PHP METHOD SERVING MEDIA FILES IS FIXED TO SERVE PARTIALS REQUESTS
+                            if (mediaIsServedByTAOsPHP && mediaOptions.loop) {
+                                mediaElement.load();
+                            }
+                            
                         } else if (mediaType === 'video/youtube' || mediaElement.pluginType==='flash') {
                             flashOverlayDiv.remove();
                         }
@@ -168,24 +180,29 @@ define([
         }
         
         var mediaFullUrl = media.data;
+        var mediaIsServedByTAOsPHP = false;
         
         if (mediaType === 'video' || mediaType === 'audio') {
             mediaFullUrl = media.data.trim();
             var mediaDataLower = mediaFullUrl.toLowerCase();
             if ( mediaDataLower.indexOf('http://www.') !== 0 && mediaDataLower.indexOf('http://') !== 0 && mediaDataLower.indexOf('www.') !== 0 ) {
                 mediaFullUrl = baseUrl+mediaFullUrl;
+                mediaIsServedByTAOsPHP = true;
             }
         }
         
+        var meTagTypeAddition = mediaIsServedByTAOsPHP?' type="'+ mimeType +'" ':' ';
+        
+
         var $meTag;
         if (mediaType === 'video') {
-            $meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" type="'+ mimeType +'"></video>').appendTo(meHtmlContainer);
+            $meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" '+meTagTypeAddition+' preload="metadata"></video>').appendTo(meHtmlContainer);
         } else if (mediaType === 'video/youtube') {
             $meTag = $('<video width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" preload="none"> '+
                 ' <source type="video/youtube" src="'+ mediaFullUrl +'" /> ' +
                 '</video>').appendTo(meHtmlContainer);
         } else if (mediaType === 'audio') {
-            $meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px"  type="'+ mimeType +'"></audio>').appendTo(meHtmlContainer);
+            $meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px" '+meTagTypeAddition+' preload="metadata"></audio>').appendTo(meHtmlContainer);
         }
         
         $meTag.on('contextmenu', function(event) {
