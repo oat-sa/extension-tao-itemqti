@@ -57,6 +57,7 @@
     }
 }
 
+
 .tao-scope {
     // the icon creator specific part
     @import "inc/widgets";
@@ -671,13 +672,10 @@
         }
     }
 
-
     #item-editor-panel {
         margin: 0 180px;
-        //overflow: auto;
-        //&.dragging {
-            overflow: visible;
-        //}
+        overflow-x: auto;
+        overflow-y: visible;
         padding: 20px;
         border: 1px white solid;
         border-bottom: none;
@@ -716,18 +714,28 @@
         display: inline-block;
         line-height: 20px;
         cursor: default;
+    }
+
+    .widget-inline,
+    .dummy-element,
+    .inline-text-wrapper {
+        position: relative;
         [class^="icon-"], [class*=" icon-"] {
             display: inline-block;
             text-align:center;
             width: 100%;
-            text-shadow: 1px 1px 0px #ccc
+            position: relative;
+            top: 2px;
+            text-shadow: 1px 1px 0px #ccc;
         }
         & ~ .mini-tlb {
+            position: absolute !important;
             top: -2px !important;
             right: -32px !important;
             .tlb-button {
                 margin:0 !important;
                 padding: 0 !important;
+                height: 18px !important;
             }
         }
     }

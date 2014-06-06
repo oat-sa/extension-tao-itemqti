@@ -17,14 +17,14 @@
                     <div class="col-6 desktop-only device-type-and-orientation">
                         <select class="desktop-device-selector preview-device-selector" data-target="desktop">
                             {{#each desktopDevices}}
-                            <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+                            <option value="{{value}}" data-value="{{dataValue}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
                             {{/each}}
                         </select>
                     </div>
                     <div class="col-6 mobile-only device-type-and-orientation">
                         <select class="mobile-device-selector preview-device-selector" data-target="mobile">
                             {{#each mobileDevices}}
-                            <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+                            <option value="{{value}}" data-value="{{dataValue}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
                             {{/each}}
                         </select>
                         <select tabindex="-1" class="mobile-orientation-selector orientation-selector"
@@ -34,10 +34,15 @@
                         </select>
                     </div>
                     <div class="col-2">
-                            <span class="btn-info small preview-closer rgt">
-                                {{__ 'Close'}}
-                                <span class="icon-close r"></span>
-                            </span>
+                        <!--label>
+                            <input type="checkbox"/>
+                            <span class="icon-checkbox"></span>
+                            {{__ 'Scale '}}
+                        </label-->
+                        <span class="btn-info small preview-closer rgt">
+                            {{__ 'Close'}}
+                            <span class="icon-close r"></span>
+                        </span>
                     </div>
                 </div>
                 <div class="preview-message-box">

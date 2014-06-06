@@ -6,8 +6,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCreator/helper/adaptSize',
     'eyecatcher'
-], function(_, __, $, tpl, pairTpl, Helper, pciResponse, eyecatcher){
+], function(_, __, $, tpl, pairTpl, Helper, pciResponse, adaptSize, eyecatcher){
 
     /**
      * Global variable to count number of choice usages:
@@ -42,6 +43,8 @@ define([
 
                 $choice.addClass('deactivated');
             }
+
+
         };
 
         if($target.siblings('div').hasClass('filled')){
@@ -189,12 +192,20 @@ define([
             $resultArea = $container.find('.result-area'),
             $activeChoice = null;
 
+
         var _getChoice = function(serial){
             return $choiceArea.find('[data-serial=' + serial + ']');
         };
 
+        /**
+         * @todo Tried to store $resultArea.find[...] in a variable but this fails
+         * @param $choice
+         * @param $target
+         * @private
+         */
         var _setChoice = function($choice, $target){
             setChoice(interaction, $choice, $target);
+            adaptSize.height($resultArea.find('.target').add($choiceArea.find('>li')));
         };
 
         var _resetSelection = function(){
@@ -208,6 +219,7 @@ define([
 
         var _unsetChoice = function($choice){
             unsetChoice(interaction, $choice, true);
+            adaptSize.height($resultArea.find('.target').add($choiceArea.find('>li')));
         };
 
         var _isInsertionMode = function(){

@@ -68,7 +68,7 @@ define(['jquery'], function($){
                     return;
                 }
 
-                var $wrapper = $('<span>', {id : 'selection-wrapper'});
+                var $wrapper = $('<span>', {id : 'selection-wrapper', 'class' : 'inline-text-wrapper'});
                 if(wrapSelection($wrapper[0])){
                     var wrappedText = $wrapper.text().trim();
                     $editable.trigger('wrapped', [$wrapper, wrappedText]);

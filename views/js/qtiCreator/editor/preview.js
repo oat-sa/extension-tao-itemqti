@@ -8,10 +8,11 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'helpers',
     'iframeResizer',
+    'taoQtiItem/qtiCreator/model/helper/event',
     'ui/modal',
     'select2',
     'jquery.cookie'
-], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer) {
+], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer, event) {
     'use strict'
 
     var overlay,
@@ -70,11 +71,13 @@ define([
             };
 
             options.push({
-                value: [value.width, value.height].join(','),
+                value: value.label,
                 label: value.label,
+                dataValue : [value.width, value.height].join(','),
                 selected: previewType === value.label
             });
         });
+
 
         return options;
     };
@@ -203,8 +206,9 @@ define([
 
         previewDeviceSelectors.on('change', function() {
             var elem = $(this),
+                option = this.options[this.selectedIndex],
                 type = elem.data('target'),
-                val = elem.val().split(','),
+                val = $(option).data('value').split(','),
                 sizeSettings,
                 i = val.length,
                 container = overlay.find('.' + type + '-preview-container'),
