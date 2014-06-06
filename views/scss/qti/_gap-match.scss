@@ -11,6 +11,7 @@
         background: $uiClickableDefaultBg;
         @include border-radius();
         position: relative;
+        top: 4px;
         min-width: 60px;
         min-height: 20px;
         display: inline-block;
@@ -19,6 +20,9 @@
         }
         .remove {
             float: right;
+        }
+        &.filled {
+            top: 0 !important;
         }
     }
     .choice-area {

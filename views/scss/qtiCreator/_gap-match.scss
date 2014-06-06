@@ -23,4 +23,12 @@
         color: $info;
         font-style: italic;
     }
+
+    .qti-gap {
+        span.mini-tlb[data-edit] {
+            position: absolute !important;
+            top: -3px !important;
+            right: -28px !important;
+        }
+    }
 }

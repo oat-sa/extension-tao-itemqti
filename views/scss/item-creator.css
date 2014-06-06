@@ -770,10 +770,16 @@ span.dragging {
     line-height: 20px;
     cursor: default; }
   .tao-scope .widget-inline,
+  .tao-scope .qti-hottext,
+  .tao-scope .qti-gap,
   .tao-scope .dummy-element,
   .tao-scope .inline-text-wrapper {
     position: relative; }
     .tao-scope .widget-inline [class^="icon-"], .tao-scope .widget-inline [class*=" icon-"],
+    .tao-scope .qti-hottext [class^="icon-"],
+    .tao-scope .qti-hottext [class*=" icon-"],
+    .tao-scope .qti-gap [class^="icon-"],
+    .tao-scope .qti-gap [class*=" icon-"],
     .tao-scope .dummy-element [class^="icon-"],
     .tao-scope .dummy-element [class*=" icon-"],
     .tao-scope .inline-text-wrapper [class^="icon-"],
@@ -784,18 +790,23 @@ span.dragging {
       position: relative;
       top: 2px;
       text-shadow: 1px 1px 0px #ccc; }
-    .tao-scope .widget-inline ~ .mini-tlb,
-    .tao-scope .dummy-element ~ .mini-tlb,
-    .tao-scope .inline-text-wrapper ~ .mini-tlb {
+    .tao-scope .widget-inline ~ span.mini-tlb[data-edit],
+    .tao-scope .qti-hottext ~ span.mini-tlb[data-edit],
+    .tao-scope .qti-gap ~ span.mini-tlb[data-edit],
+    .tao-scope .dummy-element ~ span.mini-tlb[data-edit],
+    .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] {
       position: absolute !important;
       top: -2px !important;
       right: -32px !important; }
-      .tao-scope .widget-inline ~ .mini-tlb .tlb-button,
-      .tao-scope .dummy-element ~ .mini-tlb .tlb-button,
-      .tao-scope .inline-text-wrapper ~ .mini-tlb .tlb-button {
+      .tao-scope .widget-inline ~ span.mini-tlb[data-edit] .tlb-button,
+      .tao-scope .qti-hottext ~ span.mini-tlb[data-edit] .tlb-button,
+      .tao-scope .qti-gap ~ span.mini-tlb[data-edit] .tlb-button,
+      .tao-scope .dummy-element ~ span.mini-tlb[data-edit] .tlb-button,
+      .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] .tlb-button {
         margin: 0 !important;
         padding: 0 !important;
-        height: 18px !important; }
+        height: 18px !important;
+        width: 24px !important; }
   .tao-scope .item-editor-item {
     border: 1px solid #dddddd;
     border-radius: 2px;
@@ -1303,6 +1314,10 @@ span.dragging {
     .tao-scope .item-editor-item .qti-gapMatchInteraction .gap-info {
       color: #0e5d91;
       font-style: italic; }
+    .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-gap span.mini-tlb[data-edit] {
+      position: absolute !important;
+      top: -3px !important;
+      right: -28px !important; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb {

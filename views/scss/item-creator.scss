@@ -730,6 +730,8 @@ span.dragging{
     }
 
     .widget-inline,
+    .qti-hottext,
+    .qti-gap,
     .dummy-element,
     .inline-text-wrapper {
         position: relative;
@@ -741,7 +743,7 @@ span.dragging{
             top: 2px;
             text-shadow: 1px 1px 0px #ccc;
         }
-        & ~ .mini-tlb {
+        & ~ span.mini-tlb[data-edit] {
             position: absolute !important;
             top: -2px !important;
             right: -32px !important;
@@ -749,11 +751,11 @@ span.dragging{
                 margin:0 !important;
                 padding: 0 !important;
                 height: 18px !important;
+                width: 24px !important;
             }
         }
     }
 
-    
     .item-editor-item {
         @include simple-border();
         -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
