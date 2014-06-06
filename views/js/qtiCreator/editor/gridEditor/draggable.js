@@ -32,7 +32,12 @@ define([
         $el.draggable({
             distance : parseInt(options.distance),
             helper : options.helper,
-            appendTo : $to, //very important ! to enable movable correct positioning
+           // appendTo : $('#item-editor-panel'), // @TODO needs to be set to $to => very important ! to enable movable correct positioning
+            // this will create the issue that elements dragged from the sidebar will be UNDER the sidebar
+            // so far no solution found
+            appendTo : $(document.body), // @TODO needs to be set to $to => very important ! to enable movable correct positioning
+                                         // this will create the issue that elements dragged from the sidebar will be UNDER the sidebar
+                                         // so far no solution found
             opacity : 1,
             scroll : false,
             cursor : 'crosshair',

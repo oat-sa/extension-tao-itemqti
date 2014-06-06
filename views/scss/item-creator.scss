@@ -2,6 +2,19 @@
 @import "inc/farbtastic";
 @import "inc/preview";
 
+// @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
+span.dragging{
+    opacity:0.8 !important;
+    z-index:999999;
+    font-size : 5rem;
+    padding:20px 80px;
+    position:absolute;
+    background: rgba($uiClickableDefaultBg, 1);
+    -webkit-box-shadow: 1px 1px 6px 2px #777;
+    box-shadow: 1px 1px 6px 2px #777;
+}
+
+
 %editHover {
     cursor:pointer;
     border:1px solid whiten($info, .5);

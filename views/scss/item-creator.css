@@ -211,6 +211,16 @@
     -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); }
 
+span.dragging {
+  opacity: 0.8 !important;
+  z-index: 999999;
+  font-size: 5rem;
+  padding: 20px 80px;
+  position: absolute;
+  background: #f3f1ef;
+  -webkit-box-shadow: 1px 1px 6px 2px #777;
+  box-shadow: 1px 1px 6px 2px #777; }
+
 .tao-scope .item-editor-item .hoverable .widget-box.widget-inline.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .tao-scope .item-editor-item .textEntryInteraction-placeholder.hover, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:hover, .tao-scope #modalFeedbacks .widget-inline.hover {
   cursor: pointer;
   border: 1px solid #86aec8; }
@@ -1310,6 +1320,10 @@
       .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container #selection-wrapper {
         z-index: 1000;
         position: relative; }
+    .tao-scope .item-editor-item .qti-hottextInteraction input.score {
+      width: 30px;
+      min-width: 30px;
+      padding: 0 2px; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb {
@@ -1396,15 +1410,6 @@
         margin-left: 20px; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
-    .tao-scope .item-editor-item span.dragging {
-      opacity: 0.8 !important;
-      z-index: 999999;
-      font-size: 5rem;
-      padding: 20px 80px;
-      position: absolute;
-      background: #f3f1ef;
-      -webkit-box-shadow: 1px 1px 6px 2px #777;
-      box-shadow: 1px 1px 6px 2px #777; }
     .tao-scope .item-editor-item .dropping {
       margin-left: -1.42857%;
       margin-right: 1.42857%; }
