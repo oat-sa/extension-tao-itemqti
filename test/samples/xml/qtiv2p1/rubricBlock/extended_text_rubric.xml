@@ -132,9 +132,7 @@
                     <m:annotation encoding="latex">x = {-b \pm \sqrt{b^2-4ac} \over 2a}</m:annotation>
                 </m:semantics>
             </m:math>
-            Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est 
-            eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas
-            assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut 
+            Et harum quidem rerum facilis est et expedita distinctio. 
             <m:math>
                 <m:mrow>
                     <m:mi>E</m:mi>
@@ -145,7 +143,12 @@
                         <m:mn>2</m:mn>
                     </m:msup>
                 </m:mrow>
-            </m:math> officiis debitis aut rerum
+            </m:math> 
+            Nam libero tempore, cum soluta nobis est 
+            eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas
+            assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut 
+            officiis debitis aut rerum
+            <object data="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4"/>
             necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
             Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias 
             consequatur aut perferendis doloribus asperiores repellat.

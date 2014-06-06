@@ -1,8 +1,8 @@
-define(['class', 'mediaElement'], function(Class, MediaElementPlayer){
+define(['jquery' ,'class', 'mediaElement'], function($, Class, MediaElementPlayer){
 
     var QtiObject = Class.extend({
         init : function(obj, context){
-
+            
             this.playCounter = 0;
             this.mediaType = obj.getMediaType();
 
@@ -16,7 +16,7 @@ define(['class', 'mediaElement'], function(Class, MediaElementPlayer){
                     autostart : false,
                     pauseOtherPlayers : false,
                     features : ['playpause', 'current', 'duration', 'progress', 'volume'],
-                    pluginPath : '',//@todo: replace by MediaElementPlayer.pluginPath when refactoring complete
+                    pluginPath : MediaElementPlayer.pluginPath,
                     audioWidth : 300
                 };
 

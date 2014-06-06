@@ -143,7 +143,7 @@ define([
                             options.change.call(this, _htmlEncode(this.getData()));
                         }
                     });
-
+                    
                     if(options.data && options.data.container){
 
                         //store in data-qti-container attribute the editor instance as soon as it is ready
@@ -178,6 +178,9 @@ define([
                 },
                 configLoaded : function(e){
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
+                },
+                afterPaste : function(e){
+                    //@todo : we may add some processing on the editor after paste
                 }
             }
         };

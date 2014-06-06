@@ -22,9 +22,9 @@ define([
         };
 
         var qtiPositionedPlugins = {
-            TaoQtiMedia : {
-                insertAfter : 'SpecialChar'
-            },
+//            TaoQtiMedia : {
+//                insertAfter : 'SpecialChar'
+//            },
             TaoQtiImage : {
                 insertAfter : 'SpecialChar'
             },

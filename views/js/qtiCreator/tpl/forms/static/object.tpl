@@ -1,18 +1,10 @@
 <div class="panel">
     <label for="src">{{__ 'File'}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">{{__ 'The file path to the image.'}}</div>
-    <input type="text" name="src" value="{{src}}" data-validate="$notEmpty; $fileExists(baseUrl={{baseUrl}})"/>
-    <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
+    <div class="tooltip-content">{{__ 'The file path to the media.'}}</div>
+    <input type="text" name="data" value="{{data}}" data-validate="$notEmpty; $fileExists(baseUrl={{baseUrl}})"/>
+    <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select media'}}</button>
 </div>
-
-<div class="panel">
-    <label for="alt">{{__ "Label"}}</label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">{{__ 'The text to be displayed if the image is not available.'}}</div>
-    <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty" placeholder="e.g. House with a garden"/>
-</div>
-
 
 <div data-role="advanced" style="display:none">
     <div class="panel">
