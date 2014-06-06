@@ -39,7 +39,7 @@ define([
 
         this.initGridEditor();
 
-        this.debug();
+//        this.debug();
     };
 
     ItemWidget.buildContainer = function(){
