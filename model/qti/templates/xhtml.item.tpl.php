@@ -42,7 +42,7 @@
         </script>
 
         <?if(tao_helpers_Mode::is('production')):?>
-            <script type="text/javascript" src="qtiLoader.min.js"></script>
+            <script type="text/javascript" src="<?=get_data('taoQtiItem_lib_path')?>qtiLoader.min.js"></script>
         <?else:?>
             <script type="text/javascript" src="<?=get_data('tao_lib_path')?>require.js" data-main="<?=get_data('taoQtiItem_lib_path')?>qtiLoader"></script>
         <?endif;?>
