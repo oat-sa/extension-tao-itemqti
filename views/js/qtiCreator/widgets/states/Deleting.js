@@ -11,7 +11,8 @@ define([
 
         //array to store new col untis
         this.refactoredUnits = [];
-
+        this.updateBody = false;
+        
         //reference to the dom element(s) to be remove on delete
         this.$elementToRemove = this.getElementToRemove();
 
@@ -68,7 +69,7 @@ define([
         var $col = $container.parent();
         var $row = $col.parent('.grid-row');
         if($row.length){
-
+            this.updateBody = true;
             if($row.children().length === 1){
                 //if it is the only col in the row, hide the entire row
                 return $row;
@@ -78,6 +79,7 @@ define([
             }
         }else if($container.hasClass('grid-row')){
             //rubric block:
+            this.updateBody = true;
             return $container;
         }
     };
@@ -135,8 +137,10 @@ define([
     DeletingState.prototype.showWidget = function(){
 
         var $elt = this.$elementToRemove;
-        if($elt.length){
+        if($elt.length && $.contains(document, $elt[0])){
+            
             $elt.show();
+            
             if(_isCol($elt)){
                 //restore the other units:
                 _.each(this.refactoredUnits, function(col){
@@ -170,14 +174,14 @@ define([
     };
 
     DeletingState.prototype.deleteElement = function(){
-
-        var isRow = this.$elementToRemove.hasClass('grid-row');
         
-        this.widget.destroy();//remove what remains of the widget (almost nothing)
+        this.refactoredUnits = [];
+        
         this.$elementToRemove.remove();//remove html from the dom
+        this.widget.destroy();//remove what remains of the widget (almost nothing), call this after element remove
         this.widget.element.remove();//remove from model
         
-        if(isRow){
+        if(this.updateBody){
             //need to update item body
             var item = this.widget.element.getRelatedItem();
             var $item = item.data('widget').$container.find('.qti-itemBody');
