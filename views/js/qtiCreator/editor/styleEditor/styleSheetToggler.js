@@ -4,8 +4,9 @@ define([
     'i18n',
     'helpers',
     'lodash',
+    'taoQtiItem/qtiCreator/model/Stylesheet',
     'ui/resourcemgr'
-], function ($, styleEditor, __, helpers, _) {
+], function ($, styleEditor, __, helpers, _, Stylesheet) {
     'use strict'
 
     var styleSheetToggler = (function () {
@@ -18,7 +19,7 @@ define([
                 getContext = function (trigger) {
                     trigger = $(trigger);
                     var li = trigger.closest('li'),
-                        stylesheetObj = li.data('stylesheetObj');
+                        stylesheetObj = li.data('stylesheetObj') || new Stylesheet({href : li.data('css-res')});
 
                     return {
                         li: li,
@@ -27,8 +28,8 @@ define([
                         stylesheetObj: stylesheetObj,
                         cssUri: stylesheetObj.attr('href')
                     }
-
                 };
+
 
 
             /**
