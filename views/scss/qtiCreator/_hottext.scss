@@ -2,6 +2,9 @@
 
 .qti-hottextInteraction {
     .qti-hottext{
+        input[disabled] ~ [class^="icon-"]{
+            cursor:pointer !important;
+        }
         .mini-tlb{
             display:inline-block;
             postion:absolute;
@@ -23,7 +26,7 @@
             position:relative;
         }
     }
-
+    
     input.score {
         width: 30px;
         min-width: 30px;
