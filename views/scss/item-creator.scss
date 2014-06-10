@@ -1048,6 +1048,7 @@ span.dragging{
     [data-html-editable]{
         border:1px solid transparent;
         outline:1px solid transparent !important;
+        min-height: 20px;
         [html-editable-shield]{
             padding:0;
             min-width:0;

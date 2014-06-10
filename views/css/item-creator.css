@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
@@ -369,7 +370,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-button-delete:hover { color: #3e7da7; }
 .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-compared-value { min-width: 35px; width: 35px; }
 .tao-scope .feedbackRules .feedbackRule-add, .tao-scope .feedbackRules .feedbackRule-add-else { display: block; margin-top: 5px; }
-.tao-scope [data-html-editable] { border: 1px solid transparent; outline: 1px solid transparent !important; }
+.tao-scope [data-html-editable] { border: 1px solid transparent; outline: 1px solid transparent !important; min-height: 20px; }
 .tao-scope [data-html-editable] [html-editable-shield] { padding: 0; min-width: 0; margin: 0; }
 .tao-scope .edit-question .qti-interaction [data-html-editable-container]:hover [data-html-editable][contenteditable=true], .tao-scope .qti-modalFeedback.edit-active [data-html-editable-container]:hover [data-html-editable][contenteditable=true] { border: 1px dotted #0e5d91; }
 .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] { margin-right: 0px; }
