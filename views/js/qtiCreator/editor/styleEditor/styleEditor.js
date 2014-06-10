@@ -264,6 +264,13 @@ define([
                 customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
             }
         };
+
+        /**
+         * Remove orphaned stylesheets. These would be present if previously another item has been edited
+         */
+        var removeOrphanedStylesheets = function() {
+            $('link[data-serial]').remove();
+        };
         
         /**
          * retrieve the current item
@@ -290,6 +297,8 @@ define([
                 lang : config.lang,
                 baseUrl : config.baseUrl
             };
+
+            removeOrphanedStylesheets();
             
             // this creates at the same time customStylesheet in case it doesn't exist yet
             addItemStylesheets();
