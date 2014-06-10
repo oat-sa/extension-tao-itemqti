@@ -94,13 +94,16 @@ define([
         resetButton.on('click', reset);
         $(document).on('customcssloaded.styleeditor', function(e, style) {
             var width;
+            // make a proper width change
             if(style[target] && style[target].width) {
                 width = parseInt(style[target].width, 10);
                 input.val(width);
                 slider.val(width);
                 itemResizer.find('[value="slider"]').trigger('click');
-            } else {
-                itemResizer.find('[value="no-slider"]').trigger('click');
+            }
+            // just fill the text field
+            else {
+                input.val($target.width());
             }
         });
     };

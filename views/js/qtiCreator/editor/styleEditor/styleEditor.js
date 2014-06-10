@@ -312,6 +312,7 @@ define([
             stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: href }));
             require(['json!' + stylesheetUri], function(_style) {
 
+
                 // copy style to global style
                 style = _style;
 
@@ -322,6 +323,7 @@ define([
                 currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
 
                 // inform editors about custom sheet
+
                 $(doc).trigger('customcssloaded.styleeditor', [style]);
             });
 

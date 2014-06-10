@@ -63,9 +63,14 @@ define([
         });
 
         // style loaded from style sheet
-        $(document).on('customcssloaded.styleeditor', function() {
-            input.val(parseInt($(bodySelector).css('font-size'), 10));
-            input.trigger('blur');
+        $(document).on('customcssloaded.styleeditor', function(e, style) {
+            if(style[bodySelector] && style[bodySelector]['font-size']) {
+                input.val(parseInt(style[bodySelector]['font-size'], 10));
+                input.trigger('blur');
+            }
+            else {
+                input.val(parseInt($(bodySelector).css('font-size'), 10));
+            }
         });
     };
 
