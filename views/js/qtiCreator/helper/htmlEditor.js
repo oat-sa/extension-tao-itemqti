@@ -129,19 +129,29 @@ define([
             on : {
                 instanceReady : function(e){
 
-                    var widgets = {};
-
-                    //store it in editable elt data attr
-                    $editable.data('editor', e.editor);
-
-                    e.editor.on('change', function(e){
-
-                        _detectWidgetDeletion($editable, widgets, e.editor);
+                    var widgets = {},
+                        editor = e.editor;
+                    
+                    var changed = function(editor){
+                        
+                        _detectWidgetDeletion($editable, widgets, editor);
 
                         //callback:
                         if(_.isFunction(options.change)){
-                            options.change.call(this, _htmlEncode(this.getData()));
+                            options.change.call(editor, _htmlEncode(editor.getData()));
                         }
+                        
+                    };
+                    
+                    //store it in editable elt data attr
+                    $editable.data('editor', editor);
+                    
+                    $editable.on('change', function(){
+                        changed(editor);
+                    });
+                    
+                    editor.on('change', function(){
+                        changed(editor);
                     });
                     
                     if(options.data && options.data.container){
@@ -157,9 +167,9 @@ define([
                         }
                     }
 
-                    _focus(e.editor);
+                    _focus(editor);
 
-                    $editable.trigger('editorready', [e.editor]);
+                    $editable.trigger('editorready', [editor]);
                     $('.qti-item').trigger('toolbarchange');
                 },
                 focus : function(e){

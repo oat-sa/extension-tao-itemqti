@@ -90,7 +90,8 @@ define([
                     value = baseUrl + '/' + value;
                 }
                 $img.attr('src', value);
-
+                $img.trigger('contentChange.qti-widget').change();
+                
                 inlineHelper.togglePlaceholder(_widget);
                 _initSlider(_widget);
                 _initAdvanced(_widget);
