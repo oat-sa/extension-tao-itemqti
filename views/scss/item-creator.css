@@ -1320,6 +1320,8 @@ span.dragging {
       right: -28px !important; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
+    .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext input[disabled] ~ [class^="icon-"] {
+      cursor: pointer !important; }
     .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb {
       display: inline-block;
       postion: absolute;

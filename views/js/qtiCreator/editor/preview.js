@@ -205,14 +205,17 @@ define([
         var previewDeviceSelectors = overlay.find('.preview-device-selector');
 
         previewDeviceSelectors.on('change', function() {
+            var op =                     this.nodeName.toLowerCase() === 'select' ? this.options[this.selectedIndex] : this;
+            console.log(op)
             var elem = $(this),
-                option = this.options[this.selectedIndex],
+                option = this.nodeName.toLowerCase() === 'select' ? this.options[this.selectedIndex] : this,
                 type = elem.data('target'),
                 val = $(option).data('value').split(','),
                 sizeSettings,
                 i = val.length,
                 container = overlay.find('.' + type + '-preview-container'),
                 iframe = overlay.find('.preview-iframe');
+
 
             while (i--) {
                 val[i] = parseFloat(val[i]);
@@ -367,11 +370,12 @@ define([
      */
     var _updateStandardPreviewSize = function(height) {
         var $selector = $('.standard-device-selector'),
-            values = ($selector.val() ? $selector.val().split(',') : '') || [$window.width().toString()];
+            values = ($selector.val() ? $selector.val().split(',') : '') || [$window.width().toString()],
+            valueStr = values.join(',');
 
         values[1] = height || values[1] || '1200';
 
-        $selector.val(values.join(','));
+        $selector.val(valueStr).data('value', valueStr);
     };
 
 
