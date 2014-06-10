@@ -15,6 +15,7 @@ define([
     
     GapWidget.buildContainer = function(){
         this.$container = this.$original.addClass('widget-box');
+        this.$container.attr('contenteditable', false);
     };
     
     return GapWidget;

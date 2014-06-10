@@ -15,6 +15,8 @@ define([
     
     HottextWidget.buildContainer = function(){
         this.$container = this.$original.addClass('widget-box');
+        this.$container.attr('contenteditable', false);
+        this.$original.find('.hottext-checkmark > input').prop('disabled', 'disabled');
     };
     
     return HottextWidget;
