@@ -205,8 +205,6 @@ define([
         var previewDeviceSelectors = overlay.find('.preview-device-selector');
 
         previewDeviceSelectors.on('change', function() {
-            var op =                     this.nodeName.toLowerCase() === 'select' ? this.options[this.selectedIndex] : this;
-            console.log(op)
             var elem = $(this),
                 option = this.nodeName.toLowerCase() === 'select' ? this.options[this.selectedIndex] : this,
                 type = elem.data('target'),
