@@ -5,8 +5,9 @@ define([
     'helpers',
     'lodash',
     'taoQtiItem/qtiCreator/model/Stylesheet',
+    'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'ui/resourcemgr'
-], function ($, styleEditor, __, helpers, _, Stylesheet) {
+], function ($, styleEditor, __, helpers, _, Stylesheet, genericFeedbackPopup) {
     'use strict'
 
     var styleSheetToggler = (function () {
@@ -19,10 +20,12 @@ define([
                 getContext = function (trigger) {
                     trigger = $(trigger);
                     var li = trigger.closest('li'),
-                        stylesheetObj = li.data('stylesheetObj') || new Stylesheet({href : li.data('css-res')});
+                        stylesheetObj = li.data('stylesheetObj') || new Stylesheet({href : li.data('css-res')}),
+                        label = li.find('.style-sheet-label-editor').val();
 
                     return {
                         li: li,
+                        label: label,
                         isCustomCss: !!li.data('custom-css'),
                         isDisabled: li.find('.icon-preview').hasClass('disabled'),
                         stylesheetObj: stylesheetObj,
@@ -59,18 +62,23 @@ define([
                 });
             });
 
+
             /**
-             * Delete existing style sheet resp. custom styles
+             * Confirm to save the item
              */
-            var deleteStylesheet = function (trigger) {
+            var deleteStylesheet = function(trigger) {
                 var context = getContext(trigger),
                     attr = context.isDisabled ? 'disabled-href' : 'href';
+                
+                styleEditor.getItem().removeStyleSheet(context.stylesheetObj);
+                $('link[' + attr + '$="' + context.cssUri + '"]').remove();
+                context.li.remove();
 
-                if (confirm(__('Are you sure you want to delete this stylesheet?\nWarning: This action cannot be undone!'))) {
-                    styleEditor.getItem().remove();
-                    $('link[' + attr + '$="' + context.cssUri + '"]').remove();
-                    context.li.remove();
-                }
+                $('.feedback-info').hide();
+                _createInfoBox({
+                    message: ('Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply.').replace('%s', context.label),
+                    type: 'info'
+                });
             };
 
 
@@ -187,6 +195,26 @@ define([
             });
 
 
+        };
+
+
+        var _createInfoBox = function(data){
+            var $messageBox = $(genericFeedbackPopup(data)),
+                closeTrigger = $messageBox.find('.close-trigger');
+
+            $('body').append($messageBox);
+
+            closeTrigger.on('click', function(){
+                $messageBox.fadeOut(function(){
+                    $(this).remove();
+                });
+            });
+
+            setTimeout(function() {
+                closeTrigger.trigger('click');
+            }, 4523);
+
+            return $messageBox;
         };
 
         return {

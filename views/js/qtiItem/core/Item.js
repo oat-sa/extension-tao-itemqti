@@ -108,6 +108,12 @@ define([
             }
             return this;
         },
+        removeStyleSheet : function(stylesheet){
+            delete this.stylesheets[stylesheet.getSerial()];
+            return this;
+
+
+        },
         setResponseProcessing : function(rp){
             if(Element.isA(rp, 'responseProcessing')){
                 rp.setRelatedItem(this);

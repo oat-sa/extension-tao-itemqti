@@ -335,7 +335,7 @@ use oat\taoQtiItem\helpers\Authoring;
                     </li>
 
                 </ul>
-                <button id="stylesheet-uploader" class="btn-info small block"><?=__('Add your own CSS')?></button>
+                <button id="stylesheet-uploader" class="btn-info small block"><?=__('Add Style Sheet')?></button>
             </div>
         </section>
 
@@ -520,6 +520,7 @@ use oat\taoQtiItem\helpers\Authoring;
 </main>
 <!-- /item panel -->
 </div>
+<!-- preview: item may needed to be saved before -->
 <div class="preview-modal-feedback modal">
     <div class="modal-body clearfix">
         <p><?=__('The item needs to be saved before it can be previewed')?></p>
@@ -529,6 +530,7 @@ use oat\taoQtiItem\helpers\Authoring;
         </div>
     </div>
 </div>
+
 <div id="mediaManager"></div>
 </div>
 

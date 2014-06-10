@@ -52,7 +52,7 @@ define([
             currentItem,
             common = {
                 title: __('Disable this stylesheet temporarily'),
-                deleteTxt: __('Delete this stylesheet'),
+                deleteTxt: __('Remove this stylesheet'),
                 editLabelTxt: __('Edit stylesheet label'),
                 downloadTxt: __('Download this stylesheet'),
                 preparingMessageHtml: __('Preparing CSS, please wait…'),
