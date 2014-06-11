@@ -16,6 +16,7 @@ define([
             this.responses = {};
             this.outcomes = {};
             this.modalFeedbacks = {};
+            this.namespaces = {};
             this.responseProcessing = null;
         },
         getInteractions : function(){
