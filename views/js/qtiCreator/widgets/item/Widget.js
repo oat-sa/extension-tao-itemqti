@@ -48,15 +48,12 @@ define([
     };
 
     ItemWidget.save = function(){
-        
         return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem'),
+            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem')+ '?uri=' + encodeURIComponent(this.itemUri) ,
             type : 'POST',
+            contentType : 'text/xml',
             dataType : 'json',
-            data : {
-                uri : this.itemUri,
-                xml : xmlRenderer.render(this.element)
-            }
+            data : xmlRenderer.render(this.element)
         });
     };
 

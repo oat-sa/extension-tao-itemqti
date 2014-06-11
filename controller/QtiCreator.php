@@ -89,10 +89,10 @@ class QtiCreator extends tao_actions_CommonModule
 
         $returnValue = array('success' => false);
 
-        if($this->hasRequestParameter('uri') && $this->hasRequestParameter('xml')){
-
+        if($this->hasRequestParameter('uri')){
+            
             $uri = urldecode($this->getRequestParameter('uri'));
-            $xml = html_entity_decode(urldecode($this->getRequestParameter('xml')));
+            $xml = file_get_contents('php://input');
             $rdfItem = new core_kernel_classes_Resource($uri);
             $itemService = taoItems_models_classes_ItemsService::singleton();
 
