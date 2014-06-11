@@ -21,11 +21,15 @@ define([
                     trigger = $(trigger);
                     var li = trigger.closest('li'),
                         stylesheetObj = li.data('stylesheetObj') || new Stylesheet({href : li.data('css-res')}),
-                        label = li.find('.style-sheet-label-editor').val();
+                        input = li.find('.style-sheet-label-editor'),
+                        labelBox = input.prev('.file-label'),
+                        label = input.val();
 
                     return {
                         li: li,
+                        input: input,
                         label: label,
+                        labelBox: labelBox,
                         isCustomCss: !!li.data('custom-css'),
                         isDisabled: li.find('.icon-preview').hasClass('disabled'),
                         stylesheetObj: stylesheetObj,
@@ -69,7 +73,7 @@ define([
             var deleteStylesheet = function(trigger) {
                 var context = getContext(trigger),
                     attr = context.isDisabled ? 'disabled-href' : 'href';
-                
+
                 styleEditor.getItem().removeStyleSheet(context.stylesheetObj);
                 $('link[' + attr + '$="' + context.cssUri + '"]').remove();
                 context.li.remove();
@@ -86,10 +90,9 @@ define([
              * Modify stylesheet title (enable)
              */
             var initLabelEditor = function (trigger) {
-                var label = $(trigger),
-                    input = label.next('.style-sheet-label-editor');
-                label.hide();
-                input.show();
+                var context = getContext(trigger);
+                context.labelBox.hide();
+                context.input.show();
             };
 
             /**
@@ -105,10 +108,8 @@ define([
              * Modify stylesheet title (save modification)
              */
             var saveLabel = function (trigger) {
-                var input = $(trigger),
-                    context = getContext(trigger),
-                    label = input.prev('.file-label'),
-                    title = $.trim(input.val());
+                var context = getContext(trigger),
+                    title = $.trim(context.input.val());
 
                 if (!title) {
                     context.stylesheetObj.attr('title', '');
@@ -116,8 +117,8 @@ define([
                 }
 
                 context.stylesheetObj.attr('title', title);
-                input.hide();
-                label.html(title).show();
+                context.input.hide();
+                context.labelBox.html(title).show();
             };
 
             /**
