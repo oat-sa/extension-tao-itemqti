@@ -334,7 +334,9 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .mapping-editor { position: absolute; left: 15px; top: 15px; background: #f2f0ee; padding: 15px 15px 0 15px; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); z-index: 300; min-width: 150px; }
 .tao-scope .item-editor-item .mapping-editor .closer { position: absolute; top: 10px; right: 8px; }
-.tao-scope .item-editor-item .mapping-editor h2 { font-size: 15px; font-size: 1.5rem; }
+.tao-scope .item-editor-item .mapping-editor h2 { font-size: 15px; font-size: 1.5rem; margin-bottom: 0; }
+.tao-scope .item-editor-item .mapping-editor hr { margin: 0; }
+.tao-scope .item-editor-item .mapping-editor .heading { font-weight: bold; }
 .tao-scope .item-editor-item .mapping-editor .arrow { position: absolute; z-index: 301; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -o-transform: rotate(45deg); -ms-transform: rotate(45deg); border: 1px #f3f1ef solid; border-left: none; border-top: none; width: 12px; height: 12px; background: #f3f1ef; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
 .tao-scope .item-editor-item .mapping-editor .arrow-cover { background: #f3f1ef; position: absolute; z-index: 302; }
 .tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow { left: -6px; top: 10px; }

@@ -61,6 +61,11 @@ define([
                     $popup.empty();
                 }
             
+                $container.css({
+                    'overflow': 'visible',
+                    'position': 'relative'
+                });  
+ 
                 if(options){
 
                     //prepare content for the form, using either current map entries or data given in options.
@@ -120,7 +125,7 @@ define([
                 //update the response
                 response.setMapEntry(key, score);
 
-                $('.panel-new-pair', $popup).before(pairTpl(pair));
+                $('.pairs', $popup).append(pairTpl(pair));
 
                 updateFormBindings();
                
@@ -243,7 +248,7 @@ define([
     
                 pairScoringForm.removePair(key);
                 
-                $elt.parents('.panel').next('hr').remove().end().remove();
+                $elt.closest('.grid-row').remove();
            });
         }
 
@@ -334,11 +339,6 @@ define([
             'top'       : height - 30,
             'width'     : width - 100
         }).appendTo($container);
-
-        $container.css({
-            'overflow': 'visible',
-            'position': 'relative'
-        });   
 
         return $element;
     }

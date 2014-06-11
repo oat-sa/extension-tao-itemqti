@@ -19,6 +19,13 @@
 
     h2 {
         @include font-size(15);
+        margin-bottom: 0;
+    }
+    hr {
+        margin: 0;
+    }
+    .heading {
+        font-weight: bold;
     }
     .arrow {
         position: absolute;
@@ -76,7 +83,6 @@
     .grid-row {
         line-height: 1.6;
         padding-top: 8px;
-
     }
     .tooltipstered {
         text-align: right;
