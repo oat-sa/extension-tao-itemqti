@@ -15,7 +15,7 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                maxChoices : 1,
+                maxChoices : 0,
                 minChoices : 0
             };
         },

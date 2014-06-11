@@ -8,11 +8,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create'
 ], function(_, stateFactory, Question, formElement, interactionFormElement, formTpl, hottextTpl){
 
-    var HottextInteractionStateQuestion = stateFactory.extend(Question, function(){
-
-    }, function(){
-
-    });
+    var HottextInteractionStateQuestion = stateFactory.extend(Question);
 
     HottextInteractionStateQuestion.prototype.initForm = function(){
 

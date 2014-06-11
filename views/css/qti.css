@@ -318,8 +318,10 @@ textarea { resize: vertical; }
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
 .qti-hottextInteraction .hottext { background: #f3f1ef; padding-right: 5px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; position: relative; }
+.qti-hottextInteraction .hottext.error { color: #ba122b; }
 .qti-hottextInteraction .hottext .hottext-checkmark { padding-right: 0; min-width: auto; width: auto; }
 .qti-hottextInteraction .hottext [class^="icon-"].small, .qti-hottextInteraction .hottext [class*=" icon-"].small { font-size: 12px; font-size: 1.2rem; text-shadow: none; line-height: 10px; top: 1px; }
+.qti-hottextInteraction .hottext [class^="icon-"].error, .qti-hottextInteraction .hottext [class*=" icon-"].error { color: #ba122b; }
 .qti-hottextInteraction .hottext .mini-tlb[data-edit] { top: -2px; }
 .qti-hottextInteraction .hottext .mini-tlb[data-edit].icon-undo { padding-right: 8px; }
 .qti-hottextInteraction .hottext .mini-tlb[data-edit] label { padding: 0 3px; }

@@ -38,6 +38,8 @@ define([
         //use the common Renderer
         HottextInteraction.render.call(interaction.getRenderer(), interaction);
 
+        HottextInteraction.setResponse(interaction, PciResponse.serialize(corrects, interaction));
+
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
@@ -46,6 +48,7 @@ define([
             }
         });
 
+       //change the correct state 
        widget.on('metaChange', function(meta){
             if(meta.key === 'defineCorrect'){
                 
@@ -62,15 +65,17 @@ define([
      * Exit the map state
      */
     function exitMapState(){
-        var widget = this.widget;
+        var widget      = this.widget;
         var interaction = widget.element;
+        var $container  = widget.$container;
         
-        widget.$container.off('responseChange.qti-widget');
+        $container.off('responseChange.qti-widget');
 
-        widget.$container.off('metaChange');
+        $('.score', $container).remove();
 
         //destroy the common renderer
         helper.removeInstructions(interaction);
+
         HottextInteraction.destroy(interaction); 
     }
 
@@ -96,7 +101,7 @@ define([
         $('.hottext', $container).on('click', function(e){
             if($(e.target).hasClass('score') || answerStateHelper.defineCorrect(response) === false){
                 e.preventDefault();
-                e.stopPropagation();
+                e.stopImmediatePropagation();
             } 
         });
 

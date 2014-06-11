@@ -30,11 +30,6 @@ define([
             setChoice($(this));
             e.preventDefault();
         });
-
-        Helper.getContainer(interaction).find('input').on('click', function(e){
-            Helper.validateInstructions(interaction, {choice : $(this).parents('.hottext')});
-            e.stopPropagation();
-        });
     };
 
     /**
@@ -46,95 +41,28 @@ define([
      */
     var render = function(interaction){
         pseudoLabel(interaction);
-        _setInstructions(interaction);
-    };
+        
+        //set up the constraints instructions
+        Helper.minMaxChoiceInstructions(interaction, {
+            min: interaction.attr('minChoices'),
+            max: interaction.attr('maxChoices'),
+            getResponse : _getRawResponse,
+            onError : function(data){
+                var $input, $choice, $icon;
+                if(data.choice && data.choice.length){
+                    $choice = data.choice.addClass('error');
+                    $input  = $choice.find('input');
+                    $icon   = $choice.find(' > label > span').addClass('error cross');
 
-    var _setInstructions = function(interaction){
 
-        var min = interaction.attr('minChoices'),
-            max = interaction.attr('maxChoices'),
-            body = interaction.getBody(),
-            choiceCount = 0,
-            minInstructionSet = false;
-
-        for(var el in body.getElements()){
-            choiceCount++;
-        }
-
-        //if maxChoice = 1, use the radio gorup behaviour
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 1 && max < choiceCount){
-
-            var highlightInvalidInput = function($choice){
-                var $input = $choice.find('input'),
-                    $span = $choice.css('color', '#BA122B'),
-                    $icon = $choice.find('>label>span').css('color', '#BA122B').addClass('cross error');
-
-                setTimeout(function(){
-                    $input.prop('checked', false);
-                    $span.removeAttr('style');
-                    $icon.removeAttr('style').removeClass('cross');
-                }, 150);
-            };
-
-            if(max === min){
-                minInstructionSet = true;
-                var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
-                Helper.appendInstruction(interaction, msg, function(data){
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    highlightInvalidInput(data.choice);
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }else if(max > min){
-                Helper.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
-
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    highlightInvalidInput(data.choice);
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }
-        }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
-            Helper.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
+                    setTimeout(function(){
+                        $input.prop('checked', false);
+                        $choice.removeClass('error');
+                        $icon.removeClass('error cross');
+                    }, 350);
                 }
-            });
-        }
+            }
+        }); 
     };
 
     var resetResponse = function(interaction){
