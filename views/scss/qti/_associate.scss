@@ -55,7 +55,7 @@
                 min-height: 30px;
                 max-width: 150px;
                 max-height: 150px;
-                outline: 5px whiten($uiClickableDefaultBg, .5) solid;
+                outline: 5px whiten($uiClickableDefaultBg, .2) solid;
                 @include simple-border(#eee);
                 overflow: hidden;
                 &.active {

@@ -103,7 +103,7 @@
 
 .block-listing {
     & > li {
-        @include simple-border(#eee);
+        @include simple-border(#e0e0e0);
         background: transparent;
         padding: 5px;
         margin: 3px;
@@ -144,10 +144,10 @@
         //background: whiten($uiClickableDefaultBg, .4);
        // @include simple-border(whiten($uiClickableDefaultBg, .4));
         // original: above; new: below
-        border: 6px solid  whiten($uiClickableDefaultBg, .4);
+        border: 6px solid  whiten($uiClickableDefaultBg, .2);
     }
     .bordered {
-        @include simple-border(#eee);
+        @include simple-border(#e0e0e0);
         background: white;
     }
     .empty {

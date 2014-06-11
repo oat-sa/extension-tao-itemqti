@@ -110,15 +110,15 @@ textarea { resize: vertical; }
 
 .runtime .block-listing > li.active { border-color: #3e7da7 !important; }
 
-.block-listing > li { border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; background: transparent; padding: 5px; margin: 3px; cursor: pointer; position: relative; }
+.block-listing > li { border: 1px solid #e0e0e0; border-radius: 2px; -webkit-border-radius: 2px; background: transparent; padding: 5px; margin: 3px; cursor: pointer; position: relative; }
 .block-listing.horizontal > li { display: block; float: left; }
 .block-listing.solid, .block-listing.bordered { padding-top: 3px; padding-right: 3px; padding-bottom: 3px; }
 .block-listing.solid.none, .block-listing.bordered.none { padding-left: 3px; }
 
 .qti-block { border: 1px solid transparent; }
 
-.qti-interaction .solid { border: 6px solid #f7f6f5; }
-.qti-interaction .bordered { border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; background: white; }
+.qti-interaction .solid { border: 6px solid #f5f3f2; }
+.qti-interaction .bordered { border: 1px solid #e0e0e0; border-radius: 2px; -webkit-border-radius: 2px; background: white; }
 .qti-interaction .empty { border: 1px #3e7da7 dashed !important; min-height: 50px; cursor: default; }
 .qti-interaction .add-option { border: 1px #3e7da7 dashed !important; list-style-type: none; position: relative; cursor: pointer !important; color: #0e5d91 !important; border-radius: 3px; background-color: #e6eef4; }
 .qti-interaction .add-option [class^="icon-"], .qti-interaction .add-option [class*=" icon-"] { font-size: 14px; font-size: 1.4rem; position: relative; top: 1px; left: 2px; color: #0e5d91; padding-right: 5px; }
@@ -203,7 +203,7 @@ textarea { resize: vertical; }
 .qti-associateInteraction .result-area { width: 40%; min-width: 260px; margin: auto; }
 .qti-associateInteraction .result-area > li { display: block; margin-bottom: 30px; position: relative; }
 .qti-associateInteraction .result-area > li:before { border-top: 1px solid #86aec8; display: block; width: 80%; left: 10%; height: 1px; position: absolute; z-index: 1; top: 50%; }
-.qti-associateInteraction .result-area > li > .target { background: white; padding: 5px; margin: 5px; float: right; position: relative; z-index: 2; min-width: 100px; min-height: 30px; max-width: 150px; max-height: 150px; outline: 5px #f9f8f7 solid; border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; }
+.qti-associateInteraction .result-area > li > .target { background: white; padding: 5px; margin: 5px; float: right; position: relative; z-index: 2; min-width: 100px; min-height: 30px; max-width: 150px; max-height: 150px; outline: 5px #f5f3f2 solid; border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; }
 .qti-associateInteraction .result-area > li > .target.active { border-color: #3e7da7; }
 .qti-associateInteraction .result-area > li > .target:first-child { float: left; }
 .qti-associateInteraction .result-area > li.removing > div { background-color: #eee; }
