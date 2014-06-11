@@ -1,8 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Choice',
-    'taoQtiItem/qtiCreator/helper/adaptSize',
-    'jquery.sizechange'
+    'taoQtiItem/qtiCreator/helper/adaptSize'
 ], function(stateFactory, Choice, adaptSize){
 
     var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){
@@ -16,8 +15,7 @@ define([
                 return choiceArea.find('.qti-choice').add(resultArea.find('.target')).add(addOption);
             };
 
-
-        $container.sizeChange(function() {
+        this.widget.on('containerBodyChange', function(){
             adaptSize.height(getElements());
         });
         

@@ -1,14 +1,14 @@
 define([
+    'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.adder',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.row',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.cell',
-    'taoQtiItem/qtiCreator/helper/adaptSize',
-    'lodash',
-    'jquery.sizechange'
-], function(stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, adaptSize, _){
+    'taoQtiItem/qtiCreator/helper/adaptSize'
+], function($, _, stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, adaptSize){
 
     var MatchInteractionStateQuestion = stateFactory.extend(Question);
 
@@ -16,8 +16,9 @@ define([
 
     MatchInteractionStateQuestion.prototype.addNewChoiceButton = function(){
 
-        var interaction = this.widget.element,
-            $matchArea = this.widget.$container.find('.match-interaction-area'),
+        var widget = this.widget,
+            interaction = widget.element,
+            $matchArea = widget.$container.find('.match-interaction-area'),
             qtiChoiceClassName = 'simpleAssociableChoice.matchInteraction';
 
         var _postRender = function(choice){
@@ -68,10 +69,10 @@ define([
             });
         });
 
-        //
-        $matchArea.find('tr').each(function() {
+        //listen for height changes
+        $matchArea.find('tr ').each(function() {
             var $elements = $(this).find('[data-html-editable=true]');
-            $elements.sizeChange(function() {
+            widget.on('containerBodyChange', function(){
                 adaptSize.height($elements);
             });
         });

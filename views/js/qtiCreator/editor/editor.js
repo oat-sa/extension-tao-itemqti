@@ -2,8 +2,7 @@ define([
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/tooltipster',
-    'jquery.sizechange'
+    'ui/tooltipster'
 ], function($, __, tooltipTpl, tooltip){
     
     'use strict';
