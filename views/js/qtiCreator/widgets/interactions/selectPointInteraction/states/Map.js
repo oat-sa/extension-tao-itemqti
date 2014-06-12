@@ -97,6 +97,7 @@ define([
         var interaction = widget.element;
         var $container  = widget.$original; 
         var response    = interaction.getResponseDeclaration();
+        var corrects    = _.values(response.getCorrect());
 
         //set up for the existing areas
         _.forEach(response.mapEntries, function(area){
@@ -105,9 +106,9 @@ define([
         });
 
         //set up a target if
-        if(answerStateHelper.isCorrectDefined(widget) && response.getCorrect().length){
-             _.forEach(response.getCorrect(), function(correct){
-                var point = correct.split(',');
+        if(answerStateHelper.defineCorrect(response) && corrects.length){
+             _.forEach(corrects, function(correct){
+                var point = correct.split(' ');
                 if(point.length >= 2){
                    var target = graphicHelper.createTarget(interaction.paper, {
                         point : {
@@ -146,7 +147,7 @@ define([
                     //add a correct response 
                     point = shape.data('target');
                     corrects = response.getCorrect() || [];
-                    corrects.push(point.x + ',' + point.y);
+                    corrects.push(qtiPoint(point));
                     response.setCorrect(corrects);
 
                 } else {
@@ -166,7 +167,7 @@ define([
                 if(/^target/.test(id) && data.target){
                     //remove from the correct response
                     response.setCorrect(
-                        _.without(response.getCorrect(), data.target.x + ',' + data.target.y)
+                        _.without(response.getCorrect(), qtiPoint(data.target))
                     );
                 } else {
                     //remove the score and the popup
@@ -220,6 +221,17 @@ define([
         editor.create();
 
         return editor;
+    }
+
+    /**
+     * Format a point to the qti format
+     * @param {Object} point
+     * @param {Number} point.x 
+     * @param {Number} point.y
+     * @returns {String} the point as "x y"
+     */
+    function qtiPoint(point){
+        return Math.round(point.x) + ' ' + Math.round(point.y);
     }
  
     /**
