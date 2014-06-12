@@ -10,6 +10,8 @@ define([
 ], function ($, styleEditor, __, helpers, _, Stylesheet, genericFeedbackPopup) {
     'use strict'
 
+    var $doc = $(document);
+
     var styleSheetToggler = (function () {
 
         var init = function (itemConfig) {
@@ -80,9 +82,11 @@ define([
 
                 $('.feedback-info').hide();
                 _createInfoBox({
-                    message: ('Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply.').replace('%s', context.label),
+                    message: __('Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply.').replace('%s', context.label),
                     type: 'info'
                 });
+
+                $doc.trigger('customcssloaded.styleeditor', [styleEditor.getStyle()]);
             };
 
 

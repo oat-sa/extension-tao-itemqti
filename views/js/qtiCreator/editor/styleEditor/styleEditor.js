@@ -210,28 +210,37 @@ define([
                 stylesheet = currentItem.createStyleSheet(stylesheet);
             }
 
+
             fileName = _basename(stylesheet.attr('href'));
             link = $(stylesheet.render());
 
-            // add other stylesheets to head
-            $styleElem.before(link);
+            // load css to cache before appending
+            $.when($.ajax(link.attr('href'))).then(function() {
 
-            stylesheets.push({
-                path: stylesheet.attr('href'),
-                label: (stylesheet.attr('title') || fileName),
-                title: common.title,
-                deleteTxt: common.deleteTxt,
-                downloadTxt: common.downloadTxt,
-                editLabelTxt: common.editLabelTxt
+                $styleElem.before(link);
+
+                stylesheets.push({
+                    path: stylesheet.attr('href'),
+                    label: (stylesheet.attr('title') || fileName),
+                    title: common.title,
+                    deleteTxt: common.deleteTxt,
+                    downloadTxt: common.downloadTxt,
+                    editLabelTxt: common.editLabelTxt
+                });
+
+                // create list entry
+                listEntry = $(cssTpl({ stylesheets: stylesheets }));
+
+                listEntry.data('stylesheetObj', stylesheet);
+
+                // initialize download button
+                common.listing.append(listEntry);
+
+                setTimeout(function() {
+                    $(doc).trigger('customcssloaded.styleeditor', [style]);
+                }, 500);
             });
 
-            // create list entry
-            listEntry = $(cssTpl({ stylesheets: stylesheets }));
-
-            listEntry.data('stylesheetObj', stylesheet);
-
-            // initialize download button
-            common.listing.append(listEntry);
         };
 
 
