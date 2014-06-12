@@ -224,7 +224,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover { opacity: 0.8; }
 .tao-scope .item-editor-item .widget-box .widget-ok { display: none; float: right; margin: 5px; }
 .tao-scope .item-editor-item .widget-box-placeholder { display: inline-block; margin: 0; min-width: 150px; position: relative; vertical-align: middle; background-color: #eee; }
-.tao-scope .item-editor-item [data-edit] { display: none; }
+.tao-scope .item-editor-item [data-edit] { display: none; /*            ::selection { background: transparent; } ::-moz-selection { background: transparent; text-shadow: none; }*/ }
 .tao-scope .item-editor-item [data-edit] > [class*=" col-"], .tao-scope .item-editor-item [data-edit] [class^="col-"] { margin-bottom: 0 !important; }
 .tao-scope .item-editor-item [data-edit].mini-tlb-label { position: absolute; top: -30px; left: -10px; background: #f3f1ef; }
 .tao-scope .item-editor-item [data-edit].mini-tlb-label label { color: #0e5d91; cursor: default; font-size: 12px; font-size: 1.2rem; padding: 2px 4px; margin: 0; }

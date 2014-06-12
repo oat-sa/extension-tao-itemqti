@@ -308,57 +308,57 @@ span.dragging{
                         }
                     }
                 }
-        
+                
                 &.sub-group {
-            position: relative;
-            padding-top: 0 !important;
+                    position: relative;
+                    padding-top: 0 !important;
                     padding-bottom:4px;
-            .tool-list {
-                position: relative;
-                z-index: 4;
-            }
-            .sub-group-cover {
-                position: absolute;
-                left: 0;
-                top: -7px;
-                width: 96%;
-                height: 100%;
-                background-color: rgba(mix(#fff, $grey, 85%), 0.3) !important;
-                z-index: 2;
-                border: 1px $websiteBorder solid;
-                @include border-radius(3);
-                margin: 2%;
+                    .tool-list {
+                        position: relative;
+                        z-index: 4;
+                    }
+                    .sub-group-cover {
+                        position: absolute;
+                        left: 0;
+                        top: -7px;
+                        width: 96%;
+                        height: 100%;
+                        background-color: rgba(mix(#fff, $grey, 85%), 0.3) !important;
+                        z-index: 2;
+                        border: 1px $websiteBorder solid;
+                        @include border-radius(3);
+                        margin: 2%;
                         cursor:no-drop !important;
-                &.blocking {
-                    z-index: 10;
+                        &.blocking {
+                            z-index: 10;
+                        }
+                    }
+                    
+                    .sub-group-cover:after,.sub-group-cover:before {
+                        bottom: 100%;
+                        left: 25%;
+                        border: solid transparent;
+                        content: " ";
+                        height: 0;
+                        width: 0;
+                        position: absolute;
+                        pointer-events: none;
+                    }
+                    
+                    .sub-group-cover:after {
+                        border-color: transparent;
+                        border-bottom-color: mix(#fff, $grey, 85%);
+                        border-width: 8px;
+                        margin-left: -8px;
+                    }
+                    
+                    .sub-group-cover:before {
+                        border-color: transparent;
+                        border-bottom-color: $websiteBorder;
+                        border-width: 9px;
+                        margin-left: -9px;
+                    }
                 }
-            }
-            
-            .sub-group-cover:after,.sub-group-cover:before {
-                bottom: 100%;
-                left: 25%;
-                border: solid transparent;
-                content: " ";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-            }
-            
-            .sub-group-cover:after {
-                border-color: transparent;
-                border-bottom-color: mix(#fff, $grey, 85%);
-                border-width: 8px;
-                margin-left: -8px;
-            }
-            
-            .sub-group-cover:before {
-                border-color: transparent;
-                border-bottom-color: $websiteBorder;
-                border-width: 9px;
-                margin-left: -9px;
-            }
-        }
             }
         }
         
@@ -609,7 +609,7 @@ span.dragging{
                 right: 2px;
             }
         }
-
+        
         #math-editor-container {
             &.mathml {
                 top: -270px;
@@ -684,7 +684,7 @@ span.dragging{
             }
         }
     }
-
+    
     #item-editor-panel {
         margin: 0 180px;
         overflow-x: auto;
@@ -728,7 +728,7 @@ span.dragging{
         line-height: 20px;
         cursor: default;
     }
-
+    
     .widget-inline,
     .qti-hottext,
     .qti-gap,
@@ -755,7 +755,7 @@ span.dragging{
             }
         }
     }
-
+    
     .item-editor-item {
         @include simple-border();
         -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
@@ -808,12 +808,12 @@ span.dragging{
                     }
                     &.edit-question{
                         th.qti-choice{
-                                &.hover{
+                            &.hover{
                                 .inner-wrapper{
                                     @extend %editHover;
                                 }
                             }
-                                &.edit-choice{
+                            &.edit-choice{
                                 .inner-wrapper{
                                     @extend %editActive;
                                 }
@@ -822,15 +822,15 @@ span.dragging{
                         .qti-choice:not(th){
                             &.hover{
                                 @extend %editHover;
-                                }
+                            }
                             &.edit-choice{
                                 @extend %editActive;
-                                }
                             }
                         }
                     }
                 }
             }
+        }
         
         .widget-box{
             border : 1px solid transparent;
@@ -997,6 +997,14 @@ span.dragging{
         }
         [data-edit] {
             display: none;
+            //fix issue #2678
+/*            ::selection {
+                background: transparent;
+            }
+            ::-moz-selection {
+                background: transparent;
+                text-shadow: none;
+            }*/
             & > [class*=" col-"], [class^="col-"] {
                 margin-bottom: 0 !important;
             }
@@ -1017,8 +1025,8 @@ span.dragging{
                 }
             }
         }
-
-
+        
+        
         
         .inner-wrapper{
             position:relative;
@@ -1128,7 +1136,7 @@ span.dragging{
             border-color: transparent !important;
         }
     }
-
+    
     html body [data-edit], html body .mini-tlb {
         display:none !important;
     }
