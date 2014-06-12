@@ -86,8 +86,9 @@ define([
         'simpleAssociableChoice',
         'simpleChoice'
     ];
-    
+
     var _dependencies = {
+        assessmentItem : ['stylesheet', '_container', 'prompt', 'modalFeedback'],
         associateInteraction : ['simpleAssociableChoice'],
         choiceInteraction : ['simpleChoice'],
         gapMatchInteraction : ['gap', 'gapText'],
@@ -100,26 +101,20 @@ define([
         matchInteraction : ['simpleAssociableChoice'],
         orderInteraction : ['simpleChoice']
     };
-    
+
     var _renderableSubclasses = {
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
 
-    var _alwaysRequiredClasses = [
-        '_container',
-        'prompt',
-        'modalFeedback'
-    ];
-
     var Renderer = function(options){
 
         options = options || {};
-        
+
         this.isRenderer = true;
         this.name = '';
-        this.shuffleChoices = (options.shuffleChoices !== undefined)? options.shuffleChoices : true;
-        
+        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
+
         //store shuffled choice here
         this.shuffledChoices = [];
 
@@ -152,19 +147,19 @@ define([
             }
             return ret;
         };
-        
+
         this.setOption = function(key, value){
             if(typeof(key) === 'string'){
                 options[key] = value;
             }
             return this;
         };
-        
+
         this.setOptions = function(opts){
             _.extend(options, opts);
             return this;
         };
-        
+
         this.getOption = function(key){
             if(typeof(key) === 'string' && options[key]){
                 return options[key];
@@ -173,7 +168,7 @@ define([
         };
 
         this.renderTpl = function(element, data, qtiSubclass){
-            
+
             var ret = '',
                 tplFound = false,
                 qtiClass = qtiSubclass || element.qtiClass,
@@ -185,7 +180,7 @@ define([
                     tplFound = true;
                 }
             }
-            
+
             if(!tplFound){
                 throw new Error('no renderer template loaded under the class name : ' + qtiClass);
             }
@@ -244,11 +239,11 @@ define([
         };
 
         this.setResponse = function(qtiInteraction, response, qtiSubclass){
-            
-            var ret = false, 
+
+            var ret = false,
                 qtiClass = qtiSubclass || qtiInteraction.qtiClass,
                 renderer = _getClassRenderer(qtiClass);
-            
+
             if(renderer){
                 if(typeof(renderer.setResponse) === 'function'){
                     ret = renderer.setResponse.call(this, qtiInteraction, response);
@@ -264,11 +259,11 @@ define([
         };
 
         this.getResponse = function(qtiInteraction, qtiSubclass){
-            
-            var ret = false, 
+
+            var ret = false,
                 qtiClass = qtiSubclass || qtiInteraction.qtiClass,
                 renderer = _getClassRenderer(qtiClass);
-            
+
             if(renderer){
                 if(typeof(renderer.getResponse) === 'function'){
                     ret = renderer.getResponse.call(this, qtiInteraction);
@@ -278,13 +273,13 @@ define([
             }
             return ret;
         };
-        
+
         this.resetResponse = function(qtiInteraction, qtiSubclass){
-            
-            var ret = false, 
+
+            var ret = false,
                 qtiClass = qtiSubclass || qtiInteraction.qtiClass,
                 renderer = _getClassRenderer(qtiClass);
-            
+
             if(renderer){
                 if(typeof(renderer.resetResponse) === 'function'){
                     ret = renderer.resetResponse.call(this, qtiInteraction);
@@ -308,10 +303,9 @@ define([
             var required = [];
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
-                    
+
                     requiredClasses = _.intersection(requiredClasses, _renderableClasses);
-                    requiredClasses = _.union(requiredClasses, _alwaysRequiredClasses);
-                    
+
                     //add dependencies
                     _.each(requiredClasses, function(reqClass){
                         var deps = _dependencies[reqClass];
@@ -363,7 +357,7 @@ define([
                     callback.call(_this, _renderers);
                 }
             });
-            
+
             return this;
         };
 
@@ -400,11 +394,11 @@ define([
 
             return ret;
         };
-        
+
         this.getRenderers = function(){
             return _renderers;
         };
-        
+
         this.getLocations = function(){
             return _locations;
         };
@@ -420,11 +414,6 @@ define([
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;
-        },
-        getElementRenderer : function(ElementRenderer, element){
-            if(element.qtiClass === ElementRenderer.qtiClass){
-                var currentRenderer = element.getRenderer();
-            }
         }
     };
 });
