@@ -1,15 +1,117 @@
 @import "inc/bootstrap";
-//graddable handler:
-//span.dragging{
-//    opacity:0.8 !important;
-//    z-index:999999;
-//    font-size : 5rem;
-//    padding:20px 80px;
-//    position:absolute;
-//    background: rgba($uiClickableDefaultBg, 1);
-//    -webkit-box-shadow: 1px 1px 6px 2px #777;
-//    box-shadow: 1px 1px 6px 2px #777;
-//}
+
+.qti-droppable-block-hover {
+    min-height: 30px;
+    width: 100%;
+    border: 2px dashed #3e7da7;
+    background-color: #e6eef4;
+    margin: 0;
+    opacity: 0.5;
+}
+
+.grid-edit-resizable-zone {
+    position: absolute;
+    cursor: col-resize;
+    text-align: center;
+    outline: 0 dotted blue;
+}
+
+.grid-edit-resizable-handle {
+    position: relative;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+}
+
+.grid-edit-resizable-zone-active:hover .grid-edit-resizable-handle {
+    border-width: 0 1px;
+    border-color: #ccc;
+    border-style: solid;
+}
+
+.grid-edit-resizable-active {
+    width: 0;
+    border: 0 dashed #3e7da7;
+    border-left-width: 1px;
+}
+
+.grid-edit-resizable-outline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border: 1px solid #3e7da7;
+    background-color: #e4ecef;
+    opacity: 0.5;
+    z-index: 9;
+}
+
+.grid-edit-insert-box {
+    position: absolute;
+    height: 100%;
+    text-align: center;
+    opacity: 0.5;
+    z-index: 9;
+}
+
+.grid-edit-insert-box:hover {
+    opacity: 0.3;
+}
+
+.grid-edit-insert-square {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #3e7da7;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.grid-edit-insert-triangle {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid #3e7da7;
+}
+
+.grid-edit-insert-line {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 100%;
+    border-left: 1px dashed #3e7da7;
+}
+
+.grid-draggable-helper {
+    z-index: 99;
+    max-height: 200px;
+    max-width: 50%;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+
+.grid-draggable-helper:after {
+    content: '...';
+    position: absolute;
+    bottom: 0;
+    right: 6px;
+}
+
+.grid-draggable {
+    cursor: pointer;
+}
+
+.grid-draggable:hover {
+    opacity: 0.8;
+}
+
+.grid-draggable:active,
+.grid-draggable-active {
+    cursor: all-scroll;
+}
 
 //need to offset default col display rules because new tmp columns have been added
 .dropping{

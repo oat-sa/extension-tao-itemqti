@@ -348,6 +348,22 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .mapping-editor .tooltipstered { text-align: right; }
 .tao-scope .item-editor-item .mapping-editor .icon-checkbox { margin-left: 20px; }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope .item-editor-item .qti-droppable-block-hover { min-height: 30px; width: 100%; border: 2px dashed #3e7da7; background-color: #e6eef4; margin: 0; opacity: 0.5; }
+.tao-scope .item-editor-item .grid-edit-resizable-zone { position: absolute; cursor: col-resize; text-align: center; outline: 0 dotted blue; }
+.tao-scope .item-editor-item .grid-edit-resizable-handle { position: relative; display: inline-block; width: 1px; height: 100%; }
+.tao-scope .item-editor-item .grid-edit-resizable-zone-active:hover .grid-edit-resizable-handle { border-width: 0 1px; border-color: #ccc; border-style: solid; }
+.tao-scope .item-editor-item .grid-edit-resizable-active { width: 0; border: 0 dashed #3e7da7; border-left-width: 1px; }
+.tao-scope .item-editor-item .grid-edit-resizable-outline { position: absolute; top: 0; left: 0; height: 100%; border: 1px solid #3e7da7; background-color: #e4ecef; opacity: 0.5; z-index: 9; }
+.tao-scope .item-editor-item .grid-edit-insert-box { position: absolute; height: 100%; text-align: center; opacity: 0.5; z-index: 9; }
+.tao-scope .item-editor-item .grid-edit-insert-box:hover { opacity: 0.3; }
+.tao-scope .item-editor-item .grid-edit-insert-square { position: relative; width: 20px; height: 20px; background-color: #3e7da7; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.tao-scope .item-editor-item .grid-edit-insert-triangle { position: relative; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 12px solid #3e7da7; }
+.tao-scope .item-editor-item .grid-edit-insert-line { position: absolute; top: 0; left: 10px; height: 100%; border-left: 1px dashed #3e7da7; }
+.tao-scope .item-editor-item .grid-draggable-helper { z-index: 99; max-height: 200px; max-width: 50%; overflow: hidden; border: 1px solid #ddd; padding: 6px; }
+.tao-scope .item-editor-item .grid-draggable-helper:after { content: '...'; position: absolute; bottom: 0; right: 6px; }
+.tao-scope .item-editor-item .grid-draggable { cursor: pointer; }
+.tao-scope .item-editor-item .grid-draggable:hover { opacity: 0.8; }
+.tao-scope .item-editor-item .grid-draggable:active, .tao-scope .item-editor-item .grid-draggable-active { cursor: all-scroll; }
 .tao-scope .item-editor-item .dropping { margin-left: -1.42857%; margin-right: 1.42857%; }
 .tao-scope .item-editor-item .new-col:first-child { margin-left: 1.42857%; }
 .tao-scope .item-editor-item .drop-target[data-html-editable] { border: 2px dashed #86c8a5 !important; }

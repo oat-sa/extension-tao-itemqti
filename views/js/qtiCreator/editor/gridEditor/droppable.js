@@ -438,7 +438,7 @@ define([
 
         $el.off('.gridEdit.gridDragDrop');
 
-        $el.find('span.qti-word-wrap, span.qti-droppable').replaceWith(function(){
+        $el.find('span.qti-word-wrap').replaceWith(function(){
             return $(this).text();
         });
 
