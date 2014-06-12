@@ -63,7 +63,8 @@ EOF;
         $service = \taoItems_models_classes_ItemsService::singleton();
         $cssFile  = $service->getItemFolder($item, $lang) . $styleSheetPath;
 
-        if(empty($cssArr)) {
+        // make sure that 'no custom css' means exactly that
+        if(empty($cssArr) && file_exists($cssFile)) {
             unlink($cssFile);
         }
 
