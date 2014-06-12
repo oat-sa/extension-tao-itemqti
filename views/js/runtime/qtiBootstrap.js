@@ -47,7 +47,8 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
                 qtiRunner.loadElements(variableElementsData, function() {
                     
                     qtiRunner.renderItem(undefined, function() {
-                      //exec user scripts
+                        
+                       //exec user scripts
                         if (_.isArray(runnerContext.userScripts)) {
                             require(runnerContext.userScripts, function() {
                                 _.forEach(arguments, function(dependency) {
@@ -59,6 +60,11 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
                         }
                         
                         iframeNotifier.parent('itemloaded');
+                        
+                        //IE9/10 loose the iframe focus, so we force getting it back.
+                        _.defer(function(){
+                            window.focus();
+                        });
                     });
                 });
             });
