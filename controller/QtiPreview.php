@@ -169,7 +169,8 @@ class QtiPreview extends taoItems_actions_ItemPreview
     protected function getRenderedItem($item) {
 
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
-        $rubricBlocks = $this->getRubricBlocks($qtiItem);
+        
+        $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
         
         $taoBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
         $qtiBaseUrl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
@@ -178,7 +179,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $taoQtiItemLibUrl = $qtiBaseUrl.'js/runtime/';
         
         $xhtml = $qtiItem->toXHTML(array(
-            'contentVariableElements' => $rubricBlocks,
+            'contentVariableElements' => $contentVariableElements,
             'js' => array($qtiBaseUrl.'js/preview/qtiViewSelector.js'),
             'js_var' => array('view' => $this->getRequestView()),
             'css' => array($qtiBaseUrl.'css/preview/qtiViewSelector.css'),
@@ -209,6 +210,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $rubricBlocks = $qtiItem->getRubricBlocks();
         
         foreach($rubricBlocks as $rubricBlock) {
+            
             $view = $rubricBlock->attr('view');
             
             if (!empty($view) && in_array($currentView, $view)) {
@@ -218,7 +220,19 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
         return $returnValue;
     }
-
+    
+    protected function getModalFeedbacks(Item $qtiItem){
+        
+        $returnValue = array();
+        
+        $feedbacks = $qtiItem->getModalFeedbacks();
+        foreach($feedbacks as $feedback){
+            $returnValue[$feedback->getSerial()] = $feedback->toArray();
+        }
+        
+        return $returnValue;
+    }
+    
     public function getTemplateElements(Item $qtiItem){
 
         throw new common_Exception('qti template elments, to be implemented');
