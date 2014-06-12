@@ -112,7 +112,7 @@ define([
         interaction.paper.forEach(function(element){
             var point = element.data('point');
             if(typeof point === 'object' && point.x && point.y){
-                points.push([point.x, point.y]);
+                points.push([Math.round(point.x), Math.round(point.y)]);
             }
         });
         return points;
