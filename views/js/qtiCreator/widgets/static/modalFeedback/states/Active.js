@@ -58,7 +58,7 @@ define([
                     elements[selector].element.css('z-index', elements[selector].index);
                 }
             }
-        }
+        };
     }());
 
     var _ckeIsReady = function($editable){
@@ -68,7 +68,7 @@ define([
 
         var poll = function(){
             
-            var editor = $editable.data('editor')
+            var editor = $editable.data('editor');
             
             if(iteration > 20){
                 return;
@@ -92,9 +92,12 @@ define([
             $container = this.widget.$container,
             $editable = $container.find('[data-html-editable]');
 
-        sizeFinder.measure($container, null, function(size){
-
-            $container.modal({startClosed : true, width : Math.min(size.width, commonRenderer.maxWidth)});
+        sizeFinder.measure($container, function(size){
+            
+            $container.modal({
+                startClosed : true,
+                width : Math.max( Math.min(size.width, commonRenderer.maxWidth), commonRenderer.minWidth)
+            });
             $container.modal('open');
 
             $.when(_ckeIsReady($editable)).then(function(){

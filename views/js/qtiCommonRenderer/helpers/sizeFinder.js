@@ -3,114 +3,95 @@ define([
 ], function($){
     'use strict';
 
-    var sizeFinder = (function(){
+    /**
+     * Show elements temporarily
+     *
+     * @param $elements
+     * @private
+     */
+    var _show = function($elements){
+        
+        var $element;
 
-        /**
-         * Show elements temporarily
-         *
-         * @param $elements
-         * @private
-         */
-        var _show = function($elements){
-            
-            var $element;
-
-            $elements.each(function(){
-                $element = $(this);
-                $element.data('originalProperties', {
-                    position : $element.css('position'),
-                    left : $element.css('left'),
-                    display : $element.css('display')
-                });
-
-                $element.css({
-                    position : 'relative',
-                    left : '-10000px'
-                }).show();
+        $elements.each(function(){
+            $element = $(this);
+            $element.data('originalProperties', {
+                display : $element.css('display'),
+                position : $element.css('position'),
+                left : $element.css('left'),
+                width: $element.css('width'),
+                height: $element.css('height')
             });
+
+            $element.css({
+                position : 'relative',
+                left : '-10000px',
+                width: 'auto',
+                height: 'auto',
+                display: 'inline-block'
+            });
+        });
+    };
+
+
+    /**
+     * Hide elements after size has been taken
+     *
+     * @param $elements
+     * @private
+     */
+    var _hide = function($elements){
+        
+        var $element;
+
+        $elements.each(function(){
+            $element = $(this);
+
+            $element.css($elements.data('originalProperties'));
+
+            $element.removeData('originalProperties');
+        });
+
+    };
+
+
+    /**
+     * Measure the outer size of the container while all elements are displayed
+     *
+     * @param $element
+     * @returns {{width: *, height: *}}
+     * @private
+     */
+    var _measure = function($element){
+        return {
+            width : $element.outerWidth(),
+            height : $element.outerHeight()
         };
+    };
 
 
-        /**
-         * Hide elements after size has been taken
-         *
-         * @param $elements
-         * @private
-         */
-        var _hide = function($elements){
-            
-            var $element,
-                originalProperties;
+    /**
+     * Return the size value, also trigger an event for convenience
+     *
+     * @param {jQueryElement} $container -
+     * @param {Function} callback - with the size in parameter
+     * @returns {Object} the size {width: *, height: *}
+     */
+    var measure = function($container, callback){
+        var size;
 
-            $elements.each(function(){
-                $element = $(this);
-                originalProperties = $element.data('originalProperties');
-
-                $element.css({
-                    position : originalProperties.position,
-                    left : originalProperties.left
-                }).hide();
-
-                $element.removeData('originalProperties');
-            })
-
-        };
-
-
-        /**
-         * Measure the outer size of the container while all elements are displayed
-         *
-         * @param $element
-         * @returns {{width: *, height: *}}
-         * @private
-         */
-        var _measure = function($element){
-            return {
-                width : $element.outerWidth(),
-                height : $element.outerHeight()
-            }
-        };
-
-
-        /**
-         * Return the size value, also trigger an event for convenience
-         *
-         * @param $container
-         * @param selectors
-         * @param callback
-         * @returns {{width: *, height: *}}
-         */
-        var measure = function($container, selectors, callback){
-
-            var children = ['img', 'video'],
-                $elements = $(),
-                size,
-                i;
-
-            if(selectors){
-                children = children.concat(selectors);
-            }
-            i = children.length;
-
-            if(!($container instanceof $)){
-                $container = $($container);
-            }
-
-            $elements = $elements.add($container).add($container.find(children.join(',')));
-
-            _show($elements);
+        if($container && $container.length){ 
+            _show($container);
             size = _measure($container);
-            _hide($elements);
+            _hide($container);
+
             callback.call($container[0], size);
             $container.trigger('measured.sizeFinder', size);
-            
-            return size;
-        };
+        }
+        return size;
+    };
 
-        return {
-            measure : measure
-        };
-
-    }());
-    return sizeFinder;
+    return {
+        measure : measure
+    };
 });
