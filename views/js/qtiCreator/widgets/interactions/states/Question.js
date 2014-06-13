@@ -10,19 +10,19 @@ define([
         //show option form
         this.initForm();
         this.widget.$form.show();
-        
+
         //allow quick edit of internal element (toggle shuffle/fix, delete choices via minit-toolbar)
 
         //init add choice button if needed
         this.addNewChoiceButton(this.widget);
 
         //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
-        
+
         //init form:
-        
-        
+
+
     }, function(){
-        
+
         //destroy and hide it
         this.widget.$form.empty().hide();
 
@@ -54,6 +54,7 @@ define([
                     qtiChoiceClassName = choice.qtiClass + '.' + interaction.qtiClass,
                     tplData = {
                     interaction : {
+                        serial : interaction.serial,
                         attributes : interaction.attributes
                     }
                 };
