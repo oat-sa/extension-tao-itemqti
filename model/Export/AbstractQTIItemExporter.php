@@ -63,17 +63,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 					$this->addFile($resourceLocation, $basenameLocation.'/res/'.basename($resourceLocation));
 					$addedResources++;
 				}
-				//in case of dynamic media service
-				else if(preg_match("/taoItems\/Items\/getMediaResource\?path=/", $resource)){
-					$path = urldecode(substr($resource, strpos($resource, '?path=') + 6));
-					$path = substr($path, 0, strrpos($path, '&'));
-					if(preg_match('/(.)+\/filemanager\/views\/data\//i', $path)){
-						//check if the file is linked to the file manager
-						$resourceLocation = preg_replace('/(.)+\/filemanager\/views\/data\//i', ROOT_PATH . '/filemanager/views/data/', $path);
-						$this->addFile($resourceLocation, $basenameLocation.'/res/' . basename($resourceLocation));
-						$addedResources++;
-					}
-				}
 			}
 			
 			//change the content of the item XML by linking the local resources 

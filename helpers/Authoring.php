@@ -37,57 +37,6 @@ use oat\taoQtiItem\model\qti\Parser;
 class Authoring
 {
 
-    public static function setMediaResouceUrl($data){
-
-        $returnValue = $data;
-
-        $data = trim($data);
-        if(!empty($data)){
-            try{ //Parse data and replace img src by the media service URL
-                $updated = false;
-                $doc = new DOMDocument;
-                if($doc->loadHTML($data)){
-
-                    $tags = array('img', 'object');
-                    $srcAttr = array('src', 'data');
-                    $xpath = new DOMXpath($doc);
-                    $query = implode(' | ', array_map(create_function('$a', "return '//'.\$a;"), $tags));
-                    foreach($xpath->query($query) as $element){
-                        foreach($srcAttr as $attr){
-                            if($element->hasAttribute($attr)){
-                                $source = trim($element->getAttribute($attr));
-                                if(!preg_match("/^http/", $source)){
-                                    $updated = true;
-                                    $element->setAttribute($attr, _url('getMediaResource', 'Items', 'taoItems', array('path' => $source)));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if($updated){
-                    $returnValue = $doc->saveHTML();
-                }
-            }catch(DOMException $de){
-                //we render it anyway
-                common_Logger::w('DOMException in QTI data filtering');
-            }
-        }
-
-        return $returnValue;
-    }
-
-    public static function restoreMediaResourceUrl($data){
-
-        $regex = '/'.preg_quote(_url('getMediaResource', 'Items', 'taoItems').'?path=', '/').'([^"\']*)/im';
-        $returnValue = preg_replace_callback(
-                $regex, function ($matches){
-                    return isset($matches[1]) ? urldecode($matches[1]) : urldecode($matches[0]);
-                }, $data);
-
-        return $returnValue;
-    }
-
     public static function normalizeAuthoringElementKey($text){
         return strtolower(preg_replace('~[\W]+~', '-', $text));
     }
@@ -241,7 +190,7 @@ class Authoring
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
                     common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
-//                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
+                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
                 }
             }
         }else{
