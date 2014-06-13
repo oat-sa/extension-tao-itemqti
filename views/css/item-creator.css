@@ -215,7 +215,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .widget-box .float-space-top.cke_nose { display: block; right: 5px; bottom: -6px; }
 .tao-scope .item-editor-item .widget-box .float-space-bottom.cke_nose { display: block; top: -6px; }
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice:not(th) { border: 1px solid transparent; }
-.tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice .inner-wrapper { border: 1px solid transparent; }
+.tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-choice .inner-wrapper { min-width: 1rem; border: 1px solid transparent; }
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .qti-prompt { min-height: 3rem; }
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option { border: 1px #3e7da7 dashed !important; list-style-type: none; position: relative; cursor: pointer !important; border-radius: 3px; background-color: #e6eef4; }
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class^="icon-"], .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option [class*=" icon-"] { font-size: 16px; font-size: 1.6rem; position: relative; top: 1px; left: 2px; color: #0e5d91; padding-right: 5px; }
