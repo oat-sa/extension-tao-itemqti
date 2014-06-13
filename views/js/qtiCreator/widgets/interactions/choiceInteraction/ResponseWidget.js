@@ -80,9 +80,9 @@ define([
             interaction.removeData('responseMappingMode');
 
             widget.$container.off('responseChange.qti-widget');
-
-            widget.$container.find('.real-label > input').prop('disabled', 'disabled');
-
+            
+            widget.$container.find('.real-label > input').attr('disabled', 'disabled');
+            
             widget.$container.find('.mini-tlb-label[data-edit=answer], .mini-tlb[data-edit=answer]').remove();
         },
         createScoreWidgets : function(widget){
@@ -168,9 +168,9 @@ define([
 
             var _toggleCorrectInputs = function(show){
                 if(show){
-                    $corrects.removeProp('disabled');
+                    $corrects.removeAttr('disabled');
                 }else{
-                    $corrects.prop('disabled', true).removeProp('checked');
+                    $corrects.attr('disabled', 'disabled').prop('checked', false);
                 }
             };
             
@@ -184,35 +184,10 @@ define([
 
         },
         formatResponse : function(response){
-
             return pciResponse.serialize(_.values(response));
-
-            var formatedRes;
-
-            if(_.size(response) === 1){
-                formatedRes = {base : {identifier : _.values(response).pop()}};
-            }else{
-                formatedRes = {list : {identifier : _.values(response)}};
-            }
-
-            return formatedRes;
         },
         unformatResponse : function(formatedResponse){
-
             return pciResponse.unserialize(formatedResponse);
-
-            var res = [];
-
-            if(formatedResponse.list && formatedResponse.list.identifier){
-                res = _.values(formatedResponse.list.identifier);
-            }else if(formatedResponse.base && formatedResponse.base.identifier){
-                var id = _.values(formatedResponse.list.identifier).pop();
-                if(id){
-                    res.push(id);
-                }
-            }
-
-            return res;
         }
     };
 

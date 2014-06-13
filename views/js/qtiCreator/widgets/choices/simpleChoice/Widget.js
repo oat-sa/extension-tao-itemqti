@@ -14,7 +14,7 @@ define([
         //choiceInteraction:
         //prevent checkbox/radio from being selectable
         var $realLabel = this.$container.find('.real-label');
-        $realLabel.children('input').prop('disabled', 'disabled');
+        $realLabel.children('input').attr('disabled', 'disabled');
     };
 
     return SimpleChoiceWidget;
