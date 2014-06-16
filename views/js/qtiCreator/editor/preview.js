@@ -9,11 +9,12 @@ define([
     'helpers',
     'iframeResizer',
     'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/helper/itemSerializer',
     'ui/modal',
     'select2',
     'jquery.cookie'
-], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer, event) {
-    'use strict'
+], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer, event, itemSerializer) {
+    'use strict';
 
     var overlay,
         container,
@@ -36,7 +37,8 @@ define([
             height: 0
         },
         scaleFactor = 1,
-        hasBeenSavedOnce = false,
+        askForSave = false,
+        lastItemData,
         typeDependant,
         $feedbackBox,
         previewContainerMaxWidth;
@@ -59,7 +61,7 @@ define([
          * I have http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density in mind but we
          * will need to figure what criteria to apply when generating the list.
          */
-        var devices = type === 'mobile' ? deviceList['tablets'] : deviceList['screens'],
+        var devices = type === 'mobile' ? deviceList.tablets : deviceList.screens,
             options = [];
 
         _.forEach(devices, function(value) {
@@ -153,7 +155,6 @@ define([
             'transform-origin': '0 0'
         });
 
-
         _adaptUtilityBar();
     };
 
@@ -174,7 +175,6 @@ define([
             x: 1,
             y: 1
         };
-
 
         // 150/200 = device frames plus toolbar plus some margin
         var requiredSize = {
@@ -238,20 +238,15 @@ define([
             container.css(sizeSettings);
             _scale();
 
-
-
         });
 
         previewDeviceSelectors.each(function() {
             if(this.nodeName.toLowerCase() === 'select'){
                 $(this).select2({
                     minimumResultsForSearch: -1
-                })
+                });
             }
         });
-
-
-
     };
 
     /**
@@ -299,14 +294,18 @@ define([
         var $closer = overlay.find('.preview-closer'),
             $feedbackCloser = $feedbackBox.find('.close-trigger'),
             $hideForever = $feedbackBox.find('a');
+        var $iframe = $('.preview-iframe');
 
         $closer.on('click', function() {
             commonRenderer.setContext($('.item-editor-item'));
             overlay.hide();
+
+            //empty the iframe
+            $iframe.off('load').attr('src', 'about:blank');
         });
 
         $doc.keyup(function(e) {
-            if (e.keyCode == 27) {
+            if (e.keyCode === 27) {
                 $closer.trigger('click');
             }
         });
@@ -335,7 +334,7 @@ define([
                 value: _previewType,
                 label: _previewLabel,
                 selected: previewType === _previewType
-            })
+            });
         });
         return options;
     };
@@ -428,7 +427,6 @@ define([
             _computeScaleFactor();
             _scale();
         });
-
     };
 
     /**
@@ -444,7 +442,6 @@ define([
             confirmBox.modal({ width: 500 });
 
         save.on('click', function() {
-            hasBeenSavedOnce = true;
             overlay.trigger('save.preview');
             confirmBox.modal('close');
         });
@@ -463,11 +460,10 @@ define([
      *
      * @private
      */
-    var _showWidget = function(launcher, widget) {
+    var _showWidget = function(launcher, item, widget) {
 
+        //run the preview
         var preview = function() {
-
-
             var $iframe = $('.preview-iframe'),
                 itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
 
@@ -475,64 +471,74 @@ define([
 
             $iframe.attr('src', itemUri);
 
+            previewType = $(launcher).data('preview-type') || 'desktop';
 
-            $.when(styleEditor.save(), widget.save()).done(function() {
+            overlay.show();
+            overlay.height($doc.outerHeight());
+            overlay.find('select:visible').trigger('change');
 
-                previewType = $(launcher).data('preview-type') || 'desktop';
-
-                overlay.show();
-                overlay.height($doc.outerHeight());
-                overlay.find('select:visible').trigger('change');
-
-                _scale();
-            });
+            _scale();
             return true;
         };
 
-
+        //compare the curent item with the last serialized to see if there is any change
+        if(!askForSave){
+            var currentItemData = itemSerializer.serialize(item);
+            if(lastItemData !== currentItemData || currentItemData === ''){
+               lastItemData = currentItemData;
+                askForSave = true; 
+            }
+        }
 
         // wait for confirmation to save the item
-        if(!hasBeenSavedOnce) {
+        if(askForSave) {
             _confirmPreview();
             overlay.on('save.preview', function() {
                 overlay.off('save.preview');
-                return preview();
+                askForSave = false;
+                $.when(styleEditor.save(), widget.save()).done(function() {
+                    preview();
+                });
             });
+        } else {
+            //or show the preview
+            preview();
         }
-
-        else {
-            return preview();
-        }
-
-
     };
 
+    /**
+     * Create preview
+     *
+     * @param {jQueryElement} launchers - buttons to launch preview
+     * @param {Object} item - the current item
+     * @param {Object} widget - the item's widget
+     */
+    var init = function(launchers, item, widget) {
 
+        //serialize the item at the initialization level
+        //TODO wait for an item ready event
+        setTimeout(function(){
+            lastItemData = itemSerializer.serialize(item);
+        }, 500);
 
-    $doc.on('iframeheightchange', function(e, data) {
-        _updateStandardPreviewSize(data.height);
-    });
+        _initWidget();
 
+        $doc
+          .on('iframeheightchange', function(e, data) {
+            _updateStandardPreviewSize(data.height);
+          })
+          .on('stylechange.qti-creator', function(){
+            //we need to save before preview of style has changed (because style content is not part of the item model)
+            askForSave = true;
+          });
+          
 
-    return (function($) {
+        $(launchers).on('click', function() {
+            _showWidget(this, item, widget);
+        });
+    };
 
-        /**
-         * Create preview
-         *
-         * @param launchers - buttons to launch preview
-         * @param widget
-         */
-        var init = function(launchers, widget) {
-
-            _initWidget();
-
-            $(launchers).on('click', function() {
-                _showWidget(this, widget);
-            });
-        };
-
-        return {
-            init: init
-        }
-    }($));
+    return {
+        init: init
+    };
 });

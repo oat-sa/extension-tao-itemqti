@@ -139,6 +139,11 @@ define([
             // apply rule
             create();
 
+            /**
+             * Fires a change notification on the item style
+             * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
+             */
+            $(document).trigger('stylechange.qti-creator');
         };
 
 

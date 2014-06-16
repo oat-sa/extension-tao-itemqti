@@ -38,7 +38,7 @@ define([
     var $loader = $('#ajax-loading');
     var loaderLeft = $loader.css('left');
 
-    var _initUiComponents = function(widget, config){
+    var _initUiComponents = function(item, widget, config){
         
         $loader.css('left', '-10000px');
 
@@ -51,7 +51,7 @@ define([
         colorSelector();
         fontSizeChanger();
         itemResizer(widget.element);
-        preview.init($('.preview-trigger'), widget);
+        preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
 
@@ -97,7 +97,7 @@ define([
                     //"post-render it" to initialize the widget
                     widget = item.postRender(_.clone(config));
                     
-                    _initUiComponents(widget, config);
+                    _initUiComponents(item, widget, config);
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
 
@@ -107,7 +107,9 @@ define([
                         if(index !== currentTab){
                             //remove global events
                             $(window).off('.qti-widget');
+                            $(window).off('.qti-creator');
                             $(document).off('.qti-widget');
+                            $(document).off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
                         }
                     });
