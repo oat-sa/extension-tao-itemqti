@@ -92,6 +92,7 @@ define([
             floatSpaceDockedOffsetY : 0,
             forcePasteAsPlainText : true,
             skin : 'tao',
+            language : 'en',
             removePlugins : '',
             linkShowAdvancedTab:false,
             justifyClasses: ['txt-lft', 'txt-ctr', 'txt-rgt', 'txt-jty'],
