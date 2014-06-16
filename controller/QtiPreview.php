@@ -36,6 +36,7 @@ use \taoQtiCommon_helpers_PciStateOutput;
 use \taoQtiCommon_helpers_Utils;
 use \common_ext_ExtensionsManager;
 use qtism\runtime\common\State;
+use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
 use qtism\runtime\tests\AssessmentItemSessionException;
 use qtism\data\storage\xml\XmlDocument;
@@ -90,7 +91,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
             throw new \RuntimeException($msg, 0, $e);
         }
 
-        $itemSession = new AssessmentItemSession($qtiXmlDoc->getDocumentComponent());
+        $itemSession = new AssessmentItemSession($qtiXmlDoc->getDocumentComponent(), new SessionManager());
         $itemSession->beginItemSession();
 
         $variables = array();
