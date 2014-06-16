@@ -35,6 +35,7 @@ use \taoQtiCommon_helpers_ResultTransmissionException;
 use \taoQtiCommon_helpers_ResultTransmitter;
 use \taoResultServer_models_classes_ResultServerStateFull;
 use qtism\runtime\common\State;
+use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
 use qtism\runtime\tests\AssessmentItemSessionException;
 use qtism\data\storage\StorageException;
@@ -125,7 +126,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
             throw new RuntimeException($msg, 0, $e);
         }
 
-        $itemSession = new AssessmentItemSession($qtiXmlDoc->getDocumentComponent());
+        $itemSession = new AssessmentItemSession($qtiXmlDoc->getDocumentComponent(), new SessionManager());
         $itemSession->beginItemSession();
 
         $variables = array();
