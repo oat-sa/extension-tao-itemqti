@@ -37,7 +37,7 @@ define([
                 this.addClass('responsive');
             }
             this.createResponse({
-                baseType:'multiple',
+                baseType:'identifier',
                 cardinality:'single'
             });
         },
