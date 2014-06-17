@@ -515,12 +515,19 @@ define([
      */
     var init = function(launchers, item, widget) {
 
+        //serialize the item and keeps the result
+        var serializeItem = function serializeItem(){
+            lastItemData = itemSerializer.serialize(item);
+        };
+        
         //serialize the item at the initialization level
         //TODO wait for an item ready event
-        setTimeout(function(){
-            lastItemData = itemSerializer.serialize(item);
-        }, 500);
+        setTimeout(serializeItem, 500);
+        
+        //get the last value by saving
+        $('#save-trigger').on('click.qti-creator', serializeItem);
 
+        
         _initWidget();
 
         $doc
