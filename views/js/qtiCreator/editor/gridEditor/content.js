@@ -54,7 +54,7 @@ define([
         return _.throttle(function(data){
 
             var $pseudoContainer = $('<div>').html(data);
-
+            
             $pseudoContainer.contents().each(function(){
                 
                 if(this.nodeType === 3 && this.nodeValue.trim()){

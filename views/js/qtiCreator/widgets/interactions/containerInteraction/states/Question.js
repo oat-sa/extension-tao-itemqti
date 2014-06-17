@@ -14,8 +14,8 @@ define([
 
     }, function(){
 
-        this.destroyEditor();
         this.destroyTextWrapper();
+        this.destroyEditor();
     });
 
     ContainerInteractionStateQuestion.prototype.buildEditor = function(){
@@ -116,8 +116,9 @@ define([
 
         //destroy text wrapper:
         var $editable = this.widget.$container.find('.qti-flow-container [data-html-editable]');
-        $editable.off('.wrapper');
         textWrapper.destroy($editable);
+        $editable.off('.wrapper');
+        
     };
     
     ContainerInteractionStateQuestion.prototype.getGapModel = function(){

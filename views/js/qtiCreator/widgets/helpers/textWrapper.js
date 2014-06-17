@@ -48,10 +48,14 @@ define(['jquery'], function($){
     }
 
     function unwrapSelection($editable){
-
+        
+        $editable.trigger('beforeunwrap');
+        
         $editable.find('#selection-wrapper').replaceWith(function(){
             return $(this).html();
         });
+        
+        $editable.trigger('unwrapped');
     }
 
     var textWrapper = {
@@ -75,10 +79,9 @@ define(['jquery'], function($){
                 }
 
             }).on('mousedown.textwrapper', function(){
-
-                $editable.trigger('beforeunwrap');
+                
                 unwrapSelection($editable);
-                $editable.trigger('unwrapped');
+                
             });
 
         },
