@@ -26,7 +26,7 @@ define([
 
         return $body.html();
     };
-    
+
     /**
      * Create a callback function for the ck edit:
      * 
@@ -40,6 +40,36 @@ define([
                 newBody = contentHelper.getContent($pseudoContainer);
 
             container.body(newBody);
+
+        }, 800);
+    };
+
+    /**
+     * Create a callback function for the ck edit (special case of blockstatic content
+     * 
+     * @param {object} container
+     */
+    contentHelper.getChangeCallbackForBlockStatic = function(container){
+
+        return _.throttle(function(data){
+
+            var $pseudoContainer = $('<div>').html(data);
+
+            $pseudoContainer.contents().each(function(){
+                
+                if(this.nodeType === 3 && this.nodeValue.trim()){
+                    
+                    //use jquery to wrap all content by a <p> 
+                    $pseudoContainer.wrapInner('<p>');
+                    
+                    //... transform it into valid html :  <p><p>aaa</p></p> becomes <p></p><p>aaa</p><p></p>
+                    $pseudoContainer = $('<div>').html($pseudoContainer.html());
+                    
+                    return false;//breaks jquery each loop
+                }
+            });
+
+            container.body(contentHelper.getContent($pseudoContainer));
 
         }, 800);
     };

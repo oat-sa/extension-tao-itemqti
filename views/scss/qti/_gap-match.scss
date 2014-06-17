@@ -12,7 +12,7 @@
         @include border-radius();
         position: relative;
         top: 4px;
-        min-width: 60px;
+        min-width: 25px;
         min-height: 20px;
         display: inline-block;
         &.empty {

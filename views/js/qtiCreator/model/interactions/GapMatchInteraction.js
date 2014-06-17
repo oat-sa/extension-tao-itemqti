@@ -16,7 +16,7 @@ define([
             };
         },
         afterCreate : function(){
-            this.body('Lorem ipsum dolor sit amet, consectetur adipisicing ...');
+            this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'

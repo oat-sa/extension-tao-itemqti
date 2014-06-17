@@ -44,7 +44,7 @@ define([
             //create editor
             htmlEditor.buildEditor($editableContainer, {
                 shieldInnerContent : false,
-                change : gridContentHelper.getChangeCallback(container),
+                change : gridContentHelper.getChangeCallbackForBlockStatic(container),
                 data : {
                     container : container,
                     widget : _widget

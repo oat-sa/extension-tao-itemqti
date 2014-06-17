@@ -334,7 +334,7 @@ textarea { resize: vertical; }
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
-.qti-gapMatchInteraction .gapmatch-content { background: #f3f1ef; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; position: relative; top: 4px; min-width: 60px; min-height: 20px; display: inline-block; }
+.qti-gapMatchInteraction .gapmatch-content { background: #f3f1ef; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; position: relative; top: 4px; min-width: 25px; min-height: 20px; display: inline-block; }
 .qti-gapMatchInteraction .gapmatch-content audio, .qti-gapMatchInteraction .gapmatch-content canvas, .qti-gapMatchInteraction .gapmatch-content img, .qti-gapMatchInteraction .gapmatch-content video { vertical-align: baseline; }
 .qti-gapMatchInteraction .gapmatch-content.empty { min-height: 20px; }
 .qti-gapMatchInteraction .gapmatch-content .remove { float: right; }
