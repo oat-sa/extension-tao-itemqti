@@ -89,6 +89,7 @@ define([
 
     var _dependencies = {
         assessmentItem : ['stylesheet', '_container', 'prompt', 'modalFeedback'],
+        rubricBlock : ['_container'],
         associateInteraction : ['simpleAssociableChoice'],
         choiceInteraction : ['simpleChoice'],
         gapMatchInteraction : ['gap', 'gapText'],
