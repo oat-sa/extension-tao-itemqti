@@ -201,17 +201,13 @@ class QtiModelTest extends TaoPhpUnitTestRunner
     /**
      * Generate sample json files
      */
-    public function testToJson(){
+    public function _testToJson(){
         $jsons = array();
         $outputDir = dirname(__FILE__).'/samples/json/';
         $files = array_merge(
                 glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'), glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubricBlock/*.xml')
         );
         foreach($files as $file){
-            
-            if(strpos($file, 'gap_match') === false){
-//                continue;
-            }
 
             $qtiParser = new Parser($file);
             $item = $qtiParser->load();
@@ -219,7 +215,6 @@ class QtiModelTest extends TaoPhpUnitTestRunner
             
             $data = array('full' => $item->toArray(), 'core' => $dataForDelivery['core'], 'variable' => $dataForDelivery['variable']);
             $jsons[$item->getIdentifier()] = $data;
-//            file_put_contents($outputDir.$item->getIdentifier().'.json', tao_helpers_Javascript::buildObject($data, true));
         }
         file_put_contents($outputDir.'ALL.json', tao_helpers_Javascript::buildObject($jsons, true));
     }
