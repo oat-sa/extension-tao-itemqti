@@ -3,16 +3,32 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gap',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/helpers/identifier'
-], function(stateFactory, Choice, formTpl, formElement, identifierHelper){
+    'taoQtiItem/qtiCreator/widgets/helpers/identifier',
+    'taoQtiItem/qtiItem/core/Element'
+], function(stateFactory, Choice, formTpl, formElement, identifierHelper, Element){
 
     var GapStateChoice = stateFactory.extend(Choice, function(){
-
-        //add the toolbar with the delete button
-
+        
+        var _widget = this.widget;
+        
+        //listener to other siblings choice mode
+        _widget.beforeStateInit(function(e, element, state){
+            
+            if(Element.isA(element, 'gap') && _widget.interaction.getBody().getElement(element.serial)){
+                
+                if(state.name === 'choice' && element.serial !== _widget.serial){
+                    _widget.changeState('question');
+                }else if(state.name === 'active'){
+                    _widget.changeState('question');
+                }
+                
+            }
+        }, 'otherActive');
+        
     }, function(){
 
         //add remove the toolbar
+        this.widget.offEvents('otherActive');
     });
 
     GapStateChoice.prototype.initForm = function(){
