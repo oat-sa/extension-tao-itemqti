@@ -134,8 +134,11 @@ define([
             for(var i in this.responses){
                 arr.responses[i] = this.responses[i].toArray();
             }
+            arr.stylesheets = {};
+            for(var i in this.stylesheets){
+                arr.stylesheets[i] = this.stylesheets[i].toArray();
+            }
             arr.namespaces = this.namespaces;
-            arr.stylesheets = this.stylesheets;
             return arr;
         },
         isEmpty : function(){
