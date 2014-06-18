@@ -33,13 +33,14 @@ define([
  
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
-    
+
+
         GraphicGapMatchInteraction.setResponse(
             interaction, 
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
 
-        widget.$container.on('responsechange.qti-widget', function(e, data){
+        widget.$container.on('responseChange.qti-widget', function(e, data){
            if(data.response && data.response.list){
                 response.setCorrect(
                     _.map(data.response.list.directedPair, function(pair){
