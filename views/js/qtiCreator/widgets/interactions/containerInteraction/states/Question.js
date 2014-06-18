@@ -19,11 +19,12 @@ define([
     });
 
     ContainerInteractionStateQuestion.prototype.buildEditor = function(){
-        
+
         var _this = this,
             _widget = this.widget,
             container = _widget.element.getBody(),
-            $editableContainer = _widget.$container.find('.qti-flow-container');
+            $container = _widget.$container,
+            $editableContainer = $container.find('.qti-flow-container');
 
         $editableContainer.attr('data-html-editable-container', true);
 
@@ -41,6 +42,9 @@ define([
             //init text wrapper
             _this.initTextWrapper();
 
+            //hack : prevent ckeditor from removing empty spans
+            $container.find('.gapmatch-content').html('...');
+
             //create editor
             htmlEditor.buildEditor($editableContainer, {
                 shieldInnerContent : false,
@@ -50,16 +54,26 @@ define([
                     widget : _widget
                 }
             });
+            
+            //restore gaps
+            $container.find('.gapmatch-content').empty();
         }
     };
 
     ContainerInteractionStateQuestion.prototype.destroyEditor = function(){
 
-        var $flowContainer = this.widget.$container.find('.qti-flow-container');
-        
+        var $container = this.widget.$container,
+            $flowContainer = $container.find('.qti-flow-container');
+
+        //hack : prevent ckeditor from removing empty spans
+        $container.find('.gapmatch-content').html('...');
+
         //search and destroy the editor
         htmlEditor.destroyEditor($flowContainer);
         
+        //restore gaps
+        $container.find('.gapmatch-content').empty();
+
         //remove toolbar
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
     };
@@ -73,26 +87,26 @@ define([
             $gapTlb = $(gapModel.toolbarTpl()).show();
 
         $gapTlb.on('mousedown', function(e){
-            
+
             e.stopPropagation();//prevent rewrapping
 
             var $wrapper = $gapTlb.parent(),
                 text = $wrapper.text().trim();
-            
+
             //detach it from the DOM for another usage in the next future
             $gapTlb.detach();
-            
+
             //create gap:
             $wrapper
                 .removeAttr('id')
                 .addClass('widget-box')
                 .attr('data-new', true)
                 .attr('data-qti-class', gapModel.qtiClass);
-            
+
             textWrapper.destroy($editable);
-            
+
             htmlContentHelper.createElements(interaction.getBody(), $editable, htmlEditor.getData($editable), function(newGapWidget){
-                
+
                 newGapWidget.changeState('question');
                 textWrapper.create($editable);
                 gapModel.afterCreate(widget, newGapWidget, text);
@@ -118,13 +132,13 @@ define([
         var $editable = this.widget.$container.find('.qti-flow-container [data-html-editable]');
         textWrapper.destroy($editable);
         $editable.off('.wrapper');
-        
+
     };
-    
+
     ContainerInteractionStateQuestion.prototype.getGapModel = function(){
-        
+
         this.throwMissingRequiredImplementationError('getModel');
     };
-    
+
     return ContainerInteractionStateQuestion;
 });
