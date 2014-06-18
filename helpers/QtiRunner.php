@@ -52,13 +52,23 @@ class QtiRunner
 
         $baseType = $variable->getBaseType();
         $cardinalityType = $variable->getCardinality();
-
-        if($baseType === BaseType::IDENTIFIER){
-            if($cardinalityType === Cardinality::SINGLE){
-                $returnValue[] = $variable->getValue()->getValue();
-            }else if($cardinalityType === Cardinality::MULTIPLE){
-                foreach($variable->getValue() as $value){
+        $value = $variable->getValue();
+        
+        // This only works if the variable has a value ;)
+        if ($value !== null) {
+            
+            if ($baseType === BaseType::IDENTIFIER) {
+            
+                if ($cardinalityType === Cardinality::SINGLE) {
+            
                     $returnValue[] = $value->getValue();
+                }
+                else if($cardinalityType === Cardinality::MULTIPLE) {
+            
+                    foreach($variable->getValue() as $value) {
+            
+                        $returnValue[] = $value->getValue();
+                    }
                 }
             }
         }
