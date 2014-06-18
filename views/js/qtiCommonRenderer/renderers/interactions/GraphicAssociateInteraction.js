@@ -21,13 +21,15 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
+        
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
-
+        var baseUrl = this.getOption('baseUrl') || '';
+        
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width       : background.width, 
             height      : background.height,
-            img         : this.getOption('baseUrl') + background.data,
+            img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
             diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth()
