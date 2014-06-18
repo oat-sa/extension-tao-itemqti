@@ -168,6 +168,11 @@ define([
 
             //the image to clone
             $img = $active.find('img');    
+
+            //then reset the state of the shapes and the gap images
+            _shapesUnSelectable(interaction);
+            $gapList.children().removeClass('active');
+
             $clone = $img.clone();
             shapeOffset  = $(element.node).offset();
             activeOffset   = $active.offset();
@@ -227,9 +232,7 @@ define([
                 });
                 interaction.gapFillers.push(gapFiller); 
 
-                //then reset the state of the shapes and the gap images
-                _shapesUnSelectable(interaction);
-                $gapList.children().removeClass('active');
+
             });
         }
     };
