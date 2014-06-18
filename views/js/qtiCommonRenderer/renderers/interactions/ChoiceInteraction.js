@@ -75,6 +75,7 @@ define([
                     $input.prop('checked', false);
                     $li.removeAttr('style');
                     $icon.removeAttr('style').removeClass('cross');
+                    Helper.triggerResponseChangeEvent(interaction);
                 }, 150);
             };
 
