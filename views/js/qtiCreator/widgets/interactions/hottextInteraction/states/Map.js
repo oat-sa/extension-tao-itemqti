@@ -51,7 +51,6 @@ define([
        //change the correct state 
        widget.on('metaChange', function(meta){
             if(meta.key === 'defineCorrect'){
-                
                 toggleCorrectState(widget.$container, meta.value);
                 if(meta.value === false){
                     response.setCorrect([]);
@@ -72,6 +71,8 @@ define([
         $container.off('responseChange.qti-widget');
 
         $('.score', $container).remove();
+
+        toggleCorrectState($container, true);
 
         //destroy the common renderer
         helper.removeInstructions(interaction);
