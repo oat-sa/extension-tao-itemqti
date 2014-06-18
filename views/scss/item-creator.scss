@@ -1044,9 +1044,7 @@ span.dragging{
         @import "qtiCreator/_rubric-block";
         @import "qtiCreator/_math";
         @import "qtiCreator/_mapping-editor";
-        // the following file is identical to gap-match
-        // @import "qtiCreator/_graphic-gap";
-        
+        @import "qtiCreator/_graphic-gap";
         @import "qtiCreator/_grid-editor";
     }
     /*style for modal feedback*/

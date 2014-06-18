@@ -106,23 +106,28 @@ define([
             }
 
             if(gapImg.object && gapImg.object.attributes.data){
-                  if(update === true){
-                    $gapImg.replaceWith(gapImg.render());
-                  }
+                if(update === true){
+                     
+                    $gapImg.replaceWith( gapImg.render() );
+                    $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
+                }
             } else {
-                $gapImg.empty().append(
+                $gapImg.addClass('placeholder').empty().append(
                     dummyElement.get({
                         icon: 'image',
                         css: {
-                            width  : 60,
-                            height : 60
+                            width  : 58,
+                            height : 58
                         },
                         title : __('Select an image.')
                     })
                 );
             }
-            //add the delete
+
+            //prevent the creator to resize them
             $gapImg.addClass('widget-box');
+
+            //manage gap deletion
             $(mediaTlbTpl())
               .appendTo($gapImg)
               .show()
@@ -134,7 +139,14 @@ define([
             });
 
             $gapImg.off('click').on('click', function(){
-                enterGapImgForm(gapImg.serial);
+                if($gapImg.hasClass('active')){
+                    $gapImg.removeClass('active');
+                    leaveChoiceForm();
+                } else {
+                    $('.active', $gapList).removeClass('active');
+                    $gapImg.addClass('active');
+                    enterGapImgForm(gapImg.serial);
+                }
             });
         }
 
