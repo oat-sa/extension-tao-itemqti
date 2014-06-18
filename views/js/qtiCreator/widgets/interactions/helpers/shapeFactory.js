@@ -131,7 +131,6 @@ define([
                         shape.mousemove(smoothResize);
                         background.mousemove(smoothResize);    
                     }
-
                 });
 
                 function created(){

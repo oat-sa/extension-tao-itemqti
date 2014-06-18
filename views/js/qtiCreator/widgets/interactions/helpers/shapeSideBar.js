@@ -33,9 +33,41 @@ define([
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
             var newWidth = parseInt($imageBox.outerWidth(true), 10) - parseInt($sideBar.outerWidth(), 10);
+           
+            /**
+             * Set a form/shape into an active state
+             * @param {jQueryElement} $form - the form/shape button
+             */ 
+            var activate = function activate($form){
+                $forms.filter('.active').each(function(){
+                    deactivate($(this));
+                });
+                $form.addClass('active');
+
+                /**
+                 * When a shape is activated 
+                 * @event shapeSideBar#shapeactive.qti-widget
+                 * @param {jQueryElement} $form - the shape element
+                 * @param {String} type - the shape type
+                 */
+                $sideBar.trigger('shapeactive.qti-widget', [$form, $form.data('type')]);
+            }; 
             
-            //$imageBox.width(newWidth);
-            //$imageEditor.width(newWidth);
+            /**
+             * Set a form/shape into an inactive state
+             * @param {jQueryElement} $form - the form/shape button 
+             */ 
+            var deactivate = function deactivate($form){
+                $form.removeClass('active');
+                
+                /**
+                 * A shape is deactivated 
+                 * @event shapeSideBar#shapedeactive.qti-widget 
+                 * @param {jQueryElement} $form - the shape element
+                 * @param {String} type - the shape type
+                 */
+                $sideBar.trigger('shapedeactive.qti-widget', [$form, $form.data('type')]);
+            }; 
 
             /**
              * To enable the bin 
@@ -55,36 +87,18 @@ define([
              */
             $sideBar.on('disablebin.qti-widget', function(){
                $bin.addClass('disabled')
-                    .off('click'); 
+                   .off('click'); 
             });
 
             $forms.click(function(e){
                 e.preventDefault();
-        
                 var $form = $(this);
-
                 if(!$form.hasClass('active')){
-                    $forms.removeClass('active');
-                    $form.addClass('active');
-
-                    /**
-                     * When a shape is activated 
-                     * @event shapeSideBar#shapeactive.qti-widget 
-                     * @param {jQueryElement} $form - the shape element
-                     * @param {String} type - the shape type
-                     */
-                    $sideBar.trigger('shapeactive.qti-widget', [$form, $form.data('type')]);
+                    activate($form);
                 } else {
-                    $forms.removeClass('active');
-                    
-                    /**
-                     * A shape is deactivated 
-                     * @event shapeSideBar#shapedeactive.qti-widget 
-                     */
-                    $sideBar.trigger('shapedeactive.qti-widget');
+                    deactivate($form);
                 }
             }); 
-       
              
             $container.on('resize.qti-widget.sidebar', function(){
                 //need to delay because of the throttle on 10ms

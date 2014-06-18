@@ -86,6 +86,12 @@ define([
                     });
                 });
 
+                $sideBar.on('shapedeactive.qti-widget', function(e, $form, type){
+                       if(factories && factories[type]){
+                            factories[type].stop();
+                       }
+                });
+
                 //retrieve the current shapes and make them editable
                 _.forEach(currents, function(id){
                     var element = paper.getById(id);
