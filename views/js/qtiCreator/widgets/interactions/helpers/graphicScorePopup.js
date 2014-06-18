@@ -34,8 +34,6 @@ define([
             'left'      : offset.left - boxOffset.left + width + margin
         }).appendTo($container);
 
-
-        $container.css('overflow', 'visible');
         return $element;
     };  
 });

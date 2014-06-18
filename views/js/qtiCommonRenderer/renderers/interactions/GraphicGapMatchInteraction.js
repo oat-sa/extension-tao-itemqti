@@ -136,9 +136,15 @@ define([
      * @param {Boolean} [trackResponse = true] - if the selection trigger a response chane
      */
     var _selectShape = function _selectShape(interaction, element, trackResponse){
-        var $img, gapFiller, id, 
-            bbox, startx,
-            matching, currentCount;
+        var $img,
+            $clone, 
+            gapFiller, 
+            id, 
+            bbox,
+            shapeOffset,
+            activeOffset,
+            matching, 
+            currentCount;
 
         if(typeof trackResponse === 'undefined'){
             trackResponse = true;
@@ -148,6 +154,9 @@ define([
         var $container = Helper.getContainer(interaction);
         var $gapList = $('ul', $container);
         var $active = $gapList.find('.active:first');
+        var $imageBox = $('.main-image-box', $container);
+        var boxOffset   = $imageBox.offset();
+
         if($active.length){
             
             //the macthing elements are linked to the shape
@@ -159,23 +168,41 @@ define([
 
             //the image to clone
             $img = $active.find('img');    
+            $clone = $img.clone();
+            shapeOffset  = $(element.node).offset();
+            activeOffset   = $active.offset();
             
-            //extract some coords for positioning
-            bbox = element.getBBox();
-            startx = parseInt($active.width(), 10) * $gapList.children().index($active);
+            $clone.css({
+                'position' : 'absolute',
+                'display'  : 'block',
+                'z-index'  : 10000,
+                'opacity'  : 0.8,
+                'top'      : activeOffset.top - boxOffset.top,
+                'left'     : activeOffset.left - boxOffset.left
+            });
+
+            $clone.appendTo($imageBox);
+            $clone.animate({
+                'top'       : shapeOffset.top - boxOffset.top,
+                'left'      : shapeOffset.left - boxOffset.left
+            }, 400, function animationEnd(){
+
+                $clone.remove();
             
-            //create an image into the paper and move it to the selected shape
-            gapFiller = graphic.createBorderedImage(interaction.paper, {
+                //extract some coords for positioning
+                bbox = element.getBBox();
+                
+                //create an image into the paper and move it to the selected shape
+                gapFiller = graphic.createBorderedImage(interaction.paper, {
                     url     :  $img.attr('src'),
-                    left    : startx,
-                    top     : interaction.paper.height,
+                    left: bbox.x + (3 * (currentCount)), 
+                    top : bbox.y + (3 * (currentCount)),
                     width   : $img.width(),
                     height  : $img.height(),
                     padding : 6
                 })
                 .data('identifier', id)
                 .toFront()
-                .move(bbox.x + (3 * (currentCount)), bbox.y + (3 * (currentCount)))
                 .unclick()
                 .click(function(e){
                     e.preventDefault();
@@ -198,12 +225,12 @@ define([
                         Helper.triggerResponseChangeEvent(interaction);
                     }
                 });
+                interaction.gapFillers.push(gapFiller); 
 
-            interaction.gapFillers.push(gapFiller); 
-
-            //then reset the state of the shapes and the gap images
-            _shapesUnSelectable(interaction);
-            $gapList.children().removeClass('active');
+                //then reset the state of the shapes and the gap images
+                _shapesUnSelectable(interaction);
+                $gapList.children().removeClass('active');
+            });
         }
     };
 
