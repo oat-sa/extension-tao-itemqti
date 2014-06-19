@@ -243,22 +243,26 @@ define([
 
         function showCloser(){
             closerBg
+                .toFront()
                 .animate({opacity: 0.8}, 300)
-                .toFront()
                 .click(removeSet);
-            closer.animate({opacity: 1}, 300)
+            closer 
                 .toFront()
+                .animate({opacity: 1}, 300)
                 .click(removeSet);
         }
 
         function hideCloser(){
            if(closerBg && closerBg.type){ 
                 closerBg
-                    .animate({opacity: 0}, 300)
-                    .toBack()
+                    .animate({opacity: 0}, 300, function(){
+                        closerBg.toBack();
+                    })
                     .unclick();
-                closer.animate({opacity: 0}, 300)
-                    .toBack()
+                closer 
+                    .animate({opacity: 0}, 300, function(){
+                        closer.toBack();
+                    })
                     .unclick();
             }
         }
@@ -462,6 +466,8 @@ define([
             interaction.paper.clear();
             Helper.removeInstructions(interaction);
             
+            $container.off('.graphicassociate');
+
             $('.main-image-box', $container).empty().removeAttr('style');            
             $('.image-editor', $container).removeAttr('style'); 
             $('ul', $container).empty();

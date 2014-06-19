@@ -27,7 +27,7 @@ define([
         }
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please select the correct graphicAssociate choices below.'));
+        helper.appendInstruction(interaction, __('Please set the correct associations by linking the choices.'));
         
         //use the common Renderer
         GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);
