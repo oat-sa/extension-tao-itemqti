@@ -80,7 +80,6 @@ define([
             // check if can make the shape selectable on click
             if(_isMatchable(this) && this.selectable === true){ 
                 _selectShape(interaction, this);
-                Helper.triggerResponseChangeEvent(interaction);
             }
         });
     };
@@ -230,9 +229,10 @@ define([
                         Helper.triggerResponseChangeEvent(interaction);
                     }
                 });
-                interaction.gapFillers.push(gapFiller); 
 
-
+                interaction.gapFillers.push(gapFiller);
+                 
+                Helper.triggerResponseChangeEvent(interaction);
             });
         }
     };

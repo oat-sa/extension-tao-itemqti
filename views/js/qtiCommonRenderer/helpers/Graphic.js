@@ -445,7 +445,7 @@ define([
         createShapeText : function(paper, shape, options){
             var self    = this;
             var content = options.content || '';
-            var style   = options.style || 'text';
+            var style   = options.style || 'small-text';
             var title   = options.title || '';
             var bbox    = shape.getBBox();
 
@@ -545,16 +545,17 @@ define([
          * @param {String} [title] - the new title
          */
         updateTitle : function(element, title){
-    
-            //removes all remaining titles nodes
-            _.forEach(element.node.children, function(child){
-                if(child.nodeName.toLowerCase() === 'title'){
-                    element.node.removeChild(child);
-                }
-            });
-            
-            //then set the new title
-            element.attr('title', title);
+            if(element && element.node){
+                //removes all remaining titles nodes
+                _.forEach(element.node.children, function(child){
+                    if(child.nodeName.toLowerCase() === 'title'){
+                        element.node.removeChild(child);
+                    }
+                });
+                
+                //then set the new title
+                element.attr('title', title);
+            }
         },
 
         /**

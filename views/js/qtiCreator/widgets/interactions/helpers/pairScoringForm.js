@@ -65,7 +65,9 @@ define([
                     'overflow': 'visible',
                     'position': 'relative'
                 });  
- 
+
+                $('#item-editor-panel').css('overflow', 'visible');
+         
                 if(options){
 
                     //prepare content for the form, using either current map entries or data given in options.
@@ -117,7 +119,7 @@ define([
             addPair : function addPair(key){
                 
                 var score = response.mappingAttributes.defaultValue;
-                var pair  = formatPair(score, key);
+                var pair  = formatPair(score, key, true);
                 
                 //update internal model
                 pairs.push(pair);
@@ -165,6 +167,9 @@ define([
                 if($popup.length){
                     $popup.remove();
                 }
+                
+                //reset overflow
+                $('#item-editor-panel').css('overflow', '');
             }
         };
 
@@ -259,7 +264,10 @@ define([
          * @returns {Array} the pairs as a collection of objects.
          */
         function preparePairs(entries){
-            return _.map(entries, formatPair);
+            var defaultScore = parseFloat(response.mappingAttributes.defaultValue);
+            return _.map(entries, function(value, key){
+                return formatPair(value, key, parseFloat(value) === defaultScore);
+            });
         }
 
 
@@ -268,13 +276,15 @@ define([
          * @private
          * @param {Number} score - the value mapped to the pair
          * @param {String} key - the pair key
+         * @param {Boolean} [default = false] - is the score the default value
          * @returns {Object} the pair 
          */
-        function formatPair(score, key){
+        function formatPair(score, key, defaultScore){
             var pair = key.split(separator.qti);
             return {
                 id              : key.replace(separator.qti, separator.html),
                 score           : score,
+                defaultScore    : !!defaultScore, 
                 leftId          : pair[0],
                 rightId         : pair[1],
                 left            : _.isFunction(options.formatLeft) ? options.formatLeft(pair[0]) : pair[0],
@@ -294,10 +304,24 @@ define([
     
             if($form.length){
 
+               //the default value changes
+                widget.on('mappingAttributeChange', function(data){
+                    if(data.key === 'defaultValue'){
+                        _.forEach(pairs, function(pair){
+                            var $score = $('[name="' +  pair.id + '-score"]', $form);
+                            if($score.data('default')){
+                                $score.val(data.value);
+                                response.setMapEntry( pair.id.replace(separator.html, separator.qti), data.value);
+                            } 
+                        });
+                    }
+                });
+
                 //creates callbacls for score and correct, for each pair
                 _.forEach(pairs, function(pair){
                     var id = pair.id.replace(separator.html, separator.qti);
                     callbacks[pair.id + '-score'] = function(response, value){
+                        $('[name="' +  pair.id + '-score"]', $form).removeAttr('data-default').removeData('default');
                         response.setMapEntry(id, value);
                     };
                     callbacks[pair.id + '-correct'] = function(response, value){
