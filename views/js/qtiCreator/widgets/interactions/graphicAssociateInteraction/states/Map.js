@@ -11,13 +11,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScorePopup',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/response/graphicAssociateScoreMappingForm',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'ui/deleter',
-    'ui/tooltipster'
-], function($, _, __, stateFactory, Map, GraphicAssociateInteraction, helper, graphicHelper, PciResponse, answerStateHelper, pairScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
+], function($, _, __, stateFactory, Map, GraphicAssociateInteraction, helper, graphicHelper, PciResponse, scoringFormFactory){
 
     /**
      * Initialize the state.
@@ -37,33 +32,46 @@ define([
         }
 
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please the score of each graphicAssociate choice.'));
+        helper.appendInstruction(interaction, __('Create assocations and fill the score in the form below'));
         interaction.responseMappingMode = true;
 
         //use the common Renderer
         GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);    
 
-
-
-        //set the responses already defined
-        GraphicAssociateInteraction.setResponse(
-            interaction, 
-            PciResponse.serialize(_.invoke(currentResponses, String.prototype.split, ' '), interaction)
-        );
-        if(_.size(response.getMapEntries()) === 0){
-            mappingForm(widget, corrects);
-        } else {
-            mappingForm(widget);
-        }
-
-        //display the choices ids
+		//display the choices ids
         showChoicesId(interaction);
- 
-        widget.$container.on('responseChange.qti-widget.mapstate', function(e, data){
-            mappingForm(widget, _.map(data.response.list.pair, function(pair){
-                return pair.join(' ');
-            }));
+
+        //and initialize the scoring form
+        if(_.size(response.getMapEntries()) === 0){
+            updateForm(widget, corrects);
+        } else {
+            updateForm(widget);
+        }
+        
+        //each response change leads to an update of the scoring form
+        widget.$container.on('responseChange.qti-widget', function(e, data){
+            var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            var pairs, entries;
+            if(data && data.response &&  data.response[type]){
+               pairs = _.invoke(data.response[type].pair, Array.prototype.join, ' ');
+               entries = _.keys(response.getMapEntries());
+                
+               //add new pairs from  the difference between the current entries and the given data
+               _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
+
+                
+               removePaths(interaction);
+            }
         });
+    }
+
+    function removePaths(interaction){
+        _.delay(function(){
+           _.forEach(interaction._vsets, function(vset){
+                _.invoke(vset, 'remove');
+            });
+            interaction._vsets = [];
+        }, 500);
     }
 
     /**
@@ -77,8 +85,11 @@ define([
             return;
         }
         
-        $('.mapping-editor').remove();
-        widget.$container.off('responseChange.qti-widget.mapstate');
+        widget.$container.off('responseChange.qti-widget');
+
+        if(interaction.pairScoringForm){
+            interaction.pairScoringForm.destroy();
+        }
 
         //destroy the common renderer
         helper.removeInstructions(interaction);
@@ -100,82 +111,52 @@ define([
         });
     }
 
-    function mappingForm(widget, entries){
-        var mappings = [];
-        var $container = widget.$container;
+	/**
+     * Update the scoring form
+     * @param {Object} widget - the current widget
+     * @param {Array} [entries] - to force the use of this collection instead of the mapEntries
+     */
+    function updateForm(widget, entries){
+
         var interaction = widget.element;
-        var options = widget.options;
         var response = interaction.getResponseDeclaration();
-        var correctDefined = answerStateHelper.isCorrectDefined(widget);
-        var corrects  = _.values(response.getCorrect());
         var mapEntries = response.getMapEntries();
 
-        //reformat entries/for the form
+        var mappingChange = function mappingChange(){
+            //set the current responses, either the mapEntries or the corrects if nothing else
+            GraphicAssociateInteraction.setResponse(
+                interaction, 
+                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+            );
+        };
+
+        var getPairValues = function getPairValues(){
+            return _.map(interaction.getChoices(), function(choice){
+                return {
+                    id : choice.id(),
+                    value : choice.id()
+                };
+            });
+        };
+
+        //set up the scoring form options
+        var options = {
+            leftTitle : __('left'),
+            rightTitle : __('right'),
+            type : 'pair',
+            pairLeft : getPairValues,
+            pairRight : getPairValues
+        };
+
+        //format the entries to match the needs of the scoring form
         if(entries){
-            response.removeMapEntries();
-            _.forEach(entries , function(value){
-                var pair = value.split(' ');
-                var isCorrect = _.contains(corrects, value);
-                var score =  mapEntries[value] || response.mappingAttributes.defaultValue;
-
-                mappings.push({
-                    score          : score,
-                    pair0          : pair[0],
-                    pair1          : pair[1],
-                    id             : value.replace(' ', '::'),
-                    correctDefined : correctDefined,
-                    correct        : _.contains(corrects, value) 
-                });
-                //add the related map entries 
-                response.setMapEntry(value, score);
-            });
-        } else {
-            _.forEach(mapEntries, function(value, key){
-                var pair = key.split(' ');
-                mappings.push({
-                    score          : value,
-                    pair0          : pair[0],
-                    pair1          : pair[1],
-                    id             : key.replace(' ', '::'),
-                    correctDefined : correctDefined,
-                    correct        : _.contains(corrects, key) 
-                });
-            });
+            options.entries = _.transform(entries, function(result, value){
+                result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
+            }, {}); 
         }
-        
-        $('.mapping-editor').remove();
 
-        var $popup = pairScorePopup($container);
-        var $form = $(mappingFormTpl({
-            'title'             : __('Pair scoring'),
-            'correctDefined'    : answerStateHelper.isCorrectDefined(widget),
-            'scoreMin'          : response.getMappingAttribute('lowerBound'),
-            'scoreMax'          : response.getMappingAttribute('upperBound'),
-            'mappings'          : mappings
-        }));
-        
-        var callbacks = {};
-        _.forEach(mappings, function(map){
-            var id = map.id.replace('::', ' ');
-            callbacks[map.id + '-score'] = function(response, value){
-                response.setMapEntry(id, value);
-            };
-            callbacks[map.id + '-correct'] = function(response, value){
-                if(value === true){
-                    if(!_.contains(corrects, id)){
-                        corrects.push(id);
-                    }
-                } else {
-                    corrects = _.without(corrects, id);
-                }
-                response.setCorrect(corrects);
-            };
-        });
-        
-        //set up the form data binding
-        formElement.initDataBinding($form, response, callbacks);
-
-        $popup.empty().html($form);
+        //initialize the scoring form 
+        interaction.pairScoringForm = scoringFormFactory(widget, options);
     }
 
     /**

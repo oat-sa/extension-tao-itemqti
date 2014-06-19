@@ -25,7 +25,8 @@ define([
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        
+        interaction._vsets = [];
+ 
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
             width       : background.width, 
             height      : background.height,
@@ -224,6 +225,7 @@ define([
 
         //add the path into a set
         vset = [srcBullet, path, destBullet, layer, closerBg, closer];
+        interaction._vsets.push(vset);
 
         //to identify the element of the set outside the context
         _.invoke(vset, 'data', 'assoc-path', true);
@@ -270,6 +272,7 @@ define([
         //remove set handler
         function removeSet(){
             _.invoke(vset, 'remove');
+            interaction._vsets = _.without(interaction._vsets, vset);
             if(typeof onRemove === 'function'){
                 onRemove();
             }

@@ -90,7 +90,7 @@
         "stroke": "#000000",
         "font-family" : "sans-serif",
         "font-weight": "normal", 
-        "font-size" : 16,
+        "font-size" : 14,
         "cursor" : "pointer"
     },
     "target" : {
