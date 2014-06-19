@@ -150,10 +150,13 @@ define([
                     }
                     break;
                 case 'question':
-                    $formInteractionPanel.hide();
+                    if(element.is('interaction')){
+                        $formInteractionPanel.hide();
+                    }
                     break;
                 case 'choice':
                     $formChoicePanel.hide();
+                    showPanel($formInteractionPanel);
                     break;
                 case 'answer':
                     $formResponsePanel.hide();
