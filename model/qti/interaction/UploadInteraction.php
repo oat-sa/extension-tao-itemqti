@@ -49,7 +49,7 @@ class UploadInteraction extends BlockInteraction
     protected function getUsedAttributes(){
         return array_merge(
                 parent::getUsedAttributes(), array(
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Type'
+            'oat\\taoQtiItem\\model\\qti\\attribute\\TypeUploadInteraction'
                 )
         );
     }

@@ -36,7 +36,7 @@ class MimeType extends Datatype
 {
 	
 	public static function validate($value){
-		return preg_match('/^[-\w]+\/[-\w\+]+$/', $value);
+		return preg_match('/^[-\w]+\/[-\w\+\.\-]+$/', $value);
 	}
 	
 	public static function fix($value){
