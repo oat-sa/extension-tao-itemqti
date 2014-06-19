@@ -48,6 +48,9 @@ define([
             response.buildIdentifier('RESPONSE', false);
             response.setTemplate(template || 'MATCH_CORRECT');
             this.attr('responseIdentifier', response.id());
+    
+            //se the default value for the score default value
+            response.mappingAttributes.defaultValue = 0;
 
             //set renderer
             var renderer = this.getRenderer();

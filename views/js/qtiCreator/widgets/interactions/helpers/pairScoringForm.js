@@ -77,6 +77,9 @@ define([
                         //update the current map entries according to what we got in entry
                         response.removeMapEntries();
                         _.forEach(pairs , function(pair){
+                            if(typeof pair.score === 'undefined' || pair.score === null){
+                                pair.score = response.mappingAttributes.defaultValue || 0;
+                            }
                             response.setMapEntry(pair.id.replace(separator.html, separator.qti), pair.score);
                         });
                     } else {
