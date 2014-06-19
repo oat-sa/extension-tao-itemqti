@@ -99,7 +99,8 @@ define([
                 width : Math.max( Math.min(size.width, commonRenderer.maxWidth), commonRenderer.minWidth)
             });
             $container.modal('open');
-
+            $container.css('height', 'auto');
+            
             $.when(_ckeIsReady($editable)).then(function(){
                 indices.raise($container.css('z-index'));
             });
