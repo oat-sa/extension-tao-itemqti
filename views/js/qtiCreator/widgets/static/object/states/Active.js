@@ -13,7 +13,7 @@ define([
 
     var ObjectStateActive = stateFactory.extend(Active, function(){
         
-        this.changeState('sleep');
+        this.widget.changeState('sleep');
         return;
         
         this.initForm();
