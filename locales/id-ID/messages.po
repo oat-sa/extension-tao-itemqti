@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-beta2\n"
-"PO-Revision-Date: 2014-05-30T15:54:45\n"
+"Project-Id-Version: TAO v2.6-RC03\n"
+"PO-Revision-Date: 2014-06-20T16:27:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: id-ID\n"
@@ -17,10 +17,16 @@ msgstr ""
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr ""
 
+msgid "Actual size"
+msgstr ""
+
 msgid "Adapt to item size"
 msgstr ""
 
 msgid "Adapt to screen size"
+msgstr ""
+
+msgid "Add"
 msgstr ""
 
 msgid "Add a modal feedback"
@@ -41,10 +47,16 @@ msgstr ""
 msgid "Add else feedback"
 msgstr ""
 
-msgid "Add your own CSS"
+msgid "Add new pairs"
+msgstr ""
+
+msgid "Add Style Sheet"
 msgstr ""
 
 msgid "Alignment (optional)"
+msgstr ""
+
+msgid "Allowed number of associations"
 msgstr ""
 
 msgid "Allowed number of choices"
@@ -74,10 +86,6 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-msgid "Are you sure you want to delete this stylesheet?\n"
-"Warning: This action cannot be undone!"
-msgstr ""
-
 msgid "Associate"
 msgstr ""
 
@@ -96,10 +104,10 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Border color"
@@ -126,6 +134,9 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
+msgid "Choices"
+msgstr ""
+
 msgid "choices"
 msgstr ""
 
@@ -138,10 +149,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+msgid "Correct"
+msgstr ""
+
 msgid "correct"
 msgstr ""
 
-msgid "Correct"
+msgid "Create assocations and fill the score in the form below"
+msgstr ""
+
+msgid "Create gap"
+msgstr ""
+
+msgid "Create hottext"
 msgstr ""
 
 msgid "CSV file"
@@ -153,10 +173,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -184,9 +204,6 @@ msgid "Delete else statement"
 msgstr ""
 
 msgid "Delete this modal feedback"
-msgstr ""
-
-msgid "Delete this stylesheet"
 msgstr ""
 
 msgid "Description"
@@ -255,6 +272,9 @@ msgstr ""
 msgid "Editing Mode"
 msgstr ""
 
+msgid "Editing this element is not supported currently."
+msgstr ""
+
 msgid "Element Properties"
 msgstr ""
 
@@ -277,6 +297,9 @@ msgid "Extended Text"
 msgstr ""
 
 msgid "Extended Text Interaction"
+msgstr ""
+
+msgid "Failed to save item"
 msgstr ""
 
 msgid "Feedback"
@@ -312,6 +335,9 @@ msgstr ""
 msgid "Gap Match Interaction"
 msgstr ""
 
+msgid "Gaps"
+msgstr ""
+
 msgid "GIF image"
 msgstr ""
 
@@ -331,6 +357,9 @@ msgid "Graphic Order"
 msgstr ""
 
 msgid "Graphic Order Interaction"
+msgstr ""
+
+msgid "he maximum number of associations that the candidate is allowed to make."
 msgstr ""
 
 msgid "Height"
@@ -360,19 +389,16 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
 msgstr ""
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
-
-msgid "Image"
 msgstr ""
 
 msgid "Import"
@@ -415,6 +441,9 @@ msgid "Invalid pattern"
 msgstr ""
 
 msgid "Is this choice the correct response?"
+msgstr ""
+
+msgid "Is this pair the correct response?"
 msgstr ""
 
 msgid "Item creator"
@@ -498,10 +527,10 @@ msgstr ""
 msgid "Microsoft Word file"
 msgstr ""
 
-msgid "Mime type"
+msgid "Mime Type"
 msgstr ""
 
-msgid "Mime Type"
+msgid "Mime type"
 msgstr ""
 
 msgid "MIME-type"
@@ -591,22 +620,31 @@ msgstr ""
 msgid "Please define the correct response using the slider."
 msgstr ""
 
+msgid "Please enter the score for the given hottexts."
+msgstr ""
+
 msgid "Please fill the gap with the correct choices below."
+msgstr ""
+
+msgid "Please fill the gap with the correct choices."
 msgstr ""
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
 msgstr ""
 
-msgid "Please order the choices below to set the correct answer"
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
 msgstr ""
 
-msgid "Please select the correct graphicAssociate choices below."
+msgid "Please order the choices below to set the correct answer"
 msgstr ""
 
 msgid "Please select the correct hotspot choices below."
 msgstr ""
 
-msgid "Please the score of each graphicAssociate choice."
+msgid "Please select the correct hottext choices below."
+msgstr ""
+
+msgid "Please set the correct associations by linking the choices."
 msgstr ""
 
 msgid "Please the score of each hotspot choice."
@@ -681,10 +719,16 @@ msgstr ""
 msgid "Remove Message"
 msgstr ""
 
+msgid "Remove pair"
+msgstr ""
+
 msgid "Remove the selected shape"
 msgstr ""
 
 msgid "Remove this message"
+msgstr ""
+
+msgid "Remove this stylesheet"
 msgstr ""
 
 msgid "required"
@@ -717,16 +761,22 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "score"
+msgid "Scale "
 msgstr ""
 
 msgid "Score"
+msgstr ""
+
+msgid "score"
 msgstr ""
 
 msgid "Score range"
 msgstr ""
 
 msgid "Score value"
+msgstr ""
+
+msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
@@ -748,6 +798,12 @@ msgid "select correct choice"
 msgstr ""
 
 msgid "Select image"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select media file"
 msgstr ""
 
 msgid "Select Point"
@@ -786,13 +842,13 @@ msgstr ""
 msgid "some text ..."
 msgstr ""
 
-msgid "Standard preview"
-msgstr ""
-
 msgid "Step"
 msgstr ""
 
 msgid "Style Editor"
+msgstr ""
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
 msgstr ""
 
 msgid "Style Sheet Manager"
@@ -832,6 +888,9 @@ msgid "The expectedLength attribute provides a hint to the candidate as to the e
 msgstr ""
 
 msgid "The file path to the image."
+msgstr ""
+
+msgid "The file path to the media."
 msgstr ""
 
 msgid "the following Qti Element is currently not supported in TAO"
@@ -890,6 +949,9 @@ msgstr ""
 msgid "The minimum number of answers is "
 msgstr ""
 
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr ""
+
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
 msgstr ""
 
@@ -935,10 +997,10 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
 msgid "Upload Interaction"
@@ -1005,6 +1067,9 @@ msgid "You must use at least ' + min + ' choices"
 msgstr ""
 
 msgid "You need to make at least"
+msgstr ""
+
+msgid "Your item has been saved"
 msgstr ""
 
 msgid "ZIP file"
