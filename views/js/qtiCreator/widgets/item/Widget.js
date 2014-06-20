@@ -1,5 +1,6 @@
 define([
     'lodash',
+    'i18n',
     'jquery',
     'helpers',
     'taoQtiItem/qtiCreator/widgets/Widget',
@@ -15,7 +16,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor, genericFeedbackPopup){
+], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor, genericFeedbackPopup){
     
     var ItemWidget = Widget.clone();
 
@@ -61,16 +62,13 @@ define([
 
         var _widget = this;
 
-        //init title inline edition
-        formElement.initTitle(this.$container.find('.qti-title'), this.element);
-
         //init save button:
         $('#save-trigger').on('click', function(){
             var $saveButton = $(this);
             $saveButton.addClass('active');
             $.when(styleEditor.save(), _widget.save()).done(function() {
                 var feedbackArgs = {
-                        message: 'Your item has been saved',
+                        message: __('Your item has been saved'),
                         type: 'success'
                     },
                     i = arguments.length;
@@ -80,7 +78,7 @@ define([
                 while(i--) {
                     if(arguments[i][1].toLowerCase() !== 'success') {
                         feedbackArgs = {
-                            message: 'Failed to save item',
+                            message: __('Failed to save item'),
                             type: 'error'
                         };
                         break;
@@ -266,7 +264,7 @@ define([
                 _.each(newElts, function(container){
 
                     var containerData = subContainers.shift();//get data in order
-                    var containerElements = _detachElements(itemBody, containerData.elements);
+                   var containerElements = _detachElements(itemBody, containerData.elements);
 
                     container.setElements(containerElements, containerData.body);
 
