@@ -15,9 +15,12 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiCommonRenderer/renderers/Renderer', 'iframeNotifier'],
-    function($, _, QtiRunner, Renderer, iframeNotifier){
+define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiCommonRenderer/renderers/Renderer', 'iframeNotifier', 'core/history'],
+    function($, _, QtiRunner, Renderer, iframeNotifier, history){
     'use strict';
+
+    //fix backspace going back into the history
+    history.fixBrokenBrowsers();
 
     /**
      * The bootstrap is used to set up a QTI item at runtime. It connects to the itemApi.
@@ -28,7 +31,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
      * @param {Object} runnerContext - the item context
      */
     return function bootstrap (runnerContext){
-        
+       
         //reconnect to global itemApi function
         window.onItemApiReady = function onItemApiReady(itemApi) {
             var qtiRunner = new QtiRunner(),
