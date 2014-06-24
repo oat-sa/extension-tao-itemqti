@@ -29,7 +29,9 @@ define([], function() {
                 } else {
                     $shuffleToggle.hide();
                 }
-                $('.qti-item').trigger('toolbarchange');
+                $('.qti-item').trigger('toolbarchange', {
+                    callee: 'formElementHelper'
+                });
             };
 
             _toggleVisibility(interaction.attr('shuffle'));

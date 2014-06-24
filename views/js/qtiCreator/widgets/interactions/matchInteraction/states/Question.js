@@ -65,7 +65,7 @@ define([
         $('.qti-item').on('toolbarchange', function() {
             $matchArea.find('tbody .mini-tlb').each(function() {
                 var $toolbar = $(this);
-                $toolbar.css('left', ($toolbar.width() + 10) * -1);
+                $toolbar.css({ left: ($toolbar.width() + 10) * -1, top: -1} );
             });
         });
 
