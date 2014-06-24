@@ -36,25 +36,29 @@ define(['jquery'], function($){
         var sel = getSelection();
         if(sel.rangeCount){
             var range = sel.getRangeAt(0).cloneRange();
-            if(range.startOffset !== range.endOffset && range.toString().trim() && !containElement(sel, range)){ //prevent empty selection
+            if(range.startOffset !== range.endOffset && //prevent empty selection
+                range.toString().trim() && //prevent empty selection
+                !containElement(sel, range)
+                ){
+                        
                 range.surroundContents(wrap);
                 sel.removeAllRanges();
                 sel.addRange(range);
                 return true;
             }
         }
-        
+
         return false;
     }
 
     function unwrapSelection($editable){
-        
+
         $editable.trigger('beforeunwrap');
-        
+
         $editable.find('#selection-wrapper').replaceWith(function(){
             return $(this).html();
         });
-        
+
         $editable.trigger('unwrapped');
     }
 
@@ -79,9 +83,9 @@ define(['jquery'], function($){
                 }
 
             }).on('mousedown.textwrapper', function(){
-                
+
                 unwrapSelection($editable);
-                
+
             });
 
         },

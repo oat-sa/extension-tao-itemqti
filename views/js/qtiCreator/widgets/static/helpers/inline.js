@@ -1,4 +1,8 @@
-define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement'], function(_, dummyElement){
+define([
+    'lodash',
+    'taoQtiItem/qtiCreator/helper/dummyElement',
+    'core/validator/validators'
+], function(_, dummyElement, validators){
 
     var _qtiClassToDummies = {
         math : 'maths',
@@ -7,7 +11,25 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement'], function(_, dumm
     };
 
     //only valid for a state
-    return {
+    inlineHelper = {
+        checkFileExists : function(widget, fileSrcAttrName, baseUrl){
+
+            var element = widget.element;
+
+            validators.validators.fileExists.validate(
+                element.attr(fileSrcAttrName),
+                function(fileExists){
+                    if(!fileExists){
+                        //clear value:
+                        element.attr(fileSrcAttrName, '');
+                        inlineHelper.togglePlaceholder(widget);
+                    }
+                },
+                {
+                    baseUrl : baseUrl || ''
+                });
+
+        },
         togglePlaceholder : function(widget, opts){
 
             var options = _.defaults(opts || {}, {
@@ -60,5 +82,6 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement'], function(_, dumm
         }
     };
 
+    return inlineHelper;
 });
 

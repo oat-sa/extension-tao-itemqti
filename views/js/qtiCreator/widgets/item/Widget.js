@@ -12,11 +12,10 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
-    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, formElement, styleEditor, genericFeedbackPopup){
+], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, styleEditor, genericFeedbackPopup){
     
     var ItemWidget = Widget.clone();
 

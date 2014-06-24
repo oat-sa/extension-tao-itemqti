@@ -4,12 +4,12 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
+    'taoQtiItem/qtiItem/helper/util',
     'lodash',
     'util/image',
-    'helpers',
     'ui/resourcemgr',
     'nouislider'
-], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, imageUtil, helpers){
+], function(stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -86,10 +86,7 @@ define([
                 
                 img.attr('src', value);
 
-                if(!value.match(/^http/i)){
-                    value = baseUrl + '/' + value;
-                }
-                $img.attr('src', value);
+                $img.attr('src', itemUtil.fullpath(value, baseUrl));
                 $img.trigger('contentChange.qti-widget').change();
                 
                 inlineHelper.togglePlaceholder(_widget);
