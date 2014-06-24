@@ -76,7 +76,7 @@ define([
             $el = $container.find('textarea');
             var ckeOptions = {
                extraPlugins: 'confighelper',
-               resize_enabled: false
+               resize_enabled: true
             };
             
             //setting the placeholder for the textarea
@@ -87,7 +87,7 @@ define([
             // Enable ckeditor only if text format is 'xhtml'.
             if (_getFormat(interaction) == 'xhtml') {
                 //replace the textarea with ckEditor
-                ckEditor.replace(interaction.attr('identifier'));
+                ckEditor.replace(interaction.attr('identifier'), ckeOptions);
                 $container.find('#text-container').addClass('solid');
             }
             else {
