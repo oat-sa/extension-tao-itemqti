@@ -145,9 +145,13 @@ define([
      */
     var setResponse = function(interaction, response) {
     	$container = Helper.getContainer(interaction);
-    	var filename = (typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file';
-    	$container.find('.file-name').empty()
-    								 .text(filename);
+    	
+    	if (response.base != null) {
+    	    var filename = (typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file';
+            $container.find('.file-name').empty()
+                                         .text(filename);
+    	}
+
     	_response = response;
     };
 
