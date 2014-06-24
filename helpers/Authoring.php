@@ -144,7 +144,7 @@ class Authoring
                 )
             )
             /*
-            ,'Block Containers' => array(
+            , 'Block Containers' => array(
                 array('title' => __('Text Block'),
                     'icon' => 'font',
                     'short' => __('Block'),
@@ -189,8 +189,9 @@ class Authoring
                 $parserValidator = new Parser($returnValue);
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
+                    throw new QtiModelException('invalid QTI item XML '.PHP_EOL.' '.$parserValidator->displayErrors());
                     common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
-                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
+                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue), true));
                 }
             }
         }else{
