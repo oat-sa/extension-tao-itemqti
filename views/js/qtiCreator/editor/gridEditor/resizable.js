@@ -17,9 +17,17 @@ define([
         var marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
             activeWidth = 20;
 
+
+
         $el.find('[class^="col-"], [class*=" col-"]').each(function(){
 
             var $col = $(this);
+
+            //@todo this should be more generic
+            //see draggable etc for more references
+            if($col.parent().hasClass('fixed-grid-row')) {
+                return true;
+            }
 
             if($col.children('.grid-edit-resizable-zone').length){
                 //already created, next !

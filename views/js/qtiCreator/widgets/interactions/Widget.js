@@ -78,10 +78,16 @@ define([
     InteractionWidget.createToolbar = function(){
 
         var _this = this,
-            $toolbar;
+            $toolbar,
+            convertToTitle = function(str) {
+                str = str.replace(/[A-Z]/g,  function(match) {
+                    return ' ' + match.toUpperCase();
+                });
+                return str.charAt(0).toUpperCase() + str.substr(1);
+            };
 
         $toolbar = $(toolbarTpl({
-            title : this.element.qtiClass,
+            title : convertToTitle(this.element.qtiClass),
             serial : this.element.serial,
             switcher : !!this.registeredStates.answer
         }));

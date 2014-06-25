@@ -35,7 +35,7 @@ span.dragging{
     @include simple-border();
     margin-bottom: 5px;
     overflow: hidden;
-    
+
     &:before, &:after {
         //display: block;
     }
