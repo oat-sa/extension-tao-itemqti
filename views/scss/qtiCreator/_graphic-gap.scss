@@ -13,17 +13,22 @@
 
         .dummy-element {
             cursor : pointer;
-                
+
             & ~ span.mini-tlb[data-edit] {
                 @include font-size(14);
-                position: absolute;
+                position: absolute !important;
                 right: 0 !important;
                 top: 0 !important;
 
                 .tlb-button {
-                    line-height: 26px;
-                    height: 24px;
+                    line-height: 26px !important;
+                    height: 24px !important;
                 }
+            }
+        }
+        img ~ span.mini-tlb[data-edit] {
+            .tlb-button {
+                line-height: 18px !important;
             }
         }
     }

@@ -1458,12 +1458,14 @@ span.dragging {
       .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] {
         font-size: 14px;
         font-size: 1.4rem;
-        position: absolute;
+        position: absolute !important;
         right: 0 !important;
         top: 0 !important; }
         .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] .tlb-button {
-          line-height: 26px;
+          line-height: 26px !important;
           height: 24px !important; }
+    .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img ~ span.mini-tlb[data-edit] .tlb-button {
+      line-height: 18px !important; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
       content: "\1cb"; }
     .tao-scope .item-editor-item .qti-droppable-block-hover {
