@@ -155,18 +155,16 @@ textarea {
  * 2. The use of `table` rather than `block` is only necessary if using
  *    `:before` to contain the top-margins of child elements.
  */
-.clearfix:before, .block-listing.horizontal:before, .qti-associateInteraction .result-area > li:before, .qti-uploadInteraction .fixed-grid-row:before,
+.clearfix:before, .block-listing.horizontal:before, .qti-associateInteraction .result-area > li:before,
 .clearfix:after,
 .block-listing.horizontal:after,
-.qti-associateInteraction .result-area > li:after,
-.qti-uploadInteraction .fixed-grid-row,
-.qti-uploadInteraction .fixed-grid-row:after {
+.qti-associateInteraction .result-area > li:after {
   content: " ";
   /* 1 */
   display: table;
   /* 2 */ }
 
-.clearfix:after, .block-listing.horizontal:after, .qti-associateInteraction .result-area > li:after, .qti-uploadInteraction .fixed-grid-row, .qti-uploadInteraction .fixed-grid-row:after {
+.clearfix:after, .block-listing.horizontal:after, .qti-associateInteraction .result-area > li:after {
   clear: both; }
 
 /*
@@ -1068,8 +1066,6 @@ textarea {
   padding: 6px 6px 0 6px; }
   .qti-uploadInteraction .grid-row {
     margin-bottom: 0 !important; }
-  .qti-uploadInteraction .fixed-grid-row {
-    width: 101.42857%; }
   .qti-uploadInteraction .progressbar {
     margin-bottom: 6px; }
   .qti-uploadInteraction .btn-info {

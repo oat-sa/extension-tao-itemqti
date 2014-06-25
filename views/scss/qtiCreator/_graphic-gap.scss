@@ -18,8 +18,13 @@
                 @include font-size(14);
                 position: absolute;
                 right: 0 !important;
-                top: 0 !important; 
-           } 
+                top: 0 !important;
+
+                .tlb-button {
+                    line-height: 26px;
+                    height: 24px;
+                }
+            }
         }
     }
 }
