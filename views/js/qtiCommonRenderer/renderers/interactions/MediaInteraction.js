@@ -50,7 +50,7 @@ define([
         
         var media = interaction.object.attributes;
         var mimeType = media.type;
-        var baseUrl = interaction.renderer.getOption('baseUrl');
+        var baseUrl = interaction.renderer.getOption('baseUrl') || '';
         var mediaType = getMediaType(media);
         var playFromPauseEvent = false;
         var pauseFromClick = false;
