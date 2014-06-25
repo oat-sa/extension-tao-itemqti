@@ -15,7 +15,7 @@ define([
                 'orientation': 'horizontal',
                 'reverse': false,
                 'step': 1,
-                'stepLabel': ''
+                'stepLabel': false
             };
         },
         afterCreate : function(){
