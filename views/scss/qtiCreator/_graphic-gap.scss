@@ -11,17 +11,6 @@
             max-height: 60px;
         }
 
-        span.mini-tlb[data-edit] {
-            @include font-size(14);
-            position: absolute;
-            right: 0 !important;
-            top: 0 !important; 
-            height: 24px !important;
-            width: 24px;
-            margin: 0;
-            padding: 0; 
-       } 
-
         .dummy-element {
             cursor : pointer;
                 
@@ -30,7 +19,6 @@
                 position: absolute;
                 right: 0 !important;
                 top: 0 !important; 
-                height: 24px !important;
            } 
         }
     }
