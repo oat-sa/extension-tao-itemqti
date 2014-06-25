@@ -1058,7 +1058,7 @@ span.dragging {
         position: absolute;
         top: 5px; }
     .tao-scope .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] {
-      right: -60px; }
+      right: 0px; }
     .tao-scope .item-editor-item [data-qti-class="orderInteraction"].edit-question .arrow-bar {
       visibility: hidden; }
     .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
