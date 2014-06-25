@@ -5,6 +5,6 @@
         <div class="progressbar"></div>
         <span class="btn-info small col-4"></span>
         <span class="file-name placeholder col-8 truncate"></span>
-        <input type="file">
+        <input type="file" name="any" style="opacity: .5">
     </div>
 </div> 
