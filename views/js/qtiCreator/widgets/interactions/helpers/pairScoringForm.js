@@ -60,14 +60,7 @@ define([
                 } else {
                     $popup.empty();
                 }
-            
-                $container.css({
-                    'overflow': 'visible',
-                    'position': 'relative'
-                });  
-
-                $('#item-editor-panel').css('overflow', 'visible');
-         
+                
                 if(options){
 
                     //prepare content for the form, using either current map entries or data given in options.
@@ -102,7 +95,7 @@ define([
                     updateFormBindings();
 
                     $popup.append($form);
-                    
+
                     //initialize UI componenets manually 
                     selecter($popup);
                     tooltipster($popup);
@@ -354,7 +347,6 @@ define([
      */
     function createPopup($container){
         var $element    = $('<div class="mapping-editor arrow-top-left"></div>'); 
-        var offset      = $container.offset();
         var width       = $container.innerWidth();
         var height      = $container.innerHeight();
 
