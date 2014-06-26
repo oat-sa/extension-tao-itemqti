@@ -8,9 +8,6 @@ define([
     ExtendedTextInteractionWidget.initCreator = function(){
         this.registerStates(states);
         Widget.initCreator.call(this);
-        
-        // Disable inputs until response edition.
-        this.$container.find('input, textarea').attr('disabled', 'disabled');
     };
     
     return ExtendedTextInteractionWidget;

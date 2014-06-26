@@ -37,7 +37,6 @@ define([
         
         var interaction = widget.element;
         renderer.clearText(interaction);
-        renderer.disable(interaction);
         
         helper.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
