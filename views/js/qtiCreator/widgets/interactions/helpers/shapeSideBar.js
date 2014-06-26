@@ -24,7 +24,6 @@ define([
          */
         create : function create($container, showTarget){
 
-            
             var $imageEditor = $container.find('.image-editor');
             var $imageBox = $('.main-image-box', $imageEditor);
             var $sideBar = $(sidebarTmpl({
@@ -32,7 +31,7 @@ define([
                  })).insertBefore($imageEditor);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
-            var newWidth = parseInt($imageBox.outerWidth(true), 10) - parseInt($sideBar.outerWidth(), 10);
+            var newWidth = parseInt($imageBox.outerWidth(), 10) - parseInt($sideBar.outerWidth(true), 10);
            
             /**
              * Set a form/shape into an active state
@@ -106,8 +105,7 @@ define([
                     $sideBar.find('.forms').height($imageEditor.innerHeight());
                 }, 10);
             });
- 
-            $container.trigger('resize.qti-widget', newWidth);    
+            $container.trigger('resize.qti-widget', newWidth); 
 
             return $sideBar;
         },
@@ -118,11 +116,11 @@ define([
             var $imageBox = $('.main-image-box', $imageEditor);
             if($sideBar.length){
                 $sideBar.remove();
-                $imageBox.css('width', 'auto');
-                $imageEditor.css('width', 'auto');
+                //$imageBox.css('width', 'auto');
+                //$imageEditor.css('width', 'auto');
 
                 $container.off('resize.qti-widget.sidebar');
-                $container.trigger('resize');    
+                $container.trigger('resize.qti-widget'); 
             }
         }
     };

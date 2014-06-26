@@ -59,7 +59,7 @@ define([
                 };
             
                 //create the side bar 
-                var $sideBar = shapeSideBar.create($container, !!options.target); 
+                var $sideBar = shapeSideBar.create($original, !!options.target); 
 
                 //once a shape type is selected
                 $sideBar.on('shapeactive.qti-widget', function(e, $form, type){
@@ -248,7 +248,7 @@ define([
              */
             destroy : function(){
 
-                var $container  = widget.$container;
+                var $container  = widget.$original;
                 var interaction = widget.element;
                 var paper       = interaction.paper;
                 var currents    = options.currents || _.pluck(interaction.getChoices(), 'serial');

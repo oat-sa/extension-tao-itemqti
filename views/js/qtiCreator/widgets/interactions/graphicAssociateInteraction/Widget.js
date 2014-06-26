@@ -46,7 +46,7 @@ define([
 
             //stop listening the resize
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
-            $(window).off('resize.qti-widget');
+            $(window).off('resize.qti-widget.' + this.element.serial);
 
             //call parent destroy
             Widget.destroy.call(this);
@@ -66,7 +66,7 @@ define([
                 this._createPlaceholder();
             } else {
                 diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
-                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, {
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, this.element.serial, {
                     width       : background.width, 
                     height      : background.height,
                     img         : this.baseUrl + background.data,

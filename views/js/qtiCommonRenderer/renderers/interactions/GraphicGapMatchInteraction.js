@@ -24,12 +24,12 @@ define([
         var $imageBox  = $('.main-image-box', $container);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        var diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
+        var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
 
         interaction.gapFillers = [];
 
         //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
             width       : background.width, 
             height      : background.height,
             img         : baseUrl + background.data,
@@ -415,7 +415,7 @@ define([
         if(interaction.paper){
             $container = Helper.getContainer(interaction);
         
-            $(window).off('resize.qti-widget');
+            $(window).off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

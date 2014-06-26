@@ -24,12 +24,12 @@ define([
         var baseUrl = this.getOption('baseUrl') || '';
         
         //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
             width       : background.width, 
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
+            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(true),
             container   : $container
         });
 
@@ -209,7 +209,7 @@ define([
         if(interaction.paper){
             $container = Helper.getContainer(interaction);
         
-            $(window).off('resize.qti-widget');
+            $(window).off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

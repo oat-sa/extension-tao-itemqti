@@ -28,13 +28,13 @@ define([
         var baseUrl = this.getOption('baseUrl') || '';
 
         //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
             width       : background.width, 
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(),
+            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(true),
             resize      : function(newWidth){
                 var diff = $orderList.outerWidth(true) -$orderList.width();
                 var width = (newWidth < background.width ?  newWidth : background.width) - (diff > 0 ? diff : 0) + 8;
@@ -368,7 +368,7 @@ define([
         if(interaction.paper){
             $container = Helper.getContainer(interaction);
         
-            $(window).off('resize.qti-widget');
+            $(window).off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

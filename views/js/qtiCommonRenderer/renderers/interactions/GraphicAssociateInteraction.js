@@ -25,15 +25,17 @@ define([
         var $container = Helper.getContainer(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
+        var $imageBox  = $('.main-image-box', $container);
+        var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
         interaction._vsets = [];
  
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, {
+        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
             width       : background.width, 
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth()
+            diff        : diff
         });
 
         //call render choice for each interaction's choices
@@ -464,7 +466,7 @@ define([
         if(interaction.paper){
             $container = Helper.getContainer(interaction);
         
-            $(window).off('resize.qti-widget');
+            $(window).off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

@@ -179,6 +179,7 @@ define([
         /**
          * Create a Raphael paper with a bg image, that is width responsive
          * @param {String} id - the id of the DOM element that will contain the paper
+         * @param {String} serial - the interaction unique indentifier
          * @param {Object} options - the paper parameters
          * @param {String} options.img - the url of the background image
          * @param {jQueryElement} [options.container] - the parent of the paper element (got the closest parent by default)
@@ -187,7 +188,7 @@ define([
          * @param {String} [options.imgId] - an identifier for the image element
          * @returns {Raphael.Paper} the paper
          */ 
-        responsivePaper : function(id, options){
+        responsivePaper : function(id, serial, options){
 
             var paper, image;
 
@@ -196,7 +197,6 @@ define([
             var width = options.width || $container.width();
             var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
-            var responsive = $container.hasClass('responsive');
             var parentWidth = $container.parent().outerWidth();
             var diff = options.diff || (parentWidth > width ? parentWidth - width : 28);
             var resizer = _.throttle(resizePaper, 10);
@@ -210,9 +210,9 @@ define([
             if(raphael.type === 'SVG'){ 
                 
                 //scale on creation
-                resizer();
+                resizePaper();
                 
-                $(window).on('resize.qti-widget', resizer);
+                $(window).on('resize.qti-widget.' + serial, resizer);
                 $container.on('resize.qti-widget', resizePaper);
 
             } else {
@@ -228,18 +228,21 @@ define([
              * @private
              */
             function resizePaper(e, givenWidth){
-                
+                var factor;
                 var maxWidth   = $body.innerWidth();
-                var containerWidth = $container.innerWidth() - (diff + 8);
+                var containerWidth = $container.innerWidth() - diff;
                 if(givenWidth < containerWidth && givenWidth < maxWidth){
                     containerWidth = givenWidth - diff;
                 } else if(containerWidth > maxWidth){
-                    containerWidth = maxWidth - (diff + 8);
+                    containerWidth = maxWidth - diff ;
                 }
-                paper.changeSize(containerWidth, height, false, false);
-              
-                if(responsive){
-                    paper.scaleAll( containerWidth / width );
+ 
+                if($container.hasClass('responsive')){
+                    factor = containerWidth / width;
+                    paper.changeSize(containerWidth, height * factor, false, false);
+                    paper.scaleAll( factor );
+                } else {
+                    paper.changeSize(containerWidth, height, false, false);
                 }
                 if(typeof options.resize === 'function'){
                     options.resize(containerWidth);
