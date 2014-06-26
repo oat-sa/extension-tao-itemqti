@@ -106,7 +106,7 @@ define([
                         var index = $tabNav.index($(this).parents('li'));
                         if(index !== currentTab){
                             //remove global events
-                            $(window).off('.qti');
+                            $(window).off('.qti-widget');
                             $(document).off('.qti-widget');
                             $(document).off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
