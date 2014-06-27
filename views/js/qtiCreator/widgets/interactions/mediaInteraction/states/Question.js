@@ -44,34 +44,78 @@ define([
         //init data change callbacks
         //var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minPlays', 'maxPlays');
         var callbacks = [];
-        callbacks.autostart = formElement.getAttributeChangeCallback();
-        callbacks.loop = formElement.getAttributeChangeCallback();
-        callbacks.maxPlays = formElement.getAttributeChangeCallback();
+        
+        
+        function xmlUpdateCheat(interaction) {
+            // xml update cheat
+            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') );
+        }
+        
+        
+        //callbacks.autostart = formElement.getAttributeChangeCallback();
+        callbacks.autostart = function(interaction, attrValue, attrName) {
+            //console.log('autostarta se promeni');
+            interaction.attr(attrName, attrValue);
+            reRenderMediaInteraction(interaction);
+            xmlUpdateCheat(interaction);
+        }
+        
+        //callbacks.loop = formElement.getAttributeChangeCallback();
+        callbacks.loop = function(interaction, attrValue, attrName) {
+            //console.log('loopa se promeni');
+            interaction.attr(attrName, attrValue);
+            reRenderMediaInteraction(interaction);
+            xmlUpdateCheat(interaction);
+        }
+        
+        
+        //callbacks.maxPlays = formElement.getAttributeChangeCallback();
+        callbacks.maxPlays = _.debounce( function(interaction, attrValue, attrName){
+            interaction.attr(attrName, attrValue);
+            reRenderMediaInteraction(interaction);
+            xmlUpdateCheat(interaction);
+        }, 1000 );
         
         //callbacks['width'] = formElement.getAttributeChangeCallback();
-        callbacks.width = function(interaction, attrValue, attrName){
+        callbacks.width = _.debounce( function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
-            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
-        };
+            reRenderMediaInteraction(interaction);
+            xmlUpdateCheat(interaction);
+        }, 1000 );
         
-        callbacks.height = function(interaction, attrValue, attrName){
+        callbacks.height = _.debounce( function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
-            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
-        };
+            reRenderMediaInteraction(interaction);
+            xmlUpdateCheat(interaction);
+        }, 1000 );
         
-        callbacks.data = function(interaction, attrValue, attrName){
-            interaction.object.attr(attrName, attrValue);
-            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') ); // xml update cheat
-            
-            var dataValue = attrValue.trim().toLowerCase();
-            if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
-                interaction.object.attr('type', 'video/youtube');
+        
+        
+        function reRenderMediaInteraction(interaction) {
+            if ( _widget.mediaElementObject !== undefined && _widget.mediaElementObject.src !== '' ) {
+                _widget.mediaElementObject.setSrc('');
             }
-            
             MediaInteractionCommonRenderer.destroy(interaction);
-            MediaInteractionCommonRenderer.render(interaction, true);
-            
-        };
+            _widget.mediaElementObject = MediaInteractionCommonRenderer.render(interaction, true);
+        }
+        
+        
+        callbacks.data = _.debounce( function(interaction, attrValue, attrName){
+            if ( interaction.object.attr(attrName) !== attrValue ) {
+                interaction.object.attr(attrName, attrValue);
+                xmlUpdateCheat(interaction);
+
+                var dataValue = attrValue.trim().toLowerCase();
+                if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
+                    interaction.object.attr('type', 'video/youtube');
+                }
+
+                reRenderMediaInteraction(interaction);
+            }
+        }, 1000);
+        
+        
+        
         //and so on for the other attributes...
         
         formElement.initDataBinding($form, interaction, callbacks, {invalidate:true});
@@ -103,8 +147,8 @@ define([
                         // set data field content and meybe detect and set media type here
                         var dataInput = $($form.find('input[name=data]'));
                         dataInput.val( files[0].file );
-                        dataInput.trigger('change');
                         interaction.object.attr('type', files[0].mime);
+                        dataInput.trigger('change');
                     }
                 }
             });
