@@ -105,8 +105,8 @@ class ItemModel
     
     public function getImportHandlers() {
     	return array(
-    		new QtiPackageImport(),
-    		new QtiItemImport()
+    		new QtiItemImport(),
+    	    new QtiPackageImport()
     	);
     }
 
