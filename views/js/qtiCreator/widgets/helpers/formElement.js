@@ -1,5 +1,7 @@
 define([
+    'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/qtiItem/core/Element',
     'ui/incrementer',
     'ui/tooltipster',
@@ -8,7 +10,7 @@ define([
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
-], function(_, Element, spinner, tooltip, select2){
+], function($, _, __, Element, spinner, tooltip, select2){
 
     var formElement = {
         initWidget : function($form){
@@ -87,13 +89,14 @@ define([
 
             var $title = $form.hasClass('qti-title') ? $form : $form.find('.qti-title');
 
-            $title.inplacer({
-                target : $('#qti-title')
-            });
-
-            $title.on('change', function(){
-                element.attr('title', $(this).text());
-            });
+            $title
+                .inplacer({
+                    target : $('#qti-title')
+                })
+                .attr('title', __('Edit modal feedback title'))
+                .on('change', function(){
+                    element.attr('title', $(this).text());
+                });
         },
         /**
          * the simplest form of save callback used in data binding 
