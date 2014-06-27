@@ -34,6 +34,9 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction, isCreator) {
+        if (typeof(isCreator) === 'object') {
+            isCreator = false;
+        }
         var $container = Helper.getContainer(interaction);
         var mediaInteractionObjectToReturn = undefined;
 
