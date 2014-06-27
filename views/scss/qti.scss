@@ -247,6 +247,12 @@
     }
 }
 
+.qti-hottextInteraction {
+    .mini-tlb {
+        right: -31px !important;
+    }
+}
+
 .qti-interaction {
     .qti-prompt {
         & ~ .mini-tlb {

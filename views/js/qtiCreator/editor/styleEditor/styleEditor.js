@@ -45,8 +45,14 @@ define([
         var style = {},
             // DOM element to hold the style
             $styleElem = (function () {
-                var styleElem = $('<style>', { id : 'item-editor-user-styles' } );
-                $('head').append(styleElem);
+                var styleElem = $('#item-editor-user-styles');
+                if(!styleElem.length) {
+                    styleElem = $('<style>', { id : 'item-editor-user-styles' } );
+                    $('head').append(styleElem);
+                }
+                else {
+                    styleElem.empty();
+                }
                 return styleElem;
             }()),
             currentItem,
@@ -60,6 +66,7 @@ define([
                 listing: $('#style-sheet-toggler')
             },
             customStylesheet = '';
+
 
         /**
          * Create CSS and add it to DOM
@@ -217,7 +224,14 @@ define([
 
 
             fileName = _basename(stylesheet.attr('href'));
-            link = $(stylesheet.render());
+            // link with cache buster
+            link = (function() {
+                var _link = $(stylesheet.render()),
+                    _href = _link.attr('href'),
+                    _sep  = _href.indexOf('?') > -1 ? '&' : '?';
+                _link.attr('href', _href + _sep + (new Date().getTime()).toString());
+                return _link;
+            }());
 
             // load css to cache before appending
             $.when($.ajax(link.attr('href'))).then(function() {
@@ -317,16 +331,17 @@ define([
             // this creates at the same time customStylesheet in case it doesn't exist yet
             addItemStylesheets();
 
-            var stylesheetUri = _getUri('load') + '?',
-                resizerTarget = $('#item-editor-item-resizer').data('target'),
+            var resizerTarget = $('#item-editor-item-resizer').data('target'),
                 href = customStylesheet.attr('href');
             
             currentItem.data('responsive', true);
-            
-            stylesheetUri += $.param(_.extend({}, itemConfig, { stylesheetUri: href }));
-            require(['json!' + stylesheetUri], function(_style) {
 
-
+            $.when(
+                $.getJSON (
+                    _getUri('load'),
+                    _.extend({}, itemConfig, { stylesheetUri: href })
+                )
+            ).then(function(_style) {
                 // copy style to global style
                 style = _style;
 
@@ -337,9 +352,10 @@ define([
                 if(style.length){
                     currentItem.data('responsive', !!(style[resizerTarget] && style[resizerTarget].width));
                 }
-                // inform editors about custom sheet
 
+                // inform editors about custom sheet
                 $(doc).trigger('customcssloaded.styleeditor', [style]);
+
             });
 
         };
