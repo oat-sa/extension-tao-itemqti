@@ -5,9 +5,9 @@ define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/math', 'taoQtiItem/qtiCommonRender
         getContainer : Helper.getContainer,
         render : function(math, data){
             if(typeof(MathJax) !== 'undefined' && MathJax){
-                _.defer(function(){//defer execution fix some rendering issue in chrome
+                _.delay(function(){//defer execution fix some rendering issue in chrome
                      MathJax.Hub.Queue(["Typeset", MathJax.Hub, Helper.getContainer(math).parent()[0]]);
-                });
+                },60);
             }
         }
     };
