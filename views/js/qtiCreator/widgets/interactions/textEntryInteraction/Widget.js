@@ -30,8 +30,19 @@ define([
     };
 
     TextEntryInteractionWidget.buildContainer = function(){
+        var previous, next;
+        //add a space to be able to place the cursor before and after it.
+        if(this.$original.length){
+            previous = this.$original[0].previousSibling;
+            next = this.$original[0].nextSibling;
 
-        this.$original.before("&nbsp;").after("&nbsp;");
+            if(!previous || (previous.nodeType === 3 && previous.nodeValue === '') || previous.nodeType !== 3){
+                this.$original.before('&nbsp;');
+            }
+            if(!next || (next.nodeType === 3 && next.nodeValue === '') || next.nodeType !== 3){
+                this.$original.after('&nbsp;');
+            }
+        }
 
         //set the itemContainer where the actual widget should be append and be positioned absolutely
         this.$itemContainer = this.$original.parents('.item-editor-item');
