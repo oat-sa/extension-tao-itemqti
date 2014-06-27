@@ -35,9 +35,11 @@ define([
 
         this.initUiComponents();
 
-        this.initTextWidgets();
+        this.initTextWidgets(function(){
 
-        this.initGridEditor();
+            //when the text widgets are ready:
+            this.initGridEditor();
+        });
 
 //        this.debug();
     };
@@ -216,13 +218,15 @@ define([
 
     };
 
-    ItemWidget.initTextWidgets = function(){
+    ItemWidget.initTextWidgets = function(callback){
 
         var _this = this,
             item = this.element,
             $originalContainer = this.$container,
             i = 1,
             subContainers = [];
+
+        callback = callback || _.noop;
 
         //temporarily tag col that need to be transformed into 
         $originalContainer.find('.qti-itemBody > .grid-row').each(function(){
@@ -276,25 +280,41 @@ define([
 
         //create new container model with the created sub containers
         contentHelper.serializeElements($clonedContainer);
+        
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),
             itemBody = item.getBody();
 
-        containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
+        if(subContainers.length){
 
-            if(_.size(newElts) !== subContainers.length){
-                throw 'numbers of subcontainers mismatch';
-            }else{
-                _.each(newElts, function(container){
+            containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
 
-                    var containerData = subContainers.shift();//get data in order
-                    var containerElements = _detachElements(itemBody, containerData.elements);
+                if(_.size(newElts) !== subContainers.length){
+                    
+                    throw 'numbers of subcontainers mismatch';
+                }else{
+                    
+                    _.each(newElts, function(container){
 
-                    container.setElements(containerElements, containerData.body);
+                        var containerData = subContainers.shift();//get data in order
+                        var containerElements = _detachElements(itemBody, containerData.elements);
 
-                    _this.initTextWidget(container, containerData.$original);
-                });
-            }
-        });
+                        container.setElements(containerElements, containerData.body);
+
+                        _this.initTextWidget(container, containerData.$original);
+
+                    });
+
+                    _.defer(function(){
+                        callback.call(_this);
+                    });
+                }
+            });
+
+        }else{
+
+            callback.call(_this);
+        }
+
     };
 
     var _detachElements = function(container, elements){
@@ -308,7 +328,6 @@ define([
     };
 
     ItemWidget.initTextWidget = function(container, $col){
-
         return TextWidget.build(container, $col, this.renderer.getOption('textOptionForm'), {});
     };
 
