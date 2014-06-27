@@ -261,13 +261,20 @@ define([
 
             return this;//for chaining
         },
+
+        /**
+         * Get / Set the validation state
+         * @param {String} [what] - key to identify the validation 
+         * @param {Boolean} [valid] - false to invalidate
+         * @param {String} [why] - message
+         */
         isValid : function(what, valid, why){
 
             var element = this.element;
             
             if(what === undefined){
                 //get
-                return invalidator.isValid(element)
+                return invalidator.isValid(element);
             }else if(valid){
                 invalidator.valid(element, what);
             }else{

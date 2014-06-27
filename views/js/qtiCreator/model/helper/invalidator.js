@@ -3,12 +3,15 @@ define(['lodash'], function(_){
     var invalidator = {
         completelyValid : function(element){
             
-            var item = element.getRelatedItem(),
-                serial = element.getSerial(),
+            var item = element.getRelatedItem();
+            var serial, invalidElements;
+            if(item){
+                serial = element.getSerial();
                 invalidElements = item.data('invalid') || {};
             
-            delete invalidElements[serial];
-            item.data('invalid', invalidElements);
+                delete invalidElements[serial];
+                item.data('invalid', invalidElements);
+            }
         },
         valid : function(element, key){
 
