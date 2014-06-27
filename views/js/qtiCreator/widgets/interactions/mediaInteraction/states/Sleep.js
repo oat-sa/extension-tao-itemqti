@@ -8,8 +8,14 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         
+        $('.ui-widget-header li').not('li.ui-tabs-selected').on('mousedown', function() {
+            if ( widget.mediaElementObject !== undefined && widget.mediaElementObject.src !== '' ) {
+                widget.mediaElementObject.setSrc('');
+            }
+        });
+        
         if ( widget.$container.find('.instruction-container .mejs-container').length == 0 ) {
-            MediaInteractionCommonRenderer.render(interaction, true);
+            widget.mediaElementObject = MediaInteractionCommonRenderer.render(interaction, true);
         }
         
         widget.on('metaChange', function(data) {
