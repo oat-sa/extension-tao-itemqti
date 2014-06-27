@@ -141,7 +141,7 @@
     
     .solid {
         //background: whiten($uiClickableDefaultBg, .4);
-       // @include simple-border(whiten($uiClickableDefaultBg, .4));
+        // @include simple-border(whiten($uiClickableDefaultBg, .4));
         // original: above; new: below
         border: 6px solid  whiten($uiClickableDefaultBg, .2);
     }
@@ -170,8 +170,8 @@
             color: $info;
             padding-right: 5px
         }
-
-
+        
+        
         & > div {
             display: table;
             width: 100%;
@@ -261,5 +261,10 @@
         right: -60px !important;
     }
 }
-/* end tmp fix #2768 */
 
+.qti-flow-container{
+    .mini-tlb{
+        right: -31px !important;
+    }
+}
+/* end tmp fix #2768 */

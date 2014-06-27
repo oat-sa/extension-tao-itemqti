@@ -11,9 +11,11 @@ define([
 
         //ensure that the cardinality of the interaction response is consistent with thte number of gaps
         this.syncCardinality();
+        this.preventSingleChoiceDeletion();
 
     }, function(){
-
+        
+        this.widget.offEvents('question');
     });
 
     GapMatchInteractionStateQuestion.prototype.syncCardinality = function(){
@@ -61,7 +63,7 @@ define([
             toolbarTpl : gapTpl,
             qtiClass : 'gap',
             afterCreate : function(interactionWidget, newHottextWidget, text){
-                
+
                 //after the gap is created, delete it
                 var choice = interactionWidget.element.createChoice(text);
                 interactionWidget.$container.find('.choice-area .add-option').before(choice.render());
@@ -69,6 +71,49 @@ define([
 
             }
         };
+    };
+
+    GapMatchInteractionStateQuestion.prototype.preventSingleChoiceDeletion = function(){
+
+        var interaction = this.widget.element,
+            $container = this.widget.$container;
+
+        var _toggleDeleteButtonVisibility = function(){
+            
+            var choiceCount = 0,
+                $deleteButtons = $container.find('.choice-area .qti-choice [data-role=delete]');
+            
+            _.each(interaction.getChoices(), function(choice){
+                if(!choice.data('deleting')){
+                    choiceCount++;
+                }
+            });
+            
+            if(choiceCount <= 1){
+                $deleteButtons.hide();
+            }else{
+                $deleteButtons.show();
+            }
+        };
+        
+        _toggleDeleteButtonVisibility();
+        
+        this.widget
+            .on('deleted', _toggleDeleteButtonVisibility)
+            .on('choiceCreated', _toggleDeleteButtonVisibility);
+        
+        this.widget.afterStateInit(function(e, element, state){
+            if(state.name === 'deleting' && element.is('gapText')){
+                _toggleDeleteButtonVisibility();
+            }
+        }, 'question');
+        
+        this.widget.afterStateExit(function(e, element, state){
+            if(state.name === 'deleting' && element.is('gapText')){
+                _toggleDeleteButtonVisibility();
+            }
+        }, 'question');
+        
     };
 
     return GapMatchInteractionStateQuestion;

@@ -19,11 +19,13 @@ define([
         this.hideWidget();
 
         this.showMessage(this.widget.element);
-
+        
+        this.widget.element.data('deleting', true);
+        
     }, function(){
 
         this.showWidget();
-
+        this.widget.element.data('deleting', false);
         $('body').off('.deleting');
     });
 

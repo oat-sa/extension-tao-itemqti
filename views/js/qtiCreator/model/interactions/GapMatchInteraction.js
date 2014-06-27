@@ -17,6 +17,7 @@ define([
         },
         afterCreate : function(){
             this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
+            this.createChoice();//gapMatchInteraction requires at least one gapMatch to be valid http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10307
             this.createResponse({
                 baseType : 'directedPair',
                 cardinality : 'multiple'

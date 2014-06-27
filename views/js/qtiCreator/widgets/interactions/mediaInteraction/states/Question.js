@@ -7,7 +7,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
     'ui/resourcemgr'
-], function($, _, stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer, helpers) {
+], function($, _, stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer) {
     
     var MediaInteractionStateQuestion = stateFactory.extend(Question,
         _.noop,
@@ -20,7 +20,7 @@ define([
             $form = _widget.$form,
             options = _widget.options,
             interaction = _widget.element;
-
+        
         //initialization binding
         //initialize your form here, you certainly gonna need to modify it:
         //append the form to the dom (this part should be almost ok)
@@ -74,7 +74,7 @@ define([
         };
         //and so on for the other attributes...
         
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.initDataBinding($form, interaction, callbacks, {invalidate:true});
         
         //_widget.on('attributeChange', function(data){
             //if the template changes, forward the modification to a helper

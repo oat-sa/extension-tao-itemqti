@@ -1,7 +1,9 @@
 define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
+    
     return stateFactory.create('sleep', function(){
-
-        var $container = this.widget.$container;
+        
+        var widget = this.widget,
+            $container = this.widget.$container;
         
         //add listener to display proper hover style
         $container.on('mouseenter.sleep', function(e){
@@ -11,6 +13,10 @@ define(['taoQtiItem/qtiCreator/widgets/states/factory'], function(stateFactory){
             $container.removeClass('hover');
             $container.parent().trigger('mouseenter');//note : same as mouseenter.sleep
         });
+        
+        if(!widget.isValid()){
+            widget.changeState('invalid');
+        }
         
     }, function(){
 

@@ -2,8 +2,9 @@ define([
     'lodash',
     'jquery',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/model/helper/event'
-], function(_, $, Element, event){
+    'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/model/helper/invalidator'
+], function(_, $, Element, event, invalidator){
 
     var _removeSelf = function(element){
         
@@ -38,6 +39,7 @@ define([
                 if(removed){
                     //mark it instantly as removed in case its is being used somewhere else
                     element.data('removed', true);
+                    invalidator.completelyValid(element);
                     event.deleted(element, parent);
                 }
             }
@@ -51,15 +53,22 @@ define([
     var _removeElement = function(element, containerPropName, eltToBeRemoved){
 
         if(element[containerPropName]){
-            var serial = '';
+            
+            var targetSerial = '', 
+                targetElt;
+            
             if(typeof(eltToBeRemoved) === 'string'){
-                serial = eltToBeRemoved;
+                targetSerial = eltToBeRemoved;
+                targetElt = Element.getElementBySerial[targetSerial];
             }else if(eltToBeRemoved instanceof Element){
-                serial = eltToBeRemoved.getSerial();
+                targetSerial = eltToBeRemoved.getSerial();
+                targetElt = eltToBeRemoved;
             }
-            if(serial){
-                delete element[containerPropName][serial];
-                Element.unsetElement(serial);
+            
+            if(targetSerial){
+                invalidator.completelyValid(targetElt);
+                delete element[containerPropName][targetSerial];
+                Element.unsetElement(targetSerial);
             }
         }
 

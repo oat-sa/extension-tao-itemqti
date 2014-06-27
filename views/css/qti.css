@@ -428,4 +428,6 @@ textarea { resize: vertical; }
 
 .widget-textBlock .mini-tlb { right: -60px !important; }
 
+.qti-flow-container .mini-tlb { right: -31px !important; }
+
 /* end tmp fix #2768 */

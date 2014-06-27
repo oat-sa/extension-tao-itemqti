@@ -16,9 +16,11 @@ define([
             tooltip($form);
             select2($form);
         },
-        initDataBinding : function($form, element, attributes){
+        //@todo : rename this function into setChangeCallbacks
+        initDataBinding : function($form, element, attributes, options){
 
             attributes = attributes || {};
+            options = options || {};
 
             var _callbackCall = function(name, value, $elt){
                 var cb = attributes[name];
@@ -45,10 +47,22 @@ define([
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),
-                            name = $elt.attr('name');
+                            name = $elt.attr('name'),
+                            widget = element.data('widget');
 
+                        if(options.invalidate){
+                            _callbackCall(name, $elt.val(), $elt);
+                            widget.isValid(name, valid);
+                        }else if(valid){
+                            _callbackCall(name, $elt.val(), $elt);
+                        }
+
+                        return;
                         if(valid){
                             _callbackCall(name, $elt.val(), $elt);
+                            widget.isValid(name, true);
+                        }else{
+                            widget.isValid(name, false);
                         }
                     }
                 }
@@ -58,12 +72,15 @@ define([
             $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate])', callback.simple);
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
 
-            $form.groupValidator({
-                events : ['change', 'blur', {type : 'keyup', length : 0}],
-                callback : _validationCallback
-            });
-
             $form.on('validated.group.databinding', callback.withValidation);
+
+            _.defer(function(){
+                $form.groupValidator({
+                    validateOnInit : true,
+                    events : ['change', 'blur', {type : 'keyup', length : 0}],
+                    callback : _validationCallback
+                });
+            });
 
         },
         initTitle : function($form, element){
@@ -157,7 +174,7 @@ define([
                 });
                 responseDeclaration.setCorrect(correct);
             }
-            
+
         }else{
             throw new Error('the first argument must be an interaction, the current element is ' + interaction.qtiClass);
         }
@@ -167,7 +184,8 @@ define([
 
     var _validationCallback = function _validationCallback(valid, results){
 
-        var $input = $(this), rule;
+        var $input = $(this),
+            rule;
 
         _createTooltip($input);
 
@@ -183,6 +201,7 @@ define([
             }
 
         }
+
     };
 
     var _createTooltip = function($input){

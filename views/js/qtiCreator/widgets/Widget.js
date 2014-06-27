@@ -1,8 +1,9 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItem/qtiItem/core/Element'
-], function(_, $, Element){
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/model/helper/invalidator'
+], function(_, $, Element, invalidator){
 
     var _pushState = function(widget, stateName){
         var currentState = new widget.registeredStates[stateName](widget);
@@ -28,7 +29,7 @@ define([
                 this.$original = $original;
                 this.$form = $form;
                 this.stateStack = [];
-                
+
                 this.registeredStates = {};
 
                 //build container from origin element
@@ -95,25 +96,21 @@ define([
          * @returns {object} this
          */
         changeState : function(stateName){
-            
+
             var _this = this,
                 state,
                 superStateName,
                 currentState = this.getCurrentState();
-            
-            if(stateName === 'active' && this.element.qtiClass === 'hottext'){
-                debugger;
-            }
-            
+
             if(this.registeredStates[stateName]){
                 state = new this.registeredStates[stateName];
             }else{
                 throw new Error('unknown target state : ' + stateName);
                 return null;
             }
-            
+
             if(currentState){
-                
+
                 if(currentState.name === state.name){
                     return this;
                 }else if(_.indexOf(state.superState, currentState.name) >= 0){
@@ -123,16 +120,16 @@ define([
                         superStateName = state.superState[i];
                         _pushState(this, superStateName);
                     }
-                    
+
                 }else if(_.indexOf(currentState.superState, state.name) >= 0){
-                    
+
                     //just exit as much state as needed to get to it:
                     for(var i = 0; i <= _.indexOf(currentState.superState, state.name); i++){
                         _popState(_this);
                     }
-                    
+
                     return this;
-                    
+
                 }else{
 
                     //first, exit the current state
@@ -181,6 +178,10 @@ define([
             var evtName = 'beforeStateInit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
             $(document).on(evtName, callback);
         },
+        afterStateExit : function(callback, ns){
+            var evtName = 'afterStateExit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
+            $(document).on(evtName, callback);
+        },
         beforeStateExit : function(callback, ns){
             var evtName = 'beforeStateExit.qti-widget.' + this.serial + (ns ? '.' + ns : '');
             $(document).on(evtName, callback);
@@ -196,7 +197,8 @@ define([
 
             //remove editable widgets
             this.$container.find('[data-edit]').remove();
-
+            $('[data-widget-component='+this.serial+']').remove();
+            
             //clean old referenced event
             this.offEvents();
         },
@@ -209,7 +211,7 @@ define([
             if(_.isFunction(options.ready)){
                 postRenderOpts.ready = options.ready;
             }
-            
+
             var $container = null;
             if(options.context && options.context.length){
                 //if the context option is provided, the function will fetch the widget container that in this context
@@ -224,7 +226,7 @@ define([
 
             //we assume that the element still has its renderer set, check renderer:
             var renderer = element.getRenderer();
-            
+
             if(renderer && renderer.isRenderer){
                 if(renderer.name === 'creatorRenderer'){
                     element.render($container);
@@ -258,6 +260,19 @@ define([
             });
 
             return this;//for chaining
+        },
+        isValid : function(what, valid, why){
+
+            var element = this.element;
+            
+            if(what === undefined){
+                //get
+                return invalidator.isValid(element)
+            }else if(valid){
+                invalidator.valid(element, what);
+            }else{
+                invalidator.invalid(element, what, why, this.getCurrentState().name);
+            }
         }
     };
 

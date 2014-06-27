@@ -8,7 +8,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Inactive',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/states/Question',
-    'taoQtiItem/qtiCreator/widgets/states/Sleep'
+    'taoQtiItem/qtiCreator/widgets/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/states/Invalid'
 ], function(factory){
     return factory.createBundle(arguments);
 });

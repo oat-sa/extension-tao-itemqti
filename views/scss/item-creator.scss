@@ -929,7 +929,9 @@ span.dragging{
                 display:block;
                 top: -6px;
             }
-            
+            &.invalid{
+                border : 1px solid $error !important;
+            }
             &.widget-blockInteraction{
                 .qti-choice{
                     &:not(th) {

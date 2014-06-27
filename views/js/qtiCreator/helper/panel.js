@@ -3,23 +3,23 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, Element, editor) {
+], function($, _, Element, editor){
 
-    var _getItemContainer = function() {
+    var _getItemContainer = function(){
         return $('#item-editor-panel');
     };
 
-    var showPanel = function($panel, $fold) {
+    var showPanel = function($panel, $fold){
 
         $panel.show();
         editor.openSections($panel.children('section'));
 
-        if ($fold && $fold.length) {
+        if($fold && $fold.length){
             editor.closeSections($fold.children('section'));
         }
     };
 
-    var initFormVisibilityListener = function() {
+    var initFormVisibilityListener = function(){
 
         //first of all, clear all listener
         $(document).off('.panel');
@@ -27,10 +27,10 @@ define([
         var $itemContainer = _getItemContainer();
 
         var _staticElements = {
-            img: 'Image',
-            object: 'Media',
-            rubricBlock: 'Rubric Block',
-            math: 'Math'
+            img : 'Image',
+            object : 'Media',
+            rubricBlock : 'Rubric Block',
+            math : 'Math'
         };
 
         // all sections on the right sidebar are invisible by default
@@ -44,9 +44,9 @@ define([
             $formStylePanel = $('#item-style-editor-bar'),
             $appearanceToggler = $('#appearance-trigger');
 
-        var _toggleAppearanceEditor = function(active) {
+        var _toggleAppearanceEditor = function(active){
 
-            if (active) {
+            if(active){
 
                 $appearanceToggler.addClass('active');
                 $formStylePanel.show();
@@ -72,79 +72,82 @@ define([
                  * #sidebar-right-response-properties
                  */
                 showPanel($formStylePanel);
-            } else {
+            }else{
                 $appearanceToggler.removeClass('active');
                 $formStylePanel.hide();
                 showPanel($formItemPanel);
             }
         };
 
-        $appearanceToggler.on('click', function() {
+        $appearanceToggler.on('click', function(){
 
-            if ($appearanceToggler.hasClass('active')) {
+            if($appearanceToggler.hasClass('active')){
                 _toggleAppearanceEditor(false);
-            } else {
+            }else{
                 _toggleAppearanceEditor(true);
             }
         });
 
         //@todo : fix this timeout event
-        _.delay(function() {
+        _.delay(function(){
             showPanel($formItemPanel);
         }, 200);
 
-        $(document).on('afterStateInit.qti-widget.panel', function(e, element, state) {
+        $(document).on('afterStateInit.qti-widget.panel', function(e, element, state){
 
-            switch (state.name) {
+            switch(state.name){
                 case 'active':
 
                     _toggleAppearanceEditor(false);
-                    if (!Element.isA(element, 'assessmentItem')) {
+                    if(!Element.isA(element, 'assessmentItem')){
                         $formItemPanel.hide();
                     }
 
                     var label = _staticElements[element.qtiClass];
-                    if (label) {
+                    if(label){
                         $formBodyElementPanel.find('h2').html(label + ' Properties');
                         showPanel($formBodyElementPanel);
-                    } else if (element.qtiClass === '_container') {
+                    }else if(element.qtiClass === '_container'){
                         showPanel($formTextBlockPanel);
                     }
 
-                    if (element.qtiClass === 'modalFeedback') {
+                    if(element.qtiClass === 'modalFeedback'){
                         showPanel($formModalFeedbackPanel);
                         $formResponsePanel.hide();
                     }
                     break;
+
                 case 'question':
+
                     showPanel($formInteractionPanel);
                     break;
-                case 'choice':
-                    showPanel($formChoicePanel, $formInteractionPanel);
-                    break;
+
                 case 'answer':
+
                     showPanel($formResponsePanel);
                     break;
+
                 case 'sleep':
 
-                    if (_staticElements[element.qtiClass]) {
+                    if(_staticElements[element.qtiClass]){
                         $formBodyElementPanel.hide();
-                    } else if (element.qtiClass === '_container') {
+                    }else if(element.qtiClass === '_container'){
                         $formTextBlockPanel.hide();
                     }
 
-                    if (!Element.isA(element, 'choice')) {
-                        if (!$itemContainer.find('.widget-box.edit-active').length) {
+                    if(!Element.isA(element, 'choice')){
+                        if(!$itemContainer.find('.widget-box.edit-active').length){
                             showPanel($formItemPanel);
                         }
                     }
                     break;
             }
 
-        }).on('beforeStateExit.qti-widget.panel', function(e, element, state) {
-            switch (state.name) {
+        }).on('afterStateExit.qti-widget.panel', function(e, element, state){
+
+            switch(state.name){
                 case 'active':
-                    if (element.qtiClass === 'modalFeedback') {
+                    if(element.qtiClass === 'modalFeedback'){
                         showPanel($formResponsePanel);
                         $formModalFeedbackPanel.hide();
                     }
@@ -163,35 +166,35 @@ define([
                     break;
             }
 
-        }).on('elementCreated.qti-widget.panel', function(e, data) {
+        }).on('elementCreated.qti-widget.panel', function(e, data){
 
-            if (data.element.qtiClass === '_container') {
+            if(data.element.qtiClass === '_container'){
                 editor.enableSubGroup('inline-interactions');
             }
 
-        }).on('deleted.qti-widget.panel', function(e, data) {
+        }).on('deleted.qti-widget.panel', function(e, data){
 
-            if (data.element.qtiClass === '_container') {
+            if(data.element.qtiClass === '_container'){
                 toggleInlineInteractionGroup();
             }
 
         });
     };
 
-    var toggleInlineInteractionGroup = function() {
+    var toggleInlineInteractionGroup = function(){
 
         var $itemContainer = _getItemContainer();
-        if ($itemContainer.find('.widget-textBlock').length) {
+        if($itemContainer.find('.widget-textBlock').length){
             editor.enableSubGroup('inline-interactions');
-        } else {
+        }else{
             editor.disableSubGroup('inline-interactions');
         }
     };
 
     return {
-        initFormVisibilityListener: initFormVisibilityListener,
-        showPanel: showPanel,
-        toggleInlineInteractionGroup: toggleInlineInteractionGroup
+        initFormVisibilityListener : initFormVisibilityListener,
+        showPanel : showPanel,
+        toggleInlineInteractionGroup : toggleInlineInteractionGroup
     };
 
 });

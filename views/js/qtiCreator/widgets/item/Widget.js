@@ -16,21 +16,21 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, styleEditor, genericFeedbackPopup){
-    
+
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
-        
+
         this.registerStates(states);
-        
+
         Widget.initCreator.call(this);
 
         if(!config || !config.uri){
             throw new Error('missing required config parameter uri in item widget initialization');
         }
-        
+
         this.renderer = config.renderer;
-        
+
         this.itemUri = config.uri;
 
         this.initUiComponents();
@@ -49,7 +49,7 @@ define([
 
     ItemWidget.save = function(){
         return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem')+ '?uri=' + encodeURIComponent(this.itemUri) ,
+            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem') + '?uri=' + encodeURIComponent(this.itemUri),
             type : 'POST',
             contentType : 'text/xml',
             dataType : 'json',
@@ -59,26 +59,37 @@ define([
 
     ItemWidget.initUiComponents = function(){
 
-        var _widget = this;
+        var _widget = this,
+            element = _widget.element,
+            $saveBtn = $('#save-trigger');
 
         //init save button:
-        $('#save-trigger').on('click', function(){
+        $saveBtn.on('click', function(e){
+
             var $saveButton = $(this);
+
+            if($saveButton.hasClass('disabled')){
+                e.preventDefault();
+                return;
+            }
+
             $saveButton.addClass('active');
-            $.when(styleEditor.save(), _widget.save()).done(function() {
+
+            $.when(styleEditor.save(), _widget.save()).done(function(){
+
                 var feedbackArgs = {
-                        message: __('Your item has been saved'),
-                        type: 'success'
-                    },
-                    i = arguments.length;
+                    message : __('Your item has been saved'),
+                    type : 'success'
+                },
+                i = arguments.length;
 
                 $saveButton.removeClass('active');
 
-                while(i--) {
-                    if(arguments[i][1].toLowerCase() !== 'success') {
+                while(i--){
+                    if(arguments[i][1].toLowerCase() !== 'success'){
                         feedbackArgs = {
-                            message: __('Failed to save item'),
-                            type: 'error'
+                            message : __('Failed to save item'),
+                            type : 'error'
                         };
                         break;
                     }
@@ -87,6 +98,19 @@ define([
                 _createInfoBox(feedbackArgs);
             });
         });
+
+        //listen to invalid states:
+        _widget.on('metaChange', function(data){
+            if(data.element.getSerial() === element.getSerial() && data.key === 'invalid'){
+                var invalid = element.data('invalid');
+                if(_.size(invalid)){
+                    $saveBtn.addClass('disabled');
+                }else{
+                    $saveBtn.removeClass('disabled');
+                }
+            }
+        }, true);
+
     };
 
     ItemWidget.initGridEditor = function(){
@@ -99,22 +123,22 @@ define([
         $itemBody.gridEditor();
         $itemBody.gridEditor('resizable');
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]:not(.disabled)'), {
-            helper: function() {
+            helper : function(){
                 return $(this).find('span').clone().addClass('dragging');
             }
         });
-        
+
         $itemBody.on('beforedragoverstart.gridEdit', function(){
             $itemEditorPanel.addClass('dragging');
             $itemBody.removeClass('hoverable').addClass('inserting');
-            
+
         }).on('dragoverstop.gridEdit', function(){
 
             $itemEditorPanel.removeClass('dragging');
             $itemBody.addClass('hoverable').removeClass('inserting');
-            
+
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
-            
+
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
@@ -130,19 +154,19 @@ define([
                 'data-new' : true,
                 'data-qti-class' : qtiClass
             });//add data attribute to get the dom ready to be replaced by rendering
-            
+
             var $widget = $placeholder.parent().closest('.widget-box, .qti-item');
             var $editable = $placeholder.closest('[data-html-editable], .qti-itemBody');
             var widget = $widget.data('widget');
             var element = widget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
-          
+
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
-            
+
             containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
-                
+
                 creatorRenderer.get().load(function(){
 
                     for(var serial in newElts){
@@ -153,7 +177,7 @@ define([
                             $colParent = $placeholder.parent();
 
                         elt.setRenderer(this);
-                        
+
                         if(Element.isA(elt, '_container')){
                             $colParent.empty();//clear the col content, and leave an empty text field
                             $colParent.html(elt.render());
@@ -204,25 +228,25 @@ define([
         $originalContainer.find('.qti-itemBody > .grid-row').each(function(){
 
             var $row = $(this);
-            
+
             if(!$row.hasClass('widget-box')){//not a rubricBlock
                 $row.children().each(function(){
-                    
+
                     var $col = $(this),
                         isTextBlock = false;
-                    
+
                     $col.contents().each(function(){
-                       if(this.nodeType === 3 && this.nodeValue && this.nodeValue.trim()){
-                           isTextBlock = true;
-                           return false;
-                       }
+                        if(this.nodeType === 3 && this.nodeValue && this.nodeValue.trim()){
+                            isTextBlock = true;
+                            return false;
+                        }
                     });
-                    
+
                     var $widget = $col.children();
                     if($widget.length > 1 || !$widget.hasClass('widget-blockInteraction')){//not an immediate qti element
                         isTextBlock = true;
                     }
-                    
+
                     if(isTextBlock){
                         $col.attr('data-text-block-id', 'text-block-' + i);
                         i++;
@@ -230,11 +254,11 @@ define([
                 });
             }
         });
-        
+
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
         $clonedContainer.find('.qti-itemBody > .grid-row > [data-text-block-id]').each(function(){
-            
+
             var $col = $(this),
                 textBlockId = $col.data('text-block-id'),
                 $subContainer = $col.clone(),
@@ -249,12 +273,12 @@ define([
                 $original : $originalContainer.find('[data-text-block-id="' + textBlockId + '"]').removeAttr('data-text-block-id')
             });
         });
-        
+
         //create new container model with the created sub containers
         contentHelper.serializeElements($clonedContainer);
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),
             itemBody = item.getBody();
-        
+
         containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
 
             if(_.size(newElts) !== subContainers.length){
@@ -263,7 +287,7 @@ define([
                 _.each(newElts, function(container){
 
                     var containerData = subContainers.shift();//get data in order
-                   var containerElements = _detachElements(itemBody, containerData.elements);
+                    var containerElements = _detachElements(itemBody, containerData.elements);
 
                     container.setElements(containerElements, containerData.body);
 
@@ -289,7 +313,7 @@ define([
     };
 
     ItemWidget.debug = function(){
-        
+
         devTools.listenStateChange();
 
         var $code = $('<code>', {'class' : 'language-markup'}),
@@ -312,7 +336,7 @@ define([
             });
         });
 
-        setTimeout(function() {
+        setTimeout(function(){
             closeTrigger.trigger('click');
         }, 2000);
 
