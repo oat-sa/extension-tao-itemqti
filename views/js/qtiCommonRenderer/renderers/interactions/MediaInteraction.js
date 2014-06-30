@@ -237,15 +237,13 @@ define([
             });
         }
 
-
-
-       
+        _.defer(function(){ 
             new MediaElementPlayer($meTag, mediaOptions);
-        //} else {
-           //$container.on('responseSet', function(e, interaction, response) {
+        });
+        //TODO need to enable it oonly once the responseSet has been called, but the current structure doesn't allow it. 
+       //$container.on('responseSet', function(e, interaction, response) {
                 //new MediaElementPlayer($meTag, mediaOptions);
             //});
-        //}
         return mediaInteractionObjectToReturn;
     };
 
