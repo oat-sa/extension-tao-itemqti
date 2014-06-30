@@ -195,7 +195,7 @@ define([
                 interaction.object.attr('type', value);
             }
         };
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.initDataBinding($form, interaction, callbacks, { validateOnInit : false });
         
         interactionFormElement.syncMaxChoices(widget);
     };

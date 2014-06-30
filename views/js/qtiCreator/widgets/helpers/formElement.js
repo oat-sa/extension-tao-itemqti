@@ -22,7 +22,9 @@ define([
         initDataBinding : function($form, element, attributes, options){
 
             attributes = attributes || {};
-            options = options || {};
+            options = _.defaults(options || {}, {
+                validateOnInit : true
+            });
 
             var _callbackCall = function(name, value, $elt){
                 var cb = attributes[name];
@@ -60,12 +62,12 @@ define([
                         }
 
                         return;
-                        if(valid){
-                            _callbackCall(name, $elt.val(), $elt);
-                            widget.isValid(name, true);
-                        }else{
-                            widget.isValid(name, false);
-                        }
+                        //if(valid){
+                            //_callbackCall(name, $elt.val(), $elt);
+                            //widget.isValid(name, true);
+                        //}else{
+                            //widget.isValid(name, false);
+                        //}
                     }
                 }
             };
@@ -78,7 +80,7 @@ define([
 
             _.defer(function(){
                 $form.groupValidator({
-                    validateOnInit : true,
+                    validateOnInit : options.validateOnInit,
                     events : ['change', 'blur', {type : 'keyup', length : 0}],
                     callback : _validationCallback
                 });

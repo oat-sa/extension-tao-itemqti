@@ -171,7 +171,7 @@ define([
         callbacks.data = function(inteaction, value){
             interaction.object.attr('data', value);
             widget.rebuild({
-                ready:function(widget){
+                ready: function(widget){
                     widget.changeState('question');
                 }
             });
@@ -189,7 +189,7 @@ define([
                 interaction.object.attr('type', value);
             }
         };
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.initDataBinding($form, interaction, callbacks, { validateOnInit : false });
         
         interactionFormElement.syncMaxChoices(widget);
     };

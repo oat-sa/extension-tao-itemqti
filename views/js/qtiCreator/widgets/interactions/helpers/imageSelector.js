@@ -1,8 +1,9 @@
 define([
     'jquery',
+    'lodash',
     'util/image',
     'ui/resourcemgr'
-], function($, imageUtil){
+], function($, _, imageUtil){
 
     return function($form, options){
 
@@ -35,8 +36,10 @@ define([
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');
                             }
-                            $src.val(selected.file).trigger('change');
                             $type.val(selected.mime).trigger('change');
+                            _.defer(function(){ 
+                                $src.val(selected.file).trigger('change');
+                            });
                         });
                     }
                 }
