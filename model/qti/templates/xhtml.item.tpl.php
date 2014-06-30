@@ -24,10 +24,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=get_data('title')?></title>
 
-        <!-- user CSS -->
-        <?foreach(get_data('stylesheets') as $stylesheet):?>
-            <link rel="stylesheet" type="text/css" href="<?=$stylesheet['href']?>" media="<?=$stylesheet['media']?>" />
-        <?endforeach?>
+        <link href="<?=BASE_WWW?>css/preview/qtiViewSelector.css" rel="stylesheet">
 
         <script id="initQtiRunner" type="text/javascript">
             (function(){

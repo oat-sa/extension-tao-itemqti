@@ -7,12 +7,21 @@ define([
     var itemStylesheetHandler = (function(){
 
         var attach = function(stylesheets) {
-            var head = $('head');
+            var head = $('head'), link;
 
              $('body').addClass('tao-scope');
 
             _(stylesheets).forEach(function(stylesheet){
-                head.append($(stylesheet.render()));
+                link = (function() {
+                    var _link = $(stylesheet.render()),
+                        _href = _link.attr('href');
+                    if(_href.indexOf('/') === 0) {
+                        _href = _href.slice(1);
+                    }
+                    _link.attr('href', _href);
+                    return _link;
+                }());
+                head.append(link);
             });
 
         };
