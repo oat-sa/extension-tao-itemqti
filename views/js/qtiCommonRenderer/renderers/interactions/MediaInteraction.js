@@ -33,13 +33,11 @@ define([
      * 
      * @param {object} interaction
      */
-    var render = function render(interaction, isCreator) {
-        if (typeof(isCreator) === 'object') {
-            isCreator = false;
-        }
+    var render = function render(interaction) {
         var $container = Helper.getContainer(interaction);
-        var mediaInteractionObjectToReturn = undefined;
-
+        
+        var mediaInteractionObjectToReturn;
+        var isCreator = !!$container.data('creator');
         if (isCreator) {
             //use this defaults when creating new empty item in the creator
             var mediaDefaults = {
@@ -53,11 +51,10 @@ define([
 
         var media = interaction.object.attributes;
         var mimeType = media.type;
-        var baseUrl = interaction.renderer.getOption('baseUrl') || '';
+        var baseUrl = this.getOption('baseUrl') || '';
         var mediaType = getMediaType(media);
         var playFromPauseEvent = false;
         var pauseFromClick = false;
-
 
         var theFeatures = [];
         if (isCreator) {
@@ -66,7 +63,7 @@ define([
             if (mediaType === 'audio') {
                 theFeatures = ['playpause', 'current', 'duration', 'volume'];
             } else {
-                theFeatuers = ['current', 'duration', 'volume'];
+                theFeatures = ['current', 'duration', 'volume'];
             }
         }
 
@@ -86,7 +83,7 @@ define([
             iPhoneUseNativeControls: false,
             AndroidUseNativeControls: false,
             alwaysShowHours: false,
-            enableKeyboard: isCreator ? true : false,
+            enableKeyboard: false,
             pauseOtherPlayers: false,
             success: function(mediaElement, playerDom) {
                 
@@ -196,7 +193,7 @@ define([
         };
 
 
-        var meHtmlContainer = $container.children('.instruction-container').first();
+        var meHtmlContainer = $container.find('.media-container');
 
         if (mediaOptions.videoWidth === undefined) {
             mediaOptions.videoWidth = mediaOptions.defaultVideoWidth;
@@ -209,9 +206,8 @@ define([
         var mediaIsServedByTAOsPHP = false;
 
         if (mediaType === 'video' || mediaType === 'audio') {
-            mediaFullUrl = media.data.trim();
-            var mediaDataLower = mediaFullUrl.toLowerCase();
-            if (mediaDataLower.indexOf('http://www.') !== 0 && mediaDataLower.indexOf('http://') !== 0 && mediaDataLower.indexOf('www.') !== 0) {
+            mediaFullUrl = media.data.replace(/^\//, '');
+            if(!/^http(s)?:\/\//.test(mediaFullUrl)){
                 mediaFullUrl = baseUrl + mediaFullUrl;
                 mediaIsServedByTAOsPHP = true;
             }
@@ -243,13 +239,13 @@ define([
 
 
 
-        if (isCreator) {
+       
             new MediaElementPlayer($meTag, mediaOptions);
-        } else {
-            $container.on('responseSet', function(e, interaction, response) {
-                new MediaElementPlayer($meTag, mediaOptions);
-            });
-        }
+        //} else {
+           //$container.on('responseSet', function(e, interaction, response) {
+                //new MediaElementPlayer($meTag, mediaOptions);
+            //});
+        //}
         return mediaInteractionObjectToReturn;
     };
 

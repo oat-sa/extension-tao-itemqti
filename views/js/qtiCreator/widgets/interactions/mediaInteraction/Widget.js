@@ -11,13 +11,6 @@ define([
         
         Widget.initCreator.call(this);
         
-        //do some initialization, if needed
-        this.functionToInitMyInteractionCreatorWidget();
-    };
-    
-    MediaInteractionWidget.functionToInitMyInteractionCreatorWidget = function(){
-        //put some code here...
-        
     };
     
     return MediaInteractionWidget;

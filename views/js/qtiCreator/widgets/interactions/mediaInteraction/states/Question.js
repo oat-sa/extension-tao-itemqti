@@ -11,7 +11,12 @@ define([
     
     var MediaInteractionStateQuestion = stateFactory.extend(Question,
         _.noop,
-        _.noop
+        function exitSleepState() {
+            var widget = this.widget;
+            if(widget.mediaElementObject){
+                   widget.mediaElementObject.stop();
+            }   
+        }
     );
 
     MediaInteractionStateQuestion.prototype.initForm = function(){
@@ -58,7 +63,7 @@ define([
             interaction.attr(attrName, attrValue);
             reRenderMediaInteraction(interaction);
             xmlUpdateCheat(interaction);
-        }
+        };
         
         //callbacks.loop = formElement.getAttributeChangeCallback();
         callbacks.loop = function(interaction, attrValue, attrName) {
@@ -66,7 +71,7 @@ define([
             interaction.attr(attrName, attrValue);
             reRenderMediaInteraction(interaction);
             xmlUpdateCheat(interaction);
-        }
+        };
         
         
         //callbacks.maxPlays = formElement.getAttributeChangeCallback();
@@ -96,7 +101,7 @@ define([
                 _widget.mediaElementObject.setSrc('');
             }
             MediaInteractionCommonRenderer.destroy(interaction);
-            _widget.mediaElementObject = MediaInteractionCommonRenderer.render(interaction, true);
+            _widget.mediaElementObject = MediaInteractionCommonRenderer.call.render(interaction.getRenderer(), interaction);
         }
         
         
