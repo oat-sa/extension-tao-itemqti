@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
@@ -9,7 +10,7 @@ define([
     'util/image',
     'ui/resourcemgr',
     'nouislider'
-], function(stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+], function($, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -50,7 +51,19 @@ define([
             $img.trigger('contentChange.qti-widget');
             
         }, 100);
+    };
 
+    /**
+     * Extract a default label from a file/path name
+     * @param {String} fileName - the file/path
+     * @returns {String} a label
+     */
+    var _extractLabel = function extractLabel(fileName){
+        return fileName
+                .replace(/\.[^.]+$/, '')
+                .replace(/^(.*)\//, '')
+                .replace(/\W/, ' ')
+                .substr(0, 255);
     };
 
     ImgStateActive.prototype.initForm = function(){
@@ -128,9 +141,9 @@ define([
             $height = $form.find('[name=height]'),
             $width = $form.find('[name=width]'),
             original = {
-            h : img.attr('height') || $img.height(),
-            w : img.attr('width') || $img.width()
-        };
+                h : img.attr('height') || $img.height(),
+                w : img.attr('width') || $img.width()
+            };
 
         $slider.noUiSlider({
             range : {
@@ -141,7 +154,12 @@ define([
         }, $slider.hasClass('noUi-target'));
 
         $slider.off('slide').on('slide', _.throttle(function(e, value){
-
+            if(!original.w){
+               original.w = parseInt(img.attr('width'), 10); 
+            }
+            if(!original.h === 0){
+               original.h = parseInt(img.attr('height'), 10); 
+            }
             var ratio = (value / 100),
                 w = parseInt(ratio * original.w),
                 h = parseInt(ratio * original.h);
@@ -168,8 +186,10 @@ define([
 
         var $form = widget.$form,
             options = widget.options,
+            img = widget.element,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
+            $label = $form.find('input[name=alt]'),
             $width = $form.find('input[name=width]'),
             $height = $form.find('input[name=height]');
 
@@ -188,16 +208,22 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-                    var i, l = files.length;
-                    for(i = 0; i < l; i++){
-                        imageUtil.getSize(options.baseUrl + files[i].file, function(size){
+                    if(files && files.length){
+                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
                             if(size && size.width >= 0){
+                                //update manually the object, to prevent the throttling used by the slider
+                                img.attr('width', parseInt(size.width, 10));
+                                img.attr('height', parseInt(size.height, 10));
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');
                             }
-                            $src.val(files[i].file).trigger('change');
+                            if($.trim($label.val()) === ''){
+                                $label.val(_extractLabel(files[0].file)).trigger('change');
+                            }
+                            _.defer(function(){
+                                $src.val(files[0].file).trigger('change');
+                            });
                         });
-                        break;
                     }
                 }
             });
