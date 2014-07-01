@@ -143,6 +143,22 @@ define([
 
                     };
 
+
+
+                    /*
+                     dirty trick: shows and hides combo boxes (styles for instance)
+                     in the CKE toolbar and acts as a pre-loader for the iframes in these boxes
+                     */
+                    $('#cke_' + e.editor.name).find('.cke_combo_button').each(function() {
+                        var btn = this;
+                        btn.click();
+                        setTimeout(function() {
+                            btn.click();
+                        }, 500)
+
+                    });
+
+
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
 
@@ -177,6 +193,7 @@ define([
 
                 },
                 focus: function(e) {
+
                     //show trigger
                     $editableContainer.find('[data-role="cke-launcher"]').hide();
                     $trigger.show();
@@ -187,9 +204,6 @@ define([
                     }
 
                     $('.qti-item').trigger('toolbarchange');
-
-                    console.log(e.editor.ui, $('.cke_combo__styles .cke_combo_button'))
-                    $('.cke_combo__styles .cke_combo_button').trigger('click');
 
 
                 },
