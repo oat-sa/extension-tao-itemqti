@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice'
-], function(stateFactory, Question, formElement, formTpl){
+], function($, stateFactory, Question, formElement, formTpl){
 
     var InlineChoiceInteractionStateQuestion = stateFactory.extend(Question, function(){
 
