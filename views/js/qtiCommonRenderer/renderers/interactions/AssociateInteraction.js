@@ -374,8 +374,8 @@ define([
                 Helper.appendInstruction(interaction, __('The maximum number of association is unlimited.'));
             }
             //the max value is implicit since the appropriate number of empty pairs have already been created
-            var msg = __('You need to make at least') + ' ';
-            msg += (min > 1) ? min + ' ' + __('association pairs') : __('one association pair');
+            var msg = __('You need to make') + ' ';
+            msg += (min > 1) ? __('at least') + ' ' + min + ' ' + __('association pairs') : __('one association pair');
             Helper.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
