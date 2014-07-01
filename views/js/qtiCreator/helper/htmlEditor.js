@@ -173,9 +173,7 @@ define([
 
                     $editable.trigger('editorready', [editor]);
 
-                    $('.qti-item').trigger('toolbarchange', {
-                        clip: false
-                    });
+                    $('.qti-item').trigger('toolbarchange');
 
                 },
                 focus: function(e) {
@@ -188,17 +186,16 @@ define([
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
-                    $('.qti-item').trigger('toolbarchange', {
-                        clip: false
-                    });
+                    $('.qti-item').trigger('toolbarchange');
+
+                   /* console.log($('.cke_combo__styles .cke_combo_button'))
+                    $('.cke_combo__styles .cke_combo_button').trigger('click');*/
 
 
                 },
                 blur: function(e) {
 
-                    $('.qti-item').trigger('toolbarchange', {
-                        clip: true
-                    });
+                    $('.qti-item').trigger('toolbarchange');
 
                 },
                 configLoaded: function(e) {

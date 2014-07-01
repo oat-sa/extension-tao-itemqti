@@ -32,18 +32,15 @@ use \DOMDocument;
 
 /**
  * The QTI_Item object represent the assessmentItem.
- * It's the main QTI object, it contains all the other objects and is the main
- * point
- * to render a complete item.
+ * It's the main QTI object, it contains all the other objects and
+ * is the main point to render a complete item.
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#section10042
-
  */
-class Item extends IdentifiedElement implements FlowContainer, IdentifiedElementContainer, common_Serializable
-{
+class Item extends IdentifiedElement implements FlowContainer, IdentifiedElementContainer, common_Serializable{
 
     /**
      * the QTI tag name as defined in QTI standard
@@ -61,7 +58,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     protected $body = null;
 
     /**
-     * Item's reponse processing
+     * Item's response processing
      *
      * @access protected
      * @var array
@@ -69,7 +66,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     protected $responses = array();
 
     /**
-     * Item's reponse processing
+     * Item's response processing
      *
      * @access protected
      * @var ResponseProcessing
@@ -113,13 +110,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param string identifier
-     * @param array options
+     * @param array $attributes
      * @return mixed
      */
     public function __construct($attributes = array()){
         // override the tool options !
-        $attributes['toolName'] = PRODUCT_NAME;
+        $attributes['toolName']    = PRODUCT_NAME;
         $attributes['toolVersion'] = TAO_VERSION;
 
         // create container
@@ -161,9 +157,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param
-     *            Interaction interaction
-     * @return mixed
+     * @param Interaction $interaction
+     * @param $body
+     * @return bool
      */
     public function addInteraction(Interaction $interaction, $body){
         $returnValue = false;
@@ -172,7 +168,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $returnValue = $this->getBody()->setElement($interaction, $body);
         }
 
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     /**
@@ -180,9 +176,8 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param
-     *            Interaction interaction
-     * @return boolean
+     * @param Interaction $interaction
+     * @return bool
      */
     public function removeInteraction(Interaction $interaction){
         $returnValue = false;
@@ -191,7 +186,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $returnValue = $this->getBody()->removeElement($interaction);
         }
 
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     public function getInteractions(){
@@ -243,6 +238,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @param
      *            array outcomes
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function setOutcomes($outcomes){
         $this->outcomes = array();
@@ -296,27 +292,27 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param
-     *            Outcome outcome
-     * @return boolean
+     * @param OutcomeDeclaration $outcome
+     * @return bool
      */
     public function removeOutcome(OutcomeDeclaration $outcome){
-        $returnValue = (bool) false;
+        $returnValue = (bool)false;
 
         if(!is_null($outcome)){
             if(isset($this->outcomes[$outcome->getSerial()])){
                 unset($this->outcomes[$outcome->getSerial()]);
                 $returnValue = true;
             }
-        }else{
+        }
+        else{
             common_Logger::w('Tried to remove null outcome');
         }
 
         if(!$returnValue){
-            common_Logger::w('outcome not found '.$outcome->getSerial());
+            common_Logger::w('outcome not found ' . $outcome->getSerial());
         }
 
-        return (bool) $returnValue;
+        return (bool)$returnValue;
     }
 
     public function addResponse(ResponseDeclaration $response){
@@ -353,6 +349,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         if(isset($this->modalFeedbacks[$serial])){
             $returnValue = $this->modalFeedbacks[$serial];
         }
+
         return $returnValue;
     }
 
@@ -364,7 +361,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @return array
      */
     public function getStylesheets(){
-        return (array) $this->stylesheets;
+        return (array)$this->stylesheets;
     }
 
     public function addStylesheet(Stylesheet $stylesheet){
@@ -382,9 +379,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $serial = '';
         if($response instanceof ResponseDeclaration){
             $serial = $response->getSerial();
-        }elseif(is_string($response)){
+        }
+        elseif(is_string($response)){
             $serial = $response;
-        }else{
+        }
+        else{
             throw new InvalidArgumentException('the argument must be an instance of taoQTI_models_classes_QTI_ResponseDeclaration or a string serial');
         }
 
@@ -403,6 +402,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $returnValue->addMultiple($this->getOutcomes());
         $returnValue->addMultiple($this->getResponses());
         $returnValue->addMultiple($this->getModalFeedbacks());
+
         return $returnValue;
     }
 
@@ -411,14 +411,16 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
+     * @param array $options
+     * @param array $filtered
      * @return string
      */
     public function toXHTML($options = array(), &$filtered = array()){
 
-        $template = static::getTemplatePath().'/xhtml.item.tpl.php';
+        $template = static::getTemplatePath() . '/xhtml.item.tpl.php';
 
         // get the variables to use in the template
-        $variables = $this->getAttributeValues();
+        $variables                = $this->getAttributeValues();
         $variables['stylesheets'] = array();
         foreach($this->getStylesheets() as $stylesheet){
             $variables['stylesheets'][] = $stylesheet->getAttributeValues();
@@ -431,7 +433,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         //additional js:
-        $variables['javascripts'] = array();
+        $variables['javascripts']  = array();
         $variables['js_variables'] = array();
         if(isset($options['js'])){
             foreach($options['js'] as $js){
@@ -444,7 +446,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             }
         }
 
-        $dataForDelivery = $this->getDataForDelivery();
+        $dataForDelivery       = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
 
         //copy all variable data into filtered array
@@ -452,19 +454,21 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $filtered[$serial] = $data;
         }
 
-        $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : array();
-        $variables['tao_lib_path'] = isset($options['path']) && isset($options['path']['tao']) ? $options['path']['tao'] : '';
-        $variables['taoQtiItem_lib_path'] = isset($options['path']) && isset($options['path']['taoQtiItem']) ? $options['path']['taoQtiItem'] : '';
-        
+        $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements'])
+            ? $options['contentVariableElements']
+            : array();
+        $variables['tao_lib_path']            = isset($options['path']) && isset($options['path']['tao']) ? $options['path']['tao'] : '';
+        $variables['taoQtiItem_lib_path']     = isset($options['path']) && isset($options['path']['taoQtiItem']) ? $options['path']['taoQtiItem'] : '';
+
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
 
         $returnValue = $tplRenderer->render();
 
-        return (string) $returnValue;
+        return (string)$returnValue;
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'/qti.item.tpl.php';
+        return static::getTemplatePath() . '/qti.item.tpl.php';
     }
 
     protected function getTemplateQtiVariables(){
@@ -499,11 +503,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         // render the responseProcessing
         $renderedResponseProcessing = '';
-        $responseProcessing = $this->getResponseProcessing();
+        $responseProcessing         = $this->getResponseProcessing();
         if(isset($responseProcessing)){
             if($responseProcessing instanceof TemplatesDriven){
                 $renderedResponseProcessing = $responseProcessing->buildQTI($this);
-            }else{
+            }
+            else{
                 $renderedResponseProcessing = $responseProcessing->toQTI();
             }
         }
@@ -519,6 +524,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @access public
      * @author Sam, <sam@taotesting.com>
      * @return string
+     * @throws exception\QtiModelException
      */
     public function toXML(){
 
@@ -527,10 +533,10 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $qti = $this->toQTI();
 
         // render and clean the xml
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
+        $dom                     = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput       = true;
         $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
+        $dom->validateOnParse    = false;
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
 
@@ -539,11 +545,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
                 $parserValidator = new Parser($returnValue);
                 $parserValidator->validate();
                 if(!$parserValidator->isValid()){
-                    common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
+                    common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
 //                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue),true));
                 }
             }
-        }else{
+        }
+        else{
             $parserValidator = new Parser($qti);
             $parserValidator->validate();
             if(!$parserValidator->isValid()){
@@ -551,7 +558,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             }
         }
 
-        return (string) $returnValue;
+        return (string)$returnValue;
     }
 
     /**
@@ -597,10 +604,13 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         return array('core' => $itemData, 'variable' => $filtered);
     }
 
+    /**
+     * @return mixed
+     */
     public function toForm(){
 
         $formContainer = new AssessmentItem($this);
-        $returnValue = $formContainer->getForm();
+        $returnValue   = $formContainer->getForm();
 
         return $returnValue;
     }
