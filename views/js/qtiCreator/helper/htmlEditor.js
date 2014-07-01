@@ -188,8 +188,8 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
 
-                   /* console.log($('.cke_combo__styles .cke_combo_button'))
-                    $('.cke_combo__styles .cke_combo_button').trigger('click');*/
+                    console.log(e.editor.ui, $('.cke_combo__styles .cke_combo_button'))
+                    $('.cke_combo__styles .cke_combo_button').trigger('click');
 
 
                 },
