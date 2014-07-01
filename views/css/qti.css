@@ -371,7 +371,7 @@ textarea { resize: vertical; }
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
-.qti-inlineChoiceInteraction { min-width: 200px; }
+.qti-inlineChoiceInteraction { min-width: 150px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */

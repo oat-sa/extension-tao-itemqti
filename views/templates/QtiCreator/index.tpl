@@ -2,9 +2,9 @@
 use oat\taoQtiItem\helpers\Authoring;
 ?>
 <!--pretty print-->
-<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
-<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
-<link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
+<!--<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>-->
+<!--<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>-->
+<!--<link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">-->
 
 <link href="<?=BASE_WWW?>css/qti.css" rel="stylesheet">
 <link href="<?=BASE_WWW?>css/item-creator.css" rel="stylesheet">
@@ -293,16 +293,16 @@ use oat\taoQtiItem\helpers\Authoring;
 
 <script>
     <?if(tao_helpers_Mode::is('production')):?>
-    require(['taoQtiItem/controllers.min'], function(){
+        require(['taoQtiItem/controller/routes'], function(){
         <? endif ?>
 
-        require(['taoQtiItem/controller/creator/main'], function(controller){
-            controller.start({
-                uri : '<?=get_data('uri')?>',
-                lang : '<?=get_data('lang')?>',
-                baseUrl : '<?=get_data('baseUrl')?>'
+            require(['taoQtiItem/controller/creator/main'], function(controller){
+                controller.start({
+                    uri : '<?=get_data('uri')?>',
+                    lang : '<?=get_data('lang')?>',
+                    baseUrl : '<?=get_data('baseUrl')?>'
+                });
             });
-        });
 
         <?if(tao_helpers_Mode::is('production')):?>
     });
