@@ -249,8 +249,9 @@ define([
 
     var _destroy = function(interaction) {
         var $container = Helper.getContainer(interaction);
-        $container.children('.instruction-container').empty();
-        Helper.getContainer(interaction).removeData('timesPlayed', 0);
+        $('.instruction-container', $container).empty();
+        $('.media-container', $container).empty();
+        $container.removeData('timesPlayed');
     };
 
     /**

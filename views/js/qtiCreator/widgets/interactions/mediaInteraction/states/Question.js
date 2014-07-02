@@ -101,7 +101,8 @@ define([
                 _widget.mediaElementObject.setSrc('');
             }
             MediaInteractionCommonRenderer.destroy(interaction);
-            _widget.mediaElementObject = MediaInteractionCommonRenderer.call.render(interaction.getRenderer(), interaction);
+            //MediaInteractionCommonRenderer.destroy.call(interaction.getRenderer(), interaction);
+            _widget.mediaElementObject = MediaInteractionCommonRenderer.render.call(interaction.getRenderer(), interaction);
         }
         
         
