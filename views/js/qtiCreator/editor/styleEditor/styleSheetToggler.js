@@ -74,10 +74,13 @@ define([
              */
             var deleteStylesheet = function(trigger) {
                 var context = getContext(trigger),
-                    attr = context.isDisabled ? 'disabled-href' : 'href';
+                    attr = context.isDisabled ? 'disabled-href' : 'href',
+                    cssLinks = $('head link');
+
 
                 styleEditor.getItem().removeStyleSheet(context.stylesheetObj);
-                $('link[' + attr + '$="' + context.cssUri + '"]').remove();
+
+                cssLinks.filter('[' + attr + '*="' + context.cssUri + '"]').remove();
                 context.li.remove();
 
                 $('.feedback-info').hide();
