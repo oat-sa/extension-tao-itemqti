@@ -396,7 +396,9 @@ define([
 
         var addedPairs = 0,
             $emptyPair = Helper.getContainer(interaction).find('.result-area>li:first');
-
+        if(pairs && interaction.getResponseDeclaration().attr('cardinality') === 'single' && pairs.length){
+            pairs = [pairs];
+        }
         _.each(pairs, function(pair){
             if($emptyPair.length){
                 var $divs = $emptyPair.children('div');

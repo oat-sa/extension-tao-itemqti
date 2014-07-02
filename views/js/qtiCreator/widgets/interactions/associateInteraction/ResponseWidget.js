@@ -22,8 +22,8 @@ define([
             commonRenderer.render(interaction);
         },
         setResponse : function(interaction, response){
-        
-            commonRenderer.setResponse(interaction, this.formatResponse(response));
+            var responseDeclaration = interaction.getResponseDeclaration();
+            commonRenderer.setResponse(interaction, this.formatResponse(response, responseDeclaration.attr('cardinality')));
         },
         destroy : function(widget){
 
@@ -71,13 +71,22 @@ define([
             
             return pairs;
         },
-        formatResponse : function(response){
+        formatResponse : function(response, cardinality){
 
-            var formatedRes = {list : {pair : []}};
-
+            var formatedRes;
+            if(cardinality === 'single'){
+                formatedRes = {base : { pair : [] }};
+            } else {
+                formatedRes = {list : { pair : [] }};
+            }
+            
             _.each(response, function(pairString){
                 var pair = pairString.split(' ');
-                formatedRes.list.pair.push(pair);
+                if(cardinality === 'single'){
+                    formatedRes.base.pair = pair;
+                } else {
+                    formatedRes.list.pair.push(pair);
+                }
             });
 
             return formatedRes;
