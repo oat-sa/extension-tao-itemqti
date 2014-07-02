@@ -9,6 +9,7 @@
             @extend %selectableHover;
         }
         background: $uiClickableDefaultBg;
+        color: $textColor;
         @include border-radius();
         position: relative;
         top: 4px;

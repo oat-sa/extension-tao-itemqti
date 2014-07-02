@@ -39,8 +39,8 @@
         background-color:white(.8);
         max-width:500px;
         .feedbackRule-condition{
-            width:86px;
-            min-width:40px;
+            width:86px !important;
+            min-width:86px !important;
         }
         .feedbackRule-desc {
             margin-bottom:5px;
