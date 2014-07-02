@@ -15,54 +15,66 @@ define(['lodash'], function(_){
         },
         valid : function(element, key){
 
-            var item = element.getRelatedItem(),
-                serial = element.getSerial(),
+            var item = element.getRelatedItem();
+            var serial = element.getSerial();
+            var invalidElements;
+
+            if(item){
                 invalidElements = item.data('invalid') || {};
 
-            if(key){
+                if(key){
 
-                if(invalidElements[serial] && invalidElements[serial][key]){
-                    delete invalidElements[serial][key];
-                    if(!_.size(invalidElements[serial])){
-                        delete invalidElements[serial];
+                    if(invalidElements[serial] && invalidElements[serial][key]){
+                        delete invalidElements[serial][key];
+                        if(!_.size(invalidElements[serial])){
+                            delete invalidElements[serial];
+                        }
+
+                        item.data('invalid', invalidElements);
                     }
 
-                    item.data('invalid', invalidElements);
+                }else{
+                    throw new Error('missing required argument "key"');
                 }
-
-            }else{
-                throw new Error('missing required argument "key"');
             }
         },
         invalid : function(element, key, message, stateName){
 
-            var item = element.getRelatedItem(),
-                serial = element.getSerial(),
+            var item = element.getRelatedItem();
+            var serial = element.getSerial();
+            var invalidElements;
+
+            if(item){
                 invalidElements = item.data('invalid') || {};
 
-            if(key){
+                if(key){
 
-                if(!invalidElements[serial]){
-                    invalidElements[serial] = {};
+                    if(!invalidElements[serial]){
+                        invalidElements[serial] = {};
+                    }
+
+                    invalidElements[serial][key] = {
+                        message : message || '',
+                        stateName : stateName || 'active'
+                    };
+                    item.data('invalid', invalidElements);
+
+                }else{
+                    throw new Error('missing required arguments "key"');
                 }
-
-                invalidElements[serial][key] = {
-                    message : message || '',
-                    stateName : stateName || 'active'
-                };
-                item.data('invalid', invalidElements);
-
-            }else{
-                throw new Error('missing required arguments "key"');
             }
         },
         isValid : function(element){
 
-            var item = element.getRelatedItem(),
-                serial = element.getSerial(),
-                invalidElements = item.data('invalid') || {};
+            var item = element.getRelatedItem();
+            var serial = element.getSerial();
+            var invalidElements;
 
-            return !invalidElements[serial];
+            if(item){
+                invalidElements = item.data('invalid') || {};
+                return !invalidElements[serial];
+            }
+            return true;
         }
     };
 
