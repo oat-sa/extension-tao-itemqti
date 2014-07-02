@@ -12,8 +12,8 @@
         color: $textColor;
         @include border-radius();
         position: relative;
-        top: 4px;
-        min-width: 25px;
+        top: 0px;
+        min-width: 45px;
         min-height: 20px;
         display: inline-block;
         &.empty {

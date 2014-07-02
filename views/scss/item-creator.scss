@@ -14,6 +14,7 @@ span.dragging{
     box-shadow: 1px 1px 6px 2px #777;
 }
 
+
 %editHover {
     cursor:pointer;
     border:1px solid whiten($info, .5);
@@ -35,6 +36,8 @@ span.dragging{
     margin-bottom: 5px;
     overflow: hidden;
     z-index: 5000;
+    @include font-size(13, true);
+
 
     &:before, &:after {
         //display: block;
@@ -871,11 +874,14 @@ span.dragging{
                 .tlb-title{
                     margin-top:1px;
                     line-height:1.4;
+                    @include font-size(14, true);
                 }
+
                 .tlb{
                     .state-switcher{
                         float:right;
                         padding:0;
+                        @include font-size(14, true);
                     }
                     &>div{
                         margin:1px 0 2px;
@@ -904,6 +910,7 @@ span.dragging{
                     }
                 }
             }
+
             >.common-tlb{
                 overflow:hidden;
                 margin:auto;
