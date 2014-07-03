@@ -43,7 +43,7 @@ define([
             var mediaDefaults = {
                 data: '',
                 type: 'video/mp4',
-                width: 480,
+                width: $container.innerWidth(),
                 height: 270
             };
             _.defaults(interaction.object.attributes, mediaDefaults);

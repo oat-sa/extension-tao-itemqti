@@ -14,7 +14,7 @@ define([
         function exitSleepState() {
             var widget = this.widget;
             if(widget.mediaElementObject){
-                   widget.mediaElementObject.stop();
+                widget.mediaElementObject.pause();
             }   
         }
     );
@@ -100,6 +100,8 @@ define([
             if ( _widget.mediaElementObject !== undefined && _widget.mediaElementObject.src !== '' ) {
                 _widget.mediaElementObject.setSrc('');
             }
+            //set the default width if none is given
+
             MediaInteractionCommonRenderer.destroy(interaction);
             //MediaInteractionCommonRenderer.destroy.call(interaction.getRenderer(), interaction);
             _widget.mediaElementObject = MediaInteractionCommonRenderer.render.call(interaction.getRenderer(), interaction);
@@ -111,11 +113,15 @@ define([
                 interaction.object.attr(attrName, attrValue);
                 xmlUpdateCheat(interaction);
 
-                var dataValue = attrValue.trim().toLowerCase();
+                var dataValue = $.trim(attrValue).toLowerCase();
+
                 if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
                     interaction.object.attr('type', 'video/youtube');
                 }
 
+                if(interaction.object && (!interaction.object.attr('width') || parseInt(interaction.object.attr('width'), 10) <= 0)){
+                    interaction.object.attr('width', _widget.$original.innerWidth());
+                }
                 reRenderMediaInteraction(interaction);
             }
         }, 1000);
