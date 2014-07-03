@@ -76,12 +76,12 @@ define([
             responsive = true;
         
         $form.html(formTpl({
-            baseUrl : baseUrl || '',
-            src : img.attr('src'),
-            alt : img.attr('alt'),
-            height : img.attr('height'),
-            width : img.attr('width'),
-            responsive : responsive
+            baseUrl     : baseUrl || '',
+            src         : img.attr('src'),
+            alt         : img.attr('alt'),
+            height      : img.attr('height'),
+            width       : img.attr('width'),
+            responsive  : responsive
         }));
 
         //init slider and set align value before ...
@@ -106,7 +106,9 @@ define([
                 _initSlider(_widget);
                 _initAdvanced(_widget);
             },
-            alt : formElement.getAttributeChangeCallback(),
+            alt : function(img, value){
+                img.attr('alt', value);
+            },
             longdesc : formElement.getAttributeChangeCallback(),
             align : function(img, value){
                 inlineHelper.positionFloat(_widget, value);
@@ -157,7 +159,7 @@ define([
             if(!original.w){
                original.w = parseInt(img.attr('width'), 10); 
             }
-            if(!original.h === 0){
+            if(!original.h){
                original.h = parseInt(img.attr('height'), 10); 
             }
             var ratio = (value / 100),
@@ -208,20 +210,24 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
+                    var file, label;
                     if(files && files.length){
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                        file = files[0].file;
+                        imageUtil.getSize(options.baseUrl + file, function(size){
                             if(size && size.width >= 0){
                                 //update manually the object, to prevent the throttling used by the slider
                                 img.attr('width', parseInt(size.width, 10));
                                 img.attr('height', parseInt(size.height, 10));
-                                $width.val(size.width).trigger('change');
-                                $height.val(size.height).trigger('change');
+                                $width.val(size.width);
+                                $height.val(size.height);
                             }
                             if($.trim($label.val()) === ''){
-                                $label.val(_extractLabel(files[0].file)).trigger('change');
+                                label = _extractLabel(file);   
+                                img.attr('alt', label);
+                                $label.val(label).trigger('change');
                             }
                             _.defer(function(){
-                                $src.val(files[0].file).trigger('change');
+                                $src.val(file).trigger('change');
                             });
                         });
                     }
