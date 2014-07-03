@@ -40,8 +40,6 @@ define([
 
     var _initUiComponents = function(item, widget, config){
         
-        $loader.css('left', '-10000px');
-
         styleEditor.init(widget.element, config);
 
         styleSheetToggler.init(config);
@@ -55,12 +53,7 @@ define([
 
         preparePrint();
 
-
-
         editor.initGui();
-
-        $loader.css('left', loaderLeft);
-
     };
 
     return {
@@ -73,6 +66,8 @@ define([
             var $tabs = $('#tabs');
             var $tabNav = $('ul.ui-tabs-nav > li', $tabs);
             var currentTab = $tabs.tabs('option', 'selected');
+
+            $loader.css('left', '-10000px');
 
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
@@ -110,6 +105,8 @@ define([
                             $(document).off('.qti-widget');
                             $(document).off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
+        
+                            $loader.css('left', loaderLeft);
                         }
                     });
                     
