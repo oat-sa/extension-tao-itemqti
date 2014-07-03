@@ -33,7 +33,7 @@
 
         <p class="img-resizer-slider"></p>
 
-        <label for="height">{{__ 'Height (optional)'}}</label>
+        <label for="height">{{__ 'Height'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
             <input type="text" name="height" value="{{height}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
             <span class="unit-indicator">px</span>
@@ -41,7 +41,7 @@
     </div>
     <div class="panel">
 
-        <label for="width">{{__ 'Width (optional)'}}</label>
+        <label for="width">{{__ 'Width'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
             <input type="text" name="width" value="{{width}}" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
             <span class="unit-indicator">px</span>
@@ -49,7 +49,7 @@
     </div>
     <div class="panel">
 
-        <label for="align">{{__ "Alignment (optional)"}}</label>
+        <label for="align">{{__ "Alignment"}}</label>
         <select name="align" class="select2" data-has-search="false">
             <option value="default">{{__ 'default'}}</option>
             <option value="left">{{__ 'left'}}</option>
