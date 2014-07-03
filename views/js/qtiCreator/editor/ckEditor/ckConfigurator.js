@@ -2,7 +2,7 @@ define([
     'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
-], function(_, ckeditor, dtdHandler){
+], function(_, ckeditor, dtdHandler) {
     'use strict';
     /**
      * Cache original config
@@ -290,11 +290,33 @@ define([
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
             });
+
             // remove title 'Rich Text Editor, instance n' that CKE sets by default
             // ref: http://tinyurl.com/keedruc
             editor.on('instanceReady', function(e){
-                $(e.editor.element.$).removeAttr("title");
+                $(e.editor.element.$).removeAttr('title');
             });
+
+            // This fixes bug #2855. Unfortunately this can be done on the global object only, not on the instance
+            CKEDITOR.on('dialogDefinition', function(e) {
+                if(e.data.name !== 'link') {
+                    return;
+                }
+                var linkTypes = e.data.definition.getContents('info').get('linkType')['items'],
+                    i = linkTypes.length,
+                    wanted;
+
+                while(i--) {
+                    if(linkTypes[i][1] !== 'anchor') {
+                        wanted = i;
+                        continue;
+                    }
+                }
+
+                linkTypes.splice(wanted + 1, 1);
+                return;
+            });
+
 
             return config;
         };
