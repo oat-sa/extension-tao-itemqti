@@ -16,13 +16,10 @@ define(['jquery'], function($){
     function containElement(selection, range){
 
         if(range.commonAncestorContainer.nodeType === 1){
-            var allWithinRangeParent = range.commonAncestorContainer.getElementsByTagName("*");
-            var allSelected = [];
-            for(var i = 0, el; el = allWithinRangeParent[i]; i++){
-                // The second parameter says to include the element 
-                // even if it's not fully selected
-                if(selection.containsNode(el, true)){
-                    allSelected.push(el);
+            var selectedChildNodes = range.cloneContents().childNodes;
+            for (var i = 0; i < selectedChildNodes.length; i++){
+                if(selectedChildNodes[i].className && 
+                   selectedChildNodes[i].className.indexOf("qti-choice") > -1){
                     return true;
                 }
             }
