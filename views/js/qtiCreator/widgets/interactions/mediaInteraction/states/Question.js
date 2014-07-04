@@ -5,27 +5,38 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
-    'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
     'ui/resourcemgr'
-], function($, _, stateFactory, Question, formElement, formTpl, MediaInteractionCommonRenderer) {
-    
-    var MediaInteractionStateQuestion = stateFactory.extend(Question,
-        _.noop,
-        function exitSleepState() {
-            var widget = this.widget;
-            if(widget.mediaElementObject){
-                widget.mediaElementObject.pause();
-            }   
-        }
-    );
+], function($, _, stateFactory, Question, formElement, formTpl) {
+
+    var initQuestionState = function initQuestionState(){
+        this.widget.renderInteraction();
+    };
+
+    var exitQuestionState = function exitQuestionState() {
+        this.widget.destroyInteraction();
+    };
+
+    var MediaInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     MediaInteractionStateQuestion.prototype.initForm = function(){
         
-        var _widget = this.widget,
-            $form = _widget.$form,
-            options = _widget.options,
-            interaction = _widget.element;
+        var widget      = this.widget;
+        var $form       = widget.$form;
+        var options     = widget.options;
+        var interaction = widget.element;
+        var callbacks   = {};
         
+        var reRender = _.throttle(function reRender(interaction) {
+            xmlUpdateCheat(interaction);
+            widget.destroyInteraction();
+            widget.renderInteraction();
+        }, 1000);
+        
+        var xmlUpdateCheat = function xmlUpdateCheat(interaction) {
+            // xml update cheat
+            interaction.attr('responseIdentifier', interaction.attr('responseIdentifier') );
+        };
+
         //initialization binding
         //initialize your form here, you certainly gonna need to modify it:
         //append the form to the dom (this part should be almost ok)
@@ -47,99 +58,56 @@ define([
         formElement.initWidget($form);
         
         //init data change callbacks
-        //var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minPlays', 'maxPlays');
-        var callbacks = [];
-        
-        
-        function xmlUpdateCheat(interaction) {
-            // xml update cheat
-            interaction.attr( 'responseIdentifier', interaction.attr('responseIdentifier') );
-        }
-        
         
         //callbacks.autostart = formElement.getAttributeChangeCallback();
         callbacks.autostart = function(interaction, attrValue, attrName) {
-            //console.log('autostarta se promeni');
             interaction.attr(attrName, attrValue);
-            reRenderMediaInteraction(interaction);
-            xmlUpdateCheat(interaction);
+            reRender(interaction);
         };
         
         //callbacks.loop = formElement.getAttributeChangeCallback();
         callbacks.loop = function(interaction, attrValue, attrName) {
-            //console.log('loopa se promeni');
             interaction.attr(attrName, attrValue);
-            reRenderMediaInteraction(interaction);
-            xmlUpdateCheat(interaction);
+            reRender(interaction);
         };
         
-        
-        //callbacks.maxPlays = formElement.getAttributeChangeCallback();
-        callbacks.maxPlays = _.debounce( function(interaction, attrValue, attrName){
+        callbacks.maxPlays = function(interaction, attrValue, attrName){
             interaction.attr(attrName, attrValue);
-            reRenderMediaInteraction(interaction);
-            xmlUpdateCheat(interaction);
-        }, 1000 );
+            reRender(interaction);
+        };
         
         //callbacks['width'] = formElement.getAttributeChangeCallback();
-        callbacks.width = _.debounce( function(interaction, attrValue, attrName){
+        callbacks.width = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
-            reRenderMediaInteraction(interaction);
-            xmlUpdateCheat(interaction);
-        }, 1000 );
+            reRender(interaction);
+        };
         
-        callbacks.height = _.debounce( function(interaction, attrValue, attrName){
+        callbacks.height = function(interaction, attrValue, attrName){
             interaction.object.attr(attrName, attrValue);
-            reRenderMediaInteraction(interaction);
-            xmlUpdateCheat(interaction);
-        }, 1000 );
+            reRender(interaction);
+        };
         
-        
-        
-        function reRenderMediaInteraction(interaction) {
-            if ( _widget.mediaElementObject !== undefined && _widget.mediaElementObject.src !== '' ) {
-                _widget.mediaElementObject.setSrc('');
-            }
-            //set the default width if none is given
-
-            MediaInteractionCommonRenderer.destroy(interaction);
-            //MediaInteractionCommonRenderer.destroy.call(interaction.getRenderer(), interaction);
-            _widget.mediaElementObject = MediaInteractionCommonRenderer.render.call(interaction.getRenderer(), interaction);
-        }
-        
-        
-        callbacks.data = _.debounce( function(interaction, attrValue, attrName){
+        callbacks.data = function(interaction, attrValue, attrName){
             if ( interaction.object.attr(attrName) !== attrValue ) {
                 interaction.object.attr(attrName, attrValue);
                 xmlUpdateCheat(interaction);
 
                 var dataValue = $.trim(attrValue).toLowerCase();
 
-                if ( dataValue.indexOf('http://www.youtube.com') === 0 || dataValue.indexOf('http://www.youtu.be') === 0 || dataValue.indexOf('http://youtube.com') === 0 || dataValue.indexOf('http://youtu.be') === 0 ) {
+                if (/^http(s)?:\/\/(www\.)?youtu/.test(dataValue)) {
                     interaction.object.attr('type', 'video/youtube');
                 }
 
                 if(interaction.object && (!interaction.object.attr('width') || parseInt(interaction.object.attr('width'), 10) <= 0)){
-                    interaction.object.attr('width', _widget.$original.innerWidth());
+                    interaction.object.attr('width', widget.$original.innerWidth());
                 }
-                reRenderMediaInteraction(interaction);
+                reRender(interaction);
             }
-        }, 1000);
-        
-        
-        
-        //and so on for the other attributes...
+       };
         
         formElement.initDataBinding($form, interaction, callbacks, {invalidate:true});
-        
-        //_widget.on('attributeChange', function(data){
-            //if the template changes, forward the modification to a helper
-            //answerStateHelper.forward(_widget);
-        //});
          
-         
-        var selectMediaButton = $(_widget.$form).find(".selectMediaFile");
-        selectMediaButton.on('click', function() {
+        $('.selectMediaFile', $form).on('click', function() {
             
             $(this).resourcemgr({
                 appendContainer : options.mediaManager.appendContainer,
@@ -155,17 +123,16 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-                    if(files.length > 0){ 
+                    if(files && files.length){ 
                         // set data field content and meybe detect and set media type here
-                        var dataInput = $($form.find('input[name=data]'));
-                        dataInput.val( files[0].file );
                         interaction.object.attr('type', files[0].mime);
-                        dataInput.trigger('change');
+                        $form.find('input[name=data]')
+                                .val( files[0].file )
+                                .trigger('change');
                     }
                 }
             });
         });
-        
     };
 
     return MediaInteractionStateQuestion;

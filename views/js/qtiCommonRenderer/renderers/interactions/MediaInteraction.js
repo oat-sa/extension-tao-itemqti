@@ -11,9 +11,8 @@ define([
     'mediaElement'
 ], function($, _, __, tpl, pciResponse, Helper, MediaElementPlayer) {
 
-    var getMediaType = function(media) {
+    var getMediaType = function(mimetype) {
         var type = '';
-        var mimetype = media.type;
         if (mimetype !== '') {
             if (mimetype.indexOf('youtube') !== -1) {
                 type = 'video/youtube';
@@ -26,89 +25,121 @@ define([
         return type;
     };
 
+    var controls = {
+        full            : ['playpause', 'progress', 'current', 'duration', 'tracks', 'volume', 'fullscreen'],
+        audio           : ['playpause', 'current', 'duration', 'volume'],
+        video           : ['current', 'duration', 'volume'],
+        'video/youtube' : ['current', 'duration', 'volume']
+    };
+
+    var defaults = {
+        type   : 'video/mp4', 
+        video : {
+            width: 480,
+            height: 270
+        },
+        audio : {
+            width: 400,
+            height: 30
+        }
+    };
+
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10391
      * 
      * @param {object} interaction
+     * @param {Object} [options] - to configure the renddering
+     * @param {String} [options.features] - the name of the features to include with the player. See controls keys for values. 
+     * @param {Boolean} [options.controlPlaying = true] - controls the playing (disbale pause, and playing using by clicking the big white button)
+     * @fires playerready when the player is sucessfully loaded and configured
      */
-    var render = function render(interaction) {
-        var $container = Helper.getContainer(interaction);
+    var render = function render(interaction, options) {
+
+        options = _.defaults(options || {}, {
+            controlPlaying : true
+        });
         
-        var mediaInteractionObjectToReturn;
-        var isCreator = !!$container.data('creator');
-        if (isCreator) {
-            //use this defaults when creating new empty item in the creator
-            var mediaDefaults = {
-                data: '',
-                type: 'video/mp4',
-                width: $container.innerWidth(),
-                height: 270
-            };
-            _.defaults(interaction.object.attributes, mediaDefaults);
-        }
+        var mediaInteractionObjectToReturn, 
+            $meTag,
+            mediaOptions;
+        var $container          = Helper.getContainer(interaction);
+        var media               = interaction.object;
+        var baseUrl             = this.getOption('baseUrl') || '';
+        var mediaType           = getMediaType(media.attr('type') || defaults.type);
+        var playFromPauseEvent  = false;
+        var pauseFromClick      = false;
 
-        var media = interaction.object.attributes;
-        var mimeType = media.type;
-        var baseUrl = this.getOption('baseUrl') || '';
-        var mediaType = getMediaType(media);
-        var playFromPauseEvent = false;
-        var pauseFromClick = false;
-
-        var theFeatures = [];
-        if (isCreator) {
-            theFeatures = ['playpause', 'progress', 'current', 'duration', 'tracks', 'volume', 'fullscreen'];
-        } else {
-            if (mediaType === 'audio') {
-                theFeatures = ['playpause', 'current', 'duration', 'volume'];
-            } else {
-                theFeatures = ['current', 'duration', 'volume'];
+        var initMediaPlayer = function initMediaPlayer(){
+            if(!interaction.mediaElement){
+                new MediaElementPlayer($meTag, mediaOptions);
             }
+        };
+
+        if(_.size(media.attributes) === 0){
+            //TODO move to afterCreate
+            media.attr('type', defaults.type);
+            media.attr('width', $container.innerWidth());
+            media.attr('height', defaults.video.height);
+            media.attr('data', '');
         }
 
-        var mediaOptions = {
-            defaultVideoWidth: 480,
-            defaultVideoHeight: 270,
-            videoWidth: media.width,
-            videoHeight: media.height,
-            audioWidth: media.width ? media.width : 400,
-            audioHeight: 30,
-            features: theFeatures,
-            startVolume: 1,
-            loop: interaction.attributes.loop ? interaction.attributes.loop : false,
-            enableAutosize: true,
-            alwaysShowControls: true,
-            iPadUseNativeControls: false,
-            iPhoneUseNativeControls: false,
+        //set up player options
+        mediaOptions = {
+            defaultVideoWidth       : defaults.video.width,
+            defaultVideoHeight      : defaults.video.height,
+            videoWidth              : media.attr('width'),
+            videoHeight             : media.attr('height'),
+            audioWidth              : media.attr('width') || defaults.audio.width,
+            audioHeight             : media.attr('height') || defaults.audio.height,
+            features                : options.features ? controls[options.features] : controls[mediaType],
+            startVolume             : 1,
+            loop                    : !!interaction.attr('loop'),
+            enableAutosize          : true,
+            alwaysShowControls      : true,
+            iPadUseNativeControls   : false,
+            iPhoneUseNativeControls : false,
             AndroidUseNativeControls: false,
-            alwaysShowHours: false,
-            enableKeyboard: false,
-            pauseOtherPlayers: false,
+            alwaysShowHours         : false,
+            enableKeyboard          : false,
+            pauseOtherPlayers       : false,
+
             success: function(mediaElement, playerDom) {
                 
-                mediaInteractionObjectToReturn = mediaElement;
-                var audioPlayPauseControls = $(playerDom).closest('div.mejs-container').find('.mejs-playpause-button');
+                var bigPlayButtonLayerDetached;
+                var flashOverlayDiv;
+                var stillNeedToCallPlay = true;
+                var $meContainer = $(playerDom).closest('.mejs-container');
+                var $layers = $('.mejs-layers', $meContainer);
 
-                $(audioPlayPauseControls).on('click', function(event) {
-                    if (!isCreator)  {
-                        pauseFromClick = true;
-                        event.preventDefault();
-                        event.stopPropagation();
-                        return false;
-                    }
-                });
+                interaction.mediaElement = mediaElement;
+    
+                //resize the iframe of the youtube plugin
+                if (mediaType === 'video/youtube') {
+                    _.defer(function(){
+                        $('iframe.me-plugin', $container).css('min-height', media.attr('height'));
+                    });
+                }
 
-                var bigPlayButtonLayerDetached = null;
-                var flashOverlayDiv = null;
+                //prevents to pause the player
+                if(options.controlPlaying){
+                    $('.mejs-playpause-button', $meContainer)
+                        .on('click.qti-element', function(event) {
+                            pauseFromClick = true;
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
+                        });
+                }
 
+                //set up the number of times played
                 if ($container.data('timesPlayed') === undefined) {
                     $container.data('timesPlayed', 0);
                 }
-
-                var stillNeedToCallPlay = true;
-
-                if (interaction.attributes.autostart && ((interaction.attributes.maxPlays === 0) || $container.data('timesPlayed') < interaction.attributes.maxPlays)) {
+                
+                //controls the autoplaying
+                if (interaction.attr('autostart') && ((interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays'))) {
 
                     if (mediaType !== 'video/youtube') {
                         mediaElement.load();
@@ -122,135 +153,148 @@ define([
                     }, false);
                 }
 
-
-                mediaElement.addEventListener('ended', function(event) {
-                    $container.data('timesPlayed', $container.data('timesPlayed') + 1);
-                    Helper.triggerResponseChangeEvent(interaction);
-                    if ((interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays')) {
-                        if (mediaType == 'audio') {
-                            //
-                        } else if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
-                            if (!isCreator) {
-                                var PlayButtonPlaceholder = $(playerDom).closest('div.mejs-container').find('.mejs-layers');
-                                PlayButtonPlaceholder.append(bigPlayButtonLayerDetached);
-                            }
-
-                        } else if (mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
-                            if (!isCreator) {
-                                flashOverlayDiv.remove();
-                            }
-                        }
-                    }
-                }, false);
-
-
                 mediaElement.addEventListener('play', function(event) {
                     stillNeedToCallPlay = false;
                     if (playFromPauseEvent === true) {
                         playFromPauseEvent = false;
-                    } else {
-                        if ((interaction.attributes.maxPlays !== 0) && $container.data('timesPlayed') >= interaction.attributes.maxPlays) {
-                            if (!isCreator) {
+                    } else if(options.controlPlaying) {
+
+                        if ((interaction.attr('maxPlays') !== 0) && $container.data('timesPlayed') >= interaction.attr('maxPlays')) {
                                 mediaElement.pause();
                                 mediaElement.setSrc('');
                                 if (mediaType === "video/youtube") {
                                     $(playerDom).empty();
                                 }
-                            }
                         } else {
-                            if (mediaType === 'audio') {
-                                //
-                            } else if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
-                                if (!isCreator) {
-                                    bigPlayButtonLayerDetached = $(playerDom).closest('div.mejs-container').find('.mejs-overlay-play').detach();
-                                }
+                            if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
+                                    bigPlayButtonLayerDetached = $('.mejs-overlay-play', $meContainer).detach();
                             } else if (mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
-                                if (!isCreator) {
-                                    var controlsHeight = $(playerDom).closest('div.mejs-container').find('div.mejs-controls').outerHeight();
-                                    $(playerDom).closest('div.mejs-container').find('.mejs-layers').append('<div class="flashOverlayDiv" style="background:#000; width: ' + mediaOptions.videoWidth + 'px; height: ' + (mediaOptions.videoHeight - controlsHeight) + 'px; z-iindex: 99; position:relative;"></div>');
-                                    flashOverlayDiv = $(playerDom).closest('div.mejs-container').find('.mejs-layers').find('.flashOverlayDiv');
+                                    var controlsHeight = $('.mejs-controls', $meContainer).outerHeight();
+
+                                    $layers.append('<div class="flashOverlayDiv" style="background:#000; width: ' + mediaOptions.videoWidth + 'px; height: ' + (mediaOptions.videoHeight - controlsHeight) + 'px; z-iindex: 99; position:relative;"></div>');
+                                    flashOverlayDiv = $('.flashOverlayDiv', $layers);
                                     flashOverlayDiv.css({'opacity': 0}); // need to have the background set to something and then set it to transparent with jquery because of... IE8 of course :)
-                                }
                             }
+                        }
+                    }
+                }, false);
+
+                mediaElement.addEventListener('ended', function(event) {
+                    $container.data('timesPlayed', $container.data('timesPlayed') + 1);
+                    Helper.triggerResponseChangeEvent(interaction);
+                    if (options.controlPlaying && (interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays')) {
+                        if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
+                            $layers.append(bigPlayButtonLayerDetached);
+                        } else if (mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
+                            flashOverlayDiv.remove();
                         }
                     }
                 }, false);
 
                 mediaElement.addEventListener('pause', function(event) {
                     // there is a "pause" event fired at the end of a movie and we need to differentiate it from pause event caused by a click
-                    if (!isCreator) {
-                        if (pauseFromClick) {
-                            playFromPauseEvent = true;
-                            pauseFromClick = false;
-                            mediaElement.play();
-                        }
+                    if (options.controlPlaying && pauseFromClick) {
+                        playFromPauseEvent = true;
+                        pauseFromClick = false;
+                        mediaElement.play();
                     }
                 });
+
+                $container.trigger('playerready');
             },
             error: function(playerDom) {
                 $(playerDom).closest('div.mejs-container').find('.me-cannotplay').remove();
             }
         };
 
+        $meTag = $(_buildMedia(media, mediaType, baseUrl)).appendTo($('.media-container', $container));
 
-        var meHtmlContainer = $container.find('.media-container');
-
-        if (mediaOptions.videoWidth === undefined) {
-            mediaOptions.videoWidth = mediaOptions.defaultVideoWidth;
-        }
-        if (mediaOptions.videoHeight === undefined) {
-            mediaOptions.videoHeight = mediaOptions.defaultVideoHeight;
-        }
-
-        var mediaFullUrl = media.data;
-        var mediaIsServedByTAOsPHP = false;
-
-        if (mediaType === 'video' || mediaType === 'audio') {
-            mediaFullUrl = media.data.replace(/^\//, '');
-            if(!/^http(s)?:\/\//.test(mediaFullUrl)){
-                mediaFullUrl = baseUrl + mediaFullUrl;
-                mediaIsServedByTAOsPHP = true;
-            }
-        }
-
-        var meTagTypeAddition = mediaIsServedByTAOsPHP ? ' type="' + mimeType + '" ' : ' ';
-
-        var $meTag;
-        if (mediaType === 'video') {
-            $meTag = $('<video src="' + mediaFullUrl + '" width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" ' + meTagTypeAddition + ' preload="none"></video>').appendTo(meHtmlContainer);
-        } else if (mediaType === 'video/youtube') {
-            $meTag = $('<video width="' + mediaOptions.videoWidth + 'px" height="' + mediaOptions.videoHeight + 'px" preload="none"> ' +
-                    ' <source type="video/youtube" src="' + mediaFullUrl + '" /> ' +
-                    '</video>').appendTo(meHtmlContainer);
-        } else if (mediaType === 'audio') {
-            $meTag = $('<audio src="' + mediaFullUrl + '" width="' + mediaOptions.audioWidth + 'px" ' + meTagTypeAddition + ' preload="none"></audio>').appendTo(meHtmlContainer);
-        }
-
-        if (!isCreator) {
-            $meTag.on('contextmenu', function(event) {
-                event.preventDefault();
-            }).on('click', function(event) {
+        if (options.controlPlaying) {
+            $meTag
+              .on('contextmenu', function(e) {
+                    e.preventDefault();
+              })
+              .on('click', function(e) {
                 pauseFromClick = true;
-                event.preventDefault();
-                event.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
                 return false;
             });
         }
+          
+    
+       $container.on('responseSet', function() {
+            initMediaPlayer();
+       });
 
+        //gievs a chance to the responseSet
         _.defer(function(){ 
-            new MediaElementPlayer($meTag, mediaOptions);
+            initMediaPlayer();
         });
-        //TODO need to enable it oonly once the responseSet has been called, but the current structure doesn't allow it. 
-       //$container.on('responseSet', function(e, interaction, response) {
-                //new MediaElementPlayer($meTag, mediaOptions);
-            //});
-        return mediaInteractionObjectToReturn;
     };
 
-    var _destroy = function(interaction) {
+    /**
+     * Build the HTML5 tags for a media
+     * @private
+     * @param {Object} media - interaction.object
+     * @param {String} type  - the media type in video, audio and video/youtube
+     * @param {String} baseUrl - to prepend media.url if this is relative resource
+     * @returns {String} the html5 tags
+     */
+    var _buildMedia = function _buildMedia(media, type, baseUrl){
+        var element;
+        var url;
+        var attrs;
+
+        //inline an object to html attributes
+        var inlineAttrs = function inlineAttrs(attrs){
+            return _.reduce(attrs, function(res, value, key){
+                res += key + '="' + value + '" ';
+                return res;
+            }, '');
+        };
+        
+        if(media){
+            url = media.attr('data') ? media.attr('data').replace(/^\//, '') : '';
+
+            attrs = {
+                width : media.attr('width')     + 'px',
+                height: media.attr('height')    + 'px',
+                preload : 'none'
+            };
+            if (!/^http(s)?:\/\//.test(url)){
+                url = baseUrl + url;
+                attrs.type = media.attr('type');
+            }
+            
+            if (type === 'video/youtube') {
+                element =   '<video ' + inlineAttrs(attrs) + '> ' +
+                                ' <source type="video/youtube" src="' + url + '" /> ' +
+                            '</video>';
+            } else {
+                attrs.src = url;
+                element =   '<' + type + ' ' + inlineAttrs(attrs) + '></' + type + '>';
+            }
+        }
+        return element;
+    };
+
+    /**
+     * Destroy the current interaction
+     * @param {Object} interaction
+     */
+    var destroy = function(interaction) {
         var $container = Helper.getContainer(interaction);
+
+        if(interaction.mediaElement){
+            //needed to release socket
+            interaction.mediaElement.setSrc('');
+            interaction.mediaElement = undefined;
+        }
+        
         $('.instruction-container', $container).empty();
         $('.media-container', $container).empty();
+
         $container.removeData('timesPlayed');
     };
 
@@ -331,13 +375,13 @@ define([
      * @exports qtiCommonRenderer/renderers/interactions/mediaInteraction
      */
     return {
-        qtiClass: 'mediaInteraction',
-        template: tpl,
-        render: render,
-        getContainer: Helper.getContainer,
-        setResponse: setResponse,
-        getResponse: getResponse,
-        resetResponse: resetResponse,
-        destroy: _destroy
+        qtiClass        : 'mediaInteraction',
+        template        : tpl,
+        render          : render,
+        getContainer    : Helper.getContainer,
+        setResponse     : setResponse,
+        getResponse     : getResponse,
+        resetResponse   : resetResponse,
+        destroy         : destroy
     };
 });

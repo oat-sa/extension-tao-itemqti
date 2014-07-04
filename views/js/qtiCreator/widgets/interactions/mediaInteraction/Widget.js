@@ -1,8 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
-    'taoQtiItem/qtiCreator/widgets/interactions/mediaInteraction/states/states'
-], function(_, Widget, states){
+    'taoQtiItem/qtiCreator/widgets/interactions/mediaInteraction/states/states',
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction'
+], function($, _, Widget, states, MediaInteractionCommonRenderer){
     
     var MediaInteractionWidget = _.extend(Widget.clone(), {
 
@@ -16,13 +18,16 @@ define([
             
             $itemBody
               .off('resizestop.gridEdit.' + this.element.serial)
-              .on('resizestop.gridEdit.' + this.element.serial, _.throttle(function(){
-                var width = $container.innerWidth();
-                if(width > 0){
-                    self.element.object.attr('width', $container.innerWidth());
-                    self.rebuild(); 
+              .on('resizestop.gridEdit.' + this.element.serial, _.throttle(function(e){
+                if($(e.target).find('[data-serial]').first().data('serial') === self.element.serial){
+                    var width = $container.innerWidth();
+                    if(width > 0){
+                        self.element.object.attr('width', $container.innerWidth());
+                        self.destroyInteraction();
+                        self.renderInteraction();
+                    }
                 }
-            }, 10));
+            }, 100));
         },
     
         destroy : function(){
@@ -35,6 +40,20 @@ define([
 
             //call parent destroy
             Widget.destroy.call(this);
+        },
+
+        renderInteraction : function(){
+            var $container  = this.$original; 
+            var interaction = this.element;
+            MediaInteractionCommonRenderer.render.call(interaction.getRenderer(), interaction, {
+                features : 'full',
+                controlPlaying : false
+            });
+        },
+
+        destroyInteraction : function(){
+            var interaction = this.element;
+            MediaInteractionCommonRenderer.destroy.call(interaction.getRenderer(), interaction);    
         }
     });
 
