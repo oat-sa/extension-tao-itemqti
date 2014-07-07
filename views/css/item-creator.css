@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
@@ -297,8 +296,8 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-textEntryInteraction [data-edit] { display: none; }
 .tao-scope .item-editor-item .qti-textEntryInteraction table { border-collapse: separate; }
 .tao-scope .item-editor-item .qti-textEntryInteraction tr { height: 27px; white-space: nowrap; }
-.tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-pin, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-shuffle { text-align: center; padding: 0 5px; cursor: pointer; vertical-align: middle; }
-.tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin:hover, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-pin:hover, .tao-scope .item-editor-item .qti-textEntryInteraction .icon-shuffle:hover { color: #3e7da7; }
+.tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin { text-align: center; width: auto; top: 0; padding: 0 5px; cursor: pointer; vertical-align: middle; }
+.tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin:hover { color: #3e7da7; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td.option, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option { padding: 0 18px 0 10px; border-left: 1px #dddddd solid; border-right: 1px #dddddd solid; background: white; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td.option:last, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option:last { border-bottom: 1px #dddddd solid; }
 .tao-scope .item-editor-item .qti-textEntryInteraction .main-option { border-top: 1px #dddddd solid; border-bottom: 1px #dddddd solid; min-width: 150px; }
@@ -307,6 +306,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-textEntryInteraction td input { width: 122px; height: 28px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable] { cursor: text !important; }
 .tao-scope .item-editor-item .qti-textEntryInteraction input.score { width: 30px; }
+.tao-scope .item-editor-item .qti-textEntryInteraction .add-option .icon-add { width: auto; left: 3px; top: 1px; }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .response-pair-editor { min-width: 350px; background: rgba(243, 241, 239, 0.85); padding: 20px 30px 20px 30px; }

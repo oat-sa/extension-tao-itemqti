@@ -46,15 +46,16 @@
         white-space: nowrap;
     }
     
-    .icon-bin, .icon-pin, .icon-shuffle {
+    .icon-bin {
         text-align:center;
+        width:auto;
+        top : 0;
         padding: 0 5px;
         cursor: pointer;
         vertical-align: middle;
-    }
-    
-    .icon-bin:hover, .icon-pin:hover, .icon-shuffle:hover {
-        color: $uiClickableHoverBg;
+        &:hover{
+            color: $uiClickableHoverBg;
+        }
     }
     
     td.option, .main-option {
@@ -99,5 +100,13 @@
     
     input.score {
         width:30px;
+    }
+    
+    .add-option{
+        .icon-add{
+            width:auto;
+            left:3px;
+            top:1px;
+        }
     }
 }
