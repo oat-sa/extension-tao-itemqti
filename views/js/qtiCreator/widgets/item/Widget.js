@@ -39,9 +39,10 @@ define([
 
             //when the text widgets are ready:
             this.initGridEditor();
+            
+            //active debugger
+//            this.debug();
         });
-
-//        this.debug();
     };
 
     ItemWidget.buildContainer = function(){
