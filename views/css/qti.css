@@ -237,6 +237,7 @@ textarea { resize: vertical; }
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
 .qti-mediaInteraction .mejs-container iframe { min-height: inherit; }
+.qti-mediaInteraction .overlay { background: #000; z-index: 999; position: relative; opacity: 0; width: 100%; height: 100%; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */

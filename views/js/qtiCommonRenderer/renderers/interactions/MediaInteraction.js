@@ -26,7 +26,7 @@ define([
     };
 
     var controls = {
-        full            : ['playpause', 'progress', 'current', 'duration', 'tracks', 'volume', 'fullscreen'],
+        full            : ['playpause', 'current', 'duration', 'volume'],
         audio           : ['playpause', 'current', 'duration', 'volume'],
         video           : ['current', 'duration', 'volume'],
         'video/youtube' : ['current', 'duration', 'volume']
@@ -108,7 +108,7 @@ define([
             success: function(mediaElement, playerDom) {
                 
                 var bigPlayButtonLayerDetached;
-                var flashOverlayDiv;
+                var $overlay;
                 var stillNeedToCallPlay = true;
                 var $meContainer = $(playerDom).closest('.mejs-container');
                 var $layers = $('.mejs-layers', $meContainer);
@@ -166,14 +166,15 @@ define([
                                     $(playerDom).empty();
                                 }
                         } else {
-                            if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
-                                    bigPlayButtonLayerDetached = $('.mejs-overlay-play', $meContainer).detach();
-                            } else if (mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
+                            if ((mediaType === 'video' || mediaType === 'video/youtube') && mediaElement.pluginType !== 'flash') {
+                                bigPlayButtonLayerDetached = $('.mejs-overlay-play', $meContainer).detach();
+                            } 
+                            if(mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
                                     var controlsHeight = $('.mejs-controls', $meContainer).outerHeight();
-
-                                    $layers.append('<div class="flashOverlayDiv" style="background:#000; width: ' + mediaOptions.videoWidth + 'px; height: ' + (mediaOptions.videoHeight - controlsHeight) + 'px; z-iindex: 99; position:relative;"></div>');
-                                    flashOverlayDiv = $('.flashOverlayDiv', $layers);
-                                    flashOverlayDiv.css({'opacity': 0}); // need to have the background set to something and then set it to transparent with jquery because of... IE8 of course :)
+                                    $overlay = $('<div class="overlay"></div>')
+                                        .width(mediaOptions.videoWidth)
+                                        .height(mediaOptions.videoHeight - controlsHeight)
+                                        .appendTo($layers);
                             }
                         }
                     }
@@ -183,10 +184,11 @@ define([
                     $container.data('timesPlayed', $container.data('timesPlayed') + 1);
                     Helper.triggerResponseChangeEvent(interaction);
                     if (options.controlPlaying && (interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays')) {
-                        if (mediaType === 'video' && mediaElement.pluginType !== 'flash') {
+                        if(bigPlayButtonLayerDetached.length){
                             $layers.append(bigPlayButtonLayerDetached);
-                        } else if (mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
-                            flashOverlayDiv.remove();
+                        }
+                        if ($overlay.length) {
+                            $overlay.remove();
                         }
                     }
                 }, false);
@@ -288,7 +290,9 @@ define([
 
         if(interaction.mediaElement){
             //needed to release socket
-            interaction.mediaElement.setSrc('');
+            if(!interaction.mediaElement.pluginApi){
+                interaction.mediaElement.setSrc('');
+            }
             interaction.mediaElement = undefined;
         }
         
@@ -296,6 +300,7 @@ define([
         $('.media-container', $container).empty();
 
         $container.removeData('timesPlayed');
+
     };
 
     /**

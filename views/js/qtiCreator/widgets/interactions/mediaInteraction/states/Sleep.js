@@ -6,10 +6,12 @@ define([
 
     var initSleepState = function initSleepState() {
         this.widget.renderInteraction();
+        this.widget.$original.append('<div class="overlay"></div>');
     };
 
     var exitSleepState = function exitSleepState(){
         this.widget.destroyInteraction();
+        this.widget.$original.children('.overlay').remove();
     };
 
     return stateFactory.extend(SleepState, initSleepState, exitSleepState);
