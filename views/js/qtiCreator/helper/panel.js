@@ -126,6 +126,10 @@ define([
 
                     showPanel($formResponsePanel);
                     break;
+                
+                case 'choice':
+                    showPanel($formChoicePanel, $formInteractionPanel);
+                    break;
 
                 case 'sleep':
 
