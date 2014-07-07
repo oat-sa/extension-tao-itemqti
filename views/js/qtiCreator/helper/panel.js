@@ -158,6 +158,7 @@ define([
                     break;
                 case 'question':
                     if(element.is('interaction')){
+                        $formChoicePanel.hide();
                         $formInteractionPanel.hide();
                     }
                     break;

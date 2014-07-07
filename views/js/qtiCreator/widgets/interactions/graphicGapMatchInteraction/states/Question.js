@@ -112,7 +112,7 @@ define([
                     $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
                 }
             } else {
-                $gapImg.addClass('placeholder').empty().append(
+                $gapImg.addClass('placeholder qti-choice qti-gapImg').empty().append(
                     dummyElement.get({
                         icon: 'image',
                         css: {
@@ -281,6 +281,9 @@ define([
 
         //remove gapImg placeholder
         $('ul.source .empty', widget.$original).remove();
+        
+        //restore gapImg appearance
+        widget.$container.find('.qti-gapImg').removeClass('active');
     };
     
     /**
