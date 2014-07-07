@@ -19,15 +19,15 @@ define([
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
         
         // Prepare the work...
-        if (typeof interaction.attr('type') != 'undefined') {
+        if (typeof interaction.attr('type') !== 'undefined') {
             
-            if (interaction.attr('type') == '') {
+            if (interaction.attr('type') === '') {
                 // Kill the attribute if it is empty.
                 delete interaction.attributes['type'];
             }
             else {
                 // Pre-select a value in the types combo box if needed.
-                for (i in types) {
+                for (var i in types) {
                     if (interaction.attr('type') == types[i].mime) {
                         types[i].selected = true;
                     }
@@ -44,9 +44,9 @@ define([
         callbacks = {};
         
         // -- type callback.
-        callbacks['type'] = function(interaction, attrValue, attrName){
+        callbacks['type'] = function(interaction, attrValue){
             
-            if (attrValue == 'any/kind') {
+            if (attrValue === 'any/kind') {
                 interaction.removeAttr('type');
             }
             else {
