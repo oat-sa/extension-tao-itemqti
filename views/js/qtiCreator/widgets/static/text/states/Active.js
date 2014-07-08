@@ -2,7 +2,7 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
-    'taoQtiItem/qtiCreator/helper/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text'
 ], function($, stateFactory, Active, htmlEditor, content, formTpl){

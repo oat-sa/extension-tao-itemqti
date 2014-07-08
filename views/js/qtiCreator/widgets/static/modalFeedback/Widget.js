@@ -4,7 +4,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/helper/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
 ], function(Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor, contentHelper){
 

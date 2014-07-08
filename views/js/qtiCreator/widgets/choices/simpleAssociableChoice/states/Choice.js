@@ -4,7 +4,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/simpleAssociableChoice',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
-    'taoQtiItem/qtiCreator/helper/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
 ], function(stateFactory, Choice, formTpl, formElement, identifierHelper, htmlEditor, contentHelper){
 
