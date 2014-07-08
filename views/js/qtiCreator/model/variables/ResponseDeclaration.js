@@ -90,9 +90,13 @@ define([
 
             return this;
         },
-        removeMapEntry : function(mapKey){
+        removeMapEntry : function(mapKey, canBeEmpty){
+            //is there a opportunity mapKey to be empty string
+            if(typeof canBeEmpty == 'undefined'){
+                canBeEmpty = false;
+            }
 
-            if(mapKey){
+            if(mapKey || canBeEmpty){
                 if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
                     //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
                     var mapKeys = mapKey.split(' '),

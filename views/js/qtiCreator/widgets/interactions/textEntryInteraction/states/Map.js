@@ -57,7 +57,7 @@ define([
 
                 //@todo trigger validate score to check if is a valid score
                 if(!isNaN(score)){
-                    response.removeMapEntry(oldText);
+                    response.removeMapEntry(oldText, true);
                     response.setMapEntry(value, score);
                     $text.data('old-text', value);
 
@@ -118,7 +118,7 @@ define([
             var text = _getRelatedTextKey($del);
             var correct = !!$del.closest('tr').find('input[name=correct]:checked').length;
 
-            response.removeMapEntry(text);
+            response.removeMapEntry(text, true);
             $del.closest('tr').remove();
             if(correct){
                 response.resetCorrect();//remove correct
