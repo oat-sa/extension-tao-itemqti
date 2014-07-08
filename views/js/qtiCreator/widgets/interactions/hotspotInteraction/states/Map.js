@@ -107,7 +107,7 @@ define([
             }));
 
             //set up the form data binding
-            formElement.initDataBinding($form, response, {
+            formElement.setChangeCallbacks($form, response, {
                 score : function(response, value){
                     var scoreText = scoreTexts[choice.serial];
                     if(value === ''){

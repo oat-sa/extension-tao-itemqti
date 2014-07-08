@@ -81,7 +81,7 @@ define([
                 }
             });
 
-            formElement.initDataBinding($container, response, {
+            formElement.setChangeCallbacks($container, response, {
                 score : function(response, value){
 
                     var key = $(this).data('for');

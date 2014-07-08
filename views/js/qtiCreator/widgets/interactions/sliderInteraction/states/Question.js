@@ -108,7 +108,7 @@ define([
             }
         };
         
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.setChangeCallbacks($form, interaction, callbacks);
     };
     return SliderInteractionStateQuestion;
 });

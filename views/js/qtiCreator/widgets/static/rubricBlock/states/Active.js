@@ -57,7 +57,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        formElement.initDataBinding($form, interaction, {
+        formElement.setChangeCallbacks($form, interaction, {
             view : formElement.getAttributeChangeCallback(),
             use : formElement.getAttributeChangeCallback()
         });

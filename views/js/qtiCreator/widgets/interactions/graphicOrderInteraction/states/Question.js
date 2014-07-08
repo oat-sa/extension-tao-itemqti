@@ -97,7 +97,7 @@ define([
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                formElement.initDataBinding($choiceForm, choice, {
+                formElement.setChangeCallbacks($choiceForm, choice, {
                     identifier  : identifierHelper.updateChoiceIdentifier,
                     fixed       : formElement.getAttributeChangeCallback() 
                 });
@@ -195,7 +195,7 @@ define([
                 interaction.object.attr('type', value);
             }
         };
-        formElement.initDataBinding($form, interaction, callbacks, { validateOnInit : false });
+        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit : false });
         
         interactionFormElement.syncMaxChoices(widget);
     };

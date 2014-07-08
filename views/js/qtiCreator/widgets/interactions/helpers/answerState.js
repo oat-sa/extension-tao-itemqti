@@ -116,7 +116,7 @@ define([
                 _toggleCorrectWidgets(defineCorrect);
             }
 
-            formElement.initDataBinding(widget.$responseForm, response, {
+            formElement.setChangeCallbacks(widget.$responseForm, response, {
                 identifier : function(response, value){
                     response.id(value);
                     interaction.attr('responseIdentifier', value);

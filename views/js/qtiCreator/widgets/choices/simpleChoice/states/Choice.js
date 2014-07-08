@@ -30,7 +30,7 @@ define([
         formElement.initWidget(_widget.$form);
 
         //init data validation and binding
-        formElement.initDataBinding(_widget.$form, _widget.element, {
+        formElement.setChangeCallbacks(_widget.$form, _widget.element, {
             identifier : identifierHelper.updateChoiceIdentifier
         });
     };

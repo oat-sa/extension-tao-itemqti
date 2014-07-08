@@ -273,7 +273,7 @@ define([
         }));
         
         //set up the form data binding
-        formElement.initDataBinding($form, response, {
+        formElement.setChangeCallbacks($form, response, {
             score : function(response, value){
                 if(value === ''){
                     scoreElt.attr({text : response.mappingAttributes.defaultValue})

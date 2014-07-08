@@ -46,7 +46,7 @@ define([
         formElement.initWidget($form);
 
         //init data validation and binding
-        formElement.initDataBinding($form, interaction, {
+        formElement.setChangeCallbacks($form, interaction, {
             identifier : identifierHelper.updateChoiceIdentifier,
             required : formElement.getAttributeChangeCallback()
         });

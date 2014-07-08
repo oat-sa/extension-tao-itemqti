@@ -18,12 +18,19 @@ define([
             tooltip($form);
             select2($form);
         },
-        //@todo : rename this function into setChangeCallbacks
-        initDataBinding : function($form, element, attributes, options){
+        /**
+         * register attribute change callback functions when associated form elements has been modified
+         * 
+         * @param {Object} $form - the jQuery form element
+         * @param {Object} element - a js qti element (see qtiCreator/model)
+         * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
+         * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
+         */
+        setChangeCallbacks : function($form, element, attributes, options){
 
             attributes = attributes || {};
             options = _.defaults(options || {}, {
-                validateOnInit : true
+                validateOnInit : false
             });
 
             var _callbackCall = function(name, value, $elt){
@@ -63,10 +70,10 @@ define([
 
                         return;
                         //if(valid){
-                            //_callbackCall(name, $elt.val(), $elt);
-                            //widget.isValid(name, true);
+                        //_callbackCall(name, $elt.val(), $elt);
+                        //widget.isValid(name, true);
                         //}else{
-                            //widget.isValid(name, false);
+                        //widget.isValid(name, false);
                         //}
                     }
                 }
@@ -93,15 +100,15 @@ define([
 
             $title
                 .inplacer({
-                    target : $('#qti-title')
-                })
+                target : $('#qti-title')
+            })
                 .attr('title', __('Edit modal feedback title'))
                 .on('change', function(){
-                    element.attr('title', $(this).text());
-                });
+                element.attr('title', $(this).text());
+            });
         },
         /**
-         * the simplest form of save callback used in data binding 
+         * the simplest form of save callback used in setChangeCallbacks()
          * @param {boolean} allowEmpty
          */
         getAttributeChangeCallback : function(allowEmpty){

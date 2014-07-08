@@ -36,7 +36,7 @@ define([
         //init data validation and binding
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'matchMin', 'matchMax');
         callbacks.identifier = identifierHelper.updateChoiceIdentifier;
-        formElement.initDataBinding($form, choice, callbacks);
+        formElement.setChangeCallbacks($form, choice, callbacks);
     };
     
     SimpleAssociableChoiceStateChoice.prototype.buildEditor = function(){

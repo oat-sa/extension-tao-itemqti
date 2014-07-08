@@ -95,7 +95,7 @@ define([
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
-                formElement.initDataBinding($choiceForm, choice, callbacks);
+                formElement.setChangeCallbacks($choiceForm, choice, callbacks);
 
                 $formChoicePanel.show();
                 editor.openSections($formChoicePanel.children('section'));
@@ -203,7 +203,7 @@ define([
                 interaction.object.attr('type', value);
             }
         };
-        formElement.initDataBinding($form, interaction, callbacks, { validateOnInit : false });
+        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit : false });
         
         interactionFormElement.syncMaxChoices(widget, 'minAssociations', 'maxAssociations');
     };

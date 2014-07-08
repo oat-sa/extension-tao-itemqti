@@ -30,7 +30,7 @@ define([
         formElement.initWidget($form);
 
         //init data validation and binding
-        formElement.initDataBinding($form, item, {
+        formElement.setChangeCallbacks($form, item, {
             identifier : formElement.getAttributeChangeCallback(),
             timeDependent : formElement.getAttributeChangeCallback()
         });

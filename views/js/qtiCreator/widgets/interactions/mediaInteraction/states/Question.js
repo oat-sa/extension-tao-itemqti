@@ -119,7 +119,7 @@ define([
             }
        };
         
-        formElement.initDataBinding($form, interaction, callbacks, {invalidate:true});
+        formElement.setChangeCallbacks($form, interaction, callbacks, {invalidate:true});
          
         $('.selectMediaFile', $form).on('click', function() {
             

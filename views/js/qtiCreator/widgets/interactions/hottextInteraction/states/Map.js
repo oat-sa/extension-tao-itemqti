@@ -126,7 +126,7 @@ define([
                 };
             }
         });
-        formElement.initDataBinding($container, response, callbacks);
+        formElement.setChangeCallbacks($container, response, callbacks);
     }
 
 

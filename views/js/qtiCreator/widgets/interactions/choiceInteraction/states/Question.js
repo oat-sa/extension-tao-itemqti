@@ -27,7 +27,7 @@ define([
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', updateCardinality);
         callbacks['shuffle'] = formElement.getAttributeChangeCallback();
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.setChangeCallbacks($form, interaction, callbacks);
         
         interactionFormElement.syncMaxChoices(_widget);
         

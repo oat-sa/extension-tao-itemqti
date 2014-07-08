@@ -24,7 +24,7 @@ define([
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.setChangeCallbacks($form, interaction, callbacks);
     };
     
     return AssociateInteractionStateQuestion;

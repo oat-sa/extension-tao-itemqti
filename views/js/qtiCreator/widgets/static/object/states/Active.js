@@ -83,7 +83,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        formElement.initDataBinding($form, media, {
+        formElement.setChangeCallbacks($form, media, {
             data : function(media, value){
 
                 media.attr('data', value);

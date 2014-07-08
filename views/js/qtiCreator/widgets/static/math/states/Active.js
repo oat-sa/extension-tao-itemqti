@@ -142,7 +142,7 @@ define([
         });
 
         //init data change callbacks
-        formElement.initDataBinding($form, math, {
+        formElement.setChangeCallbacks($form, math, {
             display: function(m, value) {
                 if (value === 'block') {
                     m.attr('display', 'block');

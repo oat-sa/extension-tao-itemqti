@@ -25,7 +25,7 @@ define([
         formElement.initWidget($form);
 
         var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', true);
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.setChangeCallbacks($form, interaction, callbacks);
         interactionFormElement.syncMaxChoices(_widget);
     };
 

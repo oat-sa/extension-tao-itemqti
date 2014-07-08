@@ -55,7 +55,7 @@ define([
         };
 
         //init data change callbacks
-        formElement.initDataBinding($form, interaction, callbacks);
+        formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 
     return UploadInteractionStateQuestion;

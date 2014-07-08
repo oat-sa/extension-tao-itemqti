@@ -94,7 +94,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        formElement.initDataBinding($form, img, {
+        formElement.setChangeCallbacks($form, img, {
             src : function(img, value){
                 
                 img.attr('src', value);

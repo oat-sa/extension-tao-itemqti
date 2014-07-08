@@ -333,7 +333,7 @@ define([
                 });
                 
                 //set up the form data binding
-                formElementHelper.initDataBinding($form, response, callbacks);
+                formElementHelper.setChangeCallbacks($form, response, callbacks);
             }
         }
         

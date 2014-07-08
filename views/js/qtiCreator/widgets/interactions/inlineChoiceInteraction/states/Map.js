@@ -25,7 +25,7 @@ define([
             }
         }
 
-        formElement.initDataBinding($container, response, {
+        formElement.setChangeCallbacks($container, response, {
             correct : function(response, value){
                 response.setCorrect(interactionHelper.serialToIdentifier(interaction, value));
             },

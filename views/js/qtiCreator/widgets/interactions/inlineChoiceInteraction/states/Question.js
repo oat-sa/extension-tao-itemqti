@@ -65,7 +65,7 @@ define([
 
         formElement.initWidget($form);
 
-        formElement.initDataBinding($form, interaction, {
+        formElement.setChangeCallbacks($form, interaction, {
             shuffle : formElement.getAttributeChangeCallback(),
             required : formElement.getAttributeChangeCallback()
         });

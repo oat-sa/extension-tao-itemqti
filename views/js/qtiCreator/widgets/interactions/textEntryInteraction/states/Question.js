@@ -22,7 +22,7 @@ define([
 
         formElement.initWidget($form);
 
-        formElement.initDataBinding($form, interaction, {
+        formElement.setChangeCallbacks($form, interaction, {
             base : formElement.getAttributeChangeCallback(),
             patternMask : formElement.getAttributeChangeCallback(),
             placeholderText : formElement.getAttributeChangeCallback(),

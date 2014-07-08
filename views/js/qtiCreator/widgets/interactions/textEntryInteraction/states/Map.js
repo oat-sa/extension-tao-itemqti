@@ -46,7 +46,7 @@ define([
         var $container = this.widget.$container,
             response = this.widget.element.getResponseDeclaration();
 
-        formElement.initDataBinding($container, response, {
+        formElement.setChangeCallbacks($container, response, {
             text : _.throttle(function(response, value){
 
                 var $text = $(this),
