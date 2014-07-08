@@ -48,7 +48,7 @@ define([
             
             if(typeof(hottext) === 'string'){
                 serial = hottext;
-            }else if(Element.isA('hottext')){
+            }else if(Element.isA(hottext, 'hottext')){
                 serial = hottext.getSerial();
             }
             

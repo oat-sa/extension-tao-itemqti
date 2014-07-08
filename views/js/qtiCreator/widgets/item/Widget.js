@@ -39,9 +39,12 @@ define([
 
             //when the text widgets are ready:
             this.initGridEditor();
-            
+
             //active debugger
-//            this.debug();
+            this.debug({
+                state : false,
+                xml : false
+            });
         });
     };
 
@@ -281,7 +284,7 @@ define([
 
         //create new container model with the created sub containers
         contentHelper.serializeElements($clonedContainer);
-        
+
         var serializedItemBody = $clonedContainer.find('.qti-itemBody').html(),
             itemBody = item.getBody();
 
@@ -290,10 +293,10 @@ define([
             containerHelper.createElements(itemBody, serializedItemBody, function(newElts){
 
                 if(_.size(newElts) !== subContainers.length){
-                    
+
                     throw 'numbers of subcontainers mismatch';
                 }else{
-                    
+
                     _.each(newElts, function(container){
 
                         var containerData = subContainers.shift();//get data in order
@@ -331,16 +334,29 @@ define([
     ItemWidget.initTextWidget = function(container, $col){
         return TextWidget.build(container, $col, this.renderer.getOption('textOptionForm'), {});
     };
+    
+    /**
+    * Enable debugging 
+    * 
+    * @param {Boolean} [options.state = false] - log state change in console
+    * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
+    */
+    ItemWidget.debug = function(options){
 
-    ItemWidget.debug = function(){
+        options = options || {}
 
-        devTools.listenStateChange();
+        if(options.state){
+            devTools.listenStateChange();
+        }
 
-        var $code = $('<code>', {'class' : 'language-markup'}),
-        $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
+        if(options.xml){
+            var $code = $('<code>', {'class' : 'language-markup'}),
+            $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
 
-        $('#item-editor-wrapper').append($pre);
-        devTools.liveXmlPreview(this.element, $code);
+            $('#item-editor-wrapper').append($pre);
+            devTools.liveXmlPreview(this.element, $code);
+        }
+
     };
 
 

@@ -55,7 +55,7 @@ define([
             
             if(typeof(choice) === 'string'){
                 serial = choice;
-            }else if(Element.isA('choice')){
+            }else if(Element.isA(choice, 'choice')){
                 serial = choice.getSerial();
             }
             
