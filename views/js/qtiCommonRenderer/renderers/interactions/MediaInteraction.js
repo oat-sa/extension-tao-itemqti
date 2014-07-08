@@ -1,5 +1,6 @@
 /**
- * @author
+ * @author Martin for OAT S.A. <code@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com> 
  */
 define([
     'jquery',
@@ -11,6 +12,11 @@ define([
     'mediaElement'
 ], function($, _, __, tpl, pciResponse, Helper, MediaElementPlayer) {
 
+    /**
+     * Get the media type (audio, video or video/youtube) regarding it's mime type. 
+     * @param {String} mimetype - the mime type
+     * @returns {String} the catrgory/type
+     */
     var getMediaType = function(mimetype) {
         var type = '';
         if (mimetype !== '') {
@@ -25,13 +31,7 @@ define([
         return type;
     };
 
-    var controls = {
-        full            : ['playpause', 'current', 'duration', 'volume'],
-        audio           : ['playpause', 'current', 'duration', 'volume'],
-        video           : ['current', 'duration', 'volume'],
-        'video/youtube' : ['current', 'duration', 'volume']
-    };
-
+    //some default values
     var defaults = {
         type   : 'video/mp4', 
         video : {
@@ -50,17 +50,10 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10391
      * 
      * @param {object} interaction
-     * @param {Object} [options] - to configure the renddering
-     * @param {String} [options.features] - the name of the features to include with the player. See controls keys for values. 
-     * @param {Boolean} [options.controlPlaying = true] - controls the playing (disbale pause, and playing using by clicking the big white button)
      * @fires playerready when the player is sucessfully loaded and configured
      */
-    var render = function render(interaction, options) {
+    var render = function render(interaction) {
 
-        options = _.defaults(options || {}, {
-            controlPlaying : true
-        });
-        
         var mediaInteractionObjectToReturn, 
             $meTag,
             mediaOptions;
@@ -68,13 +61,25 @@ define([
         var media               = interaction.object;
         var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
+        var enablePause         = $container.hasClass('pause');
+        var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
+
         var playFromPauseEvent  = false;
         var pauseFromClick      = false;
 
+        var features = enablePause ? ['playpause', 'progress', 'current', 'duration', 'volume'] : ['playpause', 'current', 'duration', 'volume'];
+
+        //intialize the player if not yet done
         var initMediaPlayer = function initMediaPlayer(){
             if(!interaction.mediaElement){
                 new MediaElementPlayer($meTag, mediaOptions);
             }
+        };
+
+        //check if the media can be played (using timesPlayed and maxPlays)
+        var canBePlayed = function canBePlayed(){
+            var current = parseInt($container.data('timesPlayed'), 10);
+            return maxPlays === 0 || maxPlays > current; 
         };
 
         if(_.size(media.attributes) === 0){
@@ -93,7 +98,7 @@ define([
             videoHeight             : media.attr('height'),
             audioWidth              : media.attr('width') || defaults.audio.width,
             audioHeight             : media.attr('height') || defaults.audio.height,
-            features                : options.features ? controls[options.features] : controls[mediaType],
+            features                : features,
             startVolume             : 1,
             loop                    : !!interaction.attr('loop'),
             enableAutosize          : true,
@@ -105,13 +110,16 @@ define([
             enableKeyboard          : false,
             pauseOtherPlayers       : false,
 
+            //the player is loaded
             success: function(mediaElement, playerDom) {
                 
-                var bigPlayButtonLayerDetached;
-                var $overlay;
                 var stillNeedToCallPlay = true;
-                var $meContainer = $(playerDom).closest('.mejs-container');
-                var $layers = $('.mejs-layers', $meContainer);
+                var $meContainer    = $(playerDom).closest('.mejs-container');
+                var $layers         = $('.mejs-layers', $meContainer);
+                var $playpauseBtn   = $('.mejs-playpause-button', $meContainer);
+                var $bigPlayBtn     = $('.mejs-overlay-play', $meContainer);
+                var $controls       = $('.mejs-controls', $meContainer); 
+                var controlsHeight  = $controls.outerHeight();
 
                 interaction.mediaElement = mediaElement;
     
@@ -122,24 +130,13 @@ define([
                     });
                 }
 
-                //prevents to pause the player
-                if(options.controlPlaying){
-                    $('.mejs-playpause-button', $meContainer)
-                        .on('click.qti-element', function(event) {
-                            pauseFromClick = true;
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return false;
-                        });
-                }
-
                 //set up the number of times played
-                if ($container.data('timesPlayed') === undefined) {
+                if (!$container.data('timesPlayed')) {
                     $container.data('timesPlayed', 0);
                 }
                 
                 //controls the autoplaying
-                if (interaction.attr('autostart') && ((interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays'))) {
+                if (interaction.attr('autostart') && canBePlayed()) {
 
                     if (mediaType !== 'video/youtube') {
                         mediaElement.load();
@@ -153,28 +150,25 @@ define([
                     }, false);
                 }
 
+                
                 mediaElement.addEventListener('play', function(event) {
                     stillNeedToCallPlay = false;
-                    if (playFromPauseEvent === true) {
-                        playFromPauseEvent = false;
-                    } else if(options.controlPlaying) {
 
-                        if ((interaction.attr('maxPlays') !== 0) && $container.data('timesPlayed') >= interaction.attr('maxPlays')) {
-                                mediaElement.pause();
-                                mediaElement.setSrc('');
-                                if (mediaType === "video/youtube") {
-                                    $(playerDom).empty();
-                                }
-                        } else {
-                            if ((mediaType === 'video' || mediaType === 'video/youtube') && mediaElement.pluginType !== 'flash') {
-                                bigPlayButtonLayerDetached = $('.mejs-overlay-play', $meContainer).detach();
-                            } 
+                    if (playFromPauseEvent === true) {
+
+                        playFromPauseEvent = false;
+
+                    } else {
+                        //if no pause we detach the controls or add an overlay on iframes to prevent pause from click
+                        if(!enablePause){
+                            $bigPlayBtn.detach();
+                            $playpauseBtn.detach();
+ 
                             if(mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
-                                    var controlsHeight = $('.mejs-controls', $meContainer).outerHeight();
-                                    $overlay = $('<div class="overlay"></div>')
-                                        .width(mediaOptions.videoWidth)
-                                        .height(mediaOptions.videoHeight - controlsHeight)
-                                        .appendTo($layers);
+                                $('<div class="overlay"></div>')
+                                    .width(mediaOptions.videoWidth)
+                                    .height(mediaOptions.videoHeight - controlsHeight)
+                                    .appendTo($layers);
                             }
                         }
                     }
@@ -183,53 +177,92 @@ define([
                 mediaElement.addEventListener('ended', function(event) {
                     $container.data('timesPlayed', $container.data('timesPlayed') + 1);
                     Helper.triggerResponseChangeEvent(interaction);
-                    if (options.controlPlaying && (interaction.attr('maxPlays') === 0) || $container.data('timesPlayed') < interaction.attr('maxPlays')) {
-                        if(bigPlayButtonLayerDetached.length){
-                            $layers.append(bigPlayButtonLayerDetached);
+
+                    if (canBePlayed() && !enablePause){
+    
+                        //re attach the controls and remove the overlay
+                        $controls.prepend($playpauseBtn);
+                        $layers.append($bigPlayBtn);
+                        $('.overlay', $layers).remove();
+                        
+                    } else if(!canBePlayed()) {
+
+                        //we detach the controls or add an overlay on iframes to prevent a new play
+                        $bigPlayBtn.detach();
+                        $playpauseBtn.detach();
+
+                        if(mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
+                            $('<div class="overlay"></div>')
+                                .width(mediaOptions.videoWidth)
+                                .height(mediaOptions.videoHeight - controlsHeight)
+                                .appendTo($layers);
                         }
-                        if ($overlay.length) {
-                            $overlay.remove();
+    
+                        //no other way to stop it if in loop
+                        if(!!interaction.attr('loop')){
+                            if(!interaction.mediaElement.pluginApi){
+                                interaction.mediaElement.setSrc('');
+                            } else {
+                                $(playerDom).remove();
+                            }
                         }
+                            
                     }
+
                 }, false);
+
+                //prevents to pause the player
+                $playpauseBtn.on('click.qti-element', function(e) {
+                        pauseFromClick = true;
+                        if(!enablePause){
+                            e.preventDefault();
+                            e.stopPropagation();                        }
+                    });
 
                 mediaElement.addEventListener('pause', function(event) {
                     // there is a "pause" event fired at the end of a movie and we need to differentiate it from pause event caused by a click
-                    if (options.controlPlaying && pauseFromClick) {
+                    if (pauseFromClick) {
                         playFromPauseEvent = true;
                         pauseFromClick = false;
-                        mediaElement.play();
+                        //mediaElement.play();
                     }
                 });
 
+                /**
+                 * @event playerready
+                 */
                 $container.trigger('playerready');
             },
+
             error: function(playerDom) {
                 $(playerDom).closest('div.mejs-container').find('.me-cannotplay').remove();
             }
         };
 
+        //create the HTML tags
         $meTag = $(_buildMedia(media, mediaType, baseUrl)).appendTo($('.media-container', $container));
 
-        if (options.controlPlaying) {
-            $meTag
-              .on('contextmenu', function(e) {
-                    e.preventDefault();
-              })
-              .on('click', function(e) {
-                pauseFromClick = true;
+        //prevent contextmenu and control click on the player to prevent unwanted pause.
+        $meTag
+            .on('contextmenu', function(e) {
                 e.preventDefault();
-                e.stopPropagation();
-                return false;
+            })
+            .on('click.qit-element', function(e) {
+                pauseFromClick = true;
+                if(!enablePause){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
             });
-        }
           
+        //initialize the component
     
        $container.on('responseSet', function() {
             initMediaPlayer();
        });
 
-        //gievs a chance to the responseSet
+        //gievs a small chance to the responseSet event before initializing the player
         _.defer(function(){ 
             initMediaPlayer();
         });

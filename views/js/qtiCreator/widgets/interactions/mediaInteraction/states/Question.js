@@ -22,6 +22,7 @@ define([
         
         var widget      = this.widget;
         var $form       = widget.$form;
+        var $container  = widget.$original;
         var options     = widget.options;
         var interaction = widget.element;
         var callbacks   = {};
@@ -43,16 +44,17 @@ define([
         $form.html(formTpl({
             
             //tpl data for the interaction
-            autostart : !!interaction.attr('autostart'),
-            loop : !!interaction.attr('loop'),
-            //minPlays : parseInt(interaction.attr('minPlays')),
-            maxPlays : parseInt(interaction.attr('maxPlays')),
-            
+            autostart   : !!interaction.attr('autostart'),
+            loop        : !!interaction.attr('loop'),
+            maxPlays    : parseInt(interaction.attr('maxPlays'), 10),
+            pause       : interaction.hasClass('pause'),
+ 
             //tpl data for the "object", this part is going to be reused by the "objectWidget", http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
-            data:interaction.object.attr('data'),
-            type:interaction.object.attr('type'),//use the same as the uploadInteraction, contact jerome@taotesting.com for this
-            width:interaction.object.attr('width'),
-            height:interaction.object.attr('height')
+            data        : interaction.object.attr('data'),
+            type        : interaction.object.attr('type'),//use the same as the uploadInteraction, contact jerome@taotesting.com for this
+            width       : interaction.object.attr('width'),
+            height      : interaction.object.attr('height')
+            
         }));
 
         formElement.initWidget($form);
@@ -74,6 +76,18 @@ define([
         callbacks.maxPlays = function(interaction, attrValue, attrName){
             interaction.attr(attrName, attrValue);
             reRender(interaction);
+        };
+
+        callbacks.pause = function(interaction, attrValue, attrName){
+            if(attrValue){
+                if(!$container.hasClass('pause')){ 
+                    $container.addClass('pause');
+                    interaction.addClass('pause');
+                }
+            } else {
+                $container.removeClass('pause');
+                interaction.removeClass('pause');
+            }
         };
         
         //callbacks['width'] = formElement.getAttributeChangeCallback();

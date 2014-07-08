@@ -50,24 +50,18 @@
 </div>
 
 <div class="panel">
-    <!--
-    <h3>{{__ "Allowed number of choices"}}
-        
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">
-            The minPlays attribute indicates that the media object should be played a minimum number of times by the candidate. 
-            The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit.
-        </span>
-        
-    </h3>
-    -->
+    <label>
+        <input name="pause" type="checkbox" {{#if pause}}checked="checked"{{/if}}/>
+        <span class="icon-checkbox"></span>
+        {{__ "pause"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+       {{__ "Enable the test taker to pause and restart the playing."}}
+    </span>
+</div>
 
-    <!--
-    <div>
-        <label for="minPlays" class="spinner">Min</label>
-        <input name="minPlays" value="{{minPlays}}" data-increment="1" data-min="0" data-max="1000" type="text" />
-    </div>
-    -->
+<div class="panel">
     <div>
         <label for="maxPlays" class="spinner">Max plays count</label>
         <input name="maxPlays" value="{{maxPlays}}" data-increment="1" data-min="0" data-max="1000" type="text" style='min-width: 55px!important;' />
