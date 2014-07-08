@@ -29,13 +29,13 @@ define([
             .html($choice.html())
             .addClass('filled');
 
-        if(!interaction.responseMappingMode && 
-            choice.attr('matchMax') && 
+        if(!interaction.responseMappingMode &&
+            choice.attr('matchMax') &&
             _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
             $choice.addClass('deactivated');
         }
-        
+
         Helper.triggerResponseChangeEvent(interaction);
     };
 
@@ -224,7 +224,7 @@ define([
     };
 
     var _setPairs = function(interaction, pairs){
-        
+
         _.each(pairs, function(pair){
             if(pair){
                 setChoice(interaction, getChoice(interaction, pair[0]), getGap(interaction, pair[1]).find('.gapmatch-content'));
@@ -250,7 +250,7 @@ define([
     };
 
     var _getRawResponse = function(interaction){
-        
+
         var response = [];
         Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
             var choiceSerial = $(this).data('serial'),
@@ -281,7 +281,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        
+
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
@@ -300,8 +300,12 @@ define([
 
         //restore response
         resetResponse(interaction);
-
-        Helper.getContainer(interaction).find('.gapmatch-content').empty();
+        
+        //restore selection
+        $container.find('.gapmatch-content').empty();
+        $container.find('.active').removeClass('active');
+        $container.find('.remove-choice').remove();
+        $container.find('.empty').removeClass('empty');
     };
 
     return {
