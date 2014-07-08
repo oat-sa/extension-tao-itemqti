@@ -62,13 +62,14 @@ define([
         return {
             toolbarTpl : gapTpl,
             qtiClass : 'gap',
-            afterCreate : function(interactionWidget, newHottextWidget, text){
+            afterCreate : function(interactionWidget, newGapWidget, text){
 
                 //after the gap is created, delete it
                 var choice = interactionWidget.element.createChoice(text);
                 interactionWidget.$container.find('.choice-area .add-option').before(choice.render());
                 choice.postRender().changeState('question');
-
+                
+                newGapWidget.changeState('choice');
             }
         };
     };

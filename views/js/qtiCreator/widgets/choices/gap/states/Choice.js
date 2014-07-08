@@ -11,7 +11,7 @@ define([
         
         var _widget = this.widget;
         
-        //listener to other siblings choice mode
+        //listener to changes of sibling choices' mode 
         _widget.beforeStateInit(function(e, element, state){
             
             if(Element.isA(element, 'gap') && _widget.interaction.getBody().getElement(element.serial)){

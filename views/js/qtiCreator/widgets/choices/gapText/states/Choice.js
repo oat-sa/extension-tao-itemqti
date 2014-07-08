@@ -24,7 +24,7 @@ define([
         }, 'otherActive');
 
         this.buildEditor();
-
+        
     }, function(){
 
         this.destroyEditor();

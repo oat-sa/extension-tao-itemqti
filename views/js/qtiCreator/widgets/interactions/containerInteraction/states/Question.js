@@ -111,7 +111,7 @@ define([
                 textWrapper.create($editable);
                 gapModel.afterCreate(widget, newGapWidget, text);
             });
-
+            
         }).on('mouseup', function(e){
             e.stopPropagation();//prevent rewrapping
         });
