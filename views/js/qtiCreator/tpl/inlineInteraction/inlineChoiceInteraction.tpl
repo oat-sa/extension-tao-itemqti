@@ -17,7 +17,7 @@
                     <td>
                         <div class="add-option">
                             <span class="icon-add"></span>
-                            {{__ "new option"}}
+                            {{__ "Add choice"}}
                         </div>
                     </td>
                     <td colspan="2"></td>
