@@ -1,11 +1,13 @@
 define([
     'lodash',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/GapMatchInteraction',
     'taoQtiItem/qtiCreator/model/choices/GapText',
-    'taoQtiItem/qtiCreator/model/helper/event'
-], function(_, editable, editableInteraction, Interaction, Choice, event){
+    'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiCreator/model/helper/response'
+], function(_, Element, editable, editableInteraction, Interaction, Choice, event, responseHelper){
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
@@ -56,6 +58,30 @@ define([
             event.choiceCreated(choice, this);
 
             return choice;
+        },
+        removeChoice : function(gap){
+            var serial = '', c;
+            
+            if(typeof(gap) === 'string'){
+                serial = gap;
+            }else if(Element.isA(gap, 'gap')){
+                serial = gap.serial;
+            }
+            
+            c = this.getBody().getElement(serial);
+
+            if(c){
+                //remove choice
+                this.getBody().removeElement(c);
+                
+                //update the response
+                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                
+                //trigger event
+                event.deleted(c, this);
+            }
+            
+            return this;
         }
     });
     return Interaction.extend(methods);
