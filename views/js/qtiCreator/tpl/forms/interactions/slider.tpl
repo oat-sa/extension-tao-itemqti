@@ -12,7 +12,7 @@
 
 <div class="panel">
     <label for="step" class="spinner">{{__ "Step"}}</label>
-    <input name="step" value="{{step}}" data-increment="1" data-min="1" type="text" />
+    <input name="step" value="{{step}}" data-increment="1" data-min="0" data-max="{{upperBound}}" type="text" />
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The number of units corresponding to a step on the slider"}}</span>
 </div>

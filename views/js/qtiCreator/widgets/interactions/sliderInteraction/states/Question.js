@@ -31,8 +31,22 @@ define([
             
             var lowerBound = interaction.attr('lowerBound');
             var upperBound = interaction.attr('upperBound');
+            var sliderLength = upperBound-lowerBound; //the lenght of the slider
+            var step = interaction.attr('step');
             var reverse = !!interaction.attr('reverse');
+
+            //if min is greater than max change upperBound to be like lowerBound
+            if(lowerBound>upperBound){
+                callbacks.upperBound(interaction, lowerBound);
+                _widget.$form.find('input[name="upperBound"]').val(lowerBound);
+            }
             
+            //check if the lendth of the slide is smaller than the step
+            if(sliderLength<step && sliderLength>=0){
+                callbacks.step(interaction, sliderLength);
+                _widget.$form.find('input[name="step"]').val(sliderLength);
+            }
+            console.info(sliderLength, interaction.attr('step'), 'from lowerBound F');
             _widget.$container.find((!reverse) ? '.slider-min' : '.slider-max').text(attrValue);
             _widget.$container.find('span.qti-slider-cur-value').text(lowerBound);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': lowerBound, 'max': upperBound }}, true);
@@ -46,8 +60,23 @@ define([
             
             var lowerBound = interaction.attr('lowerBound');
             var upperBound = interaction.attr('upperBound');
+            var sliderLength = upperBound-lowerBound; //the lenght of the slider
+            var step = interaction.attr('step');
             var reverse = !!interaction.attr('reverse');
             
+            //if max is smaller than min then change lowerBound to be like upperBound
+            if(upperBound<lowerBound){
+                callbacks.lowerBound(interaction, upperBound);
+                _widget.$form.find('input[name="lowerBound"]').val(upperBound);
+            }
+            
+            //check if the lendth of the slide is smaller than the step
+            if(sliderLength<step && sliderLength>=0){
+                callbacks.step(interaction, sliderLength);
+                _widget.$form.find('input[name="step"]').val(sliderLength);
+            }
+            console.info(sliderLength, interaction.attr('step'), 'from upperBound F');
+            _widget.$form.find('input[name="step"]').incrementer('options', {max: upperBound});
             _widget.$container.find((!reverse) ? '.slider-max' : '.slider-min').text(attrValue);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': interaction.attr('lowerBound'), 'max': interaction.attr('upperBound') } }, true);
         };
@@ -82,9 +111,16 @@ define([
         // -- step Callback
         callbacks['step'] = function(interaction, attrValue, attrName){
             
-            interaction.attr('step', parseInt(attrValue));
-            
-            _widget.$container.find('.qti-slider').noUiSlider({ 'step': interaction.attr('step') }, true);
+            var lowerBound = interaction.attr('lowerBound');
+            var upperBound = interaction.attr('upperBound');
+            var currentStep = parseInt(attrValue);
+            var sliderLength = upperBound-lowerBound; //the lenght of the slider
+            console.info(sliderLength, currentStep, 'from step F');
+            if(sliderLength>=currentStep){
+                interaction.attr('step', currentStep);
+                _widget.$container.find('.qti-slider').noUiSlider({ 'step': interaction.attr('step') }, true);
+                _widget.$form.find('input[name="step"]').incrementer('options', {max: sliderLength});
+            }
         };
         
         // -- stepLabel Callback
