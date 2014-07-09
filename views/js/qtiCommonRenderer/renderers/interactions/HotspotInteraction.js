@@ -30,7 +30,6 @@ define([
             width     : background.width, 
             height    : background.height,
             img       : baseUrl + background.data,
-            diff      : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(true),
             container : $container
         });
 

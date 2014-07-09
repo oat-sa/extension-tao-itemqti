@@ -73,15 +73,7 @@ define([
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + this.element.serial,
-                    diff        : diff,
-                    container   : $container,
-                    resize      : function(newWidth){
-                        var boxWidth = $imageBox.innerWidth() - diff;
-                        if(background.width < boxWidth){
-                            boxWidth = background.width;
-                        }
-                        $gapList.width( (newWidth < boxWidth ?  newWidth : boxWidth)  + 'px');
-                    } 
+                    container   : $container
                 });
 
                 //listen for internal size change

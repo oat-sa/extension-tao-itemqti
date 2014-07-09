@@ -3,9 +3,11 @@
 .qti-graphicOrderInteraction {
 
     ul.ordinals {
-        margin: 0 auto;
-        padding: 0 10px !important;
+        width: 100%;
+        margin: 10px auto;
+        padding: 0 !important;
         clear: both;
+        min-height: 54px;
         & > li {
             width: 30px;
             line-height: 30px;

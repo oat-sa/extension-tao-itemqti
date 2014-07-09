@@ -172,7 +172,9 @@ define([
             interaction.object.attr('data', value);
             widget.rebuild({
                 ready: function(widget){
-                    widget.changeState('question');
+                    _.defer(function(){
+                        widget.changeState('question');
+                    });
                 }
             });
         };

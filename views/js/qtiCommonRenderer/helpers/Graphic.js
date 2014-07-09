@@ -193,13 +193,15 @@ define([
             var paper, image;
 
             var $container = options.container || $('#' + id).parent();
+            var $editor    = $('.image-editor', $container);
             var $body  = $container.closest('.qti-itemBody');
-            var width = options.width || $container.width();
-            var height = options.height || $container.height();
             var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
-            var parentWidth = $container.parent().outerWidth();
-            var diff = options.diff || (parentWidth > width ? parentWidth - width : 28);
-            var resizer = _.throttle(resizePaper, 10);
+
+            var width = options.width || $container.innerWidth();
+            var height = options.height || $container.innerHeight();
+
+            //padding and border diff. always add 1px to cover the rounded value in scalling
+            var diff = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
 
             paper = factory.call(null ,id, width, height);
             image = paper.image(options.img, 0, 0, width, height);
@@ -208,11 +210,12 @@ define([
             } 
 
             if(raphael.type === 'SVG'){ 
-                
-                //scale on creation
-                resizePaper();
-                
-                $(window).on('resize.qti-widget.' + serial, resizer);
+               
+                //scale on creation, it needs to be called 2x to ensure the container has the right size. 
+                resizePaper(); 
+                resizePaper(); 
+ 
+                $(window).on('resize.qti-widget.' + serial, _.throttle(resizePaper, 10));
                 $container.on('resize.qti-widget', resizePaper);
 
             } else {
@@ -229,12 +232,12 @@ define([
              */
             function resizePaper(e, givenWidth){
                 var factor;
-                var maxWidth   = $body.innerWidth();
-                var containerWidth = $container.innerWidth() - diff;
+                var maxWidth        = $body.width();
+                var containerWidth  = $container.width() - diff;
                 if(givenWidth < containerWidth && givenWidth < maxWidth){
                     containerWidth = givenWidth - diff;
                 } else if(containerWidth > maxWidth){
-                    containerWidth = maxWidth - diff ;
+                    containerWidth = maxWidth - diff;
                 }
  
                 if($container.hasClass('responsive')){

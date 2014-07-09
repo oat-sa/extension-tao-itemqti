@@ -15,18 +15,17 @@
             cursor : pointer;
 
             & ~ span.mini-tlb[data-edit] {
-                @include font-size(14);
-                position: absolute !important;
                 right: 0 !important;
                 top: 0 !important;
 
                 .tlb-button {
-                    line-height: 26px;
-                    height: 24px;
+                    line-height: 18px;
                 }
             }
         }
         img ~ span.mini-tlb[data-edit] {
+             top: 0;
+             right: 0;
             .tlb-button {
                 line-height: 18px;
             }

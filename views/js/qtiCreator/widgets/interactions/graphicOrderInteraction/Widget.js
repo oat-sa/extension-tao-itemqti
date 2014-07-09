@@ -75,13 +75,7 @@ define([
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + interaction.serial,
-                    diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
-                    container   : $container,
-                    resize      : function(newWidth){
-                        var diff = $orderList.outerWidth(true) -$orderList.width();
-                        var width = (newWidth < background.width ?  newWidth : background.width) - (diff > 0 ? diff : 0) + 8;
-                        $orderList.width( width );
-                    }
+                    container   : $container
                 });
 
                 //listen for internal size change

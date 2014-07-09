@@ -71,7 +71,6 @@ define([
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + this.element.serial,
-                    diff        : $('.image-editor', $container).outerWidth(true) - $('.main-image-box', $container).innerWidth(),
                     container   : $container
                 });
 

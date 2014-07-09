@@ -33,13 +33,7 @@ define([
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            container   : $container,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(true),
-            resize      : function(newWidth){
-                var diff = $orderList.outerWidth(true) -$orderList.width();
-                var width = (newWidth < background.width ?  newWidth : background.width) - (diff > 0 ? diff : 0) + 8;
-                $orderList.width( width );
-            }
+            container   : $container
         });
 
         //create the list of number to order

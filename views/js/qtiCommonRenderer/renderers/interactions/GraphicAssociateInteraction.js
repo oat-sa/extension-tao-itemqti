@@ -26,7 +26,6 @@ define([
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
         var $imageBox  = $('.main-image-box', $container);
-        var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
         interaction._vsets = [];
  
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
@@ -34,8 +33,7 @@ define([
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            container   : $container,
-            diff        : diff
+            container   : $container
         });
 
         //call render choice for each interaction's choices

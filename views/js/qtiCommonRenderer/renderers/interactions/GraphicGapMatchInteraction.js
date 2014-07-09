@@ -24,7 +24,7 @@ define([
         var $imageBox  = $('.main-image-box', $container);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
+        //var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
 
         interaction.gapFillers = [];
 
@@ -34,15 +34,7 @@ define([
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            container   : $container,
-            diff        : diff,
-            resize      : function(newWidth){
-                var boxWidth = $imageBox.innerWidth() - diff;
-                if(background.width < boxWidth){
-                    boxWidth = background.width;
-                }
-                $gapList.width( (newWidth < boxWidth ?  newWidth : boxWidth)  + 'px');
-        } 
+            container   : $container
         });
         
         //call render choice for each interaction's choices

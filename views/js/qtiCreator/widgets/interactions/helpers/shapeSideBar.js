@@ -31,7 +31,7 @@ define([
                  })).insertBefore($imageEditor);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
-            var newWidth = parseInt($imageBox.outerWidth(), 10) - parseInt($sideBar.outerWidth(true), 10);
+            var newWidth = $container.width() - $sideBar.outerWidth(true) - 2; //-2 is a security to prevent the element to dislpay below the sidebar
            
             /**
              * Set a form/shape into an active state
@@ -100,10 +100,9 @@ define([
             }); 
              
             $container.on('resize.qti-widget.sidebar', function(){
-                //need to delay because of the throttle on 10ms
-                _.delay(function(){
+                _.defer(function(){
                     $sideBar.find('.forms').height($imageEditor.innerHeight());
-                }, 10);
+                });
             });
             $container.trigger('resize.qti-widget', newWidth); 
 

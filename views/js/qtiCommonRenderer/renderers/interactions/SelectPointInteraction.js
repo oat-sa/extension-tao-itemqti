@@ -29,7 +29,6 @@ define([
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            diff        : $('.image-editor', $container).outerWidth() - $('.main-image-box', $container).outerWidth(true),
             container   : $container
         });
 

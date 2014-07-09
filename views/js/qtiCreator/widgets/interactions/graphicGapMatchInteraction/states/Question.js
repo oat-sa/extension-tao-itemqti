@@ -283,7 +283,8 @@ define([
         $('ul.source .empty', widget.$original).remove();
         
         //restore gapImg appearance
-        widget.$container.find('.qti-gapImg').removeClass('active');
+        widget.$container.find('.qti-gapImg').removeClass('active')
+                         .find('.mini-tlb').remove();
     };
     
     /**
