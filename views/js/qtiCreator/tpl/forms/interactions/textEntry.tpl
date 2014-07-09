@@ -8,7 +8,7 @@
 </div>
 <div class="panel">
     <label for="patternMask" class="spinner">Pattern Mask</label>
-    <input name="patternMask" value="{{patternMask}}" type="text" />
+    <input name="patternMask" value="{{patternMask}}" type="text" data-validate="$validRegex;" placeholder="e.g. [A-Z][a-z]{3,}"/>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
         {{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."}}
