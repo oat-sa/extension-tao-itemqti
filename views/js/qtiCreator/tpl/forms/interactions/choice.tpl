@@ -12,7 +12,7 @@
 </div>
 
 <div class="panel">
-    <h3>{{__ "Number of choices"}}</h3>
+    <h3>{{__ "Allowed number of choices"}}</h3>
 
     <div>
         <label for="minChoices" class="spinner">Min</label>
