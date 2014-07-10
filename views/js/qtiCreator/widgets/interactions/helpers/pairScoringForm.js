@@ -185,29 +185,37 @@ define([
 
            //disable options based on existing pairs
            $left.on('change', function(){
-                var current = $left.select2('val');
+                var currentLeft = $left.select2('val'),
+                    currentRight = $right.select2('val');
                 
                 $options.removeProp('disabled'); 
                 
-                _(pairs).where({leftId : current}).forEach(function(pair){
-                    $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true); 
+                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                    $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
+                });
+                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                    $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({rightId : current}).forEach(function(pair){
+                    _(pairs).where({rightId : currentLeft}).forEach(function(pair){
                         $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true); 
                     });
                 }
            });
            $right.on('change', function(){
-                var current = $right.select2('val');
+                var currentRight = $right.select2('val'),
+                    currentLeft = $left.select2('val');
                 
                 $options.removeProp('disabled'); 
                 
-                _(pairs).where({rightId : current}).forEach(function(pair){
-                    $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true); 
+                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                    $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
+                });
+                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                    $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({leftId : current}).forEach(function(pair){
+                    _(pairs).where({leftId : currentRight}).forEach(function(pair){
                         $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true); 
                     });
                 }
@@ -215,6 +223,7 @@ define([
 
            //create a new pair
            $adder.on('click', function(e){
+               $options.removeProp('disabled');
                e.preventDefault();
                var key;
                var lval = $left.select2('val');
