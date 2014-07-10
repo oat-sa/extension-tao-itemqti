@@ -44,8 +44,8 @@ define([
                 
             }).on('deleted', function(data){
                 
-                if(data.parent.serial === widget.element.serial
-                    && Element.isA(data.element, 'choice')){
+                if(data.parent.serial === widget.element.serial && 
+                    Element.isA(data.element, 'choice')){
                     
                     _syncMaxChoices();
                 }

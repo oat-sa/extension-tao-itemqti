@@ -200,8 +200,10 @@ define([
             var width = options.width || $container.innerWidth();
             var height = options.height || $container.innerHeight();
 
+            var resizer = _.throttle(resizePaper, 10);
+
             //padding and border diff. always add 1px to cover the rounded value in scalling
-            var diff = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
+
 
             paper = factory.call(null ,id, width, height);
             image = paper.image(options.img, 0, 0, width, height);
@@ -209,14 +211,25 @@ define([
                 image.id = options.imgId;
             } 
 
+            //retry to resize 
+            $(image.node)
+              .attr('externalResourcesRequired','true')
+              .on("load", function() {
+            
+                resizePaper(); 
+            });
+
             if(raphael.type === 'SVG'){ 
-               
-                //scale on creation, it needs to be called 2x to ensure the container has the right size. 
-                resizePaper(); 
-                resizePaper(); 
- 
-                $(window).on('resize.qti-widget.' + serial, _.throttle(resizePaper, 10));
-                $container.on('resize.qti-widget', resizePaper);
+           
+                //scale on creation
+                resizePaper();
+
+                $(window).on('resize.qti-widget.' + serial, resizer);
+                $container.on('resize.qti-widget', function(e, givenWidth){
+                    setTimeout(function(){
+                        resizePaper(e, givenWidth);
+                    }, 21); //this delay prevent overlapping in a current throttling
+                });
 
             } else {
                 paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
@@ -232,25 +245,32 @@ define([
              */
             function resizePaper(e, givenWidth){
                 var factor;
+                var diff = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
-                var containerWidth  = $container.width() - diff;
-                if(givenWidth < containerWidth && givenWidth < maxWidth){
-                    containerWidth = givenWidth - diff;
-                } else if(containerWidth > maxWidth){
-                    containerWidth = maxWidth - diff;
+                var containerWidth  = $container.width();
+                if(containerWidth > 0 || givenWidth > 0){
+
+                    if(givenWidth < containerWidth && givenWidth < maxWidth){
+                        containerWidth = givenWidth - diff;
+                    } else if(containerWidth > maxWidth){
+                        containerWidth = maxWidth - diff;
+                    } else {
+                        containerWidth -= diff;
+                    }
+     
+                    console.log('calculateWidth', containerWidth);
+                    if($container.hasClass('responsive')){
+                        factor = containerWidth / width;
+                        paper.changeSize(containerWidth, height * factor, false, false);
+                        paper.scaleAll( factor );
+                    } else {
+                        paper.changeSize(containerWidth, height, false, false);
+                    }
+                    if(typeof options.resize === 'function'){
+                        options.resize(containerWidth);
+                    }
+                    $container.trigger('resized.qti-widget');
                 }
- 
-                if($container.hasClass('responsive')){
-                    factor = containerWidth / width;
-                    paper.changeSize(containerWidth, height * factor, false, false);
-                    paper.scaleAll( factor );
-                } else {
-                    paper.changeSize(containerWidth, height, false, false);
-                }
-                if(typeof options.resize === 'function'){
-                    options.resize(containerWidth);
-                }
-                $container.trigger('resized.qti-widget');
             }
 
             return paper;

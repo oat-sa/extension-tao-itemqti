@@ -40,7 +40,8 @@
         require([clientConfigUrl], function(){
             
             //and start the QTI bootstrap
-            require(['taoQtiItem/runtime/qtiBootstrap'], function(qtiBootstrap){
+            require(['css!tao_css/tao-main-style', 'taoQtiItem/runtime/qtiBootstrap'], function(css, qtiBootstrap){
+    
                 qtiBootstrap(runnerContext);
             });
         });
@@ -65,7 +66,7 @@
         else if (window.attachEvent) {
             window.attachEvent('onload', cb);
         }
-    };
+    }
     
    /**
     * Old style param extraction of the current location
@@ -94,6 +95,6 @@
            }
        }
        return params;
-    };
+    }
     
 }(this));
