@@ -193,6 +193,7 @@ define([
             $container = Helper.getContainer(interaction);
         
             $(window).off('resize.qti-widget.' + interaction.serial);
+            $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             Helper.removeInstructions(interaction);

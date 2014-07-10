@@ -211,7 +211,7 @@ define([
                 image.id = options.imgId;
             } 
 
-            //retry to resize 
+            //retry to resize once the SVG is loaded 
             $(image.node)
               .attr('externalResourcesRequired','true')
               .on("load", function() {
@@ -224,11 +224,9 @@ define([
                 //scale on creation
                 resizePaper();
 
-                $(window).on('resize.qti-widget.' + serial, resizer);
-                $container.on('resize.qti-widget', function(e, givenWidth){
-                    setTimeout(function(){
-                        resizePaper(e, givenWidth);
-                    }, 21); //this delay prevent overlapping in a current throttling
+                $(window).on('resize.qti-widget.'  + serial, resizer);
+                $container.on('resize.qti-widget.' + serial , function(e, givenWidth){
+                    resizer(e, givenWidth);
                 });
 
             } else {
@@ -244,11 +242,19 @@ define([
              * @private
              */
             function resizePaper(e, givenWidth){
+                if(e){
+                    e.stopPropagation();
+                }
+
                 var factor;
                 var diff = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
                 var containerWidth  = $container.width();
                 if(containerWidth > 0 || givenWidth > 0){
+
+                    if(!givenWidth && $container.children('.image-sidebar').length){
+                        diff += $container.children('.image-sidebar').outerWidth(true);
+                    }                    
 
                     if(givenWidth < containerWidth && givenWidth < maxWidth){
                         containerWidth = givenWidth - diff;
@@ -258,7 +264,6 @@ define([
                         containerWidth -= diff;
                     }
      
-                    console.log('calculateWidth', containerWidth);
                     if($container.hasClass('responsive')){
                         factor = containerWidth / width;
                         paper.changeSize(containerWidth, height * factor, false, false);

@@ -48,6 +48,7 @@ define([
             //stop listening the resize
             $itemBody.off('resizestop.gridEdit.' + this.element.serial);
             $(window).off('resize.qti-widget.' + this.element.serial);
+            $container.off('resize.qti-widget.' + this.element.serial);
 
             //call parent destroy
             Widget.destroy.call(this);
@@ -63,22 +64,22 @@ define([
             var $gapList   = $('ul.source', $container);
             var $imageBox  = $('.main-image-box', $container);
             var background = this.element.object.attributes;
+            var serial     = this.element.serial;
             var diff;
             if(!background.data){
                 this._createPlaceholder();
             } else {
-                diff = $('.image-editor', $container).outerWidth(true) - $imageBox.innerWidth();
-                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + this.element.serial, this.element.serial, {
+                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
                     width       : background.width, 
                     height      : background.height,
                     img         : this.baseUrl + background.data,
-                    imgId       : 'bg-image-' + this.element.serial,
+                    imgId       : 'bg-image-' + serial,
                     container   : $container
                 });
 
                 //listen for internal size change
-                $itemBody.on('resizestop.gridEdit.' + this.element.serial, function(){
-                    $container.trigger('resize.qti-widget');
+                $itemBody.on('resizestop.gridEdit.' + serial, function(){
+                    $container.trigger('resize.qti-widget.' + serial);
                 });
 
                 //call render choice for each interaction's choices
