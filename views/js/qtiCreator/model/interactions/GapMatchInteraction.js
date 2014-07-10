@@ -59,20 +59,29 @@ define([
 
             return choice;
         },
-        removeChoice : function(gap){
+        removeChoice : function(element){
             var serial = '', c;
             
-            if(typeof(gap) === 'string'){
-                serial = gap;
-            }else if(Element.isA(gap, 'gap')){
-                serial = gap.serial;
+            if(typeof(element) === 'string'){
+                serial = element;
+            }else if(Element.isA(element, 'gap')){
+                serial = element.serial;
+            }else if(Element.isA(element, 'gapText')){
+                serial = element.serial;
             }
             
-            c = this.getBody().getElement(serial);
-
-            if(c){
+            if(c = this.getBody().getElement(serial)){
                 //remove choice
                 this.getBody().removeElement(c);
+                
+                //update the response
+                responseHelper.removeChoice(this.getResponseDeclaration(), c);
+                
+                //trigger event
+                event.deleted(c, this);
+            }else if(c = this.getChoice(serial)){
+                //remove choice
+                delete this.choices[serial];
                 
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
