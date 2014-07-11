@@ -109,6 +109,16 @@ define([
         var _isModeEditing = function(){
             return ($activeChoice && !$activeChoice.data('identifier'));
         };
+        
+        var _getFilledGaps = function(){
+            var filledGaps = [];
+            Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
+                if(typeof($(this).data('serial')) != 'undefined'){
+                    filledGaps.push($(this).data('serial'));
+                }
+            });
+            return filledGaps;
+        };
 
         $container.on('mousedown.commonRenderer', function(e){
             _resetSelection();
@@ -152,9 +162,10 @@ define([
 
                 var $target = $(this),
                     choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial');
-
-                if(targetSerial !== choiceSerial){
+                    targetSerial = $target.data('serial'),
+                    filledGaps = _getFilledGaps();
+                    
+                if(targetSerial !== choiceSerial && filledGaps.indexOf(choiceSerial) == -1){
 
                     //set choices:
                     if(targetSerial){
