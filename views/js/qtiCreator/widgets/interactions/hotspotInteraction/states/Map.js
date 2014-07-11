@@ -141,6 +141,12 @@ define([
             shape.click(function(){
                 $('.mapping-editor', $container).hide();
                 $popup.show();
+                console.info($popup);
+            });
+            
+            //the click on the cross hides the popup
+            $('.mapping-editor', $container).on('click', '.closer', function(){
+                $(this).parent('.mapping-editor').hide();
             });
 
             $popup.append($form);
