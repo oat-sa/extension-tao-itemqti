@@ -128,7 +128,7 @@ define([
                     _deleteResizables($el);
                     _createResizables($el);
 
-                    $col.trigger('resizestop.gridEdit');
+                    $col.trigger('resize.gridEdit');
                 }
             }).css('position', 'absolute');
 

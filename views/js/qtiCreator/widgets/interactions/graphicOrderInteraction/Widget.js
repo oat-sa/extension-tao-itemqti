@@ -48,7 +48,7 @@ define([
             var $itemBody   = $container.parents('.qti-itemBody');
 
             //stop listening the resize
-            $itemBody.off('resizestop.gridEdit.' + this.element.serial);
+            $itemBody.off('resize.gridEdit.' + this.element.serial);
             $(window).off('resize.qti-widget.' + this.element.serial);
             $container.off('resize.qti-widget.' + this.element.serial);
 
@@ -81,7 +81,7 @@ define([
                 });
 
                 //listen for internal size change
-                $itemBody.on('resizestop.gridEdit.' + serial, function(){
+                $itemBody.on('resize.gridEdit.' + serial, function(){
                     $container.trigger('resize.qti-widget.' + serial);
                 });
 

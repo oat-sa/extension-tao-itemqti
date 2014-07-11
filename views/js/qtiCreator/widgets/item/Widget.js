@@ -166,7 +166,9 @@ define([
             var widget = $widget.data('widget');
             var element = widget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
-
+            
+            console.log($widget,  $itemBody);
+            
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
@@ -201,8 +203,10 @@ define([
                         }
 
                         //inform height modification
+                        debugger;
                         $widget.trigger('contentChange.gridEdit');
-
+                        $widget.trigger('resize.gridEdit');
+                        
                         //active it right away:
                         if(Element.isA(elt, 'interaction')){
                             widget.changeState('question');
@@ -214,7 +218,7 @@ define([
                 }, this.getUsedClasses());
             });
 
-        }).on('resizestop.gridEdit', function(){
+        }).on('resize.gridEdit', function(){
 
             item.body($itemBody.gridEditor('getContent'));
 

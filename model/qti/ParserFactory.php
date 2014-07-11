@@ -524,7 +524,11 @@ class ParserFactory
                 case 'hottextinteraction':
                     $this->parseContainerHottext($data, $myInteraction->getBody());
                     break;
-
+                
+                case 'customInteraction':
+                    //try build it as a pci:
+                    
+                    break;
                 case 'graphicgapmatchinteraction':
                     //create choices with the gapImg nodes
                     $choiceNodes = $this->queryXPath("*[name(.)='gapImg']", $data);

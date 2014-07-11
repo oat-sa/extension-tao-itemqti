@@ -187,6 +187,8 @@ define([
             //need to update item body
             var item = this.widget.element.getRelatedItem();
             var $item = item.data('widget').$container.find('.qti-itemBody');
+            $item.trigger('resize.qti-widget');
+            
             item.body(contentHelper.getContent($item));
         }
     };

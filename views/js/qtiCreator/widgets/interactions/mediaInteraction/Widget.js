@@ -11,14 +11,20 @@ define([
         initCreator : function(){
             var self = this; 
             var $container  = this.$original;
-            var $itemBody   = $container.parents('.qti-itemBody');
+            var $itemWidget   = $container.parents('.qti-item');
 
             this.registerStates(states);            
             Widget.initCreator.call(this);
             
-            $itemBody
-              .off('resizestop.gridEdit.' + this.element.serial)
-              .on('resizestop.gridEdit.' + this.element.serial, _.throttle(function(e){
+            var resizingEvents = [
+                'resize.gridEdit.'+ this.element.serial,
+                'resize.qti-widget.'+ this.element.serial
+            ];
+            
+            $itemWidget.closest('.qti-item')
+              .off(this.element.serial)
+              .on(resizingEvents.join(' '), _.throttle(function(e){
+                
                 if($(e.target).find('[data-serial]').first().data('serial') === self.element.serial){
                     var width = $container.innerWidth();
                     if(width > 0){
@@ -36,7 +42,7 @@ define([
             var $itemBody  = $container.parents('.qti-itemBody');
 
             //stop listening the resize
-            $itemBody.off('resizestop.gridEdit.' + this.element.serial);
+            $itemBody.off('resize.gridEdit.' + this.element.serial);
 
             //call parent destroy
             Widget.destroy.call(this);
