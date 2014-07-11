@@ -143,11 +143,6 @@ define([
                 $popup.show();
                 console.info($popup);
             });
-            
-            //the click on the cross hides the popup
-            $('.mapping-editor', $container).on('click', '.closer', function(){
-                $(this).parent('.mapping-editor').hide();
-            });
 
             $popup.append($form);
         });
@@ -158,6 +153,11 @@ define([
         
         interaction.paper.getById('bg-image-' + interaction.serial).click(function(){
             $('.mapping-editor', $container).hide();
+        });
+        
+        //the click on the cross hides the popup
+        $('.mapping-editor', $container).on('click', '.closer', function(){
+            $(this).parent('.mapping-editor').hide();
         });
 
         //update the elements on attribute changes
