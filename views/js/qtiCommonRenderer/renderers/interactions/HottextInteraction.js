@@ -15,20 +15,27 @@ define([
      */
     var pseudoLabel = function(interaction){
 
-        var setChoice = function($choice){
+
+        var setChoice = function($choice, interaction){
             var $inupt = $choice.find('input');
+            
             if($inupt.prop('checked') || $inupt.hasClass('disabled')){
                 $inupt.prop('checked', false);
             }else{
-                $inupt.prop('checked', true);
+                var maxChoices = interaction.attr('maxChoices');
+                var currentChoices = _.values(_getRawResponse(interaction)).length;
+                
+                if(currentChoices<maxChoices){
+                    $inupt.prop('checked', true);
+                }
             }
             Helper.triggerResponseChangeEvent(interaction);
             Helper.validateInstructions(interaction, {choice : $choice});
         };
 
         Helper.getContainer(interaction).find('.hottext').on('click', function(e){
-            setChoice($(this));
             e.preventDefault();
+            setChoice($(this), interaction);
         });
     };
 
