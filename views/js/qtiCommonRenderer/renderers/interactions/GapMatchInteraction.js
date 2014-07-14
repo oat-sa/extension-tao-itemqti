@@ -103,22 +103,22 @@ define([
         };
 
         var _isInsertionMode = function(){
-            return ($activeChoice && $activeChoice.data('identifier'));
+            return ($activeChoice && !$activeChoice.hasClass('filled'));
         };
 
         var _isModeEditing = function(){
-            return ($activeChoice && !$activeChoice.data('identifier'));
+            return ($activeChoice && $activeChoice.hasClass('filled'));
         };
         
-        var _getFilledGaps = function(){
-            var filledGaps = [];
-            Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
-                if(typeof($(this).data('serial')) != 'undefined'){
-                    filledGaps.push($(this).data('serial'));
-                }
-            });
-            return filledGaps;
-        };
+        //var _getFilledGaps = function(){
+            //var filledGaps = [];
+            //Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
+                //if(typeof($(this).data('serial')) != 'undefined'){
+                    //filledGaps.push($(this).data('serial'));
+                //}
+            //});
+            //return filledGaps;
+        //};
 
         $container.on('mousedown.commonRenderer', function(e){
             _resetSelection();
@@ -162,10 +162,10 @@ define([
 
                 var $target = $(this),
                     choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial'),
-                    filledGaps = _getFilledGaps();
+                    targetSerial = $target.data('serial');
+                    //filledGaps = _getFilledGaps();
                     
-                if(targetSerial !== choiceSerial && filledGaps.indexOf(choiceSerial) == -1){
+                if(targetSerial !== choiceSerial){ // && filledGaps.indexOf(choiceSerial) == -1){
 
                     //set choices:
                     if(targetSerial){
