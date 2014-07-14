@@ -202,48 +202,6 @@ class Service extends tao_models_classes_Service
 
         return (string) $returnValue;
     }
-
-    /**
-     * force the saving of the object in the persistancy. Usually an object is
-     * by destruction.
-     * Use this method if you know what your are doing.
-     *
-     * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  oat\taoQtiItem\model\qti\Item item
-     * @return boolean
-     */
-    public function saveItemToSession(Item $item){
-        
-        QTISessionCache::singleton()->put($item);
-        
-        return true;
-    }
-
-    /**
-     * Retrive a QTI_Data child instance by it's id
-     *
-     * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
-     * @param  string serial
-     * @param  string type
-     * @return taoQTI_models_classes_QTI_Data
-     */
-    public function getItemFromSession($serial){
-        
-        $returnValue = null;
-
-        try{
-            $returnValue = QTISessionCache::singleton()->get($serial);
-            if(!empty($type) && !$returnValue instanceof $type){
-                throw new common_Exception("object retrieved is a ".get_class($returnValue)." instead of {$type}.");
-            }
-        }catch(common_cache_NotFoundException $e){
-            // do nothing, return null
-        }
-
-        return $returnValue;
-    }
     
     public function getVariableElements(Item $item){
         $allData = $item->getDataForDelivery();

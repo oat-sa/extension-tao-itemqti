@@ -100,10 +100,17 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
  		}
 
 		$qtiItemService = Service::singleton();
+        
 		//@todo add support of multi language packages
-		$qtiItem = $qtiItemService->getDataItemByRdfItem($this->getItem());
+        $rdfItem = $this->getItem();
+		$qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
 		
 		if (!is_null($qtiItem)) {
+            
+            //tao currently uses the title as the label of imported qti items:
+            $qtiItem->setAttribute('title', $rdfItem->getLabel());
+            $qtiItemService->saveDataItemToRdfItem($qtiItem, $rdfItem);
+            
 		    // -- Prepare data transfer to the imsmanifest.tpl template.
 		    $qtiItemData = array();
 		    
@@ -116,7 +123,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
 		    $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
 		    $qtiItemData['interactions'] = array();
-		    
+            
 		    foreach ($qtiItem->getInteractions() as $interaction) {
 		        $interactionData = array();
 		        $interactionData['type'] = $interaction->getQtiTag();
