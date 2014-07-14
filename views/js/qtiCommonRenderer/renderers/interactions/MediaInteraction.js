@@ -71,7 +71,7 @@ define([
 
         //intialize the player if not yet done
         var initMediaPlayer = function initMediaPlayer(){
-            if(!interaction.mediaElement){
+            if(!interaction.mediaElement && $meTag && $meTag.length){
                 new MediaElementPlayer($meTag, mediaOptions);
             }
         };
