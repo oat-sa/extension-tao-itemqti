@@ -34,7 +34,6 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 if(this.classesLocation[requiredClass]){
                     required.push(this.classesLocation[requiredClass]);
                 }else{
-                    debugger;
                     throw new Error('missing qti class location declaration : ' + requiredClass);
                 }
             }

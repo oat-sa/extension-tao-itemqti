@@ -167,8 +167,6 @@ define([
             var element = widget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
             
-            console.log($widget,  $itemBody);
-            
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
@@ -203,7 +201,6 @@ define([
                         }
 
                         //inform height modification
-                        debugger;
                         $widget.trigger('contentChange.gridEdit');
                         $widget.trigger('resize.gridEdit');
                         
