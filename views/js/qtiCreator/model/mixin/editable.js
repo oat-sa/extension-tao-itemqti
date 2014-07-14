@@ -7,32 +7,42 @@ define([
 ], function(_, $, Element, event, invalidator){
 
     var _removeSelf = function(element){
-        
+
         var removed = false,
             item = element.getRelatedItem();
 
         if(item){
-            
+
             var found = item.find(element.getSerial());
-            
+
             if(found){
-                
+
                 var parent = found.parent;
                 if(Element.isA(parent, 'interaction')){
-                    
+
                     if(element.qtiClass === 'gapImg'){
                         parent.removeGapImg(element);
                     }else if(Element.isA(element, 'choice')){
                         parent.removeChoice(element);
                     }
                     removed = true;
-                    
-                }else if(typeof parent.initContainer === 'function' && found.location === 'body'){
+
+                }else if(found.location === 'body' && _.isFunction(parent.initContainer)){
+
+                    if(_.isFunction(element.beforeRemove)){
+                        element.beforeRemove();
+                    }
+
+                    parent.getBody().removeElement(element);
+                    removed = true;
+
+                }else if(Element.isA(parent, '_container')){
                     
                     if(_.isFunction(element.beforeRemove)){
                         element.beforeRemove();
                     }
-                    parent.getBody().removeElement(element);
+                    
+                    parent.removeElement(element);
                     removed = true;
                 }
 
@@ -49,14 +59,14 @@ define([
 
         return removed;
     };
-    
+
     var _removeElement = function(element, containerPropName, eltToBeRemoved){
 
         if(element[containerPropName]){
-            
-            var targetSerial = '', 
+
+            var targetSerial = '',
                 targetElt;
-            
+
             if(typeof(eltToBeRemoved) === 'string'){
                 targetSerial = eltToBeRemoved;
                 targetElt = Element.getElementBySerial[targetSerial];
@@ -64,7 +74,7 @@ define([
                 targetSerial = eltToBeRemoved.getSerial();
                 targetElt = eltToBeRemoved;
             }
-            
+
             if(targetSerial){
                 invalidator.completelyValid(targetElt);
                 delete element[containerPropName][targetSerial];
@@ -74,7 +84,7 @@ define([
 
         return element;
     };
-    
+
     var methods = {
         init : function(serial, attributes){
 
@@ -108,7 +118,7 @@ define([
             }else{
                 throw 'invalid number of argument given';
             }
-        }        
+        }
     };
 
     return methods;

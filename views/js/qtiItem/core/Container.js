@@ -156,7 +156,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
 
             if(this.elements[serial]){
                 
-                found = {'parent' : parent || this, 'element' : this.elements[serial], 'location' : 'body'};
+                found = {'parent' : parent || this, 'element' : this.elements[serial]};
                 
             }else{
                 

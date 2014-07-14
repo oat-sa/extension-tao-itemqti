@@ -193,7 +193,7 @@ define([
     DeletingState.prototype.deleteElement = function(){
 
         this.refactoredUnits = [];
-
+        
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing), call this after element remove
         this.widget.element.remove();//remove from model
