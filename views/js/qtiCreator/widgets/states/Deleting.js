@@ -9,24 +9,39 @@ define([
 
     var DeletingState = stateFactory.create('deleting', function(){
 
+        var element = this.widget.element;
+
         //array to store new col untis
         this.refactoredUnits = [];
         this.updateBody = false;
-        
+
         //reference to the dom element(s) to be remove on delete
         this.$elementToRemove = this.getElementToRemove();
 
         this.hideWidget();
 
-        this.showMessage(this.widget.element);
-        
-        this.widget.element.data('deleting', true);
+        this.showMessage(element);
+
+        element.data('deleting', true);
+
+        //store reference to the item and its container:
+        this.item = element.getRelatedItem();
+        this.$item = this.item.data('widget').$container.find('.qti-itemBody');
+
+        //trigger resizing
+        if(this.updateBody){
+            this.$item.trigger('resize.qti-widget');
+        }
         
     }, function(){
 
         this.showWidget();
         this.widget.element.data('deleting', false);
         $('body').off('.deleting');
+
+        if(this.updateBody){
+            this.$item.trigger('resize.qti-widget');
+        }
     });
 
     /**
@@ -37,7 +52,7 @@ define([
     DeletingState.prototype.getElementToRemove = function(){
 
         var $container = this.widget.$container;
-        
+
         //if is a choice widget:
         if($container.hasClass('qti-choice')){
 
@@ -140,9 +155,9 @@ define([
 
         var $elt = this.$elementToRemove;
         if($elt.length && $.contains(document, $elt[0])){
-            
+
             $elt.show();
-            
+
             if(_isCol($elt)){
                 //restore the other units:
                 _.each(this.refactoredUnits, function(col){
@@ -176,21 +191,18 @@ define([
     };
 
     DeletingState.prototype.deleteElement = function(){
-        
+
         this.refactoredUnits = [];
-        
+
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing), call this after element remove
         this.widget.element.remove();//remove from model
-        
+
         if(this.updateBody){
             //need to update item body
-            var item = this.widget.element.getRelatedItem();
-            var $item = item.data('widget').$container.find('.qti-itemBody');
-            $item.trigger('resize.qti-widget');
-            
-            item.body(contentHelper.getContent($item));
+            this.item.body(contentHelper.getContent(this.$item));
         }
+
     };
 
     return DeletingState;

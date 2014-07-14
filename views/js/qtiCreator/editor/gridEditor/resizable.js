@@ -98,6 +98,7 @@ define([
                     }
 
                     if(width + marginWidth * 0 < (units - 1) * unitWidth){//need to compensate for the width of the active zone
+                        
                         units--;
                         _setColUnits($col, units);
 
@@ -107,8 +108,11 @@ define([
                         }
 
                         _syncOutlineHeight();
-
+                        
+                        $col.trigger('resize.gridEdit');
+                        
                     }else if(width + marginWidth + 20 > (units + 1) * unitWidth){//need to compensate for the width of the active zone
+                        
                         units++;
                         _setColUnits($col, units);
 
@@ -118,6 +122,8 @@ define([
                         }
 
                         _syncOutlineHeight();
+                        
+                        $col.trigger('resize.gridEdit');
                     }
 
                 }, config.throttle.resize),
@@ -128,7 +134,7 @@ define([
                     _deleteResizables($el);
                     _createResizables($el);
 
-                    $col.trigger('resize.gridEdit');
+                    $col.trigger('resizestop.gridEdit');
                 }
             }).css('position', 'absolute');
 
