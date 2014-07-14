@@ -215,7 +215,7 @@ define([
                 }, this.getUsedClasses());
             });
 
-        }).on('resize.gridEdit', function(){
+        }).on('resizestop.gridEdit', function(){
 
             item.body($itemBody.gridEditor('getContent'));
 
