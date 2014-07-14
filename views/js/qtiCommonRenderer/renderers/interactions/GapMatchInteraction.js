@@ -133,7 +133,7 @@ define([
                 return;
             }
 
-            if(_isModeEditing()){
+            if(_isModeEditing() || $activeChoice){
                 //swapping:
                 _unsetChoice($activeChoice);
                 _setChoice($(this), $activeChoice);
