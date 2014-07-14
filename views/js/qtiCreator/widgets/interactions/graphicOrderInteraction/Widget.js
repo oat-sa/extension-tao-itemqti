@@ -45,10 +45,10 @@ define([
         destroy : function(){
 
             var $container = this.$original;
-            var $itemBody   = $container.parents('.qti-itemBody');
+            var $item      = $container.parents('.qti-item');
 
             //stop listening the resize
-            $itemBody.off('resize.gridEdit.' + this.element.serial);
+            $item.off('resize.gridEdit.' + this.element.serial);
             $(window).off('resize.qti-widget.' + this.element.serial);
             $container.off('resize.qti-widget.' + this.element.serial);
 
@@ -63,7 +63,7 @@ define([
             var self = this;
             var interaction = this.element;
             var $container  = this.$original;
-            var $itemBody   = $container.parents('.qti-itemBody');
+            var $item       = $container.parents('.qti-item');
             var $orderList  = $('ul.block-listing', $container);
             var background  = interaction.object.attributes;
             var serial      = this.element.serial;
@@ -81,7 +81,7 @@ define([
                 });
 
                 //listen for internal size change
-                $itemBody.on('resize.gridEdit.' + serial, function(){
+                $item.on('resize.gridEdit.' + serial, function(){
                     $container.trigger('resize.qti-widget.' + serial);
                 });
 

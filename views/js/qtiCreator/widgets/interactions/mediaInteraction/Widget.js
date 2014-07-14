@@ -9,9 +9,9 @@ define([
     var MediaInteractionWidget = _.extend(Widget.clone(), {
 
         initCreator : function(){
-            var self = this; 
+            var self        = this; 
             var $container  = this.$original;
-            var $itemWidget   = $container.parents('.qti-item');
+            var $item       = $container.parents('.qti-item');
 
             this.registerStates(states);            
             Widget.initCreator.call(this);
@@ -21,28 +21,27 @@ define([
                 'resize.qti-widget.'+ this.element.serial
             ];
             
-            $itemWidget.closest('.qti-item')
-              .off(this.element.serial)
+            $item
+              .off('.' + this.element.serial)
               .on(resizingEvents.join(' '), _.throttle(function(e){
                 
-                if($(e.target).find('[data-serial]').first().data('serial') === self.element.serial){
                     var width = $container.innerWidth();
                     if(width > 0){
                         self.element.object.attr('width', $container.innerWidth());
                         self.destroyInteraction();
                         self.renderInteraction();
                     }
-                }
             }, 100));
         },
     
         destroy : function(){
 
             var $container = this.$original;
-            var $itemBody  = $container.parents('.qti-itemBody');
+            var $item      = $container.parents('.qti-item');
 
             //stop listening the resize
-            $itemBody.off('resize.gridEdit.' + this.element.serial);
+            $item.off('resize.gridEdit.' + this.element.serial)
+                 .off('resize.qti-widget. '+ this.element.serial);
 
             //call parent destroy
             Widget.destroy.call(this);
