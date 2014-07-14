@@ -22,10 +22,10 @@ define([
             if($inupt.prop('checked') || $inupt.hasClass('disabled')){
                 $inupt.prop('checked', false);
             }else{
-                var maxChoices = interaction.attr('maxChoices');
+                var maxChoices = parseInt(interaction.attr('maxChoices'));
                 var currentChoices = _.values(_getRawResponse(interaction)).length;
                 
-                if(currentChoices<maxChoices){
+                if(currentChoices < maxChoices || maxChoices === 0){
                     $inupt.prop('checked', true);
                 }
             }
