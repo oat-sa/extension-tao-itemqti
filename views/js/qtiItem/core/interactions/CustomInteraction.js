@@ -7,9 +7,13 @@ define([
     var BlockInteraction = Interaction.extend({
         qtiClass : 'customInteraction',
         init : function(serial, attributes){
+        
             this._super(serial, attributes);
+            
+            this.customInteractionTypeIdentifier = '';
             this.markup = '';
             this.properties = {};
+            this.scripts = [];
         },
         is : function(qtiClass){
             return (qtiClass === 'customInteraction') || this._super(qtiClass);
