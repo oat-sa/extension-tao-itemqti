@@ -141,7 +141,6 @@ define([
             shape.click(function(){
                 $('.mapping-editor', $container).hide();
                 $popup.show();
-                console.info($popup);
             });
 
             $popup.append($form);
