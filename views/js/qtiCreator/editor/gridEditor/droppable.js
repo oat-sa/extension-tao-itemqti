@@ -72,8 +72,7 @@ define([
                 $col.append($placeholder);
 
             }else{
-
-                debugger;
+                //insertion failed
             }
         };
 
@@ -365,18 +364,18 @@ define([
             }
         });
 
-        var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true}).hide();
+        var $placeholder = $('<span>', {'id' : 'qti-inline-element-placeholder', 'data-inline' : true});
         $placeholder.append($('<span>', {'class' : 'cursor-h'})).append($('<span>', {'class' : 'cursor-v'}));
         _pulse($placeholder);
         var _resetPlaceholder = function($el){
-            $el.after($placeholder.hide());
+            $placeholder.detach();
             dropped = false;
         };
         _resetPlaceholder($el);
 
         var _showPlaceholder = function(){
             dropped = true;
-            return $placeholder.css('display', 'inline-block');
+            return $placeholder;
         };
 
         $el.on('mousemove.gridEdit.gridDragDrop', 'span.qti-word-wrap', function(e){
@@ -385,7 +384,7 @@ define([
                 parentOffset = $(this).offset(),
                 relX = e.pageX - parentOffset.left;
 
-            $placeholder.show().css('display', 'inline-block');
+            $placeholder;
             if(relX < w / 2){
                 $(this).before(_showPlaceholder());
             }else{
@@ -412,7 +411,7 @@ define([
 
         //listen to the end of the dragging 
         $el.one('dragoverstop.gridEdit', function(){
-
+            
             //make placeholder permanent
             if(dropped){
                 $placeholder.removeAttr('id').removeAttr('class');
@@ -424,6 +423,10 @@ define([
             //call callback function:
             if(dropped){
                 $el.trigger('dropped.gridEdit' + ns, [qtiClass, $placeholder, data]);
+            }else{
+                //clean up :
+                $placeholder.remove();
+                $placeholder = null;
             }
         });
     };
@@ -441,9 +444,8 @@ define([
         $el.find('span.qti-word-wrap').replaceWith(function(){
             return $(this).text();
         });
-
+        
         $el.find('.drop-target').removeClass('drop-target');
-        $el.find('#qti-inline-element-placeholder').remove();
     };
 
     var _destroyDroppableBlocks = function($el){
