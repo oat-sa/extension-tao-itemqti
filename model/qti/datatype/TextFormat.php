@@ -38,7 +38,7 @@ class TextFormat extends Enumeration
 	public static function getEnumeration(){
 		return array(
 			'plain',
-			'preFormated',
+			'preformatted',
 			'xhtml'
 		);
 	}

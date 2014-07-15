@@ -30,7 +30,7 @@ define([
 
         var formats = {
             plain : {label : __("Plain text"), selected : false},
-            preFormatted : {label : __("Pre-formatted text"), selected : false},
+            preformatted : {label : __("Pre-formatted text"), selected : false},
             xhtml : {label : __("XHTML"), selected : false}
         };
 
