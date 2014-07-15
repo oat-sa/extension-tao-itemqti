@@ -13,7 +13,8 @@ define(['jquery', 'lodash'], function($, _){
             var $wrap = $('<span>', {
                 'data-serial' : widget.element.serial,
                 'class' : 'widget-box widget-inline widget-'+widget.element.qtiClass+float,
-                'data-qti-class' : widget.element.qtiClass
+                'data-qti-class' : widget.element.qtiClass,
+                'contenteditable' : 'false'
             });
             widget.$container = widget.$original.wrap($wrap).parent();
             

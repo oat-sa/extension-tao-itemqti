@@ -1,11 +1,12 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/img/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'taoQtiItem/qtiItem/helper/util'
-], function(Widget, states, helper, toolbarTpl, inlineHelper, itemUtil){
+], function($, Widget, states, helper, toolbarTpl, inlineHelper, itemUtil){
 
     var ImgWidget = Widget.clone();
 
