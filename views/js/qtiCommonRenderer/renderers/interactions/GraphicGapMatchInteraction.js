@@ -191,11 +191,13 @@ define([
                 //create an image into the paper and move it to the selected shape
                 gapFiller = graphic.createBorderedImage(interaction.paper, {
                     url     :  $img.attr('src'),
-                    left: bbox.x + (3 * (currentCount)), 
-                    top : bbox.y + (3 * (currentCount)),
+                    left: bbox.x + (3 * (currentCount - 1)), 
+                    top : bbox.y + (3 * (currentCount - 1)),
                     width   : $img.width(),
                     height  : $img.height(),
-                    padding : 6
+                    padding : 0,
+                    border  : false,
+                    shadow  : true
                 })
                 .data('identifier', id)
                 .toFront()

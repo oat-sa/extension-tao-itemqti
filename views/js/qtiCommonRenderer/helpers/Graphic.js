@@ -503,11 +503,13 @@ define([
          * @param {Number} options.width - image width
          * @param {Number} options.height - image height
          * @param {Number} options.url - image ulr
-         * @param {Number} [options.padding = 4] - a multiple of 2 is welcomed
+         * @param {Number} [options.padding = 6] - a multiple of 2 is welcomed
+         * @param {Boolean} [options.border = false] - add a border around the image
+         * @param {Boolean} [options.shadow = false] - add a shadow back the image
          * @returns {Raphael.Element} the created set, augmented of a move(x,y) method
          */
         createBorderedImage : function(paper, options){
-            var padding = options.padding || 6;
+            var padding = options.padding >= 0 ? options.padding : 6;
             var halfPad = padding / 2;
  
             var rx = options.left,
@@ -525,13 +527,20 @@ define([
             //create a rectangle with a padding and a border.
             var rect = paper
                 .rect(rx, ry, rw, rh)
-                .attr(gstyle['imageset-rect']);
+                .attr(options.border ? gstyle['imageset-rect-stroke'] : gstyle['imageset-rect-no-stroke']);
 
             //and an image centered into the rectangle.
             var image = paper
                 .image(options.url, ix, iy, iw, ih)
                 .attr(gstyle['imageset-img']);
-            
+
+            if(options.shadow){
+                set.push(rect.glow({ 
+                    width   : 2,
+                    offsetx : 1,
+                    offsety : 1
+                }));
+            }
             set.push(rect, image);
 
             /**

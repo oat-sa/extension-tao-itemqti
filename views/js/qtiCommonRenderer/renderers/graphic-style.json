@@ -49,10 +49,17 @@
         "fill" :  "#0E5D91", 
         "cursor" : "pointer"
     },
-    "imageset-rect" : {
+    "imageset-rect-stroke" : {
             "fill" : "#ffffff",
-            "stroke" : "#000000",
+            "stroke" : "#666666",
             "stroke-width" : 1,
+            "stroke-linejoin" : "round",
+            "cursor" : "pointer"
+    },
+    "imageset-rect-no-stroke" : {
+            "fill" : "#ffffff",
+            "stroke" : "#ffffff",
+            "stroke-width" : 2,
             "stroke-linejoin" : "round",
             "cursor" : "pointer"
     },
