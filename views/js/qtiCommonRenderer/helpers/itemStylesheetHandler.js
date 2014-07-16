@@ -6,35 +6,43 @@ define([
 
     var itemStylesheetHandler = (function(){
 
+        var informLoaded = _.throttle(function(){
+            $(document).trigger('customcssloaded.styleeditor');
+        }, 10, {leading : false});
+
         var attach = function(stylesheets) {
-            var head = $('head'), link;
+            var $head = $('head'), link;
 
              $('body').addClass('tao-scope');
 
              // relative links with cache buster
             _(stylesheets).forEach(function(stylesheet){
-                link = (function() {
-                    var _link = $(stylesheet.render()),
-                        _href = _link.attr('href'),
-                        _sep  = _href.indexOf('?') > -1 ? '&' : '?';
 
-                    if(_href.indexOf('/') === 0) {
-                        _href = _href.slice(1);
-                    }
-                    _link.attr('href', _href + _sep + (new Date().getTime()).toString());
-                    return _link;
-                }());
-                // this bit seems to get IE to co-operate
-                setTimeout(function() {
-                    head.append(link);
-                }, 500)
+                var $link = $(stylesheet.render());
+                var href = $link.attr('href');
+                var sep  = href.indexOf('?') > -1 ? '&' : '?';
+
+
+
+                if(href.indexOf('/') === 0) {
+                    href = href.slice(1);
+                }
+                
+                href +=  sep + (new Date().getTime()).toString();
+
+                //we need to set the href after the link is appended to the head (for our dear IE)
+                $link.removeAttr('href')
+                     .appendTo($head)
+                     .attr('href', href);
+
+                //wait for the styles to applies
+                _.delay(informLoaded, 10);
             });
-
         };
 
         return {
             attach: attach
-        }
+        };
 
     }());
 
