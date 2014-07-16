@@ -30,7 +30,7 @@
     <label>
         <input name="autostart" type="checkbox" {{#if autostart}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
-        {{__ "autostart"}}
+        {{__ "Autostart"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."}}
@@ -41,7 +41,7 @@
     <label>
         <input name="loop" type="checkbox" {{#if loop}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
-        {{__ "loop"}}
+        {{__ "Loop"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
@@ -53,7 +53,7 @@
     <label>
         <input name="pause" type="checkbox" {{#if pause}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>
-        {{__ "pause"}}
+        {{__ "Pause"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
