@@ -12,7 +12,7 @@
                data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
     </div>
     
-    <h3>{{__ "Interaction Background"}}</h3>
+    <h3>{{__ "Choice Image"}}</h3>
 
     <div class="panel">
         <label for="data">{{__ 'File'}}</label>
