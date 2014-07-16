@@ -20,7 +20,7 @@ define([
      */
     var render = function render(interaction){
         var $container = Helper.getContainer(interaction);
-        var $gapList = $('ul', $container);
+        var $gapList = $('ul.source', $container);
         var $imageBox  = $('.main-image-box', $container);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
@@ -34,9 +34,19 @@ define([
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
-            container   : $container
+            container   : $container,
+            resize      : function(newSize, factor){
+               $gapList.css('max-width', newSize + 'px'); 
+               if(factor !== 1){
+                    $gapList.find('img').each(function(){
+                        var $img = $(this);
+                        $img.width( $img.attr('width') * factor );
+                        $img.height( $img.attr('height') * factor );
+                    });
+               } 
+            }
         });
-        
+
         //call render choice for each interaction's choices
         _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
 
@@ -187,14 +197,14 @@ define([
             
                 //extract some coords for positioning
                 bbox = element.getBBox();
-                
+
                 //create an image into the paper and move it to the selected shape
                 gapFiller = graphic.createBorderedImage(interaction.paper, {
                     url     :  $img.attr('src'),
-                    left: bbox.x + (3 * (currentCount - 1)), 
-                    top : bbox.y + (3 * (currentCount - 1)),
-                    width   : $img.width(),
-                    height  : $img.height(),
+                    left    : bbox.x + (3 * (currentCount - 1)), 
+                    top     : bbox.y + (3 * (currentCount - 1)),
+                    width   : parseInt($img.attr('width'), 10),
+                    height  : parseInt($img.attr('height'), 10),
                     padding : 0,
                     border  : false,
                     shadow  : true

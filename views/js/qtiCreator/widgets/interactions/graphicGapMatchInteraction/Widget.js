@@ -74,7 +74,17 @@ define([
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + serial,
-                    container   : $container
+                    container   : $container,
+                    resize      : function(newSize, factor){
+                       $gapList.css('max-width', newSize + 'px'); 
+                       if(factor !== 1){
+                            $gapList.find('img').each(function(){
+                                var $img = $(this);
+                                $img.width( $img.attr('width') * factor );
+                                $img.height( $img.attr('height') * factor );
+                            });
+                       } 
+                    }
                 });
 
                 //listen for internal size change

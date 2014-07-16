@@ -77,7 +77,10 @@ define([
                     height      : background.height,
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + serial,
-                    container   : $container
+                    container   : $container,
+                    resize      : function(newSize){
+                       $orderList.css('max-width', newSize + 'px');
+                    }
                 });
 
                 //listen for internal size change

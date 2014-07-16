@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
@@ -366,7 +367,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar.tall .forms { min-height: 320px; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar.tall ~ .image-editor { min-height: 332px; }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
-.tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.empty, .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.placeholder { margin: 0 5px 0 0 !important; width: 60px; height: 60px; max-height: 60px; }
+.tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.empty, .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.placeholder { margin: 0 3px 3px 0 !important; width: 60px; height: 60px; max-height: 60px; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element { cursor: pointer; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] { right: 0 !important; top: 0 !important; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] .tlb-button { line-height: 18px; }

@@ -225,6 +225,9 @@ define([
                 resizePaper();
 
                 $(window).on('resize.qti-widget.'  + serial, resizer);
+                $(document).on('customcssloaded.styleeditor', function(){
+                    _.delay(resizer, 200);
+                });
                 $container.on('resize.qti-widget.' + serial , function(e, givenWidth){
                     resizer(e, givenWidth);
                 });
@@ -233,7 +236,7 @@ define([
                 paper.canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
                 $container.find('.main-image-box').width(width);
                 if(typeof options.resize === 'function'){
-                    options.resize(width);
+                    options.resize(width, 1);
                 }
             }
             
@@ -246,10 +249,11 @@ define([
                     e.stopPropagation();
                 }
 
-                var factor;
-                var diff = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
+                var factor          = 1;
+                var diff            = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
                 var maxWidth        = $body.width();
-                var containerWidth  = $container.width();
+                var containerWidth  = $container.innerWidth();
+
                 if(containerWidth > 0 || givenWidth > 0){
 
                     if(!givenWidth && $container.children('.image-sidebar').length){
@@ -272,7 +276,7 @@ define([
                         paper.changeSize(containerWidth, height, false, false);
                     }
                     if(typeof options.resize === 'function'){
-                        options.resize(containerWidth);
+                        options.resize(containerWidth, factor);
                     }
                     $container.trigger('resized.qti-widget');
                 }
