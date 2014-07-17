@@ -36,7 +36,7 @@ define([
         }
 
         $form.html(formTpl({
-            mathJax : !!mathJax,
+            mathjax : !!mathJax,
             editMode : editMode,
             latex : tex,
             mathml : mathML
