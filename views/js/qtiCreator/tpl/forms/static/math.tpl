@@ -56,6 +56,6 @@
 </div>
 {{else}}
 <div class="panel">
-    {{__ "MathJax is not install."}}
+    {{__ "MathJax is not installed."}}
 </div>
 {{/if}}
