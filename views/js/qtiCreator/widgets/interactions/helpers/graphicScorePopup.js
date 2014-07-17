@@ -25,7 +25,7 @@ define([
            
         if(isResponsive){
             wfactor = paper.w / paper.width;
-            width   = Math.round(width * (2 - wfactor)) * 2;
+            width   = Math.round(width * (2 - wfactor));
         }
  
         //style and attach the form
