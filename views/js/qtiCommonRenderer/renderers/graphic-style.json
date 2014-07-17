@@ -76,28 +76,27 @@
         "cursor" : "pointer"
     },
     "score-text-default" : {
-        "fill" : "#dddddd",
-        "stroke": "#000000",
-        "stroke-width" : 0.6,
+        "stroke": "#444444",
+        "stroke-width" : 0.5,
         "font-family" : "sans-serif",
-        "font-weight": "bold", 
-        "font-size" : 18,
+        "font-weight": "normal", 
+        "font-size" : 20,
         "cursor" : "pointer"
     },
     "score-text" : {
-        "fill" : "#ffffff",
         "stroke": "#000000",
-        "stroke-width" : 0.6,
+        "stroke-width" : 0.5,
         "font-family" : "sans-serif",
-        "font-weight": "bold", 
-        "font-size" : 18,
+        "font-weight": "normal", 
+        "font-size" : 20,
         "cursor" : "pointer"
     },
     "small-text" : {
         "stroke": "#000000",
+        "stroke-width" : 0.5,
         "font-family" : "sans-serif",
         "font-weight": "normal", 
-        "font-size" : 14,
+        "font-size" : 16,
         "cursor" : "pointer"
     },
     "target" : {

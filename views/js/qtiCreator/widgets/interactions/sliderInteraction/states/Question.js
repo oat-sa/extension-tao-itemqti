@@ -25,7 +25,7 @@ define([
         var callbacks = {};
         
         // -- lowerBound Callback
-        callbacks['lowerBound'] = function(interaction, attrValue, attrName){
+        callbacks.lowerBound = function(interaction, attrValue, attrName){
             
             interaction.attr('lowerBound', parseFloat(attrValue));
             
@@ -46,7 +46,6 @@ define([
                 callbacks.step(interaction, sliderLength);
                 _widget.$form.find('input[name="step"]').val(sliderLength);
             }
-            console.info(sliderLength, interaction.attr('step'), 'from lowerBound F');
             _widget.$container.find((!reverse) ? '.slider-min' : '.slider-max').text(attrValue);
             _widget.$container.find('span.qti-slider-cur-value').text(lowerBound);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': lowerBound, 'max': upperBound }}, true);
@@ -54,7 +53,7 @@ define([
         };
         
         // -- upperBound Callback
-        callbacks['upperBound'] = function(interaction, attrValue, attrName){
+        callbacks.upperBound = function(interaction, attrValue, attrName){
             
             interaction.attr('upperBound', parseFloat(attrValue));
             
@@ -75,14 +74,13 @@ define([
                 callbacks.step(interaction, sliderLength);
                 _widget.$form.find('input[name="step"]').val(sliderLength);
             }
-            console.info(sliderLength, interaction.attr('step'), 'from upperBound F');
             _widget.$form.find('input[name="step"]').incrementer('options', {max: upperBound});
             _widget.$container.find((!reverse) ? '.slider-max' : '.slider-min').text(attrValue);
             _widget.$container.find('.qti-slider').noUiSlider({ range: { 'min': interaction.attr('lowerBound'), 'max': interaction.attr('upperBound') } }, true);
         };
         
         // -- orientation Callback
-        callbacks['orientation'] = function(interaction, attrValue, attrName){
+        callbacks.orientation = function(interaction, attrValue, attrName){
             interaction.attr('orientation', attrValue);
             
             var orientation = (interaction.attr('orientation')) ? interaction.attr('orientation') : 'horizontal';
@@ -92,7 +90,7 @@ define([
         };
         
         // -- reverse Callback
-        callbacks['reverse'] = function(interaction, attrValue, attrName){
+        callbacks.reverse = function(interaction, attrValue, attrName){
             
             interaction.attr('reverse', !!attrValue);
             
@@ -109,13 +107,12 @@ define([
         };
         
         // -- step Callback
-        callbacks['step'] = function(interaction, attrValue, attrName){
+        callbacks.step = function(interaction, attrValue, attrName){
             
             var lowerBound = interaction.attr('lowerBound');
             var upperBound = interaction.attr('upperBound');
             var currentStep = parseInt(attrValue);
             var sliderLength = upperBound-lowerBound; //the lenght of the slider
-            console.info(sliderLength, currentStep, 'from step F');
             if(sliderLength>=currentStep){
                 interaction.attr('step', currentStep);
                 _widget.$container.find('.qti-slider').noUiSlider({ 'step': interaction.attr('step') }, true);
@@ -124,13 +121,13 @@ define([
         };
         
         // -- stepLabel Callback
-        callbacks['stepLabel'] = function(interaction, attrValue, attrName){
+        callbacks.stepLabel = function(interaction, attrValue, attrName){
             
             interaction.attr('stepLabel', !!attrValue);
             
             _widget.$container.find('span.slider-middle').remove();
             
-            if (interaction.attr('stepLabel') == true) {
+            if (interaction.attr('stepLabel')) {
                 var upperBound = interaction.attr('upperBound');
                 var lowerBound = interaction.attr('lowerBound');
                 var step = interaction.attr('step');

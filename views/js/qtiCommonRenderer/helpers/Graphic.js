@@ -270,6 +270,7 @@ define([
      
                     if($container.hasClass('responsive')){
                         factor = containerWidth / width;
+
                         paper.changeSize(containerWidth, height * factor, false, false);
                         paper.scaleAll( factor );
                     } else {
@@ -477,18 +478,82 @@ define([
             });
         },
 
-        createShapeText : function(paper, shape, options){
-            var self    = this;
+        /**
+         * Create a text, that scales.
+         * 
+         * @param {Raphael.Paper} paper - the paper
+         * @param {Object} options - the text options
+         * @param {Number} options.left - x coord
+         * @param {Number} options.top - y coord
+         * @param {String} [options.content] - the text content
+         * @param {String} [options.id] - the element identifier
+         * @param {String} [options.style = 'small-text'] - the style name according to the graphic-style.json keys
+         * @param {String} [options.title] - the text tooltip content
+         * @param {Boolean} [options.hide = false] - if the text starts hidden
+         * @returns {Raphael.Element} the created text
+         */
+        createText : function(paper, options){
+            var fontSize, scaledFontSize;
+            var top     = options.top || 0;
+            var left    = options.left || 0;
             var content = options.content || '';
             var style   = options.style || 'small-text';
             var title   = options.title || '';
-            var bbox    = shape.getBBox();
+            var factor  = 1;
+        
+            if(paper.width && paper.w){
+                factor = paper.width / paper.w;
+            }
 
-            var text = paper.text((bbox.x + (bbox.width / 2)) , (bbox.y + (bbox.height / 2)), content).toFront();
+            var text = paper.text(left , top, content).toFront();
             if(options.id){
                 text.id = options.id;
             }
-            this.updateElementState(text, style, title);
+            if(options.hide){
+                text.hide();
+            }
+                
+            text.attr(gstyle[style]);
+ 
+            if(typeof factor !== 'undefined' && factor !== 1){
+                fontSize = parseInt(text.attr('font-size'), 10);
+                scaledFontSize   = Math.floor(fontSize / factor) + 1;
+        
+                text.attr('font-size', scaledFontSize);
+            }
+  
+            if(title){
+                this.updateTitle(text, title);
+            }
+            return text; 
+        },
+
+        /**
+         * Create a text in the middle of the related shape.
+         * 
+         * @param {Raphael.Paper} paper - the paper
+         * @param {Raphael.Element} shape - the shape to add the text to
+         * @param {Object} options - the text options
+         * @param {Number} options.left - x coord
+         * @param {Number} options.top - y coord
+         * @param {String} [options.content] - the text content
+         * @param {String} [options.id] - the element identifier
+         * @param {String} [options.style = 'small-text'] - the style name according to the graphic-style.json keys
+         * @param {String} [options.title] - the text tooltip content
+         * @param {Boolean} [options.hide = false] - if the text starts hidden
+         * @param {Boolean} [options.shapeClick = false] - clicking the text delegates to the shape
+         * @returns {Raphael.Element} the created text
+         */
+        createShapeText : function(paper, shape, options){
+            var self    = this;
+            var fontSize, scaledFontSize;
+            var bbox    = shape.getBBox();
+       
+            var text = this.createText(paper, _.merge({
+                left : bbox.x + (bbox.width / 2),
+                top  : bbox.y + (bbox.height / 2)
+            }, options));
+ 
             if(options.shapeClick){
                 text.click(function(){
                     self.trigger(shape, 'click');

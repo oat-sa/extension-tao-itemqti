@@ -113,13 +113,11 @@ define([
                     if(value === ''){
                         response.removeMapEntry(choice.id());
                         scoreText.attr({text : response.mappingAttributes.defaultValue})
-                                                 .data('default', true);
-                        graphicHelper.updateElementState(scoreText, 'score-text-default');
+                                 .data('default', true);
                     } else {
                         response.setMapEntry(choice.id(), value, true);
                         scoreText.attr({text : value})
                                  .data('default', false);
-                        graphicHelper.updateElementState(scoreText, 'score-text');
                     }
                 }, 
                 correct : function(response, value){

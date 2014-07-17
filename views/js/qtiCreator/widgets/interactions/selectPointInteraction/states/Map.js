@@ -278,11 +278,9 @@ define([
                 if(value === ''){
                     scoreElt.attr({text : response.mappingAttributes.defaultValue})
                              .data('default', true);
-                    graphicHelper.updateElementState(scoreElt, 'score-text-default');
                 } else {
                     scoreElt.attr({text : value})
                              .data('default', false);
-                    graphicHelper.updateElementState(scoreElt, 'score-text');
                 }
                 area.mappedValue = parseFloat(value);
             }

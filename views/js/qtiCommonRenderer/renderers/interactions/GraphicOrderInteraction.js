@@ -181,11 +181,15 @@ define([
     var _createTexts = function _createTexts(paper, size){
         var texts = [];
         _.times(size, function(index){
+            
             var number = index + 1;
-            var text = paper.text(0, 0, number);
-            text.hide();
-            text.id = 'text-' + number;
-            graphic.updateElementState(text, 'order-text', __('Remove'));
+            var text = graphic.createText(paper, {
+                id          : 'text-' + number,
+                content     : number,
+                title       : __('Remove'),
+                style       : 'order-text',
+                hide        : true
+            });
 
             //clicking the text will has the same effect that clicking the shape: unselect.
             text.click(function(){
