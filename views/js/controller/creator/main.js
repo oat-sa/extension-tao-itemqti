@@ -14,9 +14,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
-    'taoQtiItem/qtiCreator/editor/editor',
-    'taoQtiItem/qtiCreator/editor/mediaResizer',
-'lib/uuid'
+    'taoQtiItem/qtiCreator/editor/editor'
 ], function(
     $,
     _,
@@ -32,8 +30,7 @@ define([
     itemResizer,
     styleEditor,
     styleSheetToggler,
-    editor,
-    mediaResizer
+    editor
     ){
 
     // workaround to get ajax loader out of the way
@@ -59,25 +56,6 @@ define([
 
 
         editor.initGui();
-
-
-        // @todo this is very dodgy
-
-$('.widget-box img').click(function() {
-setTimeout(function() {
-
-    mediaResizer.init();
-}, 2000)
-})
-
-
-
-
-
-
-
-
-
 
     };
 
