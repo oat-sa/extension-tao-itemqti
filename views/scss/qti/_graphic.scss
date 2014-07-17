@@ -2,6 +2,10 @@
 
 .qti-graphicInteraction {
 
+    .source li > img {
+        display: block;
+    }
+
     .active {
         & > input, & > textarea,
         input.active, textarea.active {

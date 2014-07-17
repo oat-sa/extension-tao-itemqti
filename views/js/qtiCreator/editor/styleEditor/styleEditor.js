@@ -255,8 +255,10 @@ define([
                 // initialize download button
                 common.listing.append(listEntry);
 
+                // time difference between loading the css file and applying the styles
                 setTimeout(function() {
                     $(doc).trigger('customcssloaded.styleeditor', [style]);
+                    $(window).trigger('resize');
                 }, 500);
             });
 

@@ -17,14 +17,7 @@ use oat\taoQtiItem\helpers\Authoring;
         </div>
         <ul class="plain clearfix item-editor-menu lft">
             <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
-
             <li class="preview-trigger"><span class="icon-preview"></span><?=__('Quick Preview')?></li>
-            <!-- toggle comments above/below to enable/disable device specific previews -->
-            <!--
-            <li class="preview-trigger" data-preview-type="desktop"><span class="icon-desktop-preview"></span><?=__('Desktop preview')?></li>
-            <li class="preview-trigger" data-preview-type="mobile"><span class="icon-mobile-preview"></span><?=__('Mobile preview')?></li>
-            -->
-
             <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
         </ul>
         <ul class="plain clearfix item-editor-menu rgt">
@@ -271,10 +264,7 @@ use oat\taoQtiItem\helpers\Authoring;
 <!-- /right sidebar -->
 
 <!-- item panel -->
-<main id="item-editor-panel" class="clearfix tao-scope">
-
-
-</main>
+<main id="item-editor-panel" class="clearfix tao-scope"></main>
 <!-- /item panel -->
 </div>
 <!-- preview: item may needed to be saved before -->
