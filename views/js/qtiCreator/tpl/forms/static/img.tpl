@@ -16,54 +16,7 @@
 
 <div data-role="advanced" style="display:none">
     <div class="panel">
-        <h3>{{__ 'Size'}}</h3>
-
-        <div class="media-sizer media-sizer-synced">
-
-            <label>
-                <input type="checkbox" checked="checked" class="media-mode-switch"/>
-                <span class="icon-checkbox"></span>
-                {{__ 'Responsive mode'}}
-            </label>
-            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-            <div class="tooltip-content">{{__ 'The image resizes along with its container.'}}</div>
-
-
-            <div class="media-sizer-percent">
-                <label for="">{{__ 'Size'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="width" value="{{width}}" data-validate="$numeric" data-validate-option="$allowEmpty;" />
-                </span>
-
-                <div class="media-sizer-slider-box">
-                    <div class="media-sizer-slider"></div>
-                </div>
-            </div>
-
-            <div class="media-sizer-pixel" style="display:block">
-                <label for="">{{__ 'Width'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="width" value="{{width}}" data-validate="$numeric" data-validate-option="$allowEmpty;" />
-                </span>
-
-                <label for="">{{__ 'Height'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="height" value="{{height}}" data-validate="$numeric" data-validate-option="$allowEmpty;" />
-                </span>
-
-                <div class="media-sizer-link">
-                    <span class="icon-link"></span>
-                </div>
-
-                <div class="media-sizer-slider-box">
-                    <div class="media-sizer-slider"></div>
-                    <div class="media-sizer-cover"></div>
-                </div>
-            </div>
-        </div>
-
-
-        <div><br><br>legacy stuff</div>
+        <h3>{{__ 'Size and position'}}</h3>
 
         <!--not available yet-->
         <!--    <label>
@@ -78,6 +31,7 @@
         If this option is active, the image width and height will be a percentage of its text container.
     </span>-->
 
+        <p class="img-resizer-slider"></p>
 
         <label for="height">{{__ 'Height'}}</label>
         <span id="item-editor-font-size-manual-input" class="item-editor-unit-input-box">
@@ -95,7 +49,7 @@
     </div>
     <div class="panel">
 
-        <label for="align">{{__ "Alignmentx"}}</label>
+        <label for="align">{{__ "Alignment"}}</label>
         <select name="align" class="select2" data-has-search="false">
             <option value="default">{{__ 'default'}}</option>
             <option value="left">{{__ 'left'}}</option>
