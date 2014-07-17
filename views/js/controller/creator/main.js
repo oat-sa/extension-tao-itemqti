@@ -43,39 +43,6 @@ define([
 
     var _initUiComponents = function(item, widget, config){
 
-        $('.item-editor-item').width(1500).height(1000);
-
-        var $mainPanel = $('#item-editor-panel'),
-            $item = $mainPanel.find('.item-editor-item'),
-            $inner = $('<div>', {
-                'class' : 'item-editor-panel-inner',
-                css: {
-                    display: 'block',
-                    paddingTop: $mainPanel.css('padding-top'),
-                    paddingRight: $mainPanel.css('padding-right'),
-                    paddingBottom: $mainPanel.css('padding-bottom'),
-                    paddingLeft: $mainPanel.css('padding-left'),
-                    width: $mainPanel.innerWidth(),
-                    border: '1px red solid',
-                    overflow: 'scroll',
-                    height: $(window).height() - $mainPanel.offset().top
-                }
-            });
-
-
-        $item.wrap($inner);
-
-        console.log($mainPanel.width(), $mainPanel.innerWidth())
-
-        $mainPanel.css('padding-top', 0);
-        $mainPanel.css('padding-right', 0);
-        $mainPanel.css('padding-bottom', 0);
-        $mainPanel.css('padding-left', 0);
-
-        console.log($mainPanel.width(), $mainPanel.innerWidth())
-
-        $mainPanel.width($mainPanel.innerWidth())
-
 
         styleEditor.init(widget.element, config);
 
