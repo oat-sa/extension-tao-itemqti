@@ -1,8 +1,9 @@
 define([
     'lodash',
     'ckeditor',
-    'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler'
-], function(_, ckeditor, dtdHandler) {
+    'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler',
+    'mathJax'
+], function(_, ckeditor, dtdHandler, mathJax) {
     'use strict';
     /**
      * Cache original config
@@ -22,17 +23,14 @@ define([
         };
 
         var qtiPositionedPlugins = {
-//            TaoQtiMedia : {
-//                insertAfter : 'SpecialChar'
-//            },
-            TaoQtiImage : {
-                insertAfter : 'SpecialChar'
-            },
-            TaoQtiMaths : {
-                insertAfter : 'SpecialChar'
-            }
+//            TaoQtiMedia : {insertAfter : 'SpecialChar'},
+            TaoQtiImage : {insertAfter : 'SpecialChar'}
         };
-
+        
+        if(mathJax){
+            qtiPositionedPlugins.TaoQtiMaths = {insertAfter : 'SpecialChar'}
+        }
+        
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
          * The argument 'toolbarType' determines which toolbar to use

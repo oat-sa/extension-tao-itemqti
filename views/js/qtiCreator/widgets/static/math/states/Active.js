@@ -6,21 +6,22 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
-    'i18n'
-], function(stateFactory, Active, MathEditor, formTpl, formElement, inlineHelper, _, __) {
+    'i18n',
+    'mathJax'
+], function(stateFactory, Active, MathEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;
 
-    var MathActive = stateFactory.extend(Active, function() {
+    var MathActive = stateFactory.extend(Active, function(){
 
         this.initForm();
 
-    }, function() {
+    }, function(){
 
         this.widget.$form.empty();
     });
 
-    MathActive.prototype.initForm = function() {
+    MathActive.prototype.initForm = function(){
 
         var _widget = this.widget,
             $form = _widget.$form,
@@ -30,33 +31,36 @@ define([
             display = math.attr('display') || 'inline',
             editMode = 'latex';
 
-        if (!tex.trim() && mathML.trim()) {
+        if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
         }
 
         $form.html(formTpl({
-            editMode: editMode,
-            latex: tex,
-            mathml: mathML
+            mathJax : !!mathJax,
+            editMode : editMode,
+            latex : tex,
+            mathml : mathML
         }));
 
-        //init select boxes
-        $form.find('select[name=display]').val(display);
-        $form.find('select[name=editMode]').val(editMode);
+        if(mathJax){
 
+            //init select boxes
+            $form.find('select[name=display]').val(display);
+            $form.find('select[name=editMode]').val(editMode);
 
+            $form.children('.panel[data-role="' + editMode + '"]').show();
+            _toggleMode($form, editMode);
 
-        $form.children('.panel[data-role="' + editMode + '"]').show();
-        _toggleMode($form, editMode);
+            //... init standard ui widget
+            formElement.initWidget($form);
 
-        //... init standard ui widget
-        formElement.initWidget($form);
+            this.initFormChangeListener();
 
-        this.initFormChangeListener();
+        }
 
     };
 
-    MathActive.prototype.initFormChangeListener = function() {
+    MathActive.prototype.initFormChangeListener = function(){
 
         var _widget = this.widget,
             $container = _widget.$container,
@@ -65,24 +69,23 @@ define([
             mathML = math.mathML,
             tex = math.getAnnotation('latex'),
             display = math.attr('display') || 'inline',
-
             $fields = {
-                mathml: $form.find('textarea[name=mathml]'),
-                latex: $form.find('input[name=latex]')
-            },
-            $triggers = $form.find('.math-editor-trigger'),
+            mathml : $form.find('textarea[name=mathml]'),
+            latex : $form.find('input[name=latex]')
+        },
+        $triggers = $form.find('.math-editor-trigger'),
             $popup = $form.find('#math-editor-container'),
             $largeFields = {
-                mathml: $popup.find('textarea[data-target="mathml"]'),
-                latex: $popup.find('input[data-target="latex"]')
-            },
-            $title = $popup.find('h3'),
+            mathml : $popup.find('textarea[data-target="mathml"]'),
+            latex : $popup.find('input[data-target="latex"]')
+        },
+        $title = $popup.find('h3'),
             $closer = $popup.find('.closer'),
             $dragHandle = $popup.find('.dragger'),
             $modeSelector = $form.find('select[name=editMode]');
 
         // display popup
-        $triggers.on('click', function(e) {
+        $triggers.on('click', function(e){
             e.preventDefault();
             $popup.hide();
 
@@ -109,8 +112,8 @@ define([
         });
 
         // permanently copy to original field
-        _($largeFields).forEach(function($largeField, target) {
-            $largeField.on('keyup', function() {
+        _($largeFields).forEach(function($largeField, target){
+            $largeField.on('keyup', function(){
                 $fields[target].val($largeFields[target].val());
                 $fields[target].trigger('keyup');
             });
@@ -118,7 +121,7 @@ define([
         });
 
         // hide popup
-        $closer.on('click', function() {
+        $closer.on('click', function(){
             var target = $popup.data('target');
             $fields[target].val($largeFields[$popup.data('target')].val());
             $fields[target].prop('disabled', false);
@@ -129,39 +132,39 @@ define([
 
         // drag popup
         $popup.draggable({
-            handle: $dragHandle
+            handle : $dragHandle
         });
 
 
         var mathEditor = new MathEditor({
-            tex: tex,
-            mathML: mathML,
-            display: display,
-            buffer: $form.find('.math-buffer'),
-            target: _widget.$original
+            tex : tex,
+            mathML : mathML,
+            display : display,
+            buffer : $form.find('.math-buffer'),
+            target : _widget.$original
         });
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, math, {
-            display: function(m, value) {
-                if (value === 'block') {
+            display : function(m, value){
+                if(value === 'block'){
                     m.attr('display', 'block');
-                } else {
+                }else{
                     m.removeAttr('display');
                 }
                 _widget.rebuild({
-                    ready: function(widget) {
+                    ready : function(widget){
                         widget.changeState('active');
                     }
                 });
             },
-            editMode: function(m, value) {
+            editMode : function(m, value){
 
                 _toggleMode($form, value);
             },
-            latex: _.throttle(function(m, value) {
+            latex : _.throttle(function(m, value){
 
-                mathEditor.setTex(value).renderFromTex(function() {
+                mathEditor.setTex(value).renderFromTex(function(){
 
                     //saveTex
                     m.setAnnotation('latex', value);
@@ -171,14 +174,14 @@ define([
                     m.setMathML(mathEditor.mathML);
 
                     inlineHelper.togglePlaceholder(_widget);
-                    
+
                     $container.change();
                 });
 
             }, _throttle),
-            mathml: _.throttle(function(m, value) {
+            mathml : _.throttle(function(m, value){
 
-                mathEditor.setMathML(value).renderFromMathML(function() {
+                mathEditor.setMathML(value).renderFromMathML(function(){
 
                     //save mathML
                     m.setMathML(value);
@@ -188,7 +191,7 @@ define([
                     m.removeAnnotation('latex');
 
                     inlineHelper.togglePlaceholder(_widget);
-                    
+
                     $container.change();
                 });
 
@@ -196,32 +199,32 @@ define([
         });
     };
 
-    var _toggleMode = function($form, mode) {
+    var _toggleMode = function($form, mode){
 
         var $panels = {
-                mathml: $form.children('.panel[data-role="mathml"]'),
-                latex: $form.children('.panel[data-role="latex"]')
-            },
-            $fields = {
-                mathml: $form.find('textarea[name=mathml]'),
-                latex: $form.find('input[name=latex]')
-            },
-            $editMode = $form.find('select[name=editMode]');
+            mathml : $form.children('.panel[data-role="mathml"]'),
+            latex : $form.children('.panel[data-role="latex"]')
+        },
+        $fields = {
+            mathml : $form.find('textarea[name=mathml]'),
+            latex : $form.find('input[name=latex]')
+        },
+        $editMode = $form.find('select[name=editMode]');
 
         //toggle form visibility
         $panels.mathml.hide();
         $panels.latex.hide();
-        if (mode === 'latex') {
+        if(mode === 'latex'){
             $panels.latex.show();
-        } else if (mode === 'mathml') {
+        }else if(mode === 'mathml'){
             $panels.mathml.show();
-            if ($fields.latex.val()) {
+            if($fields.latex.val()){
                 //show a warning here, stating that the content in LaTeX will be removed
-                if (!$fields.mathml.hasClass('tooltipstered')) {
+                if(!$fields.mathml.hasClass('tooltipstered')){
                     _createWarningTooltip($fields.mathml);
                 }
                 $fields.mathml.tooltipster('show');
-                $editMode.off('change.editMode').one('change.editMode', function() {
+                $editMode.off('change.editMode').one('change.editMode', function(){
                     $fields.mathml.tooltipster('hide');
                 });
             }
@@ -229,23 +232,23 @@ define([
     };
 
 
-    var _createWarningTooltip = function($mathField) {
+    var _createWarningTooltip = function($mathField){
 
         var $content = $('<span>')
             .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
 
         $mathField.tooltipster({
-            theme: 'tao-warning-tooltip',
-            content: $content,
-            delay: 200,
-            trigger: 'custom'
+            theme : 'tao-warning-tooltip',
+            content : $content,
+            delay : 200,
+            trigger : 'custom'
         });
 
-        $mathField.on('focus.mathwarning', function() {
+        $mathField.on('focus.mathwarning', function(){
             $mathField.tooltipster('hide');
         });
 
-        setTimeout(function() {
+        setTimeout(function(){
             $mathField.tooltipster('hide');
         }, 3000);
     };

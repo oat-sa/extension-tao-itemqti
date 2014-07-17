@@ -1,3 +1,5 @@
+{{#if mathjax}}
+
 <div class="panel">
     <label for="display" class="has-icon">{{__ "Display"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
@@ -52,3 +54,8 @@
     </div>
     <div class="math-buffer" style="visibility:hidden;"></div>
 </div>
+{{else}}
+<div class="panel">
+    {{__ "MathJax is not install."}}
+</div>
+{{/if}}
