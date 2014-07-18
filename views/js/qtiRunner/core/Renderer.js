@@ -75,6 +75,7 @@ define([
         'textEntryInteraction',
         'uploadInteraction',
         'endAttemptInteraction',
+        'customInteraction',
         'prompt',
         'associableHotspot',
         'gap',

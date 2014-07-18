@@ -34,6 +34,7 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
@@ -67,7 +68,7 @@ use \SimpleXMLElement;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
+
  */
 class ParserFactory
 {
@@ -97,7 +98,7 @@ class ParserFactory
         return $data->ownerDocument->saveXML($data);
     }
 
-    protected function getBodyData(DOMElement $data){
+    protected function getBodyData(DOMElement $data, $removeNamespace = false){
 
         //prepare the data string
         $bodyData = $this->saveXML($data);
@@ -105,7 +106,11 @@ class ParserFactory
         $pattern = "/<{$data->nodeName}\b[^>]*\/>|<{$data->nodeName}\b[^>]*>(.*?)<\/{$data->nodeName}>/is";
         preg_match_all($pattern, $bodyData, $matches);
         if(isset($matches[1]) && isset($matches[1][0])){
-            $bodyData = $matches[1][0];
+            $bodyData = trim($matches[1][0]);
+        }
+
+        if($removeNamespace){
+            $bodyData = preg_replace('/<(\/)?(\w*):/i', '<$1', $bodyData);
         }
 
         return $bodyData;
@@ -133,6 +138,16 @@ class ParserFactory
         return $returnValue;
     }
 
+    protected function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
+        $query = '.';
+        $ns = empty($ns) ? '' : $ns.':';
+        foreach($paths as $path){
+            $query .= "/*[name(.)='".$ns.$path."']";
+        }
+        
+        return $this->queryXPath($query, $contextNode);
+    }
+
     protected function parseContainerStatic(DOMElement $data, Container $container){
 
         //var_dump('parseContainerStatic:'.$data->nodeName.':'.$data->asXML(), $bodyData);
@@ -151,7 +166,7 @@ class ParserFactory
         }
 
         // parse for QTI elements within item body
-        
+
         $objectNodes = $this->queryXPath(".//*[name(.)='object']", $data);
         foreach($objectNodes as $objectNode){
             if(!in_array('object', $this->getAncestors($objectNode))){
@@ -191,14 +206,14 @@ class ParserFactory
             throw new UnsupportedQtiElement($printedVariableNode);
             break;
         }
-        
+
         $templateNodes = $this->queryXPath(".//*[name(.)='templateBlock'] | *[name(.)='templateInline']", $data);
         foreach($templateNodes as $templateNode){
             //@todo: to be implemented
             throw new UnsupportedQtiElement($templateNode);
             break;
         }
-        
+
         //finally, add all body elements to the body
         $bodyData = $this->getBodyData($data);
         //there use to be $bodyData = ItemAuthoring::cleanHTML($bodyData); there
@@ -240,18 +255,23 @@ class ParserFactory
         $interactionNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]", $data);
         $debug = array($data->nodeName);
         foreach($interactionNodes as $k => $interactionNode){
-            //build an interaction instance by found node
-            $interaction = $this->buildInteraction($interactionNode);
-            $debug[] = $interactionNode->nodeName;
-            if(!is_null($interaction)){
-                $bodyElements[$interaction->getSerial()] = $interaction;
-                $this->replaceNode($interactionNode, $interaction);
+
+            if(strpos($interactionNode->nodeName, 'portableCustomInteraction') === false){
+
+                //build an interaction instance by found node
+                $interaction = $this->buildInteraction($interactionNode);
+                $debug[] = $interactionNode->nodeName;
+
+                if(!is_null($interaction)){
+                    $bodyElements[$interaction->getSerial()] = $interaction;
+                    $this->replaceNode($interactionNode, $interaction);
+                }
             }
         }
 
+
         //parse for feedback elements interactive! 
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
-        //var_dump('parseContainerInteractive:feed', $feedbackNodes);
         foreach($feedbackNodes as $feedbackNode){
             $feedback = $this->buildFeedback($feedbackNode, true);
             if(!is_null($feedback)){
@@ -272,8 +292,7 @@ class ParserFactory
 
         return $this->parseContainerStatic($data, $container);
     }
-    
-    
+
     protected function setContainerElements(Container $container, DOMElement $data, $bodyElements = array()){
         $bodyData = $this->getBodyData($data);
         foreach($bodyElements as $bodyElement){
@@ -286,11 +305,10 @@ class ParserFactory
         }
     }
 
-
     protected function parseContainerItemBody(DOMElement $data, ContainerItemBody $container){
-        
+
         $bodyElements = array();
-        
+
         //parse for rubricBlocks: rubricBlock only allowed in item body !
         $rubricNodes = $this->queryXPath(".//*[name(.)='rubricBlock']", $data);
         foreach($rubricNodes as $rubricNode){
@@ -300,12 +318,12 @@ class ParserFactory
                 $this->replaceNode($rubricNode, $rubricBlock);
             }
         }
-        
+
         $this->setContainerElements($container, $data, $bodyElements);
-        
+
         return $this->parseContainerInteractive($data, $container);
     }
-    
+
     private function parseContainerChoice(DOMElement $data, Container $container, $tag){
 
         $choices = array();
@@ -524,10 +542,12 @@ class ParserFactory
                 case 'hottextinteraction':
                     $this->parseContainerHottext($data, $myInteraction->getBody());
                     break;
-                
-                case 'customInteraction':
+
+                case 'custominteraction':
+
                     //try build it as a pci:
-                    
+                    $this->buildPci($myInteraction, $data);
+
                     break;
                 case 'graphicgapmatchinteraction':
                     //create choices with the gapImg nodes
@@ -921,7 +941,7 @@ class ParserFactory
         $responseRules = array();
 
         $data = simplexml_import_dom($data);
-        
+
         $returnValue = new Custom($responseRules, $data->asXml());
 
         return $returnValue;
@@ -1032,8 +1052,8 @@ class ParserFactory
 
                     $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
                     $feedbackRule->setCondition($response, 'correct');
-                    
-                    
+
+
                     if(!isset($simpleFeedbackRules[$responseIdentifier])){
                         $simpleFeedbackRules[$responseIdentifier] = array();
                     }
@@ -1061,8 +1081,8 @@ class ParserFactory
 
                     $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
                     $feedbackRule->setCondition($response, 'incorrect');
-                    
-                    
+
+
                     if(!isset($simpleFeedbackRules[$responseIdentifier])){
                         $simpleFeedbackRules[$responseIdentifier] = array();
                     }
@@ -1178,7 +1198,7 @@ class ParserFactory
 
         return $returnValue;
     }
-    
+
     private function buildImg(DOMElement $data){
 
         $attributes = $this->extractAttributes($data);
@@ -1204,7 +1224,7 @@ class ParserFactory
         }
 
         $math = new Math($this->extractAttributes($data));
-        $body = str_replace($ns.':', '', $this->getBodyData($data));
+        $body = $this->getBodyData($data, true);
         $math->setMathML($body);
         $math->setAnnotations($annotations);
 
@@ -1237,7 +1257,7 @@ class ParserFactory
     }
 
     private function buildRubricBlock(DOMElement $data){
-        
+
         $returnValue = new RubricBlock($this->extractAttributes($data));
         $this->parseContainerStatic($data, $returnValue->getBody());
 
@@ -1276,6 +1296,65 @@ class ParserFactory
         }
 
         return $myFeedback;
+    }
+
+    private function getPciNamespace(){
+        return 'pci';
+    }
+
+    private function buildPci(CustomInteraction $interaction, DOMElement $data){
+
+        $ns = $this->getPciNamespace();
+        
+        $pciNodes = $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
+        if($pciNodes->length){
+            $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
+            $interaction->setTypeIdentifier($typeIdentifier);
+        }
+        
+        $libNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
+        $libs = array();
+        foreach($libNodes as $libNode){
+            $libs[] = $libNode->getAttribute('id');
+        }
+        $interaction->setLibraries($libs);
+        
+        $propertyNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
+        if($propertyNodes->length){
+            $properties = $this->extractPciProperties($propertyNodes->item(0));
+            $interaction->setProperties($properties);
+        }
+
+        $markupNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $ns);
+        if($markupNodes->length){
+            $markup = $this->getBodyData($markupNodes->item(0), true);
+            $interaction->setMarkup($markup);
+        }
+        
+    }
+
+    private function extractPciProperties(DOMElement $propertiesNode){
+
+        $properties = array();
+        $ns = $this->getPciNamespace();
+        $ns = $ns ? $ns.':' : '';
+        
+        foreach($propertiesNode->childNodes as $prop){
+            if($prop instanceof DOMElement){
+                switch($prop->tagName){
+                    case $ns.'entry':
+                        $key = $prop->getAttribute('key');
+                        $properties[$key] = $prop->nodeValue;
+                        break;
+                    case $ns.'properties':
+                        $key = $prop->getAttribute('key');
+                        $properties[$key] = $this->extractPciProperties($prop);
+                        break;
+                }
+            }
+        }
+
+        return $properties;
     }
 
 }

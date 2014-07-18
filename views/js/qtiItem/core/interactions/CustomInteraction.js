@@ -10,10 +10,10 @@ define([
         
             this._super(serial, attributes);
             
-            this.customInteractionTypeIdentifier = '';
+            this.typeIdentifier = '';
             this.markup = '';
             this.properties = {};
-            this.scripts = [];
+            this.libraries = [];
         },
         is : function(qtiClass){
             return (qtiClass === 'customInteraction') || this._super(qtiClass);

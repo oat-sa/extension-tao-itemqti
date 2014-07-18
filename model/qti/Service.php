@@ -21,11 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use oat\taoQtiItem\model\qti\QTISessionCache;
 use \tao_models_classes_Service;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
@@ -34,7 +32,6 @@ use \common_Logger;
 use \common_Exception;
 use \core_kernel_versioning_Repository;
 use \Exception;
-use \common_cache_NotFoundException;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the

@@ -295,21 +295,6 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
 
             return arr;
         },
-        remove : function(containerPropName, element){
-            console.log('element.remove() : deprecated method')
-            if(this[containerPropName]){
-                var serial = '';
-                if(typeof(element) === 'string'){
-                    serial = element;
-                }else if(element instanceof Element){
-                    serial = element.getSerial();
-                }
-                if(serial){
-                    delete this[containerPropName][serial];
-                }
-            }
-            return this;
-        },
         isEmpty : function(){
             //tells whether the element should be considered empty or not, from the rendering point of view
             return false;

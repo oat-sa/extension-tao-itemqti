@@ -34,11 +34,22 @@ use oat\taoQtiItem\model\qti\interaction\Interaction;
  */
 class CustomInteraction extends Interaction
 {
-
-    protected $resources = array();
+    
+    protected static $qtiTagName = 'customInteraction';
+    
+    protected $typeIdentifier = '';
     protected $properties = array();
+    protected $libraries = array();
     protected $markup = '';
-
+    
+    public function setTypeIdentifier($typeIdentifier){
+        $this->typeIdentifier = $typeIdentifier;
+    }
+    
+    public function getTypeIdentifier($typeIdentifier){
+        return $this->typeIdentifier;
+    }
+    
     public function getMarkup(){
         return $this->markup;
     }
@@ -59,9 +70,27 @@ class CustomInteraction extends Interaction
         }
     }
 
+    public function getLibraries(){
+        return $this->libraries;
+    }
+
+    public function setLibraries($libraries){
+        if(is_array($libraries)){
+            $this->libraries = $libraries;
+        }else{
+            throw new InvalidArgumentException('libraries should be an array');
+        }
+    }
+
     public function toArray($filterVariableContent = false, &$filtered = array()){
+        
         $returnValue = parent::toArray($filterVariableContent, $filtered);
+        
+        $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['markup'] = $this->markup;
+        $returnValue['libraries'] = $this->libraries;
+        $returnValue['properties'] = $this->properties;
+        
         return $returnValue;
     }
 

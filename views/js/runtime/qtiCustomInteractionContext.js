@@ -16,6 +16,7 @@ define(['jquery', 'lodash'], function($, _){
          * @returns {undefined}
          */
         register : function(pciModel){
+            //@todo check pciModel validity
             _pciModels[pciModel.getTypeIdentifier()] = pciModel;
         },
         /**
@@ -43,7 +44,6 @@ define(['jquery', 'lodash'], function($, _){
          * @returns {Object} clonedPciModel
          */
         getPci : function(pciTypeIdentifier){
-        
             if(_pciModels[pciTypeIdentifier]){
                 return _.cloneDeep(_pciModels[pciTypeIdentifier]);
             }

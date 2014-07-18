@@ -152,31 +152,8 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
     
-    public function _testFileParsingQti2p1ThirdParty(){
-        
-		//check if samples are loaded 
-		foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/thirdparty/*.xml') as $file){
-            
-			$qtiParser = new Parser($file);
-			$qtiParser->validate();
-			
-            if(!$qtiParser->isValid()){
-                echo $qtiParser->displayErrors();
-            }
-			
-			$this->assertTrue($qtiParser->isValid());
-			
-			$item = $qtiParser->load();
-			
-			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
-            
-            var_dump($item->toArray());
-            
-		}
-        
-    }
-    
     public function testJsonLoading(){
+        
         foreach(glob(dirname(__FILE__).'/samples/json/*.json') as $file){
             
             if(strpos($file, 'ALL') !== false){continue;}
@@ -211,6 +188,28 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 			}
 		}
 	
+	}
+    
+    /**
+	 * test qti file parsing: validation and loading in a non-persistant context
+	 */
+	public function testFileParsingQtiPci(){
+		
+        $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml');
+        
+		//check if samples are loaded 
+		foreach($files as $file){
+			$qtiParser = new Parser($file);
+            
+            $qtiParser->validate();
+            if(!$qtiParser->isValid()){
+                echo $qtiParser->displayErrors();
+            }
+            
+			$item = $qtiParser->load();
+			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+		}
+        
 	}
 	
 }

@@ -160,7 +160,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             response.template = data.howMatch || null;
             response.defaultValue = data.defaultValue || null;
             response.correctResponse = data.correctResponses || null;
-            
+
             if(_.size(data.mapping)){
                 response.mapEntries = data.mapping;
             }else if(_.size(data.areaMapping)){
@@ -168,7 +168,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             }else{
                 response.mapEntries = {};
             }
-            
+
             response.mappingAttributes = data.mappingAttributes || {};
 
             return response;
@@ -274,7 +274,12 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     this.loadContainer(interaction.prompt.getBody(), data.prompt);
                 }
             }
+
             this.buildInteractionChoices(interaction, data);
+
+            if(Element.isA(interaction, 'customInteraction')){
+                this.loadPciData(interaction, data);
+            }
         },
         buildInteractionChoices : function(interaction, data){
 
@@ -340,6 +345,12 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             math.ns = data.ns || {};
             math.setMathML(data.mathML || '');
             math.annotations = data.annotations || {};
+        },
+        loadPciData : function(pci, data){
+            pci.typeIdentifier = data.typeIdentifier;
+            pci.markup = data.markup;
+            pci.properties = data.properties;
+            pci.libraries = data.libraries;
         }
     });
 
