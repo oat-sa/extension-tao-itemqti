@@ -47,7 +47,7 @@ define([
         }
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
-        widget.createPaper(); 
+        interaction.paper = widget.createPaper(); 
        
         //we create the shapes from the response mapping 
         setCurrentResponses(widget);
@@ -352,7 +352,7 @@ define([
         SelectPointInteraction.destroy(interaction); 
 
         //initialize again the widget's paper
-        this.widget.createPaper();
+        interaction.paper = this.widget.createPaper();
     }
 
     /**

@@ -4,17 +4,20 @@
 define([
     'jquery', 'lodash', 'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/selectPointInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-    'taoQtiItem/qtiCreator/helper/dummyElement'
-], function($, _, __, Widget, states, graphic, dummyElement){
+], function($, _, __, Widget, GraphicWidget, states, graphicHelper){
 
     /**
      * The Widget that provides components used by the QTI Creator for the SelectPoint Interaction
+     *
      * @extends taoQtiItem/qtiCreator/widgets/interactions/Widget
+     * @extends taoQtiItem/qtiCreator/widgets/interactions/GraphicInteraction/Widget
+     *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/selectPointInteraction/Widget
      */      
-    var SelectPointInteractionWidget = _.extend(Widget.clone(), {
+    var SelectPointInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
 
         /**
          * Initialize the widget
@@ -24,6 +27,7 @@ define([
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         initCreator : function(options){
+            var paper;
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -32,7 +36,10 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
            
-            this.createPaper(); 
+            paper = this.createPaper(); 
+            if(paper){
+                this.element.paper = paper;
+            }
         },
 
         /**
@@ -57,58 +64,13 @@ define([
         },
 
         /**
-         * Create a basic Raphael paper with the interaction choices 
-         */ 
-        createPaper : function(){
-
-            var $container  = this.$original;
-            var $item       = $container.parents('.qti-item');
-            var background  = this.element.object.attributes;
-            var serial      = this.element.serial;
-            if(!background.data){
-                this._createPlaceholder();
-            } else {
-           
-                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
-                    width       : background.width, 
-                    height      : background.height,
-                    img         : this.baseUrl + background.data,
-                    imgId       : 'bg-image-' + serial,
-                    container   : $container
-                });
-
-                //listen for internal size change
-                $item.on('resize.gridEdit.' + serial, function(){
-                    $container.trigger('resize.qti-widget.' + serial);
-                });
-            }
-        },
-
-        /**
-         * Creates a dummy placeholder if there is no image set
-         */
-        _createPlaceholder : function(){
-
-            var $container = this.$original;
-            var $imageBox  = $container.find('.main-image-box');
-            dummyElement.get({
-                icon: 'image',
-                css: {
-                    width  : $container.innerWidth() - 35,
-                    height : 200
-                },
-                title : __('Select an image first.')
-            }).appendTo($imageBox);
-        },
-
-        /**
          * Create shapes for the response mapping areas
          * @param {String} shapeType - the QTI shape type 
          * @param {String} coords - the QTI shape coords
          * @returns {Raphael.Element} the shape
          */ 
         createResponseArea : function(shapeType, coords){
-            return graphic.createElement(this.element.paper, shapeType, coords, {
+            return graphicHelper.createElement(this.element.paper, shapeType, coords, {
                 touchEffect : false
             });
         }

@@ -4,18 +4,20 @@
 define([
     'jquery', 'lodash', 'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
-    'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-    'taoQtiItem/qtiCreator/helper/dummyElement',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/gapImg'
-], function($, _, __, Widget, states, graphic, dummyElement, gapImgTpl){
+], function($, _, __, Widget, GraphicWidget, states, gapImgTpl){
 
     /**
      * The Widget that provides components used by the QTI Creator for the GraphicGapMatch Interaction
+     *
      * @extends taoQtiItem/qtiCreator/widgets/interactions/Widget
+     * @extends taoQtiItem/qtiCreator/widgets/interactions/GraphicInteraction/Widget
+     *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/Widget
      */      
-    var GraphicGapMatchInteractionWidget = _.extend(Widget.clone(), {
+    var GraphicGapMatchInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
 
         /**
          * Initialize the widget
@@ -25,6 +27,7 @@ define([
          * @param {jQueryElement} options.choiceForm = a reference to the form of the choices
          */
         initCreator : function(options){
+            var paper;
             this.baseUrl = options.baseUrl;
             this.choiceForm = options.choiceForm;
             
@@ -33,7 +36,12 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
           
-            this.createPaper(); 
+            paper = this.createPaper(_.bind(this.scaleGapList, this)); 
+            if(paper){
+                this.element.paper = paper;
+                this.createChoices();
+                this.createGapImgs();
+            }
         },
 
         /**
@@ -55,84 +63,28 @@ define([
         },
 
         /**
-         * Create a basic Raphael paper with the interaction choices 
-         */ 
-        createPaper : function(){
-
-            var $container = this.$original;
-            var $item      = $container.parents('.qti-item');
-            var $gapList   = $('ul.source', $container);
-            var $imageBox  = $('.main-image-box', $container);
-            var background = this.element.object.attributes;
-            var serial     = this.element.serial;
-            var diff;
-            if(!background.data){
-                this._createPlaceholder();
-            } else {
-                this.element.paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
-                    width       : background.width, 
-                    height      : background.height,
-                    img         : this.baseUrl + background.data,
-                    imgId       : 'bg-image-' + serial,
-                    container   : $container,
-                    resize      : function(newSize, factor){
-                       $gapList.css('max-width', newSize + 'px'); 
-                       if(factor !== 1){
-                            $gapList.find('img').each(function(){
-                                var $img = $(this);
-                                $img.width( $img.attr('width') * factor );
-                                $img.height( $img.attr('height') * factor );
-                            });
-                       } 
-                    }
-                });
-
-                //listen for internal size change
-                $item.on('resize.gridEdit.' + serial, function(){
-                    $container.trigger('resize.qti-widget.' + serial);
-                });
-
-                //call render choice for each interaction's choices
-                _.forEach(this.element.getChoices(), this._currentChoices, this);
-
-                //create the gap images list
-                this._createGapImgs();
-            }
-        },
-
-        /**
-         * Creates a dummy placeholder if there is no image set
+         * Called back on paper resize to scale the gap list
+         * @param {Number} newSize - the interaction size
+         * @param {Number} [factor = 1] - scaling factor
          */
-        _createPlaceholder : function(){
+        scaleGapList : function(newSize, factor){
 
-            var $container = this.$original;
-            var $imageBox  = $container.find('.main-image-box');
-            dummyElement.get({
-                icon: 'image',
-                css: {
-                    width  : $container.innerWidth() - 35,
-                    height : 200
-                },
-                title : __('Select an image first.')
-            }).appendTo($imageBox);
-        },
-
-        /**
-         * Add shape to the Raphel paper for a QTI choice
-         * @private
-         * @param {Object} choice - the QTI choice 
-         */ 
-        _currentChoices : function(choice){
-            graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
-                id          : choice.serial,
-                touchEffect : false
-            });
+           var $container = this.$original;
+           var $gapList   = $('ul.source', $container);
+           $gapList.css('max-width', newSize + 'px'); 
+           if(factor && factor !== 1){
+                $gapList.find('img').each(function(){
+                    var $img = $(this);
+                    $img.width( $img.attr('width') * factor );
+                    $img.height( $img.attr('height') * factor );
+                });
+           } 
         },
 
         /**
          * Create the gap images
          */
-        _createGapImgs : function(){
+        createGapImgs : function(){
             var interaction = this.element;
             var $container  = this.$original;
             var $gapList    = $('ul.source', $container);

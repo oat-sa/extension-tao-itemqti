@@ -95,9 +95,10 @@ define([
         }
 
         function setUpGapImg(gapImg, update){
-            var $gapList  = $('ul.source', widget.$original);
-            var $placeholder = $('.empty', $gapList);
-            var $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
+            var $dummy;
+            var $gapList        = $('ul.source', widget.$original);
+            var $placeholder    = $('.empty', $gapList);
+            var $gapImg         = $('[data-serial="' + gapImg.serial + '"]', $gapList);
 
             if(!$gapImg.length){
                 $gapImg = $("<li></li>").insertBefore($placeholder);
@@ -112,16 +113,17 @@ define([
                     $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
                 }
             } else {
-                $gapImg.addClass('placeholder qti-choice qti-gapImg').empty().append(
-                    dummyElement.get({
-                        icon: 'image',
-                        css: {
-                            width  : 58,
-                            height : 58
-                        },
-                        title : __('Select an image.')
-                    })
-                );
+                $dummy = dummyElement.get({
+                            icon: 'image',
+                            css: {
+                                width  : 58,
+                                height : 58
+                            },
+                            title : __('Select an image.')
+                        });
+                $gapImg.addClass('placeholder qti-choice qti-gapImg')
+                       .empty()
+                       .append($dummy);
             }
 
             //prevent the creator to resize them
@@ -146,6 +148,14 @@ define([
                     $('.active', $gapList).removeClass('active');
                     $gapImg.addClass('active');
                     enterGapImgForm(gapImg.serial);
+    
+                    //gap placeholders delegate to the upload button (opens the resource mgr)
+                    if($gapImg.hasClass('placeholder')){ 
+                        var $upload  = $('[data-role="upload-trigger"]', $choiceForm);
+                        if($upload.length){
+                            $upload.trigger('click');
+                        }
+                    }
                 }
             });
         }

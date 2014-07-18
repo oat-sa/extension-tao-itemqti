@@ -59,7 +59,9 @@ define([
         GraphicOrderInteraction.destroy(interaction); 
 
         //initialize again the widget's paper
-        this.widget.createPaper();
+        interaction.paper = widget.createPaper(_.bind(widget.scaleOrderList, widget)); 
+        widget.createChoices();
+        widget.renderOrderList();
     }
 
     /**

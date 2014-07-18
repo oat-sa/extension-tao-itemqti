@@ -59,7 +59,8 @@ define([
         HotspotInteraction.destroy(interaction); 
 
         //initialize again the widget's paper
-        this.widget.createPaper();
+        interaction.paper = widget.createPaper();
+        widget.createChoices(); 
     }
 
     /**

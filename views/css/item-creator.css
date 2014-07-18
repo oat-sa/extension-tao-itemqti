@@ -353,6 +353,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .mapping-editor .tooltipstered { text-align: right; }
 .tao-scope .item-editor-item .mapping-editor .icon-checkbox { margin-left: 20px; }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope .item-editor-item .qti-graphicInteraction .dummy-element { cursor: pointer; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar { float: left; width: 50px; height: 100%; min-height: 280px; top: 0; z-index: 1000; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar .forms { overflow: hidden; min-height: 230px; font-size: 40px; font-size: 4rem; border-right: solid 1px #fff; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar .forms li { border: 1px solid transparent; line-height: 40px; padding: 5px 0 3px 0; cursor: pointer; text-align: center; }

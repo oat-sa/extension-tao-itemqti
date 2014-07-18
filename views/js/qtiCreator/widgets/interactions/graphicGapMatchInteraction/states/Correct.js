@@ -29,7 +29,7 @@ define([
         //add a specific instruction
         helper.appendInstruction(interaction, __('Please fill the gap with the correct choices below.'));
        
-        widget._createGapImgs(); 
+        widget.createGapImgs(); 
  
         //use the common Renderer
         GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
@@ -70,7 +70,9 @@ define([
         GraphicGapMatchInteraction.destroy(interaction); 
 
         //initialize again the widget's paper
-        this.widget.createPaper();
+        interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
+        widget.createChoices();
+        widget.createGapImgs();
     }
 
     /**
