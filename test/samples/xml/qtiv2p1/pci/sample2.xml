@@ -23,11 +23,10 @@
                 
                 <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
                     <pci:libraries>
-                        <pci:lib name="likertScaleCss" src="libs/likertScaleInteraction.css"/>
+                        <pci:lib name="likertScaleCss" href="libs/likertScaleInteraction.css"/><!-- dep css -->
+                        <pci:lib name="likertScaleJs" href="libs/likertScaleInteraction.amd.js"/><!-- amd -->
+                        <pci:lib name="jquery" href="libs/jquery.min.js"/><!-- dep -->
                     </pci:libraries>
-                    <pci:modules>
-                        <pci:lib src="libs/likertScaleInteraction.js" />
-                    </pci:modules>
                 </pci:resources>
 
                 <pci:properties>
@@ -57,8 +56,9 @@
                 
                 <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
                     <pci:libraries>
-                        <pci:lib id="libs/likertScaleInteraction.js" />
-                        <pci:lib id="libs/likertScaleInteraction.css" />
+                        <pci:lib name="likertScaleCss" href="libs/likertScaleInteraction.css"/><!-- dep css -->
+                        <pci:lib name="likertScaleJs" href="libs/likertScaleInteraction.amd.js"/><!-- amd -->
+                        <pci:lib name="jquery" href="libs/jquery.min.js"/><!-- dep that under into collision with TAO delivery engine -->
                     </pci:libraries>
                 </pci:resources>
 
@@ -89,8 +89,9 @@
                 
                 <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
                     <pci:libraries>
-                        <pci:lib id="libs/likertScaleInteraction.js" />
-                        <pci:lib id="libs/likertScaleInteraction.css" />
+                        <pci:lib name="likertScaleCss" href="libs/likertScaleInteraction.css"/><!-- dep css -->
+                        <pci:lib name="likertScaleJs" href="libs/likertScaleInteraction.amd.js"/><!-- amd -->
+                        <pci:lib name="jquery" href="libs/jquery.min.js"/><!-- dep -->
                     </pci:libraries>
                 </pci:resources>
 
