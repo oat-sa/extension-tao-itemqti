@@ -351,6 +351,7 @@ define([
          * @param {Object} [options.point] - the point to add to the paper
          * @param {Number} [options.point.x = 0] - point's x coord
          * @param {Number} [options.point.y = 0] - point's y coord 
+         * @param {Boolean} [options.hover] = true - the target has an hover effect
          * @param {Function} [options.create] - call once created
          * @param {Function} [options.remove] - call once removed
          */
@@ -358,13 +359,19 @@ define([
             var self    = this;
             options     = options || {};
             var point   = options.point || {x : 0, y : 0};
-            var x       = point.x >= 9 ? point.x - 9 : 0;
-            var y       = point.y >= 9 ? point.y - 9 : 0;
+            var baseSize= 18;
+            var factor  = (paper.w && paper.width) ? paper.width / paper.w : 1; 
+            var size    = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
+            var half    = size / 2;
+            var x       = point.x >= half ? point.x - half : 0;
+            var y       = point.y >= half ? point.y - half : 0;
+            var hover   = typeof options.hover === 'undefined' ? true : !!options.hover;
+            var tBBox;
         
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
-                .transform('T' + (point.x - 9) + ',' + (point.y - 9))
+                .transform('T' + x + ',' + y + 's' + size / baseSize)
                 .attr(gstyle.target)
                 .attr('title', _('Click again to remove'));
 
@@ -381,19 +388,12 @@ define([
                 target.id = 'target-' + count;
             }
 
+            tBBox = target.getBBox();
+
             //create an invisible rect over the target to ensure path selection
             var layer = paper
-                .rect(point.x - 9, point.y - 9, 18, 18)
+                .rect(tBBox.x, tBBox.y, tBBox.width, tBBox.height)
                 .attr(gstyle.layer)
-                .hover(function(){
-                    if(!target.flashing){
-                        self.setStyle(target, 'target-hover');
-                    }
-                }, function(){
-                    if(!target.flashing){
-                        self.setStyle(target, 'target-success');
-                    }
-                })
                 .click(function(){
                     var id = target.id;
                     var point = this.data('point');
@@ -406,6 +406,17 @@ define([
                         options.remove(id, point);
                     }
                 });
+            if(hover){
+                layer.hover(function(){
+                    if(!target.flashing){
+                        self.setStyle(target, 'target-hover');
+                    }
+                }, function(){
+                    if(!target.flashing){
+                        self.setStyle(target, 'target-success');
+                    }
+                });
+            }
 
             layer.id = 'layer-' + target.id;
             layer.data('point', point);

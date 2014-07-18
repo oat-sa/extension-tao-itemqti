@@ -71,7 +71,8 @@ define([
                                self._events['created.qti-widget'].call(this, target); 
                             }
                         },
-                        remove : false
+                        remove : false,
+                        hover  : false
                     });
                 });
             },

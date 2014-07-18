@@ -184,17 +184,36 @@ define([
                 }
             },
             enterHandling : function(shape){
-                //move the score back the shape and show the popup
-                shape.toFront();
-                $('#score-popup-' + shape.id).show(); 
+                if(shape.type === 'set'){
+                    shape.forEach(function(setElt){
+                        if(setElt.type === 'path'){
+                            setElt.attr(graphicHelper._style['target-hover']);
+                            return;
+                        }
+                    });
+    
+                } else {
+                    //move the score back the shape and show the popup
+                    shape.toFront();
+                    $('#score-popup-' + shape.id).show(); 
+                }
             },
             quitHandling : function(shape){
-                //move the score in above the shape and hide the popup
-                var scoreElt = interaction.paper.getById('score-' + shape.id);
-                if(scoreElt){
-                    scoreElt.show().toFront();
-                }
-                $('#score-popup-' + shape.id).hide(); 
+                if(shape.type === 'set'){
+                    shape.forEach(function(setElt){
+                        if(setElt.type === 'path'){
+                            setElt.attr(graphicHelper._style['target-success']);
+                            return;
+                        }
+                    });
+                } else {
+                    //move the score in above the shape and hide the popup
+                    var scoreElt = interaction.paper.getById('score-' + shape.id);
+                    if(scoreElt){
+                        scoreElt.show().toFront();
+                    }
+                    $('#score-popup-' + shape.id).hide();
+                } 
             },
             shapeChanging : function(shape){
                 //move the score and the popup to create them again once the shape has moved
