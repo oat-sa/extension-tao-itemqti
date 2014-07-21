@@ -33,7 +33,7 @@ define([
 
                         //append item placeholder and render it:
                         var $placeholder = $('<div>');
-                        $('#item-editor-panel').append($placeholder);
+                        $('#item-editor-scroll-area').append($placeholder);
 
                         var $interactionForm = $('<div>', {'id' : 'qtiCreator-form-interaction', 'class': 'form-container', text : 'interaction form placeholder'});
                         var $choiceForm = $('<div>', {'id' : 'qtiCreator-form-choice', 'class': 'form-container', text : 'choice form placeholder'});

@@ -693,7 +693,7 @@ span.dragging{
         margin: 0 180px;
         overflow-x: auto;
         overflow-y: visible;
-        padding: 20px 60px;
+        padding: 0;
         border: 1px white solid;
         border-bottom: none;
         background-color: mix(white, $websiteBorder, 70%);
@@ -718,6 +718,12 @@ span.dragging{
             overflow-x: hidden;
             overflow-y: visible;
         }
+    }
+
+    #item-editor-scroll-area {
+        padding: 20px 60px;
+        overflow: auto;
+        background: peru;
     }
     
     .dummy-element {

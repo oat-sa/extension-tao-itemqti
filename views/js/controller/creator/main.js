@@ -41,6 +41,7 @@ define([
     var _initUiComponents = function(item, widget, config){
 
 
+
         styleEditor.init(widget.element, config);
 
         styleSheetToggler.init(config);
@@ -75,7 +76,7 @@ define([
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
 
-                var $itemContainer = $('#item-editor-panel');
+                var $itemContainer = $('#item-editor-scroll-area');
 
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.baseUrl);
