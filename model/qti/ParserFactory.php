@@ -1315,7 +1315,7 @@ class ParserFactory
         $libNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
         $libs = array();
         foreach($libNodes as $libNode){
-            $libs[] = $libNode->getAttribute('id');
+            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
         }
         $interaction->setLibraries($libs);
         

@@ -1,12 +1,11 @@
 define([
     'lodash',
-    'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/runtime/qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
     'context'
-], function(_, $, tpl, Helper, qtiCustomInteractionContext, util, context){
+], function(_, tpl, Helper, qtiCustomInteractionContext, util, context){
 
     var _registerGlobalPciContext = function(){
 
@@ -56,13 +55,7 @@ define([
         var libraries = interaction.libraries || [],
             ret = [],
             paths = {};
-
-        libraries = {
-            jquery : 'libs/jquery.min.js',
-            likertScaleCss : 'libs/likertScaleInteraction.css',
-            likertScaleJs : 'libs/likertScaleInteraction.amd.js'
-        };
-
+        
         _.forIn(libraries, function(href, name){
 
             var hrefFull = util.fullpath(href, baseUrl);
@@ -111,12 +104,6 @@ define([
             
         });
         
-        _.delay(function(){
-            require(['jquery'], function($){
-                console.log('original jquery', $);
-            });
-        }, 2000);
-
     };
 
     var setResponse = function(interaction, response){
