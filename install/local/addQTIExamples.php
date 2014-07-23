@@ -21,8 +21,6 @@
 
 use oat\taoQtiItem\model\qti\ImportService;
 
-?>
-<?php
 $itemClass	= taoItems_models_classes_ItemsService::singleton()->getRootClass();
 $file		= dirname(__FILE__).DIRECTORY_SEPARATOR.'qtiv2p1Examples.zip';
 
