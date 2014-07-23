@@ -691,8 +691,9 @@ span.dragging{
     
     #item-editor-panel {
         margin: 0 180px;
-        overflow-x: auto;
-        overflow-y: visible;
+      /*  overflow-x: auto;
+        overflow-y: visible;*/
+        overflow:auto;
         padding: 0;
         border: 1px white solid;
         border-bottom: none;
@@ -720,10 +721,12 @@ span.dragging{
         }
     }
 
-    #item-editor-scroll-area {
+    #item-editor-scroll-inner {
         padding: 20px 60px;
+    }
+
+    #item-editor-scroll-outer {
         overflow: auto;
-        background: peru;
     }
     
     .dummy-element {

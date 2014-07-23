@@ -736,8 +736,9 @@ span.dragging {
           float: right; }
   .tao-scope #item-editor-panel {
     margin: 0 180px;
-    overflow-x: auto;
-    overflow-y: visible;
+    /*  overflow-x: auto;
+      overflow-y: visible;*/
+    overflow: auto;
     padding: 0;
     border: 1px white solid;
     border-bottom: none;
@@ -759,10 +760,10 @@ span.dragging {
       min-height: 100px;
       overflow-x: hidden;
       overflow-y: visible; }
-  .tao-scope #item-editor-scroll-area {
-    padding: 20px 60px;
-    overflow: auto;
-    background: peru; }
+  .tao-scope #item-editor-scroll-inner {
+    padding: 20px 60px; }
+  .tao-scope #item-editor-scroll-outer {
+    overflow: auto; }
   .tao-scope .dummy-element {
     min-width: 50px;
     border: 1px solid #dddddd;

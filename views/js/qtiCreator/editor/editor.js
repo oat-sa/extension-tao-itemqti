@@ -9,7 +9,9 @@ define([
 
     var editor = (function () {
 
-        var elements = {};
+        var elements = {},
+            $win = $(window),
+            $doc = $(document);
 
         /**
          *
@@ -19,14 +21,12 @@ define([
 
             var $item = $('.qti-item');
 
-            // @todo: test only: remove this
-            $item[0].style.width = '888px';
-            $item[0].style.height = '1000px';
+            var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
+                areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop();
 
-            elements.scrollArea.width(elements.itemPanel.outerWidth());
-            elements.scrollArea.height($(window).height() - elements.itemPanel.offset().top);
-            elements.itemPanel.width(elements.itemPanel.innerWidth())
-            elements.scrollArea.height(300);
+            elements.scrollInner[0].style.width = ($item.outerWidth() + sidePadding).toString() + 'px';
+
+            elements.scrollOuter.height(areaHeight);
         };
 
 
@@ -38,7 +38,8 @@ define([
                     sidebars: '.item-editor-sidebar',
                     itemBar: '#item-editor-item-bar',
                     itemPanel: '#item-editor-panel',
-                    scrollArea: '#item-editor-scroll-area'
+                    scrollOuter: '#item-editor-scroll-outer',
+                    scrollInner: '#item-editor-scroll-inner'
                 },
                 element;
             for (element in _elements) {
@@ -314,6 +315,16 @@ define([
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
 
             _handleScrolling();
+
+
+
+            $doc.on('scroll itemsizechange', function(e){
+                _handleScrolling();
+            });
+
+            $win.on('resize orientationchange', function(e){
+                _handleScrolling();
+            });
 
         };
 
