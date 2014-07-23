@@ -1,9 +1,10 @@
 define([
+    'lodash',
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltipster'
-], function ($, __, tooltipTpl, tooltip) {
+], function (_, $, __, tooltipTpl, tooltip) {
 
     'use strict';
 
@@ -17,14 +18,12 @@ define([
          *
          * @private
          */
-        var _handleScrolling = function () {
-
-            var $item = $('.qti-item');
-
+        var _handleScrolling = function ($itemContainer) {
+            
             var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
                 areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop();
 
-            elements.scrollInner[0].style.width = ($item.outerWidth() + sidePadding).toString() + 'px';
+            elements.scrollInner[0].style.width = ($itemContainer.outerWidth() + sidePadding).toString() + 'px';
 
             elements.scrollOuter.height(areaHeight);
         };
@@ -274,8 +273,9 @@ define([
         /**
          * Initialize interface
          */
-        var initGui = function () {
-
+        var initGui = function (widget) {
+            
+            var $itemContainer = widget.$container;
 
             _setupElements();
 
@@ -313,18 +313,18 @@ define([
 
             // display toolbar and sidebar
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
+            
+            var _scroll = _.throttle(function(e){
+                _handleScrolling($itemContainer);
+            }, 60);
+            
+            _scroll();
 
-            _handleScrolling();
-
-
-
-            $doc.on('scroll itemsizechange', function(e){
-                _handleScrolling();
-            });
-
-            $win.on('resize orientationchange', function(e){
-                _handleScrolling();
-            });
+            $doc.on('scroll', _scroll);
+            
+            $itemContainer.on('resize', _scroll);
+            
+            $win.on('resize orientationchange', _scroll);
 
         };
 

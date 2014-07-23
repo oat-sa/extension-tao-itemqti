@@ -8,8 +8,6 @@ define([
 ], function ($, _, styleEditor) {
     'use strict';
 
-    var $doc = $(document);
-
     /**
      * Adapt the image editor to the target screen the students will be using
      * @param {Object} item - the current item
@@ -48,7 +46,8 @@ define([
             val = parseInt(val).toString() + 'px';
             styleEditor.apply(target, 'width', val);
             styleEditor.apply(target, 'max-width', 'none');
-            $doc.trigger('itemsizechange');
+            
+            item.data('widget').$container.trigger('resize.itemResizer');
         };
 
         /**
@@ -95,7 +94,7 @@ define([
         });
 
         resetButton.on('click', reset);
-        $doc.on('customcssloaded.styleeditor', function(e, style) {
+        $(document).on('customcssloaded.styleeditor', function(e, style) {
             var width;
             // make a proper width change
             if(style[target] && style[target].width) {

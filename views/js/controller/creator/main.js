@@ -56,7 +56,7 @@ define([
         preparePrint();
 
 
-        editor.initGui();
+        editor.initGui(widget);
 
     };
 
