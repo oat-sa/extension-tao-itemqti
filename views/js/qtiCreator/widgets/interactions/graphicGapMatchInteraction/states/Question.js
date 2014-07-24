@@ -39,6 +39,8 @@ define([
         var $formInteractionPanel = $('#item-editor-interaction-property-bar');
         var $formChoicePanel = $('#item-editor-choice-property-bar');
 
+        var $left, $top, $width, $height;
+
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
             shapeCreated : function(shape, type){
@@ -60,9 +62,18 @@ define([
                 leaveChoiceForm();
             },
             shapeChange : function(shape){
+                var bbox;
                 var choice = interaction.getChoice(shape.id);
                 if(choice){
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
+    
+                    if($left && $left.length){
+                        bbox = shape.getBBox();
+                        $left.val(parseInt(bbox.x, 10)); 
+                        $top.val(parseInt(bbox.y, 10));
+                        $width.val(parseInt(bbox.width, 10));
+                        $height.val(parseInt(bbox.height, 10));                         
+                    }         
                 }
             }
         });
@@ -167,8 +178,14 @@ define([
          */
         function enterChoiceForm(serial){
             var choice = interaction.getChoice(serial);
+            var element, bbox;
+
             if(choice){
                 
+                //get shape bounding box
+                element = interaction.paper.getById(serial);
+                bbox = element.getBBox();
+
                 $choiceForm.empty().html(
                     choiceFormTpl({
                         identifier  : choice.id(),
@@ -176,7 +193,11 @@ define([
                         serial      : serial,
                         matchMin    : choice.attr('matchMin'),
                         matchMax    : choice.attr('matchMax'),
-                        choicesCount: _.size(interaction.getChoices())
+                        choicesCount: _.size(interaction.getChoices()),
+                        x           : parseInt(bbox.x, 10), 
+                        y           : parseInt(bbox.y, 10),
+                        width       : parseInt(bbox.width, 10),
+                        height      : parseInt(bbox.height, 10)                         
                     })
                 );
 
@@ -192,6 +213,12 @@ define([
                 $formChoicePanel.show();
                 editor.openSections($formChoicePanel.children('section'));
                 editor.closeSections($formInteractionPanel.children('section'));
+                
+                //change the nodes bound to the position fields
+                $left   = $('input[name=x]', $choiceForm);
+                $top    = $('input[name=y]', $choiceForm);
+                $width  = $('input[name=width]', $choiceForm);
+                $height = $('input[name=height]', $choiceForm);
             }
         }
         

@@ -17,6 +17,7 @@ define([
      * @param {Object} options.stop - the x,y stop point of the shape (the size is the difference between start and stop)
      * @param {Object} [options.constraints] - define sizing constraints, ie. {x : true} for horizontal only sizing
      * @param {Number} [options.pointIndex] - for a path, this is the index of the point into the path
+     * @param {Function} [options.resized] - called back on resized
      */
     var resize =  function resize (element, options){
         var resizer;
@@ -30,7 +31,10 @@ define([
 
             if(_.isFunction(resizer)){
                 element.animate(
-                    resizer(options) 
+                    resizer(options),
+                    100,    
+                    'linear',
+                    _.isFunction(options.resized) ? options.resized : _.noop
                 );
             }
         }
