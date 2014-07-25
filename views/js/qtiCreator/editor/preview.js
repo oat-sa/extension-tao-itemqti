@@ -2,6 +2,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'util/strPad',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'json!taoQtiItem/qtiCreator/editor/resources/device-list.json',
     'tpl!taoQtiItem/qtiCreator/tpl/preview/preview',
@@ -13,7 +14,7 @@ define([
     'ui/modal',
     'select2',
     'jquery.cookie'
-], function($, _, __, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer, event, itemSerializer) {
+], function($, _, __, strPad, commonRenderer, deviceList, previewTpl, styleEditor, helpers, iframeResizer, event, itemSerializer) {
     'use strict';
 
     var overlay,
@@ -41,6 +42,7 @@ define([
         lastItemData,
         typeDependant,
         $feedbackBox,
+        $console,
         previewContainerMaxWidth;
 
 
@@ -154,13 +156,15 @@ define([
             '-ms-transform-origin': '0 0',
             'transform-origin': '0 0'
         });
-
-        _adaptUtilityBar();
     };
 
-    var _adaptUtilityBar = function() {
-        _computeScaleFactor();
-        $('.preview-utility-bar, .preview-message-box').width(screenSize.width);
+    /**
+     * position the preview depending on the height of the toolbar
+     *
+     * @private
+     */
+    var _positionPreview = function() {
+        $('.preview-canvas').css({ paddingTop: $('.preview-utility-bar').outerHeight() + 5 })
     };
 
 
@@ -176,10 +180,11 @@ define([
             y: 1
         };
 
-        // 150/200 = device frames plus toolbar plus some margin
+        // 150/200 = device frames plus toolbar plus console plus some margin
+
         var requiredSize = {
             width: maxDeviceSize.width + 150,
-            height: maxDeviceSize.height + 250
+            height: maxDeviceSize.height + 275
         };
 
         if (requiredSize.width > screenSize.width) {
@@ -312,6 +317,8 @@ define([
 
         $feedbackCloser.on('click', function() {
             $feedbackBox.hide();
+            _positionPreview();
+            _scale();
         });
 
         $hideForever.on('click', function(e) {
@@ -375,6 +382,41 @@ define([
         $selector.val(valueStr).data('value', valueStr);
     };
 
+    var _initConsole = function() {
+
+        var $body = $console.find('.preview-console-body'),
+            $listing = $body.find('ul'),
+            $closer = $console.find('.preview-console-closer');
+
+        $console.on('updateConsole', function(event, type, message){
+            var timer = new Date(),
+                logTime = [
+                    strPad(timer.getHours(), 2, '0', 'STR_PAD_LEFT'),
+                    strPad(timer.getMinutes(), 2, '0', 'STR_PAD_LEFT'),
+                    strPad(timer.getSeconds(), 2, '0', 'STR_PAD_LEFT')
+                ].join(':'),
+                msgStr = '<span class="log-time">' + strPad(logTime, 9, ' ') + '</span> '
+                    + '<span class="log-type">' + strPad(type, 13, ' ') + '</span> '
+                    + '<span class="log-message">' + strPad(message, 18, ' ') + '</span>';
+            $listing.append('<li><pre>' + msgStr + '</pre></li>');
+            if(!$body.is(':visible')) {
+                $body.slideDown('slow', function() {
+                    $closer.show();
+                    $listing.scrollTop(10000);
+                });
+            }
+            else {
+                $listing.scrollTop(10000);
+            }
+        });
+
+        $closer.on('click', function() {
+            $body.slideUp('slow', function() {
+                $closer.hide();
+            });
+        });
+    };
+
 
     /**
      * Remove possibly existing widgets and create a new one
@@ -396,12 +438,19 @@ define([
 
         $body.append(overlay);
 
+        $body.prop({oldOverflow: $body.css('overflow')});
+
         previewContainerMaxWidth = parseInt($('.preview-container').css('max-width'), 10);
 
         $feedbackBox = overlay.find('.preview-message-box');
         if($.cookie('hidePreviewFeedback')) {
             $feedbackBox.hide();
         }
+
+
+        $console = overlay.find('#preview-console');
+
+        _initConsole();
 
         _updateStandardPreviewSize();
 
@@ -464,12 +513,14 @@ define([
 
         //run the preview
         var preview = function() {
-            var $iframe = $('.preview-iframe'),
-                itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'quick=1';
+            var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'twosix=1';
 
-            iframeResizer.eventHeight($iframe);
-
-            $iframe.attr('src', itemUri);
+            $.ajax({
+                url: itemUri,
+                dataType: 'html'
+            }).done(function(data) {
+                $('.preview-item-container').html(data);
+            });
 
             previewType = $(launcher).data('preview-type') || 'desktop';
 
@@ -477,7 +528,11 @@ define([
             overlay.height($doc.outerHeight());
             overlay.find('select:visible').trigger('change');
 
+
             _scale();
+
+            _positionPreview();
+
             return true;
         };
 

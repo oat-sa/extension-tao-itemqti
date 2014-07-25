@@ -1,4 +1,7 @@
 @import "inc/bootstrap";
+
+$previewToolbarWidth: 900px;
+
 .preview-overlay {
     display: none;
     width: 100%;
@@ -41,11 +44,15 @@
     }
     .preview-utility-bar {
         background: mix(#fff, $grey, 85%);
+        border-bottom: 1px solid $websiteBorder;
         margin-bottom: 20px;
         z-index: 9996;
-        position: relative;
         overflow:hidden;
         padding: 10px;
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
         .preview-heading {
             min-width: 140px;
         }
@@ -56,7 +63,7 @@
     }
 
     .preview-utility-bar-inner {
-        width: 900px;
+        width: $previewToolbarWidth;
         margin: auto;
         h1 {
             @include font-size(18);
@@ -86,6 +93,67 @@
             margin-bottom: 0 !important;
         }
     }
+
+    #preview-console {
+        // reset from legacy code
+        margin: 0;
+        padding: 3px;
+        border: none;
+        z-index: auto;
+        // end reset
+
+        background: mix(#fff, $grey, 85%);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid $websiteBorder;
+        .preview-console-closer {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            &:hover {
+                color: $info;
+            }
+            display: none;
+        }
+        .preview-console-header {
+            width: $previewToolbarWidth;
+            margin: auto;
+            padding: 2px 0;
+        }
+        .preview-console-body {
+            margin: 2px;
+            display:none;
+            ul {
+                padding: 5px;
+                margin: 0;
+
+                height: 300px;
+                overflow: auto;
+                background: rgb(43, 43, 43);
+                border: 1px inset $websiteBorder;
+                font-family: $monospaceFont;
+                color: $textHighlight;
+                .log-time {
+                    color: #999;
+                }
+                .log-type {
+                    color: #eee;
+                }
+                .log-message {
+                    color: #69f;
+                }
+                pre {
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+
+
     .preview-message-box {
         .feedback-info {
             margin: 10px auto 0px;

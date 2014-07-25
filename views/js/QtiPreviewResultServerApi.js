@@ -1,4 +1,8 @@
-define(['jquery', 'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'], function($, pciResponse){
+define([
+    'jquery',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'util/strPad'],
+    function($, pciResponse, strPad){
 
     function QtiPreviewResultServerApi(endpoint, itemUri){
         this.endpoint = endpoint;
@@ -16,8 +20,22 @@ define(['jquery', 'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'], function(
 
     QtiPreviewResultServerApi.prototype.submitItemVariables = function(itemId, serviceCallId, responses, scores, events, params, callback){
         var _this = this;
+        // Log in preview console
+        var previewConsole = $('#preview-console');
+        var variableIdentifier;
+
+        for (variableIdentifier in responses) {
+            previewConsole.trigger('updateConsole', [
+                'Data sent', strPad(variableIdentifier + ': ', 10, ' ') + pciResponse.prettyPrint(responses[variableIdentifier])
+            ]);
+        }
+
+
         $.ajax({
-            url : this.endpoint + 'submitResponses?itemId=' + encodeURIComponent(itemId) + '&itemUri=' + encodeURIComponent(this.itemUri) + '&serviceCallId=' + encodeURIComponent(serviceCallId),
+            url : this.endpoint + 'submitResponses'
+                + '?itemId=' + encodeURIComponent(itemId)
+                + '&itemUri=' + encodeURIComponent(this.itemUri)
+                + '&serviceCallId=' + encodeURIComponent(serviceCallId),
             data : JSON.stringify(responses),
             contentType: 'application/json',
             type : 'post',
@@ -30,10 +48,10 @@ define(['jquery', 'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'], function(
 
                         fbCount = runner.showFeedbacks(r.itemSession, callback);
 
-                        // Log in preview console.
-                        var previewConsole = $('#preview-console');
                         for (var variableIdentifier in r.itemSession) {
-                            previewConsole.trigger('updateConsole', ['QTI Variable', variableIdentifier + ': ' + pciResponse.prettyPrint(r.itemSession[variableIdentifier])]);
+                            previewConsole.trigger('updateConsole', [
+                                'QTI Variable', strPad(variableIdentifier + ': ', 10, ' ') + pciResponse.prettyPrint(r.itemSession[variableIdentifier])
+                            ]);
                         }
                     }
                     if(!fbCount){

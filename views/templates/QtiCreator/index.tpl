@@ -17,7 +17,7 @@ use oat\taoQtiItem\helpers\Authoring;
         </div>
         <ul class="plain clearfix item-editor-menu lft">
             <li id="save-trigger"><span class="icon-save"></span><?=__('Save')?></li>
-            <li class="preview-trigger"><span class="icon-preview"></span><?=__('Quick Preview')?></li>
+            <li class="preview-trigger"><span class="icon-preview"></span><?=__('Preview')?></li>
             <li id="print-trigger"><span class="icon-print"></span><?=__('Print')?></li>
         </ul>
         <ul class="plain clearfix item-editor-menu rgt">
