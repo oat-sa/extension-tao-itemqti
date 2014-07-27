@@ -20,39 +20,32 @@ define([
          */
         var _handleScrolling = function ($itemContainer) {
 
-            // @todo causes unwanted scrolling in preview, nicer solution wanted
+                      // @todo causes unwanted scrolling in preview, nicer solution wanted
             if($('.preview-overlay').is(':visible')){
                 return;
             }
-            
-            var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
+
+             /* var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
                 areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop();
 
             elements.scrollInner[0].style.width = ($itemContainer.outerWidth() + sidePadding).toString() + 'px';
 
-            elements.scrollOuter.height(areaHeight);
-
-/*
-            // @todo causes unwanted scrolling in preview, nicer solution wanted
-            if($('.preview-overlay').is(':visible')){
-                return;
-            }
-
+            elements.scrollOuter.height(areaHeight);*/
 
             var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
                 requiredWidth = $itemContainer.outerWidth() + sidePadding,
                 availableWidth = elements.scrollInner.innerWidth(),
                 areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop(),
-                width = Math.max(requiredWidth, availableWidth);
+                actualWidth = Math.max(requiredWidth, availableWidth);
 
 
-            if(requiredWidth <= availableWidth) {
-                return;
-            }
-
-            elements.scrollInner[0].style.width = width + 'px';
-
-            elements.scrollOuter.height(areaHeight);*/
+//            if(requiredWidth <= availableWidth) {
+//                return;
+//            }
+//@todo compute max height
+            elements.scrollInner[0].style.width = actualWidth + 'px';
+            elements.scrollOuter[0].style.maxHeight = '600px'
+            elements.scrollOuter.height(areaHeight);
 
         };
 
