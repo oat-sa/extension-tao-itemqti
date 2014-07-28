@@ -1,5 +1,6 @@
 define([
     'jquery',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
@@ -8,9 +9,10 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'lodash',
     'util/image',
+    'ui/mediasizer',
     'ui/resourcemgr',
     'nouislider'
-], function($, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediasizer){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
@@ -40,7 +42,7 @@ define([
         }, 1000);
 
         return _.throttle(function(img, value, name){
-            
+
             if(value){
                 $img[propertyName](value);
                 _setAttr(img, value, name);
@@ -49,7 +51,7 @@ define([
                 img.removeAttr(propertyName);
             }
             $img.trigger('contentChange.qti-widget');
-            
+
         }, 100);
     };
 
@@ -60,33 +62,33 @@ define([
      */
     var _extractLabel = function extractLabel(fileName){
         return fileName
-                .replace(/\.[^.]+$/, '')
-                .replace(/^(.*)\//, '')
-                .replace(/\W/, ' ')
-                .substr(0, 255);
+            .replace(/\.[^.]+$/, '')
+            .replace(/^(.*)\//, '')
+            .replace(/\W/, ' ')
+            .substr(0, 255);
     };
 
     ImgStateActive.prototype.initForm = function(){
-        
+
         var _widget = this.widget,
             $img = _widget.$original,
             $form = _widget.$form,
             img = _widget.element,
             baseUrl = _widget.options.baseUrl,
             responsive = true;
-        
+
         $form.html(formTpl({
-            baseUrl     : baseUrl || '',
-            src         : img.attr('src'),
-            alt         : img.attr('alt'),
-            height      : img.attr('height'),
-            width       : img.attr('width'),
-            responsive  : responsive
+            baseUrl : baseUrl || '',
+            src : img.attr('src'),
+            alt : img.attr('alt'),
+            height : img.attr('height'),
+            width : img.attr('width'),
+            responsive : responsive
         }));
 
         //init slider and set align value before ...
         _initAdvanced(_widget);
-        _initSlider(_widget);
+        _initMediaSizer(_widget);
         _initAlign(_widget);
         _initUpload(_widget);
 
@@ -95,17 +97,18 @@ define([
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, img, {
-            src : function(img, value){
-                
+            src : _.throttle(function(img, value){
+
                 img.attr('src', value);
 
                 $img.attr('src', itemUtil.fullpath(value, baseUrl));
                 $img.trigger('contentChange.qti-widget').change();
-                
+
                 inlineHelper.togglePlaceholder(_widget);
-                _initSlider(_widget);
+                
                 _initAdvanced(_widget);
-            },
+                _initMediaSizer(_widget);
+            }, 1000),
             alt : function(img, value){
                 img.attr('alt', value);
             },
@@ -116,6 +119,7 @@ define([
             height : _getImgSizeChangeCallback($img, 'height'),
             width : _getImgSizeChangeCallback($img, 'width')
         });
+
     };
 
     var _initAlign = function(widget){
@@ -143,9 +147,9 @@ define([
             $height = $form.find('[name=height]'),
             $width = $form.find('[name=width]'),
             original = {
-                h : img.attr('height') || $img.height(),
-                w : img.attr('width') || $img.width()
-            };
+            h : img.attr('height') || $img.height(),
+            w : img.attr('width') || $img.width()
+        };
 
         $slider.noUiSlider({
             range : {
@@ -157,10 +161,10 @@ define([
 
         $slider.off('slide').on('slide', _.throttle(function(e, value){
             if(!original.w){
-               original.w = parseInt(img.attr('width'), 10); 
+                original.w = parseInt(img.attr('width'), 10);
             }
             if(!original.h){
-               original.h = parseInt(img.attr('height'), 10); 
+                original.h = parseInt(img.attr('height'), 10);
             }
             var ratio = (value / 100),
                 w = parseInt(ratio * original.w),
@@ -170,7 +174,20 @@ define([
             $height.val(h).change();
         }, 100));
     };
-
+    
+    var _initMediaSizer = function(widget){
+        
+        var $src = widget.$form.find('input[name=src]'),
+            $mediaResizer = widget.$form.find('.img-resizer');
+        
+        if($src.val()){
+            $mediaResizer.mediasizer({
+                target : widget.$original
+            });
+        }
+        
+    };
+    
     var _initAdvanced = function(widget){
 
         var $form = widget.$form,
@@ -194,9 +211,10 @@ define([
             $label = $form.find('input[name=alt]'),
             $width = $form.find('input[name=width]'),
             $height = $form.find('input[name=height]');
-
-        $uploadTrigger.on('click', function(){
+        
+        var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
+                title : __('Please select a file form the resource manager.'),
                 appendContainer : options.mediaManager.appendContainer,
                 root : '/',
                 browseUrl : options.mediaManager.browseUrl,
@@ -222,7 +240,7 @@ define([
                                 $height.val(size.height);
                             }
                             if($.trim($label.val()) === ''){
-                                label = _extractLabel(file);   
+                                label = _extractLabel(file);
                                 img.attr('alt', label);
                                 $label.val(label).trigger('change');
                             }
@@ -233,8 +251,15 @@ define([
                     }
                 }
             });
-        });
-
+        };
+        
+        $uploadTrigger.on('click', _openResourceMgr);
+        
+        //if empty, open file manager immediately
+        if(!$src.val()){
+            _openResourceMgr();
+        }
+        
     };
 
     return ImgStateActive;
