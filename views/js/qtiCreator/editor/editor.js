@@ -15,38 +15,31 @@ define([
             $doc = $(document);
 
         /**
+         * Handle item scrolling
          *
          * @private
          */
         var _handleScrolling = function ($itemContainer) {
 
-                      // @todo causes unwanted scrolling in preview, nicer solution wanted
-            if($('.preview-overlay').is(':visible')){
-                return;
-            }
-
-             /* var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
-                areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop();
-
-            elements.scrollInner[0].style.width = ($itemContainer.outerWidth() + sidePadding).toString() + 'px';
-
-            elements.scrollOuter.height(areaHeight);*/
-
-            var sidePadding = elements.scrollInner.outerWidth() - elements.scrollInner.width(),
+            var sidePadding = parseInt(elements.scrollInner.css('padding-left')) * 2,
                 requiredWidth = $itemContainer.outerWidth() + sidePadding,
                 availableWidth = elements.scrollInner.innerWidth(),
                 areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop(),
                 actualWidth = Math.max(requiredWidth, availableWidth);
 
+            // max-height = 'none' on first run, here set to the height calculated by _adaptHeight()
+            if(isNaN(parseInt(elements.scrollOuter.css('max-height')))) {
+                elements.scrollOuter.css('max-height', elements.itemPanel.css('height'));
+                elements.itemPanel.css('height', '');
+            }
 
-//            if(requiredWidth <= availableWidth) {
-//                return;
-//            }
-//@todo compute max height
-            elements.scrollInner[0].style.width = actualWidth + 'px';
-            elements.scrollOuter[0].style.maxHeight = '600px'
+            if(requiredWidth > availableWidth) {
+                elements.scrollInner[0].style.width = actualWidth + 'px';
+            }
+            else {
+                elements.scrollInner.width('');
+            }
             elements.scrollOuter.height(areaHeight);
-
         };
 
 
@@ -224,6 +217,8 @@ define([
             var height = 0;
             elements.columns.each(function () {
                 var block = $(this);
+
+                console.log(block.height());
                 height = Math.max(block.height(), height);
             }).height(height);
         };
@@ -300,6 +295,8 @@ define([
 
             _setupElements();
 
+            adaptHeight();
+
             buildSubGroups();
 
             // toggle blocks in sidebar
@@ -309,7 +306,6 @@ define([
             // close all
             closeSections(elements.sidebars.find(section));
 
-            //adaptHeight();
 
             /* At the time of writing this the following sections are available:
              *
@@ -337,7 +333,7 @@ define([
             
             var _scroll = _.throttle(function(e){
                 _handleScrolling($itemContainer);
-            }, 60);
+            }, 150);
             
             _scroll();
 
