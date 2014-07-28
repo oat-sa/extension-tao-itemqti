@@ -217,8 +217,6 @@ define([
             var height = 0;
             elements.columns.each(function () {
                 var block = $(this);
-
-                console.log(block.height());
                 height = Math.max(block.height(), height);
             }).height(height);
         };
