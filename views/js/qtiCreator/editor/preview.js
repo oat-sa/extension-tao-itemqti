@@ -388,7 +388,8 @@ define([
             $listing = $body.find('ul'),
             $closer = $console.find('.preview-console-closer');
 
-        $console.on('updateConsole', function(event, type, message){
+        $console.off('updateConsole').on('updateConsole', function(event, type, message){
+            
             var timer = new Date(),
                 logTime = [
                     strPad(timer.getHours(), 2, '0', 'STR_PAD_LEFT'),
@@ -396,9 +397,11 @@ define([
                     strPad(timer.getSeconds(), 2, '0', 'STR_PAD_LEFT')
                 ].join(':'),
                 msgStr = '<span class="log-time">' + strPad(logTime, 9, ' ') + '</span> '
-                    + '<span class="log-type">' + strPad(type, 13, ' ') + '</span> '
+                    + '<span class="log-type">' + strPad(type, 18, ' ') + '</span> '
                     + '<span class="log-message">' + strPad(message, 18, ' ') + '</span>';
+                
             $listing.append('<li><pre>' + msgStr + '</pre></li>');
+            
             if(!$body.is(':visible')) {
                 $body.slideDown('slow', function() {
                     $closer.show();
@@ -409,12 +412,13 @@ define([
                 $listing.scrollTop(10000);
             }
         });
-
+        
         $closer.on('click', function() {
             $body.slideUp('slow', function() {
                 $closer.hide();
             });
         });
+        
     };
 
 
