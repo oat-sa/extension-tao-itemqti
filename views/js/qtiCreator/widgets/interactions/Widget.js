@@ -62,7 +62,8 @@ define([
         });
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
-
+        
+        //@todo : implement movable interaction here:
 //        movable.create(this);
 
         return this;

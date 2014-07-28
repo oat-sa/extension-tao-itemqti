@@ -279,7 +279,139 @@ define(['jquery', 'lodash'], function($, _){
             return (_.indexOf(parents, topClass) >= 0);
         }
     };
-
+    
+    QtiElements.getAvailableAuthoringElements = function(){
+        
+        return {
+            choiceInteraction : {
+                title : __('Choice Interaction'),
+                icon : 'choice',
+                short : __('Choice'),
+                qtiClass : 'choiceInteraction',
+                tags:['Common Interaction', 'mcq']
+            },
+            orderInteraction : {
+                title : __('Order Interaction'),
+                icon : 'order',
+                short : __('Order'),
+                qtiClass : 'orderInteraction',
+                tags:['Common Interaction', 'ordering']
+            },
+            associateInteraction : {
+                title : __('Associate Interaction'),
+                icon : 'associate',
+                short : __('Associate'),
+                qtiClass : 'associateInteraction',
+                tags:['Common Interaction', 'association']
+            },
+            matchInteraction : {
+                title : __('Match Interaction'),
+                icon : 'match',
+                short : __('Match'),
+                qtiClass : 'matchInteraction',
+                tags:['Common Interaction', 'association']
+            },
+            hottextInteraction : {
+                title : __('Hottext Interaction'),
+                icon : 'hottext',
+                short : __('Hottext'),
+                qtiClass : 'hottextInteraction',
+                tags:['Common Interaction', 'text']
+            },
+            gapMatchInteraction : {
+                title : __('Gap Match Interaction'),
+                icon : 'gap-match',
+                short : __('Gap Match'),
+                qtiClass : 'gapMatchInteraction',
+                tags:['Common Interaction', 'text', 'association']
+            },
+            sliderInteraction : {
+                title : __('Slider Interaction'),
+                icon : 'slider',
+                short : __('Slider'),
+                qtiClass : 'sliderInteraction',
+                tags:['Common Interaction', 'special']
+            },
+            extendedTextInteraction : {
+                title : __('Extended Text Interaction'),
+                icon : 'extended-text',
+                short : __('Extended Text'),
+                qtiClass : 'extendedTextInteraction',
+                tags:['Common Interaction', 'text']
+            },
+            uploadInteraction : {
+                title : __('File Upload Interaction'),
+                icon : 'upload',
+                short : __('File Upload'),
+                qtiClass : 'uploadInteraction',
+                tags:['Common Interaction', 'special']
+            },
+            mediaInteraction : {
+                title : __('Media Interaction'),
+                icon : 'media',
+                short : __('Media'),
+                qtiClass : 'mediaInteraction',
+                tags:['Common Interaction', 'media']
+            },
+            _container : {
+                title : __('Text Block Interaction'),
+                icon : 'font',
+                short : __('Block'),
+                qtiClass : '_container',
+                tags:['Inline Interactions', 'text']
+            },
+            inlineChoiceInteraction : {
+                title : __('Inline Choice Interaction'),
+                icon : 'inline-choice',
+                short : __('Inline Choice'),
+                qtiClass : 'inlineChoiceInteraction',
+                tags:['Inline Interactions', 'inline-interactions', 'mcq']
+            },
+            textEntryInteraction : {
+                title : __('Text Entry Interaction'),
+                icon : 'text-entry',
+                short : __('Text Entry'),
+                qtiClass : 'textEntryInteraction',
+                tags:['Inline Interactions', 'inline-interactions', 'text']
+            },
+            hotspotInteraction : {
+                title : __('Hotspot Interaction'),
+                icon : 'hotspot',
+                short : __('Hotspot'),
+                qtiClass : 'hotspotInteraction',
+                tags:['Graphic Interactions', 'mcq']
+            },
+            graphicOrderInteraction : {
+                title : __('Graphic Order Interaction'),
+                icon : 'graphic-order',
+                short : __('Graphic Order'),
+                qtiClass : 'graphicOrderInteraction',
+                tags:['Graphic Interactions', 'ordering']
+            },
+            graphicAssociateInteraction : {
+                title : __('Graphic Associate Interaction'),
+                icon : 'graphic-associate',
+                short : __('Graphic Associate'),
+                qtiClass : 'graphicAssociateInteraction',
+                tags:['Graphic Interactions', 'association']
+            },
+            graphicGapMatchInteraction : {
+                title : __('Choice Interaction'),
+                icon : 'graphic-gap',
+                short : __('Graphic Gap'),
+                qtiClass : 'graphicGapMatchInteraction',
+                tags:['Graphic Interactions', 'association']
+            },
+            selectPointInteraction : {
+                title : __('Select Point Interaction'),
+                icon : 'select-point',
+                short : __('Select Point'),
+                qtiClass : 'selectPointInteraction',
+                tags:['Graphic Interactions']
+            }
+        };
+    };
+    
     return QtiElements;
 
 });
