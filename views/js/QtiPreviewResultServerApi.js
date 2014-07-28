@@ -23,13 +23,12 @@ define([
         // Log in preview console
         var previewConsole = $('#preview-console');
         var variableIdentifier;
-
+        
         for (variableIdentifier in responses) {
             previewConsole.trigger('updateConsole', [
-                'Data sent', strPad(variableIdentifier + ': ', 10, ' ') + pciResponse.prettyPrint(responses[variableIdentifier])
+                'Submitted data', strPad(variableIdentifier + ': ', 15, ' ') + pciResponse.prettyPrint(responses[variableIdentifier])
             ]);
         }
-
 
         $.ajax({
             url : this.endpoint + 'submitResponses'
@@ -50,7 +49,7 @@ define([
 
                         for (var variableIdentifier in r.itemSession) {
                             previewConsole.trigger('updateConsole', [
-                                'QTI Variable', strPad(variableIdentifier + ': ', 10, ' ') + pciResponse.prettyPrint(r.itemSession[variableIdentifier])
+                                'Output data', strPad(variableIdentifier + ': ', 15, ' ') + pciResponse.prettyPrint(r.itemSession[variableIdentifier])
                             ]);
                         }
                     }
