@@ -115,9 +115,9 @@ define([
             longdesc : formElement.getAttributeChangeCallback(),
             align : function(img, value){
                 inlineHelper.positionFloat(_widget, value);
-            },
+            }/*,
             height : _getImgSizeChangeCallback($img, 'height'),
-            width : _getImgSizeChangeCallback($img, 'width')
+            width : _getImgSizeChangeCallback($img, 'width')*/
         });
 
     };
@@ -179,8 +179,12 @@ define([
         
         var $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer');
+
         
         if($src.val()){
+            widget.$original[0].setAttribute('width', '100%');
+            widget.$original[0].setAttribute('height', '');
+            
             $mediaResizer.mediasizer({
                 target : widget.$original
             });

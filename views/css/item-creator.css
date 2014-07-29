@@ -153,6 +153,7 @@
   content: "\1cb"; }
 
 .preview-overlay {
+  overflow: hidden;
   display: none;
   width: 100%;
   height: 100%;

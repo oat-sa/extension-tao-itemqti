@@ -17,7 +17,7 @@ define(['jquery', 'lodash'], function($, _){
                 'contenteditable' : 'false'
             });
             widget.$container = widget.$original.wrap($wrap).parent();
-            
+
             var textNode = widget.$container[0].nextSibling;
             if(textNode){
                 //@todo : make text cursor positioning after an inline widget easier
