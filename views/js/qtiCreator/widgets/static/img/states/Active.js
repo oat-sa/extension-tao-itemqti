@@ -23,11 +23,6 @@ define([
         this.widget.$form.empty();
     });
 
-    var _containClass = function(allClassStr, className){
-        var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-        return allClassStr && regex.test(allClassStr);
-    };
-
     /**
      * Greatly throttled callback function
      * 
@@ -105,7 +100,7 @@ define([
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
-                
+
                 _initAdvanced(_widget);
                 _initMediaSizer(_widget);
             }, 1000),
@@ -115,9 +110,7 @@ define([
             longdesc : formElement.getAttributeChangeCallback(),
             align : function(img, value){
                 inlineHelper.positionFloat(_widget, value);
-            }/*,
-            height : _getImgSizeChangeCallback($img, 'height'),
-            width : _getImgSizeChangeCallback($img, 'width')*/
+            }
         });
 
     };
@@ -174,24 +167,59 @@ define([
             $height.val(h).change();
         }, 100));
     };
-    
+
     var _initMediaSizer = function(widget){
-        
-        var $src = widget.$form.find('input[name=src]'),
+
+        var img = widget.element,
+            $src = widget.$form.find('input[name=src]'),
             $mediaResizer = widget.$form.find('.img-resizer');
 
-        
         if($src.val()){
-            widget.$original[0].setAttribute('width', '100%');
-            widget.$original[0].setAttribute('height', '');
-            
+
+            //init data-responsive:
+            if(img.data('responsive') === undefined){
+                if(img.attr('width') && !/[0-9]+%/.test(img.attr('width'))){
+                    img.data('responsive', false);
+                }else{
+                    img.data('responsive', true);
+                }
+            }
+
+            //hack to fix the initial width issue:
+            if(img.data('responsive')){
+                widget.$original[0].setAttribute('width', img.attr('width'));
+                widget.$original[0].setAttribute('height', '');
+            }
+
+            //init media sizer
             $mediaResizer.mediasizer({
+                responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
                 target : widget.$original
             });
+
+            //nind modification events
+            $mediaResizer
+                .off('.mediasizer')
+                .on('responsiveswitch.mediasizer', function(e, responsive){
+                
+                    img.data('responsive', responsive);
+                    
+                })
+                .on('sizechange.mediasizer', function(e, size){
+
+                _(['width', 'height']).each(function(sizeAttr){
+                    if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
+                        img.removeAttr(sizeAttr);
+                    }else{
+                        img.attr(sizeAttr, size[sizeAttr]);
+                    }
+                });
+
+            });
         }
-        
+
     };
-    
+
     var _initAdvanced = function(widget){
 
         var $form = widget.$form,
@@ -215,7 +243,7 @@ define([
             $label = $form.find('input[name=alt]'),
             $width = $form.find('input[name=width]'),
             $height = $form.find('input[name=height]');
-        
+
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
                 title : __('Please select a file form the resource manager.'),
@@ -256,14 +284,14 @@ define([
                 }
             });
         };
-        
+
         $uploadTrigger.on('click', _openResourceMgr);
-        
+
         //if empty, open file manager immediately
         if(!$src.val()){
             _openResourceMgr();
         }
-        
+
     };
 
     return ImgStateActive;
