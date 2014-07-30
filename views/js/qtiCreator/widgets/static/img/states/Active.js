@@ -246,7 +246,7 @@ define([
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
-                title : __('Please select a file form the resource manager.'),
+                title : __('Please select an image file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
                 root : '/',
                 browseUrl : options.mediaManager.browseUrl,
@@ -281,6 +281,16 @@ define([
                             });
                         });
                     }
+                },
+                open : function(){
+                    //hide tooltip if displayed
+                    if($src.hasClass('tooltipstered')){
+                        $src.blur().tooltipster('hide');
+                    }
+                },
+                close : function(){
+                    //triggers validation : 
+                    $src.blur();
                 }
             });
         };

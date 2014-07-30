@@ -209,7 +209,10 @@ define([
             rule = _.where(results, {type : 'failure'})[0];
             if(rule && rule.data.message){
                 $input.tooltipster('content', rule.data.message);
-                $input.tooltipster('show');
+                if(!$('#mediaManager').children('.opened').length){
+                    //only show it when the filemanager is hidden
+                    $input.tooltipster('show');
+                }
             }
 
         }
