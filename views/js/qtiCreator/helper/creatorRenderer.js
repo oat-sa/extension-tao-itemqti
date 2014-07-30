@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery'], function(Renderer, helpers, $){
+define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery', 'util/dom'], function(Renderer, helpers, $, dom){
 
     //configure and instanciate once only:
     var _creatorRenderer = null;
@@ -7,7 +7,7 @@ define(['taoQtiItem/qtiCreator/renderers/Renderer', 'helpers', 'jquery'], functi
         
         if(!_creatorRenderer 
             || !_creatorRenderer.getOption('bodyElementOptionForm') 
-            || !$.contains(document, _creatorRenderer.getOption('bodyElementOptionForm')[0])){
+            || !dom.contains(_creatorRenderer.getOption('bodyElementOptionForm'))){
             
             _creatorRenderer = new Renderer({
                 baseUrl : '',
