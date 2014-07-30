@@ -177,6 +177,7 @@ define([
                  */ 
                 function startResize (){ 
                     var handler  = this; 
+                    var bbox;
                     self.setState('resizing', true)
                         .trigger('shapechanging.qti-widget');
                     
@@ -184,6 +185,12 @@ define([
                     self.layer = self.shape.clone();
                     self.layer.attr(graphicHelper._style.basic);
                     self.layer.attr('cursor', handler.attrs.cursor);
+
+                    bbox = self.layer.getBBox();
+                    self.layerTxt = graphicHelper.createShapeText(paper, self.layer, { 
+                        style   : 'layer-pos-text',
+                        content : parseInt(bbox.width, 10) + ' x ' + parseInt(bbox.height, 10) 
+                    });
 
                     if(self.shape.type === 'path'){
                        _.forEach(self.shape.attr('path'), function(point, index){
@@ -212,7 +219,11 @@ define([
                         stopPoint = graphicHelper.getPoint(event, paper, $container, isResponsive);
                         options =  {
                             stop        : stopPoint,
-                            constraints : this.data('constraints')
+                            constraints : this.data('constraints'),
+                            resized     : _.throttle(function(){
+                                var bbox = this.getBBox();
+                                self.layerTxt.attr('text',  parseInt(bbox.width, 10) + ' x ' + parseInt(bbox.height, 10) );
+                            }, 100)
                         };
 
                         if(self.shape.type === 'path'){
@@ -222,7 +233,9 @@ define([
                         }
 
                         shapeResizer(self.layer, options);
+                         
 
+                        
                         if(this.type === 'circle'){
                             this.animate({
                                 cx : stopPoint.x,
@@ -250,6 +263,7 @@ define([
                         }
                     );
                     self.layer.remove();
+                    self.layerTxt.remove();
                     
                     _.invoke(self.handlers, 'remove');
                     self.handlers = [];

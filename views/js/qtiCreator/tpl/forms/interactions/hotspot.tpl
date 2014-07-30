@@ -22,7 +22,7 @@
 
     <div class="panel">
         <label for="type">{{__ 'Mime Type'}}</label>
-        <input name="type" value="{{type}}" type="text" />
+        <input name="type" value="{{type}}" type="text" readonly />
     </div>
 
     <hr>

@@ -56,7 +56,7 @@ define([
         preparePrint();
 
 
-        editor.initGui();
+        editor.initGui(widget);
 
     };
 
@@ -76,7 +76,7 @@ define([
             //load item from REST service
             loader.loadItem({uri : config.uri}, function(item){
 
-                var $itemContainer = $('#item-editor-scroll-area');
+                var $itemContainer = $('#item-editor-scroll-inner');
 
                 //configure commonRenderer for the preview
                 commonRenderer.setOption('baseUrl', config.baseUrl);

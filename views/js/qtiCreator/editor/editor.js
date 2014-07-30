@@ -1,32 +1,45 @@
 define([
+    'lodash',
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltipster'
-], function ($, __, tooltipTpl, tooltip) {
+], function (_, $, __, tooltipTpl, tooltip) {
 
     'use strict';
 
     var editor = (function () {
 
-        var elements = {};
+        var elements = {},
+            $win = $(window),
+            $doc = $(document);
 
         /**
+         * Handle item scrolling
          *
          * @private
          */
-        var _handleScrolling = function () {
+        var _handleScrolling = function ($itemContainer) {
 
-            var $item = $('.qti-item');
+            var sidePadding = parseInt(elements.scrollInner.css('padding-left')) * 2,
+                requiredWidth = $itemContainer.outerWidth() + sidePadding,
+                availableWidth = elements.scrollInner.innerWidth(),
+                areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop(),
+                actualWidth = Math.max(requiredWidth, availableWidth);
 
-            // @todo: test only: remove this
-            $item[0].style.width = '888px';
-            $item[0].style.height = '1000px';
+            // max-height = 'none' on first run, here set to the height calculated by _adaptHeight()
+            if(isNaN(parseInt(elements.scrollOuter.css('max-height')))) {
+                elements.scrollOuter.css('max-height', elements.itemPanel.css('height'));
+                elements.itemPanel.css('height', '');
+            }
 
-            elements.scrollArea.width(elements.itemPanel.outerWidth());
-            elements.scrollArea.height($(window).height() - elements.itemPanel.offset().top);
-            elements.itemPanel.width(elements.itemPanel.innerWidth())
-            elements.scrollArea.height(300);
+            if(requiredWidth > availableWidth) {
+                elements.scrollInner[0].style.width = actualWidth + 'px';
+            }
+            else {
+                elements.scrollInner.width('');
+            }
+            elements.scrollOuter.height(areaHeight);
         };
 
 
@@ -38,7 +51,8 @@ define([
                     sidebars: '.item-editor-sidebar',
                     itemBar: '#item-editor-item-bar',
                     itemPanel: '#item-editor-panel',
-                    scrollArea: '#item-editor-scroll-area'
+                    scrollOuter: '#item-editor-scroll-outer',
+                    scrollInner: '#item-editor-scroll-inner'
                 },
                 element;
             for (element in _elements) {
@@ -273,10 +287,13 @@ define([
         /**
          * Initialize interface
          */
-        var initGui = function () {
-
+        var initGui = function (widget) {
+            
+            var $itemContainer = widget.$container;
 
             _setupElements();
+
+            adaptHeight();
 
             buildSubGroups();
 
@@ -287,7 +304,6 @@ define([
             // close all
             closeSections(elements.sidebars.find(section));
 
-            //adaptHeight();
 
             /* At the time of writing this the following sections are available:
              *
@@ -312,8 +328,18 @@ define([
 
             // display toolbar and sidebar
             //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
+            
+            var _scroll = _.throttle(function(e){
+                _handleScrolling($itemContainer);
+            }, 150);
+            
+            _scroll();
 
-            _handleScrolling();
+            $doc.on('scroll', _scroll);
+            
+            $itemContainer.on('resize', _scroll);
+            
+            $win.on('resize orientationchange', _scroll);
 
         };
 

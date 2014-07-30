@@ -3,6 +3,7 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
+    'util/dom',
     'ui/incrementer',
     'ui/tooltipster',
     'ui/selecter',
@@ -10,7 +11,7 @@ define([
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
-], function($, _, __, Element, spinner, tooltip, select2){
+], function($, _, __, Element, dom, spinner, tooltip, select2){
 
     var formElement = {
         initWidget : function($form){
@@ -198,21 +199,30 @@ define([
 
         var $input = $(this),
             rule;
+        
+        if(dom.contains($input)){
+            
+            _createTooltip($input);
+            
+            $input.tooltipster('hide');
 
-        _createTooltip($input);
+            if(!valid){
 
-        $input.tooltipster('hide');
+                //invalid input!
+                rule = _.where(results, {type : 'failure'})[0];
+                if(rule && rule.data.message){
+                    $input.tooltipster('content', rule.data.message);
+                    if(!$('#mediaManager').children('.opened').length){
+                        //only show it when the filemanager is hidden
+                        $input.tooltipster('show');
+                    }
+                }
 
-        if(!valid){
-
-            //invalid input!
-            rule = _.where(results, {type : 'failure'})[0];
-            if(rule && rule.data.message){
-                $input.tooltipster('content', rule.data.message);
-                $input.tooltipster('show');
             }
-
+        
         }
+        
+        
 
     };
 

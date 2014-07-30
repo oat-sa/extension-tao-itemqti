@@ -15,21 +15,11 @@
 
 
 <div data-role="advanced" style="display:none">
-    <div class="panel">
+    
+    <hr/>
+    
+<!--    <div class="panel">
         <h3>{{__ 'Size and position'}}</h3>
-
-        <!--not available yet-->
-        <!--    <label>
-        <input name="responsive" type="checkbox" />
-        <span class="icon-checkbox"></span>
-        {{__ 'Adapt to item size'}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-        Recommended.
-        Define whether the image size should automatically adapt to item size.
-        If this option is active, the image width and height will be a percentage of its text container.
-    </span>-->
 
         <p class="img-resizer-slider"></p>
 
@@ -55,5 +45,9 @@
             <option value="left">{{__ 'left'}}</option>
             <option value="right">{{__ 'right'}}</option>
         </select>
-    </div>
+    </div>-->
+    
+    <h3>{{__ 'Size and position'}}</h3>
+    <div class="panel img-resizer"></div>
+    
 </div>

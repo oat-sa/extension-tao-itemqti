@@ -16,14 +16,9 @@ define([
             this.registerStates(states);            
             Widget.initCreator.call(this);
             
-            var resizingEvents = [
-                'resize.gridEdit.'+ this.element.serial,
-                'resize.qti-widget.'+ this.element.serial
-            ];
-            
             $item
               .off('.' + this.element.serial)
-              .on(resizingEvents.join(' '), _.throttle(function(e){
+              .on('resize.'+ this.element.serial, _.throttle(function(e){
                 
                     var width = $container.innerWidth();
                     if(width > 0){

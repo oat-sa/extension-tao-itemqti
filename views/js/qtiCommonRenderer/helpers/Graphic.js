@@ -545,8 +545,6 @@ define([
          * @param {Raphael.Paper} paper - the paper
          * @param {Raphael.Element} shape - the shape to add the text to
          * @param {Object} options - the text options
-         * @param {Number} options.left - x coord
-         * @param {Number} options.top - y coord
          * @param {String} [options.content] - the text content
          * @param {String} [options.id] - the element identifier
          * @param {String} [options.style = 'small-text'] - the style name according to the graphic-style.json keys

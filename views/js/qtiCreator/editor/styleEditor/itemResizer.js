@@ -46,6 +46,8 @@ define([
             val = parseInt(val).toString() + 'px';
             styleEditor.apply(target, 'width', val);
             styleEditor.apply(target, 'max-width', 'none');
+            
+            item.data('widget').$container.trigger('resize.itemResizer');
         };
 
         /**

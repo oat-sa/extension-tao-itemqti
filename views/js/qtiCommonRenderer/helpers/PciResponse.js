@@ -1,4 +1,4 @@
-define(['lodash'], function(_){
+define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], function(_, prettyPrint){
 
     var _qtiModelPciResponseCardinalities = {
         single : 'base',
@@ -67,7 +67,7 @@ define(['lodash'], function(_){
         }
         return print;
     };
-    
+
     return {
         
         /**
@@ -171,10 +171,11 @@ define(['lodash'], function(_){
             
             if (typeof response.base !== 'undefined') {
                 // -- BaseType.
-                print += _prettyPrintBase(response, true);
+                print += prettyPrint.printBase(response, true);
             }
             else if (typeof response.list !== 'undefined') {
-                // @todo pretty print of lists.
+                // -- ListType
+                print += prettyPrint.printList(response, true);
             }
             else if (typeof response.record !== 'undefined') {
                 // @todo pretty print of records.
