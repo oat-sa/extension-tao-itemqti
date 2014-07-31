@@ -213,6 +213,9 @@ define([
                     }else{
                         img.attr(sizeAttr, size[sizeAttr]);
                     }
+                    
+                    //trigger choice container size adaptation
+                    widget.$container.trigger('contentChange.qti-widget');
                 });
 
             });

@@ -6,8 +6,6 @@ define([
 
     var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){
         
-        var $container = this.widget.$container;
-        
         var resultArea = this.widget.$container.find('.result-area'),
             choiceArea = this.widget.$container.find('.choice-area'),
             addOption = choiceArea.find('.add-option'),
@@ -15,7 +13,7 @@ define([
                 return choiceArea.find('.qti-choice').add(resultArea.find('.target')).add(addOption);
             };
 
-        this.widget.on('containerBodyChange', function(){
+        this.widget.on('containerBodyChange contentChange', function(){
             adaptSize.height(getElements());
         });
         
