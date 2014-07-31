@@ -154,13 +154,12 @@ define([
                 $mediaSpan.css('width', img.attr('width'))
                 $mediaSpan.css('height', '')
             }
-
+            
             //init media sizer
             $mediaResizer.mediasizer({
                 responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
                 target : widget.$original,
-                applyToMedium: false,
-                parentSelector: '[class*="col-"]'
+                applyToMedium: false
             });
 
             //bind modification events
@@ -212,9 +211,7 @@ define([
             img = widget.element,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
-            $label = $form.find('input[name=alt]'),
-            $width = $form.find('input[name=width]'),
-            $height = $form.find('input[name=height]');
+            $label = $form.find('input[name=alt]');
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
