@@ -11,6 +11,9 @@ define([
                 src : '',
                 alt : ''
             };
+        },
+        afterCreate : function(){
+            this.data('responsive', true);
         }
     });
     return Img.extend(methods);
