@@ -130,49 +130,13 @@ define([
         widget.$form.find('select[name=align]').val(align);
     };
 
-    var _initSlider = function(widget){
-
-        var $container = widget.$container,
-            $form = widget.$form,
-            $slider = $form.find('.img-resizer-slider'),
-            img = widget.element,
-            $img = $container.find('img'),
-            $height = $form.find('[name=height]'),
-            $width = $form.find('[name=width]'),
-            original = {
-            h : img.attr('height') || $img.height(),
-            w : img.attr('width') || $img.width()
-        };
-
-        $slider.noUiSlider({
-            range : {
-                min : 10,
-                max : 200
-            },
-            start : 100
-        }, $slider.hasClass('noUi-target'));
-
-        $slider.off('slide').on('slide', _.throttle(function(e, value){
-            if(!original.w){
-                original.w = parseInt(img.attr('width'), 10);
-            }
-            if(!original.h){
-                original.h = parseInt(img.attr('height'), 10);
-            }
-            var ratio = (value / 100),
-                w = parseInt(ratio * original.w),
-                h = parseInt(ratio * original.h);
-
-            $width.val(w).change();
-            $height.val(h).change();
-        }, 100));
-    };
 
     var _initMediaSizer = function(widget){
 
         var img = widget.element,
             $src = widget.$form.find('input[name=src]'),
-            $mediaResizer = widget.$form.find('.img-resizer');
+            $mediaResizer = widget.$form.find('.img-resizer'),
+            $mediaSpan = widget.$container;
 
         if($src.val()){
 
@@ -187,17 +151,19 @@ define([
 
             //hack to fix the initial width issue:
             if(img.data('responsive')){
-                widget.$original[0].setAttribute('width', img.attr('width'));
-                widget.$original[0].setAttribute('height', '');
+                $mediaSpan.css('width', img.attr('width'))
+                $mediaSpan.css('height', '')
             }
 
             //init media sizer
             $mediaResizer.mediasizer({
                 responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
-                target : widget.$original
+                target : widget.$original,
+                applyToMedium: false,
+                parentSelector: '[class*="col-"]'
             });
 
-            //nind modification events
+            //bind modification events
             $mediaResizer
                 .off('.mediasizer')
                 .on('responsiveswitch.mediasizer', function(e, responsive){
@@ -207,11 +173,14 @@ define([
                 })
                 .on('sizechange.mediasizer', function(e, size){
 
+
                 _(['width', 'height']).each(function(sizeAttr){
                     if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
                         img.removeAttr(sizeAttr);
+                        $mediaSpan.css(sizeAttr, '')
                     }else{
                         img.attr(sizeAttr, size[sizeAttr]);
+                        $mediaSpan.css(sizeAttr, size[sizeAttr])
                     }
                     
                     //trigger choice container size adaptation
@@ -267,13 +236,7 @@ define([
                     if(files && files.length){
                         file = files[0].file;
                         imageUtil.getSize(options.baseUrl + file, function(size){
-                            if(size && size.width >= 0){
-                                //update manually the object, to prevent the throttling used by the slider
-                                img.attr('width', parseInt(size.width, 10));
-                                img.attr('height', parseInt(size.height, 10));
-                                $width.val(size.width);
-                                $height.val(size.height);
-                            }
+
                             if($.trim($label.val()) === ''){
                                 label = _extractLabel(file);
                                 img.attr('alt', label);

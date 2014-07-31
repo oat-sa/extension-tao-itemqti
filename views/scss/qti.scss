@@ -9,6 +9,12 @@
     &.runtime {
         min-height: 100%;
     }
+
+    [class*="col-"] {
+        img {
+            max-width: auto;
+        }
+    }
 }
 
 %selectableHover {

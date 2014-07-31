@@ -71,6 +71,7 @@ define([
             var $tabNav = $('ul.ui-tabs-nav > li', $tabs);
             var currentTab = $tabs.tabs('option', 'selected');
 
+
             $loader.css('left', '-10000px');
 
             //load item from REST service
