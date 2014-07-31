@@ -24,33 +24,6 @@ define([
     });
 
     /**
-     * Greatly throttled callback function
-     * 
-     * @param {jQuery} $img
-     * @param {string} propertyName
-     * @returns {function}
-     */
-    var _getImgSizeChangeCallback = function($img, propertyName){
-
-        var _setAttr = _.debounce(function(img, value, name){
-            img.attr(name, value);
-        }, 1000);
-
-        return _.throttle(function(img, value, name){
-
-            if(value){
-                $img[propertyName](value);
-                _setAttr(img, value, name);
-            }else{
-                $img[propertyName]('auto');
-                img.removeAttr(propertyName);
-            }
-            $img.trigger('contentChange.qti-widget');
-
-        }, 100);
-    };
-
-    /**
      * Extract a default label from a file/path name
      * @param {String} fileName - the file/path
      * @returns {String} a label
