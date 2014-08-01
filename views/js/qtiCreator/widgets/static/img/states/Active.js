@@ -140,12 +140,12 @@ define([
                 .off('.mediasizer')
                 .on('responsiveswitch.mediasizer', function(e, responsive){
 
-                img.data('responsive', responsive);
+                    img.data('responsive', responsive);
 
-            })
+                })
                 .on('sizechange.mediasizer', function(e, size){
 
-
+                
                 _(['width', 'height']).each(function(sizeAttr){
                     if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
                         img.removeAttr(sizeAttr);
@@ -220,7 +220,7 @@ define([
                                 if(w >= maxW * 0.95){
                                     img.attr('width', '100%');
                                 }else{
-                                    w = 100*w/maxW;
+                                    w = parseInt(100*w/maxW);
                                     img.attr('width', w+'%');
                                 }
                                 img.removeAttr('height');
