@@ -24,6 +24,10 @@
                 right:auto;
                 left:-86px;
             }
+            [contenteditable="false"] .mini-tlb{
+                right:-32px !important;
+                left:auto !important;
+            }
         }
         td{
             input[disabled] ~ [class^="icon-"]{

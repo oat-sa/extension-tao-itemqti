@@ -65,13 +65,17 @@ define([
         $('.qti-item').on('toolbarchange', function() {
             $matchArea.find('tbody .mini-tlb').each(function() {
                 var $toolbar = $(this);
-                $toolbar.css({ left: ($toolbar.width() + 10) * -1, top: -1} );
+                // (string) false is _not_ a mistake
+                // this prevents images etc inside a choice from having funny toolbars
+                if($toolbar.parent().attr('contenteditable') !== 'false') {
+                    $toolbar.css({ left: ($toolbar.width() + 10) * -1, top: -1} );
+                }
             });
         });
 
         //listen for height changes
         $matchArea.find('tr ').each(function() {
-            var $elements = $(this).find('[data-html-editable=true]');
+            var $elements = $(this).find('[data-html-editable="true"]');
             widget.on('containerBodyChange', function(){
                 adaptSize.height($elements);
             });

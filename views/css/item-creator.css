@@ -2051,6 +2051,9 @@ span.dragging {
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody .mini-tlb {
       right: auto;
       left: -86px; }
+    .tao-scope .item-editor-item .qti-matchInteraction table.matrix tbody [contenteditable="false"] .mini-tlb {
+      right: -32px !important;
+      left: auto !important; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix td input[disabled] ~ [class^="icon-"] {
       cursor: default !important; }
     .tao-scope .item-editor-item .qti-matchInteraction table.matrix .mini-tlb {
