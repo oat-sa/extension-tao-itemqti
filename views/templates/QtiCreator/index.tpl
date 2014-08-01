@@ -1,10 +1,10 @@
 <?php
 use oat\taoQtiItem\helpers\Authoring;
 ?>
-<!--pretty print-->
-<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
+<!--debugger : pretty print-->
+<!--<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
-<link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">
+<link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">-->
 
 <link href="<?=BASE_WWW?>css/qti.css" rel="stylesheet">
 <link href="<?=BASE_WWW?>css/item-creator.css" rel="stylesheet">
