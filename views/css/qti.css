@@ -797,8 +797,7 @@ textarea {
   .qti-associateInteraction .choice-area > .qti-choice {
     min-width: 100px;
     min-height: 30px;
-    max-width: 150px;
-    max-height: 150px; }
+    max-width: 150px; }
 .qti-associateInteraction .result-area {
   width: 40%;
   min-width: 260px;

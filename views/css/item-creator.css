@@ -363,6 +363,7 @@ span.dragging {
 
 .tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
   cursor: default;
+  z-index: 9;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
   box-shadow: 1px 1px 3px 1px #3e7da7; }
