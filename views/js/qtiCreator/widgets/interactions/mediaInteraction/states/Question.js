@@ -124,7 +124,7 @@ define([
         var _openResourceMgr = function(){
 
             $uploadTrigger.resourcemgr({
-                title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
                 root : '/',
                 browseUrl : options.mediaManager.browseUrl,

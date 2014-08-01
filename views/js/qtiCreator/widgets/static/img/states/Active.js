@@ -127,22 +127,22 @@ define([
                 $mediaSpan.css('width', img.attr('width'))
                 $mediaSpan.css('height', '')
             }
-            
+
             //init media sizer
             $mediaResizer.mediasizer({
                 responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
                 target : widget.$original,
-                applyToMedium: false
+                applyToMedium : false
             });
 
             //bind modification events
             $mediaResizer
                 .off('.mediasizer')
                 .on('responsiveswitch.mediasizer', function(e, responsive){
-                
-                    img.data('responsive', responsive);
-                    
-                })
+
+                img.data('responsive', responsive);
+
+            })
                 .on('sizechange.mediasizer', function(e, size){
 
 
@@ -154,7 +154,7 @@ define([
                         img.attr(sizeAttr, size[sizeAttr]);
                         $mediaSpan.css(sizeAttr, size[sizeAttr])
                     }
-                    
+
                     //trigger choice container size adaptation
                     widget.$container.trigger('contentChange.qti-widget');
                 });
@@ -182,6 +182,7 @@ define([
         var $form = widget.$form,
             options = widget.options,
             img = widget.element,
+            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
             $label = $form.find('input[name=alt]');
@@ -202,16 +203,35 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
+                    
                     var file, label;
+                    
                     if(files && files.length){
+                        
                         file = files[0].file;
                         imageUtil.getSize(options.baseUrl + file, function(size){
+
+                            if(size && size.width >= 0){
+                                
+                                var w = parseInt(size.width, 10),
+                                    maxW = $container.parents().innerWidth();
+                                    
+                                //always set the image size in % of the container size with a seurity margin of 5%
+                                if(w >= maxW * 0.95){
+                                    img.attr('width', '100%');
+                                }else{
+                                    w = 100*w/maxW;
+                                    img.attr('width', w+'%');
+                                }
+                                img.attr('height', '');
+                            }
 
                             if($.trim($label.val()) === ''){
                                 label = _extractLabel(file);
                                 img.attr('alt', label);
                                 $label.val(label).trigger('change');
                             }
+
                             _.defer(function(){
                                 $src.val(file).trigger('change');
                             });
