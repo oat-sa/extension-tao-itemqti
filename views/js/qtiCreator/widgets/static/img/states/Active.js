@@ -223,7 +223,7 @@ define([
                                     w = 100*w/maxW;
                                     img.attr('width', w+'%');
                                 }
-                                img.attr('height', '');
+                                img.removeAttr('height');
                             }
 
                             if($.trim($label.val()) === ''){
