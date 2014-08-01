@@ -131,7 +131,7 @@ define([
 
                 var newOptions = {min : null};
 
-                if(value === ''){
+                if(parseInt(value) === 0){
                     element.removeAttr(name);
                 }else{
                     value = parseInt(value);

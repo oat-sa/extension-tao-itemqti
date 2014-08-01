@@ -20,8 +20,7 @@ define([
          */ 
         getDefaultAttributes : function(){
             return {
-                'maxChoices' : 0,
-                'minChoices' : 0
+                maxChoices : 0
             };
         },
 

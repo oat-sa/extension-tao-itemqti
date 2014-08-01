@@ -11,10 +11,9 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                'shuffle' : false,
-                'maxChoices' : 0,
-                'minChoices' : 0,
-                'orientation' : 'vertical'
+                shuffle : false,
+                maxChoices : 0,
+                orientation : 'vertical'
             };
         },
         afterCreate : function(){
