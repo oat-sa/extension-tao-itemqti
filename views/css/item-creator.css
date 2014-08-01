@@ -961,8 +961,8 @@ span.dragging {
   .tao-scope .qti-gap,
   .tao-scope .dummy-element,
   .tao-scope .inline-text-wrapper {
-    position: relative; }
-  .tao-scope .widget-inline{display: inline-block;}
+    position: relative;
+    display: inline-block; }
     .tao-scope .widget-inline [class^="icon-"], .tao-scope .widget-inline [class*=" icon-"],
     .tao-scope .qti-hottext [class^="icon-"],
     .tao-scope .qti-hottext [class*=" icon-"],
