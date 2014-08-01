@@ -1,20 +1,23 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'util/image',
     'ui/resourcemgr'
-], function($, _, imageUtil){
+], function($, _, __, imageUtil){
 
     return function($form, options){
 
-        var $upload  = $('[data-role="upload-trigger"]', $form);
-        var $src     = $('input[name=data]', $form);
-        var $width   = $('input[name=width]', $form);
-        var $height  = $('input[name=height]', $form);
-        var $type    = $('input[name=type]', $form);
+        var $upload = $('[data-role="upload-trigger"]', $form),
+            $src = $('input[name=data]', $form),
+            $width = $('input[name=width]', $form),
+            $height = $('input[name=height]', $form),
+            $type = $('input[name=type]', $form),
+            title = options.title ? options.title : __('Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button "Add file(s)".');
 
-        $upload.on('click', function(){
+        var _openResourceMgr = function(){
             $upload.resourcemgr({
+                title : title,
                 appendContainer : options.mediaManager.appendContainer,
                 root : '/',
                 browseUrl : options.mediaManager.browseUrl,
@@ -29,7 +32,7 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
                     var selected;
-                    if(files.length > 0){ 
+                    if(files.length > 0){
                         selected = files[0];
                         imageUtil.getSize(options.baseUrl + files[0].file, function(size){
                             if(size && size.width >= 0){
@@ -37,14 +40,31 @@ define([
                                 $height.val(size.height).trigger('change');
                             }
                             $type.val(selected.mime).trigger('change');
-                            _.defer(function(){ 
+                            _.defer(function(){
                                 $src.val(selected.file).trigger('change');
                             });
                         });
                     }
+                },
+                open : function(){
+                    //hide tooltip if displayed
+                    if($src.hasClass('tooltipstered')){
+                        $src.blur().tooltipster('hide');
+                    }
+                },
+                close : function(){
+                    //triggers validation : 
+                    $src.blur();
                 }
             });
-        });
+        };
+
+        $upload.on('click', _openResourceMgr);
+
+        //if empty, open file manager immediately
+        if(!$src.val()){
+            _openResourceMgr();
+        }
     };
 
 });
