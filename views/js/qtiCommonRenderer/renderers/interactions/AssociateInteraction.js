@@ -177,7 +177,9 @@ define([
     };
 
     var _adaptSize = function(interaction){
-        adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
+        _.delay(function(){
+            adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
+        }, 200);//@todo : fix the image loading issues
     };
     
     /**
