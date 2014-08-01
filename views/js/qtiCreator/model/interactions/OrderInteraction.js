@@ -12,7 +12,6 @@ define([
         getDefaultAttributes : function(){
             return {
                 shuffle : false,
-                maxChoices : 0,
                 orientation : 'vertical'
             };
         },

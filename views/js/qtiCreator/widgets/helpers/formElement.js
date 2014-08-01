@@ -129,7 +129,7 @@ define([
 
             callbacks[attributeNameMin] = function(element, value, name){
 
-                var newOptions = {min : null};
+                var newOptions = {min : 0};
 
                 if(parseInt(value) === 0){
                     element.removeAttr(name);
@@ -143,22 +143,25 @@ define([
                         $max.val(value);
                     }
                 }
-
                 //set incrementer min value for maxChoices and trigger keyup event to launch validation
                 $max.incrementer('options', newOptions).keyup();
             };
 
             callbacks[attributeNameMax] = function(element, value, name){
 
-                value = value || 0;
-                value = parseInt(value);
+                value = parseInt(value) || 0;
 
-                if(Element.isA(element, 'interaction')){
+                if(element.is('interaction')){
                     //update response
                     _updateResponseDeclaration(element, value, updateCardinality);
                 }
-
-                element.attr(name, value);//required
+                
+                if(!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))){
+                    element.removeAttr(name);//to be removed for order interactions
+                }else{
+                    element.attr(name, value);//required
+                }
+                
             };
 
             return callbacks;
