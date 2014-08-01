@@ -9,8 +9,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 src : '',
-                alt : '',
-                width: '100%'
+                alt : ''
             };
         },
         afterCreate : function(){
