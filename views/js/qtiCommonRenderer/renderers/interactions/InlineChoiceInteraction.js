@@ -79,9 +79,9 @@ define([
         if(required){
             //set up the tooltip plugin for the input
             $el.tooltipster({
-                theme: 'tao-error-tooltip',
+                theme: 'tao-warning-tooltip',
                 content: __('A choice must be selected'),
-                delay: 350,
+                delay: 250,
                 trigger: 'custom'
             });
             
