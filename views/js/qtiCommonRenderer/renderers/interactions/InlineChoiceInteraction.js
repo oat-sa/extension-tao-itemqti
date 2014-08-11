@@ -51,10 +51,22 @@ define([
         _setInstructions(interaction);
            
         $container.on('change', function(){
+            
             if(required && $container.val() !== "") {
                 $el.tooltipster('hide');
             }
+            
             Helper.triggerResponseChangeEvent(interaction);
+            
+        }).on('select2-open', function(){
+            
+            $el.tooltipster('hide');
+            
+        }).on('select2-close', function(){
+            
+            if(required && $container.val() === "") {
+                $el.tooltipster('show');
+            }
         });
     };
 
