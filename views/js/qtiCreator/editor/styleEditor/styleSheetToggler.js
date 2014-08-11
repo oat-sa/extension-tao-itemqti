@@ -53,6 +53,7 @@ define([
                     uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
                     deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),
                     downloadUrl: helpers._url('download', 'ItemContent', 'taoItems'),
+                    fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
                     params: {
                         uri: itemConfig.uri,
                         lang: itemConfig.lang,
