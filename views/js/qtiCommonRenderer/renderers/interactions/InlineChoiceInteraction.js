@@ -34,7 +34,7 @@ define([
         
         var $container = Helper.getContainer(interaction);
         
-        if(opts.allowEmpty){
+        if(opts.allowEmpty && !required){
             $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
         }else{
             $container.find('option[value=' + _emptyValue + ']').remove();
@@ -85,7 +85,12 @@ define([
     };
 
     var _setVal = function(interaction, choiceIdentifier){
-        Helper.getContainer(interaction).val(choiceIdentifier).select2('val', choiceIdentifier);
+        
+        Helper.getContainer(interaction)
+            .val(choiceIdentifier)
+            .select2('val', choiceIdentifier)
+            .change();
+        
     };
     
     /**
