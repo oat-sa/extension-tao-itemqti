@@ -197,8 +197,8 @@ define([
 
             //remove editable widgets
             this.$container.find('[data-edit]').remove();
-            $('[data-widget-component='+this.serial+']').remove();
-            
+            $('[data-widget-component=' + this.serial + ']').remove();
+
             //clean old referenced event
             this.offEvents();
         },
@@ -243,25 +243,27 @@ define([
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback, live){
 
-            var _this = this;
+            var _this = this,
+                eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
+                $document = $(document);
 
-            var eventNameToken = [
-                qtiElementEventName,
-                'qti-widget',
-                this.serial
-            ];
+            _.each(eventNames, function(eventName){
 
-            if(!live){
-                eventNameToken.push(this.getCurrentState().name);
-            }
+                var eventNameToken = [eventName, 'qti-widget', _this.serial];
+                
+                if(!live){
+                    eventNameToken.push(_this.getCurrentState().name);
+                }
+                
+                //bind each individual event listener to the document
+                $document.on(eventNameToken.join('.'), function(e, data){
+                    callback.call(_this, data);
+                });
 
-            $(document).on(eventNameToken.join('.'), function(e, data){
-                callback.call(_this, data);
             });
 
             return this;//for chaining
         },
-
         /**
          * Get / Set the validation state
          * @param {String} [what] - key to identify the validation 
@@ -271,7 +273,7 @@ define([
         isValid : function(what, valid, why){
 
             var element = this.element;
-            
+
             if(what === undefined){
                 //get
                 return invalidator.isValid(element);

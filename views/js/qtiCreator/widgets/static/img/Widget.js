@@ -44,6 +44,13 @@ define([
 
         helper.buildInlineContainer(this);
 
+        this.$container.css({
+            width: this.element.attr('width'),
+            height: this.element.attr('height')
+        });
+        this.$original[0].setAttribute('width', '100%');
+        this.$original[0].setAttribute('height', '100%');
+
         return this;
     };
 

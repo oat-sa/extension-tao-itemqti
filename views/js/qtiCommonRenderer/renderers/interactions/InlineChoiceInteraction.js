@@ -34,7 +34,7 @@ define([
         
         var $container = Helper.getContainer(interaction);
         
-        if(opts.allowEmpty){
+        if(opts.allowEmpty && !required){
             $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
         }else{
             $container.find('option[value=' + _emptyValue + ']').remove();
@@ -51,10 +51,22 @@ define([
         _setInstructions(interaction);
            
         $container.on('change', function(){
+            
             if(required && $container.val() !== "") {
                 $el.tooltipster('hide');
             }
+            
             Helper.triggerResponseChangeEvent(interaction);
+            
+        }).on('select2-open', function(){
+            
+            $el.tooltipster('hide');
+            
+        }).on('select2-close', function(){
+            
+            if(required && $container.val() === "") {
+                $el.tooltipster('show');
+            }
         });
     };
 
@@ -67,9 +79,9 @@ define([
         if(required){
             //set up the tooltip plugin for the input
             $el.tooltipster({
-                theme: 'tao-error-tooltip',
+                theme: 'tao-warning-tooltip',
                 content: __('A choice must be selected'),
-                delay: 350,
+                delay: 250,
                 trigger: 'custom'
             });
             
@@ -85,7 +97,12 @@ define([
     };
 
     var _setVal = function(interaction, choiceIdentifier){
-        Helper.getContainer(interaction).val(choiceIdentifier).select2('val', choiceIdentifier);
+        
+        Helper.getContainer(interaction)
+            .val(choiceIdentifier)
+            .select2('val', choiceIdentifier)
+            .change();
+        
     };
     
     /**

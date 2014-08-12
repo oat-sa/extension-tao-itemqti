@@ -20,25 +20,25 @@ define([
 
         var choiceSerial = $choice.data('serial'),
             choice = interaction.getChoice(choiceSerial);
-        
+
         if(!choiceSerial){
             throw 'empty choice serial';
         }
-        
+
         if(!_choiceUsages[choiceSerial]){
             _choiceUsages[choiceSerial] = 0;
         }
         _choiceUsages[choiceSerial]++;
-        
+
         var _setChoice = function(){
-            
+
             $target
                 .data('serial', choiceSerial)
                 .html($choice.html())
                 .addClass('filled');
 
-            if(!interaction.responseMappingMode && 
-                choice.attr('matchMax') && 
+            if(!interaction.responseMappingMode &&
+                choice.attr('matchMax') &&
                 _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
                 $choice.addClass('deactivated');
@@ -48,28 +48,28 @@ define([
         };
 
         if($target.siblings('div').hasClass('filled')){
-            
+
             var $resultArea = Helper.getContainer(interaction).find('.result-area'),
                 $pair = $target.parent(),
                 thisPairSerial = [$target.siblings('div').data('serial'), choiceSerial],
                 $otherRepeatedPair = $();
-            
+
             //check if it is not a repeating association!
             $resultArea.children().not($pair).each(function(){
-               var $otherPair = $(this).children('.filled');
-               if($otherPair.length === 2){
-                   var otherPairSerial = [$($otherPair[0]).data('serial'), $($otherPair[1]).data('serial')];
-                   if(_.intersection(thisPairSerial, otherPairSerial).length === 2){
-                       $otherRepeatedPair = $otherPair;
-                       return false;
-                   }
-               }
+                var $otherPair = $(this).children('.filled');
+                if($otherPair.length === 2){
+                    var otherPairSerial = [$($otherPair[0]).data('serial'), $($otherPair[1]).data('serial')];
+                    if(_.intersection(thisPairSerial, otherPairSerial).length === 2){
+                        $otherRepeatedPair = $otherPair;
+                        return false;
+                    }
+                }
             });
-            
+
             if($otherRepeatedPair.length === 0){
                 //no repeated pair, so allow the choice to be set:
                 _setChoice();
-                
+
                 //trigger pair made event
                 Helper.triggerResponseChangeEvent(interaction, {
                     type : 'added',
@@ -93,19 +93,19 @@ define([
                 }
             }else{
                 //repeating pair: show it:
-                
+
                 //@todo add a notification message here in warning
                 $otherRepeatedPair.css('border', '1px solid orange');
                 $target.html(__('identical pair already exists')).css({
-                    color:'orange',
-                    border:'1px solid orange'
+                    color : 'orange',
+                    border : '1px solid orange'
                 });
                 setTimeout(function(){
                     $otherRepeatedPair.removeAttr('style');
                     $target.empty().removeAttr('style');
                 }, 2000);
             }
-            
+
         }else{
             _setChoice();
         }
@@ -152,11 +152,11 @@ define([
     };
 
     var getChoice = function(interaction, identifier){
-        
+
         //warning: do not use selector data-identifier=identifier because data-identifier may change dynamically
         var choice = interaction.getChoiceByIdentifier(identifier);
         if(!choice){
-            throw new Error('cannot find a choice with the identifier : '+identifier);
+            throw new Error('cannot find a choice with the identifier : ' + identifier);
         }
         return Helper.getContainer(interaction).find('.choice-area [data-serial=' + choice.getSerial() + ']');
     };
@@ -176,6 +176,12 @@ define([
         }
     };
 
+    var _adaptSize = function(interaction){
+        _.delay(function(){
+            adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
+        }, 200);//@todo : fix the image loading issues
+    };
+    
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
@@ -205,7 +211,7 @@ define([
          */
         var _setChoice = function($choice, $target){
             setChoice(interaction, $choice, $target);
-            adaptSize.height($resultArea.find('.target').add($choiceArea.find('>li')));
+            _adaptSize(interaction);
         };
 
         var _resetSelection = function(){
@@ -219,7 +225,7 @@ define([
 
         var _unsetChoice = function($choice){
             unsetChoice(interaction, $choice, true);
-            adaptSize.height($resultArea.find('.target').add($choiceArea.find('>li')));
+            _adaptSize(interaction);
         };
 
         var _isInsertionMode = function(){
@@ -235,9 +241,9 @@ define([
         });
 
         $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
-            
+
             e.stopPropagation();
-            
+
             if($(this).hasClass('deactivated')){
                 e.preventDefault();
                 return;
@@ -267,9 +273,9 @@ define([
         });
 
         $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
-            
+
             e.stopPropagation();
-            
+
             if(_isInsertionMode()){
 
                 var $target = $(this),
@@ -356,7 +362,8 @@ define([
         if(!interaction.responseMappingMode){
             _setInstructions(interaction);
         }
-
+        
+        _adaptSize(interaction);
     };
 
     var _setInstructions = function(interaction){
@@ -428,7 +435,7 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
+
         _setPairs(interaction, pciResponse.unserialize(response, interaction));
     };
 
@@ -493,7 +500,7 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy,//@todo to be renamed into destroy
+        destroy : destroy, //@todo to be renamed into destroy
         renderEmptyPairs : renderEmptyPairs
     };
 });

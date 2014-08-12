@@ -1,9 +1,10 @@
 define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/helper',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'lodash',
     'i18n'
-], function(commonRenderer, helper, _, __){
+], function(commonRenderer, creatorHelper, commonHelper, _, __){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
@@ -13,17 +14,22 @@ define([
             commonRenderer.destroy(interaction);
 
             if(responseMappingMode){
-                helper.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
+                commonHelper.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
                 interaction.responseMappingMode = true;
             }else{
-                helper.appendInstruction(widget.element, __('Please define the correct association pairs below.'));
+                commonHelper.appendInstruction(widget.element, __('Please define the correct association pairs below.'));
             }
 
             commonRenderer.render(interaction);
+            
+            creatorHelper.adaptSize(widget);
         },
         setResponse : function(interaction, response){
             var responseDeclaration = interaction.getResponseDeclaration();
-            commonRenderer.setResponse(interaction, this.formatResponse(response, responseDeclaration.attr('cardinality')));
+            commonRenderer.setResponse(interaction, ResponseWidget.formatResponse(response, responseDeclaration.attr('cardinality')));
+            
+            creatorHelper.adaptSize(interaction.data('widget'));
+            
         },
         destroy : function(widget){
 
@@ -34,6 +40,8 @@ define([
             delete interaction.responseMappingMode;
 
             commonRenderer.renderEmptyPairs(interaction);
+            
+            creatorHelper.adaptSize(widget);
         },
         getResponseSummary : function(responseDeclaration){
             

@@ -23,7 +23,7 @@ define([
             this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
             this.createResponse({
                 baseType : 'identifier',
-                cardinality : 'single'
+                cardinality : 'multiple'
             });
         },
         createChoice : function(attr, body){

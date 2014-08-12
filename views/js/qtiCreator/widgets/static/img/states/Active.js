@@ -24,33 +24,6 @@ define([
     });
 
     /**
-     * Greatly throttled callback function
-     * 
-     * @param {jQuery} $img
-     * @param {string} propertyName
-     * @returns {function}
-     */
-    var _getImgSizeChangeCallback = function($img, propertyName){
-
-        var _setAttr = _.debounce(function(img, value, name){
-            img.attr(name, value);
-        }, 1000);
-
-        return _.throttle(function(img, value, name){
-
-            if(value){
-                $img[propertyName](value);
-                _setAttr(img, value, name);
-            }else{
-                $img[propertyName]('auto');
-                img.removeAttr(propertyName);
-            }
-            $img.trigger('contentChange.qti-widget');
-
-        }, 100);
-    };
-
-    /**
      * Extract a default label from a file/path name
      * @param {String} fileName - the file/path
      * @returns {String} a label
@@ -130,49 +103,13 @@ define([
         widget.$form.find('select[name=align]').val(align);
     };
 
-    var _initSlider = function(widget){
-
-        var $container = widget.$container,
-            $form = widget.$form,
-            $slider = $form.find('.img-resizer-slider'),
-            img = widget.element,
-            $img = $container.find('img'),
-            $height = $form.find('[name=height]'),
-            $width = $form.find('[name=width]'),
-            original = {
-            h : img.attr('height') || $img.height(),
-            w : img.attr('width') || $img.width()
-        };
-
-        $slider.noUiSlider({
-            range : {
-                min : 10,
-                max : 200
-            },
-            start : 100
-        }, $slider.hasClass('noUi-target'));
-
-        $slider.off('slide').on('slide', _.throttle(function(e, value){
-            if(!original.w){
-                original.w = parseInt(img.attr('width'), 10);
-            }
-            if(!original.h){
-                original.h = parseInt(img.attr('height'), 10);
-            }
-            var ratio = (value / 100),
-                w = parseInt(ratio * original.w),
-                h = parseInt(ratio * original.h);
-
-            $width.val(w).change();
-            $height.val(h).change();
-        }, 100));
-    };
 
     var _initMediaSizer = function(widget){
 
         var img = widget.element,
             $src = widget.$form.find('input[name=src]'),
-            $mediaResizer = widget.$form.find('.img-resizer');
+            $mediaResizer = widget.$form.find('.img-resizer'),
+            $mediaSpan = widget.$container;
 
         if($src.val()){
 
@@ -187,32 +124,39 @@ define([
 
             //hack to fix the initial width issue:
             if(img.data('responsive')){
-                widget.$original[0].setAttribute('width', img.attr('width'));
-                widget.$original[0].setAttribute('height', '');
+                $mediaSpan.css('width', img.attr('width'))
+                $mediaSpan.css('height', '')
             }
 
             //init media sizer
             $mediaResizer.mediasizer({
                 responsive : (img.data('responsive') !== undefined) ? !!img.data('responsive') : true,
-                target : widget.$original
+                target : widget.$original,
+                applyToMedium : false
             });
 
-            //nind modification events
+            //bind modification events
             $mediaResizer
                 .off('.mediasizer')
                 .on('responsiveswitch.mediasizer', function(e, responsive){
-                
+
                     img.data('responsive', responsive);
-                    
+
                 })
                 .on('sizechange.mediasizer', function(e, size){
 
+                
                 _(['width', 'height']).each(function(sizeAttr){
                     if(size[sizeAttr] === '' || size[sizeAttr] === undefined || size[sizeAttr] === null){
                         img.removeAttr(sizeAttr);
+                        $mediaSpan.css(sizeAttr, '')
                     }else{
                         img.attr(sizeAttr, size[sizeAttr]);
+                        $mediaSpan.css(sizeAttr, size[sizeAttr])
                     }
+
+                    //trigger choice container size adaptation
+                    widget.$container.trigger('contentChange.qti-widget');
                 });
 
             });
@@ -238,11 +182,10 @@ define([
         var $form = widget.$form,
             options = widget.options,
             img = widget.element,
+            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
-            $label = $form.find('input[name=alt]'),
-            $width = $form.find('input[name=width]'),
-            $height = $form.find('input[name=height]');
+            $label = $form.find('input[name=alt]');
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
@@ -261,22 +204,35 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
+                    
                     var file, label;
+                    
                     if(files && files.length){
+                        
                         file = files[0].file;
                         imageUtil.getSize(options.baseUrl + file, function(size){
+
                             if(size && size.width >= 0){
-                                //update manually the object, to prevent the throttling used by the slider
-                                img.attr('width', parseInt(size.width, 10));
-                                img.attr('height', parseInt(size.height, 10));
-                                $width.val(size.width);
-                                $height.val(size.height);
+                                
+                                var w = parseInt(size.width, 10),
+                                    maxW = $container.parents().innerWidth();
+                                    
+                                //always set the image size in % of the container size with a seurity margin of 5%
+                                if(w >= maxW * 0.95){
+                                    img.attr('width', '100%');
+                                }else{
+                                    w = parseInt(100*w/maxW);
+                                    img.attr('width', w+'%');
+                                }
+                                img.removeAttr('height');
                             }
+
                             if($.trim($label.val()) === ''){
                                 label = _extractLabel(file);
                                 img.attr('alt', label);
                                 $label.val(label).trigger('change');
                             }
+
                             _.defer(function(){
                                 $src.val(file).trigger('change');
                             });

@@ -21,6 +21,7 @@ span.dragging{
 }
 %editActive {
     cursor:default;
+    z-index:9;
     border:1px solid whiten($info, .2);
     -webkit-box-shadow: 1px 1px 3px 1px whiten($info, .2);
     box-shadow: 1px 1px 3px 1px whiten($info, .2);
@@ -745,6 +746,7 @@ span.dragging{
     .dummy-element,
     .inline-text-wrapper {
         position: relative;
+        display: inline-block;
         [class^="icon-"], [class*=" icon-"] {
             display: inline-block;
             text-align:center;
@@ -1120,7 +1122,6 @@ span.dragging{
     padding: 0 !important;
     margin: 0 !important;
 }
-
 
 @media print {
     

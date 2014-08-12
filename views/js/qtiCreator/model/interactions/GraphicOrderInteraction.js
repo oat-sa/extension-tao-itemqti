@@ -19,10 +19,7 @@ define([
          * @returns {Object} the default attributes 
          */ 
         getDefaultAttributes : function(){
-            return {
-                'maxChoices' : 0,
-                'minChoices' : 0
-            };
+            return {};
         },
 
         /**

@@ -9,6 +9,12 @@
     &.runtime {
         min-height: 100%;
     }
+
+    [class*="col-"] {
+        img {
+            max-width: auto;
+        }
+    }
 }
 
 %selectableHover {
@@ -28,7 +34,6 @@
 #modalFeedbacks {
     max-height:0;
 }
-
 
 .mini-tlb {
     .tlb-button {

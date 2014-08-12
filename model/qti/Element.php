@@ -625,7 +625,6 @@ abstract class Element implements Exportable
         $returnValue = str_replace('.', '', uniqid($prefix, true));
         $returnValue = str_replace('\\', '_', $returnValue);
         
-        common_Logger::d('class: '.$clazz.' -> '.$returnValue);
         return (string) $returnValue;
     }
 

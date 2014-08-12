@@ -11,7 +11,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
@@ -19,7 +18,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, editor){
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, editor){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -240,8 +239,11 @@ define([
          * @param {String} serial - the gapImg serial
          */
         function enterGapImgForm(serial){
-            var gapImg = interaction.getGapImg(serial);
-            var $uploadTrigger, $src, $width, $height, callbacks;
+            
+            var callbacks,
+                gapImgSelectorOptions,
+                gapImg = interaction.getGapImg(serial);
+            
             if(gapImg){
                 
                 $choiceForm.empty().html(
@@ -259,8 +261,10 @@ define([
                         type            : gapImg.object.attr('type')
                     })
                 );
-
-                imageSelector($choiceForm, options);
+                
+                gapImgSelectorOptions = _.clone(options);
+                gapImgSelectorOptions.title = __('Please select the picture from the resource manager. You can add new files from your computer with the button "Add file(s)".');
+                imageSelector($choiceForm, gapImgSelectorOptions);
 
                 formElement.initWidget($choiceForm);
 
