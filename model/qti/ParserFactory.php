@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\CustomInteractionRegistry;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -1345,7 +1346,7 @@ class ParserFactory
             $classes = $data->getAttribute('class');
             $classeNames = split('/\s+/', $classes);
             foreach($classeNames as $classeName){
-                $ciClass = $this->getCustomInteractionByClassName($classeName);
+                $ciClass = CustomInteractionRegistry::getCustomInteractionByName($classeName);
                 if($ciClass){
                     $interaction = new $ciClass($this->extractAttributes($data), $this->item);
                     $interaction->feed($this, $data);

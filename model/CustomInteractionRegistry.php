@@ -69,4 +69,18 @@ class CustomInteractionRegistry
         $map = $taoQtiItem->getConfig(self::CONFIG_ID);
         return is_array($map) ? array() : $map;
     }
+    
+    /**
+     * Get the php class that represents a custom interaction from its class attribute
+     * 
+     * @param string $name
+     * @return string
+     */
+    public static function getCustomInteractionByName($name){
+        $all = self::getCustomInteractions();
+        if(isset($all[$name])){
+            return $all[$name];
+        }
+        return '';
+    }
 }
