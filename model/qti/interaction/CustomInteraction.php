@@ -22,33 +22,25 @@
 namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\interaction\Interaction;
+use oat\taoQtiItem\model\qti\ParserFactory;
+use \DOMElement;
 
 /**
  * The QTI custom interaction is a subclass of the main QTI Interaction class
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
- * @package taoQTI
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10267
+ * @package taoQtiItem
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10401
 
  */
-class CustomInteraction extends Interaction
+abstract class CustomInteraction extends Interaction
 {
     
     protected static $qtiTagName = 'customInteraction';
     
-    protected $typeIdentifier = '';
-    protected $properties = array();
-    protected $libraries = array();
+    protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
-    
-    public function setTypeIdentifier($typeIdentifier){
-        $this->typeIdentifier = $typeIdentifier;
-    }
-    
-    public function getTypeIdentifier($typeIdentifier){
-        return $this->typeIdentifier;
-    }
     
     public function getMarkup(){
         return $this->markup;
@@ -58,38 +50,12 @@ class CustomInteraction extends Interaction
         $this->markup = (string) $markup;
     }
 
-    public function getProperties(){
-        return $this->properties;
-    }
-
-    public function setProperties($properties){
-        if(is_array($properties)){
-            $this->properties = $properties;
-        }else{
-            throw new InvalidArgumentException('properties should be an array');
-        }
-    }
-
-    public function getLibraries(){
-        return $this->libraries;
-    }
-
-    public function setLibraries($libraries){
-        if(is_array($libraries)){
-            $this->libraries = $libraries;
-        }else{
-            throw new InvalidArgumentException('libraries should be an array');
-        }
-    }
-
     public function toArray($filterVariableContent = false, &$filtered = array()){
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['markup'] = $this->markup;
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['properties'] = $this->properties;
         
         return $returnValue;
     }
@@ -99,10 +65,20 @@ class CustomInteraction extends Interaction
     }
 
     protected function getTemplateQtiVariables(){
+        
         $variables = parent::getTemplateQtiVariables();
+        
+        $variables['typeIdentifier'] = $this->typeIdentifier;
         $variables['markup'] = $this->markup;
-        $variables['properties'] = $this->properties;
+        
         return $variables;
+    }
+    
+    public function feed(ParserFactory $parser, DOMElement $data){
+        
+        $markup = $parser->getBodyData($data->item(0), true);
+        $this->setMarkup($markup);
+
     }
 
 }

@@ -201,7 +201,7 @@ class QtiModelTest extends TaoPhpUnitTestRunner
     /**
      * Generate sample json files
      */
-    public function _testToJson(){
+    public function testToJson(){
         
         $jsons = array();
         $outputDir = dirname(__FILE__).'/samples/json/';

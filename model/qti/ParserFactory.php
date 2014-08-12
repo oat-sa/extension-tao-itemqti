@@ -35,6 +35,7 @@ use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
@@ -98,7 +99,7 @@ class ParserFactory
         return $data->ownerDocument->saveXML($data);
     }
 
-    protected function getBodyData(DOMElement $data, $removeNamespace = false){
+    public function getBodyData(DOMElement $data, $removeNamespace = false){
 
         //prepare the data string
         $bodyData = $this->saveXML($data);
@@ -126,6 +127,7 @@ class ParserFactory
     }
 
     protected function queryXPath($query, DOMElement $contextNode = null){
+
         $returnValue = $contextNode;
         if($this->qtiPrefix){
             
@@ -138,13 +140,13 @@ class ParserFactory
         return $returnValue;
     }
 
-    protected function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
+    public function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
         $query = '.';
         $ns = empty($ns) ? '' : $ns.':';
         foreach($paths as $path){
             $query .= "/*[name(.)='".$ns.$path."']";
         }
-        
+
         return $this->queryXPath($query, $contextNode);
     }
 
@@ -258,7 +260,7 @@ class ParserFactory
 
             if(strpos($interactionNode->nodeName, 'portableCustomInteraction') === false){
 
-                //build an interaction instance by found node
+                //build an interaction instance
                 $interaction = $this->buildInteraction($interactionNode);
                 $debug[] = $interactionNode->nodeName;
 
@@ -479,113 +481,118 @@ class ParserFactory
     protected function buildInteraction(DOMElement $data){
 
         $returnValue = null;
-        try{
-            $type = ucfirst($data->nodeName);
-            $interactionClass = '\\oat\\taoQtiItem\\model\\qti\\interaction\\'.$type;
-            if(!class_exists($interactionClass)){
-                throw new ParsingException('The interaction class cannot be found: '.$interactionClass);
-            }
 
-            $myInteraction = new $interactionClass($this->extractAttributes($data), $this->item);
+        if($data->nodeName === 'customInteraction'){
 
-            if($myInteraction instanceof BlockInteraction){
-                //extract prompt:
-                $promptNodes = $this->queryXPath("*[name(.) = 'prompt']", $data); //prompt
+            $returnValue = $this->buildCustomInteraction($data);
+        }else{
 
-                foreach($promptNodes as $promptNode){
-                    //only block interactions have prompt
-                    $this->parseContainerStatic($promptNode, $myInteraction->getPrompt());
-                    $this->deleteNode($promptNode);
+            //build one of the standard interaction
+
+            try{
+
+                $type = ucfirst($data->nodeName);
+
+                $interactionClass = '\\oat\\taoQtiItem\\model\\qti\\interaction\\'.$type;
+                if(!class_exists($interactionClass)){
+                    throw new ParsingException('The interaction class cannot be found: '.$interactionClass);
                 }
-            }
 
-            //build the interaction's choices regarding it's type
-            switch(strtolower($type)){
+                $myInteraction = new $interactionClass($this->extractAttributes($data), $this->item);
 
-                case 'matchinteraction':
-                    //extract simpleMatchSet choices
-                    $matchSetNodes = $this->queryXPath("*[name(.) = 'simpleMatchSet']", $data); //simpleMatchSet
-                    $matchSetNumber = 0;
-                    foreach($matchSetNodes as $matchSetNode){
-                        $choiceNodes = $this->queryXPath("*[name(.) = 'simpleAssociableChoice']", $matchSetNode); //simpleAssociableChoice
+                if($myInteraction instanceof BlockInteraction){
+                    //extract prompt:
+                    $promptNodes = $this->queryXPath("*[name(.) = 'prompt']", $data); //prompt
+
+                    foreach($promptNodes as $promptNode){
+                        //only block interactions have prompt
+                        $this->parseContainerStatic($promptNode, $myInteraction->getPrompt());
+                        $this->deleteNode($promptNode);
+                    }
+                }
+
+                //build the interaction's choices regarding it's type
+                switch(strtolower($type)){
+
+                    case 'matchinteraction':
+                        //extract simpleMatchSet choices
+                        $matchSetNodes = $this->queryXPath("*[name(.) = 'simpleMatchSet']", $data); //simpleMatchSet
+                        $matchSetNumber = 0;
+                        foreach($matchSetNodes as $matchSetNode){
+                            $choiceNodes = $this->queryXPath("*[name(.) = 'simpleAssociableChoice']", $matchSetNode); //simpleAssociableChoice
+                            foreach($choiceNodes as $choiceNode){
+                                $choice = $this->buildChoice($choiceNode);
+                                if(!is_null($choice)){
+                                    $myInteraction->addChoice($choice, $matchSetNumber);
+                                }
+                            }
+                            if(++$matchSetNumber === 2){
+                                //matchSet is limited to 2 maximum
+                                break;
+                            }
+                        }
+                        break;
+
+                    case 'gapmatchinteraction':
+                        //create choices with the gapText nodes
+                        $choiceNodes = $this->queryXPath("*[name(.)='gapText']", $data); //or gapImg!!
+                        $choices = array();
                         foreach($choiceNodes as $choiceNode){
                             $choice = $this->buildChoice($choiceNode);
                             if(!is_null($choice)){
-                                $myInteraction->addChoice($choice, $matchSetNumber);
+                                $myInteraction->addChoice($choice);
+                                $this->deleteNode($choiceNode);
+                            }
+
+                            //remove node so it does not pollute subsequent parsing data
+                            unset($choiceNode);
+                        }
+
+                        $this->parseContainerGap($data, $myInteraction->getBody());
+                        break;
+
+                    case 'hottextinteraction':
+                        $this->parseContainerHottext($data, $myInteraction->getBody());
+                        break;
+
+                    case 'graphicgapmatchinteraction':
+                        //create choices with the gapImg nodes
+                        $choiceNodes = $this->queryXPath("*[name(.)='gapImg']", $data);
+                        $choices = array();
+                        foreach($choiceNodes as $choiceNode){
+                            $choice = $this->buildChoice($choiceNode);
+                            if(!is_null($choice)){
+                                $myInteraction->addGapImg($choice);
                             }
                         }
-                        if(++$matchSetNumber === 2){
-                            //matchSet is limited to 2 maximum
-                            break;
+                    default :
+                        //parse, extract and build the choice nodes contained in the interaction
+                        $exp = "*[contains(name(.),'Choice')] | *[name(.)='associableHotspot']";
+                        $choiceNodes = $this->queryXPath($exp, $data);
+                        foreach($choiceNodes as $choiceNode){
+                            $choice = $this->buildChoice($choiceNode);
+                            if(!is_null($choice)){
+                                $myInteraction->addChoice($choice);
+                            }
+                            unset($choiceNode);
                         }
-                    }
-                    break;
+                        break;
+                }
 
-                case 'gapmatchinteraction':
-                    //create choices with the gapText nodes
-                    $choiceNodes = $this->queryXPath("*[name(.)='gapText']", $data); //or gapImg!!
-                    $choices = array();
-                    foreach($choiceNodes as $choiceNode){
-                        $choice = $this->buildChoice($choiceNode);
-                        if(!is_null($choice)){
-                            $myInteraction->addChoice($choice);
-                            $this->deleteNode($choiceNode);
+                if($myInteraction instanceof ObjectInteraction){
+                    $objectNodes = $this->queryXPath("*[name(.)='object']", $data); //object
+                    foreach($objectNodes as $objectNode){
+                        $object = $this->buildObject($objectNode);
+                        if(!is_null($object)){
+                            $myInteraction->setObject($object);
                         }
-
-                        //remove node so it does not pollute subsequent parsing data
-                        unset($choiceNode);
-                    }
-
-                    $this->parseContainerGap($data, $myInteraction->getBody());
-                    break;
-
-                case 'hottextinteraction':
-                    $this->parseContainerHottext($data, $myInteraction->getBody());
-                    break;
-
-                case 'custominteraction':
-
-                    //try build it as a pci:
-                    $this->buildPci($myInteraction, $data);
-
-                    break;
-                case 'graphicgapmatchinteraction':
-                    //create choices with the gapImg nodes
-                    $choiceNodes = $this->queryXPath("*[name(.)='gapImg']", $data);
-                    $choices = array();
-                    foreach($choiceNodes as $choiceNode){
-                        $choice = $this->buildChoice($choiceNode);
-                        if(!is_null($choice)){
-                            $myInteraction->addGapImg($choice);
-                        }
-                    }
-                default :
-                    //parse, extract and build the choice nodes contained in the interaction
-                    $exp = "*[contains(name(.),'Choice')] | *[name(.)='associableHotspot']";
-                    $choiceNodes = $this->queryXPath($exp, $data);
-                    foreach($choiceNodes as $choiceNode){
-                        $choice = $this->buildChoice($choiceNode);
-                        if(!is_null($choice)){
-                            $myInteraction->addChoice($choice);
-                        }
-                        unset($choiceNode);
-                    }
-                    break;
-            }
-
-            if($myInteraction instanceof ObjectInteraction){
-                $objectNodes = $this->queryXPath("*[name(.)='object']", $data); //object
-                foreach($objectNodes as $objectNode){
-                    $object = $this->buildObject($objectNode);
-                    if(!is_null($object)){
-                        $myInteraction->setObject($object);
                     }
                 }
-            }
 
-            $returnValue = $myInteraction;
-        }catch(InvalidArgumentException $iae){
-            throw new ParsingException($iae);
+                $returnValue = $myInteraction;
+            }catch(InvalidArgumentException $iae){
+                throw new ParsingException($iae);
+            }
         }
 
         return $returnValue;
@@ -1298,63 +1305,66 @@ class ParserFactory
         return $myFeedback;
     }
 
-    private function getPciNamespace(){
-        return 'pci';
-    }
-
-    private function buildPci(CustomInteraction $interaction, DOMElement $data){
+    private function isPciNode(DOMElement $data){
 
         $ns = $this->getPciNamespace();
-        
-        $pciNodes = $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
-        if($pciNodes->length){
-            $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
-            $interaction->setTypeIdentifier($typeIdentifier);
-        }
-        
-        $libNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
-        $libs = array();
-        foreach($libNodes as $libNode){
-            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
-        }
-        $interaction->setLibraries($libs);
-        
-        $propertyNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'properties'), $data, $ns);
-        if($propertyNodes->length){
-            $properties = $this->extractPciProperties($propertyNodes->item(0));
-            $interaction->setProperties($properties);
-        }
-
-        $markupNodes = $this->queryXPathChildren(array('portableCustomInteraction', 'markup'), $data, $ns);
-        if($markupNodes->length){
-            $markup = $this->getBodyData($markupNodes->item(0), true);
-            $interaction->setMarkup($markup);
-        }
-        
+        return (boolean) $this->queryXPathChildren(array('portableCustomInteraction'), $data, $ns)->length;
     }
 
-    private function extractPciProperties(DOMElement $propertiesNode){
+    /**
+     * Get the php class that represents a custom interaction from its class attribute
+     * 
+     * @todo to be implemented
+     * @param string $className
+     * @return string (the php class name)
+     */
+    private function getCustomInteractionByClassName($className){
+        return '';
+    }
 
-        $properties = array();
-        $ns = $this->getPciNamespace();
-        $ns = $ns ? $ns.':' : '';
-        
-        foreach($propertiesNode->childNodes as $prop){
-            if($prop instanceof DOMElement){
-                switch($prop->tagName){
-                    case $ns.'entry':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $prop->nodeValue;
-                        break;
-                    case $ns.'properties':
-                        $key = $prop->getAttribute('key');
-                        $properties[$key] = $this->extractPciProperties($prop);
-                        break;
+    /**
+     * Parse and build a custom interaction object
+     * 
+     * @param DOMElement $data
+     * @return CustomInteraction
+     * @throws ParsingException
+     */
+    private function buildCustomInteraction(DOMElement $data){
+
+        $interaction = null;
+
+        if($this->isPciNode($data)){
+            
+            //use tao's implementation of protable custom interaction
+            $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
+            $interaction->feed($this, $data);
+            
+        }else{
+
+            $ciClass = '';
+            $classes = $data->getAttribute('class');
+            $classeNames = split('/\s+/', $classes);
+            foreach($classeNames as $classeName){
+                $ciClass = $this->getCustomInteractionByClassName($classeName);
+                if($ciClass){
+                    $interaction = new $ciClass($this->extractAttributes($data), $this->item);
+                    $interaction->feed($this, $data);
+                    break;
                 }
             }
+            
+            if(!$ciClass){
+                throw new ParsingException('unknown custom interaction to be build');
+            }
+            
         }
 
-        return $properties;
+        return $interaction;
+    }
+
+    public function getPciNamespace(){
+        //@todo : implement this properly
+        return 'pci';
     }
 
 }

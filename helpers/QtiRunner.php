@@ -106,7 +106,15 @@ class QtiRunner
         return json_decode($elements, true);
     }
     
+    /**
+     * Get rubric block visible by the given "view"
+     * 
+     * @param tao_models_classes_service_StorageDirectory $directory
+     * @param type $view
+     * @return array
+     */
     public static function getRubricBlocks(tao_models_classes_service_StorageDirectory $directory, $view) {
+        
         $elements = self::getContentVariableElements($directory);
         
         foreach ($elements as $serial => $data) {
@@ -116,7 +124,7 @@ class QtiRunner
                 if (!empty($data['attributes']) && is_array($data['attributes']['view'])) {
         
                     if(in_array($view, $data['attributes']['view'])){
-                        $returnValue[$serial] = $data;
+                        $elements[$serial] = $data;
                     }
                 }
             }
@@ -125,6 +133,13 @@ class QtiRunner
         return $elements;
     }
     
+    /**
+     * Get the feedback to be displayed on an AssessmentItemSession
+     * 
+     * @param tao_models_classes_service_StorageDirectory $directory
+     * @param \qtism\runtime\tests\AssessmentItemSession $itemSession
+     * @return array 
+     */
     public static function getFeedbacks(tao_models_classes_service_StorageDirectory $directory, AssessmentItemSession $itemSession) {
         
         $returnValue = array();
