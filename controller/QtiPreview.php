@@ -167,6 +167,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
         return $output;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see taoItems_actions_ItemPreview::getRenderedItem()
+     */
     protected function getRenderedItem($item) {
 
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
