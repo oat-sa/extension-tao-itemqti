@@ -17,6 +17,8 @@ define([
                     type = 'audio';
                 }else if(mimetype.indexOf('image') === 0){
                     type = 'image';
+                }else if(mimetype.indexOf('text/html') === 0){
+                    type = 'html';
                 }else{
                     type = 'object';
                 }
