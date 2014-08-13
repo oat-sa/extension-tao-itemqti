@@ -40,6 +40,9 @@ define([
                 case 'audio':
                     defaultData.audio = true;
                     break;
+                case 'html':
+                    defaultData.html = true;
+                    break;
                 case 'image':
                 default:
                     defaultData.object = true;
