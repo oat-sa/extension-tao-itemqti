@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\CustomInteractionRegistry;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -1312,17 +1313,6 @@ class ParserFactory
     }
 
     /**
-     * Get the php class that represents a custom interaction from its class attribute
-     * 
-     * @todo to be implemented
-     * @param string $className
-     * @return string (the php class name)
-     */
-    private function getCustomInteractionByClassName($className){
-        return '';
-    }
-
-    /**
      * Parse and build a custom interaction object
      * 
      * @param DOMElement $data
@@ -1335,17 +1325,17 @@ class ParserFactory
 
         if($this->isPciNode($data)){
             
-            //use tao's implementation of protable custom interaction
+            //use tao's implementation of portable custom interaction
             $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
             $interaction->feed($this, $data);
             
-        }else{
+        }else{ 
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
             $classeNames = split('/\s+/', $classes);
             foreach($classeNames as $classeName){
-                $ciClass = $this->getCustomInteractionByClassName($classeName);
+                $ciClass = CustomInteractionRegistry::getCustomInteractionByName($classeName);
                 if($ciClass){
                     $interaction = new $ciClass($this->extractAttributes($data), $this->item);
                     $interaction->feed($this, $data);
