@@ -777,6 +777,12 @@ span.dragging{
             position:relative;
         }
         
+        /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
+        p, span, ol, ul{
+            line-height: 1.4;
+            font-size: 1.4rem;
+        }
+        
         .inserting{
             .widget-block, .widget-blockInteraction{
                 border : 1px dashed #ddd;
