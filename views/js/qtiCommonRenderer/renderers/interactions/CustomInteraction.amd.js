@@ -8,7 +8,7 @@ define([
 ], function(_, tpl, Helper, qtiCustomInteractionContext, util, context){
     
     /**
-     * Set the customInteractionContext from local to global context to make it available for all pci instances
+     * Set the customInteractionContext from a local context to the global one to make it available to all PCI instances
      * 
      * @returns {undefined}
      */
@@ -18,9 +18,10 @@ define([
     };
     
     /**
-     * Register the libs from paths to requiresjs in the 'portableCustomInteraction' context
+     * Register the libraries in 'paths' into requiresjs
+     * The requirejs config will be specific to PCIs, the sepcific context 'portableCustomInteraction' is defined as a consequence
      * 
-     * @param {object} paths - the plain abject, key/value of the 
+     * @param {Object} paths - the plain object, key/value of the 
      */
     var _registerLibraries = function(paths){
 
@@ -31,11 +32,10 @@ define([
     };
     
     /**
-     * Use require js in the specific context of 'portableCustomInteraction'
+     * Call requirejs.require() in the specific context of 'portableCustomInteraction'
      * 
      * @param {array} modules - list of the amd modules names or scripts names 
      * @param {type} callback
-     * @returns {undefined}
      */
     var _pciRequire = function(modules, callback){
 
@@ -44,11 +44,11 @@ define([
     };
     
     /**
-     * Get the pci instance associate to the js interaction object
-     * If none exists, create a new one based on the pci typeIdentifier
+     * Get the PCI instance associated to the interaction object
+     * If none exists, create a new one based on the PCI typeIdentifier
      * 
-     * @param {object} interaction - the js object representing the interaction
-     * @returns {unresolved}
+     * @param {Object} interaction - the js object representing the interaction
+     * @returns {Object} PCI instance
      */
     var _getPci = function(interaction){
 
@@ -62,7 +62,7 @@ define([
 
             if(pci){
 
-                //two-way binding for pci hook and tao interaction
+                //binds the PCI instance to TAO interaction object and vice versa
                 interaction.data('pci', pci);
                 pci._taoCustomInteraction = interaction;
 
@@ -75,10 +75,10 @@ define([
     };
     
     /**
-     * Get the list of required module names to be loaded for the interaction
+     * Get the list of required modules to be loaded for interaction rendering
      * 
-     * @param {object} interaction
-     * @param {string} baseUrl
+     * @param {Object} interaction
+     * @param {String} baseUrl
      * @returns {Array}
      */
     var _getLibraries = function(interaction, baseUrl){
@@ -108,16 +108,17 @@ define([
     };
     
     /**
-     * Execute javascript code to make the interaction come to life.
+     * Execute javascript codes to make the interaction come to life.
      * At this point, the html markup must already be ready in the document.
      * 
-     * It is done in 3 steps : 
-     * 1. register requires libs in the "portableCustomInteraction" context
+     * It is done in 5 steps : 
+     * 1. register required libs in the "portableCustomInteraction" context
      * 2. require all required libs
-     * 3. get the pci instance and initialize it
+     * 3. create a pci instance based on the interaction model
+     * 4. initialize the rendering 
+     * 5. restore full state if applicable (state and/or response)
      * 
-     * @param {type} interaction
-     * @returns {undefined}
+     * @param {Object} interaction
      */
     var render = function(interaction){
 
@@ -131,18 +132,25 @@ define([
         var $dom = Helper.getContainer(interaction).find('#' + id);
 
         //get initialization params :
-        var state = null,
-            response = null,
+        var state = null,//@todo
+            response = null,//@todo 
             config = interaction.properties,
             libraries = _getLibraries(interaction, this.getOption('baseUrl'));
 
-        //libraries loading (issues)
+        /**
+         * The libraries (js or css) will all be loaded asynchronously
+         * The sequence they have been defined indeed does not matter
+         */
         _pciRequire(libraries, function(){
 
             var pci = _getPci(interaction);
             if(pci){
-                //call pci initialize();
-                pci.initialize(id, $dom[0], config, state, response);
+                //call pci initialize() to render the pci
+                pci.initialize(id, $dom[0], config);
+                
+                //restore context (state + response)
+                pci.setSerializedState(state);
+                pci.setResponse(response);
             }
             
         });
@@ -153,8 +161,8 @@ define([
      * Programmatically set the response following the json schema described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
      * 
-     * @param {object} interaction
-     * @param {object} response
+     * @param {Object} interaction
+     * @param {Object} response
      */
     var setResponse = function(interaction, response){
 
@@ -165,8 +173,8 @@ define([
      * Get the response in the json format described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
      * 
-     * @param {object} interaction
-     * @returns {object}
+     * @param {Object} interaction
+     * @returns {Object}
      */
     var getResponse = function(interaction){
 
@@ -174,10 +182,10 @@ define([
     };
     
     /**
-     * Remove all the response set to the interaction
+     * Remove the current response set in the interaction
      * The state may not be restored at this point.
      * 
-     * @param {object} interaction
+     * @param {Object} interaction
      */
     var resetResponse = function(interaction){
 
@@ -186,10 +194,10 @@ define([
     
     /**
      * Reverse operation performed by render()
-     * After this function is executed, only the naked markup remains 
-     * Event listeners are removed and the state is reset
+     * After this function is executed, only the inital naked markup remains 
+     * Event listeners are removed and the state and the response are reset
      * 
-     * @param {object} interaction
+     * @param {Object} interaction
      */
     var destroy = function(interaction){
 
@@ -197,13 +205,10 @@ define([
     };
     
     /**
-     * Restore the full state of the interaction from the serializedState.
-     * The response should be rest
-     * The serialized string is pci-implementation specific.
-     * This function will restore the interaction exactly as the last session left it
+     * Restore the state of the interaction from the serializedState.
      * 
-     * @param {object} interaction
-     * @param {string} serializedState
+     * @param {Object} interaction
+     * @param {Object} serializedState - json format
      */
     var setSerializedState = function(interaction, serializedState){
 
@@ -211,12 +216,11 @@ define([
     };
     
     /**
-     * Get the full state of the interaction as a string.
+     * Get the current state of the interaction as a string.
      * It enables saving the state for later usage.
-     * The serialized string is pci-implementation specific.
      * 
-     * @param {object} interaction
-     * @returns {string}
+     * @param {Object} interaction
+     * @returns {Object} json format
      */
     var getSerializedState = function(interaction){
 
