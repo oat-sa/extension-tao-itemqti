@@ -3,7 +3,6 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
                 xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" 
-                xmlns:xhtml="http://www.w3.org/1999/xhtml" 
                 identifier="pci002" title="PCI 002" adaptive="false" timeDependent="false">
     
     <stylesheet href="css/likert1.css" type="text/css"/>
@@ -37,14 +36,14 @@
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert1" class="likert-scale">
-                        <xhtml:div class="prompt">
-                            <xhtml:p>
-                                Do you like movies ? <xhtml:img src="http://openclipart.org/image/300px/svg_to_png/35395/applications-multimedia.png"/>
-                            </xhtml:p>
-                        </xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert1" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                Do you like movies ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/35395/applications-multimedia.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
@@ -73,14 +72,14 @@
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert2" class="likert-scale">
-                        <xhtml:div class="prompt">
-                            <xhtml:p>
-                                What about video games ? <xhtml:img src="http://openclipart.org/image/300px/svg_to_png/4435/BHSPitMonkey_Old_School_Game_Controller.png"/>
-                            </xhtml:p>
-                        </xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert2" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                What about video games ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/4435/BHSPitMonkey_Old_School_Game_Controller.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
@@ -109,14 +108,14 @@
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert3" class="likert-scale">
-                        <xhtml:div class="prompt">
-                            <xhtml:p>
-                                And reading ? <xhtml:img src="http://openclipart.org/image/300px/svg_to_png/29190/MajinCline_Book.png"/>
-                            </xhtml:p>
-                        </xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert3" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                And reading ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/29190/MajinCline_Book.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
