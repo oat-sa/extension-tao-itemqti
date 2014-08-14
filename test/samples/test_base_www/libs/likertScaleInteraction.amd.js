@@ -1,7 +1,7 @@
 define(['jquery'], function($){
 
     /**
-     * The global qtiCustomInteractionContext object accessible by 
+     * The global qtiCustomInteractionContext
      * Global object qtiCustomInteractionContext cannot be passed as AMD dependency because the pci libs are loaded under a different requirejs context.
      * This means that the dependencies of qtiCustomInteractionContext would also need to be compied into this one which is too complicated.
      * 
@@ -48,9 +48,6 @@ define(['jquery'], function($){
 
             $ul.find('li:first').prepend($labelMin);
             $ul.find('li:last').append($labelMax);
-
-            //add prompt
-            $container.find('div.prompt').append(config.prompt);
 
             //tell the rendering engine that I am ready
             _pciContext.notifyReady(this);
