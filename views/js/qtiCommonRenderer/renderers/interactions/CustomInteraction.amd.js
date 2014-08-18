@@ -108,7 +108,7 @@ define([
     };
     
     /**
-     * Execute javascript codes to make the interaction come to life.
+     * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
      * 
      * It is done in 5 steps : 
