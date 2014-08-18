@@ -20,7 +20,7 @@ define([
                     stop();//wait for the next start()
 
                     loader.loadItemData(data[itemIdentifier].full, function(item){
-                        
+
                         ok(Element.isA(item, 'assessmentItem'), itemIdentifier + ' item loaded');
                         
                         //count interaction number:
@@ -33,7 +33,7 @@ define([
 
                         //append item placeholder and render it:
                         var $placeholder = $('<div>');
-                        $('#item-editor-scroll-area').append($placeholder);
+                        $('#item-editor-panel').append($placeholder);
 
                         var $interactionForm = $('<div>', {'id' : 'qtiCreator-form-interaction', 'class': 'form-container', text : 'interaction form placeholder'});
                         var $choiceForm = $('<div>', {'id' : 'qtiCreator-form-choice', 'class': 'form-container', text : 'choice form placeholder'});
