@@ -109,7 +109,7 @@ class ExportForm
 	    	}
     		if($class instanceof core_kernel_classes_Class){
 					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
-					foreach($class->getInstances() as $instance){
+					foreach($class->getInstances(true) as $instance){
 						if($itemService->hasItemModel($instance, array(TAO_ITEM_MODEL_QTI))){
 							$options[$instance->getUri()] = $instance->getLabel();
 						}
