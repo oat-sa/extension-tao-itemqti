@@ -58,7 +58,7 @@ define([
         if(!pci){
 
             pciTypeIdentifier = interaction.typeIdentifier;
-            pci = qtiCustomInteractionContext.getPci(pciTypeIdentifier);
+            pci = qtiCustomInteractionContext.createPciInstance(pciTypeIdentifier);
 
             if(pci){
 

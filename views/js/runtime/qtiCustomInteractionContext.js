@@ -43,7 +43,7 @@ define(['jquery', 'lodash'], function($, _){
          * @param {string} pciTypeIdentifier
          * @returns {Object} clonedPciModel
          */
-        getPci : function(pciTypeIdentifier){
+        createPciInstance : function(pciTypeIdentifier){
             if(_pciHooks[pciTypeIdentifier]){
                 return _.cloneDeep(_pciHooks[pciTypeIdentifier]);
             }
