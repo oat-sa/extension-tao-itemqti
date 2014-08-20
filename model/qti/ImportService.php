@@ -145,7 +145,6 @@ class ImportService extends tao_models_classes_GenerisService
         $returnValue = '';
 
         foreach($xsds as $xsd){
-            \common_Logger::d('sss '.$xsd);
             $parser->validate($xsd);
             if($parser->isValid()){
                 $returnValue = $xsd;
