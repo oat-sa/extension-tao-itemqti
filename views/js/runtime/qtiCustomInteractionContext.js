@@ -1,6 +1,6 @@
 define(['jquery', 'lodash'], function($, _){
 
-    var _pciModels = {};
+    var _pciHooks = {};
     
     /**
      * Global object accessible by all PCIs
@@ -12,12 +12,12 @@ define(['jquery', 'lodash'], function($, _){
          * register a custom interaction (its runtime model) in global registery
          * register a renderer
          * 
-         * @param {Object} pciModel
+         * @param {Object} pciHook
          * @returns {undefined}
          */
-        register : function(pciModel){
-            //@todo check pciModel validity
-            _pciModels[pciModel.getTypeIdentifier()] = pciModel;
+        register : function(pciHook){
+            //@todo check pciHook validity
+            _pciHooks[pciHook.getTypeIdentifier()] = pciHook;
         },
         /**
          * notify when a custom interaction is ready for test taker interaction
@@ -44,8 +44,8 @@ define(['jquery', 'lodash'], function($, _){
          * @returns {Object} clonedPciModel
          */
         getPci : function(pciTypeIdentifier){
-            if(_pciModels[pciTypeIdentifier]){
-                return _.cloneDeep(_pciModels[pciTypeIdentifier]);
+            if(_pciHooks[pciTypeIdentifier]){
+                return _.cloneDeep(_pciHooks[pciTypeIdentifier]);
             }
         }
     };
