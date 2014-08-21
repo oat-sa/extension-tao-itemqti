@@ -1,13 +1,14 @@
 <?php
 use oat\taoQtiItem\helpers\Authoring;
+use oat\tao\helpers\Template;
 ?>
 <!--debugger : pretty print-->
 <!--<script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.js" data-manual></script>
 <script src="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/vkBeautify.js"></script>
 <link rel="stylesheet" href="/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/prism/prism.css">-->
 
-<link href="<?=BASE_WWW?>css/qti.css" rel="stylesheet">
-<link href="<?=BASE_WWW?>css/item-creator.css" rel="stylesheet">
+<link href="<?=Template::css('qti.css')?>" rel="stylesheet">
+<link href="<?=Template::css('item-creator.css')?>" rel="stylesheet">
 
 <div id="item-editor-scope" class="tao-scope">
 <div id="item-editor-toolbar">
