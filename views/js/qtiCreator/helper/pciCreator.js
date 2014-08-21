@@ -14,7 +14,7 @@ define([
             if(!pci){
 
                 pciTypeIdentifier = interaction.typeIdentifier;
-                pci = pciCreatorContext.getPci(pciTypeIdentifier);
+                pci = pciCreatorContext.createPciInstance(pciTypeIdentifier);
 
                 if(pci){
 

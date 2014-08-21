@@ -25,7 +25,7 @@ define(['lodash'], function(_){
          * @param {string} pciTypeIdentifier
          * @returns {Object} clonedPciModel
          */
-        getPci : function(pciTypeIdentifier){
+        createPciInstance : function(pciTypeIdentifier){
             if(_pciModels[pciTypeIdentifier]){
                 return _.cloneDeep(_pciModels[pciTypeIdentifier]);
             }

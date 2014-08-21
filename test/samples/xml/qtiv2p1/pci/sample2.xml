@@ -3,7 +3,6 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
                 xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" 
-                xmlns:xhtml="http://www.w3.org/1999/xhtml" 
                 identifier="pci002" title="PCI 002" adaptive="false" timeDependent="false">
     
     <stylesheet href="css/likert1.css" type="text/css"/>
@@ -34,14 +33,17 @@
                     <pci:entry key="scale">5</pci:entry>
                     <pci:entry key="label-min">Not at all</pci:entry>
                     <pci:entry key="label-max">Very much</pci:entry>
-                    <pci:entry key="prompt">&lt;div&gt;Do you like movies ? &lt;img src=&quot;http://cdn-static.zdnet.com/i/story/60/01/056464/vudu-movies-screenshot-082911.png&quot;&gt;&lt;/div&gt;</pci:entry>
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert1" class="likert-scale">
-                        <xhtml:div class="prompt"></xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert1" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                Do you like movies ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/35395/applications-multimedia.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
@@ -67,14 +69,17 @@
                     <pci:entry key="scale">7</pci:entry>
                     <pci:entry key="label-min">Can't stand it :( </pci:entry>
                     <pci:entry key="label-max">Absolutely ! :)</pci:entry>
-                    <pci:entry key="prompt">&lt;div&gt;Do you like video games ? &lt;img src=&quot;http://animepic.biz/wp-content/uploads//video-games-characters-wallpaper-classic-video-game--id--26449--wallpho-pic.jpg&quot;&gt;&lt;/div&gt;</pci:entry>
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert2" class="likert-scale">
-                        <xhtml:div class="prompt"></xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert2" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                What about video games ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/4435/BHSPitMonkey_Old_School_Game_Controller.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
@@ -97,17 +102,20 @@
 
                 <pci:properties>
                     <pci:entry key="literal">0</pci:entry>
-                    <pci:entry key="prompt">&lt;div&gt;Do you like reading ? &lt;img src=&quot;http://cdn1.askiitians.com/Images/2014129-11594625-1242-books.jpg&quot;&gt;&lt;/div&gt;</pci:entry>
                     <pci:entry key="scale">9</pci:entry>
                     <pci:entry key="label-min">Hate it</pci:entry>
                     <pci:entry key="label-max">Love it</pci:entry>
                 </pci:properties>
 
                 <pci:markup>
-                    <xhtml:div id="likert3" class="likert-scale">
-                        <xhtml:div class="prompt"></xhtml:div>
-                        <xhtml:ul class="likert"></xhtml:ul>
-                    </xhtml:div>
+                    <html5:div id="likert3" class="likert-scale">
+                        <html5:div class="prompt">
+                            <html5:p>
+                                And reading ? <html5:img src="http://openclipart.org/image/300px/svg_to_png/29190/MajinCline_Book.png"/>
+                            </html5:p>
+                        </html5:div>
+                        <html5:ul class="likert"></html5:ul>
+                    </html5:div>
                 </pci:markup>
 
             </pci:portableCustomInteraction>
