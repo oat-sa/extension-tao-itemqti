@@ -3,7 +3,7 @@
  * @requires jquery
  * @requires lodash
  */
-define(['jquery', 'lodash'], function($, _){
+define(['jquery', 'lodash', 'i18n'], function($, _, __){
 
     var QtiElements = {};
 
@@ -288,70 +288,70 @@ define(['jquery', 'lodash'], function($, _){
                 icon : 'choice',
                 short : __('Choice'),
                 qtiClass : 'choiceInteraction',
-                tags:['Common Interaction', 'mcq']
+                tags:['Common Interactions', 'mcq']
             },
             orderInteraction : {
                 title : __('Order Interaction'),
                 icon : 'order',
                 short : __('Order'),
                 qtiClass : 'orderInteraction',
-                tags:['Common Interaction', 'ordering']
+                tags:['Common Interactions', 'ordering']
             },
             associateInteraction : {
                 title : __('Associate Interaction'),
                 icon : 'associate',
                 short : __('Associate'),
                 qtiClass : 'associateInteraction',
-                tags:['Common Interaction', 'association']
+                tags:['Common Interactions', 'association']
             },
             matchInteraction : {
                 title : __('Match Interaction'),
                 icon : 'match',
                 short : __('Match'),
                 qtiClass : 'matchInteraction',
-                tags:['Common Interaction', 'association']
+                tags:['Common Interactions', 'association']
             },
             hottextInteraction : {
                 title : __('Hottext Interaction'),
                 icon : 'hottext',
                 short : __('Hottext'),
                 qtiClass : 'hottextInteraction',
-                tags:['Common Interaction', 'text']
+                tags:['Common Interactions', 'text']
             },
             gapMatchInteraction : {
                 title : __('Gap Match Interaction'),
                 icon : 'gap-match',
                 short : __('Gap Match'),
                 qtiClass : 'gapMatchInteraction',
-                tags:['Common Interaction', 'text', 'association']
+                tags:['Common Interactions', 'text', 'association']
             },
             sliderInteraction : {
                 title : __('Slider Interaction'),
                 icon : 'slider',
                 short : __('Slider'),
                 qtiClass : 'sliderInteraction',
-                tags:['Common Interaction', 'special']
+                tags:['Common Interactions', 'special']
             },
             extendedTextInteraction : {
                 title : __('Extended Text Interaction'),
                 icon : 'extended-text',
                 short : __('Extended Text'),
                 qtiClass : 'extendedTextInteraction',
-                tags:['Common Interaction', 'text']
+                tags:['Common Interactions', 'text']
             },
             uploadInteraction : {
                 title : __('File Upload Interaction'),
                 icon : 'upload',
                 short : __('File Upload'),
                 qtiClass : 'uploadInteraction',
-                tags:['Common Interaction', 'special']
+                tags:['Common Interactions', 'special']
             },
             mediaInteraction : {
                 title : __('Media Interaction'),
                 icon : 'media',
                 short : __('Media'),
                 qtiClass : 'mediaInteraction',
-                tags:['Common Interaction', 'media']
+                tags:['Common Interactions', 'media']
             },
             _container : {
                 title : __('Text Block Interaction'),

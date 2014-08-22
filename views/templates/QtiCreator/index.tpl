@@ -31,41 +31,10 @@ use oat\tao\helpers\Template;
 </div>
 
 <div class="wrapper clearfix content" id="item-editor-wrapper">
+
 <!-- left sidebar -->
-<form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off">
+<form class="item-editor-sidebar" id="item-editor-interaction-bar" autocomplete="off"></form>
 
-    <?php foreach(Authoring::getAvailableAuthoringElements() as $group => $groupValues): ?>
-
-    <section class="tool-group" id="sidebar-left-section-<?=Authoring::normalizeAuthoringElementKey($group)?>">
-        <h2><?=__($group)?></h2>
-
-        <div class="panel clearfix">
-            <ul class="tool-list plain">
-                <?php foreach($groupValues as $record):?>
-
-                <li
-                    data-sub-group="<?=$record['sub-group']?>"
-                    data-qti-class="<?=$record['qtiClass']?>"
-
-                <? if(!empty($record['disabled'])): /* tmp fix */ ?>
-                class="disabled"
-                title="element available in the final release"
-                <?else:?>
-                title="<?=$record['title']?>"
-                <? endif; ?>>
-
-                <span class="icon-<?=$record['icon']?>"></span>
-
-                <div class="truncate"><?=$record['short']?></div>
-                </li>
-                <?php endforeach;?>
-
-            </ul>
-        </div>
-    </section>
-
-    <?php endforeach;?>
-</form>
 <!-- /left sidebar -->
 
 <!-- right sidebar -->

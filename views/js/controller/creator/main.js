@@ -7,6 +7,7 @@ define([
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
+    'taoQtiItem/qtiCreator/helper/qtiElements',
     // css editor related
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
@@ -24,6 +25,7 @@ define([
     loader,
     creatorRenderer,
     commonRenderer,
+    qtiElements,
     fontSelector,
     colorSelector,
     fontSizeChanger,
@@ -40,8 +42,6 @@ define([
 
     var _initUiComponents = function(item, widget, config){
 
-
-
         styleEditor.init(widget.element, config);
 
         styleSheetToggler.init(config);
@@ -54,12 +54,20 @@ define([
         preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
-
-
-        editor.initGui(widget);
+        
+        editor.initGui({
+            $itemContainer : widget.$container,
+        });
 
     };
-
+    
+    var _createInteractionsToolbar = function($toolbar){
+        
+        var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
+        
+        editor.createInteractionsToolbar($toolbar, toolbarInteractions);
+    };
+    
     return {
         /**
          * 
@@ -67,11 +75,12 @@ define([
          */
         start : function(config){
 
-            var $tabs = $('#tabs');
-            var $tabNav = $('ul.ui-tabs-nav > li', $tabs);
-            var currentTab = $tabs.tabs('option', 'selected');
+            var $tabs = $('#tabs'),
+                $tabNav = $('ul.ui-tabs-nav > li', $tabs),
+                currentTab = $tabs.tabs('option', 'selected');
 
-
+            _createInteractionsToolbar($('#item-editor-interaction-bar'));
+            
             $loader.css('left', '-10000px');
 
             //load item from REST service
@@ -103,6 +112,7 @@ define([
 
                     //leaving the tab, we try to let the place as clean as possible.
                     $tabs.off('tabsselect.qti-creator').on('tabsselect.qti-creator', function(e, ui){
+                        
                         var index = $tabNav.index($(this).parents('li'));
                         if(index !== currentTab){
                             //remove global events
