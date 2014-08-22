@@ -15,7 +15,8 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
-    'taoQtiItem/qtiCreator/editor/editor'
+    'taoQtiItem/qtiCreator/editor/editor',
+    'taoQtiItem/qtiCreator/editor/interactionsToolbar'
 ], function(
     $,
     _,
@@ -32,7 +33,8 @@ define([
     itemResizer,
     styleEditor,
     styleSheetToggler,
-    editor
+    editor,
+    interactionsToolbar
     ){
 
     // workaround to get ajax loader out of the way
@@ -54,20 +56,20 @@ define([
         preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
-        
+
         editor.initGui({
             $itemContainer : widget.$container,
         });
 
     };
-    
+
     var _createInteractionsToolbar = function($toolbar){
-        
+
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
         
-        editor.createInteractionsToolbar($toolbar, toolbarInteractions);
+        interactionsToolbar.create($toolbar, toolbarInteractions);
     };
-    
+
     return {
         /**
          * 
@@ -80,7 +82,7 @@ define([
                 currentTab = $tabs.tabs('option', 'selected');
 
             _createInteractionsToolbar($('#item-editor-interaction-bar'));
-            
+
             $loader.css('left', '-10000px');
 
             //load item from REST service
@@ -105,14 +107,14 @@ define([
 
                     //"post-render it" to initialize the widget
                     widget = item.postRender(_.clone(config));
-                    
+
                     _initUiComponents(item, widget, config);
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
 
                     //leaving the tab, we try to let the place as clean as possible.
                     $tabs.off('tabsselect.qti-creator').on('tabsselect.qti-creator', function(e, ui){
-                        
+
                         var index = $tabNav.index($(this).parents('li'));
                         if(index !== currentTab){
                             //remove global events
@@ -120,11 +122,11 @@ define([
                             $(document).off('.qti-widget');
                             $(document).off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
-        
+
                             $loader.css('left', loaderLeft);
                         }
                     });
-                    
+
                 }, item.getUsedClasses());
 
             });
