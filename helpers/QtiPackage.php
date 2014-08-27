@@ -1,4 +1,4 @@
-a<?php
+<?php
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +22,8 @@ a<?php
 namespace oat\taoQtiItem\helpers;
 
 use \ZipArchive;
+use \tao_helpers_File;
+use \common_Exception;
 
 /**
  * @access public
@@ -36,16 +38,16 @@ class QtiPackage
         $returnValue = false;
 
         if(!file_exists($source)){
-            throw new Exception("File {$source} not found.");
+            throw new common_Exception("File {$source} not found.");
         }
         if(!is_readable($source)){
-            throw new Exception("Unable to read file {$source}.");
+            throw new common_Exception("Unable to read file {$source}.");
         }
         if(!preg_match("/\.zip$/", basename($source))){
-            throw new Exception("Wrong file extension in {$source}, zip extension is expected");
+            throw new common_Exception("Wrong file extension in {$source}, zip extension is expected");
         }
         if(!tao_helpers_File::securityCheck($source)){
-            throw new Exception("{$source} seems to contain some security issues");
+            throw new common_Exception("{$source} seems to contain some security issues");
         }
 
         $zip = new ZipArchive();
@@ -66,12 +68,9 @@ class QtiPackage
                 default:
                     $msg = 'Bad Zip file';
             }
-            throw new Exception($msg);
+            throw new common_Exception($msg);
+            
         }else{
-            //check if the manifest is there
-            if($zip->locateName("imsmanifest.xml") === false){
-                throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
-            }
 
             $returnValue = true;
         }
@@ -89,7 +88,7 @@ class QtiPackage
             $zip = new ZipArchive();
             $zip->open($source, ZIPARCHIVE::CHECKCONS);
             if($zip->locateName("imsmanifest.xml") === false){
-                throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
+                throw new common_Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
             }else{
                 $returnValue = true;
             }
