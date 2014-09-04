@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model;
 
-use oat\taoQtiItem\model\Config;
-
 /**
  * Interface defining required method for a plugin
  *
@@ -48,12 +46,24 @@ Class Config
         $this->properties[$key] = $value;
     }
     
-    public function addInteraction($interactionPath){
-        $this->interactions[] = $interactionPath;
+    public function getProperty($key){
+        if(isset($this->properties[$key])){
+            return $this->properties[$key];
+        }else{
+            return null;
+        }
     }
     
-    public function addHook($pluginPath){
-        $this->hooks[] = $pluginPath;
+    public function getProperties(){
+        return $this->properties;
+    }
+    
+    public function addInteraction($interactionFile){
+        $this->interactions[] = $interactionFile;
+    }
+    
+    public function addHook($hookFile){
+        $this->uiHooks[] = $hookFile;
     }
     
     public function toArray(){

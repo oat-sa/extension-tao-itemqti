@@ -21,6 +21,9 @@
 
 namespace oat\taoQtiItem\model;
 
+use \common_exception_Error;
+use \common_ext_ExtensionsManager;
+
 class HookRegistry{
     
     /**
@@ -42,7 +45,7 @@ class HookRegistry{
             throw new common_exception_Error('Hook class '.$phpClass.' not found');
         }
         if (!is_subclass_of($phpClass, 'oat\taoQtiItem\model\Hook')) {
-            throw new common_exception_Error('Class '.$phpClass.' deoes not implement Hook interface');
+            throw new common_exception_Error('Class '.$phpClass.' does not implement Hook interface');
         }
         $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         $map = self::getAll();
