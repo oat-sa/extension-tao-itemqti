@@ -255,6 +255,7 @@ use oat\tao\helpers\Template;
 </div>
 
 <div id="mediaManager"></div>
+<div id="modal-container"></div>
 </div>
 
 <script>
