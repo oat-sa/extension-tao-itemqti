@@ -64,7 +64,7 @@ class HookRegistry{
     public static function getAll() {
         $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         $map = $taoQtiItem->getConfig(self::CONFIG_ID);
-        return is_array($map) ? array() : $map;
+        return is_array($map) ? $map : array();
     }
     
 }

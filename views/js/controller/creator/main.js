@@ -37,12 +37,7 @@ define([
     interactionsToolbar
     ){
 
-    // workaround to get ajax loader out of the way
-    // item editor has its own loader with the correct background color
-    var $loader = $('#ajax-loading');
-    var loaderLeft = $loader.css('left');
-
-    var _initUiComponents = function(item, widget, config){
+    var _initializeUiComponents = function(item, widget, config){
 
         styleEditor.init(widget.element, config);
 
@@ -63,11 +58,33 @@ define([
 
     };
 
-    var _createInteractionsToolbar = function($toolbar){
+    var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks, configProperties){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-        
-        interactionsToolbar.create($toolbar, toolbarInteractions);
+
+        require(_.values(customInteractionHooks), function(){
+
+            _.each(arguments, function(interactionHook){
+                var data = interactionHook.getAuthoringData(configProperties);
+                if(data.tags && data.tags[0] === 'Custom Interactions'){
+                    toolbarInteractions[data.qtiClass] = data;
+                }else{
+                    throw 'invalid authoring data for custom interaction';
+                }
+            });
+
+            interactionsToolbar.create($toolbar, toolbarInteractions);
+        });
+
+    };
+
+    var _initializeHooks = function(uiHooks, configProperties){
+
+        require(_.values(uiHooks), function(){
+            _.each(arguments, function(hook){
+                hook.init(configProperties);
+            });
+        });
     };
 
     return {
@@ -79,23 +96,34 @@ define([
 
             var $tabs = $('#tabs'),
                 $tabNav = $('ul.ui-tabs-nav > li', $tabs),
-                currentTab = $tabs.tabs('option', 'selected');
+                currentTab = $tabs.tabs('option', 'selected'),
+                configProperties = config.properties,
+                
+                // workaround to get ajax loader out of the way
+                // item editor has its own loader with the correct background color
+                $loader = $('#ajax-loading'),
+                loaderLeft = $loader.css('left');
 
-            _createInteractionsToolbar($('#item-editor-interaction-bar'));
+            //initialize hooks:
+            _initializeHooks(config.uiHooks, configProperties);
 
+            //create interactions toolbar:
+            _initializeInteractionsToolbar($('#item-editor-interaction-bar'), config.interactions);
+
+            //hide loader:
             $loader.css('left', '-10000px');
 
             //load item from REST service
-            loader.loadItem({uri : config.uri}, function(item){
+            loader.loadItem({uri : configProperties.uri}, function(item){
 
                 var $itemContainer = $('#item-editor-scroll-inner');
 
                 //configure commonRenderer for the preview
-                commonRenderer.setOption('baseUrl', config.baseUrl);
+                commonRenderer.setOption('baseUrl', configProperties.baseUrl);
                 commonRenderer.setContext($itemContainer);
 
                 //load creator renderer
-                creatorRenderer.setOptions(config);
+                creatorRenderer.setOptions(configProperties);
                 creatorRenderer.get().load(function(){
 
                     var widget;
@@ -106,9 +134,9 @@ define([
                     $itemContainer.append(item.render());
 
                     //"post-render it" to initialize the widget
-                    widget = item.postRender(_.clone(config));
+                    widget = item.postRender(_.clone(configProperties));
 
-                    _initUiComponents(item, widget, config);
+                    _initializeUiComponents(item, widget, configProperties);
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
 
