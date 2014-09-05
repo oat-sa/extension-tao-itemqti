@@ -32,6 +32,7 @@ use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
 use oat\taoQtiItem\model\Config;
+use oat\taoQtiItem\model\HookRegistry;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -45,9 +46,9 @@ class QtiCreator extends tao_actions_CommonModule
 {
 
     public function index(){
-        
+
         $config = new Config();
-        
+
         if($this->hasRequestParameter('instance')){
             //uri:
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('instance'));
@@ -57,19 +58,23 @@ class QtiCreator extends tao_actions_CommonModule
             //@todo : allow preview in a language other than the one in the session
             $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
             $config->setProperty('lang', $lang);
-            
+
             //base url:
             $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem', array(
-                'uri' => $itemUri,
-                'lang' => $lang
+                        'uri' => $itemUri,
+                        'lang' => $lang
             ));
             $config->setProperty('baseUrl', $url.'&relPath=');
         }
-        
-        //pass data to the view
-        foreach($config->getProperties() as $name => $value){
-            $this->setData($name, $value);
+
+        //initialize all registered hooks:
+        $hookClasses = HookRegistry::getAll();
+        foreach($hookClasses as $hookClass){
+            $hook = new $hookClass();
+            $hook->init($config);
         }
+
+        $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
     }
 
@@ -87,7 +92,7 @@ class QtiCreator extends tao_actions_CommonModule
                 $returnValue['itemData'] = $item->toArray();
             }
         }
-        
+
         $this->returnJson($returnValue);
     }
 
@@ -96,7 +101,7 @@ class QtiCreator extends tao_actions_CommonModule
         $returnValue = array('success' => false);
 
         if($this->hasRequestParameter('uri')){
-            
+
             $uri = urldecode($this->getRequestParameter('uri'));
             $xml = file_get_contents('php://input');
             $rdfItem = new core_kernel_classes_Resource($uri);
@@ -112,7 +117,7 @@ class QtiCreator extends tao_actions_CommonModule
                 $returnValue['xml'] = $xml;
             }
         }
-        
+
         $this->returnJson($returnValue);
     }
 
