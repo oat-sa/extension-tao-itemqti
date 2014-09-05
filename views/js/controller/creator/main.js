@@ -36,7 +36,7 @@ define([
     editor,
     interactionsToolbar
     ){
-    
+
     var _initializeUiComponents = function(item, widget, config){
 
         styleEditor.init(widget.element, config);
@@ -60,12 +60,29 @@ define([
 
     var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks, configProperties){
 
-        var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
+        var toolbarInteractions = qtiElements.getAvailableAuthoringElements(),
+            required = [],
+            paths = {};
+        
+        _(customInteractionHooks).values().each(function(interactionHook){
+            
+            //load customInteraction namespace in requirejs config 
+            paths[interactionHook.typeIdentifier] = interactionHook.baseUrl;
+            
+            //prepare required interaction files
+            required.push(interactionHook.file);
+        });
+        
+        //register custom interaction paths
+        window.require.config({
+            paths : paths
+        });
+        
+        //load custom interaction hooks
+        window.require(required, function(){
 
-        require(_.values(customInteractionHooks), function(){
-
-            _.each(arguments, function(interactionHook){
-                var data = interactionHook.getAuthoringData(configProperties);
+            _.each(arguments, function(interactionModel){
+                var data = interactionModel.getAuthoringData(configProperties);
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
                 }else{
@@ -79,9 +96,9 @@ define([
     };
 
     var _initializeHooks = function(uiHooks, configProperties){
-        
+
         require(_.values(uiHooks), function(){
-            
+
             _.each(arguments, function(hook){
                 hook.init(configProperties);
             });
@@ -99,12 +116,11 @@ define([
                 $tabNav = $('ul.ui-tabs-nav > li', $tabs),
                 currentTab = $tabs.tabs('option', 'selected'),
                 configProperties = config.properties,
-                
                 // workaround to get ajax loader out of the way
                 // item editor has its own loader with the correct background color
                 $loader = $('#ajax-loading'),
                 loaderLeft = $loader.css('left');
-            
+
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
             configProperties.dom = {
@@ -114,7 +130,7 @@ define([
                 itemPanel : $editorScope.find('#item-editor-panel'),
                 modalContainer : $editorScope.find('#modal-container')
             };
-            
+
             //initialize hooks:
             _initializeHooks(config.uiHooks, configProperties);
 
