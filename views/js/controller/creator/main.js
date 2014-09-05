@@ -36,7 +36,7 @@ define([
     editor,
     interactionsToolbar
     ){
-
+    
     var _initializeUiComponents = function(item, widget, config){
 
         styleEditor.init(widget.element, config);
@@ -66,7 +66,7 @@ define([
 
             _.each(arguments, function(interactionHook){
                 var data = interactionHook.getAuthoringData(configProperties);
-                if(data.tags && data.tags[0] === 'Custom Interactions'){
+                if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
                 }else{
                     throw 'invalid authoring data for custom interaction';
@@ -79,8 +79,9 @@ define([
     };
 
     var _initializeHooks = function(uiHooks, configProperties){
-
+        
         require(_.values(uiHooks), function(){
+            
             _.each(arguments, function(hook){
                 hook.init(configProperties);
             });
@@ -103,7 +104,17 @@ define([
                 // item editor has its own loader with the correct background color
                 $loader = $('#ajax-loading'),
                 loaderLeft = $loader.css('left');
-
+            
+            //pass reference to useful dom element
+            var $editorScope = $('#item-editor-scope');
+            configProperties.dom = {
+                menuLeft : $editorScope.find('.item-editor-menu.lft'),
+                menuRight : $editorScope.find('.item-editor-menu.rgt'),
+                interactionToolbar : $editorScope.find('#item-editor-interaction-bar'),
+                itemPanel : $editorScope.find('#item-editor-panel'),
+                modalContainer : $editorScope.find('#modal-container')
+            };
+            
             //initialize hooks:
             _initializeHooks(config.uiHooks, configProperties);
 
