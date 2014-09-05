@@ -285,126 +285,126 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
         return {
             choiceInteraction : {
                 title : __('Choice Interaction'),
-                icon : 'choice',
+                icon : 'icon-choice',
                 short : __('Choice'),
                 qtiClass : 'choiceInteraction',
                 tags:['Common Interactions', 'mcq']
             },
             orderInteraction : {
                 title : __('Order Interaction'),
-                icon : 'order',
+                icon : 'icon-order',
                 short : __('Order'),
                 qtiClass : 'orderInteraction',
                 tags:['Common Interactions', 'ordering']
             },
             associateInteraction : {
                 title : __('Associate Interaction'),
-                icon : 'associate',
+                icon : 'icon-associate',
                 short : __('Associate'),
                 qtiClass : 'associateInteraction',
                 tags:['Common Interactions', 'association']
             },
             matchInteraction : {
                 title : __('Match Interaction'),
-                icon : 'match',
+                icon : 'icon-match',
                 short : __('Match'),
                 qtiClass : 'matchInteraction',
                 tags:['Common Interactions', 'association']
             },
             hottextInteraction : {
                 title : __('Hottext Interaction'),
-                icon : 'hottext',
+                icon : 'icon-hottext',
                 short : __('Hottext'),
                 qtiClass : 'hottextInteraction',
                 tags:['Common Interactions', 'text']
             },
             gapMatchInteraction : {
                 title : __('Gap Match Interaction'),
-                icon : 'gap-match',
+                icon : 'icon-gap-match',
                 short : __('Gap Match'),
                 qtiClass : 'gapMatchInteraction',
                 tags:['Common Interactions', 'text', 'association']
             },
             sliderInteraction : {
                 title : __('Slider Interaction'),
-                icon : 'slider',
+                icon : 'icon-slider',
                 short : __('Slider'),
                 qtiClass : 'sliderInteraction',
                 tags:['Common Interactions', 'special']
             },
             extendedTextInteraction : {
                 title : __('Extended Text Interaction'),
-                icon : 'extended-text',
+                icon : 'icon-extended-text',
                 short : __('Extended Text'),
                 qtiClass : 'extendedTextInteraction',
                 tags:['Common Interactions', 'text']
             },
             uploadInteraction : {
                 title : __('File Upload Interaction'),
-                icon : 'upload',
+                icon : 'icon-upload',
                 short : __('File Upload'),
                 qtiClass : 'uploadInteraction',
                 tags:['Common Interactions', 'special']
             },
             mediaInteraction : {
                 title : __('Media Interaction'),
-                icon : 'media',
+                icon : 'icon-media',
                 short : __('Media'),
                 qtiClass : 'mediaInteraction',
                 tags:['Common Interactions', 'media']
             },
             _container : {
                 title : __('Text Block Interaction'),
-                icon : 'font',
+                icon : 'icon-font',
                 short : __('Block'),
                 qtiClass : '_container',
                 tags:['Inline Interactions', 'text']
             },
             inlineChoiceInteraction : {
                 title : __('Inline Choice Interaction'),
-                icon : 'inline-choice',
+                icon : 'icon-inline-choice',
                 short : __('Inline Choice'),
                 qtiClass : 'inlineChoiceInteraction',
                 tags:['Inline Interactions', 'inline-interactions', 'mcq']
             },
             textEntryInteraction : {
                 title : __('Text Entry Interaction'),
-                icon : 'text-entry',
+                icon : 'icon-text-entry',
                 short : __('Text Entry'),
                 qtiClass : 'textEntryInteraction',
                 tags:['Inline Interactions', 'inline-interactions', 'text']
             },
             hotspotInteraction : {
                 title : __('Hotspot Interaction'),
-                icon : 'hotspot',
+                icon : 'icon-hotspot',
                 short : __('Hotspot'),
                 qtiClass : 'hotspotInteraction',
                 tags:['Graphic Interactions', 'mcq']
             },
             graphicOrderInteraction : {
                 title : __('Graphic Order Interaction'),
-                icon : 'graphic-order',
+                icon : 'icon-graphic-order',
                 short : __('Graphic Order'),
                 qtiClass : 'graphicOrderInteraction',
                 tags:['Graphic Interactions', 'ordering']
             },
             graphicAssociateInteraction : {
                 title : __('Graphic Associate Interaction'),
-                icon : 'graphic-associate',
+                icon : 'icon-graphic-associate',
                 short : __('Graphic Associate'),
                 qtiClass : 'graphicAssociateInteraction',
                 tags:['Graphic Interactions', 'association']
             },
             graphicGapMatchInteraction : {
                 title : __('Choice Interaction'),
-                icon : 'graphic-gap',
+                icon : 'icon-graphic-gap',
                 short : __('Graphic Gap'),
                 qtiClass : 'graphicGapMatchInteraction',
                 tags:['Graphic Interactions', 'association']
             },
             selectPointInteraction : {
                 title : __('Select Point Interaction'),
-                icon : 'select-point',
+                icon : 'icon-select-point',
                 short : __('Select Point'),
                 qtiClass : 'selectPointInteraction',
                 tags:['Graphic Interactions']
