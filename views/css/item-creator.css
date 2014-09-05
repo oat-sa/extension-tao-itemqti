@@ -5,22 +5,92 @@
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
 
+html, button, input, select, textarea { color: #222; background: white; border-width: 1px; }
+
+html { line-height: 1.4; }
+
+html { font-size: 62.5%; }
+
+body { font-size: 14px; background-color: white; }
+
+h1 { font-size: 24px; font-size: 2.4rem; }
+
+h2 { font-size: 22px; font-size: 2.2rem; }
+
+h3 { font-size: 20px; font-size: 2rem; }
+
+h4 { font-size: 18px; font-size: 1.8rem; }
+
+h5 { font-size: 16px; font-size: 1.6rem; }
+
+h6 { font-size: 14px; font-size: 1.4rem; }
+
+/* Remove text-shadow in selection highlight: h5bp.com/i These selection rule sets have to be separate. Customize the background color to match your design. */
+::-moz-selection { background: #b3d4fc; text-shadow: none; }
+
+::selection { background: #b3d4fc; text-shadow: none; }
+
+/* A better looking default horizontal rule */
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+
+/* Remove the gap between images, videos, audio and canvas and the bottom of their containers: h5bp.com/i/440 */
+audio, canvas, img, video { vertical-align: middle; }
+
+/* Remove default fieldset styles. */
+fieldset { border: 0; margin: 0; padding: 0; }
+
+/* Allow only vertical resizing of textareas. */
+textarea { resize: vertical; }
+
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden { display: none !important; visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* Clearfix: contain floats  For modern browsers 1. The space content is one way to avoid an Opera bug when the `contenteditable` attribute is included anywhere else in the document. Otherwise it causes space to appear at the top and bottom of elements that receive the `clearfix` class. 2. The use of `table` rather than `block` is only necessary if using `:before` to contain the top-margins of child elements. */
+.clearfix:before, .tao-scope .item-editor-sidebar .tool-list:before, .clearfix:after, .tao-scope .item-editor-sidebar .tool-list:after { content: " "; /* 1 */ display: table; /* 2 */ }
+
+.clearfix:after, .tao-scope .item-editor-sidebar .tool-list:after { clear: both; }
+
+/* For IE 6/7 only Include this rule to trigger hasLayout and contain floats. */
+.clearfix, .tao-scope .item-editor-sidebar .tool-list { background-repeat: no-repeat; }
+
+/* ========================================================================== EXAMPLE Media Queries for Responsive Design. These examples override the primary ('mobile first') styles. Modify as content requires. ========================================================================== */
+@media only screen and (min-width: 35em) { /* Style adjustments for viewports that meet the condition */ }
+@media print, (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) { /* Style adjustments for high resolution devices */ }
+/* ========================================================================== Print styles. Inlined to avoid required HTTP connection: h5bp.com/r ========================================================================== */
+@media print { * { background: transparent !important; color: #000 !important; /* Black prints faster: h5bp.com/s */ box-shadow: none !important; text-shadow: none !important; }
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  /* Don't show links for images, or javascript/internal links */
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; /* h5bp.com/t */ }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; } }
 /** Farbtastic Color Picker 1.2 © 2008 Steven Wittens  This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA */
 .farbtastic { position: relative; width: 160px; height: 160px; margin: 5px auto; }
 .farbtastic .color, .farbtastic .overlay { top: 38.5641px; left: 38.5641px; width: 82.87179px; height: 82.87179px; }
@@ -35,19 +105,15 @@
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
 
@@ -108,7 +174,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 
 .tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active { cursor: default; z-index: 9; border: 1px solid #3e7da7; -webkit-box-shadow: 1px 1px 3px 1px #3e7da7; box-shadow: 1px 1px 3px 1px #3e7da7; }
 
-.tao-scope .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb { display: none; position: absolute; top: 0; right: 0; padding: 0; background: #f9f8f7; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; margin-bottom: 5px; overflow: hidden; z-index: 5000; font-size: 13px !important; font-size: 1.3rem !important; }
+.tao-scope .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb { display: none; position: absolute; top: 0; right: 0; padding: 0; background: #f9f8f7; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; margin-bottom: 5px; overflow: hidden; z-index: 5000; font-size: 13px !important; font-size: 1.3rem !important; }
 .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button, .tao-scope #modalFeedbacks .mini-tlb .tlb-button { min-width: 24px; height: 22px; text-align: center; cursor: pointer; margin: 0 2px; display: inline-block; }
 .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class^="icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class^="icon-"], .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class*=" icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class*=" icon-"] { font-size: 14px !important; }
 .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button:hover, .tao-scope #modalFeedbacks .mini-tlb .tlb-button:hover { color: #3e7da7 !important; }
@@ -116,24 +182,12 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button .score, .tao-scope #modalFeedbacks .mini-tlb .tlb-button .score { left: 0; min-width: 0; width: 35px !important; position: relative; top: 0; height: 18px; padding: 0px 4px; }
 .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button[data-role="cke-launcher"] { display: none; }
 
-.tao-scope { /*style for modal feedback*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /*style for html editable area highlight*/ }
+.tao-scope { /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /*style for modal feedback*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /*style for html editable area highlight*/ }
 .tao-scope .item-editor-widget-box { border: 1px dashed transparent; }
 .tao-scope .item-editor-widget-box.active-widget-box { border-color: #3e7da7; }
 .tao-scope .item-editor-widget-box.active-widget-box .active-block { border-color: #3e7da7; }
 .tao-scope .font-selector optgroup { font-style: normal; line-height: 1.5; font-weight: normal; font-size: 1.4rem; color: #6f6359; padding: 2px; }
-.tao-scope .font-selector option { font-size: 1.2rem; color: #222222; }
+.tao-scope .font-selector option { font-size: 1.2rem; color: #222; }
 .tao-scope #item-editor-widget-bar { display: none; }
 .tao-scope #item-editor-toolbar { position: relative; color: black; background: #dcdee1; overflow: hidden; padding-left: 180px; height: 50px; }
 .tao-scope #item-editor-toolbar #item-editor-logo { text-indent: -1000px; overflow: hidden; background: url(data:image/png;base64,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) no-repeat center -3px; width: 180px; position: absolute; left: 0; top: 0; height: 50px; }
@@ -153,6 +207,20 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope #item-editor-wrapper .item-editor-item [class*=" col-"], .tao-scope #item-editor-wrapper .item-editor-item [class^="col-"] { padding: 3px; }
 .tao-scope .item-editor-css-editor select { min-width: 0 !important; width: auto !important; }
 .tao-scope .sidebar-right-section-box { display: none; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope #item-editor-interaction-bar img.interaction-sidebar-icon { width: 28px; height: 28px; display: block; margin: 5px auto 8px; opacity: 0.8; }
 .tao-scope .item-editor-sidebar { background: #f2f0ee; position: absolute; z-index: 2000; top: 0; right: 0; width: 180px; }
 .tao-scope .item-editor-sidebar .tool-group h2 { font-size: 14px; font-size: 1.4rem; border-top: 1px white solid; font-weight: normal; line-height: 30px; padding: 0 6px; letter-spacing: .06rem; clear: left; margin: 0 0 0 0; color: black; position: relative; background: #dcdee1; cursor: pointer; }
 .tao-scope .item-editor-sidebar .tool-group h2 .icon-down { display: none; }
@@ -205,11 +273,11 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-sidebar .spinner.short { padding-right: 10px; }
 .tao-scope .item-editor-sidebar .incrementer-ctrl { top: -3px; }
 .tao-scope .item-editor-sidebar #item-editor-font-size-changer { padding-top: 1px; overflow: hidden; display: table; width: 140px; float: left; }
-.tao-scope .item-editor-sidebar #item-editor-font-size-changer a { display: table-cell; padding: 0 10px; color: #222222; text-decoration: none !important; width: 70px; line-height: 21px; text-align: left; }
+.tao-scope .item-editor-sidebar #item-editor-font-size-changer a { display: table-cell; padding: 0 10px; color: #222; text-decoration: none !important; width: 70px; line-height: 21px; text-align: left; }
 .tao-scope .item-editor-sidebar #item-editor-font-size-changer a.icon-smaller { text-align: right; }
 .tao-scope .item-editor-sidebar #item-editor-font-size-changer .icon-smaller { font-size: 12px; font-size: 1.2rem; }
 .tao-scope .item-editor-sidebar #item-editor-font-size-changer .icon-larger { font-size: 18px; font-size: 1.8rem; }
-.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler { font-size: 11px; font-size: 1.1rem; border: 1px solid #cccccc; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 20px; height: 18px; padding: 2px 0 1px 3px; cursor: pointer !important; margin: 0 4px 0 2px; }
+.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler { font-size: 11px; font-size: 1.1rem; border: 1px solid #ccc; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 20px; height: 18px; padding: 2px 0 1px 3px; cursor: pointer !important; margin: 0 4px 0 2px; }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { font-family: 'tao'; display: inline-block; }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-label-editor { display: none; width: 100px; min-width: 100px; padding: 0px 3px; font-size: 13px; font-size: 1.3rem; position: relative; top: 1px; }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-download, .tao-scope .item-editor-sidebar #style-sheet-toggler .icon-bin { float: right; cursor: pointer; margin-left: 5px; position: relative; top: 2px; }
@@ -217,7 +285,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-sidebar #style-sheet-toggler .file-label { display: inline-block; cursor: pointer; width: 100px; line-height: .9; position: relative; font-size: 13px; font-size: 1.3rem; top: 2px; }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .file-label:hover { color: #3e7da7; }
 .tao-scope .item-editor-sidebar #stylesheet-uploader { width: 100%; }
-.tao-scope .item-editor-sidebar #item-editor-color-picker .color-trigger { width: 40px; display: inline-block; height: 18px; float: right; font-size: 9px; cursor: pointer; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; }
+.tao-scope .item-editor-sidebar #item-editor-color-picker .color-trigger { width: 40px; display: inline-block; height: 18px; float: right; font-size: 9px; cursor: pointer; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; }
 .tao-scope .item-editor-sidebar #item-editor-color-picker .reset-button { font-size: 13px; font-size: 1.3rem; top: 5px; }
 .tao-scope .item-editor-sidebar #item-editor-color-picker #color-picker-container { top: -235px; }
 .tao-scope .item-editor-sidebar #item-editor-color-picker .color-picker { margin-top: -5px; }
@@ -247,204 +315,12 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope #item-editor-panel .item-editor-row { min-height: 100px; overflow-x: hidden; overflow-y: visible; }
 .tao-scope #item-editor-scroll-inner { padding: 20px 60px; }
 .tao-scope #item-editor-scroll-outer { overflow: auto; }
-.tao-scope .dummy-element { min-width: 50px; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; background-color: #eee; font-style: italic; color: white; padding: 0; display: inline-block; line-height: 20px; cursor: default; }
+.tao-scope .dummy-element { min-width: 50px; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; background-color: #eee; font-style: italic; color: white; padding: 0; display: inline-block; line-height: 20px; cursor: default; }
 .tao-scope .widget-inline, .tao-scope .qti-hottext, .tao-scope .qti-gap, .tao-scope .dummy-element, .tao-scope .inline-text-wrapper { position: relative; display: inline-block; }
 .tao-scope .widget-inline [class^="icon-"], .tao-scope .widget-inline [class*=" icon-"], .tao-scope .qti-hottext [class^="icon-"], .tao-scope .qti-hottext [class*=" icon-"], .tao-scope .qti-gap [class^="icon-"], .tao-scope .qti-gap [class*=" icon-"], .tao-scope .dummy-element [class^="icon-"], .tao-scope .dummy-element [class*=" icon-"], .tao-scope .inline-text-wrapper [class^="icon-"], .tao-scope .inline-text-wrapper [class*=" icon-"] { display: inline-block; text-align: center; width: 100%; position: relative; top: 2px; text-shadow: 1px 1px 0px #ccc; }
 .tao-scope .widget-inline ~ span.mini-tlb[data-edit], .tao-scope .qti-hottext ~ span.mini-tlb[data-edit], .tao-scope .qti-gap ~ span.mini-tlb[data-edit], .tao-scope .dummy-element ~ span.mini-tlb[data-edit], .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] { position: absolute !important; top: -2px !important; right: -32px !important; }
 .tao-scope .widget-inline ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .qti-hottext ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .qti-gap ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .dummy-element ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] .tlb-button { margin: 0 !important; padding: 0 !important; height: 18px !important; width: 24px !important; }
-.tao-scope .item-editor-item { border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; -webkit-box-shadow: 0px 0px 8px #b7b1ac; -moz-box-shadow: 0px 0px 8px #b7b1ac; box-shadow: 0px 0px 8px #b7b1ac; /*hack to fix unwanted contenteditable behaviour in chrome : @see*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ @keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- @-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
- /* Repeat animation */ }
+.tao-scope .item-editor-item { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; -webkit-box-shadow: 0px 0px 8px #b7b1ac; -moz-box-shadow: 0px 0px 8px #b7b1ac; box-shadow: 0px 0px 8px #b7b1ac; /*hack to fix unwanted contenteditable behaviour in chrome : @see*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ }
 .tao-scope .item-editor-item [class*=" col-"], .tao-scope .item-editor-item [class^="col-"] { position: relative; }
 .tao-scope .item-editor-item p, .tao-scope .item-editor-item span, .tao-scope .item-editor-item ol, .tao-scope .item-editor-item ul { line-height: 1.4; font-size: 1.4rem; }
 .tao-scope .item-editor-item .inserting .widget-block, .tao-scope .item-editor-item .inserting .widget-blockInteraction { border: 1px dashed #ddd; }
@@ -478,31 +354,80 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .widget-box.widget-blockInteraction .qti-interaction .add-option:hover { opacity: 0.8; }
 .tao-scope .item-editor-item .widget-box .widget-ok { display: none; float: right; margin: 5px; }
 .tao-scope .item-editor-item .widget-box-placeholder { display: inline-block; margin: 0; min-width: 150px; position: relative; vertical-align: middle; background-color: #eee; }
-.tao-scope .item-editor-item [data-edit] { display: none; /*            ::selection { background: transparent; } ::-moz-selection { background: transparent; text-shadow: none; }*/ }
+.tao-scope .item-editor-item [data-edit] { display: none; /*            ::selection { background: transparent; } ::-moz-selection { background: transparent; text-shadow: none;
+}*/ }
 .tao-scope .item-editor-item [data-edit] > [class*=" col-"], .tao-scope .item-editor-item [data-edit] [class^="col-"] { margin-bottom: 0 !important; }
 .tao-scope .item-editor-item [data-edit].mini-tlb-label { position: absolute; top: -30px; left: -10px; background: #f3f1ef; }
 .tao-scope .item-editor-item [data-edit].mini-tlb-label label { color: #0e5d91; cursor: default; font-size: 12px; font-size: 1.2rem; padding: 2px 4px; margin: 0; }
 .tao-scope .item-editor-item .inner-wrapper { position: relative; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-choiceInteraction .real-label input[disabled] ~ [class^="icon-"] { cursor: pointer !important; }
 .tao-scope .item-editor-item .qti-choiceInteraction .mini-tlb[data-edit=answer] .tlb-button { margin: 0; padding: 0; }
 .tao-scope .item-editor-item .qti-choiceInteraction .add-option { position: relative; padding: 5px 5px 5px 6px; }
 .tao-scope .item-editor-item .qti-choiceInteraction .add-option .icon-add { font-size: 1.8rem; left: 6px; position: absolute; top: 5px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-orderInteraction .add-option { position: relative; padding: 5px 5px 5px 6px; }
 .tao-scope .item-editor-item .qti-orderInteraction .add-option .icon-add { font-size: 1.8rem; left: 6px; position: absolute; top: 5px; }
 .tao-scope .item-editor-item .qti-orderInteraction [data-edit].mini-tlb[data-edit] { right: 0px; }
 .tao-scope .item-editor-item [data-qti-class="orderInteraction"].edit-question .arrow-bar { visibility: hidden; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-associateInteraction .add-option { position: relative; padding: 5px 5px 5px 6px; }
 .tao-scope .item-editor-item .qti-associateInteraction .add-option .icon-add { font-size: 1.8rem; left: 6px; position: absolute; top: 5px; }
-.tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice:not(th) { azimuth: nonsense; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; }
+.tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice:not(th) { azimuth: nonsense; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; }
 .tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice:not(th):hover { border-color: #3e7da7; }
 .tao-scope .item-editor-item .qti-associateInteraction .choice-area .qti-choice .mini-tlb[data-edit] { top: -30px !important; }
 .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .mini-tlb[data-edit] { top: 40%; right: -150px; }
 .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] { float: none; position: absolute; right: -230px; outline: none; width: 200px; border: none; cursor: default; }
 .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 { text-align: center; }
 .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-3 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-4 label, .tao-scope .item-editor-item .qti-associateInteraction .result-area > li > .target[data-edit] .col-5 label { position: relative; top: 5px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-matchInteraction .qti-prompt-container { margin: 5px 0 15px; }
 .tao-scope .item-editor-item .qti-matchInteraction table.matrix th { padding: 0; }
@@ -518,9 +443,21 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-matchInteraction .add-options { margin: 15px 5px 8px 0; }
 .tao-scope .item-editor-item .qti-matchInteraction .add-options .add-option { margin-left: 2px; position: relative; padding: 5px 5px 5px 6px; }
 .tao-scope .item-editor-item .qti-matchInteraction .add-options .add-option .icon-add { font-size: 1.8rem; left: 6px; position: absolute; top: 5px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .widget-box.widget-inlineChoiceInteraction { display: none; background: rgba(243, 241, 239, 0.9); }
-.tao-scope .item-editor-item .inlineChoiceInteraction-placeholder { border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 150px; line-height: 24px; position: relative; padding: 0; margin-right: 1px; cursor: pointer; }
+.tao-scope .item-editor-item .inlineChoiceInteraction-placeholder { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 150px; line-height: 24px; position: relative; padding: 0; margin-right: 1px; cursor: pointer; }
 .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder label { padding: 0 10px; margin: 0; }
 .tao-scope .item-editor-item .inlineChoiceInteraction-placeholder .icon-down { position: absolute; font-size: 11px; font-size: 1.1rem; right: 6px; top: 6px; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction { padding: 20px 10px 5px 30px; }
@@ -530,9 +467,9 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-bin, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-pin, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle { text-align: center; padding: 0 5px; cursor: pointer; vertical-align: middle; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-bin:hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-pin:hover, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-shuffle:hover { color: #3e7da7; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .icon-down { text-align: center; position: absolute; right: -18px; font-size: 11px; width: 20px; height: 20px; padding-top: 3px; cursor: default; }
-.tao-scope .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option { padding: 0 18px 0 10px; border-left: 1px #dddddd solid; border-right: 1px #dddddd solid; background: white; }
-.tao-scope .item-editor-item .qti-inlineChoiceInteraction td.option:last, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option:last { border-bottom: 1px #dddddd solid; }
-.tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option { border-top: 1px #dddddd solid; border-bottom: 1px #dddddd solid; min-width: 150px; }
+.tao-scope .item-editor-item .qti-inlineChoiceInteraction td.option, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option { padding: 0 18px 0 10px; border-left: 1px #ddd solid; border-right: 1px #ddd solid; background: white; }
+.tao-scope .item-editor-item .qti-inlineChoiceInteraction td.option:last, .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option:last { border-bottom: 1px #ddd solid; }
+.tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option { border-top: 1px #ddd solid; border-bottom: 1px #ddd solid; min-width: 150px; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .main-option > div { padding: 0; position: relative; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction td.icon-title { font-size: 12px; color: #0e5d91; padding: 0 5px; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable] { cursor: text !important; }
@@ -541,9 +478,21 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .widget-inlineChoice .mini-tlb .icon-radio { left: 6px; }
 .tao-scope .item-editor-item .qti-inlineChoiceInteraction .add-option .icon-add { width: auto; left: 3px; top: 1px; }
 .tao-scope .item-editor-item .widget-response .qti-inlineChoiceInteraction { padding: 0; margin-bottom: 10px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .widget-box.widget-textEntryInteraction { display: none; background: rgba(243, 241, 239, 0.9); }
-.tao-scope .item-editor-item .textEntryInteraction-placeholder { border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 150px; line-height: 24px; position: relative; padding: 0; margin-right: 1px; cursor: pointer; }
+.tao-scope .item-editor-item .textEntryInteraction-placeholder { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; display: inline-block; width: 150px; line-height: 24px; position: relative; padding: 0; margin-right: 1px; cursor: pointer; }
 .tao-scope .item-editor-item .textEntryInteraction-placeholder label { padding: 0 10px; margin: 0; }
 .tao-scope .item-editor-item .textEntryInteraction-placeholder .icon-down { position: absolute; font-size: 11px; font-size: 1.1rem; right: 6px; top: 6px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction { padding: 20px 10px 5px 30px; }
@@ -552,18 +501,54 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-textEntryInteraction tr { height: 27px; white-space: nowrap; }
 .tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin { text-align: center; width: auto; top: 0; padding: 0 5px; cursor: pointer; vertical-align: middle; }
 .tao-scope .item-editor-item .qti-textEntryInteraction .icon-bin:hover { color: #3e7da7; }
-.tao-scope .item-editor-item .qti-textEntryInteraction td.option, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option { padding: 0 18px 0 10px; border-left: 1px #dddddd solid; border-right: 1px #dddddd solid; background: white; }
-.tao-scope .item-editor-item .qti-textEntryInteraction td.option:last, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option:last { border-bottom: 1px #dddddd solid; }
-.tao-scope .item-editor-item .qti-textEntryInteraction .main-option { border-top: 1px #dddddd solid; border-bottom: 1px #dddddd solid; min-width: 150px; }
+.tao-scope .item-editor-item .qti-textEntryInteraction td.option, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option { padding: 0 18px 0 10px; border-left: 1px #ddd solid; border-right: 1px #ddd solid; background: white; }
+.tao-scope .item-editor-item .qti-textEntryInteraction td.option:last, .tao-scope .item-editor-item .qti-textEntryInteraction .main-option:last { border-bottom: 1px #ddd solid; }
+.tao-scope .item-editor-item .qti-textEntryInteraction .main-option { border-top: 1px #ddd solid; border-bottom: 1px #ddd solid; min-width: 150px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction .main-option > div { padding: 0; position: relative; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td.icon-title { font-size: 12px; color: #0e5d91; padding: 0 5px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td input { width: 122px; height: 28px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable] { cursor: text !important; }
 .tao-scope .item-editor-item .qti-textEntryInteraction input.score { width: 30px; }
 .tao-scope .item-editor-item .qti-textEntryInteraction .add-option .icon-add { width: auto; left: 3px; top: 1px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .edit-sleep textarea { cursor: pointer; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .response-pair-editor { min-width: 350px; background: rgba(243, 241, 239, 0.85); padding: 20px 30px 20px 30px; }
 .tao-scope .item-editor-item .response-pair-editor .title { position: relative; top: -5px; left: -10px; }
@@ -577,6 +562,18 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-flow-container #selection-wrapper { z-index: 1000; position: relative; }
 .tao-scope .item-editor-item .qti-gapMatchInteraction .gap-info { color: #0e5d91; font-style: italic; }
 .tao-scope .item-editor-item .qti-gapMatchInteraction .qti-gap span.mini-tlb[data-edit] { position: absolute !important; top: -3px !important; right: -28px !important; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext input[disabled] ~ [class^="icon-"] { cursor: pointer !important; }
 .tao-scope .item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb { display: inline-block; postion: absolute; right: -30px; z-index: 1000; }
@@ -585,12 +582,48 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container .mini-tlb[data-role=create-hottext-tlb] { postion: absolute; right: -30px; }
 .tao-scope .item-editor-item .qti-hottextInteraction .qti-flow-container #selection-wrapper { z-index: 1000; position: relative; }
 .tao-scope .item-editor-item .qti-hottextInteraction input.score { width: 30px; min-width: 30px; padding: 0 2px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-rubricBlock .mini-tlb { top: 7px; right: 7px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .widget-math .mini-tlb { top: -1px; right: -29px; width: 28px; padding: 2px; margin: 0; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
-.tao-scope .item-editor-item .mapping-editor { position: absolute; left: 15px; top: 15px; color: #222222; background: #f2f0ee; padding: 15px 15px 0 15px; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); z-index: 300; min-width: 150px; }
+.tao-scope .item-editor-item .mapping-editor { position: absolute; left: 15px; top: 15px; color: #222; background: #f2f0ee; padding: 15px 15px 0 15px; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); z-index: 300; min-width: 150px; }
 .tao-scope .item-editor-item .mapping-editor .closer { position: absolute; top: 10px; right: 8px; }
 .tao-scope .item-editor-item .mapping-editor h2 { font-size: 15px; font-size: 1.5rem; margin-bottom: 0; }
 .tao-scope .item-editor-item .mapping-editor hr { margin: 0; }
@@ -601,10 +634,22 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow-cover { left: 0; top: 2px; width: 15px; height: 30px; }
 .tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow { top: -6px; }
 .tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow-cover { left: 6px; top: 0; width: 30px; height: 15px; }
-.tao-scope .item-editor-item .mapping-editor .score { border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; text-align: right; min-width: 40px; max-width: 60px; position: relative; top: -5px; }
+.tao-scope .item-editor-item .mapping-editor .score { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; text-align: right; min-width: 40px; max-width: 60px; position: relative; top: -5px; }
 .tao-scope .item-editor-item .mapping-editor .grid-row { line-height: 1.6; padding-top: 8px; }
 .tao-scope .item-editor-item .mapping-editor .tooltipstered { text-align: right; }
 .tao-scope .item-editor-item .mapping-editor .icon-checkbox { margin-left: 20px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-graphicInteraction .dummy-element { cursor: pointer; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar { float: left; width: 50px; height: 100%; min-height: 280px; top: 0; z-index: 1000; }
@@ -620,6 +665,18 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar.tall { min-height: 320px; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar.tall .forms { min-height: 320px; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar.tall ~ .image-editor { min-height: 332px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.empty, .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.placeholder { margin: 0 3px 3px 0 !important; width: 60px; height: 60px; max-height: 60px; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element { cursor: pointer; }
@@ -627,6 +684,18 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] .tlb-button { line-height: 18px; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img ~ span.mini-tlb[data-edit] { top: 0; right: 0; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img ~ span.mini-tlb[data-edit] .tlb-button { line-height: 18px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-droppable-block-hover { min-height: 30px; width: 100%; border: 2px dashed #3e7da7; background-color: #e6eef4; margin: 0; opacity: 0.5; }
 .tao-scope .item-editor-item .grid-edit-resizable-zone { position: absolute; cursor: col-resize; text-align: center; outline: 0 dotted blue; }
@@ -652,13 +721,25 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-h { width: 100%; height: 100%; display: inline-block; position: absolute; top: 2px; left: 0; border-top: 2px solid #0e5d91; border-bottom: 2px solid #0e5d91; }
 .tao-scope .item-editor-item .drop-target #qti-inline-element-placeholder .cursor-v { width: 0px; height: 100%; display: inline-block; position: absolute; top: 2px; left: 3px; border-left: 2px solid #0e5d91; }
 .tao-scope .item-editor-item .widget-box .html-editable-shield { background: rgba(243, 241, 239, 0.5); position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope #modalFeedbacks .mini-tlb { top: -2px; right: -2px; }
 .tao-scope #modalFeedbacks .modal-body { position: relative; }
 .tao-scope #modalFeedbacks .modal-body .cke_editable { margin-right: 30px; }
 .tao-scope #modalFeedbacks .widget-ok { margin: 30px 0px 0px; display: none; }
 .tao-scope #modalFeedbacks .widget-inline { display: inline-block; }
-.tao-scope .feedbackRules .feedbackRule-container { position: relative; margin: 5px 0; padding: 8px; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; background-color: rgba(255, 255, 255, 0.8); max-width: 500px; }
+.tao-scope .feedbackRules .feedbackRule-container { position: relative; margin: 5px 0; padding: 8px; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; background-color: rgba(255, 255, 255, 0.8); max-width: 500px; }
 .tao-scope .feedbackRules .feedbackRule-container select { width: 190px; }
 .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-condition { width: 86px !important; min-width: 86px !important; }
 .tao-scope .feedbackRules .feedbackRule-container .feedbackRule-desc { margin-bottom: 5px; width: 35px; display: inline-block; }
@@ -687,3 +768,5 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
   html body .qti-item [class*="col-"] { border-color: transparent !important; }
   html body [data-edit], html body .mini-tlb { display: none !important; }
   html body [class^="btn-"], html body [class*=" btn-"], html body button, html body input[type="submit"], html body input[type="reset"] { color: #222 !important; border: 1px solid #dddddd !important; border-radius: 2px !important; -webkit-border-radius: 2px !important; } }
+
+/*# sourceMappingURL=item-creator.css.map */

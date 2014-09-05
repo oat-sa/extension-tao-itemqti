@@ -1,4 +1,5 @@
-@import "../../../tao/views/scss/inc/bootstrap";
+@import "inc/bootstrap";
+@import "inc/main";
 @import "inc/farbtastic";
 @import "inc/preview";
 
@@ -38,8 +39,8 @@ span.dragging{
     overflow: hidden;
     z-index: 5000;
     @include font-size(13, true);
-
-
+    
+    
     &:before, &:after {
         //display: block;
     }
@@ -202,6 +203,8 @@ span.dragging{
     .sidebar-right-section-box {
         display:none;
     }
+    
+    @import "qtiCreator/_interaction-sidebar";
     
     .item-editor-sidebar {
         //@todo reset to 0
@@ -414,7 +417,7 @@ span.dragging{
                 }
             }
         }
-
+        
         .reset-group {
             select {
                 width: 140px;
@@ -719,11 +722,11 @@ span.dragging{
             overflow-y: visible;
         }
     }
-
+    
     #item-editor-scroll-inner {
         padding: 20px 60px;
     }
-
+    
     #item-editor-scroll-outer {
         overflow: auto;
     }
@@ -891,7 +894,7 @@ span.dragging{
                     line-height:1.4;
                     @include font-size(14, true);
                 }
-
+                
                 .tlb{
                     .state-switcher{
                         float:right;
@@ -925,7 +928,7 @@ span.dragging{
                     }
                 }
             }
-
+            
             >.common-tlb{
                 overflow:hidden;
                 margin:auto;
@@ -1023,10 +1026,10 @@ span.dragging{
         [data-edit] {
             display: none;
             //fix issue #2678
-/*            ::selection {
+            /*            ::selection {
                 background: transparent;
-            }
-            ::-moz-selection {
+                }
+                ::-moz-selection {
                 background: transparent;
                 text-shadow: none;
             }*/
@@ -1072,8 +1075,7 @@ span.dragging{
         @import "qtiCreator/_graphic";
         @import "qtiCreator/_graphic-gap";
         @import "qtiCreator/_grid-editor";
-
-
+        
     }
     /*style for modal feedback*/
     @import "qtiCreator/_modal-feedback";
