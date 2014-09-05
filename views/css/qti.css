@@ -4,19 +4,15 @@
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -26,7 +22,7 @@
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
-html, button, input, select, textarea { color: #222222; background: white; border-width: 1px; }
+html, button, input, select, textarea { color: #222; background: white; border-width: 1px; }
 
 html { line-height: 1.4; }
 
@@ -110,11 +106,11 @@ textarea { resize: vertical; }
 
 #modalFeedbacks { max-height: 0; }
 
-.mini-tlb .tlb-button { color: #222222 !important; padding-top: 3px; }
+.mini-tlb .tlb-button { color: #222 !important; padding-top: 3px; }
 .mini-tlb .tlb-button:hover { color: #3e7da7 !important; }
 .mini-tlb ul[data-button-group] { background: transparent !important; border: none; }
 .mini-tlb ul[data-button-group] > li { display: none; background: transparent !important; min-width: 0; padding: 0; float: none; }
-.mini-tlb ul[data-button-group] > li span { color: #222222; text-shadow: none !important; }
+.mini-tlb ul[data-button-group] > li span { color: #222; text-shadow: none !important; }
 .mini-tlb ul[data-button-group] > li.active { display: inline-block; }
 
 .edit-question .qti-blockInteraction .horizontal .add-option { margin-top: 25px; }
@@ -141,7 +137,7 @@ textarea { resize: vertical; }
 .qti-interaction .add-option > div { display: table; width: 100%; height: 100%; }
 .qti-interaction .add-option > div [class^="icon-"], .qti-interaction .add-option > div [class*=" icon-"] { display: table-cell; font-size: 60px; font-size: 6rem; position: static !important; vertical-align: middle; width: 100%; height: 100%; text-align: center; top: 0; left: auto; padding: 0; }
 .qti-interaction .add-option:hover { opacity: 0.8; }
-.qti-interaction input[type="color"], .qti-interaction input[type="date"], .qti-interaction input[type="datetime"], .qti-interaction input[type="datetime-local"], .qti-interaction input[type="email"], .qti-interaction input[type="month"], .qti-interaction input[type="number"], .qti-interaction input[type="range"], .qti-interaction input[type="search"], .qti-interaction input[type="tel"], .qti-interaction input[type="time"], .qti-interaction input[type="text"], .qti-interaction input[type="password"], .qti-interaction input[type="url"], .qti-interaction input[type="week"], .qti-interaction textarea, .qti-interaction select { border-top-color: #aaa; border-left-color: #aaaaaa; }
+.qti-interaction input[type="color"], .qti-interaction input[type="date"], .qti-interaction input[type="datetime"], .qti-interaction input[type="datetime-local"], .qti-interaction input[type="email"], .qti-interaction input[type="month"], .qti-interaction input[type="number"], .qti-interaction input[type="range"], .qti-interaction input[type="search"], .qti-interaction input[type="tel"], .qti-interaction input[type="time"], .qti-interaction input[type="text"], .qti-interaction input[type="password"], .qti-interaction input[type="url"], .qti-interaction input[type="week"], .qti-interaction textarea, .qti-interaction select { border-top-color: #aaa; border-left-color: #aaa; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
@@ -149,19 +145,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -183,19 +175,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -207,7 +195,7 @@ textarea { resize: vertical; }
 
 .qti-orderInteraction .arrow-bar { text-align: center; }
 .qti-orderInteraction .arrow-bar span { margin: 3px auto; font-size: 25px; font-size: 2.5rem; color: #909090; background: #f9f8f7; cursor: default; height: 40px; }
-.qti-orderInteraction .arrow-bar span.active { background: #f3f1ef; cursor: pointer; color: #222222; }
+.qti-orderInteraction .arrow-bar span.active { background: #f3f1ef; cursor: pointer; color: #222; }
 .qti-orderInteraction .arrow-bar span.active:hover { color: white; background: #3e7da7; }
 .qti-orderInteraction .arrow-bar span.triggered { color: white; background: #3e7da7; }
 .qti-orderInteraction.qti-vertical .order-interaction-area { display: table; border-collapse: separate; border-spacing: 5px 5px 5px 0; width: 100%; }
@@ -227,19 +215,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -251,7 +235,7 @@ textarea { resize: vertical; }
 
 .qti-extendedTextInteraction input { width: 100%; }
 .qti-extendedTextInteraction .solid > li, .qti-extendedTextInteraction .bordered > li { padding: 0; border: none; }
-.qti-extendedTextInteraction .solid ~ input, .qti-extendedTextInteraction .solid ~ textarea, .qti-extendedTextInteraction .bordered ~ input, .qti-extendedTextInteraction .bordered ~ textarea { border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; }
+.qti-extendedTextInteraction .solid ~ input, .qti-extendedTextInteraction .solid ~ textarea, .qti-extendedTextInteraction .bordered ~ input, .qti-extendedTextInteraction .bordered ~ textarea { border: 1px solid #eee; border-radius: 2px; -webkit-border-radius: 2px; }
 .qti-extendedTextInteraction .active > input, .qti-extendedTextInteraction .active > textarea, .qti-extendedTextInteraction .active input.active, .qti-extendedTextInteraction .active textarea.active { border-color: #3e7da7; }
 .qti-extendedTextInteraction textarea { max-width: 100% !important; width: 100%; height: 150px; resize: none; }
 .qti-extendedTextInteraction textarea[disabled="disabled"] { background-color: white; opacity: 1 !important; }
@@ -262,19 +246,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -291,7 +271,7 @@ textarea { resize: vertical; }
 .qti-associateInteraction .result-area { width: 40%; min-width: 260px; margin: auto; }
 .qti-associateInteraction .result-area > li { display: block; margin-bottom: 30px; position: relative; }
 .qti-associateInteraction .result-area > li:before { border-top: 1px solid #86aec8; display: block; width: 80%; left: 10%; height: 1px; position: absolute; z-index: 1; top: 50%; }
-.qti-associateInteraction .result-area > li > .target { background: white; padding: 5px; margin: 5px; float: right; position: relative; z-index: 2; min-width: 100px; min-height: 30px; max-width: 150px; max-height: 150px; outline: 5px #f5f3f2 solid; border: 1px solid #eeeeee; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; }
+.qti-associateInteraction .result-area > li > .target { background: white; padding: 5px; margin: 5px; float: right; position: relative; z-index: 2; min-width: 100px; min-height: 30px; max-width: 150px; max-height: 150px; outline: 5px #f5f3f2 solid; border: 1px solid #eee; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; }
 .qti-associateInteraction .result-area > li > .target.active { border-color: #3e7da7; }
 .qti-associateInteraction .result-area > li > .target:first-child { float: left; }
 .qti-associateInteraction .result-area > li.removing > div { background-color: #eee; }
@@ -310,19 +290,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -341,19 +317,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -372,19 +344,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -406,19 +374,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -443,19 +407,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -478,19 +438,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -508,19 +464,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -546,19 +498,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -568,7 +516,7 @@ textarea { resize: vertical; }
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
 
-.qti-gapMatchInteraction .gapmatch-content { background: #f3f1ef; color: #222222; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; position: relative; top: 0px; min-width: 45px; min-height: 20px; display: inline-block; }
+.qti-gapMatchInteraction .gapmatch-content { background: #f3f1ef; color: #222; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; position: relative; top: 0px; min-width: 45px; min-height: 20px; display: inline-block; }
 .qti-gapMatchInteraction .gapmatch-content audio, .qti-gapMatchInteraction .gapmatch-content canvas, .qti-gapMatchInteraction .gapmatch-content img, .qti-gapMatchInteraction .gapmatch-content video { vertical-align: baseline; }
 .qti-gapMatchInteraction .gapmatch-content.empty { min-height: 20px; }
 .qti-gapMatchInteraction .gapmatch-content .remove { float: right; }
@@ -581,19 +529,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -622,19 +566,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -652,19 +592,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -680,8 +616,8 @@ textarea { resize: vertical; }
 .qti-textEntryInteraction .icon-bin, .qti-textEntryInteraction .icon-pin, .qti-textEntryInteraction .icon-shuffle { text-align: center; padding: 0 5px; cursor: pointer; vertical-align: middle; }
 .qti-textEntryInteraction .icon-radio, .qti-textEntryInteraction .icon-checkbox, .qti-textEntryInteraction .icon-radio-checked, .qti-textEntryInteraction .icon-checkbox-checked { font-size: 13px !important; }
 .qti-textEntryInteraction .icon-bin:hover, .qti-textEntryInteraction .icon-pin:hover, .qti-textEntryInteraction .icon-shuffle:hover { color: #3e7da7; }
-.qti-textEntryInteraction td[contenteditable], .qti-textEntryInteraction .main-option { padding: 0 7px; background: white; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; }
-.qti-textEntryInteraction .main-option { border-top: 1px #dddddd solid; border-bottom: 1px #dddddd solid; padding-right: 29px; min-width: 180px; }
+.qti-textEntryInteraction td[contenteditable], .qti-textEntryInteraction .main-option { padding: 0 7px; background: white; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; }
+.qti-textEntryInteraction .main-option { border-top: 1px #ddd solid; border-bottom: 1px #ddd solid; padding-right: 29px; min-width: 180px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
@@ -689,19 +625,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -723,19 +655,15 @@ textarea { resize: vertical; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-webkit-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-moz-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 @-o-keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
-
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
@@ -762,3 +690,5 @@ textarea { resize: vertical; }
 .qti-flow-container .mini-tlb { right: -31px !important; }
 
 /* end tmp fix #2768 */
+
+/*# sourceMappingURL=qti.css.map */
