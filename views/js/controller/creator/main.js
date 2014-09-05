@@ -16,7 +16,8 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
     'taoQtiItem/qtiCreator/editor/editor',
-    'taoQtiItem/qtiCreator/editor/interactionsToolbar'
+    'taoQtiItem/qtiCreator/editor/interactionsToolbar',
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry'
 ], function(
     $,
     _,
@@ -34,7 +35,8 @@ define([
     styleEditor,
     styleSheetToggler,
     editor,
-    interactionsToolbar
+    interactionsToolbar,
+    ciRegistry
     ){
 
     var _initializeUiComponents = function(item, widget, config){
@@ -57,31 +59,17 @@ define([
         });
 
     };
-
+    
+    //@todo make it executable more than once?
     var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks, configProperties){
 
-        var toolbarInteractions = qtiElements.getAvailableAuthoringElements(),
-            required = [],
-            paths = {};
+        var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
         
-        _(customInteractionHooks).values().each(function(interactionHook){
-            
-            //load customInteraction namespace in requirejs config 
-            paths[interactionHook.typeIdentifier] = interactionHook.baseUrl;
-            
-            //prepare required interaction files
-            required.push(interactionHook.file);
-        });
+        ciRegistry.register(customInteractionHooks);
         
-        //register custom interaction paths
-        window.require.config({
-            paths : paths
-        });
-        
-        //load custom interaction hooks
-        window.require(required, function(){
+        ciRegistry.load(function(interactionModels){
 
-            _.each(arguments, function(interactionModel){
+            _.each(interactionModels, function(interactionModel){
                 var data = interactionModel.getAuthoringData(configProperties);
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
