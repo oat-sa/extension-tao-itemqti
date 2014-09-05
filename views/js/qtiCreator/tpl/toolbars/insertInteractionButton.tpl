@@ -9,8 +9,11 @@
     title="{{title}}"
 {{/if}}
 >
-
-    <span class="icon-{{icon}}"></span>
-
+    {{#if icon-font}}
+    <span class="{{icon}}"></span>
+    {{else}}
+    <img class="interaction-sidebar-icon" src="{{icon}}">
+    {{/if}}
+    
     <div class="truncate">{{short}}</div>
 </li>

@@ -77,6 +77,7 @@ define([
                 qtiClass : interaction.qtiClass,
                 disabled : !!interaction.disabled,
                 title : interaction.title,
+                'icon-font' : /^icon-/.test(interaction.icon),
                 icon : interaction.icon,
                 short : interaction.short
             };
@@ -109,6 +110,7 @@ define([
     }
     
     function isReady($toolbar){
+        
         return !!$toolbar.data('interaction-toolbar-ready');
     }
     
