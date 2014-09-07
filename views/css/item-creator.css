@@ -484,6 +484,159 @@ span.dragging {
   background: #f3f1ef;
   -webkit-box-shadow: 1px 1px 6px 2px #777;
   box-shadow: 1px 1px 6px 2px #777; }
+=======
+.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+  content: "\1cb"; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .item-editor-item .hoverable .widget-box.widget-inline.hover, .item-editor-item .hoverable .widget-box.widget-block.hover, .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .item-editor-item .inlineChoiceInteraction-placeholder.hover, .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .item-editor-item .textEntryInteraction-placeholder.hover, .item-editor-item .qti-textEntryInteraction td[contenteditable]:hover, #modalFeedbacks .widget-inline.hover {
   cursor: pointer;
@@ -550,7 +703,17 @@ span.dragging {
   display: inline-block !important;
   padding: 0 !important;
   margin: 0 !important; }
+>>>>>>> .theirs
 
+<<<<<<< .mine
+  html body #item-editor-panel {
+    margin: 0 !important;
+    padding: 0 !important; }
+
+
+
+
+=======
 @media print {
   html body #tabs {
     margin: 0 !important;
@@ -558,6 +721,7 @@ span.dragging {
     width: auto !important;
     padding: 0 !important;
     border: none !important; }
+>>>>>>> .theirs
 
   html body .item-no-print {
     display: none !important; }
