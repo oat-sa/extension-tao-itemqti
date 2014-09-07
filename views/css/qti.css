@@ -329,14 +329,24 @@ textarea { resize: vertical; }
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind { content: "\124"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
 
-.qti-choiceInteraction .checked span.icon-radio:before { content: "\1b1"; }
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
 
-.qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
-.qti-mediaInteraction .mejs-container iframe { min-height: inherit; }
-.qti-mediaInteraction .overlay { background: #000; z-index: 999; position: relative; opacity: 0; width: 100%; height: 100%; }
+.qti-mediaInteraction .mejs-container iframe {
+  min-height: inherit; }
+.qti-mediaInteraction .overlay {
+  background: #000;
+  z-index: 999;
+  position: relative;
+  opacity: 0;
+  width: 100%;
+  height: 100%; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
@@ -578,13 +588,17 @@ textarea { resize: vertical; }
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind { content: "\124"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
 
-.qti-choiceInteraction .checked span.icon-radio:before { content: "\1b1"; }
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
 
-.qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
-.qti-inlineChoiceInteraction { min-width: 150px; }
+.qti-inlineChoiceInteraction {
+  min-width: 150px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
@@ -667,27 +681,45 @@ textarea { resize: vertical; }
 /* Repeat animation */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind { content: "\124"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
 
-.qti-choiceInteraction .checked span.icon-radio:before { content: "\1b1"; }
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
 
-.qti-choiceInteraction .checked span.icon-checkbox:before { content: "\1b4"; }
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
-.qti-rubricBlock .qti-rubricBlock-body { border: 1px solid transparent; }
-.qti-rubricBlock > .col-12 { border: 1px solid #DDD !important; background-color: rgba(243, 241, 239, 0.3); }
+.qti-rubricBlock .qti-rubricBlock-body {
+  border: 1px solid transparent; }
+.qti-rubricBlock > .col-12 {
+  border: 1px solid #DDD !important;
+  background-color: rgba(243, 241, 239, 0.3); }
 
-#qti-submit-response { display: block; width: 100px; margin-top: 20px; margin-right: auto; margin-left: auto; }
+#qti-submit-response {
+  display: block;
+  width: 100px;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto; }
 
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
-.qti-simpleChoice .mini-tlb[data-edit="question"] { right: -45px !important; top: 3px; }
+.qti-simpleChoice .mini-tlb[data-edit="question"] {
+  right: -45px !important;
+  top: 3px; }
 
-.qti-hottextInteraction .mini-tlb { right: -31px !important; }
+.qti-hottextInteraction .mini-tlb {
+  right: -31px !important; }
 
-.qti-interaction .qti-prompt ~ .mini-tlb { right: -31px !important; top: 1px; }
+.qti-interaction .qti-prompt ~ .mini-tlb {
+  right: -31px !important;
+  top: 1px; }
 
-.widget-textBlock .mini-tlb { right: -60px !important; }
+.widget-textBlock .mini-tlb {
+  right: -60px !important; }
 
-.qti-flow-container .mini-tlb { right: -31px !important; }
+.qti-flow-container .mini-tlb {
+  right: -31px !important; }
 
 /* end tmp fix #2768 */
 
