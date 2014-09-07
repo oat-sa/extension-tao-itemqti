@@ -364,6 +364,18 @@ textarea {
   html body .item-no-print {
     display: none !important; }
 
+=======
+  html body .qti-item {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 !important;
+    border: none !important;
+    width: 100% !important; }
+    html body .qti-item [class*="col-"] {
+      border-color: transparent !important; }
+>>>>>>> .theirs
+
+<<<<<<< .mine
 .tao-scope { /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /*style for modal feedback*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /*style for html editable area highlight*/ }
 .tao-scope .item-editor-widget-box { border: 1px dashed transparent; }
 .tao-scope .item-editor-widget-box.active-widget-box { border-color: #3e7da7; }
@@ -955,6 +967,9 @@ textarea {
 .tao-scope .edit-question .qti-interaction [data-html-editable], .tao-scope .qti-modalFeedback.edit-active [data-html-editable] { margin-right: 0px; }
 .tao-scope .edit-question .qti-interaction [data-html-editable][contenteditable=true]:focus, .tao-scope .qti-modalFeedback.edit-active [data-html-editable][contenteditable=true]:focus { border: 1px dotted #0e5d91; }
 .tao-scope .widget-rubricBlock [data-html-editable], .tao-scope .widget-textBlock [data-html-editable] { min-height: 3rem; }
+=======
+  html body [data-edit], html body .mini-tlb {
+    display: none !important; }
 
   html body .qti-item {
     border-radius: 0;

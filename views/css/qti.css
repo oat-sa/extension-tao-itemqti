@@ -788,6 +788,7 @@ textarea {
       color: #666 !important;
       background-color: transparent !important; }
 
+>>>>>>> .theirs
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
@@ -939,22 +940,43 @@ textarea {
   content: "\124"; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/** Use icon within sass: @inclue icon('down'); */
-/* Fade animation */
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-/* Repeat animation */
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+.qti-hottextInteraction .hottext {
+  background: #f3f1ef;
+  padding-right: 5px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  position: relative; }
+  .qti-hottextInteraction .hottext.error {
+    color: #ba122b; }
+  .qti-hottextInteraction .hottext .hottext-checkmark {
+    padding-right: 0;
+    min-width: auto;
+    width: auto; }
+  .qti-hottextInteraction .hottext [class^="icon-"].small, .qti-hottextInteraction .hottext [class*=" icon-"].small {
+    font-size: 12px;
+    font-size: 1.2rem;
+    text-shadow: none;
+    line-height: 10px;
+    top: 1px; }
+  .qti-hottextInteraction .hottext [class^="icon-"].error, .qti-hottextInteraction .hottext [class*=" icon-"].error {
+    color: #ba122b; }
+  .qti-hottextInteraction .hottext .mini-tlb[data-edit] {
+    top: -2px; }
+    .qti-hottextInteraction .hottext .mini-tlb[data-edit].icon-undo {
+      padding-right: 8px; }
+    .qti-hottextInteraction .hottext .mini-tlb[data-edit] label {
+      padding: 0 3px; }
+    .qti-hottextInteraction .hottext .mini-tlb[data-edit] [data-role="score"] {
+      width: 30px; }
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
@@ -1037,23 +1059,53 @@ textarea {
 .qti-choiceInteraction .checked span.icon-checkbox:before {
   content: "\1b4"; }
 
+
+
+
+>>>>>>> .theirs
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/** Use icon within sass: @inclue icon('down'); */
-/* Fade animation */
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-/* Repeat animation */
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
+  content: "\123"; }
+.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
+  content: "\124"; }
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
+.qti-sliderInteraction .ui-slider-horizontal {
+  margin: 0 20px; }
+.qti-sliderInteraction .ui-slider-vertical {
+  margin: 0 20px;
+  display: inline-block; }
+.qti-sliderInteraction .qti-slider-values {
+  position: relative; }
+.qti-sliderInteraction.qti-slider-horizontal .qti-slider-values {
+  height: 20px;
+  margin: 0 20px; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-min, .qti-sliderInteraction.qti-slider-horizontal .slider-max, .qti-sliderInteraction.qti-slider-horizontal .slider-middle {
+  position: absolute;
+  width: 40px;
+  margin-left: -20px;
+  text-align: center;
+  font-size: 12px;
+  font-size: 1.2rem; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-min {
+  left: 0%; }
+.qti-sliderInteraction.qti-slider-horizontal .slider-max {
+  left: 100%; }
+.qti-sliderInteraction.qti-slider-vertical .qti-slider-values {
+  width: 30px;
+  display: inline-block; }
+.qti-sliderInteraction.qti-slider-vertical .slider-min, .qti-sliderInteraction.qti-slider-vertical .slider-max, .qti-sliderInteraction.qti-slider-vertical .slider-middle {
+  position: absolute; }
+.qti-sliderInteraction.qti-slider-vertical .slider-min {
+  bottom: -10px; }
+.qti-sliderInteraction.qti-slider-vertical .slider-max {
+  top: -10px; }
+.qti-sliderInteraction.qti-slider-vertical .ui-slider-handle {
+  width: 17px !important;
+  height: 10px !important;
+  margin-left: -4px !important; }
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
@@ -1074,23 +1126,6 @@ textarea {
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/** Use icon within sass: @inclue icon('down'); */
-/* Fade animation */
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-/* Repeat animation */
-.qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before { content: "\123"; }
 
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
