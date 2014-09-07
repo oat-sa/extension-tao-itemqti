@@ -3,6 +3,7 @@ define([
     'lodash',
     'helpers',
     'i18n',
+    'urlParser',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'lib/jquery.fileDownload'
 ], function (
@@ -10,6 +11,7 @@ define([
     _,
     helpers,
     __,
+    UrlParser,
     cssTpl
     ) {
    // 'use strict'
@@ -63,7 +65,7 @@ define([
                 downloadTxt: __('Download this stylesheet'),
                 preparingMessageHtml: __('Preparing CSS, please wait…'),
                 failMessageHtml: __('There was a problem downloading your CSS, please try again.'),
-                listing: $('#style-sheet-toggler')
+                isInValidLocalTxt: __('This stylesheet has not been found on the server. you may want to delete this reference')
             },
             customStylesheet = '';
 
@@ -215,7 +217,47 @@ define([
             var fileName,
                 link,
                 stylesheets = [],
-                listEntry;
+                listEntry,
+                parser,
+                loadStylesheet = function(link, stylesheet, isLocal, isValid) {
+
+                    // in the given scenario we cannot test whether a remote stylesheet really exists
+                    // this would require to pipe all remote css via php curl
+                    var isInvalidLocal = isLocal && !isValid,
+                        tplData = {
+                            path: stylesheet.attr('href'),
+                            label: (stylesheet.attr('title') || fileName),
+                            title: common.title,
+                            deleteTxt: common.deleteTxt,
+                            downloadTxt: common.downloadTxt,
+                            editLabelTxt: isInvalidLocal ? common.isInValidLocalTxt : common.editLabelTxt
+                        };
+
+                    stylesheets.push(tplData);
+
+                    // create list entry
+                    listEntry = $(cssTpl({ stylesheets: stylesheets }));
+
+                    listEntry.data('stylesheetObj', stylesheet);
+
+                    // initialize download button
+                    $('#style-sheet-toggler').append(listEntry);
+
+                    if(isInvalidLocal) {
+                        listEntry.addClass('not-available');
+                        listEntry.find('[data-role="css-download"], .style-sheet-toggler').css('visibility', 'hidden');
+                        return;
+                    }
+
+                    $styleElem.before(link);
+
+                    // time difference between loading the css file and applying the styles
+                    setTimeout(function() {
+                        $(doc).trigger('customcssloaded.styleeditor', [style]);
+                        $(window).trigger('resize');
+                    }, isLocal ? 500 : 3500);
+
+                };
 
             // argument is uri
             if(_.isString(stylesheet)) {
@@ -233,34 +275,24 @@ define([
                 return _link;
             }());
 
-            // load css to cache before appending
+            // cache css before applying allows for a pretty good guess
+            // when the stylesheet is loaded and the buttons in the style editor
+            // can be changed
+            parser = new UrlParser(link.attr('href'));
+            if (parser.checkCORS()) {
             $.when($.ajax(link.attr('href'))).then(function() {
-
-                $styleElem.before(link);
-
-                stylesheets.push({
-                    path: stylesheet.attr('href'),
-                    label: (stylesheet.attr('title') || fileName),
-                    title: common.title,
-                    deleteTxt: common.deleteTxt,
-                    downloadTxt: common.downloadTxt,
-                    editLabelTxt: common.editLabelTxt
-                });
-
-                // create list entry
-                listEntry = $(cssTpl({ stylesheets: stylesheets }));
-
-                listEntry.data('stylesheetObj', stylesheet);
-
-                // initialize download button
-                common.listing.append(listEntry);
-
-                // time difference between loading the css file and applying the styles
-                setTimeout(function() {
-                    $(doc).trigger('customcssloaded.styleeditor', [style]);
-                    $(window).trigger('resize');
-                }, 500);
+                    loadStylesheet(link, stylesheet, true, true);
+                },
+                    // add file to list even on failure to be able to remove it from the item
+                    function() {
+                        loadStylesheet(link, stylesheet, true, false);
             });
+            }
+            // otherwise load it with a big timeout and hope for the best
+            // unfortunately this dirty way is the only possibility in cross domain environments
+            else {
+                loadStylesheet(link, stylesheet, false);
+            }
 
         };
 
