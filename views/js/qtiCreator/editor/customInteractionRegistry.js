@@ -27,8 +27,8 @@ define(['lodash'], function(_){
             var hooks = {};
             _.each(arguments, function(hook){
                 hooks[hook.getTypeIdentifier()] = hook;
-                callback(hooks);
             });
+            callback(hooks);
         });
     }
 
