@@ -112,11 +112,21 @@ define([
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
             configProperties.dom = {
-                menuLeft : $editorScope.find('.item-editor-menu.lft'),
-                menuRight : $editorScope.find('.item-editor-menu.rgt'),
-                interactionToolbar : $editorScope.find('#item-editor-interaction-bar'),
-                itemPanel : $editorScope.find('#item-editor-panel'),
-                modalContainer : $editorScope.find('#modal-container')
+                getMenuLeft : function(){
+                    return $editorScope.find('.item-editor-menu.lft')
+                },
+                getMenuRight : function(){
+                    return $editorScope.find('.item-editor-menu.rgt');
+                },
+                getInteractionToolbar : function(){
+                    return $editorScope.find('#item-editor-interaction-bar');
+                },
+                getItemPanel : function(){
+                    return $editorScope.find('#item-editor-panel');
+                },
+                getModalContainer : function(){
+                    return $editorScope.find('#modal-container');
+                }
             };
 
             //initialize hooks:
