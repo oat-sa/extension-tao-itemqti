@@ -48,12 +48,13 @@ define([
     }
     
     function createInteractionsToolbar($toolbar, interactionToolbars){
-
+        
         var groups = {};
 
         _.each(interactionToolbars, function(interaction){
 
-            var groupLabel = interaction.tags.shift(),
+            var tags = _.clone(interaction.tags),
+                groupLabel = tags.shift(),
                 groupId = getGroupId(groupLabel),
                 subGroupId = interaction.tags[0] || '';
 
@@ -76,7 +77,7 @@ define([
             var interactionData = {
                 qtiClass : interaction.qtiClass,
                 disabled : !!interaction.disabled,
-                title : interaction.title,
+                title : interaction.label,
                 'icon-font' : /^icon-/.test(interaction.icon),
                 icon : interaction.icon,
                 short : interaction.short

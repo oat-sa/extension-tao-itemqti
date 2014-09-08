@@ -68,7 +68,7 @@ define([
         ciRegistry.register(customInteractionHooks);
         
         ciRegistry.load(function(interactionModels){
-
+            
             _.each(interactionModels, function(interactionModel){
                 var data = interactionModel.getAuthoringData(configProperties);
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
