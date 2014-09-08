@@ -12,7 +12,7 @@ define([
     'ui/mediasizer',
     'ui/resourcemgr',
     'nouislider'
-], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil, mediasizer){
+], function($, __, stateFactory, Active, formTpl, formElement, inlineHelper, itemUtil, _, imageUtil){
 
     var ImgStateActive = stateFactory.extend(Active, function(){
 
