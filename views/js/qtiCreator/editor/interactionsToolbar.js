@@ -115,6 +115,10 @@ define([
         return !!$toolbar.data('interaction-toolbar-ready');
     }
     
+    function remove($toolbar, interactionClass){
+        $toolbar.find('li[data-qti-class="'+interactionClass+'"]').remove();
+    }
+    
     return {
         create : createInteractionsToolbar,
         addGroup : addGroup,
@@ -122,6 +126,7 @@ define([
         getGroupSectionId : getGroupSectionId,
         getGroup : getGroup,
         isReady : isReady,
+        remove : remove,
         getCustomInteractionTag : function(){
             return _customInteractionTag;
         }
