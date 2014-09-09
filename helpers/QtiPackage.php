@@ -43,9 +43,6 @@ class QtiPackage
         if(!is_readable($source)){
             throw new common_Exception("Unable to read file {$source}.");
         }
-        if(!preg_match("/\.zip$/", basename($source))){
-            throw new common_Exception("Wrong file extension in {$source}, zip extension is expected");
-        }
         if(!tao_helpers_File::securityCheck($source)){
             throw new common_Exception("{$source} seems to contain some security issues");
         }
