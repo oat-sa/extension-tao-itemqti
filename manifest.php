@@ -55,7 +55,7 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole', array('ext'=>'taoQtiItem')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiItemRunner')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiAuthoring')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiCreator')),
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole', array('ext'=>'taoQtiItem', 'mod' => 'QtiPreview'))
     ),    
 	'constants' => array(
