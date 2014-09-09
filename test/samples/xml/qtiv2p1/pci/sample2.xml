@@ -5,12 +5,12 @@
                 xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" 
                 identifier="pci002" title="PCI 002" adaptive="false" timeDependent="false">
     
-    <stylesheet href="css/likert1.css" type="text/css"/>
-    
     <responseDeclaration identifier="likert1" cardinality="single" baseType="integer"/>
     <responseDeclaration identifier="likert2" cardinality="single" baseType="integer"/>
     <responseDeclaration identifier="likert3" cardinality="single" baseType="integer"/>
-
+    
+    <stylesheet href="css/likert1.css" type="text/css"/>
+    
     <itemBody>
         
         <p>This is a sample PCI.</p>
