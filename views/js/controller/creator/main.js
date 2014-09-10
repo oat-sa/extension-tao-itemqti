@@ -61,16 +61,16 @@ define([
     };
     
     //@todo make it executable more than once?
-    var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks, configProperties){
+    var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
         
         ciRegistry.register(customInteractionHooks);
         
-        ciRegistry.load(function(interactionModels){
+        ciRegistry.loadAll(function(interactionModels){
             
             _.each(interactionModels, function(interactionModel){
-                var data = interactionModel.getAuthoringData(configProperties);
+                var data = interactionModel.getAuthoringData();
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
                 }else{

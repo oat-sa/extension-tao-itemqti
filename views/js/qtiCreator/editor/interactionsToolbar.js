@@ -172,6 +172,7 @@ define([
 
     return {
         create : create,
+        add : add,
         addGroup : addGroup,
         getGroupId : getGroupId,
         getGroupSectionId : getGroupSectionId,
