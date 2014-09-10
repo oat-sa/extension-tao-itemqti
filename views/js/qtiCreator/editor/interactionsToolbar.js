@@ -101,6 +101,15 @@ define([
                 short : interactionAuthoringData.short,
                 dev : (_customInteractionTag === groupLabel) && ciRegistry.isDev(interactionAuthoringData.qtiClass.replace('customInteraction.', ''))
             };
+            
+        if(subGroupId && _subgroups[subGroupId]){
+            tplData['subGroup'] = subGroupId;
+        }
+
+        if(!$group.length){
+            //the group does not exist yet : create a <section> for the group
+            $group = addGroup($sidebar, groupLabel);
+        }
 
         if(subGroupId && _subgroups[subGroupId]){
             tplData.subGroup = subGroupId;
