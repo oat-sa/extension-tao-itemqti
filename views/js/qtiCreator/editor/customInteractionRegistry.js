@@ -7,14 +7,14 @@ define(['lodash'], function(_){
     function register(customInteractionHooks){
 
         _(customInteractionHooks).values().each(function(interactionHook){
-
+            
             //load customInteraction namespace in requirejs config 
             paths[interactionHook.typeIdentifier] = interactionHook.baseUrl;
 
             //prepare required interaction files
             required.push(interactionHook.file);
         });
-
+        
         //register custom interaction paths
         requirejs.config({
             paths : paths
