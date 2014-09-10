@@ -1,5 +1,7 @@
 <li
-    data-sub-group="{{sub-group}}"
+{{#if subGroup}}
+    data-sub-group="{{subGroup}}"
+{{/if}}
     data-qti-class="{{qtiClass}}"
     
 {{#if disabled}}
