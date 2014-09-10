@@ -26,8 +26,6 @@ use oat\taoQtiItem\model\qti\VariableDeclaration;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Composite;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
-use \taoItems_models_classes_Measurement;
-use \taoItems_models_classes_Scale_Scale;
 
 /**
  * An outcome is a data build in item output. The SCORE is one of the most
@@ -50,14 +48,6 @@ class OutcomeDeclaration extends VariableDeclaration
      */
     protected static $qtiTagName = 'outcomeDeclaration';
 
-    /**
-     * The scale to used for this outcome, this is NOT supported in the QTI.
-     *
-     * @access protected
-     * @var Scale
-     */
-    protected $scale = null;
-
     protected function getUsedAttributes(){
         return array_merge(
                 parent::getUsedAttributes(), array(
@@ -73,7 +63,6 @@ class OutcomeDeclaration extends VariableDeclaration
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['defaultValue'] = $this->getDefaultValue();
-        $data['scale'] = $this->getScale();
         return $data;
     }
 
@@ -113,70 +102,4 @@ class OutcomeDeclaration extends VariableDeclaration
 
         return $returnValue;
     }
-
-    /**
-     * used to extract the measurements of this item to the ontology
-     *
-     * @deprecated remain of tao coding extension
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Item qtiItem
-     * @return taoItems_models_classes_Measurement
-     */
-    public function toMeasurement(Item $qtiItem){
-
-        $interpretation = $this->getAttributeValue('interpretation');
-        $returnValue = new taoItems_models_classes_Measurement($this->getIdentifier(), $interpretation);
-        if(!is_null($this->getScale())){
-            $returnValue->setScale($this->getScale());
-        }
-        $rp = $qtiItem->getResponseProcessing();
-        if($rp instanceof Composite){
-            $irp = $rp->getIRPByOutcome($this);
-            if(!is_null($irp)){
-                $returnValue->setHumanAssisted($irp instanceof None);
-            }
-        }
-
-        return $returnValue;
-    }
-
-    /**
-     * Short description of method removeScale
-     * 
-     * @deprecated remain of tao coding extension
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
-     */
-    public function removeScale(){
-        $this->scale = null;
-    }
-
-    /**
-     * Short description of method setScale
-     * 
-     * @deprecated remain of tao coding extension
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Scale scale
-     * @return mixed
-     */
-    public function setScale(taoItems_models_classes_Scale_Scale $scale){
-        $this->scale = $scale;
-    }
-
-    /**
-     * Short description of method getScale
-     *
-     * @deprecated remain of tao coding extension
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return taoItems_models_classes_Scale_Scale
-     */
-    public function getScale(){
-        return $this->scale;
-    }
-
 }
-/* end of class oat\taoQtiItem\model\qti\OutcomeDeclaration */
