@@ -49,7 +49,7 @@ define([
 
         return $section;
     }
-    function createInteractionsToolbar($sidebar, interactions){
+    function create($sidebar, interactions){
 
         _.each(interactions, function(interactionAuthoringData){
             add($sidebar, interactionAuthoringData);
@@ -164,13 +164,14 @@ define([
             }, 300);
 
         }).on('mouseleave', '.sub-group-cover', function(){
+            
             $tooltip.find('[data-tooltip]').tooltipster('hide');
             clearTimeout(timer);
         });
     }
 
     return {
-        create : createInteractionsToolbar,
+        create : create,
         addGroup : addGroup,
         getGroupId : getGroupId,
         getGroupSectionId : getGroupSectionId,
