@@ -45,7 +45,7 @@ define([
                 qtiElements.classes['customInteraction.' + id] = {parents : ['customInteraction'], qti : true};
             }
         });
-        
+
         //register custom interaction paths
         requirejs.config({
             paths : paths
