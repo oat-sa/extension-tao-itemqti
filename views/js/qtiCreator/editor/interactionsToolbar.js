@@ -101,9 +101,9 @@ define([
                 short : interactionAuthoringData.short,
                 dev : (_customInteractionTag === groupLabel) && ciRegistry.isDev(interactionAuthoringData.qtiClass.replace('customInteraction.', ''))
             };
-            
+
         if(subGroupId && _subgroups[subGroupId]){
-            tplData['subGroup'] = subGroupId;
+            tplData.subGroup = subGroupId;
         }
 
         if(!$group.length){
