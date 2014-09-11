@@ -71,12 +71,17 @@ define(['lodash'], function(_){
 
         return paths[typeIdentifier];
     }
-
+    
+    function isDev(typeIdentifier){
+        return interactions[typeIdentifier] && interactions[typeIdentifier].dev;
+    }
+    
     return {
         register : register,
         loadAll : loadAll,
         loadOne : loadOne,
-        getPath : getPath
+        getPath : getPath,
+        isDev : isDev
     };
 
 });

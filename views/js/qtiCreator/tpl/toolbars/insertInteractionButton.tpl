@@ -4,6 +4,10 @@
 {{/if}}
     data-qti-class="{{qtiClass}}"
     
+{{#if dev}}
+    class="dev"
+{{/if}}
+
 {{#if disabled}}
     class="disabled"
     title="element available in the final release"
@@ -11,7 +15,7 @@
     title="{{title}}"
 {{/if}}
 >
-    {{#if icon-font}}
+    {{#if iconFont}}
     <span class="{{icon}}"></span>
     {{else}}
     <img class="interaction-sidebar-icon" src="{{icon}}">
