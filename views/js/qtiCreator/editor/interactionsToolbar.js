@@ -2,11 +2,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltipster'
-], function($, _, __, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
 
     /**
      * String to identify a custom interaction from the authoring data
@@ -74,11 +75,19 @@ define([
     }
 
     function remove($sidebar, interactionClass){
-        $sidebar.find('li[data-qti-class="' + interactionClass + '"]').remove();
+        $sidebar.find('li[data-qti-class="' + interactionClass + '"]:not(.dev)').remove();
     }
-
+    
+    function exists($sidebar, interactionClass){
+        return !!$sidebar.find('li[data-qti-class="' + interactionClass + '"]').length;
+    }
+    
     function add($sidebar, interactionAuthoringData){
-
+        
+        if(exists($sidebar, interactionAuthoringData.qtiClass)){
+            throw 'the interaction is already in the sidebar';
+        }
+        
         var groupLabel = interactionAuthoringData.tags[0] || '',
             subGroupId = interactionAuthoringData.tags[1],
             $group = getGroup($sidebar, groupLabel),
@@ -86,13 +95,14 @@ define([
                 qtiClass : interactionAuthoringData.qtiClass,
                 disabled : !!interactionAuthoringData.disabled,
                 title : interactionAuthoringData.label,
-                'icon-font' : /^icon-/.test(interactionAuthoringData.icon),
+                iconFont : /^icon-/.test(interactionAuthoringData.icon),
                 icon : interactionAuthoringData.icon,
-                short : interactionAuthoringData.short
+                short : interactionAuthoringData.short,
+                dev : (_customInteractionTag === groupLabel) && ciRegistry.isDev(interactionAuthoringData.qtiClass.replace('customInteraction.', ''))
             };
-            
+
         if(subGroupId && _subgroups[subGroupId]){
-            tplData['subGroup'] = subGroupId;
+            tplData.subGroup = subGroupId;
         }
 
         if(!$group.length){
@@ -104,7 +114,7 @@ define([
     }
 
     function buildSubGroups($sidebar){
-        
+
         $sidebar.find('[data-sub-group]').each(function(){
 
             var $element = $(this),
@@ -113,7 +123,7 @@ define([
                 $subGroupPanel,
                 $subGroupList,
                 $cover;
-            
+
             if(!subGroup){
                 return;
             }
@@ -164,7 +174,7 @@ define([
             }, 300);
 
         }).on('mouseleave', '.sub-group-cover', function(){
-            
+
             $tooltip.find('[data-tooltip]').tooltipster('hide');
             clearTimeout(timer);
         });
@@ -173,6 +183,7 @@ define([
     return {
         create : create,
         add : add,
+        exists : exists,
         addGroup : addGroup,
         getGroupId : getGroupId,
         getGroupSectionId : getGroupSectionId,
