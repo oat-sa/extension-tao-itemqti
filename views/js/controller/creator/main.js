@@ -108,7 +108,7 @@ define([
                 // item editor has its own loader with the correct background color
                 $loader = $('#ajax-loading'),
                 loaderLeft = $loader.css('left');
-
+            
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
             configProperties.dom = {
