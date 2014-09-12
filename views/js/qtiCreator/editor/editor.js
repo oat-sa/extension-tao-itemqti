@@ -1,10 +1,7 @@
 define([
     'lodash',
-    'jquery',
-    'i18n',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/tooltipster'
-], function(_, $, __, tooltipTpl,  tooltip){
+    'jquery'
+], function(_, $){
 
     'use strict';
 
@@ -66,38 +63,6 @@ define([
             panel = 'hr, .panel',
             closed = 'closed',
             ns = 'accordion';
-
-
-        var buildSubGroups = function(){
-
-            elements.sidebars.find('[data-sub-group]').each(function(){
-                var $element = $(this),
-                    $section = $element.parents('section'),
-                    subGroup = $element.data('sub-group'),
-                    $subGroupPanel,
-                    $subGroupList,
-                    $cover;
-
-                if(!subGroup){
-                    return;
-                }
-
-                $subGroupPanel = $section.find('.sub-group.' + subGroup);
-                $subGroupList = $subGroupPanel.find('.tool-list');
-                if(!$subGroupPanel.length){
-                    $subGroupPanel = $('<div>', {'class' : 'panel clearfix sub-group ' + subGroup});
-                    $subGroupList = $('<ul>', {'class' : 'tool-list plain clearfix'});
-                    $subGroupPanel.append($subGroupList);
-                    $section.append($subGroupPanel);
-                    $cover = $('<div>', {'class' : 'sub-group-cover blocking'});
-                    $subGroupPanel.append($cover);
-                    $subGroupPanel.data('cover', $cover);
-                }
-                $subGroupList.append($element);
-            });
-
-            addInlineInteractionTooltip();
-        };
 
         /**
          * setup accordion
@@ -251,39 +216,6 @@ define([
         };
 
         /**
-         * add tooltip to explain special requirement and behaviours for inline interactions
-         */
-        var addInlineInteractionTooltip = function(){
-            
-            var timer,
-                $inlineInteractionsPanel = $('#sidebar-left-section-inline-interactions .inline-interactions'),
-                $tooltip = $(tooltipTpl({
-                message : __('Inline interactions need to be inserted into a text block.')
-            }));
-
-            $inlineInteractionsPanel.append($tooltip);
-            tooltip($inlineInteractionsPanel);
-
-            $tooltip.css({
-                position : 'absolute',
-                zIndex : 11,
-                top : 0,
-                right : 10
-            });
-
-            $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
-
-                timer = setTimeout(function(){
-                    $tooltip.find('[data-tooltip]').tooltipster('show');
-                }, 300);
-
-            }).on('mouseleave', '.sub-group-cover', function(){
-                $tooltip.find('[data-tooltip]').tooltipster('hide');
-                clearTimeout(timer);
-            });
-        };
-
-        /**
          * Initialize interface
          */
         var initGui = function(config){
@@ -293,8 +225,6 @@ define([
             _setupElements();
 
             adaptHeight();
-
-            buildSubGroups();
 
             // toggle blocks in sidebar
             // note that this must happen _after_ the height has been adapted
@@ -350,6 +280,7 @@ define([
         };
 
     }());
+    
     return editor;
 });
 

@@ -1,17 +1,21 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup'
-], function($, _, insertInteractionTpl, insertSectionTpl){
-    
-     /**
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
+    'ui/tooltipster'
+], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+
+    /**
      * String to identify a custom interaction from the authoring data
      * 
      * @type String
      */
     var _customInteractionTag = 'Custom Interactions';
-    
+
     /**
      * Interaction types that require a sub group in the toolbar
      * 
@@ -20,107 +24,166 @@ define([
     var _subgroups = {
         'inline-interactions' : 'Inline Interactions'
     };
-    
+
     var _events = {
         interactiontoolbarready : 'interactiontoolbarready.qti-widget'
     };
-    
+
     function getGroupId(groupLabel){
         return groupLabel.replace(/\W+/g, '-').toLowerCase();
     }
-    
+
     function getGroupSectionId(groupLabel){
-        return 'sidebar-left-section-'+getGroupId(groupLabel);
+        return 'sidebar-left-section-' + getGroupId(groupLabel);
     }
-    
-    function addGroup($toolbar, groupLabel){
-        
+
+    function addGroup($sidebar, groupLabel){
+
         var groupId = getGroupSectionId(groupLabel);
-                
+
         var $section = $(insertSectionTpl({
             id : groupId,
             label : groupLabel
         }));
 
-        $toolbar.append($section);
-        
+        $sidebar.append($section);
+
         return $section;
     }
+    function create($sidebar, interactions){
+
+        _.each(interactions, function(interactionAuthoringData){
+            add($sidebar, interactionAuthoringData);
+        });
+
+        buildSubGroups($sidebar);
+
+        //set it ad "ready":
+        $sidebar.data('interaction-toolbar-ready', true);
+        $sidebar.trigger(_events.interactiontoolbarready);//interactiontoolbarready.qti-widget
+    }
+
+    function getGroup($sidebar, groupLabel){
+
+        var groupId = getGroupSectionId(groupLabel);
+        return $sidebar.find('#' + groupId);
+    }
+
+    function isReady($sidebar){
+
+        return !!$sidebar.data('interaction-toolbar-ready');
+    }
+
+    function remove($sidebar, interactionClass){
+        $sidebar.find('li[data-qti-class="' + interactionClass + '"]:not(.dev)').remove();
+    }
     
-    function createInteractionsToolbar($toolbar, interactionToolbars){
+    function exists($sidebar, interactionClass){
+        return !!$sidebar.find('li[data-qti-class="' + interactionClass + '"]').length;
+    }
+    
+    function add($sidebar, interactionAuthoringData){
         
-        var groups = {};
-
-        _.each(interactionToolbars, function(interaction){
-
-            var tags = _.clone(interaction.tags),
-                groupLabel = tags.shift(),
-                groupId = getGroupId(groupLabel),
-                subGroupId = interaction.tags[0] || '';
-
-            if(!groups[groupId]){
-
-                //the group does not exist yet : create a <section> for the group
-
-                var $section = addGroup($toolbar, groupLabel);
-
-                groups[groupId] = {
-                    id : groupId,
-                    label : groupLabel,
-                    $section : $section,
-                    interactions : []
-                };
-
-            }
-
-            //prepare interaction tpl data
-            var interactionData = {
-                qtiClass : interaction.qtiClass,
-                disabled : !!interaction.disabled,
-                title : interaction.label,
-                'icon-font' : /^icon-/.test(interaction.icon),
-                icon : interaction.icon,
-                short : interaction.short
+        if(exists($sidebar, interactionAuthoringData.qtiClass)){
+            throw 'the interaction is already in the sidebar';
+        }
+        
+        var groupLabel = interactionAuthoringData.tags[0] || '',
+            subGroupId = interactionAuthoringData.tags[1],
+            $group = getGroup($sidebar, groupLabel),
+            tplData = {
+                qtiClass : interactionAuthoringData.qtiClass,
+                disabled : !!interactionAuthoringData.disabled,
+                title : interactionAuthoringData.label,
+                iconFont : /^icon-/.test(interactionAuthoringData.icon),
+                icon : interactionAuthoringData.icon,
+                short : interactionAuthoringData.short,
+                dev : (_customInteractionTag === groupLabel) && ciRegistry.isDev(interactionAuthoringData.qtiClass.replace('customInteraction.', ''))
             };
 
-            if(_subgroups[subGroupId]){
-                interactionData['sub-group'] = subGroupId;
+        if(subGroupId && _subgroups[subGroupId]){
+            tplData.subGroup = subGroupId;
+        }
+
+        if(!$group.length){
+            //the group does not exist yet : create a <section> for the group
+            $group = addGroup($sidebar, groupLabel);
+        }
+
+        $group.find('.tool-list').append(insertInteractionTpl(tplData));
+    }
+
+    function buildSubGroups($sidebar){
+
+        $sidebar.find('[data-sub-group]').each(function(){
+
+            var $element = $(this),
+                $section = $element.parents('section'),
+                subGroup = $element.data('sub-group'),
+                $subGroupPanel,
+                $subGroupList,
+                $cover;
+
+            if(!subGroup){
+                return;
             }
 
-            groups[groupId].interactions.push(interactionData);
+            $subGroupPanel = $section.find('.sub-group.' + subGroup);
+            $subGroupList = $subGroupPanel.find('.tool-list');
+            if(!$subGroupPanel.length){
+                $subGroupPanel = $('<div>', {'class' : 'panel clearfix sub-group ' + subGroup});
+                $subGroupList = $('<ul>', {'class' : 'tool-list plain clearfix'});
+                $subGroupPanel.append($subGroupList);
+                $section.append($subGroupPanel);
+                $cover = $('<div>', {'class' : 'sub-group-cover blocking'});
+                $subGroupPanel.append($cover);
+                $subGroupPanel.data('cover', $cover);
+            }
+            $subGroupList.append($element);
         });
 
-        _.each(groups, function(group){
+        addInlineInteractionTooltip();
+    }
 
-            var $ul = group.$section.find('.tool-list');
-            _.each(group.interactions, function(interactionData){
-                $ul.append(insertInteractionTpl(interactionData))
-            });
+    /**
+     * add tooltip to explain special requirement and behaviours for inline interactions
+     * may need to generalize it in the future
+     */
+    function addInlineInteractionTooltip(){
 
+        var timer,
+            $inlineInteractionsPanel = $('#sidebar-left-section-inline-interactions .inline-interactions'),
+            $tooltip = $(tooltipTpl({
+                message : __('Inline interactions need to be inserted into a text block.')
+            }));
+
+        $inlineInteractionsPanel.append($tooltip);
+        tooltip($inlineInteractionsPanel);
+
+        $tooltip.css({
+            position : 'absolute',
+            zIndex : 11,
+            top : 0,
+            right : 10
         });
-        
-        //set it ad "ready":
-        $toolbar.data('interaction-toolbar-ready', true);
-        $toolbar.trigger(_events.interactiontoolbarready);//interactiontoolbarready.qti-widget
+
+        $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
+
+            timer = setTimeout(function(){
+                $tooltip.find('[data-tooltip]').tooltipster('show');
+            }, 300);
+
+        }).on('mouseleave', '.sub-group-cover', function(){
+
+            $tooltip.find('[data-tooltip]').tooltipster('hide');
+            clearTimeout(timer);
+        });
     }
-    
-    function getGroup($toolbar, groupLabel){
-        
-        var groupId = getGroupSectionId(groupLabel);
-        return $toolbar.find('#'+groupId);
-    }
-    
-    function isReady($toolbar){
-        
-        return !!$toolbar.data('interaction-toolbar-ready');
-    }
-    
-    function remove($toolbar, interactionClass){
-        $toolbar.find('li[data-qti-class="'+interactionClass+'"]').remove();
-    }
-    
+
     return {
-        create : createInteractionsToolbar,
+        create : create,
+        add : add,
+        exists : exists,
         addGroup : addGroup,
         getGroupId : getGroupId,
         getGroupSectionId : getGroupSectionId,
@@ -130,6 +193,6 @@ define([
         getCustomInteractionTag : function(){
             return _customInteractionTag;
         }
-    }
+    };
 
 });

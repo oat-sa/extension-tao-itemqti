@@ -74,17 +74,6 @@ class Service extends tao_models_classes_Service
                 if (!$returnValue->getAttributeValue('xml:lang')) {
                     $returnValue->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
                 }
-
-                //load Measures
-                $measurements = $itemService->getItemMeasurements($item);
-                foreach ($returnValue->getOutcomes() as $outcome) {
-                    foreach ($measurements as $measurement) {
-                        if ($measurement->getIdentifier() == $outcome->getIdentifier() && !is_null($measurement->getScale())) {
-                            $outcome->setScale($measurement->getScale());
-                            break;
-                        }
-                    }
-                }
             }
             else {
                 // fail silently, since file might not have been created yet
@@ -128,16 +117,7 @@ class Service extends tao_models_classes_Service
                     $qtiItem->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 
                     //get the QTI xml
-                    $itemsaved = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
-
-                    if($itemsaved){
-                        // extract the measurements
-                        $measurements = array();
-                        foreach($qtiItem->getOutcomes() as $outcome){
-                            $measurements[] = $outcome->toMeasurement($qtiItem);
-                        }
-                        $returnValue = $itemService->setItemMeasurements($rdfItem, $measurements);
-                    }
+                    $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
                 }
             }catch(common_Exception $ce){
                 print $ce;
