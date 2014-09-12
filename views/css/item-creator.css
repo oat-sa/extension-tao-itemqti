@@ -1,8 +1,234 @@
 @charset "CP850";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+.item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
+html,
+button,
+input,
+select,
+textarea {
+  color: #222222;
+  background: white;
+  border-width: 1px; }
+
+html {
+  line-height: 1.4; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  font-size: 14px;
+  background-color: white; }
+
+h1 {
+  font-size: 24px;
+  font-size: 2.4rem; }
+
+h2 {
+  font-size: 22px;
+  font-size: 2.2rem; }
+
+h3 {
+  font-size: 20px;
+  font-size: 2rem; }
+
+h4 {
+  font-size: 18px;
+  font-size: 1.8rem; }
+
+h5 {
+  font-size: 16px;
+  font-size: 1.6rem; }
+
+h6 {
+  font-size: 14px;
+  font-size: 1.4rem; }
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0; }
+
+/*
+ * Remove the gap between images, videos, audio and canvas and the bottom of
+ * their containers: h5bp.com/i/440
+ */
+audio,
+canvas,
+img,
+video {
+  vertical-align: middle; }
+
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+  resize: vertical; }
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+.hidden {
+  display: none !important;
+  visibility: hidden; }
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+.invisible {
+  visibility: hidden; }
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.clearfix:before, .item-editor-sidebar .tool-list:before,
+.clearfix:after,
+.item-editor-sidebar .tool-list:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */ }
+
+.clearfix:after, .item-editor-sidebar .tool-list:after {
+  clear: both; }
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix, .item-editor-sidebar .tool-list {
+  background-repeat: no-repeat; }
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+@media only screen and (min-width: 35em) {
+  /* Style adjustments for viewports that meet the condition */ }
+@media print, (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */ }
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+@media print {
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important; }
+
+  a,
+  a:visited {
+    text-decoration: underline; }
+
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: ""; }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */ }
+
+  tr,
+  img {
+    page-break-inside: avoid; }
+
+  img {
+    max-width: 100% !important; }
+
+  @page {
+    margin: 0.5cm; }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2,
+  h3 {
+    page-break-after: avoid; } }
 /**
  * Farbtastic Color Picker 1.2
  * © 2008 Steven Wittens
@@ -51,7 +277,7 @@
     cursor: crosshair; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-.tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
+.item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
 /* Clearfix: contain floats  For modern browsers 1. The space content is one way to avoid an Opera bug when the `contenteditable` attribute is included anywhere else in the document. Otherwise it causes space to appear at the top and bottom of elements that receive the `clearfix` class. 2. The use of `table` rather than `block` is only necessary if using `:before` to contain the top-margins of child elements. */
@@ -62,14 +288,14 @@
 /* For IE 6/7 only Include this rule to trigger hasLayout and contain floats. */
 .clearfix, .tao-scope #item-editor-interaction-bar .tool-list { background-repeat: no-repeat; }
 
-.tao-scope .item-editor-item .hoverable .widget-box.widget-inline.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-block.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .tao-scope .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .tao-scope .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .tao-scope .item-editor-item .qti-textEntryInteraction td[contenteditable]:focus, .tao-scope #modalFeedbacks .widget-inline.edit-active {
+.item-editor-item .hoverable .widget-box.widget-inline.edit-active, .item-editor-item .hoverable .widget-box.widget-block.edit-active, .item-editor-item .hoverable .widget-box.widget-rubricBlock.edit-active .qti-rubricBlock-body, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-active, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.edit-choice .inner-wrapper, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.edit-choice:not(th), .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:focus, .item-editor-item .qti-textEntryInteraction td[contenteditable]:focus, #modalFeedbacks .widget-inline.edit-active {
   cursor: default;
   z-index: 9;
   border: 1px solid #3e7da7;
   -webkit-box-shadow: 1px 1px 3px 1px #3e7da7;
   box-shadow: 1px 1px 3px 1px #3e7da7; }
 
-.tao-scope .item-editor-item [data-edit].mini-tlb, .tao-scope #modalFeedbacks .mini-tlb {
+.item-editor-item [data-edit].mini-tlb, #modalFeedbacks .mini-tlb {
   display: none;
   position: absolute;
   top: 0;
@@ -84,20 +310,20 @@
   z-index: 5000;
   font-size: 13px !important;
   font-size: 1.3rem !important; }
-  .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button, .tao-scope #modalFeedbacks .mini-tlb .tlb-button {
+  .item-editor-item [data-edit].mini-tlb .tlb-button, #modalFeedbacks .mini-tlb .tlb-button {
     min-width: 24px;
     height: 22px;
     text-align: center;
     cursor: pointer;
     margin: 0 2px;
     display: inline-block; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class^="icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class^="icon-"], .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button [class*=" icon-"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button [class*=" icon-"] {
+    .item-editor-item [data-edit].mini-tlb .tlb-button [class^="icon-"], #modalFeedbacks .mini-tlb .tlb-button [class^="icon-"], .item-editor-item [data-edit].mini-tlb .tlb-button [class*=" icon-"], #modalFeedbacks .mini-tlb .tlb-button [class*=" icon-"] {
       font-size: 14px !important; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button:hover, .tao-scope #modalFeedbacks .mini-tlb .tlb-button:hover {
+    .item-editor-item [data-edit].mini-tlb .tlb-button:hover, #modalFeedbacks .mini-tlb .tlb-button:hover {
       color: #3e7da7 !important; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button.active, .tao-scope #modalFeedbacks .mini-tlb .tlb-button.active {
+    .item-editor-item [data-edit].mini-tlb .tlb-button.active, #modalFeedbacks .mini-tlb .tlb-button.active {
       color: #0e5d91 !important; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button .score, .tao-scope #modalFeedbacks .mini-tlb .tlb-button .score {
+    .item-editor-item [data-edit].mini-tlb .tlb-button .score, #modalFeedbacks .mini-tlb .tlb-button .score {
       left: 0;
       min-width: 0;
       width: 35px !important;
@@ -105,7 +331,7 @@
       top: 0;
       height: 18px;
       padding: 0px 4px; }
-    .tao-scope .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"], .tao-scope #modalFeedbacks .mini-tlb .tlb-button[data-role="cke-launcher"] {
+    .item-editor-item [data-edit].mini-tlb .tlb-button[data-role="cke-launcher"], #modalFeedbacks .mini-tlb .tlb-button[data-role="cke-launcher"] {
       display: none; }
 
 .cke-cover-up {
