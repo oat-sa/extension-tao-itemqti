@@ -43,7 +43,6 @@ define([
         var _setupElements = function(){
             var _elements = {
                 scope : '#item-editor-scope',
-                toolbar : '#item-editor-toolbar',
                 toolbarInner : '#item-editor-toolbar-inner',
                 sidebars : '.item-editor-sidebar',
                 itemBar : '#item-editor-item-bar',
@@ -255,9 +254,6 @@ define([
             openSections($('#sidebar-left-section-common-interactions'), false);
 
             elements.itemPanel.addClass('has-item');
-
-            // display toolbar and sidebar
-            //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
 
             var _scroll = _.throttle(function(e){
                 _handleScrolling($itemContainer);
