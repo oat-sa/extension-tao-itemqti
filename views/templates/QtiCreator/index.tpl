@@ -1,6 +1,7 @@
 <?php
 use oat\taoQtiItem\helpers\Authoring;
 use oat\tao\helpers\Template;
+
 ?>
 
 <link href="<?= Template::css('qti.css') ?>" rel="stylesheet">
