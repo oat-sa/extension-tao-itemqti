@@ -236,6 +236,7 @@ define([
         getResponse : getResponse,
         resetResponse : resetResponse,
         destroy : destroy,
-        getSerializedState : getSerializedState
+        getSerializedState : getSerializedState,
+        setSerializedState : setSerializedState
     };
 });
