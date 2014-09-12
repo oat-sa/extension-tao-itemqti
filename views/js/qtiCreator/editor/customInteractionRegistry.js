@@ -17,7 +17,8 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
         }
         return true;
     }
-
+    
+    //@todo : during registration, include all data from manifest as well
     function register(customInteractionHooks){
 
         _(customInteractionHooks).values().each(function(interactionHook){
