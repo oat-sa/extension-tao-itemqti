@@ -16,9 +16,9 @@
 {{/if}}
 >
     {{#if iconFont}}
-    <span class="{{icon}}"></span>
+    <span class="icon {{icon}}"></span>
     {{else}}
-    <img class="interaction-sidebar-icon" src="{{icon}}">
+    <img class="icon" src="{{icon}}">
     {{/if}}
     
     <div class="truncate">{{short}}</div>

@@ -40,7 +40,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'gapText' : 'taoQtiItem/qtiCreator/model/choices/GapText',
         'gap' : 'taoQtiItem/qtiCreator/model/choices/Gap',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
-        'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing'
+        'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing',
+        'customInteraction' : 'taoQtiItem/qtiCreator/model/interactions/CustomInteraction'
     }, qtiClasses);
 
 });

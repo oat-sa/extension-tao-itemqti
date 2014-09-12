@@ -220,7 +220,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
   50% { opacity: 1; }
   100% { opacity: 0; } }
 .tao-scope .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before { content: "\1cb"; }
-.tao-scope #item-editor-interaction-bar img.interaction-sidebar-icon { width: 28px; height: 28px; display: block; margin: 5px auto 8px; opacity: 0.8; }
+.tao-scope #item-editor-interaction-bar img.icon { width: 28px; height: 28px; display: block; margin: 5px auto 8px; opacity: 0.8; }
 .tao-scope #item-editor-interaction-bar .tool-group .panel.sub-group { position: relative; padding-top: 0 !important; padding-bottom: 4px; }
 .tao-scope #item-editor-interaction-bar .tool-group .panel.sub-group .tool-list { position: relative; z-index: 4; }
 .tao-scope #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover { position: absolute; left: 0; top: -7px; width: 96%; height: 100%; background-color: rgba(242, 240, 238, 0.3) !important; z-index: 2; border: 1px #8d949e solid; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; margin: 2%; cursor: no-drop !important; }

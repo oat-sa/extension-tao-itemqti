@@ -53,7 +53,7 @@ define([
         preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
-
+        
         editor.initGui({
             $itemContainer : widget.$container,
         });

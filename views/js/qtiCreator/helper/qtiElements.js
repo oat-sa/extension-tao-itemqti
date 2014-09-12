@@ -107,6 +107,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
         'textEntryInteraction' : {'parents' : ['stringInteraction', 'inlineInteraction'], 'qti' : true},
         'extendedTextInteraction' : {'parents' : ['stringInteraction', 'blockInteraction'], 'qti' : true},
         'inlineChoiceInteraction' : {'parents' : ['inlineInteraction'], 'qti' : true},
+        'customInteraction' : {'parents' : ['block', 'flow', 'interaction'], 'qti' : true},
         '_container' : {'parents' : ['block'], 'qti' : true}//a pseudo class introduced in TAO
     };
 

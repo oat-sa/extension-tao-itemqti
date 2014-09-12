@@ -4,12 +4,12 @@ define([
     'taoQtiItem/qtiItem/helper/rendererConfig'
 ], function(Interaction, _, rendererConfig){
 
-    var BlockInteraction = Interaction.extend({
+    var CustomInteraction = Interaction.extend({
         qtiClass : 'customInteraction',
         init : function(serial, attributes){
-        
+
             this._super(serial, attributes);
-            
+
             this.typeIdentifier = '';
             this.markup = '';
             this.properties = {};
@@ -19,13 +19,19 @@ define([
             return (qtiClass === 'customInteraction') || this._super(qtiClass);
         },
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {
-                    markup : this.markup
+                    typeIdentifier : this.typeIdentifier,
+                    markup : this.markup,
+                    properties : this.properties,
+                    libraries : this.libraries,
+                    ns : {
+                        pci : 'pci'
+                    }
                 };
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         toArray : function(){
@@ -35,6 +41,7 @@ define([
             return arr;
         }
     });
-    return BlockInteraction;
+
+    return CustomInteraction;
 });
 

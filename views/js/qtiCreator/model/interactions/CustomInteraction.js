@@ -2,9 +2,9 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
-    'taoQtiItem/qtiItem/core/interactions/CustomInteraction',
-    'taoQtiItem/qtiCreator/helper/pciCreator'
-], function(_, editable, editableInteraction, Interaction, pciCreator){
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'taoQtiItem/qtiItem/core/interactions/CustomInteraction'
+], function(_, editable, editableInteraction, ciRegistry, Interaction){
     
     var _throwMissingImplementationError = function(pci, fnName){
         throw fnName+' not available for pci of type '+pci.typeIdentifier;
@@ -19,29 +19,29 @@ define([
         },
         getDefaultPciProperties : function(){
             
-            var pci = pciCreator.getPciInstance(this);
-            if(_.isFunction(pci.createChoice)){
-                return pci.getDefaultPciProperties(this);
+            var pciCreator = ciRegistry.getCreator(this.typeIdentifier);
+            if(_.isFunction(pciCreator.getDefaultPciProperties)){
+                return pciCreator.getDefaultPciProperties(this);
             }else{
                 return {};
             }
         },
         afterCreate : function(){
-            
-            var pci = pciCreator.getPciInstance(this);
-            if(_.isFunction(pci.createChoice)){
-                return pci.afterCreate(this);
+            var pciCreator = ciRegistry.getCreator(this.typeIdentifier);
+            if(_.isFunction(pciCreator.afterCreate)){
+                return pciCreator.afterCreate(this);
             }
         },
         createChoice : function(){
         
-            var pci = pciCreator.getPciInstance(this);
-            if(_.isFunction(pci.createChoice)){
-                return pci.createChoice(this);
+            var pciCreator = ciRegistry.getCreator(this.typeIdentifier);
+            if(_.isFunction(pciCreator.createChoice)){
+                return pciCreator.createChoice(this);
             }else{
                 _throwMissingImplementationError(this, 'createChoice');
             }
         }
     });
+    
     return Interaction.extend(methods);
 });
