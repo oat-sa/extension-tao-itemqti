@@ -295,7 +295,7 @@ define([
 
                 if(_.size(newElts) !== subContainers.length){
 
-                    throw 'numbers of subcontainers mismatch';
+                    throw 'number of sub-containers mismatch';
                 }else{
 
                     _.each(newElts, function(container){
