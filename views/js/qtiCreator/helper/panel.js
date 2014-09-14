@@ -42,7 +42,10 @@ define([
             $formTextBlockPanel = $('#item-editor-text-property-bar'),
             $formModalFeedbackPanel = $('#item-editor-modal-feedback-property-bar'),
             $formStylePanel = $('#item-style-editor-bar'),
-            $appearanceToggler = $('#appearance-trigger');
+            $appearanceToggler = $('#appearance-trigger'),
+            $menuLabel = $appearanceToggler.find('.menu-label'),
+            $itemIcon = $appearanceToggler.find('.icon-item'),
+            $styleIcon = $appearanceToggler.find('.icon-style');
 
         var _toggleAppearanceEditor = function(active){
 
@@ -72,10 +75,16 @@ define([
                  * #sidebar-right-response-properties
                  */
                 showPanel($formStylePanel);
+                $menuLabel.text($menuLabel.data('item'));
+                $itemIcon.show();
+                $styleIcon.hide();
             }else{
                 $appearanceToggler.removeClass('active');
                 $formStylePanel.hide();
                 showPanel($formItemPanel);
+                $menuLabel.text($menuLabel.data('style'));
+                $itemIcon.hide();
+                $styleIcon.show();
             }
         };
 
