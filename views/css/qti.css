@@ -1,5 +1,3 @@
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-<<<<<<< .mine
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
@@ -79,7 +77,6 @@ body {
   background-color: white; }
 >>>>>>> .theirs
 
-<<<<<<< .mine
 h3 {
   font-size: 20px;
   font-size: 2rem; }
@@ -109,7 +106,6 @@ h3 {
   font-size: 2rem; }
 >>>>>>> .theirs
 
-<<<<<<< .mine
 h6 {
   font-size: 14px;
   font-size: 1.4rem; }
@@ -149,7 +145,6 @@ h6 {
   font-size: 1.4rem; }
 >>>>>>> .theirs
 
-<<<<<<< .mine
 /*
  * A better looking default horizontal rule
  */
@@ -188,14 +183,6 @@ video {
   background: #b3d4fc;
   text-shadow: none; }
 
-
-
-
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
 /*
  * Remove default fieldset styles.
  */
@@ -284,10 +271,6 @@ textarea {
 
 
 
-
->>>>>>> .theirs
-
-<<<<<<< .mine
 /*
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
@@ -311,11 +294,6 @@ textarea {
 
 
 
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
@@ -479,13 +457,6 @@ textarea {
 
 
 
-
-
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
   a,
   a:visited {
     text-decoration: underline; }
@@ -567,9 +538,21 @@ textarea {
   a[href]:after {
     content: " (" attr(href) ")"; }
 
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
 
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */ }
 
+  tr,
+  img {
+    page-break-inside: avoid; }
 
+  img {
+    max-width: 100% !important; }
 
 >>>>>>> .theirs
 
@@ -582,6 +565,18 @@ textarea {
   abbr[title]:after {
     content: " (" attr(title) ")"; }
 
+  h2,
+  h3 {
+    page-break-after: avoid; } }
+.qti-item {
+  padding: 15px;
+  background: white;
+  margin: auto;
+  max-width: 1024px; }
+  .qti-item.runtime {
+    min-height: 100%; }
+  .qti-item [class*="col-"] img {
+    max-width: auto; }
 
 >>>>>>> .theirs
 
@@ -763,6 +758,57 @@ textarea {
 
 <<<<<<< .mine
 
+.qti-orderInteraction .arrow-bar {
+  text-align: center; }
+  .qti-orderInteraction .arrow-bar span {
+    margin: 3px auto;
+    font-size: 25px;
+    font-size: 2.5rem;
+    color: #909090;
+    background: #f9f8f7;
+    cursor: default;
+    height: 40px; }
+    .qti-orderInteraction .arrow-bar span.active {
+      background: #f3f1ef;
+      cursor: pointer;
+      color: #222222; }
+      .qti-orderInteraction .arrow-bar span.active:hover {
+        color: white;
+        background: #3e7da7; }
+    .qti-orderInteraction .arrow-bar span.triggered {
+      color: white;
+      background: #3e7da7; }
+.qti-orderInteraction.qti-vertical .order-interaction-area {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 5px 5px 5px 0;
+  width: 100%; }
+.qti-orderInteraction.qti-vertical ul.source, .qti-orderInteraction.qti-vertical ul.target,
+.qti-orderInteraction.qti-vertical ol.source, .qti-orderInteraction.qti-vertical ol.target {
+  display: table-cell;
+  width: 43%; }
+.qti-orderInteraction.qti-vertical .arrow-bar {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 5px; }
+  .qti-orderInteraction.qti-vertical .arrow-bar span {
+    padding: 8px 0;
+    display: block;
+    width: 50px; }
+    .qti-orderInteraction.qti-vertical .arrow-bar span.inactive {
+      visibility: hidden; }
+  .qti-orderInteraction.qti-vertical .arrow-bar.middle span.inactive {
+    display: none; }
+.qti-orderInteraction.qti-horizontal .block-listing {
+  min-height: 38px; }
+.qti-orderInteraction.qti-horizontal .arrow-bar {
+  margin-bottom: 10px; }
+  .qti-orderInteraction.qti-horizontal .arrow-bar span {
+    padding: 0 15px;
+    display: inline-block;
+    line-height: 1.6; }
+    .qti-orderInteraction.qti-horizontal .arrow-bar span.inactive {
+      visibility: hidden; }
 
 =======
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
@@ -771,6 +817,8 @@ textarea {
 
 <<<<<<< .mine
 
+.qti-choiceInteraction .checked span.icon-radio:before {
+  content: "\1b1"; }
 
 =======
 .qti-choiceInteraction .checked span.icon-radio:before {
@@ -818,6 +866,8 @@ textarea {
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-behind, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-behind {
   content: "\124"; }
 
+.qti-choiceInteraction .checked span.icon-checkbox:before {
+  content: "\1b4"; }
 
 >>>>>>> .theirs
 
@@ -1451,9 +1501,6 @@ textarea {
     .qti-hottextInteraction .hottext .mini-tlb[data-edit] [data-role="score"] {
       width: 30px; }
 
->>>>>>> .theirs
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-<<<<<<< .mine
 .qti-orderInteraction.qti-vertical .arrow-bar .icon-move-before, .qti-orderInteraction.qti-horizontal .arrow-bar span.icon-move-before {
   content: "\123"; }
 
