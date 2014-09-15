@@ -84,6 +84,9 @@ define([
             }
             
             return markupTpl(markupData);
+        },
+        updateMarkup : function(){
+            this.markup = this.renderMarkup();
         }
     });
 

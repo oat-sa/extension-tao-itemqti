@@ -7,19 +7,19 @@ define([
     var CustomInteractionWidget = Widget.clone();
 
     CustomInteractionWidget.initCreator = function(){
-        
+
         //note : abstract widget class must not register states
-        
+
         Widget.initCreator.call(this);
     };
-    
+
     CustomInteractionWidget.createToolbar = function(options){
-        
+
         var creator = ciRegistry.get(this.element.typeIdentifier);
-        options = _.defaults(options || {}, {title:creator.manifest.label});
-        
+        options = _.defaults(options || {}, {title : creator.manifest.label});
+
         return Widget.createToolbar.call(this, options);
     };
-    
+
     return CustomInteractionWidget;
 });

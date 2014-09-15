@@ -966,8 +966,6 @@ span.dragging{
             }
         }
         
-        
-        
         .inner-wrapper{
             position:relative;
         }
@@ -982,10 +980,12 @@ span.dragging{
         @import "qtiCreator/_gap-match";
         @import "qtiCreator/_hottext";
         @import "qtiCreator/_rubric-block";
-        @import "qtiCreator/_math";
-        @import "qtiCreator/_mapping-editor";
         @import "qtiCreator/_graphic";
         @import "qtiCreator/_graphic-gap";
+        @import "qtiCreator/_custom";
+        @import "qtiCreator/_math";
+        
+        @import "qtiCreator/_mapping-editor";
         @import "qtiCreator/_grid-editor";
         
     }

@@ -322,7 +322,7 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .widget-inline [class^="icon-"], .tao-scope .widget-inline [class*=" icon-"], .tao-scope .qti-hottext [class^="icon-"], .tao-scope .qti-hottext [class*=" icon-"], .tao-scope .qti-gap [class^="icon-"], .tao-scope .qti-gap [class*=" icon-"], .tao-scope .dummy-element [class^="icon-"], .tao-scope .dummy-element [class*=" icon-"], .tao-scope .inline-text-wrapper [class^="icon-"], .tao-scope .inline-text-wrapper [class*=" icon-"] { display: inline-block; text-align: center; width: 100%; position: relative; top: 2px; text-shadow: 1px 1px 0px #ccc; }
 .tao-scope .widget-inline ~ span.mini-tlb[data-edit], .tao-scope .qti-hottext ~ span.mini-tlb[data-edit], .tao-scope .qti-gap ~ span.mini-tlb[data-edit], .tao-scope .dummy-element ~ span.mini-tlb[data-edit], .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] { position: absolute !important; top: -2px !important; right: -32px !important; }
 .tao-scope .widget-inline ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .qti-hottext ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .qti-gap ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .dummy-element ~ span.mini-tlb[data-edit] .tlb-button, .tao-scope .inline-text-wrapper ~ span.mini-tlb[data-edit] .tlb-button { margin: 0 !important; padding: 0 !important; height: 18px !important; width: 24px !important; }
-.tao-scope .item-editor-item { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; -webkit-box-shadow: 0px 0px 8px #b7b1ac; -moz-box-shadow: 0px 0px 8px #b7b1ac; box-shadow: 0px 0px 8px #b7b1ac; /*hack to fix unwanted contenteditable behaviour in chrome : @see*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ }
+.tao-scope .item-editor-item { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; -webkit-box-shadow: 0px 0px 8px #b7b1ac; -moz-box-shadow: 0px 0px 8px #b7b1ac; box-shadow: 0px 0px 8px #b7b1ac; /*hack to fix unwanted contenteditable behaviour in chrome : @see*/ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ /** Use icon within sass: @inclue icon('down'); */ /* Fade animation */ /* Repeat animation */ }
 .tao-scope .item-editor-item [class*=" col-"], .tao-scope .item-editor-item [class^="col-"] { position: relative; }
 .tao-scope .item-editor-item p, .tao-scope .item-editor-item span, .tao-scope .item-editor-item ol, .tao-scope .item-editor-item ul { line-height: 1.4; font-size: 1.4rem; }
 .tao-scope .item-editor-item .inserting .widget-block, .tao-scope .item-editor-item .inserting .widget-blockInteraction { border: 1px dashed #ddd; }
@@ -611,48 +611,6 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
   50% { opacity: 1; }
   100% { opacity: 0; } }
 .tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
-.tao-scope .item-editor-item .widget-math .mini-tlb { top: -1px; right: -29px; width: 28px; padding: 2px; margin: 0; }
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-.tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
-.tao-scope .item-editor-item .mapping-editor { position: absolute; left: 15px; top: 15px; color: #222; background: #f2f0ee; padding: 15px 15px 0 15px; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); z-index: 300; min-width: 150px; }
-.tao-scope .item-editor-item .mapping-editor .closer { position: absolute; top: 10px; right: 8px; }
-.tao-scope .item-editor-item .mapping-editor h2 { font-size: 15px; font-size: 1.5rem; margin-bottom: 0; }
-.tao-scope .item-editor-item .mapping-editor hr { margin: 0; }
-.tao-scope .item-editor-item .mapping-editor .heading { font-weight: bold; }
-.tao-scope .item-editor-item .mapping-editor .arrow { position: absolute; z-index: 301; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -o-transform: rotate(45deg); -ms-transform: rotate(45deg); border: 1px #f3f1ef solid; border-left: none; border-top: none; width: 12px; height: 12px; background: #f3f1ef; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
-.tao-scope .item-editor-item .mapping-editor .arrow-cover { background: #f3f1ef; position: absolute; z-index: 302; }
-.tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow { left: -6px; top: 10px; }
-.tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow-cover { left: 0; top: 2px; width: 15px; height: 30px; }
-.tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow { top: -6px; }
-.tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow-cover { left: 6px; top: 0; width: 30px; height: 15px; }
-.tao-scope .item-editor-item .mapping-editor .score { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; text-align: right; min-width: 40px; max-width: 60px; position: relative; top: -5px; }
-.tao-scope .item-editor-item .mapping-editor .grid-row { line-height: 1.6; padding-top: 8px; }
-.tao-scope .item-editor-item .mapping-editor .tooltipstered { text-align: right; }
-.tao-scope .item-editor-item .mapping-editor .icon-checkbox { margin-left: 20px; }
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-.tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
 .tao-scope .item-editor-item .qti-graphicInteraction .dummy-element { cursor: pointer; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar { float: left; width: 50px; height: 100%; min-height: 280px; top: 0; z-index: 1000; }
 .tao-scope .item-editor-item .qti-graphicInteraction .image-sidebar .forms { overflow: hidden; min-height: 230px; font-size: 40px; font-size: 4rem; border-right: solid 1px #fff; }
@@ -686,6 +644,64 @@ span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; paddi
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li .dummy-element ~ span.mini-tlb[data-edit] .tlb-button { line-height: 18px; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img ~ span.mini-tlb[data-edit] { top: 0; right: 0; }
 .tao-scope .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img ~ span.mini-tlb[data-edit] .tlb-button { line-height: 18px; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+.tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope .item-editor-item .qti-customInteraction ~ .overlay { background: transparent; }
+.tao-scope .item-editor-item .qti-customInteraction .simple-editable { border: solid 1px transparent; min-height: 1.8rem; min-width: 3rem; }
+.tao-scope .item-editor-item .qti-customInteraction .simple-editable:hover { border-color: #86aec8; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+.tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope .item-editor-item .widget-math .mini-tlb { top: -1px; right: -29px; width: 28px; padding: 2px; margin: 0; }
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+.tao-scope .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .tao-scope .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\1cb"; }
+.tao-scope .item-editor-item .mapping-editor { position: absolute; left: 15px; top: 15px; color: #222; background: #f2f0ee; padding: 15px 15px 0 15px; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); z-index: 300; min-width: 150px; }
+.tao-scope .item-editor-item .mapping-editor .closer { position: absolute; top: 10px; right: 8px; }
+.tao-scope .item-editor-item .mapping-editor h2 { font-size: 15px; font-size: 1.5rem; margin-bottom: 0; }
+.tao-scope .item-editor-item .mapping-editor hr { margin: 0; }
+.tao-scope .item-editor-item .mapping-editor .heading { font-weight: bold; }
+.tao-scope .item-editor-item .mapping-editor .arrow { position: absolute; z-index: 301; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -o-transform: rotate(45deg); -ms-transform: rotate(45deg); border: 1px #f3f1ef solid; border-left: none; border-top: none; width: 12px; height: 12px; background: #f3f1ef; -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75); }
+.tao-scope .item-editor-item .mapping-editor .arrow-cover { background: #f3f1ef; position: absolute; z-index: 302; }
+.tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow { left: -6px; top: 10px; }
+.tao-scope .item-editor-item .mapping-editor.arrow-left-top .arrow-cover { left: 0; top: 2px; width: 15px; height: 30px; }
+.tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow { top: -6px; }
+.tao-scope .item-editor-item .mapping-editor.arrow-top-left .arrow-cover { left: 6px; top: 0; width: 30px; height: 15px; }
+.tao-scope .item-editor-item .mapping-editor .score { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; text-align: right; min-width: 40px; max-width: 60px; position: relative; top: -5px; }
+.tao-scope .item-editor-item .mapping-editor .grid-row { line-height: 1.6; padding-top: 8px; }
+.tao-scope .item-editor-item .mapping-editor .tooltipstered { text-align: right; }
+.tao-scope .item-editor-item .mapping-editor .icon-checkbox { margin-left: 20px; }
 @keyframes fade { 0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; } }
