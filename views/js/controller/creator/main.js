@@ -70,7 +70,7 @@ define([
         ciRegistry.loadAll(function(interactionModels){
             
             _.each(interactionModels, function(interactionModel){
-                var data = interactionModel.getAuthoringData();
+                var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
                 }else{

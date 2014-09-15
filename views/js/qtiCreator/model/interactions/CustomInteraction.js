@@ -37,7 +37,7 @@ define([
             this.properties = pciCreator.getDefaultPciProperties();
 
             //set libs
-            var manifest = pciCreator.getManifest();
+            var manifest = ciRegistry.getManifest(this.typeIdentifier);
             this.libraries = manifest.libraries;
             this.libraries[this.typeIdentifier +'.entryPoint'] = manifest.entryPoint;
             

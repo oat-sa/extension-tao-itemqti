@@ -10,7 +10,7 @@ define([
     CreatorCustomInteraction.render = function(interaction, options){
 
         //initial rendering:
-        Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getPath(interaction.typeIdentifier)});
+        Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getBaseUrl(interaction.typeIdentifier)});
 
         var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier),
             Widget = pciCreator.getWidget();

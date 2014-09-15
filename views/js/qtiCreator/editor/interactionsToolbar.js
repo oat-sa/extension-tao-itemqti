@@ -50,6 +50,7 @@ define([
 
         return $section;
     }
+    
     function create($sidebar, interactions){
 
         _.each(interactions, function(interactionAuthoringData){

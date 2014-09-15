@@ -1,11 +1,13 @@
-define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiElements){
+define([
+    'lodash',
+    'taoQtiItem/qtiCreator/helper/qtiElements'
+], function(_, qtiElements){
 
     var requirejs = window.require,
-        interactions = {},
-        paths = {};
+        interactions = {};
 
     function isValidHook(interactionHook){
-        
+
         if(!interactionHook.typeIdentifier){
             throw 'invalid hook : missing typeIdentifier';
         }
@@ -17,24 +19,30 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
         }
         return true;
     }
-    
-    //@todo : during registration, include all data from manifest as well
+
+    /**
+     * Load manifest and baseUrl data
+     * 
+     * @param {Object} customInteractionHooks
+     */
     function register(customInteractionHooks){
 
+        var paths = {};
+
         _(customInteractionHooks).values().each(function(interactionHook){
-            
+
             if(isValidHook(interactionHook)){
-                
+
                 var id = interactionHook.typeIdentifier;
-                
+
                 //register the hook
                 interactions[id] = interactionHook;
 
                 //load customInteraction namespace in requirejs config 
                 paths[id] = interactionHook.baseUrl;
-                
+
                 //for compatiblility
-                qtiElements.classes['customInteraction.'+id] = {parents : ['customInteraction'], qti : true};
+                qtiElements.classes['customInteraction.' + id] = {parents : ['customInteraction'], qti : true};
             }
         });
 
@@ -43,7 +51,7 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
             paths : paths
         });
     }
-    
+
     /**
      * Load all previously registered creator hooks
      * 
@@ -66,7 +74,7 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
             callback(pciCreators);
         });
     }
-    
+
     /**
      * Load one single creator hook  identified by its typeIdentifier
      * 
@@ -87,17 +95,12 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
 
     }
 
-    function getPath(typeIdentifier){
-
-        return paths[typeIdentifier];
-    }
-
     function getCreator(typeIdentifier){
-        
+
         var interaction = interactions[typeIdentifier];
         if(interaction){
             if(interaction.pciCreator){
-                return interaction.pciCreator 
+                return interaction.pciCreator
             }else{
                 throw 'the custom interaction is not loaded';
             }
@@ -105,18 +108,58 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/qtiElements'], function(_, qtiEl
             throw 'the custom interaction is not registered';
         }
     }
-    
+
     function isDev(typeIdentifier){
         return interactions[typeIdentifier] && interactions[typeIdentifier].dev;
     }
+
+    function get(typeIdentifier){
+        return interactions[typeIdentifier];
+    }
+
+    function getBaseUrl(typeIdentifier){
+        return get(typeIdentifier).baseUrl;
+    }
     
+    /**
+     * Get authorign data for a custom interaction
+     * 
+     * @param {String} typeIdentifier
+     * @returns {Object}
+     */
+    function getAuthoringData(typeIdentifier){
+
+        var manifest = getManifest(typeIdentifier);
+
+        return {
+            label : manifest.label, //currently no translation available 
+            icon : getBaseUrl(typeIdentifier) + manifest.icon, //use baseUrl from context
+            short : manifest.short,
+            qtiClass : 'customInteraction.' + manifest.typeIdentifier, //custom interaction is block type
+            tags : _.union(['Custom Interactions'], manifest.tags)
+        };
+    }
+    
+    /**
+     * Get complete manifest object for a custom interaction
+     * 
+     * @param {String} typeIdentifier
+     * @returns {Object}
+     */
+    function getManifest(typeIdentifier){
+        return get(typeIdentifier).manifest;
+    }
+
     return {
         register : register,
         loadAll : loadAll,
         loadOne : loadOne,
-        getPath : getPath,
+        getBaseUrl : getBaseUrl,
         getCreator : getCreator,
-        isDev : isDev
+        isDev : isDev,
+        get : get,
+        getAuthoringData : getAuthoringData,
+        getManifest : getManifest
     };
 
 });
