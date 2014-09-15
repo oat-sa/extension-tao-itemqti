@@ -39,10 +39,23 @@ define([
             //set libs
             var manifest = ciRegistry.getManifest(this.typeIdentifier);
             this.libraries = manifest.libraries;
-            this.libraries[this.typeIdentifier +'.entryPoint'] = manifest.entryPoint;
+            this.libraries[this.typeIdentifier + '.entryPoint'] = manifest.entryPoint;
+            if(_.isArray(manifest.css)){
+                //currently load css as libs (requirejs module)
+                for(var i in manifest.css){
+                    this.libraries[this.typeIdentifier + '.stylesheet' + i] = manifest.css[i];
+                }
+            }
             
-            //set markup?
+            //create response
+            this.createResponse({
+                baseType : manifest.response.baseType,
+                cardinality : manifest.response.cardinality
+            });
             
+            //set markup
+            this.markup = this.renderMarkup();
+
             //after create
             if(_.isFunction(pciCreator.afterCreate)){
                 return pciCreator.afterCreate(this);
@@ -56,6 +69,21 @@ define([
             }else{
                 _throwMissingImplementationError(this, 'createChoice');
             }
+        },
+        renderMarkup : function(){
+            
+            var pciCreator = ciRegistry.getCreator(this.typeIdentifier),
+                markupTpl = pciCreator.getMarkupTemplate(),
+                markupData = {
+                responseIdentifier : this.attr('responseIdentifier')
+            };
+            
+            if(_.isFunction(pciCreator.getMarkupData)){
+                //overwrite the default data with the custom one
+                markupData = pciCreator.getMarkupData(this, markupData);
+            }
+            
+            return markupTpl(markupData);
         }
     });
 
