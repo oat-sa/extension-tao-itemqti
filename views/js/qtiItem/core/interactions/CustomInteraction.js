@@ -39,6 +39,36 @@ define([
             arr.markup = this.markup;
             arr.properties = this.properties;
             return arr;
+        },
+        prop : function(name, value){
+            if(name){
+                if(value !== undefined){
+                    this.properties[name] = value;
+                }else{
+                    if(typeof(name) === 'object'){
+                        for(var prop in name){
+                            this.prop(prop, name[prop]);
+                        }
+                    }else if(typeof(name) === 'string'){
+                        if(this.properties[name] === undefined){
+                            return undefined;
+                        }else{
+                            return this.properties[name];
+                        }
+                    }
+                }
+            }
+            return this;
+        },
+        removeProp : function(propNames){
+            var _this = this;
+            if(typeof(propNames) === 'string'){
+                propNames = [propNames];
+            }
+            _.each(propNames, function(propName){
+                delete _this.attributes[propName];
+            });
+            return this;
         }
     });
 
