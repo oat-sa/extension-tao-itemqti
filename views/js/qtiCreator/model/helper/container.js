@@ -3,7 +3,7 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
     var methods = {
         createElements : function(container, body, callback){
             
-            var regex = /{{([a-z_]+)\.?([a-z_]+):new}}/ig;
+            var regex = /{{([a-z_]+)\.?([a-z_]*):new}}/ig;
 
             //first pass to get required qti classes, but do not replace
             var required = {};
