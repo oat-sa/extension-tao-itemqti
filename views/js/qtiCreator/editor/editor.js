@@ -197,14 +197,6 @@ define([
 
             elements.label.find('span').text(config.$label);
 
-
-            $('#authoringBack').click(function () {
-                var $myPanel = $(this).parents('.content-panel'),
-                    $otherPanel = $myPanel.prev();
-                $myPanel.hide();
-                $otherPanel.show();
-            });
-
             elements.actionGroups.show();
 
         };
