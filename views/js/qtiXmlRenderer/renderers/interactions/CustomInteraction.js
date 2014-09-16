@@ -42,7 +42,8 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function(interaction, data){
-            data.markup = addMarkupNamespace(interaction.markup, interaction.markupNs ? interaction.markupNs.name : '');
+            var markupNs = interaction.getMarkupNamespace();
+            data.markup = addMarkupNamespace(interaction.markup, markupNs ? markupNs.name : '');
             return data;
         }
     };

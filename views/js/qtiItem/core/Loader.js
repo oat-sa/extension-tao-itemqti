@@ -349,6 +349,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadPciData : function(pci, data){
             pci.typeIdentifier = data.typeIdentifier;
             pci.markup = data.markup;
+            pci.entryPoint = data.entryPoint;
             pci.properties = data.properties;
             pci.libraries = data.libraries;
         }

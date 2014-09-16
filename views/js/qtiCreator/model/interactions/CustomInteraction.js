@@ -27,8 +27,10 @@ define([
             }
         },
         afterCreate : function(){
-
-            var pciCreator = ciRegistry.getCreator(this.typeIdentifier);
+            
+            var typeId = this.typeIdentifier,
+                pciCreator = ciRegistry.getCreator(typeId),
+                manifest = ciRegistry.getManifest(typeId);
 
             //set default markup (for initial rendering)
             pciCreator.getMarkupTemplate();
@@ -37,28 +39,41 @@ define([
             this.properties = pciCreator.getDefaultPciProperties();
 
             //set libs
-            var manifest = ciRegistry.getManifest(this.typeIdentifier);
+            this.entryPoint = manifest.entryPoint;
             this.libraries = manifest.libraries;
-            this.libraries[this.typeIdentifier + '.entryPoint'] = manifest.entryPoint;
             if(_.isArray(manifest.css)){
+
                 //currently load css as libs (requirejs module)
-                for(var i in manifest.css){
-                    this.libraries[this.typeIdentifier + '.stylesheet' + i] = manifest.css[i];
+                this.css = _.clone(manifest.css);
+
+                //append stylesheets to item :
+                var item = this.getRelatedItem(),
+                    required = [];
+
+                _.each(this.css, function(css){
+                    if(!item.stylesheetExists(css)){
+                        item.createStyleSheet(css);
+                        required.push('css!' + ciRegistry.getBaseUrl(typeId) + css);
+                    }
+                });
+
+                if(required.length){
+                    require(required);
                 }
             }
-            
+
             //create response
             this.createResponse({
                 baseType : manifest.response.baseType,
                 cardinality : manifest.response.cardinality
             });
-            
+
             //set markup
             this.markup = this.renderMarkup();
-            
+
             //set pci namespace to item
             this.getNamespace();
-            
+
             //after create
             if(_.isFunction(pciCreator.afterCreate)){
                 return pciCreator.afterCreate(this);
@@ -74,18 +89,18 @@ define([
             }
         },
         renderMarkup : function(){
-            
+
             var pciCreator = ciRegistry.getCreator(this.typeIdentifier),
                 markupTpl = pciCreator.getMarkupTemplate(),
                 markupData = {
-                responseIdentifier : this.attr('responseIdentifier')
-            };
-            
+                    responseIdentifier : this.attr('responseIdentifier')
+                };
+
             if(_.isFunction(pciCreator.getMarkupData)){
                 //overwrite the default data with the custom one
                 markupData = pciCreator.getMarkupData(this, markupData);
             }
-            
+
             return markupTpl(markupData);
         },
         updateMarkup : function(){

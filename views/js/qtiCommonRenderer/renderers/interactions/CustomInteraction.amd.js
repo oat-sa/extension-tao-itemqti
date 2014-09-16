@@ -83,9 +83,19 @@ define([
      */
     var _getLibraries = function(interaction, baseUrl){
 
-        var libraries = interaction.libraries || [],
+        var libraries = _.clone(interaction.libraries) || [],
             ret = [],
             paths = {};
+
+        libraries[interaction.typeIdentifier + '.entryPoint'] = interaction.entryPoint;
+        
+        //load css if not already done
+        if(_.isArray(interaction.css)){
+            //currently load css as libs (requirejs module)
+            for(var i in interaction.css){
+                libraries[interaction.typeIdentifier + '.stylesheet' + i] = interaction.css[i];
+            }
+        }
 
         _.forIn(libraries, function(href, name){
 
@@ -121,9 +131,9 @@ define([
      * @param {Object} interaction
      */
     var render = function(interaction, options){
-        
+
         options = options || {};
-        
+
         _registerGlobalPciContext();
         _registerLibraries({
             css : context.root_url + 'tao/views/js/lib/require-css/css'
@@ -132,7 +142,7 @@ define([
         //get pci id
         var id = interaction.attr('responseIdentifier');
         var $dom = Helper.getContainer(interaction).find('#' + id);
-        
+
         //get initialization params :
         var state = null, //@todo
             response = null, //@todo 

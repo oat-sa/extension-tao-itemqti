@@ -8,6 +8,8 @@ define([
         qtiClass : 'customInteraction',
         defaultNsName : 'pci',
         defaultNsUri : 'http://www.imsglobal.org/xsd/portableCustomInteraction',
+        defaultMarkupNsName : 'html5',
+        defaultMarkupNsUri : 'html5',
         init : function(serial, attributes){
 
             this._super(serial, attributes);
@@ -16,12 +18,11 @@ define([
             this.markup = '';
             this.properties = {};
             this.libraries = [];
-            this.markupNs = {
-                name : 'html5',
-                uri : ''
-            };
+            this.entryPoint = '';
+            
             //note : if the uri is defined, it will be set the uri in the xml on xml serialization,
             //which may trigger xsd validation, which is troublesome for html5 (use xhtml5 maybe ?)
+            this.markupNs = {};
         },
         is : function(qtiClass){
             return (qtiClass === 'customInteraction') || this._super(qtiClass);
@@ -35,8 +36,9 @@ define([
                     markup : this.markup,
                     properties : this.properties,
                     libraries : this.libraries,
+                    entryPoint : this.entryPoint,
                     ns : {
-                        pci : 'pci:'
+                        pci : this.getNamespace().name+':'
                     }
                 };
 
@@ -108,6 +110,30 @@ define([
         },
         setNamespace : function(name, uri){
             this.ns = {
+                name : name,
+                uri : uri
+            };
+        },
+        getMarkupNamespace : function(){
+
+            if(this.markupNs && this.markupNs.name && this.markupNs.uri){
+                return _.clone(this.markupNs);
+            }else{
+                var relatedItem = this.getRelatedItem();
+                if(relatedItem){
+                    //set the default one:
+                    relatedItem.namespaces[this.defaultMarkupNsName] = this.defaultMarkupNsUri;
+                    return {
+                        name : this.defaultMarkupNsName,
+                        uri : this.defaultMarkupNsUri
+                    };
+                }
+            }
+
+            return {};
+        },
+        setMarkupNamespace : function(name, uri){
+            this.markupNs = {
                 name : name,
                 uri : uri
             };

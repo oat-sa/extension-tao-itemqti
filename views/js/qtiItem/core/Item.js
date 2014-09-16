@@ -112,8 +112,16 @@ define([
         removeStyleSheet : function(stylesheet){
             delete this.stylesheets[stylesheet.getSerial()];
             return this;
-
-
+        },
+        stylesheetExists : function(href){
+            var exists = false;
+            _.each(this.stylesheets, function(stylesheet){
+                if(stylesheet.attr('href') === href){
+                    exists = true;
+                    return false;//break each loop
+                }
+            });
+            return exists;
         },
         setResponseProcessing : function(rp){
             if(Element.isA(rp, 'responseProcessing')){

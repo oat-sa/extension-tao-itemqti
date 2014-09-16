@@ -39,13 +39,23 @@ class PortableCustomInteraction extends CustomInteraction
     
     protected $properties = array();
     protected $libraries = array();
+    protected $typeIdentifier = '';
+    protected $entryPoint = '';
     
     public function setTypeIdentifier($typeIdentifier){
         $this->typeIdentifier = $typeIdentifier;
     }
     
+    public function setEntryPoint($entryPoint){
+        $this->entryPoint = $entryPoint;
+    }
+    
     public function getTypeIdentifier(){
         return $this->typeIdentifier;
+    }
+    
+    public function getEntryPoint(){
+        return $this->entryPoint;
     }
     
     public function getProperties(){
@@ -78,6 +88,8 @@ class PortableCustomInteraction extends CustomInteraction
         
         $returnValue['libraries'] = $this->libraries;
         $returnValue['properties'] = $this->properties;
+        $returnValue['entryPoint'] = $this->entryPoint;
+        $returnValue['typeIdentifier'] = $this->typeIdentifier;
         
         return $returnValue;
     }
@@ -92,6 +104,8 @@ class PortableCustomInteraction extends CustomInteraction
         
         $variables['libraries'] = $this->libraries;
         $variables['properties'] = $this->properties;
+        $variables['entryPoint'] = $this->entryPoint;
+        $variables['typeIdentifier'] = $this->typeIdentifier;
         
         return $variables;
     }
@@ -106,6 +120,7 @@ class PortableCustomInteraction extends CustomInteraction
             $this->setTypeIdentifier($typeIdentifier);
             
             $entryPoint = $pciNodes->item(0)->getAttribute('entryPoint');
+            $this->setEntryPoint($entryPoint);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
