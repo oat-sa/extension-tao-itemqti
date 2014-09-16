@@ -1,19 +1,20 @@
 @import "inc/bootstrap";
-#item-editor-interaction-bar{
-    
-    img.interaction-sidebar-icon{
+
+#item-editor-interaction-bar {
+
+    img.interaction-sidebar-icon {
         width: 28px;
         height: 28px;
         display: block;
         margin: 5px auto 8px;
         opacity: 0.8;
     }
-    
+
     .tool-group {
         .panel.sub-group {
             position: relative;
             padding-top: 0 !important;
-            padding-bottom:4px;
+            padding-bottom: 4px;
             .tool-list {
                 position: relative;
                 z-index: 4;
@@ -29,15 +30,15 @@
                 border: 1px $websiteBorder solid;
                 @include border-radius(3);
                 margin: 2%;
-                cursor:no-drop !important;
+                cursor: no-drop !important;
                 &.blocking {
                     z-index: 10;
                 }
             }
-            
-            .sub-group-cover:after,.sub-group-cover:before {
+
+            .sub-group-cover:after, .sub-group-cover:before {
                 bottom: 100%;
-                left: 25%;
+                left: 35%;
                 border: solid transparent;
                 content: " ";
                 height: 0;
@@ -45,14 +46,14 @@
                 position: absolute;
                 pointer-events: none;
             }
-            
+
             .sub-group-cover:after {
                 border-color: transparent;
                 border-bottom-color: mix(#fff, $grey, 85%);
                 border-width: 8px;
                 margin-left: -8px;
             }
-            
+
             .sub-group-cover:before {
                 border-color: transparent;
                 border-bottom-color: $websiteBorder;
@@ -61,25 +62,19 @@
             }
         }
     }
-    
+
     .tool-list {
         margin-top: -3px;
-        @extend .clearfix;
-        &:before {
-            @extend .clearfix:before;
-        }
-        &:after {
-            @extend .clearfix:after;
-        }
+        @extend %clearfix;
         li {
-            width: widthPerc(($sidebarWidth / 2) - $sidebarGutter, $sidebarWidth);
-            margin: 0 widthPerc(($sidebarGutter / 2), $sidebarWidth);
+            width: 50%;
+            margin: 0;
             float: left;
             padding: 9px 3px;
             @include font-size(12);
             border: 1px dotted transparent;
             cursor: move;
-            text-align:center;
+            text-align: center;
             &:hover {
                 background: white(.6);
                 border: 1px dotted #aaa;
@@ -90,19 +85,19 @@
                 @include font-size(28);
                 opacity: .9;
             }
-            &.disabled{
-                cursor:default;
-                background-color:  #eee !important;
+            &.disabled {
+                cursor: default;
+                background-color: #eee !important;
                 &:hover {
                     background: white(.6);
                     border: 1px dotted transparent;
                 }
             }
-            &.dev{
-                background : whiten($info, .95);
-                color : $info;
-                &:hover{
-                    background : white(.6);
+            &.dev {
+                background: whiten($info, .95);
+                color: $info;
+                &:hover {
+                    background: white(.6);
                 }
             }
         }
