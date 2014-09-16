@@ -86,17 +86,11 @@ define([
         var libraries = _.clone(interaction.libraries) || [],
             ret = [],
             paths = {};
-
+        
+        //currently, include entryPoint as a lib to be all loaded at once
         libraries[interaction.typeIdentifier + '.entryPoint'] = interaction.entryPoint;
         
-        //load css if not already done
-        if(_.isArray(interaction.css)){
-            //currently load css as libs (requirejs module)
-            for(var i in interaction.css){
-                libraries[interaction.typeIdentifier + '.stylesheet' + i] = interaction.css[i];
-            }
-        }
-
+        //require the actual shared and shareable libs (that support the implementation of the pci)
         _.forIn(libraries, function(href, name){
 
             var hrefFull = util.fullpath(href, baseUrl);
