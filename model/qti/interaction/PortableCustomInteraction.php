@@ -104,6 +104,8 @@ class PortableCustomInteraction extends CustomInteraction
         if($pciNodes->length){
             $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
             $this->setTypeIdentifier($typeIdentifier);
+            
+            $entryPoint = $pciNodes->item(0)->getAttribute('entryPoint');
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);

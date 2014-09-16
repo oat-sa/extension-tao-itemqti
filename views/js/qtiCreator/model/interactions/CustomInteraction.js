@@ -55,7 +55,10 @@ define([
             
             //set markup
             this.markup = this.renderMarkup();
-
+            
+            //set pci namespace to item
+            this.getNamespace();
+            
             //after create
             if(_.isFunction(pciCreator.afterCreate)){
                 return pciCreator.afterCreate(this);

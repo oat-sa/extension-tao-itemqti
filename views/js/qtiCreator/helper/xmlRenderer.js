@@ -7,7 +7,7 @@ define(['taoQtiItem/qtiXmlRenderer/renderers/Renderer'], function(XmlRenderer){
         try{
             xml = item.render(_xmlRenderer);
         }catch(e){
-//            console.log(e);
+            console.log(e);
         }
 
         return xml;

@@ -40,7 +40,8 @@ define(function(){
             'hottext' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/Hottext',
             'inlineChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/InlineChoice',
             'simpleAssociableChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleAssociableChoice',
-            'simpleChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleChoice'
+            'simpleChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleChoice',
+            'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/CustomInteraction'
         }
     };
 });
