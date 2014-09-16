@@ -1,5 +1,12 @@
 @charset "CP850";
+<<<<<<< HEAD
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+<<<<<<< HEAD
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -144,22 +151,49 @@ textarea {
  * 2. The use of `table` rather than `block` is only necessary if using
  *    `:before` to contain the top-margins of child elements.
  */
+<<<<<<< HEAD
 .clearfix:before, .item-editor-sidebar .tool-list:before,
 .clearfix:after,
+=======
+<<<<<<< HEAD
+.clearfix:before, .item-editor-sidebar .tool-list:before,
+.clearfix:after,
+=======
+.clearfix:before, #item-editor-interaction-bar .tool-list:before, .item-editor-sidebar .tool-list:before,
+.clearfix:after,
+#item-editor-interaction-bar .tool-list:after,
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .item-editor-sidebar .tool-list:after {
   content: " ";
   /* 1 */
   display: table;
   /* 2 */ }
 
+<<<<<<< HEAD
 .clearfix:after, .item-editor-sidebar .tool-list:after {
+=======
+<<<<<<< HEAD
+.clearfix:after, .item-editor-sidebar .tool-list:after {
+=======
+.clearfix:after, #item-editor-interaction-bar .tool-list:after, .item-editor-sidebar .tool-list:after {
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   clear: both; }
 
 /*
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
  */
+<<<<<<< HEAD
 .clearfix, .item-editor-sidebar .tool-list {
+=======
+<<<<<<< HEAD
+.clearfix, .item-editor-sidebar .tool-list {
+=======
+.clearfix, #item-editor-interaction-bar .tool-list, .item-editor-sidebar .tool-list {
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   background-repeat: no-repeat; }
 
 /* ==========================================================================
@@ -276,7 +310,14 @@ textarea {
     position: absolute;
     cursor: crosshair; }
 
+<<<<<<< HEAD
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+<<<<<<< HEAD
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -553,24 +594,98 @@ span.dragging {
   font-size: 1.2rem;
   color: #222222; }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#appearance-trigger .icon-item {
+  display: none; }
+
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 #item-editor-widget-bar {
   display: none; }
 
 #item-editor-wrapper {
   margin: 0;
   position: relative;
+<<<<<<< HEAD
   background-color: #f2f0ee; }
   #item-editor-wrapper .item-editor-item [class*=" col-"], #item-editor-wrapper .item-editor-item [class^="col-"] {
     padding: 3px; }
+=======
+<<<<<<< HEAD
+  background-color: #f2f0ee; }
+  #item-editor-wrapper .item-editor-item [class*=" col-"], #item-editor-wrapper .item-editor-item [class^="col-"] {
+    padding: 3px; }
+=======
+  background-color: #f2f0ee;
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+  -ms-direction: row;
+  -webkit-direction: row;
+  direction: row;
+  -ms-flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+  -ms-flex-pack: start;
+  -ms-flex-line-pack: start;
+  -ms-flex-align: stretch; }
+  #item-editor-wrapper .item-editor-item [class*=" col-"], #item-editor-wrapper .item-editor-item [class^="col-"] {
+    padding: 3px; }
+  #item-editor-wrapper .action-bar {
+    position: relative;
+    z-index: 15; }
+    #item-editor-wrapper .action-bar .action-group {
+      display: none; }
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 
 .item-editor-css-editor select {
   min-width: 0 !important;
   width: auto !important; }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .sidebar-right-section-box {
   display: none; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+<<<<<<< HEAD
+=======
+=======
+#item-editor-label {
+  width: 30%;
+  position: absolute;
+  z-index: 5;
+  left: 35%;
+  color: rgba(255, 255, 255, 0.9);
+  top: 8px;
+  text-shadow: 1px 1px 0 #0b4a74; }
+
+#authoringBack span {
+  position: relative;
+  top: -1px; }
+  #authoringBack span.icon-left {
+    font-size: 20px;
+    font-size: 2rem;
+    top: 3px;
+    padding-right: 6px; }
+
+.sidebar-right-section-box {
+  display: none; }
+
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -580,6 +695,10 @@ span.dragging {
   display: block;
   margin: 5px auto 8px;
   opacity: 0.8; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 
 .item-editor-sidebar {
   background: #f2f0ee;
@@ -588,6 +707,108 @@ span.dragging {
   top: 0;
   right: 0;
   width: 180px; }
+<<<<<<< HEAD
+=======
+=======
+#item-editor-interaction-bar .tool-group .panel.sub-group {
+  position: relative;
+  padding-top: 0 !important;
+  padding-bottom: 4px; }
+  #item-editor-interaction-bar .tool-group .panel.sub-group .tool-list {
+    position: relative;
+    z-index: 4; }
+  #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover {
+    position: absolute;
+    left: 0;
+    top: -7px;
+    width: 96%;
+    height: 100%;
+    background-color: rgba(242, 240, 238, 0.3) !important;
+    z-index: 2;
+    border: 1px #8d949e solid;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    margin: 2%;
+    cursor: no-drop !important; }
+    #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover.blocking {
+      z-index: 10; }
+  #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:after, #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:before {
+    bottom: 100%;
+    left: 25%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none; }
+  #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:after {
+    border-color: transparent;
+    border-bottom-color: #f2f0ee;
+    border-width: 8px;
+    margin-left: -8px; }
+  #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:before {
+    border-color: transparent;
+    border-bottom-color: #8d949e;
+    border-width: 9px;
+    margin-left: -9px; }
+#item-editor-interaction-bar .tool-list {
+  margin-top: -3px; }
+  #item-editor-interaction-bar .tool-list li {
+    width: 50%;
+    margin: 0 0%;
+    float: left;
+    padding: 9px 3px;
+    font-size: 12px;
+    font-size: 1.2rem;
+    border: 1px dotted transparent;
+    cursor: move;
+    text-align: center; }
+    #item-editor-interaction-bar .tool-list li:hover {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px dotted #aaa; }
+    #item-editor-interaction-bar .tool-list li span {
+      display: block;
+      margin: 5px auto 8px;
+      font-size: 28px;
+      font-size: 2.8rem;
+      opacity: .9; }
+    #item-editor-interaction-bar .tool-list li.disabled {
+      cursor: default;
+      background-color: #eee !important; }
+      #item-editor-interaction-bar .tool-list li.disabled:hover {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px dotted transparent; }
+    #item-editor-interaction-bar .tool-list li.dev {
+      background: #f2f6f9;
+      color: #0e5d91; }
+      #item-editor-interaction-bar .tool-list li.dev:hover {
+        background: rgba(255, 255, 255, 0.6); }
+
+.item-editor-sidebar-wrapper {
+  background: #f2f0ee;
+  -ms-order: 0;
+  -webkit-order: 0;
+  order: 0;
+  -webkit-align-self: stretch;
+  align-self: stretch;
+  -ms-flex-item-align: stretch;
+  -ms-flex: 0 0 180px;
+  -webkit-flex: 0 0 180px;
+  flex: 0 0 180px; }
+  .item-editor-sidebar-wrapper.left-bar .action-bar {
+    border-right: 1px solid #ddd; }
+  .item-editor-sidebar-wrapper.left-bar .item-editor-sidebar {
+    border-right: 1px solid white; }
+  .item-editor-sidebar-wrapper.right-bar .action-bar {
+    border-left: 1px solid #ddd; }
+  .item-editor-sidebar-wrapper.right-bar .item-editor-sidebar {
+    border-left: 1px solid white; }
+
+.item-editor-sidebar {
+  overflow-y: auto; }
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   .item-editor-sidebar .tool-group h2 {
     font-size: 14px;
     font-size: 1.4rem;
@@ -688,7 +909,15 @@ span.dragging {
           z-index: 10; }
       .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:after, .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:before {
         bottom: 100%;
+<<<<<<< HEAD
         left: 25%;
+=======
+<<<<<<< HEAD
+        left: 25%;
+=======
+        left: 35%;
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
         border: solid transparent;
         content: " ";
         height: 0;
@@ -715,7 +944,15 @@ span.dragging {
     margin-top: -3px; }
     .item-editor-sidebar .tool-list li {
       width: 50%;
+<<<<<<< HEAD
       margin: 0 0%;
+=======
+<<<<<<< HEAD
+      margin: 0 0%;
+=======
+      margin: 0;
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
       float: left;
       padding: 9px 3px;
       font-size: 12px;
@@ -951,6 +1188,10 @@ span.dragging {
         float: right; }
 
 #item-editor-panel {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   margin: 0 180px;
   overflow: auto;
   padding: 0;
@@ -962,6 +1203,25 @@ span.dragging {
   position: relative;
   min-height: 800px; }
   #item-editor-panel.has-item {
+<<<<<<< HEAD
+=======
+=======
+  padding: 0;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAAAAAA7VNdtAAAFQElEQVR42iXWW45kSREEUDN/xM3M6h4GJCT2vyl2gVBPV1XeCHc3PjirOPFvQE0HWecC3rZ4D9JFcpqSEy4MRO2Cw6M7y6xFY/xaz9fuThJGVSVNpvK7jL3Ggoyp4NsDzjd8dYJS+H8/HtNCo1HjRoNxoto8Wj1xntjG41srvQ7S67JC9UN30vz3snNpfBrEyNaOi5g3ctJFeluZra4rgwJIpMema9qCmEWtsK/I+fpbeDfSXe+AlQMoSxlwreFXRifYhNd4DL6erzoImTTg83iJFbCoM2Z3QqoGeLSmix3Hcvp11yzyax6ujkMEaV02MD/xYB1j2/SoK+IOi738OidmWCrfzwa2zy975XQeOMxNu1+kFS2esEGHrU+vR48LNyVTyQnrz4WK6oVmkaProfD3o1bvRcfywb4/Xsf9IBi70Ethc9qdj2dJXrNiazeN1XDJ+rdbtHkNE/b6/v6JAALjhrn1YHy9A68JGAQCZ/IfIMyaz7OZZjjBQbg0mo3Hd8RnXKSp348L3cdc+6qF6ePCvPPPniFkFIka9P7jn9GVhx5WeT7jB+qOmTRD0xzec/OaovsMn1/TDyBk8/2Rfnq5E0debzcsHwgqNNkS2ylitYcsytui5a14jaCrYp1kjxPHTa/9zqRGxOd6lqgw79pJoX01SPCpW1edJSW3aiwJVifmfk77O1Lx6ESH4Nh5m8e46RzDxYMnzLBd49Lj7u44gRtXb99uRqoTJlicX/FY7O1mU2QjOfIXH7/19zhujmIxUeU+Y1QKf6YTLa8Oo6YHwLmkaAszyLJfczoMUJK0Ssfo6KM+OetMDtBI2/NUhw3uDJi2X7px2XGNqcjTafYRezNhNrERruMnbpiZXFwxjBmQaEouS1RfvtrwJmjhkNe7Yruln4DMBIEDOQ4uFA/O9jLTjJs1j7tcEYZK2NhqsD6f+5rqyB4ddCnj/R2ewSHpjuOPHdf00AChWR4EYtu0hRXEq97FqHFqbFTz/FZs9/eHVIYJpKPdeVdYw/DE8AKNFyGU7E7MBFDZ5kQ1zX0KzEDPwC7zz35dN4ygpi67/DaP19ij7ycgo6M3hZOvrnzPC4pq0F0wFaCAeYWFYFadZibt79fomJg38vbsoV2ghpuL3RO00EC6vjsc1sRrlaJbpnTUODAa2poFTr0XnfHuH7qtftuDGJPB5vfPPM6AQou7fIzWM4p4XMDEG2D1j8Bk70tqWVqbOzTHDco5l4rs4RA8O5aG6z62mfY6CIgvb8OACvvGIgC1Qx7Y1ExcLWmlHb0t8QBcYYAoeY/Y5t7lbY9uu+7xZwANoTKzaoYO63EvBFqYtK3rasyS/Db5ZIfPROCMjQlJoLuYBNkTENIk9JnLtGBdZwUQGvNmPRxdEfdb50cLevs1Elk7c50Rre4n/vOvQPqRPIRDmbEjsuAiImQDk9gpdlKw/fyh8K4JSMxmGXFfD3doyOvux32enindFoDMb3MF0IGK8gHTZgxoqggpTInvH9ao9B6Td9oo5qyBw8eBBntCRj5GOuTktVxz//XHk+p2mXrifiMokq5BR94DNkPCsJBt3f4071kDOQwd/hPz/rnHgbGRns3vxTOOy2ff5uf7mReOgQ4K8gDID62De5VRZe/rfuSMYKOrdsczymEhx4hTJyZvrbYYie0QBj/1V4agcVV4JXqmYgFb8sxYQ95BFdsNyPPHoadIqM1fLYdiT4gQ+P00xZfZih5YtkFn7Xdw7P/FIeltYjSfW+Q1IZ7wcQgU4DupThfe9aN3wtCUjJoLktqBD27/HztqGm4EFwGoAAAAAElFTkSuQmCC);
+  position: relative;
+  min-height: 800px;
+  -ms-order: 0;
+  -webkit-order: 0;
+  order: 0;
+  -webkit-align-self: stretch;
+  align-self: stretch;
+  -ms-flex-item-align: stretch;
+  -ms-flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto; }
+  #item-editor-panel.has-item #item-editor-scroll-outer {
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
     background-image: none; }
   #item-editor-panel h1 {
     font-weight: 300;
@@ -979,7 +1239,20 @@ span.dragging {
   padding: 20px 60px; }
 
 #item-editor-scroll-outer {
+<<<<<<< HEAD
   overflow: auto; }
+=======
+<<<<<<< HEAD
+  overflow: auto; }
+=======
+  overflow: auto;
+  border-top: 1px white solid;
+  background-image: url(data:image/gif;base64,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);
+  background-position: center 250px;
+  background-repeat: no-repeat;
+  min-height: 300px; }
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 
 .dummy-element {
   min-width: 50px;
@@ -1041,6 +1314,10 @@ span.dragging {
   -webkit-box-shadow: 0px 0px 8px #b7b1ac;
   -moz-box-shadow: 0px 0px 8px #b7b1ac;
   box-shadow: 0px 0px 8px #b7b1ac;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
   /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
   /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
@@ -1058,6 +1335,12 @@ span.dragging {
   /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
   /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
   /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */ }
+<<<<<<< HEAD
+=======
+=======
+  /*hack to fix unwanted contenteditable behaviour in chrome : @see*/ }
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
   .item-editor-item [class*=" col-"], .item-editor-item [class^="col-"] {
     position: relative; }
   .item-editor-item p, .item-editor-item span, .item-editor-item ol, .item-editor-item ul {
@@ -1852,7 +2135,14 @@ span.dragging {
     z-index: 999; }
 
 /*style for modal feedback*/
+<<<<<<< HEAD
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+<<<<<<< HEAD
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+=======
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82
 .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\1cb"; }
 
@@ -1986,3 +2276,39 @@ span.dragging {
     border: 1px solid #dddddd !important;
     border-radius: 2px !important;
     -webkit-border-radius: 2px !important; } }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+@media (min-width: 1366px) {
+  .item-editor-sidebar-wrapper.left-bar {
+    -ms-order: 0;
+    -webkit-order: 0;
+    order: 0;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    -ms-flex-item-align: stretch;
+    -ms-flex: 0 0 262px;
+    -webkit-flex: 0 0 262px;
+    flex: 0 0 262px; }
+    .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .tool-list li {
+      width: 33.33333%; }
+    .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .sub-group-cover:after, .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .sub-group-cover:before {
+      left: 17% !important; } }
+@media (min-width: 1920px) {
+  .item-editor-sidebar-wrapper.left-bar {
+    -ms-order: 0;
+    -webkit-order: 0;
+    order: 0;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    -ms-flex-item-align: stretch;
+    -ms-flex: 0 0 344px;
+    -webkit-flex: 0 0 344px;
+    flex: 0 0 344px; }
+    .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .tool-list li {
+      width: 25%; }
+    .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .sub-group-cover:after, .item-editor-sidebar-wrapper.left-bar #item-editor-interaction-bar .sub-group-cover:before {
+      left: 12% !important; } }
+>>>>>>> 87449f5cb00a3ec788ad0b5d68fe0e409ea85426
+>>>>>>> b0f0a75685ee2bd53779c5ffea22f4e7b0607f82

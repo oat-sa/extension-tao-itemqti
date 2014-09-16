@@ -3,7 +3,6 @@
 @import "inc/farbtastic";
 @import "inc/preview";
 
-
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging {
     opacity: 0.8 !important;
@@ -294,56 +293,6 @@ span.dragging {
                     }
                 }
             }
-
-            &.sub-group {
-                position: relative;
-                padding-top: 0 !important;
-                padding-bottom: 4px;
-                .tool-list {
-                    position: relative;
-                    z-index: 4;
-                }
-                .sub-group-cover {
-                    position: absolute;
-                    left: 0;
-                    top: -7px;
-                    width: 96%;
-                    height: 100%;
-                    background-color: rgba(mix(#fff, $grey, 85%), 0.3) !important;
-                    z-index: 2;
-                    border: 1px $websiteBorder solid;
-                    @include border-radius(3);
-                    margin: 2%;
-                    cursor: no-drop !important;
-                    &.blocking {
-                        z-index: 10;
-                    }
-                }
-
-                .sub-group-cover:after, .sub-group-cover:before {
-                    bottom: 100%;
-                    left: 35%;
-                    border: solid transparent;
-                    content: " ";
-                    height: 0;
-                    width: 0;
-                    position: absolute;
-                    pointer-events: none;
-                }
-
-                .sub-group-cover:after {
-                    border-color: transparent;
-                    border-bottom-color: mix(#fff, $grey, 85%);
-                    border-width: 8px;
-                    margin-left: -8px;
-                }
-                
-<<<<<<< .mine
-            }
-=======
-                }
->>>>>>> .theirs
-<<<<<<< .mine
         }
     }
 
@@ -355,36 +304,13 @@ span.dragging {
         right: auto;
         left: 0;
     }
-    .tool-list {
-        margin-top: -3px;
-        @extend .clearfix;
-        &:before {
-            @extend .clearfix:before;
-        }
-        &:after {
-            @extend .clearfix:after;
-        }
-        
-        .reset-group {
-            select {
-                width: 140px;
-                min-width: 140px;
-                max-width: 140px;
-            }
-            .reset-button {
-                position: relative;
-                top: 6px;
-                right: 3px;
-                float:right;
-                padding: 0;
-                height: 20px;
-                width: 20px;
-                text-align: right;
-                cursor: pointer;
-                &:hover {
-                    color: $uiClickableHoverBg;
-                }
-            }
+
+
+    .reset-group {
+        select {
+            width: 140px;
+            min-width: 140px;
+            max-width: 140px;
         }
         .reset-button {
             position: relative;
@@ -977,29 +903,6 @@ span.dragging {
             float: right;
             margin: 5px;
         }
-        
-        .inner-wrapper{
-            position:relative;
-        }
-        
-        @import "qtiCreator/_choice";
-        @import "qtiCreator/_order";
-        @import "qtiCreator/_associate";
-        @import "qtiCreator/_match";
-        @import "qtiCreator/_inline-choice";
-        @import "qtiCreator/_text-entry";
-        @import "qtiCreator/_extended-text";
-        @import "qtiCreator/_gap-match";
-        @import "qtiCreator/_hottext";
-        @import "qtiCreator/_rubric-block";
-        @import "qtiCreator/_graphic";
-        @import "qtiCreator/_graphic-gap";
-        @import "qtiCreator/_custom";
-        @import "qtiCreator/_math";
-        
-        @import "qtiCreator/_mapping-editor";
-        @import "qtiCreator/_grid-editor";
-        
     }
     .widget-box-placeholder {
         display: inline-block;
@@ -1088,11 +991,6 @@ span.dragging {
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
-    }
-
-.widget-rubricBlock, .widget-textBlock {
-    [data-html-editable] {
-        min-height: 3rem;
     }
 }
 
