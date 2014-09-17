@@ -143,23 +143,21 @@ textarea {
  * 2. The use of `table` rather than `block` is only necessary if using
  *    `:before` to contain the top-margins of child elements.
  */
-.clearfix:before, #item-editor-interaction-bar .tool-list:before, .item-editor-sidebar .tool-list:before,
-.clearfix:after,
-#item-editor-interaction-bar .tool-list:after,
-.item-editor-sidebar .tool-list:after {
+.clearfix:before,
+.clearfix:after {
   content: " ";
   /* 1 */
   display: table;
   /* 2 */ }
 
-.clearfix:after, #item-editor-interaction-bar .tool-list:after, .item-editor-sidebar .tool-list:after {
+.clearfix:after {
   clear: both; }
 
 /*
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
  */
-.clearfix, #item-editor-interaction-bar .tool-list, .item-editor-sidebar .tool-list {
+.clearfix {
   background-repeat: no-repeat; }
 
 /* ==========================================================================
@@ -647,7 +645,7 @@ span.dragging {
       z-index: 10; }
   #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:after, #item-editor-interaction-bar .tool-group .panel.sub-group .sub-group-cover:before {
     bottom: 100%;
-    left: 25%;
+    left: 35%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -668,7 +666,7 @@ span.dragging {
   margin-top: -3px; }
   #item-editor-interaction-bar .tool-list li {
     width: 50%;
-    margin: 0 0%;
+    margin: 0;
     float: left;
     padding: 9px 3px;
     font-size: 12px;
@@ -794,81 +792,12 @@ span.dragging {
       margin-top: 5px; }
     .item-editor-sidebar .tool-group .panel .feedbackRule-panel .adder :before {
       font-size: 1.4rem; }
-    .item-editor-sidebar .tool-group .panel.sub-group {
-      position: relative;
-      padding-top: 0 !important;
-      padding-bottom: 4px; }
-      .item-editor-sidebar .tool-group .panel.sub-group .tool-list {
-        position: relative;
-        z-index: 4; }
-      .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover {
-        position: absolute;
-        left: 0;
-        top: -7px;
-        width: 96%;
-        height: 100%;
-        background-color: rgba(242, 240, 238, 0.3) !important;
-        z-index: 2;
-        border: 1px #8d949e solid;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
-        border-radius: 3px;
-        margin: 2%;
-        cursor: no-drop !important; }
-        .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover.blocking {
-          z-index: 10; }
-      .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:after, .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:before {
-        bottom: 100%;
-        left: 35%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none; }
-      .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:after {
-        border-color: transparent;
-        border-bottom-color: #f2f0ee;
-        border-width: 8px;
-        margin-left: -8px; }
-      .item-editor-sidebar .tool-group .panel.sub-group .sub-group-cover:before {
-        border-color: transparent;
-        border-bottom-color: #8d949e;
-        border-width: 9px;
-        margin-left: -9px; }
   .item-editor-sidebar .inset {
     margin-left: 6px;
     margin-right: 6px; }
   .item-editor-sidebar:first-child {
     right: auto;
     left: 0; }
-  .item-editor-sidebar .tool-list {
-    margin-top: -3px; }
-    .item-editor-sidebar .tool-list li {
-      width: 50%;
-      margin: 0;
-      float: left;
-      padding: 9px 3px;
-      font-size: 12px;
-      font-size: 1.2rem;
-      border: 1px dotted transparent;
-      cursor: move;
-      text-align: center; }
-      .item-editor-sidebar .tool-list li:hover {
-        background: rgba(255, 255, 255, 0.6);
-        border: 1px dotted #aaa; }
-      .item-editor-sidebar .tool-list li span {
-        display: block;
-        margin: 5px auto 8px;
-        font-size: 28px;
-        font-size: 2.8rem;
-        opacity: .9; }
-      .item-editor-sidebar .tool-list li.disabled {
-        cursor: default;
-        background-color: #eee !important; }
-        .item-editor-sidebar .tool-list li.disabled:hover {
-          background: rgba(255, 255, 255, 0.6);
-          border: 1px dotted transparent; }
   .item-editor-sidebar .reset-group select {
     width: 140px;
     min-width: 140px;
