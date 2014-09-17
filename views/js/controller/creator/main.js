@@ -8,6 +8,9 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
     'taoQtiItem/qtiCreator/helper/qtiElements',
+
+    'layout/section-height',
+    'layout/loading-bar',
     // css editor related
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
@@ -28,6 +31,8 @@ define([
     creatorRenderer,
     commonRenderer,
     qtiElements,
+    sectionHeight,
+    loadingBar,
     fontSelector,
     colorSelector,
     fontSizeChanger,
@@ -39,8 +44,11 @@ define([
     ciRegistry
     ){
 
+    loadingBar.start();
+
     var _initializeUiComponents = function(item, widget, config){
 
+        sectionHeight.setHeights();
         styleEditor.init(widget.element, config);
 
         styleSheetToggler.init(config);
@@ -56,7 +64,10 @@ define([
         
         editor.initGui({
             $itemContainer : widget.$container,
+            $label : config.label
         });
+
+        loadingBar.stop();
 
     };
     
@@ -103,12 +114,8 @@ define([
             var $tabs = $('#tabs'),
                 $tabNav = $('ul.ui-tabs-nav > li', $tabs),
                 currentTab = $tabs.tabs('option', 'selected'),
-                configProperties = config.properties,
-                // workaround to get ajax loader out of the way
-                // item editor has its own loader with the correct background color
-                $loader = $('#ajax-loading'),
-                loaderLeft = $loader.css('left');
-            
+                configProperties = config.properties;
+
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
             configProperties.dom = {
@@ -134,9 +141,6 @@ define([
 
             //create interactions toolbar:
             _initializeInteractionsToolbar($('#item-editor-interaction-bar'), config.interactions);
-
-            //hide loader:
-            $loader.css('left', '-10000px');
 
             //load item from REST service
             loader.loadItem({uri : configProperties.uri}, function(item){
@@ -175,8 +179,6 @@ define([
                             $(document).off('.qti-widget');
                             $(document).off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
-
-                            $loader.css('left', loaderLeft);
                         }
                     });
 

@@ -7,49 +7,20 @@ define([
 
     var editor = (function(){
 
-        var elements = {},
-            $win = $(window),
-            $doc = $(document);
-
-        /**
-         * Handle item scrolling
-         *
-         * @private
-         */
-        var _handleScrolling = function($itemContainer){
-
-            var sidePadding = parseInt(elements.scrollInner.css('padding-left')) * 2,
-                requiredWidth = $itemContainer.outerWidth() + sidePadding,
-                availableWidth = elements.scrollInner.innerWidth(),
-                areaHeight = $(window).height() - elements.itemPanel.offset().top + $win.scrollTop(),
-                actualWidth = Math.max(requiredWidth, availableWidth);
-
-            // max-height = 'none' on first run, here set to the height calculated by _adaptHeight()
-            if(isNaN(parseInt(elements.scrollOuter.css('max-height')))){
-                elements.scrollOuter.css('max-height', elements.itemPanel.css('height'));
-                elements.itemPanel.css('height', '');
-            }
-
-            if(requiredWidth > availableWidth){
-                elements.scrollInner[0].style.width = actualWidth + 'px';
-            }
-            else{
-                elements.scrollInner.width('');
-            }
-            elements.scrollOuter.height(areaHeight);
-        };
+        var elements = {};
 
 
         var _setupElements = function(){
             var _elements = {
                 scope : '#item-editor-scope',
-                toolbar : '#item-editor-toolbar',
                 toolbarInner : '#item-editor-toolbar-inner',
                 sidebars : '.item-editor-sidebar',
                 itemBar : '#item-editor-item-bar',
                 itemPanel : '#item-editor-panel',
                 scrollOuter : '#item-editor-scroll-outer',
-                scrollInner : '#item-editor-scroll-inner'
+                scrollInner : '#item-editor-scroll-inner',
+                label: '#item-editor-label',
+                actionGroups: '.action-group'
             },
             element;
             for(element in _elements){
@@ -175,17 +146,6 @@ define([
             _toggleSections(sections, !!preserveOthers, 'open');
         };
 
-        /**
-         * Adapt height of sidebars and content
-         */
-        var adaptHeight = function(){
-            var height = 0;
-            elements.columns.each(function(){
-                var block = $(this);
-                height = Math.max(block.height(), height);
-            }).height(height);
-        };
-
 
         /**
          * toggle availability of sub group
@@ -221,11 +181,7 @@ define([
          */
         var initGui = function(config){
 
-            var $itemContainer = config.$itemContainer;
-
             _setupElements();
-
-            adaptHeight();
 
             // toggle blocks in sidebar
             // note that this must happen _after_ the height has been adapted
@@ -235,41 +191,13 @@ define([
             closeSections(elements.sidebars.find(section));
 
 
-            /* At the time of writing this the following sections are available:
-             *
-             * #sidebar-left-section-text
-             * #sidebar-left-section-block-interactions
-             * #sidebar-left-section-inline-interactions
-             * #sidebar-left-section-graphic-interactions
-             * #sidebar-left-section-media
-             * #sidebar-right-css-manager
-             * #sidebar-right-style-editor
-             * #sidebar-right-item-properties
-             * #sidebar-right-body-element-properties
-             * #sidebar-right-text-block-properties
-             * #sidebar-right-interaction-properties
-             * #sidebar-right-choice-properties
-             * #sidebar-right-response-properties
-             */
-
             openSections($('#sidebar-left-section-common-interactions'), false);
 
             elements.itemPanel.addClass('has-item');
 
-            // display toolbar and sidebar
-            //elements.sidebars.add(elements.toolbarInner).fadeTo(2000, 1);
+            elements.label.find('span').text(config.$label);
 
-            var _scroll = _.throttle(function(e){
-                _handleScrolling($itemContainer);
-            }, 150);
-
-            _scroll();
-
-            $doc.on('scroll', _scroll);
-
-            $itemContainer.on('resize', _scroll);
-
-            $win.on('resize orientationchange', _scroll);
+            elements.actionGroups.show();
 
         };
 
@@ -278,7 +206,6 @@ define([
             initGui : initGui,
             openSections : openSections,
             closeSections : closeSections,
-            adaptHeight : adaptHeight,
             enableSubGroup : enableSubGroup,
             disableSubGroup : disableSubGroup
         };

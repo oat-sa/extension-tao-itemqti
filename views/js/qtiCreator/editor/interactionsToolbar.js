@@ -111,6 +111,15 @@ define([
             $group = addGroup($sidebar, groupLabel);
         }
 
+        if(subGroupId && _subgroups[subGroupId]){
+            tplData.subGroup = subGroupId;
+        }
+
+        if(!$group.length){
+            //the group does not exist yet : create a <section> for the group
+            $group = addGroup($sidebar, groupLabel);
+        }
+
         $group.find('.tool-list').append(insertInteractionTpl(tplData));
     }
 

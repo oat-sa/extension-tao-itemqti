@@ -149,7 +149,11 @@ define([
     function getManifest(typeIdentifier){
         return get(typeIdentifier).manifest;
     }
-
+    
+    function isDev(typeIdentifier){
+        return interactions[typeIdentifier] && interactions[typeIdentifier].dev;
+    }
+    
     return {
         register : register,
         loadAll : loadAll,
