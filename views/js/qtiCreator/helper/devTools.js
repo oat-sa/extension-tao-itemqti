@@ -11,9 +11,7 @@ define([
 
         $(document).on('afterStateInit.qti-widget', function(e, element, state) {
             console.log('->state : ' + state.name + ' : ' + element.serial);
-        });
-
-        $(document).on('afterStateExit.qti-widget', function(e, element, state) {
+        }).on('afterStateExit.qti-widget', function(e, element, state) {
             console.log('<-state : ' + state.name + ' : ' + element.serial);
         });
     };

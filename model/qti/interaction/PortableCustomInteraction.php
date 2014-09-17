@@ -127,7 +127,7 @@ class PortableCustomInteraction extends CustomInteraction
         $libs = array();
         foreach($libNodes as $libNode){
             //@todo : get lib "href" from "id"
-            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('id');
+            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
         }
         $this->setLibraries($libs);
 
@@ -142,7 +142,7 @@ class PortableCustomInteraction extends CustomInteraction
             $markup = $parser->getBodyData($markupNodes->item(0), true);
             $this->setMarkup($markup);
         }
-
+        
     }
     
     private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
