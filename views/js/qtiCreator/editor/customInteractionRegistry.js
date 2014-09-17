@@ -1,11 +1,13 @@
-define(['lodash'], function(_){
+define([
+    'lodash',
+    'taoQtiItem/qtiCreator/helper/qtiElements'
+], function(_, qtiElements){
 
     var requirejs = window.require,
-        interactions = {},
-        paths = {};
+        interactions = {};
 
     function isValidHook(interactionHook){
-        
+
         if(!interactionHook.typeIdentifier){
             throw 'invalid hook : missing typeIdentifier';
         }
@@ -18,16 +20,29 @@ define(['lodash'], function(_){
         return true;
     }
 
+    /**
+     * Load manifest and baseUrl data
+     * 
+     * @param {Object} customInteractionHooks
+     */
     function register(customInteractionHooks){
 
+        var paths = {};
+
         _(customInteractionHooks).values().each(function(interactionHook){
-            
+
             if(isValidHook(interactionHook)){
-                
-                interactions[interactionHook.typeIdentifier] = interactionHook;
+
+                var id = interactionHook.typeIdentifier;
+
+                //register the hook
+                interactions[id] = interactionHook;
 
                 //load customInteraction namespace in requirejs config 
-                paths[interactionHook.typeIdentifier] = interactionHook.baseUrl;
+                paths[id] = interactionHook.baseUrl;
+
+                //for compatiblility
+                qtiElements.classes['customInteraction.' + id] = {parents : ['customInteraction'], qti : true};
             }
         });
 
@@ -37,6 +52,11 @@ define(['lodash'], function(_){
         });
     }
 
+    /**
+     * Load all previously registered creator hooks
+     * 
+     * @param {Function} callback
+     */
     function loadAll(callback){
 
         var required = [];
@@ -45,31 +65,89 @@ define(['lodash'], function(_){
         });
 
         requirejs(required, function(){
-            var hooks = {};
-            _.each(arguments, function(hook){
-                hooks[hook.getTypeIdentifier()] = hook;
+            var pciCreators = {};
+            _.each(arguments, function(pciCreator){
+                var id = pciCreator.getTypeIdentifier();
+                pciCreators[id] = pciCreator;
+                interactions[id].pciCreator = pciCreator;
             });
-            callback(hooks);
+            callback(pciCreators);
         });
     }
 
+    /**
+     * Load one single creator hook  identified by its typeIdentifier
+     * 
+     * @param {String} typeIdentifier
+     * @param {Function} callback
+     */
     function loadOne(typeIdentifier, callback){
 
         var interaction = interactions[typeIdentifier];
         if(interaction){
-            requirejs([interaction.file], function(hook){
-                callback(hook);
+            requirejs([interaction.file], function(pciCreator){
+                interaction.pciCreator = pciCreator;
+                callback(pciCreator);
             });
         }else{
             throw 'cannot load the interaction because it is not registered';
-
         }
 
     }
 
-    function getPath(typeIdentifier){
+    function getCreator(typeIdentifier){
 
-        return paths[typeIdentifier];
+        var interaction = interactions[typeIdentifier];
+        if(interaction){
+            if(interaction.pciCreator){
+                return interaction.pciCreator
+            }else{
+                throw 'the custom interaction is not loaded';
+            }
+        }else{
+            throw 'the custom interaction is not registered';
+        }
+    }
+
+    function isDev(typeIdentifier){
+        return interactions[typeIdentifier] && interactions[typeIdentifier].dev;
+    }
+
+    function get(typeIdentifier){
+        return interactions[typeIdentifier];
+    }
+
+    function getBaseUrl(typeIdentifier){
+        return get(typeIdentifier).baseUrl;
+    }
+    
+    /**
+     * Get authorign data for a custom interaction
+     * 
+     * @param {String} typeIdentifier
+     * @returns {Object}
+     */
+    function getAuthoringData(typeIdentifier){
+
+        var manifest = getManifest(typeIdentifier);
+
+        return {
+            label : manifest.label, //currently no translation available 
+            icon : getBaseUrl(typeIdentifier) + manifest.icon, //use baseUrl from context
+            short : manifest.short,
+            qtiClass : 'customInteraction.' + manifest.typeIdentifier, //custom interaction is block type
+            tags : _.union(['Custom Interactions'], manifest.tags)
+        };
+    }
+    
+    /**
+     * Get complete manifest object for a custom interaction
+     * 
+     * @param {String} typeIdentifier
+     * @returns {Object}
+     */
+    function getManifest(typeIdentifier){
+        return get(typeIdentifier).manifest;
     }
     
     function isDev(typeIdentifier){
@@ -80,8 +158,12 @@ define(['lodash'], function(_){
         register : register,
         loadAll : loadAll,
         loadOne : loadOne,
-        getPath : getPath,
-        isDev : isDev
+        getBaseUrl : getBaseUrl,
+        getCreator : getCreator,
+        isDev : isDev,
+        get : get,
+        getAuthoringData : getAuthoringData,
+        getManifest : getManifest
     };
 
 });

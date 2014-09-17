@@ -130,7 +130,7 @@ define([
         $itemBody.gridEditor('resizable');
         $itemBody.gridEditor('addInsertables', $('.tool-list > [data-qti-class]:not(.disabled)'), {
             helper : function(){
-                return $(this).find('span').clone().addClass('dragging');
+                return $(this).find('.icon').clone().addClass('dragging');
             }
         });
 
@@ -170,7 +170,7 @@ define([
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
-
+            
             containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
 
                 creatorRenderer.get().load(function(){

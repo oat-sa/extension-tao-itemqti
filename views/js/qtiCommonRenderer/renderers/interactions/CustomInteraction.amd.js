@@ -6,7 +6,7 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'context'
 ], function(_, tpl, Helper, qtiCustomInteractionContext, util, context){
-    
+
     /**
      * Set the customInteractionContext from a local context to the global one to make it available to all PCI instances
      * 
@@ -16,7 +16,7 @@ define([
 
         window.qtiCustomInteractionContext = window.qtiCustomInteractionContext || qtiCustomInteractionContext;
     };
-    
+
     /**
      * Register the libraries in 'paths' into requiresjs
      * The requirejs config will be specific to PCIs, the sepcific context 'portableCustomInteraction' is defined as a consequence
@@ -30,7 +30,7 @@ define([
             paths : paths
         });
     };
-    
+
     /**
      * Call requirejs.require() in the specific context of 'portableCustomInteraction'
      * 
@@ -42,7 +42,7 @@ define([
         var pciReq = window.require.config({context : 'portableCustomInteraction'});
         pciReq(modules, callback);
     };
-    
+
     /**
      * Get the PCI instance associated to the interaction object
      * If none exists, create a new one based on the PCI typeIdentifier
@@ -73,7 +73,7 @@ define([
 
         return pci;
     };
-    
+
     /**
      * Get the list of required modules to be loaded for interaction rendering
      * 
@@ -86,7 +86,7 @@ define([
         var libraries = interaction.libraries || [],
             ret = [],
             paths = {};
-        
+
         _.forIn(libraries, function(href, name){
 
             var hrefFull = util.fullpath(href, baseUrl);
@@ -106,7 +106,7 @@ define([
 
         return ret;
     };
-    
+
     /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
@@ -120,8 +120,10 @@ define([
      * 
      * @param {Object} interaction
      */
-    var render = function(interaction){
-
+    var render = function(interaction, options){
+        
+        options = options || {};
+        
         _registerGlobalPciContext();
         _registerLibraries({
             css : context.root_url + 'tao/views/js/lib/require-css/css'
@@ -130,12 +132,12 @@ define([
         //get pci id
         var id = interaction.attr('responseIdentifier');
         var $dom = Helper.getContainer(interaction).find('#' + id);
-
+        
         //get initialization params :
-        var state = null,//@todo
-            response = null,//@todo 
+        var state = null, //@todo
+            response = null, //@todo 
             config = interaction.properties,
-            libraries = _getLibraries(interaction, this.getOption('baseUrl'));
+            libraries = _getLibraries(interaction, options.baseUrl ? options.baseUrl : this.getOption('baseUrl'));
 
         /**
          * The libraries (js or css) will all be loaded asynchronously
@@ -147,16 +149,16 @@ define([
             if(pci){
                 //call pci initialize() to render the pci
                 pci.initialize(id, $dom[0], config);
-                
+
                 //restore context (state + response)
                 pci.setSerializedState(state);
                 pci.setResponse(response);
             }
-            
+
         });
-        
+
     };
-    
+
     /**
      * Programmatically set the response following the json schema described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
@@ -168,7 +170,7 @@ define([
 
         _getPci(interaction).setResponse(response);
     };
-    
+
     /**
      * Get the response in the json format described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
@@ -180,7 +182,7 @@ define([
 
         return _getPci(interaction).getResponse();
     };
-    
+
     /**
      * Remove the current response set in the interaction
      * The state may not be restored at this point.
@@ -191,7 +193,7 @@ define([
 
         _getPci(interaction).resetResponse();
     };
-    
+
     /**
      * Reverse operation performed by render()
      * After this function is executed, only the inital naked markup remains 
@@ -203,7 +205,7 @@ define([
 
         _getPci(interaction).destroy();
     };
-    
+
     /**
      * Restore the state of the interaction from the serializedState.
      * 
@@ -214,7 +216,7 @@ define([
 
         _getPci(interaction).setSerializedState(serializedState);
     };
-    
+
     /**
      * Get the current state of the interaction as a string.
      * It enables saving the state for later usage.
@@ -236,6 +238,7 @@ define([
         getResponse : getResponse,
         resetResponse : resetResponse,
         destroy : destroy,
-        getSerializedState : getSerializedState
+        getSerializedState : getSerializedState,
+        setSerializedState : setSerializedState
     };
 });

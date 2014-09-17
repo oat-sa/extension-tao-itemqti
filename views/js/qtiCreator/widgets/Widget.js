@@ -240,6 +240,18 @@ define([
 
             return null;
         },
+        
+        refresh : function(){
+            
+            var currentState = this.getCurrentState().name;
+            
+            this.rebuild({
+                ready:function(widget){
+                    widget.changeState(currentState);
+                }
+            });
+        },
+        
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback, live){
 

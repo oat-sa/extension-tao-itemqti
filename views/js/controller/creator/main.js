@@ -61,7 +61,7 @@ define([
         preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
-
+        
         editor.initGui({
             $itemContainer : widget.$container,
             $label : config.label
@@ -81,7 +81,7 @@ define([
         ciRegistry.loadAll(function(interactionModels){
             
             _.each(interactionModels, function(interactionModel){
-                var data = interactionModel.getAuthoringData();
+                var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
                     toolbarInteractions[data.qtiClass] = data;
                 }else{

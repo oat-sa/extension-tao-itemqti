@@ -1,10 +1,11 @@
 define([
+    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/movable',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/interaction',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton'
-], function($, Widget, movable, toolbarTpl, okButtonTpl){
+], function(_, $, Widget, movable, toolbarTpl, okButtonTpl){
 
     /**
      * 
@@ -40,10 +41,10 @@ define([
      * define the states and common structure valid for all states
      */
     InteractionWidget.initCreator = function(){
-
+        
         Widget.initCreator.call(this);
-
-        this.createToolbar();
+        
+        this.createToolbar({});
         this.createOkButton();
         this.listenToChoiceStates();
     };
@@ -62,12 +63,19 @@ define([
         });
         var $interactionContainer = this.$original.wrap($wrap);
         this.$container = $interactionContainer.parent();
-        
+
         //@todo : implement movable interaction here:
 //        movable.create(this);
 
         return this;
     };
+
+    function _convertToTitle(str){
+        str = str.replace(/[A-Z]/g, function(match){
+            return ' ' + match.toUpperCase();
+        });
+        return str.charAt(0).toUpperCase() + str.substr(1);
+    }
 
     /**
      * Below here, optional ui component init functions
@@ -76,19 +84,17 @@ define([
     /**
      * Create a toolbar
      */
-    InteractionWidget.createToolbar = function(){
+    InteractionWidget.createToolbar = function(options){
+
+        options = _.defaults(options || {}, {
+            title : _convertToTitle(this.element.qtiClass)
+        });
 
         var _this = this,
-            $toolbar,
-            convertToTitle = function(str) {
-                str = str.replace(/[A-Z]/g,  function(match) {
-                    return ' ' + match.toUpperCase();
-                });
-                return str.charAt(0).toUpperCase() + str.substr(1);
-            };
+            $toolbar;
 
         $toolbar = $(toolbarTpl({
-            title : convertToTitle(this.element.qtiClass),
+            title : options.title,
             serial : this.element.serial,
             switcher : !!this.registeredStates.answer
         }));

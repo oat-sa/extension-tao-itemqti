@@ -3,12 +3,12 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
     var methods = {
         createElements : function(container, body, callback){
             
-            var regex = /{{([a-z0-9_]*):new}}/ig;
+            var regex = /{{([a-z_]+)\.?([a-z_]*):new}}/ig;
 
             //first pass to get required qti classes, but do not replace
             var required = {};
             body.replace(regex,
-                function(original, qtiClass){
+                function(original, qtiClass, subClass){
                     if(qtiClasses[qtiClass]){
                         required[qtiClass] = qtiClasses[qtiClass];
                     }else{
@@ -28,7 +28,7 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
                 //create new elements
                 var newElts = {};
                 var newBody = body.replace(regex,
-                    function(original, qtiClass){
+                    function(original, qtiClass, subClass){
                         if(Qti[qtiClass]){
                             //create new element
                             var elt = new Qti[qtiClass]();
@@ -36,6 +36,13 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
                                 elt.setRenderer(container.getRenderer());
                             }
                             newElts[elt.getSerial()] = elt;
+                            
+                            //manage subclassed qtiClass
+                            if(subClass){
+                                //@todo generalize it from customInteraction
+                                elt.typeIdentifier = subClass;
+                            }
+                            
                             return elt.placeholder();
                         }else{
                             return original;
@@ -44,18 +51,18 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
 
                 //insert them:    
                 container.setElements(newElts, newBody);
-
+                
                 //operations after insertions:
-                for(var i in newElts){
-                    var elt = newElts[i];
-                    if(typeof(elt.buildIdentifier) === 'function'){
+                var $doc = $(document);
+                _.each(newElts, function(elt){
+                    if(_.isFunction(elt.buildIdentifier)){
                         elt.buildIdentifier();
                     }
-                    if(typeof(elt.afterCreate) === 'function'){
+                    if(_.isFunction(elt.afterCreate)){
                         elt.afterCreate();
                     }
-                    $(document).trigger('elementCreated.qti-widget', {'parent' : container.parent(), 'element' : elt});
-                }
+                    $doc.trigger('elementCreated.qti-widget', {parent : container.parent(), element : elt});
+                });
 
                 if(typeof(callback) === 'function'){
                     callback.call(container, newElts);

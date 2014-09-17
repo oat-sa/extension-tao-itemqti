@@ -1,22 +1,27 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/CustomInteraction.amd',
-    'taoQtiItem/qtiCreator/helper/pciCreator'
-], function(_, CustomInteraction, pciCreator){
-    
-    var CreatorCustomInteraction = _.clone(CustomInteraction);
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'taoQtiItem/qtiCreator/helper/commonRenderer'
+], function(_, Renderer, ciRegistry, commonRenderer){
+
+    var CreatorCustomInteraction = _.clone(Renderer);
 
     CreatorCustomInteraction.render = function(interaction, options){
-        
-        var Widget = pciCreator.getPciInstance(interaction).getWidget();
-        
+
+        //initial rendering:
+        Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getBaseUrl(interaction.typeIdentifier)});
+
+        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier),
+            Widget = pciCreator.getWidget();
+
         return Widget.build(
             interaction,
-            CustomInteraction.getContainer(interaction),
+            Renderer.getContainer(interaction),
             this.getOption('interactionOptionForm'),
             this.getOption('responseOptionForm'),
             options
-        );
+            );
     };
 
     return CreatorCustomInteraction;
