@@ -18,11 +18,12 @@
  *               
  * 
  */
- echo'<?xml version="1.0" encoding="UTF-8"?>'?>
+
+echo '<?xml version="1.0" encoding="UTF-8"?>'?>
 <assessmentItem 
     xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    <?php foreach(get_data('namespaces') as $name => $uri) : ?> xmlns:<?=$name?>="<?=$uri?>"<?php endforeach ?>
+    <?php foreach(get_data('namespaces') as $name => $uri):?>xmlns:<?=$name?>="<?=$uri?>"<?php endforeach?>
     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
     <?=get_data('attributes')?>>
 

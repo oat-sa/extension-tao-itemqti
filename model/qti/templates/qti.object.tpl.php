@@ -19,8 +19,8 @@
  * 
  */
 ?>
-<?if(trim(get_data('_alt')) == ''):?>
+<?php if(trim(get_data('_alt')) == ''):?>
     <object <?=get_data('attributes')?>/>
-<?else:?>
+<?php else:?>
     <object <?=get_data('attributes')?>><?=get_data('_alt')?></object>
-<?endif;?>
+<?php endif;?>

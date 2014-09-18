@@ -20,9 +20,9 @@
  */
 ?>
 <<?=get_data('tag')?> <?=get_data('attributes')?>>
-<?if(!is_null(get_data('prompt'))):?>
+<?php if(!is_null(get_data('prompt'))):?>
     <?=get_data('prompt')?>
-<?endif?>
+<?php endif?>
 <?=get_data('object')?>
 <?=get_data('gapImgs')?>
 <?=get_data('choices')?>

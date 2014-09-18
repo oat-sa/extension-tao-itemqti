@@ -292,13 +292,13 @@ use oat\tao\helpers\Template;
 </div>
 
 <script>
-    <?if(tao_helpers_Mode::is('production')):?>
+    <?php if(tao_helpers_Mode::is('production')):?>
     require(['taoQtiItem/controller/routes'], function () {
-        <? endif ?>
+        <?php endif ?>
         require(['taoQtiItem/controller/creator/main'], function (controller) {
             controller.start(<?=json_encode(get_data('config'))?>);
         });
-        <?if(tao_helpers_Mode::is('production')):?>
+        <?php if(tao_helpers_Mode::is('production')):?>
     });
-    <? endif ?>
+    <?php endif ?>
 </script>
