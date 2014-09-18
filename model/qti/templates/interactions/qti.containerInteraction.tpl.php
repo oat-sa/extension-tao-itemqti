@@ -20,13 +20,13 @@
  */
 ?>
 <<?=get_data('tag')?> <?=get_data('attributes')?>>
-<?if(!is_null(get_data('prompt'))):?>
+<?php if(!is_null(get_data('prompt'))):?>
     <?=get_data('prompt')?>
-<?endif?>
-<?if(!is_null(get_data('choices'))):?>
+<?php endif?>
+<?php if(!is_null(get_data('choices'))):?>
     <?=get_data('choices')?>
-<?endif?>
-<?if(!is_null(get_data('body'))):?>
+<?php endif?>
+<?php if(!is_null(get_data('body'))):?>
     <?=get_data('body')?>
-<?endif?>
+<?php endif?>
 </<?=get_data('tag')?>>

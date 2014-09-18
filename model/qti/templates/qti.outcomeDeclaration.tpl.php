@@ -19,10 +19,10 @@
  * 
  */
 ?>
-<outcomeDeclaration <?=get_data('attributes')?><?if(is_null(get_data('defaultValue'))):?>/>
-<?else:?>>
+<outcomeDeclaration <?=get_data('attributes')?><?php if(is_null(get_data('defaultValue'))):?>/>
+<?php else:?>>
     <defaultValue>
         <value><?=get_data('defaultValue')?></value>
     </defaultValue>
 </outcomeDeclaration>
-<?endif?>
+<?php endif?>

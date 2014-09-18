@@ -22,24 +22,24 @@
 <responseCondition>
     <responseIf>
         <<?=$condition?>>
-<?if(!empty($responseIdentifier) && $map):?>
+<?php if(!empty($responseIdentifier) && $map):?>
         <mapResponse identifier="<?=$responseIdentifier?>" />
-<?elseif(!empty($responseIdentifier) && $mapPoint):?>
+<?php elseif(!empty($responseIdentifier) && $mapPoint):?>
     <mapResponsePoint identifier="<?=$responseIdentifier?>" />
-<?else:?>
+<?php else:?>
         <variable identifier="<?=$outcomeIdentifier?>" />
-<?endif;?>
+<?php endif;?>
             <baseValue baseType="float"><?=$value?></baseValue>
         </<?=$condition?>>
         <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
 <baseValue baseType="identifier"><?=$feedbackIdentifierThen?></baseValue>
         </setOutcomeValue>
     </responseIf>
-<?if(!empty($feedbackIdentifierElse)):?>
+<?php if(!empty($feedbackIdentifierElse)):?>
             <responseElse>
                 <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
                 <baseValue baseType="identifier"><?=$feedbackIdentifierElse?></baseValue>
                         </setOutcomeValue>
                 </responseElse>
-<?endif;?>
+<?php endif;?>
 </responseCondition>

@@ -22,28 +22,28 @@ $correctResponses = get_data('correctResponses');
 $mapping = get_data('mapping');
 $areaMapping = get_data('areaMapping');
 ?>
-<responseDeclaration <?=get_data('attributes')?><?if(!$correctResponses && !$mapping && !$areaMapping):?>/>
-<?else:?>>
-    <?if(is_array($correctResponses) && count($correctResponses) > 0):?>
+<responseDeclaration <?=get_data('attributes')?><?php if(!$correctResponses && !$mapping && !$areaMapping):?>/>
+<?php else:?>>
+    <?php if(is_array($correctResponses) && count($correctResponses) > 0):?>
 	<correctResponse>
-	    <?foreach($correctResponses as $value):?>
+	    <?php foreach($correctResponses as $value):?>
 	        <value><?=$value?></value>
-	    <?endforeach?>
+	    <?php endforeach?>
 	</correctResponse>
-    <?endif?>
-    <?if(!is_null($mapping) && count($mapping) > 0):?>
+    <?php endif?>
+    <?php if(!is_null($mapping) && count($mapping) > 0):?>
 	<mapping <?=get_data('mappingAttributes')?>>
-	    <?foreach($mapping as $key => $value):?>
+	    <?php foreach($mapping as $key => $value):?>
 	        <mapEntry mapKey="<?=$key?>" mappedValue="<?=$value?>"/>
-	    <?endforeach?>
+	    <?php endforeach?>
 	</mapping>
-    <?endif?>
-    <?if(!is_null($areaMapping) && count($areaMapping) > 0):?>
+    <?php endif?>
+    <?php if(!is_null($areaMapping) && count($areaMapping) > 0):?>
 	<areaMapping <?=get_data('mappingAttributes')?>>
-	    <?foreach($areaMapping as $areaMapEntry):?>
-	        <areaMapEntry <?foreach($areaMapEntry as $key => $value):?><?=$key?>="<?=$value?>" <?endforeach;?> />
-	    <?endforeach?>
+	    <?php foreach($areaMapping as $areaMapEntry):?>
+	        <areaMapEntry <?php foreach($areaMapEntry as $key => $value):?><?=$key?>="<?=$value?>" <?php endforeach;?> />
+	    <?php endforeach?>
 	</areaMapping>
-    <?endif?>
+    <?php endif?>
 </responseDeclaration>
-<?endif?>
+<?php endif?>
