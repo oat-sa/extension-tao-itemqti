@@ -7,7 +7,7 @@ use oat\tao\helpers\Template;
 <link href="<?= Template::css('item-creator.css') ?>" rel="stylesheet">
 
 
-<div id="item-editor-scope">
+<div id="item-editor-scope" data-content-target="wide">
 
 <div class="wrapper clearfix content" id="item-editor-wrapper">
 

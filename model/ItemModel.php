@@ -94,6 +94,16 @@ class ItemModel
     }
     
     /**
+     * @see taoItems_models_classes_itemModel::getPreviewUrl()
+     */
+    public function getAuthoringUrl( core_kernel_classes_Resource $item) {
+       return _url('index', 'QtiCreator', 'taoQtiItem', array(
+            'instance' => $item->getUri(), 
+            'STANDALONE_MODE' => intval(\tao_helpers_Context::check('STANDALONE_MODE'))
+        )); 
+    }
+
+    /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportProvider::getExportHandlers()
      */
