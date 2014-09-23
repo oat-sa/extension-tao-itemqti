@@ -1,6 +1,7 @@
 define([
     'jquery',
     'lodash',
+    'module',
     'taoQtiItem/qtiCreator/editor/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
     'taoQtiItem/qtiCreator/helper/panel',
@@ -24,6 +25,7 @@ define([
 ], function(
     $,
     _,
+    module,
     preview,
     preparePrint,
     panel,
@@ -111,6 +113,8 @@ define([
          */
         start : function(config){
 
+            config = config || module.config();
+
             var $tabs = $('#tabs'),
                 $tabNav = $('ul.ui-tabs-nav > li', $tabs),
                 currentTab = $tabs.tabs('option', 'selected'),
@@ -120,7 +124,7 @@ define([
             var $editorScope = $('#item-editor-scope');
             configProperties.dom = {
                 getMenuLeft : function(){
-                    return $editorScope.find('.item-editor-menu.lft')
+                    return $editorScope.find('.item-editor-menu.lft');
                 },
                 getMenuRight : function(){
                     return $editorScope.find('.item-editor-menu.rgt');
@@ -169,9 +173,11 @@ define([
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
 
+
+                    //TODO destroy isn't called anymore
+
                     //leaving the tab, we try to let the place as clean as possible.
                     $tabs.off('tabsselect.qti-creator').on('tabsselect.qti-creator', function(e, ui){
-
                         var index = $tabNav.index($(this).parents('li'));
                         if(index !== currentTab){
                             //remove global events
