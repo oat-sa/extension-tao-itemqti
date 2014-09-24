@@ -19,6 +19,7 @@
  *
  */
 
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\interaction\ChoiceInteraction;
@@ -29,9 +30,7 @@ use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\interaction\MatchInteraction;
-
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__).'/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *

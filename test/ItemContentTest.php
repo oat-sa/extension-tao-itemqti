@@ -1,5 +1,8 @@
 <?php
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ImportService;
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,10 +23,6 @@ use oat\taoQtiItem\model\qti\ImportService;
  * 
  */
  
-
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__).'/../includes/raw_start.php';
-
 /**
  * test the item content access
  *
