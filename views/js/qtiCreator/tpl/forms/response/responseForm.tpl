@@ -6,7 +6,7 @@
     <input type="text" 
            name="identifier" 
            value="{{identifier}}" 
-           placeholder="RESPONSE" 
+           placeholder="e.g. RESPONSE" 
            data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{serial}});">
 </div>
 

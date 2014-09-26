@@ -95,7 +95,7 @@ define([
             tplData = {
                 qtiClass : interactionAuthoringData.qtiClass,
                 disabled : !!interactionAuthoringData.disabled,
-                title : interactionAuthoringData.label,
+                title : interactionAuthoringData.description,
                 iconFont : /^icon-/.test(interactionAuthoringData.icon),
                 icon : interactionAuthoringData.icon,
                 short : interactionAuthoringData.short,
