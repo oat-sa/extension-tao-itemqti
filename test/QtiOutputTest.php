@@ -19,12 +19,9 @@
  * 
  */
 
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
-
-?>
-<?php
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__).'/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
