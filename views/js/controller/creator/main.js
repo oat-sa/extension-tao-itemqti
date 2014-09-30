@@ -9,7 +9,6 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
     'taoQtiItem/qtiCreator/helper/qtiElements',
-
     'layout/section-height',
     'layout/loading-bar',
     // css editor related
@@ -63,7 +62,7 @@ define([
         preview.init($('.preview-trigger'), item, widget);
 
         preparePrint();
-        
+
         editor.initGui({
             $itemContainer : widget.$container,
             $label : config.label
@@ -72,16 +71,16 @@ define([
         loadingBar.stop();
 
     };
-    
+
     //@todo make it executable more than once?
     var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-        
+
         ciRegistry.register(customInteractionHooks);
-        
+
         ciRegistry.loadAll(function(interactionModels){
-            
+
             _.each(interactionModels, function(interactionModel){
                 var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
                 if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
@@ -91,7 +90,13 @@ define([
                 }
             });
 
+            //create toolbar:
             interactionsToolbar.create($toolbar, toolbarInteractions);
+
+            //init accordions:
+            panel.initSidebarAccordion($toolbar);
+            panel.closeSections($toolbar.find('section'));
+            panel.openSections($toolbar.find('#sidebar-left-section-common-interactions'), false);
         });
 
     };
@@ -159,7 +164,8 @@ define([
                 creatorRenderer.setOptions(configProperties);
                 creatorRenderer.get().load(function(){
 
-                    var widget;
+                    var widget,
+                        $propertySidebar = $('#item-editor-item-widget-bar');
 
                     item.setRenderer(this);
 
@@ -170,6 +176,7 @@ define([
                     widget = item.postRender(_.clone(configProperties));
 
                     _initializeUiComponents(item, widget, configProperties);
+                    panel.initSidebarAccordion($propertySidebar);
                     panel.initFormVisibilityListener();
                     panel.toggleInlineInteractionGroup();
 

@@ -183,22 +183,11 @@ define([
 
             _setupElements();
 
-            // toggle blocks in sidebar
-            // note that this must happen _after_ the height has been adapted
-            sidebarAccordionInit();
-
-            // close all
-            closeSections(elements.sidebars.find(section));
-
-
-            openSections($('#sidebar-left-section-common-interactions'), false);
-
             elements.itemPanel.addClass('has-item');
 
             elements.label.find('span').text(config.$label);
 
             elements.actionGroups.show();
-
         };
 
 
