@@ -130,11 +130,11 @@ define([
             callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : 0};
-
-                if(parseInt(value) === 0){
+                
+                value = parseInt(value);
+                if(value === 0 || isNaN(value)){
                     element.removeAttr(name);
                 }else{
-                    value = parseInt(value);
                     element.attr(name, value);
                     newOptions.min = value;
 
