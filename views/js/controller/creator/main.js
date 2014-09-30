@@ -2,22 +2,13 @@ define([
     'jquery',
     'lodash',
     'module',
-    'taoQtiItem/qtiCreator/editor/preview',
-    'taoQtiItem/qtiCreator/editor/preparePrint',
+    'layout/loading-bar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'layout/section-height',
-    'layout/loading-bar',
     // css editor related
-    'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
-    'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
-    'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
-    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry'
@@ -25,21 +16,12 @@ define([
     $,
     _,
     module,
-    preview,
-    preparePrint,
+    loadingBar,
     panel,
     loader,
     creatorRenderer,
     commonRenderer,
     qtiElements,
-    sectionHeight,
-    loadingBar,
-    fontSelector,
-    colorSelector,
-    fontSizeChanger,
-    itemResizer,
-    styleEditor,
-    styleSheetToggler,
     editor,
     interactionsToolbar,
     ciRegistry
@@ -47,32 +29,6 @@ define([
 
     loadingBar.start();
 
-    var _initializeUiComponents = function(item, widget, config){
-
-        sectionHeight.setHeights();
-        styleEditor.init(widget.element, config);
-
-        styleSheetToggler.init(config);
-
-        // CSS widgets
-        fontSelector();
-        colorSelector();
-        fontSizeChanger();
-        itemResizer(widget.element);
-        preview.init($('.preview-trigger'), item, widget);
-
-        preparePrint();
-
-        editor.initGui({
-            $itemContainer : widget.$container,
-            $label : config.label
-        });
-
-        loadingBar.stop();
-
-    };
-
-    //@todo make it executable more than once?
     var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
@@ -97,6 +53,9 @@ define([
             panel.initSidebarAccordion($toolbar);
             panel.closeSections($toolbar.find('section'));
             panel.openSections($toolbar.find('#sidebar-left-section-common-interactions'), false);
+
+            //init special subgroup
+            panel.toggleInlineInteractionGroup();
         });
 
     };
@@ -117,6 +76,9 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
+
+            //first all, start loading bar
+            loadingBar.start();
 
             config = config || module.config();
 
@@ -175,11 +137,12 @@ define([
                     //"post-render it" to initialize the widget
                     widget = item.postRender(_.clone(configProperties));
 
-                    _initializeUiComponents(item, widget, configProperties);
+                    editor.initGui(widget, configProperties);
                     panel.initSidebarAccordion($propertySidebar);
                     panel.initFormVisibilityListener();
-                    panel.toggleInlineInteractionGroup();
 
+                    //hide loading bar when completed
+                    loadingBar.stop();
 
                     //TODO destroy isn't called anymore
 
@@ -189,8 +152,7 @@ define([
                         if(index !== currentTab){
                             //remove global events
                             $(window).off('.qti-widget');
-                            $(document).off('.qti-widget');
-                            $(document).off('.qti-creator');
+                            $(document).off('.qti-widget').off('.qti-creator');
                             $tabs.off('tabsselect.qti-creator');
                         }
                     });

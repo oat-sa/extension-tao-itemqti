@@ -1,9 +1,8 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, Element, editor){
+    'taoQtiItem/qtiItem/core/Element'
+], function($, _, Element){
 
     var _getItemContainer = function(){
         return $('#item-editor-panel');
@@ -12,10 +11,10 @@ define([
     var showPanel = function($panel, $fold){
 
         $panel.show();
-        editor.openSections($panel.children('section'));
+        openSections($panel.children('section'));
 
         if($fold && $fold.length){
-            editor.closeSections($fold.children('section'));
+            closeSections($fold.children('section'));
         }
     };
 
@@ -199,11 +198,12 @@ define([
 
         var $itemContainer = _getItemContainer();
         if($itemContainer.find('.widget-textBlock').length){
-            editor.enableSubGroup('inline-interactions');
+            enableSubGroup('inline-interactions');
         }else{
-            editor.disableSubGroup('inline-interactions');
+            disableSubGroup('inline-interactions');
         }
     };
+    
     // selectors and classes
     var heading = 'h2',
         section = 'section',
