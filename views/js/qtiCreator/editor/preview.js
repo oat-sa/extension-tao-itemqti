@@ -526,11 +526,11 @@ define([
      *
      * @private
      */
-    var _showWidget = function (launcher, item, widget) {
+    var _showWidget = function (launcher, itemWidget) {
 
         //run the preview
         var preview = function () {
-            var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri) + '&' + 'twosix=1';
+            var itemUri = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(itemWidget.itemUri) + '&' + 'twosix=1';
 
             $.ajax({
                 url: itemUri,
@@ -555,7 +555,7 @@ define([
 
         //compare the curent item with the last serialized to see if there is any change
         if (!askForSave) {
-            var currentItemData = itemSerializer.serialize(item);
+            var currentItemData = itemSerializer.serialize(itemWidget.element);
             if (lastItemData !== currentItemData || currentItemData === '') {
                 lastItemData = currentItemData;
                 askForSave = true;
@@ -568,7 +568,7 @@ define([
             overlay.on('save.preview', function () {
                 overlay.off('save.preview');
                 askForSave = false;
-                $.when(styleEditor.save(), widget.save()).done(function () {
+                $.when(styleEditor.save(), itemWidget.save()).done(function () {
                     preview();
                 });
             });
@@ -583,14 +583,13 @@ define([
      * Create preview
      *
      * @param {jQueryElement} launchers - buttons to launch preview
-     * @param {Object} item - the current item
      * @param {Object} widget - the item's widget
      */
-    var init = function (launchers, item, widget) {
+    var init = function (launchers, itemWidget) {
 
         //serialize the item and keeps the result
         var serializeItem = function serializeItem() {
-            lastItemData = itemSerializer.serialize(item);
+            lastItemData = itemSerializer.serialize(itemWidget.element);
         };
 
         //serialize the item at the initialization level
@@ -615,7 +614,7 @@ define([
 
 
         $(launchers).on('click', function () {
-            _showWidget(this, item, widget);
+            _showWidget(this, itemWidget);
         });
     };
 

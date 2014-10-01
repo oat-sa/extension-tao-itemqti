@@ -95,7 +95,7 @@ define([
             tplData = {
                 qtiClass : interactionAuthoringData.qtiClass,
                 disabled : !!interactionAuthoringData.disabled,
-                title : interactionAuthoringData.label,
+                title : interactionAuthoringData.description,
                 iconFont : /^icon-/.test(interactionAuthoringData.icon),
                 icon : interactionAuthoringData.icon,
                 short : interactionAuthoringData.short,
@@ -119,8 +119,11 @@ define([
             //the group does not exist yet : create a <section> for the group
             $group = addGroup($sidebar, groupLabel);
         }
-
-        $group.find('.tool-list').append(insertInteractionTpl(tplData));
+        
+        var $interaction = $(insertInteractionTpl(tplData));
+        $group.find('.tool-list').append($interaction);
+        
+        return $interaction;
     }
 
     function buildSubGroups($sidebar){

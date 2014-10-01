@@ -135,6 +135,7 @@ define([
         });
 
         $itemBody.on('beforedragoverstart.gridEdit', function(){
+            
             $itemEditorPanel.addClass('dragging');
             $itemBody.removeClass('hoverable').addClass('inserting');
 

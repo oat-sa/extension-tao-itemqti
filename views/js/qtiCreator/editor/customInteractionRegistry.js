@@ -135,6 +135,7 @@ define([
             label : manifest.label, //currently no translation available 
             icon : getBaseUrl(typeIdentifier) + manifest.icon, //use baseUrl from context
             short : manifest.short,
+            description : manifest.description,
             qtiClass : 'customInteraction.' + manifest.typeIdentifier, //custom interaction is block type
             tags : _.union(['Custom Interactions'], manifest.tags)
         };

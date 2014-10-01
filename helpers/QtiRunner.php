@@ -115,22 +115,21 @@ class QtiRunner
      */
     public static function getRubricBlocks(tao_models_classes_service_StorageDirectory $directory, $view) {
         
+        $returnValue = array();
+        
         $elements = self::getContentVariableElements($directory);
         
         foreach ($elements as $serial => $data) {
         
-            if (empty($data['qtiClass']) === false && $data['qtiClass'] == 'rubricBlock') {
+            if (isset($data['qtiClass']) && $data['qtiClass'] == 'rubricBlock') {
         
-                if (!empty($data['attributes']) && is_array($data['attributes']['view'])) {
-        
-                    if(in_array($view, $data['attributes']['view'])){
-                        $elements[$serial] = $data;
-                    }
+                if (!empty($data['attributes']) && is_array($data['attributes']['view']) && in_array($view, $data['attributes']['view'])) {
+                        $returnValue[$serial] = $data;
                 }
             }
         }
         
-        return $elements;
+        return $returnValue;
     }
     
     /**
