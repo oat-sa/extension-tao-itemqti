@@ -182,7 +182,7 @@ define([
         }).on('elementCreated.qti-widget.panel', function(e, data){
 
             if(data.element.qtiClass === '_container'){
-                editor.enableSubGroup('inline-interactions');
+                enableSubGroup('inline-interactions');
             }
 
         }).on('deleted.qti-widget.panel', function(e, data){
