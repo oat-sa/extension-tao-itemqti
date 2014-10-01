@@ -69,6 +69,16 @@ define([
             $label : config.label
         });
 
+        //back button
+        $('#authoringBack').on('click', function(e){
+            e.preventDefault();
+        
+            //Capitalized History means polyfilled by History.js
+            if(window.History){
+                window.History.back();
+            }
+        });
+
         loadingBar.stop();
 
     };
