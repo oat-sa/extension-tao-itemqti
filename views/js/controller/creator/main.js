@@ -3,6 +3,7 @@ define([
     'lodash',
     'module',
     'layout/loading-bar',
+    'layout/section',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -17,6 +18,7 @@ define([
     _,
     module,
     loadingBar,
+    section,
     panel,
     loader,
     creatorRenderer,
@@ -82,13 +84,11 @@ define([
 
             config = config || module.config();
 
-            var $tabs = $('#tabs'),
-                $tabNav = $('ul.ui-tabs-nav > li', $tabs),
-                currentTab = $tabs.tabs('option', 'selected'),
-                configProperties = config.properties;
+            var configProperties = config.properties;
 
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
+
             configProperties.dom = {
                 getMenuLeft : function(){
                     return $editorScope.find('.item-editor-menu.lft');
@@ -154,21 +154,17 @@ define([
                     //hide loading bar when completed
                     loadingBar.stop();
 
-                    //TODO destroy isn't called anymore
+                    //destroy by leaving the section
+                    section.on('hide', function(hiddenSection){
+                        if(hiddenSection.id === 'authoring'){
 
-                    //leaving the tab, we try to let the place as clean as possible.
-                    $tabs.off('tabsselect.qti-creator').on('tabsselect.qti-creator', function(e, ui){
-                        var index = $tabNav.index($(this).parents('li'));
-                        if(index !== currentTab){
                             //remove global events
                             $(window).off('.qti-widget');
                             $(document).off('.qti-widget').off('.qti-creator');
-                            $tabs.off('tabsselect.qti-creator');
                         }
                     });
-
+                
                 }, item.getUsedClasses());
-
             });
 
         }
