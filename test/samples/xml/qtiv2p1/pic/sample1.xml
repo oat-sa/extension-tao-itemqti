@@ -7,7 +7,7 @@
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-          
+                
                 <infoControl id="toolbar1">
                     <pic:portableInfoControl infoControlTypeIdentifier="studentToolbar" entryPoint="runtime/studentToolbar.js">
                         <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
@@ -57,8 +57,8 @@
                     </pic:portableInfoControl>
                 </infoControl>
                 
-                <infoControl id="rule1">
-                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolCalculator" entryPoint="runtime/tools/rule.js">
+                <infoControl id="ruler1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolRule" entryPoint="runtime/tools/ruler.js">
                         <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
                             <pic:libraries>
                                 <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
@@ -71,7 +71,7 @@
                                 <pic:entry key="length">10</pic:entry>
                         </pic:properties>
                         <pic:markup>
-                            <html5:div id="rule1" class="studentToolCalculator"></html5:div>
+                            <html5:div id="ruler1" class="studentToolRule"></html5:div>
                         </pic:markup>
                     </pic:portableInfoControl>
                 </infoControl>
