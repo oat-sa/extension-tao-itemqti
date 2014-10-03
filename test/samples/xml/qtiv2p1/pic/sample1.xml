@@ -9,29 +9,88 @@
             <div class="col-12">
           
                 <infoControl id="toolbar1">
-                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolbar" entryPoint="runtime/likertScaleInteraction.amd.js">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolbar" entryPoint="runtime/studentToolbar.js">
                         <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
                             <pic:libraries>
                                 <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
                             </pic:libraries>
                         </pic:resources>
-                        <pic:properties>
-                            <pic:properties key="calculator">
-                                <pic:entry key="config">simple</pic:entry>
-                            </pic:properties>
-                            <pic:properties key="rule">
-                                <pic:entry key="config">simple</pic:entry>
-                            </pic:properties>
-                            <pic:properties key="protractor">
-                                <pic:entry key="config">simple</pic:entry>
-                            </pic:properties>
-                        </pic:properties>
+                        <pic:properties></pic:properties>
                         <pic:markup>
                             <html5:div id="toolbar1" class="studentToolbar"></html5:div>
                         </pic:markup>
                     </pic:portableInfoControl>
                 </infoControl>
                 
+                <infoControl id="calculator1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolCalculator" entryPoint="runtime/tools/calculator.js">
+                        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
+                            <pic:libraries>
+                                <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                            </pic:libraries>
+                        </pic:resources>
+                        <pic:properties>
+                                <pic:entry key="toolbar">toolbar1</pic:entry>
+                                <pic:entry key="trigonometric">value1</pic:entry>
+                                <pic:entry key="statistic">value2</pic:entry>
+                        </pic:properties>
+                        <pic:markup>
+                            <html5:div id="calculator1" class="studentToolCalculator"></html5:div>
+                        </pic:markup>
+                    </pic:portableInfoControl>
+                </infoControl>
+                
+                <infoControl id="protractor1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolProtractor" entryPoint="runtime/tools/protractor.js">
+                        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
+                            <pic:libraries>
+                                <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                            </pic:libraries>
+                        </pic:resources>
+                        <pic:properties>
+                                <pic:entry key="toolbar">toolbar1</pic:entry>
+                                <pic:entry key="rotatable">true</pic:entry>
+                        </pic:properties>
+                        <pic:markup>
+                            <html5:div id="protractor1" class="studentToolProtractor"></html5:div>
+                        </pic:markup>
+                    </pic:portableInfoControl>
+                </infoControl>
+                
+                <infoControl id="rule1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolCalculator" entryPoint="runtime/tools/rule.js">
+                        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
+                            <pic:libraries>
+                                <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                            </pic:libraries>
+                        </pic:resources>
+                        <pic:properties>
+                                <pic:entry key="toolbar">toolbar1</pic:entry>
+                                <pic:entry key="rotatable">true</pic:entry>
+                                <pic:entry key="unit">metric</pic:entry>
+                                <pic:entry key="length">10</pic:entry>
+                        </pic:properties>
+                        <pic:markup>
+                            <html5:div id="rule1" class="studentToolCalculator"></html5:div>
+                        </pic:markup>
+                    </pic:portableInfoControl>
+                </infoControl>
+                
+                <infoControl id="magnifier1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolCalculator" entryPoint="runtime/tools/magnifier.js">
+                        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
+                            <pic:libraries>
+                                <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                            </pic:libraries>
+                        </pic:resources>
+                        <pic:properties>
+                                <pic:entry key="toolbar">toolbar1</pic:entry>
+                        </pic:properties>
+                        <pic:markup>
+                            <html5:div id="magnifier1" class="studentToolCalculator"></html5:div>
+                        </pic:markup>
+                    </pic:portableInfoControl>
+                </infoControl>
             </div>
         </div>
     </itemBody>
