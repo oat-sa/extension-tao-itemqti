@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pic="http://www.imsglobal.org/xsd/portableInfoControl" xmlns:html5="html5" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i1410866381424289" title="Item title" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="2.7">
+    <responseDeclaration baseType="integer" cardinality="single" identifier="RESPONSE"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+    <stylesheet href="runtime/css/likertScaleInteraction.css" type="text/css" media="all" title=""/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+          
+                <infoControl id="toolbar1">
+                    <pic:portableInfoControl infoControlTypeIdentifier="studentToolbar" entryPoint="runtime/likertScaleInteraction.amd.js">
+                        <pic:resources location="http://imsglobal.org/pic/1.0.15/sharedLibraries.xml">
+                            <pic:libraries>
+                                <pic:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                            </pic:libraries>
+                        </pic:resources>
+                        <pic:properties>
+                            <pic:properties key="calculator">
+                                <pic:entry key="config">simple</pic:entry>
+                            </pic:properties>
+                            <pic:properties key="rule">
+                                <pic:entry key="config">simple</pic:entry>
+                            </pic:properties>
+                            <pic:properties key="protractor">
+                                <pic:entry key="config">simple</pic:entry>
+                            </pic:properties>
+                        </pic:properties>
+                        <pic:markup>
+                            <html5:div id="toolbar1" class="studentToolbar"></html5:div>
+                        </pic:markup>
+                    </pic:portableInfoControl>
+                </infoControl>
+                
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>
