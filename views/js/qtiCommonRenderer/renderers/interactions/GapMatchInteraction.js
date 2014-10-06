@@ -33,7 +33,13 @@ define([
             choice.attr('matchMax') &&
             _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
-            $choice.addClass('deactivated');
+            /**
+             * @author Aamir
+             * commented out as a bug fix
+             * http://forge.taotesting.com/issues/2939
+             * 
+             * $choice.addClass('deactivated');
+             */
         }
 
         Helper.triggerResponseChangeEvent(interaction);
@@ -48,10 +54,17 @@ define([
 
         _choiceUsages[serial]--;
 
-        $choice
-            .removeClass('filled')
-            .removeData('serial')
-            .empty();
+        /**
+         * @author Aamir
+         * commented out as a bug fix
+         * http://forge.taotesting.com/issues/2939
+         * 
+         * $choice
+         *     .removeClass('filled')
+         *     .empty();
+         */
+
+        $choice.removeData('serial');
 
         if(!interaction.swapping){
             //set correct response
