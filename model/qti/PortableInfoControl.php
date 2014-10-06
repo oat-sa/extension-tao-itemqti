@@ -110,7 +110,9 @@ class PortableInfoControl extends InfoControl
     }
 
     public function feed(ParserFactory $parser, DOMElement $data){
-
+        
+        $ns = $parser->getPicNamespace();
+        
         $pciNodes = $parser->queryXPathChildren(array('portableInfoControl'), $data, $ns);
         if($pciNodes->length){
             $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
@@ -123,6 +125,7 @@ class PortableInfoControl extends InfoControl
         $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $ns);
         $libs = array();
         foreach($libNodes as $libNode){
+            
             //@todo : get lib "href" from "id"
             $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
         }

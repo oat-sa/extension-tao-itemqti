@@ -23,6 +23,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\JsonLoader;
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -208,6 +209,25 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
 		}
         
+	}
+    
+	public function testFileParsingQtiPic(){
+		
+        $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
+        
+		//check if samples are loaded 
+		foreach($files as $file){
+			$qtiParser = new Parser($file);
+            
+            $qtiParser->validate();
+            if(!$qtiParser->isValid()){
+                echo $qtiParser->displayErrors();
+            }
+            
+			$item = $qtiParser->load();
+			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            
+		}
 	}
 	
 }
