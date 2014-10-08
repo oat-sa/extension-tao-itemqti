@@ -104,8 +104,6 @@ class Authoring
                 $source = $sourceDirectory.$relPath;
                 $destination = $folder.$relPath;
 
-                \common_Logger::d($source.' '.$destination);
-
                 if(tao_helpers_File::copy($source, $destination)){
                     $returnValue[] = $relPath;
                 }else{
