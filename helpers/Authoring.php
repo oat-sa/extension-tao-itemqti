@@ -26,17 +26,27 @@ use common_Logger;
 use DOMDocument;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
+use \core_kernel_classes_Resource;
+use \taoItems_models_classes_ItemsService;
+use \tao_helpers_File;
 
 /**
  * Helper to provide methods for QTI authoring
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
- * @package taoQTI
+ * @package taoQtiItem
  */
 class Authoring
 {
 
+    /**
+     * Validate and format (if possible) a QTI XML string
+     * 
+     * @param string $qti
+     * @return string
+     * @throws QtiModelException
+     */
     public static function validateQtiXml($qti){
 
         $returnValue = '';
@@ -69,6 +79,44 @@ class Authoring
         }
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Add a list of required resources files to an RDF item and keeps the relative path structure
+     * For instances, required css, js etc.
+     * 
+     * @param string $sourceDirectory
+     * @param array $relativeSourceFiles
+     * @param core_kernel_classes_Resource $item
+     * @param string $lang
+     * @return array
+     * @throws common_exception_Error
+     */
+    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, core_kernel_classes_Resource $item, $lang){
+
+        $returnValue = array();
+
+        $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
+
+        foreach($relativeSourceFiles as $relPath){
+            if(tao_helpers_File::securityCheck($relPath, true)){
+
+                $source = $sourceDirectory.$relPath;
+                $destination = $folder.$relPath;
+
+                \common_Logger::d($source.' '.$destination);
+
+                if(tao_helpers_File::copy($source, $destination)){
+                    $returnValue[] = $relPath;
+                }else{
+                    throw new common_exception_Error('the resource cannot be moved');
+                }
+            }else{
+                throw new common_exception_Error('invalid resource file path');
+            }
+        }
+
+        return $returnValue;
     }
 
 }
