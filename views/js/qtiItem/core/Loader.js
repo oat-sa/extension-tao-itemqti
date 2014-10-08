@@ -264,6 +264,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 this.loadChoiceData(element, data);
             }else if(Element.isA(element, 'math')){
                 this.loadMathData(element, data);
+            }else if(Element.isA(element, 'infoControl')){
+                this.loadPicData(element, data);
             }
 
             return element;
@@ -347,13 +349,20 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             math.annotations = data.annotations || {};
         },
         loadPciData : function(pci, data){
-            pci.typeIdentifier = data.typeIdentifier;
-            pci.markup = data.markup;
-            pci.entryPoint = data.entryPoint;
-            pci.properties = data.properties;
-            pci.libraries = data.libraries;
+            loadPortableCustomElementData(pci, data);
+        },
+        loadPicData : function(pic, data){
+            loadPortableCustomElementData(pic, data);
         }
     });
-
+    
+    function loadPortableCustomElementData(portableElement, data){
+        portableElement.typeIdentifier = data.typeIdentifier;
+        portableElement.markup = data.markup;
+        portableElement.entryPoint = data.entryPoint;
+        portableElement.properties = data.properties;
+        portableElement.libraries = data.libraries;
+    }
+    
     return Loader;
 });

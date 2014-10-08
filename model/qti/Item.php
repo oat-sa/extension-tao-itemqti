@@ -15,11 +15,7 @@ use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\Stylesheet;
-use oat\taoQtiItem\model\qti\Math;
-use oat\taoQtiItem\model\qti\Object;
-use oat\taoQtiItem\model\qti\interaction\GraphicInteraction;
-use oat\taoQtiItem\model\qti\interaction\SliderInteraction;
-use oat\taoQtiItem\model\qti\interaction\UploadInteraction;
+use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
@@ -249,7 +245,12 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $this->addOutcome($outcome);
         }
     }
-
+    
+    /**
+     * add an outcome declaration to the item
+     * 
+     * @param \oat\taoQtiItem\model\qti\OutcomeDeclaration $outcome
+     */
     public function addOutcome(OutcomeDeclaration $outcome){
         $this->outcomes[$outcome->getSerial()] = $outcome;
         $outcome->setRelatedItem($this);
@@ -614,5 +615,5 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         return $returnValue;
     }
-
+    
 }

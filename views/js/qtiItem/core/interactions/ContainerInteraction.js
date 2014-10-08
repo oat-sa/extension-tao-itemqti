@@ -3,6 +3,3 @@ define(['taoQtiItem/qtiItem/core/interactions/BlockInteraction', 'taoQtiItem/qti
     Container.augment(ContainerInteraction);
     return ContainerInteraction;
 });
-
-
-

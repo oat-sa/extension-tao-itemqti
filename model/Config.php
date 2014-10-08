@@ -30,8 +30,9 @@ namespace oat\taoQtiItem\model;
 Class Config
 {   
     protected $properties = array();
-    protected $interactions = array();
     protected $uiHooks = array();
+    protected $interactions = array();
+    protected $infoControls = array();
 
     /**
      * Affect the config
@@ -58,20 +59,25 @@ Class Config
         return $this->properties;
     }
     
+    public function addHook($hookFile){
+        $this->uiHooks[] = $hookFile;
+    }
+    
     public function addInteraction($interactionFile){
         $this->interactions[] = $interactionFile;
     }
     
-    public function addHook($hookFile){
-        $this->uiHooks[] = $hookFile;
+    public function addInfoControl($infoControl){
+        $this->infoControls[] = $infoControl;
     }
     
     public function toArray(){
         
         return array(
             'properties' => $this->properties,
+            'uiHooks' => $this->uiHooks,
             'interactions' => $this->interactions,
-            'uiHooks' => $this->uiHooks
+            'infoControls' => $this->infoControls
         );
     }
     

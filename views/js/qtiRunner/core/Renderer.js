@@ -85,7 +85,8 @@ define([
         'hottext',
         'inlineChoice',
         'simpleAssociableChoice',
-        'simpleChoice'
+        'simpleChoice',
+        'infoControl'
     ];
 
     var _dependencies = {
@@ -305,7 +306,8 @@ define([
             var required = [];
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
-
+                    
+                    //exclude abstract classes
                     requiredClasses = _.intersection(requiredClasses, _renderableClasses);
 
                     //add dependencies

@@ -53,7 +53,7 @@ define([
                     loader.loadItemData(data[itemIdentifier].full, function(item){
 
                         ok(Element.isA(item, 'assessmentItem'), itemIdentifier + ' item loaded');
-
+                        
                         //count interaction number:
                         var interactions = item.getInteractions();
                         ok(interactions.length, 'has ' + interactions.length + ' interaction(s)');
@@ -97,7 +97,7 @@ define([
                             }catch(e){
                                 console.log('error in template rendering', e);
                             }
-
+                            
                             //check item container:
                             ok(item.getContainer().length, 'rendered container found');
 

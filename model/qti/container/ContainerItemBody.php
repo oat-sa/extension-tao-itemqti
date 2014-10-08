@@ -51,6 +51,7 @@ class ContainerItemBody extends ContainerInteractive
 			'oat\\taoQtiItem\\model\\qti\\Object',
 			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
 			'oat\\taoQtiItem\\model\\qti\\RubricBlock',
+			'oat\\taoQtiItem\\model\\qti\\InfoControl'
 		);
 	}
 	
