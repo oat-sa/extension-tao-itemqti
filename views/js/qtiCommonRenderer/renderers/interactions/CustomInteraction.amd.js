@@ -138,8 +138,8 @@ define([
         var $dom = Helper.getContainer(interaction).find('#' + id);
 
         //get initialization params :
-        var state = null, //@todo
-            response = null, //@todo 
+        var state = { }, //@todo
+            response = { base: null }, //@todo 
             config = interaction.properties,
             libraries = _getLibraries(interaction, options.baseUrl ? options.baseUrl : this.getOption('baseUrl'));
 
