@@ -264,7 +264,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 //post render body element
                 this.getBody().postRender({}, '', renderer);
             }
-
+            
             if(renderer){
                 return renderer.postRender(this, data, altClassName);
             }else{

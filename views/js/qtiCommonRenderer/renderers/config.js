@@ -39,7 +39,8 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'graphicGapMatchInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
         'gapImg' : 'taoQtiItem/qtiCommonRenderer/renderers/choices/GapImg',
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
-        'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/CustomInteraction.amd'
+        'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/CustomInteraction.amd',
+        'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl'
     });
     return {
         name:'commonRenderer',

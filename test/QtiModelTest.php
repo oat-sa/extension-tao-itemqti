@@ -207,7 +207,8 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $files = array_merge(
             glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'), 
             glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubricBlock/*.xml'),
-            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml')
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml'),
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml')
         );
         
         foreach($files as $file){

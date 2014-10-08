@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\CustomInteractionRegistry;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -37,6 +35,10 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\CustomInteractionRegistry;
+use oat\taoQtiItem\model\qti\InfoControl;
+use oat\taoQtiItem\model\qti\PortableInfoControl;
+use oat\taoQtiItem\model\InfoControlRegistry;
 use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
@@ -321,7 +323,17 @@ class ParserFactory
                 $this->replaceNode($rubricNode, $rubricBlock);
             }
         }
-
+        
+        //parse for infoControls: infoControl only allowed in item body !
+        $infoControlNodes = $this->queryXPath(".//*[name(.)='infoControl']", $data);
+        foreach($infoControlNodes as $infoControlNode){
+            $infoControl = $this->buildInfoControl($infoControlNode);
+            if(!is_null($infoControl)){
+                $bodyElements[$infoControl->getSerial()] = $infoControl;
+                $this->replaceNode($infoControlNode, $infoControl);
+            }
+        }
+        
         $this->setContainerElements($container, $data, $bodyElements);
 
         return $this->parseContainerInteractive($data, $container);
@@ -427,7 +439,8 @@ class ParserFactory
         if(count($outcomes) > 0){
             $this->item->setOutcomes($outcomes);
         }
-
+        
+        //extract modal feedbacks
         $feedbackNodes = $this->queryXPath("*[name(.) = 'modalFeedback']", $data);
         foreach($feedbackNodes as $feedbackNode){
             $modalFeedback = $this->buildFeedback($feedbackNode);
@@ -1305,7 +1318,13 @@ class ParserFactory
 
         return $myFeedback;
     }
-
+    
+    /**
+     * Check if the node is dom element is a valid portable custom interaction one
+     * 
+     * @param DOMElement $data
+     * @return boolean
+     */
     private function isPciNode(DOMElement $data){
 
         $ns = $this->getPciNamespace();
@@ -1351,10 +1370,77 @@ class ParserFactory
 
         return $interaction;
     }
-
+    
+    /**
+     * Get the namespace of the portable custom interaction
+     * 
+     * @return string
+     */
     public function getPciNamespace(){
         //@todo : implement this properly
         return 'pci';
+    }
+    
+    /**
+     * Check if the node is dom element is a valid portable info control one
+     * 
+     * @param DOMElement $data
+     * @return boolean
+     */
+    private function isPicNode(DOMElement $data){
+
+        $ns = $this->getPicNamespace();
+        return (boolean) $this->queryXPathChildren(array('portableInfoControl'), $data, $ns)->length;
+    }
+
+    /**
+     * Parse and build a info control
+     * 
+     * @param DOMElement $data
+     * @return InfoControl
+     * @throws ParsingException
+     */
+    private function buildInfoControl(DOMElement $data){
+
+        $infoControl = null;
+
+        if($this->isPicNode($data)){
+            
+            //use tao's implementation of portable custom interaction
+            $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);
+            $infoControl->feed($this, $data);
+            
+        }else{ 
+
+            $ciClass = '';
+            $classes = $data->getAttribute('class');
+            $classeNames = split('/\s+/', $classes);
+            foreach($classeNames as $classeName){
+                $ciClass = InfoControlRegistry::getInfoControlByName($classeName);
+                if($ciClass){
+                    $infoControl = new $ciClass($this->extractAttributes($data), $this->item);
+                    $infoControl->feed($this, $data);
+                    break;
+                }
+            }
+            
+            if(!$ciClass){
+                throw new ParsingException('unknown info control to be build');
+            }
+            
+        }
+
+        return $infoControl;
+    }
+    
+    /**
+     * Get the namespace of the portable info control
+     * 
+     * @return string
+     */
+    public function getPicNamespace(){
+        //@todo : implement this properly
+        return 'pic';
     }
 
 }

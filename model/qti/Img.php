@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Object;
 use oat\taoQtiItem\model\qti\Element;
 
 /**
