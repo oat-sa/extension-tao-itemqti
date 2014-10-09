@@ -1,8 +1,8 @@
-define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
-    
+define(function(){
+
     //need a global reference to have pciHooks shared in two different requirejs context ("default" and "portableCustomInteraction")
-    window._pciHooks = window._pciHooks||{};
-    
+    window._pciHooks = window._pciHooks || {};
+
     /**
      * Global object accessible by all PCIs
      * 
@@ -27,7 +27,9 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
          * @fires custominteractionready
          */
         notifyReady : function(pciInstance){
-            $(document).trigger('custominteractionready', [pciInstance._taoCustomInteraction]);
+            //@todo add pciIntance as event data
+//            var event = document.createEvent("custominteractionready");
+//            document.dispatchEvent(event);
         },
         /**
          * notify when a custom interaction is completed by test taker
@@ -36,7 +38,9 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
          * @fires custominteractiondone
          */
         notifyDone : function(pciInstance){
-            $(document).trigger('custominteractiondone', [pciInstance._taoCustomInteraction]);
+            //@todo add pciIntance as event data
+//            var event = document.createEvent("custominteractiondone");
+//            document.dispatchEvent(event);
         },
         /**
          * Get a cloned object representing the PCI model
@@ -45,11 +49,32 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
          * @returns {Object} clonedPciModel
          */
         createPciInstance : function(pciTypeIdentifier){
+
             if(window._pciHooks[pciTypeIdentifier]){
-                return _.cloneDeep(window._pciHooks[pciTypeIdentifier]);
+
+                var instance = {},
+                    proto = window._pciHooks[pciTypeIdentifier];
+
+                for(var name in proto){
+                    if(typeof proto[name] === 'function'){
+                        instance[name] = proto[name];
+                    }else if(proto[name] !== null && typeof proto[name] === 'object'){
+                        //a plain object:
+                        instance[name] = proto[name].constructor();
+                    }else{
+                        //not an object (nor a function) : e.g. 0, 123, '123', null, undefined
+                        instance[name] = proto[name];
+                    }
+                }
+
+                return instance;
+
+            }else{
+                throw 'no portable custom interaction hook found with the id ' + pciTypeIdentifier;
             }
         }
     };
-
+    
+    
     return taoQtiCustomInteractionContext;
 });
