@@ -8,11 +8,11 @@
     <div class="grid-row">
       <div class="col-12">
         <customInteraction responseIdentifier="RESPONSE">
-          <pci:portableCustomInteraction customInteractionTypeIdentifier="likertScaleInteraction" entryPoint="runtime/likertScaleInteraction.amd.js">
+          <pci:portableCustomInteraction customInteractionTypeIdentifier="likertScaleInteraction" hook="runtime/likertScaleInteraction.amd.js">
             <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
             <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
               <pci:libraries>
-                <pci:lib name="jquery" href="runtime/libs/jquery.min.js"/>
+                <pci:lib name="IMSGlobal/jquery_2_1_1"/>
               </pci:libraries>
             </pci:resources>
             <pci:properties>
@@ -21,7 +21,7 @@
               <pci:entry key="label-max">max</pci:entry>
             </pci:properties>
             <pci:markup>
-              <html5:div id="RESPONSE" class="likertScaleInteraction">
+              <html5:div class="likertScaleInteraction">
                 <html5:div class="prompt">Hello</html5:div>
                 <html5:ul class="likert"/>
               </html5:div>

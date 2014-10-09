@@ -1,6 +1,7 @@
-define(['IMSGlobal/jquery_2_1_1', 'IMSGlobal/lodash'], function($, _){
-
-    var _pciHooks = {};
+define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
+    
+    //need a global reference to have pciHooks shared in two different requirejs context ("default" and "portableCustomInteraction")
+    window._pciHooks = window._pciHooks||{};
     
     /**
      * Global object accessible by all PCIs
@@ -17,7 +18,7 @@ define(['IMSGlobal/jquery_2_1_1', 'IMSGlobal/lodash'], function($, _){
          */
         register : function(pciHook){
             //@todo check pciHook validity
-            _pciHooks[pciHook.getTypeIdentifier()] = pciHook;
+            window._pciHooks[pciHook.getTypeIdentifier()] = pciHook;
         },
         /**
          * notify when a custom interaction is ready for test taker interaction
@@ -44,8 +45,8 @@ define(['IMSGlobal/jquery_2_1_1', 'IMSGlobal/lodash'], function($, _){
          * @returns {Object} clonedPciModel
          */
         createPciInstance : function(pciTypeIdentifier){
-            if(_pciHooks[pciTypeIdentifier]){
-                return _.cloneDeep(_pciHooks[pciTypeIdentifier]);
+            if(window._pciHooks[pciTypeIdentifier]){
+                return _.cloneDeep(window._pciHooks[pciTypeIdentifier]);
             }
         }
     };
