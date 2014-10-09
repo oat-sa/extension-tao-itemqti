@@ -27,9 +27,7 @@ define(function(){
          * @fires custominteractionready
          */
         notifyReady : function(pciInstance){
-            //@todo add pciIntance as event data
-//            var event = document.createEvent("custominteractionready");
-//            document.dispatchEvent(event);
+            //@todo add pciIntance as event data and notify event to delivery engine
         },
         /**
          * notify when a custom interaction is completed by test taker
@@ -38,9 +36,7 @@ define(function(){
          * @fires custominteractiondone
          */
         notifyDone : function(pciInstance){
-            //@todo add pciIntance as event data
-//            var event = document.createEvent("custominteractiondone");
-//            document.dispatchEvent(event);
+            //@todo add pciIntance as event data and notify event to delivery engine
         },
         /**
          * Get a cloned object representing the PCI model
@@ -57,6 +53,7 @@ define(function(){
 
                 for(var name in proto){
                     if(typeof proto[name] === 'function'){
+                        //@todo : delegate function call for better performance ?
                         instance[name] = proto[name];
                     }else if(proto[name] !== null && typeof proto[name] === 'object'){
                         //a plain object:
