@@ -21,6 +21,8 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\Element;
+use oat\taoQtiItem\model\qti\ParserFactory;
+use \DOMElement;
 
 /**
  * Class representing QTI standatd InfoControl
