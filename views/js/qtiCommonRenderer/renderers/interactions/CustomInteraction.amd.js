@@ -78,10 +78,11 @@ define([
      * Get the list of required modules to be loaded for interaction rendering
      * 
      * @param {Object} interaction
+     * @param {String} libsUrl The base URL to find shared libraries.
      * @param {String} baseUrl
      * @returns {Array}
      */
-    var _getLibraries = function(interaction, baseUrl){
+    var _getLibraries = function(interaction, libsUrl, baseUrl){
 
         var libraries = _.clone(interaction.libraries) || [],
             ret = [],
@@ -92,18 +93,21 @@ define([
         
         //require the actual shared and shareable libs (that support the implementation of the pci)
         _.forIn(libraries, function(href, name){
+            
+            if (name.indexOf('.entryPoint') > -1) {
+                var hrefFull = util.fullpath(href, baseUrl);
 
-            var hrefFull = util.fullpath(href, baseUrl);
-
-            if(/\.js$/.test(hrefFull)){
-                paths[name] = hrefFull.replace(/\.js$/, '');
-                ret.push(name);
-            }else if(/\.css$/.test(hrefFull)){
-                paths[name] = hrefFull.replace(/\.css$/, '');
-                ret.push('css!' + name);
+                if(/\.js$/.test(hrefFull)){
+                    paths[name] = hrefFull.replace(/\.js$/, '');
+                    ret.push(name);
+                }else if(/\.css$/.test(hrefFull)){
+                    paths[name] = hrefFull.replace(/\.css$/, '');
+                    ret.push('css!' + name);
+                }
             }
-
         });
+        
+        paths['IMSGlobal'] = libsUrl + 'IMSGlobal';
 
         //register:
         _registerLibraries(paths);
@@ -133,15 +137,20 @@ define([
             css : context.root_url + 'tao/views/js/lib/require-css/css'
         });
 
-        //get pci id
+        // get pci id
         var id = interaction.attr('responseIdentifier');
+        
+        // get pci xml dom
         var $dom = Helper.getContainer(interaction).find('#' + id);
-
+        
+        // get pci shared libraries url
+        var sharedLibrariesUrl = context.root_url + 'qtiItemPci/views/js/pciLibraries/'
+        
         //get initialization params :
         var state = { }, //@todo
             response = { base: null }, //@todo 
             config = interaction.properties,
-            libraries = _getLibraries(interaction, options.baseUrl ? options.baseUrl : this.getOption('baseUrl'));
+            libraries = _getLibraries(interaction, sharedLibrariesUrl, options.baseUrl ? options.baseUrl : this.getOption('baseUrl'));
 
         /**
          * The libraries (js or css) will all be loaded asynchronously
