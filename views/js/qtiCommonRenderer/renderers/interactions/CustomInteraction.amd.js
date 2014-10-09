@@ -8,16 +8,6 @@ define([
 ], function(_, tpl, Helper, qtiCustomInteractionContext, util, context){
 
     /**
-     * Set the customInteractionContext from a local context to the global one to make it available to all PCI instances
-     * 
-     * @returns {undefined}
-     */
-    var _registerGlobalPciContext = function(){
-
-        window.qtiCustomInteractionContext = window.qtiCustomInteractionContext || qtiCustomInteractionContext;
-    };
-
-    /**
      * Register the libraries in 'paths' into requiresjs
      * The requirejs config will be specific to PCIs, the sepcific context 'portableCustomInteraction' is defined as a consequence
      * 
@@ -131,20 +121,21 @@ define([
     var render = function(interaction, options){
 
         options = options || {};
-
-        _registerGlobalPciContext();
-        _registerLibraries({
-            css : context.root_url + 'tao/views/js/lib/require-css/css'
-        });
-
+        
+        // get pci shared libraries url
+        var sharedLibrariesUrl = context.root_url + 'qtiItemPci/views/js/pciLibraries/'
+        
         // get pci id
         var id = interaction.attr('responseIdentifier');
         
         // get pci xml dom
         var $dom = Helper.getContainer(interaction).find('#' + id);
         
-        // get pci shared libraries url
-        var sharedLibrariesUrl = context.root_url + 'qtiItemPci/views/js/pciLibraries/'
+        _registerLibraries({
+            css : context.root_url + 'tao/views/js/lib/require-css/css',
+            qtiCustomInteractionContext : context.root_url+'taoQtiItem/views/js/runtime/taoqtiCustomInteractionContext',
+            IMSGlobal : sharedLibrariesUrl + 'IMSGlobal'
+        });
         
         //get initialization params :
         var state = { }, //@todo

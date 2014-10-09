@@ -1,4 +1,4 @@
-define(['jquery', 'lodash'], function($, _){
+define(['IMSGlobal/jquery_2_1_1', 'IMSGlobal/lodash'], function($, _){
 
     var _pciHooks = {};
     
