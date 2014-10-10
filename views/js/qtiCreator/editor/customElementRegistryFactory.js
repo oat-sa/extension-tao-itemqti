@@ -132,26 +132,6 @@ define([
         }
 
         /**
-         * Get authorign data for a custom interaction
-         * 
-         * @param {String} typeIdentifier
-         * @returns {Object}
-         */
-        function getAuthoringData(typeIdentifier){
-
-            var manifest = getManifest(typeIdentifier);
-
-            return {
-                label : manifest.label, //currently no translation available 
-                icon : getBaseUrl(typeIdentifier) + manifest.icon, //use baseUrl from context
-                short : manifest.short,
-                description : manifest.description,
-                qtiClass : 'customInteraction.' + manifest.typeIdentifier, //custom interaction is block type
-                tags : _.union(['Custom Interactions'], manifest.tags)
-            };
-        }
-
-        /**
          * Get complete manifest object for a custom interaction
          * 
          * @param {String} typeIdentifier
@@ -173,7 +153,6 @@ define([
             getCreator : getCreator,
             isDev : isDev,
             get : get,
-            getAuthoringData : getAuthoringData,
             getManifest : getManifest
         };
 
