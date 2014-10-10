@@ -102,6 +102,9 @@ define([
                 getItemPanel : function(){
                     return $editorScope.find('#item-editor-panel');
                 },
+                getItemPropertyPanel : function(){
+                    return $editorScope.find('#sidebar-right-item-properties');
+                },
                 getModalContainer : function(){
                     return $editorScope.find('#modal-container');
                 }
