@@ -8,7 +8,7 @@ define([
     var PortableInfoControl = Element.extend({
         qtiClass : 'infoControl',
         defaultNsName : 'pic',
-        defaultNsUri : 'http://www.imsglobal.org/xsd/portableCustomInteraction',
+        defaultNsUri : 'http://www.imsglobal.org/xsd/portableInfoControl',
         defaultMarkupNsName : 'html5',
         defaultMarkupNsUri : 'html5',
         init : function(serial, attributes){
@@ -52,6 +52,9 @@ define([
             return arr;
         }
     });
+    
+    //add portable element standard functions
     CustomElement.augment(PortableInfoControl);
+    
     return PortableInfoControl;
 });

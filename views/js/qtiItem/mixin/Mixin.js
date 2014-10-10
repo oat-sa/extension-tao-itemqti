@@ -1,4 +1,6 @@
 define(function(){
+    
+    //@todo : need refactoring of qti item mixin with lodash.mixin()
     return {
         augment : function(targetClass, methods, options){
             if(typeof(targetClass) === 'function' && typeof(methods) === 'object'){
