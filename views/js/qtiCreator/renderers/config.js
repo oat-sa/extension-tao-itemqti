@@ -29,7 +29,7 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, 
         'simpleAssociableChoice.matchInteraction' : 'taoQtiItem/qtiCreator/renderers/choices/SimpleAssociableChoice.MatchInteraction',
         'gapMatchInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/GapMatchInteraction',
         'hottextInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/HottextInteraction',
-        'customInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/CustomInteraction',
+        'customInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/PortableCustomInteraction',
         'gap' : 'taoQtiItem/qtiCreator/renderers/choices/Gap',
         'gapText' : 'taoQtiItem/qtiCreator/renderers/choices/GapText',
         'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext'
