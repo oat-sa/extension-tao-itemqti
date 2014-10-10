@@ -60,7 +60,7 @@ define([
             //set up the tooltip plugin for the input
             $el.tooltipster({
                 theme: 'tao-error-tooltip',
-                content: __('Invalid pattern'),
+                content: __('This is not a valid answer'),
                 delay: 350,
                 trigger: 'custom'
             });
