@@ -968,6 +968,26 @@
         <xs:attribute ref="xml:base" use="optional"/>
     </xs:attributeGroup>
 
+    <xs:attributeGroup name="style.HTMLText.Attr">
+        <xs:attribute name="style" use="optional" type="String256.Type"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="title.HTMLText.Attr">
+        <xs:attribute name="title" use="optional" type="String256.Type"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="datarole.HTMLText.Attr">
+        <xs:attribute name="data-role" use="optional" type="String256.Type"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="dataedit.HTMLText.Attr">
+        <xs:attribute name="data-edit" use="optional" type="String256.Type"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="datafor.HTMLText.Attr">
+        <xs:attribute name="data-for" use="optional" type="String256.Type"/>
+    </xs:attributeGroup>
+
     <xs:attributeGroup name="id.Q.Attr">
         <xs:attribute name="id" use="optional" type="UniqueIdentifier.Type"/>
     </xs:attributeGroup>
@@ -5546,6 +5566,11 @@
         <xs:attributeGroup ref="xmllang.HTMLText.Attr"/>
         <xs:attributeGroup ref="label.HTMLText.Attr"/>
         <xs:attributeGroup ref="xmlbase.HTMLText.Attr"/>
+        <xs:attributeGroup ref="style.HTMLText.Attr"/>
+        <xs:attributeGroup ref="title.HTMLText.Attr"/>
+        <xs:attributeGroup ref="datarole.HTMLText.Attr"/>
+        <xs:attributeGroup ref="dataedit.HTMLText.Attr"/>
+        <xs:attributeGroup ref="datafor.HTMLText.Attr"/>
     </xs:complexType>
 
     <xs:complexType name="Index.Type" mixed="false">
