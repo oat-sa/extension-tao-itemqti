@@ -12,7 +12,8 @@ define([
     // css editor related
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
-    'taoQtiItem/qtiCreator/editor/customInteractionRegistry'
+    'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
+    'taoQtiItem/qtiCreator/editor/infoControlRegistry'
 ], function(
     $,
     _,
@@ -26,7 +27,8 @@ define([
     qtiElements,
     editor,
     interactionsToolbar,
-    ciRegistry
+    ciRegistry,
+    icRegistry
     ){
 
     loadingBar.start();
@@ -84,12 +86,17 @@ define([
 
             config = config || module.config();
 
+            var $doc = $(document);
+
             var configProperties = config.properties;
 
             //pass reference to useful dom element
             var $editorScope = $('#item-editor-scope');
 
             configProperties.dom = {
+                getEditorScope : function(){
+                    return $editorScope;
+                },
                 getMenuLeft : function(){
                     return $editorScope.find('.item-editor-menu.lft');
                 },
@@ -113,7 +120,7 @@ define([
             //back button
             $('#authoringBack').on('click', function(e){
                 e.preventDefault();
-            
+
                 //Capitalized History means polyfilled by History.js
                 if(window.History){
                     window.History.back();
@@ -122,10 +129,12 @@ define([
 
             //initialize hooks:
             _initializeHooks(config.uiHooks, configProperties);
-
+            
             //create interactions toolbar:
             _initializeInteractionsToolbar($('#item-editor-interaction-bar'), config.interactions);
-
+            
+            icRegistry.register(config.infoControls);
+            
             //load item from REST service
             loader.loadItem({uri : configProperties.uri}, function(item){
 
@@ -143,6 +152,12 @@ define([
                         $propertySidebar = $('#item-editor-item-widget-bar');
 
                     item.setRenderer(this);
+
+                    //set reference to item object
+                    $editorScope.data('item', item);
+
+                    //fires event itemloaded
+                    $doc.trigger('itemloaded.qticreator', [item]);
 
                     //render item (body only) into the "drop-area"
                     $itemContainer.append(item.render());
@@ -163,10 +178,16 @@ define([
 
                             //remove global events
                             $(window).off('.qti-widget');
-                            $(document).off('.qti-widget').off('.qti-creator');
+                            $doc.off('.qti-widget').off('.qti-creator');
                         }
                     });
-                
+
+                    //set reference to item widget object
+                    $editorScope.data('widget', item);
+
+                    //fires event itemloaded
+                    $doc.trigger('widgetloaded.qticreator', [widget]);
+
                 }, item.getUsedClasses());
             });
 

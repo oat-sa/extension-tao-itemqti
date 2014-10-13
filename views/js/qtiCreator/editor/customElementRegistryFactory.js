@@ -8,6 +8,7 @@ define([
     
     function create(options){
         
+        options = options || {};
         options = _.defaults(options, _defaults);
         
         var _registeredHooks = {};
@@ -73,7 +74,7 @@ define([
             _.each(_registeredHooks, function(hook){
                 required.push(hook.file);
             });
-
+           
             _requirejs(required, function(){
                 var creators = {};
                 _.each(arguments, function(creator){
