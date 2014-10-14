@@ -71,7 +71,7 @@ define([
             response = {base : null},  
             config = interaction.properties,
             entryPoint = util.fullpath(interaction.entryPoint, this.getOption('baseUrl'));
-
+        
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter

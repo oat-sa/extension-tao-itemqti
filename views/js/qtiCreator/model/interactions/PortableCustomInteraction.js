@@ -17,11 +17,11 @@ define([
         getDefaultAttributes : function(){
             return {};
         },
-        getDefaultPciProperties : function(){
+        getDefaultProperties : function(){
 
             var pciCreator = ciRegistry.getCreator(this.typeIdentifier);
-            if(_.isFunction(pciCreator.getDefaultPciProperties)){
-                return pciCreator.getDefaultPciProperties(this);
+            if(_.isFunction(pciCreator.getDefaultProperties)){
+                return pciCreator.getDefaultProperties(this);
             }else{
                 return {};
             }
@@ -36,7 +36,7 @@ define([
             pciCreator.getMarkupTemplate();
 
             //set pci props
-            this.properties = pciCreator.getDefaultPciProperties();
+            this.properties = pciCreator.getDefaultProperties();
 
             //set libs
             this.entryPoint = manifest.entryPoint;

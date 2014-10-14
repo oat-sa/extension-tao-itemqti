@@ -70,7 +70,7 @@ define([
         var state = {},
             config = infoControl.properties,
             entryPoint = util.fullpath(infoControl.entryPoint, this.getOption('baseUrl'));
-
+        
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter
