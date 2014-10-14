@@ -167,7 +167,7 @@ span.dragging {
 .item-editor-sidebar-wrapper {
     background: $canvas;
 
-    @include simple-flex-box($sidebarWidth);
+    @include simple-flex-box(180px);
 
     &.left-bar {
         .action-bar {
@@ -1068,45 +1068,38 @@ span.dragging {
     }
 }
 
+
 // 1366x768
-@media (min-width: 1366px) {
+@media screen and (min-width: 1366px) {
 
-    .item-editor-sidebar-wrapper {
-
-
-        &.left-bar {
-            @include simple-flex-box(262);
-            #item-editor-interaction-bar {
-                .tool-list {
-                    li {
-                        width: (100 / 3) * 1%;
-                    }
+    .item-editor-sidebar-wrapper.left-bar {
+        @include simple-flex-box(262px);
+        #item-editor-interaction-bar {
+            .tool-list {
+                li {
+                    width: (100 / 3) * 1%;
                 }
-                .sub-group-cover:after, .sub-group-cover:before {
-                    left: 17% !important;
-                }
+            }
+            .sub-group-cover:after, .sub-group-cover:before {
+                left: 17% !important;
             }
         }
     }
 }
 
 // 1920x1080
-@media (min-width: 1920px) {
+@media screen and (min-width: 1920px) {
 
-    .item-editor-sidebar-wrapper {
-
-
-        &.left-bar {
-            @include simple-flex-box(344);
-            #item-editor-interaction-bar {
-                .tool-list {
-                    li {
-                        width: 25%;
-                    }
+    .item-editor-sidebar-wrapper.left-bar {
+        @include simple-flex-box(344px);
+        #item-editor-interaction-bar {
+            .tool-list {
+                li {
+                    width: 25%;
                 }
-                .sub-group-cover:after, .sub-group-cover:before {
-                    left: 12% !important;
-                }
+            }
+            .sub-group-cover:after, .sub-group-cover:before {
+                left: 12% !important;
             }
         }
     }
