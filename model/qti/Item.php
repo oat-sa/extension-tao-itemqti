@@ -5,25 +5,16 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
-use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
-use oat\taoQtiItem\model\qti\OutcomeDeclaration;
-use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
-use oat\taoQtiItem\model\qti\Stylesheet;
-use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
-use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\controller\QTIform\AssessmentItem;
 use \common_Serializable;
 use \common_Logger;
 use \taoItems_models_classes_TemplateRenderer;
-use \common_ext_ExtensionsManager;
 use \DOMDocument;
 
 /**
@@ -49,7 +40,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     /**
      * Item's body content
      *
-     * @var oat\taoQtiItem\model\qti\container\ContainerItemBody
+     * @var \oat\taoQtiItem\model\qti\container\ContainerItemBody
      */
     protected $body = null;
 
@@ -207,7 +198,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
+     * @return \oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
     public function getResponseProcessing(){
         return $this->responseProcessing;
@@ -274,7 +265,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @author Sam, <sam@taotesting.com>
      * @param
      *            string serial
-     * @return oat\taoQtiItem\model\qti\OutcomeDeclaration
+     * @return \oat\taoQtiItem\model\qti\OutcomeDeclaration
      */
     public function getOutcome($serial){
         $returnValue = null;

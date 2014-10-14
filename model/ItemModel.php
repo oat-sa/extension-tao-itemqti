@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model;
 
-use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiPackageImport;
@@ -65,7 +64,9 @@ class ItemModel
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  Resource item
+     * @param core_kernel_classes_Resource $item
+     * @param $langCode
+     * @throws \common_Exception
      * @return string
      */
     public function render( core_kernel_classes_Resource $item, $langCode)

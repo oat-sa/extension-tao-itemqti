@@ -20,7 +20,6 @@
  */
 namespace oat\taoQtiItem\model\Export;
 
-use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
 use \taoItems_models_classes_ItemExporter;
 use \core_kernel_classes_Property;
 use \DOMDocument;

@@ -22,8 +22,6 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
-use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
 use oat\taoQtiItem\model\qti\Service;
 use \core_kernel_classes_Resource;
 use \ZipArchive;
@@ -174,4 +172,3 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		}
 	}
 }
-?>
