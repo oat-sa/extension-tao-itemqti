@@ -1,4 +1,4 @@
-define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Class, _, util, rendererConfig){
+define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, Class, _, util, rendererConfig){
 
     var _instances = {};
 
