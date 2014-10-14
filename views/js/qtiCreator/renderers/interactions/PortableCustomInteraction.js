@@ -1,6 +1,6 @@
 define([
     'lodash',
-    'taoQtiItem/qtiCommonRenderer/renderers/interactions/CustomInteraction.amd',
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
 ], function(_, Renderer, ciRegistry, commonRenderer){

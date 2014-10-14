@@ -1,160 +1,89 @@
 define([
-    'lodash',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/portableInfoControl',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'taoQtiItem/runtime/qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
     'context'
-], function(_, tpl, Helper, qtiInfoControlContext, util, context){
+], function(tpl, Helper, PortableElement, qtiInfoControlContext, util, context){
+
+    var _reqContext = 'portableInfoControl';
 
     /**
-     * Set the InfoControlContext from a local context to the global one to make it available to all PIC instances
-     * 
-     * @returns {undefined}
-     */
-    var _registerGlobalPciContext = function(){
-
-        window.qtiInfoControlContext = window.qtiInfoControlContext || qtiInfoControlContext;
-    };
-
-    /**
-     * Register the libraries in 'paths' into requiresjs
-     * The requirejs config will be specific to PCIs, the sepcific context 'portableInfoControl' is defined as a consequence
-     * 
-     * @param {Object} paths - the plain object, key/value of the 
-     */
-    var _registerLibraries = function(paths){
-
-        window.require.config({
-            context : 'portableInfoControl',
-            paths : paths
-        });
-    };
-
-    /**
-     * Call requirejs.require() in the specific context of 'portableInfoControl'
-     * 
-     * @param {array} modules - list of the amd modules names or scripts names 
-     * @param {type} callback
-     */
-    var _portableElementRequire = function(modules, callback){ 
-
-        var portableEltReq = window.require.config({context : 'portableInfoControl'});
-        portableEltReq(modules, callback);
-    };
-
-    /**
-     * Get the PIC instance associated to the portableElement object
+     * Get the PIC instance associated to the infoControl object
      * If none exists, create a new one based on the PIC typeIdentifier
      * 
-     * @param {Object} portableElement - the js object representing the portableElement
-     * @returns {Object} portableElement instance
+     * @param {Object} infoControl - the js object representing the infoControl
+     * @returns {Object} PIC instance
      */
-    var _getPortableElementInstance = function(portableElement){
+    var _getPic = function(infoControl){
 
         var typeIdentifier,
-            hookInstance = portableElement.data('portableElement') || undefined;
+            pic = infoControl.data('pic') || undefined;
 
-        if(!hookInstance){
-            
-            typeIdentifier = portableElement.typeIdentifier;
-            hookInstance = qtiInfoControlContext.createPicInstance(typeIdentifier);
+        if(!pic){
 
-            if(hookInstance){
+            typeIdentifier = infoControl.typeIdentifier;
+            pic = qtiInfoControlContext.createPciInstance(typeIdentifier);
 
-                //binds the PIC hookInstance to TAO portableElement object and vice versa
-                portableElement.data('portableElement', hookInstance);
-                hookInstance._taoInfoControl = portableElement;
+            if(pic){
+
+                //binds the PIC instance to TAO infoControl object and vice versa
+                infoControl.data('pic', pic);
+                pic._taoInfoControl = infoControl;
 
             }else{
-                throw 'no custom portableElement hook found for the type ' + typeIdentifier;
+                throw 'no custom infoControl hook found for the type ' + typeIdentifier;
             }
         }
 
-        return hookInstance;
+        return pic;
     };
 
     /**
-     * Get the list of required modules to be loaded for portableElement rendering
-     * 
-     * @param {Object} portableElement
-     * @param {String} baseUrl
-     * @returns {Array}
-     */
-    var _getLibraries = function(portableElement, baseUrl){
-
-        var libraries = _.clone(portableElement.libraries) || [],
-            ret = [],
-            paths = {};
-        
-        //currently, include entryPoint as a lib to be all loaded at once
-        libraries[portableElement.typeIdentifier + '.entryPoint'] = portableElement.entryPoint;
-        
-        //require the actual shared and shareable libs (that support the implementation of the portableElement)
-        _.forIn(libraries, function(href, name){
-
-            var hrefFull = util.fullpath(href, baseUrl);
-
-            if(/\.js$/.test(hrefFull)){
-                paths[name] = hrefFull.replace(/\.js$/, '');
-                ret.push(name);
-            }else if(/\.css$/.test(hrefFull)){
-                paths[name] = hrefFull.replace(/\.css$/, '');
-                ret.push('css!' + name);
-            }
-
-        });
-
-        //register:
-        _registerLibraries(paths);
-
-        return ret;
-    };
-
-    /**
-     * Execute javascript codes to bring the portableElement to life.
+     * Execute javascript codes to bring the infoControl to life.
      * At this point, the html markup must already be ready in the document.
      * 
      * It is done in 5 steps : 
      * 1. register required libs in the "portableInfoControl" context
      * 2. require all required libs
-     * 3. create a portableElement instance based on the portableElement model
+     * 3. create a pic instance based on the infoControl model
      * 4. initialize the rendering 
-     * 5. restore full state if applicable (state and/or response)
+     * 5. restore full state if applicable
      * 
-     * @param {Object} portableElement
+     * @param {Object} infoControl
      */
-    var render = function(portableElement, options){
+    var render = function(infoControl, options){
 
         options = options || {};
 
-        _registerGlobalPciContext();
-        _registerLibraries({
-            css : context.root_url + 'tao/views/js/lib/require-css/css'
+        PortableElement.registerCommonLibraries(_reqContext);
+        PortableElement.registerLibraries(_reqContext, {
+            qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
         });
-
-        //get portableElement id
-        var id = portableElement.attr('id');
-        var $dom = Helper.getContainer(portableElement).find('#' + id);
-
+        
+        var id = infoControl.attr('id'),
+            $dom = Helper.getContainer(infoControl).children();
+        
         //get initialization params :
-        var state = null, //@todo
-            config = portableElement.properties,
-            libraries = _getLibraries(portableElement, options.baseUrl ? options.baseUrl : this.getOption('baseUrl'));
-
+        //@todo pass state to renderer here:
+        var state = {},
+            config = infoControl.properties,
+            entryPoint = util.fullpath(infoControl.entryPoint, this.getOption('baseUrl'));
+        
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter
          */
-        _portableElementRequire(libraries, function(){
+        PortableElement.require(_reqContext, [entryPoint], function(){
+            
+            var pic = _getPic(infoControl);
+            if(pic){
+                //call pic initialize() to render the pic
+                pic.initialize(id, $dom[0], config);
 
-            var hookInstance = _getPortableElementInstance(portableElement);
-            if(hookInstance){
-                //call portableElement initialize() to render the portableElement
-                hookInstance.initialize(id, $dom[0], config);
-
-                //restore context (state + response)
-                hookInstance.setSerializedState(state);
+                //restore context (state)
+                pic.setSerializedState(state);
             }
 
         });
@@ -166,34 +95,34 @@ define([
      * After this function is executed, only the inital naked markup remains 
      * Event listeners are removed and the state and the response are reset
      * 
-     * @param {Object} portableElement
+     * @param {Object} infoControl
      */
-    var destroy = function(portableElement){
+    var destroy = function(infoControl){
 
-        _getPortableElementInstance(portableElement).destroy();
+        _getPic(infoControl).destroy();
     };
 
     /**
-     * Restore the state of the portableElement from the serializedState.
+     * Restore the state of the infoControl from the serializedState.
      * 
-     * @param {Object} portableElement
+     * @param {Object} infoControl
      * @param {Object} serializedState - json format
      */
-    var setSerializedState = function(portableElement, serializedState){
+    var setSerializedState = function(infoControl, serializedState){
 
-        _getPortableElementInstance(portableElement).setSerializedState(serializedState);
+        _getPic(infoControl).setSerializedState(serializedState);
     };
 
     /**
-     * Get the current state of the portableElement as a string.
+     * Get the current state of the infoControl as a string.
      * It enables saving the state for later usage.
      * 
-     * @param {Object} portableElement
+     * @param {Object} infoControl
      * @returns {Object} json format
      */
-    var getSerializedState = function(portableElement){
+    var getSerializedState = function(infoControl){
 
-        return _getPortableElementInstance(portableElement).getSerializedState();
+        return _getPic(infoControl).getSerializedState();
     };
 
     return {

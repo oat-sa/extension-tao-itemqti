@@ -1,13 +1,4 @@
-define(['jquery'], function($){
-
-    /**
-     * The global qtiInfoControlContext
-     * Global object qtiInfoControlContext cannot be passed as AMD dependency because the pci libs are loaded under a different requirejs context.
-     * This means that the dependencies of qtiInfoControlContext would also need to be compied into this one which is too complicated.
-     * 
-     * @type {Object} - the globally scoped qtiInfoControlContext
-     */
-    var _picContext = window.qtiInfoControlContext;
+define(['IMSGlobal/jquery_2_1_1', 'qtiInfoControlContext'], function($, qtiInfoControlContext){
 
     var studentToolbar = {
         id : -1,
@@ -15,7 +6,8 @@ define(['jquery'], function($){
             return 'studentToolbar';
         },
         /**
-         * Render the PCI : 
+         * Initialize the PIC
+         * 
          * @param {String} id
          * @param {Node} dom
          * @param {Object} config - json
@@ -28,7 +20,7 @@ define(['jquery'], function($){
 
             var $container = $(dom);
             
-            console.log('init toolbar');
+            console.log('init', this.getTypeIdentifier());
         },
         /**
          * Reverse operation performed by render()
@@ -50,7 +42,7 @@ define(['jquery'], function($){
          */
         setSerializedState : function(state){
 
-            console.log('state set to', state)
+            console.log('state set to', state);
         },
         /**
          * Get the current state of the interaction as a string.
@@ -65,5 +57,5 @@ define(['jquery'], function($){
         }
     };
 
-    _picContext.register(studentToolbar);
+    qtiInfoControlContext.register(studentToolbar);
 });
