@@ -23,6 +23,7 @@ use \common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\ImportService;
+use \taoItems_models_classes_ItemsService;
 use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
 use \ZipArchive;
@@ -56,7 +57,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         TaoPhpUnitTestRunner::initTest();
         $this->importService = ImportService::singleton();
-        $this->itemService = \taoItems_models_classes_ItemsService::singleton();
+        $this->itemService = taoItems_models_classes_ItemsService::singleton();
     }
 
     /**
@@ -69,13 +70,15 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
 
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * @expectedException \common_exception_Error
+     * 
      */
     public function testWrongPackage()
     {
         $itemClass = $this->itemService->getRootClass();
         $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/invalidArchive.zip',
             $itemClass);
+        
     }
 
     /**
@@ -86,6 +89,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $itemClass = new \core_kernel_classes_Class(TAO_ITEM_MODEL_PROPERTY);
         $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/package.zip',
             $itemClass);
+
     }
 
     /**
@@ -95,7 +99,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemXML.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemXml.zip',
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
@@ -108,7 +112,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemInTheMiddleXML.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemInTheMiddleXml.zip',
             $itemClass, true, null, false, true);
         $this->assertEquals(\common_report_Report::TYPE_WARNING, $report->getType());
 
@@ -128,7 +132,9 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
 
     }
-
+    /**
+     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     */
     public function testWrongXml()
     {
 
@@ -290,7 +296,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      */
     private function createZipArchive($item, $manifest = null)
     {
-        $path = sys_get_temp_dir() . uniqid('test_') . '.zip';
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('test_') . '.zip';
         $zipArchive = new ZipArchive();
         if ($zipArchive->open($path, ZipArchive::CREATE) !== true) {
             throw new Exception('Unable to create archive at ' . $path);
@@ -309,7 +315,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertEquals(ZipArchive::ER_OK, $zipArchive->status, $zipArchive->getStatusString());
 
         $zipArchive->close();
-        $this->assertTrue(file_exists($path));
+        $this->assertTrue(file_exists($path),'could not find path ' . $path);
         $this->exportedZips[] = $path;
         return array($path, $manifest);
     }

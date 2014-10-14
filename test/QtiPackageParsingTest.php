@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,7 +20,7 @@
  */
 namespace oat\taoQtiItem\test;
 
-use common_ext_ExtensionsManager;
+use \common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\PackageParser;
