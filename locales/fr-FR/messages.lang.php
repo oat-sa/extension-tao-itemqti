@@ -282,6 +282,7 @@ $GLOBALS['__l10n']["Invalid file type!"]="Type de fichier invalide";
 $GLOBALS['__l10n']["invalid identifier"]="identifiant invalide";
 $GLOBALS['__l10n']["Invalid login or password. Please try again."]="Identifiant ou mot de passe invalide. Veuillez réessayer.";
 $GLOBALS['__l10n']["Invalid pattern"]="Motif invalide";
+$GLOBALS['__l10n']["This is not a valid answer"]="ce n'est pas une réponse valide";
 $GLOBALS['__l10n']["Is this choice the correct response?"]="Cette option est-elle la réponse correcte?";
 $GLOBALS['__l10n']["Is this pair the correct response?"]="Cette pair est-elle la réponse correcte?";
 $GLOBALS['__l10n']["Item creator"]="Editeur de question";
