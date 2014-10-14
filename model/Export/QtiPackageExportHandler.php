@@ -21,9 +21,6 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
-use oat\taoQtiItem\model\Export\ExportForm;
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use \tao_models_classes_export_ExportHandler;
 use \core_kernel_classes_Resource;
 use \core_kernel_classes_Class;

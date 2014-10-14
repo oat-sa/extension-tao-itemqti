@@ -21,13 +21,8 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\qti\Parser;
-use oat\taoQtiItem\model\qti\PackageParser;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
-use oat\taoQtiItem\model\qti\ManifestParser;
 use \tao_models_classes_GenerisService;
 use \core_kernel_classes_Class;
 use \core_kernel_versioning_Repository;
@@ -58,10 +53,13 @@ class ImportService extends tao_models_classes_GenerisService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string qtiFile
-     * @param  Class itemClass
-     * @param  boolean validate
-     * @param  Repository repository
+     * @param $qtiFile
+     * @param core_kernel_classes_Class $itemClass
+     * @param bool $validate
+     * @param core_kernel_versioning_Repository $repository
+     * @throws \common_Exception
+     * @throws \common_ext_ExtensionException
+     * @throws common_exception_Error
      * @return common_report_Report
      */
     public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null){
@@ -161,10 +159,18 @@ class ImportService extends tao_models_classes_GenerisService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string file
-     * @param  Class itemClass
-     * @param  boolean validate
-     * @param  Repository repository if none provided uses default repository
+     * @param $file
+     * @param core_kernel_classes_Class $itemClass
+     * @param bool $validate
+     * @param core_kernel_versioning_Repository $repository
+     * @param bool $rollbackOnError
+     * @param bool $rollbackOnWarning
+     * @throws Exception
+     * @throws ExtractException
+     * @throws ParsingException
+     * @throws \common_Exception
+     * @throws \common_ext_ExtensionException
+     * @throws common_exception_Error
      * @return common_report_Report
      */
     public function importQTIPACKFile($file, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $rollbackOnError = false, $rollbackOnWarning = false){
@@ -309,7 +315,12 @@ class ImportService extends tao_models_classes_GenerisService
 
         return $report;
     }
-    
+
+    /**
+     * @param array $items
+     * @param common_report_Report $report
+     * @throws common_exception_Error
+     */
     protected function rollback(array $items, common_report_Report $report) {
         foreach ($items as $id => $item) {
             @taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
