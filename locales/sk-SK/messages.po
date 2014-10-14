@@ -440,6 +440,9 @@ msgstr ""
 msgid "Invalid pattern"
 msgstr ""
 
+msgid "This is not a valid answer"
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr ""
 
