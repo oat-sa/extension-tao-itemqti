@@ -444,6 +444,9 @@ msgstr "identifiant invalide"
 msgid "Invalid pattern"
 msgstr "Motif invalide"
 
+msgid "This is not a valid answer"
+msgstr "ce n'est pas une réponse valide"
+
 msgid "Is this choice the correct response?"
 msgstr "Cette option est-elle la réponse correcte?"
 
