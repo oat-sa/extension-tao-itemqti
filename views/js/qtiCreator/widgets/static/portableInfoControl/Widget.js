@@ -1,13 +1,12 @@
 define([
-    'taoQtiItem/qtiCreator/widgets/static/Widget',
-    'taoQtiItem/qtiCreator/widgets/static/portableInfoControl/states/states'
-], function(Widget, states) {
+    'taoQtiItem/qtiCreator/widgets/static/Widget'
+], function(Widget) {
     
     var InfoControlWidget = Widget.clone();
     
     InfoControlWidget.initCreator = function() {
         
-        this.registerStates(states);
+        //note : abstract widget class must not register states
         
         Widget.initCreator.call(this);
     };

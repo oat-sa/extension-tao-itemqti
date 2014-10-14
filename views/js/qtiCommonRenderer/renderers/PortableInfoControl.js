@@ -85,7 +85,7 @@ define([
                 //restore context (state)
                 pic.setSerializedState(state);
             }
-
+            
         });
 
     };
