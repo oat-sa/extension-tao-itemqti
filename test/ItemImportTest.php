@@ -1,17 +1,4 @@
 <?php
-namespace oat\taoQtiItem\test;
-
-use common_report_Report;
-use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
-use oat\taoQtiItem\model\qti\ImportService;
-use tao_models_classes_service_FileStorage;
-use taoItems_models_classes_ItemCompiler;
-use \ZipArchive;
-use oat\taoQtiItem\model\Export;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +17,18 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
 
+namespace oat\taoQtiItem\test;
+
+use \common_report_Report;
+use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
+use oat\taoQtiItem\model\qti\ImportService;
+use \tao_models_classes_service_FileStorage;
+use \taoItems_models_classes_ItemCompiler;
+use \ZipArchive;
+use oat\taoQtiItem\model\Export;
+
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 /**
  * test the item content access
  *
