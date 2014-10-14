@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\import;
 
-use oat\taoQtiItem\model\import\QtiPackageImport;
-use oat\taoQtiItem\model\import\QtiPackageImportForm;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use \tao_models_classes_import_ImportHandler;
@@ -39,7 +37,7 @@ use \common_exception_Error;
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoQTI
+ * @package taoQTIItem
  
  */
 class QtiPackageImport implements tao_models_classes_import_ImportHandler

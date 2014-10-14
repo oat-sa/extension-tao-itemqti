@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,10 +18,12 @@
  *               
  * 
  */
-
+namespace oat\taoQtiItem\test;
+use DOMDocument;
+use DOMException;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -33,6 +35,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 {
 
     protected $qtiService;
+    protected $validateOnParse;
 
     /**
      * tests initialization
@@ -95,7 +98,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
             $this->assertTrue($qtiParser->isValid());
             $this->assertNotNull($item);
-            $this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
             //test if content has been exported
             $xhtml = $item->toXHTML();
