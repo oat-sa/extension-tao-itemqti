@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -185,4 +186,15 @@ class Service extends tao_models_classes_Service
         return $allData['variable'];
     }
 
+    /**
+     * Obtain a reference on the PCI/PIC Shared Library Registry.
+     * 
+     * @return \oat\taoQtiItem\model\SharedLibrariesRegistry
+     */
+    public function getSharedLibrariesRegistry(){
+        $basePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
+        $baseUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
+        
+        return new SharedLibrariesRegistry($basePath, $baseUrl);
+    }
 }

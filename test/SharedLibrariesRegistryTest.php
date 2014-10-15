@@ -1,6 +1,6 @@
 <?php
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\sharedLibraries\LocalSharedLibrariesRegistry;
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use \helpers_File;
 use \common_ext_ExtensionsManager;
 
@@ -30,10 +30,10 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     
     protected function getConfigId()
     {
-        return LocalSharedLibrariesRegistry::CONFIG_ID;
+        return SharedLibrariesRegistry::CONFIG_ID;
     }
     
-    protected function setRegistry(LocalSharedLibrariesRegistry $registry)
+    protected function setRegistry(SharedLibrariesRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -63,7 +63,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         $this->setInitialMapping((is_array($initialMapping)) ? $initialMapping : array());
         $ext->setConfig($this->getConfigId(), array());
         @mkdir($this->getBasePath());
-        $this->setRegistry(new LocalSharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
+        $this->setRegistry(new SharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
     }
     
     public function tearDown()
@@ -79,6 +79,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
      */
     public function testRegisterFromFile($id, $path, $expected)
     {
+        $originalId = $id;
         $registry = $this->getRegistry();
         $registry->registerFromFile($id, $path);
         
@@ -170,10 +171,19 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         );
     }
     
-    // --- Test Utility Methods.
-    static private function registerOfficialLibraries(LocalSharedLibrariesRegistry $registry) 
+    public function testRegisterFromItemNotFound()
     {
-        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../views/js/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
-        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../views/js/portableSharedLibraries/OAT/lodash.js');
+        $dir = $this->getSamplesDir();
+        
+        $this->setExpectedException('oat\\taoQtiItem\\model\\SharedLibraryNotFoundException');
+        $registry = $this->getRegistry();
+        $registry->registerFromItem("${dir}/registry_notfound/item.xml");
+    }
+    
+    // --- Test Utility Methods.
+    static private function registerOfficialLibraries(SharedLibrariesRegistry $registry) 
+    {
+        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/local/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
+        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/local/portableSharedLibraries/OAT/lodash.js');
     }
 }
