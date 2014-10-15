@@ -7,11 +7,11 @@ define([
     return stateFactory.extend(SleepState, function(){
 
         //add transparent protective layer
-        this.widget.$container.append(overlayTpl());
+//        this.widget.$container.append(overlayTpl());
 
     }, function(){
 
         //remove transparent protective layer
-        this.widget.$container.children('.overlay').remove();
+//        this.widget.$container.children('.overlay').remove();
     });
 });
