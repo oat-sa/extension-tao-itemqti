@@ -1,15 +1,15 @@
 define([
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/main',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/portableInfoControl',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiXmlRenderer/helper/portableElementTpl'
 ], function(tpl, util){
 
     return {
-        qtiClass : 'customInteraction',
+        qtiClass : 'infoControl',
         template : tpl,
-        getData : function(interaction, data){
-            var markupNs = interaction.getMarkupNamespace();
-            data.markup = util.addMarkupNamespace(interaction.markup, markupNs ? markupNs.name : '');
+        getData : function(infoControl, data){
+            var markupNs = infoControl.getMarkupNamespace();
+            data.markup = util.addMarkupNamespace(infoControl.markup, markupNs ? markupNs.name : '');
             return data;
         }
     };

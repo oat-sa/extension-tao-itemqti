@@ -44,7 +44,7 @@ define([
                 if(relatedItem){
                     var namespaces = relatedItem.getNamespaces();
                     for(ns in namespaces){
-                        if(namespaces[ns].indexOf('portableCustomInteraction') > 0){
+                        if(namespaces[ns].indexOf(this.defaultNsUri) >= 0){
                             return {
                                 name : ns,
                                 uri : namespaces[ns]

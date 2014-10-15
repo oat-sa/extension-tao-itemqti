@@ -61,7 +61,10 @@ define([
 
             //set pci namespace to item
             this.getNamespace();
-
+            
+            //the attribute is mendatory
+            this.attr('title', manifest.label);
+            
             //after create
             if(_.isFunction(creator.afterCreate)){
                 return creator.afterCreate(this);
