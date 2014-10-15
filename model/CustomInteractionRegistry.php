@@ -27,7 +27,7 @@ use common_ext_ExtensionsManager;
  * 
  * @author Joel Bout <joel@taotestinf.com>
  */
-class CustomInteractionRegistry
+class CustomInteractionRegistry extends AbstractInteractionRegistry
 {
     /**
      * Key used to store the custom interactions in the config
@@ -37,10 +37,29 @@ class CustomInteractionRegistry
     const CONFIG_ID = 'custom_interaction';
     
     /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return string
+     */
+    protected function getConfigId(){
+        return self::CONFIG_ID;
+    }
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return string
+     */
+    protected function getInteractionClass(){
+        return 'oat\taoQtiItem\model\qti\interaction\CustomInteraction';
+    }
+    
+    
+    /**
      * Register a new custom interaction
      * 
      * @param string $qtiClass
      * @param string $phpClass
+     * @deprecated
      * @throws common_exception_Error
      */
     public static function register($qtiClass, $phpClass) {
@@ -62,19 +81,22 @@ class CustomInteractionRegistry
      * With the qti classes as keys and the php classnames that
      * implementat these interactions as values
      * 
+     * @deprecated
      * @return array
      */
     public static function getCustomInteractions() {
         $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         $map = $taoQtiItem->getConfig(self::CONFIG_ID);
-        return is_array($map) ? array() : $map;
+        return is_array($map) ?  $map : array();
     }
     
     /**
      * Get the php class that represents a custom interaction from its class attribute
      * 
      * @param string $name
+     * @deprecated
      * @return string
+     * 
      */
     public static function getCustomInteractionByName($name){
         $all = self::getCustomInteractions();

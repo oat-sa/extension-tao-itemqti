@@ -36,6 +36,14 @@ class InfoControlRegistry
      */
     const CONFIG_ID = 'info_control';
     
+    protected function getConfigId(){
+        return self::CONFIG_ID;
+    }
+    
+    protected function getInteractionClass(){
+        return 'oat\taoQtiItem\model\qti\interaction\CustomInteraction';
+    }
+    
     /**
      * Register a new custom interaction
      * 
