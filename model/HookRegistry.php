@@ -1,5 +1,5 @@
 <?php
-/**  
+/*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -35,8 +35,11 @@ class HookRegistry extends AbstractInteractionRegistry
     const CONFIG_ID = 'hook';
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoQtiItem\model\AbstractInteractionRegistry::getConfigId()
+     * Register a new custom interaction
+     * 
+     * @param string $hookId
+     * @param string $phpClass
+     * @throws common_exception_Error
      */
     protected function getConfigId(){
         return self::CONFIG_ID;
@@ -51,14 +54,15 @@ class HookRegistry extends AbstractInteractionRegistry
     }
     
     /**
+     * Returns a list of registered hooks.
      * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @param string $key
-     * @param string $class
-     * @deprecated use set directly
+     * With the hook ids as keys and the php classnames that
+     * implement these hooks as values
+     * 
+     * @return array
      */
     public static function add($key,$phpClass){
         HookRegistry::getRegistry()->set($key,$phpClass);
     }
-        
+    
 }
