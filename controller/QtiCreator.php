@@ -72,7 +72,7 @@ class QtiCreator extends tao_actions_CommonModule
         }
 
         //initialize all registered hooks:
-        $hookClasses = HookRegistry::getAll();
+        $hookClasses = HookRegistry::getRegistry()->getAllInteractions();
         foreach($hookClasses as $hookClass){
             $hook = new $hookClass();
             $hook->init($config);
