@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\import;
 
-use oat\taoQtiItem\model\import\QtiItemImport;
-use oat\taoQtiItem\model\import\QtiItemImportForm;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -36,7 +34,7 @@ use \common_exception_Error;
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoQTI
+ * @package taoQTIItem
  
  */
 class QtiItemImport implements tao_models_classes_import_ImportHandler

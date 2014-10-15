@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\choice;
 
-use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 

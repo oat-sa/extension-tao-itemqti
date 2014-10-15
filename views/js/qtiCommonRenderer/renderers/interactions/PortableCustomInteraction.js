@@ -1,37 +1,13 @@
 define([
-    'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'taoQtiItem/runtime/qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
     'context'
-], function(_, tpl, Helper, qtiCustomInteractionContext, util, context){
+], function(tpl, Helper, PortableElement, qtiCustomInteractionContext, util, context){
 
-    /**
-     * Register the libraries in 'paths' into requiresjs
-     * The requirejs config will be specific to PCIs, the sepcific context 'portableCustomInteraction' is defined as a consequence
-     * 
-     * @param {Object} paths - the plain object, key/value of the 
-     */
-    var _registerLibraries = function(paths){
-
-        window.require.config({
-            context : 'portableCustomInteraction',
-            paths : paths
-        });
-    };
-
-    /**
-     * Call requirejs.require() in the specific context of 'portableCustomInteraction'
-     * 
-     * @param {array} modules - list of the amd modules names or scripts names 
-     * @param {type} callback
-     */
-    var _pciRequire = function(modules, callback){
-
-        var pciReq = window.require.config({context : 'portableCustomInteraction'});
-        pciReq(modules, callback);
-    };
+    var _reqContext = 'portableCustomInteraction';
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -65,45 +41,6 @@ define([
     };
 
     /**
-     * Get the list of required modules to be loaded for interaction rendering
-     * 
-     * @param {Object} interaction
-     * @param {String} libsUrl The base URL to find shared libraries.
-     * @param {String} baseUrl
-     * @returns {Array}
-     */
-    var _getLibraries = function(interaction, libsUrl, baseUrl){
-
-        var libraries = _.clone(interaction.libraries) || [],
-            ret = [],
-            paths = {};
-
-        //currently, include entryPoint as a lib to be all loaded at once
-        libraries[interaction.typeIdentifier + '.entryPoint'] = interaction.entryPoint;
-
-        //require the actual shared and shareable libs (that support the implementation of the pci)
-        _.forIn(libraries, function(href, name){
-
-            if(name.indexOf('.entryPoint') > -1){
-                var hrefFull = util.fullpath(href, baseUrl);
-
-                if(/\.js$/.test(hrefFull)){
-                    paths[name] = hrefFull.replace(/\.js$/, '');
-                    ret.push(name);
-                }else if(/\.css$/.test(hrefFull)){
-                    paths[name] = hrefFull.replace(/\.css$/, '');
-                    ret.push('css!' + name);
-                }
-            }
-        });
-
-        //register:
-        _registerLibraries(paths);
-
-        return ret;
-    };
-
-    /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
      * 
@@ -119,35 +56,28 @@ define([
     var render = function(interaction, options){
 
         options = options || {};
-
-        // get pci shared libraries url
-        var sharedLibrariesUrl = context.root_url + 'taoQtiItem/views/js/portableSharedLibraries/'
-
-        // get pci id
-        var id = interaction.attr('responseIdentifier');
-
-        // get pci xml dom
-        var $dom = Helper.getContainer(interaction).children();
-
-        _registerLibraries({
-            css : context.root_url + 'tao/views/js/lib/require-css/css',
-            qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
-            IMSGlobal : sharedLibrariesUrl + 'IMSGlobal',
-            OAT : sharedLibrariesUrl + 'OAT'
+        
+        PortableElement.registerCommonLibraries(_reqContext);
+        PortableElement.registerLibraries(_reqContext, {
+            qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
         });
+        
+        var id = interaction.attr('responseIdentifier'),
+            $dom = Helper.getContainer(interaction).children();
 
         //get initialization params :
-        var state = {}, //@todo
-            response = {base : null}, //@todo 
+        //@todo pass state and response to renderer here:
+        var state = {},
+            response = {base : null},  
             config = interaction.properties,
             entryPoint = util.fullpath(interaction.entryPoint, this.getOption('baseUrl'));
-
+        
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter
          */
-        _pciRequire([entryPoint], function(){
-            
+        PortableElement.require(_reqContext, [entryPoint], function(){
+
             var pci = _getPci(interaction);
             if(pci){
                 //call pci initialize() to render the pci

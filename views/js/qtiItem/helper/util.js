@@ -11,7 +11,7 @@ define(['lodash'], function(_){
             }
             return id;
         },
-        fullpath : function(src, baseUrl){
+        fullpath : function fullpath(src, baseUrl){
 
             src = src || '';
             baseUrl = baseUrl || '';
@@ -32,7 +32,7 @@ define(['lodash'], function(_){
 
             return src;
         },
-        findInCollection : function(element, collectionNames, searchedSerial){
+        findInCollection : function findInCollection(element, collectionNames, searchedSerial){
 
             var found = null;
 
@@ -43,7 +43,7 @@ define(['lodash'], function(_){
             if(_.isArray(collectionNames)){
 
                 _.each(collectionNames, function(collectionName){
-                    
+
                     //get collection to search in (resolving case like interaction.choices.0
                     var collection = element;
                     _.each(collectionName.split('.'), function(nameToken){
@@ -80,7 +80,9 @@ define(['lodash'], function(_){
             }
 
             return found;
-
+        },
+        addMarkupNamespace : function addMarkupNamespace(markup, ns){
+            return ns ? markup.replace(/<(\/)?([^!])/g, '<$1' + ns + ':$2') : markup;
         }
     };
 

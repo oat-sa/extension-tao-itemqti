@@ -1,6 +1,5 @@
-define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiItem/qtiCreator/core/gridEditor'], function($, _, gridUnits){
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiItem/qtiCreator/editor/jquery.gridEditor'], function($, _, gridUnits){
 
-    var C = console;
     var $item = $('#item-grid');
 
     test('create and destroy', function(){
@@ -42,7 +41,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 3
             }
         ], 4);
-        C.dir(distributed);
         
         distributed = gridUnits.distribute([{
                 elt : '#elt1',
@@ -52,14 +50,12 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 2
             }
         ], 4);
-        C.dir(distributed);
         
         distributed = gridUnits.distribute([{
                 elt : '#elt1',
                 units : 12
             }
         ], 4);
-        C.dir(distributed);
         
         distributed = gridUnits.distribute([{
                 elt : '#elt1',
@@ -69,7 +65,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 6
             }
         ], 4);
-        C.dir(distributed);
     });
     
     test('redistribute units', function(){
@@ -84,7 +79,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 5
             }
         ], 12);
-        C.dir(redistributed);
         
         redistributed = gridUnits.redistribute([{
                 elt : '#elt1',
@@ -97,8 +91,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 3
             }
         ], 10);
-        C.dir(redistributed);
-        
         
         redistributed = gridUnits.redistribute([{
                 elt : '#elt1',
@@ -111,7 +103,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/helper/gridUnits', 'taoQtiIte
                 units : 4
             }
         ], 10);
-        C.dir(redistributed);
     });
     
     test('create resizables', function(){

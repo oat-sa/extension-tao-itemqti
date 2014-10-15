@@ -41,7 +41,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'gap' : 'taoQtiItem/qtiCreator/model/choices/Gap',
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing',
-        'customInteraction' : 'taoQtiItem/qtiCreator/model/interactions/CustomInteraction'
+        'customInteraction' : 'taoQtiItem/qtiCreator/model/interactions/PortableCustomInteraction',
+        'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl'
     }, qtiClasses);
 
 });

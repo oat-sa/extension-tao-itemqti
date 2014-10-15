@@ -11,7 +11,7 @@
             </{{ns.pci}}libraries>
         </{{ns.pci}}resources>
 
-        {{{pciproperties properties ns.pci}}}
+        {{{portableElementProperties properties ns.pci}}}
 
         <{{ns.pci}}markup>
             {{{markup}}}

@@ -118,16 +118,14 @@ class PortableInfoControl extends InfoControl
             $typeIdentifier = $pciNodes->item(0)->getAttribute('infoControlTypeIdentifier');
             $this->setTypeIdentifier($typeIdentifier);
 
-            $entryPoint = $pciNodes->item(0)->getAttribute('entryPoint');
+            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
             $this->setEntryPoint($entryPoint);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableInfoControl', 'resources', 'libraries', 'lib'), $data, $ns);
         $libs = array();
         foreach($libNodes as $libNode){
-            
-            //@todo : get lib "href" from "id"
-            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
+            $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 

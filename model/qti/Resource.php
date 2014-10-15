@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Resource;
-
 /**
  * A QTI Resource from the point of view of the imsmanifest v1.1 : Content Packaging).
  *
@@ -153,7 +151,7 @@ class Resource
     }
     
     public function setIdentifier($identifier) {
-        $this->identifier = $identfier;
+        $this->identifier = $identifier;
     }
 
     /**

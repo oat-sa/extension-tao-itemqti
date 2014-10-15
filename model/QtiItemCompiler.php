@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model;
 
-use oat\taoQtiItem\model\QtiItemCompiler;
 use taoItems_models_classes_ItemCompiler;
 use core_kernel_classes_Resource;
 use tao_models_classes_service_StorageDirectory;

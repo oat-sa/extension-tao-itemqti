@@ -21,9 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\ManifestParserFactory;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use oat\taoQtiItem\model\qti\Resource;
 use \SimpleXMLElement;
 
 /**

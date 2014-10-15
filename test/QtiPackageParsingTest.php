@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,7 +18,9 @@
  *               
  * 
  */
+namespace oat\taoQtiItem\test;
 
+use \common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\PackageParser;
@@ -55,8 +57,8 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
             $qtiParser = new PackageParser($file);
 
             $qtiParser->validate();
-            
-            $this->assertFalse($qtiParser->isValid());
+
+            $this->assertFalse($qtiParser->isValid(), 'failed with: '. $file);
             $this->assertTrue(count($qtiParser->getErrors()) > 0);
             $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
         }
