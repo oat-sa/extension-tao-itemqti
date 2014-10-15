@@ -79,6 +79,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
      */
     public function testRegisterFromFile($id, $path, $expected)
     {
+        $originalId = $id;
         $registry = $this->getRegistry();
         $registry->registerFromFile($id, $path);
         
@@ -168,6 +169,15 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
             array('IMSGlobal/jquery_2_1_1', true),
             array('IMSGlobal/gaga', false)
         );
+    }
+    
+    public function testRegisterFromItemNotFound()
+    {
+        $dir = $this->getSamplesDir();
+        
+        $this->setExpectedException('oat\\taoQtiItem\\model\\SharedLibraryNotFoundException');
+        $registry = $this->getRegistry();
+        $registry->registerFromItem("${dir}/registry_notfound/item.xml");
     }
     
     // --- Test Utility Methods.

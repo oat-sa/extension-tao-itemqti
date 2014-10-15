@@ -26,7 +26,7 @@ $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
 $installBasePath = ROOT_PATH . 'taoQtiItem/install/local/portableSharedLibraries';
 
 // clean directory...
-helpers_File::emptyDirectory($libBasePath);
+helpers_File::emptyDirectory($libBasePath, true);
 
 $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath . '/IMSGlobal/jquery_2_1_1.js');

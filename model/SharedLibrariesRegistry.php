@@ -24,6 +24,20 @@ use common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
 
+/**
+ * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
+ * 
+ * It enables you to:
+ * 
+ * * Register a library from a file on the current file system and bind it to a library name, e.g. 'IMSGlobal/jquery_2_1_1'.
+ * * Register the libraries referenced by a given item referencing a Portable Custom Interaction.
+ * * List the registered libraries through a map of library names => library URLs.
+ * * Now if a library is already registered for a given library name.
+ * * Get the path of a library on the current file system for a given library name.
+ * 
+ * @author Jérôme Bogaerts <jerome@taotesting.com>
+ * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
+ */
 class SharedLibrariesRegistry
 {
     
@@ -36,7 +50,7 @@ class SharedLibrariesRegistry
     private $extension;
     
     /**
-     * Create a new LocalSharedLibraries object.
+     * Create a new SharedLibrariesRegistry object.
      * 
      * @param string $basePath The path of the main directory to store library files.
      * @param string $baseUrl The base URL to serve these libraries.
@@ -48,54 +62,126 @@ class SharedLibrariesRegistry
         $this->setExtension(common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem'));
     }
     
+    /**
+     * Set the path on the file system where shared libraries
+     * are stored.
+     * 
+     * @param string $basePath
+     */
     protected function setBasePath($basePath)
     {
         $this->basePath = rtrim($basePath, "\\/");
     }
     
+    /**
+     * Get the path on the file system where shared libraries
+     * are stored.
+     * 
+     * @return string
+     */
     public function getBasePath()
     {
         return $this->basePath;
     }
     
+    /**
+     * Set the URL where shared libraries are available.
+     * 
+     * @param string $baseUrl A URL.
+     */
     protected function setBaseUrl($baseUrl)
     {
         $this->baseUrl = rtrim($baseUrl, "\\/");
     }
     
+    /**
+     * Get the URL where shared libraries are available.
+     * 
+     * @return string A URL.
+     */
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
     
+    /**
+     * Store a reference on the taoQtiItem extension.
+     * 
+     * @param common_ext_Extension $extension
+     */
     protected function setExtension(common_ext_Extension $extension)
     {
         $this->extension = $extension;
     }
     
+    /**
+     * Get a reference on the taoQtiItem extension.
+     * 
+     * @return common_ext_Extension
+     */
     protected function getExtension()
     {
         return $this->extension;
     }
     
+    /**
+     * Obtain the librariew already registered in the registry as a
+     * [library name => library URL] mapping.
+     * 
+     * @return array An associative array where keys are library names and values are library URLs.
+     */
     public function getMapping()
     {
         $mapping = $this->getExtension()->getConfig(self::CONFIG_ID);
         return is_array($mapping) ? $mapping : array();
     }
     
+    /**
+     * Persist the [library name => library URL] mapping.
+     * 
+     * @param array $mapping
+     */
     protected function setMapping(array $mapping)
     {
         $this->getExtension()->setConfig(self::CONFIG_ID, $mapping);
     }
     
+    /**
+     * Whether a library with the name $id is known by the registry.
+     * 
+     * @param string $id A shared library name.
+     * @return boolean
+     */
     public function isRegistered($id)
     {
         return array_key_exists($id, $this->getMapping());
     }
     
+    /**
+     * Register a library from a file existing on the file system.
+     * 
+     * Example:
+     * <code>
+     * <?php
+     * // ...
+     * $registry = new SharedLibrariesRegistry($basePath, $baseUrl);
+     * $registry->registerFromFile('IMSGlobal/jquery_2_1_1', '/tmp/jquery_2_1_1.js');
+     * 
+     * // The registry now maps 'IMSGlobal/jquery_2_1_1' to '$baseUrl/IMSGlobal/jquery_2_1_1.js'
+     * ?>
+     * </code>
+     * 
+     * @param string $id A shared library name e.g. 'IMSGlobal/jquery_2_1_1'.
+     * @param string $path The path to library implementation to register.
+     * @throws SharedLibraryNotFoundException If no library can be found at $path.
+     */
     public function registerFromFile($id, $path)
     {
+        if (file_exists($path) === false) {
+            $msg = "Shared Library could not be found at location '${path}'.";
+            throw new SharedLibraryNotFoundException($msg, $id);
+        }
+        
         $basePath = $this->getBasePath();
         $baseUrl = $this->getBaseUrl();
         $finalPath = "${basePath}/${id}";
@@ -116,6 +202,9 @@ class SharedLibrariesRegistry
     
         // Subtract $basePath from final destination.
         $mappingPath = str_replace($basePath . '/', '', $destination);
+        
+        // Take care with windows...
+        $mappingPath = str_replace("\\", '/', $mappingPath);
     
         $map = self::getMapping();
         $map[$id] = "${baseUrl}/${mappingPath}";
@@ -123,6 +212,16 @@ class SharedLibrariesRegistry
         $this->setMapping($map);
     }
     
+    /**
+     * Register the libraries referenced by an item at location $path. All <pci:lib> elements will be parsed
+     * and then registered through the registery.
+     * 
+     * If a library cannot be found at the locations listed by the referenced by the <pci:resources>->location attribute,
+     * the registry will try to find these libraries on the file system, using the location of the item file as a base path. 
+     * 
+     * @param string $path The path to the XML file.
+     * @throws SharedLibraryNotFoundException If a library referenced by a <pci:lib> element in the item cannot be found.
+     */
     public function registerFromItem($path)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
@@ -141,12 +240,32 @@ class SharedLibrariesRegistry
                 if ($this->isRegistered($name) === false) {
                     // So we consider to find the library at item's $basePath . $name
                     $expectedLibLocation = "${basePath}/". str_replace(array('tpl!', 'css!'), '', $name);
-                    /*
-                     * @todo if something goes wrong, throw an exception.
-                     */ 
+                    
+                    // Might throw a SharedLibraryNotFoundException, let it go...
                     $this->registerFromFile($name, $expectedLibLocation);
                 }
             }
+        }
+    }
+    
+    /**
+     * Get the path on the file system where is stored the shared library
+     * with name $id.
+     * 
+     * @param string $id A shared library name.
+     * @return string|boolean The path on the file system or false, if no library with name $id is registered.
+     */
+    public function getPathFromId($id)
+    {
+        $mapping = $this->getMapping();
+        
+        if (isset($mapping[$id]) === true) {
+            $url = $mapping[$id];
+            
+            // replace baseUrl with basePath.
+            return str_replace($this->getBaseUrl(), $this->getBasePath(), $url);
+        } else {
+            return false;
         }
     }
 }
