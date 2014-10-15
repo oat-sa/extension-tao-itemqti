@@ -85,6 +85,9 @@
                 @include font-size(28);
                 opacity: .9;
             }
+            img.icon {
+               max-height: 28px;
+            }
             &.disabled {
                 cursor: default;
                 background-color: #eee !important;
