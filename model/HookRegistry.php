@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -24,7 +24,8 @@ namespace oat\taoQtiItem\model;
 use \common_exception_Error;
 use \common_ext_ExtensionsManager;
 
-class HookRegistry{
+class HookRegistry extends AbstractInteractionRegistry
+{
     
     /**
      * Key used to store the custom interactions in the config
@@ -49,8 +50,6 @@ class HookRegistry{
         return 'oat\taoQtiItem\model\Hook';
     }
     
-<<<<<<< HEAD
-=======
     /**
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -62,5 +61,4 @@ class HookRegistry{
         HookRegistry::getRegistry()->set($key,$phpClass);
     }
         
->>>>>>> add deprecated and static method
 }
