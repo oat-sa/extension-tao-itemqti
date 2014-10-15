@@ -2,6 +2,7 @@ define([
     'jquery',
     'lodash',
     'module',
+    'async',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/helper/panel',
@@ -18,6 +19,7 @@ define([
     $,
     _,
     module,
+    async,
     loadingBar,
     section,
     panel,
@@ -33,34 +35,29 @@ define([
 
     loadingBar.start();
 
-    var _initializeInteractionsToolbar = function($toolbar, customInteractionHooks){
+    var _initializeInteractionsToolbar = function($toolbar, interactionModels){
 
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
 
-        ciRegistry.register(customInteractionHooks);
-
-        ciRegistry.loadAll(function(interactionModels){
-
-            _.each(interactionModels, function(interactionModel){
-                var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
-                if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
-                    toolbarInteractions[data.qtiClass] = data;
-                }else{
-                    throw 'invalid authoring data for custom interaction';
-                }
-            });
-
-            //create toolbar:
-            interactionsToolbar.create($toolbar, toolbarInteractions);
-
-            //init accordions:
-            panel.initSidebarAccordion($toolbar);
-            panel.closeSections($toolbar.find('section'));
-            panel.openSections($toolbar.find('#sidebar-left-section-common-interactions'), false);
-
-            //init special subgroup
-            panel.toggleInlineInteractionGroup();
+        _.each(interactionModels, function(interactionModel){
+            var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
+            if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
+                toolbarInteractions[data.qtiClass] = data;
+            }else{
+                throw 'invalid authoring data for custom interaction';
+            }
         });
+
+        //create toolbar:
+        interactionsToolbar.create($toolbar, toolbarInteractions);
+
+        //init accordions:
+        panel.initSidebarAccordion($toolbar);
+        panel.closeSections($toolbar.find('section'));
+        panel.openSections($toolbar.find('#sidebar-left-section-common-interactions'), false);
+
+        //init special subgroup
+        panel.toggleInlineInteractionGroup();
 
     };
 
@@ -86,12 +83,13 @@ define([
 
             config = config || module.config();
 
-            var $doc = $(document);
-
             var configProperties = config.properties;
 
             //pass reference to useful dom element
-            var $editorScope = $('#item-editor-scope');
+            var $doc = $(document),
+                $editorScope = $('#item-editor-scope'),
+                $itemContainer = $('#item-editor-scroll-inner'),
+                $propertySidebar = $('#item-editor-item-widget-bar');
 
             configProperties.dom = {
                 getEditorScope : function(){
@@ -107,7 +105,7 @@ define([
                     return $editorScope.find('#item-editor-interaction-bar');
                 },
                 getItemPanel : function(){
-                    return $editorScope.find('#item-editor-panel');
+                    return $itemContainer;
                 },
                 getItemPropertyPanel : function(){
                     return $editorScope.find('#sidebar-right-item-properties');
@@ -127,43 +125,64 @@ define([
                 }
             });
 
-            //initialize hooks:
+            //initialize hooks
             _initializeHooks(config.uiHooks, configProperties);
-            
-            //create interactions toolbar:
-            _initializeInteractionsToolbar($('#item-editor-interaction-bar'), config.interactions);
-            
-            icRegistry.register(config.infoControls);
-            
-            //load item from REST service
-            loader.loadItem({uri : configProperties.uri}, function(item){
 
-                var $itemContainer = $('#item-editor-scroll-inner');
+            async.parallel([
+                //register custom interacitons
+                function(callback){
+                    ciRegistry.register(config.interactions);
+                    ciRegistry.loadAll(function(hooks){
+                        callback(null, hooks);
+                    });
+                },
+                //register info controls
+                function(callback){
+                    icRegistry.register(config.infoControls);
+                    icRegistry.loadAll(function(hooks){
+                        callback(null, hooks);
+                    });
+                },
+                //load item
+                function(callback){
+                    loader.loadItem({uri : configProperties.uri}, function(item){
 
-                //configure commonRenderer for the preview
-                commonRenderer.setOption('baseUrl', configProperties.baseUrl);
-                commonRenderer.setContext($itemContainer);
+                        //configure commonRenderer for the preview
+                        commonRenderer.setOption('baseUrl', configProperties.baseUrl);
+                        commonRenderer.setContext(configProperties.dom.getItemPanel());
 
+                        //set reference to item object
+                        $editorScope.data('item', item);
+
+                        //fires event itemloaded
+                        $doc.trigger('itemloaded.qticreator', [item]);
+
+                        callback(null, item);
+                        
+                    });
+                }
+            ], function(err, res){
+                
+                //get results from parallelized ajax calls:
+                var interactionHooks = res[0],
+                    infoControlHooks = res[1],
+                    item = res[2];
+                
+                //init interaction sidebar
+                _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
+            
                 //load creator renderer
                 creatorRenderer.setOptions(configProperties);
                 creatorRenderer.get().load(function(){
 
-                    var widget,
-                        $propertySidebar = $('#item-editor-item-widget-bar');
-
+                    //set renderer
                     item.setRenderer(this);
-
-                    //set reference to item object
-                    $editorScope.data('item', item);
-
-                    //fires event itemloaded
-                    $doc.trigger('itemloaded.qticreator', [item]);
-
+                    
                     //render item (body only) into the "drop-area"
-                    $itemContainer.append(item.render());
+                    configProperties.dom.getItemPanel().append(item.render());
 
                     //"post-render it" to initialize the widget
-                    widget = item.postRender(_.clone(configProperties));
+                    var widget = item.postRender(_.clone(configProperties));
 
                     editor.initGui(widget, configProperties);
                     panel.initSidebarAccordion($propertySidebar);
@@ -189,6 +208,7 @@ define([
                     $doc.trigger('widgetloaded.qticreator', [widget]);
 
                 }, item.getUsedClasses());
+
             });
 
         }
