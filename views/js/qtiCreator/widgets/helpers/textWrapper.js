@@ -90,6 +90,9 @@ define(['jquery'], function($){
 
             unwrapSelection($editable);
             $editable.off('.textwrapper');
+        },
+        unwrap : function($editable){
+            unwrapSelection($editable);
         }
     };
 
