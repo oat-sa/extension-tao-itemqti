@@ -142,9 +142,9 @@ textarea { resize: vertical; }
 .preview-overlay .mobile-preview-container { background: white; border-radius: 3px; border: 2px solid; border-color: #444 #999 #999 #444; }
 .preview-overlay .standard-preview-frame { -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7); }
 
-span.dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; padding: 20px 80px; position: absolute; background: #f3f1ef; -webkit-box-shadow: 1px 1px 6px 2px #777; box-shadow: 1px 1px 6px 2px #777; }
+span.dragging, img.dragging.ui-draggable-dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; padding: 20px 80px; position: absolute; background: #f3f1ef; -webkit-box-shadow: 1px 1px 6px 2px #777; box-shadow: 1px 1px 6px 2px #777; }
 
-img.dragging { max-height: 28px; }
+img.dragging.ui-draggable-dragging { max-height: 90px; }
 
 .item-editor-item .hoverable .widget-box.widget-inline.hover, .item-editor-item .hoverable .widget-box.widget-block.hover, .item-editor-item .hoverable .widget-box.widget-rubricBlock.hover .qti-rubricBlock-body, .item-editor-item .hoverable .widget-box.widget-blockInteraction.hover, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question th.qti-choice.hover .inner-wrapper, .item-editor-item .hoverable .widget-box.widget-blockInteraction.edit-question .qti-choice.hover:not(th), .item-editor-item .inlineChoiceInteraction-placeholder.hover, .item-editor-item .qti-inlineChoiceInteraction td[contenteditable]:hover, .item-editor-item .textEntryInteraction-placeholder.hover, .item-editor-item .qti-textEntryInteraction td[contenteditable]:hover, #modalFeedbacks .widget-inline.hover { cursor: pointer; border: 1px solid #86aec8; }
 

@@ -4,7 +4,7 @@
 @import "inc/preview";
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
-span.dragging {
+span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
     z-index: 999999;
     font-size: 5rem;
@@ -14,8 +14,9 @@ span.dragging {
     -webkit-box-shadow: 1px 1px 6px 2px #777;
     box-shadow: 1px 1px 6px 2px #777;
 }
-img.dragging{
-    max-height: 28px;
+
+img.dragging.ui-draggable-dragging {
+    max-height: 90px;
 }
 
 %editHover {
