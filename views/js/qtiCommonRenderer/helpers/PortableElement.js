@@ -1,4 +1,4 @@
-define(['context', 'lodash'], function(context, _){
+define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(context, _, $, util){
 
     /**
      * Register the libraries in 'paths' into requiresjs
@@ -34,7 +34,7 @@ define(['context', 'lodash'], function(context, _){
             throw 'a requirejs reqContext name is required';
         }
     }
-    
+
     /**
      * Get root url of available vendor specific libraries 
      * 
@@ -51,7 +51,7 @@ define(['context', 'lodash'], function(context, _){
             OAT : sharedLibrariesUrl + 'OAT'
         };
     }
-    
+
     /**
      * Register commonly required libraries to make a portable elment hook runnable
      * 
@@ -103,11 +103,28 @@ define(['context', 'lodash'], function(context, _){
         return ret;
     }
 
+    function replaceMarkupMediaSource(markupStr, baseUrl){
+        
+        var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
+        
+        $markup.find('img').each(function(){
+
+            var $img = $(this),
+                src = $img.attr('src'),
+                fullPath = util.fullpath(src, baseUrl);
+
+            $img.attr('src', fullPath);
+        });
+        
+        return $markup.html();
+    }
+
     return {
         registerLibraries : registerLibraries,
         require : require,
         getSharedLibrariesPaths : getSharedLibrariesPaths,
         registerCommonLibraries : registerCommonLibraries,
-        getElementLibraries : getElementLibraries
+        getElementLibraries : getElementLibraries,
+        replaceMarkupMediaSource : replaceMarkupMediaSource
     };
 });

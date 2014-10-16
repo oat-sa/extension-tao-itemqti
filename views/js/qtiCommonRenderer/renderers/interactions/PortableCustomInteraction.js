@@ -165,6 +165,12 @@ define([
     return {
         qtiClass : 'customInteraction',
         template : tpl,
+        getData : function(customInteraction, data){
+            
+            data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
+            
+            return data;
+        },
         render : render,
         getContainer : Helper.getContainer,
         setResponse : setResponse,
