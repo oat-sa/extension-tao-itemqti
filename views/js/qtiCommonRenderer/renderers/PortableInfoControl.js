@@ -61,22 +61,22 @@ define([
         PortableElement.registerLibraries(_reqContext, {
             qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
         });
-        
+
         var id = infoControl.attr('id'),
             $dom = Helper.getContainer(infoControl).children();
-        
+
         //get initialization params :
         //@todo pass state to renderer here:
         var state = {},
             config = infoControl.properties,
             entryPoint = util.fullpath(infoControl.entryPoint, this.getOption('baseUrl'));
-        
+
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter
          */
         PortableElement.require(_reqContext, [entryPoint], function(){
-            
+
             var pic = _getPic(infoControl);
             if(pic){
                 //call pic initialize() to render the pic
@@ -85,7 +85,7 @@ define([
                 //restore context (state)
                 pic.setSerializedState(state);
             }
-            
+
         });
 
     };
@@ -128,6 +128,12 @@ define([
     return {
         qtiClass : 'infoControl',
         template : tpl,
+        getData : function(infoControl, data){
+            
+            data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
+            
+            return data;
+        },
         render : render,
         getContainer : Helper.getContainer,
         destroy : destroy,
