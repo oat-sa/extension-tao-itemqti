@@ -21,7 +21,7 @@
  */
 namespace oat\taoQtiItem\controller;
 
-use oat\taoQtiItem\controller\QtiPreview;
+//use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
@@ -74,7 +74,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
      * Item's ResponseProcessing.
      *
      * @param core_kernel_classes_Resource $item The Item you want to apply ResponseProcessing.
-     * @throws RuntimeException If an error occurs while processing responses or transmitting results
+     * @throws \RuntimeException If an error occurs while processing responses or transmitting results
      */
     protected function processResponses(core_kernel_classes_Resource $item){
         
@@ -86,7 +86,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
             $qtiXmlDoc->load($qtiXmlFilePath);
         }
         catch(StorageException $e) {
-            $msg = "An error occured while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
+            $msg = "An error occurred while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
             common_Logger::e($e->getPrevious()->getMessage());
             throw new \RuntimeException($msg, 0, $e);
         }
@@ -132,12 +132,12 @@ class QtiPreview extends taoItems_actions_ItemPreview
             echo json_encode(array('success' => true, 'displayFeedback' => true, 'itemSession' => self::buildOutcomeResponse($itemSession)));
         }
         catch(AssessmentItemSessionException $e) {
-            $msg = "An error occured while processing the responses.";
-            throw new RuntimeException($msg, 0, $e);
+            $msg = "An error occurred while processing the responses.";
+            throw new \RuntimeException($msg, 0, $e);
         }
         catch(taoQtiCommon_helpers_ResultTransmissionException $e) {
-            $msg = "An error occured while transmitting a result to the target Result Server.";
-            throw new RuntimeException($msg, 0, $e);
+            $msg = "An error occurred while transmitting a result to the target Result Server.";
+            throw new \RuntimeException($msg, 0, $e);
         }
     }
 
@@ -172,7 +172,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
      * @see taoItems_actions_ItemPreview::getRenderedItem()
      */
     protected function getRenderedItem($item) {
-
+        
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
         
         $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
@@ -185,9 +185,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
         
         $xhtml = $qtiItem->toXHTML(array(
             'contentVariableElements' => $contentVariableElements,
-            'js' => array($qtiBaseUrl.'js/preview/qtiViewSelector.js'),
+          //  'js' => array($qtiBaseUrl.'js/preview/qtiViewSelector.js'),
             'js_var' => array('view' => $this->getRequestView()),
-            'css' => array($qtiBaseUrl.'css/preview/qtiViewSelector.css'),
+           // 'css' => array($qtiBaseUrl.'css/preview/qtiViewSelector.css'),
             'path' => array(
                 'tao' => $taoLibUrl,
                 'taoQtiItem' => $taoQtiItemLibUrl
