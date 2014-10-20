@@ -55,7 +55,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
 
     public function getPreviewUrl($item, $options = array()){
         $code = base64_encode($item->getUri());
-        return _url('render/'.$code.'/index.php', 'QtiPreview', 'taoQtiItem', $options);
+        return _url('render/'.$code.'/index', 'QtiPreview', 'taoQtiItem', $options);
     }
 
     public function submitResponses(){
