@@ -1,7 +1,6 @@
 @import "inc/bootstrap";
 @import "inc/main";
 @import "inc/farbtastic";
-@import "inc/preview";
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
@@ -23,6 +22,7 @@ img.dragging.ui-draggable-dragging {
     cursor: pointer;
     border: 1px solid whiten($info, .5);
 }
+
 
 %editActive {
     cursor: default;

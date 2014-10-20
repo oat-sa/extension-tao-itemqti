@@ -1,10 +1,10 @@
 <?php
-use oat\taoQtiItem\helpers\Authoring;
 use oat\tao\helpers\Template;
 ?>
 
-<link href="<?= Template::css('qti.css') ?>" rel="stylesheet">
-<link href="<?= Template::css('item-creator.css') ?>" rel="stylesheet">
+<link rel="stylesheet" href="<?= Template::css('qti.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
 
 <div id="item-editor-scope" data-content-target="wide">
