@@ -406,9 +406,16 @@ img.dragging.ui-draggable-dragging {
   z-index: 5;
   left: 35%;
   color: rgba(255, 255, 255, 0.9);
-  top: 8px;
+  top: 9px;
   text-shadow: 1px 1px 0 #0b4a74; }
 
+@media (max-width: 1280px) {
+  #item-editor-label {
+    text-align: right;
+    width: 40%;
+    left: auto;
+    right: 20px;
+    background: peru; } }
 #authoringBack span {
   position: relative;
   top: -1px; }

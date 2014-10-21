@@ -138,11 +138,11 @@ define([
         preparePrint();
 
         var $itemPanel = $('#item-editor-panel'),
-            $labelSpan = $('#item-editor-label span'),
+            $label = $('#item-editor-label'),
             $actionGroups = $('.action-group');
 
         $itemPanel.addClass('has-item');
-        $labelSpan.text(config.$label);
+        $label.text(config.label);
         $actionGroups.show();
     };
 
@@ -154,8 +154,8 @@ define([
         var $itemEditorPanel = $('#item-editor-panel');
         var $itemSidebars = $('.item-editor-sidebar');
         var $contentPanel = $('#panel-authoring');
-        var $searchBar,
-            searchBarHeight,
+        var /*$searchBar,
+            searchBarHeight,*/
             footerTop,
             contentWrapperTop,
             remainingHeight;
@@ -164,8 +164,8 @@ define([
             return;
         }
 
-        $searchBar = $contentPanel.find('.search-action-bar');
-        searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
+        //$searchBar = $contentPanel.find('.search-action-bar');
+        //searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
 
         footerTop = (function() {
             var $footer = $('body > footer'),

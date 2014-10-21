@@ -51,7 +51,7 @@ use oat\tao\helpers\Template;
             </span>
             </li>
         </ul>
-        <div id="item-editor-label" class="truncate action-group"><?= __('Item') ?>: <span></span></div>
+        <div id="item-editor-label" class="truncate action-group"></div>
     </div>
     <div id="item-editor-scroll-outer">
         <div id="item-editor-scroll-inner">
