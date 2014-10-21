@@ -2,7 +2,7 @@ define([
     'jquery',
     'lodash',
     //gui components
-    'taoQtiItem/qtiCreator/editor/preview',
+    'taoItems/preview/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
     //appearance editor:
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
