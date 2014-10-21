@@ -10,7 +10,9 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler'
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
+    // item related
+    'taoQtiItem/qtiCreator/helper/itemSerializer'
 ], function(
     $,
     _,
@@ -21,10 +23,18 @@ define([
     fontSizeChanger,
     itemResizer,
     styleEditor,
-    styleSheetToggler
+    styleSheetToggler,
+    itemSerializer
     ){
 
     'use strict';
+
+    var askForSave = false,
+        serializeTimeOut,
+        lastItemData,
+        serializeItem = function (element) {
+            lastItemData = itemSerializer.serialize(element);
+        };
 
     var initStyleEditor = function(widget, config){
 
@@ -40,8 +50,78 @@ define([
 
     };
 
+    /**
+     * Confirm to save the item
+     */
+    var _confirmPreview = function (overlay) {
+
+        var confirmBox = $('.preview-modal-feedback'),
+            cancel = confirmBox.find('.cancel'),
+            save = confirmBox.find('.save'),
+            close = confirmBox.find('.modal-close');
+
+        confirmBox.modal({ width: 500 });
+
+        save.on('click', function () {
+            overlay.trigger('save.preview');
+            confirmBox.modal('close');
+        });
+
+        cancel.on('click', function () {
+            confirmBox.modal('close');
+        });
+    };
+
+
     var initPreview = function(widget){
-        preview.init($('.preview-trigger'), widget);
+
+        var previewContainer;
+
+        clearTimeout(serializeTimeOut);
+        //serialize the item at the initialization level
+        //TODO wait for an item ready event
+        // itemWidget.$container.on('ready...
+        serializeTimeOut = setTimeout(function() {
+            serializeItem(widget.element);
+        }, 500);
+
+        //get the last value by saving
+        $('#save-trigger').on('click.qti-creator', function() {
+            serializeItem(widget.element);
+        });
+
+        $(document).on('stylechange.qti-creator', function () {
+            //we need to save before preview of style has changed (because style content is not part of the item model)
+            askForSave = true;
+        });
+
+        //compare the current item with the last serialized to see if there is any change
+        if (!askForSave) {
+            var currentItemData = serializeItem(widget.element);
+            if (lastItemData !== currentItemData || currentItemData === '') {
+                lastItemData = currentItemData;
+                askForSave = true;
+            }
+        }
+
+        previewContainer = preview.init(widget.itemUri);
+
+        // wait for confirmation to save the item
+        if (askForSave) {
+            _confirmPreview(previewContainer);
+            previewContainer.on('save.preview', function () {
+                previewContainer.off('save.preview');
+                askForSave = false;
+                $.when(styleEditor.save(), widget.save()).done(function () {
+                    preview.show();
+                });
+            });
+        }
+        else {
+            //or show the preview
+            preview.show();
+        }
+
     };
 
     /**
@@ -54,8 +134,6 @@ define([
             .on('resize.qti-editor', _.throttle(updateHeight, 50));
 
         initStyleEditor(widget, config);
-
-        initPreview(widget);
 
         preparePrint();
 
@@ -107,7 +185,8 @@ define([
     };
 
     return {
-        initGui : initGui
+        initGui : initGui,
+        initPreview: initPreview
     };
 
 });

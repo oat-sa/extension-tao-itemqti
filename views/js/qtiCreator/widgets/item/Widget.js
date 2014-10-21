@@ -13,9 +13,27 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/editor/editor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, styleEditor, genericFeedbackPopup){
+], function(
+    _,
+    __,
+    $,
+    helpers,
+    Widget,
+    states,
+    Element,
+    creatorRenderer,
+    containerHelper,
+    contentHelper,
+    xmlRenderer,
+    devTools,
+    TextWidget,
+    styleEditor,
+    itemEditor,
+    genericFeedbackPopup
+    ){
 
     var ItemWidget = Widget.clone();
 
@@ -67,7 +85,8 @@ define([
 
         var _widget = this,
             element = _widget.element,
-            $saveBtn = $('#save-trigger');
+            $saveBtn = $('#save-trigger'),
+            $previewBtn = $('.preview-trigger');
 
         //init save button:
         $saveBtn.on('click', function(e){
@@ -103,6 +122,10 @@ define([
 
                 _createInfoBox(feedbackArgs);
             });
+        });
+
+        $previewBtn.on('click', function() {
+            itemEditor.initPreview(_widget);
         });
 
         //listen to invalid states:
