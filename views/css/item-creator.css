@@ -414,8 +414,7 @@ img.dragging.ui-draggable-dragging {
     text-align: right;
     width: 40%;
     left: auto;
-    right: 20px;
-    background: peru; } }
+    right: 20px; } }
 #authoringBack span {
   position: relative;
   top: -1px; }
