@@ -73,7 +73,7 @@ define([
 
     ItemWidget.save = function(){
         return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem') + '?uri=' + encodeURIComponent(this.itemUri),
+            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : this.itemUri}),
             type : 'POST',
             contentType : 'text/xml',
             dataType : 'json',

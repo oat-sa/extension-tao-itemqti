@@ -1,71 +1,10 @@
-define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], function(_, prettyPrint){
+define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], function(_, pciPrettyPrint){
 
     var _qtiModelPciResponseCardinalities = {
         single : 'base',
         multiple : 'list',
         ordered : 'list',
         record : 'record'
-    };
-
-    var _prettyPrintBase = function(value, withType) {
-        var print = '';
-        withType = (typeof withType !== 'undefined') ? withType : true;
-        if(value.base){
-            if (typeof value.base.boolean !== 'undefined') {
-                // Display Boolean.
-                print += (withType == true) ? '(boolean) ' : '';
-                print += (value.base.boolean == true) ? 'true' : 'false';
-            }
-            else if (typeof value.base.integer !== 'undefined') {
-                print += (withType == true) ? '(integer) ' : '';
-                print += value.base.integer;
-            }
-            else if (typeof value.base.float !== 'undefined') {
-                print += (withType == true) ? '(float) ' : '';
-                print += value.base.float;
-            }
-            else if (typeof value.base.string != 'undefined') {
-                print += (withType == true) ? '(string) ' : '';
-                // In QTI, empty strings are considered to be NULL.
-                print += (value.base.string == '') ? 'NULL' : ('"' + value.base.string + '"');
-            }
-            else if (typeof value.base.point != 'undefined') {
-                print += (withType == true) ? '(point) ' : '';
-                print += '[' + value.base.point[0] + ', ' + value.base.point[1] + ']';
-            }
-            else if (typeof value.base.pair != 'undefined') {
-                print += (withType == true) ? '(pair) ' : '';
-                print += '[' + value.base.pair[0] + ', ' + value.base.pair[1] + ']';
-            }
-            else if (typeof value.base.directedPair != 'undefined') {
-                print += (withType == true) ? '(directedPair) ' : '';
-                print += '[' + value.base.pair[0] + ', ' + value.base.pair[1] + ']';
-            }
-            else if (typeof value.base.duration != 'undefined') {
-                print += (withType == true) ? '(duration) ' : '';
-                print += value.base.duration;
-            }
-            else if (typeof value.base.file != 'undefined') {
-                print += (withType == true) ? '(file) ' : '';
-                print += 'binary data';
-            }
-            else if (typeof value.base.uri != 'undefined') {
-                print += (withType == true) ? '(uri) ' : '';
-                print += value.base.uri;
-            }
-            else if (typeof value.base.intOrIdentifier != 'undefined') {
-                print += (withType == true) ? '(intOrIdentifier) ' : '';
-                print += value.base.intOrIdentifier;
-            }
-            else if (typeof value.base.identifier != 'undefined') {
-                print += (withType == true) ? '(identifier) ' : '';
-                print += value.base.identifier;
-            }
-            else {
-                throw 'Unknown PCI JSON BaseType';
-            }
-        }
-        return print;
     };
 
     return {
@@ -171,11 +110,11 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], functi
             
             if (typeof response.base !== 'undefined') {
                 // -- BaseType.
-                print += prettyPrint.printBase(response, true);
+                print += pciPrettyPrint.printBase(response, true);
             }
             else if (typeof response.list !== 'undefined') {
                 // -- ListType
-                print += prettyPrint.printList(response, true);
+                print += pciPrettyPrint.printList(response, true);
             }
             else if (typeof response.record !== 'undefined') {
                 // @todo pretty print of records.

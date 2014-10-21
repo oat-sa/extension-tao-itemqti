@@ -1,6 +1,7 @@
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'jquery'
+], function(_, $){
     
     var _defaults = {
         onRegister : _.noop
@@ -145,7 +146,15 @@ define([
         function isDev(typeIdentifier){
             return _registeredHooks[typeIdentifier] && _registeredHooks[typeIdentifier].dev;
         }
-
+        
+        function addRequiredResources(typeIdentifier, itemUri, callback){
+            $.getJSON(get(typeIdentifier).addRequiredResources, {typeIdentifier : typeIdentifier, uri : itemUri}, function(r){
+                if(_.isFunction(callback)){
+                    callback(r);
+                }
+            });
+        }
+        
         return {
             register : register,
             loadAll : loadAll,
@@ -154,7 +163,8 @@ define([
             getCreator : getCreator,
             isDev : isDev,
             get : get,
-            getManifest : getManifest
+            getManifest : getManifest,
+            addRequiredResources : addRequiredResources
         };
 
     };
