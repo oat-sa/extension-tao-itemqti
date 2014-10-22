@@ -92,18 +92,27 @@ class Authoring
      * @return array
      * @throws common_exception_Error
      */
-    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, core_kernel_classes_Resource $item, $lang){
+    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang){
 
         $returnValue = array();
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
-
+        
         foreach($relativeSourceFiles as $relPath){
             if(tao_helpers_File::securityCheck($relPath, true)){
-
+                
+                $relPath = preg_replace('/^\.\//', '', $relPath);
                 $source = $sourceDirectory.$relPath;
-                $destination = $folder.$relPath;
-
+                
+//                $prefix = $prefix ? $prefix.'/' : '';
+//                $destination = $folder.$prefix.$relPath;
+                $destination = tao_helpers_File::concat(array(
+                    $folder,
+                    $prefix ? $prefix : '',
+                    $relPath
+                ));
+                
+                \common_Logger::d('***************  copied '.$relPath.' from '.$source.' to ('. $sourceDirectory. ') ' .$destination);
                 if(tao_helpers_File::copy($source, $destination)){
                     $returnValue[] = $relPath;
                 }else{

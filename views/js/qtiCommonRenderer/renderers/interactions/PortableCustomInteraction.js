@@ -56,22 +56,20 @@ define([
     var render = function(interaction, options){
 
         options = options || {};
-        
-        PortableElement.registerCommonLibraries(_reqContext);
-        PortableElement.registerLibraries(_reqContext, {
-            qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
-        });
-        
-        var id = interaction.attr('responseIdentifier'),
-            $dom = Helper.getContainer(interaction).children();
 
-        //get initialization params :
-        //@todo pass state and response to renderer here:
-        var state = {},
-            response = {base : null},  
+        var id = interaction.attr('responseIdentifier'),
+            baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
             config = interaction.properties,
-            entryPoint = util.fullpath(interaction.entryPoint, this.getOption('baseUrl'));
-        
+            entryPoint = util.fullpath(interaction.entryPoint, baseUrl),
+            $dom = Helper.getContainer(interaction).children(),
+            state = {}, //@todo pass state and response to renderer here:
+            response = {base : null};
+            
+        //register namespace and libs    
+        PortableElement.registerCommonLibraries(_reqContext);
+        PortableElement.registerLibrary(_reqContext, 'qtiCustomInteractionContext', context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
+        PortableElement.registerLibrary(_reqContext, interaction.typeIdentifier, baseUrl + interaction.typeIdentifier);
+
         /**
          * The libraries (js or css) will all be loaded asynchronously
          * The sequence they have been defined indeed does not matter
@@ -82,16 +80,14 @@ define([
             if(pci){
                 //call pci initialize() to render the pci
                 pci.initialize(id, $dom[0], config);
-
                 //restore context (state + response)
                 pci.setSerializedState(state);
                 pci.setResponse(response);
             }
 
         });
-
     };
-
+    
     /**
      * Programmatically set the response following the json schema described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
@@ -166,9 +162,9 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function(customInteraction, data){
-            
+
             data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
-            
+
             return data;
         },
         render : render,

@@ -156,7 +156,10 @@ define([
 
                         //fires event itemloaded
                         $doc.trigger('itemloaded.qticreator', [item]);
-
+                        
+                        //set useful data :
+                        item.data('uri', configProperties.uri);
+                        
                         callback(null, item);
                         
                     });

@@ -1,15 +1,30 @@
 define([
     'lodash',
+    'jquery',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'taoQtiItem/qtiItem/core/interactions/CustomInteraction'
-], function(_, editable, editableInteraction, ciRegistry, Interaction){
+], function(_, $, editable, editableInteraction, ciRegistry, Interaction){
 
     var _throwMissingImplementationError = function(pci, fnName){
         throw fnName + ' not available for pci of type ' + pci.typeIdentifier;
     };
-
+    
+    function _addNsDir(typeIdentifier, file){
+        return typeIdentifier + '/' + file.replace(/^\.\//, '');
+    }
+    
+    function addNamespaceDirectory($typeIdentifier, $file){
+        if(_.isString($file)){
+            return _addNsDir($typeIdentifier, $file);
+        }else if(_.isArray($file)){
+            return _.map($file, function($f){
+                return _addNsDir($typeIdentifier, $f);
+            });
+        }
+    }
+    
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
@@ -30,38 +45,43 @@ define([
             
             var typeId = this.typeIdentifier,
                 pciCreator = ciRegistry.getCreator(typeId),
-                manifest = ciRegistry.getManifest(typeId);
-
+                manifest = ciRegistry.getManifest(typeId),
+                item = this.getRelatedItem();
+            
+            //add required resource
+            //@todo need afterCreate() to return a promise
+            var _this = this;
+            ciRegistry.addRequiredResources(typeId, item.data('uri'), function(res){
+                if(res.success){
+                    $(document).trigger('resourceadded.qti-creator', [typeId, res.resources, _this]);
+                }else{
+                    throw 'resource addition failed';
+                }
+            });
+            
             //set default markup (for initial rendering)
             pciCreator.getMarkupTemplate();
 
             //set pci props
             this.properties = pciCreator.getDefaultProperties();
 
+            //set hook entry point
+            this.entryPoint = addNamespaceDirectory(typeId, manifest.entryPoint);
+            
             //set libs
-            this.entryPoint = manifest.entryPoint;
-            this.libraries = manifest.libraries;
+            if(_.isArray(manifest.libraries)){
+                this.libraries = addNamespaceDirectory(typeId, manifest.libraries);
+            }
+        
             if(_.isArray(manifest.css)){
-
-                //currently load css as libs (requirejs module)
-                this.css = _.clone(manifest.css);
-
-                //append stylesheets to item :
-                var item = this.getRelatedItem(),
-                    required = [];
-
+                this.css = addNamespaceDirectory(typeId, manifest.css);
                 _.each(this.css, function(css){
                     if(!item.stylesheetExists(css)){
                         item.createStyleSheet(css);
-                        required.push('css!' + ciRegistry.getBaseUrl(typeId) + css);
                     }
                 });
-
-                if(required.length){
-                    require(required);
-                }
             }
-
+            
             //create response
             this.createResponse({
                 baseType : manifest.response.baseType,

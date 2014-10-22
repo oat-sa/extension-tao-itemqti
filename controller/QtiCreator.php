@@ -143,6 +143,11 @@ class QtiCreator extends tao_actions_CommonModule
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
             $filename = $folder.$path;
+            //@todo : find better way to to this
+            //load amd module
+            if(!file_exists($filename) && file_exists($filename.'.js')){
+                $filename = $filename.'.js';
+            }   
             tao_helpers_Http::returnFile($filename);
         }else{
             throw new common_exception_Error('invalid item preview file path');

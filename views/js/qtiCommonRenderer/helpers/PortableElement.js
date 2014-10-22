@@ -1,5 +1,20 @@
 define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(context, _, $, util){
 
+    var _paths = {};
+
+    /**
+     * Return the list of all registered libs
+     * 
+     * @returns {Object}
+     */
+    function getRegisteredLibraries(reqContext){
+        if(reqContext){
+            return _.clone(_paths[reqContext]);
+        }else{
+            throw 'unknown req context '+reqContext;
+        }
+    }
+
     /**
      * Register the libraries in 'paths' into requiresjs
      * The requirejs config will be specific to the portable elements, the sepcific context e.g. 'portableCustomInteraction' is defined as a consequence
@@ -13,9 +28,27 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
                 reqContext : reqContext,
                 paths : paths
             });
+            _paths[reqContext] = _.defaults(_paths[reqContext] || {}, paths);
         }else{
             throw 'a requirejs reqContext name is required';
         }
+    }
+    
+    function getDocumentBaseUrl(){
+        return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
+    }
+    
+    /**
+     * Register a library in a specific requirejs context
+     * 
+     * @param {String} reqContext
+     * @param {String} name
+     * @param {String} path
+     */
+    function registerLibrary(reqContext, name, path){
+        var paths = {};
+        paths[name] = path;
+        registerLibraries(reqContext, paths);
     }
 
     /**
@@ -104,9 +137,9 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     }
 
     function replaceMarkupMediaSource(markupStr, baseUrl){
-        
+
         var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
-        
+
         $markup.find('img').each(function(){
 
             var $img = $(this),
@@ -115,16 +148,19 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
             $img.attr('src', fullPath);
         });
-        
+
         return $markup.html();
     }
 
     return {
         registerLibraries : registerLibraries,
+        registerLibrary : registerLibrary,
+        getRegisteredLibraries : getRegisteredLibraries,
         require : require,
         getSharedLibrariesPaths : getSharedLibrariesPaths,
         registerCommonLibraries : registerCommonLibraries,
         getElementLibraries : getElementLibraries,
-        replaceMarkupMediaSource : replaceMarkupMediaSource
+        replaceMarkupMediaSource : replaceMarkupMediaSource,
+        getDocumentBaseUrl : getDocumentBaseUrl
     };
 });
