@@ -57,19 +57,17 @@ define([
 
         options = options || {};
 
-        PortableElement.registerCommonLibraries(_reqContext);
-        PortableElement.registerLibraries(_reqContext, {
-            qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
-        });
-
         var id = infoControl.attr('id'),
-            $dom = Helper.getContainer(infoControl).children();
-
-        //get initialization params :
-        //@todo pass state to renderer here:
-        var state = {},
+            baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
             config = infoControl.properties,
-            entryPoint = util.fullpath(infoControl.entryPoint, this.getOption('baseUrl'));
+            entryPoint = util.fullpath(infoControl.entryPoint, baseUrl),
+            $dom = Helper.getContainer(infoControl).children(),
+            state = {}; //@todo pass state and response to renderer here:
+            
+        //register namespace and libs    
+        PortableElement.registerCommonLibraries(_reqContext);
+        PortableElement.registerLibrary(_reqContext, 'qtiInfoControlContext', context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext');
+        PortableElement.registerLibrary(_reqContext, infoControl.typeIdentifier, baseUrl + infoControl.typeIdentifier);
 
         /**
          * The libraries (js or css) will all be loaded asynchronously
@@ -77,19 +75,17 @@ define([
          */
         PortableElement.require(_reqContext, [entryPoint], function(){
 
-            var pic = _getPic(infoControl);
-            if(pic){
-                //call pic initialize() to render the pic
-                pic.initialize(id, $dom[0], config);
-
-                //restore context (state)
-                pic.setSerializedState(state);
+            var pci = _getPic(infoControl);
+            if(pci){
+                //call pci initialize() to render the pci
+                pci.initialize(id, $dom[0], config);
+                //restore context (state + response)
+                pci.setSerializedState(state);
             }
 
         });
-
     };
-
+    
     /**
      * Reverse operation performed by render()
      * After this function is executed, only the inital naked markup remains 
@@ -129,9 +125,7 @@ define([
         qtiClass : 'infoControl',
         template : tpl,
         getData : function(infoControl, data){
-            
             data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
-            
             return data;
         },
         render : render,
