@@ -104,15 +104,12 @@ class Authoring
                 $relPath = preg_replace('/^\.\//', '', $relPath);
                 $source = $sourceDirectory.$relPath;
                 
-//                $prefix = $prefix ? $prefix.'/' : '';
-//                $destination = $folder.$prefix.$relPath;
                 $destination = tao_helpers_File::concat(array(
                     $folder,
                     $prefix ? $prefix : '',
                     $relPath
                 ));
                 
-                \common_Logger::d('***************  copied '.$relPath.' from '.$source.' to ('. $sourceDirectory. ') ' .$destination);
                 if(tao_helpers_File::copy($source, $destination)){
                     $returnValue[] = $relPath;
                 }else{

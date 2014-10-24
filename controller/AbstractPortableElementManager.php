@@ -54,10 +54,20 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
         if($this->hasRequestParameter('file')){
             $file = urldecode($this->getRequestParameter('file'));
             $filePathTokens = explode('/', $file);
-            $pciTypeIdentifier = array_shift($filePathTokens);
+            $typeIdentifier = array_shift($filePathTokens);
             $relPath = implode(DIRECTORY_SEPARATOR, $filePathTokens);
-            $this->renderFile($pciTypeIdentifier, $relPath);
+            $this->renderFile($typeIdentifier, $relPath);
         }
+    }
+    
+    /**
+     * Get the directory where the implementation sits
+     * 
+     * @param string $typeIdentifier
+     * @return string
+     */
+    protected function getImplementationDirectory($typeIdentifier){
+        return $this->registry->getDevImplementationDirectory($typeIdentifier);
     }
     
     /**
@@ -68,16 +78,12 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
      * @throws common_exception_Error
      */
     private function renderFile($typeIdentifier, $relPath){
-
-        $pci = $this->registry->get($typeIdentifier);
-        if(is_null($pci)){
-            $folder = $this->registry->getDevImplementationDirectory($typeIdentifier);
-        }else{
-            $folder = $pci['directory'];
-        }
-
+        
         if(tao_helpers_File::securityCheck($relPath, true)){
+            
+            $folder = $this->getImplementationDirectory($typeIdentifier);
             $filename = $folder.$relPath;
+            
             //@todo : find better way to to this
             //load amd module
             if(!file_exists($filename) && file_exists($filename.'.js')){
@@ -115,7 +121,7 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
         //find the interaction in the registry
         $implementationData = $this->getImplementatioByTypeIdentifier($typeIdentifier);
         if(is_null($implementationData)){
-            throw new common_exception_Error('no pci found with the type identifier '.$typeIdentifier);
+            throw new common_exception_Error('no implementation found with the type identifier '.$typeIdentifier);
         }
         
         //get the root directory of the interaction

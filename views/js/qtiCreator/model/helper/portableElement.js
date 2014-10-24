@@ -70,7 +70,7 @@ define(['lodash', 'jquery'], function(_, $){
                         }
                     });
                 }
-
+                
                 //@todo fix this !
                 if(manifest.response){//for custom interaciton only
                     //create response
