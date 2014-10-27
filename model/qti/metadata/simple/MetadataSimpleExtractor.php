@@ -33,8 +33,7 @@ use oat\taoQtiItem\model\metadata\MetadataExtractor;
  */
 class MetadataSimpleExtractor implements MetadataExtractor{
 
-    private $baseImsmd;
-    private $baseImsqti;
+    private $base;
     private $identifier;
     private $type;
     private $href;
@@ -68,8 +67,12 @@ class MetadataSimpleExtractor implements MetadataExtractor{
 
             // get the base for paths
             if($node->nodeName === 'manifest'){
-                $this->baseImsmd = $node->getAttribute('xmlns:imsmd');
-                $this->baseImsqti = $node->getAttribute('xmlns:imsqti');
+                    $pattern = '/xmlns:((?!xsi)\w+)=/';
+                    if(preg_match_all($pattern, $node->C14N(), $matches)){
+                        foreach($matches[1] as $namespace){
+                            $this->base[$namespace] = $node->getAttribute('xmlns:'.$namespace);
+                        }
+                    }
             }
 
             // get the resource related values
@@ -80,15 +83,11 @@ class MetadataSimpleExtractor implements MetadataExtractor{
             }
 
             // get the current path
-            $patternMd = "/^imsmd:(.+)/";
-            $patternQti = "/^imsqti:(.+)/";
+            $pattern = "/^(.+):(.+)/";
             $matches = array();
             $path = '';
-            if(preg_match($patternMd, $node->nodeName, $matches)){
-                $path = $this->baseImsmd . '#' . $matches[1];
-            }
-            else if(preg_match($patternQti, $node->nodeName, $matches)){
-                $path = $this->baseImsqti . '#' . $matches[1];
+            if(preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])){
+                $path = $this->base[$matches[1]] . '#' . $matches[2];
             }
 
             // if we already write a path in this loop we have to pop the last element of currentPath
@@ -107,9 +106,9 @@ class MetadataSimpleExtractor implements MetadataExtractor{
             }
             else{
                 // create an instance if we are in metadata value (leaf node)
-                $pattern = "/^ims[md|qti]+:(.+)/";
+                $pattern = "/^(.+):(.+)/";
                 $matches = array();
-                if(preg_match($pattern, $node->nodeName, $matches)){
+                if(preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])){
                     $metadataInstance = new MetadataSimpleInstance();
                     $metadataInstance->setPath($currentPath);
                     $metadataInstance->setResourceIdentifier($this->identifier);
