@@ -43,7 +43,7 @@ class MetadataSimpleExtractor implements MetadataExtractor{
      * (non-PHPdoc)
      * @see MetadataExtractor::extract()
      */
-    public function extract(DOMDocument $manifest)
+    public function extract($manifest)
     {
         if($manifest instanceof DOMDocument){
             return $this->getRecursiveMetadata($manifest);
