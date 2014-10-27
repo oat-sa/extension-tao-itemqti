@@ -116,7 +116,7 @@ class MetadataSimpleExtractor implements MetadataExtractor {
                     $metadataInstance->setValue($node->nodeValue);
 
                     // it is the language info
-                    if($matches[1] === 'langstring'){
+                    if($matches[2] === 'langstring'){
                         $metadataInstance->setLanguage($node->getAttribute('xml:lang'));
                     }
                     $metadata[] = $metadataInstance;
