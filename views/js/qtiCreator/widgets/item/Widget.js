@@ -328,7 +328,7 @@ define([
                         var containerElements = _detachElements(itemBody, containerData.elements);
 
                         container.setElements(containerElements, containerData.body);
-
+                        
                         _this.initTextWidget(container, containerData.$original);
 
                     });

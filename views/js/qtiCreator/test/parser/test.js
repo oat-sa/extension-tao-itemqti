@@ -23,14 +23,11 @@ require([
         ok(data.body.body, 'has body');
         equal(_.size(data.body.elements), 4, 'elements ok');
 
-        console.log(data);
-
         var loader = new Loader();
         loader.loadRequiredClasses(data, function(){
 
             var container = new Container();
             this.loadContainer(container, data.body);
-            console.log(container);
 
             var xmlRenderer = new XmlRenderer({shuffleChoices : false});
             xmlRenderer.load(function(){
@@ -38,7 +35,6 @@ require([
                 start();
                 
                 var xml = container.render(this);
-                console.log(xml);
 
                 var $container = $('<prompt>').html(xml);
                 var containerData = simpleParser.parse($container, {
@@ -50,7 +46,6 @@ require([
                 loader.loadContainer(containerBis, containerData.body);
                 
                 equal(xml, containerBis.render(this));
-                console.log(containerData);
             });
         });
     });

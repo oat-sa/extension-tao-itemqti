@@ -3,28 +3,27 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Container',
-    'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'i18n'
-], function(_, $, Loader, Container, XmlRenderer, simpleParser, creatorRenderer, __){
+    'taoQtiItem/qtiCreator/widgets/static/text/Widget'
+], function(_, $, Loader, Container, xmlRenderer, simpleParser, creatorRenderer, TextWidget){
 
     var _defaults = {
-        placeholder : __('type some text ...')
     };
 
     function parser($container){
-        
+
         //detect math ns :
         var mathNs = 'm';//for 'http://www.w3.org/1998/Math/MathML'
 
         //parse qti xml content to build a data object
-        var data =  simpleParser.parse($container.clone(), {
+        var data = simpleParser.parse($container.clone(), {
             ns : {
                 math : mathNs
             }
         });
-        
+
         if(data.body){
             return data.body;
         }else{
@@ -35,33 +34,39 @@ define([
     function create($container, options){
 
         options = _.defaults(options || {}, _defaults);
-        
+
         var data = parser($container);
-        
         var loader = new Loader();
         loader.loadRequiredClasses(data, function(){
 
             var container = new Container();
             this.loadContainer(container, data);
-            
+
             //apply common renderer :
             creatorRenderer.load(['img', 'object', 'math', '_container'], function(){
-                console.log(container, 'data-html-editable');
-                container.render(creatorRenderer.get(), $container);
-                container.postRender({}, '', creatorRenderer.get());
+
+                container.setRenderer(this);
+                $container.html(container.render());
+                container.postRender();
+
+                TextWidget.build(container, $container, this.getOption('textOptionForm'), {});
             });
-            
-            return;
-           
-            var xmlRenderer = new XmlRenderer({shuffleChoices : false});
-            xmlRenderer.load(function(){
-                var xml = container.render(this);
-            });
+
+            $(document).on('containerBodyChange.qti-widget', _.throttle(function(e, data){
+                var html = data.container.render(xmlRenderer.get());
+                console.log('chage', html);
+            }, 600));
+
         });
 
     }
-
+    
+    function destroy(){
+        
+    }
+    
     return {
-        create : create
+        create : create,
+        destroy : destroy
     };
 });

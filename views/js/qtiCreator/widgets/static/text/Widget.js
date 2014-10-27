@@ -1,8 +1,9 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/text/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
-], function(Widget, states, toolbarTpl){
+], function($, Widget, states, toolbarTpl){
 
     var TextWidget = Widget.clone();
 
