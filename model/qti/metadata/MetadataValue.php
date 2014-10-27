@@ -29,7 +29,7 @@ namespace oat\taoQtiItem\model\metadata;
  * This manifest describes a single QTI Item with metadata.
  * 
  * As an example, the identifier metadata value 'qti_v2_item_01' can by represented by an implementation
- * of the MetadataValue interface returing the following information. Please note that the terms
+ * of the MetadataValue interface returning the following information. Please note that the terms
  * "Path", "Resource Identifier", "Resource Type" and "Resource Hypertext Reference" in the example below are 
  * described in depth in the comments about the methods of this interface.
  * 
