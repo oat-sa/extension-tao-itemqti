@@ -21,26 +21,29 @@
 namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
- * A MetadataExtractor implements the mechanics to extract all metadata values from a given source.
+ * A MetadataInjector implements the mechanics to inject all metadata values from a given list of MetadataValue objects
+ * into a given target.
  * 
- * A MetadataExtractor implementation could extract MetadataValue objects from various kind of sources, such
+ * A MetadataInjection implementation could inject MetadataValue objects in various kind of sources, such
  * as IMS Manifest XML Files, Ontologies, QTI Items, QTI Tests, ...
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
- * @see MetadataValue The MedataValue interface, describing objects extracted and returned by a MetadataExtractor.
+ * @see MetadataValue The MedataValue interface, describing metadata values to be injected into a given target.
  */
-interface MetadataExtractor
+interface MetadataInjector
 {
     /**
-     * Extract the metadata values from a given source.
+     * Inject a set of metadata values into a given $target. 
+     * 
      * Please see the documentation of the MetadataValue interface for in depth information
      * about what a metadata value actually is.
      * 
-     * If no MetadataValue objects could be infered from the $source, an empty array is returned.
+     * It is the responsibility of the implementation to throw an exception if the datatype of the $target
+     * argument is not suitable.
      * 
-     * @param mixed $source The source you want to extract MetaDataValue objects from.
-     * @throws MetadataExtractionException If something goes wrong during the extraction process.
-     * @return MetadataValue[] An array of MetadataValue objects.
+     * @param mixed $target The target where you want to inject some metadata values.
+     * @param MetadataValue[] $values The metadata values to be injected.
+     * @throws MetadataInjectionException If something goes wrong during the injection process.
      */
-    public function extract($source);
+    public function inject($target, array $values);
 }

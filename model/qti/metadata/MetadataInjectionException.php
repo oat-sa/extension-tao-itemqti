@@ -24,15 +24,15 @@ use \Exception;
 
 /**
  * This Exception class must be thrown in reaction to an error occuring
- * during a metadata extraction process.
+ * during a metadata injection process.
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  *
  */
-class MetadataExtractionException extends Exception
+class MetadataInjectionException extends Exception
 {   
     /**
-     * Create a new MetadataExtractionException object.
+     * Create a new MetadataInjectionException object.
      * 
      * @param string $message A human readable message explaining the error.
      * @param integer $code (optional) A machine understandable error code. This should be used by very specific implementations only.
