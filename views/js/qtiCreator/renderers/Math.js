@@ -7,7 +7,7 @@ define([
     var CreatorMath = _.clone(Renderer);
 
     CreatorMath.render = function(math, options){
-
+        
         //initial rendering:
         Renderer.render(math);
         
