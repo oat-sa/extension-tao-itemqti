@@ -23,13 +23,10 @@ namespace oat\taoQtiItem\model\metadata;
 use \DOMDocument;
 
 /**
- * A MetadataExtractor implements the mechanics to extract all metadata values from a given
- * IMS Manifest file. 
+ * A MetadataExtractor implements the mechanics to extract all metadata values from a given source.
  * 
- * The only task such an implementation must perform is to extract
- * and return MetadataValue implementations from a given IMS Manifest file, by implementing
- * the extract() method of this interface.
- * 
+ * A MetadataExtractor implementation could extract MetadataValue objects from various kind of sources, such
+ * as IMS Manifest XML Files, Ontologies, QTI Items, QTI Tests, ...
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see MetadataValue The MedataValue interface, describing objects extracted and returned by a MetadataExtractor.
@@ -38,19 +35,15 @@ use \DOMDocument;
 interface MetadataExtractor
 {
     /**
-     * Extract the metadata values from the given IMS $manifest file, provided as DOMDocument object.
+     * Extract the metadata values from a given source.
      * Please see the documentation of the MetadataValue interface for in depth information
      * about what a metadata value actually is.
      * 
-     * Important! This is not the duty of a MetadataExtractor implementation to check whether
-     * or not the given $manifest object is valid against a particular XML Schema Definition (XSD)
-     * file. MetadataExtractor implementations simply consider the $manifest object to be valid.
+     * If no MetadataValue objects could be infered from the $source, an empty array is returned.
      * 
-     * If no MetadataValue objects could be infered from the $manifest, an empty array is returned.
-     * 
-     * @param DOMDocument $manifest The IMS Manifest you want to extract MetaDataValue objects from.
+     * @param mixed $souce The source you want to extract MetaDataValue objects from.
      * @throws MetadataExtractionException If something goes wrong during the extraction process.
      * @return MetadataValue[] An array of MetadataValue objects.
      */
-    public function extract(DOMDocument $manifest);
+    public function extract($source);
 }
