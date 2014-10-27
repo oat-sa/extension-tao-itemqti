@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata;
+namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * A MetadataInjector implements the mechanics to inject all metadata values from a given list of MetadataValue objects

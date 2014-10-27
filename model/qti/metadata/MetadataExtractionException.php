@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata;
+namespace oat\taoQtiItem\model\qti\metadata;
 
 use \Exception;
 

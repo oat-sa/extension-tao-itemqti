@@ -18,11 +18,9 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata\simple;
+namespace oat\taoQtiItem\model\qti\metadata\simple;
 
-
-use oat\taoQtiItem\model\metadata\MetadataValue;
-
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 
 /**
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>

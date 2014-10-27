@@ -18,9 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata;
-
-use \DOMDocument;
+namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * A MetadataExtractor implements the mechanics to extract all metadata values from a given source.
@@ -30,7 +28,6 @@ use \DOMDocument;
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see MetadataValue The MedataValue interface, describing objects extracted and returned by a MetadataExtractor.
- * @see http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml IMS Manifest example.
  */
 interface MetadataExtractor
 {
@@ -41,7 +38,7 @@ interface MetadataExtractor
      * 
      * If no MetadataValue objects could be infered from the $source, an empty array is returned.
      * 
-     * @param mixed $souce The source you want to extract MetaDataValue objects from.
+     * @param mixed $source The source you want to extract MetaDataValue objects from.
      * @throws MetadataExtractionException If something goes wrong during the extraction process.
      * @return MetadataValue[] An array of MetadataValue objects.
      */

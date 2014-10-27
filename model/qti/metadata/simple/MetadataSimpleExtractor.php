@@ -18,12 +18,11 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata\simple;
-
+namespace oat\taoQtiItem\model\qti\metadata\simple;
 
 use DOMDocument;
-use oat\taoQtiItem\model\metadata\MetadataExtractionException;
-use oat\taoQtiItem\model\metadata\MetadataExtractor;
+use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
+use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
 /**
  * A MetadataExtractor implementation
@@ -31,7 +30,7 @@ use oat\taoQtiItem\model\metadata\MetadataExtractor;
  *
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class MetadataSimpleExtractor implements MetadataExtractor{
+class MetadataSimpleExtractor implements MetadataExtractor {
 
     private $base;
     private $identifier;

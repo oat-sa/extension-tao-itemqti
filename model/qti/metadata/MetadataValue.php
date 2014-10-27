@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\metadata;
+namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * This interface is implemented by any software component claiming to represent
