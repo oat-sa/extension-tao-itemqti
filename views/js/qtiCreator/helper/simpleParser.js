@@ -55,9 +55,6 @@ define([
 
         var elt = buildElement($elt);
 
-        //set math xml
-        elt.mathML = $elt.html();
-
         //set annotations:
         elt.annotations = {};
         $elt.find(_getElementSelector('annotation', options.ns.math)).each(function(){
@@ -66,8 +63,12 @@ define([
             if(encoding){
                 elt.annotations[encoding] = $annotation.html();
             }
+            $annotation.remove();
         });
-
+        
+        //set math xml
+        elt.mathML = $elt.html();
+        
         //set ns: 
         elt.ns = {
             name : 'm',
