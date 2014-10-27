@@ -57,7 +57,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
     public function testSample($imsManifestFile, $index, $path, $identifier, $type, $href, $val, $lang = '')
     {
         $domManifest = new DOMDocument('1.0', 'UTF-8');
-        $domManifest->load(dirname(__FILE__) . '/../../samples/metadata/imsManifestExtraction/sample1.xml');
+        $domManifest->load(dirname(__FILE__) . '/../../samples/metadata/imsManifestExtraction/' . $imsManifestFile);
         
         $values = $this->imsManifestExtractor->extract($domManifest);
         $this->assertTrue(isset($values[$index]), "No Metadata value found at index '${index}' in file '${imsManifestFile}'.");
@@ -364,7 +364,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
             ),
             array(
                 'sample2.xml',
-                11,
+                12,
                 array(
                     'http://www.imsglobal.org/xsd/imsqti_v2p0#qtiMetadata',
                     'http://www.imsglobal.org/xsd/imsqti_v2p0#interactionType'
