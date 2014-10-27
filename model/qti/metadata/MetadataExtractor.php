@@ -30,7 +30,7 @@ use \DOMDocument;
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see MetadataValue The MedataValue interface, describing objects extracted and returned by a MetadataExtractor.
- * @see @see http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml IMS Manifest example.
+ * @see http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml IMS Manifest example.
  */
 interface MetadataExtractor
 {
