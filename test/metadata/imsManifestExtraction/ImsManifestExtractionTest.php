@@ -20,7 +20,7 @@
 namespace oat\taoQtiItem\test\metadata\imsManifestExtraction;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\metadata\simple\MetadataSimpleExtractor;
+use oat\taoQtiItem\model\qti\metadata\imsManifestExtraction\ImsManifestMetadataExtractor;
 use \DOMDocument;
 use \stdClass;
 
@@ -33,7 +33,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         parent::setUp();
-        $this->imsManifestExtractor = new MetadataSimpleExtractor();
+        $this->imsManifestExtractor = new ImsManifestMetadataExtractor();
     }
     
     public function tearDown()

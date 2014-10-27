@@ -18,9 +18,9 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\simple;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifestExtraction;
 
-use DOMDocument;
+use \DOMDocument;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
@@ -30,7 +30,8 @@ use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
  *
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class MetadataSimpleExtractor implements MetadataExtractor {
+class ImsManifestMetadataExtractor implements MetadataExtractor 
+{
 
     private $base;
     private $identifier;
@@ -38,44 +39,44 @@ class MetadataSimpleExtractor implements MetadataExtractor {
     private $href;
 
     /**
-     * (non-PHPdoc)
      * @see MetadataExtractor::extract()
      */
     public function extract($manifest)
     {
-        if($manifest instanceof DOMDocument){
+        if ($manifest instanceof DOMDocument) {
             return $this->getRecursiveMetadata($manifest);
-        }
-        else{
+        } else {
             throw new MetadataExtractionException(__('The parameter must be an instance of DOMDocument'));
         }
     }
 
     /**
      * Find all metadata recursively from an xml document
+     * 
      * @param DOMDocument $manifest
      * @param array $currentPath
      * @return \oat\taoQtiItem\model\metadata\simple\MetadataSimpleInstance array
      * @throws \oat\taoQtiItem\model\metadata\MetadataExtractionException
      */
-    private function getRecursiveMetadata($manifest, $currentPath = array()){
+    private function getRecursiveMetadata($manifest, $currentPath = array())
+    {
         $metadata = array();
         $i = 0;
         /** @var $node \DOMElement */
-        foreach($manifest->childNodes as $node){
+        foreach ($manifest->childNodes as $node) {
 
             // get the base for paths
-            if($node->nodeName === 'manifest'){
-                    $pattern = '/xmlns:((?!xsi)\w+)=/';
-                    if(preg_match_all($pattern, $node->C14N(), $matches)){
-                        foreach($matches[1] as $namespace){
-                            $this->base[$namespace] = $node->getAttribute('xmlns:'.$namespace);
-                        }
+            if ($node->nodeName === 'manifest') {
+                $pattern = '/xmlns:((?!xsi)\w+)=/';
+                if (preg_match_all($pattern, $node->C14N(), $matches)) {
+                    foreach ($matches[1] as $namespace) {
+                        $this->base[$namespace] = $node->getAttribute('xmlns:'.$namespace);
                     }
+                }
             }
 
             // get the resource related values
-            if($node->nodeName === 'resource'){
+            if ($node->nodeName === 'resource') {
                 $this->identifier = $node->getAttribute('identifier');
                 $this->type = $node->getAttribute('type');
                 $this->href = $node->getAttribute('href');
@@ -85,13 +86,13 @@ class MetadataSimpleExtractor implements MetadataExtractor {
             $pattern = "/^(.+):(.+)/";
             $matches = array();
             $path = '';
-            if(preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])){
+            if (preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])) {
                 $path = $this->base[$matches[1]] . '#' . $matches[2];
             }
 
             // if we already write a path in this loop we have to pop the last element of currentPath
-            if($path !== ''){
-                if($i > 0){
+            if ($path !== '') {
+                if ($i > 0) {
                     array_pop($currentPath);
                 }
                 $currentPath[] = $path;
@@ -100,15 +101,14 @@ class MetadataSimpleExtractor implements MetadataExtractor {
             }
 
             // while not on a leaf node continue deeply
-            if($node->hasChildNodes() && $node->childNodes->length > 1){
+            if ($node->hasChildNodes() && $node->childNodes->length > 1) {
                 $metadata = array_merge($metadata,$this->getRecursiveMetadata($node, $currentPath));
-            }
-            else{
+            } else{
                 // create an instance if we are in metadata value (leaf node)
                 $pattern = "/^(.+):(.+)/";
                 $matches = array();
-                if(preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])){
-                    $metadataInstance = new MetadataSimpleValue();
+                if (preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])) {
+                    $metadataInstance = new ImsManifestMetadataValue();
                     $metadataInstance->setPath($currentPath);
                     $metadataInstance->setResourceIdentifier($this->identifier);
                     $metadataInstance->setResourceType($this->type);
@@ -116,7 +116,7 @@ class MetadataSimpleExtractor implements MetadataExtractor {
                     $metadataInstance->setValue($node->nodeValue);
 
                     // it is the language info
-                    if($matches[2] === 'langstring'){
+                    if ($matches[2] === 'langstring') {
                         $metadataInstance->setLanguage($node->getAttribute('xml:lang'));
                     }
                     $metadata[] = $metadataInstance;
@@ -126,5 +126,4 @@ class MetadataSimpleExtractor implements MetadataExtractor {
 
         return $metadata;
     }
-
 }

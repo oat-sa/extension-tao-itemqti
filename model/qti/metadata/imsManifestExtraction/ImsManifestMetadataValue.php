@@ -18,14 +18,15 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\simple;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifestExtraction;
 
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 
 /**
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class MetadataSimpleValue implements MetadataValue{
+class ImsManifestMetadataValue implements MetadataValue
+{
     private $path;
     private $language;
     private $resourceIdentifier;
@@ -43,7 +44,6 @@ class MetadataSimpleValue implements MetadataValue{
         $this->value = '';
 
     }
-
 
     /**
      * @param mixed $language
@@ -94,7 +94,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getPath()
      */
     public function getPath()
@@ -103,7 +102,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getLanguage()
      */
     public function getLanguage()
@@ -112,7 +110,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getResourceIdentifier()
      */
     public function getResourceIdentifier()
@@ -121,7 +118,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getResourceType()
      */
     public function getResourceType()
@@ -130,7 +126,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getResourceHref()
      */
     public function getResourceHref()
@@ -139,7 +134,6 @@ class MetadataSimpleValue implements MetadataValue{
     }
 
     /**
-     * (non-PHPdoc)
      * @see MetadataValue::getValue()
      */
     public function getValue()
