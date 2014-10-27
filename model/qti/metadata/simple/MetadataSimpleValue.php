@@ -20,14 +20,13 @@
 
 namespace oat\taoQtiItem\model\metadata\simple;
 
-
 use oat\taoQtiItem\model\metadata\MetadataValue;
 
 
 /**
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class MetadataSimpleInstance implements MetadataValue{
+class MetadataSimpleValue implements MetadataValue{
     private $path;
     private $language;
     private $resourceIdentifier;
