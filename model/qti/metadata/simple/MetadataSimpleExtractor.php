@@ -108,7 +108,7 @@ class MetadataSimpleExtractor implements MetadataExtractor {
                 $pattern = "/^(.+):(.+)/";
                 $matches = array();
                 if(preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])){
-                    $metadataInstance = new MetadataSimpleInstance();
+                    $metadataInstance = new MetadataSimpleValue();
                     $metadataInstance->setPath($currentPath);
                     $metadataInstance->setResourceIdentifier($this->identifier);
                     $metadataInstance->setResourceType($this->type);
