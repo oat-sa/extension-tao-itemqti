@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 /**
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  */
-class MetadataSimpleInstance implements MetadataValue{
+class MetadataSimpleValue implements MetadataValue{
     private $path;
     private $language;
     private $resourceIdentifier;
