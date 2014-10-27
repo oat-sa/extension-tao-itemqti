@@ -20,7 +20,7 @@
 namespace oat\taoQtiItem\test\metadata\imsManifestExtraction;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\metadata\imsManifestExtraction\ImsManifestMetadataExtractor;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\extraction\ImsManifestMetadataExtractor;
 use \DOMDocument;
 use \stdClass;
 

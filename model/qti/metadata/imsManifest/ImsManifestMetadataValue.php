@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\imsManifestExtraction;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 
