@@ -14,7 +14,8 @@ define([
 
     var _defaults = {
         placeholder : __('some text ...'),
-        shieldInnerContent : true
+        shieldInnerContent : true,
+        passthroughInnerContent : false
     };
 
     var _buildEditor = function($editable, $editableContainer, options){
@@ -102,13 +103,13 @@ define([
                             var dfd = new $.Deferred(),
                                 counter = 0,
                                 check = setInterval(function(){
-                                var style = domElem.getAttribute('style');
-                                if(counter > 5 || style.indexOf('left') > -1 || style.indexOf('right') > -1){
-                                    dfd.resolve();
-                                    clearInterval(check);
-                                }
-                                counter++;
-                            }, 1000);
+                                    var style = domElem.getAttribute('style');
+                                    if(counter > 5 || style.indexOf('left') > -1 || style.indexOf('right') > -1){
+                                        dfd.resolve();
+                                        clearInterval(check);
+                                    }
+                                    counter++;
+                                }, 1000);
                             return dfd.promise();
                         };
 
@@ -182,6 +183,8 @@ define([
 
                         if(options.shieldInnerContent){
                             _shieldInnerContent($editable, options.data.widget);
+                        }else if(options.passthroughInnerContent){
+                            _passthroughInnerContent($editable);
                         }
                     }
 
@@ -315,8 +318,8 @@ define([
             var $widget = $(this),
                 innerWidget = $widget.data('widget'),
                 $shield = $('<button>', {
-                'class' : 'html-editable-shield'
-            });
+                    'class' : 'html-editable-shield'
+                });
 
             $widget.attr('contenteditable', false);
             $widget.append($shield);
@@ -332,6 +335,21 @@ define([
 
             });
 
+        });
+
+    };
+
+    var _passthroughInnerContent = function($container){
+
+        $container.find('.widget-box').each(function(){
+
+            var $widget = $(this),
+                $shield = $('<button>', {
+                    'class' : 'html-editable-shield'
+                });
+
+            $widget.attr('contenteditable', false);
+            $widget.append($shield);
         });
 
     };

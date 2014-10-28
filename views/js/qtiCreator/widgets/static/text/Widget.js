@@ -42,6 +42,6 @@ define([
 
         return this;
     };
-
+    
     return TextWidget;
 });

@@ -3,11 +3,13 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Container',
+    'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/widgets/static/text/Widget'
-], function(_, $, Loader, Container, xmlRenderer, simpleParser, creatorRenderer, TextWidget){
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
+], function(_, $, Loader, Container, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, htmlEditor, toolbarTpl){
 
     var _defaults = {
     };
@@ -36,20 +38,23 @@ define([
         options = _.defaults(options || {}, _defaults);
 
         var data = parser($container);
-        var loader = new Loader();
+        var loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
-
+            
+//            associate container to item to allow inner content to be removed with .remove() ?
             var container = new Container();
             this.loadContainer(container, data);
-
+            
             //apply common renderer :
             creatorRenderer.load(['img', 'object', 'math', '_container'], function(){
 
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
-
-                TextWidget.build(container, $container, this.getOption('textOptionForm'), {});
+                
+                buildContainer($container);
+                createToolbar($container);
+                buildEditor($container, container);
             });
 
             $(document).on('containerBodyChange.qti-widget', _.throttle(function(e, data){
@@ -59,6 +64,66 @@ define([
 
         });
 
+    }
+    
+    function buildContainer($container){
+        
+        var $wrap = $('<div>', {'class' : ''})
+            .append($('<div>', {'data-html-editable' : true}));
+
+        $container.wrapInner($wrap);
+
+        $container.children('.widget-box');
+    }
+    
+    function createToolbar($container){
+        
+        var $tlb = $(toolbarTpl({
+            serial : 'serial123456',
+            state : 'active'
+        }));
+
+        $container.append($tlb);
+        $tlb.show();
+        
+        return this;
+    }
+    
+    function buildEditor($editableContainer, container){
+        
+        var widget = {
+            $container : $editableContainer,
+            element : container,
+            changeState : function(state){
+                if(state === 'sleep'){
+//                    htmlEditor.destroyEditor($editableContainer);
+                }
+            }
+        };
+        
+        $editableContainer.attr('data-html-editable-container', true);
+
+        if(!htmlEditor.hasEditor($editableContainer)){
+
+            htmlEditor.buildEditor($editableContainer, {
+                shieldInnerContent : false,
+                passthroughInnerContent : true,
+                change : function(){
+                    console.log('change', arguments);
+                },
+                blur : function(){
+                    
+                },
+                data : {
+                    widget : widget,
+                    container : container
+                }
+            });
+        }
+    }
+    
+    function destroyEditor(){
+        
     }
     
     function destroy(){
