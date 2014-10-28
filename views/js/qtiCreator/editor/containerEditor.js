@@ -54,7 +54,7 @@ define([
 
             $(document).on('containerBodyChange.qti-widget', _.throttle(function(e, data){
                 var html = data.container.render(xmlRenderer.get());
-                console.log('chage', html);
+                $container.trigger('containerchange.container-editor.qti-widget', [html]);
             }, 600));
 
         });

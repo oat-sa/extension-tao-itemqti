@@ -1,10 +1,9 @@
 require([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/editor/containerEditor',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'text!taoQtiItem/../../test/samples/xml/qtiv2p1/rubricBlock/extended_text_rubric.xml'
-], function($, _, containerEditor, creatorRenderer, sampleXML){
+], function($, containerEditor, creatorRenderer, sampleXML){
 
     function configureCreatorRenderer(){
 
@@ -39,9 +38,13 @@ require([
             $container = $('#element').html($rubricBlockXml.html());
 
         configureCreatorRenderer();
-
+        
+        $container.on('containerchange.container-editor.qti-widget', function(e, html){
+            console.log('change', html);
+        });
+        
         containerEditor.create($container, {});
-
+        
     });
 
 });

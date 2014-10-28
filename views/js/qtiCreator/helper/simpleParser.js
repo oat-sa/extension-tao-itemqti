@@ -130,7 +130,7 @@ define([
 
             var data = parseContainer($container, options);
 
-            if(data.body){
+            if(data.body !== undefined){
                 element.body = data;
             }
 
