@@ -36,11 +36,15 @@ interface MetadataExtractor
      * Please see the documentation of the MetadataValue interface for in depth information
      * about what a metadata value actually is.
      * 
+     * The return value of this method is an associative array. Each key is a Resource Identifier and
+     * each value for a key is an array of MetadataValue object that belongs to the resource identified
+     * by Resource Identifier.
+     * 
      * If no MetadataValue objects could be infered from the $source, an empty array is returned.
      * 
      * @param mixed $source The source you want to extract MetaDataValue objects from.
      * @throws MetadataExtractionException If something goes wrong during the extraction process.
-     * @return MetadataValue[] An array of MetadataValue objects.
+     * @return MetadataValue[] An associative array where MetadataValue objects are regrouped by Resource Identifier.
      */
     public function extract($source);
 }
