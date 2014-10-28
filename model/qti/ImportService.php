@@ -21,9 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\metadata\imsManifest\extraction\ImsManifestMetadataExtractor;
-use parcc\parccItem\model\metadata\ontology\MetadataOntologyResourceInjector;
-
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use \tao_models_classes_GenerisService;
@@ -284,12 +281,11 @@ class ImportService extends tao_models_classes_GenerisService
                             tao_helpers_File::copy($auxPath, $destPath, true);
                         }
                         
-                        $itemService->setItemContent($rdfItem, $itemContent);
-                        $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
-                        
                         // Finally, import metadata.
                         $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
                         
+                        $itemService->setItemContent($rdfItem, $itemContent);
+                        $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
                         $successCount++;
                     }
                     
@@ -357,15 +353,14 @@ class ImportService extends tao_models_classes_GenerisService
     protected function importItemMetadata(array $metadataValues, Resource $qtiResource, core_kernel_classes_Resource $resource, array $ontologyInjectors = array())
     {
         // Filter metadata values for this given item.
-        $values = array();
-        foreach ($metadataValues as $metadataValue) {
-            if ($metadataValue->getResourceIdentifier() === $qtiResource->getIdentifier()) {
-                $values[] = $metadataValue;
+        $identifier = $qtiResource->getIdentifier();
+        if (isset($metadataValues[$identifier]) === true) {
+            
+            $values = $metadataValues[$identifier];
+            
+            foreach ($ontologyInjectors as $injector) {
+                $injector->inject($resource, array($identifier => $values));
             }
-        }
-        
-        foreach ($ontologyInjectors as $injector) {
-            $injector->inject($resource, $values);
         }
     }
 

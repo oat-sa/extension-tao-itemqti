@@ -45,7 +45,19 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
     public function extract($manifest)
     {
         if ($manifest instanceof DOMDocument) {
-            return $this->getRecursiveMetadata($manifest);
+            $values = $this->getRecursiveMetadata($manifest);
+            $finalValues = array();
+            
+            // @todo do it better!
+            foreach ($values as $v) {
+                $identifier = $v->getResourceIdentifier();
+                if (!isset($identifier)) {
+                    $finalValues[$identifier] = array();
+                }
+                $finalValues[$identifier][] = $v;
+            }
+            
+            return $finalValues;
         } else {
             throw new MetadataExtractionException(__('The parameter must be an instance of DOMDocument'));
         }
@@ -104,7 +116,7 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
             // while not on a leaf node continue deeply
             if ($node->hasChildNodes() && $node->childNodes->length > 1) {
                 $metadata = array_merge($metadata,$this->getRecursiveMetadata($node, $currentPath));
-            } else{
+            } else {
                 // create an instance if we are in metadata value (leaf node)
                 $pattern = "/^(.+):(.+)/";
                 $matches = array();
@@ -120,6 +132,7 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                     if ($matches[2] === 'langstring') {
                         $metadataInstance->setLanguage($node->getAttribute('xml:lang'));
                     }
+                    
                     $metadata[] = $metadataInstance;
                 }
             }
