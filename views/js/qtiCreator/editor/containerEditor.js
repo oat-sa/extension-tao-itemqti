@@ -2,14 +2,15 @@ define([
     'lodash',
     'jquery',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/core/Container',
+    'taoQtiItem/qtiCreator/model/Container',
+    'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, htmlEditor, toolbarTpl){
+], function(_, $, Loader, Container, Item, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, htmlEditor, toolbarTpl){
 
     var _defaults = {
     };
@@ -41,8 +42,13 @@ define([
         var loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
             
-//            associate container to item to allow inner content to be removed with .remove() ?
+            //create a new container object
             var container = new Container();
+            
+            //need to attach a container to the item to enable innserElement.remove()
+            var item = new Item().setElement(container);
+            container.setRelatedItem(item);
+            
             this.loadContainer(container, data);
             
             //apply common renderer :

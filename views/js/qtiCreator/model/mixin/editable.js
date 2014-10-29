@@ -9,11 +9,11 @@ define([
     var _removeSelf = function(element){
 
         var removed = false,
-            item = element.getRelatedItem();
+            related = element.getRelatedItem();
 
-        if(item){
+        if(related){
 
-            var found = item.find(element.getSerial());
+            var found = related.find(element.getSerial());
 
             if(found){
 
