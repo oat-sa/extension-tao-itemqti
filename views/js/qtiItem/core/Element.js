@@ -141,6 +141,12 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 elts[object.getSerial()] = object;//pass individual object by ref, instead of the whole list(object)
                 elts = _.extend(elts, object.getComposingElements());
             }
+            _.each(this.metaData, function(v){
+                if(Element.isA(v, '_container')){
+                    elts[v.getSerial()] = v;
+                    elts = _.extend(elts, v.getComposingElements());
+                }
+            });
             return elts;
         },
         getUsedClasses : function(){

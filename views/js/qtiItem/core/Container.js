@@ -32,7 +32,8 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             for(var i in elements){
                 var elt = elements[i];
                 if(elt instanceof Element){
-
+                    
+                    body = body || this.bdy;
                     if(body.indexOf(elt.placeholder()) === -1){
                         body += elt.placeholder();//append the element if no placeholder found
                     }
