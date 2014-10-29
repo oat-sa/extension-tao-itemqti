@@ -102,6 +102,11 @@ define([
             this.updateBody = true;
             return $container;
         }
+                
+        //other block widgets:
+        if($container.hasClass('widget-block')){
+            return $container;
+        }
     };
 
     DeletingState.prototype.hideWidget = function(){
