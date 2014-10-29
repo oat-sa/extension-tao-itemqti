@@ -50,7 +50,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir: 'output',
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css'},
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/view/js'},
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
