@@ -8,9 +8,10 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, Item, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, htmlEditor, toolbarTpl){
+], function(_, $, Loader, Container, Item, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
 
     var _defaults = {
     };
@@ -34,56 +35,61 @@ define([
         }
     }
 
-    function create($container, options){
+    function create($container, callback, options){
 
         options = _.defaults(options || {}, _defaults);
 
         var data = parser($container);
         var loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
-            
+
             //create a new container object
             var container = new Container();
-            
+            $container.data('container', container);
+
             //need to attach a container to the item to enable innserElement.remove()
+            //@todo fix this
             var item = new Item().setElement(container);
             container.setRelatedItem(item);
             
-            this.loadContainer(container, data);
+            //associate it to the interaction?
+            if(options.related){
+                options.related.data('container-editor', container);
+            }
             
+            this.loadContainer(container, data);
+
             //apply common renderer :
             creatorRenderer.load(['img', 'object', 'math', '_container'], function(){
 
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
-                
+
                 buildContainer($container);
                 createToolbar($container);
                 buildEditor($container, container);
-            });
 
-            $(document).on('containerBodyChange.qti-widget', _.throttle(function(e, data){
-                var html = data.container.render(xmlRenderer.get());
-                $container.trigger('containerchange.container-editor.qti-widget', [html]);
-            }, 600));
+                $(document).on('containerBodyChange.qti-widget.' + container.serial, _.throttle(function(e, data){
+                    var html = data.container.render(xmlRenderer.get());
+                    $container.trigger('containerchange.container-editor.qti-widget', [html]);
+                    if(_.isFunction(callback)){
+                        callback(html);
+                    }
+                }, 600));
+            });
 
         });
 
     }
-    
+
     function buildContainer($container){
-        
-        var $wrap = $('<div>', {'class' : ''})
-            .append($('<div>', {'data-html-editable' : true}));
 
-        $container.wrapInner($wrap);
-
-        $container.children('.widget-box');
+        $container.wrapInner($('<div>', {'class' : 'container-editor', 'data-html-editable' : true}));
     }
-    
+
     function createToolbar($container){
-        
+
         var $tlb = $(toolbarTpl({
             serial : 'serial123456',
             state : 'active'
@@ -91,35 +97,40 @@ define([
 
         $container.append($tlb);
         $tlb.show();
-        
+
         return this;
     }
-    
+
+    function cleanup($container){
+
+        //remove the text toolbar
+        $container.find('.mini-tlb').remove();
+
+        var container = $container.data('container');
+        if(container){
+            $container.html(container.render());
+        }
+
+        $container.removeData('container');
+    }
+
     function buildEditor($editableContainer, container){
-        
+
+        //create a fase widget that is required in html editor
         var widget = {
             $container : $editableContainer,
             element : container,
-            changeState : function(state){
-                if(state === 'sleep'){
-//                    htmlEditor.destroyEditor($editableContainer);
-                }
-            }
+            changeState : _.noop
         };
-        
+
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
             htmlEditor.buildEditor($editableContainer, {
                 shieldInnerContent : false,
-                passthroughInnerContent : true,
-                change : function(){
-                    console.log('change', arguments);
-                },
-                blur : function(){
-                    
-                },
+                passthroughInnerContent : false,
+                change : content.getChangeCallback(container),
                 data : {
                     widget : widget,
                     container : container
@@ -127,15 +138,17 @@ define([
             });
         }
     }
-    
-    function destroyEditor(){
-        
+
+    function destroyEditor($editableContainer){
+        htmlEditor.destroyEditor($editableContainer);
+        $editableContainer.removeAttr('data-html-editable-container');
     }
-    
-    function destroy(){
-        
+
+    function destroy($container, container){
+        destroyEditor($container);
+        cleanup($container, container)
     }
-    
+
     return {
         create : create,
         destroy : destroy

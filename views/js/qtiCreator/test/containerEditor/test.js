@@ -1,9 +1,10 @@
 require([
+    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/editor/containerEditor',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'text!taoQtiItem/../../test/samples/xml/qtiv2p1/rubricBlock/extended_text_rubric.xml'
-], function($, containerEditor, creatorRenderer, sampleXML){
+], function(_, $, containerEditor, creatorRenderer, sampleXML){
 
     function configureCreatorRenderer(){
 
@@ -44,6 +45,12 @@ require([
         });
         
         containerEditor.create($container, {});
+        
+        _.delay(function(){
+            containerEditor.destroy($container, function(qtiXhtml){
+                
+            });
+        }, 3000);
         
     });
 
