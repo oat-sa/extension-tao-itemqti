@@ -99,6 +99,8 @@ class ImsManifestMetadataInjector implements MetadataInjector
         if (isset($mappings[$ns]) === false) {
             $mappings[$ns] = $mapping;
         }
+        
+        $this->setMappings($mappings);
     }
     
     /**
