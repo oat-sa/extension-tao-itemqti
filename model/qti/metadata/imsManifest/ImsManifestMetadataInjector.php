@@ -149,7 +149,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
      * The injection will take care of serializing the MetadataValue objects into the correct sections of the
      * the IMS Manifest File, by looking at previously registered IMSManifestMapping objects.
      * 
-     * @throws MetadataInjectionException If $target is not a DOMElement object or something goes wrong during the injection process.
+     * @throws MetadataInjectionException If $target is not a DOMDocument object or something goes wrong during the injection process.
      */
     public function inject($target, array $values)
     {
