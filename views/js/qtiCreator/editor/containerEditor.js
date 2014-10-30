@@ -4,6 +4,7 @@ define([
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Container',
     'taoQtiItem/qtiCreator/model/Item',
+    'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/simpleParser',
@@ -11,7 +12,9 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, Item, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
+], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
+
+    var _ns = 'container-editor';
 
     var _defaults = {
     };
@@ -51,12 +54,12 @@ define([
             //@todo fix this
             var item = new Item().setElement(container);
             container.setRelatedItem(item);
-            
+
             //associate it to the interaction?
             if(options.related){
                 options.related.data('container-editor', container);
             }
-            
+
             this.loadContainer(container, data);
 
             //apply common renderer :
@@ -70,13 +73,14 @@ define([
                 createToolbar($container);
                 buildEditor($container, container);
 
-                $(document).on('containerBodyChange.qti-widget.' + container.serial, _.throttle(function(e, data){
-                    var html = data.container.render(xmlRenderer.get());
-                    $container.trigger('containerchange.container-editor.qti-widget', [html]);
+                $container.off('.'+_ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
+                    var html = data.element.render(xmlRenderer.get());
+                    $container.trigger('containerchange.'+_ns, [html]);
                     if(_.isFunction(callback)){
                         callback(html);
                     }
-                }, 600));
+                }, 800));
+
             });
 
         });
@@ -108,10 +112,12 @@ define([
 
         var container = $container.data('container');
         if(container){
+            $(document).off('.' + container.serial);
             $container.html(container.render());
         }
 
         $container.removeData('container');
+
     }
 
     function buildEditor($editableContainer, container){

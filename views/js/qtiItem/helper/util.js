@@ -83,6 +83,17 @@ define(['lodash'], function(_){
         },
         addMarkupNamespace : function addMarkupNamespace(markup, ns){
             return ns ? markup.replace(/<(\/)?([^!\/:>]+)(\/)?>/g, '<$1' + ns + ':$2$3>') : markup;
+        },
+        removeMarkupNamespaces : function removeMarkupNamespace(markup){
+            return markup.replace(/<(\/)?(\w*):([^>]*)>/g, '<$1$3>');
+        },
+        getMarkupUsedNamespaces : function getMarkupUsedNamespaces(markup){
+            var namespaces = [];
+            markup.replace(/<(\/)?(\w*):([^>]*)>/g, function(original, slash, ns, node){
+                namespaces.push(ns);
+                return '<'+slash+node+'>';
+            });
+            return _.uniq(namespaces);
         }
     };
 

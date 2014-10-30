@@ -19,7 +19,7 @@ define([
     };
 
     function _getElementSelector(qtiClass, ns){
-        return ns ? ns + "\\:" + qtiClass : qtiClass;
+        return ns ? ns + "\\:" + qtiClass + ','+qtiClass : qtiClass;
     }
 
     function getQtiClassFromXmlDom($node){
@@ -101,7 +101,7 @@ define([
             });
 
         });
-
+        
         $container.find(_getElementSelector('math', options.ns.math)).each(function(){
 
             var $qtiElement = $(this);
