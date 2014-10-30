@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir : 'output',
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css'},
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
             modules : [{
                 name: 'taoQtiItem/controller/routes',
                 include : ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
