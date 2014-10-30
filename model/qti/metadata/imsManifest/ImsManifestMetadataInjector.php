@@ -21,10 +21,11 @@
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
+use \DOMElement;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use \InvalidArgumentException;
-use \BadMethodCallException;
 
 /**
  * A MetadataExtractor implementation.
@@ -155,6 +156,69 @@ class ImsManifestMetadataInjector implements MetadataInjector
      */
     public function inject($target, array $values)
     {
-        throw new BadMethodCallException("Not implemented yet.");
+        /** @var $target DOMDocument */
+        if($target instanceof DOMDocument){
+
+            // Inject the mapping in the root node
+            foreach($this->getMappings() as $mapping){
+                /** @var $root DOMElement */
+                $root = $target->getElementsByTagName('manifest')->item(0);
+                $root->setAttribute('xmlns:'.$mapping->getPrefix(), $mapping->getNamespace());
+                $root->setAttribute(
+                    'xsi:schemaLocation',
+                    $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace(
+                    ) . ' ' . $mapping->getSchemaLocation());
+
+                $map[$mapping->getNamespace()] = $mapping->getPrefix();
+            }
+            
+            // Get all resource nodes
+            $resources = $target->getElementsByTagName('resource');
+
+            // Iterate through values to inject them in the DOMElement
+            foreach($values as $identifier => $metadataValues){
+                // Search the node that has the given identifier
+                /** @var $resource DOMElement */
+                foreach($resources as $resource){
+                    if($resource->getAttribute('identifier') === $identifier){
+                        $metadataNode = $resource->getElementsByTagName('metadata')->item(0);
+                        break;
+                    }
+                }
+
+                // Add the metadata values into the right path
+                /** @var $metadata MetaDataValue */
+                foreach($metadataValues as $metadata){
+                    $path = $metadata->getPath();
+                    $nodes = array();
+                    foreach($path as $index => $element){
+                        $name = substr($element,(strpos($element,'#') + 1));
+                        $base = substr($element,0,(strpos($element,'#')));
+
+                        $node = $target->createElement($map[$base].':'.$name);
+                        if($name === 'langstring'){
+                            $node->setAttribute('xml:lang', $metadata->getLanguage());
+                        }
+                        $nodes[] = $node;
+                        if(isset($oldParentNode)){
+                            $oldParentNode->appendChild($node);
+                        }
+                        if($index < (count($path) - 1)){
+                            $oldParentNode = $node;
+                        }
+                    }
+
+                    $node->nodeValue = $metadata->getValue();
+                    $metadataNode->appendChild($oldParentNode);
+
+
+                }
+            }
+
+        }else{
+            throw new MetadataInjectionException(__('The target must be an instance of DOMElement'));
+        }
+
+
     }
 }
