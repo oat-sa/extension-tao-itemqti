@@ -40,10 +40,6 @@ class InfoControlRegistry extends CustomInteractionRegistry
         return self::CONFIG_ID;
     }
     
-    protected function getInteractionClass(){
-        return 'oat\taoQtiItem\model\qti\interaction\CustomInteraction';
-    }
-    
     /**
      * Register a new custom interaction
      * 
