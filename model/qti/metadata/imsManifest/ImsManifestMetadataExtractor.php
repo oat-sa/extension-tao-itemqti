@@ -18,10 +18,9 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti\metadata\imsManifest\extraction;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
