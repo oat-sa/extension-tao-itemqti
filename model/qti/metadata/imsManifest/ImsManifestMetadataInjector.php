@@ -97,7 +97,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
         $ns = $mapping->getNamespace();
         
         if (isset($mappings[$ns]) === false) {
-            $mappings[$ns];
+            $mappings[$ns] = $mapping;
         }
     }
     
