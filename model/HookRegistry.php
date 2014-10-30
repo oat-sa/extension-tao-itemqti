@@ -49,5 +49,16 @@ class HookRegistry extends AbstractInteractionRegistry
     protected function getInteractionClass(){
         return 'oat\taoQtiItem\model\Hook';
     }
+    
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $key
+     * @param string $class
+     * @deprecated use set directly
+     */
+    public static function add($key,$phpClass){
+        HookRegistry::getRegistry()->set($key,$phpClass);
+    }
         
 }
