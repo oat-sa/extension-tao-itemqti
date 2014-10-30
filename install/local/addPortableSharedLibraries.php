@@ -34,3 +34,6 @@ $registry->registerFromFile('OAT/lodash', $installBasePath . '/OAT/lodash.js');
 $registry->registerFromFile('OAT/async', $installBasePath . '/OAT/async.js');
 $registry->registerFromFile('OAT/raphael', $installBasePath . '/OAT/raphael.js');
 $registry->registerFromFile('OAT/scale.raphael', $installBasePath . '/OAT/scale.raphael.js');
+$registry->registerFromFile('OAT/util/xml', $installBasePath . '/OAT/util/xml.js');
+$registry->registerFromFile('OAT/util/math', $installBasePath . '/OAT/util/math.js');
+$registry->registerFromFile('OAT/util/html', $installBasePath . '/OAT/util/html.js');
