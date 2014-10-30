@@ -61,6 +61,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
         $domManifest->load(dirname(__FILE__) . '/../samples/metadata/imsManifestExtraction/' . $imsManifestFile);
         
         $values = $this->imsManifestExtractor->extract($domManifest);
+        
         $this->assertTrue(isset($values[$key]), "No metadata array found at key '${key}'.");
         $this->assertTrue(isset($values[$key][$index]), "No Metadata value found at index '${index}' for key '${key}' in file '${imsManifestFile}'.");
         

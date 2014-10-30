@@ -120,12 +120,13 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                 $pattern = "/^(.+):(.+)/";
                 $matches = array();
                 if (preg_match($pattern, $node->nodeName, $matches) && isset($this->base[$matches[1]])) {
-                    $metadataInstance = new ImsManifestMetadataValue();
-                    $metadataInstance->setPath($currentPath);
-                    $metadataInstance->setResourceIdentifier($this->identifier);
-                    $metadataInstance->setResourceType($this->type);
-                    $metadataInstance->setResourceHref($this->href);
-                    $metadataInstance->setValue($node->nodeValue);
+                    $metadataInstance = new ImsManifestMetadataValue(
+                        $this->identifier, 
+                        $this->type,
+                        $this->href,
+                        $currentPath,
+                        $node->nodeValue
+                    );
 
                     // it is the language info
                     if ($matches[2] === 'langstring') {

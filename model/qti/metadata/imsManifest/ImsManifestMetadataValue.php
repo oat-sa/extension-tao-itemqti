@@ -20,7 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-use oat\taoQtiItem\model\qti\metadata\MetadataValue;
+use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 /**
  * This implementation of MetadataValue represents MetadataValue objects in an IMS Manifest context.
@@ -45,28 +45,20 @@ use oat\taoQtiItem\model\qti\metadata\MetadataValue;
  * @author Antoine Robin <antoine.robin@vesperiagroup.com>
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  */
-class ImsManifestMetadataValue implements MetadataValue
+class ImsManifestMetadataValue extends SimpleMetadataValue
 {
-    private $path;
-    private $language;
-    private $resourceIdentifier;
     private $resourceType;
     private $resourceHref;
-    private $value;
 
     /**
      * Create a new ImsManifestMetadataValue object.
      * 
      */
-    public function __construct()
+    public function __construct($resourceIdentifier, $resourceType, $resourceHref, $path, $value, $language = '')
     {
-        $this->path = array();
-        $this->language = '';
-        $this->resourceIdentifier = '';
-        $this->resourceType = '';
-        $this->resourceHref = '';
-        $this->value = '';
-
+        parent::__construct($resourceIdentifier, $path, $value, $language);
+        $this->setResourceType($resourceType);
+        $this->setResourceHref($resourceHref);
     }
     
     /**
@@ -102,7 +94,7 @@ class ImsManifestMetadataValue implements MetadataValue
      */
     public function getPath()
     {
-        return $this->path;
+        return parent::getPath();
     }
 
     /**
@@ -126,7 +118,7 @@ class ImsManifestMetadataValue implements MetadataValue
      */
     public function getLanguage()
     {
-        return $this->language;
+        return parent::getLanguage();
     }
 
     /**
@@ -146,7 +138,7 @@ class ImsManifestMetadataValue implements MetadataValue
      */
     public function getResourceIdentifier()
     {
-        return $this->resourceIdentifier;
+        return parent::getResourceIdentifier();
     }
 
     /**
@@ -207,27 +199,11 @@ class ImsManifestMetadataValue implements MetadataValue
      */
     public function getValue()
     {
-        return $this->value;
+        return parent::getValue();
     }
     
     /**
-     * @param mixed $language
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-    }
-    
-    /**
-     * @param mixed $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-    
-    /**
-     * @param mixed $resourceHref
+     * @param string $resourceHref
      */
     public function setResourceHref($resourceHref)
     {
@@ -235,26 +211,10 @@ class ImsManifestMetadataValue implements MetadataValue
     }
     
     /**
-     * @param mixed $resourceIdentifier
-     */
-    public function setResourceIdentifier($resourceIdentifier)
-    {
-        $this->resourceIdentifier = $resourceIdentifier;
-    }
-    
-    /**
-     * @param mixed $resourceType
+     * @param string $resourceType
      */
     public function setResourceType($resourceType)
     {
         $this->resourceType = $resourceType;
-    }
-    
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
     }
 }
