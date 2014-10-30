@@ -27,7 +27,7 @@ use common_ext_ExtensionsManager;
  * 
  * @author Sam <sam@taotesting.com>
  */
-class InfoControlRegistry
+class InfoControlRegistry extends CustomInteractionRegistry
 {
     /**
      * Key used to store the custom interactions in the config
@@ -40,16 +40,13 @@ class InfoControlRegistry
         return self::CONFIG_ID;
     }
     
-    protected function getInteractionClass(){
-        return 'oat\taoQtiItem\model\qti\interaction\CustomInteraction';
-    }
-    
     /**
      * Register a new custom interaction
      * 
      * @param string $qtiClass
      * @param string $phpClass
      * @throws common_exception_Error
+     * @deprecated use set
      */
     public static function register($qtiClass, $phpClass) {
         InfoControlRegistry::getRegistry()->set($qtiClass,$phpClass);
