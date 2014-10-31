@@ -209,10 +209,12 @@ class ImsManifestMetadataInjector implements MetadataInjector
                         if(isset($oldChildNode)){
                             $node->appendChild($oldChildNode);
                         }
+                        else{
+                            $node->nodeValue = $metadata->getValue();
+                        }
                         $oldChildNode = $node;
                     }
 
-                    $node->nodeValue = $metadata->getValue();
                     $metadataNode->appendChild($oldChildNode);
                 }
             }
