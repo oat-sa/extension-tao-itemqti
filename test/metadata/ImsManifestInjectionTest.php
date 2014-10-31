@@ -73,19 +73,19 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
             
             $xpath->registerNamespace($prefix, $ns);
             $manifestElt = $imsManifest->documentElement;
-            $this->assertEquals('manifest', $manifestElt->tagName, 'No <manifest> element found as the root XML element.');
+            $this->assertEquals('manifest', $manifestElt->tagName, "No <manifest> element found as the root XML element for file '${inputFile}'.");
             
             // Check that the namespace is correctly declared in <manifest> element.
-            $this->assertTrue($manifestElt->hasAttribute("xmlns:${prefix}"), "No namespace with prefix '${prefix}' declared in <manifest> element.");
+            $this->assertTrue($manifestElt->hasAttribute("xmlns:${prefix}"), "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'.");
             $nsDeclaration = $manifestElt->getAttribute("xmlns:${prefix}");
-            $this->assertEquals($ns, $nsDeclaration, "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element does not match.");
+            $this->assertEquals($ns, $nsDeclaration, "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element does not match for file '${inputFile}'.");
             
             // Check that we get the tuple in xsi:schemaLocation.
-            $this->assertTrue($manifestElt->hasAttribute('xsi:schemaLocation'), "No xsd:schemaLocation attribute found in <manifest> element.");
+            $this->assertTrue($manifestElt->hasAttribute('xsi:schemaLocation'), "No xsd:schemaLocation attribute found in <manifest> element for file '${inputFile}'.");
             $schemaLocations = $manifestElt->getAttribute('xsi:schemaLocation');
             
             $xsiPattern = '@' . preg_quote($ns) . "\\s+" . preg_quote($sc) . '@';
-            $this->assertEquals(1, preg_match($xsiPattern, $schemaLocations), "No xsi:schemaLocation found for namespace '${ns}'.");
+            $this->assertEquals(1, preg_match($xsiPattern, $schemaLocations), "No xsi:schemaLocation found for namespace '${ns}' in file '${inputFile}'.");
         }
         
         foreach ($values as $resourceIdentifier => $metadataValues) {
@@ -115,7 +115,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
                 
                 // Do we have something at location?
                 $elts = $xpath->query($query);
-                $this->assertGreaterThanOrEqual(1, $elts->length, "Nothing found at path.");
+                $this->assertGreaterThanOrEqual(1, $elts->length, "Nothing found in XML at path '" . implode(' -> ', $path) . "' in file '${inputFile}'.");
                 $hasLang = $metadataValue->getLanguage() !== '';
                 
                 // Does one of the values contain the expected value?
@@ -132,7 +132,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
                     }
                 }
                 
-                $this->assertLessThan($elts->length, $i, "No matching value found at path.");
+                $this->assertLessThan($elts->length, $i, "No matching value found at path '" . implode(' -> ', $path) . "' in file '${inputFile}'.");
             }
         }
     }
