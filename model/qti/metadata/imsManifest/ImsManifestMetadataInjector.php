@@ -220,7 +220,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
             }
 
         }else{
-            throw new MetadataInjectionException(__('The target must be an instance of DOMElement'));
+            throw new MetadataInjectionException(__('The target must be an instance of DOMDocument'));
         }
 
 
