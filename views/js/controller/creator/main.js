@@ -5,6 +5,7 @@ define([
     'async',
     'layout/loading-bar',
     'layout/section',
+    'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -22,6 +23,7 @@ define([
     async,
     loadingBar,
     section,
+    event,
     panel,
     loader,
     creatorRenderer,
@@ -209,7 +211,10 @@ define([
 
                     //fires event itemloaded
                     $doc.trigger('widgetloaded.qticreator', [widget]);
-
+                    
+                    //init event listeners:
+                    event.initElementToWidgetListeners();
+                    
                 }, item.getUsedClasses());
 
             });

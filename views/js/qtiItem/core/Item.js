@@ -94,6 +94,9 @@ define([
         getRelatedItem : function(){
             return this;
         },
+        addNamespace : function(name, uri){
+            this.namespaces[name] = uri;
+        },
         setNamespaces : function(namespaces){
             this.namespaces = namespaces;
         },
