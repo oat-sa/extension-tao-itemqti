@@ -21,10 +21,11 @@
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
+use \DOMElement;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use \InvalidArgumentException;
-use \BadMethodCallException;
 
 /**
  * A MetadataExtractor implementation.
@@ -97,8 +98,10 @@ class ImsManifestMetadataInjector implements MetadataInjector
         $ns = $mapping->getNamespace();
         
         if (isset($mappings[$ns]) === false) {
-            $mappings[$ns];
+            $mappings[$ns] = $mapping;
         }
+        
+        $this->setMappings($mappings);
     }
     
     /**
@@ -149,10 +152,92 @@ class ImsManifestMetadataInjector implements MetadataInjector
      * The injection will take care of serializing the MetadataValue objects into the correct sections of the
      * the IMS Manifest File, by looking at previously registered IMSManifestMapping objects.
      * 
-     * @throws MetadataInjectionException If $target is not a DOMElement object or something goes wrong during the injection process.
+     * @throws MetadataInjectionException If $target is not a DOMDocument object or something goes wrong during the injection process.
      */
     public function inject($target, array $values)
     {
-        throw new BadMethodCallException("Not implemented yet.");
+        /** @var $target DOMDocument */
+        if($target instanceof DOMDocument){
+
+            // Inject the mapping in the root node
+            foreach($this->getMappings() as $mapping){
+                /** @var $root DOMElement */
+                $root = $target->getElementsByTagName('manifest')->item(0);
+                $root->setAttribute('xmlns:'.$mapping->getPrefix(), $mapping->getNamespace());
+                $root->setAttribute(
+                    'xsi:schemaLocation',
+                    $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace(
+                    ) . ' ' . $mapping->getSchemaLocation());
+
+                $map[$mapping->getNamespace()] = $mapping->getPrefix();
+            }
+
+            // Get all resource nodes
+            $resources = $target->getElementsByTagName('resource');
+
+            // Iterate through values to inject them in the DOMElement
+            foreach($values as $identifier => $metadataValues){
+                // Search the node that has the given identifier
+                /** @var $resource DOMElement */
+                foreach($resources as $resource){
+                    if($resource->getAttribute('identifier') === $identifier){
+                        // If metadata already exists we take it
+                        if($resource->getElementsByTagName('metadata')->length !== 0){
+                            $metadataNode = $resource->getElementsByTagName('metadata')->item(0);
+                        }
+                        else{
+                            $metadataNode = $target->createElement('metadata');
+                        }
+
+                        if($resource->getElementsByTagName('file')->length !== 0){
+                            $fileNode = $resource->getElementsByTagName('file')->item(0);
+                            $resource->insertBefore($metadataNode, $fileNode);
+                        }
+                        else{
+                            $resource->appendChild($metadataNode);
+                        }
+                        break;
+                    }
+                }
+
+                // Add the metadata values into the right path
+                /** @var $metadata MetaDataValue */
+                foreach($metadataValues as $metadata){
+                    $path = $metadata->getPath();
+                    $path = array_reverse($path);
+                    $oldChildNode = null;
+                    foreach($path as $index => $element){
+                        $name = substr($element,(strpos($element,'#') + 1));
+                        $base = substr($element,0,(strpos($element,'#')));
+
+                        // If node already exists we don't re create one
+                        if(!is_null($oldChildNode) && $metadataNode->getElementsByTagName($map[$base].':'.$name)->length !== 0){
+                            $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
+                        }
+                        else{
+                        $node = $target->createElement($map[$base].':'.$name);
+                        }
+
+                        if($name === 'langstring'){
+                            $node->setAttribute('xml:lang', $metadata->getLanguage());
+                        }
+                        if(isset($oldChildNode)){
+                            $node->appendChild($oldChildNode);
+                        }
+                        else{
+                            $node->nodeValue = $metadata->getValue();
+                        }
+                        $oldChildNode = $node;
+                    }
+
+                    $metadataNode->appendChild($oldChildNode);
+                }
+            }
+
+        }else{
+            throw new MetadataInjectionException(__('The target must be an instance of DOMDocument'));
+        }
+
+
     }
 }
