@@ -100,8 +100,8 @@ use oat\tao\helpers\Template;
         <h2><?= __('Style Editor') ?></h2>
 
         <div class="panel color-picker-panel">
-            <div id="item-editor-color-picker" class="sidebar-popup-container-box">
-                <div id="color-picker-container" class="sidebar-popup">
+            <div class="item-editor-color-picker sidebar-popup-container-box">
+                <div class="color-picker-container sidebar-popup">
                     <h3 id="color-picker-title"></h3>
 
                     <div class="color-picker"></div>
