@@ -181,7 +181,14 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 /** @var $resource DOMElement */
                 foreach($resources as $resource){
                     if($resource->getAttribute('identifier') === $identifier){
-                        $metadataNode = $resource->getElementsByTagName('metadata')->item(0);
+                        $metadataNode = $target->createElement('metadata');
+                        if($resource->getElementsByTagName('file')->length !== 0){
+                            $fileNode = $resource->getElementsByTagName('file')->item(0);
+                            $resource->insertBefore($metadataNode, $fileNode);
+                        }
+                        else{
+                            $resource->appendChild($metadataNode);
+                        }
                         break;
                     }
                 }
@@ -190,7 +197,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 /** @var $metadata MetaDataValue */
                 foreach($metadataValues as $metadata){
                     $path = $metadata->getPath();
-                    $nodes = array();
+                    $path = array_reverse($path);
                     foreach($path as $index => $element){
                         $name = substr($element,(strpos($element,'#') + 1));
                         $base = substr($element,0,(strpos($element,'#')));
@@ -199,21 +206,17 @@ class ImsManifestMetadataInjector implements MetadataInjector
                         if($name === 'langstring'){
                             $node->setAttribute('xml:lang', $metadata->getLanguage());
                         }
-                        $nodes[] = $node;
-                        if(isset($oldParentNode)){
-                            $oldParentNode->appendChild($node);
+                        if(isset($oldChildNode)){
+                            $node->appendChild($oldChildNode);
                         }
-                        if($index < (count($path) - 1)){
-                            $oldParentNode = $node;
-                        }
+                        $oldChildNode = $node;
                     }
 
                     $node->nodeValue = $metadata->getValue();
-                    $metadataNode->appendChild($oldParentNode);
-
-
+                    $metadataNode->appendChild($oldChildNode);
                 }
             }
+            \common_Logger::w('target : '.print_r($target->C14N(),true));
 
         }else{
             throw new MetadataInjectionException(__('The target must be an instance of DOMElement'));
