@@ -1,6 +1,7 @@
 define([
     'jquery',
     'lodash',
+    'helpers',
     //gui components
     'taoItems/preview/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
@@ -16,6 +17,7 @@ define([
 ], function(
     $,
     _,
+    helpers,
     preview,
     preparePrint,
     fontSelector,
@@ -75,7 +77,7 @@ define([
 
     var initPreview = function(widget){
 
-        var previewContainer;
+        var previewContainer, previewUrl;
 
         clearTimeout(serializeTimeOut);
         //serialize the item at the initialization level
@@ -104,7 +106,8 @@ define([
             }
         }
 
-        previewContainer = preview.init(widget.itemUri);
+        previewUrl = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri);
+        previewContainer = preview.init(previewUrl);
 
         // wait for confirmation to save the item
         if (askForSave) {
