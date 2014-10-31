@@ -21,7 +21,7 @@ define([
         },
         /**
          * register attribute change callback functions when associated form elements has been modified
-         * 
+         *
          * @param {Object} $form - the jQuery form element
          * @param {Object} element - a js qti element (see qtiCreator/model)
          * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
@@ -81,7 +81,7 @@ define([
             };
 
             $form.off('.databinding');
-            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate])', callback.simple);
+            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate]), :hidden:not([data-validate])', callback.simple);
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
 
             $form.on('validated.group.databinding', callback.withValidation);
@@ -130,7 +130,7 @@ define([
             callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : 0};
-                
+
                 value = parseInt(value);
                 if(value === 0 || isNaN(value)){
                     element.removeAttr(name);
@@ -155,13 +155,13 @@ define([
                     //update response
                     _updateResponseDeclaration(element, value, updateCardinality);
                 }
-                
+
                 if(!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))){
                     element.removeAttr(name);//to be removed for order interactions
                 }else{
                     element.attr(name, value);//required
                 }
-                
+
             };
 
             return callbacks;
@@ -202,11 +202,11 @@ define([
 
         var $input = $(this),
             rule;
-        
+
         if(dom.contains($input)){
-            
+
             _createTooltip($input);
-            
+
             $input.tooltipster('hide');
 
             if(!valid){
@@ -222,10 +222,10 @@ define([
                 }
 
             }
-        
+
         }
-        
-        
+
+
 
     };
 
