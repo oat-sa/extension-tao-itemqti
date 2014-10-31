@@ -73,9 +73,9 @@ define([
                 createToolbar($container);
                 buildEditor($container, container);
 
-                $container.off('.'+_ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
-                    var html = data.element.render(xmlRenderer.get());
-                    $container.trigger('containerchange.'+_ns, [html]);
+                $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
+                    var html = container.render(xmlRenderer.get());
+                    $container.trigger('containerchange.' + _ns, [html]);
                     if(_.isFunction(callback)){
                         callback(html);
                     }
@@ -119,15 +119,28 @@ define([
         $container.removeData('container');
 
     }
-
-    function buildEditor($editableContainer, container){
-
-        //create a fase widget that is required in html editor
+    
+    /**
+     * create a fase widget that is required in html editor
+     * 
+     * @param {JQuery} $editableContainer
+     * @param {Object} container
+     * @returns {Object} The fake widget object
+     */
+    function createFakeWidget($editableContainer, container){
+        
         var widget = {
             $container : $editableContainer,
             element : container,
             changeState : _.noop
         };
+        //associate the widget to the container
+        container.data('widget', widget);
+        
+        return widget;
+    }
+
+    function buildEditor($editableContainer, container){
 
         $editableContainer.attr('data-html-editable-container', true);
 
@@ -138,7 +151,7 @@ define([
                 passthroughInnerContent : false,
                 change : content.getChangeCallback(container),
                 data : {
-                    widget : widget,
+                    widget : createFakeWidget($editableContainer, container),
                     container : container
                 }
             });
