@@ -171,7 +171,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
 
                 $map[$mapping->getNamespace()] = $mapping->getPrefix();
             }
-            
+
             // Get all resource nodes
             $resources = $target->getElementsByTagName('resource');
 
@@ -181,7 +181,14 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 /** @var $resource DOMElement */
                 foreach($resources as $resource){
                     if($resource->getAttribute('identifier') === $identifier){
-                        $metadataNode = $target->createElement('metadata');
+                        // If metadata already exists we take it
+                        if($resource->getElementsByTagName('metadata')->length !== 0){
+                            $metadataNode = $resource->getElementsByTagName('metadata')->item(0);
+                        }
+                        else{
+                            $metadataNode = $target->createElement('metadata');
+                        }
+
                         if($resource->getElementsByTagName('file')->length !== 0){
                             $fileNode = $resource->getElementsByTagName('file')->item(0);
                             $resource->insertBefore($metadataNode, $fileNode);
@@ -202,7 +209,15 @@ class ImsManifestMetadataInjector implements MetadataInjector
                         $name = substr($element,(strpos($element,'#') + 1));
                         $base = substr($element,0,(strpos($element,'#')));
 
-                        $node = $target->createElement($map[$base].':'.$name);
+                        // If node already exists we don't re create one
+                        if(isset($oldChildNode) && $oldChildNode->getElementsByTagName($map[$base].':'.$name)->length !== 0){
+                            $node = $oldChildNode->getElementsByTagName($map[$base].':'.$name)->item(0);
+                            \common_Logger::w('get : '.print_r($node,true));
+                        }
+                        else{
+                            $node = $target->createElement($map[$base].':'.$name);
+                        }
+
                         if($name === 'langstring'){
                             $node->setAttribute('xml:lang', $metadata->getLanguage());
                         }
