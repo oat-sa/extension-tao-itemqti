@@ -218,7 +218,6 @@ class ImsManifestMetadataInjector implements MetadataInjector
                     $metadataNode->appendChild($oldChildNode);
                 }
             }
-            \common_Logger::w('target : '.print_r($target->C14N(),true));
 
         }else{
             throw new MetadataInjectionException(__('The target must be an instance of DOMElement'));
