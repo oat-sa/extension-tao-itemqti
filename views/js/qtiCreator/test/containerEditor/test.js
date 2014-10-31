@@ -40,18 +40,18 @@ require([
 
         configureCreatorRenderer();
         
-        $container.on('containerchange.container-editor.qti-widget', function(e, html){
+        $container.on('containerchange', function(e, html){
             console.log('change', html);
         });
         
-        containerEditor.create($container, {});
-        
-        _.delay(function(){
-            containerEditor.destroy($container, function(qtiXhtml){
-                
+        $container.on('editorready', function(){
+            _.defer(function(){
+                return;
+                containerEditor.destroy($container);
             });
-        }, 3000);
+        });
         
+        containerEditor.create($container, {});
     });
 
 });
