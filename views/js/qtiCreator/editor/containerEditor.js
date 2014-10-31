@@ -14,9 +14,12 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
 
-    var _ns = 'container-editor';
+    var _ns = 'containereditor';
 
     var _defaults = {
+        change : _.noop,
+        markup : '',
+        markupSelector : ''
     };
 
     function parser($container){
@@ -38,16 +41,27 @@ define([
         }
     }
 
-    function create($container, callback, options){
+    function create($container, options){
 
         options = _.defaults(options || {}, _defaults);
-
+        
+        //assign proper markup
+        if(options.markup){
+            var html = options.markup;
+            if(options.markupSelector){
+                var htmls = extractHtmlFromMarkup(html, options.markupSelector);
+                html = htmls[0] || '';
+            }
+            $container.html(html);
+        }
+        
         var data = parser($container);
         var loader = new Loader().setClassesLocation(qtiClasses);
         loader.loadRequiredClasses(data, function(){
 
             //create a new container object
             var container = new Container();
+            
             $container.data('container', container);
 
             //need to attach a container to the item to enable innserElement.remove()
@@ -64,7 +78,7 @@ define([
 
             //apply common renderer :
             creatorRenderer.load(['img', 'object', 'math', '_container'], function(){
-
+                
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
@@ -75,12 +89,14 @@ define([
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
                     var html = container.render(xmlRenderer.get());
+                    console.log('ddd', html);
                     $container.trigger('containerchange.' + _ns, [html]);
-                    if(_.isFunction(callback)){
-                        callback(html);
+                    if(_.isFunction(options.change)){
+                        options.change(html);
                     }
-                }, 800));
-
+                }, 600));
+                
+                $container.trigger('editorready.containereditor');
             });
 
         });
@@ -163,11 +179,20 @@ define([
         $editableContainer.removeAttr('data-html-editable-container');
     }
 
-    function destroy($container, container){
+    function destroy($container){
         destroyEditor($container);
-        cleanup($container, container)
+        cleanup($container)
     }
-
+    
+    function extractHtmlFromMarkup(markupStr, selector){
+        var $found = $('<div>').html(markupStr).find(selector);
+        var ret = [];
+        $found.each(function(){
+            ret.push($(this).html());
+        });
+        return ret;
+    }
+    
     return {
         create : create,
         destroy : destroy
