@@ -28,7 +28,7 @@ use \DOMDocument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
-class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
+class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 {
     protected $imsManifestInjector;
     
