@@ -3,13 +3,12 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
     var Container = Element.extend({
         qtiClass : '_container',
         init : function(body){
+            this._super();//generate serial, attributes array always empty
             if(body && typeof body !== 'string'){
                 throw 'the body of a container must be a string';
             }
-            this.bdy = '';
-            this.body(body || '');
+            this.bdy = body || '';
             this.elements = {};
-            this._super();//generate serial, attributes array always empty
         },
         body : function(body){
             if(typeof body === 'undefined'){
