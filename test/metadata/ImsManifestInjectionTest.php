@@ -55,8 +55,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
     {
         $imsManifest = new DOMDocument('1.0', 'UTF-8');
         $imsManifest->load(dirname(__FILE__) . "/../samples/metadata/imsManifestInjection/${inputFile}");
-        $xpath = new DOMXpath($imsManifest);
-        $xpath->registerNamespace('man', $imsManifest->documentElement->namespaceURI);
+        
         
         // Register mappings...
         foreach ($mappings as $mapping) {
@@ -64,6 +63,12 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
         }
         
         $this->imsManifestInjector->inject($imsManifest, $values);
+        $newDom = new DOMDocument('1.0', 'UTF-8');
+        $newDom->loadXML($imsManifest->saveXML());
+        $imsManifest = $newDom;
+        
+        $xpath = new DOMXpath($imsManifest);
+        $xpath->registerNamespace('man', $imsManifest->documentElement->namespaceURI);
         
         // Check everything is fine regarding mappings...
         foreach ($mappings as $mapping) {
@@ -76,7 +81,7 @@ class ImsManifestExtractionTest extends TaoPhpUnitTestRunner
             $this->assertEquals('manifest', $manifestElt->tagName, "No <manifest> element found as the root XML element for file '${inputFile}'.");
             
             // Check that the namespace is correctly declared in <manifest> element.
-            $this->assertTrue($manifestElt->hasAttribute("xmlns:${prefix}"), "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'.");
+            $this->assertTrue($manifestElt->hasAttributeNS('http://www.w3.org/2000/xmlns/', "${prefix}"), "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'.");
             $nsDeclaration = $manifestElt->getAttribute("xmlns:${prefix}");
             $this->assertEquals($ns, $nsDeclaration, "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element does not match for file '${inputFile}'.");
             
