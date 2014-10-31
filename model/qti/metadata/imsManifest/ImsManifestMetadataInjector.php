@@ -205,17 +205,17 @@ class ImsManifestMetadataInjector implements MetadataInjector
                 foreach($metadataValues as $metadata){
                     $path = $metadata->getPath();
                     $path = array_reverse($path);
+                    $oldChildNode = null;
                     foreach($path as $index => $element){
                         $name = substr($element,(strpos($element,'#') + 1));
                         $base = substr($element,0,(strpos($element,'#')));
 
                         // If node already exists we don't re create one
-                        if(isset($oldChildNode) && $oldChildNode->getElementsByTagName($map[$base].':'.$name)->length !== 0){
-                            $node = $oldChildNode->getElementsByTagName($map[$base].':'.$name)->item(0);
-                            \common_Logger::w('get : '.print_r($node,true));
+                        if(!is_null($oldChildNode) && $metadataNode->getElementsByTagName($map[$base].':'.$name)->length !== 0){
+                            $node = $metadataNode->getElementsByTagName($map[$base].':'.$name)->item(0);
                         }
                         else{
-                            $node = $target->createElement($map[$base].':'.$name);
+                        $node = $target->createElement($map[$base].':'.$name);
                         }
 
                         if($name === 'langstring'){
