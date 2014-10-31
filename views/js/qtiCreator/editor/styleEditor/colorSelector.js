@@ -1,10 +1,11 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function ($, styleEditor, __) {
-    'use strict'
+], function ($, styleEditor, _, __) {
+    'use strict';
 
     // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
@@ -22,16 +23,13 @@ define([
             return color;
         }
 
-        return ('#'
-            + ('0' + parseInt(rgbArr[1], 10).toString(16)).slice(-2)
-            + ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2)
-            + ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2));
+        return ('#' + ('0' + parseInt(rgbArr[1], 10).toString(16)).slice(-2) + ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2) + ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2));
     }
 
     var colorSelector = function () {
-        var colorPicker = $('#item-editor-color-picker'),
+        var colorPicker = $('.item-editor-color-picker'),
             widget = colorPicker.find('.color-picker'),
-            widgetBox = colorPicker.find('#color-picker-container'),
+            widgetBox = colorPicker.find('.color-picker-container'),
             titleElement =  colorPicker.find('#color-picker-title'),
             input = colorPicker.find('#color-picker-input'),
             resetButtons = colorPicker.find('.reset-button'),
@@ -63,7 +61,6 @@ define([
                     $target  = $(target),
                     style    = styleEditor.getStyle() || {},
                     value;
-
                 // elements have a color from usage of style editor
                 if(style[target] && style[target][$trigger.data('value')]) {
                     value = style[target][$trigger.data('value')];
@@ -98,9 +95,7 @@ define([
         setTriggerColor();
         colorTriggers.add(colorTriggerLabels).on('click', function () {
             var $tmpTrigger = $(this),
-                $trigger = (this.nodeName.toLowerCase() === 'label'
-                    ? $tmpTrigger.parent().find('.color-trigger')
-                    : $tmpTrigger),
+                $trigger = (this.nodeName.toLowerCase() === 'label' ? $tmpTrigger.parent().find('.color-trigger') : $tmpTrigger),
                 value = $trigger.css('background-color');
 
             widget.prop('target', $trigger.data('target'));
@@ -118,8 +113,7 @@ define([
                 return false;
             }
 
-            if (!widgetBox.is(e.target)
-                && widgetBox.has(e.target).length === 0) {
+            if (!widgetBox.is(e.target) && widgetBox.has(e.target).length === 0) {
                 widgetBox.hide();
                 return false;
             }
