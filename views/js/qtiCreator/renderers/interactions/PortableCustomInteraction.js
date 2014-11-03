@@ -11,10 +11,10 @@ define([
 
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getBaseUrl(interaction.typeIdentifier)});
-
+        
         var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier),
             Widget = pciCreator.getWidget();
-
+        
         return Widget.build(
             interaction,
             Renderer.getContainer(interaction),

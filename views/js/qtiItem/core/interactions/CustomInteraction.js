@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig'
 ], function(Interaction, _, rendererConfig){
-    
+
     var CustomInteraction = Interaction.extend({
         qtiClass : 'customInteraction',
         defaultNsName : 'pci',
@@ -19,10 +19,12 @@ define([
             this.properties = {};
             this.libraries = [];
             this.entryPoint = '';
-            
+
             //note : if the uri is defined, it will be set the uri in the xml on xml serialization,
             //which may trigger xsd validation, which is troublesome for html5 (use xhtml5 maybe ?)
             this.markupNs = {};
+
+            this.pciReadyCallbacks = [];
         },
         is : function(qtiClass){
             return (qtiClass === 'customInteraction') || this._super(qtiClass);
@@ -38,7 +40,7 @@ define([
                     libraries : this.libraries,
                     entryPoint : this.entryPoint,
                     ns : {
-                        pci : this.getNamespace().name+':'
+                        pci : this.getNamespace().name + ':'
                     }
                 };
 
@@ -55,11 +57,11 @@ define([
                 if(value !== undefined){
                     this.properties[name] = value;
                 }else{
-                    if(typeof(name) === 'object'){
+                    if(typeof (name) === 'object'){
                         for(var prop in name){
                             this.prop(prop, name[prop]);
                         }
-                    }else if(typeof(name) === 'string'){
+                    }else if(typeof (name) === 'string'){
                         if(this.properties[name] === undefined){
                             return undefined;
                         }else{
@@ -72,7 +74,7 @@ define([
         },
         removeProp : function(propNames){
             var _this = this;
-            if(typeof(propNames) === 'string'){
+            if(typeof (propNames) === 'string'){
                 propNames = [propNames];
             }
             _.each(propNames, function(propName){
@@ -85,7 +87,7 @@ define([
             if(this.ns && this.ns.name && this.ns.uri){
                 return _.clone(this.ns);
             }else{
-                
+
                 var relatedItem = this.getRelatedItem();
                 if(relatedItem){
                     var namespaces = relatedItem.getNamespaces();
@@ -137,6 +139,51 @@ define([
                 name : name,
                 uri : uri
             };
+        },
+        onPciReady : function(callback){
+
+            this.pciReadyCallbacks.push(callback);
+
+            if(this.data('pci')){
+                //if pci is already ready, call it immediately
+                this.triggerPciReady();
+            }
+        },
+        triggerPciReady : function(){
+
+            var _this = this,
+                pci = this.data('pci');
+
+            if(pci){
+                _.each(this.pciReadyCallbacks, function(fn){
+                    fn.call(_this, pci);
+                });
+
+                this.pciReadyCallbacks = [];
+            }else{
+                throw 'cannot trigger pci ready when no pci is actually attached to the interaction';
+            }
+
+        },
+        onPci : function(event, callback){
+            this.onPciReady(function(pci){
+                if(_.isFunction(pci.on)){
+                    pci.on(event, callback);
+                }else{
+                    throw 'the pci does not implement on() function';
+                }
+            });
+            return this;
+        },
+        offPci : function(event){
+            this.onPciReady(function(pci){
+                if(_.isFunction(pci.off)){
+                    pci.off(event);
+                }else{
+                    throw 'the pci does not implement off() function';
+                }
+            });
+            return this;
         }
     });
 
