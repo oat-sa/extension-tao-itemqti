@@ -35,4 +35,4 @@ class AttributeException
     extends common_Exception
 {
 
-} /* end of class oat\taoQtiItem\model\qti\exception\ParsingException */
+}

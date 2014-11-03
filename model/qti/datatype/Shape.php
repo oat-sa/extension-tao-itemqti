@@ -45,4 +45,4 @@ class Shape extends Enumeration
 		);
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Shape */
+}

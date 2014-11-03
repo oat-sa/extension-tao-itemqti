@@ -40,4 +40,4 @@ class ExpectedLines extends Attribute
 	static protected $defaultValue = null;
 	static protected $required = false;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\ExpectedLines */
+}

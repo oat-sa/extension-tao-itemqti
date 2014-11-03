@@ -36,4 +36,4 @@ class DatatypeException
     extends common_Exception
 {
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\DatatypeException */
+}

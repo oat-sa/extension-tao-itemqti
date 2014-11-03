@@ -43,4 +43,4 @@ class TextFormat extends Enumeration
 		);
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\TextFormat */
+}

@@ -44,4 +44,4 @@ class Uri extends Datatype
 		return self::validate($value)?$value:null;
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Uri */
+}

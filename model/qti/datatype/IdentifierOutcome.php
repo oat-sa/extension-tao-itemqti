@@ -46,4 +46,4 @@ class IdentifierOutcome extends Identifier
 		);
 	}
 	
-} /* end of class oat\taoQtiItem\model\qti\datatype\IdentifierOutcome */
+}

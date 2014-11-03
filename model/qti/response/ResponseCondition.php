@@ -124,6 +124,6 @@ class ResponseCondition
         
     }
 
-} /* end of class oat\taoQtiItem\model\qti\response\ResponseCondition */
+}
 
 ?>

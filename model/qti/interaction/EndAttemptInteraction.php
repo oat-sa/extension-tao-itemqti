@@ -55,5 +55,3 @@ class EndAttemptInteraction extends InlineInteraction
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\interaction\EndAttemptInteraction */
-?>

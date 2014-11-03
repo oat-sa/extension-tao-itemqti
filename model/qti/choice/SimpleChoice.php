@@ -45,5 +45,3 @@ class SimpleChoice extends ContainerChoice
     protected static $qtiTagName = 'simpleChoice';
 
 }
-
-/* end of class oat\taoQtiItem\model\qti\choice\SimpleChoice */

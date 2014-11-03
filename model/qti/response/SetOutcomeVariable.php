@@ -93,6 +93,6 @@ class SetOutcomeVariable
         return (string) $returnValue;
     }
 
-} /* end of class oat\taoQtiItem\model\qti\response\SetOutcomeVariable */
+}
 
 ?>

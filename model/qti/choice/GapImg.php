@@ -99,4 +99,3 @@ class GapImg extends Choice
         return $returnValue;
     }
 }
-/* end of class oat\taoQtiItem\model\qti\choice\GapImg */

@@ -40,4 +40,4 @@ class UseAttribute extends Attribute
 	static protected $defaultValue = null;
 	static protected $required = false;
 
-} /* end of class taoQTI_models_classes_QTI_attribute_Use */
+}
