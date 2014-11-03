@@ -83,4 +83,3 @@ class ExtendedTextInteraction extends BlockInteraction
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\interaction\ExtendedTextInteraction */

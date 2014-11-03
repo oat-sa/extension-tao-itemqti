@@ -43,4 +43,4 @@ class Integer extends Datatype
 		return intval($value);
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Integer */
+}

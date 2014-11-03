@@ -40,4 +40,4 @@ class Base extends Attribute
 	static protected $defaultValue = 10;
 	static protected $required = false;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\Base */
+}
