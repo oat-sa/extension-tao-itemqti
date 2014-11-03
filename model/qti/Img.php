@@ -52,4 +52,3 @@ class Img extends Element
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\Img */
