@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use \DOMDocument;
+use \DOMXPath;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
@@ -44,6 +45,13 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
     public function extract($manifest)
     {
         if ($manifest instanceof DOMDocument) {
+            
+            // get the base for paths.
+            $xpath = new DOMXPath($manifest);
+            foreach ($xpath->query('namespace::*', $manifest->ownerDocument) as $node) {
+                $this->base[str_replace('xmlns:', '', $node->nodeName)] = $node->nodeValue;
+            }
+            
             $values = $this->getRecursiveMetadata($manifest);
             $finalValues = array();
             
@@ -74,18 +82,9 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
     {
         $metadata = array();
         $i = 0;
+        
         /** @var $node \DOMElement */
         foreach ($manifest->childNodes as $node) {
-
-            // get the base for paths
-            if ($node->nodeName === 'manifest') {
-                $pattern = '/xmlns:((?!xsi)\w+)=/';
-                if (preg_match_all($pattern, $node->C14N(), $matches)) {
-                    foreach ($matches[1] as $namespace) {
-                        $this->base[$namespace] = $node->getAttribute('xmlns:'.$namespace);
-                    }
-                }
-            }
 
             // get the resource related values
             if ($node->nodeName === 'resource') {
