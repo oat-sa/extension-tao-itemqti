@@ -82,7 +82,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * @expectedException \common_exception_Error
      */
     public function testWrongClass()
     {
@@ -93,7 +93,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * 
      */
     public function testWrongFormatClass()
     {
@@ -106,7 +106,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
 
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * 
      */
     public function testWrongFormatXmlClass()
     {
@@ -119,7 +119,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * 
      */
     public function testWrongManifest()
     {
@@ -133,7 +133,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
     }
     /**
-     * @expectedException \oat\taoQtiItem\model\qti\exception\ParsingException
+     * 
      */
     public function testWrongXml()
     {

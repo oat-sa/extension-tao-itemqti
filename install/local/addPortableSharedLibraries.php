@@ -37,3 +37,5 @@ $registry->registerFromFile('OAT/scale.raphael', $installBasePath . '/OAT/scale.
 $registry->registerFromFile('OAT/util/xml', $installBasePath . '/OAT/util/xml.js');
 $registry->registerFromFile('OAT/util/math', $installBasePath . '/OAT/util/math.js');
 $registry->registerFromFile('OAT/util/html', $installBasePath . '/OAT/util/html.js');
+$registry->registerFromFile('OAT/util/EventMgr', $installBasePath . '/OAT/util/EventMgr.js');
+$registry->registerFromFile('OAT/util/event', $installBasePath . '/OAT/util/event.js');

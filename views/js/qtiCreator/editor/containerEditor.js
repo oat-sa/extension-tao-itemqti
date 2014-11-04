@@ -89,7 +89,6 @@ define([
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
                     var html = container.render(xmlRenderer.get());
-                    console.log('ddd', html);
                     $container.trigger('containerchange.' + _ns, [html]);
                     if(_.isFunction(options.change)){
                         options.change(html);

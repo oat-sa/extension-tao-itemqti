@@ -52,7 +52,7 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
     public function testFileParsing(){
 
         //check if wrong packages are not validated correctly
-        foreach(glob(dirname(__FILE__).'/samples/package/wrong/*.zip') as $file){
+        foreach(glob(dirname(__FILE__).'/samples/parser/wrong/*.zip') as $file){
 
             $qtiParser = new PackageParser($file);
 

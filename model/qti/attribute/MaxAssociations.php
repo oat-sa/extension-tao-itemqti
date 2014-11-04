@@ -40,4 +40,4 @@ class MaxAssociations extends Attribute
 	static protected $defaultValue = 1;
 	static protected $required = false;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\MaxAssociations */
+}

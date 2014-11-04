@@ -126,4 +126,4 @@ class ResponseRuleParserFactory
         return $returnValue;
     }
 
-} /* end of class oat\taoQtiItem\model\qti\response\ResponseRuleParserFactory */
+}

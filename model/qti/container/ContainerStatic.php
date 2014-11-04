@@ -52,4 +52,4 @@ class ContainerStatic extends Container
 		);
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\container\ContainerStatic */
+}

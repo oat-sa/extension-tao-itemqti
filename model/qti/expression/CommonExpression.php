@@ -223,6 +223,6 @@ class CommonExpression
         
     }
 
-} /* end of class oat\taoQtiItem\model\qti\expression\CommonExpression */
+}
 
 ?>

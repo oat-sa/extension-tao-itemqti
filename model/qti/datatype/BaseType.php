@@ -52,4 +52,4 @@ class BaseType extends Enumeration
 		);
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\BaseType */
+}

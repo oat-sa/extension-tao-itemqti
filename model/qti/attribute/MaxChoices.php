@@ -40,4 +40,4 @@ class MaxChoices extends Attribute
 	static protected $defaultValue = 1;
 	static protected $required = true;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\MaxChoices */
+}

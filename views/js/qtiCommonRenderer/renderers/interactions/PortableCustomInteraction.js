@@ -59,7 +59,7 @@ define([
 
         var id = interaction.attr('responseIdentifier'),
             baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
-            config = interaction.properties,
+            config = _.clone(interaction.properties),//pass a clone instead
             entryPoint = util.fullpath(interaction.entryPoint, baseUrl),
             $dom = Helper.getContainer(interaction).children(),
             state = {}, //@todo pass state and response to renderer here:
@@ -83,6 +83,8 @@ define([
                 //restore context (state + response)
                 pci.setSerializedState(state);
                 pci.setResponse(response);
+                //call callback function
+                interaction.triggerPciReady(pci);
             }
 
         });

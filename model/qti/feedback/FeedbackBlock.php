@@ -45,4 +45,3 @@ class FeedbackBlock extends Feedback
     protected static $qtiTagName = 'feedbackBlock';
 
 }
-/* end of class oat\taoQtiItem\model\qti\feedback\FeedbackInline */
