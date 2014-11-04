@@ -18,7 +18,7 @@ define(['jquery', 'lodash'], function($, _){
             
         }, 200)).on('keyup.simpleeditable', selector, _.throttle(function(e){
 
-            callback($(this).html())
+            callback($(this).text())
 
         }, 200)).on('keydown.simpleeditable', selector, function(e){
 
