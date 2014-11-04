@@ -92,17 +92,7 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
             throw new common_exception_Error('invalid item preview file path');
         }
     }
-    
-    /**
-     * Get the data of the implementation by its typeIdentifier
-     * 
-     * @param string $typeIdentifier
-     * @return array
-     */
-    protected function getImplementatioByTypeIdentifier($typeIdentifier){
-        return $this->registry->getDevImplementation($typeIdentifier);
-    }
-    
+   
     /**
      * Add required resources for a custom interaction (css, js) in the item directory
      * 
