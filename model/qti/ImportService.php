@@ -129,7 +129,8 @@ class ImportService extends tao_models_classes_GenerisService
                 $file = new core_kernel_versioning_File($itemContent);
 
                 $srcPath = dirname($qtiFile) . DIRECTORY_SEPARATOR;
-                $dstPath = dirname($file->getAbsolutePath()) . DIRECTORY_SEPARATOR;
+                $dstPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($rdfItem);
+
                 foreach($this->extractMediaFromXML($qtiItem->toXML()) as $file) {
 
                     if (file_exists($srcPath . $file)) {
@@ -171,7 +172,9 @@ class ImportService extends tao_models_classes_GenerisService
             foreach($srcAttr as $attr){
                 if($element->hasAttribute($attr)){
                     $source = trim($element->getAttribute($attr));
-                    $returnValue[] = (preg_match("/^$pattern/", $source) ? '' : ROOT_URL) . $source;
+                    if (!preg_match("/^$pattern/", $source)) {
+                        $returnValue[] = $source;
+                    }
                 }
             }
         }
