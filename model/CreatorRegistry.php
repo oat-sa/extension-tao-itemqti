@@ -91,7 +91,7 @@ abstract class CreatorRegistry
                 $typeIdentifier = basename($dir);
                 $baseUrl = $this->baseDevUrl.$typeIdentifier.'/';
                 $manifest = json_decode(file_get_contents($manifestFile), true);
-
+                
                 $returnValue[] = array(
                     'typeIdentifier' => $typeIdentifier,
                     'label' => $manifest['label'],
@@ -99,7 +99,9 @@ abstract class CreatorRegistry
                     'baseUrl' => $baseUrl,
                     'file' => $this->getEntryPointFile($typeIdentifier),
                     'manifest' => $manifest,
-                    'dev' => true
+                    'dev' => true,
+                    'debug' => (isset($manifest['debug']) && $manifest['debug']),
+                    'registry' => get_class($this)
                 );
             }
         }

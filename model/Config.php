@@ -73,11 +73,23 @@ Class Config
     
     public function toArray(){
         
+        $interactions = array();
+        foreach($this->interactions as $interaction){
+            unset($interaction['directory']);
+            $interactions[] = $interaction;
+        }
+        
+        $infoControls = array();
+        foreach($this->infoControls as $infoControl){
+            unset($infoControl['directory']);
+            $infoControls[] = $infoControl;
+        }
+        
         return array(
             'properties' => $this->properties,
             'uiHooks' => $this->uiHooks,
-            'interactions' => $this->interactions,
-            'infoControls' => $this->infoControls
+            'interactions' => $interactions,
+            'infoControls' => $infoControls
         );
     }
     

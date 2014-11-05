@@ -36,7 +36,7 @@ define(['lodash', 'jquery'], function(_, $){
                     creator = registry.getCreator(typeId),
                     manifest = registry.getManifest(typeId),
                     item = this.getRelatedItem();
-
+                
                 //add required resource
                 //@todo need afterCreate() to return a promise
                 var _this = this;

@@ -79,12 +79,13 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-
+            
             //first all, start loading bar
             loadingBar.start();
 
             config = config || module.config();
-
+            console.log(config);
+            
             var configProperties = config.properties;
 
             //pass reference to useful dom element

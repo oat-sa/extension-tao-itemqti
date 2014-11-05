@@ -1,12 +1,17 @@
 define([
     'lodash',
-    'jquery'
-], function(_, $){
+    'jquery',
+    'helpers'
+], function(_, $, helpers){
     
     var _defaults = {
         onRegister : _.noop
     };
     
+    var _urls = {
+        addRequiredResources : helpers._url('addRequiredResources', 'PortableElement', 'taoQtiItem')
+    };
+
     function create(options){
         
         options = options || {};
@@ -148,7 +153,9 @@ define([
         }
         
         function addRequiredResources(typeIdentifier, itemUri, callback){
-            $.getJSON(get(typeIdentifier).addRequiredResources, {typeIdentifier : typeIdentifier, uri : itemUri}, function(r){
+            
+            var registryClass = encodeURIComponent(get(typeIdentifier).registry);
+            $.getJSON(_urls.addRequiredResources, {registryClass: registryClass, typeIdentifier : typeIdentifier, uri : itemUri}, function(r){
                 if(_.isFunction(callback)){
                     callback(r);
                 }
