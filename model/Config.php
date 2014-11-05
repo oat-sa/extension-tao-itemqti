@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,39 +14,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  * 
  */
 
 namespace oat\taoQtiItem\model;
 
 /**
- * Interface defining required method for a plugin
+ * Interface defining required method for a controller's config
  *
- * @package taoQTI
- 
+ * @package taoQtiItem
  */
-Class Config
-{   
+abstract Class Config
+{
+
     protected $properties = array();
     protected $uiHooks = array();
-    protected $interactions = array();
-    protected $infoControls = array();
 
-    /**
-     * Affect the config
-     * 
-     * @param \oat\taoQtiItem\model\creator\CreatorConfig $config
-     */
     public function __construct(){
         
     }
-    
+
     public function setProperty($key, $value){
         $this->properties[$key] = $value;
     }
-    
+
     public function getProperty($key){
         if(isset($this->properties[$key])){
             return $this->properties[$key];
@@ -54,43 +46,16 @@ Class Config
             return null;
         }
     }
-    
+
     public function getProperties(){
         return $this->properties;
     }
-    
+
     public function addHook($hookFile){
         $this->uiHooks[] = $hookFile;
     }
-    
-    public function addInteraction($interactionFile){
-        $this->interactions[] = $interactionFile;
-    }
-    
-    public function addInfoControl($infoControl){
-        $this->infoControls[] = $infoControl;
-    }
-    
-    public function toArray(){
-        
-        $interactions = array();
-        foreach($this->interactions as $interaction){
-            unset($interaction['directory']);
-            $interactions[] = $interaction;
-        }
-        
-        $infoControls = array();
-        foreach($this->infoControls as $infoControl){
-            unset($infoControl['directory']);
-            $infoControls[] = $infoControl;
-        }
-        
-        return array(
-            'properties' => $this->properties,
-            'uiHooks' => $this->uiHooks,
-            'interactions' => $interactions,
-            'infoControls' => $infoControls
-        );
-    }
-    
+
+    abstract public function toArray();
+
+    abstract public function init();
 }
