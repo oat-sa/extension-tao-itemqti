@@ -43,4 +43,4 @@ class String256 extends Datatype
 		return substr((string)$value, 0, 253).'...';
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\String256 */
+}

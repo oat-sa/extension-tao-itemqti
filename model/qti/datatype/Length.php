@@ -43,4 +43,4 @@ class Length extends Datatype
 		return abs(intval($value));
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Length */
+}

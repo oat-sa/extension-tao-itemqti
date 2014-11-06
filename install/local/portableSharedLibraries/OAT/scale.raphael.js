@@ -9,7 +9,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com> for OAT SA
  * - Code refactoring to fit AMD modules
  */
-define(['IMSGLOBAL/jquery_2_1_1', 'OAT/raphael'], function($, Raphael){
+define(['IMSGlobal/jquery_2_1_1', 'OAT/raphael'], function($, Raphael){
     
   var scaleRaphael = function(container, width, height){
     var wrapper = container.style ? container : document.getElementById(container);

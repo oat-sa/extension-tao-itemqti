@@ -89,4 +89,3 @@ class Object extends Element
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\Object */

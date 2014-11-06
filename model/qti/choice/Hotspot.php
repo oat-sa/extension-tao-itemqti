@@ -93,5 +93,3 @@ abstract class Hotspot extends Choice
     }
 
 }
-
-/* end of class oat\taoQtiItem\model\qti\choice\Hotspot */

@@ -45,5 +45,3 @@ class InlineChoice extends TextVariableChoice
     protected static $qtiTagName = 'inlineChoice';
 
 }
-
-/* end of class oat\taoQtiItem\model\qti\choice\InlineChoice */

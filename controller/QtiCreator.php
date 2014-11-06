@@ -31,7 +31,7 @@ use \core_kernel_classes_Session;
 use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
-use oat\taoQtiItem\model\Config;
+use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
 
 /**
@@ -47,7 +47,7 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function index(){
 
-        $config = new Config();
+        $config = new CreatorConfig();
 
         if($this->hasRequestParameter('instance')){
             //uri:
@@ -77,7 +77,8 @@ class QtiCreator extends tao_actions_CommonModule
             $hook = new $hookClass();
             $hook->init($config);
         }
-
+        
+        $config->init();
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
     }

@@ -93,6 +93,6 @@ class ExpressionParserFactory
         return $returnValue;
     }
 
-} /* end of class oat\taoQtiItem\model\qti\expression\ExpressionParserFactory */
+}
 
 ?>

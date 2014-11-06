@@ -51,8 +51,9 @@ define(['jquery', 'lodash'], function($, _){
 
             //forward all event to the widget $container
             $(document).off(ns).on(event.getList(ns).join(' '), function(e, data){
-                if(data && data.element && data.element.data('widget')){
-                    data.element.data('widget').$container.trigger(e.type + _ns + _ns_model, data);
+                var element = data.element || data.container || null;
+                if(data && element && element.data('widget')){
+                    element.data('widget').$container.trigger(e.type + _ns + _ns_model, data);
                 }
             });
 

@@ -65,4 +65,4 @@ class ContainerHottext extends Container
 		}
 	}
 	
-} /* end of class oat\taoQtiItem\model\qti\container\ContainerHottext */
+}

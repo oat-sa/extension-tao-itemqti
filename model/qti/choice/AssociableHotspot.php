@@ -54,5 +54,3 @@ class AssociableHotspot extends Hotspot
     }
 
 }
-
-/* end of class oat\taoQtiItem\model\qti\choice\HotspotChoice */

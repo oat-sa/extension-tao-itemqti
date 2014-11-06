@@ -58,6 +58,6 @@ class TakeoverFailedException
         
     }
 
-} /* end of class oat\taoQtiItem\model\qti\response\TakeoverFailedException */
+}
 
 ?>

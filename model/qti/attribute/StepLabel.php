@@ -40,4 +40,4 @@ class StepLabel extends Attribute
 	static protected $defaultValue = false;
 	static protected $required = false;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\StepLabel */
+}

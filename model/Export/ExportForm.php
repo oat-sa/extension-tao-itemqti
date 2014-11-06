@@ -137,6 +137,6 @@ class ExportForm
     	$this->form->createGroup('options', __('Export QTI 2.1 Package'), array('xml_desc', 'filename', 'instances'));
     }
 
-} /* end of class taoItems_actions_form_Export */
+}
 
 ?>
