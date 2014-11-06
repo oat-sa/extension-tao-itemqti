@@ -84,7 +84,6 @@ define([
             loadingBar.start();
 
             config = config || module.config();
-            console.log(config);
             
             var configProperties = config.properties;
 
