@@ -25,8 +25,6 @@ use \tao_actions_CommonModule;
 use \common_exception_Error;
 use \tao_helpers_File;
 use \tao_helpers_Http;
-use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\helpers\Authoring;
 
 abstract class AbstractPortableElementManager extends tao_actions_CommonModule
 {
@@ -94,17 +92,7 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
             throw new common_exception_Error('invalid item preview file path');
         }
     }
-    
-    /**
-     * Get the data of the implementation by its typeIdentifier
-     * 
-     * @param string $typeIdentifier
-     * @return array
-     */
-    protected function getImplementatioByTypeIdentifier($typeIdentifier){
-        return $this->registry->getDevImplementation($typeIdentifier);
-    }
-    
+   
     /**
      * Add required resources for a custom interaction (css, js) in the item directory
      * 
@@ -112,46 +100,11 @@ abstract class AbstractPortableElementManager extends tao_actions_CommonModule
      */
     public function addRequiredResources(){
         
-        //get params
         $typeIdentifier = $this->getRequestParameter('typeIdentifier');
         $itemUri = urldecode($this->getRequestParameter('uri'));
         $item = new core_kernel_classes_Resource($itemUri);
-        $sharedLibRegistry = Service::singleton()->getSharedLibrariesRegistry();
         
-        //find the interaction in the registry
-        $implementationData = $this->getImplementatioByTypeIdentifier($typeIdentifier);
-        if(is_null($implementationData)){
-            throw new common_exception_Error('no implementation found with the type identifier '.$typeIdentifier);
-        }
-        
-        //get the root directory of the interaction
-        $directory = $implementationData['directory'];
-        
-        //get the lists of all required resources
-        $manifest = $implementationData['manifest'];
-        $required = array($manifest['entryPoint']);
-        
-        //include libraries remotely only, so this block is temporarily disabled
-        foreach($manifest['libraries'] as $lib){
-            if(!$sharedLibRegistry->isRegistered($lib)){
-                $lib = preg_replace('/^.\//', '', $lib);
-                $lib .= '.js';//add js extension
-                $required[] = $lib;
-            }
-        }
-        
-        //include custom interaction specific css in the item
-        if(isset($manifest['css'])){
-            $required = array_merge($required, array_values($manifest['css']));
-        }
-        
-        //include media in the item
-        if(isset($manifest['media'])){
-            $required = array_merge($required, array_values($manifest['media']));
-        }
-        
-        //add them to the rdf item
-        $resources = Authoring::addRequiredResources($directory, $required, $typeIdentifier, $item, '');
+        $resources = $this->registry->addRequiredResources($typeIdentifier, $item);
         
         $this->returnJson(array(
             'success' => true,
