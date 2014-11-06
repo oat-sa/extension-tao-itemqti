@@ -35,6 +35,10 @@
 
     //once the page is loaded
     onLoad(function(){
+
+        requirejs.config({
+           waitSeconds : parameters.timeout || 30 
+        });
         
         //we load the configuration
         require([clientConfigUrl], function(){
