@@ -20,8 +20,6 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
-use qtism\runtime\expressions\operators\custom\Implode;
-
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use \core_kernel_classes_Resource;
@@ -77,13 +75,14 @@ class OntologyMetadataInjector implements MetadataInjector
         foreach ($values as $metadataValues) {
             foreach ($metadataValues as $metadataValue) {
                 $pathKey = implode('->', $metadataValue->getPath());
+                $lang = $metadataValue->getLanguage() ?: DEFAULT_LANG;
                 
                 if (($rule = $this->getRuleByValue($metadataValue->getPath(), $metadataValue->getValue())) !== false) {
                     // Direct Mapping.
-                    $target->setPropertyValue(new core_kernel_classes_Property($rule[0]), $rule[2]);
+                    $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $rule[2], $lang);
                 } elseif (($rule = $this->getRuleByPath($metadataValue->getPath())) !== false) {
                     // Direct Injection.
-                    $target->setPropertyValue(new core_kernel_classes_Property($rule[0]), $metadataValue->getValue());
+                    $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $metadataValue->getValue(), $lang);
                 }
             }
         }
