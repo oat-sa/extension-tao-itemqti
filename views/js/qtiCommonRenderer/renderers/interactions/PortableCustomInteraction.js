@@ -73,7 +73,7 @@ define([
         localRequire(['require', entryPoint], function(req){
             
             require(['moment'], function(m){
-                console.log(m);
+                
             });
 
             //not working
@@ -82,7 +82,7 @@ define([
 //            });
 
             req(['IMSGlobal/jquery_2_1_1'], function($){
-                console.log($);
+                //console.log($);
             });
 
             var pci = _getPci(interaction);
