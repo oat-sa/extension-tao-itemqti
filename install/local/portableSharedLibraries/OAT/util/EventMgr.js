@@ -1,4 +1,4 @@
-define(['lodash'], function(_){
+define(['OAT/lodash'], function(_){
     
     //@todo : complete with namespace managements
     function EventMgr(){
