@@ -1,73 +1,13 @@
 define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(context, _, $, util){
-
-    var _paths = {};
-
-    /**
-     * Return the list of all registered libs
-     * 
-     * @returns {Object}
-     */
-    function getRegisteredLibraries(reqContext){
-        if(reqContext){
-            return _.clone(_paths[reqContext]);
-        }else{
-            throw 'unknown req context '+reqContext;
-        }
-    }
-
-    /**
-     * Register the libraries in 'paths' into requiresjs
-     * The requirejs config will be specific to the portable elements, the sepcific context e.g. 'portableCustomInteraction' is defined as a consequence
-     * 
-     * @param {String} reqContext - the name of the requirejs context
-     * @param {Object} paths
-     */
-    function registerLibraries(reqContext, paths){
-        if(reqContext && _.isString(reqContext)){
-            window.require.config({
-                reqContext : reqContext,
-                paths : paths
-            });
-            _paths[reqContext] = _.defaults(_paths[reqContext] || {}, paths);
-        }else{
-            throw 'a requirejs reqContext name is required';
-        }
-    }
     
+    /**
+     * Get the location of the document, useful to define a baseUrl for the required context
+     * @returns {String}
+     */
     function getDocumentBaseUrl(){
         return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
     }
     
-    /**
-     * Register a library in a specific requirejs context
-     * 
-     * @param {String} reqContext
-     * @param {String} name
-     * @param {String} path
-     */
-    function registerLibrary(reqContext, name, path){
-        var paths = {};
-        paths[name] = path;
-        registerLibraries(reqContext, paths);
-    }
-
-    /**
-     * Call requirejs.require() in a specific context e.g. 'portableCustomInteraction'
-     * 
-     * @param {String} reqContext - the name of the requirejs context
-     * @param {Array} modules - list of the amd modules names or scripts names 
-     * @param {Function} callback - function executed after libs are loaded
-     */
-    function require(reqContext, modules, callback){
-
-        if(reqContext && _.isString(reqContext)){
-            var pciReq = window.require.config({reqContext : reqContext});
-            pciReq(modules, callback);
-        }else{
-            throw 'a requirejs reqContext name is required';
-        }
-    }
-
     /**
      * Get root url of available vendor specific libraries 
      * 
@@ -84,58 +24,26 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
             OAT : sharedLibrariesUrl + 'OAT'
         };
     }
-
+    
     /**
-     * Register commonly required libraries to make a portable elment hook runnable
+     * Get lists of required OAT delivery engine libs
      * 
-     * @param {String} reqContext
+     * @returns {Object}
      */
-    function registerCommonLibraries(reqContext){
-
-        var paths = getSharedLibrariesPaths();
-        paths = _.defaults(paths, {css : context.root_url + 'tao/views/js/lib/require-css/css'});
-        registerLibraries(reqContext, paths);
-
+    function getCommonLibraries(){
+        return {
+            css : context.root_url + 'tao/views/js/lib/require-css/css',
+            mathJax : context.root_url + 'taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full'
+        };
     }
-
+    
     /**
-     * Get the list of required modules to be loaded for portableElement rendering
+     * Replace all identified relative media urls by the absolute one
      * 
-     * @param {Object} portableElement
-     * @param {String} libsUrl The base URL to find shared libraries.
+     * @param {String} markupStr
      * @param {String} baseUrl
-     * @returns {Array}
+     * @returns {String}
      */
-    function getElementLibraries(portableElement, libsUrl, baseUrl){
-
-        var libraries = _.clone(portableElement.libraries) || [],
-            ret = [],
-            paths = {};
-
-        //currently, include entryPoint as a lib to be all loaded at once
-        libraries[portableElement.typeIdentifier + '.entryPoint'] = portableElement.entryPoint;
-
-        //require the actual shared and shareable libs (that support the implementation of the pci)
-        _.forIn(libraries, function(href, name){
-
-            if(name.indexOf('.entryPoint') > -1){
-                var hrefFull = util.fullpath(href, baseUrl);
-
-                if(/\.js$/.test(hrefFull)){
-                    paths[name] = hrefFull.replace(/\.js$/, '');
-                    ret.push(name);
-                }else if(/\.css$/.test(hrefFull)){
-                    paths[name] = hrefFull.replace(/\.css$/, '');
-                    ret.push('css!' + name);
-                }
-            }
-        });
-
-        registerLibraries(paths);
-
-        return ret;
-    }
-
     function replaceMarkupMediaSource(markupStr, baseUrl){
 
         var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
@@ -151,16 +59,77 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         return $markup.html();
     }
-
+    
+    /**
+     * Get a local require js with typeIdentifier as specific context
+     * 
+     * @param {String} typeIdentifier
+     * @param {String} baseUrl
+     * @param {Object} libs
+     * @returns {Function} - RequireJs instance
+     */
+    function getLocalRequire(typeIdentifier, baseUrl, libs){
+        
+        libs = libs || {};
+        libs = _.defaults(libs, getCommonLibraries());
+        libs = _.defaults(libs, getSharedLibrariesPaths());
+        
+        //add local namespace
+        libs[typeIdentifier] = baseUrl + typeIdentifier;
+    
+        return window.require.config({
+            context : typeIdentifier,//use unique typeIdentifier as context name
+            baseUrl : baseUrl,
+            paths : libs || {},
+            shim : {
+                mathJax : {
+                    exports : "MathJax",
+                    init : function(){
+                        if(window.MathJax){
+                            MathJax.Hub.Config({showMathMenu : false, showMathMenuMSIE : false});//add mathJax config here for now before integrating the amd one
+                            MathJax.Hub.Startup.onload();
+                            return MathJax;
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    /**
+     * local require js caches
+     * 
+     * @type Object
+     */
+    var _localRequires = {};
+    
+    /**
+     * Get a cached local require js with typeIdentifier as specific context
+     * If it does not exsits, it creates one.
+     * Warning only the typeIdentifier and baseUrl will be used as key (not libs)
+     * This means that if you want to ensure that the baseUrl and libs are different,
+     * you may want to use getLocalRequire instead
+     * 
+     * @param {String} typeIdentifier
+     * @param {String} baseUrl
+     * @param {Object} libs
+     * @returns {Function} - RequireJs instance
+     */
+    function getCachedLocalRequire(typeIdentifier, baseUrl, libs){
+        
+        _localRequires[typeIdentifier] = _localRequires[typeIdentifier] || {};
+        if(!_localRequires[typeIdentifier][baseUrl]){
+            _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs);
+        }
+        return _localRequires[typeIdentifier][baseUrl];
+    }
+    
     return {
-        registerLibraries : registerLibraries,
-        registerLibrary : registerLibrary,
-        getRegisteredLibraries : getRegisteredLibraries,
-        require : require,
         getSharedLibrariesPaths : getSharedLibrariesPaths,
-        registerCommonLibraries : registerCommonLibraries,
-        getElementLibraries : getElementLibraries,
+        getCommonLibraries : getCommonLibraries,
         replaceMarkupMediaSource : replaceMarkupMediaSource,
-        getDocumentBaseUrl : getDocumentBaseUrl
+        getDocumentBaseUrl : getDocumentBaseUrl,
+        getLocalRequire : getLocalRequire,
+        getCachedLocalRequire : getCachedLocalRequire
     };
 });

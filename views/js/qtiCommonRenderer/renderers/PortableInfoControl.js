@@ -7,8 +7,6 @@ define([
     'context'
 ], function(tpl, Helper, PortableElement, qtiInfoControlContext, util, context){
 
-    var _reqContext = 'portableInfoControl';
-
     /**
      * Get the PIC instance associated to the infoControl object
      * If none exists, create a new one based on the PIC typeIdentifier
@@ -58,22 +56,19 @@ define([
         options = options || {};
 
         var id = infoControl.attr('id'),
+            typeIdentifier = infoControl.typeIdentifier,
             baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
             config = infoControl.properties,
             entryPoint = util.fullpath(infoControl.entryPoint, baseUrl),
             $dom = Helper.getContainer(infoControl).children(),
             state = {}; //@todo pass state and response to renderer here:
             
-        //register namespace and libs    
-        PortableElement.registerCommonLibraries(_reqContext);
-        PortableElement.registerLibrary(_reqContext, 'qtiInfoControlContext', context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext');
-        PortableElement.registerLibrary(_reqContext, infoControl.typeIdentifier, baseUrl + infoControl.typeIdentifier);
-
-        /**
-         * The libraries (js or css) will all be loaded asynchronously
-         * The sequence they have been defined indeed does not matter
-         */
-        PortableElement.require(_reqContext, [entryPoint], function(){
+        //create a new require context to load the libs: 
+        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
+            qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
+        });
+        
+        localRequire([entryPoint], function(){
 
             var pci = _getPic(infoControl);
             if(pci){
