@@ -1,4 +1,4 @@
-define(function(){
+define(['module'], function(module){
 
     //need a global reference to have pciHooks shared in two different requirejs context ("default" and "portableCustomInteraction")
     window._pciHooks = window._pciHooks || {};
@@ -69,6 +69,9 @@ define(function(){
             }else{
                 throw 'no portable custom interaction hook found with the id ' + pciTypeIdentifier;
             }
+        },
+        getDefined : function(){
+            return module.config().defined;
         }
     };
     
