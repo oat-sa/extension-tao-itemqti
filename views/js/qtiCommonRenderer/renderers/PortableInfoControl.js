@@ -64,7 +64,7 @@ define([
             state = {}; //@todo pass state and response to renderer here:
             
         //create a new require context to load the libs: 
-        var localRequire = PortableElement.getLocalRequire(typeIdentifier, baseUrl, {
+        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
             qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
         });
         

@@ -66,13 +66,12 @@ define([
             response = {base : null};
         
         //create a new require context to load the libs: 
-        var localRequire = PortableElement.getLocalRequire(typeIdentifier, baseUrl, {
+        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
             qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
         });
-
+        
         localRequire(['require', entryPoint], function(req){
-
-            console.log('aaa', require);
+            
             require(['moment'], function(m){
                 console.log(m);
             });
