@@ -21,7 +21,9 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         //@todo make this dynamic somehow
         return {
             IMSGlobal : sharedLibrariesUrl + 'IMSGlobal',
-            OAT : sharedLibrariesUrl + 'OAT'
+            OAT : sharedLibrariesUrl + 'OAT',
+            'OAT/MathJax' : sharedLibrariesUrl + 'OAT/math/MathJax.min',
+            'OAT/MathJaxAssets' : sharedLibrariesUrl + 'OAT/math/assets/',
         };
     }
     
@@ -32,8 +34,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      */
     function getCommonLibraries(){
         return {
-            css : context.root_url + 'tao/views/js/lib/require-css/css',
-            mathJax : context.root_url + 'taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full'
+            css : context.root_url + 'tao/views/js/lib/require-css/css'
         };
     }
     
@@ -68,7 +69,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @param {Object} libs
      * @returns {Function} - RequireJs instance
      */
-    function getLocalRequire(typeIdentifier, baseUrl, libs){
+    function getLocalRequire(typeIdentifier, baseUrl, libs, config){
         
         libs = libs || {};
         libs = _.defaults(libs, getCommonLibraries());
@@ -81,16 +82,12 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
             context : typeIdentifier,//use unique typeIdentifier as context name
             baseUrl : baseUrl,
             paths : libs || {},
-            shim : {
-                mathJax : {
-                    exports : "MathJax",
-                    init : function(){
-                        if(window.MathJax){
-                            MathJax.Hub.Config({showMathMenu : false, showMathMenuMSIE : false});//add mathJax config here for now before integrating the amd one
-                            MathJax.Hub.Startup.onload();
-                            return MathJax;
-                        }
-                    }
+            config : {
+                qtiCustomInteractionContext : {
+                    defined : libs
+                },
+                qtiInfoControlContext : {
+                    defined : libs
                 }
             }
         });
@@ -115,13 +112,17 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @param {Object} libs
      * @returns {Function} - RequireJs instance
      */
-    function getCachedLocalRequire(typeIdentifier, baseUrl, libs){
+    function getCachedLocalRequire(typeIdentifier, baseUrl, libs, config){
         
         _localRequires[typeIdentifier] = _localRequires[typeIdentifier] || {};
         if(!_localRequires[typeIdentifier][baseUrl]){
-            _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs);
+            _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs, config);
         }
         return _localRequires[typeIdentifier][baseUrl];
+    }
+    
+    function purgeCache(){
+        _localRequires = {};
     }
     
     return {
@@ -130,6 +131,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         replaceMarkupMediaSource : replaceMarkupMediaSource,
         getDocumentBaseUrl : getDocumentBaseUrl,
         getLocalRequire : getLocalRequire,
-        getCachedLocalRequire : getCachedLocalRequire
+        getCachedLocalRequire : getCachedLocalRequire,
+        purgeCache : purgeCache
     };
 });
