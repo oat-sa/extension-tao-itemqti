@@ -4,10 +4,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'taoQtiItem/runtime/qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util',
+    'lodash',
     'context'
-], function(tpl, Helper, PortableElement, qtiCustomInteractionContext, util, context){
-
-    var _reqContext = 'portableCustomInteraction';
+], function(tpl, Helper, PortableElement, qtiCustomInteractionContext, util, _, context){
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -58,23 +57,34 @@ define([
         options = options || {};
 
         var id = interaction.attr('responseIdentifier'),
+            typeIdentifier = interaction.typeIdentifier,
             baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
-            config = _.clone(interaction.properties),//pass a clone instead
+            config = _.clone(interaction.properties), //pass a clone instead
             entryPoint = util.fullpath(interaction.entryPoint, baseUrl),
             $dom = Helper.getContainer(interaction).children(),
             state = {}, //@todo pass state and response to renderer here:
             response = {base : null};
-            
-        //register namespace and libs    
-        PortableElement.registerCommonLibraries(_reqContext);
-        PortableElement.registerLibrary(_reqContext, 'qtiCustomInteractionContext', context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
-        PortableElement.registerLibrary(_reqContext, interaction.typeIdentifier, baseUrl + interaction.typeIdentifier);
+        
+        //create a new require context to load the libs: 
+        var localRequire = PortableElement.getLocalRequire(typeIdentifier, baseUrl, {
+            qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
+        });
 
-        /**
-         * The libraries (js or css) will all be loaded asynchronously
-         * The sequence they have been defined indeed does not matter
-         */
-        PortableElement.require(_reqContext, [entryPoint], function(){
+        localRequire(['require', entryPoint], function(req){
+
+            console.log('aaa', require);
+            require(['moment'], function(m){
+                console.log(m);
+            });
+
+            //not working
+//            require(['IMSGlobal/jquery_2_1_1'], function(m){
+//                console.log(m);
+//            });
+
+            req(['IMSGlobal/jquery_2_1_1'], function($){
+                console.log($);
+            });
 
             var pci = _getPci(interaction);
             if(pci){
@@ -89,7 +99,7 @@ define([
 
         });
     };
-    
+
     /**
      * Programmatically set the response following the json schema described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343

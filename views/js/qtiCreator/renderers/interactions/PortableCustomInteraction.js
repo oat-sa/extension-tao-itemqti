@@ -8,7 +8,7 @@ define([
     var CreatorCustomInteraction = _.clone(Renderer);
 
     CreatorCustomInteraction.render = function(interaction, options){
-
+        
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getBaseUrl(interaction.typeIdentifier)});
         
