@@ -43,6 +43,11 @@ define([
                 baseUrl : config.baseUrl
             });
 
+            //allow specifying the runtimeLocation (useful in debug mode)
+            if(config.runtimeLocations){
+                renderer.setOption('runtimeLocations', config.runtimeLocations);
+            }
+
             stop();//wait for the next start()
 
             loader.loadItemData(itemData, function(item){
@@ -134,10 +139,19 @@ define([
         var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
         var baseUrl = globalConfig.relBaseUrl.replace(extension, fullpath);
 
-        return {
+        var testConfig = {
             baseUrl : baseUrl,
             assertions : _.defaults(globalConfig.assertions || {}, _defaultAssertions)
         };
+
+        if(globalConfig.runtimeLocations){
+            testConfig.runtimeLocations = {};
+            _.forIn(globalConfig.runtimeLocations, function(path, ns){
+                testConfig.runtimeLocations[ns] = path.replace(extension, fullpath);
+            });
+        }
+
+        return testConfig;
     }
 
     var Test = {
@@ -147,9 +161,9 @@ define([
 
             //require xml :
             require(['text!' + globalConfig.relBaseUrl + 'qti.xml'], function(xml){
-                
+
                 parseXml(xml, function(r){
-                    
+
                     if(r.itemData){
                         runTest(r.itemData, buildTestConfig(globalConfig));
                     }else{
