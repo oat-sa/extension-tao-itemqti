@@ -1,9 +1,8 @@
 define([
     'taoQtiItem/qtiItem/core/Element',
     'lodash',
-    'taoQtiItem/qtiItem/helper/rendererConfig',
-    'taoQtiItem/qtiItem/helper/util'
-], function(Element, _, rendererConfig, util){
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function(Element, _, rendererConfig){
 
     var Img = Element.extend({
         qtiClass : 'img',
@@ -11,14 +10,12 @@ define([
 
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
-                baseUrl = renderer.getOption('baseUrl') || '',
-                src = this.attr('src') || '',
-                defaultData = {
-                    attributes : {
-                        src : util.fullpath(src, baseUrl)
-                    }
-                };
-                
+                defaultData = {};
+
+            defaultData.attributes = {
+                src : renderer.getAbsoluteUrl(this.attr('src'))
+            };
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         isEmpty : function(){
