@@ -1047,6 +1047,11 @@ img.dragging.ui-draggable-dragging {
         display: none !important;
     }
 
+
+    html body .action-bar {
+        display: none !important;
+    }
+
     html body #item-editor-panel {
         margin: 0 !important;
         padding: 0 !important;
