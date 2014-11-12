@@ -417,8 +417,7 @@ define([
 
         this.getAbsoluteUrl = function(relUrl){
             
-            if(relUrl.match(/^http/i)){
-
+            if(/^http(s)?:\/\//i.test(relUrl)){
                 //already absolute
                 return relUrl;
             }else{
