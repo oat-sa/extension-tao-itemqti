@@ -1043,10 +1043,17 @@ img.dragging.ui-draggable-dragging {
         border: none !important;
     }
 
+    html body .item-editor-sidebar-wrapper {
+        display: none !important;
+    }
+
     html body .item-no-print {
         display: none !important;
     }
 
+    html body #item-editor-scroll-inner {
+        padding: 0 !important;
+    }
 
     html body .action-bar {
         display: none !important;
