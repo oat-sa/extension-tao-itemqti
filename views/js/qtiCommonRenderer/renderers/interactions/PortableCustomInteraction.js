@@ -59,31 +59,29 @@ define([
         var id = interaction.attr('responseIdentifier'),
             typeIdentifier = interaction.typeIdentifier,
             baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
+            runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations'),
             config = _.clone(interaction.properties), //pass a clone instead
-            entryPoint = util.fullpath(interaction.entryPoint, baseUrl),
+            entryPoint = this.getAbsoluteUrl(interaction.entryPoint),
             $dom = Helper.getContainer(interaction).children(),
+            localRequirePaths = {
+                qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
+            },
+            localRequireConfig = {},
             state = {}, //@todo pass state and response to renderer here:
             response = {base : null};
-        
+
+        if(runtimeLocations && runtimeLocations[typeIdentifier]){
+            //we are overwriting the runtime libs location:
+            localRequireConfig.runtimeLocation = runtimeLocations[typeIdentifier];
+//            if(interaction.entryPoint.indexOf(typeIdentifier) === 0){
+//                entryPoint = interaction.entryPoint.replace(typeIdentifier, runtimeLocations[typeIdentifier]);
+//            }
+        }
+
         //create a new require context to load the libs: 
-        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
-            qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
-        });
-        
-        localRequire(['require', entryPoint], function(req){
-            
-            require(['moment'], function(m){
-                
-            });
+        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, localRequirePaths, localRequireConfig);
 
-            //not working
-//            require(['IMSGlobal/jquery_2_1_1'], function(m){
-//                console.log(m);
-//            });
-
-            req(['IMSGlobal/jquery_2_1_1'], function($){
-                //console.log($);
-            });
+        localRequire([entryPoint], function(){
 
             var pci = _getPci(interaction);
             if(pci){
