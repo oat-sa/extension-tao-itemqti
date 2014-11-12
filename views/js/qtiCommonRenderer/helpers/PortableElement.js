@@ -68,15 +68,17 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @param {Object} libs
      * @returns {Function} - RequireJs instance
      */
-    function getLocalRequire(typeIdentifier, baseUrl, libs){
+    function getLocalRequire(typeIdentifier, baseUrl, libs, config){
+        
+        config = config || {};
         
         libs = libs || {};
         libs = _.defaults(libs, getCommonLibraries());
         libs = _.defaults(libs, getSharedLibrariesPaths());
         
         //add local namespace
-        libs[typeIdentifier] = baseUrl + typeIdentifier;
-    
+        libs[typeIdentifier] = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;//allow overwrite by config (in test)
+        
         return window.require.config({
             context : typeIdentifier,//use unique typeIdentifier as context name
             baseUrl : baseUrl,
@@ -115,11 +117,11 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @param {Object} libs
      * @returns {Function} - RequireJs instance
      */
-    function getCachedLocalRequire(typeIdentifier, baseUrl, libs){
+    function getCachedLocalRequire(typeIdentifier, baseUrl, libs, config){
         
         _localRequires[typeIdentifier] = _localRequires[typeIdentifier] || {};
         if(!_localRequires[typeIdentifier][baseUrl]){
-            _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs);
+            _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs, config);
         }
         return _localRequires[typeIdentifier][baseUrl];
     }

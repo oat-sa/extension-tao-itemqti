@@ -244,13 +244,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 defaultData.object = {
                     attributes : this.object.getAttributes()
                 };
-                var url = defaultData.object.attributes.data;
-                var baseUrl = renderer.getOption('baseUrl');
-                if(baseUrl){
-                    if(!/^http(s)?:\/\//.test(url)){
-                        defaultData.object.attributes.data = baseUrl + url;
-                    }
-                }
+                defaultData.object.attributes.data = renderer.getAbsoluteUrl(this.object.attr('data'));
             }
 
             tplData = _.merge(defaultData, args.data || {});

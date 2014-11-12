@@ -29,9 +29,7 @@ define([
 
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
-                defaultData = {},
-                baseUrl = renderer.getOption('baseUrl') || '',
-                src = this.attr('data') || '';
+                defaultData = {};
 
             switch(this.getMediaType()){
                 case 'video':
@@ -48,7 +46,7 @@ define([
                     defaultData.object = true;
             }
             
-            defaultData.attributes = {data : util.fullpath(src, baseUrl)};
+            defaultData.attributes = {data : renderer.getAbsoluteUrl(this.attr('data'))};
             defaultData.body = this._alt;
             
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
