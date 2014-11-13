@@ -79,7 +79,7 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-            console.log('req', require);
+            
             //first all, start loading bar
             loadingBar.start();
 

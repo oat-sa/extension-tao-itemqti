@@ -17,8 +17,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, editor){
+    'taoQtiItem/qtiCreator/helper/panel'
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -210,8 +210,8 @@ define([
                 formElement.setChangeCallbacks($choiceForm, choice, callbacks);
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
                 
                 //change the nodes bound to the position fields
                 $left   = $('input[name=x]', $choiceForm);
@@ -227,7 +227,7 @@ define([
          */
         function leaveChoiceForm(){
             if($formChoicePanel.css('display') !== 'none'){
-                editor.openSections($formInteractionPanel.children('section'));
+                panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
             }
@@ -292,8 +292,8 @@ define([
                 formElement.setChangeCallbacks($choiceForm, gapImg, callbacks);
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
 
                 if(typeof window.scroll === 'function'){
                     window.scroll(0, $choiceForm.offset().top);

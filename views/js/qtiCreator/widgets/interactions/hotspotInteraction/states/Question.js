@@ -14,8 +14,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
-    'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl,  editor){
+    'taoQtiItem/qtiCreator/helper/panel'
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl,  panel){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
