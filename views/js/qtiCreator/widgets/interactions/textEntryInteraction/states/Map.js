@@ -88,7 +88,8 @@ define([
         var _this = this,
             response = this.widget.element.getResponseDeclaration(),
             correctValue = _.values(response.getCorrect()).pop(),
-            $addOption = this.widget.$container.find('tr[data-add-option]');
+            $container = this.widget.$container,
+            $addOption = $container.find('tr[data-add-option]');
         
         var appendOption = function(text, score){
             
@@ -100,6 +101,17 @@ define([
             $newOption.show();
 
             $addOption.before($newOption);
+            
+            preventNullMapEntries();
+        };
+        
+        var preventNullMapEntries = function(){
+            var $deleteButtons = $container.find('tbody [data-role=delete-option]');
+            if($deleteButtons.length === 1){
+                $deleteButtons.css('visibility', 'hidden');
+            }else{
+                $deleteButtons.css('visibility', 'visible');
+            }
         };
         
         if(!_.size(response.mapEntries)){
@@ -107,11 +119,10 @@ define([
         }
         
         _.forIn(response.mapEntries, function(score, text){
-            
             appendOption(text, score);
         });
 
-        this.widget.$container.on('click.map', '[data-role=delete-option]', function(){
+        $container.on('click.map', '[data-role=delete-option]', function(){
 
             //init delete:
             var $del = $(this);
@@ -120,6 +131,8 @@ define([
 
             response.removeMapEntry(text, true);
             $del.closest('tr').remove();
+            preventNullMapEntries();
+            
             if(correct){
                 response.resetCorrect();//remove correct
             }
