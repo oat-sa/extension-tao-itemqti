@@ -262,7 +262,7 @@ define([
             initMediaPlayer();
        });
 
-        //gievs a small chance to the responseSet event before initializing the player
+        //gives a small chance to the responseSet event before initializing the player
         _.defer(function(){ 
             initMediaPlayer();
         });

@@ -7,10 +7,11 @@
         <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
         <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
-
+        <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-only="qtiCommonRenderer"></script>
+        
         <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css" />
         <link rel="stylesheet" type="text/css" href="/taoQtiItem/views/css/qti.css" />
-
+        
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function(){
@@ -21,6 +22,14 @@
                         relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/media_test/',
                         assertions : {
                             interactionCount : 3,
+                            responses : []
+                        }
+                    });
+
+                    runner.run({
+                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/media_youtube/',
+                        assertions : {
+                            interactionCount : 1,
                             responses : []
                         }
                     });
