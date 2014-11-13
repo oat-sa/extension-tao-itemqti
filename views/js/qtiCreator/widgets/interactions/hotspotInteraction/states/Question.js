@@ -118,8 +118,8 @@ define([
                 });
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
 
                 //change the nodes bound to the position fields
                 $left   = $('input[name=x]', $choiceForm);
@@ -135,7 +135,7 @@ define([
          */
         function leaveChoiceForm(){
             if($formChoicePanel.css('display') !== 'none'){
-                editor.openSections($formInteractionPanel.children('section'));
+                panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
             }
