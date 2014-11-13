@@ -417,6 +417,11 @@ define([
 
         this.getAbsoluteUrl = function(relUrl){
             
+            //allow relative url outpu only if explicitely said so
+            if(this.getOption('userRelativeUrl')){
+                return relUrl.replace(/^\.?\//, '');
+            }
+            
             if(/^http(s)?:\/\//i.test(relUrl)){
                 //already absolute
                 return relUrl;
@@ -446,11 +451,14 @@ define([
     };
 
     return {
-        build : function(renderersLocations, name){
+        build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
                 Renderer.apply(this, arguments);
                 this.register(renderersLocations);
                 this.name = name || '';
+                if(defaultOptions){
+                    this.setOptions(defaultOptions);
+                }
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;

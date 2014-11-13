@@ -1,6 +1,6 @@
 define(function(){
     return {
-        name: 'xmlRenderer',
+        name : 'xmlRenderer',
         locations : {
             '_container' : 'taoQtiItem/qtiXmlRenderer/renderers/Container',
             'assessmentItem' : 'taoQtiItem/qtiXmlRenderer/renderers/Item',
@@ -43,6 +43,9 @@ define(function(){
             'simpleChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleChoice',
             'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/PortableCustomInteraction',
             'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl'
+        },
+        options : {
+            userRelativeUrl : true
         }
     };
 });
