@@ -8,14 +8,21 @@ define([
 
     //configure and instanciate once only:
     var _creatorRenderer = null;
+    
+    /**
+     * Get a preconfigured renderer singleton
+     * 
+     * @param {Boolean} reset
+     * @returns {Object} - a configured instance of creatorRenderer
+     */
+    var get = function(reset){
 
-    var _singleton = function(){
-
-        if(!_creatorRenderer){
+        if(!_creatorRenderer || reset){
 
             var $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
 
-            if(!$bodyEltForm
+            if(reset
+                || !$bodyEltForm
                 || !$bodyEltForm.length
                 || !dom.contains($bodyEltForm)){
 
@@ -49,17 +56,17 @@ define([
 
 
     return {
-        get : function(){
-            return _singleton();
+        get : function(reset){
+            return get(reset);
         },
         setOption : function(name, value){
-            _singleton().setOption(name, value);
+            get().setOption(name, value);
         },
         setOptions : function(options){
-            _singleton().setOptions(options);
+            get().setOptions(options);
         },
         load : function(qtiClasses, done){
-            _singleton().load(function(){
+            get().load(function(){
                 if(_.isFunction(done)){
                     done.apply(this, arguments);
                 }

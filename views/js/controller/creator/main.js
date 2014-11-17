@@ -178,7 +178,7 @@ define([
             
                 //load creator renderer
                 creatorRenderer.setOptions(configProperties);
-                creatorRenderer.get().load(function(){
+                creatorRenderer.get(true).load(function(){
 
                     //set renderer
                     item.setRenderer(this);
