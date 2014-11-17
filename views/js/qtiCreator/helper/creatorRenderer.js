@@ -60,13 +60,13 @@ define([
             return get(reset);
         },
         setOption : function(name, value){
-            get().setOption(name, value);
+            return get().setOption(name, value);
         },
         setOptions : function(options){
-            get().setOptions(options);
+            return get().setOptions(options);
         },
         load : function(qtiClasses, done){
-            get().load(function(){
+            return get().load(function(){
                 if(_.isFunction(done)){
                     done.apply(this, arguments);
                 }

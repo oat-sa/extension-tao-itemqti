@@ -19,7 +19,7 @@ define([
 
             commonRenderer.setContext($container);
             
-            _renderer.load(function(){
+            return _renderer.load(function(){
                 
                 $container.append(item.render(this));
                 item.postRender({}, '', this);
@@ -30,21 +30,21 @@ define([
             return _renderer;
         },
         setOption : function(name, value){
-            _renderer.setOption(name, value);
+            return _renderer.setOption(name, value);
         },
         setOptions : function(options){
-            _renderer.setOptions(options);
+            return _renderer.setOptions(options);
         },
         setContext : function($context){
             _$previousContext = $context;
-            commonHelper.setContext($context);
+            return commonHelper.setContext($context);
         },
         restoreContext : function(){
-             commonHelper.setContext(_$previousContext);
+            commonHelper.setContext(_$previousContext);
              _$previousContext = null;
         },
         load : function(qtiClasses, done){
-            _renderer.load(function(){
+            return _renderer.load(function(){
                 if(_.isFunction(done)){
                     done.apply(this, arguments);
                 }
