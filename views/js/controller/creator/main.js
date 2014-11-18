@@ -82,7 +82,11 @@ define([
 
             //first all, start loading bar
             loadingBar.start();
-
+            
+            //reinitialize the renderer:
+            creatorRenderer.get(true);
+            
+            //init config
             config = config || module.config();
 
             var configProperties = config.properties;
@@ -178,7 +182,7 @@ define([
 
                 //load creator renderer
                 creatorRenderer
-                    .get(true)
+                    .get()
                     .setOptions(configProperties)
                     .load(function(){
 
