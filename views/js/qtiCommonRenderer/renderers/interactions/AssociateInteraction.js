@@ -102,7 +102,7 @@ define([
                 });
                 setTimeout(function(){
                     $otherRepeatedPair.removeAttr('style');
-                    $target.empty().removeAttr('style');
+                    $target.empty().css({color:"",border:""});
                 }, 2000);
             }
 
