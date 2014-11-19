@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\model\media\MediaSource;
 use oat\taoMediaManager\model\SimpleFileManagement;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
@@ -71,6 +72,9 @@ class QtiCreator extends tao_actions_CommonModule
             ));
             $config->setProperty('baseUrl', $url.'&relPath=');
         }
+
+        // get the config media Sources
+        $config->setProperty('mediaSources', array_keys(MediaSource::getMediaSources()));
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getAll();
