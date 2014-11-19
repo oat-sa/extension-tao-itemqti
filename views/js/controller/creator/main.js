@@ -79,12 +79,16 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-            
+
             //first all, start loading bar
             loadingBar.start();
-
-            config = config || module.config();
             
+            //reinitialize the renderer:
+            creatorRenderer.get(true);
+            
+            //init config
+            config = config || module.config();
+
             var configProperties = config.properties;
 
             //pass reference to useful dom element
@@ -158,64 +162,66 @@ define([
 
                         //fires event itemloaded
                         $doc.trigger('itemloaded.qticreator', [item]);
-                        
+
                         //set useful data :
                         item.data('uri', configProperties.uri);
-                        
+
                         callback(null, item);
-                        
+
                     });
                 }
             ], function(err, res){
-                
+
                 //get results from parallelized ajax calls:
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];
-                
+
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
-            
+
                 //load creator renderer
-                creatorRenderer.setOptions(configProperties);
-                creatorRenderer.get().load(function(){
+                creatorRenderer
+                    .get()
+                    .setOptions(configProperties)
+                    .load(function(){
 
-                    //set renderer
-                    item.setRenderer(this);
-                    
-                    //render item (body only) into the "drop-area"
-                    configProperties.dom.getItemPanel().append(item.render());
+                        //set renderer
+                        item.setRenderer(this);
 
-                    //"post-render it" to initialize the widget
-                    var widget = item.postRender(_.clone(configProperties));
+                        //render item (body only) into the "drop-area"
+                        configProperties.dom.getItemPanel().append(item.render());
 
-                    editor.initGui(widget, configProperties);
-                    panel.initSidebarAccordion($propertySidebar);
-                    panel.initFormVisibilityListener();
+                        //"post-render it" to initialize the widget
+                        var widget = item.postRender(_.clone(configProperties));
 
-                    //hide loading bar when completed
-                    loadingBar.stop();
+                        editor.initGui(widget, configProperties);
+                        panel.initSidebarAccordion($propertySidebar);
+                        panel.initFormVisibilityListener();
 
-                    //destroy by leaving the section
-                    section.on('hide', function(hiddenSection){
-                        if(hiddenSection.id === 'authoring'){
+                        //hide loading bar when completed
+                        loadingBar.stop();
 
-                            //remove global events
-                            $(window).off('.qti-widget');
-                            $doc.off('.qti-widget').off('.qti-creator');
-                        }
-                    });
+                        //destroy by leaving the section
+                        section.on('hide', function(hiddenSection){
+                            if(hiddenSection.id === 'authoring'){
 
-                    //set reference to item widget object
-                    $editorScope.data('widget', item);
+                                //remove global events
+                                $(window).off('.qti-widget');
+                                $doc.off('.qti-widget').off('.qti-creator');
+                            }
+                        });
 
-                    //fires event itemloaded
-                    $doc.trigger('widgetloaded.qticreator', [widget]);
-                    
-                    //init event listeners:
-                    event.initElementToWidgetListeners();
-                    
-                }, item.getUsedClasses());
+                        //set reference to item widget object
+                        $editorScope.data('widget', item);
+
+                        //fires event itemloaded
+                        $doc.trigger('widgetloaded.qticreator', [widget]);
+
+                        //init event listeners:
+                        event.initElementToWidgetListeners();
+
+                    }, item.getUsedClasses());
 
             });
 

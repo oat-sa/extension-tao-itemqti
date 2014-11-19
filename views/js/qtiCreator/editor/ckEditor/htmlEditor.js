@@ -162,6 +162,7 @@ define([
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
+                    $editable.data('editor-options', options);
 
                     $editable.on('change', function(){
                         changed(editor);
@@ -471,12 +472,18 @@ define([
                 $editable.removeAttr('contenteditable');
                 if($editable.data('editor')){
 
-                    var editor = $editable.data('editor');
-
+                    var editor = $editable.data('editor'),
+                        options = $editable.data('editor-options');
+                    
+                    //before destroying, ensure that data is stored
+                    if(_.isFunction(options.change)){
+                        options.change.call(editor, _htmlEncode(editor.getData()));
+                    }
+                    
                     editor.focusManager.blur(true);
                     editor.destroy();
 
-                    $editable.removeData('editor');
+                    $editable.removeData('editor').removeData('editor-options');
                     if($editable.data('qti-container')){
                         _rebuildWidgets($editable.data('qti-container'), $editable);
                     }

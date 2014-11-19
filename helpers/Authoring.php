@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\Parser;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
 use \tao_helpers_File;
+use \common_exception_Error;
 
 /**
  * Helper to provide methods for QTI authoring

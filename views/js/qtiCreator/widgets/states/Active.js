@@ -15,6 +15,8 @@ define([
             if(container !== e.target && !$.contains(container, e.target)){
                 _widget.changeState('sleep');
             }
+        }).on('beforesave.qti-creator.active', function(){
+            _widget.changeState('sleep');
         }).on('styleedit.active', function(){
             _widget.changeState('sleep');
         });

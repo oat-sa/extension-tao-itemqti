@@ -92,6 +92,9 @@ define([
         $saveBtn.on('click', function(e){
 
             var $saveButton = $(this);
+            
+            //trigger save event
+            $saveButton.trigger('beforesave.qti-creator');
 
             if($saveButton.hasClass('disabled')){
                 e.preventDefault();
@@ -99,32 +102,40 @@ define([
             }
 
             $saveButton.addClass('active');
+            
+            //defer exceution of save function to give beforesave chance to be executed
+            _.defer(function(){
 
-            $.when(styleEditor.save(), _widget.save()).done(function(){
+                $.when(styleEditor.save(), _widget.save()).done(function(){
 
-                var feedbackArgs = {
-                    message : __('Your item has been saved'),
-                    type : 'success'
-                },
-                i = arguments.length;
-
-                $saveButton.removeClass('active');
-
-                while(i--){
-                    if(arguments[i][1].toLowerCase() !== 'success'){
+                    var success = true, 
                         feedbackArgs = {
-                            message : __('Failed to save item'),
-                            type : 'error'
-                        };
-                        break;
-                    }
-                }
+                        message : __('Your item has been saved'),
+                        type : 'success'
+                    },
+                    i = arguments.length;
 
-                _createInfoBox(feedbackArgs);
+                    $saveButton.removeClass('active');
+
+                    while(i--){
+                        if(arguments[i][1].toLowerCase() !== 'success'){
+                            feedbackArgs = {
+                                message : __('Failed to save item'),
+                                type : 'error'
+                            };
+                            success = false;
+                            break;
+                        }
+                    }
+                    
+                    $saveButton.trigger('aftersave.qti-creator', [success]);
+                    _createInfoBox(feedbackArgs);
+                });
             });
+            
         });
 
-        $previewBtn.on('click', function() {
+        $previewBtn.on('click', function(){
             itemEditor.initPreview(_widget);
         });
 
@@ -158,7 +169,7 @@ define([
         });
 
         $itemBody.on('beforedragoverstart.gridEdit', function(){
-            
+
             $itemEditorPanel.addClass('dragging');
             $itemBody.removeClass('hoverable').addClass('inserting');
 
@@ -190,11 +201,11 @@ define([
             var widget = $widget.data('widget');
             var element = widget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
-            
+
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
-            
+
             containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
 
                 creatorRenderer.get().load(function(){
@@ -227,7 +238,7 @@ define([
                         //inform height modification
                         $widget.trigger('contentChange.gridEdit');
                         $widget.trigger('resize.gridEdit');
-                        
+
                         //active it right away:
                         if(Element.isA(elt, 'interaction')){
                             widget.changeState('question');
@@ -328,7 +339,7 @@ define([
                         var containerElements = _detachElements(itemBody, containerData.elements);
 
                         container.setElements(containerElements, containerData.body);
-                        
+
                         _this.initTextWidget(container, containerData.$original);
 
                     });
@@ -359,13 +370,13 @@ define([
     ItemWidget.initTextWidget = function(container, $col){
         return TextWidget.build(container, $col, this.renderer.getOption('textOptionForm'), {});
     };
-    
+
     /**
-    * Enable debugging 
-    * 
-    * @param {Boolean} [options.state = false] - log state change in console
-    * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
-    */
+     * Enable debugging 
+     * 
+     * @param {Boolean} [options.state = false] - log state change in console
+     * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
+     */
     ItemWidget.debug = function(options){
 
         options = options || {}
@@ -376,7 +387,7 @@ define([
 
         if(options.xml){
             var $code = $('<code>', {'class' : 'language-markup'}),
-            $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
+                $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
 
             $('#item-editor-wrapper').append($pre);
             devTools.liveXmlPreview(this.element, $code);
