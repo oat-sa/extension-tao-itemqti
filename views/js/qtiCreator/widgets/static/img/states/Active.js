@@ -186,12 +186,17 @@ define([
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
             $label = $form.find('input[name=alt]');
-
+        if(options.mediaManager.mediaSources.length === 0){
+            mediaSources = ['local'];
+        }
+        else{
+            mediaSources = options.mediaManager.mediaSources;
+        }
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
                 title : __('Please select an image file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
-                roots : ['local','mediamanager'],
+                mediaSources : mediaSources,
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
                 deleteUrl : options.mediaManager.deleteUrl,

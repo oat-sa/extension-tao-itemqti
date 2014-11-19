@@ -13,14 +13,14 @@ define([
      * Get a preconfigured renderer singleton
      * 
      * @param {Boolean} reset
+     * @param {Object} config
      * @returns {Object} - a configured instance of creatorRenderer
      */
-    var get = function(reset){
-
+    var get = function(reset, config){
         if(!_creatorRenderer || reset){
 
             var $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-
+            var mediaSources = config.properties.mediaSources || [];
             if(reset
                 || !$bodyEltForm
                 || !$bodyEltForm.length
@@ -44,7 +44,8 @@ define([
                         uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
                         deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
                         downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
-                        fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems')
+                        fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
+                        mediaSources : mediaSources
                     }
                 });
 
@@ -56,8 +57,8 @@ define([
 
 
     return {
-        get : function(reset){
-            return get(reset);
+        get : function(reset, config){
+            return get(reset, config);
         },
         setOption : function(name, value){
             return get().setOption(name, value);
