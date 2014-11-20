@@ -24,9 +24,8 @@ define([
     'jquery', 
     'lodash', 
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer'], 
-function($, _, QtiLoader, QtiElement, QtiRenderer){
+function($, _, QtiLoader, QtiRenderer){
     'use strict';
 
     var itemData = {};
@@ -43,10 +42,10 @@ function($, _, QtiLoader, QtiElement, QtiRenderer){
             this._renderer = new QtiRenderer({
                 baseUrl : '.'
             });
-
+ 
             this._loader.loadItemData(itemData, function(item){
                 self._item = item;
-                this._renderer.load(function(){
+                self._renderer.load(function(){
                     self._item.setRenderer(this);
     
                     done();
@@ -56,21 +55,29 @@ function($, _, QtiLoader, QtiElement, QtiRenderer){
 
         render : function(elt, done){
             var self = this;
+
             if(this._item){
                 try {
                     elt.innerHTML = this._item.render({});
+
                 } catch(e){
+                    console.error(e);
                     self.trigger('error', 'Error in template rendering : ' +  e);
                 }
                 try {
-                    this._item.postRender(done);
+                    this._item.postRender();
+
+                    
                 } catch(e){
+                    console.error(e);
                     self.trigger('error', 'Error in post rendering : ' +  e);
                 }
 
                 $(elt).on('responsechange', function(){
                     console.log('responsechange', arguments);
                 }); 
+
+                done();
             }
         },
 
