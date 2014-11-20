@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
 use oat\tao\model\media\MediaSource;
-use oat\taoMediaManager\model\SimpleFileManagement;
+use oat\taoMediaManager\model\FileManager;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
@@ -162,7 +162,7 @@ class QtiCreator extends tao_actions_CommonModule
                 $filename = $folder.$subPath;
             }
             else if($identifier === 'mediamanager'){
-                $fileManager = new SimpleFileManagement();
+                $fileManager = FileManager::getPermissionModel();
                 $filename = $fileManager->retrieveFile($subPath);
             }
             else{
