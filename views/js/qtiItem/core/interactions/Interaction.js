@@ -156,7 +156,6 @@ define([
         /**
          * Retrieve the state of the interaction. 
          * The state is provided by the interaction's renderer.
-         * If the renderer has no state management, it falls back to the response management.
          * 
          * @returns {Object} the interaction's state
          * @throws {Error} if no renderer is found 
@@ -167,8 +166,6 @@ define([
             if(renderer){
                 if(_.isFunction(renderer.getState)){
                     ret = renderer.getState(this);
-                } else {
-                    ret = renderer.getResponse(this);
                 }
             }else{
                 throw 'no renderer found for the interaction ' + this.qtiClass;
@@ -179,7 +176,6 @@ define([
         /**
          * Retrieve the state of the interaction. 
          * The state will be given to the interaction's renderer.
-         * If the renderer has no state management, it falls back to the response management.
          * 
          * @param {Object} state - the interaction's state
          * @throws {Error} if no renderer is found 
@@ -189,8 +185,6 @@ define([
             if(renderer){
                 if(_.isFunction(renderer.setState)){
                     renderer.setState(this, state);
-                } else {
-                    renderer.setResponse(this, state);
                 }
             }else{
                 throw 'no renderer found for the interaction ' + this.qtiClass;
@@ -198,12 +192,12 @@ define([
         },
 
         /**
-         * Destroy the  interaction.
+         * Clean up an interaction rendering.
          * Ask the renderer to run destroy if exists.
          * 
          * @throws {Error} if no renderer is found 
          */
-        destroy : function(){
+        clear : function(){
             var renderer = this.getRenderer();
             if(renderer){
                 if(_.isFunction(renderer.destroy)){

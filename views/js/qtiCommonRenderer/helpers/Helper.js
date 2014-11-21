@@ -32,7 +32,6 @@ define([
         getContainer : function(element, $scope){
             
             var serial = element.getSerial();
-            
             if($scope instanceof $ && $scope.length){
                 
                 //find in the given context
@@ -51,6 +50,17 @@ define([
 
             return _containers[serial];
         },
+
+        /**
+         * getContainer use a cache to store elements. This methods helps you to purge it.
+         * @param {Element} element - find the container of this element 
+         */ 
+        purgeCache : function(element){
+            if(element instanceof Element && _containers[element.getSerial()]){
+                _containers = _.omit(_containers, element.getSerial());
+            }
+        },
+
         validateInstructions : function(element, data){
             var serial = element.getSerial();
             if(_instructions[serial]){

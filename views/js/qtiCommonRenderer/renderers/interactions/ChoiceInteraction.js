@@ -199,7 +199,7 @@ define([
     };
 
     var destroy = function(interaction){
-
+        
         //remove event
         $(document).off('.commonRenderer');
         Helper.getContainer(interaction).off('.commonRenderer');
@@ -210,6 +210,8 @@ define([
         //remove instructions
         Helper.removeInstructions(interaction);
 
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     return {

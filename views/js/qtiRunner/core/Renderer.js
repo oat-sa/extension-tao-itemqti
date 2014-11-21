@@ -301,6 +301,82 @@ define([
             return ret;
         };
 
+        /**
+         * Retrieve the state of the interaction. 
+         * If the renderer has no state management, it falls back to the response management.
+         * 
+         * @param {Object} qtiInteraction - the interaction
+         * @param {String} [qtiSubClass] - (not sure of the type and how it is used - Sam ? )
+         * @returns {Object} the interaction's state
+         * 
+         * @throws {Error} if no renderer is registered
+         */
+        this.getState = function(qtiInteraction, qtiSubclass){
+
+            var ret = false;
+            var qtiClass = qtiSubclass || qtiInteraction.qtiClass;
+            var renderer = _getClassRenderer(qtiClass);
+
+            if(renderer){
+                if(_.isFunction(renderer.getState)){
+                    ret = renderer.getState.call(this, qtiInteraction);
+                } else {
+                    ret = renderer.getResponse.call(this, qtiInteraction);
+                }
+            }else{
+                throw 'no renderer registered under the name : ' + qtiClass;
+            }
+            return ret;
+        };
+
+        /**
+         * Retrieve the state of the interaction. 
+         * If the renderer has no state management, it falls back to the response management.
+         * 
+         * @param {Object} qtiInteraction - the interaction
+         * @param {Object} state - the interaction's state
+         * @param {String} [qtiSubClass] - (not sure of the type and how it is used - Sam ? )
+         *
+         * @throws {Error} if no renderer is found 
+         */
+        this.setState =  function(qtiInteraction, state, qtiSubclass){
+
+            var qtiClass = qtiSubclass || qtiInteraction.qtiClass;
+            var renderer = _getClassRenderer(qtiClass);
+
+            if(renderer){
+                if(_.isFunction(renderer.setState)){
+                    renderer.setState.call(this, qtiInteraction, state);
+                } else {
+                    renderer.setResponse.call(this, qtiInteraction, state);
+                }
+            }else{
+                throw 'no renderer registered under the name : ' + qtiClass;
+            }
+        };
+
+        /**
+         * Calls the renderer destroy.
+         * Ask the renderer to run destroy if exists.
+         * 
+         * @throws {Error} if no renderer is found 
+         */
+        this.destroy = function(qtiInteraction, qtiSubclass){
+
+            var ret = false,
+                qtiClass = qtiSubclass || qtiInteraction.qtiClass,
+                renderer = _getClassRenderer(qtiClass);
+
+            if(renderer){
+                if(_.isFunction(renderer.destroy)){
+                    ret = renderer.destroy.call(this, qtiInteraction);
+                }
+            }else{
+                throw 'no renderer registered under the name : ' + qtiClass;
+            }
+            return ret;
+        };
+
         this.getLoadedRenderers = function(){
             return _renderers;
         };
