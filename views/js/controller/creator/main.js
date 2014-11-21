@@ -82,12 +82,11 @@ define([
 
             //first all, start loading bar
             loadingBar.start();
-            
-            //reinitialize the renderer:
-            creatorRenderer.get(true);
-            
             //init config
             config = config || module.config();
+            //reinitialize the renderer:
+            creatorRenderer.get(true, config);
+
 
             var configProperties = config.properties;
 
