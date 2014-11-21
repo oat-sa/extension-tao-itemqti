@@ -23,6 +23,7 @@
                 require(['taoQtiItem/test/runner/provider/test'], function(){
                     
                     //Tests loaded, run tests
+                    QUnit.config.reorder = false;
                     QUnit.start();
                 });
             });

@@ -39,11 +39,18 @@ function($, _, QtiLoader, QtiRenderer){
             var self = this; 
 
             this._loader = new QtiLoader();
+
+            //TODO configure the renderer URLs using an AssetManager
             this._renderer = new QtiRenderer({
                 baseUrl : '.'
             });
  
             this._loader.loadItemData(itemData, function(item){
+
+                if(!item){
+                    return self.trigger('error', 'Unable to load item from the given data.');
+                }
+
                 self._item = item;
                 self._renderer.load(function(){
                     self._item.setRenderer(this);
@@ -61,7 +68,6 @@ function($, _, QtiLoader, QtiRenderer){
                     elt.innerHTML = this._item.render({});
 
                 } catch(e){
-                    console.error(e);
                     self.trigger('error', 'Error in template rendering : ' +  e);
                 }
                 try {
@@ -69,24 +75,25 @@ function($, _, QtiLoader, QtiRenderer){
 
                     
                 } catch(e){
-                    console.error(e);
                     self.trigger('error', 'Error in post rendering : ' +  e);
                 }
 
-                $(elt).on('responsechange', function(){
-                    console.log('responsechange', arguments);
+                $(elt).on('responseChange', function(){
+                    self.trigger('statechange', self.getState());
+                    self.trigger('responsechange', self.getResponses());
                 }); 
 
-                done();
+                //TODO use post render cb once implemented
+                _.delay(done, 10);
             }
         },
 
-        clear : function(done){
+        clear : function(elt, done){
             if(this._item){
                 
-               _.invoke(this._item.getInteractions(), 'destroy');
+               _.invoke(this._item.getInteractions(), 'clear');
                 
-                this.container.innerHTML = '';
+                elt.innerHTML = '';
             }
             done();
         },
@@ -95,7 +102,7 @@ function($, _, QtiLoader, QtiRenderer){
             var state = {};
             if(this._item){
                 _.forEach(this._item.getInteractions(), function(interaction){
-                    state[interaction.attr('responseId')] = interaction.getState();
+                    state[interaction.attr('responseIdentifier')] = interaction.getState();
                 });
             }
             return state;
@@ -104,7 +111,7 @@ function($, _, QtiLoader, QtiRenderer){
         setState : function(state){
             if(this._item && state){
                 _.forEach(this._item.getInteractions(), function(interaction){
-                    var id = interaction.attr('responseId');
+                    var id = interaction.attr('responseIdentifier');
                     if(id && state[id]){
                         interaction.setState(state[id]);
                     }
@@ -113,13 +120,16 @@ function($, _, QtiLoader, QtiRenderer){
         },
 
         getResponses : function(){
+            var responses = [];
             if(this._item){
-                return _.reduce(this._item.getInteractions(), function(res, interaction){
-                    res.push(interaction.getResponses());
+                _.reduce(this._item.getInteractions(), function(res, interaction){
+                    var response = {};
+                    response[interaction.attr('responseIdentifier')] = interaction.getResponse();
+                    res.push(response);
                     return res;
-                });
+                }, responses);
             }
-            return [];
+            return responses;
         }
     };
 

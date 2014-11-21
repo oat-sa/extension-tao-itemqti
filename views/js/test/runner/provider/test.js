@@ -5,7 +5,8 @@ define([
     'taoQtiItem/runner/provider/qti',
     'json!taoQtiItem/test/runner/samples/space-shuttle'], function($, _, itemRunner, qtiRuntimeProvider, itemData){
 
-    var container = document.getElementById('outside-container');
+    var containerId = 'item-container';
+
 
     QUnit.module('Provider API');
    
@@ -14,6 +15,7 @@ define([
         assert.ok(typeof qtiRuntimeProvider === 'object', "The module exports an object");
         assert.ok(typeof qtiRuntimeProvider.init === 'function' || typeof qtiRuntimeProvider.render === 'function', "The provider expose an init or a render method");
     });
+
 
 
     QUnit.module('Register the provider', {
@@ -35,6 +37,7 @@ define([
         assert.equal(itemRunner.providers.qti, qtiRuntimeProvider, 'the runner has now the qti providers');
 
     });
+
 
 
     module('Provider init', {
@@ -60,8 +63,21 @@ define([
           }).init();
     });
 
+    QUnit.asyncTest('Loading wrong data', function(assert){
+        QUnit.expect(2);
+        
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-// itemRunner().render()
+        itemRunner('qti', { foo : true})
+          .on('error', function(message){
+             
+            assert.ok(true, 'The provider triggers an error event');
+            assert.ok(typeof message === 'string', 'The error is a string');
+
+            QUnit.start();
+          }).init();
+    });
+
 
     module('Provider render', {
         teardown : function(){
@@ -72,6 +88,8 @@ define([
 
     QUnit.asyncTest('Item rendering', function(assert){
         QUnit.expect(3);
+
+        var container = document.getElementById(containerId);
        
         assert.ok(container instanceof HTMLElement , 'the item container exists');
         assert.equal(container.childNodes.length, 0, 'the container has no children');
@@ -79,525 +97,281 @@ define([
         itemRunner.register('qti', qtiRuntimeProvider);
 
         itemRunner('qti', itemData)
-        .on('init', function(){
-            this.render(container);
-        })
-        .on('render', function(){
-            
-            assert.equal(container.childNodes.length, 1, 'the container has now children');
+            .on('render', function(){
+                
+                assert.equal(container.childNodes.length, 1, 'the container has children');
 
-            QUnit.start();
-        })
-        .init();
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
 
-
-/*
-    module('ItemRunner init', {
-        teardown : function(){
-            //reset the provides
-            itemRunner.providers = undefined;
-        }
-    });
-
-    QUnit.asyncTest('Initialize the runner', function(assert){
+    QUnit.asyncTest('Issue in rendering', function(assert){
         QUnit.expect(4);
+        var count = 0;
+        var container = document.getElementById(containerId);
         
-        assert.throws(function(){
-            itemRunner('dummyProvider', {});
-        }, Error, 'An error is thrown when no provider is set');
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        assert.throws(function(){
-            itemRunner('zoommyProvider', {});
-        }, Error, 'An error is thrown when requesting the wrong provider');
-
-        itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('init', function(){
-            
-            assert.ok(typeof this._data === 'object', 'the itemRunner context got the data assigned');
-            assert.equal(this._data.type, 'number', 'the itemRunner context got the right data assigned');
-
-            QUnit.start();
-        }).init();
-    });
-
-    QUnit.asyncTest('Get the default provider', function(assert){
-        QUnit.expect(2);
-        
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        itemRunner({
-            type: 'number'
-        }).on('init', function(){
-            
-            assert.ok(typeof this._data === 'object', 'the itemRunner context got the data assigned');
-            assert.equal(this._data.type, 'number', 'the itemRunner context got the right data assigned');
-
-            QUnit.start();
-        }).init();
-    });
-
-    QUnit.asyncTest('Initialize the item with new data', function(assert){
-        QUnit.expect(2);
-        
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('init', function(){
-            
-            assert.ok(typeof this._data === 'object', 'the itemRunner context got the data assigned');
-            assert.equal(this._data.type, 'text', 'the itemRunner context got the right data assigned');
-
-            QUnit.start();
-        }).init({
-            type : 'text'
-        });
+        itemRunner('qti', itemData)
+            .on('init', function(){
+                this._item.renderer = null;
+                this.render(container);
+            }) 
+            .on('error', function(message){
+                assert.ok(true, 'The provider triggers an error event');
+                assert.ok(typeof message === 'string', 'The error is a string');
+                if(count > 0){
+                   QUnit.start();
+                }
+                count++;
+            })
+            .init();
     });
 
 
-    QUnit.asyncTest('No init in the provider', function(assert){
-        QUnit.expect(1);
-       
-        itemRunner.register('dummyProvider', _.omit(dummyProvider, 'init'));
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('init', function(){
-
-            assert.ok(true, 'init is still called');
-
-            QUnit.start();
-        })
-        .init();
-    });
-
-
-// itemRunner().render()
-
-    module('ItemRunner render', {
+    module('Provider clear', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
         }
     });
 
-    QUnit.asyncTest('Render an item from an HTMLElement', function(assert){
-        QUnit.expect(5);
+    QUnit.asyncTest('Clear a rendered item', function(assert){
+        QUnit.expect(4);
        
-        var container = document.getElementById('item-container');
-        assert.equal(container.id, 'item-container', 'the item container exists');
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
         assert.equal(container.childNodes.length, 0, 'the container has no children');
  
-        itemRunner.register('dummyProvider', dummyProvider);
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('render', function(){
-            
-            assert.ok(typeof this._data === 'object', 'the itemRunner context got the data assigned');
-            assert.equal(this._data.type, 'number', 'the itemRunner context got the right data assigned');
+        itemRunner('qti', itemData)
+            .on('render', function(){
+                assert.equal(container.childNodes.length, 1, 'the container has children');
 
-            assert.equal(container.childNodes.length, 1, 'the container has now children');
+                this.clear();
 
-            QUnit.start();
-        })
-        .init()
-        .render(container);
-    });
+            }).on('clear', function(){
 
-    QUnit.asyncTest('Render an item from a jQueryElement', function(assert){
-        QUnit.expect(4);
-       
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($('input', $container).length, 0, 'the container does not contains an input');
- 
-        itemRunner.register('dummyProvider', dummyProvider);
+                assert.equal(container.childNodes.length, 0, 'the container children are removed');
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('render', function(){
-            var $input = $('input', $container);
-            assert.equal($input.length, 1, 'the container contains an input');
-            assert.equal($input.attr('type'), 'search', 'the input has the right type');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
-    });
-
-    QUnit.asyncTest('Render an item into wrong element', function(assert){
-        QUnit.expect(2);
-       
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('error', function(message){
-            assert.ok(typeof message === 'string', 'An error message is given');
-            assert.ok(message.length > 0 , 'A non empty message is given');
-            QUnit.start();
-        })
-        .init()
-        .render("item-container");
-    });
-
-    QUnit.asyncTest('Render an item without element', function(assert){
-        QUnit.expect(2);
-       
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('error', function(message){
-            assert.ok(typeof message === 'string', 'An error message is given');
-            assert.ok(message.length > 0 , 'A non empty message is given');
-            QUnit.start();
-        })
-        .init()
-        .render();
-    });
-
-    QUnit.asyncTest('No clear in the provider', function(assert){
-        QUnit.expect(1);
-       
-        var $container = $('#item-container');
-
-        itemRunner.register('dummyProvider', _.omit(dummyProvider, 'render'));
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('render', function(){
-
-            assert.ok(true, 'render is still called');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
 
 
-// itemRunner().clear()
 
-    module('ItemRunner clear', {
+    module('Provider state', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
         }
     });
 
-    QUnit.asyncTest('Clear a rendered element', function(assert){
-        QUnit.expect(4);
-       
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
- 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('render', function(){
-            assert.equal($container.children().length, 1, 'the container has a child');
-
-            this.clear();
-
-        }).on('clear', function(){
-
-            assert.equal($container.children().length, 0, 'the container children are removed');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
-    });
-
-    QUnit.asyncTest('No clear in the provider', function(assert){
-        QUnit.expect(1);
-       
-        var $container = $('#item-container');
-
-         
-        itemRunner.register('dummyProvider', _.omit(dummyProvider, 'clear'));
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'search'
-        }).on('render', function(){
-
-            this.clear();
-
-        }).on('clear', function(){
-
-            assert.ok(true, 'clear is still called');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
-    });
-
-
-// itemRunner().get/setState() 
-//             .on('statechange')
-
-    module('ItemRunner state', {
-        teardown : function(){
-            //reset the provides
-            itemRunner.providers = undefined;
-        }
-    });
-
-    QUnit.asyncTest('setState after render', function(assert){
-        QUnit.expect(4);
-       
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
- 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        }).on('render', function(){
-            var $input = $('input', $container);
-            assert.equal($input.length, 1, 'the container contains an input');
-            assert.equal($input.val(), 0, 'the input value is set before');
-
-            this.setState({ value : 12 }); 
-
-            assert.equal($input.val(), 12, 'the input value has changed regarding to the state');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
-    });
-
-    QUnit.asyncTest('set initial state', function(assert){
+    QUnit.asyncTest('default state structure', function(assert){
         QUnit.expect(3);
        
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
  
-        itemRunner.register('dummyProvider', dummyProvider);
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('render', function(){
-            var $input = $('input', $container);
-            assert.equal($input.length, 1, 'the container contains an input');
-            assert.equal($input.val(), 13, 'the input value has the initial state');
+        itemRunner('qti', itemData)
+            .on('render', function(){
+                var state  = this.getState();
+                 
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
 
-            QUnit.start();
-        })
-        .init()
-        .setState({ value : 13 })
-        .render($container);
-    });
-
-    QUnit.asyncTest('set a wrong state', function(assert){
-        QUnit.expect(2);
-       
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        })
-        .on('error', function(message){
-            assert.ok(typeof message === 'string', 'An error message is given');
-            assert.ok(message.length > 0 , 'A non empty message is given');
-            QUnit.start();
-        })
-        .init()
-        .setState([]);
-    });
-
-    QUnit.asyncTest('get the current state', function(assert){
-        QUnit.expect(7);
-       
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
- 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        }).on('render', function(){
-            var state;
-            var $input = $('input', $container);
-            assert.equal($input.length, 1, 'the container contains an input');
-            assert.equal($input.val(), 0, 'the input value is set before');
-
-            state = this.getState();
-            
-            assert.ok(typeof state === 'object' , 'the state is an object');
-            assert.equal(state.value, 0, 'got the initial state');
-
-            $input.val(14);
-
-            state = this.getState();
-
-            assert.ok(typeof state === 'object', 'the state is an object');
-            assert.equal(state.value, 14, 'got the last state value');
-
-            QUnit.start();
-        })
-        .init()
-        .render($container);
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
     
-    QUnit.asyncTest('listen for state change', function(assert){
-        QUnit.expect(5);
+    QUnit.asyncTest('get state after changes', function(assert){
+        QUnit.expect(12);
        
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
+        $('#item-container').remove();
+        $('#qunit-fixture').append('<div id="item-container"></div>'); 
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
  
-        itemRunner.register('dummyProvider', dummyProvider);
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        }).on('statechange', function(state){
+        itemRunner('qti', itemData)
+            .on('error', function(e){
+                console.error(e);
+            })
+            .on('render', function(){
 
-            var $input = $('input', $container);
-           
-            assert.ok(typeof state === 'object' , 'the state is an object');
-            assert.equal($input.length, 1, 'the container contains an input');
-            assert.equal(state.value, 16, 'the state has the updated value');
-            assert.equal($input.val(), state.value, 'the given state match the input value');
+                //default state
+                var state  = this.getState();
 
-            QUnit.start();
-        }).on('render', function(){
-            var $input = $('input', $container);
-            $input.val(16)[0].dispatchEvent(new Event('change'));
-        })
-        .init()
-        .render($container);
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.equal(state.RESPONSE.base, null, 'the default state contains a null base');
+               
+                //change something 
+                $('[data-identifier="Discovery"]', $(container)).click();
+                //debugger;
+               
+                state  = this.getState();
+                
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.base.identifier, 'Discovery', 'the contains the selected choice');
+
+                //change something else  
+                $('[data-identifier="Atlantis"]', $(container)).click();
+  
+                state  = this.getState();
+                
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.base.identifier, 'Atlantis', 'the contains the selected choice');
+                
+                QUnit.start();
+            })
+            .init()
+            .render(container);
+    });
+    
+    QUnit.asyncTest('set state', function(assert){
+        QUnit.expect(3);
+       
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+ 
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemData)
+            .on('render', function(){
+
+                assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
+
+                this.setState({ RESPONSE : { base : { identifier : 'Atlantis' } } });
+               
+                assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
+                
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
 
+    QUnit.asyncTest('listen state changes', function(assert){
+        QUnit.expect(10);
+       
+        var container = document.getElementById(containerId);
 
-// itemRunner().getResponses
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+ 
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-    module('ItemRunner getResponses', {
+        itemRunner('qti', itemData)
+            .on('statechange', function(state){
+
+                assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
+
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.base.identifier, 'Atlantis', 'the contains the selected choice');
+
+                QUnit.start();
+            })
+            .on('render', function(){
+                var state  = this.getState();
+
+                assert.ok(typeof state === 'object' , 'the state is an object');
+                assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.equal(state.RESPONSE.base, null, 'the default state contains a null base');
+
+                assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
+ 
+                $('[data-identifier="Atlantis"]', $(container)).click();
+            })
+            .init()
+            .render(container);
+    });
+
+    module('Provider responses', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
         }
     });
 
-    QUnit.asyncTest('getResponses with no changes', function(assert){
-        QUnit.expect(4);
+    QUnit.asyncTest('no responses set', function(assert){
+        QUnit.expect(6);
        
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
  
-        itemRunner.register('dummyProvider', dummyProvider);
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        }).on('render', function(){
+        itemRunner('qti', itemData)
+            .on('render', function(){
+                var responses  = this.getResponses();
 
-            var responses = this.getResponses();
-            
-            assert.ok(responses instanceof Array, 'responses is an array');
-            assert.equal(responses.length, 1, 'responses contains one entry');
-            assert.equal(responses[0], 0, 'response is the initial value');
+                assert.ok(responses instanceof Array, 'the responses is an array');
+                assert.equal(responses.length, 1, 'there is one response');
+                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
+                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses[0].RESPONSE.base, null, 'the response contains a null base property');
 
-            QUnit.start();
-        })
-        .init()
-        .render($container);
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
 
-    QUnit.asyncTest('getResponses after changes', function(assert){
-        QUnit.expect(4);
+    QUnit.asyncTest('get responses after changes', function(assert){
+        QUnit.expect(10);
        
-        var $container = $('#item-container');
-        assert.equal($container.length, 1, 'the item container exists');
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
  
-        itemRunner.register('dummyProvider', dummyProvider);
+        itemRunner.register('qti', qtiRuntimeProvider);
 
-        var runner = itemRunner('dummyProvider', {
-            type: 'number',
-            value : 0
-        }).on('render', function(){
+        itemRunner('qti', itemData)
+            .on('render', function(){
+                var responses  = this.getResponses();
 
-            var $input = $('input', $container);
-            $input.val(18);
+                assert.ok(responses instanceof Array, 'the responses is an array');
+                assert.equal(responses.length, 1, 'there is one response');
+                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
+                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses[0].RESPONSE.base, null, 'the response contains a null base property');
 
-            var responses = this.getResponses();
-            
-            assert.ok(responses instanceof Array, 'responses is an array');
-            assert.equal(responses.length, 1, 'responses contains one entry, the last response only');
-            assert.equal(responses[0], 18, 'response is the initial value');
+                //the user set response
+                $('[data-identifier="Atlantis"]', $(container)).click();
 
-            QUnit.start();
-        })
-        .init()
-        .render($container);
+                responses = this.getResponses();
+                
+                assert.ok(responses instanceof Array, 'the responses is an array');
+                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
+                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses[0].RESPONSE.base.identifier, 'Atlantis', 'the response contains the set value');
+
+                QUnit.start();
+            })
+            .init()
+            .render(container);
     });
-
-// itemRunner().on().off().trigger()
-
-    module('ItemRunner events', {
-        teardown : function(){
-            //reset the provides
-            itemRunner.providers = undefined;
-        }
-    });
-    
-    QUnit.asyncTest('multiple events binding', function(assert){
-        QUnit.expect(2);
-       
-        var inc = 0;
- 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('test', function(){
-            assert.equal(inc, 0, 'handler called first');
-            inc++;
-        }).on('test', function(){
-            assert.equal(inc, 1, 'first called 2nd');
-            QUnit.start();
-        })
-        .init()
-        .trigger('test');
-    });
-
-    QUnit.asyncTest('unbinding events', function(assert){
-        QUnit.expect(1);
-       
-        var inc = 0;
- 
-        itemRunner.register('dummyProvider', dummyProvider);
-
-        var runner = itemRunner('dummyProvider', {
-            type: 'number'
-        }).on('test', function(){
-            assert.ok(false, 'Should not be called');
-        }).on('test', function(){
-            assert.ok(false, 'should not be callled');
-        })
-        .init()
-        .off('test')
-        .trigger('test');
-
-        setTimeout(function(){
-            assert.ok(true, 'handlers not called after off');
-            QUnit.start();
-        }, 10);
-    });
-*/
 });
 

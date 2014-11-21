@@ -59,6 +59,27 @@ module.exports = function(grunt) {
         }
     };
 
+    requirejs.qtinewrunner = {
+        options: {
+            baseUrl : '../js',
+            mainConfigFile : './config/requirejs.build.js',
+            uglify2: {
+                mangle : false,
+                output: {
+                    'max_line_len': 400
+                }
+            },
+            wrap : { 
+                start : '',
+                end : "define(['taoQtiItem/runner/qtiItemRunner'], function(runner){ return runner; });"
+            },  
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
+            include: runtimeLibs,
+            exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement'],
+            name: "taoQtiItem/runner/qtiItemRunner",
+            out: "output/qtiItemRunner.min.js"
+        }
+    };
     /**
      * copy the bundles to the right place
      */
