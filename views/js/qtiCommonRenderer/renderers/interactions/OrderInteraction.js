@@ -4,8 +4,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'i18n',
-    'jqueryui'
+    'i18n'
 ], function(_, $, tpl, Helper, pciResponse, __){
 
     /**
