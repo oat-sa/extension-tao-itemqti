@@ -490,6 +490,9 @@ define([
         Helper.removeInstructions(interaction);
 
         Helper.getContainer(interaction).find('.result-area').empty();
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     return {
