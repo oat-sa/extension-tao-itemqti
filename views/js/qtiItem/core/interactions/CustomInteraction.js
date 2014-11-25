@@ -184,6 +184,16 @@ define([
                 }
             });
             return this;
+        },
+        triggerPci : function(event, args){
+            this.onPciReady(function(pci){
+                if(_.isFunction(pci.off)){
+                    pci.trigger(event, args);
+                }else{
+                    throw 'the pci does not implement off() function';
+                }
+            });
+            return this;
         }
     });
 
