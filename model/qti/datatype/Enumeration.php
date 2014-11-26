@@ -68,4 +68,4 @@ abstract class Enumeration extends Datatype
             parent::setValue($value);
         }
     }
-} /* end of abstract class oat\taoQtiItem\model\qti\datatype\Enumeration */
+} 
