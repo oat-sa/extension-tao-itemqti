@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/textEntryInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
@@ -6,7 +7,7 @@ define([
     'i18n',
     'polyfill/placeholders',
     'tooltipster'
-], function(_, tpl, Helper, pciResponse, __){
+], function($, _, tpl, Helper, pciResponse, __){
     'use strict';
 
     /**
@@ -18,13 +19,21 @@ define([
     var _setPattern = function($element, pattern){
         var patt = new RegExp('^' + pattern + '$'),
             patternSupported = ('pattern' in document.createElement('input'));
+    
+
+    
 
         $element.attr('pattern', pattern);
         //test when some data is entering in the input field
         $element.on('keyup', function(){
             $element.removeClass('field-error');
             if(!patt.test($element.val())){
+
+
                 /*
+                 * FIXME WTF is this check ? If I understand if there is a pattern attribute, 
+                 * 
+                 * --- orinal comment:
                  * checking if pattern attribute is not supported of the browser 
                  * or if the browser is safari(bug with pattern attribute support)
                  * 
@@ -50,6 +59,8 @@ define([
         var attributes = interaction.getAttributes(),
             $el = interaction.getContainer();
 
+
+
         //setting up the width of the input field
         if(attributes.expectedLength){
             $el.css('width', parseInt(attributes.expectedLength) + 'em');
@@ -72,6 +83,10 @@ define([
         if(attributes.placeholderText){
             $el.attr('placeholder', attributes.placeholderText);
         }
+
+        $el.on('change', function(){
+            Helper.triggerResponseChangeEvent(interaction);
+        });
     };
 
     var resetResponse = function(interaction){
@@ -141,6 +156,22 @@ define([
         ret.base[baseType] = isNaN(value) && typeof value === 'number' ? '' : value;
 
         return ret;
+    };
+
+    var destroy = function(interaction){
+        
+        //remove event
+        $(document).off('.commonRenderer');
+        Helper.getContainer(interaction).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        Helper.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     return {
