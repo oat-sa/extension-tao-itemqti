@@ -138,6 +138,9 @@ define([
 
         //restore selected choices:
         $container.find('.hottext').off('click');
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };  
     
 

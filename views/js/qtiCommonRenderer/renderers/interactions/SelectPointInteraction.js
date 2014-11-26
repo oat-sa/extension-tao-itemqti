@@ -217,6 +217,9 @@ define([
             $('.main-image-box', $container).empty().removeAttr('style');            
             $('.image-editor', $container).removeAttr('style'); 
         }
+        
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };  
 
     /**

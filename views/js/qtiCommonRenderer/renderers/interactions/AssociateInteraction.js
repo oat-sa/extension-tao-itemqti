@@ -503,7 +503,7 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy, //@todo to be renamed into destroy
+        destroy : destroy, 
         renderEmptyPairs : renderEmptyPairs
     };
 });

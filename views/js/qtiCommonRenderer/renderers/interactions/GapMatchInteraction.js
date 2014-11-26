@@ -306,6 +306,9 @@ define([
         $container.find('.active').removeClass('active');
         $container.find('.remove-choice').remove();
         $container.find('.empty').removeClass('empty');
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     return {

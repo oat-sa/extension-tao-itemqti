@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
@@ -6,7 +7,7 @@ define([
     'i18n',
     'select2',
     'tooltipster'
-], function(_, tpl, Helper, pciResponse, __){
+], function($, _, tpl, Helper, pciResponse, __){
 
     /**
      * The value of the "empty" option
@@ -143,6 +144,27 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
     
+     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function(interaction){
+
+        var $container = Helper.getContainer(interaction);
+
+        //remove event
+        $(document).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        Helper.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
+    };
+
     return {
         qtiClass : 'inlineChoiceInteraction',
         template : tpl,
@@ -150,6 +172,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
-        resetResponse : resetResponse
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

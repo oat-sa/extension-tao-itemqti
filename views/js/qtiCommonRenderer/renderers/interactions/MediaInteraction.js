@@ -337,6 +337,8 @@ define([
 
         $container.removeData('timesPlayed');
 
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     /**

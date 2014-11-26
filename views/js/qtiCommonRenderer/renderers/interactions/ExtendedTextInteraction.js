@@ -366,7 +366,28 @@ define([
         else {
             $container.find('textarea').val(text);
         }
-    }
+    };
+
+     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function(interaction){
+
+        var $container = Helper.getContainer(interaction);
+
+        //remove event
+        $(document).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        Helper.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
+    };
 
     return {
         qtiClass : 'extendedTextInteraction',
@@ -376,6 +397,7 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
+        destroy : destroy,
         updateFormat : updateFormat,
         enable : enable,
         disable : disable,

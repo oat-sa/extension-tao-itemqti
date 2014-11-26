@@ -202,7 +202,10 @@ define([
         var $container = interaction.getContainer();
         
         $container.empty();
-    }
+        
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
+    };
 
     return {
         qtiClass : 'sliderInteraction',

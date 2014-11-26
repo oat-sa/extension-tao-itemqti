@@ -171,6 +171,22 @@ define([
         return _response;
     };
     
+    var destroy = function(interaction){
+        
+        //remove event
+        $(document).off('.commonRenderer');
+        Helper.getContainer(interaction).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        Helper.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
+    };
+
     return {
         qtiClass : 'uploadInteraction',
         template : tpl,
@@ -179,6 +195,7 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
+        destroy : destroy,
         
         // Exposed private methods for qtiCreator
         resetGui : _resetGui

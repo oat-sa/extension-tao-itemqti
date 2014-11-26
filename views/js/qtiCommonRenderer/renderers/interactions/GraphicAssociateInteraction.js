@@ -476,6 +476,9 @@ define([
             $('.image-editor', $container).removeAttr('style'); 
             $('ul', $container).empty();
         }
+
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
   
     /**

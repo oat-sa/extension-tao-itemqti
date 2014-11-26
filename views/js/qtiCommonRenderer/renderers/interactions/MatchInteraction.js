@@ -386,7 +386,7 @@ define([
         };
 
         superClosure();
-    }
+    };
 
     var destroy = function(interaction){
 
@@ -395,6 +395,9 @@ define([
         resetResponse(interaction);
 
         Helper.removeInstructions(interaction);
+        
+        //remove all references to a cache container
+        Helper.purgeCache(interaction);
     };
 
     return {
