@@ -74,7 +74,7 @@ class QtiCreator extends tao_actions_CommonModule
         }
 
         // get the config media Sources
-        $sources = array_keys(MediaSource::getMediaSources());
+        $sources = array_keys(MediaSource::getMediaBrowserSources());
         $sources[] = 'local';
         $config->setProperty('mediaSources', $sources);
 
@@ -162,7 +162,7 @@ class QtiCreator extends tao_actions_CommonModule
                 $filename = $folder.$subPath;
             }
             else if($identifier === 'mediamanager'){
-                $fileManager = FileManager::getPermissionModel();
+                $fileManager = FileManager::getFileManagementModel();
                 $filename = $fileManager->retrieveFile($subPath);
             }
             else{
