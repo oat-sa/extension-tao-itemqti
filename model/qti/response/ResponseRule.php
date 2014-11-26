@@ -61,6 +61,5 @@ abstract class ResponseRule
         return (string) $returnValue;
     }
 
-} /* end of abstract class oat\taoQtiItem\model\qti\response\ResponseRule */
-
+}
 ?>

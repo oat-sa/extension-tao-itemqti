@@ -82,6 +82,5 @@ abstract class Template
         return $returnValue;
     }
 
-} /* end of abstract class oat\taoQtiItem\model\qti\response\interactionResponseProcessing\Template */
-
+} 
 ?>
