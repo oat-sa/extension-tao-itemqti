@@ -271,6 +271,42 @@ define([
             .render(container);
     });
 
+    QUnit.asyncTest('set multiple  states', function(assert){
+        QUnit.expect(8);
+       
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+ 
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemData)
+            .on('render', function(){
+
+                assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
+
+                this.setState({ RESPONSE : { base : { identifier : 'Atlantis' } } });
+               
+                assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
+
+                 //change something 
+                $('[data-identifier="Discovery"]', $(container)).click();
+
+                assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
+                assert.ok($('[data-identifier="Discovery"] input', $(container)).prop('checked'), 'The choice is checked');
+                
+                this.setState({ RESPONSE : { base : { identifier : 'Challenger' } } });
+               
+                assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
+                assert.ok( ! $('[data-identifier="Discovery"] input', $(container)).prop('checked'), 'The choice is not checked');
+                assert.ok($('[data-identifier="Challenger"] input', $(container)).prop('checked'), 'The choice is checked');
+
+                QUnit.start();
+            })
+            .init()
+            .render(container);
+    });
+
     QUnit.asyncTest('listen state changes', function(assert){
         QUnit.expect(10);
        
