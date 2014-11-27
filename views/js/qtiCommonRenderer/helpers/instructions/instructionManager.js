@@ -1,78 +1,68 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
 
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'jquery',
     'i18n',
-    'taoQtiItem/qtiItem/core/Element',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification'
-], function(_, $, __, Element, Instruction, notifTpl){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/Instruction',
+], function(_, $, __, Instruction){
+    'use strict';
 
-    var _containers = {};
+    //stores the instructions
     var _instructions = {};
-    var _$containerContext = $();
 
-    var _getSelector = function(element){
-
-        var serial = element.getSerial(),
-            selector = '[data-serial=' + serial + ']';
-
-        if(Element.isA(element, 'choice')){
-            selector = '.qti-choice' + selector;
-        }else if(Element.isA(element, 'interaction')){
-            selector = '.qti-interaction' + selector;
-        }
-
-        return selector;
-    };
-
-    /** 
-     * @deprecated see instructionsManager, notification and interaction default renderer 
+    /**
+     * The instruction manager helps you in managing instructions and 
+     * constraints on a QTI Element, usually an interaction or a choice.
+     *
+     * @exports qtiCommonRenderer/helpers/Instructions/instructionManager
      */
-    var Helper =  {
-        setContext : function($scope){
-            _$containerContext = $scope;
-        },
-        getContainer : function(element, $scope){
-            
-            var serial = element.getSerial();
-            if($scope instanceof $ && $scope.length){
-                
-                //find in the given context
-                return $scope.find(_getSelector(element));
-                
-            }else if(_$containerContext instanceof $ && _$containerContext.length){
-                
-                //find in the globally set context
-                return _$containerContext.find(_getSelector(element));
-                
-            }else if(!_containers[serial] || _containers[serial].length){
-                
-                //find in the global context
-                _containers[serial] = $(_getSelector(element));
-            }
-
-            return _containers[serial];
-        },
+    var instructionManager = {
 
         /**
-         * getContainer use a cache to store elements. This methods helps you to purge it.
-         * @param {Element} element - find the container of this element 
-         */ 
-        purgeCache : function(element){
-            if(element instanceof Element && _containers[element.getSerial()]){
-                _containers = _.omit(_containers, element.getSerial());
-            }
-        },
-
+         * Validate the instructions of an element
+         * @param {QtiElement} element - a QTI element like an interaction or a choice
+         * @param {Object} [data] - any data to give to the instructions
+         */
         validateInstructions : function(element, data){
             var serial = element.getSerial();
             if(_instructions[serial]){
                 _.each(_instructions[serial], function(instruction){
-                    instruction.validate(data);
+                    instruction.validate(data || {});
                 });
             }
         },
-        appendInstruction : function(element, message, validateCallback){
+
+        /**
+         * Add a new instructions to an element
+         * @param {QtiElement} element - a QTI element like an interaction or a choice
+         * @param {jQueryElement} $container - where the instruction is created 
+         * @param {String} message - the message to give to display to the user when the instruction is validated
+         * @param {Function} validateCallback - how to validate the instruction
+         * @returns {Instruction} the created instruction
+         */
+        appendInstruction : function(element, $container, message, validateCallback){
             var serial = element.getSerial(),
                 instruction = new Instruction(element, message, validateCallback);
 
@@ -81,14 +71,20 @@ define([
             }
             _instructions[serial][instruction.getId()] = instruction;
 
-            instruction.create(this.getContainer(element).find('.instruction-container'));
+            instruction.create($('.instruction-container', $container));
 
             return instruction;
         },
+
+        /**
+         * Remove instructions from an element
+         * @param {QtiElement} element - a QTI element like an interaction or a choice
+         */
         removeInstructions : function(element){
             _instructions[element.getSerial()] = {};
             this.getContainer(element).find('.instruction-container').empty();
         },
+
         /**
          * Reset the instructions states for an element (but keeps configuration)
          * @param {Object} element - the qti object, ie. interaction, choice, etc.
@@ -101,16 +97,18 @@ define([
                 });
             }
         },
+
         /** 
          * Default instuction set with a min/max constraints.
          * @param {Object} interaction
+         * @param {jQueryElement} $container 
          * @param {Object} options
          * @param {Number} [options.min = 0] - 
          * @param {Number} [options.max = 0] - 
          * @param {Function} options.getResponse - a ref to a function that get the raw response (array) from the interaction in parameter
          * @param {Function} [options.onError] - called by once an error occurs with validateInstruction data in parameters
          */
-        minMaxChoiceInstructions : function(interaction, options){
+        minMaxChoiceInstructions : function(interaction, $container, options){
 
             var self = this,
                 min = options.min || 0,
@@ -131,7 +129,7 @@ define([
                     minInstructionSet = true;
                     msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
 
-                    self.appendInstruction(interaction, msg, function(data){
+                    self.appendInstruction(interaction, $container, msg, function(data){
 
                         if(getResponse(interaction).length >= max){
                             this.setLevel('success');
@@ -155,7 +153,7 @@ define([
                     });
                 }else if(max > min){
                     msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                    self.appendInstruction(interaction, msg, function(data){
+                    self.appendInstruction(interaction, $container, msg, function(data){
 
                         if(getResponse(interaction).length >= max){
 
@@ -184,7 +182,7 @@ define([
 
             if(!minInstructionSet && min > 0 && (choiceCount === false || min < choiceCount)){
                 msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-                self.appendInstruction(interaction, msg, function(){
+                self.appendInstruction(interaction, $container, msg, function(){
                     if(getResponse(interaction).length >= min){
                         this.setLevel('success');
                     }else{
@@ -192,87 +190,8 @@ define([
                     }
                 });
             }
-        },
-        appendNotification : function(element, message, level){
-
-            level = level || 'info';
-
-            if(Instruction.isValidLevel(level)){
-
-                var $container = this.getContainer(element);
-
-                $container.find('.notification-container').prepend(notifTpl({
-                    'level' : level,
-                    'message' : message
-                }));
-
-                var $notif = $container.find('.item-notification:first');
-                var _remove = function(){
-                    $notif.fadeOut();
-                };
-
-                $notif.find('.close-trigger').on('click', _remove);
-                setTimeout(_remove, 2000);
-
-                return $notif;
-            }
-        },
-        removeNotifications : function(element){
-            this.getContainer(element).find('.item-notification').remove();
-        },
-        triggerResponseChangeEvent : function(interaction, extraData){
-            this.getContainer(interaction).trigger('responseChange', [{
-                    interaction : interaction,
-                    response : interaction.getResponse()
-                },
-                extraData
-            ]);
-        },
-        targetBlank : function($container){
-            
-            $container.on('click', 'a', function(e) {
-                e.preventDefault();
-                var href = $(this).attr('href');
-                if(href && href.match(/^http/i)){
-                    window.open(href, '_blank');
-                }
-            });
-        },
-
-        destroy : function destroy(interaction){
-      
-            //remove event
-            $(document).off('.commonRenderer')
-                       .off('.qti-widget');
-
-            $(window).off('.commonRenderer')
-                       .off('.qti-widget');
-
-            Helper.getContainer(interaction)
-                       .off('.commonRenderer')
-                       .off('.qti-widget');
-
-            //destroy response
-            interaction.resetResponse();
-
-            //remove instructions
-            Helper.removeInstructions(interaction);
-
-            //remove all references to a cache container
-            Helper.purgeCache(interaction);
-        },
-
-        setState : function setState(interaction, state){
-            if(interaction && state){
-                interaction.resetResponse();
-                interaction.setResponse(state);
-            }
-        },
-
-        getState : function getState(interaction){
-            return interaction.getResponse();
         }
     };
-
-    return Helper;
+    return instructionManager;
 });
+
