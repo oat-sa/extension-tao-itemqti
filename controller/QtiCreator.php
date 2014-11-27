@@ -79,7 +79,7 @@ class QtiCreator extends tao_actions_CommonModule
         $config->setProperty('mediaSources', $sources);
 
         //initialize all registered hooks:
-        $hookClasses = HookRegistry::getRegistry()->getAllInteractions();
+        $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach($hookClasses as $hookClass){
             $hook = new $hookClass();
             $hook->init($config);

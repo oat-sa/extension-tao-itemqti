@@ -19,6 +19,7 @@
  */
 namespace oat\taoQtiItem\model;
 
+use oat\oatbox\AbstractRegistry;
 use \common_exception_Error;
 use \common_ext_ExtensionsManager;
 
@@ -26,38 +27,8 @@ use \common_ext_ExtensionsManager;
  *
  * @author Lionel Lecaque <lionel@taotesting.com>
  */
-abstract class AbstractInteractionRegistry
+abstract class AbstractInteractionRegistry extends AbstractRegistry
 {
-
-    /**
-     *
-     * @var array
-     */
-    private static $registries = array();
-
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return AbstractInteractionRegistry
-     */
-    public static function getRegistry()
-    {
-        $class = get_called_class();
-        if (! isset(self::$registries[$class])) {
-            self::$registries[$class] = new $class();
-        }
-        
-        return self::$registries[$class];
-    }
-
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    protected function __construct()
-    {
-        // empty
-    }
 
     /**
      *
@@ -65,11 +36,6 @@ abstract class AbstractInteractionRegistry
      */
     protected abstract function getInteractionClass();
 
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    protected abstract function getConfigId();
 
     /**
      * Register a new custom interaction
@@ -86,59 +52,21 @@ abstract class AbstractInteractionRegistry
         if (! is_subclass_of($phpClass, $this->getInteractionClass())) {
             throw new common_exception_Error('Class ' . $phpClass . ' not a subclass of ' . $this->getInteractionClass());
         }
-        
-        $map = $this->getAllInteractions();
-        $map[$qtiClass] = $phpClass;
-        $this->getExtension()->setConfig($this->getConfigId(), $map);
+        parent::set($qtiClass,$phpClass);
+
     }
 
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @param string $qtiClass            
-     */
-    public function removeInteraction($qtiClass)
-    {
-        $map = $this->getAllInteractions();
-        if (isset($map[$qtiClass])) {
-            unset($map[$qtiClass]);
-            $this->getExtension()->setConfig($this->getConfigId(), $map);
-        }
-    }
-
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @param string $qtiClass            
-     * @return string
-     */
-    public function get($qtiClass)
-    {
-        $map = $this->getAllInteractions();
-        return isset($map[$qtiClass]) ? $map[$qtiClass] : '';
-        ;
-    }
 
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @return common_ext_Extension
      */
-    private function getExtension()
+    protected function getExtension()
     {
         return common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
 
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return array
-     */
-    public function getAllInteractions()
-    {
-        $map = $this->getExtension()->getConfig($this->getConfigId());
-        return is_array($map) ?  $map : array();
-    }
     
 }
 

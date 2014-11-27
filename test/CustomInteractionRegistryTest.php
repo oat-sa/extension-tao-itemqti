@@ -49,7 +49,7 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
             ->getMock();
         
         CustomInteractionRegistry::getRegistry()->set('fakeInteraction', 'FakeInteractionMock');
-        $interactions = CustomInteractionRegistry::getRegistry()->getAllInteractions();
+        $interactions = CustomInteractionRegistry::getRegistry()->getMap();
         $this->assertEquals('FakeInteractionMock', $interactions['fakeInteraction']);
     }
 
@@ -60,7 +60,7 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
      */
     public function testGet()
     {
-        $interactions = CustomInteractionRegistry::getRegistry()->getAllInteractions();
+        $interactions = CustomInteractionRegistry::getRegistry()->getMap();
         $this->assertEquals($interactions['fakeInteraction'], CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
         $this->assertEquals(CustomInteractionRegistry::getCustomInteractionByName('fakeInteraction'), CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
         
@@ -72,13 +72,13 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testRemoveInteraction()
+    public function testRemove()
     {
-        $interactions = CustomInteractionRegistry::getRegistry()->getAllInteractions();
+        $interactions = CustomInteractionRegistry::getRegistry()->getMap();
         $this->assertTrue(isset($interactions['fakeInteraction']));
-        CustomInteractionRegistry::getRegistry()->removeInteraction('fakeInteraction');
-        $interactions = CustomInteractionRegistry::getRegistry()->getAllInteractions();
-        $this->assertFalse(isset($interactions['fakeInteraction']));
+        CustomInteractionRegistry::getRegistry()->remove('fakeInteraction');
+        $interactions = CustomInteractionRegistry::getRegistry()->getMap();
+        
     }
 }
 

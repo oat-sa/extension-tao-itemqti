@@ -43,7 +43,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
      */
     public function testGetInteractions()
     {
-        $interactions = HookRegistry::getRegistry()->getAllInteractions();
+        $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertEquals('oat\qtiItemPci\model\CreatorHook', $interactions['pciCreator']);
     }
     /**
@@ -52,7 +52,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
      */
     public function testGet()
     {
-        $interactions = HookRegistry::getRegistry()->getAllInteractions();
+        $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertEquals($interactions['pciCreator'],HookRegistry::getRegistry()->get('pciCreator'));
     }
 
@@ -67,7 +67,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
             ->getMock();
         
         HookRegistry::getRegistry()->set('fakeInteraction', 'FakeHook');
-        $interactions = HookRegistry::getRegistry()->getAllInteractions();
+        $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertEquals('FakeHook', $interactions['fakeInteraction']);
         
         
@@ -78,12 +78,12 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function testRemoveInteraction()
+    public function testRemove()
     {
-        $interactions = HookRegistry::getRegistry()->getAllInteractions();
+        $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertTrue(isset($interactions['fakeInteraction']));
-        HookRegistry::getRegistry()->removeInteraction('fakeInteraction');
-        $interactions = HookRegistry::getRegistry()->getAllInteractions();
+        HookRegistry::getRegistry()->remove('fakeInteraction');
+        $interactions = HookRegistry::getRegistry()->getMap();
         $this->assertFalse(isset($interactions['fakeInteraction']));
     }
     
