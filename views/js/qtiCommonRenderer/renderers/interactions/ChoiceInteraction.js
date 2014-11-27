@@ -1,17 +1,45 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, Helper, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
+], function(_, $, __, tpl, instructionMgr,  pciResponse, Helper){
+    'use strict';
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
+     *
+     * @private 
+     * @param {Object} interaction - the interaction instance
      */
-    var pseudoLabel = function(interaction){
+    var _pseudoLabel = function(interaction){
 
         var $container = Helper.getContainer(interaction);
 
@@ -36,7 +64,7 @@ define([
                 $checkboxes.trigger('change');
             }
 
-            Helper.validateInstructions(interaction, {choice : $box});
+            instructionMgr.validateInstructions(interaction, {choice : $box});
             Helper.triggerResponseChangeEvent(interaction);
 
         });
@@ -48,102 +76,47 @@ define([
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      * 
-     * @param {object} interaction
+     * @param {Object} interaction - the interaction instance
      */
     var render = function(interaction){
-        pseudoLabel(interaction);
-        _setInstructions(interaction);
-    };
+        _pseudoLabel(interaction);
 
-    var _setInstructions = function(interaction){
-
-        var min = interaction.attr('minChoices'),
-            max = interaction.attr('maxChoices'),
-            choiceCount = _.size(interaction.getChoices()),
-            minInstructionSet = false;
-
-        //if maxChoice = 1, use the radio gorup behaviour
-        //if maxChoice = 0, inifinite choice possible
-        if(max > 1 && max < choiceCount){
-
-            var highlightInvalidInput = function($choice){
-                var $input = $choice.find('.real-label > input'),
-                    $li = $choice.css('color', '#BA122B'),
+        //set up the constraints instructions
+        instructionMgr.minMaxChoiceInstructions(interaction, Helper.getContainer(interaction), {
+            min: interaction.attr('minChoices'),
+            max: interaction.attr('maxChoices'),
+            getResponse : _getRawResponse,
+            onError : function(data){
+                var $choice, $input, $li, $icon;
+                if(data && data.choice){
+                    $choice = data.choice;
+                    $input = $choice.find('.real-label > input');
+                    $li = $choice.css('color', '#BA122B');
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
 
-                setTimeout(function(){
-                    $input.prop('checked', false);
-                    $li.removeAttr('style');
-                    $icon.removeAttr('style').removeClass('cross');
-                    Helper.triggerResponseChangeEvent(interaction);
-                }, 150);
-            };
-
-            if(max === min){
-                minInstructionSet = true;
-                var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
-                Helper.appendInstruction(interaction, msg, function(data){
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setLevel('success');
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                message : __('Maximum choices reached'),
-                                timeout : 2000,
-                                start : function(){
-                                    highlightInvalidInput(data.choice);
-                                },
-                                stop : function(){
-                                    this.update({level : 'success', message : msg});
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }else if(max > min){
-                Helper.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
-                    if(_getRawResponse(interaction).length >= max){
-                        this.setMessage(__('Maximum choices reached'));
-                        if(this.checkState('fulfilled')){
-                            this.update({
-                                level : 'warning',
-                                timeout : 2000,
-                                start : function(){
-                                    highlightInvalidInput(data.choice);
-                                },
-                                stop : function(){
-                                    this.setLevel('info');
-                                }
-                            });
-                        }
-                        this.setState('fulfilled');
-                    }else{
-                        this.reset();
-                    }
-                });
-            }
-        }
-
-        if(!minInstructionSet && min > 0 && min < choiceCount){
-            Helper.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
-                if(_getRawResponse(interaction).length >= min){
-                    this.setLevel('success');
-                }else{
-                    this.reset();
+                    _.delay(function(){
+                        $input.prop('checked', false);
+                        $li.removeAttr('style');
+                        $icon.removeAttr('style').removeClass('cross');
+                        Helper.triggerResponseChangeEvent(interaction);
+                    }, 150);
                 }
-            });
-        }
+            }
+        }); 
     };
 
+    /**
+     * Reset the responses previously set
+     *  
+     * @param {Object} interaction - the interaction instance
+     */
     var resetResponse = function(interaction){
         Helper.getContainer(interaction).find('.real-label > input').prop('checked', false);
     };
 
     /**
-     * Set the response to the rendered interaction.
+     * Set a new response to the rendered interaction. 
+     * Please note that it does not reset previous responses.
      * 
      * The response format follows the IMS PCI recommendation :
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
@@ -151,8 +124,8 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      * 
-     * @param {object} interaction
-     * @param {object} response
+     * @param {Object} interaction - the interaction instance
+     * @param {0bject} response - the PCI formated response
      */
     var setResponse = function(interaction, response){
 
@@ -162,12 +135,18 @@ define([
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
                 $container.find('.real-label > input[value=' + identifier + ']').prop('checked', true);
             });
-            Helper.validateInstructions(interaction);
+            instructionMgr.validateInstructions(interaction);
         }catch(e){
             throw new Error('wrong response format in argument : ' + e);
         }
     };
 
+    /**
+     * Get the responses from the DOM.
+     * @private
+     * @param {Object} interaction - the interaction instance
+     * @returns {Array} the list of choices identifiers
+     */
     var _getRawResponse = function(interaction){
         var values = [];
         Helper.getContainer(interaction).find('.real-label > input[name=response-' + interaction.getSerial() + ']:checked').each(function(){
@@ -185,35 +164,27 @@ define([
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      * 
-     * @param {object} interaction
-     * @returns {object}
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the response formated in PCI
      */
     var getResponse = function(interaction){
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
+    /**
+     * Set additionnal data to the template
+     * 
+     */
     var getCustomData = function(interaction, data){
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal')
         });
     };
 
-    var destroy = function(interaction){
-        
-        //remove event
-        $(document).off('.commonRenderer');
-        Helper.getContainer(interaction).off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
-
-        //remove instructions
-        Helper.removeInstructions(interaction);
-
-        //remove all references to a cache container
-        Helper.purgeCache(interaction);
-    };
-
+     /**
+     * Expose the common renderer for the choice interaction
+     * @exports qtiCommonRenderer/renderers/interactions/ChoiceInteraction
+     */
     return {
         qtiClass : 'choiceInteraction',
         template : tpl,
@@ -223,6 +194,8 @@ define([
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : Helper.destroy,
+        setState : Helper.setState,
+        getState : Helper.getState
     };
 });

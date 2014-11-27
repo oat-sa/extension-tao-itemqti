@@ -348,6 +348,7 @@ define([
                 if(_.isFunction(renderer.setState)){
                     renderer.setState.call(this, qtiInteraction, state);
                 } else {
+                    renderer.resetResponse.call(this, qtiInteraction);
                     renderer.setResponse.call(this, qtiInteraction, state);
                 }
             }else{
