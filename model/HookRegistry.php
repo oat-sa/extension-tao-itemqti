@@ -1,5 +1,5 @@
 <?php
-/**  
+/*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -40,7 +40,7 @@ class HookRegistry extends AbstractInteractionRegistry
      */
     protected function getConfigId(){
         return self::CONFIG_ID;
-    }
+        }
     
     /**
      * (non-PHPdoc)
@@ -60,5 +60,5 @@ class HookRegistry extends AbstractInteractionRegistry
     public static function add($key,$phpClass){
         HookRegistry::getRegistry()->set($key,$phpClass);
     }
-        
+    
 }
