@@ -78,9 +78,12 @@ define([
                 propNames = [propNames];
             }
             _.each(propNames, function(propName){
-                delete _this.attributes[propName];
+                delete _this.properties[propName];
             });
             return this;
+        },
+        getProperties : function(){
+            return _.clone(this.properties);
         },
         getNamespace : function(){
 
