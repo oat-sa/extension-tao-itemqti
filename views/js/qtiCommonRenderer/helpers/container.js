@@ -50,7 +50,7 @@ define([
          * @param {jQueryElement} [$scope] - if you want to retrieve the element in a particular scope or context
          * @returns {jQueryElement} the container
          */
-        getContainer : function(element, $scope){
+        get : function(element, $scope){
             
             var serial = element.getSerial();
             if($scope instanceof $ && $scope.length){
@@ -76,10 +76,55 @@ define([
          * getContainer use a cache to store elements. This methods helps you to purge it.
          * @param {Element} element - find the container of this element 
          */ 
-        resetContainer : function(element){
+        reset : function(element){
             if(element instanceof Element && _containers[element.getSerial()]){
                 _containers = _.omit(_containers, element.getSerial());
             }
+        },
+        
+        /**
+         * Trigger an event on the element's container
+         * @param {String} eventType - the name of the event
+         * @param {QtiElement} element - find the container of this element 
+         * @param {Array} [data] - data to give to the event
+         */
+        trigger : function(eventType, element, data){
+            if(eventType){
+                if(data && !_.isArray(data)){
+                    data = [data];
+                }
+                this.get(element).trigger(eventType, data);
+
+            }
+        },
+
+        /**
+         * Alias to trigger a responseChange Event from an interaction
+         * @param {QtiElement} interaction - the interaction that had a response changed
+         * @param {Object} [extraData] - additionnal data to give to the event
+         */
+        triggerResponseChangeEvent : function(interaction, extraData){
+            this.trigger('responseChange', interaction, [{
+                    interaction : interaction,
+                    response : interaction.getResponse()
+                },
+                extraData
+            ]);
+        },
+
+        /**
+         * Make all links to opens in another tab/window
+         * @param {jQueryElement} $container
+         */
+        targetBlank : function($container){
+            
+            $container.on('click', 'a', function(e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                if(href && href.match(/^http/i)){
+                    window.open(href, '_blank');
+                }
+            });
         }
     };
 

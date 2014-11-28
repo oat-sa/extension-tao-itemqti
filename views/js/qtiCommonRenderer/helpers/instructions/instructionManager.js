@@ -25,8 +25,10 @@ define([
     'lodash',
     'jquery',
     'i18n',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/Instruction',
-], function(_, $, __, Instruction){
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/notification'
+], function(_, $, __, containerHelper, Instruction, notifTpl){
     'use strict';
 
     //stores the instructions
@@ -57,12 +59,11 @@ define([
         /**
          * Add a new instructions to an element
          * @param {QtiElement} element - a QTI element like an interaction or a choice
-         * @param {jQueryElement} $container - where the instruction is created 
          * @param {String} message - the message to give to display to the user when the instruction is validated
          * @param {Function} validateCallback - how to validate the instruction
          * @returns {Instruction} the created instruction
          */
-        appendInstruction : function(element, $container, message, validateCallback){
+        appendInstruction : function(element, message, validateCallback){
             var serial = element.getSerial(),
                 instruction = new Instruction(element, message, validateCallback);
 
@@ -71,7 +72,7 @@ define([
             }
             _instructions[serial][instruction.getId()] = instruction;
 
-            instruction.create($('.instruction-container', $container));
+            instruction.create($('.instruction-container', containerHelper.get(element)));
 
             return instruction;
         },
@@ -82,7 +83,7 @@ define([
          */
         removeInstructions : function(element){
             _instructions[element.getSerial()] = {};
-            this.getContainer(element).find('.instruction-container').empty();
+            containerHelper.get(element).find('.instruction-container').empty();
         },
 
         /**
@@ -108,7 +109,7 @@ define([
          * @param {Function} options.getResponse - a ref to a function that get the raw response (array) from the interaction in parameter
          * @param {Function} [options.onError] - called by once an error occurs with validateInstruction data in parameters
          */
-        minMaxChoiceInstructions : function(interaction, $container, options){
+        minMaxChoiceInstructions : function(interaction, options){
 
             var self = this,
                 min = options.min || 0,
@@ -129,7 +130,7 @@ define([
                     minInstructionSet = true;
                     msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);
 
-                    self.appendInstruction(interaction, $container, msg, function(data){
+                    self.appendInstruction(interaction, msg, function(data){
 
                         if(getResponse(interaction).length >= max){
                             this.setLevel('success');
@@ -153,7 +154,7 @@ define([
                     });
                 }else if(max > min){
                     msg = (max <= 1) ? __('You can select maximum %d choice', max) : __('You can select maximum %d choices', max);
-                    self.appendInstruction(interaction, $container, msg, function(data){
+                    self.appendInstruction(interaction,  msg, function(data){
 
                         if(getResponse(interaction).length >= max){
 
@@ -182,7 +183,7 @@ define([
 
             if(!minInstructionSet && min > 0 && (choiceCount === false || min < choiceCount)){
                 msg = (min <= 1) ? __('You must at least %d choice', min) : __('You must select at least %d choices', max);
-                self.appendInstruction(interaction, $container, msg, function(){
+                self.appendInstruction(interaction, msg, function(){
                     if(getResponse(interaction).length >= min){
                         this.setLevel('success');
                     }else{
@@ -190,6 +191,44 @@ define([
                     }
                 });
             }
+        },
+
+        /**
+         * Appends a instruction  notification message
+         * @param {QtiElement} element - a QTI element like an interaction or a choice
+         * @param {String} message - the message to give to display 
+         * @param {String} [level = 'info'] - the notification level in info, success, error or warning
+         */
+        appendNotification : function(element, message, level){
+
+            level = level || 'info';
+
+            if(Instruction.isValidLevel(level)){
+
+                var $container = containerHelper.get(element);
+
+                $container.find('.notification-container').prepend(notifTpl({
+                    'level' : level,
+                    'message' : message
+                }));
+
+                var $notif = $container.find('.item-notification:first');
+                var _remove = function(){
+                    $notif.fadeOut();
+                };
+
+                $notif.find('.close-trigger').on('click', _remove);
+                setTimeout(_remove, 2000);
+
+                return $notif;
+            }
+        },
+
+        /**
+         * Removes all the displayed notifications 
+         */
+        removeNotifications : function(element){
+            containerHelper.get(element).find('.item-notification').remove();
         }
     };
     return instructionManager;
