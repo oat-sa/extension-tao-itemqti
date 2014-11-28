@@ -26,10 +26,10 @@ define([
     'jquery',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function(_, $, __, tpl, instructionMgr,  pciResponse, Helper){
+], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
     /**
@@ -38,10 +38,9 @@ define([
      *
      * @private 
      * @param {Object} interaction - the interaction instance
+     * @param {jQueryElement} $container
      */
-    var _pseudoLabel = function(interaction){
-
-        var $container = Helper.getContainer(interaction);
+    var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
 
@@ -65,10 +64,8 @@ define([
             }
 
             instructionMgr.validateInstructions(interaction, {choice : $box});
-            Helper.triggerResponseChangeEvent(interaction);
-
+            containerHelper.triggerResponseChangeEvent(interaction);
         });
-
     };
 
     /**
@@ -79,30 +76,103 @@ define([
      * @param {Object} interaction - the interaction instance
      */
     var render = function(interaction){
-        _pseudoLabel(interaction);
+        var $container = containerHelper.get(interaction);
 
-        //set up the constraints instructions
-        instructionMgr.minMaxChoiceInstructions(interaction, Helper.getContainer(interaction), {
-            min: interaction.attr('minChoices'),
-            max: interaction.attr('maxChoices'),
-            getResponse : _getRawResponse,
-            onError : function(data){
-                var $choice, $input, $li, $icon;
-                if(data && data.choice){
-                    $choice = data.choice;
-                    $input = $choice.find('.real-label > input');
-                    $li = $choice.css('color', '#BA122B');
+        _pseudoLabel(interaction, $container);
+
+        _setInstructions(interaction);
+    };
+
+    /**
+     * Define the instructions for the interaction
+     * @private
+     * @param {Object} interaction - the interaction instance
+     */
+    var _setInstructions = function(interaction){
+
+        var min = interaction.attr('minChoices'),
+            max = interaction.attr('maxChoices'),
+            choiceCount = _.size(interaction.getChoices()),
+            minInstructionSet = false;
+
+        //if maxChoice = 1, use the radio gorup behaviour
+        //if maxChoice = 0, inifinite choice possible
+        if(max > 1 && max < choiceCount){
+
+            var highlightInvalidInput = function($choice){
+                var $input = $choice.find('.real-label > input'),
+                    $li = $choice.css('color', '#BA122B'),
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
 
-                    _.delay(function(){
-                        $input.prop('checked', false);
-                        $li.removeAttr('style');
-                        $icon.removeAttr('style').removeClass('cross');
-                        Helper.triggerResponseChangeEvent(interaction);
-                    }, 150);
-                }
+                setTimeout(function(){
+                    $input.prop('checked', false);
+                    $li.removeAttr('style');
+                    $icon.removeAttr('style').removeClass('cross');
+                    containerHelper.triggerResponseChangeEvent(interaction);
+                }, 150);
+            };
+
+            if(max === min){
+                minInstructionSet = true;
+                var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
+                instructionMgr.appendInstruction(interaction, msg, function(data){
+                    if(_getRawResponse(interaction).length >= max){
+                        this.setLevel('success');
+                        if(this.checkState('fulfilled')){
+                            this.update({
+                                level : 'warning',
+                                message : __('Maximum choices reached'),
+                                timeout : 2000,
+                                start : function(){
+                                    if(data && data.choice){
+                                        highlightInvalidInput(data.choice);
+                                    }
+                                },
+                                stop : function(){
+                                    this.update({level : 'success', message : msg});
+                                }
+                            });
+                        }
+                        this.setState('fulfilled');
+                    }else{
+                        this.reset();
+                    }
+                });
+            }else if(max > min){
+                instructionMgr.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
+                    if(_getRawResponse(interaction).length >= max){
+                        this.setMessage(__('Maximum choices reached'));
+                        if(this.checkState('fulfilled')){
+                            this.update({
+                                level : 'warning',
+                                timeout : 2000,
+                                start : function(){
+                                    if(data && data.choice){
+                                        highlightInvalidInput(data.choice);
+                                    }
+                                },
+                                stop : function(){
+                                    this.setLevel('info');
+                                }
+                            });
+                        }
+                        this.setState('fulfilled');
+                    }else{
+                        this.reset();
+                    }
+                });
             }
-        }); 
+        }
+
+        if(!minInstructionSet && min > 0 && min < choiceCount){
+            instructionMgr.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
+                if(_getRawResponse(interaction).length >= min){
+                    this.setLevel('success');
+                }else{
+                    this.reset();
+                }
+            });
+        }
     };
 
     /**
@@ -111,7 +181,9 @@ define([
      * @param {Object} interaction - the interaction instance
      */
     var resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('.real-label > input').prop('checked', false);
+        var $container = containerHelper.get(interaction);
+
+        $('.real-label > input', $container).prop('checked', false);
     };
 
     /**
@@ -128,8 +200,7 @@ define([
      * @param {0bject} response - the PCI formated response
      */
     var setResponse = function(interaction, response){
-
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         try{
             _.each(pciResponse.unserialize(response, interaction), function(identifier){
@@ -149,7 +220,8 @@ define([
      */
     var _getRawResponse = function(interaction){
         var values = [];
-        Helper.getContainer(interaction).find('.real-label > input[name=response-' + interaction.getSerial() + ']:checked').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('.real-label > input[name=response-' + interaction.getSerial() + ']:checked', $container).each(function(){
             values.push($(this).val());
         });
         return values;
@@ -172,13 +244,60 @@ define([
     };
 
     /**
-     * Set additionnal data to the template
-     * 
+     * Set additionnal data to the template (data that are not really part of the model).
+     * @param {Object} interaction - the interaction
+     * @param {Object} [data] - interaction custom data
+     * @returns {Object} custom data
      */
     var getCustomData = function(interaction, data){
         return _.merge(data || {}, {
             horizontal : (interaction.attr('orientation') === 'horizontal')
         });
+    };
+
+
+    /**
+     * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
+     * @param {Object} interaction - the interaction
+     */
+    var destroy = function destroy(interaction){
+        var $container = containerHelper.get(interaction);
+      
+        //remove event
+        $container.off('.commonRenderer');
+        $(document).off('.commonRenderer');
+
+        //destroy response
+        resetResponse(interaction);
+
+        //remove instructions
+        instructionMgr.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
+    };
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
     };
 
      /**
@@ -190,12 +309,12 @@ define([
         template : tpl,
         getData : getCustomData,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : Helper.destroy,
-        setState : Helper.setState,
-        getState : Helper.getState
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });
