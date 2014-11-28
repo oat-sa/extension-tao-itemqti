@@ -15,7 +15,7 @@
                     var runner;
 
                     var itemContainer   = document.getElementById('item-container');
-                    var output          = document.querySelector('#output .content');
+                    var output          = document.querySelector('#output');
 
                     var selectItem      = document.querySelector('.item-selection');
                     var loadBtn         = document.querySelector('.load');
@@ -25,6 +25,8 @@
                     var setStateBtn     = document.querySelector('.setstate');
                     var manStateBtn     = document.querySelector('.manstate');
                     var manStateContent = document.querySelector('.manual-state-content');
+                    var clearOutputLink = document.querySelector('.clear-output a');
+ 
 
                     var out = function out(content, title){
                         
@@ -32,7 +34,8 @@
                             content = '<pre>' + JSON.stringify(content, null, '  ') + '</pre>';
                         }
                         output.innerHTML = output.innerHTML +
-                                '<p>[' + new Date().toLocaleTimeString() +'] <strong>' + title + '</strong> ' + content + '</p>'; 
+                                '<p>[' + new Date().toLocaleTimeString() +'] <strong>' + title + '</strong> ' + content + '</p>';
+                        output.scrollTop = output.scrollHeight; 
                     };
 
                     loadBtn.addEventListener('click', function(){
@@ -109,6 +112,11 @@
                             }
                         }     
                     });
+
+                    clearOutputLink.addEventListener('click', function(e){
+                        e.preventDefault();
+                         output.innerHTML = '';
+                    });
                 });
             });
         </script>
@@ -120,7 +128,10 @@
             section { background-color: #0E4569; color: #fff;  }
             section h2 {margin: 5px}
             section > div { margin: 5px; background-color: #fff; color: #222; min-height: 400px; }
-            #output .content { padding: 5px; background-color: #333; color: #fff; overflow-y: auto;}
+            #output { padding: 5px; background-color: #333; color: #fff; overflow-y: auto; max-height: 400px;}
+            section header {position: relative}
+            .clear-output { position: absolute; right: 10px; top: 5px;}
+            .clear-output a{ color: #fff}
         </style>
     </head>
     <body>
@@ -156,10 +167,9 @@
     <section>
        <header>
             <h2>Output data</h2>
+            <span class="clear-output"><a href="#">Clear</a></span>
        </header>
-       <div id="output">
-            <div class="content"></div>
-       </div> 
+       <div id="output"></div> 
     </section>
     </body>
 </html>
