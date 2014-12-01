@@ -22,6 +22,8 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\model\media\MediaSource;
+use oat\taoMediaManager\model\FileManager;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
@@ -70,6 +72,11 @@ class QtiCreator extends tao_actions_CommonModule
             ));
             $config->setProperty('baseUrl', $url.'&relPath=');
         }
+
+        // get the config media Sources
+        $sources = array_keys(MediaSource::getMediaSources());
+        $sources[] = 'local';
+        $config->setProperty('mediaSources', $sources);
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getAll();
@@ -136,6 +143,7 @@ class QtiCreator extends tao_actions_CommonModule
             $relPath = urldecode($this->getRequestParameter('relPath'));
 
             $this->renderFile($rdfItem, $relPath, $lang);
+
         }
     }
 
@@ -143,7 +151,24 @@ class QtiCreator extends tao_actions_CommonModule
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
-            $filename = $folder.$path;
+            if(strpos($path, '/') === 0){
+                $path = substr($path, 1);
+            }
+
+            $identifier = substr($path, 0, strpos($path, '/'));
+            $subPath = substr($path, strpos($path, '/') + 1);
+
+            if($identifier === '' || $identifier === 'local'){
+                $filename = $folder.$subPath;
+            }
+            else if($identifier === 'mediamanager'){
+                $fileManager = FileManager::getPermissionModel();
+                $filename = $fileManager->retrieveFile($subPath);
+            }
+            else{
+                $filename = $folder.$path;
+            }
+
             //@todo : find better way to to this
             //load amd module
             if(!file_exists($filename) && file_exists($filename.'.js')){

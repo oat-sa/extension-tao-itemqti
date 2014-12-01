@@ -1,5 +1,5 @@
 define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(context, _, $, util){
-    
+
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
      * @returns {String}
@@ -7,7 +7,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     function getDocumentBaseUrl(){
         return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
     }
-    
+
     /**
      * Get root url of available vendor specific libraries 
      * 
@@ -24,7 +24,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
             OAT : sharedLibrariesUrl + 'OAT'
         };
     }
-    
+
     /**
      * Get lists of required OAT delivery engine libs
      * 
@@ -36,7 +36,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
             mathJax : context.root_url + 'taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full'
         };
     }
-    
+
     /**
      * Replace all identified relative media urls by the absolute one
      * 
@@ -59,7 +59,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         return $markup.html();
     }
-    
+
     /**
      * Get a local require js with typeIdentifier as specific context
      * 
@@ -69,18 +69,34 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @returns {Function} - RequireJs instance
      */
     function getLocalRequire(typeIdentifier, baseUrl, libs, config){
-        
+
         config = config || {};
         
+        var runtimeLocation = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;
+        
+        if(config.useExtensionAlias){
+            var urlTokens = baseUrl.split('/');
+            var extension = urlTokens[0];
+            var requireConfig = window.require.s.contexts._.config;
+            var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
+
+            //update baseUrl:
+            baseUrl = baseUrl.replace(extension, fullpath);
+
+            if(config.runtimeLocation){
+                runtimeLocation = config.runtimeLocation.replace(extension, fullpath);
+            }
+        }
+
         libs = libs || {};
         libs = _.defaults(libs, getCommonLibraries());
         libs = _.defaults(libs, getSharedLibrariesPaths());
-        
+
         //add local namespace
-        libs[typeIdentifier] = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;//allow overwrite by config (in test)
-        
+        libs[typeIdentifier] = runtimeLocation;//allow overwrite by config (in test)
+
         return window.require.config({
-            context : typeIdentifier,//use unique typeIdentifier as context name
+            context : typeIdentifier, //use unique typeIdentifier as context name
             baseUrl : baseUrl,
             paths : libs || {},
             shim : {
@@ -97,14 +113,14 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
             }
         });
     }
-    
+
     /**
      * local require js caches
      * 
      * @type Object
      */
     var _localRequires = {};
-    
+
     /**
      * Get a cached local require js with typeIdentifier as specific context
      * If it does not exsits, it creates one.
@@ -118,14 +134,14 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @returns {Function} - RequireJs instance
      */
     function getCachedLocalRequire(typeIdentifier, baseUrl, libs, config){
-        
+
         _localRequires[typeIdentifier] = _localRequires[typeIdentifier] || {};
         if(!_localRequires[typeIdentifier][baseUrl]){
             _localRequires[typeIdentifier][baseUrl] = getLocalRequire(typeIdentifier, baseUrl, libs, config);
         }
         return _localRequires[typeIdentifier][baseUrl];
     }
-    
+
     return {
         getSharedLibrariesPaths : getSharedLibrariesPaths,
         getCommonLibraries : getCommonLibraries,
