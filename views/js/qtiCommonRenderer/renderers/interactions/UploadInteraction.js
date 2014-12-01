@@ -29,10 +29,11 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'jqueryui',
+    'ui/progressbar',
     'filereader'
-], function($, _, __, context, tpl, containerHelper, instructionMgr, $ui) {
+], function($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
+
 
 	var _response = { "base" : null };
 	
@@ -74,10 +75,10 @@ define([
             var commaPosition = base64Data.indexOf(',');
             
             // Store the base64 encoded data for later use.
-            base64Raw = base64Data.substring(commaPosition + 1);
-            filetype = filetype;
+            var base64Raw = base64Data.substring(commaPosition + 1);
+            var filetype = filetype;
             _response = { "base" : { "file" : { "data" : base64Raw, "mime" : filetype, "name" : filename } } }; 
-        }
+        };
         
         reader.onloadstart = function (e) {
         	instructionMgr.removeInstructions(interaction);
@@ -88,16 +89,18 @@ define([
         
         reader.onprogress = function (e) {
         	var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-        	$container.find('.progressbar').progressbar({
-        		value: percentProgress
-        	});
-        }
+        	$container.find('.progressbar').progressbar('update', percentProgress);
+        };
         
         reader.readAsDataURL(file);
     };
     
     var _resetGui = function(interaction) {
+<<<<<<< HEAD
     	$container = containerHelper.get(interaction);
+=======
+    	var $container = containerHelper.get(interaction);
+>>>>>>> optimize_interactions
     	$container.find('.file-name').text(__('No file selected'));
     	$container.find('.btn-info').text(__('Browse...'));
     };
@@ -110,7 +113,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction, options) {
-    	$container = containerHelper.get(interaction);
+    	var $container = containerHelper.get(interaction);
     	_resetGui(interaction);
     	
     	instructionMgr.appendInstruction(interaction, _initialInstructions);
@@ -125,7 +128,7 @@ define([
     		}
     	};
     	
-    	$input = $container.find('input');
+    	var $input = $container.find('input');
     	
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
@@ -152,7 +155,8 @@ define([
     };
     
     var resetResponse = function(interaction) {
-    	$container = containerHelper.get(interaction);
+
+    	var $container = containerHelper.get(interaction);
     	_resetGui(interaction);
     };
     
@@ -169,10 +173,10 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response) {
-    	$container = containerHelper.get(interaction);
+    	var $container = containerHelper.get(interaction);
     	
-    	if (response.base != null) {
-    	    var filename = (typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file';
+    	if (response.base !== null) {
+    	    var filename = (typeof response.base.file.name !== 'undefined') ? response.base.file.name : 'previously-uploaded-file';
             $container.find('.file-name').empty()
                                          .text(filename);
     	}
