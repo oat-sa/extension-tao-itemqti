@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Choice Interaction in QtiItemRunner Test</title>
+        <title>QtiItemRunner Demo Test</title>
         <base href="../../../../../../../tao/views/" />
         
         <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
@@ -121,14 +121,14 @@
             });
         </script>
         <style>
-            body > header {text-align: center; background-color: #0E4569; color: #fff; height: 50px; padding-top:10px;}
+            body > header {text-align: center; background-color: #266D9C; color: #fff; height: 50px; padding-top:10px;}
             nav { margin: 5px }
             nav > button { margin: 0 3px }
             section, nav { width: 48%; float: left; margin: 5px 1%; }
-            section { background-color: #0E4569; color: #fff;  }
+            section { background-color: #266D9C; color: #fff;  }
             section h2 {margin: 5px}
             section > div { margin: 5px; background-color: #fff; color: #222; min-height: 400px; }
-            #output { padding: 5px; background-color: #333; color: #fff; overflow-y: auto; max-height: 400px;}
+            #output { padding: 5px; background-color: #555; color: #fff; overflow-y: auto; max-height: 400px;}
             section header {position: relative}
             .clear-output { position: absolute; right: 10px; top: 5px;}
             .clear-output a{ color: #fff}
@@ -147,6 +147,7 @@
             <option value="space-shuttle.json">Space shuttle (Choice)</option>
             <option value="space-shuttle-m.json">Space shuttle (Multiple Choices)</option>
             <option value="characters.json">Characters (Match)</option>
+            <option value="rivals.json">Rivals (Associate)</option>
         </select>
         <button class="btn-info small load"  autocomplete="off">Load</button> 
         <button class="btn-error small destroy"  autocomplete="off">Clear</button>
