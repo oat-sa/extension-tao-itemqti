@@ -1,3 +1,22 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -10,8 +29,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/hotspotInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, Helper){
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -22,7 +42,7 @@ define([
      */
     var render = function render(interaction){
         
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
         
@@ -37,7 +57,7 @@ define([
         _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
 
         //set up the constraints instructions
-        Helper.minMaxChoiceInstructions(interaction, {
+        instructionMgr.minMaxChoiceInstructions(interaction, {
             min: interaction.attr('minChoices'),
             max: interaction.attr('maxChoices'),
             getResponse : _getRawResponse,
@@ -46,7 +66,7 @@ define([
                     data.target.active = false;
                     graphic.updateElementState(this, 'basic', __('Select this area'));
                     graphic.highlightError(data.target);
-                    Helper.triggerResponseChangeEvent(interaction);
+                    containerHelper.triggerResponseChangeEvent(interaction);
                     $container.trigger('inactiveChoice.qti-widget', [data.choice, data.target]);
                 }
             }
@@ -61,7 +81,7 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
             id : choice.serial,
             title : __('Select this area')
@@ -76,8 +96,8 @@ define([
                 this.active = true;
                 $container.trigger('activeChoice.qti-widget', [choice, this]);
             }
-            Helper.triggerResponseChangeEvent(interaction);
-            Helper.validateInstructions(interaction, { choice : choice, target : this });
+            containerHelper.triggerResponseChangeEvent(interaction);
+            instructionMgr.validateInstructions(interaction, { choice : choice, target : this });
         });
     };
 
@@ -131,7 +151,7 @@ define([
                         if(rElement){
                             rElement.active = true;
                             graphic.updateElementState(rElement, 'active', __('Click again to remove')); 
-                            Helper.validateInstructions(interaction, { choice : choice, target : rElement });
+                            instructionMgr.validateInstructions(interaction, { choice : choice, target : rElement });
                         }
                     }
                 });
@@ -161,7 +181,7 @@ define([
                 graphic.updateElementState(element, 'basic'); 
             }
         });
-        Helper.resetInstructions(interaction);
+        instructionMgr.resetInstructions(interaction);
     };
 
 
@@ -190,21 +210,44 @@ define([
     var destroy = function destroy(interaction){
         var $container;
         if(interaction.paper){
-            $container = Helper.getContainer(interaction);
+            $container = containerHelper.get(interaction);
         
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
-            Helper.removeInstructions(interaction);
+            instructionMgr.removeInstructions(interaction);
             
             $('.main-image-box', $container).empty().removeAttr('style');            
             $('.image-editor', $container).removeAttr('style'); 
         }
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };  
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
 
     /**
      * Expose the common renderer for the hotspot interaction
@@ -214,10 +257,12 @@ define([
         qtiClass : 'hotspotInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

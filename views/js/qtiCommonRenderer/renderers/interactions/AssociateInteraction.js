@@ -1,14 +1,38 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'i18n',
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/helper/adaptSize',
-    'eyecatcher'
-], function(_, __, $, tpl, pairTpl, Helper, pciResponse, adaptSize, eyecatcher){
+    'taoQtiItem/qtiCreator/helper/adaptSize'
+], function(_, __, $, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
+    'use strict';
 
     /**
      * Global variable to count number of choice usages:
@@ -18,6 +42,7 @@ define([
 
     var setChoice = function(interaction, $choice, $target){
 
+        var $container = containerHelper.get(interaction);
         var choiceSerial = $choice.data('serial'),
             choice = interaction.getChoice(choiceSerial);
 
@@ -49,7 +74,7 @@ define([
 
         if($target.siblings('div').hasClass('filled')){
 
-            var $resultArea = Helper.getContainer(interaction).find('.result-area'),
+            var $resultArea = $('.result-area', $container),
                 $pair = $target.parent(),
                 thisPairSerial = [$target.siblings('div').data('serial'), choiceSerial],
                 $otherRepeatedPair = $();
@@ -71,13 +96,13 @@ define([
                 _setChoice();
 
                 //trigger pair made event
-                Helper.triggerResponseChangeEvent(interaction, {
+                containerHelper.triggerResponseChangeEvent(interaction, {
                     type : 'added',
                     $pair : $pair,
                     choices : thisPairSerial
                 });
 
-                Helper.validateInstructions(interaction, {choice : $choice, target : $target});
+                instructionMgr.validateInstructions(interaction, {choice : $choice, target : $target});
 
                 if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
 
@@ -111,10 +136,10 @@ define([
         }
     };
 
-    var unsetChoice = function(interaction, $choice, animate){
+    var unsetChoice = function(interaction, $choice, animate, triggerChange){
 
-        var serial = $choice.data('serial'),
-            $container = Helper.getContainer(interaction);
+        var serial = $choice.data('serial');
+        var $container = containerHelper.get(interaction);
 
         $container.find('.choice-area [data-serial=' + serial + ']').removeClass('deactivated');
 
@@ -127,13 +152,14 @@ define([
 
         if(!interaction.swapping){
 
-            //a pair with one single element is not valid, so consider the response to be modified:
-            Helper.triggerResponseChangeEvent(interaction, {
-                type : 'removed',
-                $pair : $choice.parent()
-            });
-            Helper.validateInstructions(interaction, {choice : $choice});
-
+            if(triggerChange !== false){
+                //a pair with one single element is not valid, so consider the response to be modified:
+                containerHelper.triggerResponseChangeEvent(interaction, {
+                    type : 'removed',
+                    $pair : $choice.parent()
+                });
+                instructionMgr.validateInstructions(interaction, {choice : $choice});
+            }
             //completely empty pair: 
             if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
                 //shall we remove it?
@@ -152,19 +178,21 @@ define([
     };
 
     var getChoice = function(interaction, identifier){
-
+        var $container = containerHelper.get(interaction);
+    
         //warning: do not use selector data-identifier=identifier because data-identifier may change dynamically
         var choice = interaction.getChoiceByIdentifier(identifier);
         if(!choice){
             throw new Error('cannot find a choice with the identifier : ' + identifier);
         }
-        return Helper.getContainer(interaction).find('.choice-area [data-serial=' + choice.getSerial() + ']');
+        return $('.choice-area [data-serial=' + choice.getSerial() + ']', $container);
     };
 
     var renderEmptyPairs = function(interaction){
 
-        var max = parseInt(interaction.attr('maxAssociations')),
-            $resultArea = Helper.getContainer(interaction).find('.result-area');
+        var $container = containerHelper.get(interaction);
+        var max = parseInt(interaction.attr('maxAssociations'));
+        var $resultArea = $('.result-area', $container);
 
         if(interaction.responseMappingMode || max === 0){
             $resultArea.append(pairTpl({empty : true}));
@@ -177,8 +205,9 @@ define([
     };
 
     var _adaptSize = function(interaction){
+        var $container = containerHelper.get(interaction);
         _.delay(function(){
-            adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
+            adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
         }, 200);//@todo : fix the image loading issues
     };
     
@@ -193,8 +222,8 @@ define([
 
         renderEmptyPairs(interaction);
 
-        var $container = Helper.getContainer(interaction),
-            $choiceArea = $container.find('.choice-area'),
+        var $container = containerHelper.get(interaction);
+        var $choiceArea = $container.find('.choice-area'),
             $resultArea = $container.find('.result-area'),
             $activeChoice = null;
 
@@ -356,9 +385,6 @@ define([
 
         });
 
-        //@todo run eyecatcher: fix it
-//        eyecatcher();
-
         if(!interaction.responseMappingMode){
             _setInstructions(interaction);
         }
@@ -374,16 +400,16 @@ define([
         //infinite association:
         if(min === 0){
             if(max === 0){
-                Helper.appendInstruction(interaction, __('You may make as many association pairs as you want.'));
+                instructionMgr.appendInstruction(interaction, __('You may make as many association pairs as you want.'));
             }
         }else{
             if(max === 0){
-                Helper.appendInstruction(interaction, __('The maximum number of association is unlimited.'));
+                instructionMgr.appendInstruction(interaction, __('The maximum number of association is unlimited.'));
             }
             //the max value is implicit since the appropriate number of empty pairs have already been created
             var msg = __('You need to make') + ' ';
             msg += (min > 1) ? __('at least') + ' ' + min + ' ' + __('association pairs') : __('one association pair');
-            Helper.appendInstruction(interaction, msg, function(){
+            instructionMgr.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
@@ -394,15 +420,20 @@ define([
     };
 
     var resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('.result-area>li>div').each(function(){
-            unsetChoice(interaction, $(this));
+        var $container = containerHelper.get(interaction);
+        $('.result-area>li>div', $container).each(function(){
+            unsetChoice(interaction, $(this), false, false);
         });
+
+        containerHelper.triggerResponseChangeEvent(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     var _setPairs = function(interaction, pairs){
 
-        var addedPairs = 0,
-            $emptyPair = Helper.getContainer(interaction).find('.result-area>li:first');
+        var $container = containerHelper.get(interaction);
+        var addedPairs = 0;
+        var $emptyPair = $('.result-area>li:first', $container);
         if(pairs && interaction.getResponseDeclaration().attr('cardinality') === 'single' && pairs.length){
             pairs = [pairs];
         }
@@ -441,7 +472,8 @@ define([
 
     var _getRawResponse = function(interaction){
         var response = [];
-        Helper.getContainer(interaction).find('.result-area>li').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('.result-area>li', $container).each(function(){
             var pair = [];
             $(this).find('div').each(function(){
                 var serial = $(this).data('serial');
@@ -472,9 +504,13 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
+    /**
+     * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
+     * @param {Object} interaction - the interaction
+     */
     var destroy = function(interaction){
 
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         //destroy seelcted choice:
         $container.find('.result-area .active').mousedown();
@@ -487,23 +523,53 @@ define([
         resetResponse(interaction);
 
         //remove instructions
-        Helper.removeInstructions(interaction);
+        instructionMgr.removeInstructions(interaction);
 
-        Helper.getContainer(interaction).find('.result-area').empty();
+        $('.result-area', $container).empty();
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
+
+    /**
+     * Expose the common renderer for the associate interaction
+     * @exports qtiCommonRenderer/renderers/interactions/AssociateInteraction
+     */
     return {
         qtiClass : 'associateInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy, 
+        destroy : destroy,
+        setState: setState,
+        getState : getState,
+ 
         renderEmptyPairs : renderEmptyPairs
     };
 });

@@ -1,13 +1,38 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/inlineChoiceInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'select2',
     'tooltipster'
-], function($, _, tpl, Helper, pciResponse, __){
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'use strict';
 
     /**
      * The value of the "empty" option
@@ -33,7 +58,7 @@ define([
             required = !!interaction.attr('required');
         _.extend(opts, options);
         
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         
         if(opts.allowEmpty && !required){
             $container.find('option[value=' + _emptyValue + ']').text('--- ' + __('leave empty') + ' ---');
@@ -57,7 +82,7 @@ define([
                 $el.tooltipster('hide');
             }
             
-            Helper.triggerResponseChangeEvent(interaction);
+            containerHelper.triggerResponseChangeEvent(interaction);
             
         }).on('select2-open', function(){
             
@@ -99,7 +124,7 @@ define([
 
     var _setVal = function(interaction, choiceIdentifier){
         
-        Helper.getContainer(interaction)
+        containerHelper.get(interaction)
             .val(choiceIdentifier)
             .select2('val', choiceIdentifier)
             .change();
@@ -124,7 +149,7 @@ define([
     };
 
     var _getRawResponse = function(interaction){
-        var value = Helper.getContainer(interaction).val();
+        var value = containerHelper.get(interaction).val();
         return (value && value !== _emptyValue) ? [value] : [];
     };
 
@@ -150,7 +175,7 @@ define([
      */
     var destroy = function(interaction){
 
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         //remove event
         $(document).off('.commonRenderer');
@@ -159,20 +184,50 @@ define([
         resetResponse(interaction);
 
         //remove instructions
-        Helper.removeInstructions(interaction);
+        instructionMgr.removeInstructions(interaction);
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
+
+
+    /**
+     * Expose the common renderer for the inline choice interaction
+     * @exports qtiCommonRenderer/renderers/interactions/InlineChoiceInteraction
+     */
     return {
         qtiClass : 'inlineChoiceInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

@@ -1,11 +1,11 @@
 define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'taoQtiItem/runtime/qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
     'context'
-], function(tpl, Helper, PortableElement, qtiInfoControlContext, util, context){
+], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util, context){
 
     /**
      * Get the PIC instance associated to the infoControl object
@@ -60,7 +60,7 @@ define([
             baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
             config = infoControl.properties,
             entryPoint = util.fullpath(infoControl.entryPoint, baseUrl),
-            $dom = Helper.getContainer(infoControl).children(),
+            $dom = containerHelper.get(infoControl).children(),
             state = {}; //@todo pass state and response to renderer here:
             
         //create a new require context to load the libs: 
@@ -124,7 +124,7 @@ define([
             return data;
         },
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         destroy : destroy,
         getSerializedState : getSerializedState,
         setSerializedState : setSerializedState

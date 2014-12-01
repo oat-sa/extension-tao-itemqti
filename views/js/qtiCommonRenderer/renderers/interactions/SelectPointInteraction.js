@@ -1,3 +1,22 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -8,8 +27,10 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/selectPointInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, tpl, graphic, pciResponse, Helper){
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function($, _, __, tpl, graphic, pciResponse, containerHelper, instructionMgr){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -19,7 +40,7 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
         
@@ -36,7 +57,7 @@ define([
         _enableSelection(interaction);
 
         //set up the constraints instructions
-        Helper.minMaxChoiceInstructions(interaction, {
+        instructionMgr.minMaxChoiceInstructions(interaction, {
             min: interaction.attr('minChoices'),
             max: interaction.attr('maxChoices'),
             choiceCount : false,
@@ -56,7 +77,7 @@ define([
      */
     var _enableSelection = function _enableSelection(interaction){
         var maxChoices      = interaction.attr('maxChoices');
-        var $container      = Helper.getContainer(interaction);
+        var $container      = containerHelper.get(interaction);
         var $imageBox       = $container.find('.main-image-box');
         var isResponsive    = $container.hasClass('responsive');
         var image           = interaction.paper.getById('bg-image-' + interaction.serial);
@@ -72,7 +93,7 @@ define([
         image.click(function imageClicked(event){
 
             if(maxChoices > 0 && _getRawResponse(interaction).length >= maxChoices){
-                Helper.validateInstructions(interaction);
+                instructionMgr.validateInstructions(interaction);
                 return;
             } 
     
@@ -96,8 +117,8 @@ define([
             if(isTouch && target){
                 graphic.createTouchCircle(interaction.paper, target.getBBox());
             }
-            Helper.triggerResponseChangeEvent(interaction);
-            Helper.validateInstructions(interaction, {target : target});
+            containerHelper.triggerResponseChangeEvent(interaction);
+            instructionMgr.validateInstructions(interaction, {target : target});
         }
     };
     /**
@@ -206,21 +227,44 @@ define([
     var destroy = function destroy(interaction){
         var $container;
         if(interaction.paper){
-            $container = Helper.getContainer(interaction);
+            $container = containerHelper.get(interaction);
         
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
-            Helper.removeInstructions(interaction);
+            instructionMgr.removeInstructions(interaction);
             
             $('.main-image-box', $container).empty().removeAttr('style');            
             $('.image-editor', $container).removeAttr('style'); 
         }
         
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };  
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
 
     /**
      * Expose the common renderer for the interaction
@@ -230,11 +274,13 @@ define([
         qtiClass : 'selectPointInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });
 

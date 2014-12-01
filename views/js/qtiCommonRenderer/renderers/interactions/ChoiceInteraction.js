@@ -28,7 +28,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
@@ -300,7 +300,7 @@ define([
         return interaction.getResponse();
     };
 
-     /**
+    /**
      * Expose the common renderer for the choice interaction
      * @exports qtiCommonRenderer/renderers/interactions/ChoiceInteraction
      */

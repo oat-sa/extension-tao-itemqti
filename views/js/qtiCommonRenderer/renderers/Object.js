@@ -1,12 +1,12 @@
 define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/object',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiDefaultRenderer/widgets/Object'
 ], function(tpl, Helper, DefaultRendererObject){
     return {
         qtiClass : 'object',
         template : tpl,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         render : function(obj){
             var media = new DefaultRendererObject(obj);
             media.render();

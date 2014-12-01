@@ -1,3 +1,22 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
 /**
  * @author Martin for OAT S.A. <code@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com> 
@@ -8,9 +27,11 @@ define([
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/mediaInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'mediaElement'
-], function($, _, __, tpl, pciResponse, Helper, MediaElementPlayer) {
+], function($, _, __, tpl, pciResponse, containerHelper, instructionMgr, MediaElementPlayer) {
+    'use strict';
 
     /**
      * Get the media type (audio, video or video/youtube) regarding it's mime type. 
@@ -57,7 +78,7 @@ define([
         var mediaInteractionObjectToReturn, 
             $meTag,
             mediaOptions;
-        var $container          = Helper.getContainer(interaction);
+        var $container          = containerHelper.get(interaction);
         var media               = interaction.object;
         var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
@@ -176,7 +197,7 @@ define([
 
                 mediaElement.addEventListener('ended', function(event) {
                     $container.data('timesPlayed', $container.data('timesPlayed') + 1);
-                    Helper.triggerResponseChangeEvent(interaction);
+                    containerHelper.triggerResponseChangeEvent(interaction);
 
                     if (canBePlayed() && !enablePause){
     
@@ -322,7 +343,7 @@ define([
      * @param {Object} interaction
      */
     var destroy = function(interaction) {
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         if(interaction.mediaElement){
             //needed to release socket
@@ -338,7 +359,7 @@ define([
         $container.removeData('timesPlayed');
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };
 
     /**
@@ -348,7 +369,7 @@ define([
      * @returns {Array} of points
      */
     var _getRawResponse = function _getRawResponse(interaction) {
-        return [Helper.getContainer(interaction).data('timesPlayed')];
+        return [containerHelper.get(interaction).data('timesPlayed')];
     };
 
     /**
@@ -371,7 +392,7 @@ define([
                 //try to unserialize the pci response
                 var responseValues;
                 responseValues = pciResponse.unserialize(response, interaction);
-                Helper.getContainer(interaction).data('timesPlayed', responseValues[0]);
+                containerHelper.get(interaction).data('timesPlayed', responseValues[0]);
             } catch (e) {
                 // something went wrong
             }
@@ -393,7 +414,7 @@ define([
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction) {
-        Helper.getContainer(interaction).data('timesPlayed', 0);
+        containerHelper.get(interaction).data('timesPlayed', 0);
     };
 
 
@@ -421,7 +442,7 @@ define([
         qtiClass        : 'mediaInteraction',
         template        : tpl,
         render          : render,
-        getContainer    : Helper.getContainer,
+        getContainer    : containerHelper.get,
         setResponse     : setResponse,
         getResponse     : getResponse,
         resetResponse   : resetResponse,

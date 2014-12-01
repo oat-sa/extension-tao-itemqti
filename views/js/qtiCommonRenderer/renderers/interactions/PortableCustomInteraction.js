@@ -1,12 +1,35 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
+    'lodash',
+    'context',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'taoQtiItem/runtime/qtiCustomInteractionContext',
-    'taoQtiItem/qtiItem/helper/util',
-    'lodash',
-    'context'
-], function(tpl, Helper, PortableElement, qtiCustomInteractionContext, util, _, context){
+    'taoQtiItem/qtiItem/helper/util'
+], function(_, context, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -62,7 +85,7 @@ define([
             runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations'),
             config = _.clone(interaction.properties), //pass a clone instead
             entryPoint = this.getAbsoluteUrl(interaction.entryPoint),
-            $dom = Helper.getContainer(interaction).children(),
+            $dom = containerHelper.get(interaction).children(),
             localRequirePaths = {
                 qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
             },
@@ -177,7 +200,7 @@ define([
             return data;
         },
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,

@@ -1,13 +1,38 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
-    'lodash',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'jquery',
-    'jqueryui',
+    'lodash',
     'i18n',
     'context',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'jqueryui',
     'filereader'
-], function(_, tpl, Helper, $, $ui, __, context) {
+], function($, _, __, context, tpl, containerHelper, instructionMgr, $ui) {
+    'use strict';
 
 	var _response = { "base" : null };
 	
@@ -16,10 +41,10 @@ define([
 	var _readyInstructions = __('The selected file is ready to be sent.');
     
     var _handleSelectedFiles = function(interaction, file) {
-    	Helper.removeInstructions(interaction);
-    	Helper.appendInstruction(interaction, _initialInstructions);
+    	instructionMgr.removeInstructions(interaction);
+    	instructionMgr.appendInstruction(interaction, _initialInstructions);
     	
-    	var $container = Helper.getContainer(interaction);
+    	var $container = containerHelper.get(interaction);
         
         // Show information about the processed file to the candidate.
         var filename = file.name;
@@ -35,11 +60,11 @@ define([
         // Update file processing progress.
         
         reader.onload = function (e) {
-        	Helper.removeInstructions(interaction);
-        	Helper.appendInstruction(interaction, _readyInstructions, function() {
+        	instructionMgr.removeInstructions(interaction);
+        	instructionMgr.appendInstruction(interaction, _readyInstructions, function() {
         		this.setLevel('success');
         	});
-        	Helper.validateInstructions(interaction);
+        	instructionMgr.validateInstructions(interaction);
         	
         	$container.find('.progressbar').progressbar({
         		value: 100
@@ -55,7 +80,7 @@ define([
         }
         
         reader.onloadstart = function (e) {
-        	Helper.removeInstructions(interaction);
+        	instructionMgr.removeInstructions(interaction);
         	$container.find('.progressbar').progressbar({
         		value: 0
         	});
@@ -72,7 +97,7 @@ define([
     };
     
     var _resetGui = function(interaction) {
-    	$container = Helper.getContainer(interaction);
+    	$container = containerHelper.get(interaction);
     	$container.find('.file-name').text(__('No file selected'));
     	$container.find('.btn-info').text(__('Browse...'));
     };
@@ -85,10 +110,10 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction, options) {
-    	$container = Helper.getContainer(interaction);
+    	$container = containerHelper.get(interaction);
     	_resetGui(interaction);
     	
-    	Helper.appendInstruction(interaction, _initialInstructions);
+    	instructionMgr.appendInstruction(interaction, _initialInstructions);
     	
     	var changeListener = function (e) {
     		var file = e.target.files[0];
@@ -127,7 +152,7 @@ define([
     };
     
     var resetResponse = function(interaction) {
-    	$container = Helper.getContainer(interaction);
+    	$container = containerHelper.get(interaction);
     	_resetGui(interaction);
     };
     
@@ -144,7 +169,7 @@ define([
      * @param {object} response
      */
     var setResponse = function(interaction, response) {
-    	$container = Helper.getContainer(interaction);
+    	$container = containerHelper.get(interaction);
     	
     	if (response.base != null) {
     	    var filename = (typeof response.base.file.name != 'undefined') ? response.base.file.name : 'previously-uploaded-file';
@@ -175,27 +200,52 @@ define([
         
         //remove event
         $(document).off('.commonRenderer');
-        Helper.getContainer(interaction).off('.commonRenderer');
+        containerHelper.get(interaction).off('.commonRenderer');
 
         //destroy response
         resetResponse(interaction);
 
         //remove instructions
-        Helper.removeInstructions(interaction);
+        instructionMgr.removeInstructions(interaction);
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
+    };
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
     };
 
     return {
         qtiClass : 'uploadInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
         destroy : destroy,
+        setState : setState,
+        getState : getState,
         
         // Exposed private methods for qtiCreator
         resetGui : _resetGui

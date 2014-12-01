@@ -1,12 +1,36 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * 
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'i18n',
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/gapMatchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'eyecatcher'
-], function(_, __, $, tpl, Helper, pciResponse, eyecatcher){
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
+], function(_, __, $, tpl, containerHelper, instructionMgr, pciResponse){
+    'use strict';
 
     /**
      * Global variable to count number of choice usages:
@@ -36,13 +60,13 @@ define([
             $choice.addClass('deactivated');
         }
 
-        Helper.triggerResponseChangeEvent(interaction);
+        containerHelper.triggerResponseChangeEvent(interaction);
     };
 
     var unsetChoice = function(interaction, $choice, animate){
 
-        var serial = $choice.data('serial'),
-            $container = Helper.getContainer(interaction);
+        var serial = $choice.data('serial');
+        var $container = containerHelper.get(interaction);
 
         $container.find('.choice-area [data-serial=' + serial + ']').removeClass('deactivated');
 
@@ -55,16 +79,18 @@ define([
 
         if(!interaction.swapping){
             //set correct response
-            Helper.triggerResponseChangeEvent(interaction);
+            containerHelper.triggerResponseChangeEvent(interaction);
         }
     };
 
     var getChoice = function(interaction, identifier){
-        return Helper.getContainer(interaction).find('.choice-area [data-identifier=' + identifier + ']');
+        var $container = containerHelper.get(interaction);
+        return $('.choice-area [data-identifier=' + identifier + ']', $container);
     };
 
     var getGap = function(interaction, identifier){
-        return Helper.getContainer(interaction).find('.qti-flow-container [data-identifier=' + identifier + ']');
+        var $container = containerHelper.get(interaction);
+        return $('.qti-flow-container [data-identifier=' + identifier + ']', $container);
     };
 
     /**
@@ -76,8 +102,8 @@ define([
      */
     var render = function(interaction){
 
-        var $container = Helper.getContainer(interaction),
-            $choiceArea = $container.find('.choice-area'),
+        var $container = containerHelper.get(interaction);
+        var $choiceArea = $container.find('.choice-area'),
             $flowContainer = $container.find('.qti-flow-container'),
             $activeChoice = null;
 
@@ -212,13 +238,11 @@ define([
             }
 
         });
-
-        //run eyecatcher:
-        //eyecatcher();
     };
 
     var resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
     };
