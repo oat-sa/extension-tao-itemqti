@@ -1,8 +1,8 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function(_, Renderer, commonHelper){
+    'taoQtiItem/qtiCommonRenderer/helpers/container'
+], function(_, Renderer, containerHelper){
     
     //store the curret execution context of the common renderer (preview)
     var _$previousContext = null;
@@ -37,10 +37,10 @@ define([
         },
         setContext : function($context){
             _$previousContext = $context;
-            return commonHelper.setContext($context);
+            return containerHelper.setContext($context);
         },
         restoreContext : function(){
-            commonHelper.setContext(_$previousContext);
+            containerHelper.setContext(_$previousContext);
              _$previousContext = null;
         },
         load : function(qtiClasses, done){

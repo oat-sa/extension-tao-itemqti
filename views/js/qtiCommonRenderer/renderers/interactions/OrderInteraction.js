@@ -321,12 +321,11 @@ define([
             '.icon-move-after'
         ];
         $container.find(selectors.join(',')).andSelf().off('.commonRenderer');
+        
         $(document).off('.commonRenderer');
         
         $container.find('.order-interaction-area').removeAttr('style');
         
-        resetResponse(interaction);
-
         instructionMgr.removeInstructions(interaction);
         
         //remove all references to a cache container

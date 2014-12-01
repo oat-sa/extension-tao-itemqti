@@ -1,27 +1,28 @@
 define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MatchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.score',
     'lodash',
     'i18n',
     'polyfill/placeholders'
-], function(commonRenderer, helper, formElement, scoreTpl, _, __){
+], function(commonRenderer, instructionMgr, formElement, scoreTpl, _, __){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
 
             var interaction = widget.element;
 
+            commonRenderer.resetResponse(interaction);
             commonRenderer.destroy(interaction);
 
             if(responseMappingMode){
-                helper.appendInstruction(widget.element, __('Please define the correct response and the score below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct response and the score below.'));
                 interaction.data('responseMappingMode', true);
                 ResponseWidget.createScoreWidgets(widget);
                 ResponseWidget.createCorrectWidgets(widget);
             }else{
-                helper.appendInstruction(widget.element, __('Please define the correct response below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct response below.'));
                 ResponseWidget.createCorrectWidgets(widget);
             }
 
@@ -40,13 +41,14 @@ define([
 
             var interaction = widget.element;
 
-            commonRenderer.destroy(interaction);
-
             interaction.removeData('responseMappingMode');
 
             widget.$container.find('table.matrix input[type=checkbox]').prop('disabled', 'disabled');
             widget.$container.find('table.matrix .score').remove();
             widget.$container.off('responseChange.qti-widget');
+
+            commonRenderer.resetResponse(interaction);
+            commonRenderer.destroy(interaction);
         },
         createScoreWidgets : function(widget){
             

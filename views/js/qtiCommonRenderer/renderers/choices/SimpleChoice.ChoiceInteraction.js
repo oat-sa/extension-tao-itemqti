@@ -22,13 +22,13 @@
  */
 define([
    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/simpleChoice.choiceInteraction', 
-   'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function(tpl, Helper){
+   'taoQtiItem/qtiCommonRenderer/helpers/container'
+], function(tpl, containerHelper){
     'use strict';
 
     return {
         qtiClass : 'simpleChoice.choiceInteraction',
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         getData:function(choice, data){
             data.unique = (parseInt(data.interaction.attributes.maxChoices) === 1);
             return data;

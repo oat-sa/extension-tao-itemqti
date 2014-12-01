@@ -4,9 +4,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, HottextInteraction, helper, PciResponse){
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
     /**
      * Initialize the state: use the common renderer to set the correct response.
@@ -17,15 +17,16 @@ define([
         var response = interaction.getResponseDeclaration();
         
         //really need to destroy before ? 
-        HottextInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please select the correct hottext choices below.'));
+        instructionMgr.appendInstruction(interaction, __('Please select the correct hottext choices below.'));
         
         //use the common Renderer
-        HottextInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        HottextInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(PciResponse.unserialize(data.response, interaction));
@@ -43,8 +44,9 @@ define([
         widget.$container.off('responseChange.qti-widget');
         
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        HottextInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
     }
 
     /**

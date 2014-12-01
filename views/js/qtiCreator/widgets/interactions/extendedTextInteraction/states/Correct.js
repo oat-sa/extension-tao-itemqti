@@ -1,11 +1,11 @@
 define([
+    'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'lodash',
-    'i18n'
-], function(stateFactory, Correct, renderer, helper, _, __){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function(_, __,stateFactory, Correct, renderer, instructionMgr){
 
     var ExtendedTextInteractionStateCorrect = stateFactory.create(Correct, function(){
         
@@ -26,7 +26,7 @@ define([
         renderer.enable(interaction);
         renderer.setText(interaction, correctResponse[0]);
        
-        helper.appendInstruction(interaction, __('Please type the correct response below.'));
+        instructionMgr.appendInstruction(interaction, __('Please type the correct response below.'));
         
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect([renderer.getResponse(interaction).base.string]);
@@ -38,7 +38,7 @@ define([
         var interaction = widget.element;
         renderer.clearText(interaction);
         
-        helper.removeInstructions(widget.element);
+        instructionMgr.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
     };
     

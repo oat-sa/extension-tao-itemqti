@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
@@ -18,7 +18,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/incrementer',
     'ui/tooltipster'
-], function($, _, __, stateFactory, Map, SelectPointInteraction, helper, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, shapeEditor, grahicScorePopup, mappingFormTpl, formElement, incrementer, tooltipster){
 
     /**
      * Initialize the Map state.
@@ -36,10 +36,11 @@ define([
         }
 
         //really need to destroy before ? 
-        SelectPointInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' + 
+        instructionMgr.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' + 
                                                  'You can also position the target to the exact point as the correct response.'));
         interaction.responseMappingMode = true;
         if(_.isPlainObject(response.mapEntries)){
@@ -367,8 +368,9 @@ define([
         }
         
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        SelectPointInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = this.widget.createPaper();

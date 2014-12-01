@@ -26,7 +26,7 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
 ], function($, _,  __,tpl, containerHelper, instructionMgr, pciResponse){
 
