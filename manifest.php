@@ -26,7 +26,7 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.6',
+    'version' => '2.7.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
 	    'taoItems' => '>=2.6'
@@ -50,6 +50,7 @@ return array(
 			dirname(__FILE__).'/install/local/addQTIExamples.php'
 		)
 	),
+    'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',
     'routes' => array(
         '/taoQtiItem' => 'oat\\taoQtiItem\\controller'
     ),

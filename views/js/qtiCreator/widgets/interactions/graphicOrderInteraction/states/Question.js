@@ -199,8 +199,8 @@ define([
         formElement.initWidget($form);
         
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', false);
-        callbacks.data = function(inteaction, value){
+        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:false});
+        callbacks.data = function(i, value){
             interaction.object.attr('data', value);
             widget.rebuild({
                 ready:function(widget){
@@ -208,13 +208,13 @@ define([
                 }
             });
         };
-        callbacks.width = function(inteaction, value){
+        callbacks.width = function(i, value){
             interaction.object.attr('width', value);
         };
-        callbacks.height = function(inteaction, value){
+        callbacks.height = function(i, value){
             interaction.object.attr('height', value);
         };
-        callbacks.type = function(inteaction, value){
+        callbacks.type = function(i, value){
             if(!value || value === ''){
                 interaction.object.removeAttr('type');
             } else {

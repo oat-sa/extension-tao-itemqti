@@ -78,9 +78,12 @@ define([
                 propNames = [propNames];
             }
             _.each(propNames, function(propName){
-                delete _this.attributes[propName];
+                delete _this.properties[propName];
             });
             return this;
+        },
+        getProperties : function(){
+            return _.clone(this.properties);
         },
         getNamespace : function(){
 
@@ -179,6 +182,16 @@ define([
             this.onPciReady(function(pci){
                 if(_.isFunction(pci.off)){
                     pci.off(event);
+                }else{
+                    throw 'the pci does not implement off() function';
+                }
+            });
+            return this;
+        },
+        triggerPci : function(event, args){
+            this.onPciReady(function(pci){
+                if(_.isFunction(pci.off)){
+                    pci.trigger(event, args);
                 }else{
                     throw 'the pci does not implement off() function';
                 }

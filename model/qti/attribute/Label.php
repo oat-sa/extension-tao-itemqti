@@ -40,4 +40,4 @@ class Label extends Attribute
 	static protected $defaultValue = '';
 	static protected $required = false;
 
-} /* end of abstract class oat\taoQtiItem\model\qti\attribute\Title */
+}

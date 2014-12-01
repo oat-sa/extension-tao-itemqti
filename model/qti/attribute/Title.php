@@ -41,4 +41,4 @@ class Title extends Attribute
 	static protected $required = true;
     static protected $taoDefaultValue = '';
 
-} /* end of abstract class oat\taoQtiItem\model\qti\attribute\Title */
+}

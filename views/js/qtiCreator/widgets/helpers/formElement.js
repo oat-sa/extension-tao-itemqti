@@ -101,12 +101,12 @@ define([
 
             $title
                 .inplacer({
-                target : $('#qti-title')
-            })
+                    target : $('#qti-title')
+                })
                 .attr('title', __('Edit modal feedback title'))
                 .on('change', function(){
-                element.attr('title', $(this).text());
-            });
+                    element.attr('title', $(this).text());
+                });
         },
         /**
          * the simplest form of save callback used in setChangeCallbacks()
@@ -122,20 +122,31 @@ define([
                 }
             }
         },
-        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, updateCardinality){
+        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, options){
 
-            var $max = $form.find('input[name=' + attributeNameMax + ']'),
+            var _defaults = {
+                    updateCardinality : true,
+                    attrMethodNames : {
+                        remove : 'removeAttr',
+                        set : 'attr'
+                    },
+                    callback : _.noop
+                },
+                $max = $form.find('input[name=' + attributeNameMax + ']'),
                 callbacks = {};
-
+            
+            //prepare options object
+            options = _.defaults(options || {}, _defaults);
+            
             callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : 0};
 
                 value = parseInt(value);
                 if(value === 0 || isNaN(value)){
-                    element.removeAttr(name);
+                    element[options.attrMethodNames.remove](name);
                 }else{
-                    element.attr(name, value);
+                    element[options.attrMethodNames.set](name, value);
                     newOptions.min = value;
 
                     var max = parseInt($max.val());
@@ -145,6 +156,8 @@ define([
                 }
                 //set incrementer min value for maxChoices and trigger keyup event to launch validation
                 $max.incrementer('options', newOptions).keyup();
+                
+                options.callback(element, value, name);
             };
 
             callbacks[attributeNameMax] = function(element, value, name){
@@ -153,15 +166,16 @@ define([
 
                 if(element.is('interaction')){
                     //update response
-                    _updateResponseDeclaration(element, value, updateCardinality);
+                    _updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
                 if(!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))){
-                    element.removeAttr(name);//to be removed for order interactions
+                    element[options.attrMethodNames.remove](name);//to be removed for order interactions
                 }else{
-                    element.attr(name, value);//required
+                    element[options.attrMethodNames.set](name, value);//required
                 }
-
+                
+                options.callback(element, value, name);
             };
 
             return callbacks;

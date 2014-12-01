@@ -83,4 +83,4 @@ abstract class Datatype
 		}
 	}
 
-} /* end of abstract class oat\taoQtiItem\model\qti\datatype\Datatype */
+}

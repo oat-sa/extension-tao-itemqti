@@ -46,6 +46,5 @@ interface FlowContainer
      */
     public function getBody();
 
-} /* end of interface oat\taoQtiItem\model\qti\container\FlowContainer */
-
+}
 ?>

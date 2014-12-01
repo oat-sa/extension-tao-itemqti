@@ -501,8 +501,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\e643"; }
 .item-editor-item .qti-graphicInteraction .dummy-element { cursor: pointer; }
 .item-editor-item .qti-graphicInteraction .image-sidebar { float: left; width: 50px; height: 100%; min-height: 280px; top: 0; z-index: 1000; }
-.item-editor-item .qti-graphicInteraction .image-sidebar .forms { overflow: hidden; min-height: 230px; font-size: 40px; font-size: 4rem; border-right: solid 1px #fff; }
-.item-editor-item .qti-graphicInteraction .image-sidebar .forms li { border: 1px solid transparent; line-height: 40px; padding: 5px 0 3px 0; cursor: pointer; text-align: center; }
+.item-editor-item .qti-graphicInteraction .image-sidebar .forms { overflow: hidden; min-height: 230px; border-right: solid 1px #fff; }
+.item-editor-item .qti-graphicInteraction .image-sidebar .forms [class^="icon-"], .item-editor-item .qti-graphicInteraction .image-sidebar .forms [class*=" icon-"] { font-size: 40px !important; font-size: 4rem !important; line-height: 1.2; }
+.item-editor-item .qti-graphicInteraction .image-sidebar .forms li { border: 1px solid transparent; cursor: pointer; text-align: center; }
 .item-editor-item .qti-graphicInteraction .image-sidebar .forms li.active { color: #3e7da7; }
 .item-editor-item .qti-graphicInteraction .image-sidebar .forms li:hover { background: #3e7da7; color: white; }
 .item-editor-item .qti-graphicInteraction .image-sidebar .forms li.separator { height: 1px; background-color: #ccc; padding: 0; margin: 0 3px; }
