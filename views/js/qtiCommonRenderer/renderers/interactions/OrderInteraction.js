@@ -222,6 +222,9 @@ define([
         var initialOrder = _.keys(interaction.getChoices());
         var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
+
+        $container.find('.qti-choice.active').mousedown();
+       
         $choices.detach().sort(function(choice1, choice2){
             return (_.indexOf(initialOrder, $(choice1).data('serial')) > _.indexOf(initialOrder, $(choice2).data('serial')));
         });
@@ -309,7 +312,6 @@ define([
     var destroy = function(interaction){
         
         var $container = containerHelper.get(interaction);
-        $container.find('.qti-choice.active').mousedown();
 
         //first, remove all events
         var selectors = [

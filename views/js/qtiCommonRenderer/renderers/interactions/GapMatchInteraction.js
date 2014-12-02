@@ -242,6 +242,9 @@ define([
 
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
+
+        //restore selected choices:
+        $('.gapmatch-content .active', $container).trigger('mousedown.commonRenderer');
         $('.gapmatch-content', $container).each(function(){
             unsetChoice(interaction, $(this));
         });
@@ -276,7 +279,8 @@ define([
     var _getRawResponse = function(interaction){
 
         var response = [];
-        Helper.getContainer(interaction).find('.gapmatch-content').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('.gapmatch-content', $container).each(function(){
             var choiceSerial = $(this).data('serial'),
                 pair = [];
 
@@ -311,10 +315,7 @@ define([
 
     var destroy = function(interaction){
 
-        var $container = Helper.getContainer(interaction);
-
-        //restore selected choices:
-        $container.find('.gapmatch-content .active').trigger('mousedown.commonRenderer');
+        var $container = containerHelper.get(interaction);
 
         //remove event
         $(document).off('.commonRenderer');
@@ -322,9 +323,6 @@ define([
         $container.find('.choice-area').off('.commonRenderer');
         $container.find('.qti-flow-container').off('.commonRenderer');
 
-        //restore response
-        resetResponse(interaction);
-        
         //restore selection
         $container.find('.gapmatch-content').empty();
         $container.find('.active').removeClass('active');
@@ -332,17 +330,46 @@ define([
         $container.find('.empty').removeClass('empty');
 
         //remove all references to a cache container
-        Helper.purgeCache(interaction);
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
+
+    /**
+     * Expose the common renderer for the gapmatch interaction
+     * @exports qtiCommonRenderer/renderers/interactions/GapMatchInteraction
+     */
     return {
         qtiClass : 'gapMatchInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

@@ -34,7 +34,7 @@ define([
 ], function($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
 
-
+    //FIXME this response is global to the app, it must be linked to the interaction!
 	var _response = { "base" : null };
 	
 	var _initialInstructions = __('Browse your computer and select the appropriate file.');
@@ -78,6 +78,8 @@ define([
             var base64Raw = base64Data.substring(commaPosition + 1);
             var filetype = filetype;
             _response = { "base" : { "file" : { "data" : base64Raw, "mime" : filetype, "name" : filename } } }; 
+    
+            //FIXME it should trigger a responseChange
         };
         
         reader.onloadstart = function (e) {
@@ -96,11 +98,7 @@ define([
     };
     
     var _resetGui = function(interaction) {
-<<<<<<< HEAD
-    	$container = containerHelper.get(interaction);
-=======
     	var $container = containerHelper.get(interaction);
->>>>>>> optimize_interactions
     	$container.find('.file-name').text(__('No file selected'));
     	$container.find('.btn-info').text(__('Browse...'));
     };
@@ -138,7 +136,8 @@ define([
         	// Nope... :/
             $input.fileReader({
     	        id: 'fileReaderSWFObject',
-    	        filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
+    	        //FIXME this is not going to work outside of TAO
+                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
     	        callback: function() {
     	            $input.bind('change', changeListener);
     	        }
@@ -205,9 +204,6 @@ define([
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
 
         //remove instructions
         instructionMgr.removeInstructions(interaction);

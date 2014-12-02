@@ -108,9 +108,9 @@ define([
             $el.attr('placeholder', attributes.placeholderText);
         }
 
-        $el.on('change', function(){
+        $el.on('keyup', _.throttle(function(){
             containerHelper.triggerResponseChangeEvent(interaction);
-        });
+        }, 300, {leading : false}));
     };
 
     var resetResponse = function(interaction){
@@ -187,9 +187,6 @@ define([
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
 
         //remove instructions
         instructionMgr.removeInstructions(interaction);

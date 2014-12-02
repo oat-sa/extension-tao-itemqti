@@ -85,9 +85,9 @@ define([
             containerHelper.triggerResponseChangeEvent(interaction);
             
         }).on('select2-open', function(){
-            
-            $el.tooltipster('hide');
-            
+            if(required){
+                $el.tooltipster('hide');
+            }    
         }).on('select2-close', function(){
             
             if(required && $container.val() === "") {
@@ -126,9 +126,7 @@ define([
         
         containerHelper.get(interaction)
             .val(choiceIdentifier)
-            .select2('val', choiceIdentifier)
-            .change();
-        
+            .select2('val', choiceIdentifier);
     };
     
     /**
@@ -179,9 +177,6 @@ define([
 
         //remove event
         $(document).off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
 
         //remove instructions
         instructionMgr.removeInstructions(interaction);

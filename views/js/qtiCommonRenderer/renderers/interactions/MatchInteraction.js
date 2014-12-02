@@ -26,8 +26,9 @@ define([
     'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function($, _,  __,tpl, containerHelper, instructionMgr, pciResponse){
 
     /**
@@ -55,7 +56,7 @@ define([
             _onCheckboxSelected(interaction, e);
         });
 
-        Helper.validateInstructions(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     /**
@@ -322,9 +323,8 @@ define([
 
                 instructionMgr.appendInstruction(interaction, msg, function(choice){
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice !== 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount <= maxAssociations){
@@ -343,9 +343,8 @@ define([
                 msg = __('You must select 0 to %d choices.').replace('%d', choiceCount);
 
                 instructionMgr.appendInstruction(interaction, msg, function(choice){
-                    var choiceGiven = typeof choice !== 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else{
@@ -361,9 +360,8 @@ define([
 
                 instructionMgr.appendInstruction(interaction, msg, function(choice){
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice !== 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
@@ -379,7 +377,7 @@ define([
             }
             else if(minAssociations > 0 && maxAssociations > 0){
                 // minimum and maximum.
-                if(minAssociations != maxAssociations){
+                if(minAssociations !== maxAssociations){
                     msg = __('You must select %1$d to %2$d choices.');
                     msg = msg.replace('%1$d', minAssociations);
                     msg = msg.replace('%2$d', maxAssociations);
@@ -390,11 +388,9 @@ define([
                 }
 
                 instructionMgr.appendInstruction(interaction, msg, function(choice){
-
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice !== 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
@@ -417,8 +413,6 @@ define([
 
         var $container = containerHelper.get(interaction);
         $container.off('.commonRenderer');
-
-        resetResponse(interaction);
 
         instructionMgr.removeInstructions(interaction);
         

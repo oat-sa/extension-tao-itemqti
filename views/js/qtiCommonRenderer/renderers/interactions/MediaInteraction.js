@@ -435,8 +435,31 @@ define([
     };
 
     /**
+     * Set the interaction state. It could be done anytime with any state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(typeof state !== undefined){
+            interaction.resetResponse();
+            interaction.setResponse(state);
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     * 
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        return interaction.getResponse();
+    };
+
+    /**
      * Expose the common renderer for the interaction
-     * @exports qtiCommonRenderer/renderers/interactions/mediaInteraction
+     * @exports qtiCommonRenderer/renderers/interactions/MediaInteraction
      */
     return {
         qtiClass        : 'mediaInteraction',
@@ -446,6 +469,8 @@ define([
         setResponse     : setResponse,
         getResponse     : getResponse,
         resetResponse   : resetResponse,
-        destroy         : destroy
+        destroy         : destroy,
+        setState        : setState,
+        getState        : getState
     };
 });

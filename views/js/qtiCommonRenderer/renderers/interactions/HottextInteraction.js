@@ -159,9 +159,6 @@ define([
     var destroy = function destroy(interaction){
         var $container = containerHelper.get(interaction);
 
-        //restore response
-        resetResponse(interaction);
-
         //restore selected choices:
         $container.find('.hottext').off('click');
 
