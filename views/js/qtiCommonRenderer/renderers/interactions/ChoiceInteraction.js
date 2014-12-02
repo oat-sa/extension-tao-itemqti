@@ -267,9 +267,6 @@ define([
         $container.off('.commonRenderer');
         $(document).off('.commonRenderer');
 
-        //destroy response
-        resetResponse(interaction);
-
         //remove instructions
         instructionMgr.removeInstructions(interaction);
 

@@ -421,6 +421,10 @@ define([
 
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
+        
+        //destroy seelcted choice:
+        $container.find('.result-area .active').mousedown();
+
         $('.result-area>li>div', $container).each(function(){
             unsetChoice(interaction, $(this), false, false);
         });
@@ -509,18 +513,11 @@ define([
      * @param {Object} interaction - the interaction
      */
     var destroy = function(interaction){
-
         var $container = containerHelper.get(interaction);
-
-        //destroy seelcted choice:
-        $container.find('.result-area .active').mousedown();
 
         //remove event
         $(document).off('.commonRenderer');
         $container.find('.choice-area, .result-area').andSelf().off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
 
         //remove instructions
         instructionMgr.removeInstructions(interaction);

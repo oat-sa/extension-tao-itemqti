@@ -74,8 +74,10 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
+
+        var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
-        var $container = interaction.getContainer();
+
         var response = interaction.getResponseDeclaration();
         var multiple = _isMultiple(interaction);
         
@@ -115,7 +117,7 @@ define([
                 $container.find('#text-container').addClass('solid');
             }
             else {
-                $el.bind('keyup change', function(e) {
+                $el.on('keyup change', function(e) {
                     containerHelper.triggerResponseChangeEvent(interaction, {});
                 });
             }
@@ -192,11 +194,19 @@ define([
                     $el.first().attr('placeholder', attributes.placeholderText);
                 }
             }
+
+
+            if (_getFormat(interaction) !== 'xhtml') {
+                $el.on('keyup change', function(e) {
+                    containerHelper.triggerResponseChangeEvent(interaction, {});
+                });
+            }
         }
     };
     
     var resetResponse = function(interaction) {
-        interaction.getContainer().find('input, textarea').val('');
+        var $container = containerHelper.get(interaction);
+        $('input, textarea', $container).val('');
     };
 
     /**
@@ -253,7 +263,7 @@ define([
      */
     var getResponse = function(interaction) {
         
-        var $container = interaction.getContainer();
+        var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
         var responseDeclaration = interaction.getResponseDeclaration();
         var baseType = responseDeclaration.attr('baseType');
@@ -401,9 +411,6 @@ define([
         //remove event
         $(document).off('.commonRenderer');
 
-        //destroy response
-        resetResponse(interaction);
-
         //remove instructions
         instructionMgr.removeInstructions(interaction);
 
@@ -449,6 +456,7 @@ define([
         destroy : destroy,
         getState : getState,
         setState : setState,
+    
         updateFormat : updateFormat,
         enable : enable,
         disable : disable,

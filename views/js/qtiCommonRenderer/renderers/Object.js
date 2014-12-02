@@ -2,7 +2,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/object',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiDefaultRenderer/widgets/Object'
-], function(tpl, Helper, DefaultRendererObject){
+], function(tpl, containerHelper, DefaultRendererObject){
     return {
         qtiClass : 'object',
         template : tpl,
