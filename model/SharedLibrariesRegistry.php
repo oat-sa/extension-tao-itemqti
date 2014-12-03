@@ -19,11 +19,10 @@
  */
 namespace oat\taoQtiItem\model;
 
-use oat\oatbox\AbstractRegistry;
-use common_ext_Extension;
-use common_ext_ExtensionsManager;
+use \common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
@@ -39,7 +38,7 @@ use DOMXPath;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibrariesRegistry extends AbstractRegistry
+class SharedLibrariesRegistry extends ClientLibRegistry
 {
     
     const CONFIG_ID = 'local_shared_libraries';
@@ -120,30 +119,7 @@ class SharedLibrariesRegistry extends AbstractRegistry
     {
         return $this->baseUrl;
     }
-    
-    
-    /**
-     * Obtain the librariew already registered in the registry as a
-     * [library name => library URL] mapping.
-     * 
-     * @return array An associative array where keys are library names and values are library URLs.
-     */
-    public function getMapping()
-    {
-        return $this->getMap();
-    }
-    
-    /**
-     * Persist the [library name => library URL] mapping.
-     * 
-     * @param array $mapping
-     */
-    protected function setMapping(array $mapping)
-    {
-        $this->setConfig($mapping);
-    }
-    
-    
+       
     /**
      * Register a library from a file existing on the file system.
      * 
@@ -193,10 +169,11 @@ class SharedLibrariesRegistry extends AbstractRegistry
         // Take care with windows...
         $mappingPath = str_replace("\\", '/', $mappingPath);
     
-        $map = self::getMapping();
-        $map[$id] = "${baseUrl}/${mappingPath}";
-    
-        $this->setMapping($map);
+        //self::register($id, "${baseUrl}/${mappingPath}");
+        
+        $map = self::set($id, "${baseUrl}/${mappingPath}");
+        
+
     }
     
     /**
@@ -244,7 +221,7 @@ class SharedLibrariesRegistry extends AbstractRegistry
      */
     public function getPathFromId($id)
     {
-        $mapping = $this->getMapping();
+        $mapping = self::getMap();
         
         if (isset($mapping[$id]) === true) {
             $url = $mapping[$id];
