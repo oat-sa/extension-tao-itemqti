@@ -22,7 +22,9 @@ namespace oat\taoQtiItem\model;
 use \common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
+use oat\oatbox\AbstractRegistry;
 use oat\tao\model\ClientLibRegistry;
+
 
 /**
  * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
@@ -38,7 +40,7 @@ use oat\tao\model\ClientLibRegistry;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibrariesRegistry extends ClientLibRegistry
+class SharedLibrariesRegistry extends AbstractRegistry
 {
     
     const CONFIG_ID = 'local_shared_libraries';
@@ -168,10 +170,10 @@ class SharedLibrariesRegistry extends ClientLibRegistry
         
         // Take care with windows...
         $mappingPath = str_replace("\\", '/', $mappingPath);
-    
-        //self::register($id, "${baseUrl}/${mappingPath}");
-        
+                   
         $map = self::set($id, "${baseUrl}/${mappingPath}");
+        
+        ClientLibRegistry::getRegistry()->register($id, "${baseUrl}/${mappingPath}");
         
 
     }

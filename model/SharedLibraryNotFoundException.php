@@ -19,8 +19,8 @@
  */
 namespace oat\taoQtiItem\model;
 
+use \common_Exception;
 use Exception;
-use oat\tao\model\ClientLibNotFoundException;
 
 /**
  * Exception to be thrown when a PCI/PIC shared library cannot be found.
@@ -28,6 +28,40 @@ use oat\tao\model\ClientLibNotFoundException;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibraryNotFoundException extends ClientLibNotFoundException
+class SharedLibraryNotFoundException extends common_Exception
 {
+    private $id;
+    
+    /**
+     * Set the name of the library that could not be found.
+     * 
+     * @param string $id A library name.
+     */
+    protected function setId($id)
+    {
+        $this->id = $id;
+    }
+    
+    /**
+     * Get the name of the library that could not be found.
+     * 
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * Create a new SharedLibraryNotFound exception object.
+     * 
+     * @param string $message The message of the exception.
+     * @param string $id The name of the shared library that could not be found.
+     * @param Exception $previous An optional previous exception that led to this one.
+     */
+    public function __construct($message, $id, Exception $previous = null)
+    {
+        parent::__construct($message, 0, $previous);
+        $this->setId($id);
+    }
 }
