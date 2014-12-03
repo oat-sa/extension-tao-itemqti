@@ -59,10 +59,14 @@ module.exports = function(grunt) {
         }
     };
 
+    /**
+     * Compile the new item runner as a standalone library
+     */
     requirejs.qtinewrunner = {
         options: {
             baseUrl : '../js',
             mainConfigFile : './config/requirejs.build.js',
+            //optimize: "none",
             uglify2: {
                 mangle : false,
                 output: {
@@ -72,10 +76,12 @@ module.exports = function(grunt) {
             wrap : { 
                 start : '',
                 end : "define(['taoQtiItem/runner/qtiItemRunner'], function(runner){ return runner; });"
-            },  
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
-            include: runtimeLibs,
-            exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement'],
+            }, 
+            wrapShim: true,
+            inlineCss : true,
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js', taoCss : root + '/tao/views/css'},
+            include: runtimeLibs.concat(['tpl', 'json']),
+            exclude : ['mathJax', 'mediaElement'],
             name: "taoQtiItem/runner/qtiItemRunner",
             out: "output/qtiItemRunner.min.js"
         }
