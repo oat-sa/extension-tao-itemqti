@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * 
@@ -61,7 +62,20 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $currentVersion = '2.7.0';
         }
-
+        if ($currentVersion == '2.7.0') {
+            //sharelib was not registered as clientLib before, it is now the case
+            $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
+            $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
+            
+            $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
+            foreach ($registry->getMap() as $id => $url){
+                $file = pathinfo($url);
+                $path = str_replace($file['basename'], $file['filename'],$url);
+                
+                ClientLibRegistry::getRegistry()->register($id, $path);
+            }
+            $currentVersion = '2.7.1';
+        }
         return $currentVersion;
     }
 
