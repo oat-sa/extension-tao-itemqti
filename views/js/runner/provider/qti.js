@@ -42,7 +42,7 @@ function($, _, QtiLoader, QtiRenderer){
 
             //TODO configure the renderer URLs using an AssetManager
             this._renderer = new QtiRenderer({
-                baseUrl : '.'
+                baseUrl : './'
             });
  
             this._loader.loadItemData(itemData, function(item){
@@ -62,29 +62,27 @@ function($, _, QtiLoader, QtiRenderer){
 
         render : function(elt, done){
             var self = this;
-
             if(this._item){
                 try {
                     elt.innerHTML = this._item.render({});
-
                 } catch(e){
                     self.trigger('error', 'Error in template rendering : ' +  e);
                 }
                 try {
                     this._item.postRender();
-
-                    
                 } catch(e){
                     self.trigger('error', 'Error in post rendering : ' +  e);
                 }
 
-                $(elt).on('responseChange', function(){
+                $(elt)
+                  .off('responseChange')
+                  .on('responseChange', function(){
                     self.trigger('statechange', self.getState());
                     self.trigger('responsechange', self.getResponses());
-                }); 
+                  }); 
 
                 //TODO use post render cb once implemented
-                _.delay(done, 10);
+                _.delay(done, 100);
             }
         },
 
@@ -93,7 +91,7 @@ function($, _, QtiLoader, QtiRenderer){
                 
                _.invoke(this._item.getInteractions(), 'clear');
                 
-                elt.innerHTML = '';
+                $(elt).off('responseChange').empty();
             }
             done();
         },
