@@ -63,7 +63,9 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertIsA($item, 'core_kernel_classes_Resource');
         $this->assertTrue($item->exists());
         
-        $data = taoItems_helpers_ResourceManager::buildDirectory($item, DEFAULT_LANG);
+        $rm = new taoItems_helpers_ResourceManager(array('item'=> $item , 'lang' => DEFAULT_LANG));
+
+        $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
         $this->assertEquals('/', $data['path']);
