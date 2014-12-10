@@ -19,10 +19,12 @@
  */
 namespace oat\taoQtiItem\model;
 
-use common_ext_Extension;
-use common_ext_ExtensionsManager;
+use \common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
+use oat\oatbox\AbstractRegistry;
+use oat\tao\model\ClientLibRegistry;
+
 
 /**
  * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
@@ -38,7 +40,7 @@ use DOMXPath;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibrariesRegistry
+class SharedLibrariesRegistry extends AbstractRegistry
 {
     
     const CONFIG_ID = 'local_shared_libraries';
@@ -46,8 +48,25 @@ class SharedLibrariesRegistry
     private $basePath;
     
     private $baseUrl;
+   
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return string
+     */
+    protected function getConfigId()
+    {
+        return self::CONFIG_ID;
+    }
     
-    private $extension;
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    protected function getExtension()
+    {  
+        return common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+    }
     
     /**
      * Create a new SharedLibrariesRegistry object.
@@ -59,7 +78,6 @@ class SharedLibrariesRegistry
     {
         $this->setBasePath($basePath);
         $this->setBaseUrl($baseUrl);
-        $this->setExtension(common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem'));
     }
     
     /**
@@ -103,60 +121,7 @@ class SharedLibrariesRegistry
     {
         return $this->baseUrl;
     }
-    
-    /**
-     * Store a reference on the taoQtiItem extension.
-     * 
-     * @param common_ext_Extension $extension
-     */
-    protected function setExtension(common_ext_Extension $extension)
-    {
-        $this->extension = $extension;
-    }
-    
-    /**
-     * Get a reference on the taoQtiItem extension.
-     * 
-     * @return common_ext_Extension
-     */
-    protected function getExtension()
-    {
-        return $this->extension;
-    }
-    
-    /**
-     * Obtain the librariew already registered in the registry as a
-     * [library name => library URL] mapping.
-     * 
-     * @return array An associative array where keys are library names and values are library URLs.
-     */
-    public function getMapping()
-    {
-        $mapping = $this->getExtension()->getConfig(self::CONFIG_ID);
-        return is_array($mapping) ? $mapping : array();
-    }
-    
-    /**
-     * Persist the [library name => library URL] mapping.
-     * 
-     * @param array $mapping
-     */
-    protected function setMapping(array $mapping)
-    {
-        $this->getExtension()->setConfig(self::CONFIG_ID, $mapping);
-    }
-    
-    /**
-     * Whether a library with the name $id is known by the registry.
-     * 
-     * @param string $id A shared library name.
-     * @return boolean
-     */
-    public function isRegistered($id)
-    {
-        return array_key_exists($id, $this->getMapping());
-    }
-    
+       
     /**
      * Register a library from a file existing on the file system.
      * 
@@ -205,11 +170,12 @@ class SharedLibrariesRegistry
         
         // Take care with windows...
         $mappingPath = str_replace("\\", '/', $mappingPath);
-    
-        $map = self::getMapping();
-        $map[$id] = "${baseUrl}/${mappingPath}";
-    
-        $this->setMapping($map);
+                   
+        $map = self::set($id, "${baseUrl}/${mappingPath}");
+               
+        ClientLibRegistry::getRegistry()->register($id, "${baseUrl}/${fileName}");
+        
+
     }
     
     /**
@@ -257,7 +223,7 @@ class SharedLibrariesRegistry
      */
     public function getPathFromId($id)
     {
-        $mapping = $this->getMapping();
+        $mapping = self::getMap();
         
         if (isset($mapping[$id]) === true) {
             $url = $mapping[$id];

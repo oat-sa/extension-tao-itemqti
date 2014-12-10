@@ -171,9 +171,13 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function(customInteraction, data){
-
-            data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
-
+            
+            //remove ns + fix media file path
+            var markup = data.markup;
+            markup = util.removeMarkupNamespaces(markup);
+            markup = PortableElement.fixMarkupMediaSources(markup, this);
+            data.markup = markup;
+            
             return data;
         },
         render : render,

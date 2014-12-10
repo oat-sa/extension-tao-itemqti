@@ -41,23 +41,26 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * Replace all identified relative media urls by the absolute one
      * 
      * @param {String} markupStr
-     * @param {String} baseUrl
+     * @param {Object} the renderer
      * @returns {String}
      */
-    function replaceMarkupMediaSource(markupStr, baseUrl){
+    function fixMarkupMediaSources(markupStr, renderer){
 
+        //load markup string into a div container
         var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
 
+        //for each media source
         $markup.find('img').each(function(){
 
             var $img = $(this),
                 src = $img.attr('src'),
-                fullPath = util.fullpath(src, baseUrl);
+                fullPath = renderer.getAbsoluteUrl(src);
 
             $img.attr('src', fullPath);
         });
 
         return $markup.html();
+
     }
 
     /**
@@ -71,9 +74,9 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     function getLocalRequire(typeIdentifier, baseUrl, libs, config){
 
         config = config || {};
-        
+
         var runtimeLocation = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;
-        
+
         if(config.useExtensionAlias){
             var urlTokens = baseUrl.split('/');
             var extension = urlTokens[0];
@@ -145,7 +148,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     return {
         getSharedLibrariesPaths : getSharedLibrariesPaths,
         getCommonLibraries : getCommonLibraries,
-        replaceMarkupMediaSource : replaceMarkupMediaSource,
+        fixMarkupMediaSources : fixMarkupMediaSources,
         getDocumentBaseUrl : getDocumentBaseUrl,
         getLocalRequire : getLocalRequire,
         getCachedLocalRequire : getCachedLocalRequire
