@@ -27,7 +27,7 @@ define(function(){
          * @fires custominteractionready
          */
         notifyReady : function(picInstance){
-            //@todo add pciIntance as event data and notify event to delivery engine
+            //@todo add pciInstance as event data and notify event to delivery engine
         },
         /**
          * Get a cloned object representing the PIC model
@@ -36,6 +36,8 @@ define(function(){
          * @returns {Object} clonedPciModel
          */
         createPciInstance : function(typeIdentifier){
+
+            console.log(typeIdentifier, window._picHooks)
 
             if(window._picHooks[typeIdentifier]){
 

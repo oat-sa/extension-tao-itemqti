@@ -39,15 +39,15 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $currentVersion = $initialVersion;
 
+        //add portable shared libraries:
+        $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
+        $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
+        $installBasePath = ROOT_PATH.'taoQtiItem/install/local/portableSharedLibraries';
+        $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
+
         //migrate from 2.6 to 2.7.0
         if($currentVersion == '2.6'){
 
-            //add portable shared libraries:
-            $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
-            $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
-            $installBasePath = ROOT_PATH.'taoQtiItem/install/local/portableSharedLibraries';
-
-            $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
             $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
             $registry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
             $registry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
@@ -60,6 +60,16 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
 
             $currentVersion = '2.7.0';
+        }
+
+        //migrate from 2.7.0 to 2.7.1
+        if($currentVersion == '2.7.0'){
+
+            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
+            $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
+
+            $currentVersion = '2.7.1';
         }
 
         return $currentVersion;

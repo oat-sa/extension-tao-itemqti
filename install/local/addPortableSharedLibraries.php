@@ -39,3 +39,6 @@ $registry->registerFromFile('OAT/util/math', $installBasePath . '/OAT/util/math.
 $registry->registerFromFile('OAT/util/html', $installBasePath . '/OAT/util/html.js');
 $registry->registerFromFile('OAT/util/EventMgr', $installBasePath . '/OAT/util/EventMgr.js');
 $registry->registerFromFile('OAT/util/event', $installBasePath . '/OAT/util/event.js');
+$registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+$registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
+$registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
