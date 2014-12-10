@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
 use oat\tao\model\media\MediaSource;
-use oat\taoMediaManager\model\FileManager;
+use oat\taoMediaManager\model\fileManagement\FileManager;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
