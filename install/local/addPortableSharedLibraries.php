@@ -42,3 +42,4 @@ $registry->registerFromFile('OAT/util/event', $installBasePath . '/OAT/util/even
 $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
 $registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
 $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
+$registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
