@@ -155,13 +155,14 @@ class QtiCreator extends tao_actions_CommonModule
                 $path = substr($path, 1);
             }
 
-            $identifier = substr($path, 0, strpos($path, '/'));
-            $subPath = substr($path, strpos($path, '/') + 1);
-
-            if($identifier === '' || $identifier === 'local'){
-                $filename = $folder.$subPath;
+            $identifier = '';
+            $subPath = $path;
+            if(strpos($path, '://') !== false){
+                $identifier = substr($path, 0, strpos($path, '://'));
+                $subPath = substr($path, strpos($path, '://') + 3);
             }
-            else if($identifier === 'mediamanager'){
+
+            if($identifier === 'taomgr'){
                 $fileManager = FileManager::getFileManagementModel();
                 $filename = $fileManager->retrieveFile($subPath);
             }
