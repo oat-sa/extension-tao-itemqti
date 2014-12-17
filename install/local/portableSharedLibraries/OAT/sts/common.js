@@ -12,25 +12,11 @@ define([
 
     'use strict';
 
-    var transformProp;
-
     interact.maxInteractions(Infinity);
 
-    function init($container) {
-        var $tool = $container.find('.sts-container'),
-            tool = $tool[0],
-            $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
-            hasFocus = false,
-            handleSelector = (function() {
-                var selectors = [];
-                $controls.each(function(){
-                    var cls = this.className.match(/sts-handle-rotate-[a-z]{1,2}/);
-                    if(cls.length){
-                        selectors.push('.' + cls[0])
-                    }
-                });
-                return selectors.join(',')
-            }());
+    function setupControls($container, $controls) {
+
+        var hasFocus = false;
 
 
         $container.removeAttr('style');
@@ -56,35 +42,49 @@ define([
             $controls.hide();
             hasFocus = false;
         });
+    }
+
+    function init($container) {
+        // this needs to be a single DOM element
+        var tool = $container.find('.sts-container')[0],
+            $content = $container.find('.sts-content'),
+            $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
+            handleSelector = (function() {
+                var selectors = [];
+                $controls.each(function(){
+                    var cls = this.className.match(/sts-handle-rotate-[a-z]{1,2}/);
+                    if(cls.length){
+                        selectors.push('.' + cls[0])
+                    }
+                });
+                return selectors.join(',')
+            }());
+
+        // set up the controls for resize, rotate etc.
+        setupControls($container, $controls);
+
+        $content.on('mousedown', function() {
+            this.style.cursor = 'move';
+        }).on('mouseup', function() {
+            this.style.cursor = 'default';
+        });
 
         // init moving
         interact(tool)
             .draggable({ max: Infinity })
             .on('dragstart', function (event) {
-                event.interaction.x = parseInt(event.target.getAttribute('data-x'), 10) || 0;
-                event.interaction.y = parseInt(event.target.getAttribute('data-y'), 10) || 0;
+                var $el = $(event.target);
+                event.interaction.x = parseInt($el.css('left'), 10) || 0;
+                event.interaction.y = parseInt($el.css('top'), 10) || 0;
             })
             .on('dragmove', function (event) {
                 event.interaction.x += event.dx;
                 event.interaction.y += event.dy;
-
-                if (transformProp) {
-                    event.target.style[transformProp] =
-                        'translate(' + event.interaction.x + 'px, ' + event.interaction.y + 'px)';
-                }
-                else {
-                    event.target.style.left = event.interaction.x + 'px';
-                    event.target.style.top  = event.interaction.y + 'px';
-                }
-            })
-            .on('dragend', function (event) {
-                event.target.setAttribute('data-x', event.interaction.x);
-                event.target.setAttribute('data-y', event.interaction.y);
+                event.target.style.left = event.interaction.x + 'px';
+                event.target.style.top  = event.interaction.y + 'px';
             });
 
-        $('.sts-container-controls').hide();
-
-        //rotator.init(tool, handleSelector);
+        rotator.init(tool, handleSelector);
     }
 
 
@@ -93,5 +93,8 @@ define([
     };
 
 });
+
+
+
 
 
