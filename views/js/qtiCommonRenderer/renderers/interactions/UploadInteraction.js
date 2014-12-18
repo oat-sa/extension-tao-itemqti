@@ -3,11 +3,11 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/uploadInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'jquery',
-    'jqueryui',
     'i18n',
     'context',
-    'filereader'
-], function(_, tpl, Helper, $, $ui, __, context) {
+    'filereader',
+    'ui/progressbar'
+], function(_, tpl, Helper, $,  __, context) {
 
 	var _response = { "base" : null };
 	
@@ -41,9 +41,7 @@ define([
         	});
         	Helper.validateInstructions(interaction);
         	
-        	$container.find('.progressbar').progressbar({
-        		value: 100
-        	});
+        	$container.find('.progressbar').progressbar('value', 100);
         	
             var base64Data = e.target.result;
             var commaPosition = base64Data.indexOf(',');
@@ -56,16 +54,12 @@ define([
         
         reader.onloadstart = function (e) {
         	Helper.removeInstructions(interaction);
-        	$container.find('.progressbar').progressbar({
-        		value: 0
-        	});
+        	$container.find('.progressbar').progressbar('value', 0);
         };
         
         reader.onprogress = function (e) {
         	var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-        	$container.find('.progressbar').progressbar({
-        		value: percentProgress
-        	});
+        	$container.find('.progressbar').progressbar('value', percentProgress);
         }
         
         reader.readAsDataURL(file);
@@ -85,7 +79,7 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction, options) {
-    	$container = Helper.getContainer(interaction);
+    	var $container = Helper.getContainer(interaction);
     	_resetGui(interaction);
     	
     	Helper.appendInstruction(interaction, _initialInstructions);
@@ -102,6 +96,8 @@ define([
     	
     	$input = $container.find('input');
     	
+        $container.find('.progressbar').progressbar();
+
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
             $input.bind('change', changeListener);
