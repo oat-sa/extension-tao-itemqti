@@ -1,4 +1,4 @@
-define(['taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(QtiChoice, rendererConfig){
+define(['jquery', 'lodash', 'taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, _, QtiChoice, rendererConfig){
 
     var QtiTextVariableChoice = QtiChoice.extend({
         init : function(serial, attributes, text){
