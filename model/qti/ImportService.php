@@ -101,6 +101,10 @@ class ImportService extends tao_models_classes_GenerisService
                     $eStrs[] = __('QTI-XML error at line %1$d "%2$s".', $libXmlError['line'], str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
                 }
                 
+                // Make sure there are no duplicate...
+                $eStrs = array_unique($eStrs);
+                
+                // Add sub-report.
                 $report->add(common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $eStrs))));
             }
         }
