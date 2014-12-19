@@ -2175,18 +2175,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before {
   content: "\e643"; }
 
-#modalFeedbacks .mini-tlb {
-  top: -2px;
-  right: -2px; }
-#modalFeedbacks .modal-body {
-  position: relative; }
-  #modalFeedbacks .modal-body .cke_editable {
-    margin-right: 30px; }
-#modalFeedbacks .widget-ok {
-  margin: 30px 0px 0px;
-  display: none; }
-#modalFeedbacks .widget-inline {
-  display: inline-block; }
+#modalFeedbacks {
+  color: #222 !important;
+  background: white !important; }
+  #modalFeedbacks .mini-tlb {
+    top: -2px;
+    right: -2px; }
+  #modalFeedbacks .modal-body {
+    position: relative; }
+    #modalFeedbacks .modal-body .cke_editable {
+      margin-right: 30px; }
+  #modalFeedbacks .widget-ok {
+    margin: 30px 0px 0px;
+    display: none; }
+  #modalFeedbacks .widget-inline {
+    display: inline-block; }
 
 .feedbackRules .feedbackRule-container {
   position: relative;
