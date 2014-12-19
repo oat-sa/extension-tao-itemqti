@@ -115,7 +115,7 @@ use oat\tao\helpers\Template;
                             <span class="icon-eraser reset-button" data-value="background-color"
                                   title="<?= __('Remove custom background color') ?>"></span>
                             <span class="color-trigger" id="initial-bg" data-value="background-color"
-                                  data-target="body div.qti-item.tao-scope"></span>
+                                  data-target="body div.qti-item.tao-scope, body div.qti-item.tao-scope .qti-associateInteraction .result-area > li > .target"></span>
                     </div>
                     <div class="clearfix">
                         <label for="initial-color"><?= __('Text color') ?></label>
