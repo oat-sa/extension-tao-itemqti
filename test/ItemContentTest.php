@@ -68,7 +68,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
-        $this->assertEquals('/', $data['path']);
+        $this->assertEquals('local/', $data['path']);
         
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
@@ -90,7 +90,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
         
-        $this->assertEquals("/images", $dir['path']);
+        $this->assertEquals("local/images", $dir['path']);
         $this->assertEquals(ROOT_URL, substr($dir['url'], 0, strlen(ROOT_URL)));
         
         taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
