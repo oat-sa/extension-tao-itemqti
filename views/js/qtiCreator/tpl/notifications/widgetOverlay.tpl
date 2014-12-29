@@ -1,3 +1,3 @@
 <span class="overlay">
-    <span class="message">{{message}}</span>
+    {{#if message}}<span class="message">{{message}}</span>{{/if}}
 </span>
