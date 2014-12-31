@@ -29,7 +29,6 @@ use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
-use \core_kernel_classes_Session;
 use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
@@ -62,7 +61,7 @@ class QtiCreator extends tao_actions_CommonModule
             
             //set the current data lang in the item content to keep the integrity
             //@todo : allow preview in a language other than the one in the session
-            $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+            $lang = \common_session_SessionManager::getSession()->getDataLanguage();
             $config->setProperty('lang', $lang);
 
             //base url:
