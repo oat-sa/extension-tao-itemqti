@@ -109,7 +109,7 @@ define([
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
-    
+
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
      * @returns {String}
@@ -117,7 +117,7 @@ define([
     function getDocumentBaseUrl(){
         return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
     }
-    
+
     var Renderer = function(options){
 
         options = options || {};
@@ -152,7 +152,7 @@ define([
                 if(pos > 0){
                     qtiClass = qtiClass.slice(0, pos);
                     if(_renderers[qtiClass]){
-                        ret = _renderers[qtiClass]
+                        ret = _renderers[qtiClass];
                     }
                 }
             }
@@ -302,13 +302,13 @@ define([
         };
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * If the renderer has no state management, it falls back to the response management.
-         * 
+         *
          * @param {Object} qtiInteraction - the interaction
          * @param {String} [qtiSubClass] - (not sure of the type and how it is used - Sam ? )
          * @returns {Object} the interaction's state
-         * 
+         *
          * @throws {Error} if no renderer is registered
          */
         this.getState = function(qtiInteraction, qtiSubclass){
@@ -330,14 +330,14 @@ define([
         };
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * If the renderer has no state management, it falls back to the response management.
-         * 
+         *
          * @param {Object} qtiInteraction - the interaction
          * @param {Object} state - the interaction's state
          * @param {String} [qtiSubClass] - (not sure of the type and how it is used - Sam ? )
          *
-         * @throws {Error} if no renderer is found 
+         * @throws {Error} if no renderer is found
          */
         this.setState =  function(qtiInteraction, state, qtiSubclass){
 
@@ -359,8 +359,8 @@ define([
         /**
          * Calls the renderer destroy.
          * Ask the renderer to run destroy if exists.
-         * 
-         * @throws {Error} if no renderer is found 
+         *
+         * @throws {Error} if no renderer is found
          */
         this.destroy = function(qtiInteraction, qtiSubclass){
 
@@ -450,38 +450,74 @@ define([
             return this;
         };
 
+        /**
+         * Define the shuffling manually
+         *
+         * @param {Object} interaction - the interaction
+         * @param {Array} choices - the shuffled choices
+         * @param {String} identificationType -
+         */
         this.setShuffledChoices = function(interaction, choices, identificationType){
             if(Element.isA(interaction, 'interaction')){
-                this.shuffledChoices[interaction.getSerial()] = interactionHelper.findChoices(interaction, choices, identificationType);
+                this.shuffledChoices[interaction.getSerial()] = _.pluck(interactionHelper.findChoices(interaction, choices, identificationType), 'serial');
             }
         };
 
+        /**
+         * Get the choices shuffled for this interaction.
+         *
+         * @param {Object} interaction - the interaction
+         * @param {Boolean} reshuffle - by default choices are shuffled only once and store, but if true you can force shuffling again
+         * @param {String} returnedType - the choice type
+         * @returns {Array} the choices
+         */
         this.getShuffledChoices = function(interaction, reshuffle, returnedType){
-            var ret = [], tmp;
+            var choices = [];
+            var shuffled = [];
+            var serial, i;
 
             if(Element.isA(interaction, 'interaction')){
-                var serial = interaction.getSerial();
+                serial = interaction.getSerial();
+
+                //1st time, we shuffle (or asked to force shuffling)
                 if(!this.shuffledChoices[serial] || reshuffle){
                     if(Element.isA(interaction, 'matchInteraction')){
                         this.shuffledChoices[serial] = [];
-                        for(var i = 0; i < 2; i++){
-                            this.shuffledChoices[serial].push(interactionHelper.shuffleChoices(interaction.getChoices(i)))
+                        for(i = 0; i < 2; i++){
+                            choices[i] = interactionHelper.shuffleChoices(interaction.getChoices(i));
+                            this.shuffledChoices[serial][i] = _.pluck(choices[i], 'serial');
                         }
-                    }else{
-                        this.shuffledChoices[serial] = interactionHelper.shuffleChoices(interaction.getChoices());
+                    } else {
+                        choices = interactionHelper.shuffleChoices(interaction.getChoices());
+                        this.shuffledChoices[serial] = _.pluck(choices, 'serial');
+                    }
+
+                //otherwise get the choices from the serials
+                } else {
+                    if(Element.isA(interaction, 'matchInteraction')){
+                        for(i = 0; i < 2; i++){
+                            choices[i] = [];
+                            _.forEach(this.shuffledChoices[serial][i], function(choiceSerial){
+                                choices[i].push(interaction.getChoice(choiceSerial));
+                            });
+                        }
+                    } else {
+                        _.forEach(this.shuffledChoices[serial], function(choiceSerial){
+                            choices.push(interaction.getChoice(choiceSerial));
+                        });
                     }
                 }
-                tmp = this.shuffledChoices[serial];
 
+                //do some type convertion
                 if(returnedType === 'serial' || returnedType === 'identifier'){
-                    ret = interactionHelper.convertChoices(tmp, returnedType);
-                }else{
-                    //pass value only, not ref
-                    ret = _.clone(tmp);
+                    return interactionHelper.convertChoices(choices, returnedType);
                 }
+
+                //pass value only, not ref
+                return _.clone(choices);
             }
 
-            return ret;
+            return [];
         };
 
         this.getRenderers = function(){
@@ -493,12 +529,12 @@ define([
         };
 
         this.getAbsoluteUrl = function(relUrl){
-            
+
             //allow relative url outpu only if explicitely said so
             if(this.getOption('userRelativeUrl')){
                 return relUrl.replace(/^\.?\//, '');
             }
-            
+
             if(/^http(s)?:\/\//i.test(relUrl)){
                 //already absolute
                 return relUrl;

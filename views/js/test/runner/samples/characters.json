@@ -40,7 +40,7 @@
                             "qtiClass": "simpleAssociableChoice",
                             "attributes": {
                                 "identifier": "C",
-                                "fixed": true,
+                                "fixed": false,
                                 "matchMax": 1,
                                 "matchMin": 0
                             },
@@ -118,7 +118,7 @@
                             "qtiClass": "simpleAssociableChoice",
                             "attributes": {
                                 "identifier": "R",
-                                "fixed": true,
+                                "fixed": false,
                                 "matchMax": 4,
                                 "matchMin": 0
                             },
