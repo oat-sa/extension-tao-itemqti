@@ -1,4 +1,4 @@
-define(['lodash'], function(_){
+define(['jquery', 'lodash'], function($, _){
 
     var _isValidStateDefinition = function(state){
 
@@ -30,13 +30,13 @@ define(['lodash'], function(_){
 
         if(init && exit){
             State.prototype.init = function(){
-                
+
                 var $container = this.widget.$container;
-                
+
                 if($container.data('edit') === name){
                     $container.show();
                 }
-                
+
                 var $editableWidgets = $container.find('[data-edit="' + name + '"]').filter(function(){
                     var $parentWidget = $(this).closest('.widget-box');
                     if($parentWidget.length && $parentWidget[0] === $container[0]){
@@ -45,7 +45,7 @@ define(['lodash'], function(_){
                     return false;
                 });
                 $editableWidgets.show();
-                
+
                 this.widget.$container.addClass('edit-' + name);
                 $(document).trigger('beforeStateInit.qti-widget', [this.widget.element, this]);
                 init.call(this);
@@ -59,12 +59,12 @@ define(['lodash'], function(_){
                 }
                 this.widget.$container.find('[data-edit="' + name + '"]').hide();
                 this.widget.$container.removeClass('edit-' + name);
-                
+
                 $(document).trigger('beforeStateExit.qti-widget', [this.widget.element, this]);
-                
+
                 //remove any qti element change event attached during this state lifetime
                 $(document).off(['.qti-widget', name, this.widget.serial].join('.'));
-                
+
                 exit.call(this);
                 $(document).trigger('afterStateExit.qti-widget', [this.widget.element, this]);
             };
@@ -81,7 +81,7 @@ define(['lodash'], function(_){
          * The optional superStates (array) is optional and is useful only when you need to define a hierarchy between the new state
          * abd the ones in the superStates array.
          * When the widget state is changed in this newly created state, the init()
-         * 
+         *
          * accepts the following arguments:
          * (string) stateName, (array) superStates, (function) init, (function) exit
          * (string) stateName, (function) init, (function) exit
@@ -169,7 +169,7 @@ define(['lodash'], function(_){
             var stateBundle = {},
                 newStates = [],
                 excluded = [];
-            
+
             if(arguments.length >= 2){
                 stateBundle = _.clone(arguments[0]);
                 newStates = arguments[1];
@@ -179,16 +179,16 @@ define(['lodash'], function(_){
             }
 
             _.each(newStates, function(state){
-                
+
                 if(_isValidStateDefinition(state)){
                     stateBundle[state.prototype.name] = state;
                 }
             });
-            
+
             _.each(excluded, function(state){
                 delete stateBundle[state];
             });
-            
+
             return stateBundle;
         },
         throwMissingRequiredImplementationError : function(functionName){

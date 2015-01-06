@@ -1,7 +1,7 @@
 define([
     'jquery'
 ], function ($) {
-    'use strict'
+    'use strict';
 
     /**
      * Prepare item for printing.

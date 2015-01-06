@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -6,7 +7,7 @@ define([
     'lodash',
     'i18n',
     'polyfill/placeholders'
-], function(commonRenderer, helper, formElement, scoreTpl, _, __){
+], function($, commonRenderer, helper, formElement, scoreTpl, _, __){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
@@ -49,7 +50,7 @@ define([
             widget.$container.off('responseChange.qti-widget');
         },
         createScoreWidgets : function(widget){
-            
+
             var $container = widget.$container,
                 interaction = widget.element,
                 response = interaction.getResponseDeclaration(),
@@ -97,7 +98,7 @@ define([
 
         },
         createCorrectWidgets : function(widget){
-            
+
             var interaction = widget.element,
                 response = interaction.getResponseDeclaration();
 

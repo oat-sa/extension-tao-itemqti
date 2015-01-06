@@ -22,6 +22,7 @@
  * 2014-03-06  dieter@taotesting.com
  */
 define(['jquery'], function(jQuery){
+    var $ = jQuery;
 
 jQuery.fn.farbtastic = function(callback) {
     $.farbtastic(this, callback);

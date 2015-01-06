@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/InlineChoiceInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoiceInteraction.placeholder'
-], function(_, InlineChoiceInteraction, InlineChoiceInteractionWidget, tpl){
+], function($, _, InlineChoiceInteraction, InlineChoiceInteractionWidget, tpl){
 
     var CreatorInlineChoiceInteraction = _.clone(InlineChoiceInteraction);
 
