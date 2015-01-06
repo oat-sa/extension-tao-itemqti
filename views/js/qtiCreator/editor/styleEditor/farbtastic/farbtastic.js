@@ -21,6 +21,7 @@
  * NOTE: THIS IS A MOD OF COLOR PICKER 1.2 - DO NOT UPGRADE!
  * 2014-03-06  dieter@taotesting.com
  */
+define(['jquery'], function(jQuery){
 
 jQuery.fn.farbtastic = function(callback) {
     $.farbtastic(this, callback);
@@ -379,3 +380,4 @@ jQuery._farbtastic = function(container, callback) {
         fb.linkTo(callback);
     }
 }
+});
