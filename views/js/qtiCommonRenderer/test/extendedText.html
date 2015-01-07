@@ -19,32 +19,25 @@
                     QUnit.start();
 
                     runner.run({
-                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_lorem',
+                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_plain/',
                         assertions : {
                             interactionCount : 1,
-                            // responses : [
-                            //     {list : {identifier : ['C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08', 'C09']}}
-                            // ]
+                            responses : []
+                        }
+                    });
+                    runner.run({
+                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_pre/',
+                        assertions : {
+                            interactionCount : 1,
+                            responses : []
                         }
                     });
 
                     runner.run({
-                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_lorem/',
+                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_xhtml/',
                         assertions : {
                             interactionCount : 1,
-                            // responses : [
-                            //     {base : {identifier : 'Challenger'}}
-                            // ]
-                        }
-                    });
-
-                    runner.run({
-                        relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_lorem/',
-                        assertions : {
-                            interactionCount : 1,
-                            // responses : [
-                            //     {base : {identifier : 'Challenger'}}
-                            // ]
+                            responses : []
                         }
                     });
                 });
