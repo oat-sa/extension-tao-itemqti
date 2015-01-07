@@ -78,22 +78,26 @@ define([
                extraPlugins: 'confighelper',
                resize_enabled: true
             };
-            
             //setting the placeholder for the textarea
             if (attributes.placeholderText) {
                 $el.attr('placeholder', attributes.placeholderText);            
             }
 
+            // Enable monospace font if text format is 'preformatted'
+            if (_getFormat(interaction) === 'preformatted'){
+                $container.find('.text-container').addClass('preformatted');
+            }
+
             // Enable ckeditor only if text format is 'xhtml'.
-            if (_getFormat(interaction) == 'xhtml') {
+            if (_getFormat(interaction) === 'xhtml') {
                 //replace the textarea with ckEditor
                 ckEditor.replace(interaction.attr('identifier'), ckeOptions);
-                $container.find('#text-container').addClass('solid');
+                $container.find('.text-container').addClass('xhtml');
             }
             else {
                 $el.bind('keyup change', function(e) {
                     Helper.triggerResponseChangeEvent(interaction, {});
-                })
+                });
             }
         } 
         else {
@@ -310,9 +314,8 @@ define([
         switch (format) {
             case 'plain':
             case 'xhtml':
-            case 'preFormatted':
+            case 'preformatted':
                 return format;
-            break;
             
             default:
                 return 'plain';
