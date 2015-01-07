@@ -9,7 +9,7 @@ define([
     'polyfill/placeholders'
 ], function(_, $, tpl, Helper, __, ckEditor ,ckConfigurator){
 
-
+    'use strict';
     /**
      * Setting the pattern mask for the input, for browsers which doesn't support this feature
      * @param {jQuery} $element
