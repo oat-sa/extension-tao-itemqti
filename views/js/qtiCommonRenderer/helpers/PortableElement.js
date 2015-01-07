@@ -14,7 +14,10 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @returns {object} - an "associative" array object
      */
     function getSharedLibrariesPaths(){
-
+        
+        var requireConfig = window.require.s.contexts._.config;
+        return getAbsoluteDefinedPaths(requireConfig.baseUrl, requireConfig.paths);
+        
         // get pci shared libraries url
         var sharedLibrariesUrl = context.root_url + 'taoQtiItem/views/js/portableSharedLibraries/'
 
@@ -62,7 +65,18 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         return $markup.html();
 
     }
-
+    
+    function getAbsoluteDefinedPaths(baseUrl, paths){
+        var ret = {};
+        _.forIn(paths, function(path, alias){
+            //take only namespaced module
+            if(alias.indexOf('/')>0){
+                ret[alias] = baseUrl+path;
+            }
+        });
+        return ret;
+    }
+    
     /**
      * Get a local require js with typeIdentifier as specific context
      * 
@@ -76,16 +90,17 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         config = config || {};
 
         var runtimeLocation = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;
-
+        var requireConfig = window.require.s.contexts._.config;
+        
         if(config.useExtensionAlias){
             var urlTokens = baseUrl.split('/');
             var extension = urlTokens[0];
-            var requireConfig = window.require.s.contexts._.config;
+            
             var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
 
             //update baseUrl:
             baseUrl = baseUrl.replace(extension, fullpath);
-
+            
             if(config.runtimeLocation){
                 runtimeLocation = config.runtimeLocation.replace(extension, fullpath);
             }
@@ -97,7 +112,10 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         //add local namespace
         libs[typeIdentifier] = runtimeLocation;//allow overwrite by config (in test)
-
+        
+        console.log('window.require', window.require.s.contexts);
+        console.log('baseUrl ', baseUrl, getAbsoluteDefinedPaths(requireConfig.baseUrl, requireConfig.paths));
+        
         return window.require.config({
             context : typeIdentifier, //use unique typeIdentifier as context name
             baseUrl : baseUrl,
