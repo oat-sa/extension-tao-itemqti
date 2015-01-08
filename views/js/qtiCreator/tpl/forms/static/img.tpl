@@ -7,12 +7,22 @@
 </div>
 
 <div class="panel">
-    <label for="alt">{{__ "Label"}}</label>
+    <label for="alt">{{__ "Alt Text"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The text to be displayed if the image is not available.'}}</div>
     <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty" placeholder="e.g. House with a garden"/>
 </div>
 
+<div class="change-alt-modal-feedback modal">
+    <div class="modal-body clearfix">
+        <p>{{__ "Do you want to modify the alt text ?"}}</p>
+
+        <div class="rgt">
+            <button class="btn-regular small cancel" type="button">{{__ "No"}}</button>
+            <button class="btn-info small save" type="button">{{__ "Yes"}}</button>
+        </div>
+    </div>
+</div>
 
 <div data-role="advanced" style="display:none">
     
