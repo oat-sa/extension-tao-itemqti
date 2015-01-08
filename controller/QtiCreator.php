@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\helpers\MediaRetrieval;
 use oat\tao\model\media\MediaSource;
 use oat\taoMediaManager\model\fileManagement\FileManager;
 use oat\taoQtiItem\model\qti\Service;
@@ -150,22 +151,18 @@ class QtiCreator extends tao_actions_CommonModule
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
-            if(strpos($path, '/') === 0){
-                $path = substr($path, 1);
-            }
-
-            $identifier = substr($path, 0, strpos($path, '/'));
-            $subPath = substr($path, strpos($path, '/') + 1);
+            $mediaInfo = MediaRetrieval::getRealPathAndIdentifier($path);
+            extract($mediaInfo);
 
             if($identifier === '' || $identifier === 'local'){
-                $filename = $folder.$subPath;
+                $filename = $folder.$relPath;
             }
             else if($identifier === 'mediamanager'){
                 $fileManager = FileManager::getFileManagementModel();
-                $filename = $fileManager->retrieveFile($subPath);
+                $filename = $fileManager->retrieveFile($relPath);
             }
             else{
-                $filename = $folder.$path;
+                $filename = $folder.$relPath;
             }
 
             //@todo : find better way to to this
