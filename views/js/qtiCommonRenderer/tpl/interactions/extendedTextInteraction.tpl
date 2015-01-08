@@ -6,8 +6,10 @@
         {{#maxStringLoop}}<input id="_{{.}}" name="{{attributes.identifier}}_{{.}}"/><br />{{/maxStringLoop}}
     </div>
     {{else}}
-        <div class="text-container">
-            <textarea class="solid{{#if attributes.class}} attributes.class{{/if}}" cols="72"></textarea>
-        </div>
+        {{#equal attributes.format "xhtml"}}
+        <div class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}" contenteditable></div>
+        {{else}}
+        <textarea class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}"></textarea>
+        {{/equal}}
     {{/if}}
 </div>
