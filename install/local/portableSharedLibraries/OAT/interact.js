@@ -5751,7 +5751,7 @@
     }
     // AMD
     else if (typeof define === 'function' && define.amd) {
-        define('interact', function() {
+        define('OAT/interact', function() {
             return interact;
         });
     }

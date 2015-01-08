@@ -1,93 +1,96 @@
 define([
     'IMSGlobal/jquery_2_1_1',
-    'OAT/interact'
+    'OAT/interact',
+    'OAT/sts/transform-helper'
 ], function(
     $,
-    interact
+    interact,
+    transformHelper
     ){
 
     'use strict';
 
-    function getOrigin(rotatable) {
-        var $rotatable = $(rotatable),
-        // compute origin based on CSS
-            tOrigin = $rotatable.css('transform-origin')
-                || $rotatable.css('-webkit-transform-origin')
-                || $rotatable.css('-moz-transform-origin')
-                || $rotatable.css('-ms-transform-origin')
-                || $rotatable.css('-o-transform-origin'),
-            defaultOrigin = {
-                x: $rotatable.width() / 2,
-                y: $rotatable.height() / 2
-            },
-            i,
-            dim;
-
-        if (!tOrigin) {
-            return defaultOrigin;
-        }
-
-        tOrigin = tOrigin.split(/\s+/);
-        if (!tOrigin.length) {
-            return defaultOrigin;
-        }
-
-        if (tOrigin.length === 1) {
-            tOrigin[1] = tOrigin[0];
-        }
-
-        i = tOrigin.length;
-        while (i--) {
-            dim = i === 0 ? 'width' : 'height';
-            switch (tOrigin[i]) {
-                case 'left':
-                    tOrigin[i] = 0;
-                    break;
-                case 'center':
-                    tOrigin[i] = $rotatable[dim]() / 2;
-                    break;
-                case 'right':
-                case 'bottom':
-                    tOrigin[i] = $rotatable[dim]();
-                    break;
-                case 'top':
-                    tOrigin[i] = 0;
-                    break;
-            }
-            tOrigin[i] = parseFloat(tOrigin[i]);
-        }
-        return {
-            x: tOrigin[0],
-            y: tOrigin[1]
-        };
-
-    }
 
     /**
      * Start rotation, this will work on on mobile and desktop
      * Note: this will work on ONE rotatable only!
      *
-     * @param rotatorSelector
+     * @param rotatable single DOM element
      * @param handleSelector
      */
-    function init (rotatorSelector, handleSelector) {
-        var rotatable = document.querySelectorAll(rotatorSelector),
-            handles   = handleSelector ? document.querySelectorAll(handleSelector) : rotatable,
-            angle     = 0,
-            origin    = getOrigin(rotatable),
-            fn = !!interact.supportsTouch() ? 'gesturable' : 'draggable',
-            i = handles.length;
+    function init (rotatable, handleSelector) {
 
-        rotatable = rotatable[0];
+        var handles,
+            angle = 0,
+            origin,
+            fn = (!!interact.supportsTouch() ? 'gesturable' : 'draggable'),
+            i;
+
+        handles = handleSelector ? rotatable.querySelectorAll(handleSelector) : [rotatable];
+        origin  = transformHelper.getRotationCenter(rotatable);
+        i       = handles.length;
+
 
         while(i--) {
             interact(handles[i])[fn]({
                 onmove: function (event) {
-                    angle = !!interact.supportsTouch()
-                        ? angle + (event.da || 0)
-                        : Math.atan2(event.clientX - origin.x, - (event.clientY - origin.y)) * (180 / Math.PI);
+                    var handleAngle, offset, hypotenuse, transformObject,
+                        currentAngle, R, S, RS, sides, absPosition, vectors,
+                        vector, length;
 
-                    rotatable.style.webkitTransform = rotatable.style.transform = 'rotate(' + angle + 'deg)';
+                    handleAngle = event.target.className.indexOf('sts-handle-rotate-l') > -1
+                        ? -90
+                        : 90;
+
+                    offset = $(rotatable).offset();
+
+
+                    // This section calculates the absolute position of the centre of the shape.
+                    // TODO: take account of the larger square
+                    // origin x and y are here the sides of the triangle
+                    hypotenuse = Math.sqrt((origin.x * origin.x) + (origin.y * origin.y));
+
+                    // get currently applied angle
+                    transformObject = transformHelper.cssTransformObj(rotatable);
+                    currentAngle    = parseInt(transformObject.rotate, 10);
+
+                    // angles
+                    // R requires us to get the real rotation, not the applied rotation that is based
+                    // on the rotation helpers
+                    R = (currentAngle - handleAngle) * (Math.PI / 180);
+                    S = Math.atan2(origin.x, origin.y) - (Math.PI / 2.0);
+                    RS = R + S;
+
+                    // new sides
+                    sides = {
+                        b: Math.abs(Math.sin(RS) * hypotenuse),
+                        c: Math.abs(Math.cos(RS) * hypotenuse)
+                    };
+
+                    absPosition =  {
+                        x: sides.b + offset.left,
+                        y: sides.c + offset.top
+                    };
+
+                    // Using the absolute position, turn towards the mouse position
+                    vectors = {
+                        x: absPosition.x - event.clientX,
+                        y: -(absPosition.y - event.clientY)
+                    };
+
+                    length = Math.sqrt((vectors.x * vectors.x) + (vectors.y * vectors.y));
+
+                    for(vector in vectors) {
+                        vectors[vector] /= length;
+                    }
+
+                    angle = Math.atan2(vectors.x, vectors.y) * (180 / Math.PI);
+
+                    // The rotation helper's angle to the real rotation needs to be taken into account
+                    angle += handleAngle;
+
+                    rotatable.style.webkitTransform = rotatable.style.transform = 'rotate(' + (angle).toString() + 'deg)';
+
                 }
             });
         }

@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\helpers\MediaRetrieval;
 use oat\tao\model\media\MediaSource;
 use oat\taoMediaManager\model\fileManagement\FileManager;
 use oat\taoQtiItem\model\qti\Service;
@@ -29,7 +30,6 @@ use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
-use \core_kernel_classes_Session;
 use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
@@ -62,7 +62,7 @@ class QtiCreator extends tao_actions_CommonModule
             
             //set the current data lang in the item content to keep the integrity
             //@todo : allow preview in a language other than the one in the session
-            $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+            $lang = \common_session_SessionManager::getSession()->getDataLanguage();
             $config->setProperty('lang', $lang);
 
             //base url:
@@ -151,23 +151,18 @@ class QtiCreator extends tao_actions_CommonModule
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
-            if(strpos($path, '/') === 0){
-                $path = substr($path, 1);
-            }
+            $mediaInfo = MediaRetrieval::getRealPathAndIdentifier($path);
+            extract($mediaInfo);
 
-            $identifier = '';
-            $subPath = $path;
-            if(strpos($path, '://') !== false){
-                $identifier = substr($path, 0, strpos($path, '://'));
-                $subPath = substr($path, strpos($path, '://') + 3);
+            if($identifier === '' || $identifier === 'local'){
+                $filename = $folder.$relPath;
             }
-
-            if($identifier === 'taomgr'){
+            else if($identifier === 'mediamanager'){
                 $fileManager = FileManager::getFileManagementModel();
-                $filename = $fileManager->retrieveFile($subPath);
+                $filename = $fileManager->retrieveFile($relPath);
             }
             else{
-                $filename = $folder.$path;
+                $filename = $folder.$relPath;
             }
 
             //@todo : find better way to to this

@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\qti\exception\ParsingException;
 use \tao_models_classes_Service;
 use \core_kernel_classes_Resource;
 use \taoItems_models_classes_ItemsService;
-use \core_kernel_classes_Session;
 use \common_Logger;
 use \common_Exception;
 use \core_kernel_versioning_Repository;
@@ -72,7 +71,7 @@ class Service extends tao_models_classes_Service
                 $returnValue = $qtiParser->load();
 
                 if (!$returnValue->getAttributeValue('xml:lang')) {
-                    $returnValue->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
+                    $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
                 }
             } else {
                 // fail silently, since file might not have been created yet
@@ -111,7 +110,7 @@ class Service extends tao_models_classes_Service
                 if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
 
                     //set the current data lang in the item content to keep the integrity
-                    $qtiItem->setAttribute('xml:lang', core_kernel_classes_Session::singleton()->getDataLanguage());
+                    $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
 
                     //get the QTI xml
                     $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);

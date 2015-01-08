@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\controller;
 use oat\taoQtiItem\helpers\QtiRunner;
 use qtism\runtime\tests\AssessmentItemSession;
 use \taoItems_actions_ItemRunner;
-use \core_kernel_classes_Session;
 
 /**
  * Abstract QTI Item Runner Controller

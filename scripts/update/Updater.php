@@ -72,6 +72,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.1';
         }
 
+        //migrate from 2.7.0 to 2.7.1
+        if($currentVersion == '2.7.1'){
+
+            $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
+
+            $currentVersion = '2.7.2';
+        }
+
         return $currentVersion;
     }
 
