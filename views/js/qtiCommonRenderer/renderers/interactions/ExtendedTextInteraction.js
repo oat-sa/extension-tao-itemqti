@@ -83,10 +83,6 @@ define([
                 $el.attr('placeholder', attributes.placeholderText);
             }
 
-            // Enable monospace font if text format is 'preformatted'
-            if (_getFormat(interaction) === 'preformatted'){
-                $container.find('.text-container').addClass('preformatted');
-            }
 
             // Enable ckeditor only if text format is 'xhtml'.
             if (_getFormat(interaction) === 'xhtml') {

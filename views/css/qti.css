@@ -117,6 +117,8 @@ textarea { resize: vertical; }
 
 .qti-block { border: 1px solid transparent; }
 
+.qti-interaction .text-container { min-height: 50px; }
+.qti-interaction .text-container.text-preformatted { font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 .qti-interaction .solid { border: 6px solid #f5f3f2; }
 .qti-interaction .bordered { border: 1px solid #e0e0e0; border-radius: 2px; -webkit-border-radius: 2px; background: white; }
 .qti-interaction .empty { border: 1px #3e7da7 dashed !important; min-height: 50px; cursor: default; }
