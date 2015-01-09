@@ -10,7 +10,7 @@ define([
 
     /**
      * Global variable to count number of choice usages:
-     * @type object
+     * @type {object}
      */
     var _choiceUsages = {};
 
