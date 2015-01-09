@@ -30,19 +30,6 @@ define([
     };
 
     /**
-     * Whether or not multiple strings are expected from the candidate to
-     * compose a valid response.
-     *
-     * @param {object} interaction
-     * @returns {boolean}
-     */
-    var _isMultiple = function(interaction) {
-        var attributes = interaction.getAttributes();
-        var response = interaction.getResponseDeclaration();
-        return !!(attributes.maxStrings && (response.attr('cardinality') === 'multiple' || response.attr('cardinality') === 'ordered'));
-    };
-
-    /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
@@ -53,7 +40,6 @@ define([
         var attributes = interaction.getAttributes();
         var $container = interaction.getContainer();
         var response = interaction.getResponseDeclaration();
-        var multiple = _isMultiple(interaction);
 
         var $el, expectedLength, expectedLines, placeholderType;
 
@@ -71,8 +57,6 @@ define([
             });
         });
 
-        // if the input is textarea
-        if (!multiple) {
             $el = $container.find('textarea');
             var ckeOptions = {
                extraPlugins: 'confighelper',
@@ -95,80 +79,6 @@ define([
                     Helper.triggerResponseChangeEvent(interaction, {});
                 });
             }
-        }
-        else {
-            $el = $container.find('input');
-
-            //setting the checking for minimum number of answers
-            if (attributes.minStrings) {
-
-                //get the number of filled inputs
-                var _getNumStrings = function($element) {
-
-                    var num = 0;
-
-                    $element.each(function() {
-                        if ($(this).val() !== '') {
-                            num++;
-                        }
-                    });
-
-                    return num;
-                };
-
-                var minStrings = parseInt(attributes.minStrings);
-
-                if (minStrings > 0) {
-
-                    $el.on('blur', function() {
-                        setTimeout(function() {
-                            //checking if the user was clicked outside of the input fields
-                            if (!$el.is(':focus') && _getNumStrings($el) < minStrings) {
-                                Helper.appendNotification(interaction, __('The minimum number of answers is ') + ' : ' + minStrings, 'warning');
-                            }
-                        }, 100);
-                    });
-                }
-            }
-
-            //set the fields width
-            if (attributes.expectedLength) {
-                expectedLength = parseInt(attributes.expectedLength, 10);
-
-                if (expectedLength > 0) {
-                    $el.each(function() {
-                        $(this).css('width', expectedLength + 'em');
-                    });
-                }
-            }
-
-            //set the fileds pattern mask
-            if (attributes.patternMask) {
-                $el.each(function() {
-                    _setPattern($(this), attributes.patternMask);
-                });
-            }
-
-            //set the fileds placeholder
-            if (attributes.placeholderText) {
-                /**
-                 * The type of the fileds placeholder:
-                 * multiple - set placeholder for each field
-                 * first - set placeholder only for first field
-                 * none - dont set placeholder
-                 */
-                placeholderType = 'first';
-
-                if (placeholderType === 'multiple') {
-                    $el.each(function() {
-                        $(this).attr('placeholder', attributes.placeholderText);
-                    });
-                }
-                else if (placeholderType === 'first') {
-                    $el.first().attr('placeholder', attributes.placeholderText);
-                }
-            }
-        }
     };
 
     var resetResponse = function(interaction) {
@@ -189,8 +99,8 @@ define([
      */
     var setResponse = function(interaction, response) {
 
-        var _setMultipleVal = function(identifier, value) {
-            interaction.getContainer().find('#'+identifier).val(value);
+        var _setMultipleVal = function(serial, value) {
+            interaction.getContainer().find('#'+serial).val(value);
         };
 
         var _setVal = function(value) {
