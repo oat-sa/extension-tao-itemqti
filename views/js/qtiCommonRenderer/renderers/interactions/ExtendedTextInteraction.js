@@ -57,27 +57,28 @@ define([
             });
         });
 
-            $el = $container.find('textarea');
-            var ckeOptions = {
-               extraPlugins: 'confighelper',
-               resize_enabled: true
-            };
-            //setting the placeholder for the textarea
-            if (attributes.placeholderText) {
-                $el.attr('placeholder', attributes.placeholderText);
-            }
+        $el = $container.find('textarea');
+        var ckeOptions = {
+           extraPlugins: 'confighelper',
+           resize_enabled: true
+        };
+        //setting the placeholder for the textarea
+        if (attributes.placeholderText) {
+            $el.attr('placeholder', attributes.placeholderText);
+        }
 
 
-            // Enable ckeditor only if text format is 'xhtml'.
-            if (_getFormat(interaction) === 'xhtml') {
-                //replace the textarea with ckEditor
-                ckEditor.replace(interaction.attr('identifier'), ckeOptions);
-                $container.find('.text-container').addClass('xhtml');
-            }
-            else {
-                $el.bind('keyup change', function(e) {
-                    Helper.triggerResponseChangeEvent(interaction, {});
-                });
+        // Enable ckeditor only if text format is 'xhtml'.
+        if (_getFormat(interaction) === 'xhtml') {
+            //replace the textarea with ckEditor
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
+
+        }
+        else {
+            $el.bind('keyup change', function(e) {
+                Helper.triggerResponseChangeEvent(interaction, {});
+            });
             }
     };
 
@@ -115,8 +116,8 @@ define([
         else if (response.list && response.list[baseType]) {
 
             for (var i in response.list[baseType]) {
-                var identifier = (response.list.identifier === undefined) ? '' : response.list.identifier[i];
-                _setMultipleVal(identifier + '_' + i, response.list[baseType][i]);
+                var serial = (response.list.serial === undefined) ? '' : response.list.serial[i];
+                _setMultipleVal(serial + '_' + i, response.list[baseType][i]);
             }
 
         }
@@ -211,7 +212,7 @@ define([
     };
 
     var _ckEditorData = function(interaction) {
-        return ckEditor.instances[interaction.attr('identifier')].getData();
+        return Helper.getContainer(interaction).data('editor').getData();
     };
 
     var _getFormat = function(interaction) {
@@ -232,12 +233,13 @@ define([
         var $container = Helper.getContainer(interaction);
 
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.replace(interaction.attr('identifier'));
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
         }
         else {
             // preFormatted or plain
             if (from === 'xhtml') {
-                ckEditor.instances[interaction.attr('identifier')].destroy();
+                $container.data('editor').destroy();
             }
         }
     };
@@ -247,8 +249,9 @@ define([
         $container.find('input, textarea').removeAttr('disabled');
 
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].destroy();
-            ckEditor.replace(interaction.attr('identifier'));
+            $container.data('editor').destroy();
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
         }
     };
 
@@ -256,9 +259,8 @@ define([
         var $container = Helper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
 
-        if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].destroy();
-            ckEditor.replace(interaction.attr('identifier'));
+        if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
+            $container.data('editor').destroy();
         }
     };
 
@@ -270,7 +272,7 @@ define([
         var $container = Helper.getContainer(interaction);
 
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].setData(text);
+            $container.data('editor').setData(text);
         }
         else {
             $container.find('textarea').val(text);
