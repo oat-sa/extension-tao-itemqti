@@ -15,7 +15,8 @@
 
 <div class="change-alt-modal-feedback modal">
     <div class="modal-body clearfix">
-        <p>{{__ "Do you want to modify the alt text ?"}}</p>
+        <p>{{__ "Would you like to replace the alt text"}}</p>
+        <p class="alt-text"></p>
 
         <div class="rgt">
             <button class="btn-regular small cancel" type="button">{{__ "No"}}</button>

@@ -240,11 +240,13 @@ define([
                                 img.attr('alt', alt);
                                 $alt.val(alt).trigger('change');
                             }
-                            else if(alt !== ''){
+                            else{
                                 var confirmBox = $('.change-alt-modal-feedback'),
                                     cancel = confirmBox.find('.cancel'),
                                     save = confirmBox.find('.save'),
                                     close = confirmBox.find('.modal-close');
+
+                                $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
 
                                 confirmBox.modal({ width: 500 });
 
