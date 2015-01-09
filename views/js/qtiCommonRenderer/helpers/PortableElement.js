@@ -14,18 +14,8 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @returns {object} - an "associative" array object
      */
     function getSharedLibrariesPaths(){
-        
         var requireConfig = window.require.s.contexts._.config;
-        return getAbsoluteDefinedPaths(requireConfig.baseUrl, requireConfig.paths);
-        
-        // get pci shared libraries url
-        var sharedLibrariesUrl = context.root_url + 'taoQtiItem/views/js/portableSharedLibraries/'
-
-        //@todo make this dynamic somehow
-        return {
-            IMSGlobal : sharedLibrariesUrl + 'IMSGlobal',
-            OAT : sharedLibrariesUrl + 'OAT'
-        };
+        return getAbsolutelyDefinedPaths(requireConfig.baseUrl, requireConfig.paths);
     }
 
     /**
@@ -66,7 +56,14 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     }
     
-    function getAbsoluteDefinedPaths(baseUrl, paths){
+    /**
+     * Transform relative paths in the "paths" argument object into absolute ones
+     * 
+     * @param {String} baseUrl
+     * @param {Object} paths
+     * @returns {Object}
+     */
+    function getAbsolutelyDefinedPaths(baseUrl, paths){
         var ret = {};
         _.forIn(paths, function(path, alias){
             //take only namespaced module
