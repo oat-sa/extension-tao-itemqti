@@ -113,9 +113,6 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         //add local namespace
         libs[typeIdentifier] = runtimeLocation;//allow overwrite by config (in test)
         
-        console.log('window.require', window.require.s.contexts);
-        console.log('baseUrl ', baseUrl, getAbsoluteDefinedPaths(requireConfig.baseUrl, requireConfig.paths));
-        
         return window.require.config({
             context : typeIdentifier, //use unique typeIdentifier as context name
             baseUrl : baseUrl,
