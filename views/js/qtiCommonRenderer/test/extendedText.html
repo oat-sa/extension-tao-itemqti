@@ -22,14 +22,18 @@
                         relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_plain/',
                         assertions : {
                             interactionCount : 1,
-                            responses : []
+                            responses : [
+                                { "base" : {"string" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero et repudiandae eum at cupiditate, est laborum! Animi modi, molestias totam nisi, hic deserunt eaque earum magnam expedita? Sequi animi, deleniti." } }
+                            ]
                         }
                     });
                     runner.run({
                         relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_pre/',
                         assertions : {
                             interactionCount : 1,
-                            responses : []
+                            responses : [
+                                { "base" : {"string" : "<p>Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipisicing elit. Nobis, explicabo.</p>" } }
+                            ]
                         }
                     });
 
@@ -37,7 +41,9 @@
                         relBaseUrl : 'taoQtiItem/test/samples/qtiv2p1/extended_text_xhtml/',
                         assertions : {
                             interactionCount : 1,
-                            responses : []
+                            responses : [
+                                { "base" : {"string" : "<p>Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipisicing elit. Nobis, explicabo.</p>" } }
+                            ]
                         }
                     });
                 });
