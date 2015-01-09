@@ -10,7 +10,7 @@ define([
 
     /**
      * Global variable to count number of choice usages:
-     * @type type
+     * @type object
      */
     var _choiceUsages = {};
 
@@ -118,28 +118,22 @@ define([
 
             e.stopPropagation();
 
-            if($(this).hasClass('deactivated')){
+            if ($(this).hasClass('deactivated')) {
                 e.preventDefault();
                 return;
             }
 
-            if(_isModeEditing() || $activeChoice){
-                //swapping:
-                _unsetChoice($activeChoice);
+            _resetSelection();
+
+            if ($activeChoice) {
                 _setChoice($(this), $activeChoice);
-                _resetSelection();
-            }else{
+            }
 
-                if($(this).hasClass('active')){
-                    _resetSelection();
-                }else{
-                    _resetSelection();
-
-                    //activate it:
-                    $activeChoice = $(this);
-                    $(this).addClass('active');
-                    $flowContainer.find('.gapmatch-content').addClass('empty');
-                }
+            if (!_isModeEditing() && !$activeChoice) {
+                //activate it:
+                $activeChoice = $(this);
+                $activeChoice.addClass('active');
+                $flowContainer.find('.gapmatch-content').addClass('empty');
             }
 
         });
@@ -153,7 +147,7 @@ define([
                 var $target = $(this),
                     choiceSerial = $activeChoice.data('serial'),
                     targetSerial = $target.data('serial');
-                    
+
                 if(targetSerial !== choiceSerial){
 
                     //set choices:
