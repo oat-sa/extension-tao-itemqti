@@ -170,12 +170,11 @@ class SharedLibrariesRegistry extends AbstractRegistry
         
         // Take care with windows...
         $mappingPath = str_replace("\\", '/', $mappingPath);
-                   
+                
         $map = self::set($id, "${baseUrl}/${mappingPath}");
-               
-        ClientLibRegistry::getRegistry()->register($id, "${baseUrl}/${fileName}");
         
-
+        $mappingDirname = pathinfo($mappingPath, PATHINFO_DIRNAME);
+        ClientLibRegistry::getRegistry()->register($id, "${baseUrl}/${mappingDirname}/${fileName}");
     }
     
     /**
