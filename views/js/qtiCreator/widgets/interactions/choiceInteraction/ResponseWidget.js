@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
@@ -9,7 +10,7 @@ define([
     'lodash',
     'i18n',
     'polyfill/placeholders'
-], function(commonRenderer, helper, pciResponse, formElement, answerStateHelper, scoreTpl, labelTpl, _, __){
+], function($, commonRenderer, helper, pciResponse, formElement, answerStateHelper, scoreTpl, labelTpl, _, __){
 
     var _fixInputs = function(widget){
 
@@ -80,9 +81,9 @@ define([
             interaction.removeData('responseMappingMode');
 
             widget.$container.off('responseChange.qti-widget');
-            
+
             widget.$container.find('.real-label > input').attr('disabled', 'disabled');
-            
+
             widget.$container.find('.mini-tlb-label[data-edit=answer], .mini-tlb[data-edit=answer]').remove();
         },
         createScoreWidgets : function(widget){
@@ -173,9 +174,9 @@ define([
                     $corrects.attr('disabled', 'disabled').prop('checked', false);
                 }
             };
-            
+
             _toggleCorrectInputs(answerStateHelper.defineCorrect(response));
-            
+
             widget.on('metaChange', function(data){
                 if(data.element.serial === response.serial && data.key === 'defineCorrect'){
                     _toggleCorrectInputs(data.value);

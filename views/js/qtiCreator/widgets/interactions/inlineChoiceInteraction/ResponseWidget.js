@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'lodash',
     'i18n'
-], function(CommonRenderer, helper, _, __){
+], function($, CommonRenderer, helper, _, __){
 
     var ResponseWidget = {
         create : function(widget, callback){
@@ -23,9 +24,9 @@ define([
                 }, '', this);
 
                 callback.call(_this, this);
-                
+
                 $responseWidget.siblings('.padding').width($responseWidget.width() + 50);//plus icons width
-                
+
             }, ['inlineChoice', 'inlineChoiceInteraction']);
 
         },

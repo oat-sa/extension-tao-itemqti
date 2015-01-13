@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n',
     'ckeditor',
-    'ckConfigurator',
+    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
     'polyfill/placeholders'
 ], function(_, $, tpl, Helper, __, ckEditor ,ckConfigurator){
 

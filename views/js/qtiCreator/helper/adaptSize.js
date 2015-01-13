@@ -1,8 +1,7 @@
 define([
     'jquery'
 ], function($){
-    
-    'use strict'
+    'use strict';
 
     function ucfirst(str){
         return str.charAt(0).toUpperCase() + str.substr(1);
@@ -54,9 +53,9 @@ define([
             width : width,
             height : height,
             both : both
-        }
+        };
 
     })();
-    
+
     return adaptSize;
 });
