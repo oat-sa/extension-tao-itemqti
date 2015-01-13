@@ -123,19 +123,20 @@ define([
                 return;
             }
 
-            _resetSelection();
-
-            if ($activeChoice) {
+            if (_isModeEditing()) {
+                //swapping:
+                _unsetChoice($activeChoice);
                 _setChoice($(this), $activeChoice);
-            }
-
-            if (!_isModeEditing() && !$activeChoice) {
+                _resetSelection();
+            } else if (_isInsertionMode()) {
+                _resetSelection();
+                _setChoice($(this), $activeChoice);
+            } else if (!$activeChoice) {
                 //activate it:
                 $activeChoice = $(this);
-                $activeChoice.addClass('active');
+                $(this).addClass('active');
                 $flowContainer.find('.gapmatch-content').addClass('empty');
             }
-
         });
 
         $flowContainer.on('mousedown.commonRenderer', '.gapmatch-content', function(e){
