@@ -124,4 +124,8 @@ class ItemModel
     public function getCompilerClass() {
         return 'oat\\taoQtiItem\\model\\QtiItemCompiler';
     }
+
+    public function getPackerClass() {
+        return 'oat\\taoQtiItem\\model\\pack\\QtiItemPacker';
+    }
 }
