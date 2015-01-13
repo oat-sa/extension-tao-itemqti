@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/TextEntryInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/textEntryInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/textEntryInteraction.placeholder'
-], function(_, TextEntryInteraction, TextEntryInteractionWidget, tpl){
+], function($, _, TextEntryInteraction, TextEntryInteractionWidget, tpl){
 
     var CreatorTextEntryInteraction = _.clone(TextEntryInteraction);
 

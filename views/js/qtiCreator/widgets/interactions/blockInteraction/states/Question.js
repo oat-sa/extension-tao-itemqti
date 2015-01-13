@@ -1,11 +1,12 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'i18n'
-], function(stateFactory, Question, htmlEditor, contentHelper, promptToolbarTpl, __){
+], function($, stateFactory, Question, htmlEditor, contentHelper, promptToolbarTpl, __){
 
     var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
 

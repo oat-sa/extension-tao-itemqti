@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/modalFeedback/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
@@ -6,18 +7,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor, contentHelper){
+], function($, Widget, states, toolbarTpl, okButtonTpl, formElement, htmlEditor, contentHelper){
 
     var ModalFeedbackWidget = Widget.clone();
 
     ModalFeedbackWidget.initCreator = function(){
-        
+
         Widget.initCreator.call(this);
 
         this.registerStates(states);
 
         this.buildEditor();
-        
+
         this.createOkButton();
     };
 
@@ -57,7 +58,7 @@ define([
 
         formElement.initTitle(this.$original.find('.qti-title'), element);
     };
-    
+
     ModalFeedbackWidget.createOkButton = function(){
 
         var _this = this;
@@ -69,6 +70,6 @@ define([
                 _this.changeState('sleep');
             }));
     };
-    
+
     return ModalFeedbackWidget;
 });

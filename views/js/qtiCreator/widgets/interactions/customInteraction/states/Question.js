@@ -9,7 +9,7 @@ define([
 
     CustomInteractionStateQuestion.prototype.initColorPickers = function(){
 
-        var $colorTriggers = this.widget.$form.find('.color-trigger');
+        var $colorTriggers = this.widget.$form.find('.color-trigger:not([data-color-picker=initialized])');
         
         $colorTriggers.each(function(){
 
@@ -51,12 +51,14 @@ define([
             
         });
         
+        $colorTriggers.attr('data-color-picker', 'initialized');
     };
 
     CustomInteractionStateQuestion.prototype.destroyColorPickers = function(){
         
         var $colorTriggers = this.widget.$form.find('.color-trigger');
         $colorTriggers.off('.color-picker');
+        $colorTriggers.removeAttr('data-color-picker');
     };
 
     return CustomInteractionStateQuestion;

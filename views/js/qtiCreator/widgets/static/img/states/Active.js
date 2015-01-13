@@ -185,7 +185,7 @@ define([
             $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $src = $form.find('input[name=src]'),
-            $label = $form.find('input[name=alt]');
+            $alt = $form.find('input[name=alt]');
         if(options.mediaManager.mediaSources.length === 0){
             mediaSources = ['local'];
         }
@@ -210,11 +210,12 @@ define([
                 pathParam : 'path',
                 select : function(e, files){
                     
-                    var file, label;
+                    var file, alt;
                     
                     if(files && files.length){
                         
                         file = files[0].file;
+                        alt = files[0].alt;
                         imageUtil.getSize(options.baseUrl + file, function(size){
 
                             if(size && size.width >= 0){
@@ -232,10 +233,34 @@ define([
                                 img.removeAttr('height');
                             }
 
-                            if($.trim($label.val()) === ''){
-                                label = _extractLabel(file);
-                                img.attr('alt', label);
-                                $label.val(label).trigger('change');
+                            if($.trim($alt.val()) === ''){
+                                if(alt === ''){
+                                    alt = _extractLabel(file);
+                                }
+                                img.attr('alt', alt);
+                                $alt.val(alt).trigger('change');
+                            }
+                            else{
+                                var confirmBox = $('.change-alt-modal-feedback'),
+                                    cancel = confirmBox.find('.cancel'),
+                                    save = confirmBox.find('.save'),
+                                    close = confirmBox.find('.modal-close');
+
+                                $('.alt-text',confirmBox).html('"' + $alt.val() + '"<br>with<br>"' + alt+'" ?');
+
+                                confirmBox.modal({ width: 500 });
+
+                                save.off('click')
+                                    .on('click', function () {
+                                        img.attr('alt', alt);
+                                        $alt.val(alt).trigger('change');
+                                        confirmBox.modal('close');
+                                    });
+
+                                cancel.off('click')
+                                    .on('click', function () {
+                                        confirmBox.modal('close');
+                                    });
                             }
 
                             _.defer(function(){

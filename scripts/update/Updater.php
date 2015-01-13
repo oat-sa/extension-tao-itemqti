@@ -79,6 +79,27 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $currentVersion = '2.7.2';
         }
+        
+        //migrate from 2.7.2 to 2.7.3
+        if($currentVersion == '2.7.2'){
+            
+            $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
+            $registry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
+            $registry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
+            $registry->registerFromFile('OAT/raphael', $installBasePath.'/OAT/raphael.js');
+            $registry->registerFromFile('OAT/scale.raphael', $installBasePath.'/OAT/scale.raphael.js');
+            $registry->registerFromFile('OAT/util/xml', $installBasePath.'/OAT/util/xml.js');
+            $registry->registerFromFile('OAT/util/math', $installBasePath.'/OAT/util/math.js');
+            $registry->registerFromFile('OAT/util/html', $installBasePath.'/OAT/util/html.js');
+            $registry->registerFromFile('OAT/util/EventMgr', $installBasePath.'/OAT/util/EventMgr.js');
+            $registry->registerFromFile('OAT/util/event', $installBasePath.'/OAT/util/event.js');
+            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+            $registry->registerFromFile('OAT/interact', $installBasePath . '/OAT/interact.js');
+            $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/interact-rotate.js');
+            $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
+
+            $currentVersion = '2.7.3';
+        }
 
         return $currentVersion;
     }

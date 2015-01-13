@@ -43,7 +43,7 @@ define([
                 var relatedItem = this.getRelatedItem();
                 if(relatedItem){
                     var namespaces = relatedItem.getNamespaces();
-                    for(ns in namespaces){
+                    for(var ns in namespaces){
                         if(namespaces[ns].indexOf(this.defaultNsUri) >= 0){
                             return {
                                 name : ns,

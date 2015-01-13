@@ -1,8 +1,12 @@
-define(['taoQtiItem/qtiItem/core/interactions/ObjectInteraction', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(ObjectInteraction, rendererConfig){
+define([
+    'lodash',
+    'taoQtiItem/qtiItem/core/interactions/ObjectInteraction',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function(_, ObjectInteraction, rendererConfig){
     var MediaInteraction = ObjectInteraction.extend({
         qtiClass : 'mediaInteraction',
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {

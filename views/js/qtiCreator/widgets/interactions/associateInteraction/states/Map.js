@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
     'lodash',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/associableChoice.answer'
-], function(stateFactory, Map, responseWidget, _, responseToolbarTpl){
+], function($, stateFactory, Map, responseWidget, _, responseToolbarTpl){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
@@ -65,12 +66,12 @@ define([
 
                         var serial = $(this).data('serial'),
                             choice = interaction.getChoice(serial);
-                            
+
                         pair.push(choice.id());
                     });
-                    
+
                     pair.sort();
-                    
+
                     var pairIdentifier = pair.join(' '),
                         $miniToolbar = extraData.$pair.children('.mini-tlb');
 
