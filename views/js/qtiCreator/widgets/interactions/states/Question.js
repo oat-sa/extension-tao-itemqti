@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/addChoice',
     'i18n'
-], function(stateFactory, Question, addChoiceTpl, __){
+], function($, stateFactory, Question, addChoiceTpl, __){
 
     var InteractionStateQuestion = stateFactory.create(Question, function(){
 
@@ -16,7 +17,7 @@ define([
         //init add choice button if needed
         this.addNewChoiceButton(this.widget);
 
-        //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button) 
+        //switchable to choice(click), answer(toolbar), deleting(toolbar), sleep (OK button)
 
         //init form:
 

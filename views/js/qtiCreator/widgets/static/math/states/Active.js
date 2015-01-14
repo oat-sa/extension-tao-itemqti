@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/MathEditor',
@@ -9,7 +10,7 @@ define([
     'lodash',
     'i18n',
     'mathJax'
-], function(stateFactory, Active, MathEditor, itemEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
+], function($, stateFactory, Active, MathEditor, itemEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;
     var MathActive = stateFactory.extend(Active, function(){

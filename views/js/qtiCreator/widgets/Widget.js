@@ -44,7 +44,7 @@ define([
                 //clean old referenced event
                 this.offEvents();//not sure if still required after state definition
 
-                //pass the options to the initCreator for custom options usage 
+                //pass the options to the initCreator for custom options usage
                 _.each(this.getRequiredOptions(), function(opt){
                     if(!options[opt]){
                         throw new Error('missing required option for image creator : ' + opt);
@@ -91,7 +91,7 @@ define([
          * Very important method:
          * It changes the state of the widget by checking the relation between
          * the target and the current states.
-         * 
+         *
          * @param {string} stateName
          * @returns {object} this
          */
@@ -240,18 +240,18 @@ define([
 
             return null;
         },
-        
+
         refresh : function(){
-            
+
             var currentState = this.getCurrentState().name;
-            
+
             this.rebuild({
                 ready:function(widget){
                     widget.changeState(currentState);
                 }
             });
         },
-        
+
         //assign an event listener that lives with the state
         on : function(qtiElementEventName, callback, live){
 
@@ -262,11 +262,11 @@ define([
             _.each(eventNames, function(eventName){
 
                 var eventNameToken = [eventName, 'qti-widget', _this.serial];
-                
+
                 if(!live){
                     eventNameToken.push(_this.getCurrentState().name);
                 }
-                
+
                 //bind each individual event listener to the document
                 $document.on(eventNameToken.join('.'), function(e, data){
                     callback.call(_this, data);
@@ -278,7 +278,7 @@ define([
         },
         /**
          * Get / Set the validation state
-         * @param {String} [what] - key to identify the validation 
+         * @param {String} [what] - key to identify the validation
          * @param {Boolean} [valid] - false to invalidate
          * @param {String} [why] - message
          */

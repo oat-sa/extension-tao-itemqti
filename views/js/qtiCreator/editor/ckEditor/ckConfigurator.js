@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler',
     'mathJax'
-], function(_, ckeditor, dtdHandler, mathJax) {
+], function($, _, ckeditor, dtdHandler, mathJax) {
     'use strict';
     /**
      * Cache original config

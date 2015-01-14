@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler',
     'taoQtiItem/qtiCreator/helper/qtiElements'
 ], function($, _, dtdHandler, qtiElements){
-    'use strict'
+    'use strict';
 
     var _qtiHtmlEditableTypes = {
         'itemBody' : '.widget-textBlock > [data-html-editable]',
@@ -52,12 +52,12 @@ define([
             context = $(context);
 
             if(qtiElements.is(qtiClass, 'inlineInteraction')){
-                
+
                 $qtiContainers = context.find(_qtiHtmlEditableTypes['itemBody']);
                 child = 'object';
-                
+
             }else{
-                
+
                 $qtiContainers = context.find(_.values(_qtiHtmlEditableTypes).join(','));
                 $qtiContainers = context.find(_qtiHtmlEditableTypes['itemBody']);//beta limitation
                 switch(qtiClass){
@@ -75,12 +75,12 @@ define([
 
             var parents = dh.getParentsOf(child),
                 parentSelector = parents.join(',');
-            
+
             $qtiContainers.each(function(){
-                
+
                 var $qtiContainer = $(this),
                     $widget = $qtiContainer.closest('.widget-box');
-                    
+
                 if($qtiContainer.is(parentSelector)){
                     $targets = $targets.add($qtiContainer);
                 }
@@ -89,7 +89,7 @@ define([
                     return ($closest.length && $closest[0] !== $widget[0]);
                 }));
             });
-            
+
             return $targets;
         };
 
@@ -100,7 +100,7 @@ define([
             getTargetsFor : getTargetsFor
         });
 
-    }(jQuery, _, dtdHandler));
+    }($, _, dtdHandler));
 
     return targetFinder;
 });
