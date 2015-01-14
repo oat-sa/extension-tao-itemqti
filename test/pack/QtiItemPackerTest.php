@@ -69,34 +69,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $itemPacker = new QtiItemPacker();
         $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'toto'); 
     }
-    
-    /**
-     * Test packing a simple item (choice.xml from the samples) that has no assets.
-     */
-    public function testPackingSimpleItem(){
-
-        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/choice.xml';
-    
-        $this->assertTrue(file_exists($sample));
-    
-        $content = file_get_contents($sample);
-
-        $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
-
-        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
-        $this->assertEquals('qti', $itemPack->getType());
-
-        $data = $itemPack->getData();
-
-        $this->assertEquals('assessmentItem', $data['qtiClass']);
-        $this->assertEquals('choice', $data['identifier']);
-
-        $this->assertEquals(array(), $itemPack->getAssets('js'));
-        $this->assertEquals(array(), $itemPack->getAssets('css'));
-        $this->assertEquals(array(), $itemPack->getAssets('img'));
-        $this->assertEquals(array(), $itemPack->getAssets('font'));
-    }
 
     /**
      * Test packing an item where QTI content isn't valid
@@ -113,4 +85,140 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $itemPacker = new QtiItemPacker();
         $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
     }
+
+    /**
+     * Test packing a simple item that has no assets.
+     */
+    public function testPackingSimpleItem(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/inline_choice.xml';
+    
+        $this->assertTrue(file_exists($sample));
+    
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('inlineChoice', $data['identifier']);
+
+        $this->assertEquals(array(), $itemPack->getAssets('js'));
+        $this->assertEquals(array(), $itemPack->getAssets('css'));
+        $this->assertEquals(array(), $itemPack->getAssets('img'));
+        $this->assertEquals(array(), $itemPack->getAssets('font'));
+    }
+
+    /**
+     * Test packing an item  that contain images.
+     */
+    public function testPackingItemWithImages(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/sample-astronomy.xml';
+    
+        $this->assertTrue(file_exists($sample));
+    
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('astronomy', $data['identifier']);
+
+        $this->assertEquals(6, count($itemPack->getAssets('img')));
+        $this->assertTrue(in_array('samples/test_base_www/img/earth.png', $itemPack->getAssets('img')));
+
+        $this->assertEquals(array(), $itemPack->getAssets('js'));
+        $this->assertEquals(array(), $itemPack->getAssets('css'));
+        $this->assertEquals(array(), $itemPack->getAssets('font'));
+    }
+
+    /**
+     * Test packing an item  that contain a graphic interaction.
+     */
+    public function testPackingGraphicItem(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/hotspot.xml';
+    
+        $this->assertTrue(file_exists($sample));
+    
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('hotspot', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+    }
+
+    /**
+     * Test packing an item that contains audio and video
+     */
+    public function testPackingMultiMediaItem(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/audio-video.xml';
+    
+        $this->assertTrue(file_exists($sample));
+    
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('mediaInteraction', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('audio')));
+        $this->assertEquals(1, count($itemPack->getAssets('video')));
+    }
+
+    /**
+     * Test packing an item that contain a stylesheet.
+     */
+    public function testPackingItemWithCss(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/sample-elections.xml';
+    
+        $this->assertTrue(file_exists($sample));
+    
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        //$this->assertEquals(1, count($itemPack->getAssets('css')));
+    }
+
 }

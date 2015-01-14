@@ -24,6 +24,9 @@ namespace oat\taoQtiItem\model\pack;
 use oat\taoItems\model\pack\Packable;
 use oat\taoItems\model\pack\ItemPack;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
+use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\container\Container;
+use oat\taoQtiItem\model\qti\Object as QtiObject; 
 use \core_kernel_classes_Resource;
 use \InvalidArgumentException;
 use \common_Exception;
@@ -44,6 +47,10 @@ class QtiItemPacker implements Packable
      * @var string
      */
     private static $itemType = 'qti';
+
+    private $images = array();
+    private $audios = array();
+    private $videos = array();
 
     /**
      * packItem implementation for QTI
@@ -72,13 +79,17 @@ class QtiItemPacker implements Packable
             }
 
             //parse
-            $itemData  = $qtiParser->load();
+            $qtiItem  = $qtiParser->load();
         
             //then build the ItemPack from the parsed data
-            if(!is_null($itemData)){
-                $itemPack = new ItemPack(self::$itemType, $itemData->toArray()); 
+            if(!is_null($qtiItem)){
+                $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray()); 
 
-                //TODO manage assets
+                $this->loadAssets($qtiItem);
+
+                $itemPack->setAssets('img', $this->images);
+                $itemPack->setAssets('audio', $this->audios);
+                $itemPack->setAssets('video', $this->videos);
             }
 
         } catch(common_Exception $e){
@@ -87,4 +98,45 @@ class QtiItemPacker implements Packable
 
         return $itemPack;
     }
+
+    private function loadAssets(Item $qtiItem){
+
+        foreach($qtiItem->getComposingElements() as $element){
+            if($element instanceof Container){
+
+                foreach($element->getElements('oat\taoQtiItem\model\qti\Img') as $img){
+                    $this->addAsset('images', $img->attr('src'));
+                }
+        
+                foreach($element->getElements('oat\taoQtiItem\model\qti\Object') as $object){
+                    $this->loadObjectAssets($object);
+                }
+            }
+            if($element instanceof QtiObject){
+                $this->loadObjectAssets($element);
+            }
+        }
+    }
+
+    private function loadObjectAssets(QtiObject $object){
+
+        $type = $object->attr('type');
+        
+        if(strpos($type, "image") !== false){
+            $this->addAsset('images', $object->attr('data'));
+        } 
+        else if (strpos($type, "video") !== false  || strpos($type, "ogg") !== false){
+            $this->addAsset('videos', $object->attr('data'));
+        } 
+        else if (strpos($type, "audio") !== false){
+            $this->addAsset('audios', $object->attr('data'));
+        }
+    }
+
+    private function addAsset($type, $uri){
+        if(is_array($this->{$type}) && !empty($uri) && !in_array($uri, $this->{$type})){
+            $this->{$type}[] = $uri;
+        }
+    }
+
 }
