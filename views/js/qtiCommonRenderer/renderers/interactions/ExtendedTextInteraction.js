@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'i18n',
     'ckeditor',
-    'ckConfigurator',
+    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
     'polyfill/placeholders'
 ], function(_, $, tpl, Helper, __, ckEditor ,ckConfigurator){
 
@@ -64,6 +64,7 @@ define([
 
             editor.on('configLoaded', function(e) {
                 editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
+                editor.disableAutoInline = false; // NOT A GOOD IDEA, JUST TRY
             });
 
             editor.on('change', function(e) {
