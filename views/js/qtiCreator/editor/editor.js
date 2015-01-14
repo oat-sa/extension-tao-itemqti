@@ -2,6 +2,7 @@ define([
     'jquery',
     'lodash',
     'helpers',
+    'core/dataattrhandler',
     //gui components
     'taoItems/preview/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
@@ -18,6 +19,7 @@ define([
     $,
     _,
     helpers,
+    dataAttrHandler,
     preview,
     preparePrint,
     fontSelector,
@@ -50,6 +52,82 @@ define([
         fontSizeChanger();
         itemResizer(widget.element);
 
+    };
+
+    var initPopup = function($trigger, options) {
+
+        var defaults = {
+            top: null,     // || pixels relative to the top border of the sidebar
+            right: 2       // pixels relative to the left border of the sidebar
+        };
+
+        options = _.assign(defaults, (options || {}));
+
+        // open the popup
+        var open = function($trigger, $popup) {
+
+            var $sidebar = $popup.parents('.item-editor-sidebar-wrapper');
+            $trigger.trigger('beforeopen.popup', { popup: $popup, trigger: $trigger });
+            $popup.show();
+
+            // positioning
+            if(_.isNull(options.top)) {
+                options.top = $trigger.offset().top - $sidebar.offset().top - ($popup.height() / 2);
+            }
+            $popup.css( { top: options.top });
+            $popup.css( { right: $sidebar.width() + options.right });
+
+            $trigger.trigger('open.popup', { popup: $popup, trigger: $trigger });
+        };
+
+        // close the popup
+        var close = function($trigger, $popup) {
+            $trigger.trigger('beforeclose.popup', { popup: $popup, trigger: $trigger });
+            $popup.hide();
+            $trigger.trigger('close.popup', { popup: $popup, trigger: $trigger });
+        };
+
+        // find popup, assign basic actions, add it to trigger props
+        $trigger.each(function() {
+            var _trigger = $(this),
+                $popup = options.popup || (function() {
+                    return dataAttrHandler.getTarget('popup', _trigger);
+                }());
+
+            if(!$popup || !$popup.length) {
+                throw new Error('No popup found');
+            }
+
+            // close popup by clicking on x button
+            $popup.find('.closer').on('click', function() {
+                close(_trigger, $popup);
+            });
+
+            // drag popup
+            $popup.draggable({
+                handle : $popup.find('.dragger')
+            });
+
+            // assign popup to trigger to avoid future DOM operations
+            _trigger.prop('popup', $popup);
+        });
+
+        // toggle popup
+        $trigger.on('click', function(e) {
+            var _trigger = $(e.target),
+                $popup   = _trigger.prop('popup');
+
+            // in case the trigger is an <a>
+            e.preventDefault();
+
+            // toggle popup
+            if($popup.is(':visible')) {
+                close(_trigger, $popup);
+            }
+            else {
+                open(_trigger, $popup);
+            }
+        })
     };
 
     /**
@@ -189,7 +267,8 @@ define([
 
     return {
         initGui : initGui,
-        initPreview: initPreview
+        initPreview: initPreview,
+        initPopup: initPopup
     };
 
 });
