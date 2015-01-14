@@ -1,7 +1,7 @@
-define(['lodash'], function(_){
-    
+define(['jquery', 'lodash'], function($, _){
+
     var _eventName = 'arrowenter.gridEdit.gridDragDrop';
-    
+
     //build arrow for inter-column insertion:
     var _buildArrows = function _buildArrows($col, options){
 
@@ -47,7 +47,7 @@ define(['lodash'], function(_){
             $col.trigger(_eventName, ['left']);
             _removeArrows($col);
         });
-        
+
     };
 
     //remove arrows:

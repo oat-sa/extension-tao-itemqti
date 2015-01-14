@@ -1,8 +1,8 @@
-define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClasses){
+define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function($, _, qtiClasses){
 
     var methods = {
         createElements : function(container, body, callback){
-            
+
             var regex = /{{([a-z_]+)\.?([a-z_]*):new}}/ig;
 
             //first pass to get required qti classes, but do not replace
@@ -36,22 +36,22 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(_, qtiClas
                                 elt.setRenderer(container.getRenderer());
                             }
                             newElts[elt.getSerial()] = elt;
-                            
+
                             //manage subclassed qtiClass
                             if(subClass){
                                 //@todo generalize it from customInteraction
                                 elt.typeIdentifier = subClass;
                             }
-                            
+
                             return elt.placeholder();
                         }else{
                             return original;
                         }
                     });
 
-                //insert them:    
+                //insert them:
                 container.setElements(newElts, newBody);
-                
+
                 //operations after insertions:
                 var $doc = $(document);
                 _.each(newElts, function(elt){

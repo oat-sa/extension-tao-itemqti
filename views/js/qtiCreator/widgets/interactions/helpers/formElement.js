@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/core/Element',
     'tooltipster'
-], function(_, formElement, Element){
+], function($, _, formElement, Element){
 
     var _scoreTooltipContent = {
         required : 'this is required',
@@ -37,22 +38,22 @@ define([
             };
 
             widget.on('choiceCreated', function(data){
-                
+
                 if(data.interaction.serial === widget.element.serial){
                     _syncMaxChoices();
                 }
-                
+
             }).on('deleted', function(data){
-                
-                if(data.parent.serial === widget.element.serial && 
+
+                if(data.parent.serial === widget.element.serial &&
                     Element.isA(data.element, 'choice')){
-                    
+
                     _syncMaxChoices();
                 }
             });
 
         },
-        
+
         //set float (used for score)
         setScore : function($scoreInput, options){
 

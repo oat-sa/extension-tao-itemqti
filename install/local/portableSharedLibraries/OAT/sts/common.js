@@ -18,8 +18,6 @@ define([
 
         var hasFocus = false;
 
-
-        $container.removeAttr('style');
         $controls.on('mousedown', function() {
             $controls.not(this).addClass('lurking');
             $(this).addClass('active');
@@ -46,9 +44,12 @@ define([
 
     function init($container) {
         // this needs to be a single DOM element
-        var tool = $container.find('.sts-container')[0],
-            $content = $container.find('.sts-content'),
+        var $content  = $container.find('.sts-content'),
             $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
+            $launcher = $container.find('.sts-launch-button'),
+            $closer   = $container.find('.sts-close'),
+            $tool     = $container.find('.sts-container'),
+            tool      = $tool[0],
             handleSelector = (function() {
                 var selectors = [];
                 $controls.each(function(){
@@ -59,6 +60,26 @@ define([
                 });
                 return selectors.join(',')
             }());
+
+        $container.removeAttr('style');
+
+        $closer.on('click', function() {
+            $tool.addClass('sts-hidden-container');
+        });
+
+        $launcher.off().on('click.sts', function() {
+            // first run only
+            if(!$tool.width()) {
+                // having a defined width fixes chrome bug 'container scales instead of resizing'
+                var cWidth = $container.width();
+                $container.width(2000);
+                $tool.removeClass('sts-hidden-container');
+                $tool.width($content.width());
+                $container.width(cWidth);
+                $tool.addClass('sts-hidden-container');
+            }
+            $tool.toggleClass('sts-hidden-container');
+        });
 
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
@@ -93,8 +114,3 @@ define([
     };
 
 });
-
-
-
-
-

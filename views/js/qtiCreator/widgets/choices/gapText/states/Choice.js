@@ -1,10 +1,11 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/states/Choice',
     'taoQtiItem/qtiItem/core/Element',
     'lodash'
-], function(stateFactory, Choice, SimpleAssociableChoice, Element, _){
+], function($, stateFactory, Choice, SimpleAssociableChoice, Element, _){
 
     var GapTextStateChoice = stateFactory.extend(Choice, function(){
 
@@ -24,7 +25,7 @@ define([
         }, 'otherActive');
 
         this.buildEditor();
-        
+
     }, function(){
 
         this.destroyEditor();
@@ -79,22 +80,22 @@ define([
     };
 
     var _focus = function($el){
-        
+
         var range, sel, el = $el[0];
-        
+
         el.focus();
         if(window.getSelection !== undefined && document.createRange !== undefined){
-            
+
             range = document.createRange();
             range.selectNodeContents(el);
             range.collapse(false);
-            
+
             sel = window.getSelection();
             sel.removeAllRanges();
             sel.addRange(range);
-            
+
         }else if(document.body.createTextRange !== undefined){
-            
+
             range = document.body.createTextRange();
             range.moveToElementText(el);
             range.collapse(false);
