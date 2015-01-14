@@ -60,7 +60,7 @@ define([
         // ckEditor config event.
         ckEditor.on('instanceCreated', function(event) {
             var editor = event.editor,
-                toolbarType = 'block';
+                toolbarType = 'extendedText';
 
             editor.on('configLoaded', function(e) {
                 editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
