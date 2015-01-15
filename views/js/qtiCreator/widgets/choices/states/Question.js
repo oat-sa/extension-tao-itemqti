@@ -1,14 +1,15 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.content',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement'
-], function(stateFactory, QuestionState, contentToolbarTpl, formElement){
+], function($, stateFactory, QuestionState, contentToolbarTpl, formElement){
 
     var ChoiceStateQuestion = stateFactory.create(QuestionState, function(){
 
         var _widget = this.widget;
-        
+
         //add some event listeners
         _widget.$container.on('click.question', function(){
             //show option form
@@ -38,9 +39,9 @@ define([
             choice = _widget.element,
             interaction,
             $toolbar = $container.find('.mini-tlb').not('[data-html-editable] *');
-        
+
         if(!$toolbar.length){
-            
+
             interaction = choice.getInteraction();
 
             //add mini toolbars

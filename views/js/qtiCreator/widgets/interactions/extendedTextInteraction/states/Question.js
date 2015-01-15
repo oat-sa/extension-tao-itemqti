@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
 ], function($, _, __, stateFactory, Question, formElement, renderer, formTpl){
-
+    'use strict';
     var initState = function initState(){
         // Disable inputs until response edition.
         this.widget.$container.find('input, textarea').attr('disabled', 'disabled');

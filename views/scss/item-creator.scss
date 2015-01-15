@@ -180,6 +180,7 @@ img.dragging.ui-draggable-dragging {
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
+    position: relative;
 
     @include simple-flex-box(180px);
 
@@ -496,71 +497,6 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
-    .sidebar-popup-container-box {
-        position: relative;
-    }
-
-    .sidebar-popup {
-        background: mix(#fff, $grey, 85%);
-        padding: 3px;
-        position: absolute;
-        right: 2px;
-        @include vendor-prefix(box-shadow, 0px 0px 10px 0px rgba(50, 50, 50, 0.75), property, (-webkit-, -moz-, ''));
-        display: none;
-        z-index: 300;
-        .closer {
-            position: absolute;
-            top: 5px;
-            right: 2px;
-        }
-    }
-
-
-    #math-editor-container {
-        &.mathml {
-            top: -270px;
-            width: 357px;
-            input {
-                display: none;
-            }
-            textarea {
-                width: 350px;
-                max-width: none;
-                height: 250px;
-                font-family: $monospaceFont;
-                display: block;
-            }
-        }
-        &.latex {
-            top: -90px;
-            width: 427px;
-            textarea {
-                display: none;
-            }
-            input {
-                width: 420px;
-                max-width: none;
-                font-family: $monospaceFont;
-            }
-        }
-        z-index: 2000;
-        .icon-grip-h {
-            opacity: .5;
-            font-size: 20px;
-            position: absolute;
-            top: 5px;
-            left: 180px;
-            color: $uiClickableActiveBg;
-            cursor: move;
-            &:hover {
-                color: $uiClickableHoverBg;
-            }
-        }
-        h3 {
-            padding: 0 0 5px;
-        }
-    }
-
     .compass {
         position: relative;
         width: 100px;
@@ -590,6 +526,79 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
+
+
+// begin pop-up
+
+.sidebar-popup {
+    background: $canvas;
+    padding: 1px;
+    position: absolute;
+    right: ($sidebarWidth + 2) * 1px;
+    top: 37px; //height of blue action bar plus a bit
+    width: $sidebarWidth * 1px;
+    @include vendor-prefix(box-shadow, 0 0 2px 0px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
+    display: none;
+    z-index: 15000;
+    .sidebar-popup-content {
+        overflow-y: auto;
+        & > .panel {
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+        }
+    }
+    .sidebar-popup-title {
+        color: $textHighlight;
+        background: whiten($info, .2);
+        margin-bottom: 2px;
+        a {
+            color: $textHighlight;
+        }
+        .closer {
+            position: absolute;
+            top: 1px;
+            right: 2px;
+        }
+        .icon-grip-h {
+            opacity: .6;
+            font-size: 20px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -10px;
+            cursor: move;
+            &:hover {
+                opacity: .8;
+            }
+        }
+        h3 {
+            padding: 0 5px !important;
+        }
+    }
+    input, textarea {
+        font-family: $monospaceFont;
+        width: 100%;
+        max-width: none;
+        display: block;
+    }
+    &.mathml {
+        width: 357px;
+        input {
+            display: none;
+        }
+        textarea {
+            height: 250px;
+        }
+    }
+    &.latex {
+        width: 427px;
+        textarea {
+            display: none;
+        }
+    }
+}
+
+// end pop-up
 
 #item-editor-panel {
     padding: 0;

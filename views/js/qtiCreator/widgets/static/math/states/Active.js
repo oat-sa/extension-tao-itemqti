@@ -1,17 +1,18 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/MathEditor',
+    'taoQtiItem/qtiCreator/editor/editor',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'i18n',
     'mathJax'
-], function(stateFactory, Active, MathEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
+], function($, stateFactory, Active, MathEditor, itemEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;
-
     var MathActive = stateFactory.extend(Active, function(){
 
         this.initForm();
@@ -70,69 +71,47 @@ define([
             tex = math.getAnnotation('latex'),
             display = math.attr('display') || 'inline',
             $fields = {
-            mathml : $form.find('textarea[name=mathml]'),
-            latex : $form.find('input[name=latex]')
-        },
-        $triggers = $form.find('.math-editor-trigger'),
-            $popup = $form.find('#math-editor-container'),
-            $largeFields = {
-            mathml : $popup.find('textarea[data-target="mathml"]'),
-            latex : $popup.find('input[data-target="latex"]')
-        },
-        $title = $popup.find('h3'),
-            $closer = $popup.find('.closer'),
-            $dragHandle = $popup.find('.dragger'),
+                mathml : $form.find('textarea[name=mathml]'),
+                latex : $form.find('input[name=latex]')
+            },
             $modeSelector = $form.find('select[name=editMode]');
 
-        // display popup
-        $triggers.on('click', function(e){
-            e.preventDefault();
-            $popup.hide();
 
-            var target = this.hash.substring(1),
-                $partner = $fields[target],
-                $largeField = $largeFields[target];
+        $form.find('.sidebar-popup-trigger').each(function() {
+            var $trigger = $(this),
+                context = $trigger.data('context');
 
-            // set title
-            $title.text($partner.parent().find('label').text());
+            // basic popup functionality
+            itemEditor.initPopup($trigger);
 
-            // copy value
-            $largeField.val($partner.val());
+            // after popup opens
+            $trigger.on('open.popup', function(e, params) {
+                var $largeField = params.popup.find(':input[data-for="' + context + '"]');
 
-            $partner.prop('disabled', true);
-            $modeSelector.prop('disabled', true);
-            $popup.data('target', target);
-            $popup.removeClass('mathml latex').addClass(target);
+                // copy value
+                $largeField.val($fields[context].val());
 
-            $popup.removeAttr('style');
+                $largeField.on('keyup', function(){
+                    $fields[context].val($(this).val());
+                    $fields[context].trigger('keyup');
+                });
+                $largeField.attr('placeholder', $fields[context].attr('placeholder'));
 
-            $popup.show();
+                // disable form
+                $fields[context].prop('disabled', true);
+                $modeSelector.prop('disabled', true);
 
-            $triggers.hide();
-        });
-
-        // permanently copy to original field
-        _($largeFields).forEach(function($largeField, target){
-            $largeField.on('keyup', function(){
-                $fields[target].val($largeFields[target].val());
-                $fields[target].trigger('keyup');
             });
-            $largeField.attr('placeholder', $fields[target].attr('placeholder'));
-        });
 
-        // hide popup
-        $closer.on('click', function(){
-            var target = $popup.data('target');
-            $fields[target].val($largeFields[$popup.data('target')].val());
-            $fields[target].prop('disabled', false);
-            $modeSelector.prop('disabled', false);
-            $popup.hide();
-            $triggers.show();
-        });
+            // after popup closes
+            $trigger.on('close.popup', function(e, params) {
+                var $largeField = params.popup.find(':input[data-for="' + context + '"]');
 
-        // drag popup
-        $popup.draggable({
-            handle : $dragHandle
+                $fields[context].val($largeField.val());
+                $fields[context].prop('disabled', false);
+                $modeSelector.prop('disabled', false);
+
+            });
         });
 
 
