@@ -17,5 +17,14 @@
         {{else}}
             <textarea class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}"></textarea>
         {{/equal}}
+        {{#with attributes.expectedLength}}
+            <div class="text-maxwords">
+                {{#with attributes.expectedLengthmandatory}}
+                    <span class="text-words-count">{{attributes.expectedLength}}</span> {{_ "word(s) remained"}}
+                {{else}}
+                    {{_ "we expect about"}} {{attributes.expectedLength}} {{_ "chars. It's just an indication. You are now at"}} <span class="text-words-count">0</span> {{_ "word(s)"}}.
+                {{/with}}
+            </div>
+        {{/with}}
     {{/if}}
 </div>
