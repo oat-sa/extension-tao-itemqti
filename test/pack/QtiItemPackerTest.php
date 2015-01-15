@@ -1,21 +1,21 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 namespace oat\taoItems\test\pack;
 
@@ -24,11 +24,11 @@ use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoItems\model\pack\Packable;
 use oat\taoItems\model\pack\ItemPack;
 use oat\tao\test\TaoPhpUnitTestRunner;
- 
+
 
 /**
  * Test the class {@link ItemPack}
- *  
+ *
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package taoItems
  */
@@ -44,30 +44,30 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
      * Test creating a QtiItemPacker
      */
     public function testConstructor(){
-        $itemPacker = new QtiItemPacker(); 
+        $itemPacker = new QtiItemPacker();
         $this->assertInstanceOf('oat\taoItems\model\pack\Packable', $itemPacker);
     }
 
     /**
      * Test the exception when a wrong content type is given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongContentTypeToPack(){
-        
+
         $itemPacker = new QtiItemPacker();
-        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), null); 
+        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), null);
     }
-    
+
     /**
      * Test the exception when a wrong content is given to the parser
-     * 
+     *
      * @expectedException \common_Exception
      */
     public function testWrongContentToPack(){
-        
+
         $itemPacker = new QtiItemPacker();
-        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'toto'); 
+        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'toto');
     }
 
     /**
@@ -77,13 +77,13 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingInvalidQtiItem(){
 
         $sample = dirname(__FILE__).'/../samples/wrong/notvalid_associate.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
     }
 
     /**
@@ -92,13 +92,13 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingSimpleItem(){
 
         $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/inline_choice.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -120,13 +120,13 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingItemWithImages(){
 
         $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/sample-astronomy.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -150,13 +150,13 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingGraphicItem(){
 
         $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/hotspot.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -170,18 +170,42 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * Test packing an item  that contain an object element in a container.
+     */
+    public function testPackingItemObjectInBody(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/svg.xml';
+
+        $this->assertTrue(file_exists($sample));
+
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('SVG', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+    }
+    /**
      * Test packing an item that contains audio and video
      */
     public function testPackingMultiMediaItem(){
 
         $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/audio-video.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -201,13 +225,13 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testPackingItemWithCss(){
 
         $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/sample-elections.xml';
-    
+
         $this->assertTrue(file_exists($sample));
-    
+
         $content = file_get_contents($sample);
 
         $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content); 
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -218,7 +242,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
 
         $this->assertEquals(1, count($itemPack->getAssets('img')));
-        //$this->assertEquals(1, count($itemPack->getAssets('css')));
+        $this->assertEquals(1, count($itemPack->getAssets('css')));
     }
 
 }
