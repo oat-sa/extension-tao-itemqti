@@ -187,6 +187,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\e69d"; }
 
+.qti-extendedTextInteraction .text-container { min-height: 50px; }
+.qti-extendedTextInteraction .text-container.text-preformatted { font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 .qti-extendedTextInteraction input { width: 100%; }
 .qti-extendedTextInteraction .solid > li, .qti-extendedTextInteraction .bordered > li { padding: 0; border: none; }
 .qti-extendedTextInteraction .solid ~ input, .qti-extendedTextInteraction .solid ~ textarea, .qti-extendedTextInteraction .solid ~ .cke, .qti-extendedTextInteraction .bordered ~ input, .qti-extendedTextInteraction .bordered ~ textarea, .qti-extendedTextInteraction .bordered ~ .cke { border: 6px solid #f5f3f2; }
