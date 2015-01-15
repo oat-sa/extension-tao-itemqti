@@ -125,6 +125,7 @@ define([
         getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, options){
 
             var _defaults = {
+                    allowNull : false,
                     updateCardinality : true,
                     attrMethodNames : {
                         remove : 'removeAttr',
@@ -143,7 +144,7 @@ define([
                 var newOptions = {min : 0};
 
                 value = parseInt(value);
-                if(value === 0 || isNaN(value)){
+                if(!options.allowNull && (value === 0 || isNaN(value))){
                     element[options.attrMethodNames.remove](name);
                 }else{
                     element[options.attrMethodNames.set](name, value);
