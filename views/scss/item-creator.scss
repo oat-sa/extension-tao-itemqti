@@ -537,13 +537,14 @@ img.dragging.ui-draggable-dragging {
     right: ($sidebarWidth + 2) * 1px;
     top: 37px; //height of blue action bar plus a bit
     width: $sidebarWidth * 1px;
-    overflow-y: auto;
     @include vendor-prefix(box-shadow, 0 0 2px 0px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
     display: none;
     z-index: 15000;
     .sidebar-popup-content {
-        ~ .panel {
-            padding: 0 3px;
+        overflow-y: auto;
+        & > .panel {
+            padding-left: 5px !important;
+            padding-right: 5px !important;
         }
     }
     .sidebar-popup-title {

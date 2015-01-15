@@ -834,14 +834,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   right: 182px;
   top: 37px;
   width: 180px;
-  overflow-y: auto;
   -webkit-box-shadow: 0 0 2px 0px rgba(141, 148, 158, 0.75);
   -moz-box-shadow: 0 0 2px 0px rgba(141, 148, 158, 0.75);
   box-shadow: 0 0 2px 0px rgba(141, 148, 158, 0.75);
   display: none;
   z-index: 15000; }
-  .sidebar-popup .sidebar-popup-content ~ .panel {
-    padding: 0; }
+  .sidebar-popup .sidebar-popup-content {
+    overflow-y: auto; }
+    .sidebar-popup .sidebar-popup-content > .panel {
+      padding-left: 5px !important;
+      padding-right: 5px !important; }
   .sidebar-popup .sidebar-popup-title {
     color: white;
     background: #3e7da7;

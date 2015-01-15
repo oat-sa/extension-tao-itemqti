@@ -67,15 +67,23 @@ define([
         var open = function($trigger, $popup) {
 
             var $sidebar = $popup.parents('.item-editor-sidebar-wrapper');
+            var top = _.isNull(options.top) ? $trigger.offset().top - $sidebar.offset().top - ($popup.height() / 2) : options.top;
+            var $popupTitle = $popup.find('.sidebar-popup-title');
+            var maxHeight = parseInt($sidebar.find('.item-editor-sidebar').css('max-height'), 10) - 2;
+            if($popupTitle.length) {
+                maxHeight -= $popupTitle.height();
+            }
+
             $trigger.trigger('beforeopen.popup', { popup: $popup, trigger: $trigger });
             $popup.show();
 
-            // positioning
-            if(_.isNull(options.top)) {
-                options.top = $trigger.offset().top - $sidebar.offset().top - ($popup.height() / 2);
-            }
-            $popup.css( { top: options.top });
-            $popup.css( { right: $sidebar.width() + options.right });
+
+            $popup.css({
+                top: Math.max($sidebar.offset().top, top),
+                right: $sidebar.width() + options.right
+            });
+
+            $popup.find('.sidebar-popup-content').css({ maxHeight: maxHeight });
 
             $trigger.trigger('open.popup', { popup: $popup, trigger: $trigger });
         };
@@ -92,21 +100,27 @@ define([
             var _trigger = $(this),
                 $popup = options.popup || (function() {
                     return dataAttrHandler.getTarget('popup', _trigger);
-                }());
+                }()),
+                $closer = $popup.find('.closer'),
+                $dragger = $popup.find('.dragger');
 
             if(!$popup || !$popup.length) {
                 throw new Error('No popup found');
             }
 
             // close popup by clicking on x button
-            $popup.find('.closer').on('click', function() {
-                close(_trigger, $popup);
-            });
+            if($closer.length) {
+                $closer.on('click', function() {
+                    close(_trigger, $popup);
+                });
+            }
 
             // drag popup
-            $popup.draggable({
-                handle : $popup.find('.dragger')
-            });
+            if($dragger.length){
+                $popup.draggable({
+                    handle : $dragger
+                });
+            }
 
             // assign popup to trigger to avoid future DOM operations
             _trigger.prop('popup', $popup);
