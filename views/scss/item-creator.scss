@@ -263,6 +263,10 @@ img.dragging.ui-draggable-dragging {
                 @include font-size(14);
                 max-width: 450px;
                 display: inline-block;
+                &.full-width{
+                    max-width: none;
+                    display: block;
+                }
             }
             select, input[type="text"], textarea {
                 width: 100%;
