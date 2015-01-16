@@ -54,4 +54,11 @@
         	opacity: 1 !important;
         }
     }
+
+    .text-maxwords{
+        text-align : right;
+        .text-words-count{
+            font-weight: bold;
+        }
+    }
 }
