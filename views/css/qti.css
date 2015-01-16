@@ -481,4 +481,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 /* end tmp fix #2768 */
 
+.item-instruction.feedback-info { display: none; }
+
+.item-instruction.feedback-success { display: none; }
+
 /*# sourceMappingURL=qti.css.map */
