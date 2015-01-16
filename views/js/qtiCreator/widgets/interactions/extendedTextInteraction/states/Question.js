@@ -34,12 +34,18 @@ define([
             xhtml : {label : __("XHTML"), selected : false}
         };
 
+        var patternMask = interaction.attr('patternMask');
+        var maxStrings = parseInt(interaction.attr('maxStrings'));
+
         if(formats[format]){
             formats[format].selected = true;
         }
 
         $form.html(formTpl({
-            formats : formats
+            formats : formats,
+            patternMask : patternMask,
+            maxStrings : maxStrings
+
         }));
 
         formElement.initWidget($form);
