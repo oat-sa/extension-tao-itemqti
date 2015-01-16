@@ -52,7 +52,7 @@ class QtiItemPacker implements Packable
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $content)
+    public function packItem(core_kernel_classes_Resource $item, $content, $path)
     {
         $itemPack = null;
 
@@ -80,7 +80,7 @@ class QtiItemPacker implements Packable
                 $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
 
 
-                $assetParser = new AssetParser($qtiItem);
+                $assetParser = new AssetParser($qtiItem, $path);
                 foreach($assetParser->extract() as $type => $assets){
                     $itemPack->setAssets($type, $assets);
                 }

@@ -47,6 +47,12 @@ class AssetParser
     private $item;
 
     /**
+     * The item path of file system
+     * @var string
+     */
+    private $path;
+
+    /**
      * The extracted assets
      * @var array
      */
@@ -55,9 +61,11 @@ class AssetParser
     /**
      * Creates a new parser from an item
      * @param Item $item the item to parse
+     * @param string $path the path of the item in the FS
      */
-    public function __construct(Item $item){
+    public function __construct(Item $item, $path = null){
         $this->item = $item;
+        $this->path = $path;
     }
 
     /**
@@ -74,6 +82,10 @@ class AssetParser
         return $this->assets;
     }
 
+    /**
+     * Lookup and extract assets from IMG elements
+     * @param Element $element container of the target element
+     */
     private function extractImg(Element $element){
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\Img') as $img){
@@ -82,6 +94,10 @@ class AssetParser
         }
     }
 
+    /**
+     * Lookup and extract assets from a QTI Object
+     * @param Element $element the element itself or a container of the target element
+     */
     private function extractObject(Element $element){
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\Object') as $object){
@@ -93,12 +109,30 @@ class AssetParser
         }
     }
 
-    public function extractStyleSheet(Element $element){
+    /**
+     * Lookup and extract assets from a stylesheet element
+     * @param Element $element the stylesheet element
+     */
+    private function extractStyleSheet(Element $element){
         if($element instanceof StyleSheet){
-            $this->addAsset('css', $element->attr('href'));
+            $href = $element->attr('href');
+            $this->addAsset('css', $href);
+
+            $parsedUrl = parse_url($href);
+            if(!is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
+                //relative
+                $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
+                if(file_exists($styleSheetPath)){
+                    $this->loadStyleSheetAsset(file_get_contents($styleSheetPath));
+                }
+            }
         }
     }
 
+    /**
+     * Lookup and extract assets from a custom element (CustomInteraction, PCI, PIC)
+     * @param Element $element the element itself or a container of the target element
+     */
     public function extractCustomElement(Element $element){
         if($element instanceof Container){
             foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
@@ -150,7 +184,10 @@ class AssetParser
         }
     }
 
-
+    /**
+     * Load assets from the custom elements (CustomInteraction, PCI, PIC)
+     * @param Element $element the custom element
+     */
     private function loadCustomElementAssets(Element $element){
 
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
@@ -171,6 +208,47 @@ class AssetParser
             }
             foreach($xml->xpath('//audio') as $audio){
                 $this->addAsset('audio', (string)$audio['src']);
+            }
+        }
+    }
+
+    /**
+     * Parse, extract and load assets from the stylesheet content
+     * @param string $css the stylesheet content
+     */
+    private function loadStyleSheetAsset($css){
+
+        $imageRe = "/url\\s*\\(['|\"]?([^)]*\.(png|jpg|jpeg|gif|svg))['|\"]?\\)/mi";
+        $importRe = "/@import\\s*(url\\s*\\()?['\"]?([^;]*)['\"]/mi";
+        $fontFaceRe = "/@font-face\\s*\\{(.*)?\\}/mi";
+        $fontRe = "/url\\s*\\(['|\"]?([^)'|\"]*)['|\"]?\\)/i";
+
+        //extract images
+        preg_match_all($imageRe, $css, $matches);
+        if(isset($matches[1])){
+            foreach($matches[1] as $match){
+                $this->addAsset('img', $match);
+            }
+        }
+
+        //extract @import
+        preg_match_all($importRe, $css, $matches);
+        if(isset($matches[2])){
+            foreach($matches[2] as $match){
+                $this->addAsset('css', $match);
+            }
+        }
+
+        //extract fonts
+        preg_match_all($fontFaceRe, $css, $matches);
+        if(isset($matches[1])){
+            foreach($matches[1] as $faceMatch){
+                preg_match_all($fontRe, $faceMatch, $fontMatches);
+                if(isset($fontMatches[1])){
+                    foreach($fontMatches[1] as $fontMatch){
+                       $this->addAsset('font', $fontMatch);
+                    }
+                }
             }
         }
     }
