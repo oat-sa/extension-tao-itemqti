@@ -867,20 +867,24 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .sidebar-popup .sidebar-popup-title h3 {
       padding: 0 5px !important; }
   .sidebar-popup input, .sidebar-popup textarea {
-    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
     width: 100%;
     max-width: none;
     display: block; }
   .sidebar-popup.mathml {
     width: 357px; }
     .sidebar-popup.mathml input {
-      display: none; }
+      display: none;
+      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
     .sidebar-popup.mathml textarea {
-      height: 250px; }
+      height: 250px;
+      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
   .sidebar-popup.latex {
     width: 427px; }
     .sidebar-popup.latex textarea {
-      display: none; }
+      display: none;
+      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+  .sidebar-popup.color-picker-container {
+    right: 0; }
 
 #item-editor-panel {
   padding: 0;

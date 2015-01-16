@@ -576,7 +576,6 @@ img.dragging.ui-draggable-dragging {
         }
     }
     input, textarea {
-        font-family: $monospaceFont;
         width: 100%;
         max-width: none;
         display: block;
@@ -585,16 +584,22 @@ img.dragging.ui-draggable-dragging {
         width: 357px;
         input {
             display: none;
+            font-family: $monospaceFont;
         }
         textarea {
             height: 250px;
+            font-family: $monospaceFont;
         }
     }
     &.latex {
         width: 427px;
         textarea {
             display: none;
+            font-family: $monospaceFont;
         }
+    }
+    &.color-picker-container {
+        right:0;
     }
 }
 
