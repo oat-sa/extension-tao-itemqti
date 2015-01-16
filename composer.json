@@ -57,11 +57,12 @@
     "minimum-stability" : "dev",
     "require": {
         "oat-sa/lib-tao-qti" : "dev-master",
-        "oat-sa/oatbox-extension-installer": "dev-master"
+        "oat-sa/oatbox-extension-installer": "dev-master",
+        "sabberworm/php-css-parser": "*"
     },
     "autoload" : {
         "psr-4" : {
             "oat\\taoQtiItem\\" : ""
         }
-    } 
+    }
 }
