@@ -70,7 +70,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
 
     /**
-     * @expectedException \common_exception_Error
+     * @expectedException oat\taoQtiItem\model\qti\exception\ParsingException
      * 
      */
     public function testWrongPackage()
@@ -172,7 +172,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $data = $resourceManager->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
-        $this->assertEquals('local/', $data['path']);
+        $this->assertEquals('/', $data['path']);
 
         $this->assertTrue(isset($data['children']));
         $children = $data['children'];
@@ -194,7 +194,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
-        $this->assertEquals("local/images", $dir['path']);
+        $this->assertEquals("/images", $dir['path']);
         $this->assertEquals(ROOT_URL, substr($dir['url'], 0, strlen(ROOT_URL)));
 
 
