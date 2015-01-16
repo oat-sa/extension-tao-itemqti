@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'helpers',
+    'lodash',
     'core/dataattrhandler'
 ], function(
     $,
@@ -59,7 +59,7 @@ define([
                     return dataAttrHandler.getTarget('popup', _trigger);
                 }()),
                 $closer = $popup.find('.closer'),
-                $dragger = $popup.find('.dragger');
+                $dragger = $popup.find('.sidebar-popup-title').not($closer);
 
             if(!$popup || !$popup.length) {
                 throw new Error('No popup found');

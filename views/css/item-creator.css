@@ -847,7 +847,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .sidebar-popup .sidebar-popup-title {
     color: white;
     background: #3e7da7;
-    margin-bottom: 2px; }
+    margin-bottom: 2px;
+    cursor: move; }
     .sidebar-popup .sidebar-popup-title a {
       color: white; }
     .sidebar-popup .sidebar-popup-title .closer {
@@ -860,8 +861,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       top: 0;
       left: 50%;
-      margin-left: -10px;
-      cursor: move; }
+      margin-left: -10px; }
       .sidebar-popup .sidebar-popup-title .icon-grip-h:hover {
         opacity: .8; }
     .sidebar-popup .sidebar-popup-title h3 {
