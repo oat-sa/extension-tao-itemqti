@@ -179,7 +179,7 @@ define([
     var _adaptSize = function(interaction){
         _.delay(function(){
             adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
-        }, 200);//@todo : fix the image loading issues
+        }, 500);//@todo : fix the image loading issues
     };
     
     /**
