@@ -193,6 +193,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(1, count($itemPack->getAssets('img')));
     }
+
     /**
      * Test packing an item that contains audio and video
      */
@@ -245,4 +246,30 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals(1, count($itemPack->getAssets('css')));
     }
 
+    /**
+     * Test packing a PCI item
+     */
+    public function testPackingPciItem(){
+
+        $sample = dirname(__FILE__).'/../samples/xml/qtiv2p1/likert.xml';
+
+        $this->assertTrue(file_exists($sample));
+
+        $content = file_get_contents($sample);
+
+        $itemPacker = new QtiItemPacker();
+        $itemPack = $itemPacker->packItem(new core_kernel_classes_Resource('foo'), $content);
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('pci002', $data['identifier']);
+
+        $this->assertEquals(3, count($itemPack->getAssets('img')));
+        $this->assertEquals(2, count($itemPack->getAssets('css')));
+        $this->assertEquals(3, count($itemPack->getAssets('js')));
+    }
 }

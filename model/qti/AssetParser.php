@@ -24,7 +24,12 @@ namespace oat\taoQtiItem\model\qti;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Object as QtiObject;
+use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\StyleSheet;
+use oat\taoQtiItem\model\qti\InfoControl;
+use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use \SimpleXMLElement;
 
 /**
  * Parse and Extract all assets of an item.
@@ -60,28 +65,57 @@ class AssetParser
      * @return array the assets by type
      */
     public function extract(){
-
         foreach($this->item->getComposingElements() as $element){
-            if($element instanceof Container){
-
-                foreach($element->getElements('oat\taoQtiItem\model\qti\Img') as $img){
-                    $this->addAsset('img', $img->attr('src'));
-                }
-
-                foreach($element->getElements('oat\taoQtiItem\model\qti\Object') as $object){
-                    $this->loadObjectAssets($object);
-                }
-            }
-            if($element instanceof QtiObject){
-                $this->loadObjectAssets($element);
-            }
-            if($element instanceof StyleSheet){
-                $this->addAsset('css', $element->attr('href'));
-            }
+            $this->extractImg($element);
+            $this->extractObject($element);
+            $this->extractStyleSheet($element);
+            $this->extractCustomElement($element);
         }
         return $this->assets;
     }
 
+    private function extractImg(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\Img') as $img){
+                $this->addAsset('img', $img->attr('src'));
+            }
+        }
+    }
+
+    private function extractObject(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\Object') as $object){
+                $this->loadObjectAssets($object);
+            }
+        }
+        if($element instanceof QtiObject){
+            $this->loadObjectAssets($element);
+        }
+    }
+
+    public function extractStyleSheet(Element $element){
+        if($element instanceof StyleSheet){
+            $this->addAsset('css', $element->attr('href'));
+        }
+    }
+
+    public function extractCustomElement(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
+                $this->loadCustomElementAssets($interaction);
+            }
+
+            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
+                $this->loadCustomElementAssets($interaction);
+            }
+        }
+        if($element instanceof CustomInteraction){
+            $this->loadCustomElementAssets($element);
+        }
+        if($element instanceof InfoControl){
+            $this->loadCustomElementAssets($element);
+        }
+    }
 
     /**
      * Loads assets from an QTI object element
@@ -113,6 +147,31 @@ class AssetParser
         }
         if(!empty($uri) && !in_array($uri, $this->assets[$type])){
             $this->assets[$type][] = $uri;
+        }
+    }
+
+
+    private function loadCustomElementAssets(Element $element){
+
+        if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
+            $this->addAsset('js', $element->getEntryPoint());
+            foreach($element->getLibraries() as $lib){
+                $this->addAsset('js', $lib);
+            }
+        }
+
+        //parse and extract assets from markup using XPATH
+        if($element instanceof CustomInteraction || $element instanceof InfoControl){
+            $xml = new SimpleXMLElement($element->getMarkup());
+            foreach($xml->xpath('//img') as $img){
+                $this->addAsset('img', (string)$img['src']);
+            }
+            foreach($xml->xpath('//video') as $video){
+                $this->addAsset('video', (string)$video['src']);
+            }
+            foreach($xml->xpath('//audio') as $audio){
+                $this->addAsset('audio', (string)$audio['src']);
+            }
         }
     }
 }
