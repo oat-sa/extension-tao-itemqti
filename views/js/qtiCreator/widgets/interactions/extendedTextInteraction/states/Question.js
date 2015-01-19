@@ -35,7 +35,15 @@ define([
         };
 
         var patternMask = interaction.attr('patternMask');
-        var maxStrings = parseInt(interaction.attr('maxStrings'));
+        var maxWords = parseInt(interaction.attr('maxStrings'), 10);
+        var maxLength = parseInt(interaction.attr('expectedLength'), 10);
+        // Is those values number ? Else consider as undefined
+        if (isNaN(maxWords)) {maxWords = undefined;}
+        if (isNaN(maxLength)) {maxLength = undefined;}
+        // Set the expectations
+        var expectMaxWords = ( maxWords !== 0 && typeof(maxWords) !== 'undefined');
+        var expectMaxLength = ( maxLength !== 0 && typeof(maxLength) !== 'undefined');
+        var expectPatterMask = ( patternMask !== '' && typeof patternMask !== 'undefined');
 
         if(formats[format]){
             formats[format].selected = true;
@@ -44,7 +52,11 @@ define([
         $form.html(formTpl({
             formats : formats,
             patternMask : patternMask,
-            maxStrings : maxStrings
+            maxWords : maxWords,
+            maxLength : maxLength,
+            expectMaxLength : expectMaxLength,
+            expectMaxWords : expectMaxWords,
+            expectPatterMask : expectMaxWords
 
         }));
 
