@@ -28,7 +28,7 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" value="{{#if maxLend}}{{patternaMast}}{{else}}0{{/if}}"/>
+    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" value="{{#if maxLength}}{{maxLength}}{{else}}0{{/if}}"/>
 
     <label class="spinner">
         <input type="checkbox" name="expect-maxWords">
@@ -37,7 +37,7 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The maxStrings attribute is required when the interaction is bound to a response variable that is a container."}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords" value="{{#if patternMask}}{{patternaMast}}{{else}}0{{/if}}"/>
+    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords" value="{{#if maxLength}}{{maxLength}}{{else}}0{{/if}}"/>
 </div>
 <hr>
 <div class="panel">
