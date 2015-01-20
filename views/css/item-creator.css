@@ -801,6 +801,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     top: 5px; }
   .item-editor-sidebar .item-editor-color-picker #color-picker-container {
     top: -235px; }
+    .item-editor-sidebar .item-editor-color-picker #color-picker-container label {
+      max-width: 60% !important; }
   .item-editor-sidebar .item-editor-color-picker .color-picker {
     margin-top: -5px; }
   .item-editor-sidebar .compass {
@@ -855,34 +857,37 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       position: absolute;
       top: 1px;
       right: 2px; }
-    .sidebar-popup .sidebar-popup-title .icon-grip-h {
-      opacity: .6;
-      font-size: 20px;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      margin-left: -10px; }
-      .sidebar-popup .sidebar-popup-title .icon-grip-h:hover {
-        opacity: .8; }
     .sidebar-popup .sidebar-popup-title h3 {
       padding: 0 5px !important; }
   .sidebar-popup input, .sidebar-popup textarea {
     width: 100%;
     max-width: none;
     display: block; }
-  .sidebar-popup.mathml {
-    width: 357px; }
-    .sidebar-popup.mathml input {
-      display: none;
-      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
-    .sidebar-popup.mathml textarea {
-      height: 250px;
-      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
-  .sidebar-popup.latex {
-    width: 427px; }
-    .sidebar-popup.latex textarea {
-      display: none;
-      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+  .sidebar-popup.one-twenty-five {
+    width: 225px; }
+  .sidebar-popup.one-fifty {
+    width: 270px; }
+  .sidebar-popup.two {
+    width: 360px; }
+  .sidebar-popup.two-twenty-five {
+    width: 405px; }
+  .sidebar-popup.two-fifty {
+    width: 450px; }
+  .sidebar-popup.three {
+    width: 540px; }
+  .sidebar-popup.three-twenty-five {
+    width: 585px; }
+  .sidebar-popup.three-fifty {
+    width: 630px; }
+  .sidebar-popup.mathml input {
+    display: none;
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+  .sidebar-popup.mathml textarea {
+    height: 250px;
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+  .sidebar-popup.latex textarea {
+    display: none;
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
   .sidebar-popup.color-picker-container {
     right: 0; }
 
