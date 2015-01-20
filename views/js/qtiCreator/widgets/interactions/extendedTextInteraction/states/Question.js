@@ -105,6 +105,24 @@ define([
             interaction.attr('patternMask', attrValue);
         };
 
+        callbacks.expectPatternMask = function(interaction,attrValue){
+            var value = parseInt(attrValue,10);
+            if (! isNaN(value) && value === 1) { interaction.attr('expectPatternMask',true);}
+                else { interaction.attr('expectPatternMask',false);}
+        };
+        callbacks.expectMaxWords = function(interaction,attrValue){
+            var value = parseInt(attrValue,10);
+            if (! isNaN(value) && value === 1) {
+                interaction.attr('expectMaxWords',true);}
+                else{ interaction.attr('expectMaxWords',false);}
+        };
+        callbacks.expectMaxLength = function(interaction,attrValue){
+            var value = parseInt(attrValue,10);
+            if (! isNaN(value) && value === 1) {
+                interaction.attr('expectMaxLength',true);}
+                else{ interaction.attr('expectMaxLength',false);}
+            };
+
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 
