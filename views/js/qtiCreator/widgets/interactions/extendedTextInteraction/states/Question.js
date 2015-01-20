@@ -18,8 +18,8 @@ define([
         // Enable inputs until response edition.
         this.widget.$container.find('input, textarea').removeAttr('disabled');
     };
-    var regexChar = /\/\^\[\\s\\S\]\{\d+\,(\d+)\}\$\//,
-        regexWords =  /\/\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}/;
+    var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
+        regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/;
 
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
@@ -116,7 +116,7 @@ define([
                 if (oldPattern !== "" && parsePattern(oldPattern, 'words') !== null){
                     newPattern = oldPattern.replace(regexWords, newValue);
                 }else{
-                    newPattern = oldPattern + '^[\\s\\S]{0, ' + newValue.toString() + '}$';
+                    newPattern = oldPattern + '^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue + '}$';
                 }
                 $pattern.val(newPattern).trigger('change');
             }
@@ -130,7 +130,7 @@ define([
                 if (oldPattern !== "" && parsePattern(oldPattern, 'char') !== null){
                     newPattern = oldPattern.replace(regexChar,newValue);
                 }else{
-                    newPattern = oldPattern + '^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue + '}$';
+                    newPattern = oldPattern + '^[\\s\\S]{0, ' + newValue.toString() + '}$';
                 }
                 $pattern.val(newPattern).trigger('change');
             }
