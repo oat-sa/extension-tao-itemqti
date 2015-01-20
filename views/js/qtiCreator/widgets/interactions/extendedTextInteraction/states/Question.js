@@ -34,6 +34,11 @@ define([
             xhtml : {label : __("XHTML"), selected : false}
         };
 
+        if(formats[format]){
+            formats[format].selected = true;
+        }
+
+
         var patternMask = interaction.attr('patternMask');
         var maxWords = parseInt(interaction.attr('maxStrings'), 10);
         var maxLength = parseInt(interaction.attr('expectedLength'), 10);
@@ -43,11 +48,8 @@ define([
         // Set the expectations
         var expectMaxWords = ( maxWords !== 0 && typeof(maxWords) !== 'undefined');
         var expectMaxLength = ( maxLength !== 0 && typeof(maxLength) !== 'undefined');
-        var expectPatterMask = ( patternMask !== '' && typeof patternMask !== 'undefined');
+        var expectPatternMask = ( patternMask !== '' && typeof patternMask !== 'undefined');
 
-        if(formats[format]){
-            formats[format].selected = true;
-        }
 
         $form.html(formTpl({
             formats : formats,
@@ -56,7 +58,7 @@ define([
             maxLength : maxLength,
             expectMaxLength : expectMaxLength,
             expectMaxWords : expectMaxWords,
-            expectPatterMask : expectMaxWords
+            expectPatternMask : expectPatternMask
 
         }));
 
@@ -80,6 +82,27 @@ define([
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
                 }
             }
+        };
+        callbacks.maxWords = function(interaction, attrValue){
+            var value = parseInt(attrValue,10);
+            if (! isNaN(value)) {
+                interaction.attr('maxStrings', value);
+                if (value < 0) {interaction.attr('expectMaxWords', true);}
+                    else {interaction.attr('expectMaxWords', false);}
+            }
+        };
+        callbacks.maxLength = function(interaction, attrValue){
+            var value = parseInt(attrValue,10);
+            if (! isNaN(value)) {
+                interaction.attr('expectedLength', value);
+                if (value < 0) {interaction.attr('expectMaxLength', true);}
+                    else {interaction.attr('expectMaxLength', false);}
+            }
+        };
+        callbacks.patternMask = function(interaction, attrValue){
+            if (attrValue !== '') {interaction.attr('expectPatternMask',true);}
+                else {interaction.attr('expectPatternMask', false);}
+            interaction.attr('patternMask', attrValue);
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
