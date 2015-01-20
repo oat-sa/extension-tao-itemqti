@@ -49,7 +49,7 @@ define([
                 return null;
             }
         }else{
-            return 0;
+            return null;
         }
     }
 
@@ -111,7 +111,12 @@ define([
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
                 var oldPattern = interaction.attr('patternMask'),
+                    newPattern;
+                if (oldPattern !== "" && parsePattern(oldPattern, 'words') !== null){
                     newPattern = oldPattern.replace(regexWords, newValue);
+                }else{
+                    newPattern = oldPattern + '^[\\s\\S]{0, ' + newValue.toString() + '}$';
+                }
                 interaction.attr(patternMask,newPattern);
             }
         };
@@ -119,7 +124,12 @@ define([
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 var oldPattern = interaction.attr('patternMask'),
+                    newPattern;
+                if (oldPattern !== "" && parsePattern(oldPattern, 'char') !== null){
                     newPattern = oldPattern.replace(regexChar,newValue);
+                }else{
+                    newPattern = oldPattern + '^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue + '}$';
+                }
 
                 interaction.attr('patternMast',newPattern);
             }
