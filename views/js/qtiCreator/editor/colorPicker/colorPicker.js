@@ -1,9 +1,10 @@
 define([
     'jquery',
     'lodash',
+    'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function($, _, popupTpl){
+], function($, _, popup, popupTpl){
 
     var _defaults = {};
 
@@ -23,15 +24,33 @@ define([
         
         $colorTrigger.css('background-color', color);
 
-        $colorTrigger.on('click.color-picker', function(){
+        var $popup = $(popupTpl());
 
-            var color = $input.val();
-            var $popup = $(popupTpl()),
-                $colorPicker = $popup.find('.color-picker'),
-                $colorPickerInput = $popup.find('.color-picker-input');
-            
-            $colorTrigger.after($popup.show());
-            
+        $('#item-editor-wrapper').append($popup);
+
+        // basic popup functionality
+        popup.init($colorTrigger, { popup: $popup });
+
+
+        // after popup opens
+        $colorTrigger.on('open.popup', function(e, params) {
+
+            var $trigger = $(this),
+                $content   = $trigger.parents('.sidebar-popup-content'),
+            // this is the input above the trigger, _not_ the one of the color picker
+                $titleField   = $content.find('[data-role="title"]'),
+            // this is the input of the color picker
+                color = $input.val();
+            var $colorPicker = params.popup.find('.color-picker'),
+                $colorPickerInput = params.popup.find('.color-picker-input');
+
+            var $container = $(this).parents('.sidebar-popup');
+
+            //console.log($panel)
+
+            params.popup.css({ right: $(window).width() - $container.offset().left + 2, top: $titleField.offset().top -$('#item-editor-wrapper').offset().top });
+            params.popup.find('h3').text($titleField.val());
+
             // Init the color picker
             $colorPicker.farbtastic($colorPickerInput);
 
@@ -40,8 +59,8 @@ define([
             config.color = color;
 
             // Populate the input with the color on quitting the modal
-            $popup.find('.closer').off('click').on('click', function(){
-                $popup.hide();
+            params.popup.find('.closer').off('click').on('click', function(){
+                params.popup.hide();
                 $colorPicker.off('.farbtastic');
             });
 
@@ -52,7 +71,13 @@ define([
             });
             
         });
-    }
+
+        // after popup closes
+        $colorTrigger.on('close.popup', function(e, params) {
+            params.popup.find('.color-picker').off('.farbtastic');
+        });
+
+   }
 
     function destroy($trigger){
         $trigger.off('.color-picker');

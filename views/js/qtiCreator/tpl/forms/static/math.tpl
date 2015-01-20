@@ -31,7 +31,7 @@
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
     <a href="#" data-context="latex" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
 
-    <div class="sidebar-popup math-editor-container latex">
+    <div class="sidebar-popup math-editor-container latex two-fifty">
         <div class="sidebar-popup-title">
             <h3>{{__ "Latex"}}</h3>
             <a class="closer" href="#" title="{{__ 'Close'}}"></a>
@@ -52,7 +52,7 @@
     <div class="math-buffer" style="visibility:hidden;"></div>
     <a href="#" data-context="mathml" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
 
-    <div class="sidebar-popup math-editor-container mathml">
+    <div class="sidebar-popup math-editor-container mathml two-fifty">
         <div class="sidebar-popup-title">
             <h3>{{__ "MathML"}}</h3>
             <a class="closer" href="#" title="{{__ 'Close'}}"></a>
