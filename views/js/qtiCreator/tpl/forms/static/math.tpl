@@ -34,7 +34,6 @@
     <div class="sidebar-popup math-editor-container latex">
         <div class="sidebar-popup-title">
             <h3>{{__ "Latex"}}</h3>
-            <span class="icon-grip-h dragger"></span>
             <a class="closer" href="#" title="{{__ 'Close'}}"></a>
         </div>
         <div class="sidebar-popup-content">
@@ -56,7 +55,6 @@
     <div class="sidebar-popup math-editor-container mathml">
         <div class="sidebar-popup-title">
             <h3>{{__ "MathML"}}</h3>
-            <span class="icon-grip-h dragger"></span>
             <a class="closer" href="#" title="{{__ 'Close'}}"></a>
         </div>
         <div class="sidebar-popup-content">

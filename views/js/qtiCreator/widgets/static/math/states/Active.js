@@ -3,14 +3,14 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/MathEditor',
-    'taoQtiItem/qtiCreator/editor/editor',
+    'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/math',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'lodash',
     'i18n',
     'mathJax'
-], function($, stateFactory, Active, MathEditor, itemEditor, formTpl, formElement, inlineHelper, _, __, mathJax){
+], function($, stateFactory, Active, MathEditor, popup, formTpl, formElement, inlineHelper, _, __, mathJax){
 
     var _throttle = 300;
     var MathActive = stateFactory.extend(Active, function(){
@@ -82,7 +82,7 @@ define([
                 context = $trigger.data('context');
 
             // basic popup functionality
-            itemEditor.initPopup($trigger);
+            popup.init($trigger);
 
             // after popup opens
             $trigger.on('open.popup', function(e, params) {

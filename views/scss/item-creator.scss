@@ -551,6 +551,7 @@ img.dragging.ui-draggable-dragging {
         color: $textHighlight;
         background: whiten($info, .2);
         margin-bottom: 2px;
+        cursor: move;
         a {
             color: $textHighlight;
         }
@@ -559,24 +560,11 @@ img.dragging.ui-draggable-dragging {
             top: 1px;
             right: 2px;
         }
-        .icon-grip-h {
-            opacity: .6;
-            font-size: 20px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            margin-left: -10px;
-            cursor: move;
-            &:hover {
-                opacity: .8;
-            }
-        }
         h3 {
             padding: 0 5px !important;
         }
     }
     input, textarea {
-        font-family: $monospaceFont;
         width: 100%;
         max-width: none;
         display: block;
@@ -585,16 +573,22 @@ img.dragging.ui-draggable-dragging {
         width: 357px;
         input {
             display: none;
+            font-family: $monospaceFont;
         }
         textarea {
             height: 250px;
+            font-family: $monospaceFont;
         }
     }
     &.latex {
         width: 427px;
         textarea {
             display: none;
+            font-family: $monospaceFont;
         }
+    }
+    &.color-picker-container {
+        right:0;
     }
 }
 
