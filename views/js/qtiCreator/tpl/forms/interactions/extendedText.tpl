@@ -20,24 +20,22 @@
     <input type="text" name="patternMask" {{#if patternMask}}value={{patternaMast}}{{/if}}/>
 
     <label class="spinner">
-        {{__ "expected length"}}
+        {{__ "Max length"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."}}</span>
+    <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
     <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" />
 
     <label class="spinner">
-        {{__ "expected words"}}
+        {{__ "Max words"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "The maxStrings attribute is required when the interaction is bound to a response variable that is a container."}}</span>
+    <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
     <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords"/>
 </div>
 <hr>
 <div class="panel">
     <h3 class="full-width">{{__ "Expectations"}}</h3>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "Be carefull, this is not compliant with IMS standard and should not work on others system."}}</span>
     <label>
         {{__ "Lenght"}}
     </label>
