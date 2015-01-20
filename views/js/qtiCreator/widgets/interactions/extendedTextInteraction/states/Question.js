@@ -18,6 +18,8 @@ define([
         // Enable inputs until response edition.
         this.widget.$container.find('input, textarea').removeAttr('disabled');
     };
+    var regexChar = /\/\^\[\\s\\S\]\{\d+\,(\d+)\}\$\//,
+        regexWords =  /\/\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}/;
 
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
@@ -27,8 +29,7 @@ define([
         }
         if (type === "words") {
             //expre = /^(?:(?:[^\s\:\!\?\;\…\€]+)[\s\:\!\?\;\…\€]*){0,3}$/;
-            var regex =  /\/\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}/;
-            var result = pattern.match(regex);
+            var result = pattern.match(regexWords);
 
             if (result !== null && result.length > 1) {
                 return result[1];
@@ -40,8 +41,7 @@ define([
             // expre = /^[\s\S]{0,10}$/;
             // and we will try to extract the top limit from it with this regexp
             // wich is mostly just escaped version of the first one.
-            var regex = /\/\^\[\\s\\S\]\{\d+\,(\d+)\}\$\//;
-            var result = pattern.match(regex)[1];
+            var result = pattern.match(regexChar)[1];
 
             if (result !== null && result.length > 1) {
                 return result[1];
@@ -108,51 +108,25 @@ define([
             }
         };
         callbacks.maxWords = function(interaction, attrValue){
-            var value = parseInt(attrValue,10);
-            if (! isNaN(value)) {
-                // save the value
-                interaction.attr('maxStrings', value);
-                // if it's not empty / 0 so avtivate the expectation
-                if (value < 0) {interaction.attr('expectMaxWords', true);}
-                    else {interaction.attr('expectMaxWords', false);}
+            var newValue = parseInt(attrValue,10);
+            if (! isNaN(newValue)) {
+                var oldPattern = interaction.attr('patternMask'),
+                    newPattern = oldPattern.replace(regexWords, newValue);
+                interaction.attr(patternMask,newPattern);
             }
         };
         callbacks.maxLength = function(interaction, attrValue){
-            var value = parseInt(attrValue,10);
-            if (! isNaN(value)) {
-                // save the value
-                interaction.attr('maxLength', value);
-                // if it's not empty / 0 so avtivate the expectation
-                if (value < 0) {interaction.attr('expectMaxLength', true);}
-                    else {interaction.attr('expectMaxLength', false);}
+            var newValue = parseInt(attrValue,10);
+            if(! isNaN(newValue)){
+                var oldPattern = interaction.attr('patternMask'),
+                    newPattern = oldPattern.replace(regexChar,newValue);
+
+                interaction.attr('patternMast',newPattern);
             }
         };
         callbacks.patternMask = function(interaction, attrValue){
-            // save the value
             interaction.attr('patternMask', attrValue);
-            // if it's not empty / 0 so avtivate the expectation
-            if (attrValue !== '') {interaction.attr('expectPatternMask',true);}
-                else {interaction.attr('expectPatternMask', false);}
         };
-
-        callbacks.expectPatternMask = function(interaction,attrValue){
-            var value = parseInt(attrValue,10);
-            // save the value
-            if (! isNaN(value) && value === 1) { interaction.attr('expectPatternMask',true);}
-                else { interaction.attr('expectPatternMask',false);}
-        };
-        callbacks.expectMaxWords = function(interaction,attrValue){
-            var value = parseInt(attrValue,10);
-            if (! isNaN(value) && value === 1) {
-                interaction.attr('expectMaxWords',true);}
-                else{ interaction.attr('expectMaxWords',false);}
-        };
-        callbacks.expectMaxLength = function(interaction,attrValue){
-            var value = parseInt(attrValue,10);
-            if (! isNaN(value) && value === 1) {
-                interaction.attr('expectMaxLength',true);}
-                else{ interaction.attr('expectMaxLength',false);}
-            };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
