@@ -1,15 +1,21 @@
 define([
     'jquery',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'lodash',
     'i18n',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/helper/popup',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function ($, styleEditor, _, __) {
+], function ($, _, __, styleEditor, popup) {
     'use strict';
 
     // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
     function rgbToHex(color) {
+
+        function toHexPair(inp) {
+            return ('0' + parseInt(inp, 10).toString(16)).slice(-2);
+        }
+
         // undefined can happen when no color is defined for a particular element
         // isString on top of that should cover all sorts of weird input
         if(!_.isString(color)) {
@@ -23,7 +29,7 @@ define([
             return color;
         }
 
-        return ('#' + ('0' + parseInt(rgbArr[1], 10).toString(16)).slice(-2) + ('0' + parseInt(rgbArr[2], 10).toString(16)).slice(-2) + ('0' + parseInt(rgbArr[3], 10).toString(16)).slice(-2));
+        return '#' + toHexPair(rgbArr[1]) + toHexPair(rgbArr[2]) + toHexPair(rgbArr[3]);
     }
 
     var colorSelector = function () {
