@@ -133,7 +133,7 @@ define([
         var gapSrcs  = {};
         _.forEach(interaction.getGapImgs(), function(gapImg){
             if(gapImg.object && gapImg.object.attr('data')){
-                gapSrcs[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
+                gapSrcs[gapImg.id()] = widget.options.baseUrl + encodeURIComponent(gapImg.object.attr('data'));
             }
         });       
 
