@@ -322,8 +322,9 @@ define([
     };
 
     var updateFormat = function(interaction, from) {
+        var ckeOptions = {};
         var $container = Helper.getContainer(interaction);
-
+        
         if (interaction.attr('format') === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
@@ -337,6 +338,7 @@ define([
     };
 
     var enable = function(interaction) {
+        var ckeOptions = {};
         var $container = Helper.getContainer(interaction);
         $container.find('input, textarea').removeAttr('disabled');
 

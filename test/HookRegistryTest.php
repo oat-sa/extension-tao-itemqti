@@ -44,16 +44,7 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
     public function testGetInteractions()
     {
         $interactions = HookRegistry::getRegistry()->getMap();
-        $this->assertEquals('oat\qtiItemPci\model\CreatorHook', $interactions['pciCreator']);
-    }
-    /**
-     * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    public function testGet()
-    {
-        $interactions = HookRegistry::getRegistry()->getMap();
-        $this->assertEquals($interactions['pciCreator'],HookRegistry::getRegistry()->get('pciCreator'));
+        $this->assertTrue(is_array( $interactions));
     }
 
     /**
@@ -62,15 +53,25 @@ class HookRegistryTest extends TaoPhpUnitTestRunner
      */
     public function testSet()
     {
-        $customIntreactionMock = $this->getMockBuilder('oat\taoQtiItem\model\Hook')
-            ->setMockClassName('FakeHook')
-            ->getMock();
-        
-        HookRegistry::getRegistry()->set('fakeInteraction', 'FakeHook');
+        $prophet = new \Prophecy\Prophet();
+        $hookProphecy = $prophet->prophesize('oat\taoQtiItem\model\Hook');
+        $hook = $hookProphecy->reveal();
+
+        HookRegistry::getRegistry()->set('fakeInteraction', get_class($hook));
         $interactions = HookRegistry::getRegistry()->getMap();
-        $this->assertEquals('FakeHook', $interactions['fakeInteraction']);
+        $this->assertEquals(get_class($hook), $interactions['fakeInteraction']);
         
         
+    }
+    
+    /**
+     * @depends testSet
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testGet()
+    {
+        $interactions = HookRegistry::getRegistry()->getMap();
+        $this->assertEquals($interactions['fakeInteraction'],HookRegistry::getRegistry()->get('fakeInteraction'));
     }
 
     /**
