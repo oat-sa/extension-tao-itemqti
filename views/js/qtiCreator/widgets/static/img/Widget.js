@@ -25,7 +25,7 @@ define([
         //check file exists:
         inlineHelper.checkFileExists(this, 'src', options.baseUrl);
         $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
-            if(itemUtil.fullpath(img.attr('src'), baseUrl) === itemUtil.fullpath(src, baseUrl)){
+            if(itemUtil.fullpath(encodeURIComponent(img.attr('src')), baseUrl) === itemUtil.fullpath(encodeURIComponent(src), baseUrl)){
                 img.attr('src', '');
                 inlineHelper.togglePlaceholder(_this);
             }
