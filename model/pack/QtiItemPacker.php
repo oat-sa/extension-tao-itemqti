@@ -52,13 +52,11 @@ class QtiItemPacker implements Packable
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $content, $path)
+    public function packItem(core_kernel_classes_Resource $item, $path)
     {
         $itemPack = null;
 
-        if(!is_string($content)){
-            throw new InvalidArgumentException('Item content should be a string, "'. gettype($content) .'" given' );
-        }
+        $content = $this->getItemContent($path);
 
         //use the QtiParser to transform the QTI XML into an assoc array representation
         try {
@@ -91,5 +89,22 @@ class QtiItemPacker implements Packable
         }
 
         return $itemPack;
+    }
+
+    /**
+     * Get QTI Item content.
+     * Let this method protected : it's behavior can be changed.
+     *
+     * @param string $folder the item folder
+     * @return string the qti.xml content
+     * @throws common_Exception
+     */
+    protected function getItemContent($folder)
+    {
+        $file = $folder . DIRECTORY_SEPARATOR . 'qti.xml';
+        if(file_exists($file)){
+            return file_get_contents($file);
+        }
+        throw new common_Exception('Unable to retrieve item content at : ' . $file);
     }
 }
