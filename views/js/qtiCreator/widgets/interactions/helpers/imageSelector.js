@@ -34,7 +34,7 @@ define([
                     var selected;
                     if(files.length > 0){
                         selected = files[0];
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                        imageUtil.getSize(options.baseUrl + encodeURIComponent(files[0].file), function(size){
                             if(size && size.width >= 0){
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');
