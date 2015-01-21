@@ -97,9 +97,10 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         if($this->hasRequestParameter('uri')){
+            $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource);
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource,$lang);
             if(!is_null($item)){
                 $returnValue['itemData'] = $item->toArray();
             }
