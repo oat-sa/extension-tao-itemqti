@@ -76,7 +76,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongPackage()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/invalidArchive.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/InvalidArchive.zip',
             $itemClass);
         
     }
