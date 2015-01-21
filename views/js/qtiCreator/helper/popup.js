@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'helpers',
+    'lodash',
     'core/dataattrhandler'
 ], function(
     $,
@@ -15,7 +15,8 @@ define([
 
         var defaults = {
             top: null,     // || pixels relative to the top border of the sidebar
-            right: 2       // pixels relative to the left border of the sidebar
+            right: 2,      // pixels relative to the left border of the sidebar
+            title: null    // || string title
         };
 
         options = _.assign(defaults, (options || {}));
@@ -23,22 +24,35 @@ define([
         // open the popup
         var open = function($trigger, $popup) {
 
-            var $sidebar = $popup.parents('.item-editor-sidebar-wrapper');
-            var top = _.isNull(options.top) ? $trigger.offset().top - $sidebar.offset().top - ($popup.height() / 2) : options.top;
-            var $popupTitle = $popup.find('.sidebar-popup-title');
-            var maxHeight = parseInt($sidebar.find('.item-editor-sidebar').css('max-height'), 10) - 2;
-            if($popupTitle.length) {
-                maxHeight -= $popupTitle.height();
+            // The following sidebar related variables apply only in the case where the popup
+            // is attached to a sidebar. In the the case of farbtastic for example
+            // the popup is attached to the body.
+            var $container = $popup.parents('.sidebar-popup-parent');
+
+
+            // this makes sure the popup height never exceeds the height of the content part of the page
+            var $actionBar = $('.item-editor-action-bar');
+            var baseOffsetTop = $actionBar.offset().top - $actionBar.height();
+            var maxHeight = $(window).height() - baseOffsetTop;
+
+            var top = _.isNull(options.top) ? $trigger.offset().top - baseOffsetTop - ($popup.height() / 2) : options.top;
+            var $titleArea = $popup.find('.sidebar-popup-title');
+            var $title = $titleArea.find('h3');
+            if($titleArea.length) {
+                maxHeight -= $titleArea.height();
             }
 
             $trigger.trigger('beforeopen.popup', { popup: $popup, trigger: $trigger });
             $popup.show();
 
-
             $popup.css({
-                top: Math.max($sidebar.offset().top, top),
-                right: $sidebar.width() + options.right
+                top: Math.max(baseOffsetTop, top),
+                right: $container.hasClass('item-editor-sidebar-wrapper') ? $container.width() + options.right : options.right
             });
+
+            if(options.title) {
+                $title.text(options.title);
+            }
 
             $popup.find('.sidebar-popup-content').css({ maxHeight: maxHeight });
 
@@ -52,14 +66,16 @@ define([
             $trigger.trigger('close.popup', { popup: $popup, trigger: $trigger });
         };
 
+
         // find popup, assign basic actions, add it to trigger props
         $trigger.each(function() {
             var _trigger = $(this),
                 $popup = options.popup || (function() {
                     return dataAttrHandler.getTarget('popup', _trigger);
-                }()),
-                $closer = $popup.find('.closer'),
-                $dragger = $popup.find('.dragger');
+                }());
+
+            var $closer = $popup.find('.closer'),
+                $dragger = $popup.find('.sidebar-popup-title').not($closer);
 
             if(!$popup || !$popup.length) {
                 throw new Error('No popup found');

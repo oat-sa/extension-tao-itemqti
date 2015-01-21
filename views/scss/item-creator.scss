@@ -263,6 +263,10 @@ img.dragging.ui-draggable-dragging {
                 @include font-size(14);
                 max-width: 450px;
                 display: inline-block;
+                &.full-width{
+                    max-width: none;
+                    display: block;
+                }
             }
             select, input[type="text"], textarea {
                 width: 100%;
@@ -293,6 +297,7 @@ img.dragging.ui-draggable-dragging {
                     display: inline-block
                 }
             }
+
             input.score {
                 width: 40px;
                 min-width: 40px;
@@ -491,6 +496,9 @@ img.dragging.ui-draggable-dragging {
         }
         #color-picker-container {
             top: -235px;
+            label {
+                max-width: 60% !important;
+            }
         }
         .color-picker {
             margin-top: -5px
@@ -551,6 +559,7 @@ img.dragging.ui-draggable-dragging {
         color: $textHighlight;
         background: whiten($info, .2);
         margin-bottom: 2px;
+        cursor: move;
         a {
             color: $textHighlight;
         }
@@ -558,18 +567,6 @@ img.dragging.ui-draggable-dragging {
             position: absolute;
             top: 1px;
             right: 2px;
-        }
-        .icon-grip-h {
-            opacity: .6;
-            font-size: 20px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            margin-left: -10px;
-            cursor: move;
-            &:hover {
-                opacity: .8;
-            }
         }
         h3 {
             padding: 0 5px !important;
@@ -580,8 +577,31 @@ img.dragging.ui-draggable-dragging {
         max-width: none;
         display: block;
     }
+    &.one-twenty-five {
+        width: $sidebarWidth * 1.25px;
+    }
+    &.one-fifty {
+        width: $sidebarWidth * 1.5px;
+    }
+    &.two {
+        width: $sidebarWidth * 2px;
+    }
+    &.two-twenty-five {
+        width: $sidebarWidth * 2.25px;
+    }
+    &.two-fifty {
+        width: $sidebarWidth * 2.5px;
+    }
+    &.three {
+        width: $sidebarWidth * 3px;
+    }
+    &.three-twenty-five {
+        width: $sidebarWidth * 3.25px;
+    }
+    &.three-fifty {
+        width: $sidebarWidth * 3.5px;
+    }
     &.mathml {
-        width: 357px;
         input {
             display: none;
             font-family: $monospaceFont;
@@ -592,7 +612,6 @@ img.dragging.ui-draggable-dragging {
         }
     }
     &.latex {
-        width: 427px;
         textarea {
             display: none;
             font-family: $monospaceFont;
