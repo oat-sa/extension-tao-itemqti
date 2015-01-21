@@ -178,7 +178,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-sidebar .tool-group .panel .panel { padding: 0; margin-bottom: 15px; }
 .item-editor-sidebar .tool-group .panel hr { margin-bottom: 15px; }
 .item-editor-sidebar .tool-group .panel h3 { padding: 0 0 12px 0; margin: 0; font-size: 14px; font-size: 1.4rem; max-width: 450px; display: inline-block; }
-.item-editor-sidebar .tool-group .panel h3.full-width { max-width: none; display: block; }
 .item-editor-sidebar .tool-group .panel select, .item-editor-sidebar .tool-group .panel input[type="text"], .item-editor-sidebar .tool-group .panel textarea { width: 100%; }
 .item-editor-sidebar .tool-group .panel select.has-icon, .item-editor-sidebar .tool-group .panel input[type="text"].has-icon, .item-editor-sidebar .tool-group .panel textarea.has-icon { width: 140px; min-width: 140px; max-width: 140px; }
 .item-editor-sidebar .tool-group .panel select.short { width: auto; min-width: 100px; }
@@ -220,6 +219,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-sidebar .item-editor-color-picker .color-trigger { width: 40px; display: inline-block; height: 18px; float: right; font-size: 9px; cursor: pointer; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; }
 .item-editor-sidebar .item-editor-color-picker .reset-button { font-size: 13px; font-size: 1.3rem; top: 5px; }
 .item-editor-sidebar .item-editor-color-picker #color-picker-container { top: -235px; }
+.item-editor-sidebar .item-editor-color-picker #color-picker-container label { max-width: 60% !important; }
 .item-editor-sidebar .item-editor-color-picker .color-picker { margin-top: -5px; }
 .item-editor-sidebar .compass { position: relative; width: 100px; margin: auto; }
 .item-editor-sidebar .compass span { display: block; font-size: 25px; font-size: 2.5rem; line-height: 1.1; width: 33%; background: white; text-align: center; cursor: pointer; border: 1px dotted #aaa; }
@@ -236,10 +236,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .sidebar-popup .sidebar-popup-title .closer { position: absolute; top: 1px; right: 2px; }
 .sidebar-popup .sidebar-popup-title h3 { padding: 0 5px !important; }
 .sidebar-popup input, .sidebar-popup textarea { width: 100%; max-width: none; display: block; }
-.sidebar-popup.mathml { width: 357px; }
+.sidebar-popup.one-twenty-five { width: 225px; }
+.sidebar-popup.one-fifty { width: 270px; }
+.sidebar-popup.two { width: 360px; }
+.sidebar-popup.two-twenty-five { width: 405px; }
+.sidebar-popup.two-fifty { width: 450px; }
+.sidebar-popup.three { width: 540px; }
+.sidebar-popup.three-twenty-five { width: 585px; }
+.sidebar-popup.three-fifty { width: 630px; }
 .sidebar-popup.mathml input { display: none; font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 .sidebar-popup.mathml textarea { height: 250px; font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
-.sidebar-popup.latex { width: 427px; }
 .sidebar-popup.latex textarea { display: none; font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 .sidebar-popup.color-picker-container { right: 0; }
 
