@@ -116,8 +116,8 @@ define([
                        .attr('data-serial', gapImg.serial);
             }
 
-            if(gapImg.object && gapImg.object.attributes.dataClear){
-                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.dataClear);
+            if(gapImg.object && gapImg.object.attributes.data){
+                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.data);
                 if(update === true){
                      
                     $gapImg.replaceWith( gapImg.render() );
