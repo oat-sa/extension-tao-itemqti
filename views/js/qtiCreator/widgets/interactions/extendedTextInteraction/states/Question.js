@@ -71,10 +71,11 @@ define([
         }
 
 
-        var patternMask = interaction.attr('patternMask');
-        var expectedLength = parseInt(interaction.attr('expectedLength'), 10);
-        var maxWords = parsePattern(patternMask,'words');
-        var maxChars = parsePattern(patternMask,'chars');
+        var patternMask = interaction.attr('patternMask'),
+        expectedLength = parseInt(interaction.attr('expectedLength'), 10),
+        expectedLines = parseInt(interaction.attr('expectedLines'),10),
+        maxWords = parsePattern(patternMask,'words'),
+        maxChars = parsePattern(patternMask,'chars');
 
 
         $form.html(formTpl({
@@ -82,7 +83,8 @@ define([
             patternMask : patternMask,
             maxWords : maxWords,
             maxLength : maxChars,
-            expectedLength : expectedLength
+            expectedLength : expectedLength,
+            expectedLines : expectedLines
 
         }));
 
