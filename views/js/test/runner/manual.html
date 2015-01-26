@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>QtiItemRunner Demo Test</title>
         <base href="../../../../../../../tao/views/" />
-        
+
         <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
 
@@ -26,26 +26,26 @@
                     var manStateBtn     = document.querySelector('.manstate');
                     var manStateContent = document.querySelector('.manual-state-content');
                     var clearOutputLink = document.querySelector('.clear-output a');
- 
+
 
                     var out = function out(content, title){
-                        
+
                         if(typeof content === 'object'){
                             content = '<pre>' + JSON.stringify(content, null, '  ') + '</pre>';
                         }
                         output.innerHTML = output.innerHTML +
                                 '<p>[' + new Date().toLocaleTimeString() +'] <strong>' + title + '</strong> ' + content + '</p>';
-                        output.scrollTop = output.scrollHeight; 
+                        output.scrollTop = output.scrollHeight;
                     };
 
                     loadBtn.addEventListener('click', function(){
                         var itemPath = selectItem.value;
                         if(itemPath){
                             out('Loading sample ' + itemPath, '');
-                            require(['json!taoQtiItem/test/runner/samples/' + itemPath], function(item){
-                                
+                            require(['json!taoQtiItem/test/samples/json/' + itemPath], function(item){
 
-                                runner = 
+
+                                runner =
                                     qtiItemRunner(item)
                                         .on('error', function(err){
                                             out(err, 'Error');
@@ -68,7 +68,7 @@
                             });
                         }
                     });
-                    
+
                     getStateBtn.addEventListener('click', function(){
                         if(runner){
                             var state = runner.getState();
@@ -95,14 +95,14 @@
                     });
 
                     clearBtn.addEventListener('click', function(){
-                        runner.clear(); 
+                        runner.clear();
                     });
 
                     manStateBtn.addEventListener('click', function(){
                         var state;
                         if(manStateContent.value){
                             try{
-                                state = JSON.parse(manStateContent.value); 
+                                state = JSON.parse(manStateContent.value);
                             } catch(e){
                                 console.error(e);
                             }
@@ -110,7 +110,7 @@
                                 runner.setState(state);
                                 out(state, 'setState');
                             }
-                        }     
+                        }
                     });
 
                     clearOutputLink.addEventListener('click', function(e){
@@ -161,28 +161,28 @@
             <option value="space-shuttle-m.json">Space shuttle (Multiple Choices)</option>
             <option value="tao-item.json">New TAO Item (Gap Match)</option>
         </select>
-        <button class="btn-info small load"  autocomplete="off">Load</button> 
+        <button class="btn-info small load"  autocomplete="off">Load</button>
         <button class="btn-error small destroy"  autocomplete="off">Clear</button>
     </nav>
     <nav>
-        <button class="btn-info small getstate"  autocomplete="off">Show state</button> 
-        <button class="btn-info small getresponses"  autocomplete="off">Show resonses</button> 
-        <button class="btn-info small setstate"  autocomplete="off">Restore previous state</button>  
-        <input type="text" class="manual-state-content" placeholder="Set state manually"></input><button class="btn-info small manstate"  autocomplete="off">ok</button>  
+        <button class="btn-info small getstate"  autocomplete="off">Show state</button>
+        <button class="btn-info small getresponses"  autocomplete="off">Show resonses</button>
+        <button class="btn-info small setstate"  autocomplete="off">Restore previous state</button>
+        <input type="text" class="manual-state-content" placeholder="Set state manually"></input><button class="btn-info small manstate"  autocomplete="off">ok</button>
     </nav>
     <div class="clearfix"></div>
     <section>
        <header>
             <h2>Item rendering</h2>
        </header>
-       <div id="item-container"></div> 
+       <div id="item-container"></div>
     </section>
     <section>
        <header>
             <h2>Output data</h2>
             <span class="clear-output"><a href="#">Clear</a></span>
        </header>
-       <div id="output"></div> 
+       <div id="output"></div>
     </section>
     </body>
 </html>
