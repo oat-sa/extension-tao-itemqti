@@ -17,7 +17,7 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"}}</span>
-    <input type="text" name="patternMask" {{#if patternMask}}value={{patternaMast}}{{/if}}/>
+    <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
 
     <label class="spinner">
         {{__ "Max length"}}
