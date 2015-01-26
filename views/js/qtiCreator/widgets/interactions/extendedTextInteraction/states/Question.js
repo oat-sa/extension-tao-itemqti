@@ -139,6 +139,20 @@ define([
             interaction.attr('patternMask', attrValue);
         };
 
+        callbacks.expectedLength = function(interaction, attrValue){
+            var newValue = parseInt(attrValue,10);
+            if(! isNaN(newValue)){
+                interaction.attr('expectedLength', attrValue);
+            }
+        };
+
+        callbacks.expectedLines = function(interactions, attrValue){
+            var newValue = parseInt(attrValue,10);
+            if(! isNaN(newValue)){
+                interaction.attr('expectedLines', attrValue);
+            }
+        };
+
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 
