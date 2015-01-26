@@ -36,8 +36,16 @@
 <hr>
 <div class="panel">
     <h3 class="full-width">{{__ "Expectations"}}</h3>
-    <label>
-        {{__ "Lenght"}}
+    <label class="spinner">
+        {{__ "Length"}}
     </label>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="expectedLength" value="{{#if maxLength}}{{maxLength}}{{/if}}"/>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">{{__ "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."}}</span>
+    <input type="text" data-min="0" data-increment="1" class="incrementer" name="expectedLength" value="{{#if expectedLength}}{{expectedLength}}{{/if}}"/>
+    <label for="" class="spinner">
+        {{__ "Lines"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">{{__ "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."}}</span>
+    <input type="text" class="incrementer" data-min="0" data-increment="1" name="expectedLines" value="{{#if expectedLines}}{{expectedLines}}{{/if}}">
 </div>
