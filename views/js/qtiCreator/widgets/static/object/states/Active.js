@@ -89,7 +89,7 @@ define([
                 media.attr('data', value);
 
                 if(!value.match(/^http/i)){
-                    value = baseUrl + '/' + value;
+                    value = baseUrl + '/' + encodeURIComponent(value);
                 }
                 $media.attr('data', value);
 
@@ -195,7 +195,7 @@ define([
                 select : function(e, files){
                     var i, l = files.length;
                     for(i = 0; i < l; i++){
-                        imageUtil.getSize(options.baseUrl + files[i].file, function(size){
+                        imageUtil.getSize(options.baseUrl + encodeURIComponent(files[i].file), function(size){
                             if(size && size.width >= 0){
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');

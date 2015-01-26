@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -51,7 +52,7 @@ define([
             commonRenderer.destroy(interaction);
         },
         createScoreWidgets : function(widget){
-            
+
             var $container = widget.$container,
                 interaction = widget.element,
                 response = interaction.getResponseDeclaration(),
@@ -99,7 +100,7 @@ define([
 
         },
         createCorrectWidgets : function(widget){
-            
+
             var interaction = widget.element,
                 response = interaction.getResponseDeclaration();
 

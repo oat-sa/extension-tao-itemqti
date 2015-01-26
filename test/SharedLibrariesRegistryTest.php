@@ -84,7 +84,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         $registry->registerFromFile($id, $path);
         
         // A correct entry must be found in the mapping provided by the registry.
-        $mapping = $registry->getMapping();
+        $mapping = $registry->getMap();
         $this->assertTrue(isset($mapping[$id]), "No mapping found for '${id}'.");
         $this->assertEquals($expected, $mapping[$id], "Expected mapping entry '${expected}' not for id '${id}'.");
         
@@ -119,12 +119,12 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         self::registerOfficialLibraries($registry);
         
         // Save it for latter diff...
-        $officialMapping = $registry->getMapping();
+        $officialMapping = $registry->getMap();
         
         // Register the item libraries!
         $registry->registerFromItem($itemPath);
 
-        $diff = array_diff($registry->getMapping(), $officialMapping);
+        $diff = array_diff($registry->getMap(), $officialMapping);
         $this->assertEquals($mappingDiff, $diff);
     }
     

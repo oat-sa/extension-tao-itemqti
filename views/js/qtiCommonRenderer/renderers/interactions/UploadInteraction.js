@@ -67,9 +67,7 @@ define([
         	});
         	instructionMgr.validateInstructions(interaction);
         	
-        	$container.find('.progressbar').progressbar({
-        		value: 100
-        	});
+        	$container.find('.progressbar').progressbar('value', 100);
         	
             var base64Data = e.target.result;
             var commaPosition = base64Data.indexOf(',');
@@ -84,15 +82,13 @@ define([
         
         reader.onloadstart = function (e) {
         	instructionMgr.removeInstructions(interaction);
-        	$container.find('.progressbar').progressbar({
-        		value: 0
-        	});
+        	$container.find('.progressbar').progressbar('value', 0);
         };
         
         reader.onprogress = function (e) {
         	var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-        	$container.find('.progressbar').progressbar('update', percentProgress);
-        };
+        	$container.find('.progressbar').progressbar('value', percentProgress);
+        }
         
         reader.readAsDataURL(file);
     };
@@ -128,6 +124,8 @@ define([
     	
     	var $input = $container.find('input');
     	
+        $container.find('.progressbar').progressbar();
+
     	if (window.File && window.FileReader && window.FileList) {
     		// Yep ! :D
             $input.bind('change', changeListener);

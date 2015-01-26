@@ -92,13 +92,10 @@ define([
             localRequireConfig = {},
             state = {}, //@todo pass state and response to renderer here:
             response = {base : null};
-
+        
         if(runtimeLocations && runtimeLocations[typeIdentifier]){
             //we are overwriting the runtime libs location:
             localRequireConfig.runtimeLocation = runtimeLocations[typeIdentifier];
-//            if(interaction.entryPoint.indexOf(typeIdentifier) === 0){
-//                entryPoint = interaction.entryPoint.replace(typeIdentifier, runtimeLocations[typeIdentifier]);
-//            }
         }
 
         //create a new require context to load the libs: 
@@ -194,9 +191,13 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function(customInteraction, data){
-
-            data.markup = PortableElement.replaceMarkupMediaSource(data.markup, this.getOption('baseUrl'));
-
+            
+            //remove ns + fix media file path
+            var markup = data.markup;
+            markup = util.removeMarkupNamespaces(markup);
+            markup = PortableElement.fixMarkupMediaSources(markup, this);
+            data.markup = markup;
+            
             return data;
         },
         render : render,

@@ -22,14 +22,14 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\helpers\MediaRetrieval;
 use oat\tao\model\media\MediaSource;
-use oat\taoMediaManager\model\FileManager;
+use oat\taoMediaManager\model\fileManagement\FileManager;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
-use \core_kernel_classes_Session;
 use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
@@ -62,7 +62,7 @@ class QtiCreator extends tao_actions_CommonModule
             
             //set the current data lang in the item content to keep the integrity
             //@todo : allow preview in a language other than the one in the session
-            $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+            $lang = \common_session_SessionManager::getSession()->getDataLanguage();
             $config->setProperty('lang', $lang);
 
             //base url:
@@ -79,7 +79,7 @@ class QtiCreator extends tao_actions_CommonModule
         $config->setProperty('mediaSources', $sources);
 
         //initialize all registered hooks:
-        $hookClasses = HookRegistry::getAll();
+        $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach($hookClasses as $hookClass){
             $hook = new $hookClass();
             $hook->init($config);
@@ -97,9 +97,10 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         if($this->hasRequestParameter('uri')){
+            $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource);
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource,$lang);
             if(!is_null($item)){
                 $returnValue['itemData'] = $item->toArray();
             }
@@ -151,22 +152,18 @@ class QtiCreator extends tao_actions_CommonModule
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
-            if(strpos($path, '/') === 0){
-                $path = substr($path, 1);
-            }
-
-            $identifier = substr($path, 0, strpos($path, '/'));
-            $subPath = substr($path, strpos($path, '/') + 1);
+            $mediaInfo = MediaRetrieval::getRealPathAndIdentifier($path);
+            extract($mediaInfo);
 
             if($identifier === '' || $identifier === 'local'){
-                $filename = $folder.$subPath;
+                $filename = $folder.$relPath;
             }
             else if($identifier === 'mediamanager'){
                 $fileManager = FileManager::getFileManagementModel();
-                $filename = $fileManager->retrieveFile($subPath);
+                $filename = $fileManager->retrieveFile($relPath);
             }
             else{
-                $filename = $folder.$path;
+                $filename = $folder.$relPath;
             }
 
             //@todo : find better way to to this

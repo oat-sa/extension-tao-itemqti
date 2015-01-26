@@ -28,7 +28,7 @@ use Exception;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibraryNotFoundException extends \common_Exception
+class SharedLibraryNotFoundException extends common_Exception
 {
     private $id;
     

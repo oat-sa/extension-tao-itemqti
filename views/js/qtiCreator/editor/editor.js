@@ -2,6 +2,7 @@ define([
     'jquery',
     'lodash',
     'helpers',
+    'core/dataattrhandler',
     //gui components
     'taoItems/preview/preview',
     'taoQtiItem/qtiCreator/editor/preparePrint',
@@ -18,6 +19,7 @@ define([
     $,
     _,
     helpers,
+    dataAttrHandler,
     preview,
     preparePrint,
     fontSelector,
@@ -51,6 +53,7 @@ define([
         itemResizer(widget.element);
 
     };
+
 
     /**
      * Confirm to save the item

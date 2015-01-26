@@ -23,9 +23,9 @@ define([
                 }, '', this);
 
                 callback.call(_this, this);
-                
+
                 $responseWidget.siblings('.padding').width($responseWidget.width() + 50);//plus icons width
-                
+
             }, ['inlineChoice', 'inlineChoiceInteraction']);
 
         },

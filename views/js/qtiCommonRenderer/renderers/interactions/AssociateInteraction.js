@@ -208,7 +208,7 @@ define([
         var $container = containerHelper.get(interaction);
         _.delay(function(){
             adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
-        }, 200);//@todo : fix the image loading issues
+        }, 500);//@todo : fix the image loading issues
     };
     
     /**

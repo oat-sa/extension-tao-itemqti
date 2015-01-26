@@ -5,14 +5,14 @@ define(function(){
 
     /**
      * Global object accessible by all PICs
-     * 
+     *
      * @type Object
      */
     var taoQtiInfoControlContext = {
         /**
          * register a info control (its runtime model) in global registery
          * register a renderer
-         * 
+         *
          * @param {Object} picHook
          * @returns {undefined}
          */
@@ -22,16 +22,16 @@ define(function(){
         },
         /**
          * notify when a info control is ready for test taker interaction
-         * 
+         *
          * @param {string} picInstance
          * @fires custominteractionready
          */
         notifyReady : function(picInstance){
-            //@todo add pciIntance as event data and notify event to delivery engine
+            //@todo add pciInstance as event data and notify event to delivery engine
         },
         /**
          * Get a cloned object representing the PIC model
-         * 
+         *
          * @param {string} typeIdentifier
          * @returns {Object} clonedPciModel
          */
@@ -62,7 +62,7 @@ define(function(){
             }
         }
     };
-    
-    
+
+
     return taoQtiInfoControlContext;
 });

@@ -29,7 +29,17 @@
     <div class="tooltip-content">{{__ "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"}}</div>
 
     <input id="sidebar-latex-field" type="text" name="latex" value="{{latex}}" placeholder="e.g. e^{i \pi} = -1"/>
-    <a href="#latex" class="math-editor-trigger">{{__ "Display larger editor"}}</a>
+    <a href="#" data-context="latex" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
+
+    <div class="sidebar-popup math-editor-container latex two-fifty">
+        <div class="sidebar-popup-title">
+            <h3>{{__ "Latex"}}</h3>
+            <a class="closer" href="#" title="{{__ 'Close'}}"></a>
+        </div>
+        <div class="sidebar-popup-content">
+            <input data-for="latex"/>
+        </div>
+    </div>
 </div>
 
 <div class="panel sidebar-popup-container-box" data-role="mathml" style="display:none;">
@@ -40,20 +50,20 @@
     <textarea id="sidebar-mathml-field" name="mathml">{{{mathml}}}</textarea>
 
     <div class="math-buffer" style="visibility:hidden;"></div>
-    <a href="#mathml" class="math-editor-trigger">{{__ "Display larger editor"}}</a>
-</div>
+    <a href="#" data-context="mathml" class="sidebar-popup-trigger" data-popup="~ .math-editor-container">{{__ "Display larger editor"}}</a>
 
-<div class="sidebar-popup-container-box">    
-
-    <div id="math-editor-container" class="sidebar-popup">
-        <h3 id="math-editor-title"></h3>
-        <span class="icon-grip-h dragger"></span>
-        <textarea id="math-editor-textarea" data-target="mathml"></textarea>
-        <input id="math-editor-input" data-target="latex"/>
-        <a class="closer" href="#" title="{{__ 'Close'}}"></a>
+    <div class="sidebar-popup math-editor-container mathml two-fifty">
+        <div class="sidebar-popup-title">
+            <h3>{{__ "MathML"}}</h3>
+            <a class="closer" href="#" title="{{__ 'Close'}}"></a>
+        </div>
+        <div class="sidebar-popup-content">
+            <textarea data-for="mathml"></textarea>
+        </div>
     </div>
-    <div class="math-buffer" style="visibility:hidden;"></div>
+
 </div>
+
 {{else}}
 <div class="panel">
     {{__ "MathJax is not installed."}}

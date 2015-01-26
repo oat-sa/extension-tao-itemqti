@@ -8,21 +8,21 @@ define([
 ], function(_, __,stateFactory, Correct, renderer, instructionMgr){
 
     var ExtendedTextInteractionStateCorrect = stateFactory.create(Correct, function(){
-        
+
         _createResponseWidget(this.widget);
-        
+
     }, function(){
-        
+
         _destroyResponseWidget(this.widget);
-        
+
     });
-    
+
     var _createResponseWidget = function(widget){
 
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var correctResponse = _.values(response.getCorrect());
-        
+
         renderer.enable(interaction);
         renderer.setText(interaction, correctResponse[0]);
        
@@ -32,15 +32,15 @@ define([
             response.setCorrect([renderer.getResponse(interaction).base.string]);
         });
     };
-    
+
     var _destroyResponseWidget = function(widget){
-        
+
         var interaction = widget.element;
         renderer.clearText(interaction);
         
         instructionMgr.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
     };
-    
+
     return ExtendedTextInteractionStateCorrect;
 });

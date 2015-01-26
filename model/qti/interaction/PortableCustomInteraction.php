@@ -147,10 +147,18 @@ class PortableCustomInteraction extends CustomInteraction
     private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
 
         $properties = array();
-        $ns = $ns ? $ns.':' : '';
+        
+        //prepare ns string
+        $ns = $ns ? $ns : '';
+        if($ns){
+            if(substr($ns, -1) !== ':'){
+                $ns .= ':';
+            }
+        }else{
+            $ns = '';
+        }
         
         foreach($propertiesNode->childNodes as $prop){
-            
             if($prop instanceof DOMElement){
                 switch($prop->tagName){
                     case $ns.'entry':

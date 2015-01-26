@@ -27,7 +27,7 @@ use common_ext_ExtensionsManager;
  * 
  * @author Sam <sam@taotesting.com>
  */
-class InfoControlRegistry
+class InfoControlRegistry extends CustomInteractionRegistry
 {
     /**
      * Key used to store the custom interactions in the config
@@ -36,51 +36,30 @@ class InfoControlRegistry
      */
     const CONFIG_ID = 'info_control';
     
+    protected function getConfigId(){
+        return self::CONFIG_ID;
+    }
+    
     /**
      * Register a new custom interaction
      * 
      * @param string $qtiClass
      * @param string $phpClass
      * @throws common_exception_Error
+     * @deprecated use set
      */
     public static function register($qtiClass, $phpClass) {
-        if (!class_exists($phpClass)) {
-            throw new common_exception_Error('Custom interaction class '.$phpClass.' not found');
-        }
-        if (!is_subclass_of($phpClass, 'oat\taoQtiItem\model\qti\interaction\CustomInteraction')) {
-            throw new common_exception_Error('Class '.$phpClass.' not a subclass of CustomInteraction');
-        }
-        $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $map = self::getCustomInteractions();
-        $map[$qtiClass] = $phpClass;
-        $taoQtiItem->setConfig(self::CONFIG_ID, $map);
-    }
-    
-    /**
-     * Returns a list of registered info controls
-     * 
-     * With the qti classes as keys and the php classnames that
-     * implementat these interactions as values
-     * 
-     * @return array
-     */
-    public static function getInfoControls() {
-        $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $map = $taoQtiItem->getConfig(self::CONFIG_ID);
-        return is_array($map) ? array() : $map;
+        InfoControlRegistry::getRegistry()->set($qtiClass,$phpClass);
     }
     
     /**
      * Get the php class that represents an info control from its class attribute
      * 
      * @param string $name
+     * @deprecated set
      * @return string
      */
     public static function getInfoControlByName($name){
-        $all = self::getInfoControls();
-        if(isset($all[$name])){
-            return $all[$name];
-        }
-        return '';
+        InfoControlRegistry::getRegistry()->get($name);
     }
 }

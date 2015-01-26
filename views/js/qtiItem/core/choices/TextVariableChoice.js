@@ -1,4 +1,9 @@
-define(['jquery', 'lodash', 'taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, _, QtiChoice, rendererConfig){
+define([
+    'jquery',
+    'lodash',
+    'taoQtiItem/qtiItem/core/choices/Choice',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function($, _, QtiChoice, rendererConfig){
 
     var QtiTextVariableChoice = QtiChoice.extend({
         init : function(serial, attributes, text){
@@ -30,7 +35,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiItem/core/choices/Choice', 'taoQtiIte
                 defaultData = {
                     body : this.text
                 };
-                
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }
     });

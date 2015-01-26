@@ -29,7 +29,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
-    'ckConfigurator',
+    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
     'polyfill/placeholders'
 ], function(_, $, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
     'use strict';
@@ -42,7 +42,7 @@ define([
      */
     var _setPattern = function($element, pattern){
         var patt = new RegExp('^'+pattern+'$');
-        
+
         //test when some data is entering in the input field
         //@todo plug the validator + tooltip
         $element.on('keyup', function(){
@@ -52,11 +52,11 @@ define([
             }
         });
     };
-    
+
     /**
      * Whether or not multiple strings are expected from the candidate to
      * compose a valid response.
-     * 
+     *
      * @param {object} interaction
      * @returns {boolean}
      */
@@ -70,7 +70,7 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction){
@@ -80,23 +80,25 @@ define([
 
         var response = interaction.getResponseDeclaration();
         var multiple = _isMultiple(interaction);
-        
+
         var $el, expectedLength, expectedLines, placeholderType;
- 
+
         // ckEditor config event.
         ckEditor.on('instanceCreated', function(event) {
             var editor = event.editor,
-                toolbarType = 'block';
+                toolbarType = 'extendedText';
 
             editor.on('configLoaded', function(e) {
                 editor.config = ckConfigurator.getConfig(editor, toolbarType, ckeOptions);
+                editor.disableAutoInline = false; // NOT A GOOD IDEA, JUST TRY
             });
-            
+
             editor.on('change', function(e) {
                 containerHelper.triggerResponseChangeEvent(interaction, {});
             });
         });
-        
+
+
         // if the input is textarea
         if (!multiple) {
             $el = $container.find('textarea');
@@ -104,48 +106,49 @@ define([
                'extraPlugins': 'confighelper',
                'resize_enabled': true
             };
-            
             //setting the placeholder for the textarea
             if (attributes.placeholderText) {
-                $el.attr('placeholder', attributes.placeholderText);            
+                $el.attr('placeholder', attributes.placeholderText);
             }
 
-            // Enable ckeditor only if text format is 'xhtml'.
-            if (_getFormat(interaction) === 'xhtml') {
-                //replace the textarea with ckEditor
-                ckEditor.replace(interaction.attr('identifier'), ckeOptions);
-                $container.find('#text-container').addClass('solid');
+        // Enable ckeditor only if text format is 'xhtml'.
+        if (_getFormat(interaction) === 'xhtml') {
+            //replace the textarea with ckEditor
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
+
+        }
+        else {
+            $el.bind('keyup change', function(e) {
+                Helper.triggerResponseChangeEvent(interaction, {});
+            });
+
             }
-            else {
-                $el.on('keyup change', function(e) {
-                    containerHelper.triggerResponseChangeEvent(interaction, {});
-                });
-            }
-        } 
+        }
         else {
             $el = $container.find('input');
-            
+
             //setting the checking for minimum number of answers
             if (attributes.minStrings) {
-                
+
                 //get the number of filled inputs
                 var _getNumStrings = function($element) {
-                    
+
                     var num = 0;
-                    
+
                     $element.each(function() {
                         if ($(this).val() !== '') {
                             num++;
                         }
                     });
-                    
+
                     return num;
                 };
-                
+
                 var minStrings = parseInt(attributes.minStrings);
 
                 if (minStrings > 0) {
-                    
+
                     $el.on('blur', function() {
                         setTimeout(function() {
                             //checking if the user was clicked outside of the input fields
@@ -156,7 +159,7 @@ define([
                     });
                 }
             }
-            
+
             //set the fields width
             if (attributes.expectedLength) {
                 expectedLength = parseInt(attributes.expectedLength, 10);
@@ -167,14 +170,14 @@ define([
                     });
                 }
             }
-            
+
             //set the fileds pattern mask
             if (attributes.patternMask) {
                 $el.each(function() {
                     _setPattern($(this), attributes.patternMask);
                 });
             }
-            
+
             //set the fileds placeholder
             if (attributes.placeholderText) {
                 /**
@@ -184,7 +187,7 @@ define([
                  * none - dont set placeholder
                  */
                 placeholderType = 'first';
-                
+
                 if (placeholderType === 'multiple') {
                     $el.each(function() {
                         $(this).attr('placeholder', attributes.placeholderText);
@@ -194,16 +197,9 @@ define([
                     $el.first().attr('placeholder', attributes.placeholderText);
                 }
             }
-
-
-            if (_getFormat(interaction) !== 'xhtml') {
-                $el.on('keyup change', function(e) {
-                    containerHelper.triggerResponseChangeEvent(interaction, {});
-                });
-            }
         }
     };
-    
+
     var resetResponse = function(interaction) {
         var $container = containerHelper.get(interaction);
         $('input, textarea', $container).val('');
@@ -211,13 +207,13 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -226,24 +222,24 @@ define([
         var _setMultipleVal = function(identifier, value) {
             interaction.getContainer().find('#'+identifier).val(value);
         };
-        
+
         var _setVal = function(value) {
             interaction.getContainer().find('textarea').val(value);
         };
 
         var baseType = interaction.getResponseDeclaration().attr('baseType');
-        
+
         if (response.base && response.base[baseType] !== undefined) {
             _setVal(response.base[baseType]);
         }
         else if (response.list && response.list[baseType]) {
-            
+
             for (var i in response.list[baseType]) {
-                var identifier = (response.list.identifier === undefined) ? '' : response.list.identifier[i];
-                _setMultipleVal(identifier + '_' + i, response.list[baseType][i]);
+                var serial = (response.list.serial === undefined) ? '' : response.list.serial[i];
+                _setMultipleVal(serial + '_' + i, response.list[baseType][i]);
             }
-            
-        } 
+
+        }
         else {
             throw new Error('wrong response format in argument.');
         }
@@ -251,18 +247,18 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
     var getResponse = function(interaction) {
-        
+
         var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
         var responseDeclaration = interaction.getResponseDeclaration();
@@ -270,15 +266,15 @@ define([
         var numericBase = attributes.base || 10;
         var multiple = !!(attributes.maxStrings && (responseDeclaration.attr('cardinality') === 'multiple' || responseDeclaration.attr('cardinality') === 'ordered'));
         var ret = multiple ? {list:{}} : {base:{}};
-    
+
         if (multiple) {
-            
+
             var values = [];
-            
+
             $container.find('input').each(function(i) {
-                
+
                 var $el = $(this);
-                
+
                 if (attributes.placeholderText && $el.val() === attributes.placeholderText) {
                     values[i] = '';
                 }
@@ -298,16 +294,16 @@ define([
             });
 
             ret.list[baseType] = values;
-        } 
+        }
         else {
-            
+
             var value = '';
-            
+
             if (attributes.placeholderText && _getTextareaValue(interaction) === attributes.placeholderText) {
                 value = '';
             }
             else {
-                
+
                 if (baseType === 'integer') {
                     value = parseInt(_getTextareaValue(interaction), numericBase);
                 }
@@ -321,10 +317,10 @@ define([
 
             ret.base[baseType] = isNaN(value) && typeof value === 'number' ? '' : value;
         }
-        
+
         return ret;
     };
-    
+
     var _getTextareaValue = function(interaction) {
         if (_getFormat(interaction) === 'xhtml') {
             return _ckEditorData(interaction);
@@ -333,72 +329,77 @@ define([
             return containerHelper.get(interaction).find('textarea').val();
         }
     };
-    
+
     var _ckEditorData = function(interaction) {
-        return ckEditor.instances[interaction.attr('identifier')].getData();
+        return Helper.getContainer(interaction).data('editor').getData();
     };
-    
+
     var _getFormat = function(interaction) {
         var format = interaction.attr('format');
-        
+
         switch (format) {
             case 'plain':
             case 'xhtml':
-            case 'preFormatted':
+            case 'preformatted':
                 return format;
             default:
                 return 'plain';
         }
     };
-    
+
     var updateFormat = function(interaction, from) {
+        var ckeOptions = {};
         var $container = containerHelper.get(interaction);
         
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.replace(interaction.attr('identifier'));
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
         }
         else {
             // preFormatted or plain
             if (from === 'xhtml') {
-                ckEditor.instances[interaction.attr('identifier')].destroy();
+                $container.data('editor').destroy();
             }
         }
     };
-    
+
     var enable = function(interaction) {
+        var ckeOptions = {};
         var $container = containerHelper.get(interaction);
         $container.find('input, textarea').removeAttr('disabled');
-        
+
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].destroy();
-            ckEditor.replace(interaction.attr('identifier'));
+            $container.data('editor').destroy();
+            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+            $container.data('editor', editor);
         }
     };
-    
+
     var disable = function(interaction) {
         var $container = containerHelper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
         
-        if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].destroy();
-            ckEditor.replace(interaction.attr('identifier'));
+if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
+            $container.data('editor').destroy();
+        }
         }
     };
-    
+
     var clearText = function(interaction) {
         setText(interaction, '');
     };
-    
+
     var setText = function(interaction, text) {
         var $container = containerHelper.get(interaction);
         
         if (interaction.attr('format') === 'xhtml') {
-            ckEditor.instances[interaction.attr('identifier')].setData(text);
+            $container.data('editor').setData(text);
         }
         else {
             $container.find('textarea').val(text);
         }
     };
+<<<<<<< HEAD
 
      /**
      * Clean interaction destroy

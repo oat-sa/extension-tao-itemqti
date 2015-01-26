@@ -24,7 +24,8 @@ namespace oat\taoQtiItem\model;
 use \common_exception_Error;
 use \common_ext_ExtensionsManager;
 
-class HookRegistry{
+class HookRegistry extends AbstractInteractionRegistry
+{
     
     /**
      * Key used to store the custom interactions in the config
@@ -34,37 +35,30 @@ class HookRegistry{
     const CONFIG_ID = 'hook';
     
     /**
-     * Register a new custom interaction
-     * 
-     * @param string $hookId
-     * @param string $phpClass
-     * @throws common_exception_Error
+     * (non-PHPdoc)
+     * @see \oat\taoQtiItem\model\AbstractInteractionRegistry::getConfigId()
      */
-    public static function add($hookId, $phpClass) {
-        if (!class_exists($phpClass)) {
-            throw new common_exception_Error('Hook class '.$phpClass.' not found');
+    protected function getConfigId(){
+        return self::CONFIG_ID;
         }
-        if (!is_subclass_of($phpClass, 'oat\taoQtiItem\model\Hook')) {
-            throw new common_exception_Error('Class '.$phpClass.' does not implement Hook interface');
-        }
-        $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $map = self::getAll();
-        $map[$hookId] = $phpClass;
-        $taoQtiItem->setConfig(self::CONFIG_ID, $map);
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoQtiItem\model\AbstractInteractionRegistry::getInteractionClass()
+     */
+    protected function getInteractionClass(){
+        return 'oat\taoQtiItem\model\Hook';
     }
     
     /**
-     * Returns a list of registered hooks.
      * 
-     * With the hook ids as keys and the php classnames that
-     * implement these hooks as values
-     * 
-     * @return array
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $key
+     * @param string $class
+     * @deprecated use set directly
      */
-    public static function getAll() {
-        $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $map = $taoQtiItem->getConfig(self::CONFIG_ID);
-        return is_array($map) ? $map : array();
+    public static function add($key,$phpClass){
+        HookRegistry::getRegistry()->set($key,$phpClass);
     }
     
 }

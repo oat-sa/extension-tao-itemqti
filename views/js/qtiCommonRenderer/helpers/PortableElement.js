@@ -14,15 +14,8 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * @returns {object} - an "associative" array object
      */
     function getSharedLibrariesPaths(){
-
-        // get pci shared libraries url
-        var sharedLibrariesUrl = context.root_url + 'taoQtiItem/views/js/portableSharedLibraries/'
-
-        //@todo make this dynamic somehow
-        return {
-            IMSGlobal : sharedLibrariesUrl + 'IMSGlobal',
-            OAT : sharedLibrariesUrl + 'OAT'
-        };
+        var requireConfig = window.require.s.contexts._.config;
+        return getAbsolutelyDefinedPaths(requireConfig.baseUrl, requireConfig.paths);
     }
 
     /**
@@ -41,25 +34,46 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * Replace all identified relative media urls by the absolute one
      * 
      * @param {String} markupStr
-     * @param {String} baseUrl
+     * @param {Object} the renderer
      * @returns {String}
      */
-    function replaceMarkupMediaSource(markupStr, baseUrl){
+    function fixMarkupMediaSources(markupStr, renderer){
 
+        //load markup string into a div container
         var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
 
+        //for each media source
         $markup.find('img').each(function(){
 
             var $img = $(this),
                 src = $img.attr('src'),
-                fullPath = util.fullpath(src, baseUrl);
+                fullPath = renderer.getAbsoluteUrl(src);
 
             $img.attr('src', fullPath);
         });
 
         return $markup.html();
-    }
 
+    }
+    
+    /**
+     * Transform relative paths in the "paths" argument object into absolute ones
+     * 
+     * @param {String} baseUrl
+     * @param {Object} paths
+     * @returns {Object}
+     */
+    function getAbsolutelyDefinedPaths(baseUrl, paths){
+        var ret = {};
+        _.forIn(paths, function(path, alias){
+            //take only namespaced module
+            if(alias.indexOf('/')>0){
+                ret[alias] = baseUrl+path;
+            }
+        });
+        return ret;
+    }
+    
     /**
      * Get a local require js with typeIdentifier as specific context
      * 
@@ -71,18 +85,19 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     function getLocalRequire(typeIdentifier, baseUrl, libs, config){
 
         config = config || {};
-        
+
         var runtimeLocation = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;
+        var requireConfig = window.require.s.contexts._.config;
         
         if(config.useExtensionAlias){
             var urlTokens = baseUrl.split('/');
             var extension = urlTokens[0];
-            var requireConfig = window.require.s.contexts._.config;
+            
             var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
 
             //update baseUrl:
             baseUrl = baseUrl.replace(extension, fullpath);
-
+            
             if(config.runtimeLocation){
                 runtimeLocation = config.runtimeLocation.replace(extension, fullpath);
             }
@@ -94,7 +109,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         //add local namespace
         libs[typeIdentifier] = runtimeLocation;//allow overwrite by config (in test)
-
+        
         return window.require.config({
             context : typeIdentifier, //use unique typeIdentifier as context name
             baseUrl : baseUrl,
@@ -145,7 +160,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     return {
         getSharedLibrariesPaths : getSharedLibrariesPaths,
         getCommonLibraries : getCommonLibraries,
-        replaceMarkupMediaSource : replaceMarkupMediaSource,
+        fixMarkupMediaSources : fixMarkupMediaSources,
         getDocumentBaseUrl : getDocumentBaseUrl,
         getLocalRequire : getLocalRequire,
         getCachedLocalRequire : getCachedLocalRequire

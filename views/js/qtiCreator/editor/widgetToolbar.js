@@ -2,7 +2,7 @@ define([
     'jquery',
     'i18n'
 ], function($, __){
-    'use strict'
+    'use strict';
 
 
     var defaultConfig = [
