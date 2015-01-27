@@ -284,7 +284,7 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         //hack the item data to set the shuffle attr to true
-        var shuffled = _.clone(choiceData);
+        var shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.shuffle = true;
 
         qtiItemRunner('qti', shuffled)

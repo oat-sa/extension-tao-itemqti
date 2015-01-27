@@ -127,7 +127,7 @@
                         "attributes": {
                             "identifier": "P",
                             "fixed": false,
-                            "matchMax": 1,
+                            "matchMax": 2,
                             "matchMin": 0
                         },
                         "body": {

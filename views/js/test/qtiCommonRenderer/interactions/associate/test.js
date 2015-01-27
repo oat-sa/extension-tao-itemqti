@@ -166,6 +166,62 @@ define([
     });
 
 
+    QUnit.asyncTest('enables to use a choice multiple times', function(assert){
+        QUnit.expect(14);
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        var pChoiceMatchMax = associateData.body.elements.interaction_associateinteraction_54787e6dad70d437146538.choices.choice_simpleassociablechoice_54787e6dadcdd949770698.attributes.matchMax;
+        assert.equal(pChoiceMatchMax, 2, "The matchMax attributes of the P choice is set at 2");
+
+        qtiItemRunner('qti', associateData)
+            .on('render', function(){
+                assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
+
+                var $prospero = $('.qti-choice[data-identifier="P"]', $container);
+                assert.equal($prospero.length, 1, 'the A choice exists');
+                assert.ok( ! $prospero.hasClass('deactivated'), 'the P choice is not deactivated');
+
+                var $target1 = $('.result-area li:first-child .lft', $container);
+                assert.equal($target1.length, 1, 'the target exists');
+
+                var $target2 = $('.result-area li:first-child .rgt', $container);
+                assert.equal($target2.length, 1, 'the target exists');
+
+                $prospero.trigger('mousedown');
+
+                _.delay(function(){
+                    $target1.trigger('mousedown');
+
+                    _.delay(function(){
+                        assert.ok($target1.hasClass('filled'), 'the target is filled');
+                        assert.equal($target1.text(), 'Prospero', 'the target contains the choice text');
+                        assert.ok( ! $prospero.hasClass('deactivated'), 'the P choice is still not deactivated');
+
+                        $prospero.trigger('mousedown');
+
+                        _.delay(function(){
+                            $target2.trigger('mousedown');
+
+                            _.delay(function(){
+                                assert.ok($target2.hasClass('filled'), 'the target is filled');
+                                assert.equal($target2.text(), 'Prospero', 'the target contains the choice text');
+                                assert.ok($prospero.hasClass('deactivated'), 'the P choice is now deactivated');
+
+                                QUnit.start();
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+
+            })
+            .init()
+            .render($container);
+    });
+
     QUnit.asyncTest('set the default response', function(assert){
         QUnit.expect(17);
 
@@ -316,7 +372,7 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         //hack the item data to set the shuffle attributes to true
-        var shuffled = _.clone(associateData);
+        var shuffled = _.cloneDeep(associateData);
         shuffled.body.elements.interaction_associateinteraction_54787e6dad70d437146538.attributes.shuffle = true;
 
         qtiItemRunner('qti', shuffled)

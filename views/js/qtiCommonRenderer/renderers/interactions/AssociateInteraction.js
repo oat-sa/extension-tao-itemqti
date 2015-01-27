@@ -34,27 +34,20 @@ define([
 ], function(_, __, $, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
     'use strict';
 
-    /**
-     * TODO should not be global, it can have side effects
-     * Global variable to count number of choice usages:
-     * @type type
-     */
-    var _choiceUsages = {};
-
     var setChoice = function(interaction, $choice, $target){
 
-        var $container = containerHelper.get(interaction);
-        var choiceSerial = $choice.data('serial'),
-            choice = interaction.getChoice(choiceSerial);
+        var $container      = containerHelper.get(interaction);
+        var choiceSerial    = $choice.data('serial');
+        var usage           = $choice.data('usage') || 0;
+        var choice          = interaction.getChoice(choiceSerial);
 
         if(!choiceSerial){
             throw 'empty choice serial';
         }
 
-        if(!_choiceUsages[choiceSerial]){
-            _choiceUsages[choiceSerial] = 0;
-        }
-        _choiceUsages[choiceSerial]++;
+        //to track number of times a choice is used in a pair
+        usage++;
+        $choice.data('usage', usage);
 
         var _setChoice = function(){
 
@@ -65,7 +58,7 @@ define([
 
             if(!interaction.responseMappingMode &&
                 choice.attr('matchMax') &&
-                _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+                usage >= choice.attr('matchMax')){
 
                 $choice.addClass('deactivated');
             }
@@ -135,16 +128,23 @@ define([
         }
     };
 
-    var unsetChoice = function(interaction, $choice, animate, triggerChange){
+    var unsetChoice = function(interaction, $filledChoice, animate, triggerChange){
 
-        var serial = $choice.data('serial');
-        var $container = containerHelper.get(interaction);
+        var $container      = containerHelper.get(interaction);
+        var choiceSerial    = $filledChoice.data('serial');
+        var $choice         = $container.find('.choice-area [data-serial=' + choiceSerial + ']');
+        var usage           = $choice.data('usage') || 0;
+        var $parent         = $filledChoice.parent();
 
-        $container.find('.choice-area [data-serial=' + serial + ']').removeClass('deactivated');
-
-        _choiceUsages[serial]--;
+        //decrease the  use for this choice
+        usage--;
 
         $choice
+            .data('usage', usage)
+            .removeClass('deactivated');
+
+
+        $filledChoice
             .removeClass('filled')
             .removeData('serial')
             .empty();
@@ -155,14 +155,13 @@ define([
                 //a pair with one single element is not valid, so consider the response to be modified:
                 containerHelper.triggerResponseChangeEvent(interaction, {
                     type : 'removed',
-                    $pair : $choice.parent()
+                    $pair : $filledChoice.parent()
                 });
                 instructionMgr.validateInstructions(interaction, {choice : $choice});
             }
             //completely empty pair:
             if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
                 //shall we remove it?
-                var $parent = $choice.parent();
                 if(!$parent.hasClass('incomplete-pair')){
                     if(animate){
                         $parent.addClass('removing').fadeOut(500, function(){
@@ -301,14 +300,17 @@ define([
         });
 
         $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
+            var $target,
+                choiceSerial,
+                targetSerial;
 
             e.stopPropagation();
 
             if(_isInsertionMode()){
 
-                var $target = $(this),
-                    choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial');
+                $target = $(this);
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
 
@@ -332,9 +334,9 @@ define([
             }else if(_isModeEditing()){
 
                 //editing mode:
-                var $target = $(this),
-                    targetSerial = $target.data('serial'),
-                    choiceSerial = $activeChoice.data('serial');
+                $target = $(this);
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
 
@@ -421,7 +423,7 @@ define([
     var resetResponse = function(interaction){
         var $container = containerHelper.get(interaction);
 
-        //destroy seelcted choice:
+        //destroy selected choice:
         $container.find('.result-area .active').mousedown();
 
         $('.result-area>li>div', $container).each(function(){
@@ -448,7 +450,7 @@ define([
                 addedPairs++;
                 $emptyPair = $emptyPair.next('li');
             }else{
-                //the number of pairs exceeds the maxium allowed pairs: break;
+                //the number of pairs exceeds the maximum allowed pairs: break;
                 return false;
             }
         });
