@@ -144,7 +144,17 @@ define([
 
                     };
 
+                    var markupChanged = function() {
 
+                        //callbacks:
+                        if(_.isFunction(options.markupChange)){
+                            options.markupChange.call($editable);
+                        }
+                        if(_.isFunction(options.change)){
+                            options.change.call(editor, _htmlEncode(editor.getData()));
+                        }
+
+                    }
 
                     /*
                      dirty trick: shows and hides combo boxes (styles for instance)
@@ -169,7 +179,7 @@ define([
                     });
 
                     editor.on('change', function(){
-                        changed(editor);
+                        markupChanged(editor);
                     });
 
                     if(options.data && options.data.container){
