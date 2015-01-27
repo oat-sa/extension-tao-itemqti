@@ -24,14 +24,14 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" />
+    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
 
     <label class="spinner">
         {{__ "Max words"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords"/>
+    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords" {{#if maxWords}}value="{{maxWords"{{/if}}/>
 </div>
 <hr>
 <div class="panel">
