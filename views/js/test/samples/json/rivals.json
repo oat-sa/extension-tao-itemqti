@@ -20,7 +20,7 @@
                 "qtiClass": "associateInteraction",
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
-                    "shuffle": true,
+                    "shuffle": false,
                     "maxAssociations": 3,
                     "minAssociations": 0
                 },
