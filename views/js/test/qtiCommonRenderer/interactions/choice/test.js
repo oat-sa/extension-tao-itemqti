@@ -9,7 +9,6 @@ define([
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-
     module('Choice Interaction');
 
     QUnit.asyncTest('renders correclty', function(assert){
@@ -78,7 +77,7 @@ define([
                 };
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                assert.deepEqual(state.RESPONSE, expected, 'The discovery response is selected');
+                assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
                 QUnit.start();
             })
             .init()
@@ -122,7 +121,7 @@ define([
                     //check the response is challenger
                     assert.ok(typeof state === 'object', 'The state is an object');
                     assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                    assert.deepEqual(state.RESPONSE, expected, 'The discovery response is selected');
+                    assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
 
                     //Challenger is checked instead of Discovery
                     assert.ok( ! $('[data-identifier="Discovery"] input', $container).prop('checked'), 'Discovery is not checked');
@@ -172,7 +171,7 @@ define([
                 if(++changes === 2){
                     assert.ok(typeof state === 'object', 'The state is an object');
                     assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                    assert.deepEqual(state.RESPONSE, expected, 'The discovery response is selected');
+                    assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
                     QUnit.start();
                 }
             })
@@ -194,7 +193,7 @@ define([
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $container).prop('checked'), 'Atlantis is not checked');
 
-                this.setState({ RESPONSE : { base : { identifier : 'Atlantis' } } });
+                this.setState({ RESPONSE : { response : {  base : { identifier : 'Atlantis' } } } });
 
                 assert.ok($('[data-identifier="Atlantis"] input', $container).prop('checked'), 'Atlantis is now checked');
 
@@ -227,7 +226,7 @@ define([
 
                 _.delay(function(){
 
-                    assert.deepEqual(self.getState(), {'RESPONSE': { base : null } }, 'Click does not trigger response once destroyed');
+                    assert.deepEqual(self.getState(), {'RESPONSE': { response : { base : null } } }, 'Click does not trigger response once destroyed');
                     assert.equal($container.find('.qti-choiceInteraction .instruction-container').children().length, 0, 'there is no instructions anymore');
 
                     QUnit.start();
@@ -276,6 +275,47 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('restores order of shuffled choices', function(assert){
+        QUnit.expect(9);
+
+        var $container = $('#' + fixtureContainerId);
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        //hack the item data to set the shuffle attr to true
+        var shuffled = _.clone(choiceData);
+        shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.shuffle = true;
+
+        qtiItemRunner('qti', shuffled)
+            .on('render', function(){
+                var self = this;
+
+                assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
+                assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
+
+                this.setState({
+                    RESPONSE : {
+                        response : { base : null },
+                        order : ['Challenger', 'Atlantis', 'Pathfinder', 'Discovery', 'Endeavour']
+                    }
+                });
+
+                _.delay(function(){
+
+                    assert.equal($container.find('.qti-choiceInteraction .qti-choice:nth-child(1)').data('identifier'), 'Challenger', 'the 1st choice has the right identifier');
+                    assert.equal($container.find('.qti-choiceInteraction .qti-choice:nth-child(2)').data('identifier'), 'Atlantis', 'the 2nd choice has the right identifier');
+                    assert.equal($container.find('.qti-choiceInteraction .qti-choice:nth-child(3)').data('identifier'), 'Pathfinder', 'the 3rd choice has the right identifier');
+                    assert.equal($container.find('.qti-choiceInteraction .qti-choice:nth-child(4)').data('identifier'), 'Discovery', 'the 4th choice has the right identifier');
+                    assert.equal($container.find('.qti-choiceInteraction .qti-choice:nth-child(5)').data('identifier'), 'Endeavour', 'the 5th choice has the right identifier');
+
+                    QUnit.start();
+                }, 100);
+            })
+            .init()
+            .render($container);
+    });
+
     module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
@@ -286,7 +326,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', multipleChoiceData)
+        qtiItemRunner('qti', choiceData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');

@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -36,7 +36,7 @@ define([
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
      *
-     * @private 
+     * @private
      * @param {Object} interaction - the interaction instance
      * @param {jQueryElement} $container
      */
@@ -72,7 +72,7 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      */
     var render = function(interaction){
@@ -177,7 +177,7 @@ define([
 
     /**
      * Reset the responses previously set
-     *  
+     *
      * @param {Object} interaction - the interaction instance
      */
     var resetResponse = function(interaction){
@@ -187,15 +187,15 @@ define([
     };
 
     /**
-     * Set a new response to the rendered interaction. 
+     * Set a new response to the rendered interaction.
      * Please note that it does not reset previous responses.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {0bject} response - the PCI formated response
      */
@@ -229,13 +229,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the response formated in PCI
      */
@@ -262,7 +262,7 @@ define([
      */
     var destroy = function destroy(interaction){
         var $container = containerHelper.get(interaction);
-      
+
         //remove event
         $container.off('.commonRenderer');
         $(document).off('.commonRenderer');
@@ -276,25 +276,67 @@ define([
 
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        var $container;
+
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+
+            //restore order of previously shuffled choices
+            if(_.isArray(state.order) && state.order.length === _.size(interaction.getChoices())){
+
+                $container = containerHelper.get(interaction);
+
+                $('.qti-simpleChoice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order, $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order, $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .appendTo($('.choice-area', $container));
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+
+        //we store also the choice order if shuffled
+        if(interaction.attr('shuffle') === true){
+            $container = containerHelper.get(interaction);
+
+            state.order = [];
+            $('.qti-simpleChoice', $container).each(function(){
+               state.order.push($(this).data('identifier'));
+            });
+        }
+        return state;
     };
 
     /**
