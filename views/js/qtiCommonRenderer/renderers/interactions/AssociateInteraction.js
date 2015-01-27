@@ -549,7 +549,7 @@ define([
 
                 $container = containerHelper.get(interaction);
 
-                $('.qti-choice', $container)
+                $('.choice-area .qti-choice', $container)
                     .sort(function(a, b){
                         var aIndex = _.indexOf(state.order, $(a).data('identifier'));
                         var bIndex = _.indexOf(state.order, $(b).data('identifier'));
@@ -587,7 +587,7 @@ define([
             $container = containerHelper.get(interaction);
 
             state.order = [];
-            $('.qti-choice', $container).each(function(){
+            $('.choice-area .qti-choice', $container).each(function(){
                state.order.push($(this).data('identifier'));
             });
         }

@@ -21,7 +21,7 @@
                 "qtiClass": "orderInteraction",
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
-                    "shuffle": true,
+                    "shuffle": false,
                     "id": "interaction"
                 },
                 "choices": {
