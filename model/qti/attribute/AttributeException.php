@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\AttributeException;
 use \common_Exception;
 
 /**
@@ -36,6 +35,4 @@ class AttributeException
     extends common_Exception
 {
 
-} /* end of class oat\taoQtiItem\model\qti\exception\ParsingException */
-
-?>
+}

@@ -43,4 +43,4 @@ class Coords extends Datatype
 		return $value;
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Coords */
+}

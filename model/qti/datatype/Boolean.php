@@ -51,4 +51,4 @@ class Boolean extends Datatype
 		return $returnValue;
 	}
 
-} /* end of class oat\taoQtiItem\model\qti\datatype\Boolean */
+}

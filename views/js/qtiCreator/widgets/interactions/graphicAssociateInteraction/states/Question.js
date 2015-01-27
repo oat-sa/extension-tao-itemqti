@@ -16,8 +16,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicAssociate',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, dummyElement, editor){
+    'taoQtiItem/qtiCreator/helper/panel'
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, dummyElement, panel){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -119,8 +119,8 @@ define([
                 formElement.setChangeCallbacks($choiceForm, choice, callbacks);
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
                 
                 //change the nodes bound to the position fields
                 $left   = $('input[name=x]', $choiceForm);
@@ -136,7 +136,7 @@ define([
          */
         function leaveChoiceForm(){
             if($formChoicePanel.css('display') !== 'none'){
-                editor.openSections($formInteractionPanel.children('section'));
+                panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
             }

@@ -1,4 +1,4 @@
-define([], function() {
+define(['jquery'], function($) {
 
     var formElementHelper = {
         initShufflePinToggle: function(widget) {
@@ -8,7 +8,7 @@ define([], function() {
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
-            $shuffleToggle.on('mousedown', function(e) {
+            $shuffleToggle.off('mousedown').on('mousedown', function(e) {
                 e.stopPropagation();
                 var $icon = $(this).children();
                 if ($icon.length === 0) {

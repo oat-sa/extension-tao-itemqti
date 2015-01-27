@@ -2,12 +2,38 @@
     {{#if prompt}}{{{prompt}}}{{/if}}
     <div class="instruction-container"></div>
     {{#if multiple}}
-    <div id="{{attributes.identifier}}">
-        {{#maxStringLoop}}<input id="{{attributes.identifier}}_{{.}}" name="{{attributes.identifier}}_{{.}}"/><br />{{/maxStringLoop}}
-    </div>
+        {{#equal attributes.format "xhtml"}}
+            {{#each maxStringLoop}}
+                <div class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}" name="{{attributes.identifier}}_{{this}}" contenteditable></div>
+            {{/each}}
+        {{else}}
+            {{#each maxStringLoop}}
+                <textarea class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}" name="{{attributes.identifier}}_{{this}}"></textarea>
+            {{/each}}
+        {{/equal}}
+        {{#if attributes.expectedLength}}
+            <div class="text-maxwords">
+                {{#if attributes.expectedLengthmandatory}}
+                    <span class="text-words-count">{{attributes.expectedLength}}</span> {{__ "word(s) remained"}}
+                {{else}}
+                    {{__ "we expect about"}} {{attributes.expectedLength}} {{__ "chars. It's just an indication. You are now at"}} <span class="text-words-count">0</span> {{__ "word(s)"}}.
+                {{/if}}
+            </div>
+        {{/if}}
     {{else}}
-        <div id="text-container">
-            <textarea id="{{attributes.identifier}}" class="solid{{#if attributes.class}} attributes.class{{/if}}" cols="72"></textarea>
-        </div>
+        {{#equal attributes.format xhtml}}
+            <div class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}" contenteditable></div>
+        {{else}}
+            <textarea class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}"></textarea>
+        {{/equal}}
+        {{#if attributes.expectedLength}}
+            <div class="text-maxwords">
+                {{#if attributes.expectedLengthmandatory}}
+                    <span class="text-words-count">{{attributes.expectedLength}}</span> {{__ "word(s) remained"}}
+                {{else}}
+                    {{__ "we expect about"}} {{attributes.expectedLength}} {{__ "chars. It's just an indication. You are now at"}} <span class="text-words-count">0</span> {{__ "word(s)"}}.
+                {{/if}}
+            </div>
+        {{/if}}
     {{/if}}
 </div>

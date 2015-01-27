@@ -5,7 +5,7 @@ define([
     'i18n',
     'select2'
 ], function ($, fontStacks, styleEditor, __) {
-    'use strict'
+    'use strict';
 
     /**
      * Populate a select box with a list of fonts to select from.

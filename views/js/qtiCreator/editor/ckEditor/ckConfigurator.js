@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/dtdHandler',
     'mathJax'
-], function(_, ckeditor, dtdHandler, mathJax) {
+], function($, _, ckeditor, dtdHandler, mathJax) {
     'use strict';
     /**
      * Cache original config
@@ -26,11 +27,11 @@ define([
 //            TaoQtiMedia : {insertAfter : 'SpecialChar'},
             TaoQtiImage : {insertAfter : 'SpecialChar'}
         };
-        
+
         if(mathJax){
             qtiPositionedPlugins.TaoQtiMaths = {insertAfter : 'SpecialChar'}
         }
-        
+
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
          * The argument 'toolbarType' determines which toolbar to use
@@ -74,8 +75,20 @@ define([
                 }, {
                     name : 'paragraph',
                     items : ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                }
-            ]
+                }],
+            extendedText : [{
+                    name : 'basicstyles',
+                    items : ['Bold', 'Italic', 'Underline']
+                },{
+                    name : 'paragraph',
+                    items : ['NumberedList', 'BulletedList']
+                },{
+                    name : 'clipboard',
+                    items : ['Cut', 'Copy', 'Paste']
+                },{
+                    name : 'history',
+                    items : ['Undo', 'Redo']
+                }]
         };
 
         /**

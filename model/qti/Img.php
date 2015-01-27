@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Object;
 use oat\taoQtiItem\model\qti\Element;
 
 /**
@@ -53,4 +52,3 @@ class Img extends Element
     }
 
 }
-/* end of class oat\taoQtiItem\model\qti\Img */

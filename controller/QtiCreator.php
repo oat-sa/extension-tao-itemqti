@@ -22,16 +22,18 @@
 namespace oat\taoQtiItem\controller;
 
 use \core_kernel_classes_Resource;
+use oat\tao\helpers\MediaRetrieval;
+use oat\tao\model\media\MediaSource;
+use oat\taoMediaManager\model\fileManagement\FileManager;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use \taoItems_models_classes_ItemsService;
 use \tao_actions_CommonModule;
 use \tao_helpers_Uri;
-use \core_kernel_classes_Session;
 use \tao_helpers_File;
 use \tao_helpers_Http;
 use \common_exception_Error;
-use oat\taoQtiItem\model\Config;
+use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
 
 /**
@@ -47,7 +49,7 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function index(){
 
-        $config = new Config();
+        $config = new CreatorConfig();
 
         if($this->hasRequestParameter('instance')){
             //uri:
@@ -60,7 +62,7 @@ class QtiCreator extends tao_actions_CommonModule
             
             //set the current data lang in the item content to keep the integrity
             //@todo : allow preview in a language other than the one in the session
-            $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+            $lang = \common_session_SessionManager::getSession()->getDataLanguage();
             $config->setProperty('lang', $lang);
 
             //base url:
@@ -71,13 +73,19 @@ class QtiCreator extends tao_actions_CommonModule
             $config->setProperty('baseUrl', $url.'&relPath=');
         }
 
+        // get the config media Sources
+        $sources = array_keys(MediaSource::getMediaBrowserSources());
+        $sources[] = 'local';
+        $config->setProperty('mediaSources', $sources);
+
         //initialize all registered hooks:
-        $hookClasses = HookRegistry::getAll();
+        $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach($hookClasses as $hookClass){
             $hook = new $hookClass();
             $hook->init($config);
         }
-
+        
+        $config->init();
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
     }
@@ -89,9 +97,10 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         if($this->hasRequestParameter('uri')){
+            $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource);
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource,$lang);
             if(!is_null($item)){
                 $returnValue['itemData'] = $item->toArray();
             }
@@ -135,6 +144,7 @@ class QtiCreator extends tao_actions_CommonModule
             $relPath = urldecode($this->getRequestParameter('relPath'));
 
             $this->renderFile($rdfItem, $relPath, $lang);
+
         }
     }
 
@@ -142,7 +152,25 @@ class QtiCreator extends tao_actions_CommonModule
 
         $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
         if(tao_helpers_File::securityCheck($path, true)){
-            $filename = $folder.$path;
+            $mediaInfo = MediaRetrieval::getRealPathAndIdentifier($path);
+            extract($mediaInfo);
+
+            if($identifier === '' || $identifier === 'local'){
+                $filename = $folder.$relPath;
+            }
+            else if($identifier === 'mediamanager'){
+                $fileManager = FileManager::getFileManagementModel();
+                $filename = $fileManager->retrieveFile($relPath);
+            }
+            else{
+                $filename = $folder.$relPath;
+            }
+
+            //@todo : find better way to to this
+            //load amd module
+            if(!file_exists($filename) && file_exists($filename.'.js')){
+                $filename = $filename.'.js';
+            }   
             tao_helpers_Http::returnFile($filename);
         }else{
             throw new common_exception_Error('invalid item preview file path');

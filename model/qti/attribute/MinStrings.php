@@ -40,4 +40,4 @@ class MinStrings extends Attribute
 	static protected $defaultValue = 0;
 	static protected $required = false;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\MinStrings */
+}

@@ -45,6 +45,5 @@ interface Rule
      */
     public function getRule();
 
-} /* end of interface oat\taoQtiItem\model\qti\response\Rule */
-
+} 
 ?>

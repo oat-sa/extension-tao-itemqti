@@ -25,7 +25,6 @@ use qtism\common\enums\BaseType;
 use qtism\common\enums\Cardinality;
 use qtism\runtime\common\Variable;
 use qtism\runtime\tests\AssessmentItemSession;
-use \core_kernel_classes_Session;
 use \tao_models_classes_service_StorageDirectory;
 
 /**
@@ -77,13 +76,13 @@ class QtiRunner
     }
 
     /**
-     * Get the absolute path to the compilation folder described by$directory.
+     * Get the absolute path to the compilation folder described by $directory.
      * 
      * @param tao_models_classes_service_StorageDirectory $director The root directory resource where the item is stored.
      * @return string The local path to the private folder with a trailing directory separator.
      */
     public static function getPrivateFolderPath(tao_models_classes_service_StorageDirectory $directory) {
-        $lang = core_kernel_classes_Session::singleton()->getDataLanguage();
+        $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basepath = $directory->getPath();
         
         if (!file_exists($basepath . $lang) && file_exists($basepath . DEFAULT_LANG)) {
@@ -115,22 +114,21 @@ class QtiRunner
      */
     public static function getRubricBlocks(tao_models_classes_service_StorageDirectory $directory, $view) {
         
+        $returnValue = array();
+        
         $elements = self::getContentVariableElements($directory);
         
         foreach ($elements as $serial => $data) {
         
-            if (empty($data['qtiClass']) === false && $data['qtiClass'] == 'rubricBlock') {
+            if (isset($data['qtiClass']) && $data['qtiClass'] == 'rubricBlock') {
         
-                if (!empty($data['attributes']) && is_array($data['attributes']['view'])) {
-        
-                    if(in_array($view, $data['attributes']['view'])){
-                        $elements[$serial] = $data;
-                    }
+                if (!empty($data['attributes']) && is_array($data['attributes']['view']) && in_array($view, $data['attributes']['view'])) {
+                        $returnValue[$serial] = $data;
                 }
             }
         }
         
-        return $elements;
+        return $returnValue;
     }
     
     /**

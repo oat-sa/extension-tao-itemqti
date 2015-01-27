@@ -17,8 +17,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'taoQtiItem/qtiCreator/editor/editor'
-], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, editor){
+    'taoQtiItem/qtiCreator/helper/panel'
+], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel){
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -116,7 +116,8 @@ define([
                        .attr('data-serial', gapImg.serial);
             }
 
-            if(gapImg.object && gapImg.object.attributes.data){
+            if(gapImg.object && gapImg.object.attributes.dataClear){
+                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.dataClear);
                 if(update === true){
                      
                     $gapImg.replaceWith( gapImg.render() );
@@ -210,8 +211,8 @@ define([
                 formElement.setChangeCallbacks($choiceForm, choice, callbacks);
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
                 
                 //change the nodes bound to the position fields
                 $left   = $('input[name=x]', $choiceForm);
@@ -227,7 +228,7 @@ define([
          */
         function leaveChoiceForm(){
             if($formChoicePanel.css('display') !== 'none'){
-                editor.openSections($formInteractionPanel.children('section'));
+                panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
             }
@@ -255,7 +256,7 @@ define([
                         matchMax        : gapImg.attr('matchMax'),
                         choicesCount    : _.size(interaction.getChoices()),
                         baseUrl         : options.baseUrl,
-                        data            : gapImg.object.attr('data'),
+                        data            : gapImg.object.attr('dataClear'),
                         width           : gapImg.object.attr('width'),
                         height          : gapImg.object.attr('height'),
                         type            : gapImg.object.attr('type')
@@ -273,7 +274,7 @@ define([
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function(element, value){
-                    gapImg.object.attr('data', value);
+                    gapImg.object.attr('dataClear', value);
                     setUpGapImg(gapImg, true);
                 };
                 callbacks.width = function(element, value){
@@ -292,8 +293,8 @@ define([
                 formElement.setChangeCallbacks($choiceForm, gapImg, callbacks);
 
                 $formChoicePanel.show();
-                editor.openSections($formChoicePanel.children('section'));
-                editor.closeSections($formInteractionPanel.children('section'));
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
 
                 if(typeof window.scroll === 'function'){
                     window.scroll(0, $choiceForm.offset().top);

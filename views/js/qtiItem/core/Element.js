@@ -1,4 +1,4 @@
-define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Class, _, util, rendererConfig){
+define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, Class, _, util, rendererConfig){
 
     var _instances = {};
 
@@ -15,7 +15,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             this.metaData = {};
 
             //init call in the format init(attributes)
-            if(typeof(serial) === 'object'){
+            if(typeof (serial) === 'object'){
                 attributes = serial;
                 serial = '';
             }
@@ -70,11 +70,11 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 if(value !== undefined){
                     this.attributes[name] = value;
                 }else{
-                    if(typeof(name) === 'object'){
+                    if(typeof (name) === 'object'){
                         for(var prop in name){
                             this.attr(prop, name[prop]);
                         }
-                    }else if(typeof(name) === 'string'){
+                    }else if(typeof (name) === 'string'){
                         if(this.attributes[name] === undefined){
                             return undefined;
                         }else{
@@ -91,11 +91,11 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                     this.metaData[name] = value;
                     $(document).trigger('metaChange.qti-widget', {element : this, key : name, value : value});
                 }else{
-                    if(typeof(name) === 'object'){
+                    if(typeof (name) === 'object'){
                         for(var prop in name){
                             this.data(prop, name[prop]);
                         }
-                    }else if(typeof(name) === 'string'){
+                    }else if(typeof (name) === 'string'){
                         if(this.metaData[name] === undefined){
                             return undefined;
                         }else{
@@ -121,7 +121,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
             return _.clone(this.attributes);
         },
         removeAttributes : function(attrNames){
-            if(typeof(attrNames) === 'string'){
+            if(typeof (attrNames) === 'string'){
                 attrNames = [attrNames];
             }
             for(var i in attrNames){
@@ -141,6 +141,12 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 elts[object.getSerial()] = object;//pass individual object by ref, instead of the whole list(object)
                 elts = _.extend(elts, object.getComposingElements());
             }
+            _.each(this.metaData, function(v){
+                if(Element.isA(v, '_container')){
+                    elts[v.getSerial()] = v;
+                    elts = _.extend(elts, v.getComposingElements());
+                }
+            });
             return elts;
         },
         getUsedClasses : function(){
@@ -222,10 +228,10 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
 
             var tplData = {},
                 defaultData = {
-                'tag' : this.qtiClass,
-                'serial' : this.serial,
-                'attributes' : this.getAttributes()
-            };
+                    'tag' : this.qtiClass,
+                    'serial' : this.serial,
+                    'attributes' : this.getAttributes()
+                };
 
             if(!renderer){
                 throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
@@ -238,13 +244,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 defaultData.object = {
                     attributes : this.object.getAttributes()
                 };
-                var url = defaultData.object.attributes.data;
-                var baseUrl = renderer.getOption('baseUrl');
-                if(baseUrl){
-                    if(!/^http(s)?:\/\//.test(url)){
-                        defaultData.object.attributes.data = baseUrl + url;
-                    }
-                }
+                defaultData.object.attributes.data = renderer.getAbsoluteUrl(this.object.attr('data'));
             }
 
             tplData = _.merge(defaultData, args.data || {});
@@ -264,7 +264,7 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                 //post render body element
                 this.getBody().postRender({}, '', renderer);
             }
-
+            
             if(renderer){
                 return renderer.postRender(this, data, altClassName);
             }else{
@@ -320,6 +320,12 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
                     this.removeAttr('class');
                 }
             }
+        },
+        isset : function(){
+            return Element.issetElement(this.serial);
+        },
+        unset : function(){
+            return Element.unsetElement(this.serial);
         }
     });
 
@@ -336,9 +342,28 @@ define(['class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem
     Element.getElementBySerial = function(serial){
         return _instances[serial];
     };
-
+    
+    Element.issetElement = function(serial){
+        return !!_instances[serial];
+    };
+    
     Element.unsetElement = function(serial){
-        delete _instances[serial];
+        
+        var element = Element.getElementBySerial(serial);
+        
+        if(element){
+            
+            var composingElements = element.getComposingElements();
+            _.each(composingElements, function(elt){
+                delete _instances[elt.serial];
+            });
+            delete _instances[element.serial];
+            
+        }else{
+            throw 'cannot unset an element that does not exist';
+        }
+        
+        return true;
     };
 
     return Element;

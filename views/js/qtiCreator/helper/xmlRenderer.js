@@ -14,6 +14,9 @@ define(['taoQtiItem/qtiXmlRenderer/renderers/Renderer'], function(XmlRenderer){
     };
 
     return {
-        render : _render
+        render : _render,
+        get : function(){
+            return _xmlRenderer;
+        }
     };
 });

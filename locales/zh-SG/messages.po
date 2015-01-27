@@ -1,12 +1,20 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:27:13\n"
+"Project-Id-Version: TAO v3.0\n"
+"PO-Revision-Date: 2014-10-21T07:52:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: zh-SG\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Fill in the gaps in a text from a set of choices."
+msgstr ""
 
 msgid "-- Any kind of file --"
 msgstr ""
@@ -53,6 +61,9 @@ msgstr ""
 msgid "Add Style Sheet"
 msgstr ""
 
+msgid "Alignment"
+msgstr ""
+
 msgid "Alignment (optional)"
 msgstr ""
 
@@ -83,7 +94,7 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
-msgid "Appearance"
+msgid "Arrange a list of choices in the correct order."
 msgstr ""
 
 msgid "Associate"
@@ -95,10 +106,13 @@ msgstr ""
 msgid "association pairs"
 msgstr ""
 
+msgid "at least"
+msgstr ""
+
 msgid "audio/mpeg"
 msgstr ""
 
-msgid "autostart"
+msgid "Autostart"
 msgstr ""
 
 msgid "Background color"
@@ -108,6 +122,9 @@ msgid "Block"
 msgstr ""
 
 msgid "block"
+msgstr ""
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr ""
 
 msgid "Border color"
@@ -122,10 +139,10 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgid "Choice"
 msgstr ""
 
-msgid "Choice"
+msgid "Choice Image"
 msgstr ""
 
 msgid "Choice Interaction"
@@ -134,10 +151,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Click again to remove"
@@ -149,19 +166,37 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-msgid "Correct"
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr ""
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr ""
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
 msgid "correct"
 msgstr ""
 
+msgid "Correct"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
+msgstr ""
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr ""
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr ""
 
 msgid "Create gap"
 msgstr ""
 
 msgid "Create hottext"
+msgstr ""
+
+msgid "Create pair(s) from a series of choices."
 msgstr ""
 
 msgid "CSV file"
@@ -173,10 +208,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -224,9 +259,6 @@ msgstr ""
 msgid "done"
 msgstr ""
 
-msgid "Don’t show this again!"
-msgstr ""
-
 msgid "Download this stylesheet"
 msgstr ""
 
@@ -254,19 +286,16 @@ msgstr ""
 msgid "edit choices"
 msgstr ""
 
-msgid "Edit Item"
-msgstr ""
-
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
 msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr ""
 
-msgid "Edit stylesheet label"
+msgid "Edit modal feedback title"
 msgstr ""
 
-msgid "Edit Widget"
+msgid "Edit stylesheet label"
 msgstr ""
 
 msgid "Editing Mode"
@@ -281,7 +310,7 @@ msgstr ""
 msgid "elements"
 msgstr ""
 
-msgid "End Attempt"
+msgid "Enable the test taker to pause and restart the playing."
 msgstr ""
 
 msgid "Enlarge font size"
@@ -312,6 +341,12 @@ msgid "File name"
 msgstr ""
 
 msgid "File Upload"
+msgstr ""
+
+msgid "File Upload Interaction"
+msgstr ""
+
+msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr ""
 
 msgid "Flash video"
@@ -348,9 +383,6 @@ msgid "Graphic Associate Interaction"
 msgstr ""
 
 msgid "Graphic Gap"
-msgstr ""
-
-msgid "Graphic Gap Interaction"
 msgstr ""
 
 msgid "Graphic Order"
@@ -446,10 +478,13 @@ msgstr ""
 msgid "Is this pair the correct response?"
 msgstr ""
 
-msgid "Item creator"
+msgid "Item"
 msgstr ""
 
 msgid "Item Properties"
+msgstr ""
+
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -464,13 +499,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Landscape"
+msgid "LaTex"
 msgstr ""
 
 msgid "Latex"
-msgstr ""
-
-msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
@@ -479,10 +511,16 @@ msgstr ""
 msgid "left"
 msgstr ""
 
-msgid "loop"
+msgid "Left"
+msgstr ""
+
+msgid "Loop"
 msgstr ""
 
 msgid "Lower Bound"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "Mapping default"
@@ -492,6 +530,9 @@ msgid "Match"
 msgstr ""
 
 msgid "Match Interaction"
+msgstr ""
+
+msgid "MathJax is not installed."
 msgstr ""
 
 msgid "MathML"
@@ -527,10 +568,10 @@ msgstr ""
 msgid "Microsoft Word file"
 msgstr ""
 
-msgid "Mime Type"
+msgid "Mime type"
 msgstr ""
 
-msgid "Mime type"
+msgid "Mime Type"
 msgstr ""
 
 msgid "MIME-type"
@@ -560,9 +601,6 @@ msgstr ""
 msgid "MPEG video"
 msgstr ""
 
-msgid "new option"
-msgstr ""
-
 msgid "no configuration property needed"
 msgstr ""
 
@@ -581,9 +619,6 @@ msgstr ""
 msgid "Number of associations"
 msgstr ""
 
-msgid "Number of choices"
-msgstr ""
-
 msgid "one association pair"
 msgstr ""
 
@@ -593,13 +628,23 @@ msgstr ""
 msgid "Order Interaction"
 msgstr ""
 
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr ""
+
 msgid "Pair scoring"
+msgstr ""
+
+msgid "Pause"
 msgstr ""
 
 msgid "PDF file"
 msgstr ""
 
 msgid "Plain text"
+msgstr ""
+
+msgid "Please create areas that correspond to the response and associate them a score.\n"
+"You can also position the target to the exact point as the correct response."
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -638,10 +683,22 @@ msgstr ""
 msgid "Please order the choices below to set the correct answer"
 msgstr ""
 
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select the correct hotspot choices below."
 msgstr ""
 
 msgid "Please select the correct hottext choices below."
+msgstr ""
+
+msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please set the correct associations by linking the choices."
@@ -653,16 +710,22 @@ msgstr ""
 msgid "Please type the correct response below."
 msgstr ""
 
+msgid "Please type the correct response in the box below."
+msgstr ""
+
 msgid "PNG image"
 msgstr ""
 
-msgid "Portrait"
+msgid "Position one or more points on a picture (response areas are not displayed)."
 msgstr ""
 
 msgid "Pre-formatted text"
 msgstr ""
 
 msgid "Preparing CSS, please wait…"
+msgstr ""
+
+msgid "Preview"
 msgstr ""
 
 msgid "Print"
@@ -683,19 +746,16 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-msgid "Quick Preview"
-msgstr ""
-
 msgid "Quicktime video"
 msgstr ""
 
 msgid "Reduce font size"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -725,9 +785,6 @@ msgstr ""
 msgid "Remove the selected shape"
 msgstr ""
 
-msgid "Remove this message"
-msgstr ""
-
 msgid "Remove this stylesheet"
 msgstr ""
 
@@ -752,16 +809,7 @@ msgstr ""
 msgid "Rollback on..."
 msgstr ""
 
-msgid "Rubric"
-msgstr ""
-
-msgid "Rubric Block"
-msgstr ""
-
 msgid "Save"
-msgstr ""
-
-msgid "Scale "
 msgstr ""
 
 msgid "Score"
@@ -780,6 +828,15 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
+msgstr ""
+
+msgid "Select a choice from a drop-down list."
+msgstr ""
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr ""
+
+msgid "Select a value within a numerical range."
 msgstr ""
 
 msgid "Select an image first"
@@ -806,6 +863,12 @@ msgstr ""
 msgid "Select media file"
 msgstr ""
 
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr ""
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr ""
+
 msgid "Select Point"
 msgstr ""
 
@@ -825,6 +888,9 @@ msgid "Select this area to start an association"
 msgstr ""
 
 msgid "Set the score for this response"
+msgstr ""
+
+msgid "Shape position"
 msgstr ""
 
 msgid "Shuffle choices"
@@ -863,7 +929,7 @@ msgstr ""
 msgid "TAO default styles"
 msgstr ""
 
-msgid "Text Block"
+msgid "Text Block Interaction"
 msgstr ""
 
 msgid "Text Block Properties"
@@ -917,6 +983,9 @@ msgid "The IMS QTI Item could not be imported."
 msgstr ""
 
 msgid "The item needs to be saved before it can be previewed"
+msgstr ""
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
@@ -973,7 +1042,16 @@ msgstr ""
 msgid "The selected file is ready to be sent."
 msgstr ""
 
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
+msgstr ""
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
 
 msgid "The upper bound of the slider"
@@ -982,13 +1060,16 @@ msgstr ""
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr ""
 
+msgid "There is an incomplete element in your item : please click on it to complete it."
+msgstr ""
+
 msgid "There was a problem downloading your CSS, please try again."
 msgstr ""
 
 msgid "this identifier is already in use"
 msgstr ""
 
-msgid "This preview may be scaled to fit your screen. The final rendering may differ."
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr ""
 
 msgid "Time dependent"
@@ -997,13 +1078,16 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+msgid "Top"
+msgstr ""
+
 msgid "Undo"
 msgstr ""
 
 msgid "undo"
 msgstr ""
 
-msgid "Upload Interaction"
+msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr ""
 
 msgid "Upper Bound"
@@ -1033,6 +1117,12 @@ msgstr ""
 msgid "You can select maximum"
 msgstr ""
 
+msgid "You can select maximum %d choice\",max):__(\"You can select maximum %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgstr ""
+
+msgid "You can use maximum \"+max+\" choices"
+msgstr ""
+
 msgid "You can use maximum ' + max + ' choices"
 msgstr ""
 
@@ -1048,6 +1138,9 @@ msgstr ""
 msgid "You may make as many association pairs as you want."
 msgstr ""
 
+msgid "You must at least %d choice\",min):__(\"You must select at least %d choices\",max),self.appendInstruction(interaction,msg,function(){getResponse(interaction).length>=min?this.setLevel(\"success"
+msgstr ""
+
 msgid "You must select %1$d to %2$d choices."
 msgstr ""
 
@@ -1060,13 +1153,19 @@ msgstr ""
 msgid "You must select exactly"
 msgstr ""
 
+msgid "You must select exactly %d choice\",max):__(\"You must select exactly %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgstr ""
+
 msgid "You must select exactly %d choice(s)."
+msgstr ""
+
+msgid "You must use at least \"+min+\" choices"
 msgstr ""
 
 msgid "You must use at least ' + min + ' choices"
 msgstr ""
 
-msgid "You need to make at least"
+msgid "You need to make"
 msgstr ""
 
 msgid "Your item has been saved"

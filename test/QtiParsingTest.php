@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,13 +18,14 @@
  *               
  * 
  */
+namespace oat\taoQtiItem\test;
 
+use common_ext_ExtensionsManager;
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\JsonLoader;
-
-require_once dirname(__FILE__) . '/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -75,8 +76,8 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 			$this->assertTrue($qtiParser->isValid());
 			
 			$item = $qtiParser->load();
-			
-			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
             
 		}
         
@@ -98,7 +99,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             
             $item = $qtiParser->load();
 
-            $this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
             
             //test if content has been exported
             $qti = $item->toXML();
@@ -133,7 +134,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             
             $item = $qtiParser->load();
 
-            $this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
             
             //test if content has been exported
             $qti = $item->toXML();
@@ -161,7 +162,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             $json = json_decode(file_get_contents($file), true);
             $jsonLoader = new JsonLoader($json['full']);
             $item = $jsonLoader->load();
-            $this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
         }
     }
     
@@ -175,16 +176,16 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 		
 		$this->assertTrue($qtiParser->isValid());
 		$this->assertNotNull($item);
-		$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+		$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 		
 		$this->assertEquals(count($item->getInteractions()),1, 'nr of interactions in choice.xml differs from 1');
 		
 		$this->assertFalse(strlen((string) $item->getBody()) == 0, 'itembody empty');
 		foreach($item->getInteractions() as $interaction){
-			$this->assertIsA($interaction, 'oat\\taoQtiItem\\model\\qti\\interaction\\ChoiceInteraction');
+			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\interaction\\ChoiceInteraction',$interaction);
 			
 			foreach($interaction->getChoices() as $choice){
-				$this->assertIsA($choice, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice');
+				$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\choice\\Choice',$choice);
 			}
 		}
 	
@@ -207,9 +208,28 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             }
             
 			$item = $qtiParser->load();
-			$this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
 		}
         
+	}
+    
+	public function testFileParsingQtiPic(){
+		
+        $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
+        
+		//check if samples are loaded 
+		foreach($files as $file){
+			$qtiParser = new Parser($file);
+            
+            $qtiParser->validate();
+            if(!$qtiParser->isValid()){
+                echo $qtiParser->displayErrors();
+            }
+            
+			$item = $qtiParser->load();
+			$this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+            
+		}
 	}
 	
 }

@@ -29,22 +29,24 @@ define([
     };
 
     var InteractionStateActive = stateFactory.extend(Active, function(){
-
+        
         var _widget = this.widget,
             $container = _widget.$container,
             interaction = _widget.element,
             response = interaction.getResponseDeclaration();
 
-        _widget.$container.attr('contenteditable', false);
+        $container.attr('contenteditable', false);
 
         _widget.beforeStateInit(function(e, element, state){
+            
             var serial = element.getSerial();
-
+            
             if(element.qtiClass === 'modalFeedback'){
                 return false;
             }
-
+            
             if(state.name === 'active' && serial !== _widget.serial){
+                
                 //when it does not click on itself, check if the newly activated element is its own composing element:
                 var composingElts = interaction.getComposingElements();
                 var inModalFeedback = _containsInModalFeedbackElts(response, serial);

@@ -1,15 +1,15 @@
 <?php
-use oat\taoQtiItem\helpers\Authoring;
 use oat\tao\helpers\Template;
 ?>
 
-<link href="<?= Template::css('qti.css') ?>" rel="stylesheet">
-<link href="<?= Template::css('item-creator.css') ?>" rel="stylesheet">
+<link rel="stylesheet" href="<?= Template::css('qti.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
 
 <div id="item-editor-scope" data-content-target="wide">
 
-<div class="wrapper clearfix content" id="item-editor-wrapper">
+<div class="wrapper clearfix content sidebar-popup-parent" id="item-editor-wrapper">
 
 
 <!-- left sidebar -->
@@ -51,7 +51,7 @@ use oat\tao\helpers\Template;
             </span>
             </li>
         </ul>
-        <div id="item-editor-label" class="truncate action-group"><?= __('Item') ?>: <span></span></div>
+        <div id="item-editor-label" class="truncate action-group"></div>
     </div>
     <div id="item-editor-scroll-outer">
         <div id="item-editor-scroll-inner">
@@ -61,7 +61,7 @@ use oat\tao\helpers\Template;
 </main>
 <!-- /item panel -->
 <!-- right sidebar -->
-<div class="item-editor-sidebar-wrapper right-bar">
+<div class="item-editor-sidebar-wrapper right-bar sidebar-popup-parent">
 <div class="action-bar content-action-bar horizontal-action-bar">
     <ul class="action-group plain clearfix item-editor-menu plain">
         <li id="appearance-trigger" class="btn-info small rgt">
@@ -100,39 +100,41 @@ use oat\tao\helpers\Template;
         <h2><?= __('Style Editor') ?></h2>
 
         <div class="panel color-picker-panel">
-            <div id="item-editor-color-picker" class="sidebar-popup-container-box">
-                <div id="color-picker-container" class="sidebar-popup">
-                    <h3 id="color-picker-title"></h3>
-
-                    <div class="color-picker"></div>
-                    <input id="color-picker-input" type="text" value="#000000">
-
-                    <a class="closer" href="#" data-close="#color-picker-container"></a>
+            <div class="item-editor-color-picker sidebar-popup-container-box">
+                <div class="color-picker-container sidebar-popup">
+                    <div class="sidebar-popup-title">
+                        <h3 id="color-picker-title"></h3>
+                        <a class="closer" href="#" data-close="#color-picker-container"></a>
+                    </div>
+                    <div class="sidebar-popup-content">
+                        <div class="color-picker"></div>
+                        <input id="color-picker-input" type="text" value="#000000">
+                    </div>
                 </div>
                 <div class="reset-group">
                     <div class="clearfix">
-                        <label for="initial-bg"><?= __('Background color') ?></label>
+                        <label for="initial-bg" class="truncate"><?= __('Background color') ?></label>
                             <span class="icon-eraser reset-button" data-value="background-color"
                                   title="<?= __('Remove custom background color') ?>"></span>
                             <span class="color-trigger" id="initial-bg" data-value="background-color"
-                                  data-target="body div.qti-item.tao-scope"></span>
+                                  data-target="body div.qti-item.tao-scope, body div.qti-item.tao-scope .qti-associateInteraction .result-area > li > .target"></span>
                     </div>
                     <div class="clearfix">
-                        <label for="initial-color"><?= __('Text color') ?></label>
+                        <label for="initial-color" class="truncate"><?= __('Text color') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom text color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="color"
                                   data-target="body div.qti-item.tao-scope"></span>
                     </div>
                     <div class="clearfix">
-                        <label for="initial-color"><?= __('Border color') ?></label>
+                        <label for="initial-color" class="truncate"><?= __('Border color') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom border color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="border-color"
                                   data-target="body div.qti-item.tao-scope .solid,body div.qti-item.tao-scope .matrix, body div.qti-item.tao-scope table.matrix th, body div.qti-item.tao-scope table.matrix td"></span>
                     </div>
                     <div class="clearfix">
-                        <label for="initial-color"><?= __('Table headings') ?></label>
+                        <label for="initial-color" class="truncate"><?= __('Table headings') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom background color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="background-color"

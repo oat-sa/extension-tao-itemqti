@@ -21,15 +21,12 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use oat\taoQtiItem\model\Export\QtiPackage20ExportHandler;
-use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
-
 /**
  * Backward compatibility class
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoQTI
+ * @package taoQTIItem
  
  * @deprecated
  */

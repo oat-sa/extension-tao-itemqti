@@ -361,4 +361,3 @@ abstract class Composite extends ResponseProcessing implements Rule
      */
     public abstract function getCompositionRules();
 }
-/* end of abstract class oat\taoQtiItem\model\qti\response\Composite */

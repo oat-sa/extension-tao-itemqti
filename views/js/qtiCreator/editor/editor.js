@@ -1,218 +1,200 @@
 define([
+    'jquery',
     'lodash',
-    'jquery'
-], function(_, $){
+    'helpers',
+    'core/dataattrhandler',
+    //gui components
+    'taoItems/preview/preview',
+    'taoQtiItem/qtiCreator/editor/preparePrint',
+    //appearance editor:
+    'taoQtiItem/qtiCreator/editor/styleEditor/fontSelector',
+    'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
+    'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
+    'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
+    // item related
+    'taoQtiItem/qtiCreator/helper/itemSerializer'
+], function(
+    $,
+    _,
+    helpers,
+    dataAttrHandler,
+    preview,
+    preparePrint,
+    fontSelector,
+    colorSelector,
+    fontSizeChanger,
+    itemResizer,
+    styleEditor,
+    styleSheetToggler,
+    itemSerializer
+    ){
 
     'use strict';
 
-    var editor = (function(){
-
-        var elements = {};
-
-
-        var _setupElements = function(){
-            var _elements = {
-                scope : '#item-editor-scope',
-                toolbarInner : '#item-editor-toolbar-inner',
-                sidebars : '.item-editor-sidebar',
-                itemBar : '#item-editor-item-bar',
-                itemPanel : '#item-editor-panel',
-                scrollOuter : '#item-editor-scroll-outer',
-                scrollInner : '#item-editor-scroll-inner',
-                label: '#item-editor-label',
-                actionGroups: '.action-group'
-            },
-            element;
-            for(element in _elements){
-                elements[element] = $(_elements[element]);
-            }
-            elements.columns = elements.sidebars.add(elements.itemPanel);
+    var askForSave = false,
+        serializeTimeOut,
+        lastItemData,
+        serializeItem = function (element) {
+            lastItemData = itemSerializer.serialize(element);
         };
 
-        // selectors and classes
-        var heading = 'h2',
-            section = 'section',
-            panel = 'hr, .panel',
-            closed = 'closed',
-            ns = 'accordion';
+    var initStyleEditor = function(widget, config){
 
-        /**
-         * setup accordion
-         */
-        var sidebarAccordionInit = function(){
+        styleEditor.init(widget.element, config);
 
-            elements.sidebars.each(function(){
-                var $sidebar = $(this),
-                    $sections = $sidebar.find(section),
-                    $allPanels = $sidebar.children(panel).hide(),
-                    $allTriggers = $sidebar.find(heading);
+        styleSheetToggler.init(config);
 
-                if($allTriggers.length === 0){
-                    return true;
-                }
+        // CSS widgets
+        fontSelector();
+        colorSelector();
+        fontSizeChanger();
+        itemResizer(widget.element);
+
+    };
 
 
-                // setup events
-                $allTriggers.each(function(){
-                    var $heading = $(this),
-                        $section = $heading.parents(section),
-                        $panel = $section.children(panel),
-                        $closer = $('<span>', {'class' : 'icon-up'}),
-                    $opener = $('<span>', {'class' : 'icon-down'}),
-                    action = $panel.is(':visible') ? 'open' : 'close';
+    /**
+     * Confirm to save the item
+     */
+    var _confirmPreview = function (overlay) {
 
-                    $heading.append($closer).append($opener).addClass(closed);
+        var confirmBox = $('.preview-modal-feedback'),
+            cancel = confirmBox.find('.cancel'),
+            save = confirmBox.find('.save'),
+            close = confirmBox.find('.modal-close');
 
-                    // toggle heading class arrow (actually switch arrow)
-                    $panel.on('panelclose.' + ns + ' panelopen.' + ns, function(e, args){
-                        var fn = e.type === 'panelclose' ? 'add' : 'remove';
-                        args.heading[fn + 'Class'](closed);
-                    });
+        confirmBox.modal({ width: 500 });
+
+        save.on('click', function () {
+            overlay.trigger('save.preview');
+            confirmBox.modal('close');
+        });
+
+        cancel.on('click', function () {
+            confirmBox.modal('close');
+        });
+    };
 
 
-                    $panel.trigger('panel' + action + '.' + ns, {heading : $heading});
-                });
+    var initPreview = function(widget){
 
+        var previewContainer, previewUrl;
 
-                $sections.each(function(){
+        clearTimeout(serializeTimeOut);
+        //serialize the item at the initialization level
+        //TODO wait for an item ready event
+        // itemWidget.$container.on('ready...
+        serializeTimeOut = setTimeout(function() {
+            serializeItem(widget.element);
+        }, 500);
 
-                    // assign click action to headings
-                    $(this).find(heading).on('click', function(e, args){
+        //get the last value by saving
+        $('#save-trigger').on('click.qti-creator', function() {
+            serializeItem(widget.element);
+        });
 
-                        var $heading = $(this),
-                            $panel = $heading.parents(section).children(panel),
-                            preserveOthers = !!(args && args.preserveOthers),
-                            actions = {
-                            close : 'hide',
-                            open : 'fadeIn'
-                        },
-                        action,
-                            forceState = (args && args.forceState ? args.forceState : false),
-                            classFn;
+        $(document).on('stylechange.qti-creator', function () {
+            //we need to save before preview of style has changed (because style content is not part of the item model)
+            askForSave = true;
+        });
 
-                        if(forceState){
-                            classFn = forceState === 'open' ? 'addClass' : 'removeClass';
-                            $heading[classFn](closed);
-                        }
+        //compare the current item with the last serialized to see if there is any change
+        if (!askForSave) {
+            var currentItemData = serializeItem(widget.element);
+            if (lastItemData !== currentItemData || currentItemData === '') {
+                lastItemData = currentItemData;
+                askForSave = true;
+            }
+        }
 
-                        action = $heading.hasClass(closed) ? 'open' : 'close';
+        previewUrl = helpers._url('index', 'QtiPreview', 'taoQtiItem') + '?uri=' + encodeURIComponent(widget.itemUri);
+        previewContainer = preview.init(previewUrl);
 
-                        // whether or not to close other sections in the same sidebar
-                        // @todo (optional): remove 'false' in the condition below
-                        // to change the style to accordion, i.e. to allow for only one open section
-                        if(false && !preserveOthers){
-                            $allPanels.not($panel).each(function(){
-                                var $panel = $(this),
-                                    $heading = $panel.parent().find(heading),
-                                    _action = 'close';
-
-                                $panel.trigger('panel' + _action + '.' + ns, {heading : $heading})[actions[_action]]();
-                            });
-                        }
-
-                        $panel.trigger('panel' + action + '.' + ns, {heading : $heading})[actions[action]]();
-                    });
-
+        // wait for confirmation to save the item
+        if (askForSave) {
+            _confirmPreview(previewContainer);
+            previewContainer.on('save.preview', function () {
+                previewContainer.off('save.preview');
+                askForSave = false;
+                $.when(styleEditor.save(), widget.save()).done(function () {
+                    preview.show();
                 });
             });
-        };
+        }
+        else {
+            //or show the preview
+            preview.show();
+        }
 
-        /**
-         * Toggle section display
-         *
-         * @param sections
-         */
-        var _toggleSections = function(sections, preserveOthers, state){
-            sections.each(function(){
-                $(this).find(heading).trigger('click', {preserveOthers : preserveOthers, forceState : state});
-            });
-        };
+    };
 
-        /**
-         * Close specific sections
-         *
-         * @param sections
-         */
-        var closeSections = function(sections, preserveOthers){
-            _toggleSections(sections, !!preserveOthers, 'close');
-        };
+    /**
+     * Initialize interface
+     */
+    var initGui = function(widget, config){
 
-        /**
-         * Open specific sections
-         *
-         * @param sections
-         */
-        var openSections = function(sections, preserveOthers){
-            _toggleSections(sections, !!preserveOthers, 'open');
-        };
+        updateHeight();
+        $(window).off('resize.qti-editor')
+            .on('resize.qti-editor', _.throttle(updateHeight, 50));
 
+        initStyleEditor(widget, config);
 
-        /**
-         * toggle availability of sub group
-         * @param subGroup
-         */
-        var _toggleSubGroup = function(subGroup, state){
-            subGroup = $('.' + subGroup);
-            if(subGroup.length){
-                var fn = state === 'disable' ? 'addClass' : 'removeClass';
-                subGroup.data('cover')[fn]('blocking');
-            }
-        };
+        preparePrint();
 
+        var $itemPanel = $('#item-editor-panel'),
+            $label = $('#item-editor-label'),
+            $actionGroups = $('.action-group');
 
-        /**
-         * enable sub group
-         * @param subGroup
-         */
-        var enableSubGroup = function(subGroup){
-            _toggleSubGroup(subGroup, 'enable');
-        };
+        $itemPanel.addClass('has-item');
+        $label.text(config.label);
+        $actionGroups.show();
+    };
 
-        /**
-         * disable sub group
-         * @param subGroup
-         */
-        var disableSubGroup = function(subGroup){
-            _toggleSubGroup(subGroup, 'disable');
-        };
+    /**
+     * Update the height of the authoring tool
+     * @private 
+     */
+    var updateHeight = function updateHeight(){
+        var $itemEditorPanel = $('#item-editor-panel');
+        var $itemSidebars = $('.item-editor-sidebar');
+        var $contentPanel = $('#panel-authoring');
+        var /*$searchBar,
+            searchBarHeight,*/
+            footerTop,
+            contentWrapperTop,
+            remainingHeight;
 
-        /**
-         * Initialize interface
-         */
-        var initGui = function(config){
+        if (!$contentPanel.length || !$itemEditorPanel.length) {
+            return;
+        }
 
-            _setupElements();
+        //$searchBar = $contentPanel.find('.search-action-bar');
+        //searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
 
-            // toggle blocks in sidebar
-            // note that this must happen _after_ the height has been adapted
-            sidebarAccordionInit();
-
-            // close all
-            closeSections(elements.sidebars.find(section));
+        footerTop = (function() {
+            var $footer = $('body > footer'),
+                footerTop;
+            $itemSidebars.hide();
+            footerTop = $footer.offset().top;
+            $itemSidebars.show();
+            return footerTop;
+        }());
+        contentWrapperTop = $contentPanel.offset().top;
+        remainingHeight = footerTop - contentWrapperTop - $('.item-editor-action-bar').outerHeight();
 
 
-            openSections($('#sidebar-left-section-common-interactions'), false);
+        // in the item editor the action bars are constructed slightly differently
+        $itemEditorPanel.find('#item-editor-scroll-outer').css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
+        $itemSidebars.css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
+    };
 
-            elements.itemPanel.addClass('has-item');
+    return {
+        initGui : initGui,
+        initPreview: initPreview
+    };
 
-            elements.label.find('span').text(config.$label);
-
-            elements.actionGroups.show();
-
-        };
-
-
-        return {
-            initGui : initGui,
-            openSections : openSections,
-            closeSections : closeSections,
-            enableSubGroup : enableSubGroup,
-            disableSubGroup : disableSubGroup
-        };
-
-    }());
-    
-    return editor;
 });
 
 

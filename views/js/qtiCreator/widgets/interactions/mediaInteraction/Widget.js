@@ -19,7 +19,6 @@ define([
             $item
               .off('.' + this.element.serial)
               .on('resize.'+ this.element.serial, _.throttle(function(e){
-                
                     var width = $container.innerWidth();
                     if(width > 0){
                         self.element.object.attr('width', $container.innerWidth());
@@ -35,8 +34,7 @@ define([
             var $item      = $container.parents('.qti-item');
 
             //stop listening the resize
-            $item.off('resize.gridEdit.' + this.element.serial)
-                 .off('resize.qti-widget. '+ this.element.serial);
+            $item.off('resize.' + this.element.serial);
 
             //call parent destroy
             Widget.destroy.call(this);

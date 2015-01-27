@@ -1,6 +1,6 @@
 define(function(){
     return {
-        name: 'xmlRenderer',
+        name : 'xmlRenderer',
         locations : {
             '_container' : 'taoQtiItem/qtiXmlRenderer/renderers/Container',
             'assessmentItem' : 'taoQtiItem/qtiXmlRenderer/renderers/Item',
@@ -41,7 +41,11 @@ define(function(){
             'inlineChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/InlineChoice',
             'simpleAssociableChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleAssociableChoice',
             'simpleChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleChoice',
-            'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/CustomInteraction'
+            'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/PortableCustomInteraction',
+            'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl'
+        },
+        options : {
+            userRelativeUrl : true
         }
     };
 });

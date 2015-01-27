@@ -40,4 +40,4 @@ class ShowHideTemplateElement extends Attribute
 	static protected $defaultValue = 'show';
 	static protected $required = true;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\ShowHideTemplateElement */
+}

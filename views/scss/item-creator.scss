@@ -1,10 +1,9 @@
 @import "inc/bootstrap";
 @import "inc/main";
 @import "inc/farbtastic";
-@import "inc/preview";
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
-span.dragging {
+span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
     z-index: 999999;
     font-size: 5rem;
@@ -15,10 +14,15 @@ span.dragging {
     box-shadow: 1px 1px 6px 2px #777;
 }
 
+img.dragging.ui-draggable-dragging {
+    max-height: 90px;
+}
+
 %editHover {
     cursor: pointer;
     border: 1px solid whiten($info, .5);
 }
+
 
 %editActive {
     cursor: default;
@@ -140,8 +144,18 @@ span.dragging {
     z-index: 5;
     left: 35%;
     color: white(.9);
-    top: 8px;
+    top: 9px;
     text-shadow: 1px 1px 0 blacken($info, .2);
+}
+
+
+@media (max-width: 1280px) {
+    #item-editor-label {
+        text-align: right;
+        width: 40%;
+        left: auto;
+        right: 20px;
+    }
 }
 
 #authoringBack {
@@ -166,8 +180,9 @@ span.dragging {
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
+    position: relative;
 
-    @include simple-flex-box($sidebarWidth);
+    @include simple-flex-box(180px);
 
     &.left-bar {
         .action-bar {
@@ -248,6 +263,10 @@ span.dragging {
                 @include font-size(14);
                 max-width: 450px;
                 display: inline-block;
+                &.full-width{
+                    max-width: none;
+                    display: block;
+                }
             }
             select, input[type="text"], textarea {
                 width: 100%;
@@ -278,6 +297,7 @@ span.dragging {
                     display: inline-block
                 }
             }
+
             input.score {
                 width: 40px;
                 min-width: 40px;
@@ -459,7 +479,7 @@ span.dragging {
         width: 100%
     }
 
-    #item-editor-color-picker {
+    .item-editor-color-picker {
         .color-trigger {
             width: 40px;
             display: inline-block;
@@ -476,74 +496,12 @@ span.dragging {
         }
         #color-picker-container {
             top: -235px;
+            label {
+                max-width: 60% !important;
+            }
         }
         .color-picker {
             margin-top: -5px
-        }
-    }
-
-    .sidebar-popup-container-box {
-        position: relative;
-    }
-
-    .sidebar-popup {
-        background: mix(#fff, $grey, 85%);
-        padding: 3px;
-        position: absolute;
-        right: 2px;
-        @include vendor-prefix(box-shadow, 0px 0px 10px 0px rgba(50, 50, 50, 0.75), property, (-webkit-, -moz-, ''));
-        display: none;
-        z-index: 300;
-        .closer {
-            position: absolute;
-            top: 5px;
-            right: 2px;
-        }
-    }
-
-
-    #math-editor-container {
-        &.mathml {
-            top: -270px;
-            width: 357px;
-            input {
-                display: none;
-            }
-            textarea {
-                width: 350px;
-                max-width: none;
-                height: 250px;
-                font-family: $monospaceFont;
-                display: block;
-            }
-        }
-        &.latex {
-            top: -90px;
-            width: 427px;
-            textarea {
-                display: none;
-            }
-            input {
-                width: 420px;
-                max-width: none;
-                font-family: $monospaceFont;
-            }
-        }
-        z-index: 2000;
-        .icon-grip-h {
-            opacity: .5;
-            font-size: 20px;
-            position: absolute;
-            top: 5px;
-            left: 180px;
-            color: $uiClickableActiveBg;
-            cursor: move;
-            &:hover {
-                color: $uiClickableHoverBg;
-            }
-        }
-        h3 {
-            padding: 0 0 5px;
         }
     }
 
@@ -576,6 +534,95 @@ span.dragging {
         }
     }
 }
+
+
+// begin pop-up
+
+.sidebar-popup {
+    background: $canvas;
+    padding: 1px;
+    position: absolute;
+    right: ($sidebarWidth + 2) * 1px;
+    top: 37px; //height of blue action bar plus a bit
+    width: $sidebarWidth * 1px;
+    @include vendor-prefix(box-shadow, 0 0 2px 0px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
+    display: none;
+    z-index: 15000;
+    .sidebar-popup-content {
+        overflow-y: auto;
+        & > .panel {
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+        }
+    }
+    .sidebar-popup-title {
+        color: $textHighlight;
+        background: whiten($info, .2);
+        margin-bottom: 2px;
+        cursor: move;
+        a {
+            color: $textHighlight;
+        }
+        .closer {
+            position: absolute;
+            top: 1px;
+            right: 2px;
+        }
+        h3 {
+            padding: 0 5px !important;
+        }
+    }
+    input, textarea {
+        width: 100%;
+        max-width: none;
+        display: block;
+    }
+    &.one-twenty-five {
+        width: $sidebarWidth * 1.25px;
+    }
+    &.one-fifty {
+        width: $sidebarWidth * 1.5px;
+    }
+    &.two {
+        width: $sidebarWidth * 2px;
+    }
+    &.two-twenty-five {
+        width: $sidebarWidth * 2.25px;
+    }
+    &.two-fifty {
+        width: $sidebarWidth * 2.5px;
+    }
+    &.three {
+        width: $sidebarWidth * 3px;
+    }
+    &.three-twenty-five {
+        width: $sidebarWidth * 3.25px;
+    }
+    &.three-fifty {
+        width: $sidebarWidth * 3.5px;
+    }
+    &.mathml {
+        input {
+            display: none;
+            font-family: $monospaceFont;
+        }
+        textarea {
+            height: 250px;
+            font-family: $monospaceFont;
+        }
+    }
+    &.latex {
+        textarea {
+            display: none;
+            font-family: $monospaceFont;
+        }
+    }
+    &.color-picker-container {
+        right:0;
+    }
+}
+
+// end pop-up
 
 #item-editor-panel {
     padding: 0;
@@ -611,7 +658,7 @@ span.dragging {
 #item-editor-scroll-outer {
     overflow: auto;
     border-top: 1px white solid;
-    background-image: url(data:image/gif;base64,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);
+    background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
     background-position: center 250px;
     background-repeat: no-repeat;
     min-height: 300px;
@@ -1029,7 +1076,19 @@ span.dragging {
         border: none !important;
     }
 
+    html body .item-editor-sidebar-wrapper {
+        display: none !important;
+    }
+
     html body .item-no-print {
+        display: none !important;
+    }
+
+    html body #item-editor-scroll-inner {
+        padding: 0 !important;
+    }
+
+    html body .action-bar {
         display: none !important;
     }
 
@@ -1068,45 +1127,38 @@ span.dragging {
     }
 }
 
+
 // 1366x768
-@media (min-width: 1366px) {
+@media screen and (min-width: 1366px) {
 
-    .item-editor-sidebar-wrapper {
-
-
-        &.left-bar {
-            @include simple-flex-box(262);
-            #item-editor-interaction-bar {
-                .tool-list {
-                    li {
-                        width: (100 / 3) * 1%;
-                    }
+    .item-editor-sidebar-wrapper.left-bar {
+        @include simple-flex-box(262px);
+        #item-editor-interaction-bar {
+            .tool-list {
+                li {
+                    width: (100 / 3) * 1%;
                 }
-                .sub-group-cover:after, .sub-group-cover:before {
-                    left: 17% !important;
-                }
+            }
+            .sub-group-cover:after, .sub-group-cover:before {
+                left: 17% !important;
             }
         }
     }
 }
 
 // 1920x1080
-@media (min-width: 1920px) {
+@media screen and (min-width: 1920px) {
 
-    .item-editor-sidebar-wrapper {
-
-
-        &.left-bar {
-            @include simple-flex-box(344);
-            #item-editor-interaction-bar {
-                .tool-list {
-                    li {
-                        width: 25%;
-                    }
+    .item-editor-sidebar-wrapper.left-bar {
+        @include simple-flex-box(344px);
+        #item-editor-interaction-bar {
+            .tool-list {
+                li {
+                    width: 25%;
                 }
-                .sub-group-cover:after, .sub-group-cover:before {
-                    left: 12% !important;
-                }
+            }
+            .sub-group-cover:after, .sub-group-cover:before {
+                left: 12% !important;
             }
         }
     }

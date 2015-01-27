@@ -45,5 +45,3 @@ class HotspotChoice extends Hotspot
     protected static $qtiTagName = 'hotspotChoice';
 
 }
-
-/* end of class oat\taoQtiItem\model\qti\choice\HotspotChoice */

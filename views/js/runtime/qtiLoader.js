@@ -35,12 +35,16 @@
 
     //once the page is loaded
     onLoad(function(){
+
+        requirejs.config({
+           waitSeconds : parameters.timeout || 30 
+        });
         
         //we load the configuration
         require([clientConfigUrl], function(){
             
             //and start the QTI bootstrap
-            require(['css!tao_css/tao-main-style', 'taoQtiItem/runtime/qtiBootstrap'], function(css, qtiBootstrap){
+            require(['css!taoCss/tao-main-style', 'taoQtiItem/runtime/qtiBootstrap'], function(css, qtiBootstrap){
     
                 qtiBootstrap(runnerContext);
             });

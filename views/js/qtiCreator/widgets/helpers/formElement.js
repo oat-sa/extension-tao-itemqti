@@ -21,17 +21,19 @@ define([
         },
         /**
          * register attribute change callback functions when associated form elements has been modified
-         * 
+         *
          * @param {Object} $form - the jQuery form element
          * @param {Object} element - a js qti element (see qtiCreator/model)
          * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
          * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
+         * @param {Boolean} [options.invalidate = false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks : function($form, element, attributes, options){
 
             attributes = attributes || {};
             options = _.defaults(options || {}, {
-                validateOnInit : false
+                validateOnInit : false,
+                invalidate : false
             });
 
             var _callbackCall = function(name, value, $elt){
@@ -59,29 +61,18 @@ define([
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),
-                            name = $elt.attr('name'),
-                            widget = element.data('widget');
-
+                            name = $elt.attr('name');
+                        
+                        _callbackCall(name, $elt.val(), $elt);
                         if(options.invalidate){
-                            _callbackCall(name, $elt.val(), $elt);
-                            widget.isValid(name, valid);
-                        }else if(valid){
-                            _callbackCall(name, $elt.val(), $elt);
+                            element.data('widget').isValid(name, valid);
                         }
-
-                        return;
-                        //if(valid){
-                        //_callbackCall(name, $elt.val(), $elt);
-                        //widget.isValid(name, true);
-                        //}else{
-                        //widget.isValid(name, false);
-                        //}
                     }
                 }
             };
 
             $form.off('.databinding');
-            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate])', callback.simple);
+            $form.on('change.databinding keyup.databinding', ':checkbox, :radio, select, :text:not([data-validate]), :hidden:not([data-validate])', callback.simple);
             $form.on('keyup.databinding input.databinding propertychange.databinding', 'textarea', callback.simple);
 
             $form.on('validated.group.databinding', callback.withValidation);
@@ -101,12 +92,12 @@ define([
 
             $title
                 .inplacer({
-                target : $('#qti-title')
-            })
+                    target : $('#qti-title')
+                })
                 .attr('title', __('Edit modal feedback title'))
                 .on('change', function(){
-                element.attr('title', $(this).text());
-            });
+                    element.attr('title', $(this).text());
+                });
         },
         /**
          * the simplest form of save callback used in setChangeCallbacks()
@@ -122,20 +113,32 @@ define([
                 }
             }
         },
-        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, updateCardinality){
+        getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, options){
 
-            var $max = $form.find('input[name=' + attributeNameMax + ']'),
+            var _defaults = {
+                    allowNull : false,
+                    updateCardinality : true,
+                    attrMethodNames : {
+                        remove : 'removeAttr',
+                        set : 'attr'
+                    },
+                    callback : _.noop
+                },
+                $max = $form.find('input[name=' + attributeNameMax + ']'),
                 callbacks = {};
-
+            
+            //prepare options object
+            options = _.defaults(options || {}, _defaults);
+            
             callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : 0};
 
-                if(parseInt(value) === 0){
-                    element.removeAttr(name);
+                value = parseInt(value);
+                if(!options.allowNull && (value === 0 || isNaN(value))){
+                    element[options.attrMethodNames.remove](name);
                 }else{
-                    value = parseInt(value);
-                    element.attr(name, value);
+                    element[options.attrMethodNames.set](name, value);
                     newOptions.min = value;
 
                     var max = parseInt($max.val());
@@ -145,6 +148,8 @@ define([
                 }
                 //set incrementer min value for maxChoices and trigger keyup event to launch validation
                 $max.incrementer('options', newOptions).keyup();
+                
+                options.callback(element, value, name);
             };
 
             callbacks[attributeNameMax] = function(element, value, name){
@@ -153,15 +158,16 @@ define([
 
                 if(element.is('interaction')){
                     //update response
-                    _updateResponseDeclaration(element, value, updateCardinality);
+                    _updateResponseDeclaration(element, value, options.updateCardinality);
                 }
-                
+
                 if(!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))){
-                    element.removeAttr(name);//to be removed for order interactions
+                    element[options.attrMethodNames.remove](name);//to be removed for order interactions
                 }else{
-                    element.attr(name, value);//required
+                    element[options.attrMethodNames.set](name, value);//required
                 }
                 
+                options.callback(element, value, name);
             };
 
             return callbacks;
@@ -202,11 +208,11 @@ define([
 
         var $input = $(this),
             rule;
-        
+
         if(dom.contains($input)){
-            
+
             _createTooltip($input);
-            
+
             $input.tooltipster('hide');
 
             if(!valid){
@@ -222,10 +228,10 @@ define([
                 }
 
             }
-        
+
         }
-        
-        
+
+
 
     };
 

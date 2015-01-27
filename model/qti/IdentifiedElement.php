@@ -248,4 +248,3 @@ abstract class IdentifiedElement extends Element
     }
 
 }
-/* end of abstract class oat\taoQtiItem\model\qti\IdentifiedElement */

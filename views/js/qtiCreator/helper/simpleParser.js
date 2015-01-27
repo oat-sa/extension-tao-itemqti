@@ -19,7 +19,7 @@ define([
     };
 
     function _getElementSelector(qtiClass, ns){
-        return ns ? ns + "\\:" + qtiClass : qtiClass;
+        return ns ? ns + "\\:" + qtiClass + ','+qtiClass : qtiClass;
     }
 
     function getQtiClassFromXmlDom($node){
@@ -55,9 +55,6 @@ define([
 
         var elt = buildElement($elt);
 
-        //set math xml
-        elt.mathML = $elt.html();
-
         //set annotations:
         elt.annotations = {};
         $elt.find(_getElementSelector('annotation', options.ns.math)).each(function(){
@@ -66,8 +63,12 @@ define([
             if(encoding){
                 elt.annotations[encoding] = $annotation.html();
             }
+            $annotation.remove();
         });
-
+        
+        //set math xml
+        elt.mathML = $elt.html();
+        
         //set ns: 
         elt.ns = {
             name : 'm',
@@ -100,7 +101,7 @@ define([
             });
 
         });
-
+        
         $container.find(_getElementSelector('math', options.ns.math)).each(function(){
 
             var $qtiElement = $(this);
@@ -129,7 +130,7 @@ define([
 
             var data = parseContainer($container, options);
 
-            if(data.body){
+            if(data.body !== undefined){
                 element.body = data;
             }
 

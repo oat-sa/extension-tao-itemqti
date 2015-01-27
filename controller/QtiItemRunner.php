@@ -25,7 +25,6 @@ use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\controller\AbstractQtiItemRunner;
 use \core_kernel_file_File;
 use \core_kernel_classes_Resource;
-use \core_kernel_classes_Session;
 use \common_Exception;
 use \taoQtiCommon_helpers_PciVariableFiller;
 use \taoQtiCommon_helpers_PciStateOutput;

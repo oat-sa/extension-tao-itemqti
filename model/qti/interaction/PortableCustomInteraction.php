@@ -119,15 +119,14 @@ class PortableCustomInteraction extends CustomInteraction
             $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
             $this->setTypeIdentifier($typeIdentifier);
             
-            $entryPoint = $pciNodes->item(0)->getAttribute('entryPoint');
+            $entryPoint = $pciNodes->item(0)->getAttribute('hook');
             $this->setEntryPoint($entryPoint);
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
         $libs = array();
         foreach($libNodes as $libNode){
-            //@todo : get lib "href" from "id"
-            $libs[$libNode->getAttribute('name')] = $libNode->getAttribute('href');
+            $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 
@@ -148,10 +147,18 @@ class PortableCustomInteraction extends CustomInteraction
     private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
 
         $properties = array();
-        $ns = $ns ? $ns.':' : '';
+        
+        //prepare ns string
+        $ns = $ns ? $ns : '';
+        if($ns){
+            if(substr($ns, -1) !== ':'){
+                $ns .= ':';
+            }
+        }else{
+            $ns = '';
+        }
         
         foreach($propertiesNode->childNodes as $prop){
-            
             if($prop instanceof DOMElement){
                 switch($prop->tagName){
                     case $ns.'entry':

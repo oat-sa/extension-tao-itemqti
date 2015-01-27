@@ -8,7 +8,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'ui/resourcemgr'
 ], function ($, styleEditor, __, helpers, _, Stylesheet, genericFeedbackPopup) {
-    'use strict'
+    'use strict';
 
     var $doc = $(document);
 
@@ -36,7 +36,7 @@ define([
                         isDisabled: li.find('.icon-preview').hasClass('disabled'),
                         stylesheetObj: stylesheetObj,
                         cssUri: stylesheetObj.attr('href')
-                    }
+                    };
                 };
 
 
@@ -179,7 +179,7 @@ define([
                     initLabelEditor(e.target);
                 }
                 else if (className.indexOf('icon-preview') > -1) {
-                    handleAvailability(e.target)
+                    handleAvailability(e.target);
                 }
                 else if(className.indexOf('icon-download') > -1) {
                     downloadStylesheet(e.target);
@@ -200,7 +200,7 @@ define([
              * Handle renaming on blur
              */
             cssToggler.on('blur', 'input', function (e) {
-                saveLabel(e.target)
+                saveLabel(e.target);
             });
 
 
@@ -228,7 +228,7 @@ define([
 
         return {
             init: init
-        }
+        };
 
     })();
 

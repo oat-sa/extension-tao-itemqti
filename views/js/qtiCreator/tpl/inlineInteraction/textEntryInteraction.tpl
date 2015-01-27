@@ -1,5 +1,4 @@
-<div class="widget-box widget-inline widget-textEntryInteraction" data-serial="{{serial}}" data-edit="active">
-
+<div class="widget-box widget-inline widget-textEntryInteraction qti-interaction" data-serial="{{serial}}" data-edit="active">
     <div class="qti-interaction qti-textEntryInteraction">
         <table>
             <colgroup>
@@ -13,7 +12,9 @@
                     <td colspan="2"></td>
                 </tr>
                 <tr data-edit="correct">
-                    <td data-text><input type="text" name="correct" value="{{text}}" /></td>
+                    <td data-text>
+                        <div class="instruction-container"></div>
+                        <input type="text" name="correct" value="{{text}}" /></td>
                     <td class="mini-tlb" colspan="2">
                     </td>
                 </tr>

@@ -1,14 +1,13 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Math',
-    'taoQtiItem/qtiCreator/widgets/static/math/Widget',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
-], function(_, Renderer, Widget, inlineHelper){
+    'taoQtiItem/qtiCreator/widgets/static/math/Widget'
+], function(_, Renderer, Widget){
 
     var CreatorMath = _.clone(Renderer);
 
     CreatorMath.render = function(math, options){
-
+        
         //initial rendering:
         Renderer.render(math);
         

@@ -1,7 +1,8 @@
 define([
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active'
-], function(stateFactory, Active){
+], function($, stateFactory, Active){
 
     return stateFactory.extend(Active, function(){
 
@@ -14,7 +15,7 @@ define([
             if((state.name === 'active' && serial !== _widget.serial) || state.name === 'choice'){
 
                 if(_widget.element.qtiClass === 'rubricBlock'){
-                    //exclude 
+                    //exclude
                     var composingElts = _widget.element.getComposingElements();
                     if(!composingElts[element.serial]){
                         _widget.changeState('sleep');
@@ -23,7 +24,7 @@ define([
                     //call sleep whenever other widget is active
                     _widget.changeState('sleep');
                 }
-                
+
             }
 
         }, 'otherActive');

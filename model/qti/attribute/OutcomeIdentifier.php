@@ -40,4 +40,4 @@ class OutcomeIdentifier extends Attribute
 	static protected $defaultValue = null;
 	static protected $required = true;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\OutcomeIdentifier */
+}

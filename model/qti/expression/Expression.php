@@ -59,6 +59,5 @@ abstract class Expression
         return (string) $returnValue;
     }
 
-} /* end of abstract class oat\taoQtiItem\model\qti\expression\Expression */
-
+}
 ?>

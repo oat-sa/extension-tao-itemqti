@@ -1,11 +1,10 @@
 define([
-    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text'
-], function($, stateFactory, Active, htmlEditor, content, formTpl){
+], function(stateFactory, Active, htmlEditor, content, formTpl){
 
     var TextActive = stateFactory.extend(Active, function(){
 
@@ -21,13 +20,13 @@ define([
     TextActive.prototype.buildEditor = function(){
 
         var widget = this.widget,
-                $editableContainer = widget.$container,
-                container = widget.element;
+            $editableContainer = widget.$container,
+            container = widget.element;
 
         $editableContainer.attr('data-html-editable-container', true);
-        
-        if (!htmlEditor.hasEditor($editableContainer)) {
-            
+
+        if(!htmlEditor.hasEditor($editableContainer)){
+
             htmlEditor.buildEditor($editableContainer, {
                 change : content.getChangeCallback(container),
                 blur : function(){

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,13 +18,12 @@
  *               
  * 
  */
-
+namespace oat\taoQtiItem\test;
+use DOMDocument;
+use DOMException;
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
-
-?>
-<?php
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__).'/../includes/raw_start.php';
+//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -36,6 +35,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 {
 
     protected $qtiService;
+    protected $validateOnParse;
 
     /**
      * tests initialization
@@ -46,42 +46,32 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
     /**
      * test the building and exporting out the items
+     * @dataProvider itemProvider
      */
-    public function testToQTI(){
+    public function testToQTI($file){
 
-        $qtiItemFiles = array_merge(
-                glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')
-        );
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
 
-        foreach($qtiItemFiles as $file){
+        //test if content has been exported
+        $qti = $item->toXML();
+        $this->assertFalse(empty($qti));
 
-            if(strpos($file, 'media-prompt.xml') === false){
-//                continue;
-            }
+        //test if it's a valid QTI file
+        $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
+        file_put_contents($tmpFile, $qti);
+        $this->assertTrue(file_exists($tmpFile));
 
-            $qtiParser = new Parser($file);
-            $item = $qtiParser->load();
+        $parserValidator = new Parser($tmpFile);
+        $parserValidator->validate();
 
-            //test if content has been exported
-            $qti = $item->toXML();
-            $this->assertFalse(empty($qti));
-
-            //test if it's a valid QTI file
-            $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
-            file_put_contents($tmpFile, $qti);
-            $this->assertTrue(file_exists($tmpFile));
-
-            $parserValidator = new Parser($tmpFile);
-            $parserValidator->validate();
-
-            if(!$parserValidator->isValid()){
-                $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
-            }
-            /*
-              @unlink($tmpFile);
-              $this->assertFalse(file_exists($tmpFile));
-             */
+        if(!$parserValidator->isValid()){
+            $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }
+        /*
+          @unlink($tmpFile);
+          $this->assertFalse(file_exists($tmpFile));
+         */
     }
 
     /**
@@ -98,7 +88,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
             $this->assertTrue($qtiParser->isValid());
             $this->assertNotNull($item);
-            $this->assertIsA($item, 'oat\\taoQtiItem\\model\\qti\\Item');
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
             //test if content has been exported
             $xhtml = $item->toXHTML();
@@ -110,6 +100,18 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
                 $this->fail($de);
             }
         }
+    }
+    
+    /**
+     * 
+     * @return multitype:
+     */
+    public function itemProvider() {
+        $items = array();
+        foreach (array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file) {
+            $items[] = array($file);
+        }
+        return $items;
     }
 
 }

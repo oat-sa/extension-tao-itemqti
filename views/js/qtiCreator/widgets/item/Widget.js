@@ -13,9 +13,27 @@ define([
     'taoQtiItem/qtiCreator/helper/devTools',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/editor/editor',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
-], function(_, __, $, helpers, Widget, states, Element, creatorRenderer, containerHelper, contentHelper, xmlRenderer, devTools, TextWidget, styleEditor, genericFeedbackPopup){
+], function(
+    _,
+    __,
+    $,
+    helpers,
+    Widget,
+    states,
+    Element,
+    creatorRenderer,
+    containerHelper,
+    contentHelper,
+    xmlRenderer,
+    devTools,
+    TextWidget,
+    styleEditor,
+    itemEditor,
+    genericFeedbackPopup
+    ){
 
     var ItemWidget = Widget.clone();
 
@@ -55,7 +73,7 @@ define([
 
     ItemWidget.save = function(){
         return $.ajax({
-            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem') + '?uri=' + encodeURIComponent(this.itemUri),
+            url : helpers._url('saveItem', 'QtiCreator', 'taoQtiItem', {uri : this.itemUri}),
             type : 'POST',
             contentType : 'text/xml',
             dataType : 'json',
@@ -67,12 +85,16 @@ define([
 
         var _widget = this,
             element = _widget.element,
-            $saveBtn = $('#save-trigger');
+            $saveBtn = $('#save-trigger'),
+            $previewBtn = $('.preview-trigger');
 
         //init save button:
         $saveBtn.on('click', function(e){
 
             var $saveButton = $(this);
+            
+            //trigger save event
+            $saveButton.trigger('beforesave.qti-creator');
 
             if($saveButton.hasClass('disabled')){
                 e.preventDefault();
@@ -80,29 +102,41 @@ define([
             }
 
             $saveButton.addClass('active');
+            
+            //defer exceution of save function to give beforesave chance to be executed
+            _.defer(function(){
 
-            $.when(styleEditor.save(), _widget.save()).done(function(){
+                $.when(styleEditor.save(), _widget.save()).done(function(){
 
-                var feedbackArgs = {
-                    message : __('Your item has been saved'),
-                    type : 'success'
-                },
-                i = arguments.length;
-
-                $saveButton.removeClass('active');
-
-                while(i--){
-                    if(arguments[i][1].toLowerCase() !== 'success'){
+                    var success = true, 
                         feedbackArgs = {
-                            message : __('Failed to save item'),
-                            type : 'error'
-                        };
-                        break;
-                    }
-                }
+                        message : __('Your item has been saved'),
+                        type : 'success'
+                    },
+                    i = arguments.length;
 
-                _createInfoBox(feedbackArgs);
+                    $saveButton.removeClass('active');
+
+                    while(i--){
+                        if(arguments[i][1].toLowerCase() !== 'success'){
+                            feedbackArgs = {
+                                message : __('Failed to save item'),
+                                type : 'error'
+                            };
+                            success = false;
+                            break;
+                        }
+                    }
+                    
+                    $saveButton.trigger('aftersave.qti-creator', [success]);
+                    _createInfoBox(feedbackArgs);
+                });
             });
+            
+        });
+
+        $previewBtn.on('click', function(){
+            itemEditor.initPreview(_widget);
         });
 
         //listen to invalid states:
@@ -135,6 +169,7 @@ define([
         });
 
         $itemBody.on('beforedragoverstart.gridEdit', function(){
+
             $itemEditorPanel.addClass('dragging');
             $itemBody.removeClass('hoverable').addClass('inserting');
 
@@ -166,11 +201,11 @@ define([
             var widget = $widget.data('widget');
             var element = widget.element;
             var container = Element.isA(element, '_container') ? element : element.getBody();
-            
+
             if(!element || !$editable.length){
                 throw new Error('cannot create new element');
             }
-            
+
             containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
 
                 creatorRenderer.get().load(function(){
@@ -203,7 +238,7 @@ define([
                         //inform height modification
                         $widget.trigger('contentChange.gridEdit');
                         $widget.trigger('resize.gridEdit');
-                        
+
                         //active it right away:
                         if(Element.isA(elt, 'interaction')){
                             widget.changeState('question');
@@ -335,13 +370,13 @@ define([
     ItemWidget.initTextWidget = function(container, $col){
         return TextWidget.build(container, $col, this.renderer.getOption('textOptionForm'), {});
     };
-    
+
     /**
-    * Enable debugging 
-    * 
-    * @param {Boolean} [options.state = false] - log state change in console
-    * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
-    */
+     * Enable debugging 
+     * 
+     * @param {Boolean} [options.state = false] - log state change in console
+     * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
+     */
     ItemWidget.debug = function(options){
 
         options = options || {}
@@ -352,7 +387,7 @@ define([
 
         if(options.xml){
             var $code = $('<code>', {'class' : 'language-markup'}),
-            $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
+                $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
 
             $('#item-editor-wrapper').append($pre);
             devTools.liveXmlPreview(this.element, $code);

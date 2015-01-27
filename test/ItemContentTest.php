@@ -1,5 +1,5 @@
 <?php
-use oat\taoQtiItem\model\qti\ImportService;
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +19,15 @@ use oat\taoQtiItem\model\qti\ImportService;
  *               
  * 
  */
- 
 
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
+
+
+use oat\tao\test\TaoPhpUnitTestRunner;
+use \taoItems_models_classes_ItemsService;
+use oat\taoQtiItem\model\qti\ImportService;
+use \taoItems_helpers_ResourceManager;
+
+
 include_once dirname(__FILE__).'/../includes/raw_start.php';
 
 /**
@@ -57,7 +63,9 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertIsA($item, 'core_kernel_classes_Resource');
         $this->assertTrue($item->exists());
         
-        $data = taoItems_helpers_ResourceManager::buildDirectory($item, DEFAULT_LANG);
+        $rm = new taoItems_helpers_ResourceManager(array('item'=> $item , 'lang' => DEFAULT_LANG));
+
+        $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
         $this->assertTrue(isset($data['path']));
         $this->assertEquals('/', $data['path']);

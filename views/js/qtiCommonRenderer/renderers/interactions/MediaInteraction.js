@@ -22,7 +22,7 @@ define([
         if (mimetype !== '') {
             if (mimetype.indexOf('youtube') !== -1) {
                 type = 'video/youtube';
-            } else if (mimetype.indexOf('video') === 0) {
+            } else if (mimetype.indexOf('video') === 0 || mimetype.indexOf('application/ogg')) {
                 type = 'video';
             } else if (mimetype.indexOf('audio') === 0) {
                 type = 'audio';
@@ -262,7 +262,7 @@ define([
             initMediaPlayer();
        });
 
-        //gievs a small chance to the responseSet event before initializing the player
+        //gives a small chance to the responseSet event before initializing the player
         _.defer(function(){ 
             initMediaPlayer();
         });
@@ -308,6 +308,9 @@ define([
                             '</video>';
             } else {
                 attrs.src = url;
+                if(!type){
+                    type = 'video';
+                }
                 element =   '<' + type + ' ' + inlineAttrs(attrs) + '></' + type + '>';
             }
         }

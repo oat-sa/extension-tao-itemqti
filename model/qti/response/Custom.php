@@ -121,4 +121,3 @@ class Custom extends ResponseProcessing implements Rule
         return $returnValue;
     }
 }
-/* end of class oat\taoQtiItem\model\qti\response\Custom */

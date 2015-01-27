@@ -1,11 +1,12 @@
 define([
+    'lodash',
+    'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/helper/gridUnits',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'lodash'
-], function(stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper, _){
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function(_, $, stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper){
 
     var DeletingState = stateFactory.create('deleting', function(){
 
@@ -24,15 +25,17 @@ define([
 
         element.data('deleting', true);
 
-        //store reference to the item and its container:
-        this.item = element.getRelatedItem();
-        this.$item = this.item.data('widget').$container.find('.qti-itemBody');
-
         //trigger resizing
         if(this.updateBody){
+            
+            //store reference to the item and its container:
+            this.item = element.getRelatedItem();
+            this.$item = this.item.data('widget').$container.find('.qti-itemBody');
+
+            //call for resize action
             this.$item.trigger('resize.qti-widget');
         }
-        
+
     }, function(){
 
         this.showWidget();
@@ -97,6 +100,11 @@ define([
         }else if($container.hasClass('grid-row')){
             //rubric block:
             this.updateBody = true;
+            return $container;
+        }
+                
+        //other block widgets:
+        if($container.hasClass('widget-block')){
             return $container;
         }
     };
@@ -193,7 +201,7 @@ define([
     DeletingState.prototype.deleteElement = function(){
 
         this.refactoredUnits = [];
-        
+
         this.$elementToRemove.remove();//remove html from the dom
         this.widget.destroy();//remove what remains of the widget (almost nothing), call this after element remove
         this.widget.element.remove();//remove from model

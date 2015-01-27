@@ -15,11 +15,13 @@ define([
             if(container !== e.target && !$.contains(container, e.target)){
                 _widget.changeState('sleep');
             }
+        }).on('beforesave.qti-creator.active', function(){
+            _widget.changeState('sleep');
         }).on('styleedit.active', function(){
             _widget.changeState('sleep');
         });
 
-        if(item){
+        if(item && item.data('widget')){
             //in item editing context:
             item.data('widget').$container.on('resizestart.gridEdit.active beforedragoverstart.gridEdit.active', function(){
                 _widget.changeState('sleep');
@@ -34,7 +36,7 @@ define([
         $('#item-editor-panel').off('.active');
         
         var item = this.widget.element.getRelatedItem();
-        if(item){
+        if(item && item.data('widget')){
             item.data('widget').$container.off('.active');
         }
         

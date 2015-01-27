@@ -1,20 +1,21 @@
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
-], function ($, styleEditor) {
-    'use strict'
+], function ($, _, styleEditor) {
+    'use strict';
 
     var fontSizeChanger = function () {
         var fontSizeChanger = $('#item-editor-font-size-changer'),
             target = fontSizeChanger.data('target'),
             headSelector = target + ' .item-title',
-            bodySelector = target + ' .qti-itemBody',
+            bodySelector = target + ' .qti-itemBody *',
             headFontSize = parseInt($(headSelector).css('font-size'), 10),
             bodyFontSize = parseInt($(bodySelector).css('font-size'), 10),
             headBodyDiff = headFontSize - bodyFontSize,
             resetButton =  fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
             input = $('#item-editor-font-size-text');
-        
+
         var resizeFont = function() {
             var headFontSize = bodyFontSize + headBodyDiff;
             styleEditor.apply(headSelector, 'font-size', headFontSize.toString() + 'px');

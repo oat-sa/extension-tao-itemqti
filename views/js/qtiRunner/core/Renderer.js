@@ -12,7 +12,7 @@ define([
 
         var valid = true;
 
-        if(typeof(renderer) !== 'object'){
+        if(typeof (renderer) !== 'object'){
             return false;
         }
 
@@ -85,7 +85,8 @@ define([
         'hottext',
         'inlineChoice',
         'simpleAssociableChoice',
-        'simpleChoice'
+        'simpleChoice',
+        'infoControl'
     ];
 
     var _dependencies = {
@@ -108,7 +109,15 @@ define([
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
-
+    
+    /**
+     * Get the location of the document, useful to define a baseUrl for the required context
+     * @returns {String}
+     */
+    function getDocumentBaseUrl(){
+        return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
+    }
+    
     var Renderer = function(options){
 
         options = options || {};
@@ -151,7 +160,7 @@ define([
         };
 
         this.setOption = function(key, value){
-            if(typeof(key) === 'string'){
+            if(typeof (key) === 'string'){
                 options[key] = value;
             }
             return this;
@@ -163,7 +172,7 @@ define([
         };
 
         this.getOption = function(key){
-            if(typeof(key) === 'string' && options[key]){
+            if(typeof (key) === 'string' && options[key]){
                 return options[key];
             }
             return null;
@@ -177,7 +186,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.template) === 'function'){
+                if(typeof (renderer.template) === 'function'){
                     ret = renderer.template(data);
                     tplFound = true;
                 }
@@ -197,7 +206,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.getData) === 'function'){
+                if(typeof (renderer.getData) === 'function'){
                     ret = renderer.getData.call(this, element, data);
                 }
             }
@@ -230,7 +239,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.render) === 'function'){
+                if(typeof (renderer.render) === 'function'){
                     ret = renderer.render.call(this, qtiElement, data);
                 }else{
                     //postRendering is optional, log missing call of postRender?
@@ -247,7 +256,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.setResponse) === 'function'){
+                if(typeof (renderer.setResponse) === 'function'){
                     ret = renderer.setResponse.call(this, qtiInteraction, response);
                     var $container = renderer.getContainer.call(this, qtiInteraction);
                     if($container instanceof $ && $container.length){
@@ -267,7 +276,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.getResponse) === 'function'){
+                if(typeof (renderer.getResponse) === 'function'){
                     ret = renderer.getResponse.call(this, qtiInteraction);
                 }
             }else{
@@ -283,7 +292,7 @@ define([
                 renderer = _getClassRenderer(qtiClass);
 
             if(renderer){
-                if(typeof(renderer.resetResponse) === 'function'){
+                if(typeof (renderer.resetResponse) === 'function'){
                     ret = renderer.resetResponse.call(this, qtiInteraction);
                 }
             }else{
@@ -306,6 +315,7 @@ define([
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
 
+                    //exclude abstract classes
                     requiredClasses = _.intersection(requiredClasses, _renderableClasses);
 
                     //add dependencies
@@ -315,7 +325,7 @@ define([
                             requiredClasses = _.union(requiredClasses, deps);
                         }
                     });
-                    
+
                     for(var i in requiredClasses){
                         var qtiClass = requiredClasses[i];
                         if(_renderableSubclasses[qtiClass]){
@@ -355,7 +365,7 @@ define([
                     }
                 });
 
-                if(typeof(callback) === 'function'){
+                if(typeof (callback) === 'function'){
                     callback.call(_this, _renderers);
                 }
             });
@@ -405,14 +415,50 @@ define([
             return _locations;
         };
 
+        this.getAbsoluteUrl = function(relUrl){
+            
+            //allow relative url outpu only if explicitely said so
+            if(this.getOption('userRelativeUrl')){
+                return relUrl.replace(/^\.?\//, '');
+            }
+            
+            if(/^http(s)?:\/\//i.test(relUrl)){
+                //already absolute
+                return relUrl;
+            }else{
+
+                var absUrl = '';
+                var runtimeLocations = this.getOption('runtimeLocations');
+
+                if(runtimeLocations && _.size(runtimeLocations)){
+                    _.forIn(runtimeLocations, function(runtimeLocation, typeIdentifier){
+                        if(relUrl.indexOf(typeIdentifier) === 0){
+                            absUrl = relUrl.replace(typeIdentifier, runtimeLocation);
+                            return false;//break
+                        }
+                    });
+                }
+
+                if(absUrl){
+                    return absUrl;
+                }else{
+                    var baseUrl = this.getOption('baseUrl') || getDocumentBaseUrl();
+                    return baseUrl + relUrl;
+                }
+
+            }
+        };
     };
 
     return {
-        build : function(renderersLocations, name){
+        build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
                 Renderer.apply(this, arguments);
                 this.register(renderersLocations);
                 this.name = name || '';
+                if(defaultOptions){
+                    this.setOptions(defaultOptions);
+                }
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;

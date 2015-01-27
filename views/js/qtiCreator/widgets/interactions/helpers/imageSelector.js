@@ -14,12 +14,11 @@ define([
             $height = $('input[name=height]', $form),
             $type = $('input[name=type]', $form),
             title = options.title ? options.title : __('Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button "Add file(s)".');
-
         var _openResourceMgr = function(){
             $upload.resourcemgr({
                 title : title,
                 appendContainer : options.mediaManager.appendContainer,
-                root : '/',
+                mediaSources : options.mediaManager.mediaSources,
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
                 deleteUrl : options.mediaManager.deleteUrl,
@@ -35,7 +34,7 @@ define([
                     var selected;
                     if(files.length > 0){
                         selected = files[0];
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                        imageUtil.getSize(options.baseUrl + encodeURIComponent(files[0].file), function(size){
                             if(size && size.width >= 0){
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');

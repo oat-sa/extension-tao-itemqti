@@ -40,4 +40,4 @@ class DefaultValue extends Attribute
 	static protected $defaultValue = 0;
 	static protected $required = true;
 
-} /* end of class oat\taoQtiItem\model\qti\attribute\DefaultValue */
+}

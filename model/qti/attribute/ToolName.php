@@ -40,4 +40,4 @@ class ToolName extends Attribute
 	static protected $defaultValue = null;
 	static protected $required = false;
 
-} /* end of abstract class oat\taoQtiItem\model\qti\attribute\Title */
+}

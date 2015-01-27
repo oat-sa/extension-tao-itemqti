@@ -10,7 +10,7 @@ define([
 
     /**
      * Global variable to count number of choice usages:
-     * @type type
+     * @type {object}
      */
     var _choiceUsages = {};
 
@@ -48,9 +48,10 @@ define([
 
         _choiceUsages[serial]--;
 
-        $choice.removeData('serial')
-               .removeClass('filled')
-               .empty();
+        $choice
+            .removeClass('filled')
+            .removeData('serial')
+            .empty();
 
         if(!interaction.swapping){
             //set correct response

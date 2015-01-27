@@ -17,12 +17,13 @@
         .forms {
             overflow: hidden;
             min-height: 230px;
-            @include font-size(40);
             border-right: solid 1px #fff;
+            [class^="icon-"], [class*=" icon-"] {
+                @include font-size(40, true);
+                line-height:1.2;
+            }
             li {
                 border: 1px solid transparent;
-                line-height: 40px;
-                padding: 5px 0 3px 0;
                 cursor: pointer;
                 text-align: center;
                 &.active {

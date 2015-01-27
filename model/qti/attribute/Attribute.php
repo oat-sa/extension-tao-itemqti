@@ -21,10 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\Attribute;
-use oat\taoQtiItem\model\qti\attribute\AttributeException;
 use oat\taoQtiItem\model\qti\datatype\DatatypeException;
-use \common_Logger;
 /**
  * It is the top class of every attributes used in QTI
  *
@@ -77,7 +74,7 @@ abstract class Attribute
     /**
      * The object holding the value of the attribute
      * 
-     * @var oat\taoQtiItem\model\qti\datatype\Datatype 
+     * @var \oat\taoQtiItem\model\qti\datatype\Datatype
      */
     protected $value = null;
     protected $version = self::QTI_v2p1;
@@ -86,7 +83,7 @@ abstract class Attribute
      * Instantiate the attribute object
      * 
      * @param mixed $value
-     * @throws oat\taoQtiItem\model\qti\attribute\AttributeException
+     * @throws \oat\taoQtiItem\model\qti\attribute\AttributeException
      */
     public function __construct($value = null, $version = self::QTI_v2p1){
 
@@ -208,7 +205,7 @@ abstract class Attribute
      * 
      * @param mixed $value
      * @return boolean
-     * @throws oat\taoQtiItem\model\qti\attribute\AttributeException
+     * @throws \oat\taoQtiItem\model\qti\attribute\AttributeException
      */
     public function setValue($value){
 

@@ -26,10 +26,10 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.6',
+    'version' => '2.7.3',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
-	    'taoItems' => '2.6'
+	    'taoItems' => '>=2.6'
 	),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAOItem.rdf'
@@ -40,14 +40,17 @@ return array(
 		    dirname(__FILE__). '/install/ontology/qtiItemRunner.rdf'
 		),
 		'checks' => array(
+		    array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoQtiItem_views_js_portableSharedLibraries', 'location' => 'taoQtiItem/views/js/portableSharedLibraries', 'rights' => 'rw')),
 		    array('type' => 'CheckCustom', 'value' => array('id' => 'taoQtiItem_custom_mathjax', 'name' => 'mathjax', 'extension' => 'taoQtiItem', 'optional' => true))
 		),
 	),
 	'local'	=> array(
 		'php'	=> array(
+		    dirname(__FILE__).'/install/local/addPortableSharedLibraries.php',
 			dirname(__FILE__).'/install/local/addQTIExamples.php'
 		)
 	),
+    'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',
     'routes' => array(
         '/taoQtiItem' => 'oat\\taoQtiItem\\controller'
     ),

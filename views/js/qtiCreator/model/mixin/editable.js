@@ -9,11 +9,11 @@ define([
     var _removeSelf = function(element){
 
         var removed = false,
-            item = element.getRelatedItem();
+            related = element.getRelatedItem();
 
-        if(item){
+        if(related){
 
-            var found = item.find(element.getSerial());
+            var found = related.find(element.getSerial());
 
             if(found){
 
@@ -37,11 +37,11 @@ define([
                     removed = true;
 
                 }else if(Element.isA(parent, '_container')){
-                    
+
                     if(_.isFunction(element.beforeRemove)){
                         element.beforeRemove();
                     }
-                    
+
                     parent.removeElement(element);
                     removed = true;
                 }
@@ -67,7 +67,7 @@ define([
             var targetSerial = '',
                 targetElt;
 
-            if(typeof(eltToBeRemoved) === 'string'){
+            if(typeof (eltToBeRemoved) === 'string'){
                 targetSerial = eltToBeRemoved;
                 targetElt = Element.getElementBySerial[targetSerial];
             }else if(eltToBeRemoved instanceof Element){
@@ -89,7 +89,7 @@ define([
         init : function(serial, attributes){
 
             //init call in the format init(attributes)
-            if(typeof(serial) === 'object'){
+            if(typeof (serial) === 'object'){
                 attributes = serial;
                 serial = '';
             }
@@ -108,6 +108,11 @@ define([
             if(key !== undefined && value !== undefined){
                 $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
             }
+            return ret;
+        },
+        removeAttr : function(key){
+            var ret = this._super(key);
+            $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : null});
             return ret;
         },
         remove : function(){

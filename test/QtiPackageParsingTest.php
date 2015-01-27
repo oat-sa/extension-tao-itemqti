@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,15 +18,14 @@
  *               
  * 
  */
+namespace oat\taoQtiItem\test;
 
+use \common_ext_ExtensionsManager;
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\PackageParser;
 use oat\taoQtiItem\model\qti\ManifestParser;
-
-?>
-<?php
-require_once dirname(__FILE__).'/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__).'/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -53,13 +52,13 @@ class QtiPackageParsingTest extends TaoPhpUnitTestRunner
     public function testFileParsing(){
 
         //check if wrong packages are not validated correctly
-        foreach(glob(dirname(__FILE__).'/samples/package/wrong/*.zip') as $file){
+        foreach(glob(dirname(__FILE__).'/samples/parser/wrong/*.zip') as $file){
 
             $qtiParser = new PackageParser($file);
 
             $qtiParser->validate();
-            
-            $this->assertFalse($qtiParser->isValid());
+
+            $this->assertFalse($qtiParser->isValid(), 'failed with: '. $file);
             $this->assertTrue(count($qtiParser->getErrors()) > 0);
             $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
         }
