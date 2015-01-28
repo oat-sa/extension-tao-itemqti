@@ -84,8 +84,6 @@ define([
             if (attributes.placeholderText) {
                 $el.attr('placeholder', attributes.placeholderText);
             }
-
-
         // Enable ckeditor only if text format is 'xhtml'.
         if (_getFormat(interaction) === 'xhtml') {
             //replace the textarea with ckEditor
@@ -325,7 +323,7 @@ define([
         var ckeOptions = {};
         var $container = Helper.getContainer(interaction);
         
-        if (interaction.attr('format') === 'xhtml') {
+        if ( _getFormat(interaction) === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
         }
@@ -342,7 +340,7 @@ define([
         var $container = Helper.getContainer(interaction);
         $container.find('input, textarea').removeAttr('disabled');
 
-        if (interaction.attr('format') === 'xhtml') {
+        if ( _getFormat(interaction) === 'xhtml') {
             $container.data('editor').destroy();
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
@@ -353,7 +351,7 @@ define([
         var $container = Helper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
 
-        if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
+        if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
             $container.data('editor').destroy();
         }
     };
@@ -365,7 +363,7 @@ define([
     var setText = function(interaction, text) {
         var $container = Helper.getContainer(interaction);
 
-        if (interaction.attr('format') === 'xhtml') {
+        if ( _getFormat(interaction) === 'xhtml') {
             $container.data('editor').setData(text);
         }
         else {
