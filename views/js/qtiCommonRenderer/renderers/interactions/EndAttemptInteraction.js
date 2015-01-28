@@ -19,7 +19,8 @@ define([
 
         //on click, 
         $container.on('click.commonRenderer', function(){
-            console.log('trigger submitting');
+            $container.val(true);
+            console.log('trigger submitting', getResponse(interaction));
         });
     };
 
@@ -55,9 +56,7 @@ define([
      */
     var getResponse = function(interaction){
         var val = Helper.getContainer(interaction).val();
-        if(val === 'false'){
-            val = false;
-        }
+        val = (val && val !== 'false' && val !== '0');
         return pciResponse.serialize([val], interaction);
     };
 
