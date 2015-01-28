@@ -84,18 +84,46 @@ define([
             if (attributes.placeholderText) {
                 $el.attr('placeholder', attributes.placeholderText);
             }
-        // Enable ckeditor only if text format is 'xhtml'.
-        if (_getFormat(interaction) === 'xhtml') {
-            //replace the textarea with ckEditor
-            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
-            $container.data('editor', editor);
+            // Enable ckeditor only if text format is 'xhtml'.
+            if (_getFormat(interaction) === 'xhtml') {
+                //replace the textarea with ckEditor
+                var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+                $container.data('editor', editor);
 
-        }
-        else {
-            $el.bind('keyup change', function(e) {
-                Helper.triggerResponseChangeEvent(interaction, {});
-            });
             }
+            else {
+                $el.bind('keyup change', function(e) {
+                    Helper.triggerResponseChangeEvent(interaction, {});
+                });
+            }
+            if (attributes.expectedLength || attributes.expectedLines) {
+                var $textarea = $('.text-container', $container),
+                    $counter = $('.text-count',$container);
+
+                var counter = function(){
+                    console.log(_getFormat(interaction));
+                    if (_getFormat(interaction) === "xhtml") {
+                        var editor = $container.data('editor');
+                        console.log(editor,editor.getValue());
+                    };
+                    var regex = /\s+/gi,
+                    value = $textarea.val(),
+                    wordCount = value.trim().replace(regex, ' ').split(' ').length,
+                    charCount = value.trim().length;
+                    // var charCountNoSpaces = value.trim().replace(regex,'').length;
+                    $counter.text(charCount);
+                };
+
+
+                if (_getFormat(interaction) === "xhtml") {
+                    console.log($container.data('editor'));
+                    $container.data('editor').on('onChange',function(){counter();});
+                }else{
+                    $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
+                }
+
+            }
+
         }
         else {
             $el = $container.find('input');
@@ -322,7 +350,7 @@ define([
     var updateFormat = function(interaction, from) {
         var ckeOptions = {};
         var $container = Helper.getContainer(interaction);
-        
+
         if ( _getFormat(interaction) === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
