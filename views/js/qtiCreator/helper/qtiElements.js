@@ -107,6 +107,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
         'textEntryInteraction' : {'parents' : ['stringInteraction', 'inlineInteraction'], 'qti' : true},
         'extendedTextInteraction' : {'parents' : ['stringInteraction', 'blockInteraction'], 'qti' : true},
         'inlineChoiceInteraction' : {'parents' : ['inlineInteraction'], 'qti' : true},
+        'endAttemptInteraction' : {'parents' : ['inlineInteraction'], 'qti' : true},
         'customInteraction' : {'parents' : ['block', 'flow', 'interaction'], 'qti' : true},
         '_container' : {'parents' : ['block'], 'qti' : true}//a pseudo class introduced in TAO
     };
@@ -388,6 +389,14 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 qtiClass : 'textEntryInteraction',
                 tags:['Inline Interactions', 'inline-interactions', 'text']
             },
+            endAttemptInteraction : {
+                label : __('End Attempt Interaction'),
+                icon : 'icon-text-entry',
+                description : __('Trigger the end of the item attempt.'),
+                short : __('End Attempt'),
+                qtiClass : 'endAttemptInteraction',
+                tags:['Inline Interactions', 'inline-interactions', 'button', 'submit']
+            },
             hotspotInteraction : {
                 label : __('Hotspot Interaction'),
                 icon : 'icon-hotspot',
@@ -413,7 +422,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 tags:['Graphic Interactions', 'association']
             },
             graphicGapMatchInteraction : {
-                label : __('Choice Interaction'),
+                label : __('Graphic Gap Match Interaction'),
                 icon : 'icon-graphic-gap',
                 description : __('Fill in the gaps on a picture with a set of image choices.'),
                 short : __('Graphic Gap'),

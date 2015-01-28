@@ -21,6 +21,7 @@ define([
         $container.on('click.commonRenderer', function(){
             $container.val(true);
             console.log('trigger submitting', getResponse(interaction));
+            $container.trigger('endattempt');
         });
     };
 

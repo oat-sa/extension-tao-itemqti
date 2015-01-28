@@ -42,6 +42,7 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'responseDeclaration' : 'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing',
         'customInteraction' : 'taoQtiItem/qtiCreator/model/interactions/PortableCustomInteraction',
+        'endAttemptInteraction' : 'taoQtiItem/qtiCreator/model/interactions/EndAttemptInteraction',
         'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl'
     }, qtiClasses);
 
