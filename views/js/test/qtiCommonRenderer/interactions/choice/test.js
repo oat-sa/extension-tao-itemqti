@@ -70,14 +70,9 @@ define([
 
             })
             .on('statechange', function(state){
-                var expected = {
-                    'base' : {
-                        'identifier' : 'Discovery'
-                    }
-                };
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
+                assert.deepEqual(state.RESPONSE, { response : { base  : { identifier : 'Discovery' } } }, 'The discovery response is selected');
                 QUnit.start();
             })
             .init()
@@ -112,16 +107,11 @@ define([
 
             })
             .on('statechange', function(state){
-                var expected = {
-                    'base' : {
-                        'identifier' : 'Challenger'
-                    }
-                };
                 if(++changes === 2){
                     //check the response is challenger
                     assert.ok(typeof state === 'object', 'The state is an object');
                     assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                    assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
+                    assert.deepEqual(state.RESPONSE, { response : { base  : { identifier : 'Challenger' } } }, 'The Challenger response is selected');
 
                     //Challenger is checked instead of Discovery
                     assert.ok( ! $('[data-identifier="Discovery"] input', $container).prop('checked'), 'Discovery is not checked');
@@ -163,15 +153,10 @@ define([
                 }, 200);
             })
             .on('statechange', function(state){
-                var expected = {
-                    'list' : {
-                        'identifier' : ['Discovery', 'Challenger']
-                    }
-                };
                 if(++changes === 2){
                     assert.ok(typeof state === 'object', 'The state is an object');
                     assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                    assert.deepEqual(state.RESPONSE.response, expected, 'The discovery response is selected');
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Discovery', 'Challenger'] } } }, 'Discovery AND Challenger are selected');
                     QUnit.start();
                 }
             })

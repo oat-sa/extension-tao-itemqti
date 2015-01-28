@@ -68,18 +68,13 @@ define([
                 $prehistory.trigger('mousedown');
             })
             .on('statechange', function(state){
-                var expected = {
-                    'list' : {
-                        'identifier' : ['Prehistory']
-                    }
-                };
 
                 assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 4, 'the choice list contains now 4 choices');
                 assert.equal($container.find('.qti-orderInteraction .result-area .qti-choice').length, 1, 'the result list contains now 1 choice');
 
                 assert.ok(typeof state === 'object', 'The state is an object');
                 assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                assert.deepEqual(state.RESPONSE.response, expected, 'The prehistory response is selected');
+                assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Prehistory'] } } }, 'The Prehistory response is selected');
                 QUnit.start();
             })
             .init()
@@ -126,15 +121,10 @@ define([
                 }, 10);
             })
             .on('statechange', function(state){
-                var expected = {
-                    'list' : {
-                        'identifier' : ['Antiquity', 'Prehistory']
-                    }
-                };
                 if(++changes === 3){
                     assert.ok(typeof state === 'object', 'The state is an object');
                     assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                    assert.deepEqual(state.RESPONSE.response, expected, 'The response follows the reordering');
+                    assert.deepEqual(state.RESPONSE, { response : { list  : { identifier : ['Antiquity', 'Prehistory'] } } }, 'The response follows the reordering');
                     QUnit.start();
                 }
             })
