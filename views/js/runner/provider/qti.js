@@ -77,11 +77,16 @@ function($, _, QtiLoader, QtiRenderer){
                 }
 
                 $(elt)
-                  .off('responseChange')
-                  .on('responseChange', function(){
-                    self.trigger('statechange', self.getState());
-                    self.trigger('responsechange', self.getResponses());
-                  });
+                    .off('responseChange')
+                    .on('responseChange', function(){
+                        self.trigger('statechange', self.getState());
+                        self.trigger('responsechange', self.getResponses());
+                    })
+                    .off('endattempt')
+                    .on('endattempt', function(){
+                        self.trigger('endattempt');
+                    });
+
 
                 //TODO use post render cb once implemented
                 _.delay(done, 100);
