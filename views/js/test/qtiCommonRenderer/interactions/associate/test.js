@@ -11,7 +11,7 @@ define([
     module('Associate Interaction');
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(22);
+        QUnit.expect(21);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -29,7 +29,6 @@ define([
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains a associate interaction .qti-associateInteraction');
                 assert.equal($container.find('.qti-associateInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-associateInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
-                assert.equal($container.find('.qti-associateInteraction .notification-container').length, 1, 'the interaction contains a notification box');
                 assert.equal($container.find('.qti-associateInteraction .choice-area').length, 1, 'the interaction contains a choice list');
                 assert.equal($container.find('.qti-associateInteraction .qti-choice').length, 6, 'the interaction has 6 choices');
                 assert.equal($container.find('.qti-associateInteraction .result-area').length, 1, 'the interaction has a result area');

@@ -12,7 +12,7 @@ define([
     module('Choice Interaction');
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(18);
+        QUnit.expect(17);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -30,7 +30,6 @@ define([
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-choiceInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
-                assert.equal($container.find('.qti-choiceInteraction .notification-container').length, 1, 'the interaction contains a notification box');
                 assert.equal($container.find('.qti-choiceInteraction .choice-area').length, 1, 'the interaction contains a choice list');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
 

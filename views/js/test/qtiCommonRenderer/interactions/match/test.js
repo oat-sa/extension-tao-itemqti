@@ -11,7 +11,7 @@ define([
     module('Match Interaction');
 
     QUnit.asyncTest('renders correclty', function(assert){
-        QUnit.expect(21);
+        QUnit.expect(20);
 
         var $container = $('#' + fixtureContainerId);
 
@@ -29,7 +29,6 @@ define([
                 assert.equal($container.find('.qti-interaction.qti-matchInteraction').length, 1, 'the container contains a choice interaction .qti-matchInteraction');
                 assert.equal($container.find('.qti-matchInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-matchInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
-                assert.equal($container.find('.qti-matchInteraction .notification-container').length, 1, 'the interaction contains a notification box');
                 assert.equal($container.find('.qti-matchInteraction .match-interaction-area').length, 1, 'the interaction contains an interaction area');
                 assert.equal($container.find('.qti-matchInteraction .match-interaction-area table').length, 1, 'the interaction contains a table element');
                 assert.equal($container.find('.qti-matchInteraction .qti-choice').length, 7, 'the interaction has 7 choices');
