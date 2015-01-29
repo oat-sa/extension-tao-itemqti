@@ -11,7 +11,7 @@ define(['lodash'], function(_){
 
         var mapEntries = {};
         _.forIn(response.mapEntries, function(value, mapKey){
-            mapKey = mapKey.replace(regex, newId);
+            mapKey = mapKey.replace(regex, '$1'+newId+'$3');
             mapEntries[mapKey] = value;
         });
         response.mapEntries = mapEntries;
