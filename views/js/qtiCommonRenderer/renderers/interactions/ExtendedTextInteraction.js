@@ -96,9 +96,17 @@ define([
                     Helper.triggerResponseChangeEvent(interaction, {});
                 });
             }
-            if (attributes.expectedLength || attributes.expectedLines) {
+            if (attributes.expectedLength || attributes.expectedLines || attributes.patternMask) {
                 var $textarea = $('.text-container', $container),
-                    $counter = $('.text-count',$container);
+                    $charsCounter = $('.count-chars',$container),
+                    $wordsCounter = $('.count-words',$container);
+
+                if (attributes.patternMask !== "") {
+                    var maxWords = _parsePattern(attributes.patternMask, 'words'),
+                        maxLength = _parsePattern(attributes.patternMask, 'chars');
+                    maxWords = (isNaN(maxWords)) ? undefined : maxWords;
+                    maxLength = (isNaN(maxLength) ? undefined : maxLength);
+                }
 
                 var counter = function(){
                     var regex = /\s+/gi,
@@ -106,7 +114,17 @@ define([
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
                     // var charCountNoSpaces = value.trim().replace(regex,'').length;
-                    $counter.text(charCount);
+                    $charsCounter.text(charCount);
+                    $wordsCounter.text(wordCount);
+
+                    if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
+                        value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
+                        if(attributes.format === "xhtml"){
+                            $container.data('editor').setData(value);
+                        }else{
+                            $textarea.val(value);
+                        }
+                    }
                 };
 
 
@@ -357,7 +375,7 @@ define([
         if (type === "words") {
             result = pattern.match(regexWords);
             if (result !== null && result.length > 1) {
-                return result[1];
+                return parseInt(result[1],10);
             }else{
                 return null;
             }
@@ -365,7 +383,7 @@ define([
             result = pattern.match(regexChar);
 
             if (result !== null && result.length > 1) {
-                return result[1];
+                return parseInt(result[1],10);
             }else{
                 return null;
             }
@@ -427,14 +445,15 @@ define([
     };
 
     var getCustomData = function(interaction, data){
-        var expectedLength = parseInt(interaction.attr('expectedLines'),10);
-        if (! isNaN(expectedLength)) {
-            return _.merge(data || {}, {
-                attributes : { expectedLength :  expectedLength * 72}
-            });
-        }else{
-            return data;
-        }
+        var pattern = interaction.attr('patternMask'),
+            maxWords = parseInt(_parsePattern(pattern,'words')),
+            maxLength = parseInt(_parsePattern(pattern, 'chars')),
+            expectedLength = parseInt(interaction.attr('expectedLines'),10);
+        return _.merge(data || {}, {
+            maxWords : (! isNaN(maxWords)) ? maxWords : undefined,
+            maxLength : (! isNaN(maxLength)) ? maxLength : undefined,
+            attributes : (! isNaN(expectedLength)) ? { expectedLength :  expectedLength * 72} : undefined
+        });
 
     };
 
