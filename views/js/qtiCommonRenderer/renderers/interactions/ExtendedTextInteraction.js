@@ -400,7 +400,7 @@ define([
                 attributes : { expectedLength :  expectedLength * 72}
             });
         }else{
-            return data
+            return data;
         }
 
     };
