@@ -21,7 +21,7 @@
                 "qtiClass": "gapMatchInteraction",
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
-                    "shuffle": true
+                    "shuffle": false
                 },
                 "body": {
                     "serial": "container_containergap_547dd4d24d7f9926277347",
