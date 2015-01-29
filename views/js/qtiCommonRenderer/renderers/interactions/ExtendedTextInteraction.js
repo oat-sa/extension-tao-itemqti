@@ -111,7 +111,7 @@ define([
                 var counter = function(){
                     var regex = /\s+/gi,
                     editor = $container.data('editor'),
-                    value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val(),
+                    value = (_getFormat(interaction) === "xhtml") ?  $('<div>' + editor.getData() + '</div>').text() : $textarea.val(),
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
                     // var charCountNoSpaces = value.trim().replace(regex,'').length;
@@ -119,6 +119,7 @@ define([
                     $wordsCounter.text(wordCount);
 
                     if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
+                        value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val();
                         value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
                         if(attributes.format === "xhtml"){
                             editor.setData(value);
