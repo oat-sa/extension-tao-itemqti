@@ -14,10 +14,16 @@
         {{#if attributes.expectedLength}}
             <div class="text-maxwords">
                 {{#if attributes.expectedLengthmandatory}}
-                    <span class="text-words-count">{{attributes.expectedLength}}</span> {{__ "word(s) remained"}}
+                    {{__ "You can enter a maximum of"}}
                 {{else}}
-                    {{__ "we expect about"}} {{attributes.expectedLength}} {{__ "chars. It's just an indication. You are now at"}} <span class="text-words-count">0</span> {{__ "word(s)"}}.
+                    {{__ "We expect about"}}
                 {{/if}}
+
+                {{attributes.expectedLength}} {{__ "chars".}}
+                {{#unless attributes.expectedLengthmandatory}}
+                    {{__ "It's just an indication."}}
+                {{/unless}}
+                {{__ "You are now at"}} <span class="text-count">0</span> {{__ "char(s)"}}.
             </div>
         {{/if}}
     {{else}}
@@ -26,14 +32,23 @@
         {{else}}
             <textarea class="text-container text-{{attributes.format}} solid{{#if attributes.class}} attributes.class{{/if}}"></textarea>
         {{/equal}}
+        {{!-- If there's an expected length or a max length --}}
         {{#if attributes.expectedLength}}
             <div class="text-maxwords">
                 {{#if attributes.expectedLengthmandatory}}
-                    <span class="text-words-count">{{attributes.expectedLength}}</span> {{__ "word(s) remained"}}
+                    {{__ "You can enter a maximum of"}}
                 {{else}}
-                    {{__ "we expect about"}} {{attributes.expectedLength}} {{__ "chars. It's just an indication. You are now at"}} <span class="text-words-count">0</span> {{__ "word(s)"}}.
+                    {{__ "We expect about"}}
                 {{/if}}
+
+                {{attributes.expectedLength}} {{__ "chars".}}
+                {{#unless attributes.expectedLengthmandatory}}
+                    {{__ "It's just an indication."}}
+                {{/unless}}
+                {{__ "You are now at"}} <span class="text-count">0</span> {{__ "char(s)"}}.
             </div>
         {{/if}}
+        {{!-- If there's a max words --}}
+
     {{/if}}
 </div>
