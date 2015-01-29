@@ -264,11 +264,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .dummy-element { min-width: 50px; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; background-color: #eee; font-style: italic; color: white; padding: 0; display: inline-block; line-height: 20px; cursor: default; }
 
 .widget-inline, .qti-hottext, .qti-gap, .dummy-element, .inline-text-wrapper { position: relative; display: inline-block; }
-.widget-inline [class^="icon-"], .widget-inline [class*=" icon-"], .qti-hottext [class^="icon-"], .qti-hottext [class*=" icon-"], .qti-gap [class^="icon-"], .qti-gap [class*=" icon-"], .dummy-element [class^="icon-"], .dummy-element [class*=" icon-"], .inline-text-wrapper [class^="icon-"], .inline-text-wrapper [class*=" icon-"] { display: inline-block; text-align: center; width: 100%; position: relative; top: 2px; text-shadow: 1px 1px 0px #ccc; }
+.widget-inline [class^="icon-"], .widget-inline [class*=" icon-"], .qti-hottext [class^="icon-"], .qti-hottext [class*=" icon-"], .qti-gap [class^="icon-"], .qti-gap [class*=" icon-"], .dummy-element [class^="icon-"], .dummy-element [class*=" icon-"], .inline-text-wrapper [class^="icon-"], .inline-text-wrapper [class*=" icon-"] { display: inline-block; text-align: center; width: 100%; position: relative; top: -2px; text-shadow: 1px 1px 0px #ccc; }
 .widget-inline ~ span.mini-tlb[data-edit], .qti-hottext ~ span.mini-tlb[data-edit], .qti-gap ~ span.mini-tlb[data-edit], .dummy-element ~ span.mini-tlb[data-edit], .inline-text-wrapper ~ span.mini-tlb[data-edit] { position: absolute !important; top: -2px !important; right: -32px !important; }
 .widget-inline ~ span.mini-tlb[data-edit] .tlb-button, .qti-hottext ~ span.mini-tlb[data-edit] .tlb-button, .qti-gap ~ span.mini-tlb[data-edit] .tlb-button, .dummy-element ~ span.mini-tlb[data-edit] .tlb-button, .inline-text-wrapper ~ span.mini-tlb[data-edit] .tlb-button { margin: 0 !important; padding: 0 !important; height: 18px !important; width: 24px !important; }
 
 .item-editor-item { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; -webkit-box-shadow: 0px 0px 8px #b7b1ac; -moz-box-shadow: 0px 0px 8px #b7b1ac; box-shadow: 0px 0px 8px #b7b1ac; /*hack to fix unwanted contenteditable behaviour in chrome : @see*/                                   /* /  \ |    | --:'''':--
+THIS CODE IS GENERATED          :*_* : _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/                                   /* /  \ |    | --:'''':--
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/                                   /* /  \ |    | --:'''':--
@@ -329,7 +332,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-item .widget-box .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(243, 241, 239, 0.5); }
 .item-editor-item .widget-box .overlay .message { background: rgba(243, 241, 239, 0.6); margin: auto; position: absolute; top: 40%; left: 0; bottom: 0; right: 0; display: table; min-height: 50px; min-width: 50px; }
 .item-editor-item .widget-box .tlb-bar { z-index: 99; }
-.item-editor-item .widget-box .tlb-wrapper { position: absolute; width: 100%; top: -24px; display: block; cursor: default; color: white; background: #3e7da7; z-index: 999; -webkit-box-shadow: 0 0 0 1px #3e7da7; box-shadow: 0 0 0 1px #3e7da7; }
+.item-editor-item .widget-box .tlb-wrapper { position: absolute; width: 100%; left: 0; top: -24px; display: block; cursor: default; color: white; background: #3e7da7; z-index: 999; -webkit-box-shadow: 0 0 0 1px #3e7da7; box-shadow: 0 0 0 1px #3e7da7; }
 .item-editor-item .widget-box .tlb-wrapper .tlb-title { margin-top: 1px; line-height: 1.4; font-size: 14px !important; font-size: 1.4rem !important; }
 .item-editor-item .widget-box .tlb-wrapper .tlb .state-switcher { float: right; padding: 0; font-size: 14px !important; font-size: 1.4rem !important; }
 .item-editor-item .widget-box .tlb-wrapper .tlb > div { margin: 1px 0 2px; }
@@ -449,6 +452,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-item .qti-textEntryInteraction td[contenteditable] { cursor: text !important; }
 .item-editor-item .qti-textEntryInteraction input.score { width: 30px; }
 .item-editor-item .qti-textEntryInteraction .add-option .icon-add { width: auto; left: 3px; top: 1px; }
+.item-editor-item #item-editor-interaction-bar .tool-list:before, #item-editor-interaction-bar .item-editor-item .tool-list:before, .item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after { content: " "; display: table; }
+.item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after { clear: both; }
+.item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\e643"; }
+.item-editor-item .widget-box.widget-endAttemptInteraction { display: none; background: rgba(243, 241, 239, 0.9); padding: 20px 30px 60px; }
+.item-editor-item .widget-box.widget-endAttemptInteraction .widget-ok { position: absolute; bottom: 10px; right: 10px; }
 .item-editor-item #item-editor-interaction-bar .tool-list:before, #item-editor-interaction-bar .item-editor-item .tool-list:before, .item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after { content: " "; display: table; }
 .item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after { clear: both; }
 .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\e643"; }
