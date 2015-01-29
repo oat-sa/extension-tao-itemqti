@@ -3,7 +3,7 @@ define(['lodash'], function(_){
     var _updateChoiceIdentifierInResponse = function(response, oldId, newId){
         
         var escapedOldId = oldId.replace(/([.-])/g, '\\$1'),//escape spec characters allowed in the standard and that is meaningful in regex
-            regex = new RegExp('([^\\s]*\\s+|^)(' + escapedOldId + ')(\\s+[^\\s]*|$)');//@todo: to be tested in presence of special chars
+            regex = new RegExp('([^\\s]*\\s+|^)(' + escapedOldId + ')(\\s+[^\\s]*|$)');//prepare the regex to watch the oldId to be replaced
 
         for(var i in response.correctResponse){
             response.correctResponse[i] = response.correctResponse[i].replace(regex, '$1'+newId+'$3');
