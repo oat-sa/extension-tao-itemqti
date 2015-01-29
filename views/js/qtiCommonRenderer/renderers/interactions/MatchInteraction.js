@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -43,7 +43,7 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction){
@@ -61,13 +61,13 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -89,13 +89,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -105,7 +105,7 @@ define([
     };
 
     var resetResponse = function(interaction){
-        
+
         var $container = containerHelper.get(interaction);
         $('input[type=checkbox]:checked', $container).each(function(){
             $(this).prop('checked', false);
@@ -221,7 +221,7 @@ define([
 
         // How much time can we find rawChoice in rawResponses?
         _(rawResponse).forEach(function(response){
-            if((response[0] == choice.attributes.identifier || response[1] == choice.attributes.identifier)){
+            if((response[0] === choice.attributes.identifier || response[1] === choice.attributes.identifier)){
                 count++;
             }
         });
@@ -415,32 +415,94 @@ define([
         $container.off('.commonRenderer');
 
         instructionMgr.removeInstructions(interaction);
-        
+
         //remove all references to a cache container
         containerHelper.reset(interaction);
     };
 
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        var $container;
+
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+
+            //restore order of previously shuffled choices
+            if(_.isArray(state.order) && state.order.length === 2){
+
+                $container = containerHelper.get(interaction);
+
+                $('thead .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order[0], $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order[0], $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .appendTo($('thead tr', $container));
+
+                $('tbody .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order[1], $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order[1], $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .each(function(index, elt){
+                        $(elt).prependTo($('tbody tr', $container).eq(index));
+                    });
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+
+        //we store also the choice order if shuffled
+        if(interaction.attr('shuffle') === true){
+            $container = containerHelper.get(interaction);
+
+            state.order = [[], []];
+            $('thead .qti-choice', $container).each(function(){
+               state.order[0].push($(this).data('identifier'));
+            });
+            $('tbody .qti-choice', $container).each(function(){
+               state.order[1].push($(this).data('identifier'));
+            });
+        }
+        return state;
     };
 
     /**
