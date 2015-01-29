@@ -1,12 +1,12 @@
 define(['lodash'], function(_){
 
     var _updateChoiceIdentifierInResponse = function(response, oldId, newId){
-
-        var escapedOldId = oldId.replace(/([.-])/g, '\\$1'),
-            regex = new RegExp('\\b(' + escapedOldId + ')\\b');//@todo: to be tested in presence of special chars
+        
+        var escapedOldId = oldId.replace(/([.-])/g, '\\$1'),//escape spec characters allowed in the standard and that is meaningful in regex
+            regex = new RegExp('([^\\s]*\\s+|^)(' + escapedOldId + ')(\\s+[^\\s]*|$)');//@todo: to be tested in presence of special chars
 
         for(var i in response.correctResponse){
-            response.correctResponse[i] = response.correctResponse[i].replace(regex, newId);
+            response.correctResponse[i] = response.correctResponse[i].replace(regex, '$1'+newId+'$3');
         }
 
         var mapEntries = {};
