@@ -101,13 +101,8 @@ define([
                     $counter = $('.text-count',$container);
 
                 var counter = function(){
-                    console.log(_getFormat(interaction));
-                    if (_getFormat(interaction) === "xhtml") {
-                        var editor = $container.data('editor');
-                        console.log(editor,editor.getValue());
-                    };
                     var regex = /\s+/gi,
-                    value = $textarea.val(),
+                    value = (_getFormat(interaction) === "xhtml") ?  $container.data('editor').getData() : $textarea.val(),
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
                     // var charCountNoSpaces = value.trim().replace(regex,'').length;
@@ -117,7 +112,7 @@ define([
 
                 if (_getFormat(interaction) === "xhtml") {
                     console.log($container.data('editor'));
-                    $container.data('editor').on('onChange',function(){counter();});
+                    $container.data('editor').on('change',function(){counter();});
                 }else{
                     $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
                 }
