@@ -110,7 +110,8 @@ define([
 
                 var counter = function(){
                     var regex = /\s+/gi,
-                    value = (_getFormat(interaction) === "xhtml") ?  $container.data('editor').getData() : $textarea.val(),
+                    editor = $container.data('editor'),
+                    value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val(),
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
                     // var charCountNoSpaces = value.trim().replace(regex,'').length;
@@ -120,7 +121,10 @@ define([
                     if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
                         value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
                         if(attributes.format === "xhtml"){
-                            $container.data('editor').setData(value);
+                            editor.setData(value);
+                            var range = editor.createRange();
+                            range.moveToPosition( range.root, CKEDITOR.POSITION_BEFORE_END );
+                            editor.getSelection().selectRanges( [ range ] );
                         }else{
                             $textarea.val(value);
                         }
