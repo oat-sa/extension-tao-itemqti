@@ -111,7 +111,6 @@ define([
 
 
                 if (_getFormat(interaction) === "xhtml") {
-                    console.log($container.data('editor'));
                     $container.data('editor').on('change',function(){counter();});
                 }else{
                     $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
@@ -394,6 +393,18 @@ define([
         }
     };
 
+    var getCustomData = function(interaction, data){
+        var expectedLength = parseInt(interaction.attr('expectedLines'),10);
+        if (! isNaN(expectedLength)) {
+            return _.merge(data || {}, {
+                attributes : { expectedLength :  expectedLength * 72}
+            });
+        }else{
+            return data
+        }
+
+    };
+
     return {
         qtiClass : 'extendedTextInteraction',
         template : tpl,
@@ -401,6 +412,7 @@ define([
         getContainer : Helper.getContainer,
         setResponse : setResponse,
         getResponse : getResponse,
+        getData : getCustomData,
         resetResponse : resetResponse,
         updateFormat : updateFormat,
         enable : enable,
