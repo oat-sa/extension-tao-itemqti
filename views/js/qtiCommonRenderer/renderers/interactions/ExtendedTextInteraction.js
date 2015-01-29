@@ -341,6 +341,39 @@ define([
         }
     };
 
+    /**
+     * parse the pattern (idealy from patternMask) and return the max words / chars from the pattern
+     * @param  {String} pattern String from patternMask
+     * @param  {String} type    the type of information you want : words / chars
+     * @return {Number|null}    the number extracted of the pattern, or null if not found
+     */
+    var _parsePattern = function(pattern,type){
+        if (pattern === undefined){return null;}
+
+        var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
+        regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/,
+        result;
+
+        if (type === "words") {
+            result = pattern.match(regexWords);
+            if (result !== null && result.length > 1) {
+                return result[1];
+            }else{
+                return null;
+            }
+        }else if (type === "chars"){
+            result = pattern.match(regexChar);
+
+            if (result !== null && result.length > 1) {
+                return result[1];
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    };
+
     var updateFormat = function(interaction, from) {
         var ckeOptions = {};
         var $container = Helper.getContainer(interaction);
