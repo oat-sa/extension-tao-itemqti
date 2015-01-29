@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -35,7 +35,7 @@ define([
     var _instructions = {};
 
     /**
-     * The instruction manager helps you in managing instructions and 
+     * The instruction manager helps you in managing instructions and
      * constraints on a QTI Element, usually an interaction or a choice.
      *
      * @exports qtiCommonRenderer/helpers/Instructions/instructionManager
@@ -99,13 +99,13 @@ define([
             }
         },
 
-        /** 
+        /**
          * Default instuction set with a min/max constraints.
          * @param {Object} interaction
-         * @param {jQueryElement} $container 
+         * @param {jQueryElement} $container
          * @param {Object} options
-         * @param {Number} [options.min = 0] - 
-         * @param {Number} [options.max = 0] - 
+         * @param {Number} [options.min = 0] -
+         * @param {Number} [options.max = 0] -
          * @param {Function} options.getResponse - a ref to a function that get the raw response (array) from the interaction in parameter
          * @param {Function} [options.onError] - called by once an error occurs with validateInstruction data in parameters
          */
@@ -195,8 +195,9 @@ define([
 
         /**
          * Appends a instruction  notification message
+         * @deprecated in favor of instructions
          * @param {QtiElement} element - a QTI element like an interaction or a choice
-         * @param {String} message - the message to give to display 
+         * @param {String} message - the message to give to display
          * @param {String} [level = 'info'] - the notification level in info, success, error or warning
          */
         appendNotification : function(element, message, level){
@@ -225,7 +226,8 @@ define([
         },
 
         /**
-         * Removes all the displayed notifications 
+         * Removes all the displayed notifications
+         * @deprecated in favor of instructions
          */
         removeNotifications : function(element){
             containerHelper.get(element).find('.item-notification').remove();

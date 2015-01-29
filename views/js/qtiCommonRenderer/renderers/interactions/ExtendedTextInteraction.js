@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -152,6 +152,9 @@ define([
                     $el.on('blur', function() {
                         setTimeout(function() {
                             //checking if the user was clicked outside of the input fields
+
+                            //TODO remove notifications in favor of instructions
+
                             if (!$el.is(':focus') && _getNumStrings($el) < minStrings) {
                                 instructionMgr.appendNotification(interaction, __('The minimum number of answers is ') + ' : ' + minStrings, 'warning');
                             }
@@ -350,7 +353,7 @@ define([
     var updateFormat = function(interaction, from) {
         var ckeOptions = {};
         var $container = containerHelper.get(interaction);
-        
+
         if (interaction.attr('format') === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
@@ -378,7 +381,7 @@ define([
     var disable = function(interaction) {
         var $container = containerHelper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
-        
+
 if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
             $container.data('editor').destroy();
         }
@@ -391,7 +394,7 @@ if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
 
     var setText = function(interaction, text) {
         var $container = containerHelper.get(interaction);
-        
+
         if (interaction.attr('format') === 'xhtml') {
             $container.data('editor').setData(text);
         }
@@ -421,7 +424,7 @@ if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
 
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
@@ -434,7 +437,7 @@ if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
@@ -457,7 +460,7 @@ if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
         destroy : destroy,
         getState : getState,
         setState : setState,
-    
+
         updateFormat : updateFormat,
         enable : enable,
         disable : disable,
