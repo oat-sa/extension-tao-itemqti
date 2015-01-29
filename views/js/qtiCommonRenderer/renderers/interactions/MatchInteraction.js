@@ -32,6 +32,8 @@ define([
 ], function($, _,  __,tpl, containerHelper, instructionMgr, pciResponse){
 
     /**
+     * TODO do not use global context var, it's value is shared between interaction instances
+     *
      * Flag to not throw warning instruction if already
      * displaying the warning. If such a flag is not used,
      * disturbances can be seen by the candidate if he clicks
