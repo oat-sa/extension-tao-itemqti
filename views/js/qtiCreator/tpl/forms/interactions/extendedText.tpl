@@ -11,27 +11,38 @@
 <hr>
 <div class="panel">
     <h3 class="full-width">{{__ "Contraints"}}</h3>
-
-    <label>
-        {{__ "pattern"}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"}}</span>
-    <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
-
-    <label class="spinner">
-        {{__ "Max length"}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
-
-    <label class="spinner">
-        {{__ "Max words"}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
-    <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords" {{#if maxWords}}value="{{maxWords}}"{{/if}}/>
+    <select name="constraint" class="select2" data-has-search="false">
+        {{#each constraints}}
+            <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+        {{/each}}
+    </select>
+    {{!-- Let the user enter his own pattern --}}
+    <div id="constraint-pattern" class="hidden">
+        <label>
+            {{__ "pattern"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"}}</span>
+        <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
+    </div>
+    {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
+    <div id="contraint-maxLength" class="hidden">
+        <label class="spinner">
+            {{__ "Max length"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
+        <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
+    </div>
+    {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
+    <div id="contraint-maxWords" class="hidden">
+        <label class="spinner">
+            {{__ "Max words"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "We will use the patternMask to do this, to be compliant with the IMS standard"}}</span>
+        <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxWords" {{#if maxWords}}value="{{maxWords}}"{{/if}}/>
+    </div>
 </div>
 <hr>
 <div class="panel">

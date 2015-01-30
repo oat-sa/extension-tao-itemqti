@@ -58,7 +58,12 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element,
-            format = interaction.attr('format');
+            format = interaction.attr('format'),
+            patternMask = interaction.attr('patternMask'),
+            expectedLength = parseInt(interaction.attr('expectedLength'), 10),
+            expectedLines = parseInt(interaction.attr('expectedLines'),10),
+            maxWords = parseInt(parsePattern(patternMask,'words'),10),
+            maxChars = parseInt(parsePattern(patternMask,'chars'),10);
 
         var formats = {
             plain : {label : __("Plain text"), selected : false},
@@ -66,16 +71,33 @@ define([
             xhtml : {label : __("XHTML"), selected : false}
         };
 
+        var constraints = {
+            none : {label : __("None"), selected : true},
+            maxLength : {label : __("Max Length"), selected : false},
+            maxWords : {label : __("Max Words"), selected : false},
+            pattern : {label : __("Pattern"), selected : false}
+        };
+
+        /**
+         * Set the selected on the right items before sending it to the view for constraints
+         */
+        if ( !isNaN(maxWords) && maxWords > 0) {
+            constraints[none].selected = false;
+            constraints[maxWords].selected = true;
+        }else if (!isNaN(maxChars) && maxChars > 0) {
+            constraints[none].selected = false;
+            constraints[maxLength].selected = true;
+        }else if( patternMask !== null && patternMask !== undefined && patternMask !== ""){
+            constraints[none].selected = false;
+            constraints[pattern].selected = true;
+        }
+        /**
+         * Set the selected on the right items before sending it to the view for formats
+         */
         if(formats[format]){
             formats[format].selected = true;
         }
 
-
-        var patternMask = interaction.attr('patternMask'),
-        expectedLength = parseInt(interaction.attr('expectedLength'), 10),
-        expectedLines = parseInt(interaction.attr('expectedLines'),10),
-        maxWords = parsePattern(patternMask,'words'),
-        maxChars = parsePattern(patternMask,'chars');
 
 
         $form.html(formTpl({
@@ -84,7 +106,8 @@ define([
             maxWords : maxWords,
             maxLength : maxChars,
             expectedLength : expectedLength,
-            expectedLines : expectedLines
+            expectedLines : expectedLines,
+            constraints : constraints
 
         }));
 
