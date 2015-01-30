@@ -41,7 +41,7 @@ define([
             // expre = /^[\s\S]{0,10}$/;
             // and we will try to extract the top limit from it with this regexp
             // wich is mostly just escaped version of the first one.
-            var result = pattern.match(regexChar)[1];
+            var result = pattern.match(regexChar);
 
             if (result !== null && result.length > 1) {
                 return result[1];
