@@ -133,10 +133,9 @@ define([
             }
         };
         callbacks.constraint = function(interaction,attrValue){
-            console.log(attrValue,'#constraint-' + attrValue);
             $('[id|="constraint"]').hide('500');
             $('#constraint-' + attrValue).show('1000');
-        }
+        };
         callbacks.maxWords = function(interaction, attrValue){
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
