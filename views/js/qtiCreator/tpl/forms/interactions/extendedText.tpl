@@ -26,7 +26,7 @@
         <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
     </div>
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
-    <div id="contraint-maxLength" class="hidden">
+    <div id="constraint-maxLength" class="hidden">
         <label class="spinner">
             {{__ "Max length"}}
         </label>
@@ -35,7 +35,7 @@
         <input type="text" data-min="0" data-increment="1" class="incrementer" name="maxLength" {{#if maxLength}}value="{{maxLength}}"{{/if}} />
     </div>
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
-    <div id="contraint-maxWords" class="hidden">
+    <div id="constraint-maxWords" class="hidden">
         <label class="spinner">
             {{__ "Max words"}}
         </label>
