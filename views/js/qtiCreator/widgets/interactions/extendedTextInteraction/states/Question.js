@@ -24,7 +24,7 @@ define([
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
     function parsePattern(pattern,type){
-        if (pattern === undefined){
+        if (pattern === undefined || pattern === null){
             return null;
         }
         if (type === "words") {
