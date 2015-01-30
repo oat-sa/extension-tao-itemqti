@@ -22,8 +22,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
+    'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
@@ -31,7 +31,7 @@ define([
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
     'polyfill/placeholders'
-], function(_, $, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
+], function($, _, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
     'use strict';
 
     /**
@@ -120,7 +120,7 @@ define([
         }
         else {
             $el.bind('keyup change', function(e) {
-                Helper.triggerResponseChangeEvent(interaction, {});
+                containerHelper.triggerResponseChangeEvent(interaction, {});
             });
 
             }
@@ -334,7 +334,7 @@ define([
     };
 
     var _ckEditorData = function(interaction) {
-        return Helper.getContainer(interaction).data('editor').getData();
+        return containerHelper.get(interaction).data('editor').getData();
     };
 
     var _getFormat = function(interaction) {
@@ -382,9 +382,8 @@ define([
         var $container = containerHelper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
 
-if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
+        if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
             $container.data('editor').destroy();
-        }
         }
     };
 
@@ -402,7 +401,6 @@ if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
             $container.find('textarea').val(text);
         }
     };
-<<<<<<< HEAD
 
      /**
      * Clean interaction destroy
