@@ -135,37 +135,42 @@ define([
         callbacks.constraint = function(interaction,attrValue){
             $('[id|="constraint"]').hide('500');
             $('#constraint-' + attrValue).show('1000');
+            if (attrValue === "none") {
+                interaction.attr('patternMask',null);
+                $('[name="maxWords"]').val('');
+                $('[name="maxLength"]').val('');
+            }
         };
         callbacks.maxWords = function(interaction, attrValue){
+            // 1. Reset maxLength
+            $('[name="maxLength"]').val('');
+            $('[name="patternMask"]').val('');
+
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
-                var $pattern = $('[name="patternMask"]'),
-                    oldPattern = $pattern.val(),
-                    newPattern;
-                if (oldPattern !== "" && parsePattern(oldPattern, 'words') !== null){
-                    newPattern = oldPattern.replace(regexWords, newValue);
-                }else{
-                    newPattern = oldPattern + '^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue + '}$';
-                }
-                $pattern.val(newPattern).trigger('change');
+                var newPattern = '/^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue.toString() + '}$/';
+                interaction.attr('patternMask', newPattern);
             }
         };
         callbacks.maxLength = function(interaction, attrValue){
+            // 1. Reset maxWords
+            $('[name="maxWords"]').val('');
+            $('[name="patternMask"]').val('');
+
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
-                var $pattern = $('[name="patternMask"]'),
-                    oldPattern = $pattern.val(),
-                    newPattern;
-                if (oldPattern !== "" && parsePattern(oldPattern, 'char') !== null){
-                    newPattern = oldPattern.replace(regexChar,newValue);
-                }else{
-                    newPattern = oldPattern + '^[\\s\\S]{0, ' + newValue.toString() + '}$';
-                }
-                $pattern.val(newPattern).trigger('change');
+                var newPattern ='/^[\\s\\S]{0,' + newValue.toString() + '}$/';
+                interaction.attr('patternMask', newPattern);
             }
         };
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
+            /**
+             * If anything is entered inside the patternMask, reset maxWords / maxLength(interaction, attrValue)
+             */
+            $('[name="maxWords"]').val('');
+            $('[name="maxLength"]').val('');
+            $('[name="patternMask"]').val('');
         };
 
         callbacks.expectedLength = function(interaction, attrValue){
