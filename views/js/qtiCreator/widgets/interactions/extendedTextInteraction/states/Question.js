@@ -82,14 +82,14 @@ define([
          * Set the selected on the right items before sending it to the view for constraints
          */
         if ( !isNaN(maxWords) && maxWords > 0) {
-            constraints[none].selected = false;
-            constraints[maxWords].selected = true;
+            constraints.none.selected = false;
+            constraints.maxWords.selected = true;
         }else if (!isNaN(maxChars) && maxChars > 0) {
-            constraints[none].selected = false;
-            constraints[maxLength].selected = true;
+            constraints.none.selected = false;
+            constraints.maxLength.selected = true;
         }else if( patternMask !== null && patternMask !== undefined && patternMask !== ""){
-            constraints[none].selected = false;
-            constraints[pattern].selected = true;
+            constraints.none.selected = false;
+            constraints.pattern.selected = true;
         }
         /**
          * Set the selected on the right items before sending it to the view for formats
