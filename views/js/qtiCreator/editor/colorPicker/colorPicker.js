@@ -4,51 +4,81 @@ define([
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function($, _, popup, popupTpl){
+], function ($, _, popup, popupTpl) {
 
     var _defaults = {};
 
-    function create($colorTrigger, config){
+    // based on http://stackoverflow.com/a/14238466
+    // this conversion is required to communicate with farbtastic
+    function rgbToHex(color) {
+
+        function toHexPair(inp) {
+            return ('0' + parseInt(inp, 10).toString(16)).slice(-2);
+        }
+
+        // undefined can happen when no color is defined for a particular element
+        // isString on top of that should cover all sorts of weird input
+        if(!_.isString(color) || color.indexOf('rgb') !== 0) {
+            return color;
+        }
+
+        var rgbArr = /rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/i.exec(color);
+
+        // color is not rgb
+        if(!_.isArray(rgbArr) || rgbArr.length !== 4) {
+            return color;
+        }
+
+        return '#' + toHexPair(rgbArr[1]) + toHexPair(rgbArr[2]) + toHexPair(rgbArr[3]);
+    }
+
+
+    function changeColor(color, $colorTrigger) {
+        var hex = rgbToHex(color);
+        $colorTrigger.prop('hexval').val(hex);
+        $colorTrigger.css('background-color', color);
+        $colorTrigger.trigger('colorchange.colorpicker', { color: color, hex: hex });
+    }
+
+    function create($colorTrigger, config) {
+
+        var color,
+            $itemContainer = $('#item-editor-wrapper'),
+            $popup = $(popupTpl());
 
         config = _.defaults(config || {}, _defaults);
 
-        var color, $input = $colorTrigger.siblings('input');
+        // input field holding the initial value
+        $colorTrigger.prop('hexval', $colorTrigger.siblings('input'));
+
+        // initial color
+        color = config.color || $colorTrigger.prop('hexval').val() || '#ffffff';
 
         //set color recorded in the hidden input to the color trigger
-        if(config.color){
-            color = config.color;
-            $input.val(color);
-        }else{
-            color = $input.val();
-        }
-        
-        $colorTrigger.css('background-color', color);
+        changeColor(color, $colorTrigger);
 
-        var $popup = $(popupTpl());
-
-        $('#item-editor-wrapper').append($popup);
+        $itemContainer.append($popup);
 
         // basic popup functionality
         popup.init($colorTrigger, { popup: $popup });
 
 
         // after popup opens
-        $colorTrigger.on('open.popup', function(e, params) {
+        $colorTrigger.on('open.popup', function (e, params) {
 
             var $trigger = $(this),
-                $content   = $trigger.parents('.sidebar-popup-content'),
+                $content = $trigger.parents('.sidebar-popup-content'),
             // this is the input above the trigger, _not_ the one of the color picker
-                $titleField   = $content.find('[data-role="title"]'),
-            // this is the input of the color picker
-                color = $input.val();
-            var $colorPicker = params.popup.find('.color-picker'),
-                $colorPickerInput = params.popup.find('.color-picker-input');
+                $titleField = $content.find('[data-role="title"]'),
+                color = $trigger.prop('hexval').val(),
+                $colorPicker = params.popup.find('.color-picker'),
+                $colorPickerInput = params.popup.find('.color-picker-input'),
+                $container = $(this).parents('.sidebar-popup');
 
-            var $container = $(this).parents('.sidebar-popup');
-
-            //console.log($panel)
-
-            params.popup.css({ right: $(window).width() - $container.offset().left + 2, top: $titleField.offset().top -$('#item-editor-wrapper').offset().top });
+            params.popup.css({
+                right: $(window).width() - $container.offset().left + 2,
+                top: $titleField.offset().top - $itemContainer.offset().top
+            });
             params.popup.find('h3').text($titleField.val());
 
             // Init the color picker
@@ -59,33 +89,32 @@ define([
             config.color = color;
 
             // Populate the input with the color on quitting the modal
-            params.popup.find('.closer').off('click').on('click', function(){
+            params.popup.find('.closer').off('click').on('click', function () {
                 params.popup.hide();
                 $colorPicker.off('.farbtastic');
             });
 
             //listen to color change
-            $colorPicker.off('.farbtastic').on('colorchange.farbtastic', function(e, color){
-                $colorTrigger.css('background-color', color);
-                $input.val(color).trigger('change');
+            $colorPicker.off('.farbtastic').on('colorchange.farbtastic', function (e, color) {
+                changeColor(color, $colorTrigger);
             });
-            
+
         });
 
         // after popup closes
-        $colorTrigger.on('close.popup', function(e, params) {
+        $colorTrigger.on('close.popup', function (e, params) {
             params.popup.find('.color-picker').off('.farbtastic');
         });
 
-   }
+    }
 
-    function destroy($trigger){
+    function destroy($trigger) {
         $trigger.off('.color-picker');
         $trigger.removeAttr('data-color-picker');
     }
-    
+
     return {
-        create : create,
-        destroy : destroy
+        create: create,
+        destroy: destroy
     };
 });
