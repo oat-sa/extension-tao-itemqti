@@ -11,9 +11,15 @@ define([
     CreatorEndAttemptInteraction.template = tpl;
 
     CreatorEndAttemptInteraction.render = function(interaction, options){
-
+        
         //need to pass choice option form to the interaction widget because it will manage everything
         options = options || {};
+        
+        //complete the option
+        var interactionsConfig = this.getOption('interactions');
+        if(interactionsConfig.endAttempt){
+            options.config = interactionsConfig.endAttempt;
+        }
         
         return EndAttemptInteractionWidget.build(
             interaction,
