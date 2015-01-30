@@ -177,6 +177,8 @@ define([
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('expectedLength', attrValue);
+            }else{
+                interaction.attr('expectedLength', 0);
             }
         };
 
@@ -184,6 +186,8 @@ define([
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
                 interaction.attr('expectedLines', attrValue);
+            }else{
+                interaction.attr('expectedLines',0);
             }
         };
 
