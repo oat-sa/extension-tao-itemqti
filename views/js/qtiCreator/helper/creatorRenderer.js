@@ -9,6 +9,19 @@ define([
     //configure and instanciate once only:
     var _creatorRenderer = null;
     
+    var _configurableInteractions = ['endAttempt'];
+    function _extractInteractionsConfig(config){
+        var ret = {};
+        if(config && config.properties){
+            _.each(_configurableInteractions, function(interactionName){
+                if(config.properties[interactionName]){
+                    ret[interactionName] = config.properties[interactionName];
+                }
+            });
+        }
+        return ret;
+    }
+    
     /**
      * Get a preconfigured renderer singleton
      * 
@@ -46,7 +59,8 @@ define([
                         downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
                         fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
                         mediaSources : mediaSources
-                    }
+                    },
+                    interactions : _extractInteractionsConfig(config)
                 });
 
             }
