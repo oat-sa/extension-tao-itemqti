@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
     var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var out         = 'output/tao';
+    var out         = 'output/taoQtiItem';
 
     /**
      * Resolve AMD modules in the current extension
@@ -75,17 +75,17 @@ module.exports = function(grunt) {
                     'max_line_len': 400
                 }
             },
-            wrap : { 
+            wrap : {
                 start : '',
                 end : "define(['taoQtiItem/runner/qtiItemRunner'], function(runner){ return runner; });"
-            }, 
+            },
             wrapShim: true,
             inlineCss : true,
             paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js', taoCss : root + '/tao/views/css'},
             include: runtimeLibs.concat(['tpl', 'json']),
             exclude : ['mathJax'],
             name: "taoQtiItem/runner/qtiItemRunner",
-            out: "output/qtiItemRunner.min.js"
+            out: out + "/qtiItemRunner.min.js"
         }
     };
     /**
