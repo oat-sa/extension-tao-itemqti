@@ -116,7 +116,7 @@ img.dragging.ui-draggable-dragging {
     @include flex-container();
 
     .item-editor-item {
-
+        position : relative;
         [class*=" col-"], [class^="col-"] {
             padding: 3px; //not consistent with commonRenderer ! @todo : fix this
         }

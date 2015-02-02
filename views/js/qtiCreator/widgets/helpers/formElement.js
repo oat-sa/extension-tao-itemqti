@@ -26,12 +26,14 @@ define([
          * @param {Object} element - a js qti element (see qtiCreator/model)
          * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
          * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
+         * @param {Boolean} [options.invalidate = false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks : function($form, element, attributes, options){
 
             attributes = attributes || {};
             options = _.defaults(options || {}, {
-                validateOnInit : false
+                validateOnInit : false,
+                invalidate : false
             });
 
             var _callbackCall = function(name, value, $elt){
@@ -59,23 +61,12 @@ define([
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),
-                            name = $elt.attr('name'),
-                            widget = element.data('widget');
-
+                            name = $elt.attr('name');
+                        
+                        _callbackCall(name, $elt.val(), $elt);
                         if(options.invalidate){
-                            _callbackCall(name, $elt.val(), $elt);
-                            widget.isValid(name, valid);
-                        }else if(valid){
-                            _callbackCall(name, $elt.val(), $elt);
+                            element.data('widget').isValid(name, valid);
                         }
-
-                        return;
-                        //if(valid){
-                        //_callbackCall(name, $elt.val(), $elt);
-                        //widget.isValid(name, true);
-                        //}else{
-                        //widget.isValid(name, false);
-                        //}
                     }
                 }
             };

@@ -50,6 +50,9 @@ define([
             htmlEditor.buildEditor($editableContainer, {
                 shieldInnerContent : false,
                 change : gridContentHelper.getChangeCallbackForBlockStatic(container),
+                markupChange : function(){
+                    textWrapper.unwrap(this);
+                },
                 data : {
                     container : container,
                     widget : _widget

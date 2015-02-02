@@ -57,7 +57,7 @@ define([
             choice.attr('matchMax') &&
             _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
 
-            $choice.addClass('deactivated');
+            $choice.attr("class", "deactivated");
         }
 
         containerHelper.triggerResponseChangeEvent(interaction);
@@ -68,7 +68,7 @@ define([
         var serial = $choice.data('serial');
         var $container = containerHelper.get(interaction);
 
-        $container.find('.choice-area [data-serial=' + serial + ']').removeClass('deactivated');
+        $container.find('.choice-area [data-serial=' + serial + ']').removeClass();
 
         _choiceUsages[serial]--;
 
@@ -118,7 +118,7 @@ define([
         var _resetSelection = function(){
             if($activeChoice){
                 $flowContainer.find('.remove-choice').remove();
-                $activeChoice.removeClass('active');
+                $activeChoice.removeClass('deactivated active');
                 $container.find('.empty').removeClass('empty');
                 $activeChoice = null;
             }
@@ -144,25 +144,15 @@ define([
 
             e.stopPropagation();
 
-            if ($(this).hasClass('deactivated')) {
+            if ( ($activeChoice && $(this).hasClass('active')) || $(this).hasClass('deactivated') ) {
                 e.preventDefault();
                 return;
             }
 
-            if (_isModeEditing()) {
-                //swapping:
-                _unsetChoice($activeChoice);
-                _setChoice($(this), $activeChoice);
-                _resetSelection();
-            } else if (_isInsertionMode()) {
-                _resetSelection();
-                _setChoice($(this), $activeChoice);
-            } else if (!$activeChoice) {
-                //activate it:
-                $activeChoice = $(this);
-                $(this).addClass('active');
-                $flowContainer.find('.gapmatch-content').addClass('empty');
-            }
+            _resetSelection();
+
+            $activeChoice = $(this).addClass('active');
+            $flowContainer.find('.gapmatch-content').addClass('empty');
         });
 
         $flowContainer.on('mousedown.commonRenderer', '.gapmatch-content', function(e){
@@ -174,7 +164,7 @@ define([
                 var $target = $(this),
                     choiceSerial = $activeChoice.data('serial'),
                     targetSerial = $target.data('serial');
-
+                    
                 if(targetSerial !== choiceSerial){
 
                     //set choices:
@@ -185,7 +175,9 @@ define([
                     _setChoice($activeChoice, $target);
                 }
 
-                _resetSelection();
+                $activeChoice.removeClass('active');
+                $container.find('.empty').removeClass('empty');
+                $activeChoice = null;
 
             }else if(_isModeEditing()){
 
