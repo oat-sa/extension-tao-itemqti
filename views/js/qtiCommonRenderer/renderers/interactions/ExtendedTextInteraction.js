@@ -427,9 +427,11 @@ define([
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
         }
     };
 
@@ -440,7 +442,14 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
     };
 
     /**

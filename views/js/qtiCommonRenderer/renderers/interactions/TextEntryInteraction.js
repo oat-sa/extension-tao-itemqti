@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -43,9 +43,9 @@ define([
     var _setPattern = function($element, pattern){
         var patt = new RegExp('^' + pattern + '$'),
             patternSupported = ('pattern' in document.createElement('input'));
-    
 
-    
+
+
 
         $element.attr('pattern', pattern);
         //test when some data is entering in the input field
@@ -55,12 +55,12 @@ define([
 
 
                 /*
-                 * FIXME WTF is this check ? If I understand if there is a pattern attribute, 
-                 * 
+                 * FIXME WTF is this check ? If I understand if there is a pattern attribute,
+                 *
                  * --- orinal comment:
-                 * checking if pattern attribute is not supported of the browser 
+                 * checking if pattern attribute is not supported of the browser
                  * or if the browser is safari(bug with pattern attribute support)
-                 * 
+                 *
                  */
                 if(!patternSupported || navigator.userAgent.match(/Safari/i)){
                     $element.addClass('field-error');
@@ -76,7 +76,7 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction){
@@ -119,15 +119,15 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -147,13 +147,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -183,7 +183,7 @@ define([
     };
 
     var destroy = function(interaction){
-        
+
         //remove event
         $(document).off('.commonRenderer');
         containerHelper.get(interaction).off('.commonRenderer');
@@ -197,26 +197,36 @@ define([
 
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
     };
+
 
     return {
         qtiClass : 'textEntryInteraction',

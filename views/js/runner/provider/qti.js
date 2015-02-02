@@ -28,14 +28,9 @@ define([
 function($, _, QtiLoader, QtiRenderer){
     'use strict';
 
-    var itemData = {};
+    //var itemData = {};
 
-    //TODO configure the renderer URLs using an AssetManager
-    var renderer = new QtiRenderer({
-        baseUrl : './'
-    });
 
-    var loader = new QtiLoader();
 
     /**
      * @exports taoQtiItem/runner/provider/qti
@@ -45,14 +40,18 @@ function($, _, QtiLoader, QtiRenderer){
         init : function(itemData, done){
             var self = this;
 
-            loader.loadItemData(itemData, function(item){
+            //TODO configure the renderer URLs using an AssetManager
+            this._renderer = new QtiRenderer({
+                baseUrl : './'
+            });
 
+            new QtiLoader().loadItemData(itemData, function(item){
                 if(!item){
                     return self.trigger('error', 'Unable to load item from the given data.');
                 }
 
                 self._item = item;
-                renderer.load(function(){
+                self._renderer.load(function(){
                     self._item.setRenderer(this);
 
                     done();

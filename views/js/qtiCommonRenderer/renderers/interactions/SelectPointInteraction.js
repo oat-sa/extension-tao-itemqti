@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -36,17 +36,17 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      */
     var render = function render(interaction){
         var $container = containerHelper.get(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        
+
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width, 
+            width       : background.width,
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
@@ -67,7 +67,7 @@ define([
                     graphic.highlightError(data.target, 'success');
                 }
             }
-        }); 
+        });
     };
 
     /**
@@ -95,14 +95,14 @@ define([
             if(maxChoices > 0 && _getRawResponse(interaction).length >= maxChoices){
                 instructionMgr.validateInstructions(interaction);
                 return;
-            } 
-    
+            }
+
             //get the current mouse point, even on a responsive paper
             var point = graphic.getPoint(event, interaction.paper, $imageBox, isResponsive);
-            
+
             //add the point to the paper
             graphic.createTarget(interaction.paper, {
-                point : point, 
+                point : point,
                 create : changePoint,
                 remove : function pointRemoved (){
                     changePoint();
@@ -123,7 +123,7 @@ define([
     };
     /**
      * Get the responses from the interaction
-     * @private 
+     * @private
      * @param {Object} interaction
      * @returns {Array} of points
      */
@@ -140,13 +140,13 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -172,7 +172,7 @@ define([
                 .forEach(function(point){
                    graphic.createTarget(interaction.paper, {
                         point : point
-                   }); 
+                   });
                 });
             }
         }
@@ -180,15 +180,15 @@ define([
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -204,13 +204,13 @@ define([
 
     /**
      i* Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -228,43 +228,53 @@ define([
         var $container;
         if(interaction.paper){
             $container = containerHelper.get(interaction);
-        
+
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             instructionMgr.removeInstructions(interaction);
-            
-            $('.main-image-box', $container).empty().removeAttr('style');            
-            $('.image-editor', $container).removeAttr('style'); 
+
+            $('.main-image-box', $container).empty().removeAttr('style');
+            $('.image-editor', $container).removeAttr('style');
         }
-        
+
         //remove all references to a cache container
         containerHelper.reset(interaction);
-    };  
+    };
 
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
     };
+
 
     /**
      * Expose the common renderer for the interaction

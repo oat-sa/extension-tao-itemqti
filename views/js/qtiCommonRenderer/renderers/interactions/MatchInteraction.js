@@ -432,10 +432,6 @@ define([
         var $container;
 
         if(_.isObject(state)){
-            if(state.response){
-                interaction.resetResponse();
-                interaction.setResponse(state.response);
-            }
 
             //restore order of previously shuffled choices
             if(_.isArray(state.order) && state.order.length === 2){
@@ -473,6 +469,11 @@ define([
                     .each(function(index, elt){
                         $(elt).prependTo($('tbody tr', $container).eq(index));
                     });
+            }
+
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
             }
         }
     };

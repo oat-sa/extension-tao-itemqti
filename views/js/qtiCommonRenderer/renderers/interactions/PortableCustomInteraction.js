@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -34,7 +34,7 @@ define([
     /**
      * Get the PCI instance associated to the interaction object
      * If none exists, create a new one based on the PCI typeIdentifier
-     * 
+     *
      * @param {Object} interaction - the js object representing the interaction
      * @returns {Object} PCI instance
      */
@@ -65,14 +65,14 @@ define([
     /**
      * Execute javascript codes to bring the interaction to life.
      * At this point, the html markup must already be ready in the document.
-     * 
-     * It is done in 5 steps : 
+     *
+     * It is done in 5 steps :
      * 1. register required libs in the "portableCustomInteraction" context
      * 2. require all required libs
      * 3. create a pci instance based on the interaction model
-     * 4. initialize the rendering 
+     * 4. initialize the rendering
      * 5. restore full state if applicable (state and/or response)
-     * 
+     *
      * @param {Object} interaction
      */
     var render = function(interaction, options){
@@ -92,13 +92,13 @@ define([
             localRequireConfig = {},
             state = {}, //@todo pass state and response to renderer here:
             response = {base : null};
-        
+
         if(runtimeLocations && runtimeLocations[typeIdentifier]){
             //we are overwriting the runtime libs location:
             localRequireConfig.runtimeLocation = runtimeLocations[typeIdentifier];
         }
 
-        //create a new require context to load the libs: 
+        //create a new require context to load the libs:
         var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, localRequirePaths, localRequireConfig);
 
         localRequire([entryPoint], function(){
@@ -120,7 +120,7 @@ define([
     /**
      * Programmatically set the response following the json schema described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
-     * 
+     *
      * @param {Object} interaction
      * @param {Object} response
      */
@@ -132,7 +132,7 @@ define([
     /**
      * Get the response in the json format described in
      * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
-     * 
+     *
      * @param {Object} interaction
      * @returns {Object}
      */
@@ -144,7 +144,7 @@ define([
     /**
      * Remove the current response set in the interaction
      * The state may not be restored at this point.
-     * 
+     *
      * @param {Object} interaction
      */
     var resetResponse = function(interaction){
@@ -154,9 +154,9 @@ define([
 
     /**
      * Reverse operation performed by render()
-     * After this function is executed, only the inital naked markup remains 
+     * After this function is executed, only the inital naked markup remains
      * Event listeners are removed and the state and the response are reset
-     * 
+     *
      * @param {Object} interaction
      */
     var destroy = function(interaction){
@@ -166,7 +166,7 @@ define([
 
     /**
      * Restore the state of the interaction from the serializedState.
-     * 
+     *
      * @param {Object} interaction
      * @param {Object} serializedState - json format
      */
@@ -178,7 +178,7 @@ define([
     /**
      * Get the current state of the interaction as a string.
      * It enables saving the state for later usage.
-     * 
+     *
      * @param {Object} interaction
      * @returns {Object} json format
      */
@@ -191,13 +191,13 @@ define([
         qtiClass : 'customInteraction',
         template : tpl,
         getData : function(customInteraction, data){
-            
+
             //remove ns + fix media file path
             var markup = data.markup;
             markup = util.removeMarkupNamespaces(markup);
             markup = PortableElement.fixMarkupMediaSources(markup, this);
             data.markup = markup;
-            
+
             return data;
         },
         render : render,

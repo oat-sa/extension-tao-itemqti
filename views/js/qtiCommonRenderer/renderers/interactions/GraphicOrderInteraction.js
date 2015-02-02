@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -38,7 +38,7 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      */
     var render = function render(interaction){
@@ -49,7 +49,7 @@ define([
 
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width, 
+            width       : background.width,
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
@@ -70,11 +70,11 @@ define([
             onError : function(data){
                 graphic.highlightError(data.target);
             }
-        }); 
+        });
     };
 
     /**
-     * Render a choice inside the paper. 
+     * Render a choice inside the paper.
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      * @private
      * @param {Object} interaction
@@ -134,24 +134,24 @@ define([
         $orderers = $orderList.children('li');
         $orderers.click(function(e){
             e.preventDefault();
-            var $orderer = $(this);    
-        
+            var $orderer = $(this);
+
             if(!$orderer.hasClass('active') && !$orderer.hasClass('disabled')){
                 $orderers.removeClass('active');
                 $orderer.addClass('active');
             }
-        }); 
+        });
     };
 
     /**
      * Select a shape to position an order
-     * @private 
+     * @private
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Raphael.element} element - the selected shape
      * @param {jQueryElement} $orderList - the list than contains the orderers
      */
     var _selectShape = function _selectShape(paper, element, $orderList){
-        
+
         //lookup for the active number
         var $active = $orderList.find('.active:first');
         if($active.length && $active.data('number') > 0){
@@ -159,9 +159,9 @@ define([
             //associate the current number directly to the element
             element.data('number', $active.data('number'));
             element.active  = true;
-            _showText(paper, element); 
+            _showText(paper, element);
             graphic.updateElementState(element, 'active');
-            
+
             //update the state of the order list
             $active.toggleClass('active disabled').siblings(':not(.disabled)').first().toggleClass('active');
         }
@@ -169,20 +169,20 @@ define([
 
     /**
      * Unselect a shape to free the position
-     * @private 
+     * @private
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Raphael.element} element - the unselected shape
      * @param {jQueryElement} $orderList - the list than contains the orderers
      */
     var _unselectShape = function _unselectShape(paper, element, $orderList){
         var number = element.data('number');
-        
+
         //update element state
         element.active  = false;
-        _hideText(paper, element); 
+        _hideText(paper, element);
         element.removeData('number');
         graphic.updateElementState(element, 'basic');
-        
+
         //reset order list state and activate the removed number
         $orderList
             .children().removeClass('active')
@@ -191,8 +191,8 @@ define([
 
     /**
      * Creates ALL the texts (the numbers to display in the shapes). They are created styled but hidden.
-     * 
-     * @private 
+     *
+     * @private
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Number} size - the number of numbers to create...
      * @param {jQueryElement} $orderList - the list than contains the orderers
@@ -201,7 +201,7 @@ define([
     var _createTexts = function _createTexts(paper, size){
         var texts = [];
         _.times(size, function(index){
-            
+
             var number = index + 1;
             var text = graphic.createText(paper, {
                 id          : 'text-' + number,
@@ -215,7 +215,7 @@ define([
             text.click(function(){
                 paper.forEach(function(element){
                     if(element.data('number') === number && element.events){  //we just need to retrieve the right element
-                        //call the click event 
+                        //call the click event
                         var evt = _.where(element.events, { name : 'click'});
                         if(evt.length && evt[0] && typeof evt[0].f === 'function'){
                             evt[0].f.call(element);
@@ -229,9 +229,9 @@ define([
     };
 
     /**
-     * Show the text that match the element's number. 
+     * Show the text that match the element's number.
      * We need to display it at the center of the shape.
-     * @private 
+     * @private
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Raphael.Element} element - the element to show the text for
      */
@@ -239,10 +239,10 @@ define([
         var bbox = element.getBBox();
         var transf;
 
-        //we retrieve the good text from it's id 
+        //we retrieve the good text from it's id
         var text = paper.getById('text-' + element.data('number'));
         if(text){
-        
+
             //move it to the center of the shape (using absolute transform), and than display it
             transf = 'T' + (bbox.x + (bbox.width / 2)) + ',' +
                            (bbox.y + (bbox.height / 2));
@@ -254,7 +254,7 @@ define([
 
     /**
      * Hide an element text.
-     * @private 
+     * @private
      * @param {Raphael.Paper} paper - the interaction paper
      * @param {Raphael.Element} element - the element to hide the text for
      */
@@ -264,10 +264,10 @@ define([
             text.hide();
         }
     };
-   
+
     /**
      * Get the responses from the interaction
-     * @private 
+     * @private
      * @param {Object} interaction
      * @returns {Array} of points
      */
@@ -278,24 +278,24 @@ define([
             if(elt && elt.data('number')){
                 response.push({
                     index : elt.data('number'),
-                    id : choice.id()          
+                    id : choice.id()
                 });
             }
         });
         return _(response).sortBy('index').map('id').value();
     };
- 
+
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -309,7 +309,7 @@ define([
                 //try to unserualize tthe pci response
                 responseValues = pciResponse.unserialize(response, interaction);
             } catch(e){}
-            
+
             if(_.isArray(responseValues)){
                 _.forEach(responseValues, function(responseValue, index){
                     var element;
@@ -319,10 +319,10 @@ define([
                     var choice = _(interaction.getChoices()).where({'attributes' : { 'identifier' : responseValue}}).first();
                     if(choice){
                        element = interaction.paper.getById(choice.serial);
-                       if(element){    
+                       if(element){
                             //activate the orderer to be consistant
                             $orderList.children('[data-number='+number+']').addClass('active');
-    
+
                             //select the related shape
                             _selectShape(interaction.paper, element, $orderList);
                        }
@@ -334,22 +334,22 @@ define([
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
         var $container = containerHelper.get(interaction);
         var $orderList = $('ul', $container);
-        
+
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element){
@@ -357,19 +357,19 @@ define([
             }
         });
 
-        $orderList.children('li').removeClass('active disabled').first().addClass('active');        
+        $orderList.children('li').removeClass('active disabled').first().addClass('active');
     };
 
 
     /**
      i* Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -385,44 +385,54 @@ define([
         var $container;
         if(interaction.paper){
             $container = containerHelper.get(interaction);
-        
+
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             instructionMgr.removeInstructions(interaction);
-            
-            $('.main-image-box', $container).empty().removeAttr('style');            
-            $('.image-editor', $container).removeAttr('style'); 
+
+            $('.main-image-box', $container).empty().removeAttr('style');
+            $('.image-editor', $container).removeAttr('style');
             $('ul', $container).empty();
         }
 
         //remove all references to a cache container
         containerHelper.reset(interaction);
     };
- 
+
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
     };
+
 
     /**
      * Expose the common renderer for the interaction

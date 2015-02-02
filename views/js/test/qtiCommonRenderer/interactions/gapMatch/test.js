@@ -2,7 +2,7 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/tao-item',
+    'json!taoQtiItem/test/samples/json/tao-item.json',
 ], function($, _, qtiItemRunner, gapMatchData){
 
     var fixtureContainerId = 'item-container';

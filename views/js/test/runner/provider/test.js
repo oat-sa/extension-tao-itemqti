@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoItems/runner/api/itemRunner',
     'taoQtiItem/runner/provider/qti',
-    'json!taoQtiItem/test/samples/json/space-shuttle'
+    'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function($, _, itemRunner, qtiRuntimeProvider, itemData){
 
     var containerId = 'item-container';
@@ -176,7 +176,7 @@ define([
     });
 
     QUnit.asyncTest('default state structure', function(assert){
-        QUnit.expect(3);
+        QUnit.expect(4);
 
         var container = document.getElementById(containerId);
 
@@ -190,6 +190,7 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
+                assert.ok(typeof state.RESPONSE.response === 'object' , 'the state contains the interaction response');
 
                 QUnit.start();
             })
@@ -217,7 +218,7 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.equal(state.RESPONSE.base, null, 'the default state contains a null base');
+                assert.equal(state.RESPONSE.response.base, null, 'the default state contains a null base');
 
                 //change something
                 $('[data-identifier="Discovery"]', $(container)).click();
@@ -227,8 +228,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.identifier, 'Discovery', 'the contains the selected choice');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.identifier, 'Discovery', 'the contains the selected choice');
 
                 //change something else
                 $('[data-identifier="Atlantis"]', $(container)).click();
@@ -237,8 +238,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.identifier, 'Atlantis', 'the contains the selected choice');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.identifier, 'Atlantis', 'the contains the selected choice');
 
                 QUnit.start();
             })
@@ -260,7 +261,7 @@ define([
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
 
-                this.setState({ RESPONSE : { base : { identifier : 'Atlantis' } } });
+                this.setState({ RESPONSE : { response : { base : { identifier : 'Atlantis' } } } });
 
                 assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
 
@@ -284,7 +285,7 @@ define([
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
 
-                this.setState({ RESPONSE : { base : { identifier : 'Atlantis' } } });
+                this.setState({ RESPONSE : { response : { base : { identifier : 'Atlantis' } } } });
 
                 assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
 
@@ -294,7 +295,7 @@ define([
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
                 assert.ok($('[data-identifier="Discovery"] input', $(container)).prop('checked'), 'The choice is checked');
 
-                this.setState({ RESPONSE : { base : { identifier : 'Challenger' } } });
+                this.setState({ RESPONSE : { response : { base : { identifier : 'Challenger' } } } });
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
                 assert.ok( ! $('[data-identifier="Discovery"] input', $(container)).prop('checked'), 'The choice is not checked');
@@ -322,8 +323,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.identifier, 'Atlantis', 'the contains the selected choice');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.identifier, 'Atlantis', 'the contains the selected choice');
 
                 QUnit.start();
             })
@@ -332,7 +333,7 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.equal(state.RESPONSE.base, null, 'the default state contains a null base');
+                assert.equal(state.RESPONSE.response.base, null, 'the default state contains a null base');
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
 

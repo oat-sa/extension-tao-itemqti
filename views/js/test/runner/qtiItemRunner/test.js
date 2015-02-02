@@ -2,8 +2,8 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/space-shuttle'],
-function($, _, qtiItemRunner, itemData){
+    'json!taoQtiItem/test/samples/json/space-shuttle.json'
+], function($, _, qtiItemRunner, itemData){
 
     var containerId = 'item-container';
 

@@ -2,8 +2,8 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/space-shuttle',
-    'json!taoQtiItem/test/samples/json/space-shuttle-m'
+    'json!taoQtiItem/test/samples/json/space-shuttle.json',
+    'json!taoQtiItem/test/samples/json/space-shuttle-m.json'
 ], function($, _, qtiItemRunner, choiceData, multipleChoiceData){
 
     var fixtureContainerId = 'item-container';

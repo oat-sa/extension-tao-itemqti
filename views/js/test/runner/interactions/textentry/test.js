@@ -2,10 +2,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
-    'json!taoQtiItem/test/samples/json/richardIII-2'
+    'json!taoQtiItem/test/samples/json/richardIII-2.json'
 ], function($, _, qtiItemRunner, itemData){
 
-    //var containerId = 'outside-container';
     var containerId = 'item-container';
 
     module('Init');
@@ -92,7 +91,7 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.equal(state.RESPONSE.base.string, '', 'the default state contains an empty string');
+                assert.equal(state.RESPONSE.response.base.string, '', 'the default state contains an empty string');
 
                 //change something
                 $('input.qti-textEntryInteraction', $(container)).val('foo').trigger('change');
@@ -101,8 +100,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.string, 'foo', 'the contains the entered string');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.string, 'foo', 'the contains the entered string');
 
                 //change something else
                 $('input.qti-textEntryInteraction', $(container)).val('bar').trigger('change');
@@ -111,8 +110,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.string, 'bar', 'the contains the entered string');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.string, 'bar', 'the contains the entered string');
 
                 QUnit.start();
             })
@@ -132,7 +131,7 @@ define([
 
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), '', 'The current value is empty');
 
-                this.setState({ RESPONSE : { base : { string : 'beebop' } } });
+                this.setState({ RESPONSE : { response : { base : { string : 'beebop' } } } });
 
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), 'beebop', 'The current value matches the given state');
 
@@ -156,7 +155,7 @@ define([
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), '', 'The current value is empty');
 
                 //set state
-                this.setState({ RESPONSE : { base : { string : 'bidiboop' } } });
+                this.setState({ RESPONSE : { response :  { base : { string : 'bidiboop' } } } });
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), 'bidiboop', 'The current value matches the given state');
 
                  //change something
@@ -164,7 +163,7 @@ define([
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), 'babar', 'The current value matches the given state');
 
                 //change a new time the state
-                this.setState({ RESPONSE : { base : { string : 'badabeloowap' } } });
+                this.setState({ RESPONSE : { response : { base : { string : 'badabeloowap' } } } });
                 assert.equal($('input.qti-textEntryInteraction', $(container)).val(), 'badabeloowap', 'The current value matches the given state');
 
                 QUnit.start();
@@ -187,8 +186,8 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.ok(typeof state.RESPONSE.base === 'object' , 'the contains a base object');
-                assert.equal(state.RESPONSE.base.string, 'woopsy', 'the contains the entered string');
+                assert.ok(typeof state.RESPONSE.response.base === 'object' , 'the contains a base object');
+                assert.equal(state.RESPONSE.response.base.string, 'woopsy', 'the contains the entered string');
 
                 QUnit.start();
             })
@@ -197,9 +196,10 @@ define([
 
                 assert.ok(typeof state === 'object' , 'the state is an object');
                 assert.ok(typeof state.RESPONSE === 'object' , 'the state contains the interaction response identifier');
-                assert.equal(state.RESPONSE.base.string, '', 'the default state contains an empty string');
+                assert.equal(state.RESPONSE.response.base.string, '', 'the default state contains an empty string');
 
-                $('input.qti-textEntryInteraction', $(container)).val('woopsy').trigger('change');
+                $('input.qti-textEntryInteraction', $(container)).val('woopsy').trigger('keyup');
+
             })
             .init()
             .render(container);

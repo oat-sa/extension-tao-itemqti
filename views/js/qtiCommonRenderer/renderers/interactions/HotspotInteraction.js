@@ -1,20 +1,20 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -37,17 +37,17 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      */
     var render = function render(interaction){
-        
+
         var $container = containerHelper.get(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        
+
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width     : background.width, 
+            width     : background.width,
             height    : background.height,
             img       : baseUrl + background.data,
             container : $container
@@ -70,11 +70,11 @@ define([
                     $container.trigger('inactiveChoice.qti-widget', [data.choice, data.target]);
                 }
             }
-        }); 
+        });
     };
 
     /**
-     * Render a choice inside the paper. 
+     * Render a choice inside the paper.
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      * @param {Paper} paper - the raphael paper to add the choices to
      * @param {Object} interaction
@@ -106,9 +106,9 @@ define([
      * @private
      * @param {Object} interaction
      * @returns {Array} the response in raw format
-     */ 
+     */
     var _getRawResponse = function _getRawResponse(interaction){
-        
+
        return _(interaction.getChoices())
         .map(function(choice){
             var rElement = interaction.paper.getById(choice.serial);
@@ -117,23 +117,23 @@ define([
         .filter(_.isString)
         .value();
     };
- 
+
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
+
         var responseValues;
         if(response && interaction.paper){
 
@@ -141,7 +141,7 @@ define([
                 responseValues = pciResponse.unserialize(response, interaction);
 
             } catch(e){ }
-            
+
             if(_.isArray(responseValues)){
 
                 _.forEach(interaction.getChoices(), function(choice){
@@ -150,7 +150,7 @@ define([
                         rElement = interaction.paper.getById(choice.serial);
                         if(rElement){
                             rElement.active = true;
-                            graphic.updateElementState(rElement, 'active', __('Click again to remove')); 
+                            graphic.updateElementState(rElement, 'active', __('Click again to remove'));
                             instructionMgr.validateInstructions(interaction, { choice : choice, target : rElement });
                         }
                     }
@@ -161,15 +161,15 @@ define([
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -178,7 +178,7 @@ define([
             var element = interaction.paper.getById(choice.serial);
             if(element){
                 element.active = false;
-                graphic.updateElementState(element, 'basic'); 
+                graphic.updateElementState(element, 'basic');
             }
         });
         instructionMgr.resetInstructions(interaction);
@@ -187,13 +187,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -211,42 +211,50 @@ define([
         var $container;
         if(interaction.paper){
             $container = containerHelper.get(interaction);
-        
+
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
             instructionMgr.removeInstructions(interaction);
-            
-            $('.main-image-box', $container).empty().removeAttr('style');            
-            $('.image-editor', $container).removeAttr('style'); 
+
+            $('.main-image-box', $container).empty().removeAttr('style');
+            $('.image-editor', $container).removeAttr('style');
         }
 
         //remove all references to a cache container
         containerHelper.reset(interaction);
-    };  
-
+    };
     /**
      * Set the interaction state. It could be done anytime with any state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @param {Object} state - the interaction state
      */
     var setState  = function setState(interaction, state){
-        if(typeof state !== undefined){
-            interaction.resetResponse();
-            interaction.setResponse(state);
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
         }
     };
 
     /**
      * Get the interaction state.
-     * 
+     *
      * @param {Object} interaction - the interaction instance
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        return interaction.getResponse();
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
     };
 
     /**
