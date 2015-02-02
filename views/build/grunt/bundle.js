@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
     var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var out         = 'output/tao';
 
     /**
      * Resolve AMD modules in the current extension
@@ -22,16 +23,16 @@ module.exports = function(grunt) {
     /**
      * Remove bundled and bundling files
      */
-    clean.taoqtiitembundle = ['output',  root + '/taoQtiItem/views/js/controllers.min.js'];
-    clean.qtiruntime = ['output',  root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js', root + '/taoQtiItem/views/js/runtime/qtiBoostrap.min.js'];
-    
+    clean.taoqtiitembundle = [out,  root + '/taoQtiItem/views/js/controllers.min.js'];
+    clean.qtiruntime = [out,  root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js', root + '/taoQtiItem/views/js/runtime/qtiBoostrap.min.js'];
+
     /**
-     * Controller 
+     * Controller
      */
     requirejs.taoqtiitembundle = {
         options: {
             baseUrl : '../js',
-            dir : 'output',
+            dir : out,
             mainConfigFile : './config/requirejs.build.js',
             paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
             modules : [{
@@ -48,7 +49,7 @@ module.exports = function(grunt) {
     requirejs.qtiruntime = {
         options: {
             baseUrl : '../js',
-            dir: 'output',
+            dir: out,
             mainConfigFile : './config/requirejs.build.js',
             paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css'},
             modules : [{
@@ -64,18 +65,18 @@ module.exports = function(grunt) {
      */
     copy.taoqtiitembundle = {
         files: [
-            { src: ['output/taoQtiItem/controller/routes.js'],  dest: root + '/taoQtiItem/views/js/controllers.min.js' },
-            { src: ['output/taoQtiItem/controller/routes.js.map'],  dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
+            { src: [ out + '/controller/routes.js'],  dest: root + '/taoQtiItem/views/js/controllers.min.js' },
+            { src: [ out + '/controller/routes.js.map'],  dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
         ]
     };
 
     //the qti loader is uglify outside the r.js to split the file loading (qtiLoader.min published within the item and qtiBootstrap shared)
     uglify.qtiruntime = {
-        files : { 
-            'output/qtiLoader.min.js' : ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js']
-        }
+        files : [
+            { src : [out + 'qtiLoader.min.js'], dest : ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js'] }
+        ]
     };
-    
+
     //we need to change the names of AMD modules to referr to minimified verrsions
     replace.qtiruntime = {
          options: {
@@ -87,9 +88,9 @@ module.exports = function(grunt) {
              force : true,
              prefix: ''
          },
-         files : [ 
-             { src: ['output/taoQtiItem/runtime/qtiBootstrap.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
-             { src: ['output/qtiLoader.min.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js' }
+         files : [
+             { src: [ out + '/runtime/qtiBootstrap.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
+             { src: [ out + 'qtiLoader.min.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js' }
          ]
     };
 
@@ -101,6 +102,6 @@ module.exports = function(grunt) {
 
     // bundle task
     grunt.registerTask('qtiruntime', ['clean:qtiruntime', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
-    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle']);
+    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'clean:runtime', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
 
 };
