@@ -103,25 +103,67 @@ define([
         if (!multiple) {
             $el = $container.find('textarea');
             var ckeOptions = {
-               'extraPlugins': 'confighelper',
-               'resize_enabled': true
+               extraPlugins: 'confighelper',
+               resize_enabled: true
             };
             //setting the placeholder for the textarea
             if (attributes.placeholderText) {
                 $el.attr('placeholder', attributes.placeholderText);
             }
+            // Enable ckeditor only if text format is 'xhtml'.
+            if (_getFormat(interaction) === 'xhtml') {
+                //replace the textarea with ckEditor
+                var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+                $container.data('editor', editor);
 
-        // Enable ckeditor only if text format is 'xhtml'.
-        if (_getFormat(interaction) === 'xhtml') {
-            //replace the textarea with ckEditor
-            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
-            $container.data('editor', editor);
+            }
+            else {
+                $el.bind('keyup change', function(e) {
+                    containerHelper.triggerResponseChangeEvent(interaction, {});
+                });
+            }
+            if (attributes.expectedLength || attributes.expectedLines || attributes.patternMask) {
+                var $textarea = $('.text-container', $container),
+                    $charsCounter = $('.count-chars',$container),
+                    $wordsCounter = $('.count-words',$container);
 
-        }
-        else {
-            $el.bind('keyup change', function(e) {
-                containerHelper.triggerResponseChangeEvent(interaction, {});
-            });
+                if (attributes.patternMask !== "") {
+                    var maxWords = _parsePattern(attributes.patternMask, 'words'),
+                        maxLength = _parsePattern(attributes.patternMask, 'chars');
+                    maxWords = (isNaN(maxWords)) ? undefined : maxWords;
+                    maxLength = (isNaN(maxLength) ? undefined : maxLength);
+                }
+
+                var counter = function(){
+                    var regex = /\s+/gi,
+                    editor = $container.data('editor'),
+                    value = (_getFormat(interaction) === "xhtml") ?  $('<div>' + editor.getData() + '</div>').text() : $textarea.val(),
+                    wordCount = value.trim().replace(regex, ' ').split(' ').length,
+                    charCount = value.trim().length;
+                    // var charCountNoSpaces = value.trim().replace(regex,'').length;
+                    $charsCounter.text(charCount);
+                    $wordsCounter.text(wordCount);
+
+                    if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
+                        value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val();
+                        value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
+                        if(attributes.format === "xhtml"){
+                            editor.setData(value);
+                            var range = editor.createRange();
+                            range.moveToPosition( range.root, CKEDITOR.POSITION_BEFORE_END );
+                            editor.getSelection().selectRanges( [ range ] );
+                        }else{
+                            $textarea.val(value);
+                        }
+                    }
+                };
+
+
+                if (_getFormat(interaction) === "xhtml") {
+                    $container.data('editor').on('change',function(){counter();});
+                }else{
+                    $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
+                }
 
             }
         }
@@ -350,11 +392,44 @@ define([
         }
     };
 
+    /**
+     * parse the pattern (idealy from patternMask) and return the max words / chars from the pattern
+     * @param  {String} pattern String from patternMask
+     * @param  {String} type    the type of information you want : words / chars
+     * @return {Number|null}    the number extracted of the pattern, or null if not found
+     */
+    var _parsePattern = function(pattern,type){
+        if (pattern === undefined){return null;}
+
+        var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
+        regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/,
+        result;
+
+        if (type === "words") {
+            result = pattern.match(regexWords);
+            if (result !== null && result.length > 1) {
+                return parseInt(result[1],10);
+            }else{
+                return null;
+            }
+        }else if (type === "chars"){
+            result = pattern.match(regexChar);
+
+            if (result !== null && result.length > 1) {
+                return parseInt(result[1],10);
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    };
+
     var updateFormat = function(interaction, from) {
         var ckeOptions = {};
         var $container = containerHelper.get(interaction);
-
-        if (interaction.attr('format') === 'xhtml') {
+        
+        if ( _getFormat(interaction) === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
         }
@@ -371,7 +446,7 @@ define([
         var $container = containerHelper.get(interaction);
         $container.find('input, textarea').removeAttr('disabled');
 
-        if (interaction.attr('format') === 'xhtml') {
+        if ( _getFormat(interaction) === 'xhtml') {
             $container.data('editor').destroy();
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
             $container.data('editor', editor);
@@ -382,7 +457,7 @@ define([
         var $container = containerHelper.getContainer(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
 
-        if (interaction.attr('format') === 'xhtml' && $container.data('editor')) {
+        if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
             $container.data('editor').destroy();
         }
     };
@@ -394,7 +469,7 @@ define([
     var setText = function(interaction, text) {
         var $container = containerHelper.get(interaction);
 
-        if (interaction.attr('format') === 'xhtml') {
+        if ( _getFormat(interaction) === 'xhtml') {
             $container.data('editor').setData(text);
         }
         else {
@@ -452,6 +527,19 @@ define([
         return state;
     };
 
+    var getCustomData = function(interaction, data){
+        var pattern = interaction.attr('patternMask'),
+            maxWords = parseInt(_parsePattern(pattern,'words')),
+            maxLength = parseInt(_parsePattern(pattern, 'chars')),
+            expectedLength = parseInt(interaction.attr('expectedLines'),10);
+        return _.merge(data || {}, {
+            maxWords : (! isNaN(maxWords)) ? maxWords : undefined,
+            maxLength : (! isNaN(maxLength)) ? maxLength : undefined,
+            attributes : (! isNaN(expectedLength)) ? { expectedLength :  expectedLength * 72} : undefined
+        });
+
+    };
+
     /**
      * Expose the common renderer for the extended text interaction
      * @exports qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction
@@ -463,6 +551,7 @@ define([
         getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
+        getData : getCustomData,
         resetResponse : resetResponse,
         destroy : destroy,
         getState : getState,
