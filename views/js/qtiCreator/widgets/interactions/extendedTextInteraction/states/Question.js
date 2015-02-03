@@ -24,7 +24,7 @@ define([
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
     function parsePattern(pattern,type){
-        if (pattern === undefined || pattern === null){
+        if (pattern === undefined || pattern === null){
             return null;
         }
         if (type === "words") {
@@ -170,7 +170,6 @@ define([
              */
             $('[name="maxWords"]').val('');
             $('[name="maxLength"]').val('');
-            $('[name="patternMask"]').val('');
         };
 
         callbacks.expectedLength = function(interaction, attrValue){
