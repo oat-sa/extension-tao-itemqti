@@ -118,6 +118,7 @@ img.dragging.ui-draggable-dragging { max-height: 90px; }
 #item-editor-widget-bar { display: none; }
 
 #item-editor-wrapper { margin: 0; position: relative; background-color: #f2f0ee; display: box; display: -ms-flexbox; display: -webkit-flexbox; display: flexbox; display: -ms-flex; display: -webkit-flex; display: flex; -ms-direction: row; -webkit-direction: row; direction: row; -ms-flex-wrap: nowrap; -webkit-flex-wrap: nowrap; flex-wrap: nowrap; flex-pack: start; -ms-flex-pack: start; -webkit-justify-content: flex-start; justify-content: flex-start; flex-line-pack: start; -ms-flex-line-pack: start; -webkit-align-content: flex-start; align-content: flex-start; flex-align: stretch; -ms-flex-align: stretch; -webkit-align-items: stretch; align-items: stretch; }
+#item-editor-wrapper .item-editor-item { position: relative; }
 #item-editor-wrapper .item-editor-item [class*=" col-"], #item-editor-wrapper .item-editor-item [class^="col-"] { padding: 3px; }
 #item-editor-wrapper .action-bar { position: relative; z-index: 15; }
 #item-editor-wrapper .action-bar .action-group { display: none; }

@@ -8,7 +8,8 @@ define([
 
     return function($form, options){
 
-        var $upload = $('[data-role="upload-trigger"]', $form),
+        var _ns = '.imageSelector',
+            $upload = $('[data-role="upload-trigger"]', $form),
             $src = $('input[name=data]', $form),
             $width = $('input[name=width]', $form),
             $height = $('input[name=height]', $form),
@@ -47,14 +48,14 @@ define([
                     }
                 },
                 open : function(){
+                    $src.trigger('open.'+_ns);
                     //hide tooltip if displayed
                     if($src.hasClass('tooltipstered')){
                         $src.blur().tooltipster('hide');
                     }
                 },
                 close : function(){
-                    //triggers validation : 
-                    $src.blur();
+                    $src.trigger('close.'+_ns);
                 }
             });
         };
