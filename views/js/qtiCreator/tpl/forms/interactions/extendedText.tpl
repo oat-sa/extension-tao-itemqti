@@ -16,6 +16,8 @@
             <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
         {{/each}}
     </select>
+</div>
+<div class="panel">
     {{!-- Let the user enter his own pattern --}}
     <div id="constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
         <label>
