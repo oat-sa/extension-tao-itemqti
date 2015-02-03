@@ -102,6 +102,6 @@ module.exports = function(grunt) {
 
     // bundle task
     grunt.registerTask('qtiruntime', ['clean:qtiruntime', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
-    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'clean:runtime', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
+    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'clean:qtiruntime', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
 
 };
