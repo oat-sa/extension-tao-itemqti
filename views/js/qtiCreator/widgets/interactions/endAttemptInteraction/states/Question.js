@@ -32,10 +32,11 @@ define([
             interaction = _widget.element,
             response = interaction.getResponseDeclaration();
         
-        var restrictedIdentifiers = _getRestrictedIdentifier(this.widget);
+        var restrictedIdentifiers = _prepareRestrictedIdentifier(_widget);
+        var hasRestrictedIdentifier = !!_.size(restrictedIdentifiers);
         
         $form.html(formTpl({
-            hasRestrictedIdentifier : !!_.size(restrictedIdentifiers),
+            hasRestrictedIdentifier : hasRestrictedIdentifier,
             restrictedIdentifiers : restrictedIdentifiers,
             responseSerial : response.serial,
             responseIdentifier : interaction.attr('responseIdentifier'),
@@ -60,27 +61,63 @@ define([
                 //generate a response from that identifier (because might not be unique
                 response.buildIdentifier(identifier);
                 //sync the response identifier in the interaction
-                interaction.attr('responseIdentifier', identifier);
+                interaction.attr('responseIdentifier', response.id());
             }
         });
     };
     
-    function _getRestrictedIdentifier(widget){
+    /**
+     * Prepare the restricted identifiers to be used 
+     * (when the option in configuration "responseIdentifiers" is set)
+     * 
+     * @param {Object} widget
+     * @returns {Object}
+     */
+    function _prepareRestrictedIdentifier(widget){
         
         var ret = {},
             interaction = widget.element,
+            response = interaction.getResponseDeclaration(),
             responseIdentifier = interaction.attr('responseIdentifier'),
-            config = widget.options.config;
+            config = widget.options.config,
+            defaultIdentifier = '',
+            isset = '',
+            i = 0;
         
+        //only execute the code when the config option is set "responseIdentifiers"
         if(config && config.responseIdentifiers){
+            
             _.forIn(config.responseIdentifiers, function(title, identifier){
+                
+                //store the first identifier as the default one
+                if(!i){
+                    defaultIdentifier = identifier;
+                }
+                
+                //considered selected when match the pattern RESPONSE_STUFF === RESPONSE_STUFF_2 === RESPONSE_STUFF_3
+                var selected = responseIdentifier.match(new RegExp('^('+identifier+')(_[0-9]*)?$'));
+                
+                //prepare the template data
                 ret[identifier] = {
                     identifier : identifier,
                     title : title,
-                    selected : responseIdentifier.match(new RegExp('^('+identifier+')(_[0-9]*)?$'))
+                    selected : selected
                 };
-                //if selected when match the pattern RESPONSE_STUFF === RESPONSE_STUFF_2 === RESPONSE_STUFF_3
+                
+                if(selected){
+                    isset = true;
+                }
+                
+                i++;
             });
+            
+            //if none of the authorized identifier is set, set the first one
+            if(!isset){
+                //directly save the validate response identifier (it went throught the validator so we know it is unique)
+                response.buildIdentifier(defaultIdentifier, false);
+                //sync the response identifier in the interaction
+                interaction.attr('responseIdentifier', response.id());
+            }
         }
         return ret;
     }

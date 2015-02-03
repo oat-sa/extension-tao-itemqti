@@ -1,3 +1,15 @@
+{{#if hasRestrictedIdentifier}}
+<div class="panel">
+    <label for="restrictedIdentifier" class="spinner">{{__ "Response identifier"}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">{{__ "Select a response identifier from the list."}}</span>
+    <select name="restrictedIdentifier" class="select2" data-has-search="false">
+    	{{#each restrictedIdentifiers}}
+    		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{title}}</option>
+    	{{/each}}
+    </select>
+</div>
+{{else}}
 <div class="panel">
     <label for="" class="has-icon">{{__ "Response identifier"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
@@ -9,6 +21,7 @@
            placeholder="e.g. END_ATTEMPT" 
            data-validate="$notEmpty; $qtiIdentifier; $availableIdentifier(serial={{responseSerial}});">
 </div>
+{{/if}}
 
 <div class="panel">
     <label for="" class="has-icon">{{__ "Label"}}</label>
