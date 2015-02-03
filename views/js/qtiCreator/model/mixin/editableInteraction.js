@@ -86,7 +86,7 @@ define([
                 _.each(interactions, function(interaction){
                     
                     //find the other interaction, which will be the last remaining one
-                    if(interaction.serial !== serial){
+                    if(interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
                         
                         var response = interaction.getResponseDeclaration();
                         interaction.attr('responseIdentifier', 'RESPONSE');
