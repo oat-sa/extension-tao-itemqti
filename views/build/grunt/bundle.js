@@ -71,8 +71,11 @@ module.exports = function(grunt) {
 
     //the qti loader is uglify outside the r.js to split the file loading (qtiLoader.min published within the item and qtiBootstrap shared)
     uglify.qtiruntime = {
+        options : {
+            force : true
+        },
         files : [
-            { src : [out + 'qtiLoader.min.js'], dest : ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js'] }
+            { dest : out + '/qtiLoader.min.js', src : ['../js/lib/require.js', root + '/taoQtiItem/views/js/runtime/qtiLoader.js'] }
         ]
     };
 
