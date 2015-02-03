@@ -55,9 +55,10 @@
         }
     }
 
-    .text-maxwords{
+    .text-counter{
         text-align : right;
-        .text-words-count{
+        .count-words,
+        .count-chars{
             font-weight: bold;
         }
     }
