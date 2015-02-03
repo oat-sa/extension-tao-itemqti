@@ -48,10 +48,11 @@ define([
             title : function(interaction, title){
                 interaction.attr('title', title);
                 $title.html(title);
+                _widget.$original.html(title);
             },
             responseIdentifier : function(interaction, identifier){
                 //directly save the validate response identifier (it went throught the validator so we know it is unique)
-                response.id(identifier)
+                response.id(identifier);
                 //sync the response identifier in the interaction
                 interaction.attr('responseIdentifier', identifier);
             },
