@@ -2,7 +2,4 @@
     <span class="btn btn-info endAttemptInteraction-placeholder">
         {{attributes.title}}
     </span>
-<!--    <button class="qti-interaction qti-inlineInteraction qti-endAttemptInteraction btn btn-info">
-        button
-    </button>-->
 </div>
