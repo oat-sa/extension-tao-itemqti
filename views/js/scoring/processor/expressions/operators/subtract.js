@@ -24,12 +24,12 @@ define([
     'lodash'
 ], function(_){
 
-    var sumProcessor = {
+    var subtractProcessor = {
 
         constraints : {
-            minOperand : 1,
-            maxOperand : -1,
-            cardinalities : ['single', 'multiple', 'ordered'],
+            minOperand : 2,
+            maxOperand : 2,
+            cardinalities : ['single'],
             baseTypes : ['int', 'float']
         },
 
@@ -43,15 +43,10 @@ define([
                 return null;
             }
 
-            return _(this.operands)
-                .filter(function(value){
-                    return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
-                })
-                .reduce(function(sum, value){
-                    return sum + value;
-                });
+
+            return this.operands[0] - this.operands[1];
         }
     };
 
-    return sumProcessor;
+    return subtractProcessor;
 });
