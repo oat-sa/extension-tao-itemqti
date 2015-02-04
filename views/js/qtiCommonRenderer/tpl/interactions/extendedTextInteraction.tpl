@@ -28,7 +28,7 @@
         {{#if maxWords}}
             <div class="text-counter">
                 {{__ "You can enter a maximum of"}} {{maxWords}} {{__ "words".}}
-                {{__ "You are now at"}} <span class="count-words">0</span> {{__ "words(s)"}}.
+                {{__ "You are now at"}} <span class="count-words">0</span> {{__ "word(s)"}}.
             </div>
         {{/if}}
     {{else}}
@@ -47,14 +47,14 @@
         {{#if maxLength}}
             <div class="text-counter">
                 {{__ "You can enter a maximum of"}} {{maxLength}} {{__ "chars".}}
-                {{__ "You are now at"}} <span class="count-chars">0</span> {{__ "char(s)"}}.
+                {{__ "You are now at"}} <span class="count-chars">0</span> {{__ "cha(s)"}}.
             </div>
         {{/if}}
         {{!-- If there's a max words --}}
         {{#if maxWords}}
             <div class="text-counter">
                 {{__ "You can enter a maximum of"}} {{maxWords}} {{__ "words".}}
-                {{__ "You are now at"}} <span class="count-words">0</span> {{__ "words(s)"}}.
+                {{__ "You are now at"}} <span class="count-words">0</span> {{__ "word(s)"}}.
             </div>
         {{/if}}
     {{/if}}
