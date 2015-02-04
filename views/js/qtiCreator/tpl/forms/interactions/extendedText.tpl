@@ -48,7 +48,7 @@
 </div>
 <hr>
 <div class="panel">
-    <h3 class="full-width">{{__ "Expectations"}}</h3>
+    <h3 class="full-width">{{__ "Recommandations"}}</h3>
     <label class="spinner">
         {{__ "Length"}}
     </label>
