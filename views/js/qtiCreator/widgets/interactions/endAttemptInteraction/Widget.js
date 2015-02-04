@@ -6,7 +6,10 @@ define([
 ], function(_, InteractionWidget, states, interactionTpl){
     'use strict';
     var EndAttemptInteractionWidget = InteractionWidget.clone();
-
+    
+    /**
+     * Init the creator
+     */
     EndAttemptInteractionWidget.initCreator = function(){
 
         this.registerStates(states);
@@ -16,7 +19,12 @@ define([
         //remove toolbar title, because it is too large
         this.$container.find('.tlb-title').remove();
     };
-
+    
+    /**
+     * Render the interaction widget from template
+     * 
+     * @returns {Object}
+     */
     EndAttemptInteractionWidget.renderInteraction = function(){
 
         var interaction = this.element,
@@ -28,7 +36,10 @@ define([
 
         return interactionTpl(tplData);
     };
-
+    
+    /**
+     * Prepare and define the end attempt interaction widget container
+     */
     EndAttemptInteractionWidget.buildContainer = function(){
         var previous, next;
         //add a space to be able to place the cursor before and after it.

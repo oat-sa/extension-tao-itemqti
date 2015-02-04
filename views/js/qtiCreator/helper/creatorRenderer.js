@@ -9,7 +9,16 @@ define([
     //configure and instanciate once only:
     var _creatorRenderer = null;
     
+    //list of configurable interactions
+    //some interactions allow additional non-standard but sometimes useful configuration
     var _configurableInteractions = ['endAttempt'];
+    
+    /**
+     * Extract interaction-specific configuration from the main one
+     * 
+     * @param {object} config - the configuration object of the creatorRenderer
+     * @returns {module.exports.properties|Function.properties|config.properties}
+     */
     function _extractInteractionsConfig(config){
         var ret = {};
         if(config && config.properties){

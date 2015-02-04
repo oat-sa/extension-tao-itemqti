@@ -9,7 +9,14 @@ define([
     var CreatorEndAttemptInteraction = _.clone(EndAttemptInteraction);
 
     CreatorEndAttemptInteraction.template = tpl;
-
+    
+    /**
+     * Render the end attempt interaction widget
+     * 
+     * @param {Object} interaction - the qti js object
+     * @param {Object} options
+     * @returns {Object}
+     */
     CreatorEndAttemptInteraction.render = function(interaction, options){
         
         //need to pass choice option form to the interaction widget because it will manage everything
