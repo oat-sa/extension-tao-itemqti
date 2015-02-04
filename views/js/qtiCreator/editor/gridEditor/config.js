@@ -1,4 +1,5 @@
 define(function(){
+    "use strict";
     return {
         min : {
             interaction : 2,

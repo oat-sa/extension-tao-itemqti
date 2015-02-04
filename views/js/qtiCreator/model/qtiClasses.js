@@ -2,7 +2,7 @@
  * Define the location of all qti classes used in the QTI Creator
  */
 define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses){
-
+    "use strict";
     //clone the qtiClasses instead of modifying it by direct extend:
     return _.defaults({
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',

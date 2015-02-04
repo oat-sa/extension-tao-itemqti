@@ -6,7 +6,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/endAttempt'
 ], function(_, $, stateFactory, Question, formElement, formTpl){
-
+    'use strict';
     var EndAttemptInteractionStateQuestion = stateFactory.extend(Question, function(){
         
         var $mainOption = this.widget.$container.find('.main-option'),

@@ -1,5 +1,5 @@
 define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function($, _, qtiClasses){
-
+    "use strict";
     var methods = {
         createElements : function(container, body, callback){
 

@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
 ], function(_, Element, ResponseDeclaration, event, responseHelper){
-
+    "use strict";
     var methods = {
         /**
          * Remove a choice from the interaction

@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/endAttemptInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/endAttemptInteraction.placeholder'
 ], function($, _, EndAttemptInteraction, EndAttemptInteractionWidget, tpl){
-
+    'use strict';
     var CreatorEndAttemptInteraction = _.clone(EndAttemptInteraction);
 
     CreatorEndAttemptInteraction.template = tpl;

@@ -5,6 +5,7 @@ define([
     'taoQtiItem/qtiItem/core/interactions/EndAttemptInteraction',
     'i18n'
 ], function(_, editable, editableInteraction, Interaction, __){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);

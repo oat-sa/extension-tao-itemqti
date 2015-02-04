@@ -1,5 +1,5 @@
 define(['taoQtiItem/qtiXmlRenderer/renderers/Renderer'], function(XmlRenderer){
-
+    "use strict";
     var _xmlRenderer = new XmlRenderer({shuffleChoices : false}).load();
 
     var _render = function(item){

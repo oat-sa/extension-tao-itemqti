@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/endAttemptInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/endAttemptInteraction'
 ], function(_, InteractionWidget, states, interactionTpl){
-
+    'use strict';
     var EndAttemptInteractionWidget = InteractionWidget.clone();
 
     EndAttemptInteractionWidget.initCreator = function(){

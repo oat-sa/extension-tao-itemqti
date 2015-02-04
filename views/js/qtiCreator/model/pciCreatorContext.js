@@ -1,5 +1,7 @@
 define(['lodash'], function(_){
-
+    
+    "use strict";
+    
     var _pciModels = {};
     
     /**

@@ -1,5 +1,5 @@
 define(['lodash'], function(_){
-    
+    "use strict";
     var _updateChoiceIdentifierInResponse = function(response, oldId, newId){
 
         var escapedOldId = oldId.replace(/([.-])/g, '\\$1'),

@@ -5,7 +5,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
 ], function(_, tpl, Helper, pciResponse, __){
-
+    
+    "use strict";
+    
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
@@ -20,7 +22,6 @@ define([
         //on click, 
         $container.on('click.commonRenderer', function(){
             $container.val(true);
-            console.log('trigger submitting', getResponse(interaction));
             $container.trigger('endattempt');
         });
     };

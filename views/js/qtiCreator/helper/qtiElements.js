@@ -4,7 +4,7 @@
  * @requires lodash
  */
 define(['jquery', 'lodash', 'i18n'], function($, _, __){
-
+    "use strict";
     var QtiElements = {};
 
     QtiElements.classes = {

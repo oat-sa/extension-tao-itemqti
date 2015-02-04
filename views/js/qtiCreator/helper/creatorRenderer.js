@@ -5,7 +5,7 @@ define([
     'lodash',
     'util/dom'
 ], function(Renderer, helpers, $, _, dom){
-
+    "use strict";
     //configure and instanciate once only:
     var _creatorRenderer = null;
     
