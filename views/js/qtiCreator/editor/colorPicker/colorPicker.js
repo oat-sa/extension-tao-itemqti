@@ -40,12 +40,12 @@ define([
         $colorTrigger.css('background-color', color);
 
         var $popup = $(popupTpl());
-
+        $colorTrigger.data('color-picker', $popup);
         $('#item-editor-wrapper').append($popup);
-
+        
         // basic popup functionality
         popup.init($colorTrigger, {popup : $popup});
-
+        
 
         // after popup opens
         $colorTrigger.on('open.popup', function(e, params){
@@ -104,6 +104,10 @@ define([
     function destroy($colorTrigger){
         $colorTrigger.off('.color-picker');
         $colorTrigger.removeAttr('data-color-picker');
+        var $popup = $colorTrigger.data('color-picker');
+        if($popup instanceof $){
+            $popup.remove();
+        }
     }
 
     return {
