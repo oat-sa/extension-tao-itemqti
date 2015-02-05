@@ -1,7 +1,7 @@
 ﻿define([
     'lodash'
 ], function (_) {
-    'use strict'
+    'use strict';
 
     /**
      * Singleton to edit the XHTML DTD and to retrieve element relationships.

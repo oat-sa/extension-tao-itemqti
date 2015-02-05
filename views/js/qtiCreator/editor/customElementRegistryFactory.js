@@ -3,7 +3,7 @@ define([
     'jquery',
     'helpers'
 ], function(_, $, helpers){
-    
+    "use strict";
     var _defaults = {
         onRegister : _.noop
     };

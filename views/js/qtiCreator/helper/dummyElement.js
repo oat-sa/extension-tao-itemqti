@@ -4,7 +4,6 @@ define([
 ], function ($, _) {
     'use strict';
 
-
     var dummyElement = (function () {
 
         var types = {

@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper'
 ], function(_, Renderer, commonHelper){
-    
+    "use strict";
     //store the curret execution context of the common renderer (preview)
     var _$previousContext = null;
     

@@ -5,7 +5,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
 ], function($, _, popup, popupTpl){
-
+    "use strict";
     var _defaults = {};
 
     function create($colorTrigger, config){
