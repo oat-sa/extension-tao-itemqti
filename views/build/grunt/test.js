@@ -2,6 +2,14 @@ module.exports = function(grunt) {
 
     var qunit       = grunt.config('qunit') || {};
     var testUrl     = 'http://127.0.0.1:' + grunt.option('testPort');
+    var root        = grunt.option('root');
+
+    //extract unit tests
+    var extractTests = function extractTests(){
+        return grunt.file.expand([ root + '/taoQtiItem/views/js/test/**/test.html']).map(function(path){
+            return path.replace(root, testUrl);
+        });
+    };
 
     /**
      * tests to run
@@ -9,18 +17,7 @@ module.exports = function(grunt) {
     qunit.taoqtiitemtest = {
         options : {
             console : true,
-            urls : [
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/associate/test.html',
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/choice/test.html',
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/gapMatch/test.html',
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/inlineChoice/test.html',
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/match/test.html',
-                testUrl + '/taoQtiItem/views/js/test/qtiCommonRenderer/interactions/order/test.html',
-                testUrl + '/taoQtiItem/views/js/test/runner/interactions/choice/test.html',
-                testUrl + '/taoQtiItem/views/js/test/runner/interactions/textentry/test.html',
-                testUrl + '/taoQtiItem/views/js/test/runner/provider/test.html',
-                testUrl + '/taoQtiItem/views/js/test/runner/qtiItemRunner/test.html'
-            ]
+            urls : extractTests()
         }
     };
 
