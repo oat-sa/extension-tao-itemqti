@@ -6,7 +6,7 @@ define([
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'jqueryui'
 ], function(_, $, config, helper, qtiElements){
-
+    "use strict";
     var _syncHandleHeight = function($row){
         var h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
         $row.find('.grid-edit-resizable-zone').height(h);

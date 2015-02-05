@@ -64,8 +64,8 @@ module.exports = function(grunt) {
      */
     copy.taoqtiitembundle = {
         files: [
-            { src: [ out + '/controller/routes.js'],  dest: root + '/taoQtiItem/views/js/controllers.min.js' },
-            { src: [ out + '/controller/routes.js.map'],  dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
+            { src: [ out + '/taoQtiItem/controller/routes.js'],  dest: root + '/taoQtiItem/views/js/controllers.min.js' },
+            { src: [ out + '/taoQtiItem/controller/routes.js.map'],  dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
         ]
     };
 
@@ -104,6 +104,6 @@ module.exports = function(grunt) {
 
     // bundle task
     grunt.registerTask('qtiruntime', ['clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
-    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
+    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
 
 };

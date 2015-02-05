@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/editor/infoControlRegistry',
     'taoQtiItem/qtiItem/core/PortableInfoControl'
 ], function(_, editable, portableElement, icRegistry, PortableInfoControl){
-
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, portableElement.getDefaultMethods(icRegistry));

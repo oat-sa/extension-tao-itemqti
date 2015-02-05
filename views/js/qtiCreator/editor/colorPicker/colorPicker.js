@@ -1,11 +1,11 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
-    'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function($, _, popup, popupTpl, __){
+], function($, _, __, popup, popupTpl){
 
     'use strict';
 

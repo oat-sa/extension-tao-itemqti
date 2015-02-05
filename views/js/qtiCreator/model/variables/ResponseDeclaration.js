@@ -7,7 +7,7 @@ define([
     'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
 ], function($, _, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
-
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
