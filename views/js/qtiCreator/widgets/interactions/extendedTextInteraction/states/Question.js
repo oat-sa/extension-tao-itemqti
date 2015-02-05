@@ -24,7 +24,7 @@ define([
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
     function parsePattern(pattern,type){
-        if (pattern === undefined){
+        if (pattern === undefined || pattern === null){
             return null;
         }
         if (type === "words") {
@@ -41,7 +41,7 @@ define([
             // expre = /^[\s\S]{0,10}$/;
             // and we will try to extract the top limit from it with this regexp
             // wich is mostly just escaped version of the first one.
-            var result = pattern.match(regexChar)[1];
+            var result = pattern.match(regexChar);
 
             if (result !== null && result.length > 1) {
                 return result[1];
@@ -58,7 +58,12 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element,
-            format = interaction.attr('format');
+            format = interaction.attr('format'),
+            patternMask = interaction.attr('patternMask'),
+            expectedLength = parseInt(interaction.attr('expectedLength'), 10),
+            expectedLines = parseInt(interaction.attr('expectedLines'),10),
+            maxWords = parseInt(parsePattern(patternMask,'words'),10),
+            maxChars = parseInt(parsePattern(patternMask,'chars'),10);
 
         var formats = {
             plain : {label : __("Plain text"), selected : false},
@@ -66,15 +71,33 @@ define([
             xhtml : {label : __("XHTML"), selected : false}
         };
 
+        var constraints = {
+            none : {label : __("None"), selected : true},
+            maxLength : {label : __("Max Length"), selected : false},
+            maxWords : {label : __("Max Words"), selected : false},
+            pattern : {label : __("Pattern"), selected : false}
+        };
+
+        /**
+         * Set the selected on the right items before sending it to the view for constraints
+         */
+        if ( !isNaN(maxWords) && maxWords > 0) {
+            constraints.none.selected = false;
+            constraints.maxWords.selected = true;
+        }else if (!isNaN(maxChars) && maxChars > 0) {
+            constraints.none.selected = false;
+            constraints.maxLength.selected = true;
+        }else if( patternMask !== null && patternMask !== undefined && patternMask !== ""){
+            constraints.none.selected = false;
+            constraints.pattern.selected = true;
+        }
+        /**
+         * Set the selected on the right items before sending it to the view for formats
+         */
         if(formats[format]){
             formats[format].selected = true;
         }
 
-
-        var patternMask = interaction.attr('patternMask');
-        var expectedLength = parseInt(interaction.attr('expectedLength'), 10);
-        var maxWords = parsePattern(patternMask,'words');
-        var maxChars = parsePattern(patternMask,'chars');
 
 
         $form.html(formTpl({
@@ -82,7 +105,9 @@ define([
             patternMask : patternMask,
             maxWords : maxWords,
             maxLength : maxChars,
-            expectedLength : expectedLength
+            expectedLength : expectedLength,
+            expectedLines : expectedLines,
+            constraints : constraints
 
         }));
 
@@ -107,36 +132,62 @@ define([
                 }
             }
         };
+        callbacks.constraint = function(interaction,attrValue){
+            $('[id|="constraint"]').hide('500');
+            $('#constraint-' + attrValue).show('1000');
+            if (attrValue === "none") {
+                interaction.attr('patternMask',null);
+                $('[name="maxWords"]').val('');
+                $('[name="maxLength"]').val('');
+            }
+        };
         callbacks.maxWords = function(interaction, attrValue){
+            // 1. Reset maxLength
+            $('[name="maxLength"]').val('');
+            $('[name="patternMask"]').val('');
+
             var newValue = parseInt(attrValue,10);
             if (! isNaN(newValue)) {
-                var $pattern = $('[name="patternMask"]'),
-                    oldPattern = $pattern.val(),
-                    newPattern;
-                if (oldPattern !== "" && parsePattern(oldPattern, 'words') !== null){
-                    newPattern = oldPattern.replace(regexWords, newValue);
-                }else{
-                    newPattern = oldPattern + '^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue + '}$';
-                }
-                $pattern.val(newPattern).trigger('change');
+                var newPattern = '/^(?:(?:[^\\s\\:\\!\\?\\;\\…\\€]+)[\\s\\:\\!\\?\\;\\…\\€]*){0,' + newValue.toString() + '}$/';
+                interaction.attr('patternMask', newPattern);
             }
         };
         callbacks.maxLength = function(interaction, attrValue){
+            // 1. Reset maxWords
+            $('[name="maxWords"]').val('');
+            $('[name="patternMask"]').val('');
+
             var newValue = parseInt(attrValue,10);
             if(! isNaN(newValue)){
-                var $pattern = $('[name="patternMask"]'),
-                    oldPattern = $pattern.val(),
-                    newPattern;
-                if (oldPattern !== "" && parsePattern(oldPattern, 'char') !== null){
-                    newPattern = oldPattern.replace(regexChar,newValue);
-                }else{
-                    newPattern = oldPattern + '^[\\s\\S]{0, ' + newValue.toString() + '}$';
-                }
-                $pattern.val(newPattern).trigger('change');
+                var newPattern ='/^[\\s\\S]{0,' + newValue.toString() + '}$/';
+                interaction.attr('patternMask', newPattern);
             }
         };
         callbacks.patternMask = function(interaction, attrValue){
             interaction.attr('patternMask', attrValue);
+            /**
+             * If anything is entered inside the patternMask, reset maxWords / maxLength(interaction, attrValue)
+             */
+            $('[name="maxWords"]').val('');
+            $('[name="maxLength"]').val('');
+        };
+
+        callbacks.expectedLength = function(interaction, attrValue){
+            var newValue = parseInt(attrValue,10);
+            if(! isNaN(newValue)){
+                interaction.attr('expectedLength', attrValue);
+            }else{
+                interaction.attr('expectedLength', 0);
+            }
+        };
+
+        callbacks.expectedLines = function(interactions, attrValue){
+            var newValue = parseInt(attrValue,10);
+            if(! isNaN(newValue)){
+                interaction.attr('expectedLines', attrValue);
+            }else{
+                interaction.attr('expectedLines',0);
+            }
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
