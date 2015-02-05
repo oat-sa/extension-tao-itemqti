@@ -3,13 +3,17 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
+    'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
-], function($, _, popup, popupTpl){
+], function($, _, popup, popupTpl, __){
 
     'use strict';
 
-    var _defaults = {};
-    
+    var _defaults = {
+        title : __('Color Picker'),
+        offsetTop : -40
+    };
+
     /**
      * Create and attach a color picker to a JQuery container
      * 
@@ -45,20 +49,15 @@ define([
         $colorTrigger.on('open.popup', function(e, params){
 
             var $trigger = $(this),
-                $content = $trigger.parents('.sidebar-popup-content'),
-                // this is the input above the trigger, _not_ the one of the color picker
-                $titleField = $content.find('[data-role="title"]'),
+                $container = $trigger.parents('.sidebar-popup'),
                 // this is the input of the color picker
                 color = $input.val();
+
             var $colorPicker = params.popup.find('.color-picker'),
                 $colorPickerInput = params.popup.find('.color-picker-input');
 
-            var $container = $(this).parents('.sidebar-popup');
-
-            //console.log($panel)
-
-            params.popup.css({right : $(window).width() - $container.offset().left + 2, top : $titleField.offset().top - $('#item-editor-wrapper').offset().top});
-            params.popup.find('h3').text($titleField.val());
+            params.popup.css({right : $(window).width() - $container.offset().left + 2, top : $trigger.offset().top + config.offsetTop - $('#item-editor-wrapper').offset().top});
+            params.popup.find('h3').text(config.title);
 
             // Init the color picker
             $colorPicker.farbtastic($colorPickerInput);
@@ -87,7 +86,7 @@ define([
         });
 
     }
-    
+
     /**
      * Destroy the color picker attached to a JQuery conttainer
      * 
