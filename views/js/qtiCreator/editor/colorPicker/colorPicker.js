@@ -19,6 +19,8 @@ define([
      * 
      * @param {Object} $colorTrigger - a JQuery container
      * @param {Object} config
+     * @param {Integer} [config.offsetTop = -40] - the offset top relative to the trigger
+     * @param {String|Function} [config.title = 'Color Picker'] - defines the title of the color picker
      * @returns {undefined}
      */
     function create($colorTrigger, config){
@@ -50,6 +52,7 @@ define([
 
             var $trigger = $(this),
                 $container = $trigger.parents('.sidebar-popup'),
+                title,
                 // this is the input of the color picker
                 color = $input.val();
 
@@ -57,7 +60,12 @@ define([
                 $colorPickerInput = params.popup.find('.color-picker-input');
 
             params.popup.css({right : $(window).width() - $container.offset().left + 2, top : $trigger.offset().top + config.offsetTop - $('#item-editor-wrapper').offset().top});
-            params.popup.find('h3').text(config.title);
+            if(_.isFunction(config.title)){
+                title = config.title.call(this);
+            }else if(_.isString(config.title)){
+                title = config.title;
+            }
+            params.popup.find('h3').text(title);
 
             // Init the color picker
             $colorPicker.farbtastic($colorPickerInput);
