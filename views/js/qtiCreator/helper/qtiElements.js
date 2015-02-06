@@ -391,7 +391,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
             },
             endAttemptInteraction : {
                 label : __('End Attempt Interaction'),
-                icon : 'icon-text-entry',
+                icon : 'icon-end-attempt',
                 description : __('Trigger the end of the item attempt.'),
                 short : __('End Attempt'),
                 qtiClass : 'endAttemptInteraction',
