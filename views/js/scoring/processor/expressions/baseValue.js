@@ -29,7 +29,7 @@ define([], function(){
         process : function(){
             return {
                 cardinality : 'single',
-                baseType : this.expression.baseType,
+                baseType : this.expression.attributes.baseType,
                 value : this.expression.value
             };
         }

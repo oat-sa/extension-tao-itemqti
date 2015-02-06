@@ -5,50 +5,110 @@ define([
 
     module('API');
 
-    QUnit.asyncTest('structure', function(assert){
-        QUnit.expect(3);
-
+    QUnit.test('structure', function(assert){
         assert.ok(_.isPlainObject(subtractProcessor), 'the processor expose an object');
         assert.ok(_.isFunction(subtractProcessor.process), 'the processor has a process function');
         assert.ok(_.isArray(subtractProcessor.operands), 'the processor has a process function');
-
-        QUnit.start();
     });
 
 
     module('Process');
 
-    QUnit.asyncTest('subtract integers', function(assert){
-        QUnit.expect(2);
+    var dataProvider = [{
+        title : 'integers',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : '5'
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : '2'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 3
+        }
+    },{
+        title : 'integers from numbers',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 15
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5.5
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 10
+        }
+    },{
+        title : 'floats',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : 1.333323
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 0.666677
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 0.6666460000000001
+        }
+    },{
+        title : 'one float',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : '10.25'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : -5.25
+        }
+    },{
+        title : 'ignore wrong values',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : Infinity
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        }
+    },{
+        title : 'one null',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        },
+        null],
+        expectedResult : null
+    }];
 
-        subtractProcessor.operands = [10, 5];
-        assert.equal(subtractProcessor.process(), 5, 'subtract is correct');
-
-        subtractProcessor.operands = [50, 150];
-        assert.equal(subtractProcessor.process(), -100, 'subtract is correct');
-
-        QUnit.start();
-    });
-
-    QUnit.asyncTest('subtract floats', function(assert){
-        QUnit.expect(1);
-
-        subtractProcessor.operands = [-0.75, -0.25];
-        assert.equal(subtractProcessor.process(), -0.5, 'subtract is correct');
-
-        QUnit.start();
-    });
-
-    QUnit.asyncTest('subtract breaks with at least one null operand', function(assert){
-        QUnit.expect(2);
-
-        subtractProcessor.operands = [null, null];
-        assert.equal(subtractProcessor.process(), null, 'the processor returns null');
-
-        subtractProcessor.operands = [1, null];
-        assert.equal(subtractProcessor.process(), null, 'the processor returns null');
-
-        QUnit.start();
+    QUnit
+      .cases(dataProvider)
+      .test('subtract ', function(data, assert){
+        subtractProcessor.operands = data.operands;
+        assert.deepEqual(subtractProcessor.process(), data.expectedResult, 'The subtract is correct');
     });
 });
-

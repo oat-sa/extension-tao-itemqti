@@ -31,7 +31,7 @@ define([
             minOperand : 1,
             maxOperand : -1,
             cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['int', 'float']
+            baseType : ['integer', 'float']
         },
 
         operands   : [],

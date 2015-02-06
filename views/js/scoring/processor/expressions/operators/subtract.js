@@ -30,8 +30,8 @@ define([
         constraints : {
             minOperand : 2,
             maxOperand : 2,
-            cardinalities : ['single'],
-            baseTypes : ['int', 'float']
+            cardinality : ['single'],
+            baseType : ['integer', 'float']
         },
 
         operands   : [],

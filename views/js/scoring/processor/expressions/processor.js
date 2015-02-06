@@ -31,7 +31,7 @@ define([
 
     var expressionProcessor = function expressionProcessor(expression, context){
 
-        var name      = expression.qticlass;
+        var name      = expression.qtiClass;
         var processor = processors.expression[name] || processors.operator[name];
 
         var validate  = function validate(){

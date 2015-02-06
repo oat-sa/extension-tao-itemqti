@@ -30,8 +30,8 @@ define([
         constraints : {
             minOperand : 1,
             maxOperand : -1,
-            cardinalities : ['single', 'multiple', 'ordered'],
-            baseTypes : ['int', 'float']
+            cardinality : ['single', 'multiple', 'ordered'],
+            baseType : ['integer', 'float']
         },
 
         operands   : [],
@@ -56,7 +56,7 @@ define([
             result.value = preProcessor
                 .mapNumbers(this.operands)
                 .reduce(function(product, value){
-                    return product + value;
+                    return product * value;
                 });
 
             return result;

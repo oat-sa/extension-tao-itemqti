@@ -1,36 +1,150 @@
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/operators/multiply'
-], function(_, multiplyProcessor){
+    'taoQtiItem/scoring/processor/expressions/operators/product'
+], function(_, productProcessor){
 
     module('API');
 
-    QUnit.asyncTest('structure', function(assert){
-        QUnit.expect(3);
-
-        assert.ok(_.isPlainObject(multiplyProcessor), 'the processor expose an object');
-        assert.ok(_.isFunction(multiplyProcessor.process), 'the processor has a process function');
-        assert.ok(_.isArray(multiplyProcessor.operands), 'the processor has a process function');
-
-        QUnit.start();
+    QUnit.test('structure', function(assert){
+        assert.ok(_.isPlainObject(productProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(productProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(productProcessor.operands), 'the processor has a process function');
     });
 
 
     module('Process');
 
-    QUnit.asyncTest('multiply integers', function(assert){
-        QUnit.expect(3);
+    var dataProvider = [{
+        title : 'integers',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : '5'
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : '5'
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : '2'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 50
+        }
+    },{
+        title : 'integers from numbers',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 2
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5.5
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 2
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 20
+        }
+    },{
+        title : 'floats',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : "0.13"
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : "0.16"
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 0.020800000000000003
+        }
+    },{
+        title : 'one float',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 8
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 0.25
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 2
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 4
+        }
+    },{
+        title : 'ignore wrong values',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : NaN
+        }, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : Infinity
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 5
+        }
+    },{
+        title : 'one null',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        },
+        null, {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 2
+        }],
+        expectedResult : null
+    },{
+        title : 'multiple cardinality operand',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 2
+        }, {
+            cardinality : 'multiple',
+            baseType : 'integer',
+            value : [2, 2, 2]
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 16
+        }
+    }];
 
-        multiplyProcessor.operands = [2, 2];
-        assert.equal(multiplyProcessor.process(), 4, 'multiply is correct');
-
-        multiplyProcessor.operands = [5, -5];
-        assert.equal(multiplyProcessor.process(), -25, 'multiply is correct');
-
-        multiplyProcessor.operands = [0, 12];
-        assert.equal(multiplyProcessor.process(), 0, 'multiply is correct');
-
-        QUnit.start();
+    QUnit
+      .cases(dataProvider)
+      .test('product ', function(data, assert){
+        productProcessor.operands = data.operands;
+        assert.deepEqual(productProcessor.process(), data.expectedResult, 'The product is correct');
     });
 });
-

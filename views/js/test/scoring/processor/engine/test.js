@@ -46,9 +46,15 @@ define([
             }]
         };
 
+        var expectedResult = {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 10
+        };
+
         var parser = expressionParserFactory();
 
-        assert.equal(parser.parse(expression), 10, 'the parser compute the right result');
+        assert.deepEqual(parser.parse(expression), expectedResult, 'the parser compute the right result');
 
         QUnit.start();
     });
@@ -99,9 +105,13 @@ define([
             }]
         };
 
+        var expectedResult = {
+            cardinality : 'single',
+            baseType : 'integer',
+            value : 5
+        };
         var parser = expressionParserFactory();
-
-        assert.equal(parser.parse(expression), 5, 'the parser compute the right result');
+        assert.deepEqual(parser.parse(expression), expectedResult, 'the parser compute the right result');
 
         QUnit.start();
     });
