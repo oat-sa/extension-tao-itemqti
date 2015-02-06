@@ -21,35 +21,45 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+], function(_, preProcessor){
 
     var sumProcessor = {
 
         constraints : {
             minOperand : 1,
             maxOperand : -1,
-            cardinalities : ['single', 'multiple', 'ordered'],
-            baseTypes : ['int', 'float']
+            cardinality : ['single', 'multiple', 'ordered'],
+            baseType : ['int', 'float']
         },
 
         operands   : [],
 
-        //TODO better type checking and casting
         process : function(){
 
-            //if at least one element is null, then break and return null
+            var result = {
+                cardinality : 'single',
+                baseType : 'integer'
+            };
+
+            //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
 
-            return _(this.operands)
-                .filter(function(value){
-                    return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
-                })
+            //if at least one operand is a float , the result is a float
+            if(_.some(this.operands, { baseType : 'float' })){
+                result.baseType = 'float';
+            }
+
+            result.value = preProcessor
+                .mapNumbers(this.operands)
                 .reduce(function(sum, value){
                     return sum + value;
                 });
+
+            return result;
         }
     };
 

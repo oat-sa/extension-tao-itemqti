@@ -22,13 +22,15 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/operators/sum',
-    'taoQtiItem/scoring/processor/expressions/operators/subtract'
-], function(sum, substract){
+    'taoQtiItem/scoring/processor/expressions/operators/product',
+    'taoQtiItem/scoring/processor/expressions/operators/subtract',
+    'taoQtiItem/scoring/processor/expressions/operators/sum'
+], function(product, subtract, sum ){
     'use strict';
 
     return {
-        "sum"       : sum,
-        "subtract"  : substract
+        "product"   : product,
+        "subtract"  : subtract,
+        "sum"       : sum
     };
 });

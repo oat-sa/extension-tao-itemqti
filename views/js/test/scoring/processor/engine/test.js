@@ -30,13 +30,19 @@ define([
         QUnit.expect(1);
 
         var expression = {
-            qticlass : 'sum',
+            qtiClass : 'sum',
             expressions : [{
-                qticlass : 'baseValue',
-                value    : 3
+                qtiClass : "baseValue",
+                attributes : {
+                    baseType : "integer"
+                },
+                value : "3"
             },{
-                qticlass : 'baseValue',
-                value    : 7
+                qtiClass : "baseValue",
+                attributes : {
+                    baseType : "integer"
+                },
+                value : "7"
             }]
         };
 
@@ -47,70 +53,55 @@ define([
         QUnit.start();
     });
 
-    QUnit.asyncTest('5 operands sum expression', function(assert){
-        QUnit.expect(1);
-
-        var expression = {
-            qticlass : 'sum',
-            expressions : [{
-                qticlass : 'baseValue',
-                value    : 1
-            },{
-                qticlass : 'baseValue',
-                value    : 1
-            },{
-                qticlass : 'baseValue',
-                value    : 2
-            },{
-                qticlass : 'baseValue',
-                value    : 3
-            },{
-                qticlass : 'baseValue',
-                value    : 5
-            }]
-        };
-
-        var parser = expressionParserFactory();
-
-        assert.equal(parser.parse(expression), 12, 'the parser compute the right result');
-
-        QUnit.start();
-    });
-
     module('Parse 2 levels tree');
 
     QUnit.asyncTest('2 operands sum expression', function(assert){
         QUnit.expect(1);
 
         var expression = {
-            qticlass : 'subtract',
+            qtiClass : 'subtract',
             expressions : [{
-                qticlass : 'sum',
+                qtiClass : 'sum',
                 expressions : [{
-                    qticlass : 'baseValue',
-                    value    : 3
+                    qtiClass : "baseValue",
+                    attributes : {
+                        baseType : "integer"
+                    },
+                    value : "3"
                 },{
-                    qticlass : 'baseValue',
-                    value    : 7
+                    qtiClass : "baseValue",
+                    attributes : {
+                        baseType : "integer"
+                    },
+                    value : "7"
                 },{
-                    qticlass : 'baseValue',
-                    value    : 5
+                    qtiClass : "baseValue",
+                    attributes : {
+                        baseType : "integer"
+                    },
+                    value : "5"
                 }]
-            },{
-                qticlass : 'sum',
+            }, {
+                qtiClass : 'product',
                 expressions : [{
-                    qticlass : 'baseValue',
-                    value    : 4
+                    qtiClass : "baseValue",
+                    attributes : {
+                        baseType : "integer"
+                    },
+                    value : "2"
                 },{
-                    qticlass : 'baseValue',
-                    value    : 8
+                    qtiClass : "baseValue",
+                    attributes : {
+                        baseType : "integer"
+                    },
+                    value : "5"
                 }]
             }]
         };
 
         var parser = expressionParserFactory();
 
-        assert.equal(parser.parse(expression), 3, 'the parser compute the right result');
+        assert.equal(parser.parse(expression), 5, 'the parser compute the right result');
 
         QUnit.start();
     });

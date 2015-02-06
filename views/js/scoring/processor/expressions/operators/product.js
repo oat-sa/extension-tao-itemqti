@@ -25,12 +25,12 @@ define([
     'taoQtiItem/scoring/processor/expressions/preprocessor',
 ], function(_, preProcessor){
 
-    var subtractProcessor = {
+    var productProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
-            cardinalities : ['single'],
+            minOperand : 1,
+            maxOperand : -1,
+            cardinalities : ['single', 'multiple', 'ordered'],
             baseTypes : ['int', 'float']
         },
 
@@ -55,13 +55,13 @@ define([
 
             result.value = preProcessor
                 .mapNumbers(this.operands)
-                .reduce(function(sub, value){
-                    return sub - value;
+                .reduce(function(product, value){
+                    return product + value;
                 });
 
             return result;
         }
     };
 
-    return subtractProcessor;
+    return productProcessor;
 });

@@ -22,8 +22,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+], function(_, preProcessor){
     'use strict';
 
     var processors = {};
@@ -32,14 +33,51 @@ define([
 
         var name      = expression.qticlass;
         var processor = processors.expression[name] || processors.operator[name];
+
+        var validate  = function validate(){
+
+            var size = _.size(context.operands);
+            var minOperand  = processor.constraints.minOperand;
+            var maxOperand  = processor.constraints.maxOperand;
+
+            var hasWrongType = function hasWrongType(operand){
+                return !_.contains(processor.constraints.baseType, operand.baseType);
+            };
+
+            var hasWrongCardinality = function hasWrongCardinality(operand){
+                return !_.contains(processor.constraints.cardinality, operand.cardinality);
+            };
+
+            if(minOperand > 0 && size < minOperand){
+                throw new TypeError('Processor ' + name + ' requires at least ' + minOperand + ' operands, ' + size + ' given');
+            }
+            if(maxOperand > -1 && size > maxOperand){
+                throw new TypeError('Processor ' + name + ' requires maximum ' + maxOperand + ' operands, ' + size + ' given');
+            }
+            if(_.some(context.operands, hasWrongType)){
+                throw new TypeError('An operand given to processor ' + name + ' has an unexpected baseType');
+            }
+            if(_.some(context.operands, hasWrongCardinality)){
+                throw new TypeError('An operand given to processor ' + name + ' has an unexpected cardinality');
+            }
+            return true;
+        };
+
         if(!processor){
             throw new Error('No processor found for ' + name);
         }
+
+        //validate operators
+        if(processor.operands && processor.constraints){
+            validate();
+        }
+
         processor = _.defaults(context || {}, processor);
         processor.expression = expression;
 
         return {
             process : function process(){
+                //forward the call to the related expression processor
                 return processor.process.apply(processor, [].slice.call(arguments, 1));
             }
         };
@@ -55,8 +93,6 @@ define([
         if(!_.contains(this.types, type)){
             throw new TypeError( type + ' is not a valid expression type');
         }
-
-        //TODO white list checking
         if(_.isEmpty(name)){
             throw new TypeError('Please give a valid name to your processor');
         }

@@ -27,8 +27,11 @@ define([], function(){
     var baseValueProcessor = {
 
         process : function(){
-            //TODO type and presence checking
-            return this.expression.value;
+            return {
+                cardinality : 'single',
+                baseType : this.expression.baseType,
+                value : this.expression.value
+            };
         }
     };
 

@@ -62,7 +62,7 @@ define([
         };
 
         var isOperator = function isOperator(expression){
-            return _.contains(operators, expression.qticlass);
+            return _.contains(operators, expression.qtiClass);
         };
 
         var pushSubExpressions = function pushSubExpressions(expression){
@@ -91,7 +91,7 @@ define([
 
                 var i = 0;
 
-                var baseExpression = expression.qticlass;
+                var baseExpression = expression.qtiClass;
 
                 trail.push(expression);
 
@@ -125,7 +125,7 @@ define([
                         });
                         result = currentProcessor.process(response);
 
-                        if (currentExpression.qticlass !== baseExpression) {
+                        if (currentExpression.qtiClass !== baseExpression) {
                             operands.push(result);
                         }
                     } else {
