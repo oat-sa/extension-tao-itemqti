@@ -78,7 +78,10 @@ define([
                 }],
             extendedText : [{
                     name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Underline']
+                    items : ['Bold', 'Italic', 'Underline','Subscript', 'Superscript']
+                },{
+                    name : 'insert',
+                    items : ['SpecialChar']
                 },{
                     name : 'paragraph',
                     items : ['NumberedList', 'BulletedList']
@@ -88,6 +91,9 @@ define([
                 },{
                     name : 'history',
                     items : ['Undo', 'Redo']
+                },{
+                    name : 'fontstyles',
+                    items : ['TextColor','Font','FontSize']
                 }]
         };
 
