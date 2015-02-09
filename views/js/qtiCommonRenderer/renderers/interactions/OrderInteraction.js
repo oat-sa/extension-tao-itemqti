@@ -1,23 +1,47 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n',
-    'jqueryui'
-], function(_, $, tpl, Helper, pciResponse, __){
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/orderInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
+], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10283
-     * 
-     * @param {object} interaction
+     *
+     * @param {Object} interaction - the interaction instance
      */
     var render = function(interaction){
 
-        var $container = Helper.getContainer(interaction),
+        var $container = containerHelper.get(interaction),
             $choiceArea = $container.find('.choice-area'),
             $resultArea = $container.find('.result-area'),
             $iconAdd = $container.find('.icon-add-to-selection'),
@@ -56,15 +80,15 @@ define([
             }
             _resetControls();
         };
-        
+
         $container.on('mousedown.commonRenderer', function(e){
             _resetSelection();
         });
-        
+
         $choiceArea.on('mousedown.commonRenderer', '>li:not(.deactivated)', function(e){
-            
+
             e.stopPropagation();
-            
+
             _resetSelection();
 
             $iconAdd.addClass('triggered');
@@ -74,16 +98,16 @@ define([
 
             //move choice to the result list:
             $resultArea.append($(this));
-            Helper.triggerResponseChangeEvent(interaction);
+            containerHelper.triggerResponseChangeEvent(interaction);
 
             //update constraints :
-            Helper.validateInstructions(interaction);
+            instructionMgr.validateInstructions(interaction);
         });
 
         $resultArea.on('mousedown.commonRenderer', '>li', function(e){
-            
+
             e.stopPropagation();
-            
+
             var $choice = $(this);
             if($choice.hasClass('active')){
                 _resetSelection();
@@ -93,41 +117,41 @@ define([
         });
 
         $iconRemove.on('mousedown.commonRenderer', function(e){
-            
+
             e.stopPropagation();
-            
+
             if($activeChoice){
 
                 //restore choice back to choice list
                 $choiceArea.append($activeChoice);
-                Helper.triggerResponseChangeEvent(interaction);
+                containerHelper.triggerResponseChangeEvent(interaction);
 
                 //update constraints :
-                Helper.validateInstructions(interaction);
+                instructionMgr.validateInstructions(interaction);
             }
 
             _resetSelection();
         });
 
         $iconBefore.on('mousedown.commonRenderer', function(e){
-            
+
             e.stopPropagation();
-            
+
             var $prev = $activeChoice.prev();
             if($prev.length){
                 $prev.before($activeChoice);
-                Helper.triggerResponseChangeEvent(interaction);
+                containerHelper.triggerResponseChangeEvent(interaction);
             }
         });
 
         $iconAfter.on('mousedown.commonRenderer', function(e){
-            
+
             e.stopPropagation();
-            
+
             var $next = $activeChoice.next();
             if($next.length){
                 $next.after($activeChoice);
-                Helper.triggerResponseChangeEvent(interaction);
+                containerHelper.triggerResponseChangeEvent(interaction);
             }
         });
 
@@ -137,30 +161,31 @@ define([
         $(document).on('attributeChange.qti-widget.commonRenderer', function(e, data){
             if(data.element.getSerial() === interaction.getSerial()){
                 if(data.key === 'maxChoices' || data.key === 'minChoices'){
-                    Helper.removeInstructions(interaction);
+                    instructionMgr.removeInstructions(interaction);
                     _setInstructions(interaction);
-                    Helper.validateInstructions(interaction);
+                    instructionMgr.validateInstructions(interaction);
                 }
             }
         });
-        
+
         _freezeSize($container);
     };
-    
+
     var _freezeSize = function($container){
         var $orderArea = $container.find('.order-interaction-area');
         $orderArea.height($orderArea.height());
     };
-    
+
     var _setInstructions = function(interaction){
 
-        var $choiceArea = Helper.getContainer(interaction).find('.choice-area'),
-            $resultArea = Helper.getContainer(interaction).find('.result-area'),
+        var $container = containerHelper.get(interaction);
+        var $choiceArea = $('.choice-area', $container),
+            $resultArea = $('.result-area', $container),
             min = parseInt(interaction.attr('minChoices')),
             max = parseInt(interaction.attr('maxChoices'));
 
         if(min){
-            Helper.appendInstruction(interaction, __('You must use at least ' + min + ' choices'), function(){
+            instructionMgr.appendInstruction(interaction, __('You must use at least ' + min + ' choices'), function(){
                 if($resultArea.find('>li').length >= min){
                     this.setLevel('success');
                 }else{
@@ -170,7 +195,7 @@ define([
         }
 
         if(max && max < _.size(interaction.getChoices())){
-            var instructionMax = Helper.appendInstruction(interaction, __('You can use maximum ' + max + ' choices'), function(){
+            var instructionMax = instructionMgr.appendInstruction(interaction, __('You can use maximum ' + max + ' choices'), function(){
                 if($resultArea.find('>li').length >= max){
                     $choiceArea.find('>li').addClass('deactivated');
                     this.setMessage(__('Maximum choices reached'));
@@ -191,11 +216,15 @@ define([
         }
     };
 
-    var _resetResponse = function(interaction){
+    var resetResponse = function(interaction){
 
+        var $container = containerHelper.get(interaction);
         var initialOrder = _.keys(interaction.getChoices());
-        var $choiceArea = Helper.getContainer(interaction).find('.choice-area').append(Helper.getContainer(interaction).find('.result-area>li'));
+        var $choiceArea = $('.choice-area', $container).append($('.result-area>li', $container));
         var $choices = $choiceArea.children('.qti-choice');
+
+        $container.find('.qti-choice.active').mousedown();
+
         $choices.detach().sort(function(choice1, choice2){
             return (_.indexOf(initialOrder, $(choice1).data('serial')) > _.indexOf(initialOrder, $(choice2).data('serial')));
         });
@@ -204,25 +233,26 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10283
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
 
-        var $choiceArea = Helper.getContainer(interaction).find('.choice-area'),
-            $resultArea = Helper.getContainer(interaction).find('.result-area');
+        var $container = containerHelper.get(interaction);
+        var $choiceArea = $('.choice-area', $container);
+        var $resultArea = $('.result-area', $container);
 
         if(response === null || _.isEmpty(response)){
-            _resetResponse(interaction);
+            resetResponse(interaction);
         }else{
             try{
                 _.each(pciResponse.unserialize(response, interaction), function(identifier){
@@ -233,12 +263,13 @@ define([
             }
         }
 
-        Helper.validateInstructions(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     var _getRawResponse = function(interaction){
+        var $container = containerHelper.get(interaction);
         var response = [];
-        Helper.getContainer(interaction).find('.result-area>li').each(function(){
+        $('.result-area>li', $container).each(function(){
             response.push($(this).data('identifier'));
         });
         return response;
@@ -246,13 +277,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10283
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -260,6 +291,12 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
+    /**
+     * Set additionnal data to the template (data that are not really part of the model).
+     * @param {Object} interaction - the interaction
+     * @param {Object} [data] - interaction custom data
+     * @returns {Object} custom data
+     */
     var getCustomData = function(interaction, data){
 
         return _.merge(data || {}, {
@@ -268,10 +305,13 @@ define([
 
     };
 
+    /**
+     * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
+     * @param {Object} interaction - the interaction
+     */
     var destroy = function(interaction){
-        
-        var $container = Helper.getContainer(interaction);
-        $container.find('.qti-choice.active').mousedown();
+
+        var $container = containerHelper.get(interaction);
 
         //first, remove all events
         var selectors = [
@@ -283,23 +323,97 @@ define([
             '.icon-move-after'
         ];
         $container.find(selectors.join(',')).andSelf().off('.commonRenderer');
-        $(document).off('.commonRenderer');
-        
-        $container.find('.order-interaction-area').removeAttr('style');
-        
-        _resetResponse(interaction);
 
-        Helper.removeInstructions(interaction);
+        $(document).off('.commonRenderer');
+
+        $container.find('.order-interaction-area').removeAttr('style');
+
+        instructionMgr.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        var $container;
+
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+
+            //restore order of previously shuffled choices
+            if(_.isArray(state.order) && state.order.length === _.size(interaction.getChoices())){
+
+                $container = containerHelper.get(interaction);
+
+                $('.choice-area .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order, $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order, $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .appendTo($('.choice-area', $container));
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+
+        //we store also the choice order if shuffled
+        if(interaction.attr('shuffle') === true){
+            $container = containerHelper.get(interaction);
+
+            state.order = [];
+            $('.choice-area .qti-choice', $container).each(function(){
+               state.order.push($(this).data('identifier'));
+            });
+        }
+        return state;
+    };
+
+     /**
+     * Expose the common renderer for the order interaction
+     * @exports qtiCommonRenderer/renderers/interactions/OrderInteraction
+     */
     return {
         qtiClass : 'orderInteraction',
         getData : getCustomData,
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
-        destroy : destroy
+        resetResponse: resetResponse,
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

@@ -1,16 +1,16 @@
 define([
     'jquery',
+    'lodash',
+    'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.score',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label',
-    'lodash',
-    'i18n',
     'polyfill/placeholders'
-], function($, commonRenderer, helper, pciResponse, formElement, answerStateHelper, scoreTpl, labelTpl, _, __){
+], function($, _, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, scoreTpl, labelTpl){
 
     var _fixInputs = function(widget){
 
@@ -51,17 +51,18 @@ define([
 
             var interaction = widget.element;
 
+            commonRenderer.resetResponse(interaction);
             commonRenderer.destroy(interaction);
 
             _fixInputs(widget);
 
             if(responseMappingMode){
-                helper.appendInstruction(widget.element, __('Please define the correct response and the score below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct response and the score below.'));
                 interaction.data('responseMappingMode', true);
                 ResponseWidget.createScoreWidgets(widget);
                 ResponseWidget.createCorrectWidgets(widget);
             }else{
-                helper.appendInstruction(widget.element, __('Please define the correct response below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct response below.'));
                 ResponseWidget.createCorrectWidgets(widget);
             }
 
@@ -76,6 +77,7 @@ define([
 
             var interaction = widget.element;
 
+            commonRenderer.resetResponse(interaction);
             commonRenderer.destroy(interaction);
 
             interaction.removeData('responseMappingMode');

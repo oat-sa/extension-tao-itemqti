@@ -2,16 +2,16 @@ define([
     'jquery',
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/modalFeedback',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
     'ui/modal'
-], function($, _, tpl, Helper, sizeFinder){
+], function($, _, tpl, containerHelper, sizeFinder){
     'use strict';
 
     var modalFeedbackRenderer = {
         qtiClass : 'modalFeedback',
         template : tpl,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         minHeight : 200,
         minWidth : 400,
         maxWidth : 800,

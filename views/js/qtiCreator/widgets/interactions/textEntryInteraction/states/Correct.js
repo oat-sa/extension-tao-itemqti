@@ -2,10 +2,10 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'lodash',
     'i18n'
-], function($, stateFactory, Correct, helper, _, __){
+], function($, stateFactory, Correct, instructionMgr, _, __){
 
     var TextEntryInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -18,12 +18,12 @@ define([
             var value = $(this).val();
             response.setCorrect(value);
         });
-        helper.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
+        instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
 
     }, function(){
 
         this.widget.$container.off('.correct');
-        helper.removeInstructions(this.widget.element);
+        instructionMgr.removeInstructions(this.widget.element);
 
     });
 

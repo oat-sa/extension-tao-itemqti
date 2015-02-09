@@ -60,6 +60,34 @@ module.exports = function(grunt) {
     };
 
     /**
+     * Compile the new item runner as a standalone library
+     */
+    requirejs.qtinewrunner = {
+        options: {
+            baseUrl : '../js',
+            mainConfigFile : './config/requirejs.build.js',
+            //optimize: "none",
+            findNestedDependencies : true,
+            uglify2: {
+                mangle : false,
+                output: {
+                    'max_line_len': 400
+                }
+            },
+            wrap : {
+                start : '',
+                end : "define(['taoQtiItem/runner/qtiItemRunner'], function(runner){ return runner; });"
+            },
+            wrapShim: true,
+            inlineCss : true,
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js', taoCss : root + '/tao/views/css'},
+            include: runtimeLibs.concat(['tpl', 'json']),
+            exclude : ['mathJax'],
+            name: "taoQtiItem/runner/qtiItemRunner",
+            out: out + "/qtiItemRunner.min.js"
+        }
+    };
+    /**
      * copy the bundles to the right place
      */
     copy.taoqtiitembundle = {

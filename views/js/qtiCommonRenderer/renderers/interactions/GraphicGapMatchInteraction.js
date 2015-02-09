@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -8,42 +27,42 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicGapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, tpl, graphic,  pciResponse, Helper){
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function($, _, __, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
 
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      */
     var render = function render(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var $gapList = $('ul.source', $container);
         var $imageBox  = $('.main-image-box', $container);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
-        //var diff = $('.image-editor', $container).outerWidth() - $imageBox.outerWidth(true);
 
         interaction.gapFillers = [];
 
         //create the paper
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width, 
+            width       : background.width,
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
             container   : $container,
             resize      : function(newSize, factor){
-               $gapList.css('max-width', newSize + 'px'); 
+               $gapList.css('max-width', newSize + 'px');
                if(factor !== 1){
                     $gapList.find('img').each(function(){
                         var $img = $(this);
                         $img.width( $img.attr('width') * factor );
                         $img.height( $img.attr('height') * factor );
                     });
-               } 
+               }
             }
         });
 
@@ -59,7 +78,7 @@ define([
 
 
     /**
-     * Render a choice inside the paper. 
+     * Render a choice inside the paper.
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      *
      * @private
@@ -68,19 +87,19 @@ define([
      * @param {Object} choice - the hotspot choice to add to the interaction
      */
     var _renderChoice  =  function _renderChoice(interaction, choice){
-       
-        //create the shape 
+
+        //create the shape
         var rElement = graphic.createElement(interaction.paper, choice.attr('shape'), choice.attr('coords'), {
             id : choice.serial,
             title : __('Select an image first'),
             hover : false
         })
         .data('max', choice.attr('matchMax') )
-        .data('matching', []) 
+        .data('matching', [])
         .click(function onClickShape(){
-        
+
             // check if can make the shape selectable on click
-            if(_isMatchable(this) && this.selectable === true){ 
+            if(_isMatchable(this) && this.selectable === true){
                 _selectShape(interaction, this);
             }
         });
@@ -94,18 +113,18 @@ define([
      */
     var _renderGapList = function _renderGapList(interaction, $gapList){
 
-        //activate the gap filling 
+        //activate the gap filling
         $gapList.children('li').click(function onClickGapImg (e){
             e.preventDefault();
             var $elt = $(this);
             if(!$elt.hasClass('disabled')){
-            
+
                 //toggle tha active state of the gap images
                 if($elt.hasClass('active')){
                     $elt.removeClass('active');
                     _shapesUnSelectable(interaction);
-                } else {                
-                    $gapList.children('li').removeClass('active'); 
+                } else {
+                    $gapList.children('li').removeClass('active');
                     $elt.addClass('active');
                     _shapesSelectable(interaction);
                 }
@@ -119,7 +138,7 @@ define([
      * @param {Object} interaction
      */
     var _paperUnSelect = function _paperUnSelect(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var $gapImages = $('ul > li', $container);
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         if(image){
@@ -138,37 +157,37 @@ define([
      */
     var _selectShape = function _selectShape(interaction, element, trackResponse){
         var $img,
-            $clone, 
-            gapFiller, 
-            id, 
+            $clone,
+            gapFiller,
+            id,
             bbox,
             shapeOffset,
             activeOffset,
-            matching, 
+            matching,
             currentCount;
 
         if(typeof trackResponse === 'undefined'){
             trackResponse = true;
         }
-            
+
         //lookup for the active element
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var $gapList = $('ul', $container);
         var $active = $gapList.find('.active:first');
         var $imageBox = $('.main-image-box', $container);
         var boxOffset   = $imageBox.offset();
 
         if($active.length){
-            
+
             //the macthing elements are linked to the shape
             id = $active.data('identifier');
             matching = element.data('matching') || [];
-            matching.push(id); 
-            element.data('matching', matching); 
+            matching.push(id);
+            element.data('matching', matching);
             currentCount = matching.length;
 
             //the image to clone
-            $img = $active.find('img');    
+            $img = $active.find('img');
 
             //then reset the state of the shapes and the gap images
             _shapesUnSelectable(interaction);
@@ -177,7 +196,7 @@ define([
             $clone = $img.clone();
             shapeOffset  = $(element.node).offset();
             activeOffset   = $active.offset();
-            
+
             $clone.css({
                 'position' : 'absolute',
                 'display'  : 'block',
@@ -194,14 +213,14 @@ define([
             }, 400, function animationEnd(){
 
                 $clone.remove();
-            
+
                 //extract some coords for positioning
                 bbox = element.getBBox();
 
                 //create an image into the paper and move it to the selected shape
                 gapFiller = graphic.createBorderedImage(interaction.paper, {
                     url     :  $img.attr('src'),
-                    left    : bbox.x + (3 * (currentCount - 1)), 
+                    left    : bbox.x + (3 * (currentCount - 1)),
                     top     : bbox.y + (3 * (currentCount - 1)),
                     width   : parseInt($img.attr('width'), 10),
                     height  : parseInt($img.attr('height'), 10),
@@ -223,20 +242,20 @@ define([
                     } else {
                         //update the element matching array
                         element.data('matching', _.without(element.data('matching') || [], this.data('identifier')));
-                        
+
                         //delete interaction.gapFillers[interaction.gapFillers.indexOf(gapFiller)];
                         interaction.gapFillers = _.without(interaction.gapFillers, gapFiller);
-                        
+
                         //and remove the filler
                         gapFiller.remove();
-                       
-                        Helper.triggerResponseChangeEvent(interaction);
+
+                        containerHelper.triggerResponseChangeEvent(interaction);
                     }
                 });
 
                 interaction.gapFillers.push(gapFiller);
-                 
-                Helper.triggerResponseChangeEvent(interaction);
+
+                containerHelper.triggerResponseChangeEvent(interaction);
             });
         }
     };
@@ -249,7 +268,7 @@ define([
     var _shapesSelectable = function _shapesSelectable(interaction){
 
         var tooltip = __('Select the area to add an image');
-        
+
         //update the shape state
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
@@ -258,7 +277,7 @@ define([
                 graphic.updateElementState(element, 'selectable', tooltip);
             }
         });
-        
+
         //update the gap images tooltip
         _.forEach(interaction.gapFillers, function(gapFiller){
             gapFiller.forEach(function(element){
@@ -280,7 +299,7 @@ define([
                 graphic.updateElementState(element, 'basic', __('Select an image first'));
             }
         });
-       
+
         //update the gap images tooltip
         _.forEach(interaction.gapFillers, function(gapFiller){
             gapFiller.forEach(function(element){
@@ -304,52 +323,52 @@ define([
             matchable = (matchMax === 0 || matchMax > matching.length);
         }
         return matchable;
-    }; 
+    };
 
     /**
      * Get the responses from the interaction
-     * @private 
+     * @private
      * @param {Object} interaction
      * @returns {Array} of matches
      */
     var _getRawResponse = function _getRawResponse(interaction){
-        var pairs = [];    
-    
+        var pairs = [];
+
        _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
             if(element && _.isArray(element.data('matching'))){
                 _.forEach(element.data('matching'), function(match){
                     pairs.push([choice.id(), match]);
                 });
-            } 
+            }
        });
        return pairs;
     };
- 
+
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var responseValues;
         if(response && interaction.paper){
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
             } catch(e){ }
-            
+
             if(_.isArray(responseValues)){
-    
+
                 _.forEach(interaction.getChoices(), function(choice){
                     var element = interaction.paper.getById(choice.serial);
                     if(element){
@@ -358,7 +377,7 @@ define([
                             if(index > -1 && pair.length === 2){
 
                                 $("[data-identifier=" + pair[index === 0 ? 1 : 0] + "]", $container).addClass('active');
-                                _selectShape(interaction, element, false); 
+                                _selectShape(interaction, element, false);
                             }
                         });
                     }
@@ -369,38 +388,38 @@ define([
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
-        var $container = Helper.getContainer(interaction);
-        
+        var $container = containerHelper.get(interaction);
+
         _shapesUnSelectable(interaction);
 
         _.forEach(interaction.gapFillers, function(gapFiller){
             graphic.trigger(gapFiller.items[0], 'click');
-        }); 
+        });
     };
 
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -417,20 +436,54 @@ define([
     var destroy = function destroy(interaction){
         var $container;
         if(interaction.paper){
-            $container = Helper.getContainer(interaction);
-        
+            $container = containerHelper.get(interaction);
+
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
-            Helper.removeInstructions(interaction);
-            
-            $('.main-image-box', $container).empty().removeAttr('style');            
-            $('.image-editor', $container).removeAttr('style'); 
+            instructionMgr.removeInstructions(interaction);
+
+            $('.main-image-box', $container).empty().removeAttr('style');
+            $('.image-editor', $container).removeAttr('style');
             $('ul', $container).empty();
         }
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
-  
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
+    };
+
     /**
      * Expose the common renderer for the hotspot interaction
      * @exports qtiCommonRenderer/renderers/interactions/HotspotInteraction
@@ -439,10 +492,12 @@ define([
         qtiClass        : 'graphicGapMatchInteraction',
         template        : tpl,
         render          : render,
-        getContainer    : Helper.getContainer,
+        getContainer    : containerHelper.get,
         setResponse     : setResponse,
         getResponse     : getResponse,
         resetResponse   : resetResponse,
-        destroy         : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });

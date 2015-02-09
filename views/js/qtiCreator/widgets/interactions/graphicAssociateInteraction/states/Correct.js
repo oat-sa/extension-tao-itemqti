@@ -7,9 +7,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, GraphicAssociateInteraction, helper, PciResponse){
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
     /**
      * Initialize the state: use the common renderer to set the correct response.
@@ -20,19 +20,20 @@ define([
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
 
-        GraphicAssociateInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
 
         if(!interaction.paper){
             return;
         }
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please set the correct associations by linking the choices.'));
+        instructionMgr.appendInstruction(interaction, __('Please set the correct associations by linking the choices.'));
         
         //use the common Renderer
-        GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        GraphicAssociateInteraction.setResponse(
+        commonRenderer.setResponse(
             interaction, 
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
@@ -64,8 +65,9 @@ define([
         widget.$container.off('responseChange.qti-widget');
         
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        GraphicAssociateInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();
