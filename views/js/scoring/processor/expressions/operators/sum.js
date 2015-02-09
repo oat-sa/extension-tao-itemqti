@@ -27,6 +27,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
 ], function(_, preProcessor){
+    'use strict';
 
     /**
      * Process operands and returns the sum.
