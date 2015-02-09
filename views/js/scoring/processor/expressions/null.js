@@ -18,29 +18,29 @@
  */
 
 /**
- * Expose all expressions processors
+ * The null operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10583
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'taoQtiItem/scoring/processor/expressions/baseValue',
-    'taoQtiItem/scoring/processor/expressions/null'
-], function(baseValue, nulll){
+define([], function(){
     'use strict';
 
     /**
-     * An ExpressionProcessor
-     * @typedef ExpressionProcessor
-     * @property {Object} exression - the expression definition
-     * @property {Funtion} process - the processing
+     * Null expression
+     * @type {ExpressionProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/null
      */
+    var nullProcessor = {
 
-    /**
-     * Lists all available expression processors
-     * @exports taoQtiItem/scoring/processor/expressions/expressions
-     */
-    return {
-        'baseValue' : baseValue,
-        'null'      : nulll
+        /**
+         * Process the expression
+         * @returns {null}
+         */
+        process : function(){
+            return null;
+        }
     };
 
+    return nullProcessor;
 });

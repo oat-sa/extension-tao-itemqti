@@ -18,7 +18,7 @@
  */
 
 /**
- * The baseValue operator processor.
+ * The baseValue expression processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10570
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -33,12 +33,11 @@ define([], function(){
      */
     var baseValueProcessor = {
 
+        /**
+         * Process the expression
+         * @returns {ProcessingValue} the value from the expression
+         */
         process : function(){
-
-            /**
-             * Process the expression
-             * @returns {ProcessingValue} the value from the expression
-             */
             return {
                 cardinality : 'single',
                 baseType : this.expression.attributes.baseType,
