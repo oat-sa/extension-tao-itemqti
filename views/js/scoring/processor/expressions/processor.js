@@ -27,6 +27,14 @@ define([
 ], function(_, preProcessor){
     'use strict';
 
+    /**
+     * All values handled by a processor
+     * @typedef ProcessingValue
+     * @property {String} baseType - the value type in 'identifier', 'boolean', 'integer', 'float', 'string', 'point', 'pair', 'directedPair', 'duration', 'file', 'uri' and 'intOrIdentifier'
+     * @property {String} cardinality - the value  cardinality in 'single', 'multiple', 'ordered' and 'record'
+     * @property {*} value - the real value
+     */
+
     var processors = {};
 
     var expressionProcessor = function expressionProcessor(expression, context){

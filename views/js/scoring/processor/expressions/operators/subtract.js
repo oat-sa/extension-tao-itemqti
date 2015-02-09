@@ -18,6 +18,9 @@
  */
 
 /**
+ * The subtract operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10691
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -25,6 +28,11 @@ define([
     'taoQtiItem/scoring/processor/expressions/preprocessor',
 ], function(_, preProcessor){
 
+    /**
+     * Process operands and returns the subtract.
+     * @type {OperatorProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
+     */
     var subtractProcessor = {
 
         constraints : {
@@ -36,6 +44,10 @@ define([
 
         operands   : [],
 
+        /**
+         * Process the subtract of the operands.
+         * @returns {?ProcessingValue} the subtract or null
+         */
         process : function(){
 
             var result = {

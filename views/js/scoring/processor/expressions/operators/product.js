@@ -18,6 +18,9 @@
  */
 
 /**
+ * The product operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10689
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -25,6 +28,11 @@ define([
     'taoQtiItem/scoring/processor/expressions/preprocessor',
 ], function(_, preProcessor){
 
+    /**
+     * Process operands and returns the product.
+     * @type {OperatorProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/product
+     */
     var productProcessor = {
 
         constraints : {
@@ -36,6 +44,10 @@ define([
 
         operands   : [],
 
+        /**
+         * Process the product of the operands.
+         * @returns {?ProcessingValue} the product or null
+         */
         process : function(){
 
             var result = {
