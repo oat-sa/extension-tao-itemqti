@@ -33,26 +33,32 @@ define([
      */
     var preProcessor = {
 
+
+        castTypes: function (operands) {
+            return _(operands)
+
+                //cast value type, like if they were all arrays, and infer the result type
+                .map(function (operand) {
+
+                    var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
+                    var isFloat = operand.baseType === 'float';
+                    var value = multiple ? operand.value : [operand.value];
+
+                    return _.map(value, isFloat ? parseFloat : toInt);
+                })
+
+                //here we get arrays of arrays so we flatten them
+                .flatten();
+
+        },
+
         /**
          * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
          * @param {Array<ProcessingValue>|Arrat<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
         mapNumbers : function mapNumbers(operands){
-            return _(operands)
-
-                //cast value type, like if they were all arrays, and infer the result type
-                .map(function(operand){
-
-                    var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
-                    var isFloat  = operand.baseType === 'float';
-                    var value    = multiple ? operand.value : [operand.value];
-
-                    return _.map(value, isFloat ? parseFloat : toInt);
-                })
-
-                //here we get arrays of arrays so we flatten them
-                .flatten()
+            return this.castTypes(operands)
 
                 //we filter unwanted values
                 .filter(function(value){
