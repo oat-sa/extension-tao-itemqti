@@ -1,11 +1,12 @@
 define([
-    'jquery',
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/modalFeedback',
     'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
+    'ui/waitForMedia',
     'ui/modal'
-], function($, _, tpl, Helper, sizeFinder){
+], function(_, tpl, Helper, sizeFinder){
+
     'use strict';
 
     var modalFeedbackRenderer = {
@@ -19,22 +20,33 @@ define([
 
             data = data || {};
 
-            var $modal = $('#' + modalFeedback.getSerial());
+            var $modal = Helper.getContainer(modalFeedback);
 
-            sizeFinder.measure($modal, function(size){
+            $modal.waitForMedia(function(){
                 
-                $modal.modal({
-                    startClosed : false,
-                    minHeight : Math.max(size.height , modalFeedbackRenderer.minHeight),
-                    width : Math.max( Math.min(size.width, modalFeedbackRenderer.maxWidth), modalFeedbackRenderer.minWidth)
-                });
+                //when we are sure that media is loaded:
+                sizeFinder.measure($modal, function(size){
 
-                $modal.on('closed.modal', function(){
-                    if(_.isFunction(data.callback)){
-                        data.callback.call(this);
+                    $modal.modal({
+                        startClosed : false,
+                        minHeight : Math.max(size.height, modalFeedbackRenderer.minHeight),
+                        width : Math.max(Math.min(size.width, modalFeedbackRenderer.maxWidth), modalFeedbackRenderer.minWidth)
+                    });
+
+                    //set item body height
+                    var $itemBody = Helper.getContainer(modalFeedback.getRelatedItem()).children('.qti-itemBody');
+                    if($modal.height() > $itemBody.height()){
+                        $itemBody.height($modal.height());
                     }
+
+                    $modal.on('closed.modal', function(){
+                        if(_.isFunction(data.callback)){
+                            data.callback.call(this);
+                        }
+                    });
                 });
             });
+
         }
     };
 
