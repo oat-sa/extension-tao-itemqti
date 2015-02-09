@@ -34,7 +34,7 @@ define([
      * @type {OperatorProcesssor}
      * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
      */
-    var subtractProcessor = {
+    var ltProcessor = {
 
         constraints : {
             minOperand : 2,
@@ -76,5 +76,5 @@ define([
         }
     };
 
-    return subtractProcessor;
+    return ltProcessor;
 });
