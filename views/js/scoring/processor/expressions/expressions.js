@@ -26,6 +26,17 @@ define([
 ], function(baseValue){
     'use strict';
 
+    /**
+     * An ExpressionProcessor
+     * @typedef ExpressionProcessor
+     * @property {Object} exression - the expression definition
+     * @property {Funtion} process - the processing
+     */
+
+    /**
+     * Lists all available expression processors
+     * @exports taoQtiItem/scoring/processor/expressions/expressions
+     */
     return {
         'baseValue' : baseValue
     };

@@ -18,15 +18,27 @@
  */
 
 /**
+ * The baseValue operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10570
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([], function(){
     'use strict';
 
+    /**
+     * BaseValue expression
+     * @type {ExpressionProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/baseValue
+     */
     var baseValueProcessor = {
 
         process : function(){
+
+            /**
+             * Process the expression
+             * @returns {ProcessingValue} the value from the expression
+             */
             return {
                 cardinality : 'single',
                 baseType : this.expression.attributes.baseType,

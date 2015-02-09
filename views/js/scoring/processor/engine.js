@@ -102,14 +102,14 @@ define([
                     currentExpression = trail.pop();
                     currentProcessor = null;
 
-                    console.log(i);
-                    console.log('expression', currentExpression);
-                    console.log('trail before', _.cloneDeep(trail));
-                    console.log('marker before', _.cloneDeep(marker));
+                    //console.log(i);
+                    //console.log('expression', currentExpression);
+                    //console.log('trail before', _.cloneDeep(trail));
+                    //console.log('marker before', _.cloneDeep(marker));
 
                     if(!isMarked(currentExpression) && isOperator(currentExpression)){
 
-                        console.log('c1');
+                        //console.log('c1');
                         mark(currentExpression);
 
                         trail.push(currentExpression);
@@ -118,7 +118,7 @@ define([
                         pushSubExpressions(currentExpression);
 
                     } else if (isMarked(currentExpression)){
-                        console.log('c2');
+                        //console.log('c2');
                         // Operator, second pass. Process it.
                         currentProcessor = processorFactory(currentExpression, {
                             operands : popOperands(currentExpression)
@@ -129,7 +129,7 @@ define([
                             operands.push(result);
                         }
                     } else {
-                        console.log('c3');
+                        //console.log('c3');
                         // Simple expression, process it.
                         currentProcessor = processorFactory(currentExpression);
                         result = currentProcessor.process(response);
@@ -137,11 +137,11 @@ define([
                         operands.push(result);
                     }
 
-                    console.log('trail after', _.cloneDeep(trail));
-                    console.log('marker after', _.cloneDeep(marker));
-                    console.log('operands', _.cloneDeep(operands));
-                    console.log('result', _.cloneDeep(result));
-                    console.log("-------");
+                    //console.log('trail after', _.cloneDeep(trail));
+                    //console.log('marker after', _.cloneDeep(marker));
+                    //console.log('operands', _.cloneDeep(operands));
+                    //console.log('result', _.cloneDeep(result));
+                    //console.log("-------");
                     i++;
                 }
                 return result;

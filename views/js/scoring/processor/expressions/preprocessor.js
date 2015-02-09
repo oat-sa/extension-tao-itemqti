@@ -18,7 +18,8 @@
  */
 
 /**
- *
+ * Helps you to map the values in the processing in order to use consistent data for the processing.
+ * The MAP part of a MAP/REDUCE
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -26,8 +27,17 @@ define([
 ], function(_){
     'use strict';
 
+    /**
+     * The preprocessor
+     * @exports taoQtiItem/scoring/processor/expressions/preprocessor
+     */
     var preProcessor = {
 
+        /**
+         * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
+         * @param {Array<ProcessingValue>|Arrat<Array<ProcessingValue>>} operands - to map
+         * @returns {Object} the LODASH wrapper in order to chain on it.
+         */
         mapNumbers : function mapNumbers(operands){
             return _(operands)
 
@@ -51,7 +61,11 @@ define([
         }
     };
 
-    //parseInt cannot be used as a map callback due to the radix parameter that get the index otherwise
+    /**
+     * Wrap parseInt. It can't be used unwrapped as a map callback
+     * due to the radix parameter (that receives the index).
+     * @private
+     */
     function toInt(value){
         return parseInt(value, 10);
     }

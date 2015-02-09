@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * The ExpressionProcessor provides you a valid, configured expression or operator processor.
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -35,8 +35,22 @@ define([
      * @property {*} value - the real value
      */
 
+    //keeps the references of processors (this is something we may load dynamically)
     var processors = {};
 
+    /**
+     * Provides you a processor from an expression (definition) and against a context.
+     * The Processor must have been registerd previously.
+     * It will also validate the processor against the given expression and context.
+     * See it as a kind of factory.
+     *
+     * @param {Object} expression - the expression definition
+     * @param {String} expression.qtiClass - the expression name that should mastch with the processor name
+     * @param {Object} context - the processor context, for example the operator's operands
+     * @returns {ExpressionProcessorWrapper} a transparent object that delegates the calls to the processor
+     * @throws {TypeError} when the validation fails
+     * @throws {Error} by trying to use an unregistered processor
+     */
     var expressionProcessor = function expressionProcessor(expression, context){
 
         var name      = expression.qtiClass;
@@ -83,6 +97,11 @@ define([
         processor = _.defaults(context || {}, processor);
         processor.expression = expression;
 
+        /**
+         * Wrap ad forward the processing to the enclosed processor
+         * @typedef ExpressionProcessorWrapper
+         * @property {Function} process - call's processor's process
+         */
         return {
             process : function process(){
                 //forward the call to the related expression processor
@@ -91,11 +110,21 @@ define([
         };
     };
 
+    /**
+     *
+     */
     expressionProcessor.types = {
         EXPRESSION  : "expression",
         OPERATOR    : "operator"
     };
 
+    /**
+     * Register a processor
+     * @param {String} name - the processor name
+     * @param {String} type - the processor type see expressionProcessor.types
+     * @param {ExpressionProcessor|OperatorProcessor} processor - the processor to register
+     * @throws {TypeError} when a parameter isn't valid
+     */
     expressionProcessor.register = function register(name, type, processor){
 
         if(!_.contains(this.types, type)){
@@ -112,5 +141,8 @@ define([
         processors[type][name] = processor;
     };
 
+    /**
+     * @exports taoQtiItem/scoring/processor/expressions/processor
+     */
     return expressionProcessor;
 });
