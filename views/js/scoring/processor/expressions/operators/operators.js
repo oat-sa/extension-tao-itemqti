@@ -22,10 +22,11 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function(product, subtract, sum ){
+], function(max, product, subtract, sum ){
     'use strict';
 
     /**
@@ -47,6 +48,7 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
+        "max"       : max,
         "product"   : product,
         "subtract"  : subtract,
         "sum"       : sum
