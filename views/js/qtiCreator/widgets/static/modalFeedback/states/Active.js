@@ -93,7 +93,8 @@ define([
 
         $container.modal({
             startClosed : true,
-            width : commonRenderer.width
+            width : commonRenderer.width,
+            $context : $('#item-editor-scroll-outer')
         });
         $container.modal('open');
         $container.css('height', 'auto');
