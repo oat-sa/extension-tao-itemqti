@@ -22,24 +22,26 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/expressions/operators/gt',
+    'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( lte, product, subtract, sum ){
+], function( gt, gte, lte, product, subtract, sum ){
     'use strict';
 
     /**
      * An OperatorProcessor process operands to gives you a result.
      * @typedef OperatorProcessor
-     * @property {Object} exression - the expression definition
+     * @property {Object} expression - the expression definition
      * @property {Array<ProcessingValue} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
      * @property {Number} constraints.maxOperand - the maximum number of operands
      * @property {Array<String>} constraints.cardinality - the supported  cardinalities in 'single', 'multiple', 'ordered' and 'record'
      * @property {Array<String>} constraints.baseType - the supported  types in 'identifier', 'boolean', 'integer', 'float', 'string', 'point', 'pair', 'directedPair', 'duration', 'file', 'uri' and 'intOrIdentifier'
-     * @property {Funtion} process - the processing
+     * @property {Function} process - the processing
      *
      */
 
@@ -48,6 +50,8 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
+        "gt"        : gt,
+        "gte"       : gte,
         "lte"       : lte,
         "product"   : product,
         "subtract"  : subtract,

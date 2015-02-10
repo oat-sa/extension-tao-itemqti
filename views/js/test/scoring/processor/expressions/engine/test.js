@@ -1,5 +1,5 @@
 define([
-    'taoQtiItem/scoring/processor/engine'
+    'taoQtiItem/scoring/processor/expressions/engine'
 ], function(expressionParserFactory){
 
     module('API');
