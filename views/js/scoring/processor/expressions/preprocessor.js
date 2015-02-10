@@ -53,7 +53,6 @@ define([
 
                 //here we get arrays of arrays so we flatten them
                 .flatten();
-
         },
 
         /**
