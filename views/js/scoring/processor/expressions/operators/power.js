@@ -18,6 +18,9 @@
  */
 
 /**
+ * The product operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10695
+
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -26,6 +29,11 @@ define([
 ], function(_, preProcessor){
     "use strict";
 
+    /**
+     * Process operands and returns the power.
+     * @type {OperatorProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/power
+     */
     var powerProcessor = {
 
         constraints : {
@@ -54,6 +62,7 @@ define([
                 .reduce(function(base, exp){
                     var result = Math.pow(base, exp);
 
+                    //checking for float overflow, if happens returns null
                     if ( !_.isFinite(result) && _.isFinite(base) ) {
                         result = null;
                     }

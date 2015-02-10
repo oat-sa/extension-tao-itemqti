@@ -2,6 +2,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/operators/power'
 ], function(_, powerProcessor){
+    'use strict';
 
     module('API');
 
