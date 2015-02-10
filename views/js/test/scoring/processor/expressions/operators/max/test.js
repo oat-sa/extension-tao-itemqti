@@ -2,6 +2,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/operators/max'
 ], function(_, maxProcessor){
+    "use strict";
 
     module('API');
 
