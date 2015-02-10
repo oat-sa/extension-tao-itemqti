@@ -53,9 +53,8 @@ define([
 
                 //here we get arrays of arrays so we flatten them
                 .flatten();
-
         },
-        
+
         /**
          * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
          * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
