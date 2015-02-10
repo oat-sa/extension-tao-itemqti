@@ -17,6 +17,9 @@
  *
  */
 /**
+ * The min operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element106262
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -52,12 +55,15 @@ define([
             if(_.some(this.operands, { baseType : 'float' })){
                 result.baseType = 'float';
             }
-            // if any of operand is not numeric, result is null
-            if (preProcessor.mapNumbers(this.operands).value().length !== preProcessor.castTypes(this.operands).value().length){
+
+            var castedOperands  = preProcessor.parseNumbers(this.operands);
+
+            //if at least one operand is a not a number,  then break and return null
+            if (!castedOperands.every(preProcessor.isNumber)) {
                 return null;
             }
 
-            result.value = _.min(preProcessor.mapNumbers(this.operands).value());
+            result.value = castedOperands.min().value();
 
             return result;
         }

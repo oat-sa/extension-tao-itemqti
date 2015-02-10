@@ -33,8 +33,12 @@ define([
      */
     var preProcessor = {
 
-
-        castTypes: function (operands) {
+        /**
+         * Take the operands, cast the values to integer or float, flatten them is collection are given and
+         * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
+         * @returns {Object} the LODASH wrapper in order to chain on it.
+         */
+        parseNumbers: function parseNumbers(operands) {
             return _(operands)
 
                 //cast value type, like if they were all arrays, and infer the result type
@@ -54,16 +58,22 @@ define([
 
         /**
          * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
-         * @param {Array<ProcessingValue>|Arrat<Array<ProcessingValue>>} operands - to map
+         * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
         mapNumbers : function mapNumbers(operands){
-            return this.castTypes(operands)
-
+            return this.parseNumbers(operands)
                 //we filter unwanted values
-                .filter(function(value){
-                    return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
-                });
+                .filter(this.isNumber);
+        },
+
+        /**
+         * Check if value is really numeric
+         * @param value
+         * @returns {Boolean|boolean}
+         */
+        isNumber : function isNumber(value){
+            return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
         }
     };
 

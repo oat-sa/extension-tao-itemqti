@@ -113,12 +113,12 @@ define([
             baseType : 'integer',
             value : 5
         },
-        null,
-        {
-            cardinality : 'single',
-            baseType : 'integer',
-            value : 2
-        }],
+            null,
+            {
+                cardinality : 'single',
+                baseType : 'integer',
+                value : 2
+            }],
         expectedResult : null
     },{
         title : 'multiple cardinality operand',
@@ -155,9 +155,9 @@ define([
     }];
 
     QUnit
-      .cases(dataProvider)
-      .test('min ', function(data, assert){
-        minProcessor.operands = data.operands;
-        assert.deepEqual(minProcessor.process(), data.expectedResult, 'The min is correct');
-    });
+        .cases(dataProvider)
+        .test('min ', function(data, assert){
+            minProcessor.operands = data.operands;
+            assert.deepEqual(minProcessor.process(), data.expectedResult, 'The min is correct');
+        });
 });
