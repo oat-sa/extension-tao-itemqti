@@ -59,7 +59,7 @@ define([
             },
             restrictedIdentifier : function(interaction, identifier){
                 //generate a response from that identifier (because might not be unique
-                response.buildIdentifier(identifier);
+                response.buildIdentifier(identifier, false);
                 //sync the response identifier in the interaction
                 interaction.attr('responseIdentifier', response.id());
             }
