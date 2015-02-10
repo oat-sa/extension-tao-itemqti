@@ -80,22 +80,6 @@ define([
             value : false
         }
     },{
-        title : 'floats',
-        operands : [ {
-            cardinality : 'single',
-            baseType : 'float',
-            value : 0.666677
-        }, {
-            cardinality : 'single',
-            baseType : 'float',
-            value : 1.333323
-        }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'boolean',
-            value : false
-        }
-    },{
         title : 'one float',
         operands : [{
             cardinality : 'single',

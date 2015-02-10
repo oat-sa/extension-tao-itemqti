@@ -18,7 +18,7 @@
  */
 
 /**
- * The gt operator processor.
+ * The gte operator processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10681
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -31,7 +31,7 @@ define([
 
     /**
      * Process operands and returns the gte.
-     * @type {OperatorProcesssor}
+     * @type {OperatorProcessor}
      * @exports taoQtiItem/scoring/processor/expressions/operators/gte
      */
     var gteProcessor = {
@@ -46,8 +46,8 @@ define([
         operands   : [],
 
         /**
-         * Process the lt of the operands.
-         * @returns {?ProcessingValue} the subtract or null
+         * Process the gte of the operands.
+         * @returns {?ProcessingValue} is (greater or equal) or null
          */
         process : function(){
 
@@ -60,7 +60,6 @@ define([
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
-
 
             result.value = preProcessor
                 .mapNumbers(this.operands)
