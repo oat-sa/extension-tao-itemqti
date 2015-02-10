@@ -29,7 +29,7 @@ define([
     //keeps the references of processors (this is something we may load dynamically)
     var processors = {};
 
-    var responseRuleProcessor = function responseRuleProcessor(rule, context){
+    var responseRuleProcessor = function responseRuleProcessor(rule, state){
 
         var name      = rule.qtiClass;
         var processor = processors[name];
@@ -39,7 +39,8 @@ define([
             throw new Error('No processor found for ' + name);
         }
 
-        processor = _.defaults(context || {}, processor);
+        processor.rule = rule;
+        processor.state = state;
 
         return {
             process : function process(){

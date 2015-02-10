@@ -30,6 +30,7 @@ define([
      * An ResponseRuleProcessor
      * @typedef ResponseRuleProcessor
      * @property {Object} rule - the response rule definition
+     * @property {Object} state - the item state (response, outcomes and friends)
      * @property {Funtion} process - the processing
      */
 
