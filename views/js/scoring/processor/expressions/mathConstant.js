@@ -18,31 +18,40 @@
  */
 
 /**
- * Expose all expressions processors
+ * The mathConstant expression processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element106461
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'taoQtiItem/scoring/processor/expressions/baseValue',
-    'taoQtiItem/scoring/processor/expressions/mathConstant',
-    'taoQtiItem/scoring/processor/expressions/null'
-], function(baseValue, mathConstant, nulll){
+define([], function(){
     'use strict';
 
     /**
-     * An ExpressionProcessor
-     * @typedef ExpressionProcessor
-     * @property {Object} exression - the expression definition
-     * @property {Funtion} process - the processing
+     * BaseValue expression
+     * @type {ExpressionProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/mathConstant
      */
+    var mathConstantProcessor = {
 
-    /**
-     * Lists all available expression processors
-     * @exports taoQtiItem/scoring/processor/expressions/expressions
-     */
-    return {
-        'baseValue'     : baseValue,
-        'mathConstant'  : mathConstant,
-        'null'          : nulll
+        /**
+         * Process the expression
+         * @returns {ProcessingValue} the value from the expression
+         */
+        process : function(){
+            var value;
+            if(this.expression.attributes.name === 'e'){
+                value = Math.E;
+            }
+            if(this.expression.attributes.name === 'pi'){
+                value = Math.PI;
+            }
+            return {
+                cardinality : 'single',
+                baseType : 'float',
+                value : value
+            };
+        }
     };
 
+    return mathConstantProcessor;
 });

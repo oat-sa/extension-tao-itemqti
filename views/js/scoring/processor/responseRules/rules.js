@@ -18,31 +18,26 @@
  */
 
 /**
- * Expose all expressions processors
+ * Expose all rule processors
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/baseValue',
-    'taoQtiItem/scoring/processor/expressions/mathConstant',
-    'taoQtiItem/scoring/processor/expressions/null'
-], function(baseValue, mathConstant, nulll){
+    'taoQtiItem/scoring/processor/responseRules/',
+], function(){
     'use strict';
 
     /**
-     * An ExpressionProcessor
-     * @typedef ExpressionProcessor
-     * @property {Object} exression - the expression definition
+     * An ResponseRuleProcessor
+     * @typedef ResponseRuleProcessor
+     * @property {Object} rule - the response rule definition
      * @property {Funtion} process - the processing
      */
 
     /**
-     * Lists all available expression processors
-     * @exports taoQtiItem/scoring/processor/expressions/expressions
+     * Lists all available response rule processors
+     * @exports taoQtiItem/scoring/processor/responseRules/rules
      */
     return {
-        'baseValue'     : baseValue,
-        'mathConstant'  : mathConstant,
-        'null'          : nulll
     };
 
 });
