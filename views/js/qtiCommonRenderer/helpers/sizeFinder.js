@@ -15,14 +15,8 @@ define([
 
         $elements.each(function(){
             $element = $(this);
-            $element.data('originalProperties', {
-                display : $element.css('display'),
-                position : $element.css('position'),
-                left : $element.css('left'),
-                width: $element.css('width'),
-                height: $element.css('height')
-            });
-
+            //store the style attribute as a string, so we are able to restore it completely
+            $element.data('inline-style', $element.attr('style'));
             $element.css({
                 position : 'relative',
                 left : '-10000px',
@@ -46,10 +40,9 @@ define([
 
         $elements.each(function(){
             $element = $(this);
-
-            $element.css($elements.data('originalProperties'));
-
-            $element.removeData('originalProperties');
+            //restore the style attibute if exists or delete it otherwise (with value = null)
+            $element.attr('style', $element.data('inline-style')||null);
+            $element.removeData('inline-style');
         });
 
     };
