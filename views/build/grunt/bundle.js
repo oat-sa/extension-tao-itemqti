@@ -91,7 +91,7 @@ module.exports = function(grunt) {
              prefix: ''
          },
          files : [
-             { src: [ out + '/runtime/qtiBootstrap.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
+             { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
              { src: [ out + '/qtiLoader.min.js'],  dest: root + '/taoQtiItem/views/js/runtime/qtiLoader.min.js' }
          ]
     };
