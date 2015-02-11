@@ -2,6 +2,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/operators/lt'
 ], function(_, ltProcessor){
+    'use strict';
 
     module('API');
 

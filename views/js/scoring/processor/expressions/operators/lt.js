@@ -31,10 +31,10 @@ define([
 
     /**
      * Process operands and returns the lt.
-     * @type {OperatorProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
+     * @type {OperatorProcessor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/lt
      */
-    var subtractProcessor = {
+    var ltProcessor = {
 
         constraints : {
             minOperand : 2,
@@ -61,7 +61,6 @@ define([
                 return null;
             }
 
-
             result.value = preProcessor
                 .mapNumbers(this.operands)
                 .reduce(function(f, s){
@@ -72,5 +71,5 @@ define([
         }
     };
 
-    return subtractProcessor;
+    return ltProcessor;
 });
