@@ -23,9 +23,10 @@
  */
 define([
     'taoQtiItem/scoring/processor/expressions/baseValue',
+    'taoQtiItem/scoring/processor/expressions/correct',
     'taoQtiItem/scoring/processor/expressions/mathConstant',
     'taoQtiItem/scoring/processor/expressions/null'
-], function(baseValue, mathConstant, nulll){
+], function(baseValue, correct, mathConstant, nulll){
     'use strict';
 
     /**
@@ -42,6 +43,7 @@ define([
      */
     return {
         'baseValue'     : baseValue,
+        'correct'       : correct,
         'mathConstant'  : mathConstant,
         'null'          : nulll
     };

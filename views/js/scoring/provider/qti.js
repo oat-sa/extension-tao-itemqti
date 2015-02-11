@@ -58,7 +58,7 @@ define([
             state[identifier] = {
                 cardinality         : cardinality,
                 baseType            : baseType,
-                correctResponses    : response.correctResponses,
+                correctResponse     : response.correctResponses,
                 mapping             : _.merge(response.mappingAttributes || {}, { value : response.mapping }),
                 areaMapping         : _.merge(response.mappingAttributes || {}, { value : response.areaMapping }),
                 defaultValue        : response.defaultValue

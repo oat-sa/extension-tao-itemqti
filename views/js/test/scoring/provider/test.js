@@ -63,11 +63,9 @@ define([
 
         scorer('qti')
           .on('error', function(err){
-            console.error(err);
+            assert.ok(false, 'Got an error : ' + err);
           })
           .on('outcome', function(outcomes){
-
-            console.log(outcomes);
 
             assert.ok(typeof outcomes === 'object', "the outcomes are an object");
             assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
