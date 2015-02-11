@@ -90,6 +90,10 @@ textarea { resize: vertical; }
 .farbtastic .marker { width: 13.94872px; height: 13.94872px; margin: -6.5641px 0 0 -6.5641px; overflow: hidden; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAABvklEQVR42rWUv0sCYRjHO0zFOCoSSUFsq1AHoSkaisAGbXCRlsAtWiSD1v6AoMUtUAQnSRGkpNGoIWjMoU0qInSRTNGwunv6PvAeHKbm4guf4R64zz2/3puYGNchIgksggg4BodgE0yNKnCDC9ABClAF3+AZ7IHJYYIQqPJLrVaLSqUSpVIpymazVKlUSJwuyPTNSmRQVVWVCoUC+Xy+rizL9waDIWM2my/tdnstGo1SvV5n0Q846dcDLkHN5/Nks9leEQ6DGWAAZrAE4Xk4HKZ2u82iFljRS7iJnUajQR6P5xOhEJD6VDxvMpnu0uk0iT7F9RKeglIsFslisdwgJA/p/W4gEND686CX8BjVeDxOeEz8M0C3y+XSJB96yRFLkskkcSNFHwadVa/Xq0ne9JIt3oNyuUxWq/UJoYUBApafxmIxTXKll8hsVRSFIpEISZLEJc31EWw7HI53/phYxP3eMR+Ar1qtRsFgUDUajdcI74BlLoEzYEEul9Mmwya5V2ICBf5Cs9mkRCJBfr+fnE4ncQ+4BJEBC3jj1gat/Sw4E/dGpb+HS3gE66Ncwg3AG/UiVrwJbsVtnh7Lr+MXM921rfVCPpAAAAAASUVORK5CYII=) no-repeat; background-size: 100%; }
 .farbtastic * { position: absolute; cursor: crosshair; }
 
+.sts-toolcontainer { display: none; }
+
+.sts-studentToolbar-container .sts-toolcontainer { display: block; }
+
 span.dragging, img.dragging.ui-draggable-dragging { opacity: 0.8 !important; z-index: 999999; font-size: 5rem; padding: 20px 80px; position: absolute; background: #f3f1ef; -webkit-box-shadow: 1px 1px 6px 2px #777; box-shadow: 1px 1px 6px 2px #777; }
 
 img.dragging.ui-draggable-dragging { max-height: 90px; }
