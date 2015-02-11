@@ -37,7 +37,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                             }
                             newElts[elt.getSerial()] = elt;
 
-                            //manage subclassed qtiClass
+                            //manage sub-classed qtiClass
                             if(subClass){
                                 //@todo generalize it from customInteraction
                                 elt.typeIdentifier = subClass;
