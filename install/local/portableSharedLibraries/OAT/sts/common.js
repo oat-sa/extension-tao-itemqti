@@ -42,8 +42,14 @@ define([
         });
     }
 
-    function init($container) {
-        // this needs to be a single DOM element
+    function init($container, config) {
+
+        // just in case...
+        if(!$container.length){
+            return;
+        }
+
+        //console.log($container);
         var $content  = $container.find('.sts-content'),
             $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
             $launcher = $container.find('.sts-launch-button'),
@@ -60,6 +66,30 @@ define([
                 });
                 return selectors.join(',')
             }());
+
+        // this needs to be a single DOM element
+        // remove obsolete parent element
+        var $toolbarContent = $('#' + config.toolbarId + ' > .sts-content'),
+            $toolbarButtons = $toolbarContent.find('.sts-launch-button'),
+            added = false;
+
+        // memorize position
+        $container.data('position', config.position);
+
+        $toolbarButtons.each(function() {
+            var $existingContainer = $(this).parent(),
+                buttonPosition = $container.data('position');
+
+            if(buttonPosition > config.position) {
+                $existingContainer.before($container);
+                added = true;
+                return false;
+            }
+        });
+
+        if(!added) {
+            $toolbarContent.append($container);
+        }
 
         $container.removeAttr('style');
 
