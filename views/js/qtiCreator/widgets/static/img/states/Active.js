@@ -69,7 +69,7 @@ define([
 
                 img.attr('src', value);
 
-                $img.attr('src', itemUtil.fullpath(value, baseUrl));
+                $img.attr('src', itemUtil.fullpath(encodeURIComponent(value), baseUrl));
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
@@ -205,7 +205,7 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif,audio/mpeg'
+                    filters : 'image/jpeg,image/png,image/gif'
                 },
                 pathParam : 'path',
                 select : function(e, files){
@@ -216,7 +216,8 @@ define([
                         
                         file = files[0].file;
                         alt = files[0].alt;
-                        imageUtil.getSize(options.baseUrl + file, function(size){
+
+                        imageUtil.getSize(options.baseUrl + encodeURIComponent(file), function(size){
 
                             if(size && size.width >= 0){
                                 

@@ -8,7 +8,8 @@ define([
 
     return function($form, options){
 
-        var $upload = $('[data-role="upload-trigger"]', $form),
+        var _ns = '.imageSelector',
+            $upload = $('[data-role="upload-trigger"]', $form),
             $src = $('input[name=data]', $form),
             $width = $('input[name=width]', $form),
             $height = $('input[name=height]', $form),
@@ -34,7 +35,7 @@ define([
                     var selected;
                     if(files.length > 0){
                         selected = files[0];
-                        imageUtil.getSize(options.baseUrl + files[0].file, function(size){
+                        imageUtil.getSize(options.baseUrl + encodeURIComponent(files[0].file), function(size){
                             if(size && size.width >= 0){
                                 $width.val(size.width).trigger('change');
                                 $height.val(size.height).trigger('change');
@@ -47,14 +48,14 @@ define([
                     }
                 },
                 open : function(){
+                    $src.trigger('open.'+_ns);
                     //hide tooltip if displayed
                     if($src.hasClass('tooltipstered')){
                         $src.blur().tooltipster('hide');
                     }
                 },
                 close : function(){
-                    //triggers validation : 
-                    $src.blur();
+                    $src.trigger('close.'+_ns);
                 }
             });
         };

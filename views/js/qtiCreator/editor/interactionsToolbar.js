@@ -8,7 +8,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltipster'
 ], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
-
+    "use strict";
     /**
      * String to identify a custom interaction from the authoring data
      * 

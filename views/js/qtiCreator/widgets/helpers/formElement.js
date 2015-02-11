@@ -12,6 +12,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
 ], function($, _, __, Element, dom, spinner, tooltip, select2){
+    'use strict';
 
     var formElement = {
         initWidget : function($form){
@@ -26,12 +27,14 @@ define([
          * @param {Object} element - a js qti element (see qtiCreator/model)
          * @param {Object} attributes - key value attributeName:callback, e.g. {identifier:function(element, value, attrName){ element.attr(attrName, value); }}
          * @param {Boolean} [options.validateOnInit = false] - define if the validation should be trigger immediately after the callbacks have been set
+         * @param {Boolean} [options.invalidate = false] - define if the validation set the valid/invalidate state to the widget of the element
          */
         setChangeCallbacks : function($form, element, attributes, options){
 
             attributes = attributes || {};
             options = _.defaults(options || {}, {
-                validateOnInit : false
+                validateOnInit : false,
+                invalidate : false
             });
 
             var _callbackCall = function(name, value, $elt){
@@ -59,23 +62,12 @@ define([
                     if(e.namespace === 'group'){
 
                         var $elt = $(elt),
-                            name = $elt.attr('name'),
-                            widget = element.data('widget');
+                            name = $elt.attr('name');
 
+                        _callbackCall(name, $elt.val(), $elt);
                         if(options.invalidate){
-                            _callbackCall(name, $elt.val(), $elt);
-                            widget.isValid(name, valid);
-                        }else if(valid){
-                            _callbackCall(name, $elt.val(), $elt);
+                            element.data('widget').isValid(name, valid);
                         }
-
-                        return;
-                        //if(valid){
-                        //_callbackCall(name, $elt.val(), $elt);
-                        //widget.isValid(name, true);
-                        //}else{
-                        //widget.isValid(name, false);
-                        //}
                     }
                 }
             };
@@ -120,33 +112,50 @@ define([
                 }else{
                     element.attr(name, value);
                 }
-            }
+            };
         },
+        /**
+         * Create a coupled callbacks for min and max value change, when both are using the ui/incrementer widget.
+         * It is used to update constraints on one when modifying the other.
+         * 
+         * @param {Object} $form - the JQuery object representing the form container
+         * @param {String} attributeNameMin
+         * @param {String} attributeNameMax
+         * @param {Object} options
+         * @returns {Object}
+         */
         getMinMaxAttributeCallbacks : function($form, attributeNameMin, attributeNameMax, options){
 
             var _defaults = {
-                    allowNull : false,
-                    updateCardinality : true,
-                    attrMethodNames : {
-                        remove : 'removeAttr',
-                        set : 'attr'
-                    },
-                    callback : _.noop
+                allowNull : false,
+                updateCardinality : true,
+                attrMethodNames : {
+                    remove : 'removeAttr',
+                    set : 'attr'
                 },
-                $max = $form.find('input[name=' + attributeNameMax + ']'),
+                callback : _.noop
+            },
+            $max = $form.find('input[name=' + attributeNameMax + ']'),
                 callbacks = {};
-            
+
             //prepare options object
             options = _.defaults(options || {}, _defaults);
-            
+
             callbacks[attributeNameMin] = function(element, value, name){
 
                 var newOptions = {min : 0};
 
                 value = parseInt(value);
-                if(!options.allowNull && (value === 0 || isNaN(value))){
+                var isActualNumber = !isNaN(value);
+
+                if(!options.allowNull && (value === 0 || !isActualNumber)){
+
+                    //if a null attribute is not allowed, remove it !
                     element[options.attrMethodNames.remove](name);
-                }else{
+
+                }else if(isActualNumber){
+
+                    //if the value is an actual number
                     element[options.attrMethodNames.set](name, value);
                     newOptions.min = value;
 
@@ -157,7 +166,7 @@ define([
                 }
                 //set incrementer min value for maxChoices and trigger keyup event to launch validation
                 $max.incrementer('options', newOptions).keyup();
-                
+
                 options.callback(element, value, name);
             };
 
@@ -175,7 +184,7 @@ define([
                 }else{
                     element[options.attrMethodNames.set](name, value);//required
                 }
-                
+
                 options.callback(element, value, name);
             };
 
