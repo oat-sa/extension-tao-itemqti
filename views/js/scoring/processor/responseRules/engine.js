@@ -18,35 +18,53 @@
  */
 
 /**
+ * The engine that process QTI responses rules.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/engine'
-], function(_, expressionEngine){
+    'taoQtiItem/scoring/processor/responseRules/processor',
+    'taoQtiItem/scoring/processor/responseRules/rules',
+    'taoQtiItem/scoring/processor/expressions/engine',
+], function(_, processorFactory, rules, expressionEngineFactory){
     'use strict';
 
+    //regsiter rules processors
+    _.forEach(rules, function(rule, name){
+        processorFactory.register(name, rule);
+    });
 
-    var responseRuleParserFactory = function(){
+
+    /**
+     * Creates an engine that can look over the rule and execute them accordingy.
+     *
+     * @exports taoQtiItem/scoring/processor/expressions/engine
+     * @param {Object} state - the item session state (response and outcome variables)
+     * @returns {Object} the rule engine
+     */
+    var ruleEngineFactory = function ruleEngineFactory (state){
 
         var trail = [];
 
-        var evalRuleCondition = function evalRuleCondition(rule, response){
+        var expressionEngine = expressionEngineFactory(state);
+
+        var evalRuleCondition = function evalRuleCondition(rule){
             var expressionResult;
             if(!rule.expression){
                 return false;
             }
 
             //TODO catch errors
-            expressionResult = expressionEngine.parse(rule.expression, response);
+            expressionResult = expressionEngine.execute(rule.expression);
 
             return expressionResult && expressionResult.value === true;
         };
 
 
-        var processCondition = function processCondition(rule, response){
+        var processCondition = function processCondition(rule){
             var index = 0;
-            if(evalRuleCondition(rule.responseIf, response)){
+            if(evalRuleCondition(rule.responseIf)){
                 //in the if condition
                 return rule.responseIf.responseRules;
 
@@ -54,7 +72,7 @@ define([
 
             if(rule.responseElseIf){
                 for(index in rule.responseElseIf){
-                    if(evalRuleCondition(rule.responseElseIf[index], response)){
+                    if(evalRuleCondition(rule.responseElseIf[index])){
                         return rule.responseElseIf[index].responseRules;
                     }
                 }
@@ -67,46 +85,40 @@ define([
 
         return {
 
-            //TODO rename
-            parse : function(rule, response){
-
+            /**
+             * Execute the engine on the given rule tree
+             * @param {Array<Object>} rules - the rules to process
+             * @return {Object} the modified state (it may not be necessary as the ref is modified)
+             */
+            execute : function(rules, state){
 
                 var currentRule,
-                    expressionResult,
-                    followElseIf;
+                    currentProcessor;
                 var i = 0;
 
-                trail.push(rule);
+                trail = _.clone(rules);
 
                 //TODO remove the limit and add a timeout
                 while(trail.length > 0 && i < 128){
 
-
-                    expressionResult = null;
-                    followElseIf = false;
                     currentRule = trail.pop();
-
-                    console.log(i);
-                    console.log('rule', currentRule);
-                    console.log('trail before', _.cloneDeep(trail));
 
                     if(currentRule.qtiClass === 'responseCondition'){
 
-                        trail.concat(processCondition(currentRule, response));
+                        trail.concat(processCondition(currentRule));
 
                     } else {
                         //process response rule
+                        currentProcessor = processorFactory(currentRule, state);
+                        currentProcessor.process();
                     }
-                    console.log('trail after', _.cloneDeep(trail));
-                    //console.log('marker after', _.cloneDeep(marker));
-                    //console.log('operands', _.cloneDeep(operands));
-                    //console.log('result', _.cloneDeep(result));
-                    console.log("-------");
                     i++;
                 }
+
+                return state;
             }
         };
     };
 
-    return responseRuleParserFactory;
+    return ruleEngineFactory;
 });

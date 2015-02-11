@@ -38,6 +38,7 @@ define([
      * An OperatorProcessor process operands to gives you a result.
      * @typedef OperatorProcessor
      * @property {Object} expression - the expression definition
+     * @property {Object} state - the session state (responses and variables)
      * @property {Array<ProcessingValue} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands

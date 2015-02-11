@@ -18,6 +18,8 @@
  */
 
 /**
+ * Single entry point for the response rules processors.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -29,11 +31,21 @@ define([
     //keeps the references of processors (this is something we may load dynamically)
     var processors = {};
 
+    /**
+     * Provides you a processor from an rule (definition) and against a state.
+     * The Processor must have been registerd previously.
+     * See it as a kind of factory.
+     *
+     * @param {Object} rule - the expression definition
+     * @param {String} rule.qtiClass - the expression name that should mastch with the processor name
+     * @param {Object} state - the state to give to the processor to lookup for variables like responses
+     * @returns {RuleProcessorWrapper} a transparent object that delegates the calls to the processor
+     * @throws {Error} by trying to use an unregistered processor
+     */
     var responseRuleProcessor = function responseRuleProcessor(rule, state){
 
         var name      = rule.qtiClass;
         var processor = processors[name];
-
 
         if(!processor){
             throw new Error('No processor found for ' + name);
@@ -42,6 +54,11 @@ define([
         processor.rule = rule;
         processor.state = state;
 
+        /**
+         * Wrap and forward the processing to the enclosed processor
+         * @typedef RuleProcessorWrapper
+         * @property {Function} process - call's processor's process
+         */
         return {
             process : function process(){
                 //forward the call to the related expression processor

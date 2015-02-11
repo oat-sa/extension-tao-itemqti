@@ -1,24 +1,24 @@
 define([
     'taoQtiItem/scoring/processor/expressions/engine'
-], function(expressionParserFactory){
+], function(expressionEngineFactory){
 
     module('API');
 
     QUnit.asyncTest('factory', function(assert){
         QUnit.expect(1);
 
-        assert.ok(typeof expressionParserFactory === 'function', 'the engine expose a factory');
+        assert.ok(typeof expressionEngineFactory === 'function', 'the engine expose a factory');
 
         QUnit.start();
     });
 
-    QUnit.asyncTest('parser', function(assert){
+    QUnit.asyncTest('engine', function(assert){
         QUnit.expect(2);
 
-        var parser = expressionParserFactory();
+        var engine = expressionEngineFactory();
 
-        assert.ok(typeof parser === 'object', 'the parser is an object');
-        assert.ok(typeof parser.parse === 'function', 'the parser exposes a parse function');
+        assert.ok(typeof engine === 'object', 'the engine is an object');
+        assert.ok(typeof engine.execute === 'function', 'the engine exposes a execute function');
 
         QUnit.start();
     });
@@ -52,9 +52,9 @@ define([
             value : 10
         };
 
-        var parser = expressionParserFactory();
+        var engine = expressionEngineFactory();
 
-        assert.deepEqual(parser.parse(expression), expectedResult, 'the parser compute the right result');
+        assert.deepEqual(engine.execute(expression), expectedResult, 'the engine compute the right result');
 
         QUnit.start();
     });
@@ -110,8 +110,8 @@ define([
             baseType : 'integer',
             value : 5
         };
-        var parser = expressionParserFactory();
-        assert.deepEqual(parser.parse(expression), expectedResult, 'the parser compute the right result');
+        var engine = expressionEngineFactory();
+        assert.deepEqual(engine.execute(expression), expectedResult, 'the engine compute the right result');
 
         QUnit.start();
     });

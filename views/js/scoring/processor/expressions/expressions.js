@@ -32,6 +32,7 @@ define([
      * An ExpressionProcessor
      * @typedef ExpressionProcessor
      * @property {Object} exression - the expression definition
+     * @property {Object} state - the session state (responses and variables)
      * @property {Funtion} process - the processing
      */
 

@@ -52,8 +52,6 @@ define([
             if(result && typeof result.value !== 'undefined'){
 
                 variable.value = result.value;
-
-                //TODO trigger an event
             }
         }
     };
