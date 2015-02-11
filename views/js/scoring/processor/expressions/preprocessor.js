@@ -38,17 +38,16 @@ define([
          * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
-        parseNumbers: function parseNumbers(operands) {
+        parseOperands: function parseOperands(operands) {
             return _(operands)
 
                 //cast value type, like if they were all arrays, and infer the result type
                 .map(function (operand) {
 
                     var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
-                    var isFloat = operand.baseType === 'float';
                     var value = multiple ? operand.value : [operand.value];
 
-                    return _.map(value, isFloat ? parseFloat : toInt);
+                    return _.map(value, getTypecaster(operand.baseType));
                 })
 
                 //here we get arrays of arrays so we flatten them
@@ -61,7 +60,7 @@ define([
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
         mapNumbers : function mapNumbers(operands){
-            return this.parseNumbers(operands)
+            return this.parseOperands(operands)
                 //we filter unwanted values
                 .filter(this.isNumber);
         },
@@ -83,6 +82,34 @@ define([
      */
     function toInt(value){
         return parseInt(value, 10);
+    }
+
+    /**
+     * Force creating string object, required for numeric types
+     * @private
+     */
+    function toString(value){
+        return value.toString();
+    }
+
+    /**
+     * Return transformation function based on required type
+     * @param {string} type
+     * @returns {function}
+     * @private
+     */
+    function getTypecaster(type) {
+
+        switch (type) {
+            case 'float':
+                return parseFloat;
+            case 'string':
+                return toString;
+            case 'integer':
+                return toInt;
+            default:
+                return toInt;
+        }
     }
 
     return preProcessor;

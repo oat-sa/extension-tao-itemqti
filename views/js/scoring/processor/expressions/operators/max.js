@@ -56,7 +56,7 @@ define([
                 result.baseType = 'float';
             }
 
-            var castedOperands  = preProcessor.parseNumbers(this.operands);
+            var castedOperands  = preProcessor.parseOperands(this.operands);
 
             //if at least one operand is a not a number,  then break and return null
             if (!castedOperands.every(preProcessor.isNumber)) {
