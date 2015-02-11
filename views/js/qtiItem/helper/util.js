@@ -82,7 +82,12 @@ define(['lodash'], function(_){
             return found;
         },
         addMarkupNamespace : function addMarkupNamespace(markup, ns){
-            return ns ? markup.replace(/<(\/)?([a-z]+)[^><:]*>/g, '<$1' + ns + ':$2$3>') : markup;
+            if(ns) {
+                markup = markup.replace(/<(\/)?([a-z]+)([^><:]*)>/g, '<$1' + ns + ':$2$3>');
+                markup = markup.replace('<img ', '<' + ns + 'img ');
+                return markup;
+            }
+            return markup;
 
         },
         removeMarkupNamespaces : function removeMarkupNamespace(markup){

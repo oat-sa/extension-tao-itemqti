@@ -2,6 +2,17 @@
 @import "inc/main";
 @import "inc/farbtastic";
 
+// tmp solution, needs to be done in sts
+.sts-toolcontainer {
+    display: none;
+}
+
+.sts-studentToolbar-container {
+    .sts-toolcontainer {
+        display: block;
+    }
+}
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;

@@ -296,6 +296,12 @@ textarea {
     position: absolute;
     cursor: crosshair; }
 
+.sts-toolcontainer {
+  display: none; }
+
+.sts-studentToolbar-container .sts-toolcontainer {
+  display: block; }
+
 span.dragging, img.dragging.ui-draggable-dragging {
   opacity: 0.8 !important;
   z-index: 999999;
