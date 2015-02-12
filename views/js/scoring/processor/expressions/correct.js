@@ -23,7 +23,9 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([], function(){
+define([
+    'taoQtiItem/scoring/processor/expressions/preprocessor'
+], function(preProcessor){
     'use strict';
 
     /**
@@ -50,12 +52,11 @@ define([], function(){
                 return null;
             }
 
-            //todo cast value
-            return {
+            return preProcessor.parseVariable({
                 cardinality : variable.cardinality,
-                baseType : variable.baseType,
-                value : variable.correctResponse
-            };
+                baseType    : variable.baseType,
+                value       : variable.correctResponse
+            });
         }
     };
 

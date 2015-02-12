@@ -124,8 +124,7 @@ define([
      */
     expressionProcessor.types = {
         EXPRESSION  : "expression",
-        OPERATOR    : "operator",
-        DATATYPE    : "datatype"
+        OPERATOR    : "operator"
     };
 
     /**

@@ -35,6 +35,30 @@ define([
         assert.deepEqual(correctProcessor.process(), expectedResult, 'returns the correct response');
     });
 
+   QUnit.test('Get the correct value on multiple', function(assert){
+        correctProcessor.expression = {
+            attributes : { identifier : 'RESPONSE' }
+        };
+        correctProcessor.state = {
+            RESPONSE : {
+                cardinality         : 'multiple',
+                baseType            : 'integer',
+                correctResponse     : ['1', '2'],
+                mapping             : [],
+                areaMapping         : [],
+                value               : [3]
+            }
+        };
+
+        var expectedResult =  {
+            cardinality : 'multiple',
+            baseType : 'integer',
+            value : [1, 2]
+        };
+        assert.deepEqual(correctProcessor.process(), expectedResult, 'returns the correct response');
+    });
+
+
     QUnit.test('Get the correct value even null', function(assert){
         correctProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }

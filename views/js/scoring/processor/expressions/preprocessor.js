@@ -39,7 +39,7 @@ define([
          * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
-        parseOperands: function parseNumbers(operands) {
+        parseOperands: function parseOperands(operands) {
             return _(operands)
 
                 //cast value type, like if they were all arrays, and infer the result type
@@ -48,11 +48,27 @@ define([
                     var multiple = operand.cardinality === 'multiple' && _.isArray(operand.value);
                     var value = multiple ? operand.value : [operand.value];
 
-                    return _.map(value, typeCaster.cast(operand.baseType));
+                    return _.map(value, typeCaster(operand.baseType));
                 })
 
                 //here we get arrays of arrays so we flatten them
                 .flatten(true);
+        },
+
+        /**
+         * Parse and cast the value of a variable
+         * @param {ProcessingValue} variable - to parse
+         * @returns {ProcessingValue} the parsedVariable
+         */
+        parseVariable : function parseVariable(variable){
+            var caster = typeCaster(variable.baseType);
+
+            if(variable.cardinality === 'single'){
+                variable.value = caster(variable.value);
+            } else {
+                variable.value = _.map(variable.value, caster);
+            }
+            return variable;
         },
 
         /**

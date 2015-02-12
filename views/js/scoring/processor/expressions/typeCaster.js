@@ -18,7 +18,7 @@
  */
 
 /**
- * Helps to covert QTI types to native JS
+ * Helps to convert QTI types to native JS
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -27,38 +27,37 @@ define([
     'use strict';
 
     /**
+     * TODO update the structure to remove the switch
+     *
+     * Return transformation function based on required type
      * @exports taoQtiItem/scoring/processor/expressions/typeCaster
+     *
+     * @param {string} type
+     * @returns {function}
      */
-    var typeCaster = {
-
-        /**
-         * Return transformation function based on required type
-         * @param {string} type
-         * @returns {function}
-         */
-        cast: function cast(type){
-            switch (type) {
-                case 'float':
-                    return parseFloat;
-                case 'string':
-                    return toString;
-                case 'integer':
-                    return toInt;
-                case 'identifier':
-                    return toString;
-                case 'pair':
-                    return toPair;
-                case 'directedPair':
-                    return toDirectedPair;
-                case 'boolean':
-                    return toBoolean;
-                default:
-                    return toInt;
-            }
+    var typeCaster  = function typeCast(type){
+        switch (type) {
+            case 'float':
+                return parseFloat;
+            case 'string':
+                return toString;
+            case 'integer':
+                return toInt;
+            case 'identifier':
+                return toString;
+            case 'pair':
+                return toPair;
+            case 'directedPair':
+                return toDirectedPair;
+            case 'boolean':
+                return toBoolean;
+            default:
+                return function(value) {
+                    return value;
+                };
         }
     };
 
-    return typeCaster;
 
     /**
      * Wrap parseInt. It can't be used unwrapped as a map callback
@@ -86,8 +85,11 @@ define([
      * @param value
      * @returns {Array.<T>}
      */
-    function toPair(value){
-        return _.toArray(value).sort();
+    function toDirectedPair(value){
+        if(_.isString(value) && value.indexOf(' ') > -1){
+            return value.join(' ');
+        }
+        return _.toArray(value);
     }
 
     /**
@@ -95,9 +97,10 @@ define([
      * @param value
      * @returns {Array.<T>}
      */
-    function toDirectedPair(value){
-        return _.toArray(value);
+    function toPair(value){
+        return toDirectedPair(value).sort();
     }
+
 
     /**
      * @private
@@ -105,7 +108,16 @@ define([
      * @returns {boolean}
      */
     function toBoolean(value){
-        return Boolean(value);
+        if(_.isString(value)){
+            if(value === 'true' || value === '1'){
+                return true;
+            }
+            if(value === 'false' || value === '0'){
+                return false;
+            }
+        }
+        return !!value;
     }
 
+    return typeCaster;
 });
