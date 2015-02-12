@@ -25,7 +25,7 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/preprocessor'
 ], function(_, preProcessor){
     'use strict';
 
@@ -34,7 +34,7 @@ define([
      * @type {OperatorProcesssor}
      * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
      */
-    var ltProcessor = {
+    var subtractProcessor = {
 
         constraints : {
             minOperand : 2,
@@ -76,5 +76,5 @@ define([
         }
     };
 
-    return ltProcessor;
+    return subtractProcessor;
 });

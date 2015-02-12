@@ -2,6 +2,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/operators/subtract'
 ], function(_, subtractProcessor){
+    'use strict';
 
     module('API');
 
