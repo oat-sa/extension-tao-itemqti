@@ -19,19 +19,28 @@
 
 /**
  * Expose all expressions processors
+ *
+ * (Some processor names are equivalent to reserved keywords like null or default,
+ * so it's not a typo, I add a letter at the end)
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'taoQtiItem/scoring/processor/expressions/baseValue',
+    'taoQtiItem/scoring/processor/expressions/correct',
+    'taoQtiItem/scoring/processor/expressions/default',
+    'taoQtiItem/scoring/processor/expressions/mapResponse',
     'taoQtiItem/scoring/processor/expressions/mathConstant',
-    'taoQtiItem/scoring/processor/expressions/null'
-], function(baseValue, mathConstant, nulll){
+    'taoQtiItem/scoring/processor/expressions/null',
+    'taoQtiItem/scoring/processor/expressions/variable'
+], function(baseValue, correct, defaultt, mapResponse, mathConstant, nulll, variable){
     'use strict';
 
     /**
      * An ExpressionProcessor
      * @typedef ExpressionProcessor
      * @property {Object} exression - the expression definition
+     * @property {Object} state - the session state (responses and variables)
      * @property {Funtion} process - the processing
      */
 
@@ -41,8 +50,12 @@ define([
      */
     return {
         'baseValue'     : baseValue,
+        'correct'       : correct,
+        'default'       : defaultt,
+        'mapResponse'   : mapResponse,
         'mathConstant'  : mathConstant,
-        'null'          : nulll
+        'null'          : nulll,
+        'variable'      : variable
     };
 
 });

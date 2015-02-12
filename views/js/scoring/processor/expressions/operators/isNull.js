@@ -18,63 +18,52 @@
  */
 
 /**
- * The subtract operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10691
+ * The isNull operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10616
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
 ], function(_, preProcessor){
     'use strict';
 
     /**
-     * Process operands and returns the subtract.
+     * Process operands and returns a boolean of the  isNull.
      * @type {OperatorProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
+     * @exports taoQtiItem/scoring/processor/expressions/operators/isNull
      */
-    var subtractProcessor = {
+    var isNullProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
-            cardinality : ['single'],
-            baseType : ['integer', 'float']
+            minOperand  : 1,
+            maxOperand  : 1,
+            cardinality : ['single', 'multiple', 'ordered', 'record'],
+            baseType    : ['identifier', 'boolean', 'integer', 'float', 'string', 'point', 'pair', 'directedPair', 'duration', 'file', 'uri', 'intOrIdentifier']
         },
 
         operands   : [],
 
         /**
-         * Process the subtract of the operands.
-         * @returns {?ProcessingValue} the subtract or null
+         * Check if the unique operand is null.
+         * @returns {?ProcessingValue} a single boolean
          */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'integer'
+                baseType    : 'boolean',
+                value       : false
             };
 
-            //if at least one operand is null, then break and return null
-            if(_.some(this.operands, _.isNull) === true){
-                return null;
+            if(this.operands[0] === null || this.operands[0].value === null){
+                result.value = true;
             }
-
-            //if at least one operand is a float , the result is a float
-            if(_.some(this.operands, { baseType : 'float' })){
-                result.baseType = 'float';
-            }
-
-            result.value = preProcessor
-                .mapNumbers(this.operands)
-                .reduce(function(sub, value){
-                    return sub - value;
-                });
 
             return result;
         }
     };
 
-    return subtractProcessor;
+    return isNullProcessor;
 });

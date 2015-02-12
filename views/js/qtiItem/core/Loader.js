@@ -19,7 +19,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             for(var i in data){
                 if(i === 'qtiClass' && data[i] !== '_container' && i !== 'relatedItem'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
                     ret.push(data[i]);
-                }else if(typeof(data[i]) === 'object'){
+                }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){    //responseRules should'nt be part of the parsing
                     ret = _.union(ret, this.getRequiredClasses(data[i]));
                 }
             }
@@ -55,7 +55,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             _this.loadRequiredClasses(data, function(Qti){
                 var i;
                 if(typeof(data) === 'object' && data.qtiClass === 'assessmentItem'){
-                    
+
                     //unload an item from it's serial (in case of a reload)
                     if(data.serial){
                         Element.unsetElement(data.serial);
@@ -123,8 +123,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             });
         },
         /**
-         * Load ALL given elements into existing loaded item 
-         * 
+         * Load ALL given elements into existing loaded item
+         *
          * @todo to be renamed to loadItemElements
          * @param {object} data
          * @param {function} callback
@@ -361,7 +361,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             loadPortableCustomElementData(pic, data);
         }
     });
-    
+
     function loadPortableCustomElementData(portableElement, data){
         portableElement.typeIdentifier = data.typeIdentifier;
         portableElement.markup = data.markup;
@@ -369,6 +369,6 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         portableElement.properties = data.properties;
         portableElement.libraries = data.libraries;
     }
-    
+
     return Loader;
 });

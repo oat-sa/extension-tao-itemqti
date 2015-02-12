@@ -18,12 +18,13 @@
  */
 
 /**
- * Expose all rule processors
+ * Expose all rule processors.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/responseRules/',
-], function(){
+    'taoQtiItem/scoring/processor/responseRules/setOutcomeValue',
+], function(setOutcomeValue){
     'use strict';
 
     /**
@@ -39,6 +40,7 @@ define([
      * @exports taoQtiItem/scoring/processor/responseRules/rules
      */
     return {
+        'setOutcomeValue' : setOutcomeValue
     };
 
 });
