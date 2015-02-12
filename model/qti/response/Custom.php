@@ -21,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\response;
 
-use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
 use oat\taoQtiItem\model\qti\response\Rule;
+use \SimpleXMLElement;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\Custom
@@ -31,7 +31,7 @@ use oat\taoQtiItem\model\qti\response\Rule;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
+
  */
 class Custom extends ResponseProcessing implements Rule
 {
@@ -102,22 +102,129 @@ class Custom extends ResponseProcessing implements Rule
     public function toQTI(){
         return (string) $this->getData();
     }
-    
+
     public function toArray($filterVariableContent = false, &$filtered = array()){
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        
+
         $protectedData = array(
             'processingType' => 'custom',
-            'data' => $this->data
+            'data' => $this->data,
+            'responseRules' => $this->parseResponseProcessingXml($this->data)
         );
-        
+
         if($filterVariableContent){
             $filtered[$this->getSerial()] = $protectedData;
         }else{
             $returnValue = array_merge($returnValue, $protectedData);
         }
-        
+
         return $returnValue;
     }
+
+    protected function parseElementXml(SimpleXMLElement $xml){
+
+        $attributes = array();
+        foreach($xml->attributes() as $name => $value){
+            $attributes[$name] = (string) $value;
+        }
+
+        $returnValue = array(
+            'qtiClass' => $xml->getName()
+        );
+
+        if(count($attributes)){
+            $returnValue['attributes'] = $attributes;
+        }
+
+        return $returnValue;
+    }
+
+    protected function parseExpressionXml(SimpleXMLElement $xml){
+        $returnValue = $this->parseElementXml($xml);
+        $value = trim($xml);
+        $expressions = array();
+         foreach($xml->children() as $child){
+            $expressions[] = $this->parseExpressionXml($child);
+        }
+        if(count($expressions)){
+            $returnValue['expressions'] = $expressions;
+        }
+        if(strlen($value)){
+            $returnValue['value'] = $value;
+        }
+        return $returnValue;
+    }
+
+    protected function parseResponseRuleXml(SimpleXMLElement $xml){
+        $returnValue = $this->parseElementXml($xml);
+        foreach($xml->children() as $child){
+            $returnValue['expression'] = $this->parseExpressionXml($child);
+            break;
+        }
+        return $returnValue;
+    }
+
+    protected function parseResponseIfXml(SimpleXMLElement $xml){
+        $returnValue = $this->parseElementXml($xml);
+        $i = 0;
+        $expression = null;
+        $responseRules = array();
+        foreach($xml->children() as $child){
+            if($i){
+                $responseRules[] = $this->parseResponseRuleXml($child);
+            }else{
+                //the first child is the expression
+                $expression = $this->parseExpressionXml($child);
+            }
+            $i++;
+        }
+        $returnValue['expression'] = $expression;
+        $returnValue['responseRules'] = $responseRules;
+        return $returnValue;
+    }
+
+    protected function parseResponseElseXml(SimpleXMLElement $xml){
+        $returnValue = $this->parseElementXml($xml);
+        $responseRules = array();
+        foreach($xml->children() as $child){
+            $responseRules[] = $this->parseResponseRuleXml($child);
+        }
+        $returnValue['responseRules'] = $responseRules;
+        return $returnValue;
+    }
+
+    protected function parseResponseConditionXml(SimpleXMLElement $xml){
+        $returnValue = $this->parseElementXml($xml);
+        foreach($xml->responseIf as $responseIfXml){
+            $returnValue['responseIf'] = $this->parseResponseIfXml($responseIfXml);
+            break;
+        }
+        foreach($xml->responseElseIf as $responseIfXml){
+            $returnValue['responseElseIf'] = $this->parseResponseIfXml($responseIfXml);
+        }
+        foreach($xml->responseElse as $responseIfXml){
+            $returnValue['responseElse'] = $this->parseResponseElseXml($responseIfXml);
+            break;
+        }
+        return $returnValue;
+    }
+
+    protected function parseResponseProcessingXml($xmlStr){
+
+        $xml = simplexml_load_string($xmlStr);
+        $returnValue = array();
+        if($xml->getName() === 'responseProcessing'){
+            foreach($xml->children() as $child){
+                $returnValue[] = $this->parseResponseConditionXml($child);
+            }
+        }else{
+            throw new \common_Exception('invalid root element');
+        }
+
+        print_r($xml->getName());
+
+        return $returnValue;
+    }
+
 }

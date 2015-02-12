@@ -18,12 +18,13 @@
  *               
  * 
  */
+
 namespace oat\taoQtiItem\test;
+
 use DOMDocument;
 use DOMException;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
-//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -48,7 +49,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      * @dataProvider itemProvider
      */
-    public function testToQTI($file){
+    public function _testToQTI($file){
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
@@ -68,16 +69,12 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         if(!$parserValidator->isValid()){
             $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }
-        /*
-          @unlink($tmpFile);
-          $this->assertFalse(file_exists($tmpFile));
-         */
     }
 
     /**
      * test the building and exporting out the items
      */
-    public function testToXHTML(){
+    public function _testToXHTML(){
 
         $doc = new DOMDocument();
         $doc->validateOnParse = true;
@@ -101,14 +98,35 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
             }
         }
     }
-    
+
+    public function testResponseProcessingToArray(){
+
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/order_partial_scoring.xml';
+
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
+        $this->assertTrue($qtiParser->isValid());
+        $this->assertNotNull($item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+
+        $rp = $item->getResponseProcessing();
+        $data = $rp->toArray();
+        $this->assertFalse(empty($data));
+        $this->assertFalse(empty($data['responseRules']));
+
+        //compare the result with expectation
+        $responseRules = json_decode('[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIf":{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]', true);
+        $this->assertEquals($data['responseRules'], $responseRules);
+        print_r(json_encode($data['responseRules']));
+    }
+
     /**
      * 
      * @return multitype:
      */
-    public function itemProvider() {
+    public function itemProvider(){
         $items = array();
-        foreach (array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file) {
+        foreach(array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file){
             $items[] = array($file);
         }
         return $items;
