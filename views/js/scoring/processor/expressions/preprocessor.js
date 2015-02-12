@@ -34,30 +34,45 @@ define([
     var preProcessor = {
 
         /**
-         * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
-         * @param {Array<ProcessingValue>|Arrat<Array<ProcessingValue>>} operands - to map
+         * Take the operands, cast the values to integer or float, flatten them is collection are given and
+         * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
-        mapNumbers : function mapNumbers(operands){
+        parseNumbers: function parseNumbers(operands) {
             return _(operands)
 
                 //cast value type, like if they were all arrays, and infer the result type
-                .map(function(operand){
+                .map(function (operand) {
 
                     var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
-                    var isFloat  = operand.baseType === 'float';
-                    var value    = multiple ? operand.value : [operand.value];
+                    var isFloat = operand.baseType === 'float';
+                    var value = multiple ? operand.value : [operand.value];
 
                     return _.map(value, isFloat ? parseFloat : toInt);
                 })
 
                 //here we get arrays of arrays so we flatten them
-                .flatten()
+                .flatten();
+        },
 
+        /**
+         * Take the operands, cast the values to integer or float, flatten them is collection are given and filter on unwanted values.
+         * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
+         * @returns {Object} the LODASH wrapper in order to chain on it.
+         */
+        mapNumbers : function mapNumbers(operands){
+            return this.parseNumbers(operands)
                 //we filter unwanted values
-                .filter(function(value){
-                    return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
-                });
+                .filter(this.isNumber);
+        },
+
+        /**
+         * Check if value is really numeric
+         * @param value
+         * @returns {Boolean|boolean}
+         */
+        isNumber : function isNumber(value){
+            return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
         }
     };
 

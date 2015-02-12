@@ -22,17 +22,25 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/expressions/operators/gt',
+    'taoQtiItem/scoring/processor/expressions/operators/gte',
+    'taoQtiItem/scoring/processor/expressions/operators/isNull',
     'taoQtiItem/scoring/processor/expressions/operators/lt',
+    'taoQtiItem/scoring/processor/expressions/operators/lte',
+    'taoQtiItem/scoring/processor/expressions/operators/max',
+    'taoQtiItem/scoring/processor/expressions/operators/min',
+    'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( lt, product, subtract, sum ){
+], function( gt, gte, isNull, lt, lte, max, min, power, product, subtract, sum ){
     'use strict';
 
     /**
      * An OperatorProcessor process operands to gives you a result.
      * @typedef OperatorProcessor
      * @property {Object} expression - the expression definition
+     * @property {Object} state - the session state (responses and variables)
      * @property {Array<ProcessingValue} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
@@ -48,7 +56,14 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
+        "gt"        : gt,
+        "gte"       : gte,
+        "isNull"    : isNull,
         "lt"        : lt,
+        "lte"       : lte,
+        "max"       : max,
+        "min"       : min,
+        "power"     : power,
         "product"   : product,
         "subtract"  : subtract,
         "sum"       : sum
