@@ -99,9 +99,11 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         }
     }
 
-    public function testResponseProcessingToArray(){
-
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/order_partial_scoring.xml';
+    /**
+     * test the building and exporting out the items
+     * @dataProvider rpItemProvider
+     */
+    public function testResponseProcessingToArray($name, $file, $expectation){
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
@@ -115,7 +117,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         $this->assertFalse(empty($data['responseRules']));
 
         //compare the result with expectation
-        $responseRules = json_decode('[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIf":{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]', true);
+        $responseRules = json_decode($expectation, true);
         $this->assertEquals($data['responseRules'], $responseRules);
         print_r(json_encode($data['responseRules']));
     }
@@ -130,6 +132,21 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
             $items[] = array($file);
         }
         return $items;
+    }
+    
+    /**
+     * 
+     * @return multitype
+     */
+    public function rpItemProvider(){
+        $sampleDirectory = dirname(__FILE__).'/samples/xml/qtiv2p1/';
+        return array(
+            array(
+                'name' => 'custom',
+                'file' => $sampleDirectory.'order_partial_scoring.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIf":{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]'
+            )
+        );
     }
 
 }
