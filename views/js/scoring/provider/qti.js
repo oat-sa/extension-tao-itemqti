@@ -59,9 +59,10 @@ define([
                 cardinality         : cardinality,
                 baseType            : baseType,
                 correctResponse     : response.correctResponses,
-                mapping             : _.merge(response.mappingAttributes || {}, { value : response.mapping }),
-                areaMapping         : _.merge(response.mappingAttributes || {}, { value : response.areaMapping }),
-                defaultValue        : response.defaultValue
+                mapping             : response.mapping,
+                areaMapping         : response.areaMapping,
+                mappingAttributes   : response.mappingAttributes,
+                defaultValue        : response.attributes.defaultValue || response.defaultValue
             };
 
             //and add the current response

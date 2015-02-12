@@ -29,10 +29,11 @@ define([
     'taoQtiItem/scoring/processor/expressions/baseValue',
     'taoQtiItem/scoring/processor/expressions/correct',
     'taoQtiItem/scoring/processor/expressions/default',
+    'taoQtiItem/scoring/processor/expressions/mapResponse',
     'taoQtiItem/scoring/processor/expressions/mathConstant',
     'taoQtiItem/scoring/processor/expressions/null',
     'taoQtiItem/scoring/processor/expressions/variable'
-], function(baseValue, correct, defaultt, mathConstant, nulll, variable){
+], function(baseValue, correct, defaultt, mapResponse, mathConstant, nulll, variable){
     'use strict';
 
     /**
@@ -51,6 +52,7 @@ define([
         'baseValue'     : baseValue,
         'correct'       : correct,
         'default'       : defaultt,
+        'mapResponse'   : mapResponse,
         'mathConstant'  : mathConstant,
         'null'          : nulll,
         'variable'      : variable
