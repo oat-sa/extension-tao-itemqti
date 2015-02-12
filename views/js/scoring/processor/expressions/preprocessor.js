@@ -23,8 +23,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/typeCaster'
+], function(_, typeCaster){
     'use strict';
 
     /**
@@ -38,21 +39,20 @@ define([
          * @param {Array<ProcessingValue>|Array<Array<ProcessingValue>>} operands - to map
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
-        parseNumbers: function parseNumbers(operands) {
+        parseOperands: function parseNumbers(operands) {
             return _(operands)
 
                 //cast value type, like if they were all arrays, and infer the result type
                 .map(function (operand) {
 
-                    var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
-                    var isFloat = operand.baseType === 'float';
+                    var multiple = operand.cardinality === 'multiple' && _.isArray(operand.value);
                     var value = multiple ? operand.value : [operand.value];
 
-                    return _.map(value, isFloat ? parseFloat : toInt);
+                    return _.map(value, typeCaster.cast(operand.baseType));
                 })
 
                 //here we get arrays of arrays so we flatten them
-                .flatten();
+                .flatten(true);
         },
 
         /**
@@ -61,7 +61,7 @@ define([
          * @returns {Object} the LODASH wrapper in order to chain on it.
          */
         mapNumbers : function mapNumbers(operands){
-            return this.parseNumbers(operands)
+            return this.parseOperands(operands)
                 //we filter unwanted values
                 .filter(this.isNumber);
         },
@@ -75,15 +75,6 @@ define([
             return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
         }
     };
-
-    /**
-     * Wrap parseInt. It can't be used unwrapped as a map callback
-     * due to the radix parameter (that receives the index).
-     * @private
-     */
-    function toInt(value){
-        return parseInt(value, 10);
-    }
 
     return preProcessor;
 });

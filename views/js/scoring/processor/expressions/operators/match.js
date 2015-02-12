@@ -16,9 +16,10 @@
  * Copyright (c) 2015 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
+
 /**
- * The max operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element106261
+ * The match operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -28,46 +29,48 @@ define([
 ], function(_, preProcessor){
     'use strict';
 
-    var maxProcessor = {
+    /**
+     * Process operands and returns the match.
+     * @type {OperatorProcessor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
+     */
+    var matchProcessor = {
 
         constraints : {
-            minOperand : 1,
-            maxOperand : -1,
+            minOperand : 2,
+            maxOperand : 2,
             cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['integer', 'float']
+            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
         },
 
         operands   : [],
 
+        /**
+         * Process the match of the operands.
+         * @returns {?ProcessingValue} the match or null
+         */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'integer'
+                baseType : 'boolean'
             };
 
-            //if at least one operand is null or infinity, then break and return null
+            //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
 
-            //if at least one operand is a float , the result is a float
-            if(_.some(this.operands, { baseType : 'float' })){
-                result.baseType = 'float';
-            }
-
-            var castedOperands  = preProcessor.parseOperands(this.operands);
-
-            //if at least one operand is a not a number,  then break and return null
-            if (!castedOperands.every(preProcessor.isNumber)) {
-                return null;
-            }
-
-            result.value = castedOperands.max().value();
+            result.value = preProcessor
+                .parseOperands(this.operands)
+                .reduce(function(f, s){
+                    return _.isEqual(f,s);
+                });
 
             return result;
         }
-    };
 
-    return maxProcessor;
+};
+
+    return matchProcessor;
 });

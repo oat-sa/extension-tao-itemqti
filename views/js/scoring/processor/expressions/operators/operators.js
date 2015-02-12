@@ -25,13 +25,14 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
+    'taoQtiItem/scoring/processor/expressions/operators/match',
     'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( gt, gte, lte, max, min, power, product, subtract, sum ){
+], function( gt, gte, lte, match, max, min, power, product, subtract, sum ){
     'use strict';
 
     /**
@@ -56,6 +57,7 @@ define([
         "gt"        : gt,
         "gte"       : gte,
         "lte"       : lte,
+        "match"     : match,
         "max"       : max,
         "min"       : min,
         "power"     : power,
