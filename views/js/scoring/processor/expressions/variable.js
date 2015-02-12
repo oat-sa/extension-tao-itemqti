@@ -18,8 +18,8 @@
  */
 
 /**
- * The correct expression processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10577
+ * The variable expression processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10572
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -29,9 +29,9 @@ define([], function(){
     /**
      * Correct expression
      * @type {ExpressionProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/correct
+     * @exports taoQtiItem/scoring/processor/expressions/variable
      */
-    var correctProcessor = {
+    var variableProcessor = {
 
         /**
          * Process the expression
@@ -46,18 +46,19 @@ define([], function(){
                 throw new Error('No variable found with identifier ' + identifier );
             }
 
-            if(variable === null || typeof variable.correctResponse === 'undefined'){
+            if(variable === null){
                 return null;
             }
 
-            //todo cast value
+            //TODO cast value
             return {
                 cardinality : variable.cardinality,
                 baseType : variable.baseType,
-                value : variable.correctResponse
+                value : variable.value
             };
+
         }
     };
 
-    return correctProcessor;
+    return variableProcessor;
 });
