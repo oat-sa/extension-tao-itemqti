@@ -35,7 +35,6 @@ define([
         processorFactory.register(name, rule);
     });
 
-
     /**
      * Creates an engine that can look over the rule and execute them accordingy.
      *

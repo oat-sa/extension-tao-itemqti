@@ -19,15 +19,20 @@
 
 /**
  * Expose all expressions processors
+ *
+ * (Some processor names are equivalent to reserved keywords like null or default,
+ * so it's not a typo, I add a letter at the end)
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'taoQtiItem/scoring/processor/expressions/baseValue',
     'taoQtiItem/scoring/processor/expressions/correct',
+    'taoQtiItem/scoring/processor/expressions/default',
     'taoQtiItem/scoring/processor/expressions/mathConstant',
     'taoQtiItem/scoring/processor/expressions/null',
     'taoQtiItem/scoring/processor/expressions/variable'
-], function(baseValue, correct, mathConstant, nulll, variable){
+], function(baseValue, correct, defaultt, mathConstant, nulll, variable){
     'use strict';
 
     /**
@@ -45,6 +50,7 @@ define([
     return {
         'baseValue'     : baseValue,
         'correct'       : correct,
+        'default'       : defaultt,
         'mathConstant'  : mathConstant,
         'null'          : nulll,
         'variable'      : variable
