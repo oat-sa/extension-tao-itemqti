@@ -49,7 +49,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      * @dataProvider itemProvider
      */
-    public function _testToQTI($file){
+    public function testToQTI($file){
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
@@ -73,29 +73,28 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
     /**
      * test the building and exporting out the items
+     * @dataProvider itemProvider
      */
-    public function _testToXHTML(){
+    public function testToXHTML($file){
 
         $doc = new DOMDocument();
         $doc->validateOnParse = true;
-        foreach(glob(dirname(__FILE__).'/samples/*.xml') as $file){
 
-            $qtiParser = new Parser($file);
-            $item = $qtiParser->load();
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
 
-            $this->assertTrue($qtiParser->isValid());
-            $this->assertNotNull($item);
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        $this->assertTrue($qtiParser->isValid());
+        $this->assertNotNull($item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
-            //test if content has been exported
-            $xhtml = $item->toXHTML();
-            $this->assertFalse(empty($xhtml));
+        //test if content has been exported
+        $xhtml = $item->toXHTML();
+        $this->assertFalse(empty($xhtml));
 
-            try{
-                $doc->loadHTML($xhtml);
-            }catch(DOMException $de){
-                $this->fail($de);
-            }
+        try{
+            $doc->loadHTML($xhtml);
+        }catch(DOMException $de){
+            $this->fail($de);
         }
     }
 
@@ -115,7 +114,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         $data = $rp->toArray();
         $this->assertFalse(empty($data));
         $this->assertFalse(empty($data['responseRules']));
-        
+
         //compare the result with expectation
         $responseRules = json_decode($expectation, true);
         $this->assertEquals($data['responseRules'], $responseRules);
@@ -132,7 +131,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         }
         return $items;
     }
-    
+
     /**
      * 
      * @return multitype
