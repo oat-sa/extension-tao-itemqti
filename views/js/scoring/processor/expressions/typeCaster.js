@@ -27,36 +27,31 @@ define([
     'use strict';
 
     /**
-     * TODO update the structure to remove the switch
-     *
-     * Return transformation function based on required type
-     * @exports taoQtiItem/scoring/processor/expressions/typeCaster
-     *
-     * @param {string} type
-     * @returns {function}
+     * @type {Object.<string,function>}
      */
-    var typeCaster  = function typeCast(type){
-        switch (type) {
-            case 'float':
-                return parseFloat;
-            case 'string':
-                return toString;
-            case 'integer':
-                return toInt;
-            case 'identifier':
-                return toString;
-            case 'pair':
-                return toPair;
-            case 'directedPair':
-                return toDirectedPair;
-            case 'boolean':
-                return toBoolean;
-            default:
-                return function(value) {
-                    return value;
-                };
-        }
-    };
+    var castingMap = {
+            float: parseFloat,
+            string: toString,
+            integer: toInt,
+            identifier: toString,
+            pair: toPair,
+            directedPair: toDirectedPair,
+            boolean: toBoolean
+        },
+
+        /**
+         * Return transformation function based on required type
+         * @exports taoQtiItem/scoring/processor/expressions/typeCaster
+         *
+         * @param {string} type
+         * @returns {function}
+         */
+        typeCaster = function typeCast(type) {
+
+            return (castingMap[type] || function (value) {
+                return value;
+            });
+        };
 
 
     /**
