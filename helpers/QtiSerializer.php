@@ -28,7 +28,13 @@ use \SimpleXMLElement;
  */
 class QtiSerializer
 {
-
+    
+    /**
+     * Parse a generic QTI element node into an array
+     * 
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseElementXml(SimpleXMLElement $xml){
 
         $attributes = array();
@@ -46,7 +52,14 @@ class QtiSerializer
 
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a QTI expression node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10569
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseExpressionXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         $value = trim($xml);
@@ -62,7 +75,14 @@ class QtiSerializer
         }
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a QTI responseRule node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10408
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseRuleXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         foreach($xml->children() as $child){
@@ -71,7 +91,13 @@ class QtiSerializer
         }
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a generic QTI element node that contains responseRules as children into an array
+     * 
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     private static function parseResponseRulesContainerXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         $responseRules = array();
@@ -87,11 +113,25 @@ class QtiSerializer
         $returnValue['responseRules'] = $responseRules;
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a QTI responseProcessing node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10712
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseProcessingFragmentXml(SimpleXMLElement $xml){
         return self::parseResponseRulesContainerXml($xml);
     }
-
+    
+    /**
+     * Parse a QTI responseProcessing node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10413
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseIfXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         $i = 0;
@@ -110,11 +150,25 @@ class QtiSerializer
         $returnValue['responseRules'] = $responseRules;
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a QTI responseProcessing node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10419
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseElseXml(SimpleXMLElement $xml){
         return self::parseResponseRulesContainerXml($xml);
     }
-
+    
+    /**
+     * Parse a QTI responseProcessing node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10409
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseConditionXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         foreach($xml->responseIf as $responseIfXml){
@@ -130,7 +184,14 @@ class QtiSerializer
         }
         return $returnValue;
     }
-
+    
+    /**
+     * Parse a QTI responseProcessing node into an array
+     * 
+     * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10404
+     * @param SimpleXMLElement $xml
+     * @return array
+     */
     public static function parseResponseProcessingXml(SimpleXMLElement $xml){
         return self::parseResponseRulesContainerXml($xml);
     }
