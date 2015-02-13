@@ -70,6 +70,20 @@ class QtiSerializer
         }
         return $returnValue;
     }
+    
+    private static function parseResponseRulesContainerXml(SimpleXMLElement $xml){
+        $returnValue = self::parseElementXml($xml);
+        $responseRules = array();
+        foreach($xml->children() as $child){
+            $responseRules[] = self::parseResponseRuleXml($child);
+        }
+        $returnValue['responseRules'] = $responseRules;
+        return $returnValue;
+    }
+    
+    public static function parseResponseProcessingFragmentXml(SimpleXMLElement $xml){
+        return self::parseResponseRulesContainerXml($xml);
+    }
 
     public static function parseResponseIfXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
@@ -91,13 +105,7 @@ class QtiSerializer
     }
 
     public static function parseResponseElseXml(SimpleXMLElement $xml){
-        $returnValue = self::parseElementXml($xml);
-        $responseRules = array();
-        foreach($xml->children() as $child){
-            $responseRules[] = self::parseResponseRuleXml($child);
-        }
-        $returnValue['responseRules'] = $responseRules;
-        return $returnValue;
+        return self::parseResponseRulesContainerXml($xml);
     }
 
     public static function parseResponseConditionXml(SimpleXMLElement $xml){
@@ -121,7 +129,13 @@ class QtiSerializer
         $returnValue = array();
         if($xml->getName() === 'responseProcessing'){
             foreach($xml->children() as $child){
-                $returnValue[] = self::parseResponseConditionXml($child);
+                $name = $child->getName();
+                $methodName = 'parse'.ucfirst($name).'Xml';
+                if(method_exists(__CLASS__, $methodName)){
+                    $returnValue[] = self::$methodName($child);
+                }else{
+                    $returnValue[] = self::parseResponseRuleXml($child);
+                }
             }
         }else{
             throw new \common_Exception('invalid root element');
