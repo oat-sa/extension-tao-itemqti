@@ -49,7 +49,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      * @dataProvider itemProvider
      */
-    public function _testToQTI($file){
+    public function testToQTI($file){
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
@@ -74,7 +74,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     /**
      * test the building and exporting out the items
      */
-    public function _testToXHTML(){
+    public function testToXHTML(){
 
         $doc = new DOMDocument();
         $doc->validateOnParse = true;
@@ -115,11 +115,11 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         $data = $rp->toArray();
         $this->assertFalse(empty($data));
         $this->assertFalse(empty($data['responseRules']));
-
+        
         //compare the result with expectation
         $responseRules = json_decode($expectation, true);
         $this->assertEquals($data['responseRules'], $responseRules);
-        print_r(json_encode($data['responseRules']));
+//        print_r(json_encode($data['responseRules']));
     }
 
     /**
@@ -145,6 +145,11 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
                 'name' => 'custom',
                 'file' => $sampleDirectory.'order_partial_scoring.xml',
                 'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIf":{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]'
+            ),
+            array(
+                'name' => 'template',
+                'file' => $sampleDirectory.'associate.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0.0"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"mapResponse","attributes":{"identifier":"RESPONSE"}}}]}}]'
             )
         );
     }

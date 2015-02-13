@@ -21,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\response;
 
-use oat\taoQtiItem\model\qti\response\Template;
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
 use oat\taoQtiItem\model\qti\response\Rule;
+use oat\taoQtiItem\helpers\QtiSerializer;
 use \common_Exception;
 use \Exception;
 use \taoItems_models_classes_TemplateRenderer;
@@ -34,17 +34,17 @@ use \taoItems_models_classes_TemplateRenderer;
  * @access public
  * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package taoQTI
- 
+
  */
 class Template extends ResponseProcessing implements Rule
 {
+
     /**
      * Short description of attribute MATCH_CORRECT
      *
      * @access public
      * @var string
      */
-
     const MATCH_CORRECT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct';
 
     /**
@@ -113,7 +113,7 @@ class Template extends ResponseProcessing implements Rule
     public function getRule(){
         $returnValue = (string) '';
 
-        
+
         if($this->uri == self::MATCH_CORRECT){
             $returnValue = taoQTI_models_classes_Matching_Matching::MATCH_CORRECT;
         }else if($this->uri == self::MAP_RESPONSE){
@@ -122,9 +122,36 @@ class Template extends ResponseProcessing implements Rule
             $returnValue = taoQTI_models_classes_Matching_Matching::MAP_RESPONSE_POINT;
         }
 
-        
+
 
         return (string) $returnValue;
+    }
+    
+    /**
+     * Get the content of the response processing template identified by its uri
+     * 
+     * @todo make it dynamic in the future
+     * @return string
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     */
+    public function getTemplateContent(){
+
+        $returnValue = '';
+        $standardRpTemplateFolder = dirname(__FILE__).'/../data/qtiv2p1/rptemplates/';
+        switch($this->uri){
+            case self::MATCH_CORRECT:
+                $returnValue = file_get_contents($standardRpTemplateFolder.'match_correct.xml');
+                break;
+            case self::MAP_RESPONSE:
+                $returnValue = file_get_contents($standardRpTemplateFolder.'map_response.xml');
+                break;
+            case self::MAP_RESPONSE_POINT:
+                $returnValue = file_get_contents($standardRpTemplateFolder.'map_response_point.xml');
+                break;
+            default:
+                throw new \oat\taoQtiItem\model\qti\exception\QtiModelException('unknown rp template');
+        }
+        return $returnValue;
     }
 
     /**
@@ -194,20 +221,21 @@ class Template extends ResponseProcessing implements Rule
     }
 
     public function toArray($filterVariableContent = false, &$filtered = array()){
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        
+        $rp = $this->getTemplateContent();
         $protectedData = array(
             'processingType' => 'template',
-            'data' => $this->uri
+            'data' => $this->uri,
+            'responseRules' => QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp))
         );
-        
+
         if($filterVariableContent){
             $filtered[$this->getSerial()] = $protectedData;
         }else{
             $returnValue = array_merge($returnValue, $protectedData);
         }
-        
+
         return $returnValue;
     }
 

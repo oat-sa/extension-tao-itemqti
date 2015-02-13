@@ -31,6 +31,7 @@ use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\controller\QTIform\TemplatesDrivenResponseOptions;
+use oat\taoQtiItem\helpers\QtiSerializer;
 use \common_exception_Error;
 use \taoItems_models_classes_TemplateRenderer;
 
@@ -69,11 +70,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @return string
      */
     public function getRule(){
-        $returnValue = (string) '';
-
         throw new common_exception_Error('please use buildRule for templateDriven instead');
-
-        return (string) $returnValue;
     }
 
     /**
@@ -141,6 +138,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             foreach($item->getInteractions() as $interaction){
                 $returnValue->setTemplate($interaction->getResponse(), $responseProcessing->getUri());
             }
+            $returnValue->setRelatedItem($item);
         }else{
             throw new TakeoverFailedException();
         }
@@ -223,26 +221,19 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Item item
      * @return string
      */
-    public function buildQTI(Item $item){
+    public function buildQTI(){
         
-        $interactions = $item->getInteractions();
-        if(count($interactions) == 1){
-            foreach($item->getInteractions() as $interaction){
-                $response = $interaction->getResponse();
-                if(count($response->getFeedbackRules())){
-                    break;//need to output feedback rules
-                }else{
-                    $uri = $response->getHowMatch();
-                    $responseProcessingToRender = new Template($uri);
-                    return $responseProcessingToRender->toQTI();
-                }
-            }
+        $template = $this->convertToTemplate();
+        if(!is_null($template)){
+            //if the TemplateDriven rp is convertible to a Template, render that template
+            return $template->toQTI();
         }
         
         $returnValue = "<responseProcessing>";
+        $interactions = $this->getRelatedItem()->getInteractions();
+        
         foreach($interactions as $interaction){
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
@@ -268,6 +259,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     /**
      * Short description of method buildRule
      *
+     * @deprecated
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Item item
@@ -299,36 +291,48 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @return string
      */
     public function toQTI(){
-        $returnValue = (string) '';
-
         throw new common_exception_Error('please use buildQTI for templateDriven instead');
-        /*
-          if (count($this->templateMap) == 1) {
-          foreach($this->templateMap as $uri){
-          $responseProcessingToRender = new oat\taoQtiItem\model\qti\response\Template($uri);
-          $returnValue = $responseProcessingToRender->toQTI();
-          }
-          } else {
-          $returnValue = "<responseProcessing>";
-          foreach ($this->templateMap as $identifier => $templateName) {
-          $returnValue .= $this->buildQTI($templateName, Array(
-          'responseIdentifier'=> $identifier
-          , 'outcomeIdentifier'=>'SCORE'
-          ));
-          }
-          $returnValue .= "</responseProcessing>";
-          }
-         */
-
-        return (string) $returnValue;
     }
-
+    
+    /**
+     * Convert the TemplateDriven instance into a Template instance if it is possible
+     * Returns null otherwise.
+     * 
+     * @return \oat\taoQtiItem\model\qti\response\Template
+     */
+    protected function convertToTemplate(){
+        $returnValue = null;
+        $interactions = $this->getRelatedItem()->getInteractions();
+        if(count($interactions) == 1){
+            foreach($interactions as $interaction){
+                $response = $interaction->getResponse();
+                if(count($response->getFeedbackRules())){
+                    break;//need to output feedback rules
+                }else{
+                    $uri = $response->getHowMatch();
+                    $returnValue = new Template($uri);
+                }
+            }
+        }
+        return $returnValue;
+    }
+    
     public function toArray($filterVariableContent = false, &$filtered = array()){
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
+        $rp = null;
+        $template = $this->convertToTemplate();
+        if(is_null($template)){
+            //cannot be converted into a Template instance, so build the rp from the current instance
+            $rp = $this->buildQTI();
+        }else{
+            //can be converted into a Template instance, so get the Template content
+            $rp = $template->getTemplateContent();
+        }
         
         $protectedData = array(
-            'processingType' => 'templateDriven'
+            'processingType' => 'templateDriven',
+            'responseRules' => QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp))
         );
         
         if($filterVariableContent){
