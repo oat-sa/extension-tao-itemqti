@@ -45,8 +45,12 @@ define([
                 //cast value type, like if they were all arrays, and infer the result type
                 .map(function (operand) {
 
-                    var multiple = operand.cardinality === 'multiple' && _.isArray(operand.value);
+                    var multiple = operand.cardinality === 'multiple' || operand.cardinality === 'ordered' && _.isArray(operand.value);
                     var value = multiple ? operand.value : [operand.value];
+
+                    if(operand.cardinality === 'multiple'){
+                        value = value.sort();   //sort for
+                    }
 
                     return _.map(value, typeCaster(operand.baseType));
                 })
@@ -67,6 +71,10 @@ define([
                 variable.value = caster(variable.value);
             } else {
                 variable.value = _.map(variable.value, caster);
+            }
+
+            if(variable.cardinality === 'multiple'){
+                variable.value = variable.value.sort();   //sort for
             }
             return variable;
         },
