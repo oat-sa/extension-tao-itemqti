@@ -22,6 +22,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/expressions/operators/and',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
@@ -34,7 +35,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( gt, gte, isNull, lt, lte, match, max, min, power, product, subtract, sum ){
+], function( and, gt, gte, isNull, lt, lte, match, max, min, power, product, subtract, sum ){
     'use strict';
 
     /**
@@ -57,6 +58,7 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
+        "and"       : and,
         "gt"        : gt,
         "gte"       : gte,
         "isNull"    : isNull,
