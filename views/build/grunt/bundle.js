@@ -87,6 +87,34 @@ module.exports = function(grunt) {
             out: out + "/qtiItemRunner.min.js"
         }
     };
+
+    /**
+     * Compile the new item runner as a standalone library
+     */
+    requirejs.qtiscorer = {
+        options: {
+            baseUrl : '../js',
+            mainConfigFile : './config/requirejs.build.js',
+            //optimize: "none",
+            findNestedDependencies : true,
+            uglify2: {
+                mangle : false,
+                output: {
+                    'max_line_len': 400
+                }
+            },
+            wrap : {
+                start : '',
+                end : "define(['taoQtiItem/scoring/qtiScorer'], function(scorer){ return scorer; });"
+            },
+            wrapShim: true,
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js',  'taoItems' : root + '/taoItems/views/js'},
+            include: ['lodash'],
+            name: "taoQtiItem/scoring/qtiScorer",
+            out: out + "/qtiScorer.min.js"
+        }
+    };
+
     /**
      * copy the bundles to the right place
      */
