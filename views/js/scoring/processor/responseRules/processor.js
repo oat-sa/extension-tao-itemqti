@@ -23,8 +23,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, errorHandler){
     'use strict';
 
 
@@ -48,7 +49,7 @@ define([
         var processor = processors[name];
 
         if(!processor){
-            throw new Error('No processor found for ' + name);
+             return errorHandler.throw('scoring', new Error('No processor found for ' + name));
         }
 
         processor.rule = rule;
@@ -76,10 +77,10 @@ define([
     responseRuleProcessor.register = function register(name, processor){
 
         if(_.isEmpty(name)){
-            throw new TypeError('Please give a valid name to your processor');
+             return errorHandler.throw('scoring', new TypeError('Please give a valid name to your processor'));
         }
         if(!_.isPlainObject(processor) || !_.isFunction(processor.process)){
-            throw new TypeError('The processor must be an object that contains a process method.');
+             return errorHandler.throw('scoring', new TypeError('The processor must be an object that contains a process method.'));
         }
 
         processors[name] = processor;

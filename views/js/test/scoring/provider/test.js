@@ -5,8 +5,6 @@ define([
     'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function(_, scorer, qtiScoringProvider, itemData){
 
-    var containerId = 'item-container';
-
 
     QUnit.module('Provider API');
 
@@ -38,7 +36,7 @@ define([
     });
 
 
-    module('Provider process', {
+    module('Provider process correct template', {
         teardown : function(){
             //reset the provides
             scorer.providers = undefined;
@@ -78,6 +76,63 @@ define([
           .process(responses, noRulesItemData);
     });
 
-    //TODO wrong and correct scores
+    QUnit.asyncTest('correct response', function(assert){
+        QUnit.expect(5);
+
+        var responses =   {
+            "RESPONSE": {
+                "base": {
+                    "identifier": "Atlantis"
+                }
+            }
+        };
+        scorer.register('qti', qtiScoringProvider);
+
+        scorer('qti')
+          .on('error', function(err){
+            assert.ok(false, 'Got an error : ' + err);
+          })
+          .on('outcome', function(outcomes){
+
+            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+            assert.deepEqual(outcomes.SCORE, { base : { integer : '1' } }, "the score has the default value");
+
+            QUnit.start();
+          })
+          .process(responses, itemData);
+    });
+
+
+    QUnit.asyncTest('incorrect response', function(assert){
+        QUnit.expect(5);
+
+        var responses =   {
+            "RESPONSE": {
+                "base": {
+                    "identifier": "Discovery"
+                }
+            }
+        };
+        scorer.register('qti', qtiScoringProvider);
+
+        scorer('qti')
+          .on('error', function(err){
+            assert.ok(false, 'Got an error : ' + err);
+          })
+          .on('outcome', function(outcomes){
+
+            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+            assert.deepEqual(outcomes.SCORE, { base : { integer : '0' } }, "the score has the default value");
+
+            QUnit.start();
+          })
+          .process(responses, itemData);
+    });
 });
 

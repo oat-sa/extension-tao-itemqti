@@ -24,8 +24,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -51,11 +52,11 @@ define([
             };
 
             if(typeof variable === 'undefined'){
-                throw new Error('No variable found with identifier ' + identifier );
+                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
             }
 
             if(variable === null || typeof variable.mapping === 'undefined'){
-                throw new Error('The variable ' + identifier + ' has no mapping, how can I execute a mapResponse on it?');
+                 return errorHandler.throw('scoring', new Error('The variable ' + identifier + ' has no mapping, how can I execute a mapResponse on it?'));
             }
 
             //TODO cast values
