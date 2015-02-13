@@ -33,8 +33,9 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
-    'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( gt, gte, isNull, lt, lte, match, max, min, power, product, subtract, sum ){
+    'taoQtiItem/scoring/processor/expressions/operators/sum',
+    'taoQtiItem/scoring/processor/expressions/operators/truncate'
+], function( gt, gte, isNull, lt, lte, match, max, min, power, product, subtract, sum, truncate){
     'use strict';
 
     /**
@@ -68,6 +69,7 @@ define([
         "power"     : power,
         "product"   : product,
         "subtract"  : subtract,
-        "sum"       : sum
+        "sum"       : sum,
+        "truncate"  : truncate
     };
 });
