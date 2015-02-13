@@ -17,6 +17,7 @@ define([
 
     var dataProvider = [{
         title : 'numbers',
+        caseSensitive: true,
         operands : [{
             cardinality : 'single',
             baseType : 'string',
@@ -33,9 +34,7 @@ define([
         }
     },{
         title : 'contain substring case insensitive',
-        attributes:{
-            caseSensitive: false
-        },
+        caseSensitive: false,
         operands : [{
             cardinality : 'single',
             baseType : 'string',
@@ -52,6 +51,7 @@ define([
         }
     },{
         title : 'contain substring',
+        caseSensitive: true,
         operands : [{
             cardinality : 'single',
             baseType : 'string',
@@ -68,6 +68,7 @@ define([
         }
     },{
         title : 'don\'t contain',
+        caseSensitive: true,
         operands : [{
             cardinality : 'single',
             baseType : 'string',
@@ -84,6 +85,7 @@ define([
         }
     },{
         title : 'one null',
+        caseSensitive: true,
         operands : [{
             cardinality : 'single',
             baseType : 'integer',
@@ -97,7 +99,7 @@ define([
       .cases(dataProvider)
       .test('substring ', function(data, assert){
         substringProcessor.operands = data.operands;
-        substringProcessor.setAttributes(data.attributes);
+        substringProcessor.caseSensitive = data.caseSensitive;
         assert.deepEqual(substringProcessor.process(), data.expectedResult, 'The substring is correct');
     });
 });

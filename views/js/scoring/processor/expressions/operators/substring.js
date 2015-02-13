@@ -36,11 +36,7 @@ define([
      */
     var substringProcessor = {
 
-        attributes:{},
-
-        defaultAttributes: {
-            caseSensitive: true
-        },
+        caseSensitive: true,
 
         constraints : {
             minOperand : 2,
@@ -70,22 +66,16 @@ define([
             result.value = preProcessor
                 .parseOperands(this.operands)
                 .reduce(function(f, s){
-                    if (substringProcessor.attributes.caseSensitive === false){
+                    if (substringProcessor.caseSensitive === false){
                         return f.toLowerCase().indexOf(s.toLowerCase()) !== -1;
                     }
                     return f.indexOf(s) !== -1;
                 });
 
             return result;
-        },
-
-        setAttributes: function(attributes){
-            _.assign(substringProcessor.attributes,substringProcessor.defaultAttributes, attributes);
         }
 
 };
-
-    substringProcessor.setAttributes();
 
     return substringProcessor;
 });
