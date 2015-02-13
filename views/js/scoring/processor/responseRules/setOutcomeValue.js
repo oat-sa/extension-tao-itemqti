@@ -24,8 +24,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/engine'
-], function(expressionEngine){
+    'taoQtiItem/scoring/processor/expressions/engine',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(expressionEngineFactory, errorHandler){
     'use strict';
 
     /**
@@ -42,12 +43,13 @@ define([
         process : function(){
             var identifier = this.rule.attributes.identifier;
             var variable   = this.state[identifier];
+            var expressionEngine = expressionEngineFactory(this.state);
 
             if(!variable || !variable.baseType){
-                throw new TypeError('No variable found with identifier ' + identifier );
+                return errorHandler.throw('scoring', new TypeError('No variable found with identifier ' + identifier ));
             }
 
-            var result = expressionEngine.parse(this.rule.expression, this.state);
+            var result = expressionEngine.execute(this.rule.expression);
 
             if(result && typeof result.value !== 'undefined'){
 

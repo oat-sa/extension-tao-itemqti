@@ -1,7 +1,8 @@
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/variable'
-], function(_, variableProcessor){
+    'taoQtiItem/scoring/processor/expressions/variable',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, variableProcessor, errorHandler){
 
     module('API');
 
@@ -43,7 +44,8 @@ define([
         assert.equal(variableProcessor.process(), null, 'returns null');
     });
 
-    QUnit.test('Fails if no variable is found', function(assert){
+    QUnit.asyncTest('Fails if no variable is found', function(assert){
+        QUnit.expect(1);
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
         };
@@ -54,8 +56,11 @@ define([
                 value               : 'choice-2'
             }
         };
-        assert.throws(function(){
-            variableProcessor.process();
-        }, Error, 'Without the variable in the state it throws and error');
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'Without the variable in the state it throws and error');
+            QUnit.start();
+        });
+
+        variableProcessor.process();
     });
 });

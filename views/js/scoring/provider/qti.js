@@ -26,9 +26,10 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/responseRules/engine',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-], function(_, ruleEngineFactory, PciResponse){
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, ruleEngineFactory, errorHandler){
     'use strict';
+
 
     var qtiPciCardinalities = {
         single : 'base',
@@ -51,7 +52,7 @@ define([
 
             if(state[identifier]){
                 //throw an error
-                throw new Error('Variable collision : the state already contains the response variable ' + identifier);
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the response variable ' + identifier));
             }
 
             //load the declaration
@@ -81,7 +82,7 @@ define([
             var identifier = outcome.attributes.identifier;
             if(state[identifier]){
                 //throw an error
-                throw new Error('Variable collision : the state already contains the outcome variable ' + identifier);
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the outcome variable ' + identifier));
             }
             state[identifier] = {
                 cardinality  : outcome.attributes.cardinality,
@@ -137,10 +138,16 @@ define([
          * @this {taoItems/scoring/api/scorer} the scorer calls are delegated here, the context is the scorer's context with event mehods available.
          */
         process : function process(responses, itemData, done){
+            var self = this;
+            var state;
+            var ruleEngine;
 
+            errorHandler.listen('scoring', function onError(err){
+                self.trigger('error', err);
+            });
 
-            var state = stateBuilder(responses, itemData);
-            var ruleEngine = ruleEngineFactory(state);
+            state = stateBuilder(responses, itemData);
+            ruleEngine = ruleEngineFactory(state);
 
             ruleEngine.execute(itemData.responseProcessing.responseRules);
 
