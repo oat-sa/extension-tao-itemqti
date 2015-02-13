@@ -329,10 +329,10 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             //can be converted into a Template instance, so get the Template content
             $rp = $template->getTemplateContent();
         }
-        
+        $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
         $protectedData = array(
             'processingType' => 'templateDriven',
-            'responseRules' => QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp))
+            'responseRules' => $rpSerialized['responseRules']
         );
         
         if($filterVariableContent){

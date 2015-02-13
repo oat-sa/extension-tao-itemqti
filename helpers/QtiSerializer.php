@@ -1,5 +1,5 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -28,6 +28,7 @@ use \SimpleXMLElement;
  */
 class QtiSerializer
 {
+
     public static function parseElementXml(SimpleXMLElement $xml){
 
         $attributes = array();
@@ -50,7 +51,7 @@ class QtiSerializer
         $returnValue = self::parseElementXml($xml);
         $value = trim($xml);
         $expressions = array();
-         foreach($xml->children() as $child){
+        foreach($xml->children() as $child){
             $expressions[] = self::parseExpressionXml($child);
         }
         if(count($expressions)){
@@ -70,17 +71,23 @@ class QtiSerializer
         }
         return $returnValue;
     }
-    
+
     private static function parseResponseRulesContainerXml(SimpleXMLElement $xml){
         $returnValue = self::parseElementXml($xml);
         $responseRules = array();
         foreach($xml->children() as $child){
-            $responseRules[] = self::parseResponseRuleXml($child);
+            $name = $child->getName();
+            $methodName = 'parse'.ucfirst($name).'Xml';
+            if(method_exists(__CLASS__, $methodName)){
+                $responseRules[] = self::$methodName($child);
+            }else{
+                $responseRules[] = self::parseResponseRuleXml($child);
+            }
         }
         $returnValue['responseRules'] = $responseRules;
         return $returnValue;
     }
-    
+
     public static function parseResponseProcessingFragmentXml(SimpleXMLElement $xml){
         return self::parseResponseRulesContainerXml($xml);
     }
@@ -125,22 +132,7 @@ class QtiSerializer
     }
 
     public static function parseResponseProcessingXml(SimpleXMLElement $xml){
-
-        $returnValue = array();
-        if($xml->getName() === 'responseProcessing'){
-            foreach($xml->children() as $child){
-                $name = $child->getName();
-                $methodName = 'parse'.ucfirst($name).'Xml';
-                if(method_exists(__CLASS__, $methodName)){
-                    $returnValue[] = self::$methodName($child);
-                }else{
-                    $returnValue[] = self::parseResponseRuleXml($child);
-                }
-            }
-        }else{
-            throw new \common_Exception('invalid root element');
-        }
-
-        return $returnValue;
+        return self::parseResponseRulesContainerXml($xml);
     }
+
 }

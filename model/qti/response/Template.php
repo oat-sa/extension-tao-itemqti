@@ -224,10 +224,11 @@ class Template extends ResponseProcessing implements Rule
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $rp = $this->getTemplateContent();
+        $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
         $protectedData = array(
             'processingType' => 'template',
             'data' => $this->uri,
-            'responseRules' => QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp))
+            'responseRules' => $rpSerialized['responseRules']
         );
 
         if($filterVariableContent){

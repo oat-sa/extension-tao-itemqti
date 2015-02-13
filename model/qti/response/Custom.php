@@ -106,11 +106,12 @@ class Custom extends ResponseProcessing implements Rule
     public function toArray($filterVariableContent = false, &$filtered = array()){
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-
+        
+        $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($this->data));
         $protectedData = array(
             'processingType' => 'custom',
             'data' => $this->data,
-            'responseRules' => QtiSerializer::parseResponseProcessingXml(simplexml_load_string($this->data))
+            'responseRules' => $rpSerialized['responseRules']
         );
 
         if($filterVariableContent){
