@@ -18,6 +18,8 @@
  */
 
 /**
+ * Wrap the scorer and register the qti provider.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['taoItems/scoring/api/scorer', 'taoQtiItem/scoring/provider/qti'], function(scorer, qtiScoringProvider){
