@@ -61,11 +61,10 @@ define([
                 return null;
             }
 
-            result.value = preProcessor
-                .parseOperands(this.operands)
-                .reduce(function(f, s){
-                    return _.isEqual(f,s);
-                });
+            result.value = _.isEqual(
+                preProcessor.parseVariable(this.operands[0]),
+                preProcessor.parseVariable(this.operands[1])
+            );
 
             return result;
         }
