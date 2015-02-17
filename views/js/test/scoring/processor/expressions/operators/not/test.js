@@ -43,7 +43,7 @@ define([
         operands : [{
             cardinality : 'single',
             baseType : 'boolean',
-            value : 1
+            value : '1'
         }],
         expectedResult : {
             cardinality : 'single',

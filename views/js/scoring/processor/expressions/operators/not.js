@@ -47,7 +47,7 @@ define([
 
         /**
          * Process the not of the operands.
-         * @returns {?ProcessingValue} the subtract or null
+         * @returns {?ProcessingValue} the Not or null
          */
         process : function(){
 
@@ -61,7 +61,7 @@ define([
                 return null;
             }
 
-            result.value = !preProcessor.parseOperands(this.operands).value()[0];
+            result.value = !preProcessor.parseVariable(this.operands[0]).value;
 
             return result;
         }
