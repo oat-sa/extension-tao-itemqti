@@ -59,6 +59,14 @@ define([
             baseType : 'float',
             value : Infinity
         }
+    }, {
+        title: 'Nan',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'float',
+            value: NaN
+        }],
+        expectedResult: null
     },{
         title : '-Inf',
         operands : [{

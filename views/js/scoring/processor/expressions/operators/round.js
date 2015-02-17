@@ -18,16 +18,15 @@
  */
 
 /**
- * The isNull operator processor.
+ * The Round operator processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10703
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+    'taoQtiItem/scoring/processor/expressions/preprocessor'
+], function(_, preProcessor){
     'use strict';
 
     /**
@@ -64,11 +63,14 @@ define([
                 .parseOperands(this.operands).value()[0];
 
 
+            if ( _.isNaN(value) ) {
+                return null;
+            }
+
             if ( !_.isFinite(value) ) {
                 result.value = value;
                 return result;
             }
-
 
             result.value = Math.round(value);
             return result;
