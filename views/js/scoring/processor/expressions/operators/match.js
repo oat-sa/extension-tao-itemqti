@@ -18,8 +18,8 @@
  */
 
 /**
- * The subtract operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10691
+ * The match operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -30,30 +30,30 @@ define([
     'use strict';
 
     /**
-     * Process operands and returns the subtract.
-     * @type {OperatorProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/subtract
+     * Process operands and returns the match.
+     * @type {OperatorProcessor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
      */
-    var subtractProcessor = {
+    var matchProcessor = {
 
         constraints : {
             minOperand : 2,
             maxOperand : 2,
-            cardinality : ['single'],
-            baseType : ['integer', 'float']
+            cardinality : ['single', 'multiple', 'ordered'],
+            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
         },
 
         operands   : [],
 
         /**
-         * Process the subtract of the operands.
-         * @returns {?ProcessingValue} the subtract or null
+         * Process the match of the operands.
+         * @returns {?ProcessingValue} the match or null
          */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'integer'
+                baseType : 'boolean'
             };
 
             //if at least one operand is null, then break and return null
@@ -61,20 +61,15 @@ define([
                 return null;
             }
 
-            //if at least one operand is a float , the result is a float
-            if(_.some(this.operands, { baseType : 'float' })){
-                result.baseType = 'float';
-            }
-
-            result.value = preProcessor
-                .mapNumbers(this.operands)
-                .reduce(function(sub, value){
-                    return sub - value;
-                });
+            result.value = _.isEqual(
+                preProcessor.parseVariable(this.operands[0]),
+                preProcessor.parseVariable(this.operands[1])
+            );
 
             return result;
         }
-    };
 
-    return subtractProcessor;
+};
+
+    return matchProcessor;
 });

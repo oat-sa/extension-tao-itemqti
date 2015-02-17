@@ -13,34 +13,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
  */
 
 /**
- * Expose all rule processors.
+ * Wrap the scorer and register the qti provider.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'taoQtiItem/scoring/processor/responseRules/setOutcomeValue',
-], function(setOutcomeValue){
+define(['taoItems/scoring/api/scorer', 'taoQtiItem/scoring/provider/qti'], function(scorer, qtiScoringProvider){
     'use strict';
 
-    /**
-     * An ResponseRuleProcessor
-     * @typedef ResponseRuleProcessor
-     * @property {Object} rule - the response rule definition
-     * @property {Object} state - the item state (response, outcomes and friends)
-     * @property {Funtion} process - the processing
-     */
+    //register the QTI Provider
+    scorer.register('qti', qtiScoringProvider);
 
     /**
-     * Lists all available response rule processors
-     * @exports taoQtiItem/scoring/processor/responseRules/rules
+     * @exports taoQtiItem/scoring/qtiScorer
      */
-    return {
-        'setOutcomeValue' : setOutcomeValue
-    };
-
+    return scorer;
 });

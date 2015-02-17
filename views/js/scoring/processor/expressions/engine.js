@@ -18,6 +18,8 @@
  */
 
 /**
+ * The engine that process QTI expressions.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -41,13 +43,13 @@ define([
 
 
     /**
-     * Creates an object that can parse and process an expressions tree.
+     * Creates an engine that can look over the expressions and execute them accordingy.
      *
-     * @exports taoQtiItem/scoring/processor/engine
-     *
-     * @returns {Object} the expression parser
+     * @exports taoQtiItem/scoring/processor/expressions/engine
+     * @param {Object} state - the item session state (response and outcome variables)
+     * @returns {Object} the expression engine
      */
-    var expressionParserFactory = function(){
+    var expressionEngineFactory = function expressionEngineFactory(state){
 
         var trail = [];
         var marker = [];
@@ -83,8 +85,12 @@ define([
 
         return {
 
-            //TODO rename
-            parse : function(expression, response){
+            /**
+             * Execute the engine on the given expression tree
+             * @param {Object} expression - the expression to process
+             * @return {?ProcessingValue} the result of the expression evaluation in the form of a variable
+             */
+            execute : function(expression){
 
                 var currentExpression,
                     currentProcessor,
@@ -98,7 +104,6 @@ define([
 
                 //TODO remove the limit and add a timeout
                 while(trail.length > 0 && i < 128){
-
 
                     currentExpression = trail.pop();
                     currentProcessor = null;
@@ -121,10 +126,8 @@ define([
                     } else if (isMarked(currentExpression)){
                         //console.log('c2');
                         // Operator, second pass. Process it.
-                        currentProcessor = processorFactory(currentExpression, {
-                            operands : popOperands(currentExpression)
-                        });
-                        result = currentProcessor.process(response);
+                        currentProcessor = processorFactory(currentExpression, state, popOperands(currentExpression));
+                        result = currentProcessor.process();
 
                         if (currentExpression.qtiClass !== baseExpression) {
                             operands.push(result);
@@ -132,8 +135,8 @@ define([
                     } else {
                         //console.log('c3');
                         // Simple expression, process it.
-                        currentProcessor = processorFactory(currentExpression);
-                        result = currentProcessor.process(response);
+                        currentProcessor = processorFactory(currentExpression, state);
+                        result = currentProcessor.process();
 
                         operands.push(result);
                     }
@@ -150,5 +153,5 @@ define([
         };
     };
 
-    return expressionParserFactory;
+    return expressionEngineFactory;
 });

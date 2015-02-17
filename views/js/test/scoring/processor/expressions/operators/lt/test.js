@@ -1,15 +1,15 @@
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/operators/subtract'
-], function(_, subtractProcessor){
+    'taoQtiItem/scoring/processor/expressions/operators/lt'
+], function(_, ltProcessor){
     'use strict';
 
     module('API');
 
     QUnit.test('structure', function(assert){
-        assert.ok(_.isPlainObject(subtractProcessor), 'the processor expose an object');
-        assert.ok(_.isFunction(subtractProcessor.process), 'the processor has a process function');
-        assert.ok(_.isArray(subtractProcessor.operands), 'the processor has a process function');
+        assert.ok(_.isPlainObject(ltProcessor), 'the processor expose an object');
+        assert.ok(_.isFunction(ltProcessor.process), 'the processor has a process function');
+        assert.ok(_.isArray(ltProcessor.operands), 'the processor has a process function');
     });
 
 
@@ -28,8 +28,8 @@ define([
         }],
         expectedResult : {
             cardinality : 'single',
-            baseType : 'integer',
-            value : 3
+            baseType : 'boolean',
+            value : false
         }
     },{
         title : 'integers from numbers',
@@ -44,24 +44,24 @@ define([
         }],
         expectedResult : {
             cardinality : 'single',
-            baseType : 'integer',
-            value : 10
+            baseType : 'boolean',
+            value : false
         }
     },{
         title : 'floats',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'float',
-            value : 1.333323
-        }, {
+        operands : [ {
             cardinality : 'single',
             baseType : 'float',
             value : 0.666677
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 1.333323
         }],
         expectedResult : {
             cardinality : 'single',
-            baseType : 'float',
-            value : 0.6666460000000001
+            baseType : 'boolean',
+            value : true
         }
     },{
         title : 'one float',
@@ -76,24 +76,8 @@ define([
         }],
         expectedResult : {
             cardinality : 'single',
-            baseType : 'float',
-            value : -5.25
-        }
-    },{
-        title : 'ignore wrong values',
-        operands : [{
-            cardinality : 'single',
-            baseType : 'integer',
-            value : 5
-        }, {
-            cardinality : 'single',
-            baseType : 'integer',
-            value : Infinity
-        }],
-        expectedResult : {
-            cardinality : 'single',
-            baseType : 'integer',
-            value : 5
+            baseType : 'boolean',
+            value :true
         }
     },{
         title : 'one null',
@@ -108,8 +92,8 @@ define([
 
     QUnit
       .cases(dataProvider)
-      .test('subtract ', function(data, assert){
-        subtractProcessor.operands = data.operands;
-        assert.deepEqual(subtractProcessor.process(), data.expectedResult, 'The subtract is correct');
+      .test('lt ', function(data, assert){
+        ltProcessor.operands = data.operands;
+        assert.deepEqual(ltProcessor.process(), data.expectedResult, 'The lt is correct');
     });
 });

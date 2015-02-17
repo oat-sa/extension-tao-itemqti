@@ -23,11 +23,125 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([], function(){
+define([
+    'lodash',
+    'taoQtiItem/scoring/processor/responseRules/engine',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, ruleEngineFactory, errorHandler){
     'use strict';
 
     /**
+     * The mapping between PCI and QTI cardinalities
+     */
+    var qtiPciCardinalities = {
+        single      : 'base',
+        multiple    : 'list',
+        ordered     : 'list',
+        record      : 'record'
+    };
+
+    /**
+     * Creates the scoring state frome responses and item delcaration.
+     *
+     * @param {Object} responses - the test taker responses as RESPONSE_IDENTIFIER  : PCI_RESPONSE
+     * @param {Object} itemData - the item declaration
+     * @returns {Object} the state
+     * @throws {Error} when variable aren't declared correctly
+     */
+    var stateBuilder = function stateBuilder(responses, itemData){
+
+        var state = {};
+
+              //load responses variables
+        _.forEach(itemData.responses, function(response){
+            var responseValue;
+            var identifier      = response.attributes.identifier;
+            var cardinality     = response.attributes.cardinality;
+            var baseType        = response.attributes.baseType;
+            var pciCardinality  = qtiPciCardinalities[cardinality];
+
+            if(state[identifier]){
+                //throw an error
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the response variable ' + identifier));
+            }
+
+            //load the declaration
+            state[identifier] = {
+                cardinality         : cardinality,
+                baseType            : baseType,
+                correctResponse     : response.correctResponses,
+                mapping             : response.mapping,
+                areaMapping         : response.areaMapping,
+                mappingAttributes   : response.mappingAttributes,
+                defaultValue        : response.attributes.defaultValue || response.defaultValue
+            };
+
+            //and add the current response
+            if(responses && responses[identifier] && typeof responses[identifier][pciCardinality] !== 'undefined'){
+                responseValue = responses[identifier][pciCardinality];
+                if(_.isObject(responseValue)){
+                    state[identifier].value = (typeof responseValue[baseType] !== 'undefined') ? responseValue[baseType] : null;
+                } else {
+                    state[identifier].value = null;
+                }
+            }
+        });
+
+        //load outcomes variables
+        _.forEach(itemData.outcomes, function(outcome){
+            var identifier = outcome.attributes.identifier;
+            if(state[identifier]){
+                //throw an error
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the outcome variable ' + identifier));
+            }
+            state[identifier] = {
+                cardinality  : outcome.attributes.cardinality,
+                baseType     : outcome.attributes.baseType,
+
+            };
+            if(typeof outcome.defaultValue){
+                state[identifier].defaultValue = outcome.defaultValue;
+                state[identifier].value = outcome.defaultValue;
+            }
+        });
+
+        return state;
+    };
+
+    /**
+     * Format the scoring state using the PCI response format.
+     *
+     * @param {Object} state - the scoring state
+     * @returns {Object} the state formated in PCI
+     */
+    var stateToPci = function stateToPci(state){
+        var pciState = {};
+
+        _.forEach(state, function(variable, identifier){
+            var pciCardinality  = qtiPciCardinalities[variable.cardinality];
+            var baseType        = variable.baseType;
+            if(pciCardinality){
+                pciState[identifier] = {};
+                if(pciCardinality === 'base'){
+                    if(variable.value === null || typeof variable.value === 'undefined'){
+                        pciState[identifier].base = null;
+                    } else {
+                        pciState[identifier].base = {};
+                        pciState[identifier].base[baseType] = variable.value;
+                    }
+                } else {
+                    pciState[identifier][pciCardinality] = {};
+                    pciState[identifier][pciCardinality][baseType] = variable.value;
+                }
+            }
+        });
+        return pciState;
+    };
+
+    /**
      * The QTI scoring provider.
+     *
+     *
      * @exports taoQtiItem/scoring/provider/qti
      */
     var qtiScoringProvider = {
@@ -35,15 +149,40 @@ define([], function(){
         /**
          * Process the score from the response.
          *
-         * @param {Object} response - we expect a response formated using the PCI
+         * @param {Object} responses - we expect a response formated using the PCI
          * @param {Object} itemData - we expect the whole itemData in the QTI context.
          * @param {Function} done - callback with the produced outcome
          * @see {@link http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343} for the response format.
          * @this {taoItems/scoring/api/scorer} the scorer calls are delegated here, the context is the scorer's context with event mehods available.
          */
-        process : function process(response, itemData, done){
+        process : function process(responses, itemData, done){
+            var self = this;
+            var state;
+            var ruleEngine;
 
-        },
+            //raise errors from inside the scoring stuffs
+            errorHandler.listen('scoring', function onError(err){
+                self.trigger('error', err);
+            });
+
+            //the state is built and formated using the same format as processing variables,
+            //easier to manipulate in using lodash
+            state = stateBuilder(responses, itemData);
+
+            //let's start
+            if(itemData.responseProcessing){
+
+                //create a ruleEngine for the given state
+                ruleEngine = ruleEngineFactory(state);
+
+                //run the engine...
+                ruleEngine.execute(itemData.responseProcessing.responseRules);
+            } else {
+                errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+            }
+
+            done(stateToPci(state));
+        }
     };
 
     return qtiScoringProvider;

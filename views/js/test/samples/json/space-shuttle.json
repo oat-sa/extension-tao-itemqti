@@ -175,50 +175,55 @@
         "qtiClass": "responseProcessing",
         "attributes": [],
         "processingType": "templateDriven",
-        "template" : "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct",
-        "content" : {
-
-            "responseCondition" : {
-                "responseIf" : {
-                    "match" : {
-                        "variable" : {
-                            "attributes" : {
-                                "identifier" : "RESPONSE"
-                            }
-                        },
-                        "correct" : {
-                            "attributes" : {
-                                "identifier" : "RESPONSE"
-                            }
+        "template": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct",
+        "responseRules": [{
+            "qtiClass": "responseCondition",
+            "responseIf": {
+                "qtiClass": "responseIf",
+                "expression": {
+                    "qtiClass": "match",
+                    "expressions": [{
+                        "qtiClass": "variable",
+                        "attributes": {
+                            "identifier": "RESPONSE"
                         }
-                    },
-                    "setOutcomeValue" : {
-                        "attributes" : {
-                            "identifier" : "RESPONSE"
-                        },
-                        "baseValue" : {
-                            "attributes" : {
-                                "baseType" : "float"
-                            },
-                            "value" : 1
+                    }, {
+                        "qtiClass": "correct",
+                        "attributes": {
+                            "identifier": "RESPONSE"
                         }
-                    }
+                    }]
                 },
-                "responseElse" : {
-                    "setOutcomeValue" : {
-                        "attributes" : {
-                            "identifier" : "RESPONSE"
+                "responseRules": [{
+                    "qtiClass": "setOutcomeValue",
+                    "attributes": {
+                        "identifier": "SCORE"
+                    },
+                    "expression": {
+                        "qtiClass": "baseValue",
+                        "attributes": {
+                            "baseType": "float"
                         },
-                        "baseValue" : {
-                            "attributes" : {
-                                "baseType" : "float"
-                            },
-                            "value" : 0
-                        }
+                        "value": "1"
                     }
-                }
+                }]
+            },
+            "responseElse": {
+                "qtiClass": "responseElse",
+                "responseRules": [{
+                    "qtiClass": "setOutcomeValue",
+                    "attributes": {
+                        "identifier": "SCORE"
+                    },
+                    "expression": {
+                        "qtiClass": "baseValue",
+                        "attributes": {
+                            "baseType": "float"
+                        },
+                        "value": "0"
+                    }
+                }]
             }
-
-        }
+        }]
     }
 }

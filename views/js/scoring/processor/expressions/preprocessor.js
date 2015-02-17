@@ -23,8 +23,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'taoQtiItem/scoring/processor/expressions/typeCaster'
+], function(_, typeCaster){
     'use strict';
 
     /**
@@ -44,14 +45,38 @@ define([
                 //cast value type, like if they were all arrays, and infer the result type
                 .map(function (operand) {
 
-                    var multiple = operand.cardinality !== 'single' && _.isArray(operand.value);
+                    var multiple = operand.cardinality === 'multiple' || operand.cardinality === 'ordered' && _.isArray(operand.value);
                     var value = multiple ? operand.value : [operand.value];
 
-                    return _.map(value, getTypecaster(operand.baseType));
+                    if(operand.cardinality === 'multiple'){
+                        value = value.sort();   //sort for
+                    }
+
+                    return _.map(value, typeCaster(operand.baseType));
                 })
 
                 //here we get arrays of arrays so we flatten them
-                .flatten();
+                .flatten(true);
+        },
+
+        /**
+         * Parse and cast the value of a variable
+         * @param {ProcessingValue} variable - to parse
+         * @returns {ProcessingValue} the parsedVariable
+         */
+        parseVariable : function parseVariable(variable){
+            var caster = typeCaster(variable.baseType);
+
+            if(variable.cardinality === 'single'){
+                variable.value = caster(variable.value);
+            } else {
+                variable.value = _.map(variable.value, caster);
+            }
+
+            if(variable.cardinality === 'multiple'){
+                variable.value = variable.value.sort();   //sort for
+            }
+            return variable;
         },
 
         /**
@@ -74,43 +99,6 @@ define([
             return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
         }
     };
-
-    /**
-     * Wrap parseInt. It can't be used unwrapped as a map callback
-     * due to the radix parameter (that receives the index).
-     * @private
-     */
-    function toInt(value){
-        return parseInt(value, 10);
-    }
-
-    /**
-     * Force creating string object, required for numeric types
-     * @private
-     */
-    function toString(value){
-        return value.toString();
-    }
-
-    /**
-     * Return transformation function based on required type
-     * @param {string} type
-     * @returns {function}
-     * @private
-     */
-    function getTypecaster(type) {
-
-        switch (type) {
-            case 'float':
-                return parseFloat;
-            case 'string':
-                return toString;
-            case 'integer':
-                return toInt;
-            default:
-                return toInt;
-        }
-    }
 
     return preProcessor;
 });

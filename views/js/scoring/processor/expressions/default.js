@@ -18,45 +18,48 @@
  */
 
 /**
- * The setOutcomeValue processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10421
+ * The default expression processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10575
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/engine',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(expressionEngineFactory, errorHandler){
+], function(errorHandler){
     'use strict';
 
     /**
-     * BaseValue expression
-     * @type {responseRuleProcessor}
-     * @exports taoQtiItem/scoring/processor/responseRules/setOutcomeValue
+     * Default expression
+     * @type {ExpressionProcesssor}
+     * @exports taoQtiItem/scoring/processor/expressions/default
      */
-    var setOutcomValueProcessor = {
+    var defaultProcessor = {
 
         /**
-         * Process the rule
-         *
+         * Process the expression
+         * @returns {ProcessingValue} the value from the expression
          */
         process : function(){
-            var identifier = this.rule.attributes.identifier;
+
+            var identifier = this.expression.attributes.identifier;
             var variable   = this.state[identifier];
-            var expressionEngine = expressionEngineFactory(this.state);
 
-            if(!variable || !variable.baseType){
-                return errorHandler.throw('scoring', new TypeError('No variable found with identifier ' + identifier ));
+            if(typeof variable === 'undefined'){
+                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
             }
 
-            var result = expressionEngine.execute(this.rule.expression);
-
-            if(result && typeof result.value !== 'undefined'){
-
-                variable.value = result.value;
+            if(variable === null || typeof variable.defaultValue === 'undefined'){
+                return null;
             }
+
+            //todo cast value
+            return {
+                cardinality : variable.cardinality,
+                baseType    : variable.baseType,
+                value       : variable.defaultValue
+            };
         }
     };
 
-    return setOutcomValueProcessor;
+    return defaultProcessor;
 });
