@@ -18,7 +18,7 @@
  */
 
 /**
- * The gt operator processor.
+ * The OR operator processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10639
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -37,8 +37,8 @@ define([
     var orProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
+            minOperand : 1,
+            maxOperand : -1,
             cardinality : ['single'],
             baseType : ['boolean']
         },
@@ -46,8 +46,8 @@ define([
         operands   : [],
 
         /**
-         * Process the lt of the operands.
-         * @returns {?ProcessingValue} the subtract or null
+         * Process the OR of the operands.
+         * @returns {?ProcessingValue} the OR or null
          */
         process : function(){
 
