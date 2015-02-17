@@ -64,7 +64,7 @@ define([
                 return null;
             }
 
-            result.value = _.isFinite(value) ? Math.trunc(value) : value;
+            result.value = _.isFinite(value) ? parseInt(value, 10) : value;
 
             return result;
         }
