@@ -63,6 +63,30 @@ define([
             value : true
         }
     },{
+        title : 'truth with single',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        }
+    },{
+        title : 'false with single',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : false
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : false
+        }
+    },{
         title : 'truth  with 3 operands',
         operands : [{
             cardinality : 'single',
