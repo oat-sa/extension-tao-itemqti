@@ -22,6 +22,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
@@ -35,7 +36,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( gt, gte, isNull, lt, lte, match, max, min, power, product, substring, subtract, sum ){
+], function( divide, gt, gte, isNull, lt, lte, match, max, min, power, product, substring, subtract, sum ){
     'use strict';
 
     /**
@@ -58,6 +59,7 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
+        "divide"    : divide,
         "gt"        : gt,
         "gte"       : gte,
         "isNull"    : isNull,
