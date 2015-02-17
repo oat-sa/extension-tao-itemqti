@@ -37,8 +37,8 @@ define([
     var andProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
+            minOperand : 1,
+            maxOperand : -1,
             cardinality : ['single'],
             baseType : ['boolean']
         },
@@ -46,7 +46,7 @@ define([
         operands   : [],
 
         /**
-         * Process the lt of the operands.
+         * Process the AND of the operands.
          * @returns {?ProcessingValue} the and or null
          */
         process : function(){
