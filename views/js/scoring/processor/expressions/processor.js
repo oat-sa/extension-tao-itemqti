@@ -25,7 +25,8 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
-], function(_, preProcessor){
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, preProcessor, errorHandler){
     'use strict';
 
     /**
@@ -73,27 +74,27 @@ define([
             };
 
             if(!_.isArray(operands)){
-                throw new TypeError('Processor ' + name + ' requires operands to be an array : ' +  (typeof operands)  + ' given');
+                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires operands to be an array : ' +  (typeof operands)  + ' given'));
             }
             size = _.size(operands);
 
             if(minOperand > 0 && size < minOperand){
-                throw new TypeError('Processor ' + name + ' requires at least ' + minOperand + ' operands, ' + size + ' given');
+                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires at least ' + minOperand + ' operands, ' + size + ' given'));
             }
             if(maxOperand > -1 && size > maxOperand){
-                throw new TypeError('Processor ' + name + ' requires maximum ' + maxOperand + ' operands, ' + size + ' given');
+                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires maximum ' + maxOperand + ' operands, ' + size + ' given'));
             }
             if(_.some(operands, hasWrongType)){
-                throw new TypeError('An operand given to processor ' + name + ' has an unexpected baseType');
+                 return errorHandler.throw('scoring', new TypeError('An operand given to processor ' + name + ' has an unexpected baseType'));
             }
             if(_.some(operands, hasWrongCardinality)){
-                throw new TypeError('An operand given to processor ' + name + ' has an unexpected cardinality');
+                 return errorHandler.throw('scoring', new TypeError('An operand given to processor ' + name + ' has an unexpected cardinality'));
             }
             return true;
         };
 
         if(!processor){
-            throw new Error('No processor found for ' + name);
+             return errorHandler.throw('scoring', new Error('No processor found for ' + name));
         }
 
         processor.expression = expression;
@@ -137,13 +138,13 @@ define([
     expressionProcessor.register = function register(name, type, processor){
 
         if(!_.contains(this.types, type)){
-            throw new TypeError( type + ' is not a valid expression type');
+             return errorHandler.throw('scoring', new TypeError( type + ' is not a valid expression type'));
         }
         if(_.isEmpty(name)){
-            throw new TypeError('Please give a valid name to your processor');
+             return errorHandler.throw('scoring', new TypeError('Please give a valid name to your processor'));
         }
         if(!_.isPlainObject(processor) || !_.isFunction(processor.process)){
-            throw new TypeError('The processor must be an object that contains a process method.');
+             return errorHandler.throw('scoring', new TypeError('The processor must be an object that contains a process method.'));
         }
 
         processors[type] = processors[type] || {};

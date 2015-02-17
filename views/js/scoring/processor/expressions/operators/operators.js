@@ -33,9 +33,10 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
+    'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( divide, gt, gte, isNull, lt, lte, match, max, min, power, product, subtract, sum ){
+], function( divide, gt, gte, isNull, lt, lte, match, max, min, power, product, substring, subtract, sum ){
     'use strict';
 
     /**
@@ -69,6 +70,7 @@ define([
         "min"       : min,
         "power"     : power,
         "product"   : product,
+        "substring" : substring,
         "subtract"  : subtract,
         "sum"       : sum
     };

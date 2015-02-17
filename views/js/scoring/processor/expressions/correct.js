@@ -24,8 +24,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(preProcessor){
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(preProcessor, errorHandler){
     'use strict';
 
     /**
@@ -45,7 +46,7 @@ define([
             var variable   = this.state[identifier];
 
             if(typeof variable === 'undefined'){
-                throw new Error('No variable found with identifier ' + identifier );
+                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
             }
 
             if(variable === null || typeof variable.correctResponse === 'undefined'){

@@ -89,31 +89,35 @@ define([
              * @param {Array<Object>} rules - the rules to process
              * @return {Object} the modified state (it may not be necessary as the ref is modified)
              */
-            execute : function(rules, state){
+            execute : function(rules){
 
                 var currentRule,
                     currentProcessor;
-                var i = 0;
 
-                trail = _.clone(rules);
-
-                //TODO remove the limit and add a timeout
-                while(trail.length > 0 && i < 128){
-
-                    currentRule = trail.pop();
-
-                    if(currentRule.qtiClass === 'responseCondition'){
-
-                        trail.concat(processCondition(currentRule));
-
+                if(rules){
+                    if(!_.isArray(rules)){
+                        trail.push(rules);
                     } else {
-                        //process response rule
-                        currentProcessor = processorFactory(currentRule, state);
-                        currentProcessor.process();
+                        trail = _.clone(rules);
                     }
-                    i++;
-                }
 
+                    //TODO remove the limit and add a timeout
+                    while(trail.length > 0){
+
+                        currentRule = trail.pop();
+
+                        if(currentRule.qtiClass === 'responseCondition'){
+
+                            trail = trail.concat(processCondition(currentRule));
+
+                        } else {
+
+                            //process response rule
+                            currentProcessor = processorFactory(currentRule, state);
+                            currentProcessor.process();
+                        }
+                    }
+                }
                 return state;
             }
         };

@@ -26,17 +26,28 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/responseRules/engine',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-], function(_, ruleEngineFactory, PciResponse){
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(_, ruleEngineFactory, errorHandler){
     'use strict';
 
+    /**
+     * The mapping between PCI and QTI cardinalities
+     */
     var qtiPciCardinalities = {
-        single : 'base',
-        multiple : 'list',
-        ordered : 'list',
-        record : 'record'
+        single      : 'base',
+        multiple    : 'list',
+        ordered     : 'list',
+        record      : 'record'
     };
 
+    /**
+     * Creates the scoring state frome responses and item delcaration.
+     *
+     * @param {Object} responses - the test taker responses as RESPONSE_IDENTIFIER  : PCI_RESPONSE
+     * @param {Object} itemData - the item declaration
+     * @returns {Object} the state
+     * @throws {Error} when variable aren't declared correctly
+     */
     var stateBuilder = function stateBuilder(responses, itemData){
 
         var state = {};
@@ -51,7 +62,7 @@ define([
 
             if(state[identifier]){
                 //throw an error
-                throw new Error('Variable collision : the state already contains the response variable ' + identifier);
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the response variable ' + identifier));
             }
 
             //load the declaration
@@ -81,7 +92,7 @@ define([
             var identifier = outcome.attributes.identifier;
             if(state[identifier]){
                 //throw an error
-                throw new Error('Variable collision : the state already contains the outcome variable ' + identifier);
+                return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the outcome variable ' + identifier));
             }
             state[identifier] = {
                 cardinality  : outcome.attributes.cardinality,
@@ -97,6 +108,12 @@ define([
         return state;
     };
 
+    /**
+     * Format the scoring state using the PCI response format.
+     *
+     * @param {Object} state - the scoring state
+     * @returns {Object} the state formated in PCI
+     */
     var stateToPci = function stateToPci(state){
         var pciState = {};
 
@@ -123,6 +140,8 @@ define([
 
     /**
      * The QTI scoring provider.
+     *
+     *
      * @exports taoQtiItem/scoring/provider/qti
      */
     var qtiScoringProvider = {
@@ -137,12 +156,30 @@ define([
          * @this {taoItems/scoring/api/scorer} the scorer calls are delegated here, the context is the scorer's context with event mehods available.
          */
         process : function process(responses, itemData, done){
+            var self = this;
+            var state;
+            var ruleEngine;
 
+            //raise errors from inside the scoring stuffs
+            errorHandler.listen('scoring', function onError(err){
+                self.trigger('error', err);
+            });
 
-            var state = stateBuilder(responses, itemData);
-            var ruleEngine = ruleEngineFactory(state);
+            //the state is built and formated using the same format as processing variables,
+            //easier to manipulate in using lodash
+            state = stateBuilder(responses, itemData);
 
-            ruleEngine.execute(itemData.responseProcessing.responseRules);
+            //let's start
+            if(itemData.responseProcessing){
+
+                //create a ruleEngine for the given state
+                ruleEngine = ruleEngineFactory(state);
+
+                //run the engine...
+                ruleEngine.execute(itemData.responseProcessing.responseRules);
+            } else {
+                errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+            }
 
             done(stateToPci(state));
         }

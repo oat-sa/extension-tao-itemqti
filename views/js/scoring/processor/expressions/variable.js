@@ -23,7 +23,10 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([], function(){
+define([
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler'
+], function(preProcessor, errorHandler){
     'use strict';
 
     /**
@@ -43,7 +46,7 @@ define([], function(){
             var variable   = this.state[identifier];
 
             if(typeof variable === 'undefined'){
-                throw new Error('No variable found with identifier ' + identifier );
+                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
             }
 
             if(variable === null){
@@ -51,12 +54,11 @@ define([], function(){
             }
 
             //TODO cast value
-            return {
+            return preProcessor.parseVariable({
                 cardinality : variable.cardinality,
-                baseType : variable.baseType,
-                value : variable.value
-            };
-
+                baseType    : variable.baseType,
+                value       : variable.value
+            });
         }
     };
 
