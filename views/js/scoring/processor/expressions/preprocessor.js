@@ -45,6 +45,10 @@ define([
                 //cast value type, like if they were all arrays, and infer the result type
                 .map(function (operand) {
 
+                    if (_.isNull(operand)){
+                        return operand;
+                    }
+
                     var multiple = operand.cardinality === 'multiple' || operand.cardinality === 'ordered' && _.isArray(operand.value);
                     var value = multiple ? operand.value : [operand.value];
 
