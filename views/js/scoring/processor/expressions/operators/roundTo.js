@@ -18,7 +18,7 @@
  */
 
 /**
- * The isNull operator processor.
+ * The roundTo operator processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element106470
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -37,12 +37,16 @@ define([
      */
     var roundToProcessor = {
 
-        engines : {
-            SIGNIFICANTFIGURES: "significantFigures",
-            DECIMALPLACES: "decimalPlaces"
+        engines: {
+            significantFigures: function (value, exp) {
+                return decimalAdjust('round', value, exp);
+            },
+            decimalPlaces: function (value, exp) {
+                return decimalAdjust('floor', value, exp);
+            }
         },
 
-        roundingMode: 'significantFigures',
+        activeRoundingEngine: null,
         figures: null,
 
         constraints : {
@@ -59,14 +63,14 @@ define([
          */
         process : function(){
 
-            var roundingMode  = this.roundingMode;
+            var roundingMode  = this.activeRoundingEngine;
             var figures = this.figures;
 
             if (!preProcessor.isNumber(figures)) {
                 errorHandler.throw('scoring', new Error('figures must me numeric'));
                 return null;
             }
-            if (this.figures === 0 && roundingMode === this.engines.SIGNIFICANTFIGURES) {
+            if (this.figures === 0 && roundingMode === this.engines.significantFigures) {
                 errorHandler.throw('scoring', new Error('significantFigures must me numeric'));
                 return null;
             }
@@ -80,26 +84,17 @@ define([
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
-            var value = preProcessor
-                .parseOperands(this.operands).value()[0];
 
+            var value = preProcessor.parseVariable(this.operands[0]).value;
 
             if ( !_.isFinite(value) ) {
                 result.value = value;
                 return result;
             }
 
+            result.value = roundToProcessor.activeRoundingEngine(value, figures);
 
-            result.value = roundToProcessor[roundToProcessor.engines[roundingMode.toUpperCase()]](value, figures);
             return result;
-        },
-
-        significantFigures: function (value, exp) {
-            return decimalAdjust('round', value, exp);
-        },
-
-        decimalPlaces: function (value, exp) {
-            return decimalAdjust('floor', value, exp);
         }
     };
 
@@ -122,6 +117,9 @@ define([
         value = value.toString().split('e');
         return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
     }
+
+    roundToProcessor.activeRoundingEngine = roundToProcessor.engines.significantFigures;
+
 
     return roundToProcessor;
 });

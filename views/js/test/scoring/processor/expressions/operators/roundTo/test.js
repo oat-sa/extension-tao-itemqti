@@ -17,7 +17,7 @@ define([
 
     var dataProvider = [{
         title : 'integers',
-        roundingMode: roundToProcessor.engines.SIGNIFICANTFIGURES,
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -31,7 +31,7 @@ define([
         }
     },{
         title : 'incorrect settings',
-        roundingMode: roundToProcessor.engines.SIGNIFICANTFIGURES,
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 0,
         operands : [{
             cardinality : 'single',
@@ -41,7 +41,7 @@ define([
         expectedResult : null
     },{
         title : 'incorrect settings',
-        roundingMode: roundToProcessor.engines.SIGNIFICANTFIGURES,
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 'string',
         operands : [{
             cardinality : 'single',
@@ -51,7 +51,7 @@ define([
         expectedResult : null
     },{
         title : 'integers',
-        roundingMode: roundToProcessor.engines.DECIMALPLACES,
+        activeRoundingEngine: roundToProcessor.engines.decimalPlaces,
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -65,7 +65,7 @@ define([
         }
     },{
         title : 'one null',
-        roundingMode: roundToProcessor.engines.SIGNIFICANTFIGURES,
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -75,7 +75,7 @@ define([
         expectedResult : null
     },{
         title : '+Inf',
-        roundingMode: 'significantFigures',
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -89,7 +89,7 @@ define([
         }
     },{
         title : '-Inf',
-        roundingMode: roundToProcessor.engines.SIGNIFICANTFIGURES,
+        activeRoundingEngine: roundToProcessor.engines.significantFigures,
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -108,7 +108,7 @@ define([
       .cases(dataProvider)
       .test('roundTo ', function(data, assert){
         roundToProcessor.operands = data.operands;
-        roundToProcessor.roundingMode = data.roundingMode;
+        roundToProcessor.activeRoundingEngine = data.activeRoundingEngine;
         roundToProcessor.figures = data.figures;
         assert.deepEqual(roundToProcessor.process(), data.expectedResult, 'The roundTo is correct');
     });
