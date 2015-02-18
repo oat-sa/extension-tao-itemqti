@@ -32,11 +32,12 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/power',
+    'taoQtiItem/scoring/processor/expressions/operators/patternMatch',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function( divide, gt, gte, isNull, lt, lte, match, max, min, power, product, substring, subtract, sum ){
+], function( divide, gt, gte, isNull, lt, lte, match, max, min, power, patternMatch, product, substring, subtract, sum ){
     'use strict';
 
     /**
@@ -59,19 +60,20 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
-        "divide"    : divide,
-        "gt"        : gt,
-        "gte"       : gte,
-        "isNull"    : isNull,
-        "lt"        : lt,
-        "lte"       : lte,
-        "match"     : match,
-        "max"       : max,
-        "min"       : min,
-        "power"     : power,
-        "product"   : product,
-        "substring" : substring,
-        "subtract"  : subtract,
-        "sum"       : sum
+        "divide"       : divide,
+        "gt"           : gt,
+        "gte"          : gte,
+        "isNull"       : isNull,
+        "lt"           : lt,
+        "lte"          : lte,
+        "match"        :  match,
+        "max"          : max,
+        "min"          : min,
+        "power"        : power,
+        "patternMatch" : patternMatch,
+        "product"      : product,
+        "substring"    : substring,
+        "subtract"     : subtract,
+        "sum"          : sum
     };
 });
