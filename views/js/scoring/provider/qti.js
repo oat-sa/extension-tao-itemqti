@@ -30,14 +30,24 @@ define([
 ], function(_, ruleEngineFactory, errorHandler){
     'use strict';
 
-
+    /**
+     * The mapping between PCI and QTI cardinalities
+     */
     var qtiPciCardinalities = {
-        single : 'base',
-        multiple : 'list',
-        ordered : 'list',
-        record : 'record'
+        single      : 'base',
+        multiple    : 'list',
+        ordered     : 'list',
+        record      : 'record'
     };
 
+    /**
+     * Creates the scoring state frome responses and item delcaration.
+     *
+     * @param {Object} responses - the test taker responses as RESPONSE_IDENTIFIER  : PCI_RESPONSE
+     * @param {Object} itemData - the item declaration
+     * @returns {Object} the state
+     * @throws {Error} when variable aren't declared correctly
+     */
     var stateBuilder = function stateBuilder(responses, itemData){
 
         var state = {};
@@ -98,6 +108,12 @@ define([
         return state;
     };
 
+    /**
+     * Format the scoring state using the PCI response format.
+     *
+     * @param {Object} state - the scoring state
+     * @returns {Object} the state formated in PCI
+     */
     var stateToPci = function stateToPci(state){
         var pciState = {};
 
@@ -124,6 +140,8 @@ define([
 
     /**
      * The QTI scoring provider.
+     *
+     *
      * @exports taoQtiItem/scoring/provider/qti
      */
     var qtiScoringProvider = {
@@ -142,14 +160,26 @@ define([
             var state;
             var ruleEngine;
 
+            //raise errors from inside the scoring stuffs
             errorHandler.listen('scoring', function onError(err){
                 self.trigger('error', err);
             });
 
+            //the state is built and formated using the same format as processing variables,
+            //easier to manipulate in using lodash
             state = stateBuilder(responses, itemData);
-            ruleEngine = ruleEngineFactory(state);
 
-            ruleEngine.execute(itemData.responseProcessing.responseRules);
+            //let's start
+            if(itemData.responseProcessing){
+
+                //create a ruleEngine for the given state
+                ruleEngine = ruleEngineFactory(state);
+
+                //run the engine...
+                ruleEngine.execute(itemData.responseProcessing.responseRules);
+            } else {
+                errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+            }
 
             done(stateToPci(state));
         }
