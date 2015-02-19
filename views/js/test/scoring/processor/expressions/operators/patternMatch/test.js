@@ -63,7 +63,7 @@ define([
         .cases(dataProvider)
         .test('patternMatch ', function (data, assert) {
             patternMatchProcessor.operands = data.operands;
-            patternMatchProcessor.pattern = data.pattern;
+            patternMatchProcessor.expression = { attributes : { pattern : data.pattern } };
             assert.deepEqual(patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct');
         });
 });

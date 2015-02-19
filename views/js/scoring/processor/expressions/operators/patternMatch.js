@@ -45,7 +45,6 @@ define([
         },
 
         operands   : [],
-        pattern    : null,
 
         /**
          * Process the patternMatch of the operands.
@@ -62,12 +61,14 @@ define([
                 return null;
             }
 
-            if (!_.isRegExp(this.pattern)) {
+            var pattern = this.expression.attributes.pattern;
+
+            if (!_.isRegExp(pattern)) {
                 errorHandler.throw('scoring', new Error('Error in regexp for patternMatch'));
                 return null;
             }
 
-            var matches = preProcessor.parseVariable(this.operands[0]).value.match(this.pattern);
+            var matches = preProcessor.parseVariable(this.operands[0]).value.match(pattern);
 
             result.value = _.isNull(matches) || !matches.length ? false : true;
 
