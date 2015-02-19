@@ -18,64 +18,57 @@
  */
 
 /**
- * The substring operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10632
- *
+ * The truncate operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10701
+
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor'
 ], function(_, preProcessor){
-    'use strict';
+    "use strict";
 
     /**
-     * Process operands and returns the substring.
+     * Process operands and returns the truncate.
      * @type {OperatorProcessor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
+     * @exports taoQtiItem/scoring/processor/expressions/operators/truncate
      */
-    var substringProcessor = {
+    var truncateProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
+            minOperand : 1,
+            maxOperand : 1,
             cardinality : ['single'],
-            baseType : ['string']
+            baseType : ['integer', 'float']
         },
 
         operands   : [],
 
-        /**
-         * Process the substring of the operands.
-         * @returns {?ProcessingValue} the subtract or null
-         */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'boolean'
+                baseType : 'float'
             };
-
-            var caseSensitive = _.isBoolean(this.expression.attributes.caseSensitive) ? this.expression.attributes.caseSensitive : true;
 
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
 
-            result.value = preProcessor
-                .parseOperands(this.operands)
-                .reduce(function(f, s){
-                    if (!caseSensitive){
-                        return f.toLowerCase().indexOf(s.toLowerCase()) !== -1;
-                    }
-                    return f.indexOf(s) !== -1;
-                });
+            var value = preProcessor
+                .parseOperands(this.operands).value()[0];
+
+            if ( _.isNaN(value) ) {
+                return null;
+            }
+
+            result.value = _.isFinite(value) ? parseInt(value, 10) : value;
 
             return result;
         }
+    };
 
-};
-
-    return substringProcessor;
+    return truncateProcessor;
 });
