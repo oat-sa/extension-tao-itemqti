@@ -187,10 +187,15 @@ define([
       .cases(dataProvider)
       .test('equal ', function(data, assert){
         equalProcessor.operands = data.operands;
-        equalProcessor.tolerance = data.tolerance;
-        equalProcessor.activeToleranceEngine = data.activeToleranceEngine;
-        equalProcessor.includeLowerBound = data.includeLowerBound;
-        equalProcessor.includeUpperBound = data.includeUpperBound;
+
+            equalProcessor.expression = {
+                attributes: {
+                    includeLowerBound: data.includeLowerBound,
+                    includeUpperBound: data.includeUpperBound,
+                    activeToleranceEngine: data.activeToleranceEngine,
+                    tolerance: data.tolerance
+                }
+            };
 
         assert.deepEqual(equalProcessor.process(), data.expectedResult, 'The equal is correct');
     });

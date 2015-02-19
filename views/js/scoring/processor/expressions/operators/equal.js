@@ -37,23 +37,18 @@ define([
      */
     var equalProcessor = {
 
-        tolerance: [],
-        activeToleranceEngine: null,
-        includeLowerBound: true,
-        includeUpperBound: true,
-
         engines: {
             exact: function (x, y) {
                 return x === y;
             },
-            absolute: function (x, y) {
-                var lower = equalProcessor.includeLowerBound ? y >= x - equalProcessor.tolerance[0] : y > x - equalProcessor.tolerance[0],
-                    upper = equalProcessor.includeUpperBound ? y <= x + equalProcessor.tolerance[1] : y < x + equalProcessor.tolerance[1];
+            absolute: function (x, y, includeLowerBound, includeUpperBound, tolerance) {
+                var lower = includeLowerBound ? y >= x - tolerance[0] : y > x - tolerance[0],
+                    upper = includeUpperBound ? y <= x + tolerance[1] : y < x + tolerance[1];
                 return lower && upper;
             },
-            relative: function (x, y) {
-                var lower = equalProcessor.includeLowerBound ? y >= x - (1 - equalProcessor.tolerance[0] / 100) : y > x - (1 - equalProcessor.tolerance[0] / 100),
-                    upper = equalProcessor.includeUpperBound ? y <= x + (1 - equalProcessor.tolerance[1] / 100) : y < x + (1 - equalProcessor.tolerance[1] / 100);
+            relative: function (x, y, includeLowerBound, includeUpperBound, tolerance) {
+                var lower = includeLowerBound ? y >= x - (1 - tolerance[0] / 100) : y > x - (1 - tolerance[0] / 100),
+                    upper = includeUpperBound ? y <= x + (1 - tolerance[1] / 100) : y < x + (1 - tolerance[1] / 100);
 
                 return lower && upper;
             }
@@ -79,7 +74,13 @@ define([
                 baseType : 'boolean'
             };
 
-            if ([this.engines.absolute, this.engines.relative].indexOf(this.activeToleranceEngine) !== -1 && this.tolerance.length === 0) {
+            var activeToleranceEngine = _.isFunction(this.expression.attributes.activeToleranceEngine) ? this.expression.attributes.activeToleranceEngine : equalProcessor.engines.exact,
+                tolerance = _.isArray(this.expression.attributes.tolerance) ? this.expression.attributes.tolerance : [],
+                includeLowerBound = _.isBoolean(this.expression.attributes.includeLowerBound) ? this.expression.attributes.includeLowerBound : true,
+                includeUpperBound = _.isBoolean(this.expression.attributes.includeUpperBound) ? this.expression.attributes.includeUpperBound : true;
+
+
+            if ([this.engines.absolute, this.engines.relative].indexOf(activeToleranceEngine) !== -1 && tolerance.length === 0) {
                 errorHandler.throw('scoring', new Error('tolerance must me specified'));
                 return null;
             }
@@ -88,14 +89,14 @@ define([
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
+
             // if only one tolerance bound is given it is used for both.
-            if ( equalProcessor.tolerance.length === 1){
-                equalProcessor.tolerance.push(equalProcessor.tolerance[0]);
+            if ( tolerance.length === 1){
+                tolerance.push(tolerance[0]);
             }
 
-            result.value = this.activeToleranceEngine(preProcessor.parseVariable(this.operands[0]).value,
-                preProcessor.parseVariable(this.operands[1]).value);
-
+            result.value = activeToleranceEngine(preProcessor.parseVariable(this.operands[0]).value,
+                preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
 
             return result;
         }
