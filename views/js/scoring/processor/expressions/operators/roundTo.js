@@ -60,15 +60,15 @@ define([
          */
         process : function(){
 
-             var roundingMode = _.isFunction(this.expression.attributes.roundingMode) ? this.expression.attributes.roundingMode : roundToProcessor.engines.significantFigures;
-            var figures = _.isNumber(this.expression.attributes.figures) ? this.expression.attributes.figures : undefined;
+            var roundingMode = _.isString(this.expression.attributes.roundingMode) && _.isFunction(this.engines[this.expression.attributes.roundingMode]) ? this.engines[this.expression.attributes.roundingMode] : this.engines.significantFigures,
+                figures = preProcessor.getIntegerOrVariableRef(this.expression.attributes.figures, this.state);
 
             if (!preProcessor.isNumber(figures)) {
                 errorHandler.throw('scoring', new Error('figures must me numeric'));
                 return null;
             }
 
-            if (figures === 0 && roundingMode === this.engines.significantFigures) {
+            if (figures <= 1 && roundingMode === this.engines.significantFigures) {
                 errorHandler.throw('scoring', new Error('significantFigures must me numeric'));
                 return null;
             }

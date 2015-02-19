@@ -16,8 +16,8 @@ define([
     module('Process');
 
     var dataProvider = [{
-        title : 'integers',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        title : 'figures as integers',
+        roundingMode: 'significantFigures',
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -30,8 +30,90 @@ define([
             value : 20.115
         }
     },{
+        title : 'figures as negative',
+        roundingMode: 'significantFigures',
+        figures: -10,
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : null
+    },{
+        title : 'figures as zero with significantFigures',
+        roundingMode: 'significantFigures',
+        figures: 0,
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : null
+    },{
+        title : 'figures as string ',
+        roundingMode: 'significantFigures',
+        figures: '3',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 20.115
+        }
+    },{
+        title : 'figures as incorrect string ',
+        roundingMode: 'significantFigures',
+        figures: 'xxx',
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : null
+    },{
+        title : 'figure as reference',
+        roundingMode: 'significantFigures',
+        figures: 'ref1',
+        state: {
+            ref1: {
+                cardinality: 'single',
+                baseType: 'integer',
+                value: '3'
+            }
+        },
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 20.115
+        }
+    },{
+        title : 'figure as missing reference',
+        roundingMode: 'significantFigures',
+        figures: 'ref1',
+        state: {
+            ref2: {
+                cardinality: 'single',
+                baseType: 'integer',
+                value: '3'
+            }
+        },
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult: null
+    },{
         title : 'incorrect settings',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        roundingMode: 'significantFigures',
         figures: 0,
         operands : [{
             cardinality : 'single',
@@ -41,7 +123,7 @@ define([
         expectedResult : null
     },{
         title : 'incorrect settings',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        roundingMode: 'significantFigures',
         figures: 'string',
         operands : [{
             cardinality : 'single',
@@ -50,8 +132,8 @@ define([
         }],
         expectedResult : null
     },{
-        title : 'integers',
-        roundingMode: roundToProcessor.engines.decimalPlaces,
+        title : 'decimalPlaces',
+        roundingMode: 'decimalPlaces',
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -64,8 +146,22 @@ define([
             value : 20.114
         }
     },{
+        title : 'decimalPlaces with 0 figures',
+        roundingMode: 'decimalPlaces',
+        figures: 0,
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '20.1145'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'float',
+            value : 20
+        }
+    },{
         title : 'one null',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        roundingMode: 'significantFigures',
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -75,7 +171,7 @@ define([
         expectedResult : null
     },{
         title : '+Inf',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        roundingMode: 'significantFigures',
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -89,7 +185,7 @@ define([
         }
     },{
         title : '-Inf',
-        roundingMode: roundToProcessor.engines.significantFigures,
+        roundingMode: 'significantFigures',
         figures: 3,
         operands : [{
             cardinality : 'single',
@@ -108,6 +204,8 @@ define([
       .cases(dataProvider)
       .test('roundTo ', function(data, assert){
         roundToProcessor.operands = data.operands;
+
+        roundToProcessor.state = data.state ? data.state : {};
 
         roundToProcessor.expression = {
             attributes: {
