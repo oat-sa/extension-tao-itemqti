@@ -36,8 +36,6 @@ define([
      */
     var substringProcessor = {
 
-        caseSensitive: true,
-
         constraints : {
             minOperand : 2,
             maxOperand : 2,
@@ -58,6 +56,8 @@ define([
                 baseType : 'boolean'
             };
 
+            var caseSensitive = _.isBoolean(this.expression.attributes.caseSensitive) ? this.expression.attributes.caseSensitive : true;
+
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
@@ -66,7 +66,7 @@ define([
             result.value = preProcessor
                 .parseOperands(this.operands)
                 .reduce(function(f, s){
-                    if (substringProcessor.caseSensitive === false){
+                    if (!caseSensitive){
                         return f.toLowerCase().indexOf(s.toLowerCase()) !== -1;
                     }
                     return f.indexOf(s) !== -1;

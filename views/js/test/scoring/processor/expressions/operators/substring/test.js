@@ -99,7 +99,7 @@ define([
       .cases(dataProvider)
       .test('substring ', function(data, assert){
         substringProcessor.operands = data.operands;
-        substringProcessor.caseSensitive = data.caseSensitive;
+        substringProcessor.expression = { attributes : { caseSensitive : data.caseSensitive } };
         assert.deepEqual(substringProcessor.process(), data.expectedResult, 'The substring is correct');
     });
 });
