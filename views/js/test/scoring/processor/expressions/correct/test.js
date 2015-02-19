@@ -13,52 +13,6 @@ define([
 
     module('Process');
 
-    QUnit.test('Get the correct value', function(assert){
-        correctProcessor.expression = {
-            attributes : { identifier : 'RESPONSE' }
-        };
-        correctProcessor.state = {
-            RESPONSE : {
-                cardinality         : 'single',
-                baseType            : 'identifier',
-                correctResponse     : 'choice-1',
-                mapping             : [],
-                areaMapping         : [],
-                value               : 'choice-2'
-            }
-        };
-
-        var expectedResult =  {
-            cardinality : 'single',
-            baseType : 'identifier',
-            value : 'choice-1'
-        };
-        assert.deepEqual(correctProcessor.process(), expectedResult, 'returns the correct response');
-    });
-
-   QUnit.test('Get the correct value on multiple', function(assert){
-        correctProcessor.expression = {
-            attributes : { identifier : 'RESPONSE' }
-        };
-        correctProcessor.state = {
-            RESPONSE : {
-                cardinality         : 'multiple',
-                baseType            : 'integer',
-                correctResponse     : ['1', '2'],
-                mapping             : [],
-                areaMapping         : [],
-                value               : [3]
-            }
-        };
-
-        var expectedResult =  {
-            cardinality : 'multiple',
-            baseType : 'integer',
-            value : [1, 2]
-        };
-        assert.deepEqual(correctProcessor.process(), expectedResult, 'returns the correct response');
-    });
-
 
     QUnit.test('Get the correct value even null', function(assert){
         correctProcessor.expression = {
@@ -91,7 +45,75 @@ define([
             QUnit.start();
         });
 
-	correctProcessor.process();
+	    correctProcessor.process();
     });
+
+    var dataProvider = [{
+        title : 'single identifier',
+        response : {
+            cardinality     : 'single',
+            baseType        : 'identifier',
+            value           : 'choice-2',
+            correctResponse : 'choice-1'
+        },
+        expectedResult : {
+            cardinality : 'single',
+            baseType    : 'identifier',
+            value       : 'choice-1'
+        }
+    }, {
+        title : 'multiple integers',
+        response : {
+            cardinality     : 'multiple',
+            baseType        : 'integer',
+            value           : [4, 5],
+            correctResponse : ['1', '2']
+        },
+        expectedResult : {
+            cardinality : 'multiple',
+            baseType    : 'integer',
+            value       : [1, 2]
+        }
+    }, {
+        title : 'null',
+        response : null,
+        expectedResult : null
+    }, {
+        title : 'multiple directedPairs',
+        response : {
+            cardinality     : 'multiple',
+            baseType        : 'directedPair',
+            value           : [['C', 'R'], ['D', 'M']],
+            correctResponse : [
+                "C R",
+                "D M",
+                "L M",
+                "P T"
+            ],
+        },
+        expectedResult : {
+            cardinality : 'multiple',
+            baseType    : 'directedPair',
+            value       : [
+                ['C', 'R'],
+                ['D', 'M'],
+                ['L', 'M'],
+                ['P', 'T']
+            ]
+        }
+    }];
+
+    QUnit
+      .cases(dataProvider)
+      .test('correct ', function(data, assert){
+        correctProcessor.expression = {
+            attributes : { identifier : 'RESPONSE' }
+        };
+        correctProcessor.state = {
+            RESPONSE : data.response
+        };
+        assert.deepEqual(correctProcessor.process(), data.expectedResult, 'The results match correct');
+    });
+
 
 });

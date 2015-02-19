@@ -82,7 +82,7 @@ define([
      */
     function toDirectedPair(value){
         if(_.isString(value) && value.indexOf(' ') > -1){
-            return value.join(' ');
+            return value.split(' ');
         }
         return _.toArray(value);
     }
