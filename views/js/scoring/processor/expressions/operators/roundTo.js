@@ -46,9 +46,6 @@ define([
             }
         },
 
-        activeRoundingEngine: null,
-        figures: null,
-
         constraints : {
             minOperand  : 1,
             maxOperand  : 1,
@@ -63,14 +60,15 @@ define([
          */
         process : function(){
 
-            var roundingMode  = this.activeRoundingEngine;
-            var figures = this.figures;
+             var roundingMode = _.isFunction(this.expression.attributes.roundingMode) ? this.expression.attributes.roundingMode : roundToProcessor.engines.significantFigures;
+            var figures = _.isNumber(this.expression.attributes.figures) ? this.expression.attributes.figures : undefined;
 
             if (!preProcessor.isNumber(figures)) {
                 errorHandler.throw('scoring', new Error('figures must me numeric'));
                 return null;
             }
-            if (this.figures === 0 && roundingMode === this.engines.significantFigures) {
+
+            if (figures === 0 && roundingMode === this.engines.significantFigures) {
                 errorHandler.throw('scoring', new Error('significantFigures must me numeric'));
                 return null;
             }
@@ -92,7 +90,7 @@ define([
                 return result;
             }
 
-            result.value = roundToProcessor.activeRoundingEngine(value, figures);
+            result.value = roundingMode(value, figures);
 
             return result;
         }
@@ -117,9 +115,6 @@ define([
         value = value.toString().split('e');
         return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
     }
-
-    roundToProcessor.activeRoundingEngine = roundToProcessor.engines.significantFigures;
-
 
     return roundToProcessor;
 });
