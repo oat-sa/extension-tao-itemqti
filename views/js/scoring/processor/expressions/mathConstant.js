@@ -47,8 +47,8 @@ define([], function(){
             }
             return {
                 cardinality : 'single',
-                baseType : 'float',
-                value : value
+                baseType    : 'float',
+                value       : value
             };
         }
     };
