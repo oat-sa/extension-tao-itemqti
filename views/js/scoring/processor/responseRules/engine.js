@@ -94,25 +94,30 @@ define([
                 var currentRule,
                     currentProcessor;
 
-                trail = _.clone(rules);
-
-                //TODO remove the limit and add a timeout
-                while(trail.length > 0){
-
-                    currentRule = trail.pop();
-
-                    if(currentRule.qtiClass === 'responseCondition'){
-
-                        trail = trail.concat(processCondition(currentRule));
-
+                if(rules){
+                    if(!_.isArray(rules)){
+                        trail.push(rules);
                     } else {
+                        trail = _.clone(rules);
+                    }
 
-                        //process response rule
-                        currentProcessor = processorFactory(currentRule, state);
-                        currentProcessor.process();
+                    //TODO remove the limit and add a timeout
+                    while(trail.length > 0){
+
+                        currentRule = trail.pop();
+
+                        if(currentRule.qtiClass === 'responseCondition'){
+
+                            trail = trail.concat(processCondition(currentRule));
+
+                        } else {
+
+                            //process response rule
+                            currentProcessor = processorFactory(currentRule, state);
+                            currentProcessor.process();
+                        }
                     }
                 }
-
                 return state;
             }
         };

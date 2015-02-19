@@ -55,8 +55,8 @@ define([
             //todo cast value
             return {
                 cardinality : variable.cardinality,
-                baseType : variable.baseType,
-                value : variable.defaultValue
+                baseType    : variable.baseType,
+                value       : variable.defaultValue
             };
         }
     };
