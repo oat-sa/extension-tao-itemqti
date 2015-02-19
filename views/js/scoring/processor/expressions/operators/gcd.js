@@ -28,6 +28,11 @@ define([
 ], function(_, preProcessor){
     'use strict';
 
+    /**
+     * Process operands and returns the gcd.
+     * @type {OperatorProcessor}
+     * @exports taoQtiItem/scoring/processor/expressions/operators/gcd
+     */
     var gcdProcessor = {
 
         constraints : {
@@ -39,11 +44,6 @@ define([
 
         operands   : [],
 
-        /**
-         * Process operands and returns the gcd.
-         * @type {OperatorProcessor}
-         * @exports taoQtiItem/scoring/processor/expressions/operators/gcd
-         */
         process : function(){
 
             var result = {
