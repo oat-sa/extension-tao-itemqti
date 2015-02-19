@@ -37,9 +37,6 @@ define([
      */
     var anyNProcessor = {
 
-        min: 1,
-        max: -1,
-
         constraints : {
             minOperand : 1,
             maxOperand : -1,
@@ -60,19 +57,20 @@ define([
                 baseType : 'boolean'
             };
 
+            var min = _.isNumber(this.expression.attributes.min) ? this.expression.attributes.min : 0,
+                max = _.isNumber(this.expression.attributes.max) ? this.expression.attributes.max : 0;
+
 
             var counted = preProcessor.parseOperands(this.operands).countBy().value();
 
-            if (counted.true >= this.min && counted.true <= this.max ){
+            if (counted.true >= min && counted.true <= max ){
                 result.value = true;
             }else
 
-            if (counted.true + counted.null >= this.min && counted.true + counted.null <= this.max) {
+            if (counted.true + counted.null >= min && counted.true + counted.null <= max) {
                 // It could have match if nulls were true values.
                 return null;
             }else{
-
-            //if (counted.false >= this.min || counted.true >= this.max ){
                 result.value = false;
             }
 

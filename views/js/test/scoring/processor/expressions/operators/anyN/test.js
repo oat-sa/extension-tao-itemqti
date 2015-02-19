@@ -146,12 +146,10 @@ define([
     }];
 
     QUnit
-      .cases(dataProvider)
-      .test('anyN ', function(data, assert){
+    .cases(dataProvider)
+    .test('anyN ', function (data, assert) {
         anyNProcessor.operands = data.operands;
-        anyNProcessor.min = data.min;
-        anyNProcessor.max = data.max;
-
+        anyNProcessor.expression = {attributes: {min: data.min, max: data.max}};
         assert.deepEqual(anyNProcessor.process(), data.expectedResult, 'The anyN is correct');
     });
 });
