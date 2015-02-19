@@ -82,7 +82,7 @@ define([
         .cases(dataProvider)
         .test('stringMatch ', function (data, assert) {
             stringMatchProcessor.operands = data.operands;
-            stringMatchProcessor.caseSensitive = data.caseSensitive;
+            stringMatchProcessor.expression = { attributes : { caseSensitive : data.caseSensitive } };
             assert.deepEqual(stringMatchProcessor.process(), data.expectedResult, 'The stringMatch is correct');
         });
 });

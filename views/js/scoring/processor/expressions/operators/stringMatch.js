@@ -44,7 +44,6 @@ define([
         },
 
         operands: [],
-        caseSensitive: true,
 
         /**
          * Process the stringMatch of the operands.
@@ -60,14 +59,14 @@ define([
             if (_.some(this.operands, _.isNull) === true) {
                 return null;
             }
-            var values = this.operands;
-
+            var values = this.operands,
+                caseSensitive = _.isBoolean(this.expression.attributes.caseSensitive) ? this.expression.attributes.caseSensitive : true;
 
             var v1 = preProcessor.parseVariable(values[0]).value,
                 v2 = preProcessor.parseVariable(values[1]).value;
 
 
-            result.value = this.caseSensitive ? v1 === v2 : v1.toUpperCase() === v2.toUpperCase();
+            result.value = caseSensitive ? v1 === v2 : v1.toUpperCase() === v2.toUpperCase();
 
             return result;
         }
