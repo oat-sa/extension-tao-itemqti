@@ -18,8 +18,8 @@
  */
 
 /**
- * The match operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
+ * The substring operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10632
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -30,24 +30,24 @@ define([
     'use strict';
 
     /**
-     * Process operands and returns the match.
+     * Process operands and returns the substring.
      * @type {OperatorProcessor}
      * @exports taoQtiItem/scoring/processor/expressions/operators/substring
      */
-    var matchProcessor = {
+    var substringProcessor = {
 
         constraints : {
             minOperand : 2,
             maxOperand : 2,
-            cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
+            cardinality : ['single'],
+            baseType : ['string']
         },
 
         operands   : [],
 
         /**
-         * Process the match of the operands.
-         * @returns {?ProcessingValue} the match or null
+         * Process the substring of the operands.
+         * @returns {?ProcessingValue} the subtract or null
          */
         process : function(){
 
@@ -56,20 +56,26 @@ define([
                 baseType : 'boolean'
             };
 
+            var caseSensitive = _.isBoolean(this.expression.attributes.caseSensitive) ? this.expression.attributes.caseSensitive : true;
+
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
 
-            result.value = _.isEqual(
-                preProcessor.parseVariable(this.operands[0]),
-                preProcessor.parseVariable(this.operands[1])
-            );
+            result.value = preProcessor
+                .parseOperands(this.operands)
+                .reduce(function(f, s){
+                    if (!caseSensitive){
+                        return f.toLowerCase().indexOf(s.toLowerCase()) !== -1;
+                    }
+                    return f.indexOf(s) !== -1;
+                });
 
             return result;
         }
 
 };
 
-    return matchProcessor;
+    return substringProcessor;
 });

@@ -18,8 +18,8 @@
  */
 
 /**
- * The match operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
+ * The Round operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10703
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -30,46 +30,55 @@ define([
     'use strict';
 
     /**
-     * Process operands and returns the match.
+     * Process operands and returns round result.
      * @type {OperatorProcessor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
+     * @exports taoQtiItem/scoring/processor/expressions/operators/round
      */
-    var matchProcessor = {
+    var roundProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
-            cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
+            minOperand  : 1,
+            maxOperand  : 1,
+            cardinality : ['single'],
+            baseType    : ['integer', 'float']
         },
 
         operands   : [],
 
         /**
-         * Process the match of the operands.
-         * @returns {?ProcessingValue} the match or null
+         * @returns {?ProcessingValue} a single boolean
          */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'boolean'
+                baseType    : 'float'
             };
 
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
+            var value = preProcessor
+                .parseOperands(this.operands).value()[0];
 
-            result.value = _.isEqual(
-                preProcessor.parseVariable(this.operands[0]),
-                preProcessor.parseVariable(this.operands[1])
-            );
 
+            if ( _.isNaN(value) ) {
+                return null;
+            }
+
+            if ( !_.isFinite(value) ) {
+                result.value = value;
+                return result;
+            }
+
+            result.value = Math.round(value);
             return result;
         }
 
-};
+    };
 
-    return matchProcessor;
+
+    return roundProcessor;
 });
+
