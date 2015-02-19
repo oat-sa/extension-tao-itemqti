@@ -32,6 +32,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/match',
     'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/min',
+    'taoQtiItem/scoring/processor/expressions/operators/not',
     'taoQtiItem/scoring/processor/expressions/operators/or',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
@@ -40,7 +41,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, divide, gt, gte, isNull, lt, lte, match, max, min, or, power, product, round, substring, subtract, sum, truncate ){
+], function( and, divide, gt, gte, isNull, lt, lte, match, max, min, not, or, power, product, round, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -73,6 +74,7 @@ define([
         "match"     : match,
         "max"       : max,
         "min"       : min,
+        "not"        : not,
         "or"        : or,
         "power"     : power,
         "product"   : product,
