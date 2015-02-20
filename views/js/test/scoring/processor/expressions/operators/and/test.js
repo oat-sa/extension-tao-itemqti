@@ -3,7 +3,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/and'
 ], function(_, andProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
