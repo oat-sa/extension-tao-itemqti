@@ -95,8 +95,23 @@ define([
          * @param value
          * @returns {Boolean|boolean}
          */
-        isNumber : function isNumber(value){
+        isNumber: function isNumber(value) {
             return _.isNumber(value) && !_.isNaN(value) && _.isFinite(value);
+        },
+
+        /**
+         * Retrieves value for integerOrVariableRef dataType
+         * @param {*} val
+         * @param {Object} container
+         * @returns {Number|integer|NaN}
+         */
+        getIntegerOrVariableRef: function (val, container) {
+            var res = val;
+            if (!preProcessor.isNumber(typeCaster('integer')(val)) && _.isObject(container[val])) {
+                res = preProcessor.parseVariable(container[val]).value;
+            }
+
+            return typeCaster('integer')(res);
         }
     };
 

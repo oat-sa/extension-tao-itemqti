@@ -48,9 +48,7 @@ define([
          */
         typeCaster = function typeCast(type) {
 
-            return (castingMap[type] || function (value) {
-                return value;
-            });
+            return castingMap[type] || _.constant;
         };
 
 
