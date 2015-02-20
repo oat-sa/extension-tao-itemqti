@@ -65,18 +65,30 @@ define([
          * @returns {ProcessingValue} the parsedVariable
          */
         parseVariable : function parseVariable(variable){
-            var caster = typeCaster(variable.baseType);
-
-            if(variable.cardinality === 'single'){
-                variable.value = caster(variable.value);
-            } else {
-                variable.value = _.map(variable.value, caster);
-            }
-
-            if(variable.cardinality === 'multiple'){
-                variable.value = variable.value.sort();   //sort for
-            }
+            variable.value = this.parseValue(variable.value, variable.baseType, variable.cardinality);
             return variable;
+        },
+
+        /**
+         * Parse a value regarding a type and a cardinalilty
+         * @param {*} value - the value to parse
+         * @param {String} baseType - in the QTI baseTypes
+         * @param {String} cardinality - either single, multiple, ordered or record
+         * @returns {*} the parsed value
+         */
+        parseValue : function(value, baseType, cardinality){
+            var caster = typeCaster(baseType);
+
+            if(cardinality === 'single'){
+                value = caster(value);
+            } else {
+                value = _.map(value, caster);
+            }
+
+            if(cardinality === 'multiple'){
+                value = value.sort();   //sort for comparison
+            }
+            return value;
         },
 
         /**

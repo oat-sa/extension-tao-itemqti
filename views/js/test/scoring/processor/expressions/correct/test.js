@@ -14,17 +14,6 @@ define([
     module('Process');
 
 
-    QUnit.test('Get the correct value even null', function(assert){
-        correctProcessor.expression = {
-            attributes : { identifier : 'RESPONSE' }
-        };
-        correctProcessor.state = {
-            RESPONSE : null
-        };
-
-        assert.equal(correctProcessor.process(), null, 'returns null');
-    });
-
     QUnit.asyncTest('Fails if no variable is found', function(assert){
         QUnit.expect(1);
         correctProcessor.expression = {
@@ -35,8 +24,7 @@ define([
                 cardinality         : 'single',
                 baseType            : 'identifier',
                 correctResponse     : 'choice-1',
-                mapping             : [],
-                areaMapping         : [],
+                mapping             : {},
                 value               : 'choice-2'
             }
         };
