@@ -31,6 +31,22 @@ define([
             value: [2, 3, 7, 5]
         }
     },{
+        title: 'ordered directedPair',
+        operands: [{
+            cardinality: 'ordered',
+            baseType: 'directedPair',
+            value: [[2, 3], [4, 7]]
+        }, {
+            cardinality: 'single',
+            baseType: 'directedPair',
+            value: [5, 10]
+        }],
+        expectedResult: {
+            cardinality: 'ordered',
+            baseType: 'directedPair',
+            value: [[2, 3], [4, 7], [5, 10]]
+        }
+    },{
         title : 'ordered integer with nulls',
         operands : [{
             cardinality : 'ordered',
