@@ -32,8 +32,9 @@ define([
     'taoQtiItem/scoring/processor/expressions/mapResponse',
     'taoQtiItem/scoring/processor/expressions/mathConstant',
     'taoQtiItem/scoring/processor/expressions/null',
+    'taoQtiItem/scoring/processor/expressions/randomInteger',
     'taoQtiItem/scoring/processor/expressions/variable'
-], function(baseValue, correct, defaultt, mapResponse, mathConstant, nulll, variable){
+], function(baseValue, correct, defaultt, mapResponse, mathConstant, nulll, randomInteger, variable){
     'use strict';
 
     /**
@@ -55,6 +56,7 @@ define([
         'mapResponse'   : mapResponse,
         'mathConstant'  : mathConstant,
         'null'          : nulll,
+        'randomInteger' : randomInteger,
         'variable'      : variable
     };
 
