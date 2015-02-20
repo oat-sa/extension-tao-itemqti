@@ -30,14 +30,24 @@ define([
 ], function(_, ruleEngineFactory, errorHandler){
     'use strict';
 
-
+    /**
+     * The mapping between PCI and QTI cardinalities
+     */
     var qtiPciCardinalities = {
-        single : 'base',
-        multiple : 'list',
-        ordered : 'list',
-        record : 'record'
+        single      : 'base',
+        multiple    : 'list',
+        ordered     : 'list',
+        record      : 'record'
     };
 
+    /**
+     * Creates the scoring state frome responses and item delcaration.
+     *
+     * @param {Object} responses - the test taker responses as RESPONSE_IDENTIFIER  : PCI_RESPONSE
+     * @param {Object} itemData - the item declaration
+     * @returns {Object} the state
+     * @throws {Error} when variable aren't declared correctly
+     */
     var stateBuilder = function stateBuilder(responses, itemData){
 
         var state = {};
@@ -60,11 +70,15 @@ define([
                 cardinality         : cardinality,
                 baseType            : baseType,
                 correctResponse     : response.correctResponses,
-                mapping             : response.mapping,
-                areaMapping         : response.areaMapping,
-                mappingAttributes   : response.mappingAttributes,
                 defaultValue        : response.attributes.defaultValue || response.defaultValue
             };
+
+            //support both old an new mapping format
+            if(response.mapping && response.mapping.qtiClass === 'mapping' || response.mapping.qtiClass === 'areaMapping'){
+                state[identifier].mapping = response.mapping;
+            } else {
+                state[identifier].mapping = reFormatMapping(response);
+            }
 
             //and add the current response
             if(responses && responses[identifier] && typeof responses[identifier][pciCardinality] !== 'undefined'){
@@ -98,6 +112,12 @@ define([
         return state;
     };
 
+    /**
+     * Format the scoring state using the PCI response format.
+     *
+     * @param {Object} state - the scoring state
+     * @returns {Object} the state formated in PCI
+     */
     var stateToPci = function stateToPci(state){
         var pciState = {};
 
@@ -123,7 +143,47 @@ define([
     };
 
     /**
+     * Reformat the mapping/areaMapping from a flat list to a structured object to anticipate changes in the serializer.
+     * It should be deprecated once the new format is implemented.
+     *
+     * @param {Object} response - the QTI response declaration
+     * @returns {Object} the formated mapping
+     */
+    var reFormatMapping  = function reFormatMapping(response){
+        var mapping;
+        if(_.isArray(response.mapping) && response.mapping.length){
+            mapping = {
+                qtiClass: 'mapping',
+                attributes  : response.mappingAttributes
+            };
+            mapping.mapEntries = _.map(response.mapping, function(value, key){
+                return {
+                    qtiClass    : 'mapEntry',
+                    mapKey      : key,
+                    mapValue    : value,
+                    attributes  : {
+                        caseSensitive : false
+                    }
+                };
+            });
+        }
+        if(_.isArray(response.areaMapping) && response.areaMapping.length){
+            mapping = {
+                qtiClass: 'areaMapping',
+                attributes  : response.mappingAttributes
+            };
+            mapping.mapEntries = _.map(response.mapping, function(entry){
+                return _.extend({ qtiClass : 'areaMapEntry' }, entry);
+            });
+        }
+
+        return mapping;
+    };
+
+    /**
      * The QTI scoring provider.
+     *
+     *
      * @exports taoQtiItem/scoring/provider/qti
      */
     var qtiScoringProvider = {
@@ -142,14 +202,26 @@ define([
             var state;
             var ruleEngine;
 
+            //raise errors from inside the scoring stuffs
             errorHandler.listen('scoring', function onError(err){
                 self.trigger('error', err);
             });
 
+            //the state is built and formated using the same format as processing variables,
+            //easier to manipulate in using lodash
             state = stateBuilder(responses, itemData);
-            ruleEngine = ruleEngineFactory(state);
 
-            ruleEngine.execute(itemData.responseProcessing.responseRules);
+            //let's start
+            if(itemData.responseProcessing){
+
+                //create a ruleEngine for the given state
+                ruleEngine = ruleEngineFactory(state);
+
+                //run the engine...
+                ruleEngine.execute(itemData.responseProcessing.responseRules);
+            } else {
+                errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+            }
 
             done(stateToPci(state));
         }

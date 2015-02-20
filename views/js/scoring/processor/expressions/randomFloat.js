@@ -18,23 +18,25 @@
  */
 
 /**
- * The variable expression processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10572
+ * The randomFloat expression processor.
+ *
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10588
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(preProcessor, errorHandler){
+], function(_, preProcessor, errorHandler){
     'use strict';
 
     /**
      * Correct expression
      * @type {ExpressionProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/variable
+     * @exports taoQtiItem/scoring/processor/expressions/randomFloat
      */
-    var variableProcessor = {
+    var randomFloatProcessor = {
 
         /**
          * Process the expression
@@ -42,25 +44,33 @@ define([
          */
         process : function(){
 
-            var identifier = this.expression.attributes.identifier;
-            var variable   = this.state[identifier];
+            var range;
+            var min         = parseFloat(this.expression.attributes.min);
+            var max         = parseFloat(this.expression.attributes.max);
 
-            if(typeof variable === 'undefined'){
-                 return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
+            var result = {
+                cardinality : 'single',
+                baseType    : 'float'
+            };
+
+            //verfiy attributes
+            if(_.isNaN(min) || !_.isFinite(min)){
+                min = 0;
+            }
+            if(_.isNaN(max) || !_.isFinite(max)){
+                return errorHandler.throw('scoring', new Error('The max value of a randomFloat expresssion should be a finite integer.'));
             }
 
-            if(variable === null){
-                return null;
+            if(min > max){
+                return errorHandler.throw('scoring', new Error('Come on! How am I supposed to generate a random number from a negative range : min > max'));
             }
 
-            //TODO cast value
-            return preProcessor.parseVariable({
-                cardinality : variable.cardinality,
-                baseType    : variable.baseType,
-                value       : variable.value
-            });
+            //get the random value
+            result.value = _.random(min, max, true);
+
+            return result;
         }
     };
 
-    return variableProcessor;
+    return randomFloatProcessor;
 });

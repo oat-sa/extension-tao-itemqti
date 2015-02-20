@@ -18,8 +18,8 @@
  */
 
 /**
- * The match operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
+ * The divide operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10693
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -30,30 +30,30 @@ define([
     'use strict';
 
     /**
-     * Process operands and returns the match.
+     * Process operands and returns the divide.
      * @type {OperatorProcessor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
+     * @exports taoQtiItem/scoring/processor/expressions/operators/divide
      */
-    var matchProcessor = {
+    var divideProcessor = {
 
         constraints : {
             minOperand : 2,
             maxOperand : 2,
-            cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
+            cardinality : ['single'],
+            baseType : ['integer', 'float']
         },
 
         operands   : [],
 
         /**
-         * Process the match of the operands.
-         * @returns {?ProcessingValue} the match or null
+         * Process the divide of the operands.
+         * @returns {?ProcessingValue} the divide or null
          */
         process : function(){
 
             var result = {
                 cardinality : 'single',
-                baseType : 'boolean'
+                baseType : 'float'
             };
 
             //if at least one operand is null, then break and return null
@@ -61,15 +61,30 @@ define([
                 return null;
             }
 
-            result.value = _.isEqual(
-                preProcessor.parseVariable(this.operands[0]),
-                preProcessor.parseVariable(this.operands[1])
-            );
+            result.value = preProcessor
+                .mapNumbers(this.operands)
+                .reduce(function(f, s){
+                    var result =  f / s;
+
+                    if (s === 0){
+                        return null;
+                    }
+
+                    if (result === 0 && f !== 0) {
+                        return null;
+                    }
+
+                    return result;
+
+                });
+
+            if (_.isNull(result.value)){
+                return null;
+            }
 
             return result;
         }
+    };
 
-};
-
-    return matchProcessor;
+    return divideProcessor;
 });

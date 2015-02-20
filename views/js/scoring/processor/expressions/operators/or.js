@@ -18,8 +18,8 @@
  */
 
 /**
- * The match operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10645
+ * The OR operator processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10639
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -30,24 +30,24 @@ define([
     'use strict';
 
     /**
-     * Process operands and returns the match.
+     * Process operands and returns the OR.
      * @type {OperatorProcessor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/substring
+     * @exports taoQtiItem/scoring/processor/expressions/operators/or
      */
-    var matchProcessor = {
+    var orProcessor = {
 
         constraints : {
-            minOperand : 2,
-            maxOperand : 2,
-            cardinality : ['single', 'multiple', 'ordered'],
-            baseType : ['string', 'identifier', 'boolean', 'integer', 'float', 'pair', 'directedPair']
+            minOperand : 1,
+            maxOperand : -1,
+            cardinality : ['single'],
+            baseType : ['boolean']
         },
 
         operands   : [],
 
         /**
-         * Process the match of the operands.
-         * @returns {?ProcessingValue} the match or null
+         * Process the OR of the operands.
+         * @returns {?ProcessingValue} the OR or null
          */
         process : function(){
 
@@ -61,15 +61,15 @@ define([
                 return null;
             }
 
-            result.value = _.isEqual(
-                preProcessor.parseVariable(this.operands[0]),
-                preProcessor.parseVariable(this.operands[1])
-            );
+            result.value = preProcessor
+                .parseOperands(this.operands)
+                .reduce(function(f, s){
+                    return f || s;
+                });
 
             return result;
         }
+    };
 
-};
-
-    return matchProcessor;
+    return orProcessor;
 });
