@@ -193,12 +193,13 @@ define([
                     });
 
                     if(self.shape.type === 'path'){
-                       _.forEach(self.shape.attr('path'), function(point, index){
-                           if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
+                        return; // Disable resizing for this kind of shape
+                        /*_.forEach(self.shape.attr('path'), function(point, index){
+                            if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
                                 this.pointIndex = index;
                                 return false; 
-                           }                 
-                       }, handler); 
+                            }                 
+                        }, handler);*/
                     }
 
                     //hide others
