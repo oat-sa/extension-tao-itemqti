@@ -74,6 +74,11 @@ define([
         }
     };
 
+    /**
+     * Helps to calculate greatest common divisor for two ore more numbers
+     * @param {Array<number|Number>}
+     * @returns {number} greatest common divisor
+     */
     function gcd(numbers)
     {
         var n = numbers.length,

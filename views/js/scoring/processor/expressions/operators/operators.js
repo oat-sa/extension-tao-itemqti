@@ -45,7 +45,7 @@ define([
      * @typedef OperatorProcessor
      * @property {Object} expression - the expression definition
      * @property {Object} state - the session state (responses and variables)
-     * @property {Array<ProcessingValue} operands - the operands
+     * @property {Array<ProcessingValue>} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
      * @property {Number} constraints.maxOperand - the maximum number of operands
