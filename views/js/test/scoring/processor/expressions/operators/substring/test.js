@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/substring'
-], function(_, substringProcessor){
+], function(_, preProcessorFactory, substringProcessor){
     'use strict';
 
     module('API');
@@ -99,7 +100,8 @@ define([
       .cases(dataProvider)
       .test('substring ', function(data, assert){
         substringProcessor.operands = data.operands;
-        substringProcessor.caseSensitive = data.caseSensitive;
+        substringProcessor.expression = { attributes : { caseSensitive : data.caseSensitive } };
+        substringProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(substringProcessor.process(), data.expectedResult, 'The substring is correct');
     });
 });
