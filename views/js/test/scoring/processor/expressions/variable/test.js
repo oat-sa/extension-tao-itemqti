@@ -1,8 +1,9 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/variable',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, variableProcessor, errorHandler){
+], function(_, preProcessorFactory, variableProcessor, errorHandler){
 
     module('API');
 
@@ -14,16 +15,18 @@ define([
     module('Process');
 
     QUnit.test('Get the variable', function(assert){
-        variableProcessor.expression = {
-            attributes : { identifier : 'RESPONSE' }
-        };
-        variableProcessor.state = {
+        var state = {
             RESPONSE : {
                 cardinality         : 'single',
                 baseType            : 'identifier',
                 value               : 'choice-2'
             }
         };
+        variableProcessor.expression = {
+            attributes : { identifier : 'RESPONSE' }
+        };
+        variableProcessor.state = state;
+        variableProcessor.preProcessor = preProcessorFactory(state);
 
         var expectedResult =  {
             cardinality : 'single',
@@ -34,12 +37,14 @@ define([
     });
 
     QUnit.test('Get the variable value even null', function(assert){
+        var state = {
+            RESPONSE : null
+        };
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
         };
-        variableProcessor.state = {
-            RESPONSE : null
-        };
+        variableProcessor.state = state;
+        variableProcessor.preProcessor = preProcessorFactory(state);
 
         assert.equal(variableProcessor.process(), null, 'returns null');
     });
