@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/sum'
-], function(_, sumProcessor){
+], function(_, preProcessorFactory, sumProcessor){
 
     module('API');
 
@@ -145,6 +146,7 @@ define([
       .cases(dataProvider)
       .test('sum ', function(data, assert){
         sumProcessor.operands = data.operands;
+        sumProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(sumProcessor.process(), data.expectedResult, 'The sum is correct');
     });
 });
