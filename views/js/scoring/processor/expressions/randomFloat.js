@@ -26,9 +26,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**

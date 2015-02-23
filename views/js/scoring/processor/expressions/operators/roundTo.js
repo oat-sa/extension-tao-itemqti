@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -60,16 +59,16 @@ define([
          */
         process : function(){
 
-            var roundingMode = _.isString(this.expression.attributes.roundingMode) && _.isFunction(this.engines[this.expression.attributes.roundingMode]) ? this.engines[this.expression.attributes.roundingMode] : this.engines.significantFigures,
-                figures = preProcessor.getIntegerOrVariableRef(this.expression.attributes.figures, this.state);
+            var roundingMode = _.isFunction(this.engines[this.expression.attributes.roundingMode]) ? this.engines[this.expression.attributes.roundingMode] : this.engines.significantFigures;
+            var figures = this.preProcessor.parseValue(this.expression.attributes.figures, 'integerOrVariableRef');
 
-            if (!preProcessor.isNumber(figures)) {
-                errorHandler.throw('scoring', new Error('figures must me numeric'));
+            if (!this.preProcessor.isNumber(figures)) {
+                errorHandler.throw('scoring', new Error('figures must be numeric'));
                 return null;
             }
 
             if (figures <= 1 && roundingMode === this.engines.significantFigures) {
-                errorHandler.throw('scoring', new Error('significantFigures must me numeric'));
+                errorHandler.throw('scoring', new Error('significantFigures must be numeric'));
                 return null;
             }
 
@@ -83,7 +82,7 @@ define([
                 return null;
             }
 
-            var value = preProcessor.parseVariable(this.operands[0]).value;
+            var value = this.preProcessor.parseVariable(this.operands[0]).value;
 
             if ( !_.isFinite(value) ) {
                 result.value = value;
