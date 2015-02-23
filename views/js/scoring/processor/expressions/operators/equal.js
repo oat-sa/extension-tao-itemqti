@@ -74,13 +74,13 @@ define([
                 baseType : 'boolean'
             };
 
-            var activeToleranceEngine = _.isFunction(this.expression.attributes.activeToleranceEngine) ? this.expression.attributes.activeToleranceEngine : equalProcessor.engines.exact,
+            var toleranceMode = _.isFunction(this.expression.attributes.toleranceMode) ? this.expression.attributes.toleranceMode : equalProcessor.engines.exact,
                 tolerance = _.isArray(this.expression.attributes.tolerance) ? this.expression.attributes.tolerance : [],
                 includeLowerBound = _.isBoolean(this.expression.attributes.includeLowerBound) ? this.expression.attributes.includeLowerBound : true,
                 includeUpperBound = _.isBoolean(this.expression.attributes.includeUpperBound) ? this.expression.attributes.includeUpperBound : true;
 
 
-            if ([this.engines.absolute, this.engines.relative].indexOf(activeToleranceEngine) !== -1 && tolerance.length === 0) {
+            if ([this.engines.absolute, this.engines.relative].indexOf(toleranceMode) !== -1 && tolerance.length === 0) {
                 errorHandler.throw('scoring', new Error('tolerance must me specified'));
                 return null;
             }
@@ -95,7 +95,7 @@ define([
                 tolerance.push(tolerance[0]);
             }
 
-            result.value = activeToleranceEngine(preProcessor.parseVariable(this.operands[0]).value,
+            result.value = toleranceMode(preProcessor.parseVariable(this.operands[0]).value,
                 preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
 
             return result;

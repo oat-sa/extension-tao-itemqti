@@ -18,7 +18,7 @@ define([
     var dataProvider = [{
         title : 'integers exact',
         tolerance: [],
-        activeToleranceEngine: equalProcessor.engines.exact,
+        toleranceMode: equalProcessor.engines.exact,
         includeLowerBound: true,
         includeUpperBound: true,
 
@@ -39,7 +39,7 @@ define([
     },{
         title : 'float absolute 2 bounds',
         tolerance: [0.2, 0.8],
-        activeToleranceEngine: equalProcessor.engines.absolute,
+        toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: true,
         operands : [{
@@ -59,7 +59,7 @@ define([
     },{
         title : 'float absolute 1 bound',
         tolerance: [0.2],
-        activeToleranceEngine: equalProcessor.engines.absolute,
+        toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: true,
         operands : [{
@@ -79,7 +79,7 @@ define([
     },{
         title : 'float absolute 2 bound, not include upper',
         tolerance: [0.1, 0.5],
-        activeToleranceEngine: equalProcessor.engines.absolute,
+        toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: false,
         operands : [{
@@ -99,7 +99,7 @@ define([
     },{
         title : 'float absolute 2 bound, not include lower',
         tolerance: [0.1, 0.5],
-        activeToleranceEngine: equalProcessor.engines.absolute,
+        toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: false,
         includeUpperBound: true,
         operands : [{
@@ -119,7 +119,7 @@ define([
     },{
         title : 'float relative 2 bound, not include lower',
         tolerance: [50, 10],
-        activeToleranceEngine: equalProcessor.engines.relative,
+        toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: true,
         operands : [{
@@ -139,7 +139,7 @@ define([
     },{
         title : 'float relative 1 bound, not include both',
         tolerance: [50],
-        activeToleranceEngine: equalProcessor.engines.relative,
+        toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: false,
         operands : [{
@@ -159,7 +159,7 @@ define([
     },{
         title : 'incorrect settings for relative',
         tolerance: [],
-        activeToleranceEngine: equalProcessor.engines.relative,
+        toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: false,
         operands : [{
@@ -192,7 +192,7 @@ define([
                 attributes: {
                     includeLowerBound: data.includeLowerBound,
                     includeUpperBound: data.includeUpperBound,
-                    activeToleranceEngine: data.activeToleranceEngine,
+                    toleranceMode: data.toleranceMode,
                     tolerance: data.tolerance
                 }
             };
