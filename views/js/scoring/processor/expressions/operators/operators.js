@@ -26,6 +26,8 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
+    'taoQtiItem/scoring/processor/expressions/operators/integerDivide',
+    'taoQtiItem/scoring/processor/expressions/operators/integerModulus',
     'taoQtiItem/scoring/processor/expressions/operators/integerToFloat',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
     'taoQtiItem/scoring/processor/expressions/operators/lt',
@@ -38,11 +40,13 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/round',
+    'taoQtiItem/scoring/processor/expressions/operators/roundTo',
+    'taoQtiItem/scoring/processor/expressions/operators/stringMatch',
     'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, divide, gt, gte, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, substring, subtract, sum, truncate ){
+], function( and, divide, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -50,6 +54,7 @@ define([
      * @typedef OperatorProcessor
      * @property {Object} expression - the expression definition
      * @property {Object} state - the session state (responses and variables)
+     * @property {Object} preProcessor - helps you to parse and manipulate values
      * @property {Array<ProcessingValue} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
@@ -65,25 +70,29 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
-        "and"            : and,
-        "divide"         : divide,
-        "gt"             : gt,
-        "gte"            : gte,
-        "integerToFloat" : integerToFloat,
-        "isNull"         : isNull,
-        "lt"             : lt,
-        "lte"            : lte,
-        "match"          : match,
-        "max"            : max,
-        "min"            : min,
-        "not"            : not,
-        "or"             : or,
-        "power"          : power,
-        "product"        : product,
-        "round"          : round,
-        "substring"      : substring,
-        "subtract"       : subtract,
-        "sum"            : sum,
-        "truncate"       : truncate
+        "and"               : and,
+        "divide"            : divide,
+        "gt"                : gt,
+        "gte"               : gte,
+        "integerDivide"     : integerDivide,
+        "integerModulus"    : integerModulus,
+        "integerToFloat"    : integerToFloat,
+        "isNull"            : isNull,
+        "lt"                : lt,
+        "lte"               : lte,
+        "match"             : match,
+        "max"               : max,
+        "min"               : min,
+        "not"               : not,
+        "or"                : or,
+        "power"             : power,
+        "product"           : product,
+        "round"             : round,
+        "roundTo"           : roundTo,
+        "stringMatch"       : stringMatch,
+        "substring"         : substring,
+        "subtract"          : subtract,
+        "sum"               : sum,
+        "truncate"          : truncate
     };
 });
