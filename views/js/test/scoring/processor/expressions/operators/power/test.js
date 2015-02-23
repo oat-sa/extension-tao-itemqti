@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/power'
-], function(_, powerProcessor){
+], function(_, preProcessorFactory, powerProcessor){
     'use strict';
 
     module('API');
@@ -118,6 +119,7 @@ define([
       .cases(dataProvider)
       .test('power ', function(data, assert){
         powerProcessor.operands = data.operands;
+        powerProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(powerProcessor.process(), data.expectedResult, 'The power is correct');
     });
 });
