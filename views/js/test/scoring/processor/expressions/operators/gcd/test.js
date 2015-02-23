@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/gcd'
-], function(_, gcdProcessor){
+], function(_, preProcessorFactory, gcdProcessor){
     "use strict";
 
     module('API');
@@ -125,6 +126,7 @@ define([
       .cases(dataProvider)
       .test('gcd ', function(data, assert){
         gcdProcessor.operands = data.operands;
+        gcdProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(gcdProcessor.process(), data.expectedResult, 'The gcd is correct');
     });
 });
