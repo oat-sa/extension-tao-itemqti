@@ -23,9 +23,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(_, preProcessor){
+    'lodash'
+], function(_){
     'use strict';
 
     var lcmProcessor = {
@@ -56,10 +55,10 @@ define([
                 return null;
             }
 
-            var castedOperands  = preProcessor.parseOperands(this.operands);
+            var castedOperands  = this.preProcessor.parseOperands(this.operands);
 
             //if at least one operand is a not a number,  then break and return null
-            if (!castedOperands.every(preProcessor.isNumber)) {
+            if (!castedOperands.every(this.preProcessor.isNumber)) {
                 return null;
             }
 

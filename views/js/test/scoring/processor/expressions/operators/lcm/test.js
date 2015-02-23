@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/lcm'
-], function(_, lcmProcessor){
+], function(_, preProcessorFactory, lcmProcessor){
     "use strict";
 
     module('API');
@@ -125,6 +126,7 @@ define([
       .cases(dataProvider)
       .test('lcm ', function(data, assert){
         lcmProcessor.operands = data.operands;
+        lcmProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(lcmProcessor.process(), data.expectedResult, 'The lcm is correct');
     });
 });
