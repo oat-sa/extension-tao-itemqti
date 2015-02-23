@@ -74,6 +74,11 @@ define([
         }
     };
 
+    /**
+     * Calculates least common multiple for two ore more integers
+     * @param {Array<number|Number>}numbers
+     * @returns {number} least common multiple
+     */
     function lcm(numbers)
     {
         var n = numbers.length, a = Math.abs(numbers[0]);
