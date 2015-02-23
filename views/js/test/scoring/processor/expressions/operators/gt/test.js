@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/gt'
-], function(_, gteProcessor){
+], function(_, preProcessorFactory, gteProcessor){
 
     module('API');
 
@@ -125,6 +126,7 @@ define([
       .cases(dataProvider)
       .test('gt ', function(data, assert){
         gteProcessor.operands = data.operands;
+        gteProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(gteProcessor.process(), data.expectedResult, 'The gt is correct');
     });
 });
