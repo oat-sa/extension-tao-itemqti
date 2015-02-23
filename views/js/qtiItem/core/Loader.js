@@ -19,7 +19,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             for(var i in data){
                 if(i === 'qtiClass' && data[i] !== '_container' && i !== 'relatedItem'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
                     ret.push(data[i]);
-                }else if(typeof(data[i]) === 'object'){
+                }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){
                     ret = _.union(ret, this.getRequiredClasses(data[i]));
                 }
             }

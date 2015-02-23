@@ -10,6 +10,7 @@ define([
     'taoQtiItem/qtiCreator/model/choices/GapImg',
     'taoQtiItem/qtiCreator/model/choices/AssociableHotspot'
 ], function($, _, editable, editableInteraction, Interaction, GapImg, AssociableHotspot){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);

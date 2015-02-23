@@ -3,7 +3,7 @@ define([
     'jquery',
     'helpers'
 ], function(_, $, helpers){
-    
+    "use strict";
     var _defaults = {
         onRegister : _.noop
     };
@@ -151,11 +151,18 @@ define([
         function isDev(typeIdentifier){
             return _registeredHooks[typeIdentifier] && _registeredHooks[typeIdentifier].dev;
         }
-        
+
+        /**
+         *
+         * @param typeIdentifier
+         * @param itemUri
+         * @param callback
+         * @returns {*} jquery deferred object
+         */
         function addRequiredResources(typeIdentifier, itemUri, callback){
             
             var registryClass = encodeURIComponent(get(typeIdentifier).registry);
-            $.getJSON(_urls.addRequiredResources, {registryClass: registryClass, typeIdentifier : typeIdentifier, uri : itemUri}, function(r){
+            return $.getJSON(_urls.addRequiredResources, {registryClass: registryClass, typeIdentifier : typeIdentifier, uri : itemUri}, function(r){
                 if(_.isFunction(callback)){
                     callback(r);
                 }

@@ -253,7 +253,6 @@ define([
                  * @private
                  */ 
                 function resized(){
-
                     self.shape.animate(
                         _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
                         200,

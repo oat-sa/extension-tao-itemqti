@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/editor/gridEditor/resizable'
 ], function($, _, resizable){
-
+    "use strict";
     var contentHelper = {};
 
     /**

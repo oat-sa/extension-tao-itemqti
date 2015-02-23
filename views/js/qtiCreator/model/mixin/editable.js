@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
 ], function(_, $, Element, event, invalidator){
-
+    "use strict";
     var _removeSelf = function(element){
 
         var removed = false,
