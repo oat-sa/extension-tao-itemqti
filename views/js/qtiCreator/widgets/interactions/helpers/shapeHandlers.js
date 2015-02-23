@@ -16,12 +16,13 @@ define([
 
         var getCoords = function getHandlingCoords(element){
             var coords;
+            var scaleFactor = paper.w < paper.width ? 1 : paper.w / paper.width;
             var bbox        = element.getBBox();
-            var size        = 6;
+            var size        = (bbox.width > 25 ? 6 : 4) * scaleFactor;
             var half        = size / 2;
             var halfWidth   = bbox.width / 2;
             var halfHeight  = bbox.height / 2;
-
+            
             switch(element.type){
                 case 'circle' :
                     coords = {
@@ -102,7 +103,7 @@ define([
                             'fill' : '#eeeeee',
                             'cursor' : cursor
                         })
-                        .data('constraints', constraints);
+                        .data('constraints', constraints).data('resizable', false);
         });
     };
 
