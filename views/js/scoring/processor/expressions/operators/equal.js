@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -75,12 +74,11 @@ define([
             };
 
             var toleranceMode = _.isFunction(this.expression.attributes.toleranceMode) ? this.expression.attributes.toleranceMode : equalProcessor.engines.exact,
-                tolerance = _.isArray(this.expression.attributes.tolerance) ? this.expression.attributes.tolerance : [],
+                tolerance = this.expression.attributes.tolerance ? this.expression.attributes.tolerance.toString().split(' ') : [],
                 includeLowerBound = _.isBoolean(this.expression.attributes.includeLowerBound) ? this.expression.attributes.includeLowerBound : true,
                 includeUpperBound = _.isBoolean(this.expression.attributes.includeUpperBound) ? this.expression.attributes.includeUpperBound : true;
 
-
-            if ([this.engines.absolute, this.engines.relative].indexOf(toleranceMode) !== -1 && tolerance.length === 0) {
+            if (_.contains([this.engines.absolute, this.engines.relative], toleranceMode) && tolerance.length === 0) {
                 errorHandler.throw('scoring', new Error('tolerance must me specified'));
                 return null;
             }
@@ -90,13 +88,17 @@ define([
                 return null;
             }
 
+            tolerance = _(tolerance).map(function (t) {
+                return equalProcessor.preProcessor.parseValue(t, 'floatOrVariableRef');
+            }).value();
+
             // if only one tolerance bound is given it is used for both.
-            if ( tolerance.length === 1){
+            if (tolerance.length === 1) {
                 tolerance.push(tolerance[0]);
             }
 
-            result.value = toleranceMode(preProcessor.parseVariable(this.operands[0]).value,
-                preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
+            result.value = toleranceMode(this.preProcessor.parseVariable(this.operands[0]).value,
+                this.preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
 
             return result;
         }

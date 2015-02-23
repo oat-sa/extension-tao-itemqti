@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/equal'
-], function(_, equalProcessor){
+], function(_, preProcessorFactory, equalProcessor){
     "use strict";
 
     module('API');
@@ -17,7 +18,7 @@ define([
 
     var dataProvider = [{
         title : 'integers exact',
-        tolerance: [],
+        tolerance: '',
         toleranceMode: equalProcessor.engines.exact,
         includeLowerBound: true,
         includeUpperBound: true,
@@ -38,7 +39,7 @@ define([
         }
     },{
         title : 'float absolute 2 bounds',
-        tolerance: [0.2, 0.8],
+        tolerance: '0.2 0.8',
         toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: true,
@@ -58,7 +59,7 @@ define([
         }
     },{
         title : 'float absolute 1 bound',
-        tolerance: [0.2],
+        tolerance: '0.2',
         toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: true,
@@ -78,7 +79,7 @@ define([
         }
     },{
         title : 'float absolute 2 bound, not include upper',
-        tolerance: [0.1, 0.5],
+        tolerance: '0.1 0.5',
         toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: true,
         includeUpperBound: false,
@@ -98,7 +99,7 @@ define([
         }
     },{
         title : 'float absolute 2 bound, not include lower',
-        tolerance: [0.1, 0.5],
+        tolerance: '0.1 0.5',
         toleranceMode: equalProcessor.engines.absolute,
         includeLowerBound: false,
         includeUpperBound: true,
@@ -118,7 +119,39 @@ define([
         }
     },{
         title : 'float relative 2 bound, not include lower',
-        tolerance: [50, 10],
+        tolerance: '50 10',
+        toleranceMode: equalProcessor.engines.relative,
+        includeLowerBound: false,
+        includeUpperBound: true,
+        operands : [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '10'
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : '15'
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : false
+        }
+    },{
+        title : 'float relative 2 bound, not include lower, with ref',
+        tolerance: 'lowBound upBound',
+        state:{
+            lowBound:{
+                cardinality : 'single',
+                baseType : 'float',
+                value : 50
+            },
+            upBound:{
+                cardinality : 'single',
+                baseType : 'float',
+                value : 10
+            }
+        },
         toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: true,
@@ -138,7 +171,7 @@ define([
         }
     },{
         title : 'float relative 1 bound, not include both',
-        tolerance: [50],
+        tolerance: '50',
         toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: false,
@@ -158,7 +191,7 @@ define([
         }
     },{
         title : 'incorrect settings for relative',
-        tolerance: [],
+        tolerance: '',
         toleranceMode: equalProcessor.engines.relative,
         includeLowerBound: false,
         includeUpperBound: false,
@@ -186,7 +219,9 @@ define([
     QUnit
       .cases(dataProvider)
       .test('equal ', function(data, assert){
-        equalProcessor.operands = data.operands;
+            equalProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
+
+            equalProcessor.operands = data.operands;
 
             equalProcessor.expression = {
                 attributes: {
