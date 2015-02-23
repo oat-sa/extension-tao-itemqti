@@ -1,9 +1,10 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/integerToFloat'
-], function(_, integerToFloatProcessor){
+], function(_, preProcessorFactory, integerToFloatProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -53,6 +54,7 @@ define([
       .cases(dataProvider)
       .test('integerToFloat ', function(data, assert){
         integerToFloatProcessor.operands = data.operands;
+        integerToFloatProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(integerToFloatProcessor.process(), data.expectedResult, 'The integerToFloat is correct');
     });
 });

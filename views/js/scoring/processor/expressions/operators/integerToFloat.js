@@ -24,10 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/expressions/typeCaster'
-], function(_, preProcessor, typeCaster){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -62,7 +60,7 @@ define([
                 return null;
             }
 
-            result.value = typeCaster('float')(preProcessor.parseVariable(this.operands[0]).value);
+            result.value = this.preProcessor.parseValue(this.operands[0].value, 'float');
 
             return result;
         }
