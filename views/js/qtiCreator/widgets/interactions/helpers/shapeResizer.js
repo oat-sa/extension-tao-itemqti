@@ -28,12 +28,14 @@ define([
             if(!options.start){
                 options.start = getStartPoint(element);
             }
-            
+
             if(_.isFunction(resizer)){
-                element.attr(resizer(options));
-                if (_.isFunction(options.resized)) {
-                    options.resized.call(element);
-                }
+                element.animate(
+                    resizer(options),
+                    100,    
+                    'linear',
+                    _.isFunction(options.resized) ? options.resized : _.noop
+                );
             }
         }
 
@@ -169,9 +171,9 @@ define([
                    dest.path += point[0];
                    if(point.length === 3){
                        if (index === options.pointIndex || options.pointIndex === 0 && index === 1){
-                            dest.path += options.stop.x + ' ' + options.stop.y;
+                            dest.path += options.stop.x + ',' + options.stop.y;
                        } else {
-                            dest.path += point[1] + ' ' + point[2];
+                            dest.path += point[1] + ',' + point[2];
                        }
                    }                 
                }); 
