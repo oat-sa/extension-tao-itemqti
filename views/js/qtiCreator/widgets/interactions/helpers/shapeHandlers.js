@@ -103,7 +103,7 @@ define([
                             'fill' : '#eeeeee',
                             'cursor' : cursor
                         })
-                        .data('constraints', constraints).data('resizable', false);
+                        .data('constraints', constraints);
         });
     };
 
