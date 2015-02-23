@@ -1,8 +1,9 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/mapResponse',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, mapResponseProcessor, errorHandler){
+], function(_, preProcessorFactory, mapResponseProcessor, errorHandler){
 
     module('API');
 
@@ -329,12 +330,15 @@ define([
     QUnit
       .cases(dataProvider)
       .test('mapResponse ', function(data, assert){
+        var state = {
+            RESPONSE : data.response
+        };
+
         mapResponseProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
         };
-        mapResponseProcessor.state = {
-            RESPONSE : data.response
-        };
+        mapResponseProcessor.state = state;
+        mapResponseProcessor.preProcessor = preProcessorFactory(state);
         assert.deepEqual(mapResponseProcessor.process(), data.expectedResult, 'The map response is correct');
     });
 });

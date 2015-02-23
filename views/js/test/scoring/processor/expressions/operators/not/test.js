@@ -1,9 +1,10 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/not'
-], function(_, notProcessor){
+], function(_, preProcessorFactory, notProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -65,6 +66,7 @@ define([
       .cases(dataProvider)
       .test('not ', function(data, assert){
         notProcessor.operands = data.operands;
+        notProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(notProcessor.process(), data.expectedResult, 'The not is correct');
     });
 });
