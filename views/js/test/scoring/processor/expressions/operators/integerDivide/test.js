@@ -1,7 +1,8 @@
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/operators/IntegerDivide'
-], function(_, integerModulusProcessor){
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/expressions/operators/integerDivide'
+], function(_, preProcessorFactory, integerModulusProcessor){
     'use strict';
 
     module('API');
@@ -73,6 +74,7 @@ define([
       .cases(dataProvider)
       .test('integerModulus ', function(data, assert){
         integerModulusProcessor.operands = data.operands;
+        integerModulusProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(integerModulusProcessor.process(), data.expectedResult, 'The integerModulus is correct');
     });
 });
