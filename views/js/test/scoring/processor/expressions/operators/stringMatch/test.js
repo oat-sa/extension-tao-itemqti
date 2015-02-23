@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/stringMatch'
-], function (_, stringMatchProcessor) {
+], function (_, preProcessorFactory, stringMatchProcessor) {
     'use strict';
 
     module('API');
@@ -83,6 +84,7 @@ define([
         .test('stringMatch ', function (data, assert) {
             stringMatchProcessor.operands = data.operands;
             stringMatchProcessor.expression = { attributes : { caseSensitive : data.caseSensitive } };
+            stringMatchProcessor.preProcessor = preProcessorFactory({});
             assert.deepEqual(stringMatchProcessor.process(), data.expectedResult, 'The stringMatch is correct');
         });
 });
