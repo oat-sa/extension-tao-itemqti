@@ -19,14 +19,13 @@
 
 /**
  * The containerSize operator processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10703
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10614
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(_, preProcessor){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -61,7 +60,7 @@ define([
                 return result;
             }
 
-            result.value = preProcessor
+            result.value = this.preProcessor
                 .parseVariable(this.operands[0]).value.length;
 
             return result;

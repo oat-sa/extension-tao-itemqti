@@ -1,9 +1,10 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/containerSize'
-], function(_, containerSizeProcessor){
+], function(_, preProcessorFactory, containerSizeProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -52,6 +53,7 @@ define([
       .cases(dataProvider)
       .test('containerSize ', function(data, assert){
         containerSizeProcessor.operands = data.operands;
+        containerSizeProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(containerSizeProcessor.process(), data.expectedResult, 'The containerSize is correct');
     });
 });
