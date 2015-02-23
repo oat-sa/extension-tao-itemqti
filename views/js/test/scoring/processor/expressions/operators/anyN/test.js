@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/anyN'
-], function(_, anyNProcessor){
+], function(_, preProcessorFactory, anyNProcessor){
     "use strict";
 
     module('API');
@@ -19,6 +20,40 @@ define([
         title : 'truth',
         min: 2,
         max: 4,
+        operands : [{
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        }, {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        }, {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : false
+        }],
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'boolean',
+            value : true
+        }
+    },{
+        title : 'truth with ref',
+        min: 'min',
+        max: 'max',
+        state:{
+            min:{
+                cardinality : 'single',
+                baseType : 'integer',
+                value : 2
+            },
+            max:{
+                cardinality : 'single',
+                baseType : 'integer',
+                value : 4
+            }
+        },
         operands : [{
             cardinality : 'single',
             baseType : 'boolean',
@@ -148,6 +183,7 @@ define([
     QUnit
     .cases(dataProvider)
     .test('anyN ', function (data, assert) {
+        anyNProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
         anyNProcessor.operands = data.operands;
         anyNProcessor.expression = {attributes: {min: data.min, max: data.max}};
         assert.deepEqual(anyNProcessor.process(), data.expectedResult, 'The anyN is correct');

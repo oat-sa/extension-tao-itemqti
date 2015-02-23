@@ -24,10 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -57,12 +55,10 @@ define([
                 baseType : 'boolean'
             };
 
-            var min = _.isNumber(this.expression.attributes.min) ? this.expression.attributes.min : 0,
-                max = _.isNumber(this.expression.attributes.max) ? this.expression.attributes.max : 0;
+            var min = this.preProcessor.parseValue(this.expression.attributes.min, 'integerOrVariableRef'),
+                max = this.preProcessor.parseValue(this.expression.attributes.max, 'integerOrVariableRef');
 
-
-            var counted = preProcessor.parseOperands(this.operands).countBy().value();
-
+            var counted = this.preProcessor.parseOperands(this.operands).countBy().value();
             if (counted.true >= min && counted.true <= max ){
                 result.value = true;
             }else
