@@ -17,7 +17,7 @@ define([
         var getCoords = function getHandlingCoords(element){
             var coords;
             var bbox        = element.getBBox();
-            var size        = bbox.width > 25 ? 6 : 4;
+            var size        = 6;
             var half        = size / 2;
             var halfWidth   = bbox.width / 2;
             var halfHeight  = bbox.height / 2;
