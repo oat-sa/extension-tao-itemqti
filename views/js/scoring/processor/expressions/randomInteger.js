@@ -43,9 +43,9 @@ define([
         process : function(){
 
             var range;
-            var min         = parseInt(this.expression.attributes.min, 10);
-            var max         = parseInt(this.expression.attributes.max, 10);
-            var step        = typeof this.expression.attributes.step !== 'undefined' ? parseInt(this.expression.attributes.step, 10) : 1;
+            var min         = this.preProcessor.parseValue(this.expression.attributes.min, 'integerOrVariableRef');
+            var max         = this.preProcessor.parseValue(this.expression.attributes.max, 'integerOrVariableRef');
+            var step        = typeof this.expression.attributes.step !== 'undefined' ? this.preProcessor.parseValue(this.expression.attributes.step, 'integerOrVariableRef') : 1;
 
             var result = {
                 cardinality : 'single',
