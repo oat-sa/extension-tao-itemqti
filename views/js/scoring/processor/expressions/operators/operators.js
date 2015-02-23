@@ -28,6 +28,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/integerDivide',
     'taoQtiItem/scoring/processor/expressions/operators/integerModulus',
+    'taoQtiItem/scoring/processor/expressions/operators/integerToFloat',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
     'taoQtiItem/scoring/processor/expressions/operators/lt',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
@@ -45,7 +46,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, divide, gt, gte, integerDivide, integerModulus, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, divide, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -75,6 +76,7 @@ define([
         "gte"               : gte,
         "integerDivide"     : integerDivide,
         "integerModulus"    : integerModulus,
+        "integerToFloat"    : integerToFloat,
         "isNull"            : isNull,
         "lt"                : lt,
         "lte"               : lte,
