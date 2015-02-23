@@ -178,8 +178,6 @@ define([
           })
           .on('outcome', function(outcomes){
 
-            console.log(outcomes);
-
             assert.ok(typeof outcomes === 'object', "the outcomes are an object");
             assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
             assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");

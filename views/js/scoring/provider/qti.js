@@ -70,11 +70,15 @@ define([
                 cardinality         : cardinality,
                 baseType            : baseType,
                 correctResponse     : response.correctResponses,
-                mapping             : response.mapping,
-                areaMapping         : response.areaMapping,
-                mappingAttributes   : response.mappingAttributes,
                 defaultValue        : response.attributes.defaultValue || response.defaultValue
             };
+
+            //support both old an new mapping format
+            if(response.mapping && response.mapping.qtiClass === 'mapping' || response.mapping.qtiClass === 'areaMapping'){
+                state[identifier].mapping = response.mapping;
+            } else {
+                state[identifier].mapping = reFormatMapping(response);
+            }
 
             //and add the current response
             if(responses && responses[identifier] && typeof responses[identifier][pciCardinality] !== 'undefined'){
@@ -136,6 +140,44 @@ define([
             }
         });
         return pciState;
+    };
+
+    /**
+     * Reformat the mapping/areaMapping from a flat list to a structured object to anticipate changes in the serializer.
+     * It should be deprecated once the new format is implemented.
+     *
+     * @param {Object} response - the QTI response declaration
+     * @returns {Object} the formated mapping
+     */
+    var reFormatMapping  = function reFormatMapping(response){
+        var mapping;
+        if(_.isArray(response.mapping) && response.mapping.length){
+            mapping = {
+                qtiClass: 'mapping',
+                attributes  : response.mappingAttributes
+            };
+            mapping.mapEntries = _.map(response.mapping, function(value, key){
+                return {
+                    qtiClass    : 'mapEntry',
+                    mapKey      : key,
+                    mapValue    : value,
+                    attributes  : {
+                        caseSensitive : false
+                    }
+                };
+            });
+        }
+        if(_.isArray(response.areaMapping) && response.areaMapping.length){
+            mapping = {
+                qtiClass: 'areaMapping',
+                attributes  : response.mappingAttributes
+            };
+            mapping.mapEntries = _.map(response.mapping, function(entry){
+                return _.extend({ qtiClass : 'areaMapEntry' }, entry);
+            });
+        }
+
+        return mapping;
     };
 
     /**
