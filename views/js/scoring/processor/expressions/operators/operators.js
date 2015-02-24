@@ -42,6 +42,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/not',
     'taoQtiItem/scoring/processor/expressions/operators/or',
+    'taoQtiItem/scoring/processor/expressions/operators/ordered',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/round',
@@ -51,7 +52,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, divide, equal, gcd, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, divide, equal, gcd, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -95,6 +96,7 @@ define([
         "min"               : min,
         "not"               : not,
         "or"                : or,
+        "ordered"           : ordered,
         "power"             : power,
         "product"           : product,
         "round"             : round,
