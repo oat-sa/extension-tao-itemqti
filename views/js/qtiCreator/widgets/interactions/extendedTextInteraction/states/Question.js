@@ -11,12 +11,12 @@ define([
     'use strict';
     var initState = function initState(){
         // Disable inputs until response edition.
-        this.widget.$container.find('input, textarea').attr('disabled', 'disabled');
+        renderer.disable(this.widget.element);
     };
 
     var exitState = function exitState(){
         // Enable inputs until response edition.
-        this.widget.$container.find('input, textarea').removeAttr('disabled');
+        renderer.enable(this.widget.element);
     };
     var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
         regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/;
