@@ -23,6 +23,7 @@
  */
 define([
     'taoQtiItem/scoring/processor/expressions/operators/and',
+    'taoQtiItem/scoring/processor/expressions/operators/anyN',
     'taoQtiItem/scoring/processor/expressions/operators/containerSize',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
@@ -48,7 +49,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, containerSize, divide, equal, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, divide, equal, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -57,7 +58,7 @@ define([
      * @property {Object} expression - the expression definition
      * @property {Object} state - the session state (responses and variables)
      * @property {Object} preProcessor - helps you to parse and manipulate values
-     * @property {Array<ProcessingValue} operands - the operands
+     * @property {Array<ProcessingValue>} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
      * @property {Number} constraints.maxOperand - the maximum number of operands
@@ -73,6 +74,7 @@ define([
      */
     return {
         "and"               : and,
+        "anyN"              : anyN,
         "containerSize"     : containerSize,
         "divide"            : divide,
         "equal"             : equal,
