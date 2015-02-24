@@ -177,7 +177,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLength', attrValue);
             }else{
-                interaction.attr('expectedLength', 0);
+                interaction.attr('expectedLength', -1);
             }
         };
 
@@ -186,7 +186,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLines', attrValue);
             }else{
-                interaction.attr('expectedLines',0);
+                interaction.attr('expectedLines',-1);
             }
         };
 
