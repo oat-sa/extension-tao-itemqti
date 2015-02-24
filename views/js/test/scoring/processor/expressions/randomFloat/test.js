@@ -1,8 +1,9 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/randomFloat',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, randomFloatProcessor, errorHandler){
+], function(_, preProcessorFactory, randomFloatProcessor, errorHandler){
 
     module('API');
 
@@ -19,6 +20,7 @@ define([
         randomFloatProcessor.expression = {
             attributes : { min: 2, max : 2}
         };
+        randomFloatProcessor.preProcessor = preProcessorFactory({});
         var result = randomFloatProcessor.process();
 
         assert.ok(_.isPlainObject(result), 'The processor result is a plain object');
@@ -93,7 +95,9 @@ define([
                 max : data.max
             }
         };
+        randomFloatProcessor.preProcessor = preProcessorFactory({});
         var result = randomFloatProcessor.process();
+
         assert.ok( result.value >= data.min, 'The value ' + result.value + ' is GTE ' + data.min);
         assert.ok( result.value <= data.max, 'The value ' + result.value + ' is LTE ' + data.max);
     });

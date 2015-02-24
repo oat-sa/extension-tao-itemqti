@@ -1,8 +1,9 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/randomInteger',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, randomIntegerProcessor, errorHandler){
+], function(_, preProcessorFactory, randomIntegerProcessor, errorHandler){
 
     module('API');
 
@@ -21,7 +22,7 @@ define([
             baseType : 'integer',
             value : 2
         };
-
+        randomIntegerProcessor.preProcessor = preProcessorFactory({});
         randomIntegerProcessor.expression = {
             attributes : { min: 2, max : 2, step : 1 }
         };
@@ -107,6 +108,7 @@ define([
         randomIntegerProcessor.expression = {
             attributes : data.attributes
         };
+        randomIntegerProcessor.preProcessor = preProcessorFactory({});
         var result = randomIntegerProcessor.process();
         assert.ok( _.contains(data.expectedRange, result.value), 'The value ' + result.value + ' is in the range');
     });

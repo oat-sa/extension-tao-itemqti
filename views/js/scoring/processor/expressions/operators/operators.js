@@ -23,10 +23,14 @@
  */
 define([
     'taoQtiItem/scoring/processor/expressions/operators/and',
+    'taoQtiItem/scoring/processor/expressions/operators/containerSize',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
+    'taoQtiItem/scoring/processor/expressions/operators/integerDivide',
+    'taoQtiItem/scoring/processor/expressions/operators/integerModulus',
+    'taoQtiItem/scoring/processor/expressions/operators/integerToFloat',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
     'taoQtiItem/scoring/processor/expressions/operators/lt',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
@@ -39,11 +43,12 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/round',
     'taoQtiItem/scoring/processor/expressions/operators/roundTo',
+    'taoQtiItem/scoring/processor/expressions/operators/stringMatch',
     'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, divide, equal, gt, gte, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, substring, subtract, sum, truncate ){
+], function( and, containerSize, divide, equal, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -67,26 +72,31 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/operators
      */
     return {
-        "and"       : and,
-        "divide"    : divide,
-        "equal"     : equal,
-        "gt"        : gt,
-        "gte"       : gte,
-        "isNull"    : isNull,
-        "lt"        : lt,
-        "lte"       : lte,
-        "match"     : match,
-        "max"       : max,
-        "min"       : min,
-        "not"       : not,
-        "or"        : or,
-        "power"     : power,
-        "product"   : product,
-        "round"     : round,
-        "roundTo"   : roundTo,
-        "substring" : substring,
-        "subtract"  : subtract,
-        "sum"       : sum,
-        "truncate"  : truncate
+        "and"               : and,
+        "containerSize"     : containerSize,
+        "divide"            : divide,
+        "equal"             : equal,
+        "gt"                : gt,
+        "gte"               : gte,
+        "integerDivide"     : integerDivide,
+        "integerModulus"    : integerModulus,
+        "integerToFloat"    : integerToFloat,
+        "isNull"            : isNull,
+        "lt"                : lt,
+        "lte"               : lte,
+        "match"             : match,
+        "max"               : max,
+        "min"               : min,
+        "not"               : not,
+        "or"                : or,
+        "power"             : power,
+        "product"           : product,
+        "round"             : round,
+        "roundTo"           : roundTo,
+        "stringMatch"       : stringMatch,
+        "substring"         : substring,
+        "subtract"          : subtract,
+        "sum"               : sum,
+        "truncate"          : truncate
     };
 });

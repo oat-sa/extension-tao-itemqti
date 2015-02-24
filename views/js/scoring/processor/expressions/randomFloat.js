@@ -44,8 +44,8 @@ define([
         process : function(){
 
             var range;
-            var min         = parseFloat(this.expression.attributes.min);
-            var max         = parseFloat(this.expression.attributes.max);
+            var min         = this.preProcessor.parseValue(this.expression.attributes.min, 'floatOrVariableRef');
+            var max         = this.preProcessor.parseValue(this.expression.attributes.max, 'floatOrVariableRef');
 
             var result = {
                 cardinality : 'single',
