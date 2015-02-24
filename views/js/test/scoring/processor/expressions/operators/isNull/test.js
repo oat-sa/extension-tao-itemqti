@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/isNull'
-], function(_, isNullProcessor){
+], function(_, preProcessorFactory, isNullProcessor){
 
     module('API');
 
@@ -63,6 +64,7 @@ define([
       .cases(dataProvider)
       .test('isNull ', function(data, assert){
         isNullProcessor.operands = data.operands;
+        isNullProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(isNullProcessor.process(), data.expectedResult, 'The isNull is correct');
     });
 });

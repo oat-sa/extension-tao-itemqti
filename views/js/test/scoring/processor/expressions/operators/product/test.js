@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/product'
-], function(_, productProcessor){
+], function(_, preProcessorFactory, productProcessor){
 
     module('API');
 
@@ -145,6 +146,7 @@ define([
       .cases(dataProvider)
       .test('product ', function(data, assert){
         productProcessor.operands = data.operands;
+        productProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(productProcessor.process(), data.expectedResult, 'The product is correct');
     });
 });

@@ -1,9 +1,10 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/or'
-], function(_, orProcessor){
+], function(_, preProcessorFactory, orProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -141,6 +142,7 @@ define([
       .cases(dataProvider)
       .test('or ', function(data, assert){
         orProcessor.operands = data.operands;
+        orProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(orProcessor.process(), data.expectedResult, 'The or is correct');
     });
 });
