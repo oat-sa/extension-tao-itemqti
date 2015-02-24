@@ -1,9 +1,11 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/ordered'
-], function(_, orderedProcessor){
+], function(_, preProcessorFactory, errorHandler, orderedProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -13,6 +15,27 @@ define([
     });
 
     module('Process');
+
+    QUnit.asyncTest('Fails if operands are not of the same baseType', function(assert){
+        QUnit.expect(1);
+        orderedProcessor.operands = [{
+            cardinality : 'ordered',
+            baseType : 'integer',
+            value: [2, 3, 7]
+        },{
+            cardinality : 'single',
+            baseType : 'float',
+            value: 5.5
+        }];
+
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'Operands must be of the same type');
+            QUnit.start();
+        });
+        orderedProcessor.preProcessor = preProcessorFactory({});
+	    orderedProcessor.process();
+    });
+
 
     var dataProvider = [{
         title : 'ordered integer',
@@ -67,18 +90,6 @@ define([
             value: [2, 3, 7, 5, 5]
         }
     },{
-        title : 'different baeTypes',
-        operands : [{
-            cardinality : 'ordered',
-            baseType : 'float',
-            value: [2, 3, 7]
-        },{
-            cardinality : 'single',
-            baseType : 'integer',
-            value: [5]
-        }],
-        expectedResult : null
-    },{
         title : 'null operand',
         operands : [null,null],
         expectedResult : null
@@ -92,6 +103,7 @@ define([
       .cases(dataProvider)
       .test('ordered ', function(data, assert){
         orderedProcessor.operands = data.operands;
+        orderedProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(orderedProcessor.process(), data.expectedResult, 'The ordered is correct');
     });
 });
