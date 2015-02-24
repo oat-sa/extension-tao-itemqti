@@ -420,9 +420,7 @@ define([
         $container.find('input, textarea').removeAttr('disabled');
 
         if ( _getFormat(interaction) === 'xhtml') {
-            $container.data('editor').destroy();
-            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
-            $container.data('editor', editor);
+            $container.data('editor').readOnly = false;
         }
     };
 
@@ -431,7 +429,7 @@ define([
         $container.find('input, textarea').attr('disabled', 'disabled');
 
         if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
-            $container.data('editor').destroy();
+            $container.data('editor').readOnly = true;
         }
     };
 
