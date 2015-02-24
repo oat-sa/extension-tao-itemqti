@@ -27,6 +27,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/containerSize',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
+    'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/integerDivide',
@@ -49,7 +50,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, divide, equal, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, divide, equal, gcd, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -78,6 +79,7 @@ define([
         "containerSize"     : containerSize,
         "divide"            : divide,
         "equal"             : equal,
+        "gcd"               : gcd,
         "gt"                : gt,
         "gte"               : gte,
         "integerDivide"     : integerDivide,
