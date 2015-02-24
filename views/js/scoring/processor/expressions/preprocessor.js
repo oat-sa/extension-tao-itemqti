@@ -31,7 +31,7 @@ define([
     /**
      * The preprocessor factory creates a preprocessor object that has access to the state
      * @param {Object} state - the item session state
-     * @returns {Objtec} the preprocessor
+     * @returns {Object} the preprocessor
      *
      * @exports taoQtiItem/scoring/processor/expressions/preprocessor
      */
@@ -49,6 +49,10 @@ define([
 
                     //cast value type, like if they were all arrays, and infer the result type
                     .map(function (operand) {
+
+                        if (_.isNull(operand)) {
+                            return operand;
+                        }
 
                         var caster      = _.partialRight(typeCaster(operand.baseType), state);
                         var multiple    = operand.cardinality === 'multiple' || operand.cardinality === 'ordered' && _.isArray(operand.value);
