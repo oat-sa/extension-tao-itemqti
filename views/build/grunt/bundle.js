@@ -54,7 +54,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
-                exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement'],
+                exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement', 'ckeditor'],
             }]
         }
     };
@@ -66,6 +66,15 @@ module.exports = function(grunt) {
         files: [
             { src: [ out + '/taoQtiItem/controller/routes.js'],  dest: root + '/taoQtiItem/views/js/controllers.min.js' },
             { src: [ out + '/taoQtiItem/controller/routes.js.map'],  dest: root + '/taoQtiItem/views/js/controllers.min.js.map' }
+        ]
+    };
+
+    /**
+     * copy the bundles to the right place
+     */
+    copy.qtiruntime = {
+        files: [
+            { src: [ out + '/taoQtiItem/runtime/qtiBootstrap.js.map'],  dest: root + '/taoQtiItem/views/js/runtime/qtiBootstrap.min.js.map' }
         ]
     };
 
@@ -103,7 +112,7 @@ module.exports = function(grunt) {
     grunt.config('replace', replace);
 
     // bundle task
-    grunt.registerTask('qtiruntime', ['clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
-    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime']);
+    grunt.registerTask('qtiruntime', ['clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime', 'copy:qtiruntime']);
+    grunt.registerTask('taoqtiitembundle', ['clean:taoqtiitembundle', 'requirejs:taoqtiitembundle', 'copy:taoqtiitembundle', 'clean:taoqtiitembundle', 'requirejs:qtiruntime', 'uglify:qtiruntime', 'replace:qtiruntime', 'copy:qtiruntime']);
 
 };
