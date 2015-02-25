@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -57,7 +56,7 @@ define([
                 value : []
             };
 
-            var numberRepeats = preProcessor.getIntegerOrVariableRef(this.expression.attributes.numberRepeats, this.state);
+            var numberRepeats = this.preProcessor.parseValue(this.expression.attributes.numberRepeats, 'integerOrVariableRef');
 
             //if all one operands are null or no operands, then break and return null
             if (numberRepeats < 1 || _.every(this.operands, _.isNull) === true || this.operands.length === 0) {
@@ -73,7 +72,7 @@ define([
 
             result.baseType = this.operands[0].baseType;
 
-            var value = preProcessor.parseOperands(filteredOperands).value();
+            var value = this.preProcessor.parseOperands(filteredOperands).value();
 
             while (numberRepeats-- > 0) {
                 result.value.push(value);

@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/repeat'
-], function(_, repeatProcessor){
+], function(_, preProcessorFactory, repeatProcessor){
     'use strict';
     
     module('API');
@@ -154,6 +155,7 @@ define([
         repeatProcessor.operands = data.operands;
         repeatProcessor.expression = { attributes : { numberRepeats : data.numberRepeats } };
         repeatProcessor.state = data.state ? data.state : {};
+        repeatProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
         assert.deepEqual(repeatProcessor.process(), data.expectedResult, 'The repeat is correct');
     });
 });
