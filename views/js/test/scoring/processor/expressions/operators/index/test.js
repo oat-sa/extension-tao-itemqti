@@ -1,10 +1,12 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/index'
-], function(_, indexProcessor){
+], function(_, preProcessorFactory, errorHandler, indexProcessor){
     'use strict';
-    
-    module('API');
+
+    QUnit.module('API');
 
     QUnit.test('structure', function(assert){
         assert.ok(_.isPlainObject(indexProcessor), 'the processor expose an object');
@@ -12,7 +14,29 @@ define([
         assert.ok(_.isArray(indexProcessor.operands), 'the processor has operands');
     });
 
-    module('Process');
+    QUnit.module('Process', {
+        teardown: function() {
+            errorHandler.reset('scoring');
+        }
+    });
+
+    QUnit.asyncTest('Fails if n, the index is 0', function(assert){
+        QUnit.expect(1);
+        indexProcessor.operands = [{
+            cardinality : 'ordered',
+            baseType : 'integer',
+            value: [2, 6, 9, 10]
+        }];
+
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'The index is one based');
+            QUnit.start();
+        });
+
+        indexProcessor.expression = { attributes : { n : 0 } };
+        indexProcessor.preProcessor = preProcessorFactory({});
+	    indexProcessor.process();
+    });
 
     var dataProvider = [{
         title : 'exists',
@@ -76,7 +100,8 @@ define([
       .cases(dataProvider)
       .test('index ', function(data, assert){
         indexProcessor.operands = data.operands;
-        indexProcessor.state = data.state ? data.state : {};
+        indexProcessor.state = data.state || {};
+        indexProcessor.preProcessor = preProcessorFactory(data.state || {});
         indexProcessor.expression = { attributes : { n : data.n } };
         assert.deepEqual(indexProcessor.process(), data.expectedResult, 'The index is correct');
     });

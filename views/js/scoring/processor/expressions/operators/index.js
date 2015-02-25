@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -55,7 +54,7 @@ define([
                 cardinality : 'single'
             };
 
-            var n = preProcessor.getIntegerOrVariableRef(this.expression.attributes.n, this.state);
+            var n = this.preProcessor.parseValue(this.expression.attributes.n, 'integerOrVariableRef');
 
 
             //if at least one operand is null, then break and return null
@@ -68,7 +67,7 @@ define([
                 return null;
             }
 
-            var op1 = preProcessor.parseVariable(this.operands[0]);
+            var op1 = this.preProcessor.parseVariable(this.operands[0]);
 
             if (_.isUndefined(op1.value[n - 1])) {
                 return null;
