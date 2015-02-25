@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/contains'
-], function(_, containsProcessor){
+], function(_, preProcessorFactory, containsProcessor){
     'use strict';
     
     module('API');
@@ -160,6 +161,7 @@ define([
       .cases(dataProvider)
       .test('contains ', function(data, assert){
         containsProcessor.operands = data.operands;
+        containsProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(containsProcessor.process(), data.expectedResult, 'The contains is correct');
     });
 });
