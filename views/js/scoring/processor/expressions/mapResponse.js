@@ -26,8 +26,7 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/errorHandler',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
+    'taoQtiItem/scoring/processor/errorHandler'
 ], function(_, errorHandler, preProcessor){
     'use strict';
 
@@ -44,6 +43,7 @@ define([
          */
         process : function(){
 
+            var self = this;
             var mapEntries,
                 mapResult,
                 defaultValue,
@@ -65,11 +65,11 @@ define([
             }
 
             //cast the variable value
-            variable = preProcessor.parseVariable(variable);
+            variable = this.preProcessor.parseVariable(variable);
 
             //cast each map value
             mapEntries = _.map(variable.mapping.mapEntries, function(mapEntry){
-                mapEntry.mapKey = preProcessor.parseValue(mapEntry.mapKey, variable.baseType, 'single');
+                mapEntry.mapKey = self.preProcessor.parseValue(mapEntry.mapKey, variable.baseType, 'single');
                 return mapEntry;
             });
 
