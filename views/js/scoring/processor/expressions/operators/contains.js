@@ -73,8 +73,7 @@ define([
             var op1 = _.flatten(preProcessor.parseVariable(this.operands[0]).value).join(),
                 op2 = _.flatten(preProcessor.parseVariable(this.operands[1]).value).join();
 
-
-            result.value = op1.indexOf(op2) !== -1;
+            result.value = _.contains(op1, op2);
 
             return result;
         }
