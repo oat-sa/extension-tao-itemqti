@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -51,9 +50,7 @@ define([
          */
         process : function(){
 
-            var result = {
-                cardinality : 'multiple'
-            };
+            var result = {};
 
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
@@ -64,16 +61,16 @@ define([
                 return null;
             }
 
-            if (this.operands[0].cardinality !== 'single' || ['multiple', 'ordered'].indexOf(this.operands[1].cardinality) === -1) {
+            if (this.operands[0].cardinality !== 'single' || !_.contains(['multiple', 'ordered'], this.operands[1].cardinality)) {
                 errorHandler.throw('scoring', new Error('operands must be of the specific cardinality'));
                 return null;
             }
 
-            var op1 = preProcessor.parseVariable(this.operands[0]),
-                op2 = preProcessor.parseVariable(this.operands[1]);
+            var op1 = this.preProcessor.parseVariable(this.operands[0]),
+                op2 = this.preProcessor.parseVariable(this.operands[1]);
 
-            result.value = op2.value.filter(function (e) {
-                return op1.value !== e;
+            result.value = _.reject(op2.value, function (e) {
+                return op1.value === e;
             });
 
             result.baseType = op1.baseType;

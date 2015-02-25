@@ -1,9 +1,11 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/delete'
-], function(_, deleteProcessor){
+], function(_, preProcessorFactory, errorHandler, deleteProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -12,7 +14,51 @@ define([
         assert.ok(_.isArray(deleteProcessor.operands), 'the processor has operands');
     });
 
-    module('Process');
+    QUnit.module('Process', {
+        teardown: function() {
+            errorHandler.reset('scoring');
+        }
+    });
+
+      QUnit.asyncTest('Fails if the 1st operand is not single', function(assert){
+        QUnit.expect(1);
+        deleteProcessor.operands = [{
+            cardinality : 'multiple',
+            baseType : 'integer',
+            value: [2, 3]
+        },{
+            cardinality : 'multiple',
+            baseType : 'integer',
+            value: [7, 2, 3, 2]
+        }];
+
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'The first operand must have a single cardinality');
+            QUnit.start();
+        });
+        deleteProcessor.preProcessor = preProcessorFactory({});
+	    deleteProcessor.process();
+    });
+
+    QUnit.asyncTest('Fails if operands are not of the same type', function(assert){
+        QUnit.expect(1);
+        deleteProcessor.operands = [{
+            cardinality : 'single',
+            baseType : 'pairs',
+            value: [2, 3]
+        },{
+            cardinality : 'multiple',
+            baseType : 'integer',
+            value: [7, 2, 3, 2]
+        }];
+
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'Operands must have the same baseType');
+            QUnit.start();
+        });
+        deleteProcessor.preProcessor = preProcessorFactory({});
+	    deleteProcessor.process();
+    });
 
     var dataProvider = [{
         title : 'multiple',
@@ -80,6 +126,7 @@ define([
       .cases(dataProvider)
       .test('delete ', function(data, assert){
         deleteProcessor.operands = data.operands;
+        deleteProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(deleteProcessor.process(), data.expectedResult, 'The delete is correct');
     });
 });
