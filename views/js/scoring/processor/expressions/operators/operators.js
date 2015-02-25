@@ -23,14 +23,19 @@
  */
 define([
     'taoQtiItem/scoring/processor/expressions/operators/and',
+    'taoQtiItem/scoring/processor/expressions/operators/anyN',
     'taoQtiItem/scoring/processor/expressions/operators/containerSize',
+    'taoQtiItem/scoring/processor/expressions/operators/delete',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
+    'taoQtiItem/scoring/processor/expressions/operators/equal',
+    'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
     'taoQtiItem/scoring/processor/expressions/operators/integerDivide',
     'taoQtiItem/scoring/processor/expressions/operators/integerModulus',
     'taoQtiItem/scoring/processor/expressions/operators/integerToFloat',
     'taoQtiItem/scoring/processor/expressions/operators/isNull',
+    'taoQtiItem/scoring/processor/expressions/operators/lcm',
     'taoQtiItem/scoring/processor/expressions/operators/lt',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
     'taoQtiItem/scoring/processor/expressions/operators/match',
@@ -38,6 +43,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/not',
     'taoQtiItem/scoring/processor/expressions/operators/or',
+    'taoQtiItem/scoring/processor/expressions/operators/ordered',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
     'taoQtiItem/scoring/processor/expressions/operators/round',
@@ -47,7 +53,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, containerSize, divide, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lt, lte, match, max, min, not, or, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, deletee, divide, equal, gcd, gt, gte, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -56,7 +62,7 @@ define([
      * @property {Object} expression - the expression definition
      * @property {Object} state - the session state (responses and variables)
      * @property {Object} preProcessor - helps you to parse and manipulate values
-     * @property {Array<ProcessingValue} operands - the operands
+     * @property {Array<ProcessingValue>} operands - the operands
      * @property {Object} constraints - the validation constraints of the processor
      * @property {Number} constraints.minOperand - the minimum number of operands
      * @property {Number} constraints.maxOperand - the maximum number of operands
@@ -72,14 +78,19 @@ define([
      */
     return {
         "and"               : and,
+        "anyN"              : anyN,
         "containerSize"     : containerSize,
+        "deletee"           : deletee,
         "divide"            : divide,
+        "equal"             : equal,
+        "gcd"               : gcd,
         "gt"                : gt,
         "gte"               : gte,
         "integerDivide"     : integerDivide,
         "integerModulus"    : integerModulus,
         "integerToFloat"    : integerToFloat,
         "isNull"            : isNull,
+        "lcm"               : lcm,
         "lt"                : lt,
         "lte"               : lte,
         "match"             : match,
@@ -87,6 +98,7 @@ define([
         "min"               : min,
         "not"               : not,
         "or"                : or,
+        "ordered"           : ordered,
         "power"             : power,
         "product"           : product,
         "round"             : round,
