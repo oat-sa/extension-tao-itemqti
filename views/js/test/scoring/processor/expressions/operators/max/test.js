@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/max'
-], function(_, maxProcessor){
+], function(_, preProcessorFactory, maxProcessor){
     "use strict";
 
     module('API');
@@ -159,6 +160,7 @@ define([
       .cases(dataProvider)
       .test('max ', function(data, assert){
         maxProcessor.operands = data.operands;
+        maxProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(maxProcessor.process(), data.expectedResult, 'The max is correct');
     });
 });

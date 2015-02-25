@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/lte'
-], function(_, ltProcessor){
+], function(_, preProcessorFactory, ltProcessor){
 
     module('API');
 
@@ -125,6 +126,7 @@ define([
       .cases(dataProvider)
       .test('lt ', function(data, assert){
         ltProcessor.operands = data.operands;
+        ltProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(ltProcessor.process(), data.expectedResult, 'The lt is correct');
     });
 });
