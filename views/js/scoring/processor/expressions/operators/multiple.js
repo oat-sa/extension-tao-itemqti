@@ -69,13 +69,7 @@ define([
 
             result.baseType = this.operands[0].baseType;
 
-            var acc = [];
-            result.value = preProcessor
-                .parseOperands(filteredOperands)
-                .reduce(function (acc, current) {
-                    acc.push(current);
-                    return acc;
-                }, acc);
+            result.value = preProcessor.parseOperands(filteredOperands).value();
 
             return result;
         }
