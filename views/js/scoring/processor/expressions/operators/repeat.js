@@ -73,17 +73,10 @@ define([
 
             result.baseType = this.operands[0].baseType;
 
-            var acc = [];
-            preProcessor
-                .parseOperands(filteredOperands)
-                .reduce(function (acc, current) {
-                    acc.push(current);
-                    return acc;
-                }, acc);
-
+            var value = preProcessor.parseOperands(filteredOperands).value();
 
             while (numberRepeats-- > 0) {
-                result.value.push(acc);
+                result.value.push(value);
             }
 
             result.value = _.flatten(result.value, true);
