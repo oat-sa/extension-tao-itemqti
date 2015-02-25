@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/divide'
-], function(_, divideProcessor){
+], function(_, preProcessorFactory, divideProcessor){
     'use strict';
 
     module('API');
@@ -101,6 +102,7 @@ define([
       .cases(dataProvider)
       .test('divide ', function(data, assert){
         divideProcessor.operands = data.operands;
+        divideProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(divideProcessor.process(), data.expectedResult, 'The divide is correct');
     });
 });

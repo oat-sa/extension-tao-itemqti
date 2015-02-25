@@ -19,18 +19,19 @@
 
 /**
  * The mapResponse expression processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10577
+ *
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10579
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, errorHandler){
+], function(_, errorHandler, preProcessor){
     'use strict';
 
     /**
-     * Correct expression
+     * The MapResponse Processor
      * @type {ExpressionProcesssor}
      * @exports taoQtiItem/scoring/processor/expressions/mapResponse
      */
@@ -42,48 +43,93 @@ define([
          */
         process : function(){
 
-            var mapResult;
+            var self = this;
+            var mapEntries,
+                mapResult,
+                defaultValue,
+                lowerBound,
+                upperBound;
             var identifier = this.expression.attributes.identifier;
             var variable   = this.state[identifier];
             var result     = {
                 cardinality : 'single',
-                baseType    : 'float',
-                value       : variable.defaultValue
+                baseType    : 'float'
             };
 
             if(typeof variable === 'undefined'){
                  return errorHandler.throw('scoring', new Error('No variable found with identifier ' + identifier ));
             }
 
-            if(variable === null || typeof variable.mapping === 'undefined'){
+            if(variable === null || typeof variable.mapping === 'undefined' || variable.mapping.qtiClass !== 'mapping'){
                  return errorHandler.throw('scoring', new Error('The variable ' + identifier + ' has no mapping, how can I execute a mapResponse on it?'));
             }
 
-            //TODO cast values
-            //TODO support entry option case sensitivity
+            //cast the variable value
+            variable = this.preProcessor.parseVariable(variable);
 
+            //cast each map value
+            mapEntries = _.map(variable.mapping.mapEntries, function(mapEntry){
+                mapEntry.mapKey = self.preProcessor.parseValue(mapEntry.mapKey, variable.baseType, 'single');
+                return mapEntry;
+            });
+
+            //retrieve attributes
+            defaultValue = parseFloat(variable.mapping.attributes.defaultValue) || 0;
+            if(typeof variable.mapping.attributes.lowerBound !== 'undefined'){
+                lowerBound = parseFloat(variable.mapping.attributes.lowerBound);
+            }
+            if(typeof variable.mapping.attributes.upperBound !== 'undefined'){
+                upperBound = parseFloat(variable.mapping.attributes.upperBound);
+            }
+
+            //resolve the mapping
             if(variable.cardinality === 'single'){
 
-                mapResult = _.find(variable.mapping, function(mapValue, mapEntry){
-                    return _.isEqual(mapEntry, variable.value);
+                //find the map entry that matches with the value
+                mapResult = _.find(mapEntries, function(mapEntry){
+                    if(variable.baseType === 'string' && mapEntry.attributes.caseSensitive === false){
+                        return _.isEqual(mapEntry.mapKey.toLowerCase(), variable.value.toLowerCase());
+                    }
+                    return _.isEqual(mapEntry.mapKey, variable.value);
                 });
+
                 if(mapResult !== undefined){
-                    result.value = parseFloat(mapResult);
+                    result.value = parseFloat(mapResult.mapValue);
                 }
 
             } else if (variable.cardinality === 'multiple' || variable.cardinality === 'ordered'){
 
-                mapResult = _(variable.mapping)
-                    .filter(function(mapValue, mapEntry){
-                        return _.contains(variable.value, mapEntry);
+                //get the entries that matches and sum their values
+                mapResult = _(mapEntries)
+                    .filter(function(mapEntry){
+                        var found;
+                        if(variable.baseType === 'string' && mapEntry.attributes.caseSensitive === false){
+                            return _.contains( _.invoke(variable.value, 'toLowerCase'),  mapEntry.mapKey.toLowerCase());
+                        }
+                        if(_.isArray(mapEntry.mapKey)){
+                            found = _.find(variable.value, mapEntry.mapKey);
+                            return found && found.length > 0;
+                        }
+                        return _.contains(variable.value,  mapEntry.mapKey);
                     })
-                    .reduce(function(sum, mapValue){
-                        return sum + parseFloat(mapValue);
-                    });
+                    .reduce(function(sum, mapEntry){
+                        return sum + parseFloat(mapEntry.mapValue);
+                    }, 0);
 
                 if(mapResult !== undefined){
                     result.value = mapResult;
                 }
+            }
+
+            // apply attributes
+            if(!_.isNumber(result.value)){
+                result.value = defaultValue;
+            }
+            if(_.isNumber(lowerBound) && result.value < lowerBound){
+               result.value = lowerBound;
+            }
+            if(_.isNumber(upperBound) && result.value > upperBound){
+               result.value = upperBound;
             }
 
             return result;

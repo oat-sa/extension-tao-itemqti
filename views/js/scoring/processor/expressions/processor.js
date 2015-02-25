@@ -26,7 +26,7 @@ define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, preProcessorFactory, errorHandler){
     'use strict';
 
     /**
@@ -97,8 +97,9 @@ define([
              return errorHandler.throw('scoring', new Error('No processor found for ' + name));
         }
 
-        processor.expression = expression;
-        processor.state      = state;
+        processor.expression    = expression;
+        processor.preProcessor  = preProcessorFactory(state);
+        processor.state         = state;
 
         //validate operators
         if(processor.operands && processor.constraints){

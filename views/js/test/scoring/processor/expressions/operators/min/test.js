@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/min'
-], function(_, minProcessor){
+], function(_, preProcessorFactory, minProcessor){
 
     module('API');
 
@@ -158,6 +159,7 @@ define([
         .cases(dataProvider)
         .test('min ', function(data, assert){
             minProcessor.operands = data.operands;
+            minProcessor.preProcessor = preProcessorFactory({});
             assert.deepEqual(minProcessor.process(), data.expectedResult, 'The min is correct');
         });
 });

@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/subtract'
-], function(_, subtractProcessor){
+], function(_, preProcessorFactory, subtractProcessor){
     'use strict';
 
     module('API');
@@ -110,6 +111,7 @@ define([
       .cases(dataProvider)
       .test('subtract ', function(data, assert){
         subtractProcessor.operands = data.operands;
+        subtractProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(subtractProcessor.process(), data.expectedResult, 'The subtract is correct');
     });
 });
