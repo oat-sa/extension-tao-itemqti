@@ -15,48 +15,35 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
- */
+ *seValue expression
+/
 
 /**
- * The setOutcomeValue processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10421
+ * The exitResponse processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10427
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/engine',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(expressionEngineFactory, errorHandler){
+], function(){
     'use strict';
 
     /**
      * The rule processor.
      *
      * @type {responseRuleProcessor}
-     * @exports taoQtiItem/scoring/processor/responseRules/setOutcomeValue
+     * @exports taoQtiItem/scoring/processor/responseRules/exitResponse
      */
-    var setOutcomeValueProcessor = {
+    var exitResponseProcessor = {
 
         /**
          * Process the rule
+         * @returns {Boolean} false to break the processing
          */
         process : function(){
-            var identifier = this.rule.attributes.identifier;
-            var variable   = this.state[identifier];
-            var expressionEngine = expressionEngineFactory(this.state);
-
-            if(!variable || !variable.baseType){
-                return errorHandler.throw('scoring', new TypeError('No variable found with identifier ' + identifier ));
-            }
-
-            var result = expressionEngine.execute(this.rule.expression);
-
-            if(result && typeof result.value !== 'undefined'){
-
-                variable.value = result.value;
-            }
+            return false;
         }
     };
 
-    return setOutcomeValueProcessor;
+    return exitResponseProcessor;
 });
