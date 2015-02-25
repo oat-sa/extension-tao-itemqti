@@ -16,8 +16,8 @@ define([
     module('Process');
 
     var dataProvider = [{
-        title: 'match',
-        pattern: /ain/,
+        title: 'don\'t match',
+        pattern: 'rain',
         operands: [{
             cardinality: 'single',
             baseType: 'string',
@@ -26,37 +26,131 @@ define([
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
+            value: false
+        }
+    },{
+        title: ' match with dot',
+        pattern: 'ra(.*)in',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: "raalksjaslkdjin"
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
             value: true
         }
-    },
-        {
-            title: 'don\'t match',
-            pattern: /car/,
-            operands: [{
-                cardinality: 'single',
-                baseType: 'string',
-                value: 'The rain in'
-            }],
-            expectedResult: {
-                cardinality: 'single',
-                baseType: 'boolean',
-                value: false
-            }
-        }, {
-            title: 'error in regexp',
-            pattern: 'error',
-            operands: [{
-                cardinality: 'single',
-                baseType: 'string',
-                value: 'The rain in'
-            }],
-            expectedResult: null
-        }, {
-            title: 'one null',
-            pattern: /car/,
-            operands: [null],
-            expectedResult: null
+    },{
+        title: 'don\'t match',
+        pattern: '^rain$',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'rain'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
         }
+    },{
+        title: 'match - escaping for ^',
+        pattern: 'ra^in',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'ra^in'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: ' match ',
+        pattern: '.*rain.*',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'the rain was'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: ' match ',
+        pattern: '\\d{1,2}',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 99
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: ' don\'t match ',
+        pattern: '.*rain.*',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'the Rain was'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
+        }
+    },{
+        title: ' match ',
+        pattern: '.*ra/in.*',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'the ra/in was'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: 'match',
+        pattern: 'rain',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'rain'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: 'don\'t match',
+        pattern: 'car',
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'The rain in'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
+        }
+    }, {
+        title: 'one null',
+        pattern: /car/,
+        operands: [null],
+        expectedResult: null
+    }
     ];
 
     QUnit

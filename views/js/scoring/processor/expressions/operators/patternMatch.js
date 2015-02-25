@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+    'taoQtiItem/scoring/processor/expressions/preprocessor'
+], function(_, preProcessor){
     'use strict';
 
     /**
@@ -61,16 +60,20 @@ define([
                 return null;
             }
 
-            var pattern = this.expression.attributes.pattern;
+            //escape $ and ^
+            var pattern = this.expression.attributes.pattern
+                .replace(/[\^\$]/g, "\\$&");
 
-            if (!_.isRegExp(pattern)) {
-                errorHandler.throw('scoring', new Error('Error in regexp for patternMatch'));
-                return null;
+            if (!pattern.match(/^(\.\*)/)) {
+                pattern = '^' + pattern;
             }
 
-            var matches = preProcessor.parseVariable(this.operands[0]).value.match(pattern);
+            if (!pattern.match(/(\.\*)$/)) {
+                pattern = pattern + '$';
+            }
 
-            result.value = _.isNull(matches) || !matches.length ? false : true;
+            var regexp = new RegExp(pattern);
+            result.value = regexp.test(preProcessor.parseVariable(this.operands[0]).value);
 
             return result;
         }
