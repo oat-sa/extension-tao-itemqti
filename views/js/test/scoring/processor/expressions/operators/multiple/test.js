@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/multiple'
-], function(_, multipleProcessor){
+], function(_, preProcessorFactory, multipleProcessor){
     'use strict';
     
     module('API');
@@ -91,6 +92,7 @@ define([
     QUnit
       .cases(dataProvider)
       .test('multiple  ', function(data, assert){
+        multipleProcessor.preProcessor = preProcessorFactory({});
         multipleProcessor.operands = data.operands;
         assert.deepEqual(multipleProcessor.process(), data.expectedResult, 'The multiple is correct');
     });
