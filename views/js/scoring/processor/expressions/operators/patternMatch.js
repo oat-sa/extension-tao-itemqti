@@ -24,9 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(_, preProcessor){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -73,7 +72,7 @@ define([
             }
 
             var regexp = new RegExp(pattern);
-            result.value = regexp.test(preProcessor.parseVariable(this.operands[0]).value);
+            result.value = regexp.test(this.preProcessor.parseVariable(this.operands[0]).value);
 
             return result;
         }

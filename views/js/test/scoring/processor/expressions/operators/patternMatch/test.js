@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/patternMatch'
-], function (_, patternMatchProcessor) {
+], function (_, preProcessorFactory, patternMatchProcessor) {
     'use strict';
 
     module('API');
@@ -156,6 +157,7 @@ define([
     QUnit
         .cases(dataProvider)
         .test('patternMatch ', function (data, assert) {
+            patternMatchProcessor.preProcessor = preProcessorFactory({});
             patternMatchProcessor.operands = data.operands;
             patternMatchProcessor.expression = { attributes : { pattern : data.pattern } };
             assert.deepEqual(patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct');
