@@ -91,7 +91,7 @@ define([
             //resolve the mapping
 
             //filter entries that match
-            filtered = _.filter(variable.mapping.areaMapEntries, function(mapEntry){
+            filtered = _.filter(variable.mapping.mapEntries, function(mapEntry){
                     var found = _.filter(points, function(point){
                         var coords = _.map(mapEntry.coords.split(','), parseFloat);
 
