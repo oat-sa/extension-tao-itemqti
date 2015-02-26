@@ -46,8 +46,6 @@ define([
      */
     var ruleEngineFactory = function ruleEngineFactory (state){
 
-        var trail = [];
-
         return {
 
             /**
@@ -56,37 +54,38 @@ define([
              * @return {Object} the modified state (it may not be necessary as the ref is modified)
              */
             execute : function(rules){
-
-                var currentRule,
-                    currentProcessor,
-                    processResult;
-
                 if(rules){
                     if(!_.isArray(rules)){
-                        trail.push(rules);
-                    } else {
-                        trail = _.clone(rules);
+                        rules = [rules];
                     }
 
-                    //TODO remove the limit and add a timeout
-                    while(trail.length > 0){
+                    _.forEach(rules, function processRule(rule){
 
-                        currentRule = trail.pop();
+                        var currentRule,
+                            currentProcessor,
+                            processResult;
+                        var trail = [rule];
 
-                        //process response rule
-                        currentProcessor = processorFactory(currentRule, state);
-                        processResult = currentProcessor.process();
+                        //TODO remove the limit and add a timeout
+                        while(trail.length > 0){
 
-                        //a processor can exit the all processing by returning false
-                        if(processResult === false){
-                            break;
+                            currentRule = trail.pop();
+
+                            //process response rule
+                            currentProcessor = processorFactory(currentRule, state);
+                            processResult = currentProcessor.process();
+
+                            //a processor can exit the all processing by returning false
+                            if(processResult === false){
+                                break;
+                            }
+
+                            //if it returns response rules, then we add them to the trail
+                            if(_.isArray(processResult)){
+                                trail = trail.concat(_.filter(processResult, isRuleSupported));
+                            }
                         }
-
-                        //if it returns response rules, then we add them to the trail
-                        if(_.isArray(processResult)){
-                            trail = trail.concat(_.filter(processResult, isRuleSupported));
-                        }
-                    }
+                    });
                 }
                 return state;
             }

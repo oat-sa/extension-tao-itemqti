@@ -96,26 +96,18 @@ define([
                     currentProcessor,
                     result;
 
-                var i = 0;
-
                 var baseExpression = expression.qtiClass;
 
                 trail.push(expression);
 
                 //TODO remove the limit and add a timeout
-                while(trail.length > 0 && i < 128){
+                while(trail.length > 0){
 
                     currentExpression = trail.pop();
                     currentProcessor = null;
 
-                    //console.log(i);
-                    //console.log('expression', currentExpression);
-                    //console.log('trail before', _.cloneDeep(trail));
-                    //console.log('marker before', _.cloneDeep(marker));
-
                     if(!isMarked(currentExpression) && isOperator(currentExpression)){
 
-                        //console.log('c1');
                         mark(currentExpression);
 
                         trail.push(currentExpression);
@@ -124,29 +116,21 @@ define([
                         pushSubExpressions(currentExpression);
 
                     } else if (isMarked(currentExpression)){
-                        //console.log('c2');
                         // Operator, second pass. Process it.
                         currentProcessor = processorFactory(currentExpression, state, popOperands(currentExpression));
                         result = currentProcessor.process();
 
+                        console.log('   expression ' + currentExpression.qtiClass, operands, result);
                         if (currentExpression.qtiClass !== baseExpression) {
                             operands.push(result);
                         }
                     } else {
-                        //console.log('c3');
                         // Simple expression, process it.
                         currentProcessor = processorFactory(currentExpression, state);
                         result = currentProcessor.process();
 
                         operands.push(result);
                     }
-
-                    //console.log('trail after', _.cloneDeep(trail));
-                    //console.log('marker after', _.cloneDeep(marker));
-                    //console.log('operands', _.cloneDeep(operands));
-                    //console.log('result', _.cloneDeep(result));
-                    //console.log("-------");
-                    i++;
                 }
                 return result;
             }
