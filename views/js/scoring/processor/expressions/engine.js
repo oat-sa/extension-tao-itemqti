@@ -120,7 +120,6 @@ define([
                         currentProcessor = processorFactory(currentExpression, state, popOperands(currentExpression));
                         result = currentProcessor.process();
 
-                        console.log('   expression ' + currentExpression.qtiClass, operands, result);
                         if (currentExpression.qtiClass !== baseExpression) {
                             operands.push(result);
                         }
