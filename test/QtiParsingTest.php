@@ -93,7 +93,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         $qtiParser->validate();
 
         if(!$qtiParser->isValid()){
-            echo $qtiParser->displayErrors();
+            $this->fail($qtiParser->displayErrors());
         }
 
         $this->assertTrue($qtiParser->isValid());
