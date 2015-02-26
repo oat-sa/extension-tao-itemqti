@@ -244,7 +244,6 @@ define([
           })
           .on('outcome', function(outcomes){
 
-            console.log(outcomes);
             assert.ok(typeof outcomes === 'object', "the outcomes are an object");
 
             _.forEach(data.outcomes, function(outcome, name){
