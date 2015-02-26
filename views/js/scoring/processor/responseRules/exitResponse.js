@@ -15,36 +15,35 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
  *
- */
+ *seValue expression
+/
 
 /**
- * The baseValue expression processor.
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10570
+ * The exitResponse processor.
+ * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10427
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([], function(){
+define([
+], function(){
     'use strict';
 
     /**
-     * BaseValue expression
-     * @type {ExpressionProcesssor}
-     * @exports taoQtiItem/scoring/processor/expressions/baseValue
+     * The rule processor.
+     *
+     * @type {responseRuleProcessor}
+     * @exports taoQtiItem/scoring/processor/responseRules/exitResponse
      */
-    var baseValueProcessor = {
+    var exitResponseProcessor = {
 
         /**
-         * Process the expression
-         * @returns {ProcessingValue} the value from the expression
+         * Process the rule
+         * @returns {Boolean} false to break the processing
          */
         process : function(){
-            return this.preProcessor.parseVariable({
-                cardinality : 'single',
-                baseType : this.expression.attributes.baseType,
-                value : this.expression.value
-            });
+            return false;
         }
     };
 
-    return baseValueProcessor;
+    return exitResponseProcessor;
 });

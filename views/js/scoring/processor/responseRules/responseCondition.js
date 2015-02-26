@@ -18,7 +18,7 @@
  */
 
 /**
- * The setOutcomeValue processor.
+ * The responseCondition processor.
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10421
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -33,30 +33,52 @@ define([
      * The rule processor.
      *
      * @type {responseRuleProcessor}
-     * @exports taoQtiItem/scoring/processor/responseRules/setOutcomeValue
+     * @exports taoQtiItem/scoring/processor/responseRules/responseCondition
      */
-    var setOutcomeValueProcessor = {
+    var responseConditionProcessor = {
 
         /**
          * Process the rule
          */
         process : function(){
-            var identifier = this.rule.attributes.identifier;
-            var variable   = this.state[identifier];
+
+            var index = 0;
             var expressionEngine = expressionEngineFactory(this.state);
 
-            if(!variable || !variable.baseType){
-                return errorHandler.throw('scoring', new TypeError('No variable found with identifier ' + identifier ));
+            //eval a condition using the expression engine
+            var evalRuleCondition = function evalRuleCondition(rule){
+                var expressionResult;
+                if(!rule.expression){
+                    return false;
+                }
+
+                expressionResult = expressionEngine.execute(rule.expression);
+
+                return expressionResult && expressionResult.value === true;
+            };
+
+
+            //the if condition
+            if(evalRuleCondition(this.rule.responseIf)){
+                return this.rule.responseIf.responseRules;
             }
 
-            var result = expressionEngine.execute(this.rule.expression);
-
-            if(result && typeof result.value !== 'undefined'){
-
-                variable.value = result.value;
+            //else if conditions
+            if(this.rule.responseElseIf){
+                for(index in this.rule.responseElseIf){
+                    if(evalRuleCondition(this.rule.responseElseIf[index])){
+                        return this.rule.responseElseIf[index].responseRules;
+                    }
+                }
             }
+
+            //the else otherwise
+            if(this.rule.responseElse){
+                return this.rule.responseElse.responseRules;
+            }
+            return [];
         }
     };
 
-    return setOutcomeValueProcessor;
+    return responseConditionProcessor;
 });
