@@ -40,6 +40,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/lt',
     'taoQtiItem/scoring/processor/expressions/operators/lte',
     'taoQtiItem/scoring/processor/expressions/operators/match',
+    'taoQtiItem/scoring/processor/expressions/operators/mathOperator',
     'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/min',
     'taoQtiItem/scoring/processor/expressions/operators/not',
@@ -54,7 +55,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, deletee, divide, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, deletee, divide, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, mathOperator, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -96,6 +97,7 @@ define([
         "lt"                : lt,
         "lte"               : lte,
         "match"             : match,
+        "mathOperator"      : mathOperator,
         "max"               : max,
         "min"               : min,
         "not"               : not,
