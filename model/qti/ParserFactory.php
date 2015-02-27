@@ -778,6 +778,7 @@ class ParserFactory
             }else{
                 throw new UnexpectedResponseProcessing('not Template, wrong rule');
             }
+            $returnValue->setRelatedItem($this->item);
         }else{
             throw new UnexpectedResponseProcessing('not Template');
         }
@@ -1181,6 +1182,7 @@ class ParserFactory
             $pattern = $rules[$interaction->getResponse()->getIdentifier()];
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
         }
+        $templatesDrivenRP->setRelatedItem($this->item);
         $returnValue = $templatesDrivenRP;
 
         return $returnValue;

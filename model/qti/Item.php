@@ -498,7 +498,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $responseProcessing         = $this->getResponseProcessing();
         if(isset($responseProcessing)){
             if($responseProcessing instanceof TemplatesDriven){
-                $renderedResponseProcessing = $responseProcessing->buildQTI($this);
+                $renderedResponseProcessing = $responseProcessing->buildQTI();
             }
             else{
                 $renderedResponseProcessing = $responseProcessing->toQTI();

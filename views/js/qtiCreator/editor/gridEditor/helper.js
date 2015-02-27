@@ -1,5 +1,5 @@
 define(function(){
-    
+    "use strict";
     var helpers = {
         getColUnits : function getColUnits($elt){
 

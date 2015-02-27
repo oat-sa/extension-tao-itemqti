@@ -132,6 +132,37 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * Assert that response processing is part of the pack
+     */
+    public function testPackingItemResponseProcessing(){
+
+        $samplePath = dirname(__FILE__).'/../samples/xml/qtiv2p1/';
+        $sample = 'inline_choice.xml';
+
+        $this->assertTrue(file_exists($samplePath . $sample));
+
+        $itemPackerMock = $this
+                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+                    ->setMethods(array('getItemContent'))
+                    ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($samplePath . $sample)));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertTrue(is_array($data['responseProcessing']['responseRules']));
+        $this->assertTrue(count($data['responseProcessing']['responseRules']) > 0);
+    }
+
+    /**
      * Test packing an item  that contain images.
      */
     public function testPackingItemWithImages(){

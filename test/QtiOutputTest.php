@@ -18,12 +18,13 @@
  *               
  * 
  */
+
 namespace oat\taoQtiItem\test;
+
 use DOMDocument;
 use DOMException;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
-//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -68,50 +69,97 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         if(!$parserValidator->isValid()){
             $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }
-        /*
-          @unlink($tmpFile);
-          $this->assertFalse(file_exists($tmpFile));
-         */
     }
 
     /**
      * test the building and exporting out the items
+     * @dataProvider itemProvider
      */
-    public function testToXHTML(){
+    public function testToXHTML($file){
 
         $doc = new DOMDocument();
         $doc->validateOnParse = true;
-        foreach(glob(dirname(__FILE__).'/samples/*.xml') as $file){
 
-            $qtiParser = new Parser($file);
-            $item = $qtiParser->load();
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
 
-            $this->assertTrue($qtiParser->isValid());
-            $this->assertNotNull($item);
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        $this->assertTrue($qtiParser->isValid());
+        $this->assertNotNull($item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
-            //test if content has been exported
-            $xhtml = $item->toXHTML();
-            $this->assertFalse(empty($xhtml));
+        //test if content has been exported
+        $xhtml = $item->toXHTML();
+        $this->assertFalse(empty($xhtml));
 
-            try{
-                $doc->loadHTML($xhtml);
-            }catch(DOMException $de){
-                $this->fail($de);
-            }
+        try{
+            $doc->loadHTML($xhtml);
+        }catch(DOMException $de){
+            $this->fail($de);
         }
     }
-    
+
+    /**
+     * test the building and exporting out the items
+     * @dataProvider rpItemProvider
+     */
+    public function testResponseProcessingToArray($name, $file, $expectation){
+
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
+        $this->assertTrue($qtiParser->isValid());
+        $this->assertNotNull($item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+
+        $rp = $item->getResponseProcessing();
+        $data = $rp->toArray();
+        $this->assertFalse(empty($data));
+        $this->assertFalse(empty($data['responseRules']));
+
+        //compare the result with expectation
+        $responseRules = json_decode($expectation, true);
+        $this->assertEquals($data['responseRules'], $responseRules);
+    }
+
     /**
      * 
      * @return multitype:
      */
-    public function itemProvider() {
+    public function itemProvider(){
         $items = array();
-        foreach (array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file) {
+        foreach(array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file){
             $items[] = array($file);
         }
         return $items;
+    }
+
+    /**
+     * 
+     * @return multitype
+     */
+    public function rpItemProvider(){
+        $sampleDirectory = dirname(__FILE__).'/samples/xml/qtiv2p1/';
+        return array(
+            array(
+                'name' => 'custom',
+                'file' => $sampleDirectory.'order_partial_scoring.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIf":{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]'
+            ),
+            array(
+                'name' => 'template',
+                'file' => $sampleDirectory.'associate.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0.0"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"mapResponse","attributes":{"identifier":"RESPONSE"}}}]}}]'
+            ),
+            array(
+                'name' => 'composite',
+                'file' => $sampleDirectory.'composite.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"outcome_2"}},{"qtiClass":"variable","attributes":{"identifier":"outcome_1"}}]}}]'
+            ),
+            array(
+                'name' => 'composite_complex',
+                'file' => $sampleDirectory.'composite_complex_rp.xml',
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"outcome_2"}},{"qtiClass":"variable","attributes":{"identifier":"outcome_1"}}]}},{"qtiClass":"responseProcessingFragment","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_0"},"expression":{"qtiClass":"multiple","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"2"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_1"},"expression":{"qtiClass":"divide","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"3"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_3"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE_0"}},{"qtiClass":"variable","attributes":{"identifier":"SCORE_1"}}]}}]}]'
+            )
+        );
     }
 
 }
