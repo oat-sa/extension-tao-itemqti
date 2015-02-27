@@ -1,11 +1,10 @@
 define([
-    'jquery',
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/modalFeedback',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
+    'ui/waitForMedia',
     'ui/modal'
-], function($, _, tpl, containerHelper, sizeFinder){
+], function(_, tpl, containerHelper){
     'use strict';
 
     var modalFeedbackRenderer = {
@@ -13,28 +12,36 @@ define([
         template : tpl,
         getContainer : containerHelper.get,
         minHeight : 200,
-        minWidth : 400,
-        maxWidth : 800,
+        width : 600,
         render : function(modalFeedback, data){
 
             data = data || {};
 
-            var $modal = $('#' + modalFeedback.getSerial());
+            var $modal = containerHelper.get(modalFeedback);
 
-            sizeFinder.measure($modal, function(size){
-                
-                $modal.modal({
-                    startClosed : false,
-                    minHeight : Math.max(size.height , modalFeedbackRenderer.minHeight),
-                    width : Math.max( Math.min(size.width, modalFeedbackRenderer.maxWidth), modalFeedbackRenderer.minWidth)
-                });
+            $modal.waitForMedia(function(){
 
-                $modal.on('closed.modal', function(){
+                //when we are sure that media is loaded:
+                $modal.on('opened.modal', function(){
+
+                    //set item body height
+                    var $itemBody = containerHelper.get(modalFeedback.getRelatedItem()).children('.qti-itemBody');
+                    var requiredHeight = $modal.outerHeight() + parseInt($modal.css('top'));
+                    if(requiredHeight > $itemBody.height()){
+                        $itemBody.height(requiredHeight);
+                    }
+
+                }).on('closed.modal', function(){
                     if(_.isFunction(data.callback)){
                         data.callback.call(this);
                     }
+                }).modal({
+                    startClosed : false,
+                    minHeight : modalFeedbackRenderer.minHeight,
+                    width : modalFeedbackRenderer.width
                 });
             });
+
         }
     };
 

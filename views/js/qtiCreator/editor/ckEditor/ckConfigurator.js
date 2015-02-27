@@ -9,7 +9,7 @@ define([
     /**
      * Cache original config
      */
-    var originalConfig = _.cloneDeep(CKEDITOR.config);
+    var originalConfig = _.cloneDeep(window.CKEDITOR.config);
 
     var ckConfigurator = (function(){
 
@@ -29,7 +29,7 @@ define([
         };
 
         if(mathJax){
-            qtiPositionedPlugins.TaoQtiMaths = {insertAfter : 'SpecialChar'}
+            qtiPositionedPlugins.TaoQtiMaths = {insertAfter : 'SpecialChar'};
         }
 
         /**
@@ -78,7 +78,10 @@ define([
                 }],
             extendedText : [{
                     name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Underline']
+                    items : ['Bold', 'Italic', 'Underline','Subscript', 'Superscript']
+                },{
+                    name : 'insert',
+                    items : ['SpecialChar']
                 },{
                     name : 'paragraph',
                     items : ['NumberedList', 'BulletedList']
@@ -88,6 +91,9 @@ define([
                 },{
                     name : 'history',
                     items : ['Undo', 'Redo']
+                },{
+                    name : 'fontstyles',
+                    items : ['TextColor','Font','FontSize']
                 }]
         };
 
@@ -108,7 +114,17 @@ define([
             linkShowAdvancedTab : false,
             justifyClasses : ['txt-lft', 'txt-ctr', 'txt-rgt', 'txt-jty'],
             linkShowTargetTab : false,
-            specialChars : ['!', '&quot;', '#', '$', '%', '&amp;', "'", '(', ')', '*', '+', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', ['&lt;', 'Less than'], ['&le;', 'Less than or equal to'], '&asymp;', '=', '&ne;', ['&ge;', 'Greater than or equal to'], ['&gt;', 'Greater than'], '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', "&euro;", "&lsquo;", "&rsquo;", "&ldquo;", "&rdquo;", "&ndash;", "&mdash;", "&iexcl;", "&cent;", "&pound;", "&curren;", "&yen;", "&brvbar;", "&sect;", "&uml;", "&copy;", "&ordf;", "&laquo;", "&not;", "&reg;", "&macr;", "&deg;", "&sup2;", "&sup3;", "&acute;", "&micro;", "&para;", "&middot;", "&cedil;", "&sup1;", "&ordm;", "&raquo;", "&frac14;", "&frac12;", "&frac34;", "&iquest;", "&Agrave;", "&Aacute;", "&Acirc;", "&Atilde;", "&Auml;", "&Aring;", "&AElig;", "&Ccedil;", "&Egrave;", "&Eacute;", "&Ecirc;", "&Euml;", "&Igrave;", "&Iacute;", "&Icirc;", "&Iuml;", "&ETH;", "&Ntilde;", "&Ograve;", "&Oacute;", "&Ocirc;", "&Otilde;", "&Ouml;", "&times;", "&Oslash;", "&Ugrave;", "&Uacute;", "&Ucirc;", "&Uuml;", "&Yacute;", "&THORN;", "&szlig;", "&agrave;", "&aacute;", "&acirc;", "&atilde;", "&auml;", "&aring;", "&aelig;", "&ccedil;", "&egrave;", "&eacute;", "&ecirc;", "&euml;", "&igrave;", "&iacute;", "&icirc;", "&iuml;", "&eth;", "&ntilde;", "&ograve;", "&oacute;", "&ocirc;", "&otilde;", "&ouml;", "&divide;", "&oslash;", "&ugrave;", "&uacute;", "&ucirc;", "&uuml;", "&yacute;", "&thorn;", "&yuml;", "&OElig;", "&oelig;", "&#372;", "&#374", "&#373", "&#375;", "&sbquo;", "&#8219;", "&bdquo;", "&hellip;", "&trade;", "&#9658;", "&bull;", "&rarr;", "&rArr;", "&hArr;", "&diams;", "&asymp;"]
+            specialChars : ['!', '&quot;', '#', '$', '%', '&amp;', "'", '(', ')', '*', '+', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', ['&lt;', 'Less than'],
+                ['&le;', 'Less than or equal to'], '&asymp;', '=', '&ne;', ['&ge;', 'Greater than or equal to'], ['&gt;', 'Greater than'], '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', "&euro;", "&lsquo;", "&rsquo;", "&ldquo;", "&rdquo;", "&ndash;", "&mdash;", "&iexcl;",
+                "&cent;", "&pound;", "&curren;", "&yen;", "&brvbar;", "&sect;", "&uml;", "&copy;", "&ordf;", "&laquo;", "&not;", "&reg;", "&macr;", "&deg;", "&sup2;", "&sup3;", "&acute;",
+                "&micro;", "&para;", "&middot;", "&cedil;", "&sup1;", "&ordm;", "&raquo;", "&frac14;", "&frac12;", "&frac34;", "&iquest;", "&Agrave;", "&Aacute;", "&Acirc;", "&Atilde;",
+                "&Auml;", "&Aring;", "&AElig;", "&Ccedil;", "&Egrave;", "&Eacute;", "&Ecirc;", "&Euml;", "&Igrave;", "&Iacute;", "&Icirc;", "&Iuml;", "&ETH;", "&Ntilde;", "&Ograve;", "&Oacute;",
+                "&Ocirc;", "&Otilde;", "&Ouml;", "&times;", "&Oslash;", "&Ugrave;", "&Uacute;", "&Ucirc;", "&Uuml;", "&Yacute;", "&THORN;", "&szlig;", "&agrave;", "&aacute;", "&acirc;",
+                "&atilde;", "&auml;", "&aring;", "&aelig;", "&ccedil;", "&egrave;", "&eacute;", "&ecirc;", "&euml;", "&igrave;", "&iacute;", "&icirc;", "&iuml;", "&eth;", "&ntilde;",
+                "&ograve;", "&oacute;", "&ocirc;", "&otilde;", "&ouml;", "&divide;", "&oslash;", "&ugrave;", "&uacute;", "&ucirc;", "&uuml;", "&yacute;", "&thorn;", "&yuml;", "&OElig;",
+                "&oelig;", "&#372;", "&#374", "&#373", "&#375;", "&sbquo;", "&#8219;", "&bdquo;", "&hellip;", "&trade;", "&#9658;", "&bull;", "&rarr;", "&rArr;", "&hArr;", "&diams;","&asymp;"]
         };
 
         /**
@@ -297,7 +313,7 @@ define([
             // I know that this is rather ugly
             editor.on('focus', function(e){
                 dtdHandler.setMode(dtdMode);
-                CKEDITOR.dtd = dtdHandler.getDtd();
+                window.CKEDITOR.dtd = dtdHandler.getDtd();
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
             });
@@ -309,7 +325,7 @@ define([
             });
 
             // This fixes bug #2855. Unfortunately this can be done on the global object only, not on the instance
-            CKEDITOR.on('dialogDefinition', function(e) {
+            window.CKEDITOR.on('dialogDefinition', function(e) {
                 if(e.data.name !== 'link') {
                     return;
                 }

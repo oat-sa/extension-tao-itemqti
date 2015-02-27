@@ -67,11 +67,11 @@ define([
         var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
             qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
         });
-        
+
         localRequire([entryPoint], function(){
 
             var pci = _getPic(infoControl);
-            if(pci){
+            if(pci && $dom.length){
                 //call pci initialize() to render the pci
                 pci.initialize(id, $dom[0], config);
                 //restore context (state + response)

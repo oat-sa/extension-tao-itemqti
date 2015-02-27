@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses'
 ], function($, helpers, Loader, Item, qtiClasses){
-
+    "use strict";
     var _generateIdentifier = function(uri){
         var pos = uri.lastIndexOf('#');
         return uri.substr(pos + 1);
