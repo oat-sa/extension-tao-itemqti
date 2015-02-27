@@ -112,7 +112,7 @@ define([
 
                 var counter = function(){
                     var regex = /\s+/gi,
-                    editor = $container.data('editor'),
+                    editor = _ckEditor(interaction),
                     value = (_getFormat(interaction) === "xhtml") ?  $('<div>' + editor.getData() + '</div>').text() : $textarea.val(),
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
@@ -220,8 +220,16 @@ define([
         }
     };
 
+    /**
+     * Reset the textarea / ckEditor
+     * @param  {object} interaction the interaction
+     */
     var resetResponse = function(interaction) {
-        interaction.getContainer().find('input, textarea').val('');
+        if (_getFormat(interaction) === 'xhtml') {
+            _ckEditor(interaction).setData('');
+        }else{
+            interaction.getContainer().find('input, textarea').val('');
+        }
     };
 
     /**
