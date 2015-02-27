@@ -20,4 +20,6 @@
         <label for="height">{{__ 'Height'}}</label>
         <input name="height" value="{{height}}" type="text" />
     </div>
+
+    <input type="hidden" name="type" value="{{type}}" type="text" />
 </div>
