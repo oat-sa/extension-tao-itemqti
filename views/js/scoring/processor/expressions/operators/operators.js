@@ -28,6 +28,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/delete',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
+    'taoQtiItem/scoring/processor/expressions/operators/fieldValue',
     'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
@@ -54,7 +55,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, deletee, divide, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, deletee, divide, equal, fieldValue, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -84,6 +85,7 @@ define([
         "deletee"           : deletee,
         "divide"            : divide,
         "equal"             : equal,
+        "fieldValue"        : fieldValue,
         "gcd"               : gcd,
         "gt"                : gt,
         "gte"               : gte,
