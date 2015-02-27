@@ -319,7 +319,7 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/                                   /* /  \ |    | --:'''':--
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/ }
+DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/ /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */ /* end tmp fix #2768 */ }
 .item-editor-item [class*=" col-"], .item-editor-item [class^="col-"] { position: relative; }
 .item-editor-item p, .item-editor-item span, .item-editor-item ol, .item-editor-item ul { line-height: 1.4; font-size: 1.4rem; }
 .item-editor-item .inserting .widget-block, .item-editor-item .inserting .widget-blockInteraction { border: 1px dashed #ddd; }
@@ -476,9 +476,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before { content: "\e643"; }
 .item-editor-item .qti-hottextInteraction .qti-hottext input[disabled] ~ [class^="icon-"] { cursor: pointer !important; }
 .item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb { display: inline-block; postion: absolute; right: -30px; z-index: 1000; }
+.item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb[data-edit] { top: -2px; }
+.item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb[data-edit].icon-undo { padding-right: 8px; }
+.item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb[data-edit] label { padding: 0 3px; }
+.item-editor-item .qti-hottextInteraction .qti-hottext .mini-tlb[data-edit] [data-role="score"] { width: 30px; }
 .item-editor-item .qti-hottextInteraction .qti-flow-container { position: relative; }
 .item-editor-item .qti-hottextInteraction .qti-flow-container [data-html-editable] { min-height: 3rem; }
-.item-editor-item .qti-hottextInteraction .qti-flow-container .mini-tlb[data-role=create-hottext-tlb] { postion: absolute; right: -30px; }
+.item-editor-item .qti-hottextInteraction .qti-flow-container .mini-tlb[data-role=create-hottext-tlb] { position: absolute; right: -30px; }
 .item-editor-item .qti-hottextInteraction .qti-flow-container #selection-wrapper { z-index: 1000; position: relative; }
 .item-editor-item .qti-hottextInteraction input.score { width: 30px; min-width: 30px; padding: 0 2px; }
 .item-editor-item #item-editor-interaction-bar .tool-list:before, #item-editor-interaction-bar .item-editor-item .tool-list:before, .item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after { content: " "; display: table; }
@@ -567,6 +571,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-item .qti-customInteraction ~ .overlay { background: transparent; }
 .item-editor-item .qti-customInteraction .simple-editable { border: solid 1px transparent; min-height: 1.8rem; min-width: 3rem; }
 .item-editor-item .qti-customInteraction .simple-editable:hover { border-color: #86aec8; }
+.item-editor-item .qti-simpleChoice .mini-tlb[data-edit="question"] { right: -45px !important; top: 3px; }
+.item-editor-item .qti-hottextInteraction .mini-tlb { right: -31px !important; }
+.item-editor-item .qti-interaction .qti-prompt ~ .mini-tlb { right: -31px !important; top: 1px; }
+.item-editor-item .widget-textBlock .mini-tlb { right: -60px !important; }
+.item-editor-item .qti-flow-container .mini-tlb { right: -31px !important; }
 
 /*style for modal feedback*/
 #item-editor-interaction-bar .tool-list:before, #item-editor-interaction-bar .tool-list:after { content: " "; display: table; }
