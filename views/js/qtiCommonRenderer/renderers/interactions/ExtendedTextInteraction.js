@@ -86,9 +86,11 @@ define([
             }
             // Enable ckeditor only if text format is 'xhtml'.
             if (_getFormat(interaction) === 'xhtml') {
-                //replace the textarea with ckEditor
+                // replace the textarea with ckEditor
                 var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
+                // store the instance inside data on the container
                 $container.data('editor', editor);
+
 
             }
             else {
@@ -347,8 +349,22 @@ define([
         }
     };
 
+    /**
+     * return the ckEditor instance
+     * @param  {object} interaction the interaction
+     * @return {object}             ckeditor instance
+     */
+    var _ckEditor = function(interaction){
+        return Helper.getContainer(interaction).data('editor');
+    };
+
+    /**
+     * get the content of the ckEditor
+     * @param  {object} interaction the interaction
+     * @return {string}             content of the ckEditor
+     */
     var _ckEditorData = function(interaction) {
-        return Helper.getContainer(interaction).data('editor').getData();
+        return _ckEditor.getData();
     };
 
     var _getFormat = function(interaction) {
@@ -409,7 +425,7 @@ define([
         else {
             // preFormatted or plain
             if (from === 'xhtml') {
-                $container.data('editor').destroy();
+                _ckEditor(interaction).destroy();
             }
         }
     };
@@ -420,7 +436,7 @@ define([
         $container.find('input, textarea').removeAttr('disabled');
 
         if ( _getFormat(interaction) === 'xhtml') {
-            $container.data('editor').readOnly = false;
+            _ckEditor(interaction).readOnly = false;
         }
     };
 
@@ -429,7 +445,7 @@ define([
         $container.find('input, textarea').attr('disabled', 'disabled');
 
         if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
-            $container.data('editor').readOnly = true;
+            _ckEditor(interaction).readOnly = true;
         }
     };
 
@@ -441,7 +457,7 @@ define([
         var $container = Helper.getContainer(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
-            $container.data('editor').setData(text);
+            _ckEditor(interaction).setData(text);
         }
         else {
             $container.find('textarea').val(text);
