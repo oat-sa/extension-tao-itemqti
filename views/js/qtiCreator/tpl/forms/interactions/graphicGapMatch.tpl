@@ -20,9 +20,4 @@
         <label for="height">{{__ 'Height'}}</label>
         <input name="height" value="{{height}}" type="text" />
     </div>
-
-    <div class="panel">
-        <label for="type">{{__ 'Mime Type'}}</label>
-        <input name="type" value="{{type}}" type="text" />
-    </div>
 </div>
