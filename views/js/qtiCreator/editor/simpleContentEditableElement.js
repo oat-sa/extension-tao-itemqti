@@ -1,5 +1,5 @@
 define(['jquery', 'lodash'], function($, _){
-
+    "use strict";
     function create($container, selector, callback){
 
         function _init($elt){

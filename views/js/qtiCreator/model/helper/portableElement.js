@@ -1,5 +1,6 @@
 define(['lodash', 'jquery'], function(_, $){
-
+    "use strict";
+    
     function _addNsDir(typeIdentifier, file){
         return typeIdentifier + '/' + file.replace(/^\.\//, '');
     }

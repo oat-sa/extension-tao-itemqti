@@ -1,18 +1,18 @@
 @import "inc/bootstrap";
 
 .qti-hottextInteraction {
-    
+
     //@todo : change it to qti-hottext
-    .hottext {        
+    .hottext {
         background: $uiClickableDefaultBg;
         padding-right: 5px;
         @include border-radius();
         position: relative;
-        
+
         &:hover {
             @extend %selectableHover;
         }
-        
+
         &.error{
             color : $error;
         }
@@ -22,7 +22,7 @@
             min-width: auto;
             width: auto;
         }
-        
+
         [class^="icon-"], [class*=" icon-"] {
             &.small {
                 @include font-size(12);
@@ -32,20 +32,6 @@
             }
             &.error{
                 color : $error;
-            }
-        }
-
-        //todo : should be moved to creator's part
-        .mini-tlb[data-edit] {
-            top: -2px;
-            &.icon-undo {
-                padding-right:8px;
-            }
-            label {
-                padding: 0 3px;
-            }
-            [data-role="score"] {
-                width: 30px;
             }
         }
     }

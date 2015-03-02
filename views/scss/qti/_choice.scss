@@ -1,10 +1,11 @@
 @import "inc/bootstrap";
+
 .qti-choiceInteraction {
-    
+
     .qti-choice .real-label{
         top:1px;
     }
-    
+
     .block-listing > li {
         margin-top: 0;
         margin-bottom: 0;
@@ -22,9 +23,9 @@
             @include border-radius-bottom(2);
         }
     }
-    
+
     //IE specific
-    
+
     .checked {
         span.icon-checkbox:before{
             @extend %icon-checkbox-checked;
@@ -40,5 +41,4 @@
         }
     }
     //END IE specific
-    
 }

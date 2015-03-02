@@ -84,6 +84,12 @@ define([
             if(context){
                 return context.throw(err);
             }
+        },
+
+        reset : function resetContext(name){
+            if(this._contexts[name]){
+                this._contexts = _.omit(this._contexts, name);
+            }
         }
 
     };
