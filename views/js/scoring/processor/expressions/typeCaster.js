@@ -154,7 +154,7 @@ define([
      */
     function toPoint(value){
         if(_.isString(value) && value.indexOf(' ') > -1){
-             value = _.first(value.split(' '), 2);
+            value = _.first(value.split(' '), 2);
         }
         if(_.isArray(value)){
             return _.map(value, toInt);
