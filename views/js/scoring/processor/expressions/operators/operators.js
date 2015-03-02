@@ -28,6 +28,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/delete',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/durationGTE',
+    'taoQtiItem/scoring/processor/expressions/operators/durationLT',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
     'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
@@ -55,7 +56,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, deletee, divide, durationGTE, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, deletee, divide, durationGTE, durationLT, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -85,6 +86,7 @@ define([
         "deletee"           : deletee,
         "divide"            : divide,
         "durationGTE"       : durationGTE,
+        "durationLT"        : durationLT,
         "equal"             : equal,
         "gcd"               : gcd,
         "gt"                : gt,
