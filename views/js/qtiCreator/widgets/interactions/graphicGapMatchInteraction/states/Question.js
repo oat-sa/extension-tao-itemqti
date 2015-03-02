@@ -116,8 +116,8 @@ define([
                        .attr('data-serial', gapImg.serial);
             }
 
-            if(gapImg.object && gapImg.object.attributes.dataClear){
-                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.dataClear);
+            if(gapImg.object && gapImg.object.attributes.data){
+                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.data);
                 if(update === true){
                      
                     $gapImg.replaceWith( gapImg.render() );
@@ -256,7 +256,7 @@ define([
                         matchMax        : gapImg.attr('matchMax'),
                         choicesCount    : _.size(interaction.getChoices()),
                         baseUrl         : options.baseUrl,
-                        data            : gapImg.object.attr('dataClear'),
+                        data            : gapImg.object.attr('data'),
                         width           : gapImg.object.attr('width'),
                         height          : gapImg.object.attr('height'),
                         type            : gapImg.object.attr('type')
@@ -274,7 +274,7 @@ define([
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function(element, value){
-                    gapImg.object.attr('dataClear', value);
+                    gapImg.object.attr('data', value);
                     setUpGapImg(gapImg, true);
                 };
                 callbacks.width = function(element, value){

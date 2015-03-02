@@ -38,11 +38,11 @@ define([], function(){
          * @returns {ProcessingValue} the value from the expression
          */
         process : function(){
-            return {
+            return this.preProcessor.parseVariable({
                 cardinality : 'single',
                 baseType : this.expression.attributes.baseType,
                 value : this.expression.value
-            };
+            });
         }
     };
 

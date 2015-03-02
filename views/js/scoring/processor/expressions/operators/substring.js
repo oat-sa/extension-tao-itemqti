@@ -24,9 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(_, preProcessor){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -35,8 +34,6 @@ define([
      * @exports taoQtiItem/scoring/processor/expressions/operators/substring
      */
     var substringProcessor = {
-
-        caseSensitive: true,
 
         constraints : {
             minOperand : 2,
@@ -58,15 +55,17 @@ define([
                 baseType : 'boolean'
             };
 
+            var caseSensitive = _.isBoolean(this.expression.attributes.caseSensitive) ? this.expression.attributes.caseSensitive : true;
+
             //if at least one operand is null, then break and return null
             if(_.some(this.operands, _.isNull) === true){
                 return null;
             }
 
-            result.value = preProcessor
+            result.value = this.preProcessor
                 .parseOperands(this.operands)
                 .reduce(function(f, s){
-                    if (substringProcessor.caseSensitive === false){
+                    if (!caseSensitive){
                         return f.toLowerCase().indexOf(s.toLowerCase()) !== -1;
                     }
                     return f.indexOf(s) !== -1;
