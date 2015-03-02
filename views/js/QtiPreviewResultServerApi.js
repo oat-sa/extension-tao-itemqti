@@ -56,13 +56,6 @@ define([
                     if(!fbCount){
                         callback();
                     }
-
-                    //reset submit listener, in the preview iframe:
-                    $('#preview-container').each(function(){
-                        $("#qti-submit-response", this.contentWindow.document).one('click', function(){
-                            runner.validate();
-                        });
-                    });
                 }
             }
         });
