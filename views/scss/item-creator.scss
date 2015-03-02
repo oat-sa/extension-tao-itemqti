@@ -1078,6 +1078,7 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
+/* edit-* classes are used to represents the different states of an interaction */
 .edit-question .qti-interaction, .qti-modalFeedback.edit-active {
     [data-html-editable-container]:hover {
         [data-html-editable][contenteditable=true] {
@@ -1088,6 +1089,25 @@ img.dragging.ui-draggable-dragging {
         margin-right: 0px; //@todo value to be determined
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
+        }
+    }
+}
+
+.edit-question .qti-blockInteraction .horizontal {
+    .add-option {
+        margin-top: 25px;
+    }
+    .qti-choice {
+        margin-top: 25px;
+        .mini-tlb{
+            white-space: nowrap;
+            top:-26px;
+            right:-4px;
+            .tlb-button{
+                min-width:25px;
+                height:20px;
+                margin:0;
+            }
         }
     }
 }
