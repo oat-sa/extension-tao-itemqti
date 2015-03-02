@@ -345,7 +345,8 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
-
+        var showWidthInput = $('[name="item-width-prompt"]:checked').val() === "slider";
+        
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
             data            : interaction.object.attr('data'),
@@ -357,6 +358,9 @@ define([
         imageSelector($form, options); 
 
         formElement.initWidget($form);
+        
+        //Toggle the image resizing panel depending on style editor `item width` input value.
+        $form.find('.panel-interaction-size').toggle(showWidthInput);
         
         //init data change callbacks
         var callbacks  =  {};        
