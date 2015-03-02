@@ -8,6 +8,7 @@ define([
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
 ], function(_, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableContainer);

@@ -23,8 +23,10 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'taoQtiItem/scoring/processor/responseRules/exitResponse',
+    'taoQtiItem/scoring/processor/responseRules/responseCondition',
     'taoQtiItem/scoring/processor/responseRules/setOutcomeValue',
-], function(setOutcomeValue){
+], function(exitResponse, responseCondition, setOutcomeValue){
     'use strict';
 
     /**
@@ -36,11 +38,25 @@ define([
      */
 
     /**
+     * Mock a processor only to make some responseRules supported but do nothing
+     * (when the behavior is implemented somewhere else)
+     * @private
+     */
+    var _noopProcessor = {
+        process : function(){}
+    };
+
+    /**
      * Lists all available response rule processors
      * @exports taoQtiItem/scoring/processor/responseRules/rules
      */
     return {
-        'setOutcomeValue' : setOutcomeValue
+        'exitResponse'      : exitResponse,
+        'responseCondition' : responseCondition,
+        'responseIf'        : _noopProcessor,
+        'responseElse'      : _noopProcessor,
+        'responseElseIf'    : _noopProcessor,
+        'setOutcomeValue'   : setOutcomeValue,
     };
 
 });

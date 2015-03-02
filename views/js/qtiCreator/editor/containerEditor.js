@@ -13,7 +13,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
-
+    "use strict";
     var _ns = 'containereditor';
 
     var _defaults = {

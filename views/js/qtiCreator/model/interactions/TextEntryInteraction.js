@@ -4,6 +4,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/TextEntryInteraction'
 ], function(_, editable, editableInteraction, Interaction){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);

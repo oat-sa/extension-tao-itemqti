@@ -2,12 +2,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
-    'taoQtiItem/qtiCommonRenderer/helpers/sizeFinder',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/modalFeedback',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, sizeFinder, formTpl, formElement, $){
+], function(stateFactory, Active, commonRenderer, formTpl, formElement, $){
 
     /**
      * handle z-indices of sidebar and ckeditor
@@ -62,24 +61,24 @@ define([
     }());
 
     var _ckeIsReady = function($editable){
-        
+
         var dfd = new $.Deferred(),
             iteration = 0;
 
         var poll = function(){
-            
+
             var editor = $editable.data('editor');
-            
+
             if(iteration > 20){
                 return;
             }
-            
+
             if(editor){
                 dfd.resolve();
             }else{
                 setTimeout(poll, 200);
             }
-            
+
         };
         poll();
 
@@ -92,31 +91,28 @@ define([
             $container = this.widget.$container,
             $editable = $container.find('[data-html-editable]');
 
-        sizeFinder.measure($container, function(size){
-            
-            $container.modal({
-                startClosed : true,
-                width : Math.max( Math.min(size.width, commonRenderer.maxWidth), commonRenderer.minWidth)
-            });
-            $container.modal('open');
-            $container.css('height', 'auto');
-            
-            $.when(_ckeIsReady($editable)).then(function(){
-                indices.raise($container.css('z-index'));
-            });
-            
-            $container.on('closed.modal', function(){
-                _widget.changeState('sleep');
-            });
-
+        $container.modal({
+            startClosed : true,
+            width : commonRenderer.width,
+            $context : $('#item-editor-scroll-outer')
         });
-        
+        $container.modal('open');
+        $container.css('height', 'auto');
+
+        $.when(_ckeIsReady($editable)).then(function(){
+            indices.raise($container.css('z-index'));
+        });
+
+        $container.on('closed.modal', function(){
+            _widget.changeState('sleep');
+        });
+
         this.widget.offEvents('otherActive');
-        
+
         //show option form
         this.initForm();
         this.widget.$form.show();
-        
+
     }, function(){
 
         var $container = this.widget.$container;
@@ -126,14 +122,14 @@ define([
 
         // reset ck and sidebar
         indices.reset();
-        
+
         //close ck tlb
         $container.find('.tlb-button.active[data-role=cke-launcher]').click();
-        
+
         //destroy and hide it
         this.widget.$form.empty().hide();
     });
-    
+
     ModalFeedbackStateActive.prototype.initForm = function(){
 
         var _widget = this.widget;
@@ -153,6 +149,6 @@ define([
             }
         });
     };
-    
+
     return ModalFeedbackStateActive;
 });

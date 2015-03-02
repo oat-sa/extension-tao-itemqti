@@ -32,145 +32,142 @@
                         "relatedItem": "item_547481b19675c725296684"
                     }
                 },
-                "choices": [
-                    {
-                        "choice_simpleassociablechoice_547481b198301862830282": {
+                "choices": [{
+                    "choice_simpleassociablechoice_547481b198301862830282": {
+                        "identifier": "C",
+                        "serial": "choice_simpleassociablechoice_547481b198301862830282",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
                             "identifier": "C",
-                            "serial": "choice_simpleassociablechoice_547481b198301862830282",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "C",
-                                "fixed": false,
-                                "matchMax": 1,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b1984ca957130034",
-                                "body": "Capulet",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
-                            }
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
                         },
-                        "choice_simpleassociablechoice_547481b1985e9014015123": {
-                            "identifier": "D",
-                            "serial": "choice_simpleassociablechoice_547481b1985e9014015123",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "D",
-                                "fixed": false,
-                                "matchMax": 1,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b19864c882047727",
-                                "body": "Demetrius",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
-                            }
-                        },
-                        "choice_simpleassociablechoice_547481b198742482177856": {
-                            "identifier": "L",
-                            "serial": "choice_simpleassociablechoice_547481b198742482177856",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "L",
-                                "fixed": false,
-                                "matchMax": 1,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b1987a0199791197",
-                                "body": "Lysander",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
-                            }
-                        },
-                        "choice_simpleassociablechoice_547481b19888a260388540": {
-                            "identifier": "P",
-                            "serial": "choice_simpleassociablechoice_547481b19888a260388540",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "P",
-                                "fixed": false,
-                                "matchMax": 1,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b1988e7086855540",
-                                "body": "Prospero",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
+                        "body": {
+                            "serial": "container_containerstatic_547481b1984ca957130034",
+                            "body": "Capulet",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
                             }
                         }
                     },
-                    {
-                        "choice_simpleassociablechoice_547481b1989ee614159529": {
-                            "identifier": "R",
-                            "serial": "choice_simpleassociablechoice_547481b1989ee614159529",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "R",
-                                "fixed": false,
-                                "matchMax": 4,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b198a58375511408",
-                                "body": "Romeo and Juliet",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
-                            }
+                    "choice_simpleassociablechoice_547481b1985e9014015123": {
+                        "identifier": "D",
+                        "serial": "choice_simpleassociablechoice_547481b1985e9014015123",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "D",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
                         },
-                        "choice_simpleassociablechoice_547481b198b48089571446": {
-                            "identifier": "M",
-                            "serial": "choice_simpleassociablechoice_547481b198b48089571446",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "M",
-                                "fixed": false,
-                                "matchMax": 4,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b198ba1597191333",
-                                "body": "A Midsummer-Night's Dream",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
+                        "body": {
+                            "serial": "container_containerstatic_547481b19864c882047727",
+                            "body": "Demetrius",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
                             }
+                        }
+                    },
+                    "choice_simpleassociablechoice_547481b198742482177856": {
+                        "identifier": "L",
+                        "serial": "choice_simpleassociablechoice_547481b198742482177856",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "L",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
                         },
-                        "choice_simpleassociablechoice_547481b198c8d000816227": {
-                            "identifier": "T",
-                            "serial": "choice_simpleassociablechoice_547481b198c8d000816227",
-                            "qtiClass": "simpleAssociableChoice",
-                            "attributes": {
-                                "identifier": "T",
-                                "fixed": false,
-                                "matchMax": 4,
-                                "matchMin": 0
-                            },
-                            "body": {
-                                "serial": "container_containerstatic_547481b198ce6732960289",
-                                "body": "The Tempest",
-                                "elements": [],
-                                "debug": {
-                                    "relatedItem": "item_547481b19675c725296684"
-                                }
+                        "body": {
+                            "serial": "container_containerstatic_547481b1987a0199791197",
+                            "body": "Lysander",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
+                            }
+                        }
+                    },
+                    "choice_simpleassociablechoice_547481b19888a260388540": {
+                        "identifier": "P",
+                        "serial": "choice_simpleassociablechoice_547481b19888a260388540",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "P",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_547481b1988e7086855540",
+                            "body": "Prospero",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
                             }
                         }
                     }
-                ]
+                }, {
+                    "choice_simpleassociablechoice_547481b1989ee614159529": {
+                        "identifier": "R",
+                        "serial": "choice_simpleassociablechoice_547481b1989ee614159529",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "R",
+                            "fixed": false,
+                            "matchMax": 4,
+                            "matchMin": 0
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_547481b198a58375511408",
+                            "body": "Romeo and Juliet",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
+                            }
+                        }
+                    },
+                    "choice_simpleassociablechoice_547481b198b48089571446": {
+                        "identifier": "M",
+                        "serial": "choice_simpleassociablechoice_547481b198b48089571446",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "M",
+                            "fixed": false,
+                            "matchMax": 4,
+                            "matchMin": 0
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_547481b198ba1597191333",
+                            "body": "A Midsummer-Night's Dream",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
+                            }
+                        }
+                    },
+                    "choice_simpleassociablechoice_547481b198c8d000816227": {
+                        "identifier": "T",
+                        "serial": "choice_simpleassociablechoice_547481b198c8d000816227",
+                        "qtiClass": "simpleAssociableChoice",
+                        "attributes": {
+                            "identifier": "T",
+                            "fixed": false,
+                            "matchMax": 4,
+                            "matchMin": 0
+                        },
+                        "body": {
+                            "serial": "container_containerstatic_547481b198ce6732960289",
+                            "body": "The Tempest",
+                            "elements": [],
+                            "debug": {
+                                "relatedItem": "item_547481b19675c725296684"
+                            }
+                        }
+                    }
+                }]
             }
         },
         "debug": {
@@ -231,6 +228,49 @@
         "serial": "response_templatesdriven_547481b199034063638270",
         "qtiClass": "responseProcessing",
         "attributes": [],
-        "processingType": "templateDriven"
+        "processingType": "templateDriven",
+        "responseRules": [{
+            "qtiClass": "responseCondition",
+            "responseIf": {
+                "qtiClass": "responseIf",
+                "expression": {
+                    "qtiClass": "isNull",
+                    "expressions": [{
+                        "qtiClass": "variable",
+                        "attributes": {
+                            "identifier": "RESPONSE"
+                        }
+                    }]
+                },
+                "responseRules": [{
+                    "qtiClass": "setOutcomeValue",
+                    "attributes": {
+                        "identifier": "SCORE"
+                    },
+                    "expression": {
+                        "qtiClass": "baseValue",
+                        "attributes": {
+                            "baseType": "float"
+                        },
+                        "value": "0.0"
+                    }
+                }]
+            },
+            "responseElse": {
+                "qtiClass": "responseElse",
+                "responseRules": [{
+                    "qtiClass": "setOutcomeValue",
+                    "attributes": {
+                        "identifier": "SCORE"
+                    },
+                    "expression": {
+                        "qtiClass": "mapResponse",
+                        "attributes": {
+                            "identifier": "RESPONSE"
+                        }
+                    }
+                }]
+            }
+        }]
     }
 }

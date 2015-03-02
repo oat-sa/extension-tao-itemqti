@@ -35,6 +35,7 @@
     max-height:0;
 }
 
+/* authoring */
 .mini-tlb {
     .tlb-button {
         color: $textColor !important;
@@ -62,6 +63,7 @@
         }
     }
 }
+/* authoring */
 .edit-question .qti-blockInteraction .horizontal {
     .add-option {
         margin-top: 25px;
@@ -242,47 +244,3 @@
 @import "qti/_text-entry";
 @import "qti/_upload";
 @import "qti/_rubric-block";
-
-#qti-submit-response{
-    display:block;
-    width:100px;
-    margin-top:20px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-/* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
-.qti-simpleChoice {
-    .mini-tlb[data-edit="question"] {
-        right: -45px !important;
-        top: 3px;
-    }
-}
-
-.qti-hottextInteraction {
-    .mini-tlb {
-        right: -31px !important;
-    }
-}
-
-.qti-interaction {
-    .qti-prompt {
-        & ~ .mini-tlb {
-            right: -31px !important;
-            top:1px
-        }
-    }
-}
-
-.widget-textBlock {
-    .mini-tlb {
-        right: -60px !important;
-    }
-}
-
-.qti-flow-container{
-    .mini-tlb{
-        right: -31px !important;
-    }
-}
-/* end tmp fix #2768 */

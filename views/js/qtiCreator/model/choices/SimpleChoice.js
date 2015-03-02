@@ -1,4 +1,5 @@
 define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiItem/core/choices/SimpleChoice'], function(_, editable, Choice){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {

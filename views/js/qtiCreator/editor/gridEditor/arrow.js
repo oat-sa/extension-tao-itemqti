@@ -1,5 +1,5 @@
 define(['jquery', 'lodash'], function($, _){
-
+    "use strict";
     var _eventName = 'arrowenter.gridEdit.gridDragDrop';
 
     //build arrow for inter-column insertion:
