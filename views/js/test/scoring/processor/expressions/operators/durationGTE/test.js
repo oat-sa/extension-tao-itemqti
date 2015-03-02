@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/durationGTE'
-], function(_, durationGTEProcessor){
+], function(_, preProcessorFactory, durationGTEProcessor){
     'use strict';
 
     module('API');
@@ -77,6 +78,7 @@ define([
       .cases(dataProvider)
       .test('durationGTE ', function(data, assert){
         durationGTEProcessor.operands = data.operands;
+        durationGTEProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(durationGTEProcessor.process(), data.expectedResult, 'The durationGTE is correct');
     });
 });
