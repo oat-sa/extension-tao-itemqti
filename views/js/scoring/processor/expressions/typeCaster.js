@@ -36,6 +36,7 @@ define([
         identifier              : toString,
         pair                    : toPair,
         directedPair            : toDirectedPair,
+        duration                : parseFloat,
         boolean                 : toBoolean,
         integerOrVariableRef    : toIntegerOrVariableRef,
         floatOrVariableRef      : toFloatOrVariableRef,
