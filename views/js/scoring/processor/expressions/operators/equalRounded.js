@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -60,15 +59,16 @@ define([
          */
         process : function(){
 
-            var roundingMode = _.isString(this.expression.attributes.roundingMode) && _.isFunction(this.engines[this.expression.attributes.roundingMode]) ? this.engines[this.expression.attributes.roundingMode] : this.engines.significantFigures,
-                figures = preProcessor.getIntegerOrVariableRef(this.expression.attributes.figures, this.state);
+            var roundingMode = this.expression.attributes.roundingMode;
+            var roundingEngine = _.isFunction(this.engines[roundingMode]) ? this.engines[roundingMode] : this.engines.significantFigures;
+            var figures = this.preProcessor.parseValue(this.expression.attributes.figures, 'integerOrVariableRef');
 
-            if (!preProcessor.isNumber(figures)) {
+            if (!this.preProcessor.isNumber(figures)) {
                 errorHandler.throw('scoring', new Error('figures must me numeric'));
                 return null;
             }
 
-            if (figures <= 1 && roundingMode === this.engines.significantFigures) {
+            if (figures <= 1 && roundingMode === 'significantFigures') {
                 errorHandler.throw('scoring', new Error('significantFigures must me numeric'));
                 return null;
             }
@@ -83,11 +83,10 @@ define([
                 return null;
             }
 
-            var op1 = preProcessor.parseVariable(this.operands[0]).value,
-                op2 = preProcessor.parseVariable(this.operands[1]).value;
+            var op1 = this.preProcessor.parseVariable(this.operands[0]).value,
+                op2 = this.preProcessor.parseVariable(this.operands[1]).value;
 
-console.log(roundingMode(op1, figures) , roundingMode(op2, figures));
-            result.value = roundingMode(op1, figures) === roundingMode(op2, figures);
+            result.value = roundingEngine(op1, figures) === roundingEngine(op2, figures);
 
             return result;
         }
@@ -108,6 +107,7 @@ console.log(roundingMode(op1, figures) , roundingMode(op2, figures));
         // Shift
         value = value.toString().split('e');
         value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
         // Shift back
         value = value.toString().split('e');
         return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));

@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/equalRounded'
-], function(_, equalRoundedProcessor){
+], function(_, preProcessorFactory, equalRoundedProcessor){
     'use strict';
 
     module('API');
@@ -196,9 +197,11 @@ define([
     QUnit
       .cases(dataProvider)
       .test('equalRounded ', function(data, assert){
+        var state = data.state || {};
         equalRoundedProcessor.operands = data.operands;
 
-        equalRoundedProcessor.state = data.state ? data.state : {};
+        equalRoundedProcessor.state = state;
+        equalRoundedProcessor.preProcessor = preProcessorFactory(state);
 
         equalRoundedProcessor.expression = {
             attributes: {
