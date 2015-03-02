@@ -18,12 +18,12 @@
     <outcomeDeclaration identifier="SCORE_2" baseType="integer" cardinality="single"/>
     <outcomeDeclaration identifier="outcome_2" baseType="integer" cardinality="single" interpretation="guideline Nr 1"/>
     <outcomeDeclaration identifier="outcome_1" baseType="integer" cardinality="single"/>
+    <outcomeDeclaration identifier="REVEALED" baseType="integer" cardinality="single"/>
     <itemBody>
-        <div>&#xA0;Stimulus<br/>
+        <div>Stimulus<br/>
             <extendedTextInteraction responseIdentifier="RESPONSE">
                 <prompt>Example question nr 1<br/></prompt>
             </extendedTextInteraction>
- &#xA0;
             <br/>
             Second Stimulus<br/>
             <br/>
@@ -57,6 +57,44 @@
                     <baseValue baseType="integer">1</baseValue>
                 </setOutcomeValue>
             </responseIf>
+            <responseElseIf>
+                <match>
+                    <variable identifier="response_1"/>
+                    <baseValue baseType="integer">0</baseValue>
+                </match>
+                <setOutcomeValue identifier="REVEALED">
+                    <random>
+                        <multiple>
+                            <baseValue baseType="integer">1</baseValue>
+                            <baseValue baseType="integer">2</baseValue>
+                        </multiple>
+                    </random>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElseIf>
+                <match>
+                    <variable identifier="response_1"/>
+                    <baseValue baseType="integer">2</baseValue>
+                </match>
+                <setOutcomeValue identifier="REVEALED">
+                    <random>
+                        <multiple>
+                            <baseValue baseType="integer">3</baseValue>
+                            <baseValue baseType="integer">4</baseValue>
+                        </multiple>
+                    </random>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElse>
+                <setOutcomeValue identifier="REVEALED">
+                    <random>
+                        <multiple>
+                            <baseValue baseType="integer">5</baseValue>
+                            <baseValue baseType="integer">6</baseValue>
+                        </multiple>
+                    </random>
+                </setOutcomeValue>
+            </responseElse>
         </responseCondition>
         <setOutcomeValue identifier="SCORE">
             <sum>
@@ -68,7 +106,7 @@
             <setOutcomeValue identifier="SCORE_0">
                 <multiple>
                     <variable identifier="SCORE"/>
-                   <baseValue baseType="string">2</baseValue>
+                    <baseValue baseType="string">2</baseValue>
                 </multiple>
             </setOutcomeValue>
             <setOutcomeValue identifier="SCORE_1">

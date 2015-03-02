@@ -176,7 +176,10 @@ class QtiSerializer
             break;
         }
         foreach($xml->responseElseIf as $responseIfXml){
-            $returnValue['responseElseIf'] = self::parseResponseIfXml($responseIfXml);
+            if(!isset($returnValue['responseElseIfs'])){
+                $returnValue['responseElseIfs'] = array();
+            }
+            $returnValue['responseElseIfs'][] = self::parseResponseIfXml($responseIfXml);
         }
         foreach($xml->responseElse as $responseIfXml){
             $returnValue['responseElse'] = self::parseResponseElseXml($responseIfXml);

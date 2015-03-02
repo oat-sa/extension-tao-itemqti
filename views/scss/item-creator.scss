@@ -1080,6 +1080,15 @@ img.dragging.ui-draggable-dragging {
     margin: 0 !important;
 }
 
+.extendedText{
+    .incrementer-ctrl-wrapper{
+        right: 10px; // to compensate the next change below
+        .incrementer{
+            width: 50px !important // 10px more than the default 40px value
+        }
+    }
+}
+
 @media print {
 
     html body #tabs {
