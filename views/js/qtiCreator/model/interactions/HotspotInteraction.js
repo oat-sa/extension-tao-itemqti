@@ -9,6 +9,7 @@ define([
     'taoQtiItem/qtiItem/core/interactions/HotspotInteraction',
     'taoQtiItem/qtiCreator/model/choices/HotspotChoice'
 ], function($, _, editable, editableInteraction, Interaction, Choice){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);

@@ -1,5 +1,5 @@
 define(['lodash'], function(_){
-
+    "use strict";
     /**
      * Argument cols format: 
      * [{elt:elementRef, units:6, min:4}]

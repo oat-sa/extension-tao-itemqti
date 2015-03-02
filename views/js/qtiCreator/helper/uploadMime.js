@@ -1,7 +1,7 @@
 define([
     'i18n'
 ], function(__){
-
+    "use strict";
     /**
      * @TODO these mime types are not up-to-date, in particular the MS ones
      * refer to http://filext.com/faq/office_mime_types.php

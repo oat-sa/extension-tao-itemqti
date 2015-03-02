@@ -1,4 +1,5 @@
 define(['lodash'], function(_){
+    "use strict";
     return {
         removeChoice : function(response, choice){
 

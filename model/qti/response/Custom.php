@@ -21,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\response;
 
-use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\response\ResponseProcessing;
 use oat\taoQtiItem\model\qti\response\Rule;
+use oat\taoQtiItem\helpers\QtiSerializer;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\Custom
@@ -31,7 +31,7 @@ use oat\taoQtiItem\model\qti\response\Rule;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
+
  */
 class Custom extends ResponseProcessing implements Rule
 {
@@ -102,22 +102,25 @@ class Custom extends ResponseProcessing implements Rule
     public function toQTI(){
         return (string) $this->getData();
     }
-    
+
     public function toArray($filterVariableContent = false, &$filtered = array()){
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         
+        $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($this->data));
         $protectedData = array(
             'processingType' => 'custom',
-            'data' => $this->data
+            'data' => $this->data,
+            'responseRules' => $rpSerialized['responseRules']
         );
-        
+
         if($filterVariableContent){
             $filtered[$this->getSerial()] = $protectedData;
         }else{
             $returnValue = array_merge($returnValue, $protectedData);
         }
-        
+
         return $returnValue;
     }
+
 }

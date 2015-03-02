@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiItem/core/Loader'
 ], function(_, $, util, Loader){
-
+    "use strict";
     var _parsableElements = ['img', 'object'];
     var _qtiClassNames = {
         rubricblock : 'rubricBlock'

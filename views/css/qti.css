@@ -94,6 +94,7 @@ textarea { resize: vertical; }
 
 #modalFeedbacks { max-height: 0; }
 
+/* authoring */
 .mini-tlb .tlb-button { color: #222 !important; padding-top: 3px; }
 .mini-tlb .tlb-button:hover { color: #3e7da7 !important; }
 .mini-tlb ul[data-button-group] { background: transparent !important; border: none; }
@@ -101,6 +102,7 @@ textarea { resize: vertical; }
 .mini-tlb ul[data-button-group] > li span { color: #222; text-shadow: none !important; }
 .mini-tlb ul[data-button-group] > li.active { display: inline-block; }
 
+/* authoring */
 .edit-question .qti-blockInteraction .horizontal .add-option { margin-top: 25px; }
 .edit-question .qti-blockInteraction .horizontal .qti-choice { margin-top: 25px; }
 .edit-question .qti-blockInteraction .horizontal .qti-choice .mini-tlb { white-space: nowrap; top: -26px; right: -4px; }
@@ -351,10 +353,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .qti-hottextInteraction .hottext .hottext-checkmark { padding-right: 0; min-width: auto; width: auto; }
 .qti-hottextInteraction .hottext [class^="icon-"].small, .qti-hottextInteraction .hottext [class*=" icon-"].small { font-size: 12px; font-size: 1.2rem; text-shadow: none; line-height: 10px; top: 1px; }
 .qti-hottextInteraction .hottext [class^="icon-"].error, .qti-hottextInteraction .hottext [class*=" icon-"].error { color: #ba122b; }
-.qti-hottextInteraction .hottext .mini-tlb[data-edit] { top: -2px; }
-.qti-hottextInteraction .hottext .mini-tlb[data-edit].icon-undo { padding-right: 8px; }
-.qti-hottextInteraction .hottext .mini-tlb[data-edit] label { padding: 0 3px; }
-.qti-hottextInteraction .hottext .mini-tlb[data-edit] [data-role="score"] { width: 30px; }
 
                                   /* /  \ |    | --:'''':--
 THIS CODE IS GENERATED          :*_* : _:"":\___
@@ -426,7 +424,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .qti-choiceInteraction .checked span.icon-checkbox:before { content: "\e69d"; }
 
-.qti-textEntryInteraction { /*background: rgba($uiClickableDefaultBg, .85);*/ /*padding: 50px 10px 10px 30px;*/ }
 .qti-textEntryInteraction table { border-collapse: separate; border-spacing: 2px; }
 .qti-textEntryInteraction tr { height: 27px; white-space: nowrap; }
 .qti-textEntryInteraction .icon-bin, .qti-textEntryInteraction .icon-pin, .qti-textEntryInteraction .icon-shuffle { text-align: center; padding: 0 5px; cursor: pointer; vertical-align: middle; }
@@ -467,20 +464,5 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .qti-rubricBlock .qti-rubricBlock-body { border: 1px solid transparent; }
 .qti-rubricBlock > .col-12 { border: 1px solid #DDD !important; background-color: rgba(243, 241, 239, 0.3); }
-
-#qti-submit-response { display: block; width: 100px; margin-top: 20px; margin-right: auto; margin-left: auto; }
-
-/* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
-.qti-simpleChoice .mini-tlb[data-edit="question"] { right: -45px !important; top: 3px; }
-
-.qti-hottextInteraction .mini-tlb { right: -31px !important; }
-
-.qti-interaction .qti-prompt ~ .mini-tlb { right: -31px !important; top: 1px; }
-
-.widget-textBlock .mini-tlb { right: -60px !important; }
-
-.qti-flow-container .mini-tlb { right: -31px !important; }
-
-/* end tmp fix #2768 */
 
 /*# sourceMappingURL=qti.css.map */
