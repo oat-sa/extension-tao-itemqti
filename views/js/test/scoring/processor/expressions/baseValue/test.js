@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/baseValue'
-], function(_, baseValueProcessor){
+], function(_, preProcessorFactory, baseValueProcessor){
 
     module('API');
 
@@ -40,6 +41,7 @@ define([
       .cases(dataProvider)
       .test('baseValue ', function(data, assert){
         baseValueProcessor.expression = data.expression;
+        baseValueProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(baseValueProcessor.process(), data.expectedResult, 'The baseValue is correct');
     });
 });

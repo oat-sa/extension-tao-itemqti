@@ -7,7 +7,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/arrow',
     'taoQtiItem/qtiCreator/editor/targetFinder'
 ], function($, _, gridUnits, qtiElements, helper, arrow, targetFinder){
-
+    "use strict";
     var droppableGridEditor = {};
 
     droppableGridEditor.createDroppableBlocks = function createDroppableBlocks(qtiClass, $el, options){

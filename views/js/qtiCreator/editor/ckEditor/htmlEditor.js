@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
 ], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
-
+    "use strict";
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
 

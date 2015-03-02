@@ -6,7 +6,7 @@ define([
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
     'taoQtiItem/qtiItem/core/interactions/CustomInteraction'
 ], function(_, editable, editableInteraction, portableElement, ciRegistry, Interaction){
-
+    "use strict";
     var _throwMissingImplementationError = function(pci, fnName){
         throw fnName + ' not available for pci of type ' + pci.typeIdentifier;
     };

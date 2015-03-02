@@ -29,8 +29,10 @@ define([
                 var self = this;
                 var stop; 
                 var closeMe = false;
-
-                stop = paper.circle(point.x, point.y, 3)
+                var scaleFactor = paper.w < paper.width ? 1 : paper.w / paper.width;
+                var pointSize = 3 * scaleFactor;
+                
+                stop = paper.circle(point.x, point.y, pointSize)
                             .attr({'stroke' : 'black', 'stroke-width': 1, 'fill' : 'white', 'opacity' : 0.7, 'cursor' : 'pointer'})
                             .click(function(e){
                                 e.preventDefault();

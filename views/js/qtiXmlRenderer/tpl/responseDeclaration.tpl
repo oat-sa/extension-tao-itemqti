@@ -11,7 +11,7 @@
     {{~#if correctResponse.length}}
     <correctResponse>
         {{~#each correctResponse}}
-        <value>{{.}}</value>
+        <value><![CDATA[{{{.}}}]]></value>
         {{~/each}}
     </correctResponse>
     {{/if}}

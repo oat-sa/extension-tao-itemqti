@@ -23,7 +23,7 @@ define([
         // Log in preview console
         var previewConsole = $('#preview-console');
         var variableIdentifier;
-        
+
         for (variableIdentifier in responses) {
             previewConsole.trigger('updateConsole', [
                 'Submitted data', strPad(variableIdentifier + ': ', 15, ' ') + pciResponse.prettyPrint(responses[variableIdentifier])
@@ -56,13 +56,6 @@ define([
                     if(!fbCount){
                         callback();
                     }
-
-                    //reset submit listener, in the preview iframe:
-                    $('#preview-container').each(function(){
-                        $("#qti-submit-response", this.contentWindow.document).one('click', function(){
-                            runner.validate();
-                        });
-                    });
                 }
             }
         });
