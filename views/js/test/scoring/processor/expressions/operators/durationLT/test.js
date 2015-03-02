@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/durationLT'
-], function(_, durationLTProcessor){
+], function(_, preProcessorFactory, durationLTProcessor){
     'use strict';
 
     module('API');
@@ -77,6 +78,7 @@ define([
       .cases(dataProvider)
       .test('durationLT ', function(data, assert){
         durationLTProcessor.operands = data.operands;
+        durationLTProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(durationLTProcessor.process(), data.expectedResult, 'The durationLT is correct');
     });
 });
