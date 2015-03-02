@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/roundTo'
-], function(_, roundToProcessor){
+], function(_, preProcessorFactory, roundToProcessor){
     'use strict';
 
     module('API');
@@ -206,6 +207,7 @@ define([
         roundToProcessor.operands = data.operands;
 
         roundToProcessor.state = data.state ? data.state : {};
+        roundToProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
 
         roundToProcessor.expression = {
             attributes: {

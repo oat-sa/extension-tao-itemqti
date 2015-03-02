@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/and'
-], function(_, andProcessor){
+], function(_, preProcessorFactory, andProcessor){
     'use strict';
 
     module('API');
@@ -141,6 +142,7 @@ define([
       .cases(dataProvider)
       .test('and ', function(data, assert){
         andProcessor.operands = data.operands;
+        andProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(andProcessor.process(), data.expectedResult, 'The and is correct');
     });
 });

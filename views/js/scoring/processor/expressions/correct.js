@@ -24,9 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(preProcessor, errorHandler){
+], function(errorHandler){
     'use strict';
 
     /**
@@ -53,7 +52,7 @@ define([
                 return null;
             }
 
-            return preProcessor.parseVariable({
+            return this.preProcessor.parseVariable({
                 cardinality : variable.cardinality,
                 baseType    : variable.baseType,
                 value       : variable.correctResponse

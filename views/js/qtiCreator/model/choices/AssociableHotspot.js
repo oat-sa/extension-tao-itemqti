@@ -6,6 +6,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable', 
     'taoQtiItem/qtiItem/core/choices/AssociableHotspot'
 ], function(_, editable, Choice){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {

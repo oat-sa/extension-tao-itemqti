@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/round'
-], function(_, roundProcessor){
+], function(_, preProcessorFactory, roundProcessor){
     'use strict';
 
     module('API');
@@ -86,6 +87,7 @@ define([
       .cases(dataProvider)
       .test('round ', function(data, assert){
         roundProcessor.operands = data.operands;
+        roundProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(roundProcessor.process(), data.expectedResult, 'The round is correct');
     });
 });

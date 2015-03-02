@@ -52,7 +52,7 @@ define([
 
         var state = {};
 
-              //load responses variables
+          //load responses variables
         _.forEach(itemData.responses, function(response){
             var responseValue;
             var identifier      = response.attributes.identifier;
@@ -151,7 +151,7 @@ define([
      */
     var reFormatMapping  = function reFormatMapping(response){
         var mapping;
-        if(_.isArray(response.mapping) && response.mapping.length){
+        if(response.mapping && _.size(response.mapping) > 0){
             mapping = {
                 qtiClass: 'mapping',
                 attributes  : response.mappingAttributes
@@ -167,12 +167,12 @@ define([
                 };
             });
         }
-        if(_.isArray(response.areaMapping) && response.areaMapping.length){
+        if(response.areaMapping && _.size(response.areaMapping) > 0){
             mapping = {
                 qtiClass: 'areaMapping',
                 attributes  : response.mappingAttributes
             };
-            mapping.mapEntries = _.map(response.mapping, function(entry){
+            mapping.mapEntries = _.map(response.areaMapping, function(entry){
                 return _.extend({ qtiClass : 'areaMapEntry' }, entry);
             });
         }
