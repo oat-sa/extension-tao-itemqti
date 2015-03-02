@@ -25,9 +25,8 @@
  */
 define([
     'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessor, errorHandler){
+], function(_, errorHandler){
     'use strict';
 
     /**
@@ -71,8 +70,8 @@ define([
                 return null;
             }
 
-            var op1 = preProcessor.parseVariable(this.operands[0]).value,
-                op2 = preProcessor.parseVariable(this.operands[1]).value;
+            var op1 = this.preProcessor.parseVariable(this.operands[0]).value,
+                op2 = this.preProcessor.parseVariable(this.operands[1]).value;
 
 
             if (_.isArray(op1)) {

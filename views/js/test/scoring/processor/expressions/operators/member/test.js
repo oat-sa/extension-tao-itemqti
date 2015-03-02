@@ -1,9 +1,10 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/member'
-], function(_, memberProcessor){
+], function(_, preProcessorFactory, memberProcessor){
     'use strict';
-    
+
     module('API');
 
     QUnit.test('structure', function(assert){
@@ -128,6 +129,7 @@ define([
       .cases(dataProvider)
       .test('member ', function(data, assert){
         memberProcessor.operands = data.operands;
+        memberProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(memberProcessor.process(), data.expectedResult, 'The member is correct');
     });
 });
