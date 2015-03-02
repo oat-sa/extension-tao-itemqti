@@ -42,8 +42,13 @@ define([
         });
     }
 
-    function init($container) {
-        // this needs to be a single DOM element
+    function init($container, config) {
+
+        // just in case...
+        if(!$container.length){
+            return;
+        }
+
         var $content  = $container.find('.sts-content'),
             $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
             $launcher = $container.find('.sts-launch-button'),
@@ -60,6 +65,29 @@ define([
                 });
                 return selectors.join(',')
             }());
+
+        // this needs to be a single DOM element
+        // remove obsolete parent element
+        //@todo order tools in toolbar
+        var $toolbarContent = $('#' + config.toolbarId + ' > .sts-content'),
+            $toolbarElements = $toolbarContent.find('.sts-toolcontainer');
+
+        //   if(!$toolbarElements.length) {
+        $toolbarContent.append($container);
+        //   }
+//        else {
+//            $toolbarElements.each(function() {
+//                var $existingContainer = $(this),
+//                    existingPosition = $existingContainer.data('position');
+//
+//                if(existingPosition > config.position) {
+//                    $existingContainer.before($container);
+//                    return false;
+//                }
+//            });
+//        }
+
+
 
         $container.removeAttr('style');
 

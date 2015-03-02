@@ -1,4 +1,5 @@
 @import "inc/bootstrap";
+
 .qti-orderInteraction {
     .arrow-bar {
         text-align: center;
@@ -24,7 +25,7 @@
             }
         }
     }
-    
+
     &.qti-vertical {
         .order-interaction-area {
             display: table;
@@ -62,14 +63,14 @@
             }
         }
     }
-    
+
     &.qti-horizontal {
         .block-listing {
             min-height: 38px;
         }
         .arrow-bar {
             margin-bottom: 10px;
-            
+
             span {
                 padding: 0 15px;
                 display: inline-block;

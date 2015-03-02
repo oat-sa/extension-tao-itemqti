@@ -16,6 +16,8 @@
             <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
         {{/each}}
     </select>
+</div>
+<div class="panel extendedText">
     {{!-- Let the user enter his own pattern --}}
     <div id="constraint-pattern" {{#unless constraints.pattern.selected}}style="display:none"{{/unless}}>
         <label>
@@ -45,8 +47,8 @@
     </div>
 </div>
 <hr>
-<div class="panel">
-    <h3 class="full-width">{{__ "Expectations"}}</h3>
+<div class="panel extendedText">
+    <h3 class="full-width">{{__ "Recommendations"}}</h3>
     <label class="spinner">
         {{__ "Length"}}
     </label>

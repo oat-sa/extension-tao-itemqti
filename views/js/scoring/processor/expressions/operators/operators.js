@@ -28,6 +28,8 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/contains',
     'taoQtiItem/scoring/processor/expressions/operators/delete',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
+    'taoQtiItem/scoring/processor/expressions/operators/durationGTE',
+    'taoQtiItem/scoring/processor/expressions/operators/durationLT',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
     'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
@@ -43,11 +45,13 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/match',
     'taoQtiItem/scoring/processor/expressions/operators/max',
     'taoQtiItem/scoring/processor/expressions/operators/min',
+    'taoQtiItem/scoring/processor/expressions/operators/multiple',
     'taoQtiItem/scoring/processor/expressions/operators/not',
     'taoQtiItem/scoring/processor/expressions/operators/or',
     'taoQtiItem/scoring/processor/expressions/operators/ordered',
     'taoQtiItem/scoring/processor/expressions/operators/power',
     'taoQtiItem/scoring/processor/expressions/operators/product',
+    'taoQtiItem/scoring/processor/expressions/operators/repeat',
     'taoQtiItem/scoring/processor/expressions/operators/round',
     'taoQtiItem/scoring/processor/expressions/operators/roundTo',
     'taoQtiItem/scoring/processor/expressions/operators/stringMatch',
@@ -55,7 +59,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, contains, deletee, divide, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, not, or, ordered, power, product, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, min, multiple, not, or, ordered, power, product, repeat, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -85,6 +89,8 @@ define([
         "contains"          : contains,
         "deletee"           : deletee,
         "divide"            : divide,
+        "durationGTE"       : durationGTE,
+        "durationLT"        : durationLT,
         "equal"             : equal,
         "gcd"               : gcd,
         "gt"                : gt,
@@ -100,11 +106,13 @@ define([
         "match"             : match,
         "max"               : max,
         "min"               : min,
+        "multiple"          : multiple,
         "not"               : not,
         "or"                : or,
         "ordered"           : ordered,
         "power"             : power,
         "product"           : product,
+        "repeat"            : repeat,
         "round"             : round,
         "roundTo"           : roundTo,
         "stringMatch"       : stringMatch,

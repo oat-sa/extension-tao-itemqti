@@ -83,7 +83,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -105,7 +105,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -127,7 +127,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'circle',
                     coords      : '10,10,20',
@@ -149,7 +149,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'circle',
                     coords      : '10,10,5',
@@ -171,7 +171,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'poly',
                     coords      : '75,10,146,79,52,132,9,51',
@@ -193,7 +193,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'poly',
                     coords      : '75,10,146,79,52,132,9,51',
@@ -215,7 +215,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'poly',
                     coords      : '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
@@ -237,7 +237,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'poly',
                     coords      : '291,173,249,414,629,427,557,174,423,569,126,280,431,260',
@@ -259,7 +259,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'ellipse',
                     coords      : '57,18,55,14',
@@ -281,7 +281,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'ellipse',
                     coords      : '57,18,55,14',
@@ -304,7 +304,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -326,7 +326,7 @@ define([
             mapping         : {
                 qtiClass    : 'areaMapping',
                 attributes  : {},
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -355,7 +355,7 @@ define([
                 attributes  : {
                     lowerBound : '0.75'
                 },
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -379,7 +379,7 @@ define([
                 attributes  : {
                     upperBound : '3'
                 },
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
@@ -403,7 +403,7 @@ define([
                 attributes  : {
                     defaultValue : '12'
                 },
-                areaMapEntries  : [{
+                mapEntries  : [{
                     qtiClass    : 'areaMapEntry',
                     shape       : 'rect',
                     coords      : '10,10,20,20',
