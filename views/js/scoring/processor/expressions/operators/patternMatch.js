@@ -60,7 +60,7 @@ define([
             }
 
             //escape $ and ^
-            var pattern = this.expression.attributes.pattern
+            var pattern = this.preProcessor.parseValue(this.expression.attributes.pattern, 'stringOrVariableRef')
                 .replace(/[\^\$]/g, "\\$&");
 
             if (!pattern.match(/^(\.\*)/)) {

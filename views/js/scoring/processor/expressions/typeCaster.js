@@ -38,7 +38,8 @@ define([
         directedPair            : toDirectedPair,
         boolean                 : toBoolean,
         integerOrVariableRef    : toIntegerOrVariableRef,
-        floatOrVariableRef      : toFloatOrVariableRef
+        floatOrVariableRef      : toFloatOrVariableRef,
+        stringOrVariableRef     : toStringOrVariableRef
     };
 
     /**
@@ -140,6 +141,19 @@ define([
             return parseFloat(state[value].value);
         }
         return parseFloat(value);
+    }
+
+    /**
+     * Cast the value by either get the string of it doesn't refer to a variable that contains a string
+     * @private
+     * @param {String} value - the value to cast to an string
+     * @returns {String} the string
+     */
+    function toStringOrVariableRef(value, state){
+        if ( state && _.isObject(state[value]) && typeof state[value].value !== 'undefined') {
+            return state[value].value;
+        }
+        return value;
     }
 
     return typeCaster;

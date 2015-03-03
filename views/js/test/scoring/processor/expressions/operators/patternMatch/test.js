@@ -134,6 +134,66 @@ define([
             value: true
         }
     },{
+        title: 'match - ref',
+        pattern: 'ref1',
+        state: {
+            ref1: {
+                cardinality: 'single',
+                baseType: 'string',
+                value: 'rain'
+            }
+        },
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'rain'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
+        title: 'don\'t - match - ref(exists)',
+        pattern: 'rain',
+        state: {
+            rain: {
+                cardinality: 'single',
+                baseType: 'string',
+                value: 'hidden'
+            }
+        },
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'rain'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: false
+        }
+    },{
+        title: 'don\'t - match - ref(missing)',
+        pattern: 'rain',
+        state: {
+            draw: {
+                cardinality: 'single',
+                baseType: 'string',
+                value: 'hidden'
+            }
+        },
+        operands: [{
+            cardinality: 'single',
+            baseType: 'string',
+            value: 'rain'
+        }],
+        expectedResult: {
+            cardinality: 'single',
+            baseType: 'boolean',
+            value: true
+        }
+    },{
         title: 'don\'t match',
         pattern: 'car',
         operands: [{
@@ -157,7 +217,7 @@ define([
     QUnit
         .cases(dataProvider)
         .test('patternMatch ', function (data, assert) {
-            patternMatchProcessor.preProcessor = preProcessorFactory({});
+            patternMatchProcessor.preProcessor = preProcessorFactory(data.state ? data.state : {});
             patternMatchProcessor.operands = data.operands;
             patternMatchProcessor.expression = { attributes : { pattern : data.pattern } };
             assert.deepEqual(patternMatchProcessor.process(), data.expectedResult, 'The patternMatch is correct');
