@@ -49,7 +49,6 @@ define([
             return;
         }
 
-        //console.log($container);
         var $content  = $container.find('.sts-content'),
             $controls = $container.find('[class*=" sts-handle-"],[class^="sts-handle-"]').not('.sts-handle-move'),
             $launcher = $container.find('.sts-launch-button'),
@@ -69,27 +68,26 @@ define([
 
         // this needs to be a single DOM element
         // remove obsolete parent element
+        //@todo order tools in toolbar
         var $toolbarContent = $('#' + config.toolbarId + ' > .sts-content'),
-            $toolbarButtons = $toolbarContent.find('.sts-launch-button'),
-            added = false;
+            $toolbarElements = $toolbarContent.find('.sts-toolcontainer');
 
-        // memorize position
-        $container.data('position', config.position);
+        //   if(!$toolbarElements.length) {
+        $toolbarContent.append($container);
+        //   }
+//        else {
+//            $toolbarElements.each(function() {
+//                var $existingContainer = $(this),
+//                    existingPosition = $existingContainer.data('position');
+//
+//                if(existingPosition > config.position) {
+//                    $existingContainer.before($container);
+//                    return false;
+//                }
+//            });
+//        }
 
-        $toolbarButtons.each(function() {
-            var $existingContainer = $(this).parent(),
-                buttonPosition = $container.data('position');
 
-            if(buttonPosition > config.position) {
-                $existingContainer.before($container);
-                added = true;
-                return false;
-            }
-        });
-
-        if(!added) {
-            $toolbarContent.append($container);
-        }
 
         $container.removeAttr('style');
 

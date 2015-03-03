@@ -11,12 +11,12 @@ define([
     'use strict';
     var initState = function initState(){
         // Disable inputs until response edition.
-        this.widget.$container.find('input, textarea').attr('disabled', 'disabled');
+        renderer.disable(this.widget.element);
     };
 
     var exitState = function exitState(){
         // Enable inputs until response edition.
-        this.widget.$container.find('input, textarea').removeAttr('disabled');
+        renderer.enable(this.widget.element);
     };
     var regexChar = /\^\[\\s\\S\]\{\d+\,(\d+)\}\$/,
         regexWords =  /\^\(\?\:\(\?\:\[\^\\s\\:\\!\\\?\\\;\\\…\\\€\]\+\)\[\\s\\:\\!\\\?\\;\\\…\\\€\]\*\)\{\d+\,(\d+)\}\$/;
@@ -177,7 +177,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLength', attrValue);
             }else{
-                interaction.attr('expectedLength', 0);
+                interaction.attr('expectedLength', -1);
             }
         };
 
@@ -186,7 +186,7 @@ define([
             if(! isNaN(newValue)){
                 interaction.attr('expectedLines', attrValue);
             }else{
-                interaction.attr('expectedLines',0);
+                interaction.attr('expectedLines',-1);
             }
         };
 

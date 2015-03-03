@@ -623,6 +623,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .cke-qti-wrapper { position: relative !important; display: inline-block !important; padding: 0 !important; margin: 0 !important; }
 
+.extendedText .incrementer-ctrl-wrapper { right: 10px; }
+.extendedText .incrementer-ctrl-wrapper .incrementer { width: 50px !important; }
+
 @media print { html body #tabs { margin: 0 !important; min-height: 0 !important; width: auto !important; padding: 0 !important; border: none !important; }
   html body .item-editor-sidebar-wrapper { display: none !important; }
   html body .item-no-print { display: none !important; }
