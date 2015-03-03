@@ -11,12 +11,12 @@
         <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
     </div>
 
-    <div class="panel">
+    <div class="panel panel-interaction-size">
         <label for="width">{{__ 'Width'}}</label>
         <input name="width" value="{{width}}" type="text" />
     </div>
 
-    <div class="panel">
+    <div class="panel panel-interaction-size">
         <label for="height">{{__ 'Height'}}</label>
         <input name="height" value="{{height}}" type="text" />
     </div>
