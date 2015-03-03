@@ -25,7 +25,8 @@ define([
 
         var qtiPositionedPlugins = {
 //            TaoQtiMedia : {insertAfter : 'SpecialChar'},
-            TaoQtiImage : {insertAfter : 'SpecialChar'}
+            TaoQtiImage : {insertAfter : 'SpecialChar'},
+            TaoUnderline : {insertAfter : 'Italic'}
         };
 
         if(mathJax){
