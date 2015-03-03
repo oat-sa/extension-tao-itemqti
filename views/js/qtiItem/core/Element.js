@@ -131,20 +131,25 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
         },
         getComposingElements : function(){
             var elts = {};
+            function append(element){
+                elts[element.getSerial()] = element;//pass individual object by ref, instead of the whole list(object)
+                elts = _.extend(elts, element.getComposingElements());
+            }
             if(typeof this.initContainer === 'function'){
-                var container = this.getBody();
-                elts[container.getSerial()] = container;//pass individual object by ref, instead of the whole list(object)
-                elts = _.extend(elts, container.getComposingElements());
+                append(this.getBody());
             }
             if(typeof this.initObject === 'function'){
-                var object = this.getObject();
-                elts[object.getSerial()] = object;//pass individual object by ref, instead of the whole list(object)
-                elts = _.extend(elts, object.getComposingElements());
+                append(this.getObject());
             }
             _.each(this.metaData, function(v){
                 if(Element.isA(v, '_container')){
-                    elts[v.getSerial()] = v;
-                    elts = _.extend(elts, v.getComposingElements());
+                    append(v);
+                }else if(_.isArray(v)){
+                    _.each(v, function(v){
+                        if(Element.isA(v, '_container')){
+                            append(v);
+                        }
+                    });
                 }
             });
             return elts;
@@ -264,7 +269,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 //post render body element
                 this.getBody().postRender({}, '', renderer);
             }
-            
+
             if(renderer){
                 return renderer.postRender(this, data, altClassName);
             }else{
@@ -342,27 +347,27 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
     Element.getElementBySerial = function(serial){
         return _instances[serial];
     };
-    
+
     Element.issetElement = function(serial){
         return !!_instances[serial];
     };
-    
+
     Element.unsetElement = function(serial){
-        
+
         var element = Element.getElementBySerial(serial);
-        
+
         if(element){
-            
+
             var composingElements = element.getComposingElements();
             _.each(composingElements, function(elt){
                 delete _instances[elt.serial];
             });
             delete _instances[element.serial];
-            
+
         }else{
             throw 'cannot unset an element that does not exist';
         }
-        
+
         return true;
     };
 
