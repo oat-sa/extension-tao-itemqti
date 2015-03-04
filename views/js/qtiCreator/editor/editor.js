@@ -40,6 +40,30 @@ define([
             lastItemData = itemSerializer.serialize(element);
         };
 
+
+    /**
+     * Limit the size of the editor panel. This addresses an issue in which a
+     * too large image would expand the editor panel to accommodate for the size
+     * of the image.
+     */
+    function limitItemPanelWidth () {
+        var itemEditorPanel = document.getElementById('item-editor-panel'),
+            width = (function() {
+                var _width = $('#panel-authoring').width();
+                $('.item-editor-sidebar').each(function() {
+                    _width -= $(this).width();
+                });
+                return _width.toString();
+            }()),
+            prefixes = ['webkit', 'ms', ''];
+
+        _.forEach(prefixes, function(prefix) {
+            itemEditorPanel.style[prefix + (prefix ? 'Flex' : 'flex')] = '0 0 ' + width + 'px';
+        });
+    };
+
+
+
     var initStyleEditor = function(widget, config){
 
         styleEditor.init(widget.element, config);
@@ -136,8 +160,14 @@ define([
     var initGui = function(widget, config){
 
         updateHeight();
+        limitItemPanelWidth();
+
         $(window).off('resize.qti-editor')
-            .on('resize.qti-editor', _.throttle(updateHeight, 50));
+            .on('resize.qti-editor', _.throttle(
+                function() {
+                    updateHeight();
+                    limitItemPanelWidth();
+                }, 50));
 
         initStyleEditor(widget, config);
 
@@ -150,6 +180,7 @@ define([
         $itemPanel.addClass('has-item');
         $label.text(config.label);
         $actionGroups.show();
+
     };
 
     /**
