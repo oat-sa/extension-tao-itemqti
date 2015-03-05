@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/droppable',
     'jqueryui'
 ], function($, _, QtiElements, droppable){
-
+    "use strict";
     var _insertableDefaultsOptions = {
         helper : function(){
             return $(this).clone();

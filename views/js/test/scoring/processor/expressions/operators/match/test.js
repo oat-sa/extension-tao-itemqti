@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/match'
-], function(_, matchProcessor){
+], function(_, preProcessorFactory, matchProcessor){
     'use strict';
 
     module('API');
@@ -243,6 +244,7 @@ define([
       .cases(dataProvider)
       .test('match ', function(data, assert){
         matchProcessor.operands = data.operands;
+        matchProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(matchProcessor.process(), data.expectedResult, 'The match is correct');
     });
 });

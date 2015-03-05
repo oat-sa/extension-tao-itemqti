@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function(_, truncateProcessor){
+], function(_, preProcessorFactory, truncateProcessor){
     'use strict';
 
     module('API');
@@ -86,6 +87,7 @@ define([
       .cases(dataProvider)
       .test('truncate ', function(data, assert){
         truncateProcessor.operands = data.operands;
+        truncateProcessor.preProcessor = preProcessorFactory({});
         assert.deepEqual(truncateProcessor.process(), data.expectedResult, 'The truncate is correct');
     });
 });

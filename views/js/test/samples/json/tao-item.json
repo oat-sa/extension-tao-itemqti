@@ -288,6 +288,54 @@
         "serial": "response_templatesdriven_547dd4d24f44f149286285",
         "qtiClass": "responseProcessing",
         "attributes": [],
-        "processingType": "templateDriven"
+        "responseProcessing": {
+            "serial": "response_templatesdriven_54787e6dade83075046789",
+            "qtiClass": "responseProcessing",
+            "attributes": [],
+            "processingType": "templateDriven",
+            "responseRules": [{
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "isNull",
+                        "expressions": [{
+                            "qtiClass": "variable",
+                            "attributes": {
+                                "identifier": "RESPONSE"
+                            }
+                        }]
+                    },
+                    "responseRules": [{
+                        "qtiClass": "setOutcomeValue",
+                        "attributes": {
+                            "identifier": "SCORE"
+                        },
+                        "expression": {
+                            "qtiClass": "baseValue",
+                            "attributes": {
+                                "baseType": "float"
+                            },
+                            "value": "0.0"
+                        }
+                    }]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [{
+                        "qtiClass": "setOutcomeValue",
+                        "attributes": {
+                            "identifier": "SCORE"
+                        },
+                        "expression": {
+                            "qtiClass": "mapResponse",
+                            "attributes": {
+                                "identifier": "RESPONSE"
+                            }
+                        }
+                    }]
+                }
+            }]
+        }
     }
 }

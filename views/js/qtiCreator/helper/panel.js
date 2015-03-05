@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/core/Element'
 ], function($, _, Element){
-
+    "use strict";
     var _getItemContainer = function(){
         return $('#item-editor-panel');
     };

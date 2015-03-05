@@ -1,8 +1,9 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/correct',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, correctProcessor, errorHandler){
+], function(_, preProcessorFactory, correctProcessor, errorHandler){
 
     module('API');
 
@@ -94,12 +95,14 @@ define([
     QUnit
       .cases(dataProvider)
       .test('correct ', function(data, assert){
+        var state = {
+            RESPONSE : data.response
+        };
         correctProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
         };
-        correctProcessor.state = {
-            RESPONSE : data.response
-        };
+        correctProcessor.state = state;
+        correctProcessor.preProcessor = preProcessorFactory(state);
         assert.deepEqual(correctProcessor.process(), data.expectedResult, 'The results match correct');
     });
 

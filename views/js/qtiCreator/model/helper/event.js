@@ -1,5 +1,5 @@
 define(['jquery', 'lodash'], function($, _){
-
+    "use strict";
     var _ns = '.qti-creator';
     var _ns_model = '.qti-creator';
     var eventList = [
