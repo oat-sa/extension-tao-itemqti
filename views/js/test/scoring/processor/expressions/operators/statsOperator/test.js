@@ -30,6 +30,15 @@ define([
             value: 4
         }
     },{
+        title : 'incorrect stat operation',
+        name: 'magic',
+        operands : [{
+            cardinality : 'ordered',
+            baseType : 'integer',
+            value: [2, 3, 7]
+        }],
+        expectedResult : null
+    },{
         title : 'sampleVariance',
         name: 'sampleVariance',
         operands : [{

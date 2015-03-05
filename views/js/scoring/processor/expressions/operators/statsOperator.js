@@ -74,7 +74,8 @@ define([
             }
 
             var name = this.expression.attributes.name;
-            result.value = this.algorithms[name](operand);
+
+            result.value = _.isFunction(this.algorithms[name]) ? this.algorithms[name](operand) : null;
 
             if (_.isNull(result.value)) {
                 return null;
