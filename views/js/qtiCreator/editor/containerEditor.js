@@ -13,7 +13,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
 ], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
-
+    "use strict";
     var _ns = 'containereditor';
 
     var _defaults = {
@@ -71,7 +71,9 @@ define([
 
             //associate it to the interaction?
             if(options.related){
-                options.related.data('container-editor', container);
+                var containerEditors = options.related.data('container-editors') || [];
+                containerEditors.push(container);
+                options.related.data('container-editors', containerEditors);
             }
 
             this.loadContainer(container, data);

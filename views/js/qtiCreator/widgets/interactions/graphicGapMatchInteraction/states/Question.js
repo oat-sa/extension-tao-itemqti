@@ -345,7 +345,9 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
-
+        var $container = widget.$original;
+        var isResponsive = $container.hasClass('responsive');
+        
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
             data            : interaction.object.attr('data'),
@@ -357,6 +359,9 @@ define([
         imageSelector($form, options); 
 
         formElement.initWidget($form);
+        
+        //Toggle the image resizing panel depending on the widget container is responsive or not.
+        $form.find('.panel-interaction-size').toggle(!isResponsive);
         
         //init data change callbacks
         var callbacks  =  {};        

@@ -2,6 +2,17 @@
 @import "inc/main";
 @import "inc/farbtastic";
 
+// tmp solution, needs to be done in sts
+.sts-toolcontainer {
+    display: none;
+}
+
+.sts-studentToolbar-container {
+    .sts-toolcontainer {
+        display: block;
+    }
+}
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -662,6 +673,7 @@ img.dragging.ui-draggable-dragging {
     background-position: center 250px;
     background-repeat: no-repeat;
     min-height: 300px;
+    position:relative;
 }
 
 .dummy-element {
@@ -688,7 +700,7 @@ img.dragging.ui-draggable-dragging {
         text-align: center;
         width: 100%;
         position: relative;
-        top: 2px;
+        top: -2px;
         text-shadow: 1px 1px 0px #ccc;
     }
     & ~ span.mini-tlb[data-edit] {
@@ -815,6 +827,7 @@ img.dragging.ui-draggable-dragging {
         .tlb-wrapper {
             position: absolute;
             width: 100%;
+            left : 0;
             top: -24px;
             display: block;
             cursor: default;
@@ -1000,6 +1013,7 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_match";
     @import "qtiCreator/_inline-choice";
     @import "qtiCreator/_text-entry";
+    @import "qtiCreator/_end-attempt";
     @import "qtiCreator/_extended-text";
     @import "qtiCreator/_gap-match";
     @import "qtiCreator/_hottext";
@@ -1064,6 +1078,15 @@ img.dragging.ui-draggable-dragging {
     display: inline-block !important;
     padding: 0 !important;
     margin: 0 !important;
+}
+
+.extendedText{
+    .incrementer-ctrl-wrapper{
+        right: 10px; // to compensate the next change below
+        .incrementer{
+            width: 50px !important // 10px more than the default 40px value
+        }
+    }
 }
 
 @media print {

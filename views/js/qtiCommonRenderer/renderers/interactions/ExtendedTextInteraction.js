@@ -115,8 +115,6 @@ define([
                     wordCount = value.trim().replace(regex, ' ').split(' ').length,
                     charCount = value.trim().length;
                     // var charCountNoSpaces = value.trim().replace(regex,'').length;
-                    $charsCounter.text(charCount);
-                    $wordsCounter.text(wordCount);
 
                     if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
                         value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val();
@@ -129,6 +127,9 @@ define([
                         }else{
                             $textarea.val(value);
                         }
+                    }else{
+                        $charsCounter.text(charCount);
+                        $wordsCounter.text(wordCount);
                     }
                 };
 
@@ -419,9 +420,7 @@ define([
         $container.find('input, textarea').removeAttr('disabled');
 
         if ( _getFormat(interaction) === 'xhtml') {
-            $container.data('editor').destroy();
-            var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
-            $container.data('editor', editor);
+            $container.data('editor').readOnly = false;
         }
     };
 
@@ -430,7 +429,7 @@ define([
         $container.find('input, textarea').attr('disabled', 'disabled');
 
         if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
-            $container.data('editor').destroy();
+            $container.data('editor').readOnly = true;
         }
     };
 

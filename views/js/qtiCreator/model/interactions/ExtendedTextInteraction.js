@@ -2,8 +2,9 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
-    'taoQtiItem/qtiItem/core/interactions/ExtendedTextInteraction',
+    'taoQtiItem/qtiItem/core/interactions/ExtendedTextInteraction'
 ], function(_, editable, editableInteraction, Interaction){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);

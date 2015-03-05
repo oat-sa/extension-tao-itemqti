@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/model/helper/event'
 ], function(_, $, xmlRenderer, event) {
-
+    "use strict";
     var tools = {};
 
     tools.listenStateChange = function() {

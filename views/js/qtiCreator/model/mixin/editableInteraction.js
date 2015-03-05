@@ -5,7 +5,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
 ], function(_, Element, ResponseDeclaration, event, responseHelper){
-
+    "use strict";
     var methods = {
         /**
          * Remove a choice from the interaction
@@ -86,7 +86,7 @@ define([
                 _.each(interactions, function(interaction){
                     
                     //find the other interaction, which will be the last remaining one
-                    if(interaction.serial !== serial){
+                    if(interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
                         
                         var response = interaction.getResponseDeclaration();
                         interaction.attr('responseIdentifier', 'RESPONSE');

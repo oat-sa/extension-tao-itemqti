@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
 ], function(_,editable,ModalFeedback){
-    
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
