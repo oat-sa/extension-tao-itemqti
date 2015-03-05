@@ -74,7 +74,7 @@ define([
         expectedResult: {
             cardinality: 'single',
             baseType: 'boolean',
-            value: true
+            value: false
         }
     }, {
         title: 'default',
