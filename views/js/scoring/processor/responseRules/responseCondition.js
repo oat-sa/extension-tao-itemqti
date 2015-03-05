@@ -64,10 +64,11 @@ define([
             }
 
             //else if conditions
-            if(this.rule.responseElseIf){
-                for(index in this.rule.responseElseIf){
-                    if(evalRuleCondition(this.rule.responseElseIf[index])){
-                        return this.rule.responseElseIf[index].responseRules;
+            if(this.rule.responseElseIfs){
+
+                for(index in this.rule.responseElseIfs){
+                    if(evalRuleCondition(this.rule.responseElseIfs[index])){
+                        return this.rule.responseElseIfs[index].responseRules;
                     }
                 }
             }

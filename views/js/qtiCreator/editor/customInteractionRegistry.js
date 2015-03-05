@@ -3,7 +3,9 @@ define([
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/editor/customElementRegistryFactory'
 ], function(_, qtiElements, factory){
-
+    
+    "use strict";
+    
     var registry = factory.create({
         onRegister : function(hook){
             //for compatiblility

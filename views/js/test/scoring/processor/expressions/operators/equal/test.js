@@ -1,11 +1,12 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
+    'taoQtiItem/scoring/processor/errorHandler',
     'taoQtiItem/scoring/processor/expressions/operators/equal'
-], function(_, preProcessorFactory, equalProcessor){
+], function(_, preProcessorFactory, errorHandler, equalProcessor){
     "use strict";
 
-    module('API');
+    QUnit.module('API');
 
     QUnit.test('structure', function(assert){
         assert.ok(_.isPlainObject(equalProcessor), 'the processor expose an object');
@@ -14,14 +15,47 @@ define([
     });
 
 
-    module('Process');
+  QUnit.module('Process', {
+        teardown: function() {
+            errorHandler.reset('scoring');
+        }
+    });
+
+    QUnit.asyncTest('Fails if no tolerance is given when mode is relative', function(assert){
+        QUnit.expect(1);
+
+        errorHandler.listen('scoring', function(err){
+            assert.equal(err.name, 'Error', 'Tolerance attribute is not defined');
+            QUnit.start();
+        });
+
+        equalProcessor.expression = {
+            attributes : {
+                includeLowerBound : false,
+                includeUpperBound : false,
+                toleranceMode     : 'relative'
+            }
+        };
+        equalProcessor.operands = [{
+            cardinality : 'single',
+            baseType : 'float',
+            value : '1'
+        }, {
+            cardinality : 'single',
+            baseType : 'float',
+            value : '1.1'
+        }];
+        equalProcessor.preProcessor = preProcessorFactory({});
+	    equalProcessor.process();
+    });
+
 
     var dataProvider = [{
         title : 'integers exact',
         tolerance: '',
-        toleranceMode: equalProcessor.engines.exact,
-        includeLowerBound: true,
-        includeUpperBound: true,
+        toleranceMode: 'exact',
+        includeLowerBound: 'true',
+        includeUpperBound: 'true',
 
         operands : [{
             cardinality : 'single',
@@ -40,7 +74,7 @@ define([
     },{
         title : 'float absolute 2 bounds',
         tolerance: '0.2 0.8',
-        toleranceMode: equalProcessor.engines.absolute,
+        toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: true,
         operands : [{
@@ -60,7 +94,7 @@ define([
     },{
         title : 'float absolute 1 bound',
         tolerance: '0.2',
-        toleranceMode: equalProcessor.engines.absolute,
+        toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: true,
         operands : [{
@@ -80,7 +114,7 @@ define([
     },{
         title : 'float absolute 2 bound, not include upper',
         tolerance: '0.1 0.5',
-        toleranceMode: equalProcessor.engines.absolute,
+        toleranceMode: 'absolute',
         includeLowerBound: true,
         includeUpperBound: false,
         operands : [{
@@ -100,7 +134,7 @@ define([
     },{
         title : 'float absolute 2 bound, not include lower',
         tolerance: '0.1 0.5',
-        toleranceMode: equalProcessor.engines.absolute,
+        toleranceMode: 'absolute',
         includeLowerBound: false,
         includeUpperBound: true,
         operands : [{
@@ -120,7 +154,7 @@ define([
     },{
         title : 'float relative 2 bound, not include lower',
         tolerance: '50 10',
-        toleranceMode: equalProcessor.engines.relative,
+        toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: true,
         operands : [{
@@ -152,7 +186,7 @@ define([
                 value : 10
             }
         },
-        toleranceMode: equalProcessor.engines.relative,
+        toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: true,
         operands : [{
@@ -172,7 +206,7 @@ define([
     },{
         title : 'float relative 1 bound, not include both',
         tolerance: '50',
-        toleranceMode: equalProcessor.engines.relative,
+        toleranceMode: 'relative',
         includeLowerBound: false,
         includeUpperBound: false,
         operands : [{
@@ -189,22 +223,6 @@ define([
             baseType : 'boolean',
             value : true
         }
-    },{
-        title : 'incorrect settings for relative',
-        tolerance: '',
-        toleranceMode: equalProcessor.engines.relative,
-        includeLowerBound: false,
-        includeUpperBound: false,
-        operands : [{
-            cardinality : 'single',
-            baseType : 'float',
-            value : '1'
-        }, {
-            cardinality : 'single',
-            baseType : 'float',
-            value : '1.1'
-        }],
-        expectedResult : null
     },{
         title : 'one null',
         operands : [{

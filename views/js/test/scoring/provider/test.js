@@ -6,7 +6,16 @@ define([
     'json!taoQtiItem/test/samples/json/space-shuttle-m.json',
     'json!taoQtiItem/test/samples/json/characters.json',
     'json!taoQtiItem/test/samples/json/edinburgh.json',
-], function(_, scorer, qtiScoringProvider, singleCorrectData, multipleCorrectData, multipleMapData, singleMapPointData){
+    'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_2014410822.json',
+    'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json'
+], function(_, scorer, qtiScoringProvider,
+    singleCorrectData,
+    multipleCorrectData,
+    multipleMapData,
+    singleMapPointData,
+    customChoiceMultipleData,
+    customTextEntryNumericData
+){
 
 
     QUnit.module('Provider API');
@@ -102,183 +111,6 @@ define([
         }
     });
 
-/*
-    QUnit.asyncTest('correct response', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "base": {
-                    "identifier": "Atlantis"
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { integer : 1 } }, "the score has the correct value");
-
-            QUnit.start();
-          })
-          .process(responses, singleCorrectData);
-    });
-
-
-    QUnit.asyncTest('incorrect response', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "base": {
-                    "identifier": "Discovery"
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { integer : 0 } }, "the score has the default value");
-
-            QUnit.start();
-          })
-          .process(responses, singleCorrectData);
-    });
-
-
-    QUnit.asyncTest('multiple cardinality correct response', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "list": {
-                    "identifier": ["Pathfinder", "Atlantis"]
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { integer : 1 } }, "the score has the correct value");
-
-            QUnit.start();
-          })
-          .process(responses, multipleCorrectData);
-    });
-
-    QUnit.asyncTest('multiple cardinality map response', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "list": {
-                    "directedPair": [['C', 'R'], ['D', 'M']]
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { float : 1.5 } }, "the score has the correct value");
-
-            QUnit.start();
-          })
-          .process(responses, multipleMapData);
-    });
-
-    QUnit.asyncTest('single cardinality map response inside point', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "base": {
-                    "point": [102, 113]
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { float : 1 } }, "the score has the correct value");
-
-            QUnit.start();
-          })
-          .process(responses, singleMapPointData);
-    });
-
-    QUnit.asyncTest('single cardinality map response point', function(assert){
-        QUnit.expect(5);
-
-        var responses =   {
-            "RESPONSE": {
-                "base": {
-                    "point": [102, 113]
-                }
-            }
-        };
-        scorer.register('qti', qtiScoringProvider);
-
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
-
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { float : 1 } }, "the score has the correct value");
-
-            QUnit.start();
-          })
-          .process(responses, singleMapPointData);
-    });
-*/
 
     QUnit.module('templates');
 
@@ -354,6 +186,73 @@ define([
             QUnit.start();
           })
           .process(responses, data.item);
+    });
+
+    QUnit.module('custom');
+
+    var customDataProvider = [{
+        title   : 'choice multiple correct',
+        item    : customChoiceMultipleData,
+        resp    : { RESPONSE_13390220 : { list : { identifier: ['choice_693643701', 'choice_853818748'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'correct' } }
+        }
+    }, {
+        title   : 'choice multiple incorrect',
+        item    : customChoiceMultipleData,
+        resp    : { RESPONSE_13390220 : { list : { identifier: ['choice_853818748'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : '0.0' } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
+        }
+    }, {
+        title   : 'single numeric text entry exact',
+        item    : customTextEntryNumericData,
+        resp    : { RESPONSE_1 : { base : { float: 4.136 } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'correct' } }
+        }
+    }, {
+        title   : 'single numeric text entry pretty correct',
+        item    : customTextEntryNumericData,
+        resp    : { RESPONSE_1 : { base : { float: 4.132 } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'correct' } }
+        }
+    }, {
+        title   : 'single numeric text entry incorrect',
+        item    : customTextEntryNumericData,
+        resp    : { RESPONSE_1 : { base : { float: 5.8756 } } },
+        outcomes : {
+            SCORE : { base : { 'float' : '0.0' } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
+        }
+    }];
+
+    QUnit
+      .cases(customDataProvider)
+      .asyncTest('process ', function(data, assert){
+
+        scorer.register('qti', qtiScoringProvider);
+
+        scorer('qti')
+          .on('error', function(err){
+            assert.ok(false, 'Got an error : ' + err);
+          })
+          .on('outcome', function(outcomes){
+
+            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+
+            _.forEach(data.outcomes, function(outcome, name){
+                assert.deepEqual(outcomes[name], outcome, "the outcome " + name + " is correct" );
+            });
+
+            QUnit.start();
+          })
+          .process(data.resp, data.item);
     });
 });
 
