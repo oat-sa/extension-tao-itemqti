@@ -24,9 +24,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'taoQtiItem/scoring/processor/expressions/preprocessor'
-], function(_, preProcessor){
+    'lodash'
+], function(_){
     'use strict';
 
     /**
@@ -60,7 +59,7 @@ define([
                 return null;
             }
 
-            var op = preProcessor.parseVariable(this.operands[0]);
+            var op = this.preProcessor.parseVariable(this.operands[0]);
             result.value = op.value[_.random(0, op.value.length-1)];
             result.baseType = op.baseType;
 

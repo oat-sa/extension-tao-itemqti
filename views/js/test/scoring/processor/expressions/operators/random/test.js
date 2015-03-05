@@ -1,7 +1,8 @@
 define([
     'lodash',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/expressions/operators/random'
-], function(_, randomProcessor){
+], function(_, preProcessorFactory, randomProcessor){
     'use strict';
 
     module('API');
@@ -62,13 +63,15 @@ define([
       .cases(dataProvider)
       .test('random ', function(data, assert){
         randomProcessor.operands = data.operands;
-            var result = randomProcessor.process();
-            if (_.isNull(result)) {
-                assert.equal(result, data.expectedResult, 'The null check');
-            } else {
-                assert.equal(result.baseType, data.expectedResult.baseType, 'The random baseType is correct');
-                assert.equal(result.cardinality, data.expectedResult.cardinality, 'The random cardinality is correct');
-                assert.notEqual(data.operands[0].value.indexOf(result.value), -1, 'The random value is correct');
-            }
+        randomProcessor.preProcessor = preProcessorFactory({});
+
+        var result = randomProcessor.process();
+        if (_.isNull(result)) {
+            assert.equal(result, data.expectedResult, 'The null check');
+        } else {
+            assert.equal(result.baseType, data.expectedResult.baseType, 'The random baseType is correct');
+            assert.equal(result.cardinality, data.expectedResult.cardinality, 'The random cardinality is correct');
+            assert.notEqual(data.operands[0].value.indexOf(result.value), -1, 'The random value is correct');
+        }
     });
 });
