@@ -40,7 +40,8 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'gapImg' : 'taoQtiItem/qtiCommonRenderer/renderers/choices/GapImg',
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
         'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
-        'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl'
+        'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
+        'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     });
     return {
         name:'commonRenderer',

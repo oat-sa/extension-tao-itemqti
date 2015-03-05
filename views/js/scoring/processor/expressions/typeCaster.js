@@ -36,10 +36,12 @@ define([
         identifier              : toString,
         pair                    : toPair,
         directedPair            : toDirectedPair,
+        duration                : parseFloat,
         boolean                 : toBoolean,
         integerOrVariableRef    : toIntegerOrVariableRef,
         floatOrVariableRef      : toFloatOrVariableRef,
-        stringOrVariableRef     : toStringOrVariableRef
+        stringOrVariableRef     : toStringOrVariableRef,
+        point                   : toPoint
     };
 
     /**
@@ -121,6 +123,7 @@ define([
      * Cast the value by either get the integer of it doesn't refer to a variable that contains an integer
      * @private
      * @param {Number|String} value - the value to cast to an integer
+     * @param {Object} [state] - to lookup if the value is a reference to the variable
      * @returns {Number} the integer
      */
     function toIntegerOrVariableRef(value, state){
@@ -134,6 +137,7 @@ define([
      * Cast the value by either get the float of it doesn't refer to a variable that contains a float
      * @private
      * @param {Number|String} value - the value to cast to an float
+     * @param {Object} [state] - to lookup if the value is a reference to the variable
      * @returns {Number} the float
      */
     function toFloatOrVariableRef(value, state){
@@ -154,6 +158,22 @@ define([
             return state[value].value;
         }
         return value;
+     }
+
+    /**
+     * Cast to a point
+     * @private
+     * @param {String|Array} value - the value to cast to a point
+     * @returns {Array<Number>} as [x,y]
+     */
+    function toPoint(value){
+        if(_.isString(value) && value.indexOf(' ') > -1){
+            value = _.first(value.split(' '), 2);
+        }
+        if(_.isArray(value)){
+            return _.map(value, toInt);
+        }
+        return null;
     }
 
     return typeCaster;

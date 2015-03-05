@@ -1,5 +1,5 @@
 define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
-
+    "use strict";
     var MathEditor = function MathEditor(config){
 
         config = config || {};

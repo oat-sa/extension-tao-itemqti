@@ -4,9 +4,8 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/UploadInteraction'
 ], function(_, editable, editableInteraction, Interaction) {
-    
+    "use strict";
     var methods = {};
-    
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {

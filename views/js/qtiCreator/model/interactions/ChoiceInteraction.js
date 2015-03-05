@@ -6,6 +6,7 @@ define([
     'taoQtiItem/qtiItem/core/interactions/ChoiceInteraction',
     'taoQtiItem/qtiCreator/model/choices/SimpleChoice'
 ], function($, _, editable, editableInteraction, Interaction, Choice){
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
