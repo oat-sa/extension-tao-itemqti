@@ -5,36 +5,36 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
 ], function(_, tpl, Helper, pciResponse, __){
-    
+
     "use strict";
-    
+
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10402
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction, options){
 
         var $container = Helper.getContainer(interaction);
 
-        //on click, 
+        //on click,
         $container.on('click.commonRenderer', function(){
             $container.val(true);
-            $container.trigger('endattempt');
+            $container.trigger('endattempt', [interaction.attr('responseIdentifier')]);
         });
     };
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10402
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -46,13 +46,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10402
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -64,7 +64,7 @@ define([
 
     /**
      * Reset the response ... wondering if it is useful ...
-     
+
      * @param {type} interaction
      */
     var resetResponse = function(interaction){
@@ -72,7 +72,7 @@ define([
     };
 
     /**
-     * 
+     *
      * @param {Object} interaction
      * @param {Boolean} val
      */
@@ -86,7 +86,7 @@ define([
 
     /**
      * Destroy the interaction to restore the dom as it is before render() is called
-     * 
+     *
      * @param {Object} interaction
      */
     var destroy = function(interaction){
@@ -100,7 +100,7 @@ define([
 
     /**
      * Define default template data
-     * 
+     *
      * @param {Object} interaction
      * @param {Object} data
      * @returns {Object}
