@@ -63,7 +63,7 @@ define([
                     items : ['Bold', 'Italic', 'Subscript', 'Superscript']
                 }, {
                     name : 'insert',
-                    items : ['Image', 'Table', 'SpecialChar']
+                    items : ['Image', 'SpecialChar']
                 },
                 {
                     name : 'links',
@@ -75,7 +75,7 @@ define([
                     items : ['Format']
                 }, {
                     name : 'paragraph',
-                    items : ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
                 }],
             extendedText : [{
                     name : 'basicstyles',
