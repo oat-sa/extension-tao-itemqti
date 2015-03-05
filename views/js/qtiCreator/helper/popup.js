@@ -114,7 +114,7 @@ define([
             else {
                 open(_trigger, $popup);
             }
-        })
+        });
     };
 
 

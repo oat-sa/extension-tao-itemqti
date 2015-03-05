@@ -228,7 +228,7 @@ define([
         //record the number of feedbacks to be displayed:
         var count = feedbacksToBeDisplayed.length;
         
-        if (count > 0 && typeof onShowCallback != 'undefined') {
+        if (count > 0 && _.isFunction(onShowCallback)) {
             onShowCallback();
         }
         
@@ -245,12 +245,16 @@ define([
     };
 
     QtiRunner.prototype.showModalFeedback = function(modalFeedback, callback){
-
+        
         if(modalFeedback instanceof ModalFeedback){
-            $('#modalFeedbacks').append(modalFeedback.render());
-            modalFeedback.postRender({
-                callback : callback
-            });
+            //load (potential) new qti classes used in the modal feedback (e.g. math, img)
+            this.renderer.load(function(){
+                //render the modal feedback
+                $('#modalFeedbacks').append(modalFeedback.render());
+                modalFeedback.postRender({
+                    callback : callback
+                });
+            }, this.getLoader().getLoadedClasses());
         }
     };
 

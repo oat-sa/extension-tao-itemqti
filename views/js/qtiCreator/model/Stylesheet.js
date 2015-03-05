@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Stylesheet'
 ], function(_, editable, Stylesheet){
-    
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
