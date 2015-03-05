@@ -745,7 +745,7 @@ define([
         expectedResult: {
             cardinality: 'single',
             baseType: 'float',
-            value: 15.154262241479266
+            value: 15.154262241479264
         }
     }, {
         title: 'abs',
