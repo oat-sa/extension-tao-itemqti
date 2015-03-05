@@ -35,7 +35,7 @@ define([
      */
     var mathOperatorProcessor = {
 
-        accuracy : 0.000000000000001,
+        accuracy : 0.00000000000001,
 
         constraints : {
             minOperand : 1,
