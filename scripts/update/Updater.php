@@ -100,7 +100,13 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $currentVersion = '2.7.3';
         }
-
+        
+        //migrate from 2.7.3 to 2.7.4
+        if($currentVersion == '2.7.3'){
+            $registry->registerFromFile('OAT/handlebars', $installBasePath . '/OAT/handlebars.js');
+            $currentVersion = '2.7.4';
+        }
+        
         return $currentVersion;
     }
 
