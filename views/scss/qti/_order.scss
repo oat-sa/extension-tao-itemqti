@@ -40,10 +40,10 @@
         }
         .arrow-bar {
             .icon-move-before {
-                @extend %icon-up;
+                @include icon-up;
             }
             .icon-move-behind {
-                @extend %icon-down;
+                @include icon-down;
             }
             display: table-cell;
             vertical-align: middle;
@@ -79,10 +79,10 @@
                     visibility: hidden;
                 }
                 &.icon-move-before {
-                    @extend %icon-up;
+                    @include icon-up;
                 }
                 &.icon-move-behind {
-                    @extend %icon-down;
+                    @include icon-down;
                 }
             }
         }

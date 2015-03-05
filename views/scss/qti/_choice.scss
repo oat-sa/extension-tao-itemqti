@@ -28,10 +28,12 @@
 
     .checked {
         span.icon-checkbox:before{
-            @extend %icon-checkbox-checked;
+            @include tao-icon-setup;
+            @include icon-checkbox-checked;
         }
         span.icon-radio:before{
-            @extend %icon-radio-checked;
+            @include tao-icon-setup;
+            @include icon-radio-checked;
         }
     }
     .real-label{

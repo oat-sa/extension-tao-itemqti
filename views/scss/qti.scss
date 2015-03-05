@@ -1,21 +1,20 @@
+
+@charset "UTF-8";
+
+$fontPath : '../../../tao/views/css/font/';
+
+
+//////
 @import "inc/bootstrap";
-@import "inc/main";
+@import "inc/fonts/source-sans-pro";
+@import "inc/fonts/tao-icon-def";
+@import "inc/fonts/tao-icon-vars";
 
-.qti-item {
-    padding: 15px;
-    background: white();
-    margin:auto;
-    max-width: 1024px;
-    &.runtime {
-        min-height: 100%;
-    }
+$mainContainer : '.qti-item';
 
-    [class*="col-"] {
-        img {
-            max-width: auto;
-        }
-    }
-}
+@import "inc/base";
+@import "inc/select2";
+
 
 %selectableHover {
     background: whiten($info, .95) !important;
@@ -31,216 +30,200 @@
     z-index:9;
 }
 
-#modalFeedbacks {
-    max-height:0;
-}
 
-/* authoring */
-.mini-tlb {
-    .tlb-button {
-        color: $textColor !important;
-        padding-top: 3px;
-        &:hover {
-            color: $uiClickableHoverBg !important;
+
+.qti-item {
+
+    @import "inc/fonts/tao-icon-classes";
+
+    @import "inc/feedback";
+    @import "inc/grid";
+    @import "inc/tooltip";
+    @import "inc/resourcemgr";
+    @import "inc/buttons";
+    @import "inc/jquery.nouislider";
+    @import "inc/forms";
+    @import "inc/components";
+
+    padding: 15px;
+    background: white();
+    margin:auto;
+    max-width: 1024px;
+    &.runtime {
+        min-height: 100%;
+    }
+
+    [class*="col-"] {
+        img {
+            max-width: auto;
         }
     }
-    ul[data-button-group] {
-        background: transparent !important;
-        border:none;
-        & > li {
-            display:none;
-            background: transparent !important;
-            min-width: 0;
-            padding: 0;
-            float:none;
-            span {
-                color: $textColor;
-                text-shadow: none !important;
-            }
-            &.active {
-                display:inline-block;
-            }
+
+    #modalFeedbacks {
+        max-height:0;
+    }
+    /* authoring */
+
+
+    .qti-choice, .qti-prompt-container {
+        p:last-child {
+            margin-bottom: 0 !important;
         }
     }
-}
-/* authoring */
-.edit-question .qti-blockInteraction .horizontal {
-    .add-option {
-        margin-top: 25px;
-    }
-    .qti-choice {
-        margin-top: 25px;
-        .mini-tlb{
-            white-space: nowrap;
-            top:-26px;
-            right:-4px;
-            .tlb-button{
-                min-width:25px;
-                height:20px;
-                margin:0;
-            }
-        }
-    }
-}
 
-
-.qti-choice, .qti-prompt-container {
-    p:last-child {
-        margin-bottom: 0 !important;
-    }
-}
-
-//scope all hover, active style for delivery under the runtime class
-.runtime {
-    .block-listing {
-        & > li {
-            &.active {
-                border-color: whiten($info, .2) !important;
+    //scope all hover, active style for delivery under the runtime class
+    &.runtime {
+        .block-listing {
+            & > li {
+                &.active {
+                    border-color: whiten($info, .2) !important;
+                    &:hover{
+                        @extend %activeHover;
+                    }
+                }
                 &:hover{
-                    @extend %activeHover;
+                    @extend %selectableHover;
                 }
             }
-            &:hover{
-                @extend %selectableHover;
+        }
+    }
+
+    .block-listing {
+        & > li {
+            @include simple-border(#e0e0e0);
+            background: transparent;
+            padding: 5px;
+            margin: 3px;
+            cursor: pointer;
+            position:relative;
+        }
+        &.horizontal {
+            @extend .clearfix;
+            &:after {
+                @extend .clearfix:after;
+            }
+            &:before {
+                @extend .clearfix:before;
+            }
+            & > li {
+                display: block;
+                float: left;
+            }
+        }
+        &.solid, &.bordered {
+            padding-top: 3px;
+            padding-right: 3px;
+            padding-bottom: 3px;
+            &.none {
+                padding-left: 3px;
             }
         }
     }
-}
 
-.block-listing {
-    & > li {
-        @include simple-border(#e0e0e0);
-        background: transparent;
-        padding: 5px;
-        margin: 3px;
-        cursor: pointer;
-        position:relative;
+
+    .qti-block {
+        border:1px solid transparent;
     }
-    &.horizontal {
-        @extend .clearfix;
-        &:after {
-            @extend .clearfix:after;
+
+    .qti-interaction {
+        .text-container{
+            min-height: 50px;
+
+            &.text-preformatted{
+                font-family: $monospaceFont;
+            }
         }
-        &:before {
-            @extend .clearfix:before;
+
+        .solid {
+            //background: whiten($uiClickableDefaultBg, .4);
+            // @include simple-border(whiten($uiClickableDefaultBg, .4));
+            // original: above; new: below
+            border: 6px solid  whiten($uiClickableDefaultBg, .2);
         }
-        & > li {
-            display: block;
-            float: left;
+        .bordered {
+            @include simple-border(#e0e0e0);
+            background: white;
         }
-    }
-    &.solid, &.bordered {
-        padding-top: 3px;
-        padding-right: 3px;
-        padding-bottom: 3px;
-        &.none {
-            padding-left: 3px
+        .empty {
+            border: 1px $uiClickableHoverBg dashed !important;
+            min-height: 50px;
+            cursor: default;
         }
-    }
-}
-
-
-.qti-block {
-    border:1px solid transparent;
-}
-
-.qti-interaction {
-    .text-container{
-        min-height: 50px;
-
-        &.text-preformatted{
-            font-family: $monospaceFont;
-        }
-    }
-
-    .solid {
-        //background: whiten($uiClickableDefaultBg, .4);
-        // @include simple-border(whiten($uiClickableDefaultBg, .4));
-        // original: above; new: below
-        border: 6px solid  whiten($uiClickableDefaultBg, .2);
-    }
-    .bordered {
-        @include simple-border(#e0e0e0);
-        background: white;
-    }
-    .empty {
-        border: 1px $uiClickableHoverBg dashed !important;
-        min-height: 50px;
-        cursor: default
-    }
-    .add-option {
-        border: 1px mix(#fff, $info, 20%) dashed !important;
-        list-style-type: none;
-        position: relative;
-        cursor: pointer !important;
-        color: $info !important;
-        border-radius: 3px;
-        background-color: mix(#fff, $info, 90%);
-        [class^="icon-"], [class*=" icon-"] {
-            @include font-size(14);
+        .add-option {
+            border: 1px mix(#fff, $info, 20%) dashed !important;
+            list-style-type: none;
             position: relative;
-            top: 1px;
-            left: 2px;
-            color: $info;
-            padding-right: 5px
-        }
-
-
-        & > div {
-            display: table;
-            width: 100%;
-            height: 100%;
+            cursor: pointer !important;
+            color: $info !important;
+            border-radius: 3px;
+            background-color: mix(#fff, $info, 90%);
             [class^="icon-"], [class*=" icon-"] {
-                display: table-cell;
-                @include font-size(60);
-                position: static !important;
-                vertical-align: middle;
+                @include font-size(14);
+                position: relative;
+                top: 1px;
+                left: 2px;
+                color: $info;
+                padding-right: 5px;
+            }
+
+
+            & > div {
+                display: table;
                 width: 100%;
                 height: 100%;
-                text-align: center;
-                top: 0;
-                left: auto;
-                padding:0;
+                [class^="icon-"], [class*=" icon-"] {
+                    display: table-cell;
+                    @include font-size(60);
+                    position: static !important;
+                    vertical-align: middle;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    top: 0;
+                    left: auto;
+                    padding:0;
+                }
+            }
+            &:hover {
+                opacity: .8;
             }
         }
-        &:hover {
-            opacity: .8
+
+        input[type="color"],
+        input[type="date"],
+        input[type="datetime"],
+        input[type="datetime-local"],
+        input[type="email"],
+        input[type="month"],
+        input[type="number"],
+        input[type="range"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="time"],
+        input[type="text"],
+        input[type="password"],
+        input[type="url"],
+        input[type="week"],
+        textarea,
+        select {
+            border-top-color  : #aaa;
+            border-left-color : #aaa;
         }
     }
 
-    input[type="color"],
-    input[type="date"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="email"],
-    input[type="month"],
-    input[type="number"],
-    input[type="range"],
-    input[type="search"],
-    input[type="tel"],
-    input[type="time"],
-    input[type="text"],
-    input[type="password"],
-    input[type="url"],
-    input[type="week"],
-    textarea,
-    select {
-        border-top-color: #aaa;
-        border-left-color: #aaa
-    }
-}
+    @import "qti/_choice";
+    @import "qti/_order";
+    @import "qti/_extended-text";
+    @import "qti/_associate";
+    @import "qti/_match";
+    @import "qti/_media";
+    @import "qti/_graphic";
+    @import "qti/_hottext";
+    @import "qti/_gap-match";
+    @import "qti/_slider";
+    @import "qti/_inline-choice";
+    @import "qti/_text-entry";
+    @import "qti/_upload";
+    @import "qti/_rubric-block";
 
-@import "qti/_choice";
-@import "qti/_order";
-@import "qti/_extended-text";
-@import "qti/_associate";
-@import "qti/_match";
-@import "qti/_media";
-@import "qti/_graphic";
-@import "qti/_hottext";
-@import "qti/_gap-match";
-@import "qti/_slider";
-@import "qti/_inline-choice";
-@import "qti/_text-entry";
-@import "qti/_upload";
-@import "qti/_rubric-block";
+}
