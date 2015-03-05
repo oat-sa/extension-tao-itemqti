@@ -49,9 +49,9 @@ define([
     function limitItemPanelWidth () {
         var itemEditorPanel = document.getElementById('item-editor-panel'),
             width = (function() {
-                var _width = $('#panel-authoring').width();
+                var _width = $('#panel-authoring').outerWidth();
                 $('.item-editor-sidebar').each(function() {
-                    _width -= $(this).width();
+                    _width -= $(this).outerWidth();
                 });
                 return _width.toString();
             }()),
@@ -60,7 +60,8 @@ define([
         _.forEach(prefixes, function(prefix) {
             itemEditorPanel.style[prefix + (prefix ? 'Flex' : 'flex')] = '0 0 ' + width + 'px';
         });
-    };
+        itemEditorPanel.style.maxWidth = width + 'px';
+    }
 
 
 
