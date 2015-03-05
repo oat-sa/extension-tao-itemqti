@@ -30,15 +30,15 @@ define([
     'use strict';
 
     /**
-     * BaseValue expression
+     * The rule processor.
+     *
      * @type {responseRuleProcessor}
      * @exports taoQtiItem/scoring/processor/responseRules/setOutcomeValue
      */
-    var setOutcomValueProcessor = {
+    var setOutcomeValueProcessor = {
 
         /**
          * Process the rule
-         *
          */
         process : function(){
             var identifier = this.rule.attributes.identifier;
@@ -58,5 +58,5 @@ define([
         }
     };
 
-    return setOutcomValueProcessor;
+    return setOutcomeValueProcessor;
 });

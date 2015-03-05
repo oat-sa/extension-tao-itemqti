@@ -46,12 +46,15 @@ define([
              */
             parseOperands: function parseOperands(operands) {
                 return _(operands)
-
                     //cast value type, like if they were all arrays, and infer the result type
                     .map(function (operand) {
 
                         if (_.isNull(operand)) {
                             return operand;
+                        }
+                        //in case we found record container
+                        if (operand.cardinality === 'record' && _.isObject(operand.value)) {
+                            return _.mapValues(operand.value, preProcessor.parseVariable);
                         }
 
                         var caster      = _.partialRight(typeCaster(operand.baseType), state);
@@ -75,18 +78,23 @@ define([
              * @returns {ProcessingValue} the parsedVariable
              */
             parseVariable : function parseVariable(variable){
-                variable.value = this.parseValue(variable.value, variable.baseType, variable.cardinality);
+                variable.value = preProcessor.parseValue(variable.value, variable.baseType, variable.cardinality);
                 return variable;
             },
 
             /**
-             * Parse a value regarding a type and a cardinalilty
+             * Parse a value regarding a type and a cardinality
              * @param {*} value - the value to parse
              * @param {String} baseType - in the QTI baseTypes
              * @param {String} [cardinality = 'single'] - either single, multiple, ordered or record
              * @returns {*} the parsed value
              */
             parseValue : function(value, baseType, cardinality){
+
+                if (cardinality === 'record') {
+                    return _.mapValues(value, preProcessor.parseVariable);
+                }
+
                 var caster = typeCaster(baseType);
                 cardinality = cardinality || 'single';
 

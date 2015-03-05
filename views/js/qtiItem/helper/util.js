@@ -76,13 +76,19 @@ define(['lodash'], function(_){
 
             }else{
 
-                throw new Error('invalid argument : colllectionNames must be an array or a string');
+                throw new Error('invalid argument : collectionNames must be an array or a string');
             }
 
             return found;
         },
         addMarkupNamespace : function addMarkupNamespace(markup, ns){
-            return ns ? markup.replace(/<(\/)?([^!\/:>]+)(\/)?>/g, '<$1' + ns + ':$2$3>') : markup;
+            if(ns) {
+                markup = markup.replace(/<(\/)?([a-z]+)([^><:]*)>/g, '<$1' + ns + ':$2$3>');
+                markup = markup.replace('<img ', '<' + ns + 'img ');
+                return markup;
+            }
+            return markup;
+
         },
         removeMarkupNamespaces : function removeMarkupNamespace(markup){
             return markup.replace(/<(\/)?(\w*):([^>]*)>/g, '<$1$3>');

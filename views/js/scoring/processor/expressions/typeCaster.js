@@ -36,9 +36,11 @@ define([
         identifier              : toString,
         pair                    : toPair,
         directedPair            : toDirectedPair,
+        duration                : parseFloat,
         boolean                 : toBoolean,
         integerOrVariableRef    : toIntegerOrVariableRef,
         floatOrVariableRef      : toFloatOrVariableRef,
+        stringOrVariableRef     : toStringOrVariableRef,
         point                   : toPoint
     };
 
@@ -146,6 +148,19 @@ define([
     }
 
     /**
+     * Cast the value by either get the string of it doesn't refer to a variable that contains a string
+     * @private
+     * @param {String} value - the value to cast to an string
+     * @returns {String} the string
+     */
+    function toStringOrVariableRef(value, state){
+        if ( state && _.isObject(state[value]) && typeof state[value].value !== 'undefined') {
+            return state[value].value;
+        }
+        return value;
+     }
+
+    /**
      * Cast to a point
      * @private
      * @param {String|Array} value - the value to cast to a point
@@ -153,7 +168,7 @@ define([
      */
     function toPoint(value){
         if(_.isString(value) && value.indexOf(' ') > -1){
-             value = _.first(value.split(' '), 2);
+            value = _.first(value.split(' '), 2);
         }
         if(_.isArray(value)){
             return _.map(value, toInt);

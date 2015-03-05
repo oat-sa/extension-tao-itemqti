@@ -36,6 +36,7 @@ define([
      */
     var equalProcessor = {
 
+        //equality algos based on different tolerance modes
         engines: {
             exact: function (x, y) {
                 return x === y;
@@ -73,14 +74,16 @@ define([
                 baseType : 'boolean'
             };
 
-            var toleranceMode = _.isFunction(this.expression.attributes.toleranceMode) ? this.expression.attributes.toleranceMode : equalProcessor.engines.exact,
-                tolerance = this.expression.attributes.tolerance ? this.expression.attributes.tolerance.toString().split(' ') : [],
-                includeLowerBound = _.isBoolean(this.expression.attributes.includeLowerBound) ? this.expression.attributes.includeLowerBound : true,
-                includeUpperBound = _.isBoolean(this.expression.attributes.includeUpperBound) ? this.expression.attributes.includeUpperBound : true;
+            var attributes          = this.expression.attributes;
+            var toleranceMode       = attributes.toleranceMode || 'exact';
+            var engine              = this.engines[toleranceMode];
+            var tolerance           = attributes.tolerance ? attributes.tolerance.toString().split(' ') : [];
+            var includeLowerBound   = _.isString(attributes.includeLowerBound) || _.isBoolean(attributes.includeLowerBound) ? this.preProcessor.parseValue(attributes.includeLowerBound, 'boolean') : true;
+            var includeUpperBound   = _.isString(attributes.includeUpperBound) || _.isBoolean(attributes.includeUpperBound) ? this.preProcessor.parseValue(attributes.includeUpperBound, 'boolean') : true;
 
-            if (_.contains([this.engines.absolute, this.engines.relative], toleranceMode) && tolerance.length === 0) {
-                errorHandler.throw('scoring', new Error('tolerance must me specified'));
-                return null;
+
+            if (!_.isFunction(engine) || (_.contains(['absolute', 'relative'], toleranceMode) && tolerance.length === 0)) {
+                return errorHandler.throw('scoring', new Error('tolerance must me specified'));
             }
 
             //if at least one operand is null, then break and return null
@@ -97,7 +100,7 @@ define([
                 tolerance.push(tolerance[0]);
             }
 
-            result.value = toleranceMode(this.preProcessor.parseVariable(this.operands[0]).value,
+            result.value = engine(this.preProcessor.parseVariable(this.operands[0]).value,
                 this.preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
 
             return result;

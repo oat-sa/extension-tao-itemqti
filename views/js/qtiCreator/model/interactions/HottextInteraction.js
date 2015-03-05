@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
 ], function(_, Element, editable, editableInteraction, Interaction, Choice,event, responseHelper){
-    
+    "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
