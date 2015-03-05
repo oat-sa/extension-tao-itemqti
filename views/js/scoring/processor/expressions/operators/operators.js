@@ -61,12 +61,14 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/repeat',
     'taoQtiItem/scoring/processor/expressions/operators/round',
     'taoQtiItem/scoring/processor/expressions/operators/roundTo',
+    'taoQtiItem/scoring/processor/expressions/operators/statsOperator',
     'taoQtiItem/scoring/processor/expressions/operators/stringMatch',
     'taoQtiItem/scoring/processor/expressions/operators/substring',
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, equalRounded, fieldValue, gcd, gt, gte, index, inside, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, mathOperator, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, equalRounded, fieldValue, gcd, gt, gte, index, inside, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, mathOperator, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, statsOperator, stringMatch, substring, subtract, sum, truncate ){
+
     'use strict';
 
     /**
@@ -129,6 +131,7 @@ define([
         "repeat"            : repeat,
         "round"             : round,
         "roundTo"           : roundTo,
+        "statsOperator"     : statsOperator,
         "stringMatch"       : stringMatch,
         "substring"         : substring,
         "subtract"          : subtract,
