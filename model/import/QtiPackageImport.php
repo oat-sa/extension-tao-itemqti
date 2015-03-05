@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\import;
 
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\model\qti\exception\ParsingException;
 use \tao_models_classes_import_ImportHandler;
 use \common_Utils;
 use \core_kernel_versioning_Repository;
@@ -89,11 +90,11 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler
 				$rollbackOnError = in_array('error', $rollbackInfo);
 				$rollbackOnWarning = in_array('warning', $rollbackInfo);
 				$report = $importService->importQTIPACKFile($uploadedFile, $class, true, $repository, $rollbackOnError, $rollbackOnWarning);
-			} 
-			catch (ExtractException $e) {
+			} catch (ExtractException $e) {
 			    $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
-			}
-			catch (Exception $e) {
+			} catch (ParsingException $e) {
+			    $report = common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
+			} catch (Exception $e) {
 		        $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the IMS QTI Item Package."));
 			}
 			

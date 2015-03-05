@@ -38,6 +38,7 @@ use \helpers_File;
 use \Exception;
 use \DOMDocument;
 use \common_exception_UserReadableException;
+use \common_Logger;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -307,7 +308,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage()));
                 } catch (Exception $e) {
                     // an error occured during a specific item
-                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package. The system returned the following error message:\n%s", $e->getMessage())));
+                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package.")));
+                    common_Logger::e($e->getMessage());
                 }
             }
             
