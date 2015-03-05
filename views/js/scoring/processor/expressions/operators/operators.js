@@ -32,6 +32,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/durationLT',
     'taoQtiItem/scoring/processor/expressions/operators/equal',
     'taoQtiItem/scoring/processor/expressions/operators/equalRounded',
+    'taoQtiItem/scoring/processor/expressions/operators/fieldValue',
     'taoQtiItem/scoring/processor/expressions/operators/gcd',
     'taoQtiItem/scoring/processor/expressions/operators/gt',
     'taoQtiItem/scoring/processor/expressions/operators/gte',
@@ -63,7 +64,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, equalRounded, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, equalRounded, fieldValue, gcd, gt, gte, index, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, stringMatch, substring, subtract, sum, truncate ){
     'use strict';
 
     /**
@@ -97,6 +98,7 @@ define([
         "durationLT"        : durationLT,
         "equal"             : equal,
         "equalRounded"      : equalRounded,
+        "fieldValue"        : fieldValue,
         "gcd"               : gcd,
         "gt"                : gt,
         "gte"               : gte,
@@ -119,7 +121,7 @@ define([
         "patternMatch"      : patternMatch,
         "power"             : power,
         "product"           : product,
-        "random"    : random,
+        "random"            : random,
         "repeat"            : repeat,
         "round"             : round,
         "roundTo"           : roundTo,
