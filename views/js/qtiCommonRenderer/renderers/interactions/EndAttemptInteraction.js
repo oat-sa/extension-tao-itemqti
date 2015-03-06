@@ -1,10 +1,10 @@
 define([
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/endAttemptInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
-], function(_, tpl, Helper, pciResponse, __){
+], function(_, tpl, containerHelper, pciResponse, __){
 
     "use strict";
 
@@ -17,7 +17,7 @@ define([
      */
     var render = function(interaction, options){
 
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         //on click,
         $container.on('click.commonRenderer', function(){
@@ -57,7 +57,7 @@ define([
      * @returns {object}
      */
     var getResponse = function(interaction){
-        var val = Helper.getContainer(interaction).val();
+        var val = containerHelper.get(interaction).val();
         val = (val && val !== 'false' && val !== '0');
         return pciResponse.serialize([val], interaction);
     };
@@ -78,7 +78,7 @@ define([
      */
     var _setVal = function(interaction, val){
 
-        Helper.getContainer(interaction)
+        containerHelper.get(interaction)
             .val(val)
             .change();
 
@@ -92,7 +92,7 @@ define([
     var destroy = function(interaction){
 
         //remove event
-        Helper.getContainer(interaction).off('.commonRenderer');
+        containerHelper.get(interaction).off('.commonRenderer');
 
         //destroy response
         resetResponse(interaction);
@@ -117,7 +117,7 @@ define([
         template : tpl,
         getData : getCustomData,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
