@@ -120,7 +120,7 @@ define([
             delete(finalOptions.css);
 
             $element = $(element, finalOptions).css(css);
-
+            $icon.css({ fontSize: css['font-size'] });
             if($icon) {
                 $element.append($icon);
             }
