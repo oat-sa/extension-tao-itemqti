@@ -17,7 +17,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/helper/dummyElement',
-    'taoQtiItem/qtiCreator/helper/panel'
+    'taoQtiItem/qtiCreator/helper/panel',
+    'ui/mediasizer'
 ], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel){
 
     /**
@@ -104,24 +105,29 @@ define([
             $placeholder.appendTo($gapList);
         }
 
-        function setUpGapImg(gapImg, update){
+        /**
+         *
+         * @param gapImgBox the list element in which the picture is going to live
+         * @param update
+         */
+        function setUpGapImg(gapImgBox, update){
             var $dummy;
-            var $gapList        = $('ul.source', widget.$original);
-            var $placeholder    = $('.empty', $gapList);
-            var $gapImg         = $('[data-serial="' + gapImg.serial + '"]', $gapList);
+            var $gapList         = $('ul.source', widget.$original);
+            var $placeholder     = $('.empty', $gapList);
+            var $gapImgBox = $('[data-serial="' + gapImgBox.serial + '"]', $gapList);
 
-            if(!$gapImg.length){
-                $gapImg = $("<li></li>").insertBefore($placeholder);
-                $gapImg.data('serial', gapImg.serial)
-                       .attr('data-serial', gapImg.serial);
+            if(!$gapImgBox.length){
+                $gapImgBox = $("<li/>").insertBefore($placeholder);
+                $gapImgBox.data('serial', gapImgBox.serial)
+                       .attr('data-serial', gapImgBox.serial);
             }
 
-            if(gapImg.object && gapImg.object.attributes.data){
-                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.data);
+            if(gapImgBox.object && gapImgBox.object.attributes.data){
+                gapImgBox.object.attributes.data = encodeURIComponent(gapImgBox.object.attributes.data);
                 if(update === true){
                      
-                    $gapImg.replaceWith( gapImg.render() );
-                    $gapImg = $('[data-serial="' + gapImg.serial + '"]', $gapList);
+                    $gapImgBox.replaceWith( gapImgBox.render() );
+                    $gapImgBox = $('[data-serial="' + gapImgBox.serial + '"]', $gapList);
                 }
             } else {
                 $dummy = dummyElement.get({
@@ -132,36 +138,36 @@ define([
                             },
                             title : __('Select an image.')
                         });
-                $gapImg.addClass('placeholder qti-choice qti-gapImg')
+                $gapImgBox.addClass('placeholder qti-choice qti-gapImg')
                        .empty()
                        .append($dummy);
             }
 
             //prevent the creator to resize them
-            $gapImg.addClass('widget-box');
+            $gapImgBox.addClass('widget-box');
 
             //manage gap deletion
             $(mediaTlbTpl())
-              .appendTo($gapImg)
+              .appendTo($gapImgBox)
               .show()
               .click(function(e){
                     e.preventDefault();
                     e.stopPropagation();
-                    $gapImg.remove();
-                    interaction.removeGapImg(gapImg);
+                    $gapImgBox.remove();
+                    interaction.removeGapImg(gapImgBox);
             });
 
-            $gapImg.off('click').on('click', function(){
-                if($gapImg.hasClass('active')){
-                    $gapImg.removeClass('active');
+            $gapImgBox.off('click').on('click', function(){
+                if($gapImgBox.hasClass('active')){
+                    $gapImgBox.removeClass('active');
                     leaveChoiceForm();
                 } else {
                     $('.active', $gapList).removeClass('active');
-                    $gapImg.addClass('active');
-                    enterGapImgForm(gapImg.serial);
+                    $gapImgBox.addClass('active');
+                    enterGapImgForm(gapImgBox.serial);
     
                     //gap placeholders delegate to the upload button (opens the resource mgr)
-                    if($gapImg.hasClass('placeholder')){ 
+                    if($gapImgBox.hasClass('placeholder')){
                         var $upload  = $('[data-role="upload-trigger"]', $choiceForm);
                         if($upload.length){
                             $upload.trigger('click');
@@ -185,6 +191,19 @@ define([
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
+
+                console.log(choiceFormTpl({
+                    identifier  : choice.id(),
+                    fixed       : choice.attr('fixed'),
+                    serial      : serial,
+                    matchMin    : choice.attr('matchMin'),
+                    matchMax    : choice.attr('matchMax'),
+                    choicesCount: _.size(interaction.getChoices()),
+                    x           : parseInt(bbox.x, 10),
+                    y           : parseInt(bbox.y, 10),
+                    width       : parseInt(bbox.width, 10),
+                    height      : parseInt(bbox.height, 10)
+                }))
 
                 $choiceForm.empty().html(
                     choiceFormTpl({

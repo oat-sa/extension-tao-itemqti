@@ -2061,6 +2061,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     clear: both; }
   .item-editor-item .item-editor-sidebar #style-sheet-toggler .style-sheet-toggler.disabled:before, .item-editor-sidebar #style-sheet-toggler .item-editor-item .style-sheet-toggler.disabled:before {
     content: "\e643"; }
+  .item-editor-item .qti-graphicGapMatchInteraction ul.source > li img {
+    height: 100% !important; }
   .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.empty, .item-editor-item .qti-graphicGapMatchInteraction ul.source > li.placeholder {
     margin: 0 3px 3px 0 !important;
     width: 60px;
