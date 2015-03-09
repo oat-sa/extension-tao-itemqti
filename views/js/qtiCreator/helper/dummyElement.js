@@ -105,6 +105,8 @@ define([
                 ? (css.height * .8)
                 : 14;
 
+            css['line-height'] = css['font-size'].toString() + 'px';
+
             if(css['height'] > 30) {
                 css['padding-top'] = ((css['height'] - css['font-size']) / 2) * .9;
             }
@@ -120,7 +122,7 @@ define([
             delete(finalOptions.css);
 
             $element = $(element, finalOptions).css(css);
-            $icon.css({ fontSize: css['font-size'] });
+
             if($icon) {
                 $element.append($icon);
             }

@@ -958,6 +958,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   display: inline-block;
   line-height: 20px;
   cursor: default; }
+  .dummy-element [class^="icon-"], .dummy-element [class*=" icon-"] {
+    font-size: inherit;
+    line-height: inherit !important; }
 
 .widget-inline,
 .qti-hottext,
