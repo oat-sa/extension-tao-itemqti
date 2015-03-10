@@ -66,7 +66,6 @@ module.exports = function(grunt) {
         options: {
             baseUrl : '../js',
             mainConfigFile : './config/requirejs.build.js',
-            //optimize: "none",
             findNestedDependencies : true,
             uglify2: {
                 mangle : false,
@@ -80,9 +79,14 @@ module.exports = function(grunt) {
             },
             wrapShim: true,
             inlineCss : true,
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js', taoCss : root + '/tao/views/css'},
-            include: runtimeLibs.concat(['tpl', 'json']),
-            exclude : ['mathJax'],
+            paths : {
+                'taoQtiItem'    : root + '/taoQtiItem/views/js',
+                'taoQtiItemCss' : root + '/taoQtiItem/views/css',
+                'taoItems'      : root + '/taoItems/views/js',
+                'taoCss'        : root + '/tao/views/css'
+            },
+            excludeShallow : ['mathJax', 'mediaElement', 'ckeditor'],
+            include: runtimeLibs.concat([ 'tpl', 'json']),
             name: "taoQtiItem/runner/qtiItemRunner",
             out: out + "/qtiItemRunner.min.js"
         }

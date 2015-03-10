@@ -33,8 +33,7 @@
     </div>
 
     <div>
-        <label for="type">{{__ 'Mime type'}}</label>
-        <input name="type" value="{{type}}" type="text" />
+        <input type="hidden" name="type" value="{{type}}" type="text" />
     </div>
 
     <hr>
