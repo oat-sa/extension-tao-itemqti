@@ -372,7 +372,7 @@ define([
      * @return {string}             content of the ckEditor
      */
     var _ckEditorData = function(interaction) {
-        return _ckEditor.getData();
+        return _ckEditor(interaction).getData();
     };
 
     var _getFormat = function(interaction) {
