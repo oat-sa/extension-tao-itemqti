@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 
+
+
+
 .qti-hottextInteraction {
     .qti-hottext{
         input[disabled] ~ [class^="icon-"]{
@@ -31,5 +34,14 @@
         width: 30px;
         min-width: 30px;
         padding: 0 2px;
+    }
+
+    .hottext-content {
+        padding-right: 5px;
+    }
+
+    .hottext-checkmark {
+        margin-bottom: 0;
+        width: 20px;
     }
 }

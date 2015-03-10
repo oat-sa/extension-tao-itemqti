@@ -960,7 +960,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   cursor: default; }
   .dummy-element [class^="icon-"], .dummy-element [class*=" icon-"] {
     font-size: inherit;
-    line-height: inherit !important; }
+    line-height: inherit; }
 
 .widget-inline,
 .qti-hottext,
@@ -1895,6 +1895,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     width: 30px;
     min-width: 30px;
     padding: 0 2px; }
+  .item-editor-item .qti-hottextInteraction .hottext-content {
+    padding-right: 5px; }
+  .item-editor-item .qti-hottextInteraction .hottext-checkmark {
+    margin-bottom: 0;
+    width: 20px; }
   .item-editor-item #item-editor-interaction-bar .tool-list:before, #item-editor-interaction-bar .item-editor-item .tool-list:before, .item-editor-item #item-editor-interaction-bar .tool-list:after, #item-editor-interaction-bar .item-editor-item .tool-list:after {
     content: " ";
     display: table; }
