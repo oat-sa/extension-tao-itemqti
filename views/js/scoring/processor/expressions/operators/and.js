@@ -30,7 +30,7 @@ define([
 
     /**
      * Process operands and returns the AND.
-     * @type {OperatandProcessor}
+     * @type {OperatorProcessor}
      * @exports taoQtiItem/scoring/processor/expressions/operators/and
      */
     var andProcessor = {
