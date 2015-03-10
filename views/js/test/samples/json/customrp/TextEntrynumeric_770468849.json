@@ -135,7 +135,7 @@
                     "expression": {
                         "qtiClass": "customOperator",
                         "attributes": {
-                            "class": "taoQtiItem/scoring/processor/expressions/operators/equal",
+                            "class": "taoQtiItem/scoring/processor/expressions/operators/custom/equal",
                             "toleranceMode": "relative",
                             "tolerance": "5.0",
                             "includeLowerBound": "true",

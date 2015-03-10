@@ -26,8 +26,9 @@
 define([
     'lodash',
     'require',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function (_, require, errorHandler) {
+    'taoQtiItem/scoring/processor/errorHandler',
+    'taoQtiItem/scoring/processor/expressions/operators/constraintValidator'
+], function (_, require, errorHandler, constraintValidator) {
     'use strict';
 
     /**
@@ -55,22 +56,19 @@ define([
             var classs = this.expression.attributes['class'];
             var definition = this.expression.attributes.definition;//not used
 
-console.log( Date.now(), 'custom processor processing ongoing');
-
             if (!require.defined(classs)) {
                 return errorHandler.throw('scoring', new Error('Class must be specified for custom operator'));
             }
 
             var custom = require(classs);
-            custom.preProcessor = customOperatorProcessor.preProcessor;
-            custom.operands = customOperatorProcessor.operands;
-            custom.expression = [];
-            custom.expression.attributes = customOperatorProcessor.expression.attributes;
+            if (constraintValidator(custom, customOperatorProcessor.operands)) {
+                custom.preProcessor = customOperatorProcessor.preProcessor;
+                custom.operands = customOperatorProcessor.operands;
+                custom.expression = [];
+                custom.expression.attributes = customOperatorProcessor.expression.attributes;
 
-            var result = custom.process();
-console.log( Date.now(), 'result', result);
-            return result;
-
+                return custom.process();
+            }
         }
     };
 

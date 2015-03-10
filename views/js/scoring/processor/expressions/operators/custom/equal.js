@@ -19,6 +19,8 @@
 
 /**
  * The equal operator processor.
+ * This one was created just in purpose to test custom operator loading/execution
+ * @see taoQtiItem/scoring/processor/expressions/operators/customOperator
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10654
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -32,9 +34,9 @@ define([
     /**
      * Process operands and returns the equal.
      * @type {OperatorProcessor}
-     * @exports taoQtiItem/scoring/processor/expressions/operators/equal
+     * @exports taoQtiItem/scoring/processor/expressions/operators/custom/equal
      */
-    var equalProcessor = {
+    var equalCProcessor = {
 
         //equality algos based on different tolerance modes
         engines: {
@@ -49,7 +51,6 @@ define([
             relative: function (x, y, includeLowerBound, includeUpperBound, tolerance) {
                 var lower = includeLowerBound ? y >= x - (1 - tolerance[0] / 100) : y > x - (1 - tolerance[0] / 100),
                     upper = includeUpperBound ? y <= x + (1 - tolerance[1] / 100) : y < x + (1 - tolerance[1] / 100);
-
                 return lower && upper;
             }
         },
@@ -92,7 +93,7 @@ define([
             }
 
             tolerance = _(tolerance).map(function (t) {
-                return equalProcessor.preProcessor.parseValue(t, 'floatOrVariableRef');
+                return equalCProcessor.preProcessor.parseValue(t, 'floatOrVariableRef');
             }).value();
 
             // if only one tolerance bound is given it is used for both.
@@ -107,5 +108,5 @@ define([
         }
     };
 
-    return equalProcessor;
+    return equalCProcessor;
 });

@@ -190,29 +190,24 @@ define([
         var supportedRules = _.filter(rules, ruleEngineFactory.isRuleSupported);
         var classes        = [];
 
-        _.each(supportedRules, check);
-
-        function check(e) {
+        var getCustomOperatorsClasses = function getCustomOperatorsClasses(e) {
             if (_.isObject(e)) {
                 if (e.qtiClass === 'customOperator') {
-                    console.log('found', e.attributes.class);
                     if (e.attributes.class) {
                         classes.push(e.attributes.class);
                     } else {
                         return errorHandler.throw('scoring', new Error('Class must be specified for custom operator'));
                     }
                 } else {
-                    return _.each(e, check);
+                    return _.each(e, getCustomOperatorsClasses);
                 }
             }
-        }
+        };
+
+        _.each(supportedRules, getCustomOperatorsClasses);
 
         if (classes.length) {
-console.log(Date.now(), 'loading CO started', classes);
-            require(classes, function () {
-console.log(Date.now(), 'loading CO cb fired', classes, require.defined(classes[0]));
-                done();
-            });
+            require(classes, done);
         } else {
             done();
         }
@@ -253,19 +248,19 @@ console.log(Date.now(), 'loading CO cb fired', classes, require.defined(classes[
 
                 loadCustomOperators(itemData.responseProcessing.responseRules, function executeEngine() {
                     //create a ruleEngine for the given state
-console.log(Date.now(), 'execution rule engines started');
+
                     ruleEngine = ruleEngineFactory(state);
 
                     //run the engine...
                     ruleEngine.execute(itemData.responseProcessing.responseRules);
+                    done(stateToPci(state));
                 });
-
 
             } else {
                 errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+                done(stateToPci(state));
             }
 
-            done(stateToPci(state));
         }
     };
 
