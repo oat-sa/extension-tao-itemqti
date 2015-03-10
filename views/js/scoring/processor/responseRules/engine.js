@@ -49,6 +49,15 @@ define([
         return {
 
             /**
+             * Check if rule is supported by the engine
+             * @param {string} rule
+             * @returns {Boolean}
+             */
+            isRuleSupported: function isRuleSupported(rule) {
+                return _.contains(supportedRules, rule.qtiClass);
+            },
+
+            /**
              * Execute the engine on the given rule tree
              * @param {Array<Object>} rules - the rules to process
              * @return {Object} the modified state (it may not be necessary as the ref is modified)
@@ -82,7 +91,7 @@ define([
 
                             //if it returns response rules, then we add them to the trail
                             if(_.isArray(processResult)){
-                                trail = trail.concat(_.filter(processResult, isRuleSupported));
+                                trail = trail.concat(_.filter(processResult, ruleEngineFactory.isRuleSupported));
                             }
                         }
                     });
@@ -91,10 +100,6 @@ define([
             }
         };
     };
-
-    function isRuleSupported(rule){
-        return _.contains(supportedRules, rule.qtiClass);
-    }
 
     return ruleEngineFactory;
 });

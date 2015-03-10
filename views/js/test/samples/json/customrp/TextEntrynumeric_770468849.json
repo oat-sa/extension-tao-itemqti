@@ -133,8 +133,9 @@
                 "responseIf": {
                     "qtiClass": "responseIf",
                     "expression": {
-                        "qtiClass": "equal",
+                        "qtiClass": "customOperator",
                         "attributes": {
+                            "class": "taoQtiItem/scoring/processor/expressions/operators/equal",
                             "toleranceMode": "relative",
                             "tolerance": "5.0",
                             "includeLowerBound": "true",

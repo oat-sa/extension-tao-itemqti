@@ -25,9 +25,10 @@
  */
 define([
     'lodash',
+    'require',
     'taoQtiItem/scoring/processor/responseRules/engine',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, ruleEngineFactory, errorHandler){
+], function(_, require, ruleEngineFactory, errorHandler){
     'use strict';
 
     /**
@@ -181,6 +182,42 @@ define([
     };
 
     /**
+     * Looking for custom operation used in item and load appropriate definitions
+     * @param {Array} rules to be parsed
+     * @param {Function} done callback on finish
+     */
+    var loadCustomOperators = function loadCustomOperators(rules, done){
+        var supportedRules = _.filter(rules, ruleEngineFactory.isRuleSupported);
+        var classes        = [];
+
+        _.each(supportedRules, check);
+
+        function check(e) {
+            if (_.isObject(e)) {
+                if (e.qtiClass === 'customOperator') {
+                    console.log('found', e.attributes.class);
+                    if (e.attributes.class) {
+                        classes.push(e.attributes.class);
+                    } else {
+                        return errorHandler.throw('scoring', new Error('Class must be specified for custom operator'));
+                    }
+                } else {
+                    return _.each(e, check);
+                }
+            }
+        }
+
+        if (classes.length) {
+console.log(Date.now(), 'loading CO started', classes);
+            require(classes, function () {
+console.log(Date.now(), 'loading CO cb fired', classes, require.defined(classes[0]));
+                done();
+            });
+        } else {
+            done();
+        }
+    };
+    /**
      * The QTI scoring provider.
      *
      *
@@ -207,18 +244,23 @@ define([
                 self.trigger('error', err);
             });
 
-            //the state is built and formated using the same format as processing variables,
+            //the state is built and formatted using the same format as processing variables,
             //easier to manipulate in using lodash
             state = stateBuilder(responses, itemData);
 
             //let's start
             if(itemData.responseProcessing){
 
-                //create a ruleEngine for the given state
-                ruleEngine = ruleEngineFactory(state);
+                loadCustomOperators(itemData.responseProcessing.responseRules, function executeEngine() {
+                    //create a ruleEngine for the given state
+console.log(Date.now(), 'execution rule engines started');
+                    ruleEngine = ruleEngineFactory(state);
 
-                //run the engine...
-                ruleEngine.execute(itemData.responseProcessing.responseRules);
+                    //run the engine...
+                    ruleEngine.execute(itemData.responseProcessing.responseRules);
+                });
+
+
             } else {
                 errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
             }

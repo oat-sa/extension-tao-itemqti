@@ -99,6 +99,7 @@ define([
             if (tolerance.length === 1) {
                 tolerance.push(tolerance[0]);
             }
+    console.log(Date.now(), 'equal processing',this.preProcessor.parseVariable(this.operands[0]).value ,this.preProcessor.parseVariable(this.operands[1]).value);
 
             result.value = engine(this.preProcessor.parseVariable(this.operands[0]).value,
                 this.preProcessor.parseVariable(this.operands[1]).value, includeLowerBound, includeUpperBound, tolerance);
