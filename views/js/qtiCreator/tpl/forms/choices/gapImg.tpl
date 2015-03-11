@@ -22,6 +22,10 @@
         <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
     </div>
 
+    <div class="panel media-sizer-panel">
+        <!-- media sizer goes here -->
+    </div>
+
     <div>
         <label for="width">{{__ 'Width'}}</label>
         <input name="width" value="{{width}}" type="text" />

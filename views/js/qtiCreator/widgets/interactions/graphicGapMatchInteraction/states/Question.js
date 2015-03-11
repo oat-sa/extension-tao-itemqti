@@ -12,14 +12,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/imageSelector',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
+
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
+
     'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/helper/panel',
     'ui/mediasizer'
 ], function($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel){
+
+    "use strict";
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -186,24 +190,12 @@ define([
             var choice = interaction.getChoice(serial);
             var element, bbox;
 
+
             if(choice){
                 
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
-
-                console.log(choiceFormTpl({
-                    identifier  : choice.id(),
-                    fixed       : choice.attr('fixed'),
-                    serial      : serial,
-                    matchMin    : choice.attr('matchMin'),
-                    matchMax    : choice.attr('matchMax'),
-                    choicesCount: _.size(interaction.getChoices()),
-                    x           : parseInt(bbox.x, 10),
-                    y           : parseInt(bbox.y, 10),
-                    width       : parseInt(bbox.width, 10),
-                    height      : parseInt(bbox.height, 10)
-                }))
 
                 $choiceForm.empty().html(
                     choiceFormTpl({
@@ -262,32 +254,51 @@ define([
             
             var callbacks,
                 gapImgSelectorOptions,
-                gapImg = interaction.getGapImg(serial);
-            
+                gapImg = interaction.getGapImg(serial),
+                $gapImgBox,
+                $gapImgElem,
+                $mediaSizerBox;
+
             if(gapImg){
-                
-                $choiceForm.empty().html(
-                    gapImgFormTpl({
-                        identifier      : gapImg.id(),
-                        fixed           : gapImg.attr('fixed'),
-                        serial          :  serial,
-                        matchMin        : gapImg.attr('matchMin'),
-                        matchMax        : gapImg.attr('matchMax'),
-                        choicesCount    : _.size(interaction.getChoices()),
-                        baseUrl         : options.baseUrl,
-                        data            : gapImg.object.attr('data'),
-                        width           : gapImg.object.attr('width'),
-                        height          : gapImg.object.attr('height'),
-                        type            : gapImg.object.attr('type')
-                    })
-                );
+
+                $choiceForm.empty().html(gapImgFormTpl({
+                    identifier      : gapImg.id(),
+                    fixed           : gapImg.attr('fixed'),
+                    serial          :  serial,
+                    matchMin        : gapImg.attr('matchMin'),
+                    matchMax        : gapImg.attr('matchMax'),
+                    choicesCount    : _.size(interaction.getChoices()),
+                    baseUrl         : options.baseUrl,
+                    data            : gapImg.object.attr('data'),
+                    width           : gapImg.object.attr('width'),
+                    height          : gapImg.object.attr('height'),
+                    type            : gapImg.object.attr('type')
+                }));
+
+                // <li/> that will contain the image
+                $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
+
+                $gapImgElem = $gapImgBox.find('img');
+
+                //init media sizer
+                if($gapImgElem.length) {
+                    $choiceForm.find('.media-sizer-panel').empty().mediasizer({
+                        target: $gapImgElem,
+                        hideResponsiveToggle: true,
+                        responsive: !false
+                    });
+                }
+
                 
                 gapImgSelectorOptions = _.clone(options);
-                gapImgSelectorOptions.title = __('Please select the picture from the resource manager. You can add new files from your computer with the button "Add file(s)".');
+                gapImgSelectorOptions.title = __('Please select the picture from the resource manager. \
+                    You can add new files from your computer with the button "Add file(s)".');
                 imageSelector($choiceForm, gapImgSelectorOptions);
+
 
                 formElement.initWidget($choiceForm);
 
+                // bind callbacks to ms
                 //init data validation and binding
                 callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
@@ -295,6 +306,14 @@ define([
                 callbacks.data = function(element, value){
                     gapImg.object.attr('data', value);
                     setUpGapImg(gapImg, true);
+
+                    console.log(gapImg, $gapImgBox)
+
+                    $choiceForm.find('.media-sizer-panel').empty().mediasizer({
+                        target: $gapImgBox.find('img'),
+                        hideResponsiveToggle: true,
+                        responsive: !false
+                    });
                 };
                 callbacks.width = function(element, value){
                     gapImg.object.attr('width', value);
@@ -366,6 +385,8 @@ define([
         var $form = widget.$form;
         var $container = widget.$original;
         var isResponsive = $container.hasClass('responsive');
+
+
         
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
@@ -378,27 +399,36 @@ define([
         imageSelector($form, options); 
 
         formElement.initWidget($form);
-        
+        // this loads the main picture
+
+
         //Toggle the image resizing panel depending on the widget container is responsive or not.
         $form.find('.panel-interaction-size').toggle(!isResponsive);
         
         //init data change callbacks
         var callbacks  =  {};        
-        callbacks.data = function(inteaction, value){
+        callbacks.data = function(interaction, value){
             interaction.object.attr('data', value);
             widget.rebuild({
                 ready:function(widget){
                     widget.changeState('question');
+                    /* background
+                    get bg image container from interaction.object.serial
+                     widget.choiceForm.find('.media-sizer-panel').empty().mediasizer({
+                     target: $gapImgElem,
+                     hideResponsiveToggle: true,
+                     responsive: !false
+                     });*/
                 }
             });
         };
-        callbacks.width = function(inteaction, value){
+        callbacks.width = function(interaction, value){
             interaction.object.attr('width', value);
         };
-        callbacks.height = function(inteaction, value){
+        callbacks.height = function(interaction, value){
             interaction.object.attr('height', value);
         };
-        callbacks.type = function(inteaction, value){
+        callbacks.type = function(interaction, value){
             if(!value || value === ''){
                 interaction.object.removeAttr('type');
             } else {
