@@ -71,7 +71,9 @@ define([
 
             //associate it to the interaction?
             if(options.related){
-                options.related.data('container-editor', container);
+                var containerEditors = options.related.data('container-editors') || [];
+                containerEditors.push(container);
+                options.related.data('container-editors', containerEditors);
             }
 
             this.loadContainer(container, data);

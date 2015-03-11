@@ -686,6 +686,10 @@ img.dragging.ui-draggable-dragging {
     display: inline-block;
     line-height: 20px;
     cursor: default;
+    [class^="icon-"], [class*=" icon-"] {
+        font-size: inherit;
+        line-height: inherit;
+    }
 }
 
 .widget-inline,

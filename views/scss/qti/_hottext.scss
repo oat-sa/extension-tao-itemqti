@@ -1,13 +1,23 @@
 @import "inc/bootstrap";
 
+.runtime:not(.widget-box) {
+    .qti-hottextInteraction {
+        .qti-hottext {
+            padding: 1px;
+            border-width: 1px !important;
+        }
+    }
+}
+
 .qti-hottextInteraction {
     
     //@todo : change it to qti-hottext
-    .hottext {        
+    .qti-hottext {
         background: $uiClickableDefaultBg;
-        padding-right: 5px;
+        margin-right: 5px;
         @include border-radius();
         position: relative;
+        border-width: 0px !important;
         
         &:hover {
             @extend %selectableHover;
@@ -38,8 +48,13 @@
         //todo : should be moved to creator's part
         .mini-tlb[data-edit] {
             top: -2px;
-            &.icon-undo {
-                padding-right:8px;
+            .tlb-button {
+                padding-top: 0;
+            }
+            .icon-undo {
+                padding-right:1px;
+                position: relative;
+                top: 2px;
             }
             label {
                 padding: 0 3px;

@@ -3,10 +3,6 @@
     data-sub-group="{{subGroup}}"
 {{/if}}
     data-qti-class="{{qtiClass}}"
-    
-{{#if dev}}
-    class="dev"
-{{/if}}
 
 {{#if disabled}}
     class="disabled"
