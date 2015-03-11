@@ -137,7 +137,7 @@ define([
 
 
                 if (_getFormat(interaction) === "xhtml") {
-                    $container.data('editor').on('change',function(){counter();});
+                    $container.data('editor').on('change',_.throttle(function(){counter();},100));
                 }else{
                     $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
                 }
