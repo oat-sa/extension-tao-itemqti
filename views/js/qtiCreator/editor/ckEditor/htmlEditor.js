@@ -15,9 +15,19 @@ define([
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
-        passthroughInnerContent : false
+        passthroughInnerContent : false,
+        hideTriggerOnBlur : false
     };
-
+    
+    function getTrigger($editableContainer){
+        var $toolbar = $editableContainer.data('editor-toolbar');
+        if($toolbar && $toolbar.length){
+            return $toolbar.find('[data-role="cke-launcher"]');
+        }else{
+            return $editableContainer.find('[data-role="cke-launcher"]');
+        }
+    }
+    
     var _buildEditor = function($editable, $editableContainer, options){
 
         var $trigger,
@@ -32,7 +42,7 @@ define([
             throw 'invalid jquery element for $editableContainer';
         }
 
-        $trigger = $editableContainer.find('[data-role="cke-launcher"]');
+        $trigger = getTrigger($editableContainer);
         $editable.attr('placeholder', options.placeholder);
 
         // build parameter for toolbar
@@ -66,7 +76,7 @@ define([
                 initialHide : true,
                 centerElement : function(){
                     //cke initialize the config too early.. so need to provide a callback to initialize it...
-                    return $editableContainer.find('[data-role="cke-launcher"]')[0];
+                    return getTrigger($editableContainer)[0];
                 },
                 on : {
                     ready : function(floatSpaceApi){
@@ -154,7 +164,7 @@ define([
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
 
-                    }
+                    };
 
                     /*
                      dirty trick: shows and hides combo boxes (styles for instance)
@@ -165,10 +175,8 @@ define([
                         btn.click();
                         setTimeout(function(){
                             btn.click();
-                        }, 500)
-
+                        }, 500);
                     });
-
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -209,7 +217,6 @@ define([
                 focus : function(e){
 
                     //show trigger
-                    $editableContainer.find('[data-role="cke-launcher"]').hide();
                     $trigger.show();
 
                     //callback:
@@ -222,7 +229,9 @@ define([
 
                 },
                 blur : function(e){
-
+                    if(options.hideTriggerOnBlur){
+                        $trigger.hide();
+                    }
                     $('.qti-item').trigger('toolbarchange');
 
                 },
@@ -472,9 +481,10 @@ define([
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
+                    $editable = $editableContainer.find('[data-html-editable]'),
+                    $trigger = getTrigger($editableContainer);
 
-                $editableContainer.find('[data-role="cke-launcher"]')
+                $trigger
                     .off()
                     .removeClass('active')
                     .hide();
