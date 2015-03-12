@@ -1,6 +1,14 @@
 @import "inc/bootstrap";
 
-.qti-graphicInteraction { 
+.qti-graphicInteraction {
+
+    .add-option {
+        & > div {
+            [class^="icon-"] {
+                line-height: .9;
+            }
+        }
+    }
     
     .dummy-element{
         cursor: pointer;
