@@ -1,10 +1,9 @@
 define([
     'jquery',
-    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'lodash',
-    'i18n'
-], function($, CommonRenderer, helper, _, __){
+    'i18n',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+], function($, _, __, CommonRenderer){
 
     var ResponseWidget = {
         create : function(widget, callback){

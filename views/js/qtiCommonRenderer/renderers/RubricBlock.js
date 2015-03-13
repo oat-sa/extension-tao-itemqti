@@ -1,7 +1,7 @@
-define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/rubricBlock', 'taoQtiItem/qtiCommonRenderer/helpers/Helper'], function(tpl, Helper){
+define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/rubricBlock', 'taoQtiItem/qtiCommonRenderer/helpers/container'], function(tpl, containerHelper){
     return {
         qtiClass : 'rubricBlock',
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         template : tpl
     };
 });

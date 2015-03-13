@@ -8,11 +8,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, GraphicAssociateInteraction, helper, graphicHelper, PciResponse, scoringFormFactory){
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
 
     /**
      * Initialize the state.
@@ -25,18 +25,19 @@ define([
         var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
 
         //really need to destroy before ? 
-        GraphicAssociateInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
         
         if(!interaction.paper){
             return;
         }
 
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Create assocations and fill the score in the form below'));
+        instructionMgr.appendInstruction(interaction, __('Create assocations and fill the score in the form below'));
         interaction.responseMappingMode = true;
 
         //use the common Renderer
-        GraphicAssociateInteraction.render.call(interaction.getRenderer(), interaction);    
+        commonRenderer.render.call(interaction.getRenderer(), interaction);    
 
 		//display the choices ids
         showChoicesId(interaction);
@@ -92,8 +93,9 @@ define([
         }
 
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        GraphicAssociateInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
+        instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();
@@ -125,7 +127,7 @@ define([
 
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
-            GraphicAssociateInteraction.setResponse(
+            commonRenderer.setResponse(
                 interaction, 
                 PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );

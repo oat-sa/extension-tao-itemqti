@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -10,26 +29,27 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, Helper){
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
 
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      */
     var render = function render(interaction){
-        
-        var $container = Helper.getContainer(interaction);
+
+        var $container = containerHelper.get(interaction);
         var background = interaction.object.attributes;
         var baseUrl = this.getOption('baseUrl') || '';
         var $imageBox  = $('.main-image-box', $container);
         interaction._vsets = [];
- 
+
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width, 
+            width       : background.width,
             height      : background.height,
             img         : baseUrl + background.data,
             imgId       : 'bg-image-' + interaction.serial,
@@ -43,7 +63,7 @@ define([
         _paperUnSelect(interaction);
 
         //set up the constraints instructions
-        Helper.minMaxChoiceInstructions(interaction, {
+        instructionMgr.minMaxChoiceInstructions(interaction, {
             min: interaction.attr('minAssociations'),
             max: interaction.attr('maxAssociations'),
             getResponse : _getRawResponse,
@@ -52,12 +72,12 @@ define([
                     graphic.highlightError(data.target);
                 }
             }
-        }); 
+        });
     };
 
 
     /**
-     * Render a choice inside the paper. 
+     * Render a choice inside the paper.
      * Please note that the choice renderer isn't implemented separately because it relies on the Raphael paper instead of the DOM.
      * @param {Paper} paper - the raphael paper to add the choices to
      * @param {Object} interaction
@@ -72,8 +92,8 @@ define([
             id : choice.serial,
             title : __('Select this area to start an association')
         })
-        .data('max', choice.attr('matchMax')) 
-        .data('matching', 0) 
+        .data('max', choice.attr('matchMax'))
+        .data('matching', 0)
         .removeData('assocs')
         .click(function(){
             var self = this;
@@ -82,9 +102,9 @@ define([
             //can't create more associations than the maxAssociations attr
             if(maxAssociations > 0 && _getRawResponse(interaction).length >= maxAssociations){
                 _shapesUnSelectable(interaction);
-                Helper.validateInstructions(interaction, { choice : choice, target : this });
+                instructionMgr.validateInstructions(interaction, { choice : choice, target : this });
                 return;
-            } 
+            }
 
             if(this.selectable) {
                 active = _getActiveElement(interaction);
@@ -109,12 +129,12 @@ define([
                         //detach the response from the active
                         active.data('assocs', _.remove(active.data('assocs') || [], choice.id()));
 
-                        Helper.triggerResponseChangeEvent(interaction);
-                        Helper.validateInstructions(interaction, { choice : choice, target : self });
+                        containerHelper.triggerResponseChangeEvent(interaction);
+                        instructionMgr.validateInstructions(interaction, { choice : choice, target : self });
                     });
                 }
                 _shapesUnSelectable(interaction);
- 
+
             } else if(this.active) {
                 graphic.updateElementState(this, 'basic', __('Select another area to complete the association'));
                 this.active = false;
@@ -124,9 +144,9 @@ define([
                 this.active = true;
                 _shapesSelectable(interaction, this);
             }
-           
-            Helper.triggerResponseChangeEvent(interaction);
-            Helper.validateInstructions(interaction, { choice : choice, target : this });
+
+            containerHelper.triggerResponseChangeEvent(interaction);
+            instructionMgr.validateInstructions(interaction, { choice : choice, target : this });
         });
     };
 
@@ -136,7 +156,7 @@ define([
      * @param {Object} interaction
      */
     var _paperUnSelect = function _paperUnSelect(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var image = interaction.paper.getById('bg-image-' + interaction.serial);
         if(image){
             image.click(function(){
@@ -165,7 +185,7 @@ define([
     };
 
     /**
-     * Create a path from a src element to a destination. 
+     * Create a path from a src element to a destination.
      * The path is selectable and can be removed by itself
      * @private
      * @param {Object} interaction
@@ -174,11 +194,11 @@ define([
      * @param {Function} onRemove - called back on path remove
      */
     var _createPath = function _createPath(interaction, srcElement, destElement, onRemove){
-        var $container = Helper.getContainer(interaction);   
- 
+        var $container = containerHelper.get(interaction);
+
         //virtual set, not a raphael one, just to group the elements
         var vset = [];
-        
+
         //get the middle point of the source shape
         var src = srcElement.getBBox();
         var sx = src.x + (src.width / 2);
@@ -189,29 +209,29 @@ define([
         var dx = dest.x + (dest.width / 2);
         var dy = dest.y + (dest.height / 2);
 
-        //create a path with bullets at the beginning and the end 
+        //create a path with bullets at the beginning and the end
         var srcBullet = interaction.paper.circle(sx, sy, 3)
             .attr(graphic._style['assoc-bullet']);
 
         var destBullet = interaction.paper.circle(dx, dy, 3)
             .attr(graphic._style['assoc-bullet']);
-        
+
         var path = interaction.paper.path('M' + sx + ',' + sy + 'L' + sx + ',' + sy)
             .attr(graphic._style.assoc)
             .animate({path : 'M' + sx + ',' + sy + 'L' + dx + ',' + dy}, 300);
-        
+
         //create an overall layer that make easier the path selection
         var layer = interaction.paper.path('M' + sx + ',' + sy + 'L' + dx + ',' + dy)
             .attr(graphic._style['assoc-layer']);
 
         //get the middle of the path
         var midPath = layer.getPointAtLength(layer.getTotalLength() / 2);
-        
+
         //create an hidden background for the closer
         var closerBg = interaction.paper.circle(midPath.x, midPath.y, 9)
             .attr(graphic._style['close-bg'])
             .toBack();
- 
+
         //create an hidden closer
         var closer = interaction.paper.path(graphic._style.close.path)
             .attr(graphic._style.close)
@@ -219,7 +239,7 @@ define([
             .attr('title', _('Click again to remove'))
             .toBack();
 
-        //the path is below the shapes        
+        //the path is below the shapes
         srcElement.toFront();
         destElement.toFront();
 
@@ -230,7 +250,7 @@ define([
         //to identify the element of the set outside the context
         _.invoke(vset, 'data', 'assoc-path', true);
 
-        //enable to select the path by clicking the invisible layer 
+        //enable to select the path by clicking the invisible layer
         layer.click(function selectLigne (){
             if(closer.attrs.opacity === 0){
                 showCloser();
@@ -248,27 +268,27 @@ define([
                 .toFront()
                 .animate({opacity: 0.8}, 300)
                 .click(removeSet);
-            closer 
+            closer
                 .toFront()
                 .animate({opacity: 1}, 300)
                 .click(removeSet);
         }
 
         function hideCloser(){
-           if(closerBg && closerBg.type){ 
+           if(closerBg && closerBg.type){
                 closerBg
                     .animate({opacity: 0}, 300, function(){
                         closerBg.toBack();
                     })
                     .unclick();
-                closer 
+                closer
                     .animate({opacity: 0}, 300, function(){
                         closer.toBack();
                     })
                     .unclick();
             }
         }
-    
+
         //remove set handler
         function removeSet(){
             _.invoke(vset, 'remove');
@@ -276,9 +296,9 @@ define([
             if(typeof onRemove === 'function'){
                 onRemove();
             }
-        } 
+        }
     };
-    
+
     /**
      * Makes the shapes selectable
      * @private
@@ -286,9 +306,9 @@ define([
      * @param {Raphael.Element} active - the active shape
      */
     var _shapesSelectable = function _shapesSelectable(interaction, active){
-    
-        var assocs = active.data('assocs') || [];       
- 
+
+        var assocs = active.data('assocs') || [];
+
         //update the shape state
         _.forEach(interaction.getChoices(), function(choice){
             var element;
@@ -340,12 +360,12 @@ define([
      * @private
      * @param {Object} interaction
      * @returns {Array} the response in raw format
-     */ 
+     */
     var _getRawResponse = function _getRawResponse(interaction){
-        var responses = []; 
+        var responses = [];
         _.forEach(interaction.getChoices(), function(choice){
             var element = interaction.paper.getById(choice.serial);
-            var assocs = element.data('assocs'); 
+            var assocs = element.data('assocs');
             if(element && assocs){
                responses = responses.concat(_.map(assocs, function(id){
                     return [choice.id(), id];
@@ -354,30 +374,30 @@ define([
         });
         return responses;
     };
- 
+
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var setResponse = function(interaction, response){
-        
+
         var responseValues;
         if(response && interaction.paper){
 
             try{
                 responseValues = pciResponse.unserialize(response, interaction);
             } catch(e){}
-            
+
             if(_.isArray(responseValues)){
                 //create an object with choiceId => shapeElement
                 var map =  _.transform(interaction.getChoices(), function(res, choice){
@@ -389,31 +409,31 @@ define([
                         el1 = map[responseValue[0]];
                         el2 = map[responseValue[1]];
                         if(el1 && el2){
-                           graphic.trigger(el1, 'click'); 
-                           graphic.trigger(el2, 'click'); 
+                           graphic.trigger(el1, 'click');
+                           graphic.trigger(el2, 'click');
                         }
                     }
-               }); 
+               });
             }
         }
     };
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction){
-        var toRemove = [];        
+        var toRemove = [];
 
         //reset response and state bound to shapes
         _.forEach(interaction.getChoices(), function(choice){
@@ -421,12 +441,12 @@ define([
             if(element){
                 element.data({
                     'max' : choice.attr('matchMax'),
-                    'matching' : 0, 
+                    'matching' : 0,
                     'assocs' : []
                 });
             }
         });
-        
+
         //remove the paths, but outside the forEach as it is implemented as a linked list
         interaction.paper.forEach(function(elt){
             if(elt.data('assoc-path')){
@@ -439,13 +459,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -462,22 +482,57 @@ define([
     var destroy = function destroy(interaction){
         var $container;
         if(interaction.paper){
-            $container = Helper.getContainer(interaction);
-        
+            $container = containerHelper.get(interaction);
+
             $(window).off('resize.qti-widget.' + interaction.serial);
             $container.off('resize.qti-widget.' + interaction.serial);
 
             interaction.paper.clear();
-            Helper.removeInstructions(interaction);
-            
+            instructionMgr.removeInstructions(interaction);
+
             $container.off('.graphicassociate');
 
-            $('.main-image-box', $container).empty().removeAttr('style');            
-            $('.image-editor', $container).removeAttr('style'); 
+            $('.main-image-box', $container).empty().removeAttr('style');
+            $('.image-editor', $container).removeAttr('style');
             $('ul', $container).empty();
         }
+
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
-  
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
+    };
+
     /**
      * Expose the common renderer for the hotspot interaction
      * @exports qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction
@@ -486,10 +541,12 @@ define([
         qtiClass : 'graphicAssociateInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy
+        destroy : destroy,
+        setState : setState,
+        getState : getState
     };
 });
