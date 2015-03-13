@@ -28,7 +28,16 @@ define([
         }
     }
     
-    var _buildEditor = function($editable, $editableContainer, options){
+    /**
+    * @param {JQuery} $editable - the element to be transformed into an editor
+    * @param {JQuery} $editableContainer - the container of the editor
+    * @param {Object} [options] 
+    * @param {String} [options.placeholder] - the place holder text
+    * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
+    * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
+    * @param {Boolean} [options.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+    */
+    function _buildEditor($editable, $editableContainer, options){
 
         var $trigger,
             toolbarType;
@@ -331,19 +340,25 @@ define([
         }
     };
 
+    /**
+    * @param {JQuery} $widget - the widget to be protected
+    * @returns {JQuery} The added layer (shield)
+    */
+    function addShield($widget){
+        var $shield = $('<button>', {
+                'class' : 'html-editable-shield'
+            });
+
+        $widget.attr('contenteditable', false);
+        $widget.append($shield);
+        return $shield;
+    }
+
     var _shieldInnerContent = function($container, containerWidget){
 
         $container.find('.widget-box').each(function(){
 
-            var $widget = $(this),
-                innerWidget = $widget.data('widget'),
-                $shield = $('<button>', {
-                    'class' : 'html-editable-shield'
-                });
-
-            $widget.attr('contenteditable', false);
-            $widget.append($shield);
-            $shield.on('click', function(e){
+            addShield($(this)).on('click', function(e){
 
                 //click on shield: 
                 //1. this.widget.changeState('sleep');
@@ -362,14 +377,8 @@ define([
     var _passthroughInnerContent = function($container){
 
         $container.find('.widget-box').each(function(){
-
-            var $widget = $(this),
-                $shield = $('<button>', {
-                    'class' : 'html-editable-shield'
-                });
-
-            $widget.attr('contenteditable', false);
-            $widget.append($shield);
+            //just add the shield for visual consistency
+            addShield($(this));
         });
 
     };
