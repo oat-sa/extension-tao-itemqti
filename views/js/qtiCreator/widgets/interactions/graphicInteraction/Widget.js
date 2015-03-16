@@ -32,7 +32,7 @@ define([
                 paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
                     width       : background.width, 
                     height      : background.height,
-                    img         : this.baseUrl + encodeURIComponent(background.data),
+                    img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + serial,
                     container   : $container,
                     resize      : resize
