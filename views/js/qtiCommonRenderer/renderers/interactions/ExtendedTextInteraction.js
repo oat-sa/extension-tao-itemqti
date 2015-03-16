@@ -121,15 +121,11 @@ define([
                     if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
                         value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val();
                         value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
-                        if(attributes.format === "xhtml"){
-                            editor.setData(value);
-                            var range = editor.createRange();
-                            range.moveToPosition( range.root, CKEDITOR.POSITION_BEFORE_END );
-                            editor.getSelection().selectRanges( [ range ] );
-                        }else{
-                            $textarea.val(value);
-                        }
+                        // Update the value
+                        setText(interaction,value);
+
                     }else{
+                        // Updte the counters
                         $charsCounter.text(charCount);
                         $wordsCounter.text(wordCount);
                     }
@@ -137,9 +133,9 @@ define([
 
 
                 if (_getFormat(interaction) === "xhtml") {
-                    $container.data('editor').on('change',_.throttle(function(){counter();},100));
+                    $container.data('editor').on('change',_.throttle(counter,100));
                 }else{
-                    $textarea.on('change keydown keypressed keyup blur focus',function(){counter();});
+                    $textarea.on('change keydown keypressed keyup blur focus',counter);
                 }
 
             }
@@ -465,7 +461,14 @@ define([
         var $container = Helper.getContainer(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
-            _ckEditor(interaction).setData(text);
+            var editor = _ckEditor(interaction);
+            editor.setData(text,{
+                callback : function(){
+                    var range = editor.createRange();
+                    range.moveToElementEditEnd( range.root );
+                    editor.getSelection().selectRanges( [ range ] );
+                }
+            });
         }
         else {
             $container.find('textarea').val(text);
