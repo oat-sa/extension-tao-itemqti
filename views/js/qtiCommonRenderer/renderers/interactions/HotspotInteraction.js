@@ -49,7 +49,7 @@ define([
         interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
             width     : background.width,
             height    : background.height,
-            img       : baseUrl + background.data,
+            img       : baseUrl + encodeURIComponent(background.data),
             container : $container
         });
 

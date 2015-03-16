@@ -556,7 +556,7 @@ define([
                     return absUrl;
                 }else{
                     var baseUrl = this.getOption('baseUrl') || getDocumentBaseUrl();
-                    return baseUrl + relUrl;
+                    return baseUrl + encodeURIComponent(relUrl);
                 }
 
             }
