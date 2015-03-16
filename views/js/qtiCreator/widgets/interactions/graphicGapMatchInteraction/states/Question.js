@@ -117,7 +117,6 @@ define([
             }
 
             if(gapImg.object && gapImg.object.attributes.data){
-                gapImg.object.attributes.data = encodeURIComponent(gapImg.object.attributes.data);
                 if(update === true){
                      
                     $gapImg.replaceWith( gapImg.render() );
