@@ -8,7 +8,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
@@ -17,7 +17,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/deleter',
     'ui/tooltipster'
-], function($, _, __, stateFactory, Map, HotspotInteraction, helper, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
 
     /**
      * Initialize the state.
@@ -28,14 +28,15 @@ define([
         var response = interaction.getResponseDeclaration();
 
         //really need to destroy before ? 
-        HotspotInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         
         if(!interaction.paper){
             return;
         }
 
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please the score of each hotspot choice.'));
+        instructionMgr.appendInstruction(interaction, __('Please the score of each hotspot choice.'));
         interaction.responseMappingMode = true;
 
         //here we do not use the common renderer but the creator's widget to get only a basic paper with the choices
@@ -45,7 +46,7 @@ define([
         initResponseMapping(widget);           
 
         //set the current corrects responses on the paper
-        HotspotInteraction.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
+        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
     }
 
     /**
@@ -60,8 +61,9 @@ define([
         }
 
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        HotspotInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();

@@ -2,10 +2,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'lodash',
     'i18n'
-], function(stateFactory, Correct, commonRenderer, helper, _, __){
+], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
 
     var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
         
@@ -23,7 +23,7 @@ define([
             response = interaction.getResponseDeclaration(),
             correctResponse = _.values(response.getCorrect());
 
-        helper.appendInstruction(widget.element, __('Please define the correct order in the box to the right.'));
+        instructionMgr.appendInstruction(widget.element, __('Please define the correct order in the box to the right.'));
 
         commonRenderer.render(widget.element);
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
@@ -36,6 +36,9 @@ define([
     var _destroyResponseWidget = function(widget){
         
         widget.$container.off('responseChange.qti-widget');
+
+        commonRenderer.resetResponse(widget.element);
+
         commonRenderer.destroy(widget.element);
     };
     

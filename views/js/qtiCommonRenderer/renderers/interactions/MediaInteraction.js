@@ -1,6 +1,25 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
 /**
  * @author Martin for OAT S.A. <code@taotesting.com>
- * @author Bertrand Chevrier <bertrand@taotesting.com> 
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
@@ -8,12 +27,14 @@ define([
     'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/mediaInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'mediaElement'
-], function($, _, __, tpl, pciResponse, Helper, MediaElementPlayer) {
+], function($, _, __, tpl, pciResponse, containerHelper, instructionMgr, MediaElementPlayer) {
+    'use strict';
 
     /**
-     * Get the media type (audio, video or video/youtube) regarding it's mime type. 
+     * Get the media type (audio, video or video/youtube) regarding it's mime type.
      * @param {String} mimetype - the mime type
      * @returns {String} the catrgory/type
      */
@@ -33,7 +54,7 @@ define([
 
     //some default values
     var defaults = {
-        type   : 'video/mp4', 
+        type   : 'video/mp4',
         video : {
             width: 480,
             height: 270
@@ -48,16 +69,16 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10391
-     * 
+     *
      * @param {object} interaction
      * @fires playerready when the player is sucessfully loaded and configured
      */
     var render = function render(interaction) {
 
-        var mediaInteractionObjectToReturn, 
+        var mediaInteractionObjectToReturn,
             $meTag,
             mediaOptions;
-        var $container          = Helper.getContainer(interaction);
+        var $container          = containerHelper.get(interaction);
         var media               = interaction.object;
         var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
@@ -79,7 +100,7 @@ define([
         //check if the media can be played (using timesPlayed and maxPlays)
         var canBePlayed = function canBePlayed(){
             var current = parseInt($container.data('timesPlayed'), 10);
-            return maxPlays === 0 || maxPlays > current; 
+            return maxPlays === 0 || maxPlays > current;
         };
 
         if(_.size(media.attributes) === 0){
@@ -112,17 +133,17 @@ define([
 
             //the player is loaded
             success: function(mediaElement, playerDom) {
-                
+
                 var stillNeedToCallPlay = true;
                 var $meContainer    = $(playerDom).closest('.mejs-container');
                 var $layers         = $('.mejs-layers', $meContainer);
                 var $playpauseBtn   = $('.mejs-playpause-button', $meContainer);
                 var $bigPlayBtn     = $('.mejs-overlay-play', $meContainer);
-                var $controls       = $('.mejs-controls', $meContainer); 
+                var $controls       = $('.mejs-controls', $meContainer);
                 var controlsHeight  = $controls.outerHeight();
 
                 interaction.mediaElement = mediaElement;
-    
+
                 //resize the iframe of the youtube plugin
                 if (mediaType === 'video/youtube') {
                     _.defer(function(){
@@ -134,7 +155,7 @@ define([
                 if (!$container.data('timesPlayed')) {
                     $container.data('timesPlayed', 0);
                 }
-                
+
                 //controls the autoplaying
                 if (interaction.attr('autostart') && canBePlayed()) {
 
@@ -150,7 +171,7 @@ define([
                     }, false);
                 }
 
-                
+
                 mediaElement.addEventListener('play', function(event) {
                     stillNeedToCallPlay = false;
 
@@ -163,7 +184,7 @@ define([
                         if(!enablePause){
                             $bigPlayBtn.detach();
                             $playpauseBtn.detach();
- 
+
                             if(mediaType === 'video/youtube' || mediaElement.pluginType === 'flash') {
                                 $('<div class="overlay"></div>')
                                     .width(mediaOptions.videoWidth)
@@ -176,15 +197,15 @@ define([
 
                 mediaElement.addEventListener('ended', function(event) {
                     $container.data('timesPlayed', $container.data('timesPlayed') + 1);
-                    Helper.triggerResponseChangeEvent(interaction);
+                    containerHelper.triggerResponseChangeEvent(interaction);
 
                     if (canBePlayed() && !enablePause){
-    
+
                         //re attach the controls and remove the overlay
                         $controls.prepend($playpauseBtn);
                         $layers.append($bigPlayBtn);
                         $('.overlay', $layers).remove();
-                        
+
                     } else if(!canBePlayed()) {
 
                         //we detach the controls or add an overlay on iframes to prevent a new play
@@ -197,7 +218,7 @@ define([
                                 .height(mediaOptions.videoHeight - controlsHeight)
                                 .appendTo($layers);
                         }
-    
+
                         //no other way to stop it if in loop
                         if(!!interaction.attr('loop')){
                             if(!interaction.mediaElement.pluginApi){
@@ -206,7 +227,7 @@ define([
                                 $(playerDom).remove();
                             }
                         }
-                            
+
                     }
 
                 }, false);
@@ -255,15 +276,15 @@ define([
                     return false;
                 }
             });
-          
+
         //initialize the component
-    
+
        $container.on('responseSet', function() {
             initMediaPlayer();
        });
 
         //gives a small chance to the responseSet event before initializing the player
-        _.defer(function(){ 
+        _.defer(function(){
             initMediaPlayer();
         });
     };
@@ -288,7 +309,7 @@ define([
                 return res;
             }, '');
         };
-        
+
         if(media){
             url = media.attr('data') ? media.attr('data').replace(/^\//, '') : '';
 
@@ -301,7 +322,7 @@ define([
                 url = baseUrl + url;
                 attrs.type = media.attr('type');
             }
-            
+
             if (type === 'video/youtube') {
                 element =   '<video ' + inlineAttrs(attrs) + '> ' +
                                 ' <source type="video/youtube" src="' + url + '" /> ' +
@@ -322,7 +343,7 @@ define([
      * @param {Object} interaction
      */
     var destroy = function(interaction) {
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         if(interaction.mediaElement){
             //needed to release socket
@@ -331,35 +352,37 @@ define([
             }
             interaction.mediaElement = undefined;
         }
-        
+
         $('.instruction-container', $container).empty();
         $('.media-container', $container).empty();
 
         $container.removeData('timesPlayed');
 
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
 
     /**
      * Get the responses from the interaction
-     * @private 
+     * @private
      * @param {Object} interaction
      * @returns {Array} of points
      */
     var _getRawResponse = function _getRawResponse(interaction) {
-        return [Helper.getContainer(interaction).data('timesPlayed')];
+        return [containerHelper.get(interaction).data('timesPlayed')];
     };
 
     /**
-     * Set the response to the rendered interaction. 
-     * 
+     * Set the response to the rendered interaction.
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -369,7 +392,7 @@ define([
                 //try to unserialize the pci response
                 var responseValues;
                 responseValues = pciResponse.unserialize(response, interaction);
-                Helper.getContainer(interaction).data('timesPlayed', responseValues[0]);
+                containerHelper.get(interaction).data('timesPlayed', responseValues[0]);
             } catch (e) {
                 // something went wrong
             }
@@ -378,32 +401,32 @@ define([
 
     /**
      * Reset the current responses of the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * Special value: the empty object value {} resets the interaction responses
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
     var resetResponse = function resetResponse(interaction) {
-        Helper.getContainer(interaction).data('timesPlayed', 0);
+        containerHelper.get(interaction).data('timesPlayed', 0);
     };
 
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10321
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -412,17 +435,52 @@ define([
     };
 
     /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
+    };
+
+
+    /**
      * Expose the common renderer for the interaction
-     * @exports qtiCommonRenderer/renderers/interactions/mediaInteraction
+     * @exports qtiCommonRenderer/renderers/interactions/MediaInteraction
      */
     return {
         qtiClass        : 'mediaInteraction',
         template        : tpl,
         render          : render,
-        getContainer    : Helper.getContainer,
+        getContainer    : containerHelper.get,
         setResponse     : setResponse,
         getResponse     : getResponse,
         resetResponse   : resetResponse,
-        destroy         : destroy
+        destroy         : destroy,
+        setState        : setState,
+        getState        : getState
     };
 });

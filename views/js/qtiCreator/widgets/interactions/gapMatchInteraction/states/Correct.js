@@ -4,9 +4,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __,stateFactory, Correct, GapMatchInteraction, helper, PciResponse){
+], function(_, __,stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
     var GapMatchInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -15,16 +15,17 @@ define([
         var response = interaction.getResponseDeclaration();
 
         var corrects  = _.values(response.getCorrect());
-        
-        GapMatchInteraction.destroy(interaction);
+       
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please fill the gap with the correct choices.'));
+        instructionMgr.appendInstruction(interaction, __('Please fill the gap with the correct choices.'));
        
         //use the common Renderer
-        GapMatchInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
    
-        GapMatchInteraction.setResponse(
+        commonRenderer.setResponse(
             interaction, 
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
@@ -51,8 +52,10 @@ define([
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
 
-        GapMatchInteraction.destroy(interaction);
-        helper.removeInstructions(interaction);
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
+
+        instructionMgr.removeInstructions(interaction);
     });
 
     return GapMatchInteractionStateCorrect;

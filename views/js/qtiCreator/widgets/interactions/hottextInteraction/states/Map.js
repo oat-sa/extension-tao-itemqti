@@ -9,10 +9,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse' 
-], function($, _, __, stateFactory, Map, HottextInteraction, answerStateHelper, helper, formElement, PciResponse){
+], function($, _, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, PciResponse){
 
     /**
      * Initialize the state.
@@ -24,10 +24,11 @@ define([
         var corrects  = _.values(response.getCorrect());
         
         //really need to destroy before ? 
-        HottextInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please enter the score for the given hottexts.'));
+        instructionMgr.appendInstruction(interaction, __('Please enter the score for the given hottexts.'));
         
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
@@ -36,9 +37,9 @@ define([
         createScoreForm(interaction, widget.$container);
 
         //use the common Renderer
-        HottextInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        HottextInteraction.setResponse(interaction, PciResponse.serialize(corrects, interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(corrects, interaction));
 
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
@@ -75,9 +76,9 @@ define([
         toggleCorrectState($container, true);
 
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-
-        HottextInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
     }
 
     function toggleCorrectState($container, enable){

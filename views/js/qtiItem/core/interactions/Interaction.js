@@ -152,6 +152,62 @@ define([
             }
             return ret;
         },
+
+        /**
+         * Retrieve the state of the interaction. 
+         * The state is provided by the interaction's renderer.
+         * 
+         * @returns {Object} the interaction's state
+         * @throws {Error} if no renderer is found 
+         */
+        getState : function(){
+            var ret = null;
+            var renderer = this.getRenderer();
+            if(renderer){
+                if(_.isFunction(renderer.getState)){
+                    ret = renderer.getState(this);
+                }
+            }else{
+                throw 'no renderer found for the interaction ' + this.qtiClass;
+            }
+            return ret;
+        },
+
+        /**
+         * Retrieve the state of the interaction. 
+         * The state will be given to the interaction's renderer.
+         * 
+         * @param {Object} state - the interaction's state
+         * @throws {Error} if no renderer is found 
+         */
+        setState : function(state){
+            var renderer = this.getRenderer();
+            if(renderer){
+                if(_.isFunction(renderer.setState)){
+                    renderer.setState(this, state);
+                }
+            }else{
+                throw 'no renderer found for the interaction ' + this.qtiClass;
+            }
+        },
+
+        /**
+         * Clean up an interaction rendering.
+         * Ask the renderer to run destroy if exists.
+         * 
+         * @throws {Error} if no renderer is found 
+         */
+        clear : function(){
+            var renderer = this.getRenderer();
+            if(renderer){
+                if(_.isFunction(renderer.destroy)){
+                    renderer.destroy(this);
+                }
+            }else{
+                throw 'no renderer found for the interaction ' + this.qtiClass;
+            }
+        },
+
         toArray : function(){
             var arr = this._super();
             arr.choices = {};
