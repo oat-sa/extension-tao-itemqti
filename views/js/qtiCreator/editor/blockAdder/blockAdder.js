@@ -1,5 +1,5 @@
 define([
-    'jquery', 
+    'jquery',
     'tpl!taoQtiItem/qtiCreator/editor/blockAdder/tpl/addColumnRow',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -8,6 +8,7 @@ define([
 ], function($, adderTpl, Element, creatorRenderer, containerHelper, contentHelper){
 
     var _ns = '.block-adder';
+    var _wrap = '<div class="colrow"></div>';
 
     function create($itemBody){
 
@@ -18,17 +19,30 @@ define([
 
         //bind add event
         $itemBody.on('mousedown', '.add-block-element .circle', function(e){
+            
             e.preventDefault();
             e.stopPropagation();
+            
             var $widget = $(this).parents('.widget-box');
             var $placeholder = $('<div>');
-            $widget.after($placeholder);
-            insertElement('choiceInteraction', $placeholder);
+            $placeholder.wrap(_wrap);
+
+            var $colRow = $widget.parent('.colrow');
+            if(!$colRow.length){
+                $widget.wrap(_wrap);
+                $colRow = $widget.parent('.colrow');
+            }
+            $colRow.after($placeholder);
+            insertElement('choiceInteraction', $placeholder, function($widget, widget){
+                $widget.append(adderTpl());
+                $widget.wrap(_wrap);
+                console.log('new widget', widget);
+            });
         });
     }
 
-    function insertElement(qtiClass, $placeholder){
-        
+    function insertElement(qtiClass, $placeholder, callback){
+
         //a new qti element has been added: update the model + render
         $placeholder.removeAttr('id');//prevent it from being deleted
 
@@ -94,6 +108,8 @@ define([
                     }else{
                         widget.changeState('active');
                     }
+                    
+                    callback($widget, widget);
 
                 }
             }, this.getUsedClasses());
