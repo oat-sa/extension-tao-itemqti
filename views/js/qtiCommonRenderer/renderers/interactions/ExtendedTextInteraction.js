@@ -112,15 +112,14 @@ define([
 
 
                 var limitUserInput = function(evt){
-                    if ((maxWords && getWordsCount() > maxWords) || (maxLength && getCharsCount() > maxLength)){
+                    if ((maxWords && getWordsCount() >= maxWords) || (maxLength && getCharsCount() >= maxLength)){
                         // var value = _getTextareaValue(interaction);
                         // value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
                         // setText(interaction,value);
                         if (typeof evt.cancel !== "undefined"){evt.cancel()}
-                            else evt.preventDefault();
-                    }else{
-                        updateCounter();
+                            else {evt.preventDefault();}
                     }
+                    updateCounter();
                 };
 
                 /**
