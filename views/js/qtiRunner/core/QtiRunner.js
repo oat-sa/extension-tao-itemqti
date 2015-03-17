@@ -43,28 +43,28 @@ define([
     
     QtiRunner.prototype.updateItemApi = function() {
         var responses = this.getResponses();
-        
+
+        var states = this.getStates();
         // Transform responses into state variables.
-        for (var key in responses) {
+        for (var key in states) {
         	
-        	var value = responses[key];
-        	
+        	var value = states[key];
         	// This is where we set variables that will be collected and stored
         	// as the Item State. We do not want to store large files into
         	// the state, and force the client to download these files
         	// all over again. We then transform them as a place holder, that will
         	// simply indicate that a file composes the state.
         	
-        	if (typeof(value.base) != 'undefined') {
+        	if (value.response && typeof(value.response.base) != 'undefined') {
                 
-                for (var property in value.base) {
+                for (var property in value.response.base) {
 
                     if (property === 'file') {
                         
-                        var file = value.base.file;
+                        var file = value.response.base.file;
                         // QTI File found! Replace it with an appropriate placeholder.
                         // The data is base64('qti_file_datatype_placeholder_data')
-                        value = {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}};
+                        value.response = {"base" : {"file" : {"name" : file.name, "mime" : 'qti+application/octet-stream', "data" : "cXRpX2ZpbGVfZGF0YXR5cGVfcGxhY2Vob2xkZXJfZGF0YQ=="}}};
                     }
                 }
             }
@@ -176,7 +176,7 @@ define([
                 var responseId = interaction.attr('responseIdentifier');
                 this.itemApi.getVariable(responseId, function(values){
                     if(values){
-                        interaction.setResponse(values);
+                        interaction.setState(values);
                     }
                 });
             }
@@ -202,6 +202,21 @@ define([
         }
         
         return responses;
+    };
+
+    QtiRunner.prototype.getStates = function() {
+
+        var states = {};
+        var interactions = this.item.getInteractions();
+
+        for (var serial in interactions) {
+
+            var interaction = interactions[serial];
+            var state = interaction.getState();
+            states[interaction.attr('responseIdentifier')] = state;
+        }
+
+        return states;
     };
 
     QtiRunner.prototype.setResponseProcessing = function(callback){
