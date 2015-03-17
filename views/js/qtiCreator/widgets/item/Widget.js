@@ -14,6 +14,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/text/Widget',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/editor',
+    'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function(
@@ -32,9 +33,12 @@ define([
     TextWidget,
     styleEditor,
     itemEditor,
+    blockAdder,
     genericFeedbackPopup
     ){
-
+    
+    'use strict';
+    
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
@@ -57,6 +61,7 @@ define([
 
             //when the text widgets are ready:
             this.initGridEditor();
+            this.initColumnInsertion();
 
             //active debugger
             this.debug({
@@ -379,7 +384,7 @@ define([
      */
     ItemWidget.debug = function(options){
 
-        options = options || {}
+        options = options || {};
 
         if(options.state){
             devTools.listenStateChange();
@@ -414,6 +419,12 @@ define([
 
         return $messageBox;
     };
-
+    
+    ItemWidget.initColumnInsertion = function(){
+        
+        var $itemBody = this.$container.find('.qti-itemBody');
+        blockAdder.create($itemBody);
+    };
+    
     return ItemWidget;
 });

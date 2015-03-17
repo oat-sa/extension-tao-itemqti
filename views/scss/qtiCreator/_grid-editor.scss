@@ -170,3 +170,40 @@
         z-index : 999;
     }
 }
+
+.add-block-element{
+    position:absolute;
+    bottom:-2px;
+    width:100%;
+    opacity:.3;
+    &:hover{
+        opacity:.8; 
+    }
+    .line{
+        position:absolute; 
+        border-top:1px dashed $info;
+        top:8px;
+        width:100%;
+    }
+    .circle {
+        display:block;
+        width: 16px;
+        height: 16px;
+        background: $info; 
+        -moz-border-radius: 30px; 
+        -webkit-border-radius: 30px; 
+        border-radius: 30px;
+        position:absolute;
+        margin-left:50%;
+        margin-right:50%;
+        cursor:pointer;
+        span{
+            font-weight: bold;
+            font-size:16px;
+            color:#E6EEF4;
+            position:absolute;
+            top:-3px;
+            left:4px;
+        }
+    }
+}
