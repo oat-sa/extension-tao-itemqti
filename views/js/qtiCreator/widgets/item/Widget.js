@@ -184,7 +184,7 @@ define([
             $itemBody.addClass('hoverable').removeClass('inserting');
 
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
-
+            
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
