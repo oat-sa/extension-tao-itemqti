@@ -110,32 +110,65 @@ define([
                     maxLength = (isNaN(maxLength) ? undefined : maxLength);
                 }
 
-                var counter = function(){
-                    var regex = /\s+/gi,
-                    editor = _ckEditor(interaction),
-                    value = (_getFormat(interaction) === "xhtml") ?  $('<div>' + editor.getData() + '</div>').text() : $textarea.val(),
-                    wordCount = value.trim().replace(regex, ' ').split(' ').length,
-                    charCount = value.trim().length;
-                    // var charCountNoSpaces = value.trim().replace(regex,'').length;
 
-                    if ((maxWords && wordCount > maxWords) || (maxLength && charCount > maxLength)){
-                        value = (_getFormat(interaction) === "xhtml") ?  editor.getData() : $textarea.val();
-                        value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
-                        // Update the value
-                        setText(interaction,value);
-
+                var limitUserInput = function(evt){
+                    if ((maxWords && getWordsCount() > maxWords) || (maxLength && getCharsCount() > maxLength)){
+                        // var value = _getTextareaValue(interaction);
+                        // value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
+                        // setText(interaction,value);
+                        if (typeof evt.cancel !== "undefined"){evt.cancel()}
+                            else evt.preventDefault();
                     }else{
-                        // Updte the counters
-                        $charsCounter.text(charCount);
-                        $wordsCounter.text(wordCount);
+                        updateCounter();
                     }
                 };
 
+                /**
+                 * Update the rendering of the counters
+                 */
+                var updateCounter = function(){
+                    $charsCounter.text(getCharsCount());
+                    $wordsCounter.text(getWordsCount());
+                };
+
+                /**
+                 * Get the number of words that are actually written in the response field
+                 * @return {Number} number of words
+                 */
+                var getWordsCount = function(){
+                    var value = _getTextareaValue(interaction);
+                    return value.trim().replace(/\s+/gi, ' ').split(' ').length;
+                };
+
+                /**
+                 * Get the number of characters that are actually written in the response field
+                 * @return {Number} number of characters
+                 */
+                var getCharsCount = function(){
+                    var value = _getTextareaValue(interaction);
+                    return value.trim().length;
+                };
 
                 if (_getFormat(interaction) === "xhtml") {
-                    $container.data('editor').on('change',_.throttle(counter,100));
+
+                    var keycodes = [
+                        8, // backspace
+                        222832, // Shift + backspace
+                        1114120, // Ctrl + backspace
+                        1114177, // Ctrl + a
+                        1114202, // Ctrl + z
+                        1114200, // Ctrl + x
+                    ];
+
+                    _ckEditor(interaction).on('key',function(e){
+                        if (_.contains(keycodes,e.data.keyCode)){
+                            updateCounter();
+                        }else{
+                            limitUserInput(e);
+                        }
+                    });
                 }else{
-                    $textarea.on('change keydown keypressed keyup blur focus',counter);
+                    $textarea.on('change keydown keypressed keyup blur focus',limitUserInput(evt));
                 }
 
             }
@@ -344,6 +377,11 @@ define([
         return ret;
     };
 
+    /**
+     * return the value of the textarea or ckeditor data
+     * @param  {Object} interaction
+     * @return {String}             the value
+     */
     var _getTextareaValue = function(interaction) {
         if (_getFormat(interaction) === 'xhtml') {
             return _ckEditorData(interaction);
@@ -368,7 +406,7 @@ define([
      * @return {string}             content of the ckEditor
      */
     var _ckEditorData = function(interaction) {
-        return _ckEditor(interaction).getData();
+        return  $('<div>' + _ckEditor(interaction).getData() + '</div>').text();;
     };
 
     var _getFormat = function(interaction) {
