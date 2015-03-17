@@ -1,3 +1,28 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * A factory to create a QTI renderer.
+ *
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'jquery',
@@ -5,7 +30,6 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper'
 ], function(_, $, Handlebars, Element, interactionHelper){
-
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -118,6 +142,14 @@ define([
         return window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/([^\/]*)$/, '');
     }
 
+    /**
+     * The built Renderer class
+     * @constructor
+     * @param {Object} [options] - the renderer options
+     * @param {Object} [options.decorators] - to set up rendering decorator
+     * @param {preRenderDecorator} [options.decorators.before] - to set up a pre decorator
+     * @param {postRenderDecorator} [options.decorators.after] - to set up a post decorator
+     */
     var Renderer = function(options){
 
         options = options || {};
@@ -159,6 +191,12 @@ define([
             return ret;
         };
 
+        /**
+i        * Set the renderer options
+         * @param {String} key - the name of the option
+         * @param {*} value - the option vallue
+         * @returns {Renderer} for chaining
+         */
         this.setOption = function(key, value){
             if(typeof (key) === 'string'){
                 options[key] = value;
@@ -166,11 +204,21 @@ define([
             return this;
         };
 
+        /**
+i        * Set the renderer options
+         * @param {Object} opts - the options
+         * @returns {Renderer} for chaining
+         */
         this.setOptions = function(opts){
             _.extend(options, opts);
             return this;
         };
 
+        /**
+i        * Get the renderer option
+         * @param {String} key - the name of the option
+         * @returns {*|null} the option vallue
+         */
         this.getOption = function(key){
             if(typeof (key) === 'string' && options[key]){
                 return options[key];
@@ -178,24 +226,60 @@ define([
             return null;
         };
 
+        /**
+i        * Renders the template
+         * @param {Object} element - the QTI model element
+         * @param {Object} data - the data to give to the template
+         * @param {String} [qtiSubclass] - to get the render of the element subclass (when element's qtiClass is abstract)
+         * @returns {String} the template results
+         * @throws {Error} if the renderer is not set or has no template bound
+         */
         this.renderTpl = function(element, data, qtiSubclass){
 
-            var ret = '',
-                tplFound = false,
-                qtiClass = qtiSubclass || element.qtiClass,
-                renderer = _getClassRenderer(qtiClass);
+            var res;
+            var ret        = '';
+            var tplFound   = false;
+            var qtiClass   = qtiSubclass || element.qtiClass;
+            var renderer   = _getClassRenderer(qtiClass);
+            var decorators = this.getOption('decorators');
 
-            if(renderer){
-                if(typeof (renderer.template) === 'function'){
-                    ret = renderer.template(data);
-                    tplFound = true;
-                }
-            }
-
-            if(!tplFound){
+            if(!renderer && !_.isFunction(renderer.template)){
                 throw new Error('no renderer template loaded under the class name : ' + qtiClass);
             }
 
+            //pre rendering decoration
+            if(_.isObject(decorators) && _.isFunction(decorators.before)){
+
+                /**
+                 * @callback preRenderDecoractor
+                 * @param {Object} element - the QTI model element
+                 * @param {String} [qtiSubclass] - to get the render of the element subclass (when element's qtiClass is abstract)
+                 * @returns {String} the decorator result
+                 */
+                res = decorators.before(element, qtiSubclass);
+                if(_.isString(res)){
+                    ret += res;
+                }
+            }
+
+            //render the template
+            ret += renderer.template(data);
+
+
+            //post rendering decoration
+            if(_.isObject(decorators) && _.isFunction(decorators.after)){
+
+                /**
+                 * @callback postRenderDecoractor
+                 * @param {Object} element - the QTI model element
+                 * @param {String} [qtiSubclass] - to get the render of the element subclass (when element's qtiClass is abstract)
+                 * @returns {String} the decorator result
+                 */
+                res = decorators.after(element, qtiSubclass);
+                if(_.isString(res)){
+                    ret += res;
+                }
+            }
             return ret;
         };
 
@@ -241,9 +325,8 @@ define([
             if(renderer){
                 if(typeof (renderer.render) === 'function'){
                     ret = renderer.render.call(this, qtiElement, data);
-                }else{
-                    //postRendering is optional, log missing call of postRender?
                 }
+                //postRendering is optional, log missing call of postRender?
             }
 
             return ret;
@@ -403,8 +486,8 @@ define([
                         }
                     });
 
-                    for(var i in requiredClasses){
-                        var qtiClass = requiredClasses[i];
+                    _.forEach(requiredClasses, function(qtiClass){
+
                         if(_renderableSubclasses[qtiClass]){
                             var requiredSubClasses = _.intersection(requiredClasses, _renderableSubclasses[qtiClass]);
                             _.each(requiredSubClasses, function(subclass){
@@ -416,7 +499,7 @@ define([
                                     throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
                                 }
                             });
-                        }else{
+                        } else {
                             if(_locations[qtiClass] === false){
                                 _renderers[qtiClass] = false;//mark this class as not renderable
                             }else if(_locations[qtiClass]){
@@ -425,10 +508,11 @@ define([
                                 throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass);
                             }
                         }
-                    }
-                }else{
+                    });
+                } else {
                     throw new Error('invalid argument type: expected array for arg "requireClasses"');
                 }
+
             }else{
                 required = _.values(_locations);
             }
@@ -495,12 +579,13 @@ define([
                 //otherwise get the choices from the serials
                 } else {
                     if(Element.isA(interaction, 'matchInteraction')){
-                        for(i = 0; i < 2; i++){
-                            choices[i] = [];
-                            _.forEach(this.shuffledChoices[serial][i], function(choiceSerial){
-                                choices[i].push(interaction.getChoice(choiceSerial));
-                            });
-                        }
+                        _.forEach(choices, function(choice, index){
+                            if(index < 2){
+                                _.forEach(this.shuffledChoices[serial][i], function(choiceSerial){
+                                    choice.push(interaction.getChoice(choiceSerial));
+                                });
+                            }
+                        });
                     } else {
                         _.forEach(this.shuffledChoices[serial], function(choiceSerial){
                             choices.push(interaction.getChoice(choiceSerial));
