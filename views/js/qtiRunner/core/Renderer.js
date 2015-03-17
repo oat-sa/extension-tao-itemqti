@@ -192,7 +192,7 @@ define([
         };
 
         /**
-i        * Set the renderer options
+         * Set the renderer options
          * @param {String} key - the name of the option
          * @param {*} value - the option vallue
          * @returns {Renderer} for chaining
@@ -205,7 +205,7 @@ i        * Set the renderer options
         };
 
         /**
-i        * Set the renderer options
+         * Set the renderer options
          * @param {Object} opts - the options
          * @returns {Renderer} for chaining
          */
@@ -215,7 +215,7 @@ i        * Set the renderer options
         };
 
         /**
-i        * Get the renderer option
+         * Get the renderer option
          * @param {String} key - the name of the option
          * @returns {*|null} the option vallue
          */
@@ -227,7 +227,7 @@ i        * Get the renderer option
         };
 
         /**
-i        * Renders the template
+         * Renders the template
          * @param {Object} element - the QTI model element
          * @param {Object} data - the data to give to the template
          * @param {String} [qtiSubclass] - to get the render of the element subclass (when element's qtiClass is abstract)
