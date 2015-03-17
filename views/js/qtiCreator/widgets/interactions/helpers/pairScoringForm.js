@@ -5,14 +5,13 @@ define([
     'jquery', 
     'lodash' ,
     'i18n',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreMappingForm',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreForm',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/tooltipster',
     'ui/selecter'
-], function($, _, __, Helper, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltipster, selecter){
+], function($, _, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltipster, selecter){
 
     //to bind html element to a pair, we use this separator to replace spaces in the pair name.
     //The colons char isn't allowed by QTI but it is in HTML, so no change to encounter this separator into the pairs id.

@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/mediaInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction'
-], function($, _, Widget, states, MediaInteractionCommonRenderer){
+], function($, _, Widget, states, commonRenderer){
     
     var MediaInteractionWidget = _.extend(Widget.clone(), {
 
@@ -43,7 +43,7 @@ define([
         renderInteraction : function(){
             var $container  = this.$original; 
             var interaction = this.element;
-            MediaInteractionCommonRenderer.render.call(interaction.getRenderer(), interaction, {
+            commonRenderer.render.call(interaction.getRenderer(), interaction, {
                 features : 'full',
                 controlPlaying : false
             });
@@ -51,7 +51,8 @@ define([
 
         destroyInteraction : function(){
             var interaction = this.element;
-            MediaInteractionCommonRenderer.destroy.call(interaction.getRenderer(), interaction);    
+            commonRenderer.resetResponse.call(interaction.getRenderer(), interaction);    
+            commonRenderer.destroy.call(interaction.getRenderer(), interaction);    
         }
     });
 

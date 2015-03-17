@@ -8,10 +8,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm' 
-], function($, _, __, stateFactory, Map, GapMatchInteraction, helper, PciResponse, scoringFormFactory){
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, PciResponse, scoringFormFactory){
 
     /**
      * Initialize the state.
@@ -25,16 +25,17 @@ define([
 
         
         //really need to destroy before ? 
-        GapMatchInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
         
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please fill the gap with the texts below, then edit the score for each pair.'));
+        instructionMgr.appendInstruction(interaction, __('Please fill the gap with the texts below, then edit the score for each pair.'));
         
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
  
         //use the common Renderer
-        GapMatchInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
     
         //change the display of the gaps
         displayGaps(widget.$container);
@@ -76,8 +77,10 @@ define([
         }
 
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        GapMatchInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction);
+
+        instructionMgr.removeInstructions(interaction);
     }
 
     /**
@@ -112,7 +115,7 @@ define([
 
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
-            GapMatchInteraction.setResponse(
+            commonRenderer.setResponse(
                 interaction, 
                 PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );

@@ -1,14 +1,39 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
-    'lodash',
     'jquery',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'lodash',
     'i18n',
-    'lib/jquery.color'
-], function(_, $, tpl, Helper, pciResponse, __){
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/matchInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
+], function($, _,  __,tpl, containerHelper, instructionMgr, pciResponse){
 
     /**
+     * TODO do not use global context var, it's value is shared between interaction instances
+     *
      * Flag to not throw warning instruction if already
      * displaying the warning. If such a flag is not used,
      * disturbances can be seen by the candidate if he clicks
@@ -20,11 +45,11 @@ define([
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         // Initialize instructions system.
         _setInstructions(interaction);
@@ -33,18 +58,18 @@ define([
             _onCheckboxSelected(interaction, e);
         });
 
-        Helper.validateInstructions(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -61,18 +86,18 @@ define([
             });
         }
 
-        Helper.validateInstructions(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10296
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -83,26 +108,27 @@ define([
 
     var resetResponse = function(interaction){
 
-        Helper.getContainer(interaction).find('input[type=checkbox]:checked').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('input[type=checkbox]:checked', $container).each(function(){
             $(this).prop('checked', false);
         });
 
-        Helper.validateInstructions(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     var _filterResponse = function(response){
-        if(typeof response.list == 'undefined'){
+        if(typeof response.list === 'undefined'){
             // Maybe it's a base?
-            if(typeof response.base == 'undefined'){
+            if(typeof response.base === 'undefined'){
                 // Oops, it is even not a base.
                 throw 'The given response is not compliant with PCI JSON representation.';
             }
             else{
                 // It's a base, Is it a directedPair? Null?
-                if (response.base == null) {
+                if (response.base === null) {
                     return {"list" : {"directedPair" : []}};
                 }
-                else if (typeof response.base.directedPair == 'undefined'){
+                else if (typeof response.base.directedPair === 'undefined'){
                     // Oops again, it is not a directedPair.
                     throw 'The matchInteraction only accepts directedPair values as responses.';
                 }
@@ -111,17 +137,17 @@ define([
                 }
             }
         }
-        else if(typeof response.list.directedPair == 'undefined'){
+        else if(typeof response.list.directedPair === 'undefined'){
             // Oops, not a directedPair.
             throw 'The matchInteraction only accept directedPair values as responses.';
         }
         else{
             return response;
         }
-    }
+    };
 
     var _getRawResponse = function(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         var values = [];
 
         $container.find('input[type=checkbox]:checked').each(function(){
@@ -142,6 +168,7 @@ define([
 
     var _onCheckboxSelected = function(interaction, e){
 
+        var choice;
         var currentResponse = _getRawResponse(interaction);
         var minAssociations = interaction.attr('minAssociations');
         var maxAssociations = interaction.attr('maxAssociations');
@@ -153,19 +180,19 @@ define([
         if(_.size(currentResponse) > maxAssociations){
             // No more associations possible.
             e.preventDefault();
-            Helper.validateInstructions(interaction);
+            instructionMgr.validateInstructions(interaction);
 
         }else if((choice = _maxMatchReached(interaction, e.target)) !== false){
 
             // Check if matchmax is respected for both choices
             // involved in the selection.
             e.preventDefault();
-            Helper.validateInstructions(interaction, choice);
+            instructionMgr.validateInstructions(interaction, choice);
 
         }else{
 
-            Helper.triggerResponseChangeEvent(interaction, {});
-            Helper.validateInstructions(interaction);
+            containerHelper.triggerResponseChangeEvent(interaction, {});
+            instructionMgr.validateInstructions(interaction);
         }
 
     };
@@ -187,7 +214,7 @@ define([
         });
 
         return overflow;
-    }
+    };
 
     var _countAssociations = function(interaction, choice){
 
@@ -196,23 +223,23 @@ define([
 
         // How much time can we find rawChoice in rawResponses?
         _(rawResponse).forEach(function(response){
-            if((response[0] == choice.attributes.identifier || response[1] == choice.attributes.identifier)){
+            if((response[0] === choice.attributes.identifier || response[1] === choice.attributes.identifier)){
                 count++;
             }
         });
 
         return count;
-    }
+    };
 
     var _countChoices = function(interaction){
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         return $container.find('input[type=checkbox]').length;
     };
 
     var _getChoiceDefinitionByIdentifier = function(interaction, identifier){
         var rawChoices = _getRawChoices(interaction);
         return rawChoices[identifier];
-    }
+    };
 
     var _getRawChoices = function(interaction){
         var rawChoices = {};
@@ -224,10 +251,11 @@ define([
         });
 
         return rawChoices;
-    }
+    };
 
     var _setInstructions = function(interaction){
 
+        var msg;
         var minAssociations = interaction.attr('minAssociations');
         var maxAssociations = interaction.attr('maxAssociations');
         var choiceCount = _countChoices(interaction);
@@ -255,7 +283,7 @@ define([
 
             var onMatchMaxReached = function(interaction, choice, report, msg, level){
 
-                var $container = Helper.getContainer(interaction);
+                var $container = containerHelper.get(interaction);
 
                 if(inWarning === false){
                     inWarning = true;
@@ -291,15 +319,14 @@ define([
                 }
             };
 
-            if(minAssociations == 0 && maxAssociations > 0){
+            if(minAssociations === 0 && maxAssociations > 0){
                 // No minimum but maximum.
-                var msg = __('You must select 0 to %d choices.').replace('%d', maxAssociations);
+                msg = __('You must select 0 to %d choices.').replace('%d', maxAssociations);
 
-                Helper.appendInstruction(interaction, msg, function(choice){
+                instructionMgr.appendInstruction(interaction, msg, function(choice){
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount <= maxAssociations){
@@ -313,14 +340,13 @@ define([
                     }
                 });
             }
-            else if(minAssociations == 0 && maxAssociations == 0){
+            else if(minAssociations === 0 && maxAssociations === 0){
                 // No minimum, no maximum.
-                var msg = __('You must select 0 to %d choices.').replace('%d', choiceCount);
+                msg = __('You must select 0 to %d choices.').replace('%d', choiceCount);
 
-                Helper.appendInstruction(interaction, msg, function(choice){
-                    var choiceGiven = typeof choice != 'undefined';
+                instructionMgr.appendInstruction(interaction, msg, function(choice){
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else{
@@ -328,17 +354,16 @@ define([
                     }
                 });
             }
-            else if(minAssociations > 0 && maxAssociations == 0){
+            else if(minAssociations > 0 && maxAssociations === 0){
                 // minimum but no maximum.
-                var msg = __('You must select %1$d to %2$d choices.');
+                msg = __('You must select %1$d to %2$d choices.');
                 msg = msg.replace('%1$d', minAssociations);
                 msg = msg.replace('%2$d', choiceCount);
 
-                Helper.appendInstruction(interaction, msg, function(choice){
+                instructionMgr.appendInstruction(interaction, msg, function(choice){
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
@@ -354,22 +379,20 @@ define([
             }
             else if(minAssociations > 0 && maxAssociations > 0){
                 // minimum and maximum.
-                if(minAssociations != maxAssociations){
-                    var msg = __('You must select %1$d to %2$d choices.');
+                if(minAssociations !== maxAssociations){
+                    msg = __('You must select %1$d to %2$d choices.');
                     msg = msg.replace('%1$d', minAssociations);
                     msg = msg.replace('%2$d', maxAssociations);
                 }
                 else{
-                    var msg = __('You must select exactly %d choice(s).');
+                    msg = __('You must select exactly %d choice(s).');
                     msg = msg.replace('%d', minAssociations);
                 }
 
-                Helper.appendInstruction(interaction, msg, function(choice){
-
+                instructionMgr.appendInstruction(interaction, msg, function(choice){
                     var responseCount = _.size(_getRawResponse(interaction));
-                    var choiceGiven = typeof choice != 'undefined';
 
-                    if(choiceGiven == true && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
+                    if(choice && choice.attributes && choice.attributes.matchMax > 0 && _countAssociations(interaction, choice) > choice.attributes.matchMax){
                         onMatchMaxReached(interaction, choice, this, msg, this.getLevel());
                     }
                     else if(responseCount < minAssociations){
@@ -386,26 +409,120 @@ define([
         };
 
         superClosure();
-    }
+    };
 
     var destroy = function(interaction){
 
-        Helper.getContainer(interaction).off('.commonRenderer');
+        var $container = containerHelper.get(interaction);
+        $container.off('.commonRenderer');
 
-        resetResponse(interaction);
+        instructionMgr.removeInstructions(interaction);
 
-        Helper.removeInstructions(interaction);
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        var $container;
+
+        if(_.isObject(state)){
+
+            //restore order of previously shuffled choices
+            if(_.isArray(state.order) && state.order.length === 2){
+
+                $container = containerHelper.get(interaction);
+
+                $('thead .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order[0], $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order[0], $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .appendTo($('thead tr', $container));
+
+                $('tbody .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order[1], $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order[1], $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .each(function(index, elt){
+                        $(elt).prependTo($('tbody tr', $container).eq(index));
+                    });
+            }
+
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+
+        //we store also the choice order if shuffled
+        if(interaction.attr('shuffle') === true){
+            $container = containerHelper.get(interaction);
+
+            state.order = [[], []];
+            $('thead .qti-choice', $container).each(function(){
+               state.order[0].push($(this).data('identifier'));
+            });
+            $('tbody .qti-choice', $container).each(function(){
+               state.order[1].push($(this).data('identifier'));
+            });
+        }
+        return state;
+    };
+
+    /**
+     * Expose the common renderer for the match interaction
+     * @exports qtiCommonRenderer/renderers/interactions/MatchInteraction
+     */
     return {
         qtiClass : 'matchInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
         destroy : destroy,
+        setState : setState,
+        getState : getState,
         inferValue : _inferValue
     };
 });

@@ -8,11 +8,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, GraphicGapMatchInteraction, helper, graphicHelper, PciResponse, scoringFormFactory){
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
 
     /**
      * Initialize the state.
@@ -25,20 +25,21 @@ define([
         var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
         
         //really need to destroy before ? 
-        GraphicGapMatchInteraction.destroy(interaction);
+        commonRenderer.resetResponse(interaction);
+        commonRenderer.destroy(interaction);
         
         if(!interaction.paper){
             return;
         }
 
         //add a specific instruction
-        helper.appendInstruction(interaction, __('Please fill the gap with the images below, then edit the score for each gap/image pair.'));
+        instructionMgr.appendInstruction(interaction, __('Please fill the gap with the images below, then edit the score for each gap/image pair.'));
         interaction.responseMappingMode = true;
 
         widget.createGapImgs(); 
  
         //use the common Renderer
-        GraphicGapMatchInteraction.render.call(interaction.getRenderer(), interaction);
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
     
         //change the display of the gaps
         showChoicesId(interaction);
@@ -83,8 +84,9 @@ define([
         }
 
         //destroy the common renderer
-        helper.removeInstructions(interaction);
-        GraphicGapMatchInteraction.destroy(interaction); 
+        commonRenderer.resetResponse(interaction); 
+        commonRenderer.destroy(interaction); 
+        instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
@@ -125,7 +127,7 @@ define([
 
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
-            GraphicGapMatchInteraction.setResponse(
+            commonRenderer.setResponse(
                 interaction, 
                 PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );
@@ -133,7 +135,7 @@ define([
         var gapSrcs  = {};
         _.forEach(interaction.getGapImgs(), function(gapImg){
             if(gapImg.object && gapImg.object.attr('data')){
-                gapSrcs[gapImg.id()] = widget.options.baseUrl + encodeURIComponent(gapImg.object.attr('data'));
+                gapSrcs[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
             }
         });       
 

@@ -1,23 +1,24 @@
 define([
+    'lodash',
+    'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/helper',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
-    'lodash',
-    'i18n'
-], function(commonRenderer, creatorHelper, commonHelper, _, __){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function(_, __, commonRenderer, creatorHelper, instructionMgr){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){
 
             var interaction = widget.element;
 
+            commonRenderer.resetResponse(interaction);
             commonRenderer.destroy(interaction);
 
             if(responseMappingMode){
-                commonHelper.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define association pairs and their scores below.'));
                 interaction.responseMappingMode = true;
             }else{
-                commonHelper.appendInstruction(widget.element, __('Please define the correct association pairs below.'));
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct association pairs below.'));
             }
 
             commonRenderer.render(interaction);
@@ -35,6 +36,7 @@ define([
 
             var interaction = widget.element;
 
+            commonRenderer.resetResponse(interaction);
             commonRenderer.destroy(interaction);
 
             delete interaction.responseMappingMode;

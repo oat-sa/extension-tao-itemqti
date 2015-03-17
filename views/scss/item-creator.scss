@@ -1,5 +1,4 @@
 @import "inc/bootstrap";
-@import "inc/main";
 @import "inc/farbtastic";
 
 // tmp solution, needs to be done in sts
@@ -67,6 +66,8 @@ img.dragging.ui-draggable-dragging {
         cursor: pointer;
         margin: 0 2px;
         display: inline-block;
+        color: $textColor !important;
+        padding-top: 3px;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
         }
@@ -87,6 +88,24 @@ img.dragging.ui-draggable-dragging {
         }
         &[data-role="cke-launcher"] {
             display: none;
+        }
+        ul[data-button-group] {
+            background: transparent !important;
+            border:none;
+            & > li {
+                display:none;
+                background: transparent !important;
+                min-width: 0;
+                padding: 0;
+                float:none;
+                span {
+                    color: $textColor;
+                    text-shadow: none !important;
+                }
+                &.active {
+                    display:inline-block;
+                }
+            }
         }
     }
 }
@@ -447,7 +466,8 @@ img.dragging.ui-draggable-dragging {
             margin: 0 4px 0 2px;
             &.disabled {
                 &:before {
-                    @include icon('eye-slash');
+                    @include tao-icon-setup;
+                    @include icon-eye-slash;
                 }
             }
         }
@@ -1030,6 +1050,42 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_grid-editor";
     @import "qtiCreator/_custom";
 
+/* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
+    .qti-simpleChoice {
+        .mini-tlb[data-edit="question"] {
+            right: -45px !important;
+            top: 3px;
+        }
+    }
+
+    .qti-hottextInteraction {
+        .mini-tlb {
+            right: -31px !important;
+        }
+    }
+
+    .qti-interaction {
+        .qti-prompt {
+            & ~ .mini-tlb {
+                right: -31px !important;
+                top:1px
+            }
+        }
+    }
+
+    .widget-textBlock {
+        .mini-tlb {
+            right: -60px !important;
+        }
+    }
+
+    .qti-flow-container{
+        .mini-tlb{
+            right: -31px !important;
+        }
+    }
+/* end tmp fix #2768 */
+
 }
 
 /*style for modal feedback*/
@@ -1047,6 +1103,7 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
+/* edit-* classes are used to represents the different states of an interaction */
 .edit-question .qti-interaction, .qti-modalFeedback.edit-active {
     [data-html-editable-container]:hover {
         [data-html-editable][contenteditable=true] {
@@ -1057,6 +1114,25 @@ img.dragging.ui-draggable-dragging {
         margin-right: 0px; //@todo value to be determined
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
+        }
+    }
+}
+
+.edit-question .qti-blockInteraction .horizontal {
+    .add-option {
+        margin-top: 25px;
+    }
+    .qti-choice {
+        margin-top: 25px;
+        .mini-tlb{
+            white-space: nowrap;
+            top:-26px;
+            right:-4px;
+            .tlb-button{
+                min-width:25px;
+                height:20px;
+                margin:0;
+            }
         }
     }
 }

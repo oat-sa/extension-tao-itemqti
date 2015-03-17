@@ -10,8 +10,7 @@
 }
 
 .qti-hottextInteraction {
-    
-    //@todo : change it to qti-hottext
+
     .qti-hottext {
         background: $uiClickableDefaultBg;
         margin-right: 5px;
@@ -22,7 +21,7 @@
         &:hover {
             @extend %selectableHover;
         }
-        
+
         &.error{
             color : $error;
         }
@@ -32,7 +31,7 @@
             min-width: auto;
             width: auto;
         }
-        
+
         [class^="icon-"], [class*=" icon-"] {
             &.small {
                 @include font-size(12);
@@ -42,25 +41,6 @@
             }
             &.error{
                 color : $error;
-            }
-        }
-
-        //todo : should be moved to creator's part
-        .mini-tlb[data-edit] {
-            top: -2px;
-            .tlb-button {
-                padding-top: 0;
-            }
-            .icon-undo {
-                padding-right:1px;
-                position: relative;
-                top: 2px;
-            }
-            label {
-                padding: 0 3px;
-            }
-            [data-role="score"] {
-                width: 30px;
             }
         }
     }

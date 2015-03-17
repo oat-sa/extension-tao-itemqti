@@ -1,7 +1,7 @@
-define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/img', 'taoQtiItem/qtiCommonRenderer/helpers/Helper'], function(tpl, Helper){
+define(['tpl!taoQtiItem/qtiCommonRenderer/tpl/img', 'taoQtiItem/qtiCommonRenderer/helpers/container'], function(tpl, containerHelper){
     return {
         qtiClass : 'img',
         template : tpl,
-        getContainer : Helper.getContainer
+        getContainer : containerHelper.get
     };
 });
