@@ -110,9 +110,17 @@ define([
                     maxLength = (isNaN(maxLength) ? undefined : maxLength);
                 }
 
-
+                /**
+                 * Prevent the user to enter more text (words or char) than the limit allow
+                 * @param  {event} evt the event that is trigged and which call this function
+                 */
                 var limitUserInput = function(evt){
-                    if ((maxWords && getWordsCount() >= maxWords && evt.data.keyCode === 32) || (maxLength && getCharsCount() >= maxLength)){
+                    /**
+                     * store the keycode regardless the format of the interaction
+                     * @type {Number}
+                     */
+                    var keyCode = (typeof evt.data !== "undefined") ? evt.data.keyCode : evt.which ;
+                    if ((maxWords && getWordsCount() >= maxWords && keyCode === 32) || (maxLength && getCharsCount() >= maxLength)){
                         if (typeof evt.cancel !== "undefined"){
                             evt.cancel();
                         }else {
@@ -148,17 +156,20 @@ define([
                     return value.trim().length;
                 };
 
+                /**
+                 * Keycode to ignore
+                 * @type {Array}
+                 */
+                var keycodes = [
+                    8, // backspace
+                    222832, // Shift + backspace
+                    1114120, // Ctrl + backspace
+                    1114177, // Ctrl + a
+                    1114202, // Ctrl + z
+                    1114200, // Ctrl + x
+                ];
+
                 if (_getFormat(interaction) === "xhtml") {
-
-                    var keycodes = [
-                        8, // backspace
-                        222832, // Shift + backspace
-                        1114120, // Ctrl + backspace
-                        1114177, // Ctrl + a
-                        1114202, // Ctrl + z
-                        1114200, // Ctrl + x
-                    ];
-
                     _ckEditor(interaction).on('key',function(e){
                         if (_.contains(keycodes,e.data.keyCode)){
                             updateCounter();
@@ -167,7 +178,13 @@ define([
                         }
                     });
                 }else{
-                    $textarea.on('keydown',limitUserInput());
+                    $textarea.on('keydown',function(e){
+                       if (_.contains(keycodes,e.which)){
+                            updateCounter();
+                        }else{
+                            limitUserInput(e);
+                        }
+                    });
                 }
 
             }
