@@ -119,8 +119,13 @@ define([
                      * store the keycode regardless the format of the interaction
                      * @type {Number}
                      */
+                    var keys = [
+                        32, // space
+                        13, // enter
+                        2228237, // shift + enter in ckEditor
+                    ];
                     var keyCode = (typeof evt.data !== "undefined") ? evt.data.keyCode : evt.which ;
-                    if ((maxWords && getWordsCount() >= maxWords && keyCode === 32) || (maxLength && getCharsCount() >= maxLength)){
+                    if ((maxWords && getWordsCount() >= maxWords && _.contains(keys,keyCode)) || (maxLength && getCharsCount() >= maxLength)){
                         if (typeof evt.cancel !== "undefined"){
                             evt.cancel();
                         }else {
@@ -162,11 +167,11 @@ define([
                  */
                 var keycodes = [
                     8, // backspace
-                    222832, // Shift + backspace
-                    1114120, // Ctrl + backspace
-                    1114177, // Ctrl + a
-                    1114202, // Ctrl + z
-                    1114200, // Ctrl + x
+                    222832, // Shift + backspace in ckEditor
+                    1114120, // Ctrl + backspace in ckEditor
+                    1114177, // Ctrl + a in ckEditor
+                    1114202, // Ctrl + z in ckEditor
+                    1114200, // Ctrl + x in ckEditor
                 ];
 
                 if (_getFormat(interaction) === "xhtml") {
