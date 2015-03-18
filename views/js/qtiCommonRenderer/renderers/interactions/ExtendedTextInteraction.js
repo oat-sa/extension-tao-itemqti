@@ -427,7 +427,9 @@ define([
      * @return {string}             text content of the ckEditor
      */
     var _ckEditorData = function(interaction) {
-        return  $('<div>' + _ckEditor(interaction).getData() + '</div>').text();
+        var tempNode = document.createElement('div');
+        tempNode.innerHTML = _ckEditor(interaction).getData();
+        return  tempNode.textContent;
     };
 
     var _getFormat = function(interaction) {
