@@ -112,12 +112,12 @@ define([
 
 
                 var limitUserInput = function(evt){
-                    if ((maxWords && getWordsCount() >= maxWords) || (maxLength && getCharsCount() >= maxLength)){
-                        // var value = _getTextareaValue(interaction);
-                        // value = value.replace(/\s{2,}/g, ' ').substring(0,value.length -1);
-                        // setText(interaction,value);
-                        if (typeof evt.cancel !== "undefined"){evt.cancel()}
-                            else {evt.preventDefault();}
+                    if ((maxWords && getWordsCount() >= maxWords && evt.data.keyCode === 32) || (maxLength && getCharsCount() >= maxLength)){
+                        if (typeof evt.cancel !== "undefined"){
+                            evt.cancel();
+                        }else {
+                            evt.preventDefault();
+                        }
                     }
                     updateCounter();
                 };
@@ -136,7 +136,7 @@ define([
                  */
                 var getWordsCount = function(){
                     var value = _getTextareaValue(interaction);
-                    return value.trim().replace(/\s+/gi, ' ').split(' ').length;
+                    return value.replace(/\s+/gi, ' ').split(' ').length;
                 };
 
                 /**
@@ -167,7 +167,7 @@ define([
                         }
                     });
                 }else{
-                    $textarea.on('change keydown keypressed keyup blur focus',limitUserInput(evt));
+                    $textarea.on('keydown',limitUserInput());
                 }
 
             }
@@ -400,12 +400,12 @@ define([
     };
 
     /**
-     * get the content of the ckEditor
+     * get the text content of the ckEditor ( not the entire html )
      * @param  {object} interaction the interaction
-     * @return {string}             content of the ckEditor
+     * @return {string}             text content of the ckEditor
      */
     var _ckEditorData = function(interaction) {
-        return  $('<div>' + _ckEditor(interaction).getData() + '</div>').text();;
+        return  $('<div>' + _ckEditor(interaction).getData() + '</div>').text();
     };
 
     var _getFormat = function(interaction) {
