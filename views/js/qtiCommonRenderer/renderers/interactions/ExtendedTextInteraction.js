@@ -485,6 +485,8 @@ define([
             if (from === 'xhtml') {
                 _ckEditor(interaction).destroy();
             }
+            if ( _getFormat(interaction) === 'preformatted'){$container.find('textarea').addClass('text-preformatted')}
+            else{$container.find('textarea').removeClass('text-preformatted')}
         }
     };
 
