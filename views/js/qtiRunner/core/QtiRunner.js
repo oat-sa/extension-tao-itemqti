@@ -43,7 +43,6 @@ define([
     
     QtiRunner.prototype.updateItemApi = function() {
         var responses = this.getResponses();
-
         var states = this.getStates();
         // Transform responses into state variables.
         for (var key in states) {
@@ -169,14 +168,22 @@ define([
     };
 
     QtiRunner.prototype.initInteractionsResponse = function(){
-        if(this.item){
-            var interactions = this.item.getInteractions();
+        var _this = this;
+        if(_this.item){
+            var interactions = _this.item.getInteractions();
             for(var i in interactions){
                 var interaction = interactions[i];
                 var responseId = interaction.attr('responseIdentifier');
-                this.itemApi.getVariable(responseId, function(values){
+                _this.itemApi.getVariable(responseId, function(values){
                     if(values){
                         interaction.setState(values);
+                    }
+                    else{
+                        var states = _this.getStates();
+                        if(_.indexOf(states, responseId)){
+                            _this.itemApi.setVariable(responseId, states[responseId]);
+                            interaction.setState(states[responseId]);
+                        }
                     }
                 });
             }
