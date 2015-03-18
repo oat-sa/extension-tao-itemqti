@@ -351,7 +351,12 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
     Element.issetElement = function(serial){
         return !!_instances[serial];
     };
-
+   
+    /**
+     * Unset a registered element from it's serial
+     * @param {String} serial - the element serial
+     * @returns {Boolean} true if unset
+     */ 
     Element.unsetElement = function(serial){
 
         var element = Element.getElementBySerial(serial);
@@ -363,12 +368,10 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 delete _instances[elt.serial];
             });
             delete _instances[element.serial];
-
-        }else{
-            throw 'cannot unset an element that does not exist';
+            
+            return true;
         }
-
-        return true;
+        return false;
     };
 
     return Element;

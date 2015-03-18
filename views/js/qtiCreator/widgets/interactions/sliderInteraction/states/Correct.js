@@ -2,10 +2,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'lodash',
     'i18n'
-], function(stateFactory, Correct, commonRenderer, helper, _, __){
+], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
 
     var SliderInteractionStateCorrect = stateFactory.create(Correct, function(){
         
@@ -28,7 +28,7 @@ define([
         var $sliderElt = widget.$container.find('.qti-slider');
         $sliderElt.removeAttr('disabled');
 
-        helper.appendInstruction(interaction, __('Please define the correct response using the slider.'));
+        instructionMgr.appendInstruction(interaction, __('Please define the correct response using the slider.'));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(_unformatResponse(data.response));
@@ -44,7 +44,7 @@ define([
         $sliderElt.val(lowerBound);
         widget.$container.find('span.qti-slider-cur-value').text('' + lowerBound);
         
-        helper.removeInstructions(widget.element);
+        instructionMgr.removeInstructions(widget.element);
         widget.$container.off('responseChange.qti-widget');
     };
     

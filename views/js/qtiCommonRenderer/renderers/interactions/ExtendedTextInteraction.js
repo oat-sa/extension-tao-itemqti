@@ -1,15 +1,39 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
-    'lodash',
     'jquery',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'lodash',
     'i18n',
+    'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/extendedTextInteraction',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
     'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
     'polyfill/placeholders'
-], function(_, $, tpl, Helper, __, ckEditor ,ckConfigurator){
-
+], function($, _, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
     'use strict';
+
     /**
      * Setting the pattern mask for the input, for browsers which doesn't support this feature
      * @param {jQuery} $element
@@ -50,8 +74,10 @@ define([
      * @param {object} interaction
      */
     var render = function(interaction){
+
+        var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
-        var $container = interaction.getContainer();
+
         var response = interaction.getResponseDeclaration();
         var multiple = _isMultiple(interaction);
 
@@ -68,7 +94,7 @@ define([
             });
 
             editor.on('change', function(e) {
-                Helper.triggerResponseChangeEvent(interaction, {});
+                containerHelper.triggerResponseChangeEvent(interaction, {});
             });
         });
 
@@ -95,7 +121,7 @@ define([
             }
             else {
                 $el.bind('keyup change', function(e) {
-                    Helper.triggerResponseChangeEvent(interaction, {});
+                    containerHelper.triggerResponseChangeEvent(interaction, {});
                 });
             }
             if (attributes.expectedLength || attributes.expectedLines || attributes.patternMask) {
@@ -188,7 +214,6 @@ define([
                 }
 
             }
-
         }
         else {
             $el = $container.find('input');
@@ -217,8 +242,11 @@ define([
                     $el.on('blur', function() {
                         setTimeout(function() {
                             //checking if the user was clicked outside of the input fields
+
+                            //TODO remove notifications in favor of instructions
+
                             if (!$el.is(':focus') && _getNumStrings($el) < minStrings) {
-                                Helper.appendNotification(interaction, __('The minimum number of answers is ') + ' : ' + minStrings, 'warning');
+                                instructionMgr.appendNotification(interaction, __('The minimum number of answers is ') + ' : ' + minStrings, 'warning');
                             }
                         }, 100);
                     });
@@ -273,7 +301,7 @@ define([
         if (_getFormat(interaction) === 'xhtml') {
             _ckEditor(interaction).setData('');
         }else{
-            interaction.getContainer().find('input, textarea').val('');
+            containerHelper.get(interaction).find('input, textarea').val('');
         }
     };
 
@@ -331,7 +359,7 @@ define([
      */
     var getResponse = function(interaction) {
 
-        var $container = interaction.getContainer();
+        var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
         var responseDeclaration = interaction.getResponseDeclaration();
         var baseType = responseDeclaration.attr('baseType');
@@ -403,7 +431,7 @@ define([
             return _ckEditorData(interaction);
         }
         else {
-            return Helper.getContainer(interaction).find('textarea').val();
+            return containerHelper.get(interaction).find('textarea').val();
         }
     };
 
@@ -433,7 +461,6 @@ define([
             case 'xhtml':
             case 'preformatted':
                 return format;
-
             default:
                 return 'plain';
         }
@@ -474,7 +501,7 @@ define([
 
     var updateFormat = function(interaction, from) {
         var ckeOptions = {};
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
@@ -492,7 +519,7 @@ define([
 
     var enable = function(interaction) {
         var ckeOptions = {};
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         $container.find('input, textarea').removeAttr('disabled');
 
         if ( _getFormat(interaction) === 'xhtml') {
@@ -501,7 +528,7 @@ define([
     };
 
     var disable = function(interaction) {
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
         $container.find('input, textarea').attr('disabled', 'disabled');
 
         if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
@@ -514,7 +541,7 @@ define([
     };
 
     var setText = function(interaction, text) {
-        var $container = Helper.getContainer(interaction);
+        var $container = containerHelper.get(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
             var editor = _ckEditor(interaction);
@@ -531,6 +558,56 @@ define([
         }
     };
 
+     /**
+     * Clean interaction destroy
+     * @param {Object} interaction
+     */
+    var destroy = function(interaction){
+
+        var $container = containerHelper.get(interaction);
+
+        //remove event
+        $(document).off('.commonRenderer');
+
+        //remove instructions
+        instructionMgr.removeInstructions(interaction);
+
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
+    };
+
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+        return state;
+    };
+
     var getCustomData = function(interaction, data){
         var pattern = interaction.attr('patternMask'),
             maxWords = parseInt(_parsePattern(pattern,'words')),
@@ -544,15 +621,23 @@ define([
 
     };
 
+    /**
+     * Expose the common renderer for the extended text interaction
+     * @exports qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction
+     */
     return {
         qtiClass : 'extendedTextInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         getData : getCustomData,
         resetResponse : resetResponse,
+        destroy : destroy,
+        getState : getState,
+        setState : setState,
+
         updateFormat : updateFormat,
         enable : enable,
         disable : disable,

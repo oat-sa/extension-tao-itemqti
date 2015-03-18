@@ -16,15 +16,9 @@ define([
         // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
         // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
         // separator bool, defaults to false
-        // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
-        var positionedPlugins = {
-            TaoMediaManager : {
-                insertAfter : 'SpecialChar'
-            }
-        };
+        var positionedPlugins = {};
 
         var qtiPositionedPlugins = {
-//            TaoQtiMedia : {insertAfter : 'SpecialChar'},
             TaoQtiImage : {insertAfter : 'SpecialChar'},
             TaoUnderline : {insertAfter : 'Italic'}
         };
