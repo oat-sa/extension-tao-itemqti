@@ -102,21 +102,17 @@ class Service extends tao_models_classes_Service
         $returnValue = (bool) false;
 
         if (!is_null($rdfItem) && !is_null($qtiItem)) {
-            try{
 
-                $itemService = taoItems_models_classes_ItemsService::singleton();
+            $itemService = taoItems_models_classes_ItemsService::singleton();
 
-                //check if the item is QTI item
-                if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
+            //check if the item is QTI item
+            if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
 
-                    //set the current data lang in the item content to keep the integrity
-                    $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+                //set the current data lang in the item content to keep the integrity
+                $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
 
-                    //get the QTI xml
-                    $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
-                }
-            } catch(common_Exception $ce) {
-                print $ce;
+                //get the QTI xml
+                $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
             }
         }
 
