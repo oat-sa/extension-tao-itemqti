@@ -441,7 +441,7 @@ define([
      * @return {object}             ckeditor instance
      */
     var _ckEditor = function(interaction){
-        return Helper.getContainer(interaction).data('editor');
+        return containerHelper.get(interaction).data('editor');
     };
 
     /**
@@ -512,8 +512,11 @@ define([
             if (from === 'xhtml') {
                 _ckEditor(interaction).destroy();
             }
-            if ( _getFormat(interaction) === 'preformatted'){$container.find('textarea').addClass('text-preformatted')}
-            else{$container.find('textarea').removeClass('text-preformatted')}
+            if ( _getFormat(interaction) === 'preformatted'){
+                $container.find('textarea').addClass('text-preformatted');
+            } else{
+                $container.find('textarea').removeClass('text-preformatted');
+            }
         }
     };
 
