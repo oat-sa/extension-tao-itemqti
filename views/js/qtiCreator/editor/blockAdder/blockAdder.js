@@ -19,10 +19,10 @@ define([
 
         //bind add event
         $itemBody.on('mousedown', '.add-block-element .circle', function(e){
-            
+
             e.preventDefault();
             e.stopPropagation();
-            
+
             var $widget = $(this).parents('.widget-box');
             var $placeholder = $('<div class="placeholder">');
 
@@ -33,11 +33,17 @@ define([
             }
             $colRow.after($placeholder);
             $placeholder.wrap(_wrap);
-            
-            insertElement('choiceInteraction', $placeholder, function($widget, widget){
-                $widget.append(adderTpl());
+
+            insertElement('choiceInteraction', $placeholder);
+
+        }).on('ready.qti-widget', function(e, widget){
+
+            var elt = widget.element;
+            if(elt.is('blockInteraction') || elt.is('_container')){
                 console.log('new widget', widget);
-            });
+                widget.$container.append(adderTpl());
+            }
+
         });
     }
 
@@ -108,8 +114,6 @@ define([
                     }else{
                         widget.changeState('active');
                     }
-                    
-                    callback($widget, widget);
 
                 }
             }, this.getUsedClasses());
