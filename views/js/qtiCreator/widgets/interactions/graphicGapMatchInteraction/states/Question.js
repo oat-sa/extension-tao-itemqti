@@ -41,11 +41,12 @@ define([
     'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
-
+    'ui/feedback',
     'ui/mediasizer'
 ], function ($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel, resourceManager) {
 
     "use strict";
+
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -122,6 +123,24 @@ define([
         $(window).on('resize.changestate', function () {
             widget.changeState('sleep');
         });
+
+
+        /**
+         * Media size runs not in automated mode, this applies the values manually
+         *
+         * @param params
+         * @param factor
+         */
+        function applyMediasizerValues(params, factor) {
+
+            // css() + attr() for consistency
+            params.$target.css({
+                width: params.width * factor,
+                height: params.height * factor
+            })
+                .attr('width', params.width * factor)
+                .attr('height', params.height * factor);
+        }
 
 
         /**
@@ -301,14 +320,21 @@ define([
                 $gapImgElem = $gapImgBox.find('img');
 
                 //init media sizer
-                $mediaSizer = $choiceForm.find('.media-sizer-panel');
+                $mediaSizer = $choiceForm.find('.media-sizer-panel')
+                    .on('create.mediasizer', function(e, params) {
+                        //console.log(params, widget.$original.data('factor'))
+                        applyMediasizerValues(params, widget.$original.data('factor'));
+                    });
 
                 $mediaSizer.empty().mediasizer({
                     target: $gapImgElem,
                     showResponsiveToggle: false,
                     showSync: false,
                     responsive: false,
-                    parentSelector: $gapImgBox
+                    parentSelector: $gapImgBox,
+                    // needs to be done on.sizechange.mediasizer to take in account the scale factor
+                    applyToMedium: false,
+                    maxWidth: interaction.object.attr('width')
                 });
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
@@ -327,6 +353,8 @@ define([
 
                 // callbacks
                 $mediaSizer.on('sizechange.mediasizer', function(e, params) {
+                    applyMediasizerValues(params, widget.$original.data('factor'));
+
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
                 });

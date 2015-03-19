@@ -78,6 +78,7 @@ define([
                     $img.width( $img.attr('width') * factor );
                     $img.height( $img.attr('height') * factor );
                 });
+               $container.data('factor', factor);
            } 
         },
 
