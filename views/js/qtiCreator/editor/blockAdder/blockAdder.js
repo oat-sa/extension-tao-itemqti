@@ -24,8 +24,7 @@ define([
             e.stopPropagation();
             
             var $widget = $(this).parents('.widget-box');
-            var $placeholder = $('<div>');
-            $placeholder.wrap(_wrap);
+            var $placeholder = $('<div class="placeholder">');
 
             var $colRow = $widget.parent('.colrow');
             if(!$colRow.length){
@@ -33,9 +32,10 @@ define([
                 $colRow = $widget.parent('.colrow');
             }
             $colRow.after($placeholder);
+            $placeholder.wrap(_wrap);
+            
             insertElement('choiceInteraction', $placeholder, function($widget, widget){
                 $widget.append(adderTpl());
-                $widget.wrap(_wrap);
                 console.log('new widget', widget);
             });
         });
