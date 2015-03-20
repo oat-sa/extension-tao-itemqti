@@ -83,7 +83,8 @@ module.exports = function(grunt) {
                 'taoQtiItem'    : root + '/taoQtiItem/views/js',
                 'taoQtiItemCss' : root + '/taoQtiItem/views/css',
                 'taoItems'      : root + '/taoItems/views/js',
-                'taoCss'        : root + '/tao/views/css'
+                'taoCss'        : root + '/tao/views/css',
+                'jquery'        : 'lib/jqueryamd-1.8.3'
             },
             excludeShallow : ['mathJax', 'mediaElement', 'ckeditor'],
             include: runtimeLibs.concat([ 'tpl', 'json']),
