@@ -4,7 +4,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/content'
 ], function($, _, popupTpl, contentTpl){
-
+    
+    var _ns = '.element-selector';
+    
     function init(options){
 
         var $anchor = options.attachTo;
@@ -60,7 +62,7 @@ define([
         if(!$trigger.hasClass('active')){
             $container.find('.element-list li').removeClass('active');
             $trigger.addClass('active');
-            $container.trigger('selected', [qtiClass, $trigger]);
+            $container.trigger('selected'+_ns, [qtiClass, $trigger]);
         }
     }
     

@@ -26,7 +26,7 @@ require([
             interactions : interactions
         });
 
-        $container.on('selected', function(e, qtiClass, $trigger){
+        $container.on('selected.element-selector', function(e, qtiClass, $trigger){
             if(qtiClass === 'hotspotInteraction'){
                 QUnit.assert.ok($('#center1 .element-list li[data-qti-class=hotspotInteraction]').hasClass('active'),'hotspotInteraction selected');
             }else if(qtiClass === 'choiceInteraction'){
