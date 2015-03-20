@@ -14,19 +14,16 @@ define([
         var positions = computePosition($anchor, $container);
         var $element = $(popupTpl({
             popup : positions.popup,
-            arrow : positions.arrow
+            arrow : positions.arrow,
+            content : buildContent(options.interactions)
         }));
 
         //only one 
         $anchor.find('.contextual-popup').remove();
 
         //style and attach the form
+        $anchor.css('position', 'relative');
         $anchor.append($element);
-
-        //add popup content
-        var content = buildContent(options.interactions);
-        $element.append(content);
-
 
         $element.on('click', '.group-list li', function(){
             var $trigger = $(this);

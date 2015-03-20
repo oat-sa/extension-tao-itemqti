@@ -7,7 +7,7 @@
     width : 500px;
     color: $textColor;
     background: mix(#fff, $grey, 85%);
-    padding: 15px;
+    padding: 15px 15px 0;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
@@ -49,6 +49,18 @@
     .tooltipstered {
         text-align: right;
     }
+    .footer{
+        margin-top:10px;
+        .btn{
+            float:right;
+            margin-left:20px;
+            margin-bottom:7px;
+            &.cancel{
+                position:relative;
+                top:3px;
+            }
+        }
+    }
     .elementSelector{
         ul.group-list{
             box-sizing: border-box;
@@ -65,6 +77,7 @@
                 content:""; display:table;
             }
             li{
+                padding:0;
                 margin-bottom:-1px;
                 float:left;
                 position: relative;
@@ -132,6 +145,7 @@
                 }
                 .label{
                     position:relative;
+                    display:inline-block;
                     left:6px;
                 }
                 border:1px solid #EEE;

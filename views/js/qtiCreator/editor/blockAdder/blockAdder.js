@@ -4,14 +4,19 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/helper/container',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function($, adderTpl, Element, creatorRenderer, containerHelper, contentHelper){
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCreator/editor/elementSelector/selector'
+], function($, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, selector){
 
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
 
-    function create($itemBody){
+    function create(options){
 
+        var $itemBody = options.$item;
+        var interactions = options.interactions;
+        console.log(interactions);
+        
         $itemBody.find('.widget-block, .widget-blockInteraction').each(function(){
             var $widget = $(this);
             $widget.append(adderTpl());
@@ -34,17 +39,26 @@ define([
             $colRow.after($placeholder);
             $placeholder.wrap(_wrap);
 
+            selector.init({
+                attachTo : $placeholder,
+                container : $itemBody,
+                interactions : interactions
+            });
+
+            return;
+            
             insertElement('choiceInteraction', $placeholder);
 
         }).on('ready.qti-widget', function(e, widget){
 
             var elt = widget.element;
             if(elt.is('blockInteraction') || elt.is('_container')){
-                console.log('new widget', widget);
                 widget.$container.append(adderTpl());
             }
 
         });
+
+
     }
 
     function insertElement(qtiClass, $placeholder, callback){

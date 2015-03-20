@@ -432,7 +432,7 @@ define([
     };
     
     ItemWidget.initColumnInsertion = function(){
-        
+        return;
         var $itemBody = this.$container.find('.qti-itemBody');
         blockAdder.create($itemBody);
     };

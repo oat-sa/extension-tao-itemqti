@@ -15,7 +15,8 @@ define([
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry'
+    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder'
 ], function(
     $,
     _,
@@ -32,7 +33,8 @@ define([
     editor,
     interactionsToolbar,
     ciRegistry,
-    icRegistry
+    icRegistry,
+    blockAdder
     ){
 
     loadingBar.start();
@@ -69,10 +71,14 @@ define([
 
     }
     
-    function _initializeElementAdder(interactionModels){
+    function _initializeElementAdder($itemPanel, interactionModels){
         
         var authoringElements = _getAuthoringElements(interactionModels);
-        console.log(JSON.stringify(authoringElements));
+        
+        blockAdder.create({
+            $item : $itemPanel,
+            interactions : authoringElements
+        });
     }
 
     function _initializeHooks(uiHooks, configProperties){
@@ -190,7 +196,7 @@ define([
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
-                _initializeElementAdder(interactionHooks);
+                _initializeElementAdder(configProperties.dom.getItemPanel(), interactionHooks);
 
                 //load creator renderer
                 creatorRenderer
