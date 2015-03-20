@@ -49,7 +49,12 @@ define([
             $group.show().siblings('.element-group').hide();
         }
     }
-
+    
+    function activateElement($container, qtiClass){
+         var $trigger = $container.find('.element-list li[data-qti-class="' + qtiClass + '"]');
+        _activateElement($container, $trigger);
+    }
+    
     function _activateElement($container, $trigger){
         var qtiClass = $trigger.data('qti-class');
         if(!$trigger.hasClass('active')){
@@ -58,7 +63,7 @@ define([
             $container.trigger('selected', [qtiClass, $trigger]);
         }
     }
-
+    
     function computePosition($anchor, $container){
 
         var popupWidth = 500;
@@ -124,6 +129,7 @@ define([
     }
 
     return {
-        init : init
+        init : init,
+        activateElement : activateElement
     };
 });
