@@ -5,13 +5,30 @@ define([
 
     function init(options){
 
+        var $anchor = options.attachTo;
+        var $container = options.container;
+        var positions = computePosition($anchor, $container);
+        var $element = $(popupTpl({
+            popup : positions.popup,
+            arrow : positions.arrow
+        }));
+
+        //only one 
+        $anchor.find('.contextual-popup').remove();
+
+        //style and attach the form
+        $anchor.append($element);
+
+        //add popup content
+        $element.append('stuffing');
+    }
+    
+    function computePosition($anchor, $container){
+        
         var popupWidth = 500;
         var arrowWidth = 6;
         var marginTop = 10;
         var marginLeft = 15;
-        var $anchor = options.attachTo;
-        var $container = options.container;
-
         var _anchor = {top : $anchor.offset().top, left : $anchor.offset().left, w : $anchor.innerWidth(), h : $anchor.innerHeight()};
         var _container = {top : $container.offset().top, left : $container.offset().left, w : $container.innerWidth()};
         var _popup = {
@@ -32,23 +49,11 @@ define([
             left : -_popup.left + _anchor.w / 2 - arrowWidth,
             leftCover : -_popup.left + _anchor.w / 2 - arrowWidth - 6
         };
-        var $element = $(popupTpl({
+        
+        return {
             popup : _popup,
             arrow : _arrow
-        }));
-
-        //only one 
-        $anchor.find('.contextual-popup').remove();
-
-        //style and attach the form
-        $anchor.append($element);
-
-        //add popup content
-        $element.append('stuffing');
-    }
-    
-    function computePosition($anchor, $container){
-        
+        };
     }
     
     return {
