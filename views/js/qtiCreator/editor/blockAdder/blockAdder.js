@@ -1,12 +1,13 @@
 define([
     'jquery',
+    'lodash',
     'tpl!taoQtiItem/qtiCreator/editor/blockAdder/tpl/addColumnRow',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/helper/container',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/elementSelector/selector'
-], function($, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, selector){
+], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector){
 
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
@@ -16,11 +17,13 @@ define([
         var $itemBody = options.$item;
         var interactions = options.interactions;
         console.log(interactions);
-        
+
         $itemBody.find('.widget-block, .widget-blockInteraction').each(function(){
             var $widget = $(this);
             $widget.append(adderTpl());
         });
+
+        var selector, widget;
 
         //bind add event
         $itemBody.on('mousedown', '.add-block-element .circle', function(e){
@@ -29,31 +32,57 @@ define([
             e.stopPropagation();
 
             var $widget = $(this).parents('.widget-box');
-            var $placeholder = $('<div class="placeholder">');
+            var $wrap = $(_wrap);
 
             var $colRow = $widget.parent('.colrow');
             if(!$colRow.length){
                 $widget.wrap(_wrap);
                 $colRow = $widget.parent('.colrow');
             }
-            $colRow.after($placeholder);
-            $placeholder.wrap(_wrap);
+            $colRow.after($wrap);
 
-            selector.init({
-                attachTo : $placeholder,
+            selector = elementSelector.init({
+                attachTo : $wrap,
                 container : $itemBody,
                 interactions : interactions
             });
 
-            return;
+            $itemBody.off('.element-selector').on('selected.element-selector', function(e, qtiClass, $trigger){
+                console.log('add ', qtiClass);
+
+                if(true){
+                    //remove old widget if applicable:
+
+                    //in model
+                    if(widget){
+                        widget.element.remove();
+                    }
+                    //dom
+                    $wrap.find('.widget-box').remove();
+                }
+
+                var $placeholder = $('<div class="placeholder">');
+                $wrap.prepend($placeholder);
+                console.log($wrap);
+                insertElement(qtiClass, $placeholder);
+                selector.reposition();
+            });
             
-            insertElement('choiceInteraction', $placeholder);
-
-        }).on('ready.qti-widget', function(e, widget){
-
-            var elt = widget.element;
-            if(elt.is('blockInteraction') || elt.is('_container')){
+            selector.activateElement('choiceInteraction');
+            selector.activatePanel('Common Interactions');
+            
+        }).on('ready.qti-widget', function(e, _widget){
+            
+            widget = _widget;
+            var qtiElement = widget.element;
+            if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
                 widget.$container.append(adderTpl());
+            }
+            
+            //after update
+            if(selector){
+                selector.reposition();
+                widget.$container.addClass('tmp');
             }
 
         });
@@ -122,6 +151,7 @@ define([
                     $widget.trigger('contentChange.gridEdit');
                     $widget.trigger('resize.gridEdit');
 
+                    return;
                     //active it right away:
                     if(Element.isA(elt, 'interaction')){
                         widget.changeState('question');

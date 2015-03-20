@@ -31,8 +31,27 @@ define([
         }).on('click', '.element-list li', function(){
             _activateElement($element, $(this));
         });
-
-        activatePanel($element, 'Inline Interactions');
+        
+        return {
+            getPopup : function(){
+                return $element;
+            },
+            reposition : function(){
+                var pos = computePosition($anchor, $container);
+                $element.css({
+                    top : pos.popup.top,
+                    left : pos.popup.left
+                });
+                $element.children('.arrow').css('left', pos.arrow.left);
+                $element.children('.arrow-cover').css('left', pos.arrow.leftCover);
+            },
+            activatePanel : function(groupName){
+                activatePanel($element, groupName);
+            },
+            activateElement : function(qtiClass){
+                activateElement($element, qtiClass);
+            }
+        };
     }
 
     function activatePanel($container, groupName){
@@ -95,7 +114,7 @@ define([
             arrow : _arrow
         };
     }
-
+    
     function buildContent(interactions){
 
         var groups = [];
@@ -129,6 +148,7 @@ define([
 
     return {
         init : init,
-        activateElement : activateElement
+        activateElement : activateElement,
+        activatePanel : activatePanel
     };
 });
