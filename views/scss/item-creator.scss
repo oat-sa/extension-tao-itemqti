@@ -1030,7 +1030,7 @@ img.dragging.ui-draggable-dragging {
     .inner-wrapper {
         position: relative;
     }
-
+    
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
@@ -1048,7 +1048,8 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_graphic-gap";
     @import "qtiCreator/_grid-editor";
     @import "qtiCreator/_custom";
-
+    @import "qtiCreator/_element-selector";
+    
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-simpleChoice {
         .mini-tlb[data-edit="question"] {
