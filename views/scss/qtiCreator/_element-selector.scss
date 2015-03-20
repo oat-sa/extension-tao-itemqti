@@ -116,6 +116,9 @@
                 &:nth-child(n+2) > a {
                     margin-left: 3px;
                 }
+                &:hover{
+                    background:transparent;
+                }
             }
         }
         
@@ -145,10 +148,11 @@
                 }
                 .label{
                     position:relative;
-                    display:inline-block;
                     left:6px;
+                    display:inline-block;
+                    max-width: 160px;
                 }
-                border:1px solid #EEE;
+                border:1px solid transparent;
                 &:hover{
                     border-color:whiten($info, .5);
                 }
