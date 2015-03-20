@@ -1,7 +1,9 @@
 define([
     'jquery',
-    'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup'
-], function($, popupTpl){
+    'lodash',
+    'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup',
+    'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/content'
+], function($, _, popupTpl, contentTpl){
 
     function init(options){
 
@@ -20,11 +22,45 @@ define([
         $anchor.append($element);
 
         //add popup content
-        $element.append('stuffing');
+        var content = buildContent(options.interactions);
+        $element.append(content);
+
+
+        $element.on('click', '.group-list li', function(){
+            var $trigger = $(this);
+            _activatePanel($element, $trigger);
+        }).on('click', '.element-list li', function(){
+            _activateElement($element, $(this));
+        });
+
+        activatePanel($element, 'Inline Interactions');
     }
-    
+
+    function activatePanel($container, groupName){
+        var $trigger = $container.find('.group-list li[data-group-name="' + groupName + '"]');
+        _activatePanel($container, $trigger);
+    }
+
+    function _activatePanel($container, $trigger){
+        if(!$trigger.hasClass('active')){
+            $trigger.addClass('active').siblings('.active').removeClass('active');
+            var group = $trigger.data('group-name');
+            var $group = $container.find('.element-group[data-group-name="' + group + '"]');
+            $group.show().siblings('.element-group').hide();
+        }
+    }
+
+    function _activateElement($container, $trigger){
+        var qtiClass = $trigger.data('qti-class');
+        if(!$trigger.hasClass('active')){
+            $container.find('.element-list li').removeClass('active');
+            $trigger.addClass('active');
+            $container.trigger('selected', [qtiClass, $trigger]);
+        }
+    }
+
     function computePosition($anchor, $container){
-        
+
         var popupWidth = 500;
         var arrowWidth = 6;
         var marginTop = 10;
@@ -44,18 +80,49 @@ define([
         }else if(_container.w - (offset + _anchor.w + marginLeft) < _popup.w / 2){
             _popup.left = -offset + _container.w - marginLeft - _popup.w;
         }
-        
+
         var _arrow = {
             left : -_popup.left + _anchor.w / 2 - arrowWidth,
             leftCover : -_popup.left + _anchor.w / 2 - arrowWidth - 6
         };
-        
+
         return {
             popup : _popup,
             arrow : _arrow
         };
     }
-    
+
+    function buildContent(interactions){
+
+        var groups = [];
+        _.each(interactions, function(interaction){
+
+            var groupName = interaction.tags[0];
+            var panel = _.find(groups, {name : groupName});
+            if(!panel){
+                panel = {
+                    name : groupName,
+                    label : groupName.replace(/\sInteractions$/, ''),
+                    elements : []
+                };
+                groups.push(panel);
+            }
+
+            panel.elements.push({
+                qtiClass : interaction.qtiClass,
+                disabled : !!interaction.disabled,
+                title : interaction.description,
+                iconFont : /^icon-/.test(interaction.icon),
+                icon : interaction.icon,
+                label : interaction.label
+            });
+        });
+
+        return contentTpl({
+            groups : groups
+        });
+    }
+
     return {
         init : init
     };

@@ -36,11 +36,11 @@ define([
     ){
 
     loadingBar.start();
-
-    var _initializeInteractionsToolbar = function($toolbar, interactionModels){
-
+    
+    function _getAuthoringElements(interactionModels){
+        
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-
+        
         _.each(interactionModels, function(interactionModel){
             var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
             if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
@@ -49,9 +49,15 @@ define([
                 throw 'invalid authoring data for custom interaction';
             }
         });
+        
+        return toolbarInteractions;
+    }
+    
+    
+    function _initializeInteractionsToolbar($toolbar, interactionModels){
 
         //create toolbar:
-        interactionsToolbar.create($toolbar, toolbarInteractions);
+        interactionsToolbar.create($toolbar, _getAuthoringElements(interactionModels));
 
         //init accordions:
         panel.initSidebarAccordion($toolbar);
@@ -61,9 +67,15 @@ define([
         //init special subgroup
         panel.toggleInlineInteractionGroup();
 
-    };
+    }
+    
+    function _initializeElementAdder(interactionModels){
+        
+        var authoringElements = _getAuthoringElements(interactionModels);
+        console.log(JSON.stringify(authoringElements));
+    }
 
-    var _initializeHooks = function(uiHooks, configProperties){
+    function _initializeHooks(uiHooks, configProperties){
 
         require(_.values(uiHooks), function(){
 
@@ -178,6 +190,7 @@ define([
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
+                _initializeElementAdder(interactionHooks);
 
                 //load creator renderer
                 creatorRenderer
