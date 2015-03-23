@@ -15,7 +15,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                         throw 'missing required class : ' + qtiClass;
                     }
                 });
-
+                
             //second pass after requiring classes:
             require(_.values(required), function(){
 
@@ -24,7 +24,9 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                 for(var i in arguments){
                     Qti[arguments[i].prototype.qtiClass] = arguments[i];
                 }
-
+                
+//                debugger;
+                
                 //create new elements
                 var newElts = {};
                 var newBody = body.replace(regex,
@@ -51,7 +53,8 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                 //insert them:
                 container.setElements(newElts, newBody);
-
+                console.log(container.relatedItem);
+                
                 //operations after insertions:
                 var $doc = $(document);
                 _.each(newElts, function(elt){

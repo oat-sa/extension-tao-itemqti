@@ -14,18 +14,19 @@ define([
     var _placeholder = '<div class="placeholder">';
 
     function create(options){
-
-        var $itemBody = options.$item;
+        
+        var item = options.item;
+        var $editorPanel = options.$editorPanel;
         var interactions = options.interactions;
 
-        $itemBody.find('.widget-block, .widget-blockInteraction').each(function(){
+        $editorPanel.find('.widget-block, .widget-blockInteraction').each(function(){
             _appendButton($(this));
         });
 
         var selector, widget;
 
         //bind add event
-        $itemBody.on('mousedown', '.add-block-element .circle', function(e){
+        $editorPanel.on('mousedown', '.add-block-element .circle', function(e){
 
             e.preventDefault();
             e.stopPropagation();
@@ -42,54 +43,67 @@ define([
 
             selector = elementSelector.init({
                 attachTo : $wrap,
-                container : $itemBody,
+                container : $editorPanel,
                 interactions : interactions
             });
 
-            $itemBody.off('.element-selector').on('selected.element-selector', function(e, qtiClass, $trigger){
-                
+            $editorPanel.off('.element-selector').on('selected.element-selector', function(e, qtiClass, $trigger){
+
                 var $placeholder = $(_placeholder);
-                
+
                 //remove old widget if applicable:
                 if(widget){
+                    //from model
                     widget.element.remove();
-                    //dom
+                    //from dom
                     $wrap.find('.widget-box').remove();
                 }
-                
-                $wrap.prepend($placeholder);
+
+                $wrap.addClass('tmp').prepend($placeholder);
                 insertElement(qtiClass, $placeholder);
                 selector.reposition();
-                
+
             }).on('done.element-selector', function(){
-                
+
                 //remove tmp class
                 $wrap.removeClass('tmp');
-                
+
+                //append button
+                _appendButton(widget.$container);
+
                 //activate the new widget:
                 _.defer(function(){
+
                     if(widget.element.is('interaction')){
                         widget.changeState('question');
                     }else{
                         widget.changeState('active');
                     }
                 });
-                
+
                 //destroy selector
                 selector.destroy();
-                $itemBody.off('.element-selector');
+                $editorPanel.off('.element-selector');
+
+                //need to update item body
+                item.body(contentHelper.getContent($editorPanel.find('.qti-itemBody')));
                 
             }).on('cancel.element-selector', function(){
-                
+
                 //destroy interaction + colRow
                 widget.element.remove();
                 $wrap.remove();
-                
+
                 //destroy selector
                 selector.destroy();
-                $itemBody.off('.element-selector');
+                $editorPanel.off('.element-selector');
+                
+                //need to update item body
+                item.body(contentHelper.getContent($editorPanel.find('.qti-itemBody')));
+                
             });
-
+            
+            //select a default element type
             selector.activateElement('choiceInteraction');
             selector.activatePanel('Common Interactions');
 
@@ -97,28 +111,37 @@ define([
 
             var qtiElement = _widget.element;
             if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
-                widget = _widget;
-                _appendButton(widget.$container);
+
+                _appendButton(_widget.$container);
 
                 //after update
                 if(selector){
                     selector.reposition();
-                    widget.$container.parent('.colrow').addClass('tmp');
+                    if(_widget.$container.parent('.colrow.tmp').length){
+                        //store the reference to the newly created widget
+                        widget = _widget;
+                    }
                 }
             }
 
         });
 
     }
-    
-    function _appendButton($container){
-        var $adder = $(adderTpl());
-        $container.append($adder);
-        $adder.click(function(e){
-            e.stopPropagation();
-        });
+
+    function _appendButton($widget){
+
+        //only append button to no-tmp widget and only add it once:
+        if(!$widget.children('.add-block-element').length &&
+            !$widget.parent('.colrow.tmp').length){
+
+            var $adder = $(adderTpl());
+            $widget.append($adder);
+            $adder.on('click mouseenter mouseleave', function(e){
+                e.stopPropagation();
+            });
+        }
     }
-    
+
     function insertElement(qtiClass, $placeholder, callback){
 
         //a new qti element has been added: update the model + render

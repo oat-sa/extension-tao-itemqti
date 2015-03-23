@@ -71,12 +71,13 @@ define([
 
     }
     
-    function _initializeElementAdder($itemPanel, interactionModels){
+    function _initializeElementAdder(item, $itemPanel, interactionModels){
         
         var authoringElements = _getAuthoringElements(interactionModels);
         
         blockAdder.create({
-            $item : $itemPanel,
+            item :item,
+            $editorPanel : $itemPanel,
             interactions : authoringElements
         });
     }
@@ -196,7 +197,7 @@ define([
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
-                _initializeElementAdder(configProperties.dom.getItemPanel(), interactionHooks);
+                _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);
 
                 //load creator renderer
                 creatorRenderer

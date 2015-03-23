@@ -23,7 +23,7 @@ define([
         contentHelper.destroyGridWidgets($body, true);//working on clone only, so destroyGridWidgetsClone
 
         contentHelper.serializeElements($body);
-
+        
         return $body.html();
     };
 
