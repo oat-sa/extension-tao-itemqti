@@ -11,6 +11,7 @@ define([
 
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
+    var _placeholder = '<div class="placeholder">';
 
     function create(options){
 
@@ -47,48 +48,78 @@ define([
             });
 
             $itemBody.off('.element-selector').on('selected.element-selector', function(e, qtiClass, $trigger){
-                console.log('add ', qtiClass);
-
-                if(true){
-                    //remove old widget if applicable:
-
-                    //in model
-                    if(widget){
-                        widget.element.remove();
-                    }
+                
+                var $placeholder = $(_placeholder);
+                
+                //remove old widget if applicable:
+                if(widget){
+                    widget.element.remove();
                     //dom
                     $wrap.find('.widget-box').remove();
                 }
-
-                var $placeholder = $('<div class="placeholder">');
+                
                 $wrap.prepend($placeholder);
-                console.log($wrap);
                 insertElement(qtiClass, $placeholder);
                 selector.reposition();
+                
+            }).on('done.element-selector', function(){
+                
+                //remove tmp class
+                $wrap.removeClass('tmp');
+                
+                //activate the new widget:
+                _.defer(function(){
+                    if(widget.element.is('interaction')){
+                        widget.changeState('question');
+                    }else{
+                        widget.changeState('active');
+                    }
+                });
+                
+                //destroy selector
+                selector.destroy();
+                $itemBody.off('.element-selector');
+                
+            }).on('cancel.element-selector', function(){
+                
+                //destroy interaction + colRow
+                widget.element.remove();
+                $wrap.remove();
+                
+                //destroy selector
+                selector.destroy();
+                $itemBody.off('.element-selector');
             });
-            
+
             selector.activateElement('choiceInteraction');
             selector.activatePanel('Common Interactions');
-            
+
         }).on('ready.qti-widget', function(e, _widget){
-            
-            widget = _widget;
-            var qtiElement = widget.element;
+
+            var qtiElement = _widget.element;
             if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
+                widget = _widget;
                 widget.$container.append(adderTpl());
-            }
-            
-            //after update
-            if(selector){
-                selector.reposition();
-                widget.$container.addClass('tmp');
+
+                //after update
+                if(selector){
+                    selector.reposition();
+                    widget.$container.parent('.colrow').addClass('tmp');
+                }
             }
 
         });
 
-
     }
-
+    
+    function _appendButton($container){
+        var $adder = adderTpl();
+        $container.append($adder);
+        $adder.click(function(e){
+            e.stopPropagation();
+        });
+    }
+    
     function insertElement(qtiClass, $placeholder, callback){
 
         //a new qti element has been added: update the model + render
@@ -152,11 +183,7 @@ define([
 
                     return;
                     //active it right away:
-                    if(Element.isA(elt, 'interaction')){
-                        widget.changeState('question');
-                    }else{
-                        widget.changeState('active');
-                    }
+
 
                 }
             }, this.getUsedClasses());

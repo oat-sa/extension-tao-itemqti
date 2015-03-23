@@ -120,6 +120,8 @@ define([
         $elt.children('.ui-draggable-dragging').remove();
 
         resizable.destroy($elt, inClone);
+        
+        $elt.find('.contextual-popup').remove();
     };
 
     return contentHelper;

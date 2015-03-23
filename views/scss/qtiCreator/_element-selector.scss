@@ -174,7 +174,10 @@
 }
 
 
-.widget-box.tmp{
-    border : 1px dashed $info;
-    min-width: 200px;
+.colrow.tmp{
+    border : 3px dashed whiten($info, .5);
+    .placeholder{
+        min-height: 160px;
+        background:whiten($info, .95);
+    }
 }

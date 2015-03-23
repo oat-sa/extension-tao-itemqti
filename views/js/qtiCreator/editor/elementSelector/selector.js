@@ -8,7 +8,8 @@ define([
     var _ns = '.element-selector';
 
     function init(options){
-
+        
+        //anchor must be positioned in css
         var $anchor = options.attachTo;
         var $container = options.container;
         var positions = computePosition($anchor, $container);
@@ -22,7 +23,6 @@ define([
         $anchor.find('.contextual-popup').remove();
 
         //style and attach the form
-        $anchor.css('position', 'relative');
         $anchor.append($element);
 
         $element.off(_ns).on('click' + _ns, '.group-list li', function(){
@@ -63,6 +63,9 @@ define([
             },
             show : function(){
                 $element.show();
+            },
+            destroy : function(){
+                $element.remove();
             }
         };
     }
@@ -109,7 +112,7 @@ define([
         
         var popupWidth = 500;
         var arrowWidth = 6;
-        var marginTop = 10;
+        var marginTop = 15;
         var marginLeft = 15;
         var _anchor = {top : $anchor.offset().top, left : $anchor.offset().left, w : $anchor.innerWidth(), h : $anchor.innerHeight()};
         var _container = {top : $container.offset().top, left : $container.offset().left, w : $container.innerWidth()};
