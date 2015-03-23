@@ -115,10 +115,29 @@ define([
         };
     }
     
+    function _filterInteractions(interactions){
+        var block;
+        //remove all inline interactions, keep block container only
+        var filtered = _.filter(interactions, function(interaction){
+            var tags = interaction.tags;
+            if(interaction.qtiClass === '_container'){
+                block = interaction;
+                interaction.tags[0] = 'Text Block';
+                return false;
+            }else if(tags && tags[0] !== 'Inline Interactions'){
+                return true;
+            }
+            return false;
+        });
+        block.tags[0] = 'Text Block';
+        filtered.unshift(block);
+        return filtered;
+    }
+    
     function buildContent(interactions){
 
         var groups = [];
-        _.each(interactions, function(interaction){
+        _.each(_filterInteractions(interactions), function(interaction){
 
             var groupName = interaction.tags[0];
             var panel = _.find(groups, {name : groupName});

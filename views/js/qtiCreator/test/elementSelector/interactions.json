@@ -111,7 +111,7 @@
         ]
     },
     "_container": {
-        "label": "Text Block Interaction",
+        "label": "Text Block",
         "icon": "icon-font",
         "description": "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions.",
         "short": "Block",

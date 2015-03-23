@@ -42,7 +42,7 @@ require([
         selector.activateElement($('#center1'), 'choiceInteraction');
         selector.activateElement($('#center1'), '_container');
         
-        selector.activatePanel($container, 'Inline Interactions');
+        selector.activatePanel($container, 'Text Block');
     });
 
 });
