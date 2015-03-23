@@ -25,10 +25,10 @@ define([
         $anchor.css('position', 'relative');
         $anchor.append($element);
 
-        $element.on('click', '.group-list li', function(){
+        $element.off(_ns).on('click'+_ns, '.group-list li', function(){
             var $trigger = $(this);
             _activatePanel($element, $trigger);
-        }).on('click', '.element-list li', function(){
+        }).on('click'+_ns, '.element-list li', function(){
             _activateElement($element, $(this));
         });
         
