@@ -19,8 +19,7 @@ define([
         var interactions = options.interactions;
 
         $itemBody.find('.widget-block, .widget-blockInteraction').each(function(){
-            var $widget = $(this);
-            $widget.append(adderTpl());
+            _appendButton($(this));
         });
 
         var selector, widget;
@@ -99,7 +98,7 @@ define([
             var qtiElement = _widget.element;
             if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
                 widget = _widget;
-                widget.$container.append(adderTpl());
+                _appendButton(widget.$container);
 
                 //after update
                 if(selector){
@@ -113,7 +112,7 @@ define([
     }
     
     function _appendButton($container){
-        var $adder = adderTpl();
+        var $adder = $(adderTpl());
         $container.append($adder);
         $adder.click(function(e){
             e.stopPropagation();
