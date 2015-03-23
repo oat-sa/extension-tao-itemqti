@@ -16,7 +16,6 @@ define([
 
         var $itemBody = options.$item;
         var interactions = options.interactions;
-        console.log(interactions);
 
         $itemBody.find('.widget-block, .widget-blockInteraction').each(function(){
             var $widget = $(this);

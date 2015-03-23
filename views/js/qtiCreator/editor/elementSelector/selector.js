@@ -4,9 +4,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/content'
 ], function($, _, popupTpl, contentTpl){
-    
+
     var _ns = '.element-selector';
-    
+
     function init(options){
 
         var $anchor = options.attachTo;
@@ -25,13 +25,17 @@ define([
         $anchor.css('position', 'relative');
         $anchor.append($element);
 
-        $element.off(_ns).on('click'+_ns, '.group-list li', function(){
+        $element.off(_ns).on('click' + _ns, '.group-list li', function(){
             var $trigger = $(this);
             _activatePanel($element, $trigger);
-        }).on('click'+_ns, '.element-list li', function(){
+        }).on('click' + _ns, '.element-list li', function(){
             _activateElement($element, $(this));
+        }).on('click' + _ns, '.done', function(){
+            _done($element);
+        }).on('click' + _ns, '.cancel', function(){
+            _cancel($element);
         });
-        
+
         return {
             getPopup : function(){
                 return $element;
@@ -50,8 +54,27 @@ define([
             },
             activateElement : function(qtiClass){
                 activateElement($element, qtiClass);
+            },
+            done : function(){
+                _done($element);
+            },
+            cancel : function(){
+                _cancel($element);
+            },
+            show : function(){
+                $element.show();
             }
         };
+    }
+
+    function _done($element){
+        $element.hide();
+        $element.trigger('done' + _ns);
+    }
+
+    function _cancel($element){
+        $element.hide();
+        $element.trigger('cancel' + _ns);
     }
 
     function activatePanel($container, groupName){
@@ -67,23 +90,23 @@ define([
             $group.show().siblings('.element-group').hide();
         }
     }
-    
+
     function activateElement($container, qtiClass){
-         var $trigger = $container.find('.element-list li[data-qti-class="' + qtiClass + '"]');
+        var $trigger = $container.find('.element-list li[data-qti-class="' + qtiClass + '"]');
         _activateElement($container, $trigger);
     }
-    
+
     function _activateElement($container, $trigger){
         var qtiClass = $trigger.data('qti-class');
         if(!$trigger.hasClass('active')){
             $container.find('.element-list li').removeClass('active');
             $trigger.addClass('active');
-            $container.trigger('selected'+_ns, [qtiClass, $trigger]);
+            $container.trigger('selected' + _ns, [qtiClass, $trigger]);
         }
     }
-    
-    function computePosition($anchor, $container){
 
+    function computePosition($anchor, $container){
+        
         var popupWidth = 500;
         var arrowWidth = 6;
         var marginTop = 10;
@@ -92,15 +115,15 @@ define([
         var _container = {top : $container.offset().top, left : $container.offset().left, w : $container.innerWidth()};
         var _popup = {
             top : _anchor.h + marginTop,
-            left : -popupWidth / 2,
+            left : -popupWidth / 2 + _anchor.w/2,
             w : popupWidth
         };
-
+        
         var offset = _anchor.left - _container.left;
         //do we have enough space on the left ?
-        if(offset + marginLeft < _popup.w / 2){
+        if(offset + marginLeft + _anchor.w/2 < _popup.w / 2){
             _popup.left = -offset + marginLeft;
-        }else if(_container.w - (offset + _anchor.w + marginLeft) < _popup.w / 2){
+        }else if(_container.w - (offset + _anchor.w/2 + marginLeft) < _popup.w / 2){
             _popup.left = -offset + _container.w - marginLeft - _popup.w;
         }
 
@@ -114,7 +137,7 @@ define([
             arrow : _arrow
         };
     }
-    
+
     function _filterInteractions(interactions){
         var block;
         //remove all inline interactions, keep block container only
@@ -133,7 +156,7 @@ define([
         filtered.unshift(block);
         return filtered;
     }
-    
+
     function buildContent(interactions){
 
         var groups = [];
