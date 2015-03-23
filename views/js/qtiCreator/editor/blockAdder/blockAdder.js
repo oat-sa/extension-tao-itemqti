@@ -69,7 +69,7 @@ define([
             });
             
             //when clicking outside of the selector popup, consider it done
-            $('#item-editor-panel').on('click' + _ns + ', mousedown' + _ns, function(e){
+            $('#item-editor-panel').on('click' + _ns + ' mousedown' + _ns, function(e){
                 var popup = selector.getPopup()[0];
                 if(popup !== e.target && !$.contains(popup, e.target)){
                     _done($wrap);
