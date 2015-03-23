@@ -53,7 +53,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                 //insert them:
                 container.setElements(newElts, newBody);
-                console.log(container.relatedItem);
                 
                 //operations after insertions:
                 var $doc = $(document);

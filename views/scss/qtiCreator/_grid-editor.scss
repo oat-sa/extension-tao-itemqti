@@ -175,7 +175,7 @@
     position:absolute;
     bottom:-2px;
     width:100%;
-    opacity:.15;
+    opacity:.1;
     &:hover{
         opacity:.7; 
     }
@@ -205,6 +205,12 @@
             top:-3px;
             left:4px;
         }
+    }
+}
+
+.edit-inserting{
+    .add-block-element{
+        display:none;
     }
 }
 

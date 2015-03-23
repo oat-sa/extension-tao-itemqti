@@ -14,27 +14,26 @@ define([
     var _placeholder = '<div class="placeholder">';
 
     function create(options){
-        
+
+        var selector, widget;
         var item = options.item;
         var $editorPanel = options.$editorPanel;
         var interactions = options.interactions;
-
-        $editorPanel.find('.widget-block, .widget-blockInteraction').each(function(){
-            _appendButton($(this));
-        });
-
-        var selector, widget;
-
-        //bind add event
-        $editorPanel.on('mousedown', '.add-block-element .circle', function(e){
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            var $widget = $(this).parents('.widget-box');
+        
+        function _getItemBody(){
+            return $editorPanel.find('.qti-itemBody');
+        }
+        
+        /**
+         * Init insertion relative to a widget container
+         * 
+         * @param {JQuery} $widget
+         */
+        function _initInsertion($widget){
+            
             var $wrap = $(_wrap);
-
             var $colRow = $widget.parent('.colrow');
+            
             if(!$colRow.length){
                 $widget.wrap(_wrap);
                 $colRow = $widget.parent('.colrow');
@@ -64,49 +63,85 @@ define([
                 selector.reposition();
 
             }).on('done.element-selector', function(){
-
-                //remove tmp class
-                $wrap.removeClass('tmp');
-
-                //append button
-                _appendButton(widget.$container);
-
-                //activate the new widget:
-                _.defer(function(){
-
-                    if(widget.element.is('interaction')){
-                        widget.changeState('question');
-                    }else{
-                        widget.changeState('active');
-                    }
-                });
-
-                //destroy selector
-                selector.destroy();
-                $editorPanel.off('.element-selector');
-
-                //need to update item body
-                item.body(contentHelper.getContent($editorPanel.find('.qti-itemBody')));
-                
+                _done($wrap);
             }).on('cancel.element-selector', function(){
-
-                //destroy interaction + colRow
-                widget.element.remove();
-                $wrap.remove();
-
-                //destroy selector
-                selector.destroy();
-                $editorPanel.off('.element-selector');
-                
-                //need to update item body
-                item.body(contentHelper.getContent($editorPanel.find('.qti-itemBody')));
-                
+                _cancel($wrap);
             });
             
+            //when clicking outside of the selector popup, consider it done
+            $('#item-editor-panel').on('click' + _ns + ', mousedown' + _ns, function(e){
+                var popup = selector.getPopup()[0];
+                if(popup !== e.target && !$.contains(popup, e.target)){
+                    _done($wrap);
+                }
+            });
+
             //select a default element type
             selector.activateElement('choiceInteraction');
             selector.activatePanel('Common Interactions');
+            
+            //set into the inserting state
+            _getItemBody().addClass('edit-inserting');
+        }
+        
+        function _endInsertion(){
+            
+            //destroy selector
+            selector.destroy();
+            selector = null;
+            $editorPanel.off('.element-selector');
+            _getItemBody().removeClass('edit-inserting');
+            
+            //need to update item body
+            item.body(contentHelper.getContent(_getItemBody()));
+            
+            //unbind events
+            $('#item-editor-panel').off(_ns);
+        }
+        
+        function _done($wrap){
 
+            //remove tmp class
+            $wrap.removeClass('tmp');
+
+            //append button
+            _appendButton(widget.$container);
+
+            //activate the new widget:
+            _.defer(function(){
+
+                if(widget.element.is('interaction')){
+                    widget.changeState('question');
+                }else{
+                    widget.changeState('active');
+                }
+            });
+            
+            _endInsertion();
+        }
+
+        function _cancel($wrap){
+
+            //destroy interaction + colRow
+            widget.element.remove();
+            $wrap.remove();
+            
+            _endInsertion();
+        }
+
+        $editorPanel.find('.widget-block, .widget-blockInteraction').each(function(){
+            _appendButton($(this));
+        });
+
+        //bind add event
+        $editorPanel.on('mousedown', '.add-block-element .circle', function(e){
+
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var $widget = $(this).parents('.widget-box');
+            _initInsertion($widget);
+            
         }).on('ready.qti-widget', function(e, _widget){
 
             var qtiElement = _widget.element;
@@ -114,7 +149,7 @@ define([
 
                 _appendButton(_widget.$container);
 
-                //after update
+                //after update when we are in the selecting mode:
                 if(selector){
                     selector.reposition();
                     if(_widget.$container.parent('.colrow.tmp').length){
