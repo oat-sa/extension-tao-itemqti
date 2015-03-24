@@ -6,8 +6,9 @@ define([
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/helper/container',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
-    'taoQtiItem/qtiCreator/editor/elementSelector/selector'
-], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector){
+    'taoQtiItem/qtiCreator/editor/elementSelector/selector',
+    'taoQtiItem/qtiCreator/widgets/static/text/Widget'
+], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget){
 
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
@@ -54,12 +55,13 @@ define([
                 if(widget){
                     //from model
                     widget.element.remove();
+                    widget = null;
                     //from dom
                     $wrap.find('.widget-box').remove();
                 }
 
                 $wrap.addClass('tmp').prepend($placeholder);
-                insertElement(qtiClass, $placeholder);
+                _insertElement(qtiClass, $placeholder);
                 selector.reposition();
 
             }).on('done.element-selector', function(){
@@ -109,7 +111,6 @@ define([
 
             //activate the new widget:
             _.defer(function(){
-
                 if(widget.element.is('interaction')){
                     widget.changeState('question');
                 }else{
@@ -145,6 +146,7 @@ define([
         }).on('ready.qti-widget', function(e, _widget){
 
             var qtiElement = _widget.element;
+            
             if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
 
                 _appendButton(_widget.$container);
@@ -177,7 +179,7 @@ define([
         }
     }
 
-    function insertElement(qtiClass, $placeholder, callback){
+    function _insertElement(qtiClass, $placeholder, callback){
 
         //a new qti element has been added: update the model + render
         $placeholder.removeAttr('id');//prevent it from being deleted
@@ -206,8 +208,9 @@ define([
         }
 
         containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
-
-            creatorRenderer.get().load(function(){
+            
+            var creator = creatorRenderer.get();
+            creator.load(function(){
 
                 for(var serial in newElts){
 
@@ -219,10 +222,20 @@ define([
                     elt.setRenderer(this);
 
                     if(Element.isA(elt, '_container')){
-                        $colParent.empty();//clear the col content, and leave an empty text field
-                        $colParent.html(elt.render());
-                        widget = _this.initTextWidget(elt, $colParent);
+                        //the text widget is "inner-wrapped" so need to build a temporary container:
+                        $placeholder.replaceWith('<div class="text-block"></div>');
+                        var $textBlock = $colParent.find('.text-block');
+                        $textBlock.html(elt.render());
+                        
+                        //build the widget
+                        widget = TextWidget.build(elt, $textBlock, creator.getOption('textOptionForm'), {
+                            ready : function(){
+                                //remove the temorary container
+                                this.$container.unwrap();
+                            }
+                        });
                         $widget = widget.$container;
+                        
                     }else{
                         elt.render($placeholder);
                         widget = elt.postRender();
@@ -237,11 +250,7 @@ define([
                     //inform height modification
                     $widget.trigger('contentChange.gridEdit');
                     $widget.trigger('resize.gridEdit');
-
-                    return;
-                    //active it right away:
-
-
+                    
                 }
             }, this.getUsedClasses());
         });
