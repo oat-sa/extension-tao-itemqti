@@ -941,9 +941,6 @@ img.dragging.ui-draggable-dragging {
                 }
             }
             .qti-interaction {
-                .qti-prompt {
-                    min-height: 3rem;
-                }
                 .add-option {
                     border: 1px mix(#fff, $info, 20%) dashed !important;
                     list-style-type: none;
@@ -1092,10 +1089,12 @@ img.dragging.ui-draggable-dragging {
 @import "qtiCreator/_modal-feedback";
 
 /*style for html editable area highlight*/
+.edit-question [data-html-editable]{
+    min-height: 20px;
+}
 [data-html-editable] {
     border: 1px solid transparent;
     outline: 1px solid transparent !important;
-    min-height: 20px;
     [html-editable-shield] {
         padding: 0;
         min-width: 0;
