@@ -71,11 +71,11 @@ define([
                 }
                 
                 //communicate the widget readiness
-                this.$container.trigger('ready.qti-widget', [this]);
                 if(_.isFunction(options.ready)){
                     options.ready.call(this, this);
                 }
-
+                this.$container.trigger('ready.qti-widget', [this]);
+                
             }else{
                 throw new Error('element is not a QTI Element');
             }
