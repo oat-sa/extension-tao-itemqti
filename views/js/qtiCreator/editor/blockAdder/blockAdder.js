@@ -94,13 +94,17 @@ define([
 
             //destroy selector
             selector.destroy();
+            
+            //reset references
             selector = null;
+            widget = null;
+            
             $editorPanel.off('.element-selector');
             _getItemBody().removeClass('edit-inserting');
 
             //need to update item body
             item.body(contentHelper.getContent(_getItemBody()));
-
+            
             //unbind events
             $itemEditorPanel.off(_ns);
         }
@@ -120,9 +124,9 @@ define([
                 }else{
                     widget.changeState('active');
                 }
+                _endInsertion();
             });
-
-            _endInsertion();
+            
         }
 
         function _cancel($wrap){
@@ -185,6 +189,8 @@ define([
             $widget.append($adder);
             $adder.on('click mouseenter mouseleave', function(e){
                 e.stopPropagation();
+                //consider it outside of the widget element
+                $(this).parent().trigger('mouseleave');
             });
         }
     }
