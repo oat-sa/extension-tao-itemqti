@@ -83,8 +83,8 @@ define([
             });
 
             //select a default element type
-            selector.activateElement('choiceInteraction');
-            selector.activatePanel('Common Interactions');
+            selector.activateElement('_container');
+            selector.activatePanel('Text Block');
 
             //set into the inserting state
             _getItemBody().addClass('edit-inserting');

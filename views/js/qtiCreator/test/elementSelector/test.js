@@ -5,16 +5,6 @@ require([
     'json!taoQtiItem/qtiCreator/test/elementSelector/interactions'
 ], function(_, $, selector, interactions){
     
-    QUnit.test('position', function(){
-        QUnit.expect(0);
-        selector.init({
-            attachTo : $('#center2'),
-            container : $('#item-editor-panel'),
-            interactions : interactions
-        });
-    });
-    
-    return;
     QUnit.test('init dialog', function(){
 
         QUnit.expect(5);
