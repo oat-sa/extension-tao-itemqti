@@ -21,24 +21,24 @@ define([
         var $editorPanel = options.$editorPanel;
         var interactions = options.interactions;
         var $itemEditorPanel = $('#item-editor-panel');
-            
+
         function _getItemBody(){
             return $editorPanel.find('.qti-itemBody');
         }
-        
+
         /**
          * Init insertion relative to a widget container
          * 
          * @param {JQuery} $widget
          */
         function _initInsertion($widget){
-            
+
             var $wrap = $(_wrap);
             var $colRow = $widget.parent('.colrow');
-            
+
             //trigger event to restore all currently active widget back to sleep state
             $itemEditorPanel.trigger('beforesave.qti-creator.active');
-            
+
             if(!$colRow.length){
                 $widget.wrap(_wrap);
                 $colRow = $widget.parent('.colrow');
@@ -51,7 +51,7 @@ define([
                 interactions : interactions
             });
 
-            $editorPanel.off('.element-selector').on('selected.element-selector', function(e, qtiClass, $trigger){
+            $editorPanel.off('.element-selector').on('selected.element-selector', function(e, qtiClass){
 
                 var $placeholder = $(_placeholder);
 
@@ -73,7 +73,7 @@ define([
             }).on('cancel.element-selector', function(){
                 _cancel($wrap);
             });
-            
+
             //when clicking outside of the selector popup, consider it done
             $itemEditorPanel.on('click' + _ns + ' mousedown' + _ns, function(e){
                 var popup = selector.getPopup()[0];
@@ -85,26 +85,26 @@ define([
             //select a default element type
             selector.activateElement('choiceInteraction');
             selector.activatePanel('Common Interactions');
-            
+
             //set into the inserting state
             _getItemBody().addClass('edit-inserting');
         }
-        
+
         function _endInsertion(){
-            
+
             //destroy selector
             selector.destroy();
             selector = null;
             $editorPanel.off('.element-selector');
             _getItemBody().removeClass('edit-inserting');
-            
+
             //need to update item body
             item.body(contentHelper.getContent(_getItemBody()));
-            
+
             //unbind events
             $itemEditorPanel.off(_ns);
         }
-        
+
         function _done($wrap){
 
             //remove tmp class
@@ -121,7 +121,7 @@ define([
                     widget.changeState('active');
                 }
             });
-            
+
             _endInsertion();
         }
 
@@ -130,7 +130,7 @@ define([
             //destroy interaction + colRow
             widget.element.remove();
             $wrap.remove();
-            
+
             _endInsertion();
         }
 
@@ -143,25 +143,31 @@ define([
 
             e.preventDefault();
             e.stopPropagation();
-            
+
             var $widget = $(this).parents('.widget-box');
             _initInsertion($widget);
-            
+
         }).on('ready.qti-widget', function(e, _widget){
 
             var qtiElement = _widget.element;
-            
-            if(qtiElement.is('blockInteraction') || qtiElement.is('_container')){
+
+            if(qtiElement.is('blockInteraction') || qtiElement.is('_container') || qtiElement.is('customInteraction')){
 
                 _appendButton(_widget.$container);
 
-                //after update when we are in the selecting mode:
-                if(selector){
-                    selector.reposition();
-                    if(_widget.$container.parent('.colrow.tmp').length){
-                        //store the reference to the newly created widget
-                        widget = _widget;
+                if(selector && _widget.$container.parent('.colrow.tmp').length){
+                    
+                    //after update when we are in the selecting mode:
+                    if(qtiElement.is('customInteraction')){
+                        //pci rendering is asynchornous:
+                        qtiElement.onPciReady(function(){
+                            selector.reposition();
+                        });
                     }
+                    selector.reposition();
+                    
+                    //store the reference to the newly created widget
+                    widget = _widget;
                 }
             }
 
@@ -212,7 +218,7 @@ define([
         }
 
         containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
-            
+
             var creator = creatorRenderer.get();
             creator.load(function(){
 
@@ -230,7 +236,7 @@ define([
                         $placeholder.replaceWith('<div class="text-block"></div>');
                         var $textBlock = $colParent.find('.text-block');
                         $textBlock.html(elt.render());
-                        
+
                         //build the widget
                         widget = TextWidget.build(elt, $textBlock, creator.getOption('textOptionForm'), {
                             ready : function(){
@@ -239,7 +245,7 @@ define([
                             }
                         });
                         $widget = widget.$container;
-                        
+
                     }else{
                         elt.render($placeholder);
                         widget = elt.postRender();
@@ -254,7 +260,7 @@ define([
                     //inform height modification
                     $widget.trigger('contentChange.gridEdit');
                     $widget.trigger('resize.gridEdit');
-                    
+
                 }
             }, this.getUsedClasses());
         });
