@@ -20,7 +20,8 @@ define([
         var item = options.item;
         var $editorPanel = options.$editorPanel;
         var interactions = options.interactions;
-        
+        var $itemEditorPanel = $('#item-editor-panel');
+            
         function _getItemBody(){
             return $editorPanel.find('.qti-itemBody');
         }
@@ -34,6 +35,9 @@ define([
             
             var $wrap = $(_wrap);
             var $colRow = $widget.parent('.colrow');
+            
+            //trigger event to restore all currently active widget back to sleep state
+            $itemEditorPanel.trigger('beforesave.qti-creator.active');
             
             if(!$colRow.length){
                 $widget.wrap(_wrap);
@@ -71,7 +75,7 @@ define([
             });
             
             //when clicking outside of the selector popup, consider it done
-            $('#item-editor-panel').on('click' + _ns + ' mousedown' + _ns, function(e){
+            $itemEditorPanel.on('click' + _ns + ' mousedown' + _ns, function(e){
                 var popup = selector.getPopup()[0];
                 if(popup !== e.target && !$.contains(popup, e.target)){
                     _done($wrap);
@@ -98,7 +102,7 @@ define([
             item.body(contentHelper.getContent(_getItemBody()));
             
             //unbind events
-            $('#item-editor-panel').off(_ns);
+            $itemEditorPanel.off(_ns);
         }
         
         function _done($wrap){
@@ -179,7 +183,7 @@ define([
         }
     }
 
-    function _insertElement(qtiClass, $placeholder, callback){
+    function _insertElement(qtiClass, $placeholder){
 
         //a new qti element has been added: update the model + render
         $placeholder.removeAttr('id');//prevent it from being deleted
