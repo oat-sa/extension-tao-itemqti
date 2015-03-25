@@ -193,7 +193,9 @@ define([
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
-                _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);
+                if(config.properties['multi-column']){
+                    _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);
+                }
 
                 //load creator renderer
                 creatorRenderer
