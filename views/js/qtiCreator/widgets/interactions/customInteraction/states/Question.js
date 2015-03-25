@@ -2,7 +2,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'jquery',
-    'taoQtiItem/qtiCreator/editor/styleEditor/farbtastic/farbtastic'
+    'lib/farbtastic/farbtastic'
 ], function(stateFactory, Question, $){
 
     var CustomInteractionStateQuestion = stateFactory.extend(Question);
