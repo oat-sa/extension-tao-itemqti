@@ -6,17 +6,23 @@ define([
 ], function($, _, popupTpl, contentTpl){
 
     var _ns = '.element-selector';
-
-    function init(options){
+    
+    /**
+     * Create an element selector reltive to the $anchor and contained in the $container
+     * 
+     * @param {JQuery} $anchor
+     * @param {JQuery} $container
+     * @param {Array} interactions - the list of authorable interactions
+     * @returns {Object} the new selector instance
+     */
+    function create($anchor, $container, interactions){
         
         //anchor must be positioned in css
-        var $anchor = options.attachTo;
-        var $container = options.container;
-        var positions = computePosition($anchor, $container);
+        var positions = _computePosition($anchor, $container);
         var $element = $(popupTpl({
             popup : positions.popup,
             arrow : positions.arrow,
-            content : buildContent(options.interactions)
+            content : _renderContent(interactions)
         }));
 
         //only one 
@@ -41,7 +47,7 @@ define([
                 return $element;
             },
             reposition : function(){
-                var pos = computePosition($anchor, $container);
+                var pos = _computePosition($anchor, $container);
                 $element.css({
                     top : pos.popup.top,
                     left : pos.popup.left
@@ -69,22 +75,44 @@ define([
             }
         };
     }
-
+    
+    /**
+     * Callback when the "done" button is clicked
+     * 
+     * @param {JQuery} $element
+     */
     function _done($element){
         $element.hide();
         $element.trigger('done' + _ns);
     }
-
+    
+    /**
+     * Callback when the "cancel" button is clicked
+     * 
+     * @param {JQuery} $element
+     */
     function _cancel($element){
         $element.hide();
         $element.trigger('cancel' + _ns);
     }
-
+    
+    /**
+     * Activate the panel defined by the groupName
+     * 
+     * @param {JQuery} $container
+     * @param {String} groupName
+     */
     function activatePanel($container, groupName){
         var $trigger = $container.find('.group-list li[data-group-name="' + groupName + '"]');
         _activatePanel($container, $trigger);
     }
-
+    
+    /**
+     * Activate a panel by its trigger button in the navigation tab
+     * 
+     * @param {JQuery} $container
+     * @param {JQuery} $trigger
+     */
     function _activatePanel($container, $trigger){
         if(!$trigger.hasClass('active')){
             $trigger.addClass('active').siblings('.active').removeClass('active');
@@ -93,12 +121,24 @@ define([
             $group.show().siblings('.element-group').hide();
         }
     }
-
+    
+    /**
+     * Activate an element identified by its qti class
+     * 
+     * @param {JQuery} $container
+     * @param {String} qtiClass
+     */
     function activateElement($container, qtiClass){
         var $trigger = $container.find('.element-list li[data-qti-class="' + qtiClass + '"]');
         _activateElement($container, $trigger);
     }
-
+    
+    /**
+     * Activate an element identified by its $trigger dom element
+     * 
+     * @param {JQuery} $container
+     * @param {JQuery} $trigger
+     */
     function _activateElement($container, $trigger){
         var qtiClass = $trigger.data('qti-class');
         if(!$trigger.hasClass('active')){
@@ -107,8 +147,15 @@ define([
             $container.trigger('selected' + _ns, [qtiClass, $trigger]);
         }
     }
-
-    function computePosition($anchor, $container){
+    
+    /**
+     * Calculate the position of the popup and arrow relative to the anchor and container elements
+     * 
+     * @param {JQuery} $anchor
+     * @param {JQuery} $container
+     * @returns {Object} - Object containing the positioning data
+     */
+    function _computePosition($anchor, $container){
         
         var popupWidth = 500;
         var arrowWidth = 6;
@@ -140,7 +187,12 @@ define([
             arrow : _arrow
         };
     }
-
+    
+    /**
+     * Filter and format the raw authorable interactions array into useful data for this selector
+     * @param {Array} interactions
+     * @returns {Array}
+     */
     function _filterInteractions(interactions){
         var block;
         //remove all inline interactions, keep block container only
@@ -159,8 +211,14 @@ define([
         filtered.unshift(block);
         return filtered;
     }
-
-    function buildContent(interactions){
+    
+    /**
+     * Render the content of the selector from the list of authorable interactions as data
+     * 
+     * @param {Array} interactions
+     * @returns {String} 
+     */
+    function _renderContent(interactions){
 
         var groups = [];
         _.each(_filterInteractions(interactions), function(interaction){
@@ -192,7 +250,7 @@ define([
     }
 
     return {
-        init : init,
+        create : create,
         activateElement : activateElement,
         activatePanel : activatePanel
     };

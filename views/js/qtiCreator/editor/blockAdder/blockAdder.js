@@ -9,19 +9,30 @@ define([
     'taoQtiItem/qtiCreator/editor/elementSelector/selector',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget'
 ], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget){
-
+    
+    'use strict';
+    
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
     var _placeholder = '<div class="placeholder">';
-
-    function create(options){
+    
+    /**
+     * Init the block adder on the item editor panel
+     * 
+     * @param {Object} item - standard qti js object
+     * @param {JQuery} $editorPanel - the container the selector popup will be located in
+     * @param {Array} interactions - the array of authorable interactions
+     */
+    function create(item, $editorPanel, interactions){
 
         var selector, widget;
-        var item = options.item;
-        var $editorPanel = options.$editorPanel;
-        var interactions = options.interactions;
         var $itemEditorPanel = $('#item-editor-panel');
-
+        
+        /**
+         * Get the qti item body dom
+         * 
+         * @returns {JQuery}
+         */
         function _getItemBody(){
             return $editorPanel.find('.qti-itemBody');
         }
@@ -44,12 +55,9 @@ define([
                 $colRow = $widget.parent('.colrow');
             }
             $colRow.after($wrap);
-
-            selector = elementSelector.init({
-                attachTo : $wrap,
-                container : $editorPanel,
-                interactions : interactions
-            });
+            
+            //create a new selector instance
+            selector = elementSelector.create($wrap, $editorPanel, interactions);
 
             $editorPanel.off('.element-selector').on('selected.element-selector', function(e, qtiClass){
 
@@ -89,7 +97,12 @@ define([
             //set into the inserting state
             _getItemBody().addClass('edit-inserting');
         }
-
+        
+        /**
+         * End the current insertion state
+         * 
+         * @returns {undefined}
+         */
         function _endInsertion(){
 
             //destroy selector
@@ -108,7 +121,13 @@ define([
             //unbind events
             $itemEditorPanel.off(_ns);
         }
-
+        
+        /**
+         * Function to define behaviour when the insertion is completed
+         * 
+         * @param {JQuery} $wrap
+         * @returns {undefined}
+         */
         function _done($wrap){
 
             //remove tmp class
@@ -128,7 +147,13 @@ define([
             });
             
         }
-
+        
+        /**
+         * Function defining the behaviour when the insertion has been aborted
+         * 
+         * @param {JQuery} $wrap
+         * @returns {undefined}
+         */
         function _cancel($wrap){
 
             //destroy interaction + colRow
@@ -178,7 +203,13 @@ define([
         });
 
     }
-
+    
+    /**
+     * Append the "plus" button into a widget
+     * 
+     * @param {JQuery} $widget
+     * @returns {undefined}
+     */
     function _appendButton($widget){
 
         //only append button to no-tmp widget and only add it once:
@@ -194,7 +225,13 @@ define([
             });
         }
     }
-
+    
+    /**
+     * Create a new qti element in place of the give $placehoder
+     * 
+     * @param {String} qtiClass
+     * @param {JQuery} $placeholder
+     */
     function _insertElement(qtiClass, $placeholder){
 
         //a new qti element has been added: update the model + render

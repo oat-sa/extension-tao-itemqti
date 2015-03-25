@@ -10,17 +10,8 @@ require([
         QUnit.expect(5);
 
         var $container = $('#item-editor-panel');
-        selector.init({
-            attachTo : $('#center1'),
-            container : $container,
-            interactions : interactions
-        });
-        selector.init({
-            attachTo : $('#center2'),
-            container : $container,
-            interactions : interactions
-        });
-        
+        selector.create($('#center1'), $container, interactions);
+        selector.create($('#center2'), $container, interactions);
 
         $container.on('selected.element-selector', function(e, qtiClass, $trigger){
             if(qtiClass === 'hotspotInteraction'){
@@ -47,11 +38,7 @@ require([
         
         var $container = $('#item-editor-panel');
         var $anchor = $('#center3');
-        var mySelector = selector.init({
-            attachTo : $anchor,
-            container : $container,
-            interactions : interactions
-        });
+        var mySelector = selector.create($anchor, $container, interactions);
         
         $anchor.on('done.element-selector', function(){
             QUnit.assert.ok(true, 'done clicked');

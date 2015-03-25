@@ -75,11 +75,7 @@ define([
         
         var authoringElements = _getAuthoringElements(interactionModels);
         
-        blockAdder.create({
-            item :item,
-            $editorPanel : $itemPanel,
-            interactions : authoringElements
-        });
+        blockAdder.create(item, $itemPanel, authoringElements);
     }
 
     function _initializeHooks(uiHooks, configProperties){
