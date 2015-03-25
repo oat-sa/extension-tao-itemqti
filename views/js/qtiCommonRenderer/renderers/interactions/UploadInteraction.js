@@ -74,7 +74,6 @@ define([
 
             // Store the base64 encoded data for later use.
             var base64Raw = base64Data.substring(commaPosition + 1);
-            var filetype = filetype;
             _response = { "base" : { "file" : { "data" : base64Raw, "mime" : filetype, "name" : filename } } };
 
             //FIXME it should trigger a responseChange
