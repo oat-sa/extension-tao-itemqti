@@ -19,6 +19,16 @@ define([
     };
 
     var Widget = {
+        /**
+         * Intialize qti element creator widget
+         * 
+         * @param {Object} element - standard qti object
+         * @param {Jquery} $original - tje proginal DOM element of the qti element
+         * @param {JQuery} $form - the property form of the qti element
+         * @param {Object} options
+         * @fires ready.qti-widget after it is executed
+         * @returns {Object} The initialized widget
+         */
         init : function(element, $original, $form, options){
             if(element instanceof Element){
 
@@ -59,11 +69,13 @@ define([
                 }else{
                     this.changeState('sleep');
                 }
-
+                
+                //communicate the widget readiness
                 if(_.isFunction(options.ready)){
                     options.ready.call(this, this);
                 }
-
+                this.$container.trigger('ready.qti-widget', [this]);
+                
             }else{
                 throw new Error('element is not a QTI Element');
             }
