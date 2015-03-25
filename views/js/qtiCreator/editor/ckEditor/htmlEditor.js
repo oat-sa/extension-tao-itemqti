@@ -3,7 +3,7 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
-    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
+    'ui/ckeditor/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
@@ -18,10 +18,10 @@ define([
         passthroughInnerContent : false,
         hideTriggerOnBlur : false
     };
-    
+
     /**
      * Find the ck launcher (the trigger that toggle visibility of the editor) in the editor's container
-     * 
+     *
      * @param {JQuery} $editableContainer
      */
     function getTrigger($editableContainer){
@@ -36,7 +36,7 @@ define([
     /**
      * @param {JQuery} $editable - the element to be transformed into an editor
      * @param {JQuery} $editableContainer - the container of the editor
-     * @param {Object} [options] 
+     * @param {Object} [options]
      * @param {String} [options.placeholder] - the place holder text
      * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
@@ -156,9 +156,9 @@ define([
 
                     var widgets = {},
                         editor = e.editor;
-                    
+
                     /**
-                     * changed callback 
+                     * changed callback
                      * @param {Object} editor - ckeditor instance
                      */
                     function changed(editor){
@@ -171,7 +171,7 @@ define([
                         }
 
                     }
-                    
+
                     /**
                      * Markup change callback
                      */
@@ -267,7 +267,7 @@ define([
 
         return CKEditor.inline($editable[0], ckConfig);
     }
-    
+
     /**
      * Find an inner element by its data attribute name
      * @param {JQuery} $container
@@ -287,7 +287,7 @@ define([
 
     /**
      * Rebuild all innerwidgets located inside a container
-     * 
+     *
      * @param {Object} container
      * @param {JQuery} $container
      * @param {Object} options
@@ -319,20 +319,20 @@ define([
 
         return widgets;
     }
-    
+
     /**
      * Find the widget container by its serial
-     * 
+     *
      * @param {JQuery} $container
      * @param {String} serial
      */
     function _findWidgetContainer($container, serial){
         return $container.find('.widget-box[data-serial=' + serial + ']');
     }
-    
+
     /**
      * Detect if an inner widget has been removed
-     * 
+     *
      * @param {JQuery} $container
      * @param {Array} widgets
      * @param {Object} editor
@@ -386,7 +386,7 @@ define([
 
     /**
      * Protect the inner widgets of a container
-     * 
+     *
      * @param {JQuery} $container
      * @param {Object} containerWidget
      * @returns {undefined}
@@ -397,7 +397,7 @@ define([
 
             addShield($(this)).on('click', function(e){
 
-                //click on shield: 
+                //click on shield:
                 //1. this.widget.changeState('sleep');
                 //2. clicked widget.changeState('active');
 
@@ -413,7 +413,7 @@ define([
 
     /**
      * Allow the inner widgets to be selected
-     * 
+     *
      * @param {JQuery} $container
      * @returns {undefined}
      */
@@ -428,7 +428,7 @@ define([
 
     /**
      * Activate the inner widget
-     * 
+     *
      * @param {Object} containerWidget
      * @param {Object} innerWidget
      * @returns {undefined}
@@ -495,7 +495,7 @@ define([
 
     /**
      * Focus the editor and set the cursor to the end
-     * 
+     *
      * @param {Object} editor - the ckeditor instance
      * @returns {undefined}
      */
@@ -527,9 +527,9 @@ define([
         },
         /**
          * Instanciate the editor
-         * 
+         *
          * @param {JQuery} $container
-         * @param {Object} [editorOptions] 
+         * @param {Object} [editorOptions]
          * @param {String} [editorOptions.placeholder] - the place holder text
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
@@ -554,7 +554,7 @@ define([
         },
         /**
          * Destroy the editor
-         * 
+         *
          * @param {JQuery} $container
          * @returns {undefined}
          */
@@ -594,7 +594,7 @@ define([
         },
         /**
          * Get the editor content
-         * 
+         *
          * @param {JQuery} $editable
          */
         getData : function($editable){
@@ -607,7 +607,7 @@ define([
         },
         /**
          * Focus all the editors found in the given container
-         * 
+         *
          * @param {JQuery} $editable
          * @returns {undefined}
          */

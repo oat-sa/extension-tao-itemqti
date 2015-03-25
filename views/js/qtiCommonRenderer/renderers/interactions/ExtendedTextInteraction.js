@@ -29,7 +29,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
-    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
+    'ui/ckeditor/ckConfigurator',
     'polyfill/placeholders'
 ], function($, _, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
     'use strict';
