@@ -89,7 +89,7 @@ define([
             localRequirePaths = {
                 qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
             },
-            localRequireConfig = {},
+        localRequireConfig = {},
             state = {}, //@todo pass state and response to renderer here:
             response = {base : null};
 
@@ -126,7 +126,9 @@ define([
      */
     var setResponse = function(interaction, response){
 
-        _getPci(interaction).setResponse(response);
+        interaction.onPciReady(function(){
+            _getPci(interaction).setResponse(response);
+        });
     };
 
     /**
@@ -138,7 +140,11 @@ define([
      */
     var getResponse = function(interaction){
 
-        return _getPci(interaction).getResponse();
+        if(interaction.data('pciReady')){
+            return _getPci(interaction).getResponse();
+        }
+        //return pci null
+        return {base : null};
     };
 
     /**
@@ -149,7 +155,9 @@ define([
      */
     var resetResponse = function(interaction){
 
-        _getPci(interaction).resetResponse();
+        interaction.onPciReady(function(){
+            _getPci(interaction).resetResponse();
+        });
     };
 
     /**
@@ -161,7 +169,9 @@ define([
      */
     var destroy = function(interaction){
 
-        _getPci(interaction).destroy();
+        interaction.onPciReady(function(){
+            _getPci(interaction).destroy();
+        });
     };
 
     /**
@@ -172,7 +182,9 @@ define([
      */
     var setSerializedState = function(interaction, serializedState){
 
-        _getPci(interaction).setSerializedState(serializedState);
+        interaction.onPciReady(function(){
+            _getPci(interaction).setSerializedState(serializedState);
+        });
     };
 
     /**
@@ -184,7 +196,10 @@ define([
      */
     var getSerializedState = function(interaction){
 
-        return _getPci(interaction).getSerializedState();
+        if(interaction.data('pciReady')){
+            return _getPci(interaction).getSerializedState();
+        }
+        return {};
     };
 
     return {
