@@ -47,6 +47,25 @@ define([
 
     "use strict";
 
+    /**
+     * Media size runs not in automated mode, this applies the values manually
+     *
+     * @param params
+     * @param factor
+     */
+    function applyMediasizerValues(params, factor) {
+        factor = factor || 1;
+
+        // css() + attr() for consistency
+        params.$target.css({
+            width: params.width * factor,
+            height: params.height * factor
+        })
+            .attr('width', params.width * factor)
+            .attr('height', params.height * factor);
+    }
+
+
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -125,23 +144,6 @@ define([
         });
 
 
-        /**
-         * Media size runs not in automated mode, this applies the values manually
-         *
-         * @param params
-         * @param factor
-         */
-        function applyMediasizerValues(params, factor) {
-
-            // css() + attr() for consistency
-            params.$target.css({
-                width: params.width * factor,
-                height: params.height * factor
-            })
-                .attr('width', params.width * factor)
-                .attr('height', params.height * factor);
-        }
-
 
         /**
          * Create the 'add option' button
@@ -178,7 +180,6 @@ define([
          * @param gapImgObj
          */
         function setUpGapImg(gapImgObj) {
-
             var $gapList = $('ul.source', widget.$original);
             var $addOption = $('.empty', $gapList);
             var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
@@ -291,7 +292,6 @@ define([
          * @param {String} serial - the gapImg serial
          */
         function enterGapImgForm(serial) {
-
             var callbacks,
                 gapImg = interaction.getGapImg(serial),
                 $gapImgBox,
@@ -322,7 +322,6 @@ define([
                 //init media sizer
                 $mediaSizer = $choiceForm.find('.media-sizer-panel')
                     .on('create.mediasizer', function(e, params) {
-                        //console.log(params, widget.$original.data('factor'))
                         applyMediasizerValues(params, widget.$original.data('factor'));
                     });
 
@@ -425,7 +424,8 @@ define([
         var $form = widget.$form;
         var $container = widget.$original;
         var isResponsive = $container.hasClass('responsive');
-
+        var $mediaSizer;
+        var $bgImage;
 
         $form.html(formTpl({
             baseUrl: options.baseUrl,
@@ -436,13 +436,34 @@ define([
         }));
 
         imageSelector($form, options);
-
         formElement.initWidget($form);
-        // this loads the main picture
-
 
         //Toggle the image resizing panel depending on the widget container is responsive or not.
         $form.find('.panel-interaction-size').toggle(!isResponsive);
+
+        $mediaSizer = $form.find('.media-sizer-panel');
+
+        $bgImage = $container.find('.svggroup svg image');
+
+        if(!!$bgImage.length){
+            $mediaSizer.empty().mediasizer({
+                target: $bgImage,
+                showResponsiveToggle: false,
+                showSync: false,
+                responsive: false,
+                parentSelector: $container.attr('id'),
+                applyToMedium: false,
+                maxWidth: interaction.object.attr('width')
+            });
+        }
+
+        $mediaSizer.on('sizechange.mediasizer', function(e, params) {
+
+            interaction.object.attr('width', params.width);
+            interaction.object.attr('height', params.height);
+
+            $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
+        });
 
         //init data change callbacks
         var callbacks = {};
@@ -454,12 +475,7 @@ define([
                 }
             });
         };
-        callbacks.width = function (interaction, value) {
-            interaction.object.attr('width', value);
-        };
-        callbacks.height = function (interaction, value) {
-            interaction.object.attr('height', value);
-        };
+
         callbacks.type = function (interaction, value) {
             if (!value || value === '') {
                 interaction.object.removeAttr('type');
@@ -469,6 +485,7 @@ define([
             }
         };
         formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit: false });
+
     };
 
     return GraphicGapMatchInteractionStateQuestion;

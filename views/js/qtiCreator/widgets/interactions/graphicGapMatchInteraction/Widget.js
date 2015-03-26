@@ -45,7 +45,7 @@ define([
         },
 
         /**
-         * Gracefull destroy the widget
+         * Gracefully destroy the widget
          * @see {taoQtiItem/qtiCreator/widgets/Widget#destroy}
          */
         destroy : function(){

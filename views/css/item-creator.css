@@ -364,9 +364,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -ms-flex-item-align: stretch;
   -webkit-align-self: stretch;
   align-self: stretch;
-  -ms-flex: 0 0 180px;
-  -webkit-flex: 0 0 180px;
-  flex: 0 0 180px; }
+  -ms-flex: 0 0 195px;
+  -webkit-flex: 0 0 195px;
+  flex: 0 0 195px; }
   .item-editor-sidebar-wrapper.left-bar .action-bar {
     border-right: 1px solid #ddd; }
   .item-editor-sidebar-wrapper.left-bar .item-editor-sidebar {
