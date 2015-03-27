@@ -44,8 +44,7 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger,
-            toolbarType;
+        var $trigger;
 
         options = _.defaults(options, _defaults);
 
@@ -58,20 +57,6 @@ define([
 
         $trigger = getTrigger($editableContainer);
         $editable.attr('placeholder', options.placeholder);
-
-        // build parameter for toolbar
-        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
-
-            toolbarType = 'qtiBlock';
-
-        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
-
-            toolbarType = 'qtiInline';
-
-        }else{
-
-            toolbarType = 'qtiFlow';
-        }
 
         var ckConfig = {
             autoParagraph : false,
@@ -257,17 +242,39 @@ define([
 
                 },
                 configLoaded : function(e){
-                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
+                    e.editor.config = ckConfigurator.getConfig(e.editor, ckConfig);
                 },
                 afterPaste : function(e){
                     //@todo : we may add some processing on the editor after paste
                 }
             }
         };
-
+        
+        if(options.toolbar && _.isArray(options.toolbar)){
+            ckConfig.toolbar = options.toolbar;
+        }else{
+            ckConfig.toolbarType = getTooltypeFromContainer($editableContainer);
+        }
         return CKEditor.inline($editable[0], ckConfig);
     }
-
+    
+    /**
+     * Assess
+     * @param {type} $editableContainer
+     * @returns {String}
+     */
+    function getTooltypeFromContainer($editableContainer){
+        
+        var toolbarType = 'qtiFlow';
+        // build parameter for toolbar
+        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
+            toolbarType = 'qtiBlock';
+        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
+            toolbarType = 'qtiInline';
+        }
+        return toolbarType;
+    }
+    
     /**
      * Find an inner element by its data attribute name
      * @param {JQuery} $container
