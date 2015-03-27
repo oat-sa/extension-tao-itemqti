@@ -34,7 +34,9 @@ define([
     itemEditor,
     genericFeedbackPopup
     ){
-
+    
+    'use strict';
+    
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
@@ -179,7 +181,7 @@ define([
             $itemBody.addClass('hoverable').removeClass('inserting');
 
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
-
+            
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
@@ -288,7 +290,18 @@ define([
 
                     var $widget = $col.children();
                     if($widget.length > 1 || !$widget.hasClass('widget-blockInteraction')){//not an immediate qti element
-                        isTextBlock = true;
+                        if($widget.hasClass('colrow')){
+                            $widget.each(function(){
+                                var $subElement = $(this);
+                                var $subWidget = $subElement.children();
+                                if($subWidget.length > 1 || !$subWidget.hasClass('widget-blockInteraction')){
+                                    $subElement.attr('data-text-block-id', 'text-block-' + i);
+                                    i++;
+                                }
+                            });
+                        }else{
+                            isTextBlock = true;
+                        }
                     }
 
                     if(isTextBlock){
@@ -298,18 +311,18 @@ define([
                 });
             }
         });
-
+        
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
-        $clonedContainer.find('.qti-itemBody > .grid-row > [data-text-block-id]').each(function(){
+        $clonedContainer.find('.qti-itemBody > .grid-row [data-text-block-id]').each(function(){
 
-            var $col = $(this),
-                textBlockId = $col.data('text-block-id'),
-                $subContainer = $col.clone(),
+            var $originalTextBlock = $(this),
+                textBlockId = $originalTextBlock.data('text-block-id'),
+                $subContainer = $originalTextBlock.clone(),
                 subContainerElements = contentHelper.serializeElements($subContainer),
                 subContainerBody = $subContainer.html();//get serialized body
 
-            $col.removeAttr('data-text-block-id').html('{{_container:new}}');
+            $originalTextBlock.removeAttr('data-text-block-id').html('{{_container:new}}');
 
             subContainers.push({
                 body : subContainerBody,
@@ -379,7 +392,7 @@ define([
      */
     ItemWidget.debug = function(options){
 
-        options = options || {}
+        options = options || {};
 
         if(options.state){
             devTools.listenStateChange();
@@ -414,6 +427,6 @@ define([
 
         return $messageBox;
     };
-
+    
     return ItemWidget;
 });

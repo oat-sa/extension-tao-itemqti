@@ -28,7 +28,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[QTI Manager]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[QTI Manager Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#ItemsManagerRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor">
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole"/>
   </rdf:Description>
 </rdf:RDF>

@@ -86,7 +86,6 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         }
         
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertEquals(ROOT_URL, substr($file['url'], 0, strlen(ROOT_URL)));
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
         

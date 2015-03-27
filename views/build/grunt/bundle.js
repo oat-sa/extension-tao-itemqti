@@ -60,6 +60,67 @@ module.exports = function(grunt) {
     };
 
     /**
+     * Compile the new item runner as a standalone library
+     */
+    requirejs.qtinewrunner = {
+        options: {
+            baseUrl : '../js',
+            mainConfigFile : './config/requirejs.build.js',
+            findNestedDependencies : true,
+            uglify2: {
+                mangle : false,
+                output: {
+                    'max_line_len': 400
+                }
+            },
+            wrap : {
+                start : '',
+                end : "define(['taoQtiItem/runner/qtiItemRunner'], function(runner){ return runner; });"
+            },
+            wrapShim: true,
+            inlineCss : true,
+            paths : {
+                'taoQtiItem'    : root + '/taoQtiItem/views/js',
+                'taoQtiItemCss' : root + '/taoQtiItem/views/css',
+                'taoItems'      : root + '/taoItems/views/js',
+                'taoCss'        : root + '/tao/views/css',
+                'jquery'        : 'lib/jqueryamd-1.8.3'
+            },
+            excludeShallow : ['mathJax', 'mediaElement', 'ckeditor'],
+            include: runtimeLibs.concat([ 'tpl', 'json']),
+            name: "taoQtiItem/runner/qtiItemRunner",
+            out: out + "/qtiItemRunner.min.js"
+        }
+    };
+
+    /**
+     * Compile the new item runner as a standalone library
+     */
+    requirejs.qtiscorer = {
+        options: {
+            baseUrl : '../js',
+            mainConfigFile : './config/requirejs.build.js',
+            //optimize: "none",
+            findNestedDependencies : true,
+            uglify2: {
+                mangle : false,
+                output: {
+                    'max_line_len': 400
+                }
+            },
+            wrap : {
+                start : '',
+                end : "define(['taoQtiItem/scoring/qtiScorer'], function(scorer){ return scorer; });"
+            },
+            wrapShim: true,
+            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js',  'taoItems' : root + '/taoItems/views/js'},
+            include: ['lodash'],
+            name: "taoQtiItem/scoring/qtiScorer",
+            out: out + "/qtiScorer.min.js"
+        }
+    };
+
+    /**
      * copy the bundles to the right place
      */
     copy.taoqtiitembundle = {

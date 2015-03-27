@@ -1,34 +1,53 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'i18n',
     'jquery',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
-    'taoQtiItem/qtiCommonRenderer/helpers/Helper',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/helper/adaptSize',
-    'eyecatcher'
-], function(_, __, $, tpl, pairTpl, Helper, pciResponse, adaptSize, eyecatcher){
-
-    /**
-     * Global variable to count number of choice usages:
-     * @type type
-     */
-    var _choiceUsages = {};
+    'taoQtiItem/qtiCreator/helper/adaptSize'
+], function(_, __, $, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
+    'use strict';
 
     var setChoice = function(interaction, $choice, $target){
 
-        var choiceSerial = $choice.data('serial'),
-            choice = interaction.getChoice(choiceSerial);
+        var $container      = containerHelper.get(interaction);
+        var choiceSerial    = $choice.data('serial');
+        var usage           = $choice.data('usage') || 0;
+        var choice          = interaction.getChoice(choiceSerial);
 
         if(!choiceSerial){
             throw 'empty choice serial';
         }
 
-        if(!_choiceUsages[choiceSerial]){
-            _choiceUsages[choiceSerial] = 0;
-        }
-        _choiceUsages[choiceSerial]++;
+        //to track number of times a choice is used in a pair
+        usage++;
+        $choice.data('usage', usage);
 
         var _setChoice = function(){
 
@@ -39,17 +58,15 @@ define([
 
             if(!interaction.responseMappingMode &&
                 choice.attr('matchMax') &&
-                _choiceUsages[choiceSerial] >= choice.attr('matchMax')){
+                usage >= choice.attr('matchMax')){
 
                 $choice.addClass('deactivated');
             }
-
-
         };
 
         if($target.siblings('div').hasClass('filled')){
 
-            var $resultArea = Helper.getContainer(interaction).find('.result-area'),
+            var $resultArea = $('.result-area', $container),
                 $pair = $target.parent(),
                 thisPairSerial = [$target.siblings('div').data('serial'), choiceSerial],
                 $otherRepeatedPair = $();
@@ -71,13 +88,13 @@ define([
                 _setChoice();
 
                 //trigger pair made event
-                Helper.triggerResponseChangeEvent(interaction, {
+                containerHelper.triggerResponseChangeEvent(interaction, {
                     type : 'added',
                     $pair : $pair,
                     choices : thisPairSerial
                 });
 
-                Helper.validateInstructions(interaction, {choice : $choice, target : $target});
+                instructionMgr.validateInstructions(interaction, {choice : $choice, target : $target});
 
                 if(interaction.responseMappingMode || parseInt(interaction.attr('maxAssociations')) === 0){
 
@@ -111,33 +128,40 @@ define([
         }
     };
 
-    var unsetChoice = function(interaction, $choice, animate){
+    var unsetChoice = function(interaction, $filledChoice, animate, triggerChange){
 
-        var serial = $choice.data('serial'),
-            $container = Helper.getContainer(interaction);
+        var $container      = containerHelper.get(interaction);
+        var choiceSerial    = $filledChoice.data('serial');
+        var $choice         = $container.find('.choice-area [data-serial=' + choiceSerial + ']');
+        var usage           = $choice.data('usage') || 0;
+        var $parent         = $filledChoice.parent();
 
-        $container.find('.choice-area [data-serial=' + serial + ']').removeClass('deactivated');
-
-        _choiceUsages[serial]--;
+        //decrease the  use for this choice
+        usage--;
 
         $choice
+            .data('usage', usage)
+            .removeClass('deactivated');
+
+
+        $filledChoice
             .removeClass('filled')
             .removeData('serial')
             .empty();
 
         if(!interaction.swapping){
 
-            //a pair with one single element is not valid, so consider the response to be modified:
-            Helper.triggerResponseChangeEvent(interaction, {
-                type : 'removed',
-                $pair : $choice.parent()
-            });
-            Helper.validateInstructions(interaction, {choice : $choice});
-
-            //completely empty pair: 
+            if(triggerChange !== false){
+                //a pair with one single element is not valid, so consider the response to be modified:
+                containerHelper.triggerResponseChangeEvent(interaction, {
+                    type : 'removed',
+                    $pair : $filledChoice.parent()
+                });
+                instructionMgr.validateInstructions(interaction, {choice : $choice});
+            }
+            //completely empty pair:
             if(!$choice.siblings('div').hasClass('filled') && (parseInt(interaction.attr('maxAssociations')) === 0 || interaction.responseMappingMode)){
                 //shall we remove it?
-                var $parent = $choice.parent();
                 if(!$parent.hasClass('incomplete-pair')){
                     if(animate){
                         $parent.addClass('removing').fadeOut(500, function(){
@@ -152,19 +176,21 @@ define([
     };
 
     var getChoice = function(interaction, identifier){
+        var $container = containerHelper.get(interaction);
 
         //warning: do not use selector data-identifier=identifier because data-identifier may change dynamically
         var choice = interaction.getChoiceByIdentifier(identifier);
         if(!choice){
             throw new Error('cannot find a choice with the identifier : ' + identifier);
         }
-        return Helper.getContainer(interaction).find('.choice-area [data-serial=' + choice.getSerial() + ']');
+        return $('.choice-area [data-serial=' + choice.getSerial() + ']', $container);
     };
 
     var renderEmptyPairs = function(interaction){
 
-        var max = parseInt(interaction.attr('maxAssociations')),
-            $resultArea = Helper.getContainer(interaction).find('.result-area');
+        var $container = containerHelper.get(interaction);
+        var max = parseInt(interaction.attr('maxAssociations'));
+        var $resultArea = $('.result-area', $container);
 
         if(interaction.responseMappingMode || max === 0){
             $resultArea.append(pairTpl({empty : true}));
@@ -177,24 +203,25 @@ define([
     };
 
     var _adaptSize = function(interaction){
+        var $container = containerHelper.get(interaction);
         _.delay(function(){
-            adaptSize.height(Helper.getContainer(interaction).find('.result-area .target, .choice-area .qti-choice'));
+            adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
         }, 500);//@todo : fix the image loading issues
     };
-    
+
     /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
-     * 
+     *
      * @param {object} interaction
      */
     var render = function(interaction){
 
         renderEmptyPairs(interaction);
 
-        var $container = Helper.getContainer(interaction),
-            $choiceArea = $container.find('.choice-area'),
+        var $container = containerHelper.get(interaction);
+        var $choiceArea = $container.find('.choice-area'),
             $resultArea = $container.find('.result-area'),
             $activeChoice = null;
 
@@ -273,14 +300,17 @@ define([
         });
 
         $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
+            var $target,
+                choiceSerial,
+                targetSerial;
 
             e.stopPropagation();
 
             if(_isInsertionMode()){
 
-                var $target = $(this),
-                    choiceSerial = $activeChoice.data('serial'),
-                    targetSerial = $target.data('serial');
+                $target = $(this);
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
 
@@ -304,9 +334,9 @@ define([
             }else if(_isModeEditing()){
 
                 //editing mode:
-                var $target = $(this),
-                    targetSerial = $target.data('serial'),
-                    choiceSerial = $activeChoice.data('serial');
+                $target = $(this);
+                choiceSerial = $activeChoice.data('serial');
+                targetSerial = $target.data('serial');
 
                 if(targetSerial !== choiceSerial){
 
@@ -356,13 +386,10 @@ define([
 
         });
 
-        //@todo run eyecatcher: fix it
-//        eyecatcher();
-
         if(!interaction.responseMappingMode){
             _setInstructions(interaction);
         }
-        
+
         _adaptSize(interaction);
     };
 
@@ -374,16 +401,16 @@ define([
         //infinite association:
         if(min === 0){
             if(max === 0){
-                Helper.appendInstruction(interaction, __('You may make as many association pairs as you want.'));
+                instructionMgr.appendInstruction(interaction, __('You may make as many association pairs as you want.'));
             }
         }else{
             if(max === 0){
-                Helper.appendInstruction(interaction, __('The maximum number of association is unlimited.'));
+                instructionMgr.appendInstruction(interaction, __('The maximum number of association is unlimited.'));
             }
             //the max value is implicit since the appropriate number of empty pairs have already been created
             var msg = __('You need to make') + ' ';
             msg += (min > 1) ? __('at least') + ' ' + min + ' ' + __('association pairs') : __('one association pair');
-            Helper.appendInstruction(interaction, msg, function(){
+            instructionMgr.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
@@ -394,15 +421,24 @@ define([
     };
 
     var resetResponse = function(interaction){
-        Helper.getContainer(interaction).find('.result-area>li>div').each(function(){
-            unsetChoice(interaction, $(this));
+        var $container = containerHelper.get(interaction);
+
+        //destroy selected choice:
+        $container.find('.result-area .active').mousedown();
+
+        $('.result-area>li>div', $container).each(function(){
+            unsetChoice(interaction, $(this), false, false);
         });
+
+        containerHelper.triggerResponseChangeEvent(interaction);
+        instructionMgr.validateInstructions(interaction);
     };
 
     var _setPairs = function(interaction, pairs){
 
-        var addedPairs = 0,
-            $emptyPair = Helper.getContainer(interaction).find('.result-area>li:first');
+        var $container = containerHelper.get(interaction);
+        var addedPairs = 0;
+        var $emptyPair = $('.result-area>li:first', $container);
         if(pairs && interaction.getResponseDeclaration().attr('cardinality') === 'single' && pairs.length){
             pairs = [pairs];
         }
@@ -414,7 +450,7 @@ define([
                 addedPairs++;
                 $emptyPair = $emptyPair.next('li');
             }else{
-                //the number of pairs exceeds the maxium allowed pairs: break;
+                //the number of pairs exceeds the maximum allowed pairs: break;
                 return false;
             }
         });
@@ -424,13 +460,13 @@ define([
 
     /**
      * Set the response to the rendered interaction.
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
-     * 
+     *
      * @param {object} interaction
      * @param {object} response
      */
@@ -441,7 +477,8 @@ define([
 
     var _getRawResponse = function(interaction){
         var response = [];
-        Helper.getContainer(interaction).find('.result-area>li').each(function(){
+        var $container = containerHelper.get(interaction);
+        $('.result-area>li', $container).each(function(){
             var pair = [];
             $(this).find('div').each(function(){
                 var serial = $(this).data('serial');
@@ -458,13 +495,13 @@ define([
 
     /**
      * Return the response of the rendered interaction
-     * 
+     *
      * The response format follows the IMS PCI recommendation :
-     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343  
-     * 
+     * http://www.imsglobal.org/assessment/pciv1p0cf/imsPCIv1p0cf.html#_Toc353965343
+     *
      * Available base types are defined in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10291
-     * 
+     *
      * @param {object} interaction
      * @returns {object}
      */
@@ -472,35 +509,107 @@ define([
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
     };
 
+    /**
+     * Destroy the interaction by leaving the DOM exactly in the same state it was before loading the interaction.
+     * @param {Object} interaction - the interaction
+     */
     var destroy = function(interaction){
-
-        var $container = Helper.getContainer(interaction);
-
-        //destroy seelcted choice:
-        $container.find('.result-area .active').mousedown();
+        var $container = containerHelper.get(interaction);
 
         //remove event
         $(document).off('.commonRenderer');
         $container.find('.choice-area, .result-area').andSelf().off('.commonRenderer');
 
-        //destroy response
-        resetResponse(interaction);
-
         //remove instructions
-        Helper.removeInstructions(interaction);
+        instructionMgr.removeInstructions(interaction);
 
-        Helper.getContainer(interaction).find('.result-area').empty();
+        $('.result-area', $container).empty();
+
+        //remove all references to a cache container
+        containerHelper.reset(interaction);
     };
 
+    /**
+     * Set the interaction state. It could be done anytime with any state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @param {Object} state - the interaction state
+     */
+    var setState  = function setState(interaction, state){
+        var $container;
+
+        if(_.isObject(state)){
+            if(state.response){
+                interaction.resetResponse();
+                interaction.setResponse(state.response);
+            }
+
+            //restore order of previously shuffled choices
+            if(_.isArray(state.order) && state.order.length === _.size(interaction.getChoices())){
+
+                $container = containerHelper.get(interaction);
+
+                $('.choice-area .qti-choice', $container)
+                    .sort(function(a, b){
+                        var aIndex = _.indexOf(state.order, $(a).data('identifier'));
+                        var bIndex = _.indexOf(state.order, $(b).data('identifier'));
+                        if(aIndex > bIndex) {
+                            return 1;
+                        }
+                        if(aIndex < bIndex) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .detach()
+                    .appendTo($('.choice-area', $container));
+            }
+        }
+    };
+
+    /**
+     * Get the interaction state.
+     *
+     * @param {Object} interaction - the interaction instance
+     * @returns {Object} the interaction current state
+     */
+    var getState = function getState(interaction){
+        var $container;
+        var state =  {};
+        var response =  interaction.getResponse();
+
+        if(response){
+            state.response = response;
+        }
+
+        //we store also the choice order if shuffled
+        if(interaction.attr('shuffle') === true){
+            $container = containerHelper.get(interaction);
+
+            state.order = [];
+            $('.choice-area .qti-choice', $container).each(function(){
+               state.order.push($(this).data('identifier'));
+            });
+        }
+        return state;
+    };
+
+    /**
+     * Expose the common renderer for the associate interaction
+     * @exports qtiCommonRenderer/renderers/interactions/AssociateInteraction
+     */
     return {
         qtiClass : 'associateInteraction',
         template : tpl,
         render : render,
-        getContainer : Helper.getContainer,
+        getContainer : containerHelper.get,
         setResponse : setResponse,
         getResponse : getResponse,
         resetResponse : resetResponse,
-        destroy : destroy, //@todo to be renamed into destroy
+        destroy : destroy,
+        setState: setState,
+        getState : getState,
+
         renderEmptyPairs : renderEmptyPairs
     };
 });

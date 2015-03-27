@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
@@ -10,12 +10,13 @@ module.exports = function(grunt) {
         options : {
             loadPath : ['../scss/', '../js/lib/', root + 'scss/inc', root + 'scss/qti']
         },
-        files : {}        
+        files : {}
     };
 
     //files goes heres
     sass.taoqtiitem.files[root + 'css/item-creator.css'] = root + 'scss/item-creator.scss';
     sass.taoqtiitem.files[root + 'css/qti.css'] = root + 'scss/qti.scss';
+    sass.taoqtiitem.files[root + 'css/qti-runner.css'] = root + 'scss/qti-runner.scss';
 
 
     watch.taoqtiitemsass = {
@@ -28,7 +29,7 @@ module.exports = function(grunt) {
 
     notify.taoqtiitemsass = {
         options: {
-            title: 'Grunt SASS', 
+            title: 'Grunt SASS',
             message: 'SASS files compiled to CSS'
         }
     };
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
     grunt.config('sass', sass);
     grunt.config('watch', watch);
     grunt.config('notify', notify);
-    
+
     //register an alias for main build
     grunt.registerTask('taoqtiitemsass', ['sass:taoqtiitem']);
 };

@@ -161,8 +161,13 @@ define([
                 _.each(this.pciReadyCallbacks, function(fn){
                     fn.call(_this, pci);
                 });
-
+                
+                //empty the stack of ready callbacks
                 this.pciReadyCallbacks = [];
+                
+                //mark the interaction as ready
+                this.data('pciReady', true);
+                
             }else{
                 throw 'cannot trigger pci ready when no pci is actually attached to the interaction';
             }

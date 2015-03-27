@@ -22,29 +22,19 @@
         <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
     </div>
 
-    <div>
-        <label for="width">{{__ 'Width'}}</label>
-        <input name="width" value="{{width}}" type="text" />
+    <div class="panel media-sizer-panel">
+        <!-- media sizer goes here -->
     </div>
 
-    <div>
-        <label for="height">{{__ 'Height'}}</label>
-        <input name="height" value="{{height}}" type="text" />
-    </div>
+    <input name="type" type="hidden" value="{{type}}" type="text" />
 
-    <div>
-        <input type="hidden" name="type" value="{{type}}" type="text" />
-    </div>
-
-    <hr>
-
-    <h3>{{__ "Allowed number of matches"}}
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">
-            {{__ 'The maximum number of choices this choice may be associated with.'}}<br>
-            {{__ 'The minimum number of choices this choice must be associated with to form a valid response.'}}
-        </span>
-    </h3>
+    <hr/>
+    <h3>{{__ "Max. number of matches"}} </h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ 'The maximum number of choices this choice may be associated with.'}}<br>
+        {{__ 'The minimum number of choices this choice must be associated with to form a valid response.'}}
+    </span>
 
     <div>
         <label for="matchMin" class="spinner">Min</label>

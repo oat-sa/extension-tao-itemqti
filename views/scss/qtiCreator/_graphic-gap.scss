@@ -3,6 +3,9 @@
 .qti-graphicGapMatchInteraction {
 
     ul.source > li {
+        img {
+            height: 100% !important;
+        }
 
         &.empty, &.placeholder {
             margin: 0 3px 3px 0 !important;
@@ -29,6 +32,11 @@
             .tlb-button {
                 line-height: 18px;
             }
+        }
+
+        // now that's pretty good specificity!
+        &.add-option.empty > div > span[class^="icon-"] {
+            @include font-size(50);
         }
     }
 }

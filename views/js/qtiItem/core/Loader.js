@@ -19,7 +19,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             for(var i in data){
                 if(i === 'qtiClass' && data[i] !== '_container' && i !== 'relatedItem'){//although a _container is a concrete class in TAO, it is not defined in QTI standard
                     ret.push(data[i]);
-                }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){
+                }else if(typeof(data[i]) === 'object' && i !== 'responseRules'){    //responseRules should'nt be part of the parsing
                     ret = _.union(ret, this.getRequiredClasses(data[i]));
                 }
             }
@@ -53,24 +53,30 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
             var _this = this;
             _this.loadRequiredClasses(data, function(Qti){
-
+                var i;
                 if(typeof(data) === 'object' && data.qtiClass === 'assessmentItem'){
+
+                    //unload an item from it's serial (in case of a reload)
+                    if(data.serial){
+                        Element.unsetElement(data.serial);
+                    }
+
                     _this.item = new Qti.assessmentItem(data.serial, data.attributes || {});
                     _this.loadContainer(_this.item.getBody(), data.body);
 
-                    for(var i in data.outcomes){
+                    for(i in data.outcomes){
                         var outcome = _this.buildOutcome(data.outcomes[i]);
                         if(outcome){
                             _this.item.addOutcomeDeclaration(outcome);
                         }
                     }
-                    for(var i in data.feedbacks){
+                    for(i in data.feedbacks){
                         var feedback = _this.buildElement(data.feedbacks[i]);
                         if(feedback){
                             _this.item.addModalFeedback(feedback);
                         }
                     }
-                    for(var i in data.stylesheets){
+                    for(i in data.stylesheets){
                         var stylesheet = _this.buildElement(data.stylesheets[i]);
                         if(stylesheet){
                             _this.item.addStylesheet(stylesheet);
@@ -78,7 +84,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     }
 
                     //important : build responses after all modal feedbacks and outcomes has been loaded, because the simple feedback rules need to reference them
-                    for(var i in data.responses){
+                    for(i in data.responses){
                         var response = _this.buildResponse(data.responses[i]);
                         if(response){
                             _this.item.addResponseDeclaration(response);
@@ -117,8 +123,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             });
         },
         /**
-         * Load ALL given elements into existing loaded item 
-         * 
+         * Load ALL given elements into existing loaded item
+         *
          * @todo to be renamed to loadItemElements
          * @param {object} data
          * @param {function} callback
@@ -355,7 +361,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             loadPortableCustomElementData(pic, data);
         }
     });
-    
+
     function loadPortableCustomElementData(portableElement, data){
         portableElement.typeIdentifier = data.typeIdentifier;
         portableElement.markup = data.markup;
@@ -363,6 +369,6 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         portableElement.properties = data.properties;
         portableElement.libraries = data.libraries;
     }
-    
+
     return Loader;
 });
