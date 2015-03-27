@@ -25,7 +25,7 @@ define([
             var $item       = $container.parents('.qti-item');
             var background  = this.element.object.attributes;
             var serial      = this.element.serial;
-     
+
             if(!background.data){
                 this._createPlaceholder();
             } else {
@@ -35,7 +35,18 @@ define([
                     img         : this.baseUrl + background.data,
                     imgId       : 'bg-image-' + serial,
                     container   : $container,
-                    resize      : resize
+                    resize      : function() {
+                        var $blocks = $('.image-editor.solid, .block-listing.source', $container);
+                        var minWidth = arguments[0];
+                        resize.call(this, arguments);
+                        if(!$container.hasClass('responsive')) {
+                            $blocks.each(function() {
+                                if(!parseInt(this.style.minWidth)){
+                                    this.style.minWidth = (minWidth).toString() + 'px';
+                                }
+                            });
+                        }
+                    }
                 });
 
                 //listen for internal size change

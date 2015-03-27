@@ -14,6 +14,8 @@
     <div class="panel media-sizer-panel">
         <!-- media sizer goes here -->
     </div>
+<input name="width" value="{{width}}" type="hidden" />
+<input name="height" value="{{height}}" type="hidden" />
 
     <input type="hidden" name="type" value="{{type}}" type="text" />
 </div>

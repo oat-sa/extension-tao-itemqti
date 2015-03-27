@@ -180,6 +180,7 @@ define([
          * @param gapImgObj
          */
         function setUpGapImg(gapImgObj) {
+
             var $gapList = $('ul.source', widget.$original);
             var $addOption = $('.empty', $gapList);
             var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
@@ -292,6 +293,7 @@ define([
          * @param {String} serial - the gapImg serial
          */
         function enterGapImgForm(serial) {
+
             var callbacks,
                 gapImg = interaction.getGapImg(serial),
                 $gapImgBox,
@@ -382,7 +384,7 @@ define([
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function initQuestionState() {
+    var exitQuestionState = function exitQuestionState() {
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
@@ -404,6 +406,7 @@ define([
         //restore gapImg appearance
         widget.$container.find('.qti-gapImg').removeClass('active')
             .find('.mini-tlb').remove();
+        $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     };
 
     /**
@@ -436,34 +439,38 @@ define([
         }));
 
         imageSelector($form, options);
+
         formElement.initWidget($form);
 
         //Toggle the image resizing panel depending on the widget container is responsive or not.
         $form.find('.panel-interaction-size').toggle(!isResponsive);
 
-        $mediaSizer = $form.find('.media-sizer-panel');
 
-        $bgImage = $container.find('.svggroup svg image');
+        if(!isResponsive) {
+            $mediaSizer = $form.find('.media-sizer-panel');
 
-        if(!!$bgImage.length){
-            $mediaSizer.empty().mediasizer({
-                target: $bgImage,
-                showResponsiveToggle: false,
-                showSync: false,
-                responsive: false,
-                parentSelector: $container.attr('id'),
-                applyToMedium: false,
-                maxWidth: interaction.object.attr('width')
+            $bgImage = $container.find('.svggroup svg image');
+
+            if(!!$bgImage.length){
+                $mediaSizer.empty().mediasizer({
+                    target: $bgImage,
+                    showResponsiveToggle: false,
+                    showSync: false,
+                    responsive: false,
+                    parentSelector: $container.attr('id'),
+                    applyToMedium: false,
+                    maxWidth: interaction.object.attr('width')
+                });
+            }
+
+            $mediaSizer.on('sizechange.mediasizer', function(e, params) {
+
+                interaction.object.attr('width', params.width);
+                interaction.object.attr('height', params.height);
+
+                $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
             });
         }
-
-        $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-
-            interaction.object.attr('width', params.width);
-            interaction.object.attr('height', params.height);
-
-            $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
-        });
 
         //init data change callbacks
         var callbacks = {};
@@ -475,7 +482,12 @@ define([
                 }
             });
         };
-
+        callbacks.width = function (interaction, value) {
+            interaction.object.attr('width', value);
+        };
+        callbacks.height = function (interaction, value) {
+            interaction.object.attr('height', value);
+        };
         callbacks.type = function (interaction, value) {
             if (!value || value === '') {
                 interaction.object.removeAttr('type');
@@ -485,7 +497,6 @@ define([
             }
         };
         formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit: false });
-
     };
 
     return GraphicGapMatchInteractionStateQuestion;
