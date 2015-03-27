@@ -44,7 +44,7 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger;
+        var toolbarType, $trigger;
 
         options = _.defaults(options, _defaults);
 
@@ -242,7 +242,14 @@ define([
 
                 },
                 configLoaded : function(e){
-                    e.editor.config = ckConfigurator.getConfig(e.editor, ckConfig);
+                    //@todo : do we really have to wait here to initialize the config?
+                    var toolbarType = '';
+                    if(options.toolbar && _.isArray(options.toolbar)){
+                        ckConfig.toolbar = options.toolbar;
+                    }else{
+                        toolbarType = getTooltypeFromContainer($editableContainer);
+                    }
+                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
                 afterPaste : function(e){
                     //@todo : we may add some processing on the editor after paste
@@ -250,11 +257,6 @@ define([
             }
         };
         
-        if(options.toolbar && _.isArray(options.toolbar)){
-            ckConfig.toolbar = options.toolbar;
-        }else{
-            ckConfig.toolbarType = getTooltypeFromContainer($editableContainer);
-        }
         return CKEditor.inline($editable[0], ckConfig);
     }
     
