@@ -45,7 +45,7 @@ define([
         },
 
         /**
-         * Gracefull destroy the widget
+         * Gracefully destroy the widget
          * @see {taoQtiItem/qtiCreator/widgets/Widget#destroy}
          */
         destroy : function(){
@@ -78,6 +78,7 @@ define([
                     $img.width( $img.attr('width') * factor );
                     $img.height( $img.attr('height') * factor );
                 });
+               $container.data('factor', factor);
            } 
         },
 

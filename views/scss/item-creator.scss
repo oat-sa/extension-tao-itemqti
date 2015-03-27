@@ -12,6 +12,7 @@
     }
 }
 
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -212,7 +213,7 @@ img.dragging.ui-draggable-dragging {
     background: $canvas;
     position: relative;
 
-    @include simple-flex-box(180px);
+    @include simple-flex-box(195px);
 
     &.left-bar {
         .action-bar {
