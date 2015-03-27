@@ -10,7 +10,7 @@ define([
             container = _widget.$container[0],
             item = this.widget.element.getRelatedItem();
 
-        //move to sleep state by clicking everywhere outside the interaction 
+        //move to sleep state by clicking anywhere outside the interaction 
         $('#item-editor-panel').on('click.active', function(e){
             if(container !== e.target && !$.contains(container, e.target)){
                 _widget.changeState('sleep');

@@ -366,7 +366,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 tags:['Common Interactions', 'media']
             },
             _container : {
-                label : __('Text Block Interaction'),
+                label : __('Text Block'),
                 icon : 'icon-font',
                 description : __('Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions.'),
                 short : __('Block'),

@@ -18,7 +18,7 @@ define([
 
         //reference to the dom element(s) to be remove on delete
         this.$elementToRemove = this.getElementToRemove();
-
+        
         this.hideWidget();
 
         this.showMessage(element);
@@ -80,13 +80,35 @@ define([
 
         }
 
-        //inline widget:
+        /**
+         * inline widget
+         */
         if($container.hasClass('widget-inline')){
             return $container.add(this.widget.$original);
         }
-
-        //block widget:
+        
+        /**
+         * block widget
+         */
         var $col = $container.parent();
+        
+        //check sub-column condition
+        var $subCol = $container.parent('.colrow');
+        if($subCol.length){
+            
+            this.updateBody = true;
+            
+            var $colMulti = $subCol.parent();
+            if($colMulti.find('.colrow').length === 1){
+                //this is the only sub-column remaining, hide the entire col
+                $col = $colMulti;
+            }else{
+                //hide the whole sub-column only :
+                return $subCol;
+            }
+        }
+        
+        //check if we should hide the col only or the whole row
         var $row = $col.parent('.grid-row');
         if($row.length){
             this.updateBody = true;
@@ -101,7 +123,7 @@ define([
             //rubric block:
             this.updateBody = true;
             return $container;
-        }
+        } 
                 
         //other block widgets:
         if($container.hasClass('widget-block')){
