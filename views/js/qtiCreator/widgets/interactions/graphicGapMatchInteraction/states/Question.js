@@ -161,6 +161,9 @@ define([
 
                 // on successful upload
                 $addOption.on('selected.upload', function (e, args) {
+
+                    $addOption.off('selected.upload');
+
                     gapImgObj.object.attr('data', args.selected.file);
                     gapImgObj.object.attr('type', args.selected.mime);
                     gapImgObj.object.attr('width', args.size.width);
@@ -186,16 +189,9 @@ define([
             var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
             var $deleteBtn = $(mediaTlbTpl());
 
-            // on first creation but not on update
             if (!$gapImgBox.length) {
-                $gapImgBox = $('<li/>').insertBefore($addOption);
-                $gapImgBox.data('serial', gapImgObj.serial)
-                    .attr('data-serial', gapImgObj.serial)
-                    .addClass('qti-choice qti-gapImg active widget-box');
+                $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
             }
-
-            $gapImgBox.replaceWith(gapImgObj.render());
-            $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
 
             //manage gap deletion
             $deleteBtn
@@ -318,6 +314,7 @@ define([
 
                 // <li/> that will contain the image
                 $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
+
 
                 $gapImgElem = $gapImgBox.find('img');
 

@@ -38,7 +38,9 @@ define([
                     resize      : function() {
                         var $blocks = $('.image-editor.solid, .block-listing.source', $container);
                         var minWidth = arguments[0];
-                        resize.call(this, arguments);
+                        if(typeof resize === 'function') {
+                            resize.call(this, arguments);
+                        }
                         if(!$container.hasClass('responsive')) {
                             $blocks.each(function() {
                                 if(!parseInt(this.style.minWidth)){

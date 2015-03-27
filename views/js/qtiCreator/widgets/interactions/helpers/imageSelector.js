@@ -27,7 +27,6 @@ define([
          */
         var _openResourceMgr = function(){
             $upload.on('selected.upload', function(e, args) {
-
                 if(args.size && args.size.width >= 0){
                     $width.val(args.size.width).trigger('change');
                     $height.val(args.size.height).trigger('change');
