@@ -1,11 +1,9 @@
-
 @charset "UTF-8";
 
 @import "inc/bootstrap";
-
+$mainContainer : '.qti-item';
 @import "inc/base";
 @import "inc/select2";
-
 
 %selectableHover {
     background: whiten($info, .95) !important;
@@ -21,9 +19,7 @@
     z-index:9;
 }
 
-
-
-.qti-item {
+#{$mainContainer} {
 
     @import "inc/fonts/tao-icon-classes";
 

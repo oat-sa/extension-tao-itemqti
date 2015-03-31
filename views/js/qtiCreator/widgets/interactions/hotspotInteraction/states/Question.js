@@ -14,7 +14,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
-    'taoQtiItem/qtiCreator/helper/panel'
+    'taoQtiItem/qtiCreator/helper/panel',
+    'ui/mediasizer'
 ], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl,  panel){
 
     /**
@@ -159,6 +160,7 @@ define([
         if(widget._editor){
             widget._editor.destroy();
         }
+        $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     };
     
     /**
@@ -177,6 +179,10 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
+        var $container = widget.$original;
+        var isResponsive = $container.hasClass('responsive');
+        var $mediaSizer;
+        var $bgImage;
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
@@ -192,6 +198,32 @@ define([
         imageSelector($form, options); 
 
         formElement.initWidget($form);
+
+        if(!isResponsive) {
+            $mediaSizer = $form.find('.media-sizer-panel');
+
+            $bgImage = $container.find('.svggroup svg image');
+
+            if(!!$bgImage.length){
+                $mediaSizer.empty().mediasizer({
+                    target: $bgImage,
+                    showResponsiveToggle: false,
+                    showSync: false,
+                    responsive: false,
+                    parentSelector: $container.attr('id'),
+                    applyToMedium: false,
+                    maxWidth: interaction.object.attr('width')
+                });
+            }
+
+            $mediaSizer.on('sizechange.mediasizer', function(e, params) {
+
+                interaction.object.attr('width', params.width);
+                interaction.object.attr('height', params.height);
+
+                $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
+            });
+        }
         
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
