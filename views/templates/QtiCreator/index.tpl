@@ -117,28 +117,28 @@ use oat\tao\helpers\Template;
                             <span class="icon-eraser reset-button" data-value="background-color"
                                   title="<?= __('Remove custom background color') ?>"></span>
                             <span class="color-trigger" id="initial-bg" data-value="background-color"
-                                  data-target="body div.qti-item.tao-scope, body div.qti-item.tao-scope .qti-associateInteraction .result-area > li > .target"></span>
+                                  data-target="body div.qti-item, body div.qti-item .qti-associateInteraction .result-area > li > .target"></span>
                     </div>
                     <div class="clearfix">
                         <label for="initial-color" class="truncate"><?= __('Text color') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom text color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="color"
-                                  data-target="body div.qti-item.tao-scope"></span>
+                                  data-target="body div.qti-item"></span>
                     </div>
                     <div class="clearfix">
                         <label for="initial-color" class="truncate"><?= __('Border color') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom border color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="border-color"
-                                  data-target="body div.qti-item.tao-scope .solid,body div.qti-item.tao-scope .matrix, body div.qti-item.tao-scope table.matrix th, body div.qti-item.tao-scope table.matrix td"></span>
+                                  data-target="body div.qti-item .solid,body div.qti-item .matrix, body div.qti-item table.matrix th, body div.qti-item table.matrix td"></span>
                     </div>
                     <div class="clearfix">
                         <label for="initial-color" class="truncate"><?= __('Table headings') ?></label>
                             <span class="icon-eraser reset-button" data-value="color"
                                   title="<?= __('Remove custom background color') ?>"></span>
                             <span class="color-trigger" id="initial-color" data-value="background-color"
-                                  data-target="body div.qti-item.tao-scope .matrix th"></span>
+                                  data-target="body div.qti-item .matrix th"></span>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@ use oat\tao\helpers\Template;
 
             <div class="reset-group">
                 <select
-                    data-target="body div.qti-item.tao-scope"
+                    data-target="body div.qti-item"
                     id="item-editor-font-selector"
                     data-has-search="false"
                     data-placeholder="<?= __('Default') ?>"
@@ -164,7 +164,7 @@ use oat\tao\helpers\Template;
         <div class="panel">
             <div><?= __('Font size') ?></div>
             <div class="reset-group">
-                            <span id="item-editor-font-size-changer" data-target="body div.qti-item.tao-scope">
+                            <span id="item-editor-font-size-changer" data-target="body div.qti-item">
                                 <a href="#" data-action="reduce" title="<?= __('Reduce font size') ?>"
                                    class="icon-smaller"></a>
                                 <a href="#" data-action="enlarge" title="<?= __('Enlarge font size') ?>"
@@ -192,7 +192,7 @@ use oat\tao\helpers\Template;
                     'Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with.'
                 ) ?>
             </div>
-            <div id="item-editor-item-resizer" data-target="body div.qti-item.tao-scope">
+            <div id="item-editor-item-resizer" data-target="body div.qti-item">
                 <label class="smaller-prompt">
                     <input type="radio" name="item-width-prompt" checked value="no-slider">
                     <span class="icon-radio"></span>
