@@ -172,17 +172,8 @@ define([
 
                     }
 
-                    /*
-                     dirty trick: shows and hides combo boxes (styles for instance)
-                     in the CKE toolbar and acts as a pre-loader for the iframes in these boxes
-                     */
-                    $('#cke_' + e.editor.name).find('.cke_combo_button').each(function(){
-                        var btn = this;
-                        btn.click();
-                        setTimeout(function(){
-                            btn.click();
-                        }, 500);
-                    });
+                    //fix ck editor combo box display issue
+                    $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -235,6 +226,7 @@ define([
 
                 },
                 blur : function(e){
+                    return false;
                     if(options.hideTriggerOnBlur){
                         $trigger.hide();
                     }
