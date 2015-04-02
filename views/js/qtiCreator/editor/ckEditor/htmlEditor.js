@@ -44,8 +44,7 @@ define([
      */
     function _buildEditor($editable, $editableContainer, options){
 
-        var $trigger,
-            toolbarType;
+        var toolbarType, $trigger;
 
         options = _.defaults(options, _defaults);
 
@@ -58,20 +57,6 @@ define([
 
         $trigger = getTrigger($editableContainer);
         $editable.attr('placeholder', options.placeholder);
-
-        // build parameter for toolbar
-        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
-
-            toolbarType = 'qtiBlock';
-
-        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
-
-            toolbarType = 'qtiInline';
-
-        }else{
-
-            toolbarType = 'qtiFlow';
-        }
 
         var ckConfig = {
             autoParagraph : false,
@@ -187,17 +172,8 @@ define([
 
                     }
 
-                    /*
-                     dirty trick: shows and hides combo boxes (styles for instance)
-                     in the CKE toolbar and acts as a pre-loader for the iframes in these boxes
-                     */
-                    $('#cke_' + e.editor.name).find('.cke_combo_button').each(function(){
-                        var btn = this;
-                        btn.click();
-                        setTimeout(function(){
-                            btn.click();
-                        }, 500);
-                    });
+                    //fix ck editor combo box display issue
+                    $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -250,6 +226,7 @@ define([
 
                 },
                 blur : function(e){
+                    return false;
                     if(options.hideTriggerOnBlur){
                         $trigger.hide();
                     }
@@ -257,6 +234,13 @@ define([
 
                 },
                 configLoaded : function(e){
+                    //@todo : do we really have to wait here to initialize the config?
+                    var toolbarType = '';
+                    if(options.toolbar && _.isArray(options.toolbar)){
+                        ckConfig.toolbar = options.toolbar;
+                    }else{
+                        toolbarType = getTooltypeFromContainer($editableContainer);
+                    }
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
                 afterPaste : function(e){
@@ -264,10 +248,27 @@ define([
                 }
             }
         };
-
+        
         return CKEditor.inline($editable[0], ckConfig);
     }
-
+    
+    /**
+     * Assess
+     * @param {type} $editableContainer
+     * @returns {String}
+     */
+    function getTooltypeFromContainer($editableContainer){
+        
+        var toolbarType = 'qtiFlow';
+        // build parameter for toolbar
+        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
+            toolbarType = 'qtiBlock';
+        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
+            toolbarType = 'qtiInline';
+        }
+        return toolbarType;
+    }
+    
     /**
      * Find an inner element by its data attribute name
      * @param {JQuery} $container

@@ -53,6 +53,7 @@ define([
      * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
      * @param {Function} [options.placeholder] - the placeholder text of the container editor when
      * @param {Function} [options.$toolbarLocation] - the location of the toolbar
+     * @param {Function} [options.toolbar] - the ck toolbar
      * @returns {undefined}
      */
     function create($container, options){
@@ -103,7 +104,8 @@ define([
                 createToolbar($container, options.$toolbarLocation);
                 buildEditor($container, container, {
                     hideTriggerOnBlur: !!options.hideTriggerOnBlur,
-                    placeholder : options.placeholder || undefined
+                    placeholder : options.placeholder || undefined,
+                    toolbar : options.toolbar || undefined
                 });
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
