@@ -104,12 +104,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     foreach ($srcAttr as $attr) {
                         if ($element->hasAttribute($attr)) {
                             $source = trim($element->getAttribute($attr));
-                            $browser = MediaRetrieval::getBrowserImplementation(
-                                $source,
-                                array('item' => $this->getItem())
-                            );
-                            $mediaInfo = MediaRetrieval::getLinkAndIdentifier($source);
-                            extract($mediaInfo);
+                            $link = '';
+                            $browser = MediaRetrieval::getBrowserImplementation($source, array('item' => $this->getItem()), $link);
                             if ($browser !== false) {
 
                                 $returnValue[] = array(

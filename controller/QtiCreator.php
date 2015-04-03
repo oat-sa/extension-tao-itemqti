@@ -171,10 +171,10 @@ class QtiCreator extends tao_actions_CommonModule
 
         $data = array('item' => $item, 'lang' => $lang);
         if (tao_helpers_File::securityCheck($path, true)) {
-            $browser = ItemMediaRetrieval::getBrowserImplementation($path, $data);
-            $mediaInfo = ItemMediaRetrieval::getLinkAndIdentifier($path);
+            $link = '';
+            $browser = ItemMediaRetrieval::getBrowserImplementation($path, $data, $link);
             if ($browser !== false) {
-                $filePath = $browser->download($mediaInfo['link']);
+                $filePath = $browser->download($link);
                 \tao_helpers_Http::returnFile($filePath);
             } else {
                 throw new \Exception();

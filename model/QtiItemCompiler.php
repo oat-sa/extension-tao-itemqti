@@ -248,9 +248,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 foreach ($srcAttr as $attr) {
                     if ($element->hasAttribute($attr)) {
                         $source = trim($element->getAttribute($attr));
-                        $browser = MediaRetrieval::getBrowserImplementation($source, array('item' => $item));
-                        $mediaInfo = MediaRetrieval::getLinkAndIdentifier($source);
-                        extract($mediaInfo);
+                        $link = '';
+                        $browser = MediaRetrieval::getBrowserImplementation($source, array('item' => $item), $link);
                         if ($browser !== false) {
                             tao_helpers_File::copy(
                                 $browser->download($link),
