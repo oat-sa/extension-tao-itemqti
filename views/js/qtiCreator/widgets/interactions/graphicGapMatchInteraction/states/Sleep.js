@@ -18,7 +18,10 @@ define([
         });
     };
 
-    var exitSleepState = function exitSleepState(){};
+    var exitSleepState = function exitSleepState(){
+        var widget      = this.widget;
+        $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
+    };
  
     return stateFactory.extend(SleepState, initSleepState, exitSleepState); 
 });

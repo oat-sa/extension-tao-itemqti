@@ -10,20 +10,14 @@
         <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
     </div>
 
-    <div class="panel">
-        <label for="width">{{__ 'Width'}}</label>
-        <input name="width" value="{{width}}" type="text" />
+    <div class="panel media-sizer-panel">
+        <!-- media sizer goes here -->
     </div>
+    <input name="width" value="{{width}}" type="hidden" />
+    <input name="height" value="{{height}}" type="hidden" />
 
-    <div class="panel">
-        <label for="height">{{__ 'Height'}}</label>
-        <input name="height" value="{{height}}" type="text" />
-    </div>
 
-    <div class="panel">
-        <label for="type">{{__ 'Mime Type'}}</label>
-        <input name="type" value="{{type}}" type="text" readonly />
-    </div>
+        <input name="type" value="{{type}}" type="hidden" readonly />
 
     <hr>
 

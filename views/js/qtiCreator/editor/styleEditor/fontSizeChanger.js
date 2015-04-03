@@ -1,3 +1,26 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
+/**
+ *
+ * @author dieter <dieter@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -5,76 +28,93 @@ define([
 ], function ($, _, styleEditor) {
     'use strict';
 
-    var fontSizeChanger = function () {
-        var fontSizeChanger = $('#item-editor-font-size-changer'),
-            target = fontSizeChanger.data('target'),
-            headSelector = target + ' .item-title',
-            bodySelector = target + ' .qti-itemBody *',
-            headFontSize = parseInt($(headSelector).css('font-size'), 10),
-            bodyFontSize = parseInt($(bodySelector).css('font-size'), 10),
-            headBodyDiff = headFontSize - bodyFontSize,
-            resetButton =  fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
-            input = $('#item-editor-font-size-text');
 
+    /**
+     * Changes the font size in the Style Editor
+     */
+    var fontSizeChanger = function () {
+        var $fontSizeChanger = $('#item-editor-font-size-changer'),
+            itemSelector = $fontSizeChanger.data('target'),
+            $item = $(itemSelector),
+            itemFontSize = parseInt($item.css('font-size'), 10),
+            $resetBtn =  $fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
+            $input = $('#item-editor-font-size-text');
+
+        /**
+         * Writes new font size to virtual style sheet
+         */
         var resizeFont = function() {
-            var headFontSize = bodyFontSize + headBodyDiff;
-            styleEditor.apply(headSelector, 'font-size', headFontSize.toString() + 'px');
-            styleEditor.apply(bodySelector, 'font-size', bodyFontSize.toString() + 'px');
+            styleEditor.apply(itemSelector + ' *', 'font-size', itemFontSize.toString() + 'px');
         };
 
-        fontSizeChanger.find('a').on('click', function(e) {
+        /**
+         * Handle input field
+         */
+        $fontSizeChanger.find('a').on('click', function(e) {
             e.preventDefault();
             if($(this).data('action') === 'reduce') {
-                if(bodyFontSize <= 10) {
+                if(itemFontSize <= 10) {
                     return;
                 }
-                bodyFontSize--;
+                itemFontSize--;
             }
             else {
-                bodyFontSize++;
+                itemFontSize++;
             }
             resizeFont();
-            input.val(bodyFontSize);
+            $input.val(itemFontSize);
             $(this).parent().blur();
         });
 
-        input.on('keydown', function(e) {
+        /**
+         * Disallows invalid characters
+         */
+        $input.on('keydown', function(e) {
             var c = e.keyCode;
-            return (_.contains([8, 37, 39, 46], c)
-                || (c >= 48 && c <= 57)
-                || (c >= 96 && c <= 105));
+            return (_.contains([8, 37, 39, 46], c) ||
+                (c >= 48 && c <= 57) ||
+                (c >= 96 && c <= 105));
         });
 
-        input.on('blur', function() {
-            bodyFontSize = parseInt(this.value, 10);
+        /**
+         * Apply font size on blur
+         */
+        $input.on('blur', function() {
+            itemFontSize = parseInt(this.value, 10);
             resizeFont();
         });
 
-        input.on('keydown', function(e) {
+        /**
+         * Apply font size on enter
+         */
+        $input.on('keydown', function(e) {
             var c = e.keyCode;
             if(c === 13) {
-                input.trigger('blur');
+                $input.trigger('blur');
             }
         });
 
-        resetButton.on('click', function () {
-            input.val('');
-            styleEditor.apply(headSelector, 'font-size');
-            styleEditor.apply(bodySelector, 'font-size');
+        /**
+         * Remove font size from virtual style sheet
+         */
+        $resetBtn.on('click', function () {
+            $input.val('');
+            styleEditor.apply(itemSelector + ' *', 'font-size');
         });
 
-        // style loaded from style sheet
+        /**
+         * style loaded from style sheet
+         */
         $(document).on('customcssloaded.styleeditor', function(e, style) {
-            if(style[bodySelector] && style[bodySelector]['font-size']) {
-                input.val(parseInt(style[bodySelector]['font-size'], 10));
-                input.trigger('blur');
+            if(style[itemSelector] && style[itemSelector]['font-size']) {
+                $input.val(parseInt(style[itemSelector]['font-size'], 10));
+                $input.trigger('blur');
             }
             else {
-                input.val(parseInt($(bodySelector).css('font-size'), 10));
+                $input.val(parseInt($item.css('font-size'), 10));
             }
         });
     };
 
     return fontSizeChanger;
 });
-

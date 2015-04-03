@@ -18,7 +18,11 @@ define([
         });
     };
 
-    var exitSleepState = function exitSleepState(){};
+    var exitSleepState = function exitSleepState(){
+        "use strict";
+
+        $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
+    };
  
     return stateFactory.extend(SleepState, initSleepState, exitSleepState); 
 });
