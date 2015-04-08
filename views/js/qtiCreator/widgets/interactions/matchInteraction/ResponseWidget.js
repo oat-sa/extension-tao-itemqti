@@ -7,7 +7,7 @@ define([
     'lodash',
     'i18n',
     'polyfill/placeholders'
-], function(commonRenderer, instructionMgr, formElement, scoreTpl, _, __){
+], function($, commonRenderer, instructionMgr, formElement, scoreTpl, _, __){
 
     var ResponseWidget = {
         create : function(widget, responseMappingMode){

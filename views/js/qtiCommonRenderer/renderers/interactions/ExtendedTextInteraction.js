@@ -116,8 +116,6 @@ define([
                 var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
                 // store the instance inside data on the container
                 $container.data('editor', editor);
-
-
             }
             else {
                 $el.bind('keyup change', function(e) {
@@ -157,6 +155,10 @@ define([
                         }else {
                             evt.preventDefault();
                         }
+                        if(maxLength){
+                            var value = _getTextareaValue(interaction);
+                            setText(interaction,value);
+                        }
                     }
                     updateCounter();
                 };
@@ -184,7 +186,7 @@ define([
                  */
                 var getCharsCount = function(){
                     var value = _getTextareaValue(interaction);
-                    return value.trim().length;
+                    return value.length;
                 };
 
                 /**
@@ -555,13 +557,7 @@ define([
 
         if ( _getFormat(interaction) === 'xhtml') {
             var editor = _ckEditor(interaction);
-            editor.setData(text,{
-                callback : function(){
-                    var range = editor.createRange();
-                    range.moveToElementEditEnd( range.root );
-                    editor.getSelection().selectRanges( [ range ] );
-                }
-            });
+            editor.setData(text);
         }
         else {
             $container.find('textarea').val(text);
