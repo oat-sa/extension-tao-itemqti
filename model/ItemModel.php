@@ -46,6 +46,8 @@ class ItemModel
                    tao_models_classes_import_ImportProvider
 {
 
+    const MODEL_URI = "http://www.tao.lu/Ontologies/TAOItem.rdf#QTI";
+    
     /**
      * constructor called by itemService
      *
