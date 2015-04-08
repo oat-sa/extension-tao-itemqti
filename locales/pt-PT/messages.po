@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-06T15:35:33\n"
+"Project-Id-Version: TAO 3.0-RC05\n"
+"PO-Revision-Date: 2015-04-08T14:39:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -142,6 +142,9 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "cancel"
+msgstr ""
+
 msgid "chars"
 msgstr ""
 
@@ -157,10 +160,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Click again to remove"
@@ -442,10 +445,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -499,10 +502,10 @@ msgstr ""
 msgid "Is this pair the correct response?"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -565,16 +568,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
+msgid "Max Length"
+msgstr ""
+
 msgid "Max length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max Words"
 msgstr ""
 
 msgid "Max words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max. number of matches"
 msgstr ""
 
 msgid "Maximal score for this interaction."
@@ -682,10 +688,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
 msgid "Pause"
@@ -737,7 +743,10 @@ msgstr ""
 msgid "Please order the choices below to set the correct answer"
 msgstr ""
 
-msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgid "Please select a background picture for your interaction from the resource manager.                      You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a choice picture for your interaction from the resource manager.                   You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
@@ -750,9 +759,6 @@ msgid "Please select the correct hotspot choices below."
 msgstr ""
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
-
-msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please set the correct associations by linking the choices."
@@ -821,10 +827,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -881,10 +887,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -915,9 +921,6 @@ msgid "Select an image first"
 msgstr ""
 
 msgid "Select an image first."
-msgstr ""
-
-msgid "Select an image."
 msgstr ""
 
 msgid "Select another area to complete the association"
@@ -1001,7 +1004,7 @@ msgstr ""
 msgid "TAO default styles"
 msgstr ""
 
-msgid "Text Block Interaction"
+msgid "Text Block"
 msgstr ""
 
 msgid "Text Block Properties"
@@ -1171,10 +1174,10 @@ msgstr ""
 msgid "Trigger the end of the item attempt."
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-12T08:30:47\n"
+"Project-Id-Version: TAO 3.0-RC05\n"
+"PO-Revision-Date: 2015-04-08T14:40:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -14,1265 +14,1271 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr " 從一組選擇中填寫文本中的空缺。"
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "-- 任何類型的檔案 --"
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "必須選擇一個選項"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
+msgstr "評估標準(rubric)區塊是一個考題的內容，也是給看考題的人使用的指示。雖然專欄塊被定義為簡單的區塊，他們不能與使用者有互動。"
 
 msgid "Actual size"
-msgstr ""
+msgstr "實際大小"
 
 msgid "Adapt to item size"
-msgstr ""
+msgstr "適應項目(試題)大小"
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "調整到屏幕大小"
 
 msgid "Add"
-msgstr ""
+msgstr "新增"
 
 msgid "Add a modal feedback"
-msgstr ""
+msgstr "添加一個模態反饋"
 
 msgid "Add a QTI XML file"
-msgstr ""
+msgstr "加入一個QTI XML檔案"
 
 msgid "Add a zip file containing QTI items"
-msgstr ""
+msgstr "加入含有QTI項目(試題)的ZIP檔案"
 
 msgid "Add another option"
-msgstr ""
+msgstr "加入另一個選項"
 
 msgid "Add choice"
-msgstr ""
+msgstr "新增選項"
 
 msgid "Add else feedback"
-msgstr ""
+msgstr "新增其他建議"
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "新增配對選項"
 
 msgid "Add Style Sheet"
-msgstr ""
+msgstr "新增樣式表"
 
 msgid "Alignment"
-msgstr ""
+msgstr "對齊方式"
 
 msgid "Alignment (optional)"
-msgstr ""
+msgstr "對齊方式（選用）"
 
 msgid "Allowed number of associations"
-msgstr ""
+msgstr "允許關聯的數量"
 
 msgid "Allowed number of choices"
-msgstr ""
+msgstr "允許的選擇數"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "允許匹配數"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "允許使用次數"
 
 msgid "Alt Text"
-msgstr ""
+msgstr "替代文字"
 
 msgid "An error occured at the level of the QTI model."
-msgstr ""
+msgstr "在QTI 模式的層次發生了錯誤。"
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr ""
+msgstr "當在解壓縮IMS內容包時， ZIP壓縮文件發生了錯誤。 "
 
 msgid "An error occured while parsing IMS QTI data."
-msgstr ""
+msgstr "在解析IMS QTI數據時發生錯誤。"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr ""
+msgstr "匯入IMS QTI 項目（考題）包時發生了錯誤。 "
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr ""
+msgstr "在處理回應時發生了錯誤。 "
 
 msgid "An unknown error occured while importing the IMS QTI Package."
-msgstr ""
+msgstr "當匯入 IMS QTI 包時發生不明的錯誤。"
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "按正确的顺序排列选项列表。"
 
 msgid "Associate"
-msgstr ""
+msgstr "關聯"
 
 msgid "Associate Interaction"
-msgstr ""
+msgstr "關聯互動"
 
 msgid "association pairs"
-msgstr ""
+msgstr "關聯配對"
 
 msgid "at least"
-msgstr ""
+msgstr "最少"
 
 msgid "Autostart"
-msgstr ""
+msgstr "自動啟動"
 
 msgid "Background color"
-msgstr ""
+msgstr "背景色彩"
 
 msgid "block"
-msgstr ""
+msgstr "區塊"
 
 msgid "Block"
-msgstr ""
+msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
+msgstr "區塊中含有考題項目內容(刺激物)，例如：文字或圖片。這是在線互動所需要的。"
 
 msgid "Border color"
-msgstr ""
+msgstr "邊界色彩"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr ""
+msgstr "瀏覽你的電腦，並選擇檔案。"
 
 msgid "Browse..."
-msgstr ""
+msgstr "瀏覽..."
 
 msgid "Cancel"
+msgstr "取消"
+
+msgid "cancel"
 msgstr ""
 
 msgid "chars"
-msgstr ""
+msgstr "字符"
 
 msgid "Choice"
-msgstr ""
+msgstr "選擇"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "選擇圖片"
 
 msgid "Choice Interaction"
-msgstr ""
+msgstr "選擇的互動"
 
 msgid "Choice Properties"
-msgstr ""
-
-msgid "Choices"
-msgstr ""
+msgstr "選擇的屬性"
 
 msgid "choices"
-msgstr ""
+msgstr "選擇"
+
+msgid "Choices"
+msgstr "選擇"
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "再點擊一次以移除"
 
 msgid "Click to display interaction widget"
-msgstr ""
+msgstr "點擊以顯示互動小部件"
 
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
+msgstr "使用輸入短文字的方式來收集開放式資料(串或數字值)。"
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
+msgstr "使用一個或多個文本字段的方式來收集開放式資料(串或數字值)。"
 
 msgid "Color Picker"
-msgstr ""
+msgstr "顏色挑選器"
 
 msgid "Contraints"
-msgstr ""
+msgstr "約束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
+msgstr "控制視頻和音頻的播放參數(自動播放，循環)再報告已播放的次數。"
 
 msgid "Correct"
-msgstr ""
+msgstr "正確"
 
 msgid "correct"
-msgstr ""
+msgstr "正確"
 
 msgid "Create assocations and fill the score in the form below"
-msgstr ""
+msgstr "創建關聯然後在以下的表格填寫比分"
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "在顯示的圖片上創建區域(熱點)之間的關聯"
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "在表(行和列)顯示的兩組選擇中創建關聯。"
 
 msgid "Create gap"
-msgstr ""
+msgstr "建立空格"
 
 msgid "Create hottext"
-msgstr ""
+msgstr "建立突出文字"
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "從一系列的選擇創建對組"
 
 msgid "CSV file"
-msgstr ""
+msgstr "CSV 檔"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr ""
+msgstr "目前，不可從 MathML 轉換到 LaTeX。在這裡編輯 MathML 會丟棄 LaTeX 的代碼。"
 
 msgid "Custom Response Processing Mode"
-msgstr ""
+msgstr "訂製回應處理模式"
 
 msgid "Default"
-msgstr ""
+msgstr "預設值"
 
 msgid "default"
-msgstr ""
+msgstr "預設值"
 
 msgid "Define correct response"
-msgstr ""
+msgstr "設定正確回應"
 
 msgid "define prompt"
-msgstr ""
+msgstr "設定提示"
 
 msgid "Define the correct response."
-msgstr ""
+msgstr "設定正確回應。"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr ""
+msgstr "設定考生是否需要選一個選擇，才能成立一個有效應得回應。"
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr ""
+msgstr "設定當在遞送時，項目(考題)是否有記考生載累計運行的時間。"
 
 msgid "Defined width"
-msgstr ""
+msgstr "限定的闊度"
 
 msgid "delete"
-msgstr ""
+msgstr "刪除"
 
 msgid "Delete else statement"
-msgstr ""
+msgstr "刪除 else 語句"
 
 msgid "Delete this modal feedback"
-msgstr ""
+msgstr "刪除此模式反饋"
 
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 msgid "Desktop preview"
-msgstr ""
+msgstr "桌面預覽"
 
 msgid "Disable this stylesheet temporarily"
-msgstr ""
+msgstr "暫時禁用此樣式表"
 
 msgid "Display"
-msgstr ""
+msgstr "顯示"
 
 msgid "Display larger editor"
-msgstr ""
+msgstr "顯示更大的編輯器"
 
 msgid "done"
-msgstr ""
+msgstr "完成"
 
 msgid "Download this stylesheet"
-msgstr ""
+msgstr "下載這個樣式表"
 
 msgid "Draw a circle on the image"
-msgstr ""
+msgstr "在圖片上畫圓圈"
 
 msgid "Draw a free form on the image"
-msgstr ""
+msgstr "在圖上畫自由形式"
 
 msgid "Draw a rectangle on the image"
-msgstr ""
+msgstr "在圖上畫長方形"
 
 msgid "Draw an ellipsis on the image"
-msgstr ""
+msgstr "在圖上畫橢圓形"
 
 msgid "Drop the target to select a point"
-msgstr ""
+msgstr "把目標放在所選的點"
 
 msgid "e.g. 13"
-msgstr ""
+msgstr "例如：13"
 
 msgid "e.g. 960"
-msgstr ""
+msgstr "例如：960"
 
 msgid "edit choices"
-msgstr ""
+msgstr "編輯選擇"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
+msgstr "用LaTeX type setting 系統來編輯數學表達式。例如：e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
-msgstr ""
+msgstr "用 MathML 來編輯數學表達式"
 
 msgid "Edit modal feedback title"
-msgstr ""
+msgstr "編輯模式反饋標題"
 
 msgid "Edit stylesheet label"
-msgstr ""
+msgstr "編輯樣式表標籤"
 
 msgid "Editing Mode"
-msgstr ""
+msgstr "編輯模式"
 
 msgid "Editing this element is not supported currently."
-msgstr ""
+msgstr "現在不支援編輯這個元素。"
 
 msgid "Element Properties"
-msgstr ""
+msgstr "元素屬性"
 
 msgid "elements"
-msgstr ""
+msgstr "元素"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr ""
+msgstr "允許考生暫停並重新啟動播放。"
 
 msgid "End Attempt"
-msgstr ""
+msgstr "結束考試"
 
 msgid "End Attempt Interaction"
-msgstr ""
+msgstr "結束考試互動"
 
 msgid "Enlarge font size"
-msgstr ""
+msgstr "放大字型大小"
 
 msgid "Export"
-msgstr ""
+msgstr "匯出"
 
 msgid "Export QTI 2.1 Package"
-msgstr ""
+msgstr "匯出 QTI 2.1 包"
 
 msgid "Extended Text"
-msgstr ""
+msgstr "長文本"
 
 msgid "Extended Text Interaction"
-msgstr ""
+msgstr "長文本互動"
 
 msgid "Failed to save item"
-msgstr ""
+msgstr "無法儲存項目(試題)"
 
 msgid "Feedback"
-msgstr ""
+msgstr "回饋"
 
 msgid "File"
-msgstr ""
+msgstr "檔案"
 
 msgid "File name"
-msgstr ""
+msgstr "檔案名稱"
 
 msgid "File Upload"
-msgstr ""
+msgstr "上傳檔案"
 
 msgid "File Upload Interaction"
-msgstr ""
+msgstr "上傳檔案互動"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
+msgstr "在空格中填充的一組選擇的圖像的圖片。"
 
 msgid "Flash video"
-msgstr ""
+msgstr "Flash 視訊"
 
 msgid "Font family"
-msgstr ""
+msgstr "字型家族"
 
 msgid "Font size"
-msgstr ""
+msgstr "字型大小"
 
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 msgid "Gap"
-msgstr ""
+msgstr "空格"
 
 msgid "Gap Match"
-msgstr ""
+msgstr "空格匹配"
 
 msgid "Gap Match Interaction"
-msgstr ""
+msgstr "空格匹配互動"
 
 msgid "Gaps"
-msgstr ""
+msgstr "空格"
 
 msgid "GIF image"
-msgstr ""
+msgstr "GIF 圖片"
 
 msgid "Graphic Associate"
-msgstr ""
+msgstr "圖像相連"
 
 msgid "Graphic Associate Interaction"
-msgstr ""
+msgstr "圖像相連互動"
 
 msgid "Graphic Gap"
-msgstr ""
+msgstr "圖像空格"
 
 msgid "Graphic Gap Match Interaction"
-msgstr ""
+msgstr "圖像空格匹配互動"
 
 msgid "Graphic Order"
-msgstr ""
+msgstr "圖像順序"
 
 msgid "Graphic Order Interaction"
-msgstr ""
+msgstr "圖像順序互動"
 
 msgid "he maximum number of associations that the candidate is allowed to make."
-msgstr ""
+msgstr "考生可使用相連線的最多次數。"
 
 msgid "Height"
-msgstr ""
+msgstr "長度"
 
 msgid "Height (optional)"
-msgstr ""
+msgstr "高度(選用)"
 
 msgid "Hotspot"
-msgstr ""
+msgstr "熱點"
 
 msgid "Hotspot Interaction"
-msgstr ""
+msgstr "熱點互動"
 
 msgid "Hottext"
-msgstr ""
+msgstr "突出文本"
 
 msgid "Hottext Interaction"
-msgstr ""
+msgstr "突出文本互動"
 
 msgid "How the math expression should be displayed."
-msgstr ""
+msgstr "如何顯示數學表達式應。"
 
 msgid "How the math expression should be edited"
-msgstr ""
+msgstr "如何編輯數學表達式應"
 
 msgid "identical pair already exists"
-msgstr ""
-
-msgid "identifier"
-msgstr ""
+msgstr "相同的對已經存在"
 
 msgid "Identifier"
-msgstr ""
+msgstr "識別碼"
+
+msgid "identifier"
+msgstr "識別碼"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr ""
+msgstr "如有圖樣面具，考生的回應必須要與正則表達式相應，這樣考生的回應才能列為有效的。"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
-msgstr ""
+msgstr "如有樣式面具，考生的回應必須要與正則表達式相應，這樣考生的回應才能列為有效的。考生需要明白輸入格式的要求，尤其有些考試累進時會檢查回應是否有效。例如：可以在提示中提供說明和回應樣本。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
+msgstr "如果字符串的互動被限制為數字回應，那基本屬性必須被使用來設置基數，這也是用來解釋由考生輸入的值。"
 
 msgid "Import"
-msgstr ""
+msgstr "匯入"
 
 msgid "Import a QTI 2.X Package"
-msgstr ""
+msgstr "匯入 QTI 2.X 包"
 
 msgid "Import QTI 2.X Item"
-msgstr ""
+msgstr "匯入 QTI 2.X 項目（考題）"
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
+msgstr "在可視化的環境中，字符串互動通常由空框表示。考生把回應輸入到空框裡。遞送器應該使用這個屬性的值(如果有的話) ，而不是使用它們的預設佔位符文。"
 
 msgid "incorrect"
-msgstr ""
+msgstr "答錯"
 
 msgid "inline"
-msgstr ""
+msgstr "行內"
 
 msgid "Inline Choice"
-msgstr ""
+msgstr "行內選擇"
 
 msgid "Inline Choice Interaction"
-msgstr ""
+msgstr "行內選擇互動"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr ""
+msgstr "行內互動需要被插入到文本塊中。"
 
 msgid "Interaction Background"
-msgstr ""
+msgstr "互動背景"
 
 msgid "Interaction Properties"
-msgstr ""
+msgstr "互動屬性"
 
 msgid "invalid identifier"
-msgstr ""
+msgstr "無效的識別符"
 
 msgid "Is this choice the correct response?"
-msgstr ""
+msgstr "這個選擇是對的答案嗎？"
 
 msgid "Is this pair the correct response?"
-msgstr ""
-
-msgid "Item properties"
-msgstr ""
+msgstr "這一對是正確的答案嗎？"
 
 msgid "Item Properties"
-msgstr ""
+msgstr "項目(試題)屬性"
+
+msgid "Item properties"
+msgstr "項目(試題)屬性"
 
 msgid "Item width"
-msgstr ""
+msgstr "項目(試題)闊度"
 
 msgid "Items"
-msgstr ""
+msgstr "項目 (試題)"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "JPEG 圖片"
 
 msgid "Label"
-msgstr ""
+msgstr "標籤"
 
 msgid "Latex"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "LaTex"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "leave empty"
-msgstr ""
+msgstr "留空"
 
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 msgid "left"
-msgstr ""
+msgstr "左"
 
 msgid "Length"
-msgstr ""
+msgstr "長度"
 
 msgid "Lines"
-msgstr ""
+msgstr "線"
 
 msgid "Loop"
-msgstr ""
+msgstr "循環"
 
 msgid "Lower Bound"
-msgstr ""
+msgstr "下限"
 
 msgid "Manage Items"
-msgstr ""
+msgstr "管理項目(試題)"
 
 msgid "Mapping default"
-msgstr ""
+msgstr "預設映射"
 
 msgid "Match"
-msgstr ""
+msgstr "匹配"
 
 msgid "Match Interaction"
-msgstr ""
+msgstr "匹配互動"
 
 msgid "MathJax is not installed."
-msgstr ""
+msgstr "MathJax 還未安裝。"
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
-msgstr ""
-
-msgid "Max length"
-msgstr ""
+msgstr "最大值"
 
 msgid "Max Length"
-msgstr ""
+msgstr "最大長度"
 
-msgid "Max words"
-msgstr ""
+msgid "Max length"
+msgstr "最大長度"
 
 msgid "Max Words"
+msgstr "最多字數"
+
+msgid "Max words"
+msgstr "最多字數"
+
+msgid "Max. number of matches"
 msgstr ""
 
 msgid "Maximal score for this interaction."
-msgstr ""
+msgstr "這個互動的最高分數。"
 
 msgid "maximum"
-msgstr ""
+msgstr "最大上限"
 
 msgid "Maximum choices reached"
-msgstr ""
+msgstr "已達到最多選擇數量的限制"
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "已達到最多選擇數量的限制。"
 
 msgid "Media"
-msgstr ""
+msgstr "媒體"
 
 msgid "Media file path or YouTube video address"
-msgstr ""
+msgstr "媒體文件路徑或 YouTube 視頻地址"
 
 msgid "Media Interaction"
-msgstr ""
+msgstr "媒體互動"
 
 msgid "Microsoft Excel"
-msgstr ""
+msgstr "Microsoft Excel"
 
 msgid "Microsoft Powerpoint"
-msgstr ""
+msgstr "Microsoft Powerpoint"
 
 msgid "Microsoft Word"
-msgstr ""
+msgstr "Microsoft Word"
 
 msgid "Mime Type"
-msgstr ""
+msgstr "MIME 類型"
 
 msgid "MIME-type"
-msgstr ""
+msgstr "MIME 類型"
 
 msgid "Min"
-msgstr ""
+msgstr "最小值"
 
 msgid "Minimal  score for this interaction."
-msgstr ""
+msgstr "此互動的最低分數。"
 
 msgid "Mobile preview"
-msgstr ""
+msgstr "行動預覽"
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr ""
+msgstr "回應處理後，模態反饋將會顯示給考生看。"
 
 msgid "Modal Feedback Prop."
-msgstr ""
+msgstr "模態反饋道具。"
 
 msgid "Modal Feedbacks"
-msgstr ""
+msgstr "模態反饋"
 
 msgid "MP4 video"
-msgstr ""
+msgstr "MP4 影音檔"
 
 msgid "MPEG audio"
-msgstr ""
+msgstr "MPEG 音效檔"
 
 msgid "MPEG video"
-msgstr ""
+msgstr "MPEG 影音檔"
 
 msgid "No"
-msgstr ""
+msgstr "否"
 
 msgid "no configuration property needed"
-msgstr ""
+msgstr "沒有組態屬性的需要"
 
 msgid "No file selected"
-msgstr ""
+msgstr "未選取任何檔案"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr ""
+msgstr "沒有項目可以從所選擇的IMS QTI包匯入。"
 
 msgid "No value set"
-msgstr ""
+msgstr "沒有設定數值"
 
 msgid "None"
-msgstr ""
+msgstr "無"
 
 msgid "None defined yet."
-msgstr ""
+msgstr "還未定義。"
 
 msgid "Number of associations"
-msgstr ""
+msgstr "相連的數量"
 
 msgid "of"
-msgstr ""
+msgstr "的"
 
 msgid "one association pair"
-msgstr ""
+msgstr "一對組合"
 
 msgid "Order"
-msgstr ""
+msgstr "排序"
 
 msgid "Order Interaction"
-msgstr ""
+msgstr "排序互動"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "在圖片上排列這些區域(熱點)。"
 
 msgid "Pair scoring"
-msgstr ""
-
-msgid "Pattern"
-msgstr ""
+msgstr "對得分"
 
 msgid "pattern"
-msgstr ""
+msgstr "樣式"
+
+msgid "Pattern"
+msgstr "樣式"
 
 msgid "Pause"
-msgstr ""
+msgstr "暫停"
 
 msgid "PDF file"
-msgstr ""
+msgstr "PDF 檔案"
 
 msgid "Plain text"
-msgstr ""
+msgstr "純文字"
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 "You can also position the target to the exact point as the correct response."
-msgstr ""
+msgstr "請建立對應于該回應并使他們與分數相關聯的區域。\n"
+"你也可以定位目標到精確點作為正確的回應。"
 
 msgid "Please define association pairs and their scores below."
-msgstr ""
+msgstr "請定義以下的關聯配對和它們的分數。"
 
 msgid "Please define the correct association pairs below."
-msgstr ""
+msgstr "請定義以下正確的關聯配對。"
 
 msgid "Please define the correct order in the box to the right."
-msgstr ""
+msgstr "請在右側的框中定義該正確順序。"
 
 msgid "Please define the correct response and the score below."
-msgstr ""
+msgstr "請定義正確的回應和在以下的分數。"
 
 msgid "Please define the correct response below."
-msgstr ""
+msgstr "請定義以下的正確回應。"
 
 msgid "Please define the correct response using the slider."
-msgstr ""
+msgstr "請用滑動鈕定義正確的回應。"
 
 msgid "Please enter the score for the given hottexts."
-msgstr ""
+msgstr "請輸入突出文本的比分。"
 
 msgid "Please fill the gap with the correct choices below."
-msgstr ""
+msgstr "請在空格填寫以下的正確選擇。"
 
 msgid "Please fill the gap with the correct choices."
-msgstr ""
+msgstr "請在空格中填寫正確的選擇。"
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
+msgstr "請在空格填充以下的圖像，然後編輯每一個空格或圖像配對的分數。"
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr ""
+msgstr "請在空格填寫以下的文字，然後編輯每一對的分數。"
 
 msgid "Please order the choices below to set the correct answer"
+msgstr "請順序以下的選項從而設置正確的答案"
+
+msgid "Please select a background picture for your interaction from the resource manager.                      You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
-msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgid "Please select a choice picture for your interaction from the resource manager.                   You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "請從資源管理器中選擇一個媒體檔案(視頻或音頻).你可以從你的計算機有按鈕 \"加入檔案\" 中加入新的檔案。"
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "請從資源管理器中選擇一個圖像文檔。你可以在你的計算機有按鈕\"加入檔案\"中加入新的檔案。"
 
 msgid "Please select the correct hotspot choices below."
-msgstr ""
+msgstr "請選擇以下正確的熱點選項。"
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
-
-msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "請選擇以下正確的突出文本的選項。"
 
 msgid "Please set the correct associations by linking the choices."
-msgstr ""
+msgstr "請通過鏈接的選擇設定正確的關聯。"
 
 msgid "Please the score of each hotspot choice."
-msgstr ""
+msgstr "請各熱點選擇得分。"
 
 msgid "Please type the correct response below."
-msgstr ""
+msgstr "請輸入以下正確的回應。"
 
 msgid "Please type the correct response in the box below."
-msgstr ""
+msgstr "請在下面的框中輸入正確的回應。"
 
 msgid "PNG image"
-msgstr ""
+msgstr "PNG 圖像"
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
+msgstr "在圖片上定位一個或多個點(反應區域不能顯示)。"
 
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "預格式化文本"
 
 msgid "Preparing CSS, please wait…"
-msgstr ""
+msgstr "正在預備CSS，請稍後。。。"
 
 msgid "Preview"
-msgstr ""
+msgstr "預覽"
 
 msgid "Print"
-msgstr ""
+msgstr "列印"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr ""
+msgstr "提供考生一個提示作為輸入的行所要求的預期數。A線預計將有大約72個字符。"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr ""
+msgstr "提供報考者一個提示作為預計總長度所需回應的字符數的測量。"
 
 msgid "QTI Item"
-msgstr ""
+msgstr "QTI 項目(試題)"
 
 msgid "QTI Package"
-msgstr ""
+msgstr "QTI 包"
 
 msgid "QTI Package 2.0"
-msgstr ""
+msgstr "QTI 包 2.0"
 
 msgid "QTI Package 2.1"
-msgstr ""
+msgstr "QTI 包 2.1"
 
 msgid "Question"
-msgstr ""
+msgstr "問題"
 
 msgid "Quicktime video"
-msgstr ""
+msgstr "QuickTime 視訊"
 
 msgid "recommanded"
-msgstr ""
+msgstr "所建議的"
 
 msgid "Recommendations"
-msgstr ""
+msgstr "推薦"
 
 msgid "recommended"
-msgstr ""
+msgstr "所建議的"
 
 msgid "Reduce font size"
-msgstr ""
-
-msgid "remove"
-msgstr ""
+msgstr "縮小字型"
 
 msgid "Remove"
-msgstr ""
+msgstr "移除"
+
+msgid "remove"
+msgstr "移除"
 
 msgid "Remove custom background color"
-msgstr ""
+msgstr "移除自訂背景顏色"
 
 msgid "Remove custom border color"
-msgstr ""
+msgstr "移除自訂邊界顏色"
 
 msgid "Remove custom font family"
-msgstr ""
+msgstr "移除自訂字型系列"
 
 msgid "Remove custom font size"
-msgstr ""
+msgstr "移除自訂字型大小"
 
 msgid "Remove custom item width"
-msgstr ""
+msgstr "刪除自訂項目（考題）寬度"
 
 msgid "Remove custom text color"
-msgstr ""
+msgstr "刪除自定文字顏色"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "移除信件"
 
 msgid "Remove pair"
-msgstr ""
+msgstr "移除這對"
 
 msgid "Remove the selected shape"
-msgstr ""
+msgstr "移除選取的形狀"
 
 msgid "Remove this stylesheet"
-msgstr ""
+msgstr "移除此樣式表"
 
 msgid "required"
-msgstr ""
+msgstr "必要的"
 
 msgid "Response"
-msgstr ""
+msgstr "回應"
 
 msgid "Response identifier"
-msgstr ""
+msgstr "回應辨識碼"
 
 msgid "Response processing"
-msgstr ""
+msgstr "處理回應"
 
 msgid "Response Properties"
-msgstr ""
+msgstr "回應屬性"
 
 msgid "right"
-msgstr ""
+msgstr "右"
 
 msgid "Rollback on..."
-msgstr ""
+msgstr "倒轉..."
 
 msgid "Save"
-msgstr ""
-
-msgid "Score"
-msgstr ""
+msgstr "儲存"
 
 msgid "score"
-msgstr ""
+msgstr "分數"
+
+msgid "Score"
+msgstr "分數"
 
 msgid "Score range"
-msgstr ""
+msgstr "分數範圍"
 
 msgid "Score value"
-msgstr ""
+msgstr "分值"
 
 msgid "Select a "
-msgstr ""
+msgstr "選一個"
 
 msgid "select a choice"
-msgstr ""
+msgstr "選一個選擇"
 
 msgid "Select a choice from a drop-down list."
-msgstr ""
+msgstr "從下拉列表中選擇。"
 
 msgid "Select a response identifier from the list."
-msgstr ""
+msgstr "從該列表選擇一個回應的識別碼。"
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr ""
+msgstr "在一系列的選項中選擇一個(單選按鈕)或多個(複選框)回應。"
 
 msgid "Select a value within a numerical range."
-msgstr ""
+msgstr "在一個數值範圍選擇一個數值。"
 
 msgid "Select an image first"
-msgstr ""
+msgstr "先選擇圖片檔案"
 
 msgid "Select an image first."
-msgstr ""
-
-msgid "Select an image."
-msgstr ""
+msgstr "先選擇圖片檔案。"
 
 msgid "Select another area to complete the association"
-msgstr ""
+msgstr "選擇另一塊區域來完成關聯"
 
 msgid "select correct choice"
-msgstr ""
+msgstr "選擇正確答案"
 
 msgid "Select image"
-msgstr ""
+msgstr "選擇圖片"
 
 msgid "Select media"
-msgstr ""
+msgstr "選擇媒體"
 
 msgid "Select media file"
-msgstr ""
+msgstr "選擇媒體檔案"
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr ""
+msgstr "在圖片中選擇顯示的一個或多個區域(熱點)。"
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr ""
+msgstr "在文章中擇一個或多個突出文本部分"
 
 msgid "Select Point"
-msgstr ""
+msgstr "選擇點處"
 
 msgid "Select Point Interaction"
-msgstr ""
+msgstr "點處互動"
 
 msgid "Select the area to add an image"
-msgstr ""
+msgstr "選擇添加圖片的區域"
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr ""
+msgstr "選擇你互動的反應應當被處理的方式。"
 
 msgid "Select this area"
-msgstr ""
+msgstr "選擇這個區域"
 
 msgid "Select this area to start an association"
-msgstr ""
+msgstr "選擇這個區域來開始一個關聯"
 
 msgid "Set the score for this response"
-msgstr ""
+msgstr "設定這個回應的分數"
 
 msgid "Shape position"
-msgstr ""
+msgstr "形成的位置"
 
 msgid "Shuffle choices"
-msgstr ""
+msgstr "隨機設定選擇的位置"
 
 msgid "Size and position"
-msgstr ""
+msgstr "大小與位置"
 
 msgid "Slider"
-msgstr ""
+msgstr "滑動鈕"
 
 msgid "Slider Interaction"
-msgstr ""
+msgstr "滑動鈕互動"
 
 msgid "some text ..."
-msgstr ""
+msgstr "一些文本..."
 
 msgid "Step"
-msgstr ""
+msgstr "步驟"
 
 msgid "Style Editor"
-msgstr ""
+msgstr "樣式編輯器"
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr ""
+msgstr "樣式表 <b>%s</b> 刪除<br> 點擊 <i>新增樣式表</i> 以從新申請."
 
 msgid "Style Sheet Manager"
-msgstr ""
+msgstr "樣式表管理器"
 
 msgid "SVG image"
-msgstr ""
+msgstr "SVG 圖片"
 
 msgid "Table headings"
-msgstr ""
+msgstr "表格標題"
 
 msgid "TAO default styles"
-msgstr ""
+msgstr "TAO預設的樣式"
 
-msgid "Text Block Interaction"
+msgid "Text Block"
 msgstr ""
 
 msgid "Text Block Properties"
-msgstr ""
+msgstr "文本區塊屬性"
 
 msgid "Text color"
-msgstr ""
+msgstr "文字顏色"
 
 msgid "Text Entry"
-msgstr ""
+msgstr "文字輸入"
 
 msgid "Text Entry Interaction"
-msgstr ""
+msgstr "輸入文字互動"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr ""
+msgstr "自動啟動屬性取決於媒體對象是否應該在報考者一開始嘗試(核對)就開始或媒體對象是否應該在報考者的控制下(未經核對)啟動。"
 
 msgid "The button label."
-msgstr ""
+msgstr "按鈕標籤。"
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr ""
+msgstr "當沒有給出顯示映射的源值時，從目標設定的默認值將被使用。"
 
 msgid "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr ""
+msgstr "預計長度屬性提供報考者一個提示作為預計總長度所需回應的字符數的測量。這并不是一個有效的約束。"
 
 msgid "The file path to the image."
-msgstr ""
+msgstr "圖片文件路徑。"
 
 msgid "The file path to the media."
-msgstr ""
+msgstr "媒體文件路徑。"
 
 msgid "the following Qti Element is currently not supported in TAO"
-msgstr ""
+msgstr "目前在TAO中不支持以下QTI的元素"
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
+msgstr "突出顯示的選擇不能被相關聯超過 %d 次數。"
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "這是模式反饋的標識符。這個標識符不能被任何其他模式反饋或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The IMS Manifest file could not be validated:\n"
 "%s\", implode($eStrs, \"\n"
 ""
-msgstr ""
+msgstr "在IMS清單文件不能被驗證:\n"
+"%s\", implode($eStrs, \"\n"
+""
 
 msgid "The IMS QTI Item could not be imported."
-msgstr ""
+msgstr "無法匯入 IMS QTI Item。"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr ""
+msgstr "該項目需先儲存才可以可以預覽"
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "形狀的左部相對於像素為背景的左上角。當背景圖像的尺寸適於容器，該值可以被縮放。"
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr ""
+msgstr "環路屬性用於設置連續播放模式。在連續播放模式中，一旦媒體對象已經開始播放，它就應該繼續播放(需maxPlays)。"
 
 msgid "The lower bound of the slider"
-msgstr ""
+msgstr "滑塊鈕的下限"
 
 msgid "The manifest argument must be an instance of DOMDocument."
-msgstr ""
+msgstr "清單參數必須是 DOMDocument 的實例。"
 
 msgid "The maximum number of association is unlimited."
-msgstr ""
+msgstr "關聯的使用次數沒有限制。"
 
 msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
-msgstr ""
+msgstr "設定當考生選擇回應時，不可以超過的最多選擇數量。考生選擇數量要在限定內，回應才有效。"
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr ""
+msgstr "考生可以使用的最多選擇數量。"
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr ""
+msgstr "這選擇可以與多少其他選擇有相關聯(最多數量)。"
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr ""
+msgstr "這選擇可以與多少其他選擇有相關聯(最多數量）。如果 matchMax 是0就沒有限制。"
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr ""
+msgstr "maxPlays屬性所述媒體對象可以播放的最多次數。考生播放媒體對象必須不能多於maxPlay次數。 當指數是0(預設)就表示沒有限制。"
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr ""
+msgstr "MIME類型屬性描述哪一種文件可以上載。"
 
 msgid "The minimum number of answers is "
-msgstr ""
+msgstr "最少回應的數量是"
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr ""
+msgstr "當考生填寫回應時，必須使用多少相關聯才是有效的回應。"
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "當考生填寫回應時，必須選多少選擇才是有效的回應。"
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr ""
+msgstr "此選擇至少要跟多少其他的選擇有相關聯才是一個有效的回應。"
 
 msgid "The number of units corresponding to a step on the slider"
-msgstr ""
+msgstr "滑動鈕的每一個階段等於多少個單位"
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr ""
+msgstr "該項目的原理標識符。此標識符必須在項目的元數據中有對應的條目。"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr ""
+msgstr "使用評估標準(rubric)的目的。例如：有多個項目(考題)的文章，或作為於某部分的說明。"
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr ""
+msgstr "此QTI 類別 \"%1$s\" 在於第 \"%2$d\" 行已經不被支援。"
 
 msgid "The selected file is ready to be sent."
-msgstr ""
+msgstr "所選擇的文件已預備好，可以發送。"
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "形狀高度以像素為單位。當背景圖像的尺寸適於容器，該值可以被縮放。"
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "形狀寬度以像素為單位。當背景圖像的尺寸適於容器，該值可以被縮放。"
 
 msgid "The target must be an instance of DOMDocument"
-msgstr ""
+msgstr "目標必須是 DOMDocument 的一個實例"
 
 msgid "The text to be displayed if the image is not available."
-msgstr ""
+msgstr "如果沒有提供圖像，此文本會顯示。"
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "形狀的頂部相對於像素為背景的左上角。當背景圖像的尺寸適於容器，該值可以被縮放。"
 
 msgid "The upper bound of the slider"
-msgstr ""
+msgstr "滑動鈕的上限"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr ""
+msgstr "此含有 IMS QTI 項目(考題)的ZIP壓縮文件不能被提取。"
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
-msgstr ""
+msgstr "此ZIP壓縮文件沒有 imsmanifest.xml 檔案或它一個無效的ZIP壓縮文件。"
 
 msgid "There is an incomplete element in your item : please click on it to complete it."
-msgstr ""
+msgstr "有一個在您的項目(考題)一個不完整的元素：請點擊它來完成它。"
 
 msgid "There was a problem downloading your CSS, please try again."
-msgstr ""
+msgstr "下載CSS時發生了問題，請重試一次。"
 
 msgid "this identifier is already in use"
-msgstr ""
+msgstr "此標識符已被使用"
 
 msgid "This is not a valid answer"
-msgstr ""
+msgstr "這不是一個有效的答案"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr ""
+msgstr "這個樣式表沒有在服務器上找到。您可能需要刪除此參照。"
 
 msgid "Time dependent"
-msgstr ""
+msgstr "累計運行的時間"
 
 msgid "Top"
-msgstr ""
+msgstr "上面"
 
 msgid "Trigger the end of the item attempt."
-msgstr ""
-
-msgid "Undo"
-msgstr ""
+msgstr "停止使用此項目(考題)。"
 
 msgid "undo"
-msgstr ""
+msgstr "復原"
+
+msgid "Undo"
+msgstr "復原"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
+msgstr "上傳一個檔案 (例如：檔案，圖片)作為一個回應。"
 
 msgid "Upper Bound"
-msgstr ""
+msgstr "上限"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr ""
+msgstr "用來控制考生輸入的文本格式。"
 
 msgid "WAV audio"
-msgstr ""
+msgstr "WAV 音訊"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr ""
+msgstr "我們用樣式面具，這樣才符合 IMS 標準"
 
 msgid "Width"
-msgstr ""
+msgstr "寬度"
 
 msgid "Width (optional)"
-msgstr ""
+msgstr "寬度 (選擇性的)"
 
 msgid "Windows Media audio"
-msgstr ""
+msgstr "Windows Media 音訊"
 
 msgid "Windows Media video"
-msgstr ""
+msgstr "Windows Media 視訊"
 
 msgid "words"
-msgstr ""
+msgstr "字詞"
 
 msgid "Would you like to replace the alt text"
-msgstr ""
+msgstr "你想更換替代文字嗎？"
 
 msgid "XHTML"
-msgstr ""
+msgstr "XHTML"
 
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 msgid "You can select maximum"
-msgstr ""
+msgstr "您可以選擇最高上限。"
 
 msgid "You can select maximum %d choice\",max):__(\"You can select maximum %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
-msgstr ""
+msgstr "您可以選擇最高上限 %d choice\",max):__(\"您可以選擇最高上限 %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
 
 msgid "You can use maximum \"+max+\" choices"
-msgstr ""
+msgstr "您可以使用最高上限 \"+max+\" 選擇"
 
 msgid "You can use maximum ' + max + ' choices"
-msgstr ""
+msgstr "您可以使用最高上限 ' + max + ' 選擇"
 
 msgid "You have deleted"
-msgstr ""
+msgstr "您已刪除"
 
 msgid "You have deleted an element"
-msgstr ""
+msgstr "您已刪除元素"
 
 msgid "You have deleted an element."
-msgstr ""
+msgstr "您已刪除元素。"
 
 msgid "You may make as many association pairs as you want."
-msgstr ""
+msgstr "您可以建立無限組關聯配對。"
 
 msgid "You must at least %d choice\",min):__(\"You must select at least %d choices\",max),self.appendInstruction(interaction,msg,function(){getResponse(interaction).length>=min?this.setLevel(\"success"
-msgstr ""
+msgstr "您必須選 %d 個選擇\",min):__(\"您必須選至少 %d 個選擇\",max),self.appendInstruction(interaction,msg,function(){getResponse(interaction).length>=min?this.setLevel(\"success"
 
 msgid "You must select %1$d to %2$d choices."
-msgstr ""
+msgstr "您必須選 %1$d 至 %2$d 個選擇。"
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "您必須選 0 至 %d 個選擇。"
 
 msgid "You must select at least"
-msgstr ""
+msgstr "您必須選至少"
 
 msgid "You must select exactly"
-msgstr ""
+msgstr "您必須選剛好"
 
 msgid "You must select exactly %d choice\",max):__(\"You must select exactly %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
-msgstr ""
+msgstr "您必須選剛好 %d 個選擇\",max):__(\"您必須選剛好 %d 個選擇\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
 
 msgid "You must select exactly %d choice(s)."
-msgstr ""
+msgstr "您必須選剛好 %d 個選擇。"
 
 msgid "You must use at least \"+min+\" choices"
-msgstr ""
+msgstr "您必須選至少 \"+min+\" 個選擇"
 
 msgid "You must use at least ' + min + ' choices"
-msgstr ""
+msgstr "您必須選至少 ' + min + ' 個選擇。"
 
 msgid "You need to make"
-msgstr ""
+msgstr "您必需使"
 
 msgid "Your item has been saved"
-msgstr ""
+msgstr "您的項目(考題)已儲存"
 
 msgid "ZIP archive"
-msgstr ""
+msgstr "ZIP 壓縮檔"
 
