@@ -29,6 +29,7 @@ use \tao_helpers_File;
 use \Exception;
 use \ZipArchive;
 use \common_Logger;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\ItemModel
@@ -89,7 +90,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 				$manifest = null;
 				foreach($instances as $instance){
 					$item = new core_kernel_classes_Resource($instance);
-					if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
 						$exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
 						$exporter->export();
 						$manifest = $exporter->getManifest();

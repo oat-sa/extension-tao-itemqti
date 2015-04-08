@@ -31,6 +31,7 @@ use \core_kernel_classes_Resource;
 use \tao_helpers_Display;
 use \core_kernel_classes_Class;
 use \tao_helpers_Uri;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Export form for QTI packages
@@ -94,7 +95,7 @@ class ExportForm
     	if(isset($this->data['instance'])){
     		$item = $this->data['instance'];
     		if($item instanceof core_kernel_classes_Resource){
-    			if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+    			if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
     				$fileName = strtolower(tao_helpers_Display::textCleaner($item->getLabel()));
     				$options[$item->getUri()] = $item->getLabel();
     			}
@@ -110,7 +111,7 @@ class ExportForm
     		if($class instanceof core_kernel_classes_Class){
                     $fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
                     foreach($class->getInstances(true) as $instance){
-                        if($itemService->hasItemModel($instance, array(TAO_ITEM_MODEL_QTI)) && $itemService->hasItemContent($instance)){
+                        if($itemService->hasItemModel($instance, array(ItemModel::MODEL_URI)) && $itemService->hasItemContent($instance)){
                             $options[$instance->getUri()] = $instance->getLabel();
                         }
                     }
