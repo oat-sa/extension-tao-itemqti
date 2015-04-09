@@ -194,7 +194,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertTrue($file['size'] > 0);
 
         $this->assertEquals("/images", $dir['path']);
-        $this->assertEquals(ROOT_URL, substr($dir['url'], 0, strlen(ROOT_URL)));
+        $this->assertEquals("/images", $dir['parent']);
 
 
         return $item;
@@ -295,14 +295,14 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      * @param $item
      * @param $manifest
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     private function createZipArchive($item, $manifest = null)
     {
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('test_') . '.zip';
         $zipArchive = new ZipArchive();
         if ($zipArchive->open($path, ZipArchive::CREATE) !== true) {
-            throw new Exception('Unable to create archive at ' . $path);
+            throw new \Exception('Unable to create archive at ' . $path);
         }
 
         if ($this->itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))) {
