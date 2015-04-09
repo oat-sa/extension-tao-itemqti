@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-08T14:40:07\n"
+"PO-Revision-Date: 2015-04-09T09:11:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -121,10 +121,10 @@ msgstr "自動啟動"
 msgid "Background color"
 msgstr "背景色彩"
 
-msgid "block"
+msgid "Block"
 msgstr "區塊"
 
-msgid "Block"
+msgid "block"
 msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -139,11 +139,11 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "chars"
 msgstr "字符"
@@ -445,10 +445,10 @@ msgstr "如何編輯數學表達式應"
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -502,15 +502,16 @@ msgstr "這個選擇是對的答案嗎？"
 msgid "Is this pair the correct response?"
 msgstr "這一對是正確的答案嗎？"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "項目(試題)屬性"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "項目(試題)屬性"
 
 msgid "Item width"
 msgstr "項目(試題)闊度"
 
+#, tao-public
 msgid "Items"
 msgstr "項目 (試題)"
 
@@ -550,6 +551,10 @@ msgstr "下限"
 msgid "Manage Items"
 msgstr "管理項目(試題)"
 
+#, tao-public
+msgid "Manage items"
+msgstr ""
+
 msgid "Mapping default"
 msgstr "預設映射"
 
@@ -568,10 +573,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
 msgid "Max Words"
@@ -645,6 +650,10 @@ msgstr "MPEG 音效檔"
 
 msgid "MPEG video"
 msgstr "MPEG 影音檔"
+
+#, tao-public
+msgid "New item"
+msgstr ""
 
 msgid "No"
 msgstr "否"
@@ -1177,10 +1186,10 @@ msgstr "上面"
 msgid "Trigger the end of the item attempt."
 msgstr "停止使用此項目(考題)。"
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
