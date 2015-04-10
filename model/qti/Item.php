@@ -529,6 +529,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $dom->formatOutput       = true;
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse    = false;
+        
         if($dom->loadXML($qti)){
             $returnValue = $dom->saveXML();
 
