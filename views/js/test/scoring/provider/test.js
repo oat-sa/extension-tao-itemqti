@@ -7,16 +7,22 @@ define([
     'json!taoQtiItem/test/samples/json/characters.json',
     'json!taoQtiItem/test/samples/json/edinburgh.json',
     'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_2014410822.json',
-    'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json'
+    'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json',
+    'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json',
+    'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
+    'json!taoQtiItem/test/samples/json/customrp/order.json'
 ], function(_, scorer, qtiScoringProvider,
             singleCorrectData,
             multipleCorrectData,
             multipleMapData,
             singleMapPointData,
             customChoiceMultipleData,
-            customTextEntryNumericData
+            customTextEntryNumericData,
+            customChoiceMultipleData2,
+            customChoiceSingleData,
+            orderData
 ){
-
+    'use strict';
 
     QUnit.module('Provider API');
 
@@ -230,7 +236,54 @@ define([
             SCORE : { base : { 'float' : '0.0' } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
-    }];
+    },{
+        title   : 'choice multiple correct',
+        item    : customChoiceMultipleData2,
+        resp    : { RESPONSE_27966883 : { list : { identifier: ['choice_934383202', 'choice_2022864592','choice_1534527094'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 3 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'correct' } }
+        }
+    }, {
+        title   : 'choice multiple incorrect',
+        item    : customChoiceMultipleData2,
+        resp    : { RESPONSE_27966883 : { list : { identifier: ['choice_921260236'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : -1 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
+        }
+    },{
+        title   : 'choice directed pair multiple correct',
+        item    : customChoiceSingleData,
+        resp    : { RESPONSE : { list : { directedPair: [ 'Match29886762 Match30518135', 'Match5256823 Match2607634', 'Match4430647 Match8604807', 'Match1403839 Match5570831'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'correct' } }
+        }
+    }, {
+        title   : 'choice directed pair multiple incorrect',
+        item    : customChoiceSingleData,
+        resp    : { RESPONSE : { list : { directedPair: [ 'Match29886762 Match30518135', 'Match2607634 Match5256823', 'Match4430647 Match8604807', 'Match1403839 Match5570831'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : "0.0" } },
+            FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
+        }
+    },{
+        title   : 'ordered correct',
+        item    : orderData,
+        resp    : { RESPONSE : { list : { identifier: [  'DriverC', 'DriverA', 'DriverB'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'ordered incorrect',
+        item    : orderData,
+        resp    : { RESPONSE : { list : { identifier: [  'DriverC', 'DriverAS', 'DriverB'] } } },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+    }
+    ];
 
     QUnit
         .cases(customDataProvider)

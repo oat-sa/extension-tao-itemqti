@@ -1,6 +1,6 @@
 {
     "identifier": "Choicemultiple_871212949",
-    "serial": "item_54eee7e310a56562384156",
+    "serial": "item_54fd4c4a4ff94909004775",
     "qtiClass": "assessmentItem",
     "attributes": {
         "identifier": "Choicemultiple_871212949",
@@ -12,11 +12,11 @@
         "toolVersion": "3.0-RC01"
     },
     "body": {
-        "serial": "container_containeritembody_54eee7e310a35712921054",
-        "body": "<div>\n\t\tWelche Naturr\u00e4ume finden sich im Freistaat Sachsen?\n\t\t<\/div>\n\t\t{{interaction_choiceinteraction_54eee7e31180a927595435}}",
+        "serial": "container_containeritembody_54fd4c4a4ff5c508220978",
+        "body": "<div>\n\t\tWelche Naturr\u00e4ume finden sich im Freistaat Sachsen?\n\t\t<\/div>\n\t\t{{interaction_choiceinteraction_54fd4c4a56c54049364130}}",
         "elements": {
-            "interaction_choiceinteraction_54eee7e31180a927595435": {
-                "serial": "interaction_choiceinteraction_54eee7e31180a927595435",
+            "interaction_choiceinteraction_54fd4c4a56c54049364130": {
+                "serial": "interaction_choiceinteraction_54fd4c4a56c54049364130",
                 "qtiClass": "choiceInteraction",
                 "attributes": {
                     "responseIdentifier": "RESPONSE_27966883",
@@ -25,104 +25,104 @@
                     "minChoices": 0
                 },
                 "choices": {
-                    "choice_simplechoice_54eee7e3119d4534505556": {
+                    "choice_simplechoice_54fd4c4a58d7c687477684": {
                         "identifier": "choice_934383202",
-                        "serial": "choice_simplechoice_54eee7e3119d4534505556",
+                        "serial": "choice_simplechoice_54fd4c4a58d7c687477684",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "choice_934383202",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e311a1e531356342",
+                            "serial": "container_containerstatic_54fd4c4a595d5472846889",
                             "body": "Erzgebirge",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e310a56562384156"
+                                "relatedItem": "item_54fd4c4a4ff94909004775"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e311aec826055073": {
+                    "choice_simplechoice_54fd4c4a5973d210081507": {
                         "identifier": "choice_2022864592",
-                        "serial": "choice_simplechoice_54eee7e311aec826055073",
+                        "serial": "choice_simplechoice_54fd4c4a5973d210081507",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "choice_2022864592",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e311b2b728464627",
+                            "serial": "container_containerstatic_54fd4c4a5979e381036513",
                             "body": "Lausitz",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e310a56562384156"
+                                "relatedItem": "item_54fd4c4a4ff94909004775"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e311c13795083685": {
+                    "choice_simplechoice_54fd4c4a59885697450564": {
                         "identifier": "choice_1534527094",
-                        "serial": "choice_simplechoice_54eee7e311c13795083685",
+                        "serial": "choice_simplechoice_54fd4c4a59885697450564",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "choice_1534527094",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e311c63740289056",
+                            "serial": "container_containerstatic_54fd4c4a598d6015267070",
                             "body": "Vogtland",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e310a56562384156"
+                                "relatedItem": "item_54fd4c4a4ff94909004775"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e311d4e463358780": {
+                    "choice_simplechoice_54fd4c4a599b6341083202": {
                         "identifier": "choice_921260236",
-                        "serial": "choice_simplechoice_54eee7e311d4e463358780",
+                        "serial": "choice_simplechoice_54fd4c4a599b6341083202",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "choice_921260236",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e311db9605482244",
+                            "serial": "container_containerstatic_54fd4c4a59a04237231882",
                             "body": "Harz",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e310a56562384156"
+                                "relatedItem": "item_54fd4c4a4ff94909004775"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e311e9b281002434": {
+                    "choice_simplechoice_54fd4c4a59ae5054348153": {
                         "identifier": "choice_1757121272",
-                        "serial": "choice_simplechoice_54eee7e311e9b281002434",
+                        "serial": "choice_simplechoice_54fd4c4a59ae5054348153",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "choice_1757121272",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e311edf555784627",
+                            "serial": "container_containerstatic_54fd4c4a59b34934662454",
                             "body": "Alpen",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e310a56562384156"
+                                "relatedItem": "item_54fd4c4a4ff94909004775"
                             }
                         }
                     }
                 },
                 "prompt": {
-                    "serial": "container_containerstatic_54eee7e311988143615018",
+                    "serial": "container_containerstatic_54fd4c4a58505021948896",
                     "body": "",
                     "elements": [],
                     "debug": {
-                        "relatedItem": "item_54eee7e310a56562384156"
+                        "relatedItem": "item_54fd4c4a4ff94909004775"
                     }
                 }
             }
         },
         "debug": {
-            "relatedItem": "item_54eee7e310a56562384156"
+            "relatedItem": "item_54fd4c4a4ff94909004775"
         }
     },
     "namespaces": {
@@ -132,9 +132,9 @@
     },
     "stylesheets": [],
     "outcomes": {
-        "outcomedeclaration_54eee7e310e50830738750": {
+        "outcomedeclaration_54fd4c4a540a3718842863": {
             "identifier": "SCORE",
-            "serial": "outcomedeclaration_54eee7e310e50830738750",
+            "serial": "outcomedeclaration_54fd4c4a540a3718842863",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "SCORE",
@@ -143,9 +143,9 @@
             },
             "defaultValue": "0.0"
         },
-        "outcomedeclaration_54eee7e310f2b928391460": {
+        "outcomedeclaration_54fd4c4a553c3771081613": {
             "identifier": "MAXSCORE",
-            "serial": "outcomedeclaration_54eee7e310f2b928391460",
+            "serial": "outcomedeclaration_54fd4c4a553c3771081613",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "MAXSCORE",
@@ -154,9 +154,9 @@
             },
             "defaultValue": "3.0"
         },
-        "outcomedeclaration_54eee7e310fc8914871301": {
+        "outcomedeclaration_54fd4c4a554ad612900133": {
             "identifier": "FEEDBACKBASIC",
-            "serial": "outcomedeclaration_54eee7e310fc8914871301",
+            "serial": "outcomedeclaration_54fd4c4a554ad612900133",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACKBASIC",
@@ -165,9 +165,9 @@
             },
             "defaultValue": "empty"
         },
-        "outcomedeclaration_54eee7e311061390339645": {
+        "outcomedeclaration_54fd4c4a55584224333269": {
             "identifier": "FEEDBACK_5714028",
-            "serial": "outcomedeclaration_54eee7e311061390339645",
+            "serial": "outcomedeclaration_54fd4c4a55584224333269",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_5714028",
@@ -179,9 +179,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e311120282210060": {
+        "outcomedeclaration_54fd4c4a556a8142933374": {
             "identifier": "FEEDBACK_8958131",
-            "serial": "outcomedeclaration_54eee7e311120282210060",
+            "serial": "outcomedeclaration_54fd4c4a556a8142933374",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_8958131",
@@ -193,9 +193,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e3111db369641773": {
+        "outcomedeclaration_54fd4c4a557c3758485518": {
             "identifier": "FEEDBACK_1634627",
-            "serial": "outcomedeclaration_54eee7e3111db369641773",
+            "serial": "outcomedeclaration_54fd4c4a557c3758485518",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_1634627",
@@ -207,9 +207,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e311295857690833": {
+        "outcomedeclaration_54fd4c4a558c9451328046": {
             "identifier": "FEEDBACK_20327592",
-            "serial": "outcomedeclaration_54eee7e311295857690833",
+            "serial": "outcomedeclaration_54fd4c4a558c9451328046",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_20327592",
@@ -221,9 +221,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e31134e171630211": {
+        "outcomedeclaration_54fd4c4a559c2463027304": {
             "identifier": "FEEDBACK_5765523",
-            "serial": "outcomedeclaration_54eee7e31134e171630211",
+            "serial": "outcomedeclaration_54fd4c4a559c2463027304",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_5765523",
@@ -235,9 +235,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e311423126348027": {
+        "outcomedeclaration_54fd4c4a55ab8116211309": {
             "identifier": "FEEDBACK_15433735",
-            "serial": "outcomedeclaration_54eee7e311423126348027",
+            "serial": "outcomedeclaration_54fd4c4a55ab8116211309",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_15433735",
@@ -249,9 +249,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e3114df558354595": {
+        "outcomedeclaration_54fd4c4a55bac167900885": {
             "identifier": "FEEDBACK_21035203",
-            "serial": "outcomedeclaration_54eee7e3114df558354595",
+            "serial": "outcomedeclaration_54fd4c4a55bac167900885",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_21035203",
@@ -265,9 +265,9 @@
         }
     },
     "responses": {
-        "responsedeclaration_54eee7e310bfd347726142": {
+        "responsedeclaration_54fd4c4a52da4633936855": {
             "identifier": "RESPONSE_27966883",
-            "serial": "responsedeclaration_54eee7e310bfd347726142",
+            "serial": "responsedeclaration_54fd4c4a52da4633936855",
             "qtiClass": "responseDeclaration",
             "attributes": {
                 "identifier": "RESPONSE_27966883",
@@ -296,7 +296,7 @@
     },
     "feedbacks": [],
     "responseProcessing": {
-        "serial": "response_custom_54eee7e3123e7921733321",
+        "serial": "response_custom_54fd4c4a5b556422874833",
         "qtiClass": "responseProcessing",
         "attributes": [],
         "processingType": "custom",
