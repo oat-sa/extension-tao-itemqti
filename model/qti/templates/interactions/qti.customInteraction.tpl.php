@@ -20,9 +20,9 @@
  */
 ?>
 <customInteraction <?=get_data('attributes')?>>
-    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>">
+    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>">
         <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
-        <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml" hook="<?=get_data('entryPoint')?>">
+        <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
             <pci:libraries>
                 <?foreach(get_data('libraries') as $lib):?>
                 <pci:lib id="<?=$lib?>"/>
