@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 
 /**
@@ -126,10 +127,18 @@ class PortableCustomInteraction extends CustomInteraction
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
         if($pciNodes->length){
             $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
-            $this->setTypeIdentifier($typeIdentifier);
+            if(empty($typeIdentifier)){
+                throw new QtiModelException('the type identifier of the pci is missing');
+            }else{
+                $this->setTypeIdentifier($typeIdentifier);
+            }
             
             $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            $this->setEntryPoint($entryPoint);
+            if(empty($entryPoint)){
+                throw new QtiModelException('the entry point of the pci is missing');
+            }else{
+                $this->setEntryPoint($entryPoint);
+            }
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
