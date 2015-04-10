@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" 
                 xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" 
-                identifier="pci002" title="PCI 002" adaptive="false" timeDependent="false">
+                xmlns:html5="html5"
+                identifier="pci002" title="PCI 002" adaptive="false" timeDependent="false" >
     
     <responseDeclaration identifier="likert1" cardinality="single" baseType="integer"/>
     <responseDeclaration identifier="likert2" cardinality="single" baseType="integer"/>

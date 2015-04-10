@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \DOMElement;
 
 /**
@@ -36,6 +37,8 @@ use \DOMElement;
  */
 class PortableCustomInteraction extends CustomInteraction
 {
+    
+    const NS_NAME = 'pci';
     
     protected $properties = array();
     protected $libraries = array();
@@ -97,19 +100,26 @@ class PortableCustomInteraction extends CustomInteraction
     public static function getTemplateQti(){
         return static::getTemplatePath().'interactions/qti.customInteraction.tpl.php';
     }
-
+    
     protected function getTemplateQtiVariables(){
         
+        $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
-        
         $variables['libraries'] = $this->libraries;
-        $variables['properties'] = $this->properties;
+        $variables['serializedProperties'] = $this->serializePciProperties($this->properties, self::NS_NAME);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
-        
+        $variables['markup'] = preg_replace('/<(\/)?([^!])/', '<$1'.$nsMarkup.':$2', $variables['markup']);
+        $this->getRelatedItem()->addNamespace($nsMarkup, $nsMarkup);
         return $variables;
     }
     
+    /**
+     * Feed the pci instance with data provided in the pci dom node
+     * 
+     * @param \oat\taoQtiItem\model\qti\ParserFactory $parser
+     * @param DOMElement $data
+     */
     public function feed(ParserFactory $parser, DOMElement $data){
 
         $ns = $parser->getPciNamespace();
@@ -117,10 +127,18 @@ class PortableCustomInteraction extends CustomInteraction
         $pciNodes = $parser->queryXPathChildren(array('portableCustomInteraction'), $data, $ns);
         if($pciNodes->length){
             $typeIdentifier = $pciNodes->item(0)->getAttribute('customInteractionTypeIdentifier');
-            $this->setTypeIdentifier($typeIdentifier);
+            if(empty($typeIdentifier)){
+                throw new QtiModelException('the type identifier of the pci is missing');
+            }else{
+                $this->setTypeIdentifier($typeIdentifier);
+            }
             
             $entryPoint = $pciNodes->item(0)->getAttribute('hook');
-            $this->setEntryPoint($entryPoint);
+            if(empty($entryPoint)){
+                throw new QtiModelException('the entry point of the pci is missing');
+            }else{
+                $this->setEntryPoint($entryPoint);
+            }
         }
 
         $libNodes = $parser->queryXPathChildren(array('portableCustomInteraction', 'resources', 'libraries', 'lib'), $data, $ns);
@@ -144,19 +162,33 @@ class PortableCustomInteraction extends CustomInteraction
         
     }
     
-    private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
-
-        $properties = array();
-        
-        //prepare ns string
+    /**
+     * Format the pci namespace prefix used for pci
+     * @param string $ns
+     * @return string
+     */
+    private function formatPciNs($ns){
         $ns = $ns ? $ns : '';
         if($ns){
             if(substr($ns, -1) !== ':'){
                 $ns .= ':';
             }
-        }else{
-            $ns = '';
         }
+        return $ns;
+    }
+    
+    /**
+     * Parse a pci properties dom node into an associative array
+     * 
+     * @param DOMElement $propertiesNode
+     * @param string $ns
+     * @return array
+     */
+    private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
+
+        $properties = array();
+        
+        $ns = $this->formatPciNs($ns);
         
         foreach($propertiesNode->childNodes as $prop){
             if($prop instanceof DOMElement){
@@ -174,6 +206,30 @@ class PortableCustomInteraction extends CustomInteraction
         }
 
         return $properties;
+    }
+    
+    /**
+     * Serialize an associative array of pci properties into a pci xml
+     * 
+     * @param array $properties
+     * @param string $ns
+     * @return string
+     */
+    private function serializePciProperties($properties, $ns = ''){
+        
+        $ns = $this->formatPciNs($ns);
+       
+        $returnValue = '<'.$ns.'properties>';
+        foreach($properties as $name => $value){
+            if(is_array($value)){
+                $returnValue .= $this->serializePciProperties($value, $ns);
+            }else{
+                $returnValue .= '<'.$ns.'entry key="'.$name.'">'.$value.'</'.$ns.'entry>';
+            }
+        }
+        $returnValue .= '</'.$ns.'properties>';
+        
+        return $returnValue;
     }
     
 }
