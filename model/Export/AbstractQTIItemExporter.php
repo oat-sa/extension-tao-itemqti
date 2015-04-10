@@ -71,7 +71,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $addedResources++;
                 }
             }
-            $this->getZip()->addFromString($basenameLocation . '/' . $dataFile, $content);
+            if ($addedResources > 0) {
+                $this->getZip()->addFromString($basenameLocation . '/' . $dataFile, $content);
+            }
 
         }
     }
@@ -117,7 +119,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     }
                 }
             }
-        } catch (DOMException $de) {
+        } catch (\DOMException $de) {
             //we render it anyway
         }
 
