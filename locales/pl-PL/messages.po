@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.0\n"
-"PO-Revision-Date: 2014-10-21T07:52:35\n"
+"Project-Id-Version: TAO 3.0-RC05\n"
+"PO-Revision-Date: 2015-04-09T09:11:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pl-PL\n"
@@ -79,6 +79,9 @@ msgstr ""
 msgid "Allowed number of uses"
 msgstr ""
 
+msgid "Alt Text"
+msgstr ""
+
 msgid "An error occured at the level of the QTI model."
 msgstr ""
 
@@ -94,6 +97,9 @@ msgstr ""
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
+msgid "An unknown error occured while importing the IMS QTI Package."
+msgstr ""
+
 msgid "Arrange a list of choices in the correct order."
 msgstr ""
 
@@ -107,9 +113,6 @@ msgid "association pairs"
 msgstr ""
 
 msgid "at least"
-msgstr ""
-
-msgid "audio/mpeg"
 msgstr ""
 
 msgid "Autostart"
@@ -136,7 +139,13 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
+msgid "cancel"
+msgstr ""
+
 msgid "Cancel"
+msgstr ""
+
+msgid "chars"
 msgstr ""
 
 msgid "Choice"
@@ -172,13 +181,19 @@ msgstr ""
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr ""
 
+msgid "Color Picker"
+msgstr ""
+
+msgid "Contraints"
+msgstr ""
+
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
@@ -313,6 +328,12 @@ msgstr ""
 msgid "Enable the test taker to pause and restart the playing."
 msgstr ""
 
+msgid "End Attempt"
+msgstr ""
+
+msgid "End Attempt Interaction"
+msgstr ""
+
 msgid "Enlarge font size"
 msgstr ""
 
@@ -385,6 +406,9 @@ msgstr ""
 msgid "Graphic Gap"
 msgstr ""
 
+msgid "Graphic Gap Match Interaction"
+msgstr ""
+
 msgid "Graphic Order"
 msgstr ""
 
@@ -425,6 +449,9 @@ msgid "identifier"
 msgstr ""
 
 msgid "Identifier"
+msgstr ""
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
@@ -469,27 +496,22 @@ msgstr ""
 msgid "invalid identifier"
 msgstr ""
 
-msgid "Invalid pattern"
-msgstr ""
-
 msgid "Is this choice the correct response?"
 msgstr ""
 
 msgid "Is this pair the correct response?"
 msgstr ""
 
-msgid "Item"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item Properties"
 msgstr ""
 
-msgid "Item properties"
-msgstr ""
-
 msgid "Item width"
 msgstr ""
 
+#, tao-public
 msgid "Items"
 msgstr ""
 
@@ -499,19 +521,25 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
 msgstr ""
 
+msgid "Left"
+msgstr ""
+
 msgid "left"
 msgstr ""
 
-msgid "Left"
+msgid "Length"
+msgstr ""
+
+msgid "Lines"
 msgstr ""
 
 msgid "Loop"
@@ -521,6 +549,10 @@ msgid "Lower Bound"
 msgstr ""
 
 msgid "Manage Items"
+msgstr ""
+
+#, tao-public
+msgid "Manage items"
 msgstr ""
 
 msgid "Mapping default"
@@ -541,7 +573,25 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
+msgid "Max length"
+msgstr ""
+
+msgid "Max Length"
+msgstr ""
+
+msgid "Max Words"
+msgstr ""
+
+msgid "Max words"
+msgstr ""
+
+msgid "Max. number of matches"
+msgstr ""
+
 msgid "Maximal score for this interaction."
+msgstr ""
+
+msgid "maximum"
 msgstr ""
 
 msgid "Maximum choices reached"
@@ -559,16 +609,13 @@ msgstr ""
 msgid "Media Interaction"
 msgstr ""
 
-msgid "Microsoft Excel file"
+msgid "Microsoft Excel"
 msgstr ""
 
-msgid "Microsoft Powerpoint file"
+msgid "Microsoft Powerpoint"
 msgstr ""
 
-msgid "Microsoft Word file"
-msgstr ""
-
-msgid "Mime type"
+msgid "Microsoft Word"
 msgstr ""
 
 msgid "Mime Type"
@@ -598,7 +645,17 @@ msgstr ""
 msgid "MP4 video"
 msgstr ""
 
+msgid "MPEG audio"
+msgstr ""
+
 msgid "MPEG video"
+msgstr ""
+
+#, tao-public
+msgid "New item"
+msgstr ""
+
+msgid "No"
 msgstr ""
 
 msgid "no configuration property needed"
@@ -613,10 +670,16 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
+msgid "None"
+msgstr ""
+
 msgid "None defined yet."
 msgstr ""
 
 msgid "Number of associations"
+msgstr ""
+
+msgid "of"
 msgstr ""
 
 msgid "one association pair"
@@ -632,6 +695,12 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr ""
 
 msgid "Pair scoring"
+msgstr ""
+
+msgid "pattern"
+msgstr ""
+
+msgid "Pattern"
 msgstr ""
 
 msgid "Pause"
@@ -683,7 +752,10 @@ msgstr ""
 msgid "Please order the choices below to set the correct answer"
 msgstr ""
 
-msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgid "Please select a background picture for your interaction from the resource manager.                      You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a choice picture for your interaction from the resource manager.                   You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
@@ -696,9 +768,6 @@ msgid "Please select the correct hotspot choices below."
 msgstr ""
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
-
-msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please set the correct associations by linking the choices."
@@ -731,6 +800,12 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr ""
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr ""
+
 msgid "QTI Item"
 msgstr ""
 
@@ -749,13 +824,22 @@ msgstr ""
 msgid "Quicktime video"
 msgstr ""
 
+msgid "recommanded"
+msgstr ""
+
+msgid "Recommendations"
+msgstr ""
+
+msgid "recommended"
+msgstr ""
+
 msgid "Reduce font size"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -812,10 +896,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -833,6 +917,9 @@ msgstr ""
 msgid "Select a choice from a drop-down list."
 msgstr ""
 
+msgid "Select a response identifier from the list."
+msgstr ""
+
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
 msgstr ""
 
@@ -843,9 +930,6 @@ msgid "Select an image first"
 msgstr ""
 
 msgid "Select an image first."
-msgstr ""
-
-msgid "Select an image."
 msgstr ""
 
 msgid "Select another area to complete the association"
@@ -929,7 +1013,7 @@ msgstr ""
 msgid "TAO default styles"
 msgstr ""
 
-msgid "Text Block Interaction"
+msgid "Text Block"
 msgstr ""
 
 msgid "Text Block Properties"
@@ -945,6 +1029,9 @@ msgid "Text Entry Interaction"
 msgstr ""
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr ""
+
+msgid "The button label."
 msgstr ""
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
@@ -974,6 +1061,9 @@ msgstr ""
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
 msgstr ""
 
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
 msgid "The IMS Manifest file could not be validated:\n"
 "%s\", implode($eStrs, \"\n"
 ""
@@ -992,6 +1082,9 @@ msgid "The loop attribute is used to set continuous play mode. In continuous pla
 msgstr ""
 
 msgid "The lower bound of the slider"
+msgstr ""
+
+msgid "The manifest argument must be an instance of DOMDocument."
 msgstr ""
 
 msgid "The maximum number of association is unlimited."
@@ -1048,6 +1141,9 @@ msgstr ""
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
 
+msgid "The target must be an instance of DOMDocument"
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr ""
 
@@ -1060,6 +1156,9 @@ msgstr ""
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr ""
 
+msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
+msgstr ""
+
 msgid "There is an incomplete element in your item : please click on it to complete it."
 msgstr ""
 
@@ -1069,16 +1168,19 @@ msgstr ""
 msgid "this identifier is already in use"
 msgstr ""
 
+msgid "This is not a valid answer"
+msgstr ""
+
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr ""
 
 msgid "Time dependent"
 msgstr ""
 
-msgid "Title"
+msgid "Top"
 msgstr ""
 
-msgid "Top"
+msgid "Trigger the end of the item attempt."
 msgstr ""
 
 msgid "Undo"
@@ -1099,6 +1201,9 @@ msgstr ""
 msgid "WAV audio"
 msgstr ""
 
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr ""
+
 msgid "Width"
 msgstr ""
 
@@ -1111,7 +1216,16 @@ msgstr ""
 msgid "Windows Media video"
 msgstr ""
 
+msgid "words"
+msgstr ""
+
+msgid "Would you like to replace the alt text"
+msgstr ""
+
 msgid "XHTML"
+msgstr ""
+
+msgid "Yes"
 msgstr ""
 
 msgid "You can select maximum"
@@ -1171,6 +1285,6 @@ msgstr ""
 msgid "Your item has been saved"
 msgstr ""
 
-msgid "ZIP file"
+msgid "ZIP archive"
 msgstr ""
 

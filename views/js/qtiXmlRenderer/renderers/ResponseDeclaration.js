@@ -10,7 +10,8 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseDeclaration'], func
                 MAP_RESPONSE : (responseDeclaration.template === "http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"),
                 MAP_RESPONSE_POINT : (responseDeclaration.template === "http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"),
                 mappingAttributes : responseDeclaration.mappingAttributes,
-                mapEntries : responseDeclaration.mapEntries
+                mapEntries : responseDeclaration.mapEntries,
+                defaultValue : responseDeclaration.defaultValue
             };
             return _.merge(defaultData, data || {});
         }

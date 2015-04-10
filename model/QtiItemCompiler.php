@@ -44,7 +44,12 @@ use qtism\data\storage\xml\XmlAssessmentItemDocument;
  */
 class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 {
-
+    /**
+     * instance representing the service to run the QTI item
+     * @var string
+     */
+    const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
+    
     /**
      * Compile qti item
      * 
@@ -109,7 +114,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      */
     protected function createQtiService(core_kernel_classes_Resource $item, tao_models_classes_service_StorageDirectory $publicDirectory, tao_models_classes_service_StorageDirectory $privateDirectory){
 
-        $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(INSTANCE_QTI_SERVICE_ITEMRUNNER));
+        $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(self::INSTANCE_ITEMRUNNER));
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
                 new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_ITEMPATH), $publicDirectory->getId()
         ));

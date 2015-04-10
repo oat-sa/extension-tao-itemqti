@@ -32,6 +32,7 @@ use \common_Logger;
 use \common_Exception;
 use \core_kernel_versioning_Repository;
 use \Exception;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -60,7 +61,7 @@ class Service extends tao_models_classes_Service
         $itemService = taoItems_models_classes_ItemsService::singleton();
 
         //check if the item is QTI item
-        if ($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))) {
+        if ($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
 
             //get the QTI xml
             $itemContent = $itemService->getItemContent($item, $langCode);
@@ -102,21 +103,17 @@ class Service extends tao_models_classes_Service
         $returnValue = (bool) false;
 
         if (!is_null($rdfItem) && !is_null($qtiItem)) {
-            try{
 
-                $itemService = taoItems_models_classes_ItemsService::singleton();
+            $itemService = taoItems_models_classes_ItemsService::singleton();
 
-                //check if the item is QTI item
-                if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
+            //check if the item is QTI item
+            if ($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))) {
 
-                    //set the current data lang in the item content to keep the integrity
-                    $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
+                //set the current data lang in the item content to keep the integrity
+                $qtiItem->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
 
-                    //get the QTI xml
-                    $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
-                }
-            } catch(common_Exception $ce) {
-                print $ce;
+                //get the QTI xml
+                $returnValue = $itemService->setItemContent($rdfItem, $qtiItem->toXML(), '', $commitMessage, $fileSource);
             }
         }
 

@@ -3,8 +3,9 @@ define([
     'lodash',
     'i18n',
     'util/image',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'ui/resourcemgr'
-], function($, _, __, imageUtil){
+], function($, _, __, imageUtil, resourceManager){
 
     return function($form, options){
 
@@ -13,51 +14,43 @@ define([
             $src = $('input[name=data]', $form),
             $width = $('input[name=width]', $form),
             $height = $('input[name=height]', $form),
-            $type = $('input[name=type]', $form),
-            title = options.title ? options.title : __('Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button "Add file(s)".');
+            $type = $('input[name=type]', $form);
+            options.title = options.title
+                ? options.title
+                : __('Please select a background picture for your interaction from the resource manager.\
+                      You can add new files from your computer with the button "Add file(s)".');
+
+        /**
+         * Configure and launch the pre-configured instance of the resource manager
+         *
+         * @private
+         */
         var _openResourceMgr = function(){
-            $upload.resourcemgr({
-                title : title,
-                appendContainer : options.mediaManager.appendContainer,
-                mediaSources : options.mediaManager.mediaSources,
-                browseUrl : options.mediaManager.browseUrl,
-                uploadUrl : options.mediaManager.uploadUrl,
-                deleteUrl : options.mediaManager.deleteUrl,
-                downloadUrl : options.mediaManager.downloadUrl,
-                fileExistsUrl : options.mediaManager.fileExistsUrl,
-                params : {
-                    uri : options.uri,
-                    lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
-                },
-                pathParam : 'path',
-                select : function(e, files){
-                    var selected;
-                    if(files.length > 0){
-                        selected = files[0];
-                        imageUtil.getSize(options.baseUrl + encodeURIComponent(files[0].file), function(size){
-                            if(size && size.width >= 0){
-                                $width.val(size.width).trigger('change');
-                                $height.val(size.height).trigger('change');
-                            }
-                            $type.val(selected.mime).trigger('change');
-                            _.defer(function(){
-                                $src.val(selected.file).trigger('change');
-                            });
-                        });
-                    }
-                },
-                open : function(){
+            $upload.on('selected.upload', function(e, args) {
+                if(args.size && args.size.width >= 0){
+                    $width.val(args.size.width).trigger('change');
+                    $height.val(args.size.height).trigger('change');
+                }
+                $type.val(args.selected.mime).trigger('change');
+                _.defer(function(){
+                    $src.val(args.selected.file).trigger('change');
+                });
+
+            })
+                .on('open', function(){
                     $src.trigger('open.'+_ns);
                     //hide tooltip if displayed
                     if($src.hasClass('tooltipstered')){
                         $src.blur().tooltipster('hide');
                     }
-                },
-                close : function(){
+                })
+                .on('close', function(){
                     $src.trigger('close.'+_ns);
-                }
-            });
+                });
+
+
+            resourceManager($upload, options);
+
         };
 
         $upload.on('click', _openResourceMgr);

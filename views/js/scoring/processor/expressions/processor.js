@@ -25,8 +25,9 @@
 define([
     'lodash',
     'taoQtiItem/scoring/processor/expressions/preprocessor',
-    'taoQtiItem/scoring/processor/errorHandler'
-], function(_, preProcessorFactory, errorHandler){
+    'taoQtiItem/scoring/processor/errorHandler',
+    'taoQtiItem/scoring/processor/expressions/operators/constraintValidator'
+], function(_, preProcessorFactory, errorHandler, constraintValidator){
     'use strict';
 
     /**
@@ -59,40 +60,6 @@ define([
         var name      = expression.qtiClass;
         var processor = processors.expression[name] || processors.operator[name];
 
-        var validate  = function validate(){
-
-            var size = 0;
-            var minOperand  = processor.constraints.minOperand;
-            var maxOperand  = processor.constraints.maxOperand;
-
-            var hasWrongType = function hasWrongType(operand){
-                return !_.contains(processor.constraints.baseType, operand.baseType);
-            };
-
-            var hasWrongCardinality = function hasWrongCardinality(operand){
-                return !_.contains(processor.constraints.cardinality, operand.cardinality);
-            };
-
-            if(!_.isArray(operands)){
-                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires operands to be an array : ' +  (typeof operands)  + ' given'));
-            }
-            size = _.size(operands);
-
-            if(minOperand > 0 && size < minOperand){
-                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires at least ' + minOperand + ' operands, ' + size + ' given'));
-            }
-            if(maxOperand > -1 && size > maxOperand){
-                 return errorHandler.throw('scoring', new TypeError('Processor ' + name + ' requires maximum ' + maxOperand + ' operands, ' + size + ' given'));
-            }
-            if(_.some(operands, hasWrongType)){
-                 return errorHandler.throw('scoring', new TypeError('An operand given to processor ' + name + ' has an unexpected baseType'));
-            }
-            if(_.some(operands, hasWrongCardinality)){
-                 return errorHandler.throw('scoring', new TypeError('An operand given to processor ' + name + ' has an unexpected cardinality'));
-            }
-            return true;
-        };
-
         if(!processor){
              return errorHandler.throw('scoring', new Error('No processor found for ' + name));
         }
@@ -103,7 +70,7 @@ define([
 
         //validate operators
         if(processor.operands && processor.constraints){
-            validate();
+            constraintValidator(processor, operands);
 
             processor.operands = operands;
         }

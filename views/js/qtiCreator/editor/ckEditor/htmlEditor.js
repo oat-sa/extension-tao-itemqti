@@ -3,7 +3,7 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
-    'taoQtiItem/qtiCreator/editor/ckEditor/ckConfigurator',
+    'ui/ckeditor/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
@@ -15,13 +15,36 @@ define([
     var _defaults = {
         placeholder : __('some text ...'),
         shieldInnerContent : true,
-        passthroughInnerContent : false
+        passthroughInnerContent : false,
+        hideTriggerOnBlur : false
     };
 
-    var _buildEditor = function($editable, $editableContainer, options){
+    /**
+     * Find the ck launcher (the trigger that toggle visibility of the editor) in the editor's container
+     *
+     * @param {JQuery} $editableContainer
+     */
+    function getTrigger($editableContainer){
+        var $toolbar = $editableContainer.data('editor-toolbar');
+        if($toolbar && $toolbar.length){
+            return $toolbar.find('[data-role="cke-launcher"]');
+        }else{
+            return $editableContainer.find('[data-role="cke-launcher"]');
+        }
+    }
 
-        var $trigger,
-            toolbarType;
+    /**
+     * @param {JQuery} $editable - the element to be transformed into an editor
+     * @param {JQuery} $editableContainer - the container of the editor
+     * @param {Object} [options]
+     * @param {String} [options.placeholder] - the place holder text
+     * @param {Boolean} [options.shieldInnerContent] - define if the inner widget content should be protected or not
+     * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
+     * @param {Boolean} [options.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+     */
+    function _buildEditor($editable, $editableContainer, options){
+
+        var toolbarType, $trigger;
 
         options = _.defaults(options, _defaults);
 
@@ -32,22 +55,8 @@ define([
             throw 'invalid jquery element for $editableContainer';
         }
 
-        $trigger = $editableContainer.find('[data-role="cke-launcher"]');
+        $trigger = getTrigger($editableContainer);
         $editable.attr('placeholder', options.placeholder);
-
-        // build parameter for toolbar
-        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
-
-            toolbarType = 'qtiBlock';
-
-        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
-
-            toolbarType = 'qtiInline';
-
-        }else{
-
-            toolbarType = 'qtiFlow';
-        }
 
         var ckConfig = {
             autoParagraph : false,
@@ -66,7 +75,7 @@ define([
                 initialHide : true,
                 centerElement : function(){
                     //cke initialize the config too early.. so need to provide a callback to initialize it...
-                    return $editableContainer.find('[data-role="cke-launcher"]')[0];
+                    return getTrigger($editableContainer)[0];
                 },
                 on : {
                     ready : function(floatSpaceApi){
@@ -133,7 +142,11 @@ define([
                     var widgets = {},
                         editor = e.editor;
 
-                    var changed = function(editor){
+                    /**
+                     * changed callback
+                     * @param {Object} editor - ckeditor instance
+                     */
+                    function changed(editor){
 
                         _detectWidgetDeletion($editable, widgets, editor);
 
@@ -142,9 +155,12 @@ define([
                             options.change.call(editor, _htmlEncode(editor.getData()));
                         }
 
-                    };
+                    }
 
-                    var markupChanged = function() {
+                    /**
+                     * Markup change callback
+                     */
+                    function markupChanged(){
 
                         //callbacks:
                         if(_.isFunction(options.markupChange)){
@@ -156,19 +172,8 @@ define([
 
                     }
 
-                    /*
-                     dirty trick: shows and hides combo boxes (styles for instance)
-                     in the CKE toolbar and acts as a pre-loader for the iframes in these boxes
-                     */
-                    $('#cke_' + e.editor.name).find('.cke_combo_button').each(function(){
-                        var btn = this;
-                        btn.click();
-                        setTimeout(function(){
-                            btn.click();
-                        }, 500)
-
-                    });
-
+                    //fix ck editor combo box display issue
+                    $('#cke_' + e.editor.name + ' .cke_combopanel').hide();
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
@@ -209,7 +214,6 @@ define([
                 focus : function(e){
 
                     //show trigger
-                    $editableContainer.find('[data-role="cke-launcher"]').hide();
                     $trigger.show();
 
                     //callback:
@@ -222,11 +226,21 @@ define([
 
                 },
                 blur : function(e){
-
+                    return false;
+                    if(options.hideTriggerOnBlur){
+                        $trigger.hide();
+                    }
                     $('.qti-item').trigger('toolbarchange');
 
                 },
                 configLoaded : function(e){
+                    //@todo : do we really have to wait here to initialize the config?
+                    var toolbarType = '';
+                    if(options.toolbar && _.isArray(options.toolbar)){
+                        ckConfig.toolbar = options.toolbar;
+                    }else{
+                        toolbarType = getTooltypeFromContainer($editableContainer);
+                    }
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
                 afterPaste : function(e){
@@ -234,11 +248,33 @@ define([
                 }
             }
         };
-
+        
         return CKEditor.inline($editable[0], ckConfig);
-    };
-
-    var _find = function($container, dataAttribute){
+    }
+    
+    /**
+     * Assess
+     * @param {type} $editableContainer
+     * @returns {String}
+     */
+    function getTooltypeFromContainer($editableContainer){
+        
+        var toolbarType = 'qtiFlow';
+        // build parameter for toolbar
+        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
+            toolbarType = 'qtiBlock';
+        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
+            toolbarType = 'qtiInline';
+        }
+        return toolbarType;
+    }
+    
+    /**
+     * Find an inner element by its data attribute name
+     * @param {JQuery} $container
+     * @param {String} dataAttribute
+     */
+    function _find($container, dataAttribute){
 
         var $collection;
 
@@ -248,17 +284,16 @@ define([
             $collection = $container.find('[data-' + dataAttribute + '=true]');
         }
         return $collection;
-    };
+    }
 
-    var _destroyWidgets = function(container){
-
-        _.each(_.values(container.elements), function(elt){
-            elt.data('widget').destroy();
-        });
-
-    };
-
-    var _rebuildWidgets = function(container, $container, options){
+    /**
+     * Rebuild all innerwidgets located inside a container
+     *
+     * @param {Object} container
+     * @param {JQuery} $container
+     * @param {Object} options
+     */
+    function _rebuildWidgets(container, $container, options){
 
         options = options || {};
 
@@ -284,13 +319,27 @@ define([
         $container.trigger('widgetCreated', [widgets, container]);
 
         return widgets;
-    };
+    }
 
-    var _findWidgetContainer = function($container, serial){
+    /**
+     * Find the widget container by its serial
+     *
+     * @param {JQuery} $container
+     * @param {String} serial
+     */
+    function _findWidgetContainer($container, serial){
         return $container.find('.widget-box[data-serial=' + serial + ']');
-    };
+    }
 
-    var _detectWidgetDeletion = function($container, widgets, editor){
+    /**
+     * Detect if an inner widget has been removed
+     *
+     * @param {JQuery} $container
+     * @param {Array} widgets
+     * @param {Object} editor
+     * @returns {undefined}
+     */
+    function _detectWidgetDeletion($container, widgets, editor){
 
         var deleted = [];
 
@@ -320,23 +369,36 @@ define([
             });
 
         }
-    };
+    }
 
-    var _shieldInnerContent = function($container, containerWidget){
+    /**
+     * @param {JQuery} $widget - the widget to be protected
+     * @returns {JQuery} The added layer (shield)
+     */
+    function addShield($widget){
+        var $shield = $('<button>', {
+            'class' : 'html-editable-shield'
+        });
+
+        $widget.attr('contenteditable', false);
+        $widget.append($shield);
+        return $shield;
+    }
+
+    /**
+     * Protect the inner widgets of a container
+     *
+     * @param {JQuery} $container
+     * @param {Object} containerWidget
+     * @returns {undefined}
+     */
+    function _shieldInnerContent($container, containerWidget){
 
         $container.find('.widget-box').each(function(){
 
-            var $widget = $(this),
-                innerWidget = $widget.data('widget'),
-                $shield = $('<button>', {
-                    'class' : 'html-editable-shield'
-                });
+            addShield($(this)).on('click', function(e){
 
-            $widget.attr('contenteditable', false);
-            $widget.append($shield);
-            $shield.on('click', function(e){
-
-                //click on shield: 
+                //click on shield:
                 //1. this.widget.changeState('sleep');
                 //2. clicked widget.changeState('active');
 
@@ -348,24 +410,31 @@ define([
 
         });
 
-    };
+    }
 
-    var _passthroughInnerContent = function($container){
+    /**
+     * Allow the inner widgets to be selected
+     *
+     * @param {JQuery} $container
+     * @returns {undefined}
+     */
+    function _passthroughInnerContent($container){
 
         $container.find('.widget-box').each(function(){
-
-            var $widget = $(this),
-                $shield = $('<button>', {
-                    'class' : 'html-editable-shield'
-                });
-
-            $widget.attr('contenteditable', false);
-            $widget.append($shield);
+            //just add the shield for visual consistency
+            addShield($(this));
         });
 
-    };
+    }
 
-    var _activateInnerWidget = function(containerWidget, innerWidget){
+    /**
+     * Activate the inner widget
+     *
+     * @param {Object} containerWidget
+     * @param {Object} innerWidget
+     * @returns {undefined}
+     */
+    function _activateInnerWidget(containerWidget, innerWidget){
 
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
@@ -416,7 +485,7 @@ define([
 
             innerWidget.changeState('active');
         }
-    };
+    }
 
     /**
      * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
@@ -425,13 +494,19 @@ define([
         return encodedStr;
     };
 
-    var _focus = function(editor){
+    /**
+     * Focus the editor and set the cursor to the end
+     *
+     * @param {Object} editor - the ckeditor instance
+     * @returns {undefined}
+     */
+    function _focus(editor){
 
         editor.focus();
         var range = editor.createRange();
         range.moveToElementEditablePosition(editor.editable(), true);
         editor.getSelection().selectRanges([range]);
-    };
+    }
 
     var editorFactory = {
         /**
@@ -451,6 +526,17 @@ define([
 
             return hasEditor;
         },
+        /**
+         * Instanciate the editor
+         *
+         * @param {JQuery} $container
+         * @param {Object} [editorOptions]
+         * @param {String} [editorOptions.placeholder] - the place holder text
+         * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
+         * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
+         * @param {Boolean} [editorOptions.hideTriggerOnBlur] - define if the ckeditor trigger should be hidden when the editor is blurred
+         * @returns {undefined}
+         */
         buildEditor : function($container, editorOptions){
 
             _find($container, 'html-editable-container').each(function(){
@@ -467,14 +553,21 @@ define([
             });
 
         },
+        /**
+         * Destroy the editor
+         *
+         * @param {JQuery} $container
+         * @returns {undefined}
+         */
         destroyEditor : function($container){
 
             _find($container, 'html-editable-container').each(function(){
 
                 var $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
+                    $editable = $editableContainer.find('[data-html-editable]'),
+                    $trigger = getTrigger($editableContainer);
 
-                $editableContainer.find('[data-role="cke-launcher"]')
+                $trigger
                     .off()
                     .removeClass('active')
                     .hide();
@@ -484,12 +577,12 @@ define([
 
                     var editor = $editable.data('editor'),
                         options = $editable.data('editor-options');
-                    
+
                     //before destroying, ensure that data is stored
                     if(_.isFunction(options.change)){
                         options.change.call(editor, _htmlEncode(editor.getData()));
                     }
-                    
+
                     editor.focusManager.blur(true);
                     editor.destroy();
 
@@ -500,6 +593,11 @@ define([
                 }
             });
         },
+        /**
+         * Get the editor content
+         *
+         * @param {JQuery} $editable
+         */
         getData : function($editable){
             var editor = $editable.data('editor');
             if(editor){
@@ -508,6 +606,12 @@ define([
                 throw 'no editor attached to the DOM element';
             }
         },
+        /**
+         * Focus all the editors found in the given container
+         *
+         * @param {JQuery} $editable
+         * @returns {undefined}
+         */
         focus : function($editable){
             _find($editable, 'html-editable').each(function(){
                 var editor = $(this).data('editor');

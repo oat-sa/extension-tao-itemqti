@@ -79,10 +79,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $currentVersion = '2.7.2';
         }
-        
+
         //migrate from 2.7.2 to 2.7.3
         if($currentVersion == '2.7.2'){
-            
+
             $registry->registerFromFile('IMSGlobal/jquery_2_1_1', $installBasePath.'/IMSGlobal/jquery_2_1_1.js');
             $registry->registerFromFile('OAT/lodash', $installBasePath.'/OAT/lodash.js');
             $registry->registerFromFile('OAT/async', $installBasePath.'/OAT/async.js');
@@ -101,6 +101,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.3';
         }
 
+        //migrate from 2.7.3 to 2.7.4
+        if($currentVersion == '2.7.3'){
+            $registry->registerFromFile('OAT/handlebars', $installBasePath.'/OAT/handlebars.js');
+            $currentVersion = '2.7.4';
+        }
+
+        if($currentVersion == '2.7.4'){
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $ext->setConfig('qtiCreator', array('multi-column' => false));
+            $currentVersion = '2.7.5';
+        }
+        
         return $currentVersion;
     }
 

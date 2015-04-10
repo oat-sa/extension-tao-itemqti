@@ -35,6 +35,7 @@ use \tao_helpers_Http;
 use \common_exception_Error;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -46,20 +47,66 @@ use oat\taoQtiItem\model\HookRegistry;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
+    /**
+     * create a new QTI item
+     * 
+     * @requiresRight id WRITE
+     */
+    public function createItem()
+    {
+        if(!\tao_helpers_Request::isAjax()){
+            throw new \Exception("wrong request mode");
+        }
+        $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
+        if ($clazz->isClass()) {
+            $clazz = new \core_kernel_classes_Class($clazz);
+        } else {
+            foreach ($clazz->getTypes() as $type) {
+                // determine class from selected instance
+                $clazz = $type;
+                break;
+            }
+        }
+        $service = \taoItems_models_classes_ItemsService::singleton();
+        
+        $label = $service->createUniqueLabel($clazz);
+        $item = $service->createInstance($clazz, $label);
+        
+        if(!is_null($item)){
+            $service->setItemModel($item, new \core_kernel_classes_Resource(ItemModel::MODEL_URI));
+            $response = array(
+                'label'	=> $item->getLabel(),
+                'uri' 	=> $item->getUri()
+            );
+        } else {
+            $response = false;
+        }
+        $this->returnJson($response);
+    }
 
-    public function index(){
+    public function index()
+    {
 
         $config = new CreatorConfig();
 
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+        $creatorConfig = $ext->getConfig('qtiCreator');
+        
+        if(is_array($creatorConfig)){
+            foreach($creatorConfig as $prop => $value){
+                $config->setProperty($prop, $value);
+            }
+        }
+        
         if($this->hasRequestParameter('instance')){
             //uri:
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('instance'));
             $config->setProperty('uri', $itemUri);
-            
+
             //get label:
             $rdfItem = new core_kernel_classes_Resource($itemUri);
             $config->setProperty('label', $rdfItem->getLabel());
-            
+
             //set the current data lang in the item content to keep the integrity
             //@todo : allow preview in a language other than the one in the session
             $lang = \common_session_SessionManager::getSession()->getDataLanguage();
@@ -84,7 +131,7 @@ class QtiCreator extends tao_actions_CommonModule
             $hook = new $hookClass();
             $hook->init($config);
         }
-        
+
         $config->init();
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
@@ -100,7 +147,7 @@ class QtiCreator extends tao_actions_CommonModule
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource,$lang);
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang);
             if(!is_null($item)){
                 $returnValue['itemData'] = $item->toArray();
             }
@@ -121,7 +168,7 @@ class QtiCreator extends tao_actions_CommonModule
             $itemService = taoItems_models_classes_ItemsService::singleton();
 
             //check if the item is QTI item
-            if($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))){
+            if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
 
                 $xml = Authoring::validateQtiXml($xml);
 
@@ -144,7 +191,6 @@ class QtiCreator extends tao_actions_CommonModule
             $relPath = urldecode($this->getRequestParameter('relPath'));
 
             $this->renderFile($rdfItem, $relPath, $lang);
-
         }
     }
 
@@ -157,12 +203,10 @@ class QtiCreator extends tao_actions_CommonModule
 
             if($identifier === '' || $identifier === 'local'){
                 $filename = $folder.$relPath;
-            }
-            else if($identifier === 'mediamanager'){
+            }else if($identifier === 'mediamanager'){
                 $fileManager = FileManager::getFileManagementModel();
                 $filename = $fileManager->retrieveFile($relPath);
-            }
-            else{
+            }else{
                 $filename = $folder.$relPath;
             }
 
@@ -170,7 +214,7 @@ class QtiCreator extends tao_actions_CommonModule
             //load amd module
             if(!file_exists($filename) && file_exists($filename.'.js')){
                 $filename = $filename.'.js';
-            }   
+            }
             tao_helpers_Http::returnFile($filename);
         }else{
             throw new common_exception_Error('invalid item preview file path');

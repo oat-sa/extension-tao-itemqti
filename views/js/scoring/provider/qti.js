@@ -25,9 +25,10 @@
  */
 define([
     'lodash',
+    'require',
     'taoQtiItem/scoring/processor/responseRules/engine',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, ruleEngineFactory, errorHandler){
+], function(_, require, ruleEngineFactory, errorHandler){
     'use strict';
 
     /**
@@ -181,6 +182,37 @@ define([
     };
 
     /**
+     * Looking for custom operation used in item and load appropriate definitions
+     * @param {Array} rules to be parsed
+     * @param {Function} done callback on finish
+     */
+    var loadCustomOperators = function loadCustomOperators(rules, done){
+        var supportedRules = _.filter(rules, ruleEngineFactory.isRuleSupported);
+        var classes        = [];
+
+        var getCustomOperatorsClasses = function getCustomOperatorsClasses(e) {
+            if (_.isObject(e)) {
+                if (e.qtiClass === 'customOperator') {
+                    if (e.attributes.class) {
+                        classes.push(e.attributes.class);
+                    } else {
+                        return errorHandler.throw('scoring', new Error('Class must be specified for custom operator'));
+                    }
+                } else {
+                    return _.each(e, getCustomOperatorsClasses);
+                }
+            }
+        };
+
+        _.each(supportedRules, getCustomOperatorsClasses);
+
+        if (classes.length) {
+            require(classes, done);
+        } else {
+            done();
+        }
+    };
+    /**
      * The QTI scoring provider.
      *
      *
@@ -207,23 +239,28 @@ define([
                 self.trigger('error', err);
             });
 
-            //the state is built and formated using the same format as processing variables,
+            //the state is built and formatted using the same format as processing variables,
             //easier to manipulate in using lodash
             state = stateBuilder(responses, itemData);
 
             //let's start
             if(itemData.responseProcessing){
 
-                //create a ruleEngine for the given state
-                ruleEngine = ruleEngineFactory(state);
+                loadCustomOperators(itemData.responseProcessing.responseRules, function executeEngine() {
+                    //create a ruleEngine for the given state
 
-                //run the engine...
-                ruleEngine.execute(itemData.responseProcessing.responseRules);
+                    ruleEngine = ruleEngineFactory(state);
+
+                    //run the engine...
+                    ruleEngine.execute(itemData.responseProcessing.responseRules);
+                    done(stateToPci(state));
+                });
+
             } else {
                 errorHandler.throw('scoring', new Error('The given item has not responseProcessing'));
+                done(stateToPci(state));
             }
 
-            done(stateToPci(state));
         }
     };
 

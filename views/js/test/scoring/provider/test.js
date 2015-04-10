@@ -77,20 +77,20 @@ define([
         scorer.register('qti', qtiScoringProvider);
 
         scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
+            .on('error', function(err){
+                assert.ok(false, 'Got an error : ' + err);
+            })
+            .on('outcome', function(outcomes){
 
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, { base : { integer : '0' } }, "the score has the default value");
+                assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                assert.deepEqual(outcomes.SCORE, { base : { integer : '0' } }, "the score has the default value");
 
-            QUnit.start();
-          })
-          .process(responses, noRulesItemData);
+                QUnit.start();
+            })
+            .process(responses, noRulesItemData);
     });
 
     QUnit.asyncTest('No responseProcessing', function(assert){
@@ -102,12 +102,12 @@ define([
         scorer.register('qti', qtiScoringProvider);
 
         scorer('qti')
-          .on('error', function(err){
-            assert.ok(err instanceof Error, 'Got an Error');
-            assert.equal(err.message, 'The given item has not responseProcessing', 'The error is about responseProcessing');
-            QUnit.start();
-          })
-          .process({}, noRPItemData);
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'Got an Error');
+                assert.equal(err.message, 'The given item has not responseProcessing', 'The error is about responseProcessing');
+                QUnit.start();
+            })
+            .process({}, noRPItemData);
     });
 
     QUnit.module('Provider process correct template', {
@@ -168,31 +168,31 @@ define([
     }];
 
     QUnit
-      .cases(tplDataProvider)
-      .asyncTest('process ', function(data, assert){
+        .cases(tplDataProvider)
+        .asyncTest('process ', function(data, assert){
 
-        var responses = {
-            'RESPONSE' : data.resp
-        };
+            var responses = {
+                'RESPONSE' : data.resp
+            };
 
-        scorer.register('qti', qtiScoringProvider);
+            scorer.register('qti', qtiScoringProvider);
 
-        scorer('qti')
-          .on('error', function(err){
-            assert.ok(false, 'Got an error : ' + err);
-          })
-          .on('outcome', function(outcomes){
+            scorer('qti')
+                .on('error', function(err){
+                    assert.ok(false, 'Got an error : ' + err);
+                })
+                .on('outcome', function(outcomes){
 
-            assert.ok(typeof outcomes === 'object', "the outcomes are an object");
-            assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
-            assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
-            assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-            assert.deepEqual(outcomes.SCORE, data.score, "the score has the correct value");
+                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                    assert.deepEqual(outcomes.SCORE, data.score, "the score has the correct value");
 
-            QUnit.start();
-          })
-          .process(responses, data.item);
-    });
+                    QUnit.start();
+                })
+                .process(responses, data.item);
+        });
 
     QUnit.module('custom');
 

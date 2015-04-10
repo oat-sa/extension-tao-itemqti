@@ -28,10 +28,6 @@ define([
 function($, _, QtiLoader, QtiRenderer){
     'use strict';
 
-    //var itemData = {};
-
-
-
     /**
      * @exports taoQtiItem/runner/provider/qti
      */
@@ -82,8 +78,8 @@ function($, _, QtiLoader, QtiRenderer){
                         self.trigger('responsechange', self.getResponses());
                     })
                     .off('endattempt')
-                    .on('endattempt', function(){
-                        self.trigger('endattempt');
+                    .on('endattempt', function(e, responseIdentifier){
+                        self.trigger('endattempt', responseIdentifier);
                     });
 
 

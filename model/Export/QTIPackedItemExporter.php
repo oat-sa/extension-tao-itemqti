@@ -105,10 +105,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		
 		if (!is_null($qtiItem)) {
             
-            //tao currently uses the title as the label of imported qti items:
-            $qtiItem->setAttribute('title', $rdfItem->getLabel());
-            $qtiItemService->saveDataItemToRdfItem($qtiItem, $rdfItem);
-            
 		    // -- Prepare data transfer to the imsmanifest.tpl template.
 		    $qtiItemData = array();
 		    

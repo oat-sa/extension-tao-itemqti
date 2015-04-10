@@ -12,6 +12,7 @@
     }
 }
 
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -212,7 +213,7 @@ img.dragging.ui-draggable-dragging {
     background: $canvas;
     position: relative;
 
-    @include simple-flex-box(180px);
+    @include simple-flex-box(195px);
 
     &.left-bar {
         .action-bar {
@@ -706,6 +707,10 @@ img.dragging.ui-draggable-dragging {
     display: inline-block;
     line-height: 20px;
     cursor: default;
+    [class^="icon-"], [class*=" icon-"] {
+        font-size: inherit;
+        line-height: inherit;
+    }
 }
 
 .widget-inline,
@@ -937,9 +942,6 @@ img.dragging.ui-draggable-dragging {
                 }
             }
             .qti-interaction {
-                .qti-prompt {
-                    min-height: 3rem;
-                }
                 .add-option {
                     border: 1px mix(#fff, $info, 20%) dashed !important;
                     list-style-type: none;
@@ -1026,7 +1028,7 @@ img.dragging.ui-draggable-dragging {
     .inner-wrapper {
         position: relative;
     }
-
+    
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
@@ -1044,7 +1046,8 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_graphic-gap";
     @import "qtiCreator/_grid-editor";
     @import "qtiCreator/_custom";
-
+    @import "qtiCreator/_element-selector";
+    
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-simpleChoice {
         .mini-tlb[data-edit="question"] {
@@ -1087,10 +1090,12 @@ img.dragging.ui-draggable-dragging {
 @import "qtiCreator/_modal-feedback";
 
 /*style for html editable area highlight*/
+.edit-question [data-html-editable]{
+    min-height: 20px;
+}
 [data-html-editable] {
     border: 1px solid transparent;
     outline: 1px solid transparent !important;
-    min-height: 20px;
     [html-editable-shield] {
         padding: 0;
         min-width: 0;

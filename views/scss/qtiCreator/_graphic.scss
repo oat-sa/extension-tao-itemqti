@@ -1,6 +1,14 @@
 @import "inc/bootstrap";
 
-.qti-graphicInteraction { 
+.qti-graphicInteraction {
+
+    .add-option {
+        & > div {
+            [class^="icon-"] {
+                line-height: .9;
+            }
+        }
+    }
     
     .dummy-element{
         cursor: pointer;
@@ -8,10 +16,10 @@
 
     .image-sidebar {
         float: left;
-        width: 50px;
         height: 100%;
         min-height: 280px;
         top: 0;
+        width: 50px;
         z-index: 1000;
 
         .forms {

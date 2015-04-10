@@ -28,6 +28,7 @@ use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
 use \ZipArchive;
 use oat\taoQtiItem\model\Export;
+use oat\taoQtiItem\model\ItemModel;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 /**
@@ -190,7 +191,6 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
 
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertEquals(ROOT_URL, substr($file['url'], 0, strlen(ROOT_URL)));
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
@@ -306,13 +306,13 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             throw new Exception('Unable to create archive at ' . $path);
         }
 
-        if ($this->itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))) {
+        if ($this->itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {
             $exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
             $exporter->export();
             $manifest = $exporter->getManifest();
         }
 
-        $this->assertTrue($this->itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI)));
+        $this->assertTrue($this->itemService->hasItemModel($item, array(ItemModel::MODEL_URI)));
 
         $this->assertNotNull($manifest);
 

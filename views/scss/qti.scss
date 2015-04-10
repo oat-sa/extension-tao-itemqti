@@ -1,20 +1,9 @@
-
 @charset "UTF-8";
 
-$fontPath : '../../../tao/views/css/font/';
-
-
-//////
 @import "inc/bootstrap";
-@import "inc/fonts/source-sans-pro";
-@import "inc/fonts/tao-icon-def";
-@import "inc/fonts/tao-icon-vars";
-
 $mainContainer : '.qti-item';
-
 @import "inc/base";
 @import "inc/select2";
-
 
 %selectableHover {
     background: whiten($info, .95) !important;
@@ -30,9 +19,7 @@ $mainContainer : '.qti-item';
     z-index:9;
 }
 
-
-
-.qti-item {
+#{$mainContainer} {
 
     @import "inc/fonts/tao-icon-classes";
 

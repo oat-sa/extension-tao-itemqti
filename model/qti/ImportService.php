@@ -38,6 +38,8 @@ use \helpers_File;
 use \Exception;
 use \DOMDocument;
 use \common_exception_UserReadableException;
+use \common_Logger;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -118,7 +120,7 @@ class ImportService extends tao_models_classes_GenerisService
             $rdfItem = $itemService->createInstance($itemClass);
             
             //set the QTI type
-            $rdfItem->setPropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY), TAO_ITEM_MODEL_QTI);
+            $itemService->setItemModel($rdfItem, new core_kernel_classes_Resource(ItemModel::MODEL_URI));
             
             //set the label
             $rdfItem->setLabel($qtiItem->getAttributeValue('title'));
@@ -307,7 +309,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage()));
                 } catch (Exception $e) {
                     // an error occured during a specific item
-                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package. The system returned the following error message:\n%s", $e->getMessage())));
+                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package.")));
+                    common_Logger::e($e->getMessage());
                 }
             }
             

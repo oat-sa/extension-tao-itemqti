@@ -23,7 +23,7 @@ define([
         contentHelper.destroyGridWidgets($body, true);//working on clone only, so destroyGridWidgetsClone
 
         contentHelper.serializeElements($body);
-
+        
         return $body.html();
     };
 
@@ -120,6 +120,8 @@ define([
         $elt.children('.ui-draggable-dragging').remove();
 
         resizable.destroy($elt, inClone);
+        
+        $elt.find('.contextual-popup').remove();
     };
 
     return contentHelper;

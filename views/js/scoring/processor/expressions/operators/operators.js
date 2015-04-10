@@ -26,6 +26,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/anyN',
     'taoQtiItem/scoring/processor/expressions/operators/containerSize',
     'taoQtiItem/scoring/processor/expressions/operators/contains',
+    'taoQtiItem/scoring/processor/expressions/operators/customOperator',
     'taoQtiItem/scoring/processor/expressions/operators/delete',
     'taoQtiItem/scoring/processor/expressions/operators/divide',
     'taoQtiItem/scoring/processor/expressions/operators/durationGTE',
@@ -67,7 +68,7 @@ define([
     'taoQtiItem/scoring/processor/expressions/operators/subtract',
     'taoQtiItem/scoring/processor/expressions/operators/sum',
     'taoQtiItem/scoring/processor/expressions/operators/truncate'
-], function( and, anyN, containerSize, contains, deletee, divide, durationGTE, durationLT, equal, equalRounded, fieldValue, gcd, gt, gte, index, inside, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, mathOperator, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, statsOperator, stringMatch, substring, subtract, sum, truncate ){
+], function( and, anyN, containerSize, contains, customOperator, deletee, divide, durationGTE, durationLT, equal, equalRounded, fieldValue, gcd, gt, gte, index, inside, integerDivide, integerModulus, integerToFloat, isNull, lcm, lt, lte, match, mathOperator, max, member, min, multiple, not, or, ordered, patternMatch, power, product, random, repeat, round, roundTo, statsOperator, stringMatch, substring, subtract, sum, truncate ){
 
     'use strict';
 
@@ -96,6 +97,7 @@ define([
         "anyN"              : anyN,
         "containerSize"     : containerSize,
         "contains"          : contains,
+        "customOperator"    : customOperator,
         "deletee"           : deletee,
         "divide"            : divide,
         "durationGTE"       : durationGTE,

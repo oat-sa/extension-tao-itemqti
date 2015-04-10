@@ -1,14 +1,23 @@
 @import "inc/bootstrap";
 
+.runtime:not(.widget-box) {
+    .qti-hottextInteraction {
+        .qti-hottext {
+            padding: 1px;
+            border-width: 1px !important;
+        }
+    }
+}
+
 .qti-hottextInteraction {
 
-    //@todo : change it to qti-hottext
-    .hottext {
+    .qti-hottext {
         background: $uiClickableDefaultBg;
-        padding-right: 5px;
+        margin-right: 5px;
         @include border-radius();
         position: relative;
-
+        border-width: 0px !important;
+        
         &:hover {
             @extend %selectableHover;
         }

@@ -15,7 +15,8 @@ define([
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/editor/customInteractionRegistry',
-    'taoQtiItem/qtiCreator/editor/infoControlRegistry'
+    'taoQtiItem/qtiCreator/editor/infoControlRegistry',
+    'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder'
 ], function(
     $,
     _,
@@ -32,15 +33,16 @@ define([
     editor,
     interactionsToolbar,
     ciRegistry,
-    icRegistry
+    icRegistry,
+    blockAdder
     ){
 
     loadingBar.start();
-
-    var _initializeInteractionsToolbar = function($toolbar, interactionModels){
-
+    
+    function _getAuthoringElements(interactionModels){
+        
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-
+        
         _.each(interactionModels, function(interactionModel){
             var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
             if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
@@ -49,9 +51,15 @@ define([
                 throw 'invalid authoring data for custom interaction';
             }
         });
+        
+        return toolbarInteractions;
+    }
+    
+    
+    function _initializeInteractionsToolbar($toolbar, interactionModels){
 
         //create toolbar:
-        interactionsToolbar.create($toolbar, toolbarInteractions);
+        interactionsToolbar.create($toolbar, _getAuthoringElements(interactionModels));
 
         //init accordions:
         panel.initSidebarAccordion($toolbar);
@@ -61,9 +69,16 @@ define([
         //init special subgroup
         panel.toggleInlineInteractionGroup();
 
-    };
+    }
+    
+    function _initializeElementAdder(item, $itemPanel, interactionModels){
+        
+        var authoringElements = _getAuthoringElements(interactionModels);
+        
+        blockAdder.create(item, $itemPanel, authoringElements);
+    }
 
-    var _initializeHooks = function(uiHooks, configProperties){
+    function _initializeHooks(uiHooks, configProperties){
 
         require(_.values(uiHooks), function(){
 
@@ -178,6 +193,9 @@ define([
 
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
+                if(config.properties['multi-column']){
+                    _initializeElementAdder(item, configProperties.dom.getItemPanel(), interactionHooks);
+                }
 
                 //load creator renderer
                 creatorRenderer

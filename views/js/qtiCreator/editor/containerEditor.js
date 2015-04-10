@@ -40,7 +40,22 @@ define([
             throw 'invalid content for qti container';
         }
     }
-
+    
+    /**
+     * Transform the given dom element into a rich-text editor
+     * 
+     * @param {JQuery} $container - the container of the DOM element that is going to editable
+     * @param {Object} [options]
+     * @param {String} [options.markup] - the markup to be use as the initial editor content
+     * @param {String} [options.markupSelector] - the element in $xontainer that holds the html to be used as the initial editor content
+     * @param {Object} [options.related] - define the qti element object this editor is attached too. Very important to edit a picture or math element inside it because prevents leaving the editing state of the related element.
+     * @param {Function} [options.change] - the callback called when the editor content has been modified
+     * @param {Function} [options.hideTriggerOnBlur] - define if the trigger <A> should be hidden when the editor is blurred or not
+     * @param {Function} [options.placeholder] - the placeholder text of the container editor when
+     * @param {Function} [options.$toolbarLocation] - the location of the toolbar
+     * @param {Function} [options.toolbar] - the ck toolbar
+     * @returns {undefined}
+     */
     function create($container, options){
 
         options = _.defaults(options || {}, _defaults);
@@ -71,7 +86,9 @@ define([
 
             //associate it to the interaction?
             if(options.related){
-                options.related.data('container-editor', container);
+                var containerEditors = options.related.data('container-editors') || [];
+                containerEditors.push(container);
+                options.related.data('container-editors', containerEditors);
             }
 
             this.loadContainer(container, data);
@@ -84,8 +101,12 @@ define([
                 container.postRender();
 
                 buildContainer($container);
-                createToolbar($container);
-                buildEditor($container, container);
+                createToolbar($container, options.$toolbarLocation);
+                buildEditor($container, container, {
+                    hideTriggerOnBlur: !!options.hideTriggerOnBlur,
+                    placeholder : options.placeholder || undefined,
+                    toolbar : options.toolbar || undefined
+                });
 
                 $container.off('.' + _ns).on(event.getList(_ns + event.getNs() + event.getNsModel()).join(' '), _.throttle(function(e, data){
                     var html = container.render(xmlRenderer.get());
@@ -107,23 +128,32 @@ define([
         $container.wrapInner($('<div>', {'class' : 'container-editor', 'data-html-editable' : true}));
     }
 
-    function createToolbar($container){
+    function createToolbar($container, $appendTo){
 
         var $tlb = $(toolbarTpl({
             serial : 'serial123456',
             state : 'active'
         }));
-
-        $container.append($tlb);
+        
+        if(!$appendTo || !$appendTo.length){
+            $appendTo = $container;
+        }
+        
+        $appendTo.append($tlb);
         $tlb.show();
-
+        
+        $container.data('editor-toolbar', $tlb);
+        
         return this;
     }
 
     function cleanup($container){
 
         //remove the text toolbar
-        $container.find('.mini-tlb').remove();
+        var $toolbar = $container.data('editor-toolbar');
+        if($toolbar){
+            $toolbar.remove();
+        }
 
         var container = $container.data('container');
         if(container){
@@ -155,13 +185,13 @@ define([
         return widget;
     }
 
-    function buildEditor($editableContainer, container){
+    function buildEditor($editableContainer, container, options){
 
         $editableContainer.attr('data-html-editable-container', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            htmlEditor.buildEditor($editableContainer, {
+            htmlEditor.buildEditor($editableContainer, _.defaults(options || {}, {
                 shieldInnerContent : false,
                 passthroughInnerContent : false,
                 change : content.getChangeCallback(container),
@@ -169,7 +199,7 @@ define([
                     widget : createFakeWidget($editableContainer, container),
                     container : container
                 }
-            });
+            }));
         }
     }
 
@@ -180,7 +210,7 @@ define([
 
     function destroy($container){
         destroyEditor($container);
-        cleanup($container)
+        cleanup($container);
     }
     
     function extractHtmlFromMarkup(markupStr, selector){
