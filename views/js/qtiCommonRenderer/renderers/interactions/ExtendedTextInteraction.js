@@ -186,7 +186,7 @@ define([
                  */
                 var getCharsCount = function(){
                     var value = _getTextareaValue(interaction);
-                    return value.trim().length;
+                    return value.length;
                 };
 
                 /**
