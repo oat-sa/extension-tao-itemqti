@@ -39,6 +39,7 @@ use \Exception;
 use \DOMDocument;
 use \common_exception_UserReadableException;
 use \common_Logger;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -119,7 +120,7 @@ class ImportService extends tao_models_classes_GenerisService
             $rdfItem = $itemService->createInstance($itemClass);
             
             //set the QTI type
-            $rdfItem->setPropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY), TAO_ITEM_MODEL_QTI);
+            $itemService->setItemModel($rdfItem, new core_kernel_classes_Resource(ItemModel::MODEL_URI));
             
             //set the label
             $rdfItem->setLabel($qtiItem->getAttributeValue('title'));

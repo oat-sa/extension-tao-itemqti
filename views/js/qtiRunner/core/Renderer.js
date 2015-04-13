@@ -470,7 +470,7 @@ define([
         };
 
         this.load = function(callback, requiredClasses){
-
+           var self = this;
             var required = [];
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
@@ -496,7 +496,7 @@ define([
                                 }else if(_locations[qtiClass]){
                                     required.push(_locations[qtiClass]);
                                 }else{
-                                    throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
+                                    throw new Error(self.name + ' : missing qti class location declaration: ' + qtiClass + ', subclass: ' + subclass);
                                 }
                             });
                         } else {
@@ -505,7 +505,7 @@ define([
                             }else if(_locations[qtiClass]){
                                 required.push(_locations[qtiClass]);
                             }else{
-                                throw new Error(this.name + ' : missing qti class location declaration: ' + qtiClass);
+                                throw new Error(self.name + ' : missing qti class location declaration: ' + qtiClass);
                             }
                         }
                     });
