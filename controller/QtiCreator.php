@@ -24,7 +24,6 @@ namespace oat\taoQtiItem\controller;
 use common_exception_Error;
 use core_kernel_classes_Resource;
 use oat\tao\model\media\MediaSource;
-use oat\taoItems\model\ItemMediaRetrieval;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
@@ -34,6 +33,8 @@ use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use oat\tao\model\media\TaoMediaResolver;
+use oat\taoItems\model\media\ItemMediaResolver;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -169,16 +170,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function renderFile($item, $path, $lang)
     {
 
-        $data = array('item' => $item, 'lang' => $lang);
         if (tao_helpers_File::securityCheck($path, true)) {
-            $link = '';
-            $browser = ItemMediaRetrieval::getBrowserImplementation($path, $data, $link);
-            if ($browser !== false) {
-                $filePath = $browser->download($link);
-                \tao_helpers_Http::returnFile($filePath);
-            } else {
-                throw new \Exception();
-            }
+            $resolver = new ItemMediaResolver($item, $lang);
+            $asset = $resolver->resolve($path);
+            $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+            \tao_helpers_Http::returnFile($filePath);
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }

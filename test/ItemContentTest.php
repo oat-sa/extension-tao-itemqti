@@ -25,8 +25,7 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use \taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\ImportService;
-use oat\taoItems\model\ItemMediaSource;
-
+use oat\taoItems\model\media\LocalItemSource;
 
 include_once dirname(__FILE__).'/../includes/raw_start.php';
 
@@ -63,7 +62,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertIsA($item, 'core_kernel_classes_Resource');
         $this->assertTrue($item->exists());
         
-        $rm = new ItemMediaSource(array('item'=> $item , 'lang' => DEFAULT_LANG));
+        $rm = new LocalItemSource(array('item'=> $item , 'lang' => DEFAULT_LANG));
 
         $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
