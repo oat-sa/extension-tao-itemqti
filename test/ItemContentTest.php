@@ -25,7 +25,7 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use \taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\ImportService;
-use \taoItems_helpers_ResourceManager;
+use oat\taoItems\model\ItemMediaSource;
 
 
 include_once dirname(__FILE__).'/../includes/raw_start.php';
@@ -63,7 +63,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertIsA($item, 'core_kernel_classes_Resource');
         $this->assertTrue($item->exists());
         
-        $rm = new taoItems_helpers_ResourceManager(array('item'=> $item , 'lang' => DEFAULT_LANG));
+        $rm = new ItemMediaSource(array('item'=> $item , 'lang' => DEFAULT_LANG));
 
         $data = $rm->getDirectory();
         $this->assertTrue(is_array($data));
@@ -90,7 +90,6 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         $this->assertTrue($file['size'] > 0);
         
         $this->assertEquals("/images", $dir['path']);
-        $this->assertEquals(ROOT_URL, substr($dir['url'], 0, strlen(ROOT_URL)));
         
         taoItems_models_classes_ItemsService::singleton()->deleteItem($item);
         $this->assertFalse($item->exists());

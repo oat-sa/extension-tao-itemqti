@@ -28,6 +28,7 @@ use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
 use \ZipArchive;
 use oat\taoQtiItem\model\Export;
+use oat\taoItems\model\ItemMediaSource;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 /**
@@ -165,7 +166,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('\core_kernel_classes_Resource', $item);
         $this->assertTrue($item->exists());
 
-        $resourceManager = new \taoItems_helpers_ResourceManager(
+        $resourceManager = new ItemMediaSource(
             array( 'item' => $item, 
                 'lang' =>DEFAULT_LANG)
             );
