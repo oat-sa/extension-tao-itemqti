@@ -1,5 +1,9 @@
 @import "inc/bootstrap";
 
-.qti-inlineChoiceInteraction {
+select.qti-inlineChoiceInteraction {
     min-width: 150px;
+    max-width: 100%;
+    width: auto;
+    padding-right: 35px;
+    font-family: $regularFont;
 }

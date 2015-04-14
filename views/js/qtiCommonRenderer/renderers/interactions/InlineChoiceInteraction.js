@@ -67,7 +67,7 @@ define([
         }
 
         $container.select2({
-            width : 'resolve',
+            width : 'element',
             placeholder : opts.placeholderText,
             minimumResultsForSearch : -1
         });
