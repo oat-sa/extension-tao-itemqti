@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
-use oat\tao\model\media\MediaSource;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
@@ -35,6 +34,7 @@ use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use oat\tao\model\media\TaoMediaResolver;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\tao\model\media\MediaService;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -88,7 +88,7 @@ class QtiCreator extends tao_actions_CommonModule
         }
 
         // get the config media Sources
-        $sources = array_keys(MediaSource::getMediaBrowserSources());
+        $sources = array_keys(MediaService::singleton()->getBrowsableSources());
         $sources[] = 'local';
         $config->setProperty('mediaSources', $sources);
 

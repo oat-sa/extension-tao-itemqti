@@ -210,7 +210,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
                 $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'), $destination);
                 tao_helpers_File::copy($srcPath,$destination.$destPath,false);
-                \common_Logger::w($assetUrl.' '.$destPath);
                 $xml = str_replace($assetUrl, $destPath, $xml);
             }
         }
