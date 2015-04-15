@@ -52,7 +52,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     public function testToQTI($file){
 
         $qtiParser = new Parser($file);
-        $item = $qtiParser->load();
+        $item = $qtiParser->load(true);
 
         //test if content has been exported
         $qti = $item->toXML();
@@ -65,7 +65,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
         $parserValidator = new Parser($tmpFile);
         $parserValidator->validate();
-
+        
         if(!$parserValidator->isValid()){
             $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }
@@ -75,7 +75,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      * @dataProvider itemProvider
      */
-    public function testToXHTML($file){
+    public function _testToXHTML($file){
 
         $doc = new DOMDocument();
         $doc->validateOnParse = true;
@@ -102,7 +102,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      * @dataProvider rpItemProvider
      */
-    public function testResponseProcessingToArray($name, $file, $expectation){
+    public function _testResponseProcessingToArray($name, $file, $expectation){
 
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
@@ -125,6 +125,9 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * @return multitype:
      */
     public function itemProvider(){
+        return array(array(
+            dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/associate_include.xml'
+        ));
         $items = array();
         foreach(array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file){
             $items[] = array($file);

@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 
 /**
@@ -47,11 +46,11 @@ class ContainerItemBody extends ContainerInteractive
 			'oat\\taoQtiItem\\model\\qti\\Img',
 			'oat\\taoQtiItem\\model\\qti\\Math',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'taoQTI_models_classes_QTI_PrintedVariable',
 			'oat\\taoQtiItem\\model\\qti\\Object',
 			'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
 			'oat\\taoQtiItem\\model\\qti\\RubricBlock',
-			'oat\\taoQtiItem\\model\\qti\\InfoControl'
+			'oat\\taoQtiItem\\model\\qti\\InfoControl',
+            'oat\\taoQtiItem\\model\\qti\\XInclude'
 		);
 	}
 	

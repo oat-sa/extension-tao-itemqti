@@ -54,6 +54,7 @@ use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use oat\taoQtiItem\model\qti\Object;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Math;
+use oat\taoQtiItem\model\qti\XInclude;
 use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\RubricBlock;
 use oat\taoQtiItem\model\qti\container\ContainerFeedbackInteractive;
@@ -79,12 +80,16 @@ class ParserFactory
 
     protected $data = null;
     protected $item = null;
+    protected $basePath = '';
     protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
 
-    public function __construct(DOMDocument $data){
+    public function __construct(DOMDocument $data, $basePath = ''){
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
+        if(!empty($basePath)){
+            $this->basePath = $basePath;
+        }
     }
 
     public function load(){
@@ -155,7 +160,6 @@ class ParserFactory
 
     protected function parseContainerStatic(DOMElement $data, Container $container){
 
-        //var_dump('parseContainerStatic:'.$data->nodeName.':'.$data->asXML(), $bodyData);
         //initialize elements array to collect all QTI elements
         $bodyElements = array();
 
@@ -205,18 +209,25 @@ class ParserFactory
             }
         }
 
+        $ns = $this->getXIncludeNamespace();
+        $ns = empty($ns) ? '' : $ns.':';
+        $xincludeNodes = $this->queryXPath(".//*[name(.)='".$ns."include']", $data);
+        foreach($xincludeNodes as $xincludeNode){
+            $include = $this->buildXInclude($xincludeNode);
+            if(!is_null($include)){
+                $bodyElements[$include->getSerial()] = $include;
+                $this->replaceNode($xincludeNode, $include);
+            }
+        }
+
         $printedVariableNodes = $this->queryXPath(".//*[name(.)='printedVariable']", $data);
         foreach($printedVariableNodes as $printedVariableNode){
-            //@todo: to be implemented
             throw new UnsupportedQtiElement($printedVariableNode);
-            break;
         }
 
         $templateNodes = $this->queryXPath(".//*[name(.)='templateBlock'] | *[name(.)='templateInline']", $data);
         foreach($templateNodes as $templateNode){
-            //@todo: to be implemented
             throw new UnsupportedQtiElement($templateNode);
-            break;
         }
 
         //finally, add all body elements to the body
@@ -255,7 +266,6 @@ class ParserFactory
 
         $bodyElements = array();
 
-        //var_dump('parseContainerInteractive:'.$data->nodeName.':'.$data->asXML(), $thisData);
         //parse the xml to find the interaction nodes
         $interactionNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]", $data);
         $debug = array($data->nodeName);
@@ -323,7 +333,7 @@ class ParserFactory
                 $this->replaceNode($rubricNode, $rubricBlock);
             }
         }
-        
+
         //parse for infoControls: infoControl only allowed in item body !
         $infoControlNodes = $this->queryXPath(".//*[name(.)='infoControl']", $data);
         foreach($infoControlNodes as $infoControlNode){
@@ -333,7 +343,7 @@ class ParserFactory
                 $this->replaceNode($infoControlNode, $infoControl);
             }
         }
-        
+
         $this->setContainerElements($container, $data, $bodyElements);
 
         return $this->parseContainerInteractive($data, $container);
@@ -377,16 +387,35 @@ class ParserFactory
         return $options;
     }
 
-    protected function getMathNamespace(){
+    protected function findNamespace($nsFragment){
         $returnValue = '';
-        $namespaces = $this->item->getNamespaces();
-        foreach($namespaces as $name => $uri){
-            if(strpos($uri, 'MathML') > 0){
-                $returnValue = $name;
-                break;
+        if(is_null($this->item)){
+            foreach($this->queryXPath('namespace::*') as $node){
+                $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+                $uri = $node->nodeValue;
+                if(strpos($uri, $nsFragment) > 0){
+                    $returnValue = $name;
+                    break;
+                }
+            }
+        }else{
+            $namespaces = $this->item->getNamespaces();
+            foreach($namespaces as $name => $uri){
+                if(strpos($uri, $nsFragment) > 0){
+                    $returnValue = $name;
+                    break;
+                }
             }
         }
         return $returnValue;
+    }
+
+    protected function getMathNamespace(){
+        return $this->findNamespace('MathML');
+    }
+
+    protected function getXIncludeNamespace(){
+        return $this->findNamespace('XInclude');
     }
 
     /**
@@ -404,7 +433,6 @@ class ParserFactory
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
-        $namespaces = array();
         foreach($this->queryXPath('namespace::*') as $node){
             $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
             $this->item->addNamespace($name, $node->nodeValue);
@@ -439,7 +467,7 @@ class ParserFactory
         if(count($outcomes) > 0){
             $this->item->setOutcomes($outcomes);
         }
-        
+
         //extract modal feedbacks
         $feedbackNodes = $this->queryXPath("*[name(.) = 'modalFeedback']", $data);
         foreach($feedbackNodes as $feedbackNode){
@@ -1254,6 +1282,31 @@ class ParserFactory
         return $math;
     }
 
+    private function buildXInclude(DOMElement $data){
+
+        $include = new XInclude($this->extractAttributes($data));
+
+        //fetch content from href
+        $href = $include->attr('href');
+        $xml = new \DOMDocument();
+        $node = null;
+
+        if(strpos($href, 'http://') === 0){
+            //absolute
+        }else if(strpos($href, 'taomediamanager://') === 0){
+            //media manager
+        }else{
+            //local
+            $xml->load($this->basePath.$href);
+            $node = $xml->documentElement;
+        }
+
+        $parser = new ParserFactory($xml, $this->basePath);
+        $parser->parseContainerStatic($node, $include->getBody());
+
+        return $include;
+    }
+
     protected function getNonEmptyChildren(DOMElement $data){
         $returnValue = array();
         foreach($data->childNodes as $childNode){
@@ -1320,7 +1373,7 @@ class ParserFactory
 
         return $myFeedback;
     }
-    
+
     /**
      * Check if the node is dom element is a valid portable custom interaction one
      * 
@@ -1345,12 +1398,11 @@ class ParserFactory
         $interaction = null;
 
         if($this->isPciNode($data)){
-            
+
             //use tao's implementation of portable custom interaction
             $interaction = new PortableCustomInteraction($this->extractAttributes($data), $this->item);
             $interaction->feed($this, $data);
-            
-        }else{ 
+        }else{
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
@@ -1363,16 +1415,15 @@ class ParserFactory
                     break;
                 }
             }
-            
+
             if(!$ciClass){
                 throw new ParsingException('unknown custom interaction to be build');
             }
-            
         }
 
         return $interaction;
     }
-    
+
     /**
      * Get the namespace of the portable custom interaction
      * 
@@ -1382,7 +1433,7 @@ class ParserFactory
         //@todo : implement this properly
         return 'pci';
     }
-    
+
     /**
      * Check if the node is dom element is a valid portable info control one
      * 
@@ -1407,12 +1458,11 @@ class ParserFactory
         $infoControl = null;
 
         if($this->isPicNode($data)){
-            
+
             //use tao's implementation of portable custom interaction
             $infoControl = new PortableInfoControl($this->extractAttributes($data), $this->item);
             $infoControl->feed($this, $data);
-            
-        }else{ 
+        }else{
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
@@ -1425,16 +1475,15 @@ class ParserFactory
                     break;
                 }
             }
-            
+
             if(!$ciClass){
                 throw new ParsingException('unknown info control to be build');
             }
-            
         }
 
         return $infoControl;
     }
-    
+
     /**
      * Get the namespace of the portable info control
      * 

@@ -18,30 +18,8 @@
  *               
  * 
  */
+$attributes = get_data('attributes');
+$attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
+?>
 
-namespace oat\taoQtiItem\model\qti\container;
-
-/**
- * By implementing the FlowContainer interface, the object's content must mainly be represented
- * by a QTI element container. It must therefore provide a method to return its content as
- * a oat\taoQtiItem\model\qti\container\Container
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @see oat\taoQtiItem\model\qti\container\Container
- * @package taoQTI
- 
- */
-interface FlowContainer
-{
-
-    /**
-     * Get the flow content
-     *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return oat\taoQtiItem\model\qti\container\Container
-     */
-    public function getBody();
-
-}
+<<?=get_data('tag')?><?=$attributes?>/>
