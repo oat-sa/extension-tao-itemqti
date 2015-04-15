@@ -1293,8 +1293,10 @@ class ParserFactory
 
         if(strpos($href, 'http://') === 0){
             //absolute
+            throw new Exception('@TODO');
         }else if(strpos($href, 'taomediamanager://') === 0){
             //media manager
+            throw new Exception('@TODO');
         }else{
             //local
             $xml->load($this->basePath.$href);
