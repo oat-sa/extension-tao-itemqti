@@ -24,7 +24,6 @@ use common_ext_ExtensionsManager;
 use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Resource;
-use oat\tao\helpers\MediaRetrieval;
 use oat\taoQtiItem\model\qti\Service;
 use qtism\data\storage\xml\XmlAssessmentItemDocument;
 use tao_helpers_File;
@@ -34,6 +33,9 @@ use tao_models_classes_service_StorageDirectory;
 use taoItems_helpers_Deployment;
 use taoItems_models_classes_ItemCompiler;
 use taoItems_models_classes_ItemsService;
+use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoItems\model\media\ItemMediaResolver;
 
 /**
  * The QTI Item Compiler
@@ -156,15 +158,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
 
-        //copy all item folder (but the qti.xml)
-        $itemFolder = $itemService->getItemFolder($item, $language);
-        taoItems_helpers_Deployment::copyResources($itemFolder, $publicDirectory, array('qti.xml'));
-
         //copy item.xml file to private directory
+        $itemFolder = $itemService->getItemFolder($item, $language);
         tao_helpers_File::copy($itemFolder . 'qti.xml', $privateFolder . 'qti.xml', false);
-
-        //modify the copied xml and copy external files
-        $this->retrieveSharedResource($privateFolder . 'qti.xml', $publicDirectory, $item);
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -178,91 +174,49 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             tao_helpers_File::copy($assetLibPath . 'require.js', $publicDirectory . 'require.js', false);
         }
 
-        //load item in php object : 
-        //warning:  use the same instance of php qti item because the serial is regenerated each time:
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-        $content = $itemService->getItemContent($item, $language);
-        $itemService->setItemContent($item, file_get_contents($privateFolder . 'qti.xml'), $language);
-        /** @var \oat\taoQtiItem\model\qti\Item $qtiItem */
-        $qtiItem = $qtiService->getDataItemByRdfItem($item, $language);
-        $itemService->setItemContent($item, $content, $language);
-
+        // retrieve the media assets
+        $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
 
         //store variable qti elements data into the private directory
         $variableElements = $qtiService->getVariableElements($qtiItem);
         $serializedVariableElements = json_encode($variableElements);
         file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
-
-        // render item based of copied qti.xml
+        
+        // render item based on the modified QtiItem
         $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
-
-        // retrieve external resources
-        $report = taoItems_helpers_Deployment::retrieveExternalResources(
-            $xhtml,
-            $publicDirectory
-        ); //@todo (optional) : exclude 'require.js' from copying
-        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
-            $xhtml = $report->getData();
-        } else {
-            return $report;
-        }
-
+        
         //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
         // write index.html
         file_put_contents($publicDirectory . 'index.html', $xhtml);
-
-        //copy the event.xml if not present
-        $eventsXmlFile = $publicDirectory . 'events.xml';
-        if (!file_exists($eventsXmlFile)) {
-            $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $eventsReference = $qtiItemDir . 'model' . DIRECTORY_SEPARATOR . 'qti' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'events_ref.xml';
-            $eventXml = file_get_contents($eventsReference);
-            if (is_string($eventXml) && !empty($eventXml)) {
-                $eventXml = str_replace('{ITEM_URI}', $item->getUri(), $eventXml);
-                @file_put_contents($eventsXmlFile, $eventXml);
-            }
-        }
-
-        // --- Include QTI specific compilation stuff here.
-        // At this moment, we should have compiled raw Items. We now have
-        // to put the qti.xml file for each language in the compilation folder.
 
         return new common_report_Report(
             common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
         );
     }
-
-    protected function retrieveSharedResource($qtiPath, $compilationPath, $item)
+    
+    protected function retrieveAssets($item, $lang, $destination)
     {
-        $content = file_get_contents($qtiPath);
-
-        $doc = new \DOMDocument();
-        if ($doc->loadXML($content)) {
-
-            $tags = array('img', 'object');
-            $srcAttr = array('src', 'data');
-            $xpath = new \DOMXPath($doc);
-            $query = implode(' | ', array_map(create_function('$a', "return '//*[name(.)=\\''.\$a.'\\']';"), $tags));
-            /** @var \DOMElement $element */
-            foreach ($xpath->query($query) as $element) {
-                foreach ($srcAttr as $attr) {
-                    if ($element->hasAttribute($attr)) {
-                        $source = trim($element->getAttribute($attr));
-                        $link = '';
-                        $browser = MediaRetrieval::getBrowserImplementation($source, array('item' => $item), $link);
-                        if ($browser !== false) {
-                            tao_helpers_File::copy(
-                                $browser->download($link),
-                                $compilationPath . '/res/' . basename($browser->download($link)),
-                                false
-                            );
-                            $content = str_replace($source, 'res/' . basename($browser->download($link)), $content);
-                        }
-                    }
-                }
+        $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
+        $qtiParser = new Parser($xml);
+        $qtiItem  = $qtiParser->load();
+        $qtiService = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        
+        $assetParser = new AssetParser($qtiItem);
+        $resolver = new ItemMediaResolver($item, $lang);
+        foreach($assetParser->extract() as $type => $assets) {
+            foreach($assets as $assetUrl) {
+                $mediaAsset = $resolver->resolve($assetUrl);
+                $mediaSource = $mediaAsset->getMediaSource();
+                $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
+                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'), $destination);
+                tao_helpers_File::copy($srcPath,$destination.$destPath,false);
+                \common_Logger::w($assetUrl.' '.$destPath);
+                $xml = str_replace($assetUrl, $destPath, $xml);
             }
         }
-        file_put_contents($qtiPath, $content);
+        
+        $qtiParser = new Parser($xml);
+        return $qtiParser->load();
     }
 
 }
