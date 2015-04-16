@@ -1,18 +1,19 @@
 define([
     'taoQtiItem/qtiItem/core/Element',
-    'lodash',
-    'taoQtiItem/qtiItem/helper/rendererConfig',
-    'taoQtiItem/qtiItem/mixin/Container'
-], function(Element, _, rendererConfig, Container){
+    'taoQtiItem/qtiItem/mixin/Container',
+    'taoQtiItem/qtiItem/mixin/NamespacedElement'
+], function(Element, Container, NamespacedElement){
     
     var Include = Element.extend({
         qtiClass : 'include',
         defaultNsName : 'xi',
         defaultNsUri : 'http://www.w3.org/2001/XInclude',
+        nsUriFragment : 'XInclude',
         isEmpty : function(){
             return (!this.attr('href'));
         }
     });
     Container.augment(Include);
+    NamespacedElement.augment(Include);
     return Include;
 });
