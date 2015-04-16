@@ -1,8 +1,8 @@
 define([
     'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
-    'taoQtiItem/qtiItem/core/Math'
-], function(_, editable, Math){
+    'taoQtiItem/qtiItem/core/Include'
+], function(_, editable, Include){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -14,5 +14,5 @@ define([
             this.getNamespace();
         }
     });
-    return Math.extend(methods);
+    return Include.extend(methods);
 });
