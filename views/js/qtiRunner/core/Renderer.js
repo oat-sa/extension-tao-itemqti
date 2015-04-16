@@ -110,7 +110,8 @@ define([
         'inlineChoice',
         'simpleAssociableChoice',
         'simpleChoice',
-        'infoControl'
+        'infoControl',
+        'include'
     ];
 
     var _dependencies = {
