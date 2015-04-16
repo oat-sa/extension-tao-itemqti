@@ -52,7 +52,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     public function testToQTI($file){
 
         $qtiParser = new Parser($file);
-        $item = $qtiParser->load(true);
+        $item = $qtiParser->load();
 
         //test if content has been exported
         $qti = $item->toXML();

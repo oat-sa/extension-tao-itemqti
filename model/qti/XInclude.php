@@ -75,7 +75,6 @@ class XInclude extends Element implements FlowContainer
         
         //set body
         $this->body = $data->ownerDocument->saveXML($data);
-        var_dump($this->toArray());
     }
     
     protected function getTemplateQtiVariables(){

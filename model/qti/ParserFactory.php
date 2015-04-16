@@ -1303,8 +1303,12 @@ class ParserFactory
             $node = $xml->documentElement;
         }
 
-        $parser = new ParserFactory($xml, $this->basePath);
-        $parser->parseContainerStatic($node, $include->getBody());
+        if(!is_null($node)){
+            $parser = new ParserFactory($xml, $this->basePath);
+            $parser->parseContainerStatic($node, $include->getBody());
+        }else{
+            throw new ParsingException('The XInclude cannot be resolved ');
+        }
 
         return $include;
     }

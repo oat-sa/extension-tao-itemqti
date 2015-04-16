@@ -41,6 +41,7 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
         'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
         'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
+        'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     });
     return {
