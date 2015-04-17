@@ -145,21 +145,13 @@ define([
     /**
      * The built Renderer class
      * @constructor
-     * @param {Object} [options] - the renderer options
+     * @param {Object} options - the renderer options
+     * @param {AssetManager} options.assetManager - The renderer needs an AssetManager to resolve URLs (see {@link taoItems/assets/manager})
      * @param {Object} [options.decorators] - to set up rendering decorator
      * @param {preRenderDecorator} [options.decorators.before] - to set up a pre decorator
      * @param {postRenderDecorator} [options.decorators.after] - to set up a post decorator
      */
     var Renderer = function(options){
-
-        options = options || {};
-
-        this.isRenderer = true;
-        this.name = '';
-        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
-
-        //store shuffled choice here
-        this.shuffledChoices = [];
 
         /**
          * Store the registered renderer location
@@ -170,6 +162,18 @@ define([
          * Store loaded renderers
          */
         var _renderers = {};
+
+        if(!options.assetManager){
+            throw new TypeError('Please configure an AssetManager');
+        }
+
+
+        this.isRenderer = true;
+        this.name = '';
+        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
+
+        //store shuffled choice here
+        this.shuffledChoices = [];
 
         /**
          * Get the actual renderer of the give qti class or subclass:
@@ -450,7 +454,6 @@ define([
             var ret = false,
                 qtiClass = qtiSubclass || qtiInteraction.qtiClass,
                 renderer = _getClassRenderer(qtiClass);
-
             if(renderer){
                 if(_.isFunction(renderer.destroy)){
                     ret = renderer.destroy.call(this, qtiInteraction);
@@ -613,7 +616,23 @@ define([
             return _locations;
         };
 
+        /**
+         * Resolve URLs using the defined assetManager's strategies
+         * @param {String} url - the URL to resolve
+         * @returns {String} the resolved URL
+         */
+        this.resolveUrl = function resolveUrl(url){
+            if(typeof url === 'string' && url.length > 0){
+                return options.assetManager.resolve(url);
+            }
+        };
+
+        /**
+         * @deprecated in favor of resolveUrl
+         */
         this.getAbsoluteUrl = function(relUrl){
+
+            console.warn('Deprecated in favor of Renderer.resolveUrl');
 
             //allow relative url outpu only if explicitely said so
             if(this.getOption('userRelativeUrl')){
