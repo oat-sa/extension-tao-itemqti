@@ -67,9 +67,10 @@ class Parser extends tao_models_classes_Parser
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param boolean resolveXInclude
      * @return oat\taoQtiItem\model\qti\Item
      */
-    public function load($resolveXInclude = true){
+    public function load($resolveXInclude = false){
         
         $returnValue = null;
 

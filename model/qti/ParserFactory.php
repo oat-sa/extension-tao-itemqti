@@ -1285,31 +1285,36 @@ class ParserFactory
     private function buildXInclude(DOMElement $data){
 
         $include = new XInclude($this->extractAttributes($data));
+        
+        //resolve xinclude only when a basepath is defined
+        if(!empty($this->basePath)){
+            
+            //fetch content from href
+            $href = $include->attr('href');
+            $xml = new \DOMDocument();
+            $node = null;
 
-        //fetch content from href
-        $href = $include->attr('href');
-        $xml = new \DOMDocument();
-        $node = null;
+            //@todo use a resolver here:
+            if(strpos($href, 'http://') === 0){
+                //absolute
+                throw new Exception('@TODO');
+            }else if(strpos($href, 'taomediamanager://') === 0){
+                //media manager
+                throw new Exception('@TODO');
+            }else{
+                //local
+                $xml->load($this->basePath.$href);
+                $node = $xml->documentElement;
+            }
 
-        if(strpos($href, 'http://') === 0){
-            //absolute
-            throw new Exception('@TODO');
-        }else if(strpos($href, 'taomediamanager://') === 0){
-            //media manager
-            throw new Exception('@TODO');
-        }else{
-            //local
-            $xml->load($this->basePath.$href);
-            $node = $xml->documentElement;
+            if(!is_null($node)){
+                $parser = new ParserFactory($xml, $this->basePath);
+                $parser->parseContainerStatic($node, $include->getBody());
+            }else{
+                throw new ParsingException('The XInclude cannot be resolved ');
+            }
         }
-
-        if(!is_null($node)){
-            $parser = new ParserFactory($xml, $this->basePath);
-            $parser->parseContainerStatic($node, $include->getBody());
-        }else{
-            throw new ParsingException('The XInclude cannot be resolved ');
-        }
-
+        
         return $include;
     }
 
