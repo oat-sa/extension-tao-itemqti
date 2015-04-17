@@ -30,7 +30,6 @@ use tao_helpers_File;
 use tao_models_classes_service_ConstantParameter;
 use tao_models_classes_service_ServiceCall;
 use tao_models_classes_service_StorageDirectory;
-use taoItems_helpers_Deployment;
 use taoItems_models_classes_ItemCompiler;
 use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\Parser;
