@@ -7,7 +7,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
-    'taoQtiItem/qtiCreator/helper/simpleParser',
+    'taoQtiItem/qtiItem/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',

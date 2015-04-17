@@ -109,7 +109,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 }
             });
         },
-        loadElement : function(data, callback){
+        buildElement : function(data, callback){
 
             var _this = this;
 
@@ -117,6 +117,16 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
                 var element = _this.buildElement(data);
 
+                if(typeof(callback) === 'function'){
+                    callback.call(_this, element);
+                }
+            });
+        },
+        loadElement : function(element, data, callback){
+            
+            var _this = this;
+            this.loadRequiredClasses(data, function(){
+                _this.loadElementData(element, data);
                 if(typeof(callback) === 'function'){
                     callback.call(_this, element);
                 }

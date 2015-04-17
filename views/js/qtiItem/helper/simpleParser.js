@@ -136,7 +136,7 @@ define([
 
             if(_.isFunction(options.loaded) && options.model){
                 var loader = new Loader().setClassesLocation(options.model);
-                loader.loadElement(element, options.loaded);
+                loader.buildElement(element, options.loaded);
             }
 
             return element;
