@@ -89,8 +89,13 @@ class QtiCreator extends tao_actions_CommonModule
 
         // get the config media Sources
         $sources = array_keys(MediaService::singleton()->getBrowsableSources());
-        $sources[] = 'local';
-        $config->setProperty('mediaSources', $sources);
+        $mediaSources = array();
+        foreach($sources as $source){
+            $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+        }
+
+        $mediaSources[] = array('root' => 'local', 'path' => '/');
+        $config->setProperty('mediaSources', $mediaSources);
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
