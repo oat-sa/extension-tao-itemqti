@@ -28,7 +28,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadRequiredClasses : function(data, callback, reload){
 
             var requiredClasses = this.getRequiredClasses(data, reload), required = [];
-
+            
             for(var i in requiredClasses){
                 var requiredClass = requiredClasses[i];
                 if(this.classesLocation[requiredClass]){
@@ -37,7 +37,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     throw new Error('missing qti class location declaration : ' + requiredClass);
                 }
             }
-
+            
             var _this = this;
             require(required, function(){
                 _.each(arguments, function(QtiClass){

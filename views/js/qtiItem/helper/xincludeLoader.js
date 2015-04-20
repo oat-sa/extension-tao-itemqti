@@ -25,7 +25,7 @@ define([
 
                 (new Loader()).loadElement(xinclude, data, function(){
                     if(_.isFunction(callback)){
-                        callback(xinclude, data);
+                        callback(xinclude, data, this.getLoadedClasses());
                     }
                 });
 

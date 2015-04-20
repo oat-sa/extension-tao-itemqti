@@ -108,7 +108,7 @@ define([
                         });
                     }
                     if(_.isFunction(config.callback)){
-                        config.callback(item);
+                        config.callback(item, this);
                     }
                 }, this.getLoadedClasses());
 
