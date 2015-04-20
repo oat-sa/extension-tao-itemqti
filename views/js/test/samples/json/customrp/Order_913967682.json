@@ -1,6 +1,6 @@
 {
     "identifier": "Order_913967682",
-    "serial": "item_54eee7e643b3a842594796",
+    "serial": "item_54fd50ab1aecd653644198",
     "qtiClass": "assessmentItem",
     "attributes": {
         "identifier": "Order_913967682",
@@ -12,115 +12,115 @@
         "toolVersion": "3.0-RC01"
     },
     "body": {
-        "serial": "container_containeritembody_54eee7e643b1a481822011",
-        "body": "<div>\n\t\t\tSortiere die genannten Parteien nach Ihrer Sitzverteilung im Landtag Sachsen.<br\/>\n\t\t\tBeginne mit der st\u00e4rksten Partei.\n\t\t<\/div>\n\t\t{{interaction_orderinteraction_54eee7e6443c1398294534}}",
+        "serial": "container_containeritembody_54fd50ab1ae9f358613892",
+        "body": "<div>\n\t\t\tSortiere die genannten Parteien nach Ihrer Sitzverteilung im Landtag Sachsen.<br\/>\n\t\t\tBeginne mit der st\u00e4rksten Partei.\n\t\t<\/div>\n\t\t{{interaction_orderinteraction_54fd50ab1d8ad073547353}}",
         "elements": {
-            "interaction_orderinteraction_54eee7e6443c1398294534": {
-                "serial": "interaction_orderinteraction_54eee7e6443c1398294534",
+            "interaction_orderinteraction_54fd50ab1d8ad073547353": {
+                "serial": "interaction_orderinteraction_54fd50ab1d8ad073547353",
                 "qtiClass": "orderInteraction",
                 "attributes": {
                     "responseIdentifier": "RESPONSE",
                     "shuffle": true
                 },
                 "choices": {
-                    "choice_simplechoice_54eee7e644604873652060": {
+                    "choice_simplechoice_54fd50ab1f465475141497": {
                         "identifier": "Choice0",
-                        "serial": "choice_simplechoice_54eee7e644604873652060",
+                        "serial": "choice_simplechoice_54fd50ab1f465475141497",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "Choice0",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e64464e823406494",
+                            "serial": "container_containerstatic_54fd50ab1fbb0745345560",
                             "body": "CDU",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e643b3a842594796"
+                                "relatedItem": "item_54fd50ab1aecd653644198"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e644719331614860": {
+                    "choice_simplechoice_54fd50ab1fd2a349932615": {
                         "identifier": "Choice1",
-                        "serial": "choice_simplechoice_54eee7e644719331614860",
+                        "serial": "choice_simplechoice_54fd50ab1fd2a349932615",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "Choice1",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e644758951576830",
+                            "serial": "container_containerstatic_54fd50ab1fd85356565382",
                             "body": "Die Linke",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e643b3a842594796"
+                                "relatedItem": "item_54fd50ab1aecd653644198"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e64482c691319690": {
+                    "choice_simplechoice_54fd50ab1fe66787081541": {
                         "identifier": "Choice2",
-                        "serial": "choice_simplechoice_54eee7e64482c691319690",
+                        "serial": "choice_simplechoice_54fd50ab1fe66787081541",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "Choice2",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e64486a600787421",
+                            "serial": "container_containerstatic_54fd50ab1feb9960895025",
                             "body": "SDP",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e643b3a842594796"
+                                "relatedItem": "item_54fd50ab1aecd653644198"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e644921041499234": {
+                    "choice_simplechoice_54fd50ab1ff93215922930": {
                         "identifier": "Choice3",
-                        "serial": "choice_simplechoice_54eee7e644921041499234",
+                        "serial": "choice_simplechoice_54fd50ab1ff93215922930",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "Choice3",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e644960282039311",
+                            "serial": "container_containerstatic_54fd50ab1ffe2009756212",
                             "body": "Gr\u00fcne",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e643b3a842594796"
+                                "relatedItem": "item_54fd50ab1aecd653644198"
                             }
                         }
                     },
-                    "choice_simplechoice_54eee7e644a17659589407": {
+                    "choice_simplechoice_54fd50ab200bc735901510": {
                         "identifier": "Choice4",
-                        "serial": "choice_simplechoice_54eee7e644a17659589407",
+                        "serial": "choice_simplechoice_54fd50ab200bc735901510",
                         "qtiClass": "simpleChoice",
                         "attributes": {
                             "identifier": "Choice4",
                             "fixed": false
                         },
                         "body": {
-                            "serial": "container_containerstatic_54eee7e644a54245115469",
+                            "serial": "container_containerstatic_54fd50ab2010b980467935",
                             "body": "NPD",
                             "elements": [],
                             "debug": {
-                                "relatedItem": "item_54eee7e643b3a842594796"
+                                "relatedItem": "item_54fd50ab1aecd653644198"
                             }
                         }
                     }
                 },
                 "prompt": {
-                    "serial": "container_containerstatic_54eee7e644587457921076",
+                    "serial": "container_containerstatic_54fd50ab1ee09905293046",
                     "body": "",
                     "elements": [],
                     "debug": {
-                        "relatedItem": "item_54eee7e643b3a842594796"
+                        "relatedItem": "item_54fd50ab1aecd653644198"
                     }
                 }
             }
         },
         "debug": {
-            "relatedItem": "item_54eee7e643b3a842594796"
+            "relatedItem": "item_54fd50ab1aecd653644198"
         }
     },
     "namespaces": {
@@ -130,9 +130,9 @@
     },
     "stylesheets": [],
     "outcomes": {
-        "outcomedeclaration_54eee7e643da8615792423": {
+        "outcomedeclaration_54fd50ab1c15e995846249": {
             "identifier": "SCORE",
-            "serial": "outcomedeclaration_54eee7e643da8615792423",
+            "serial": "outcomedeclaration_54fd50ab1c15e995846249",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "SCORE",
@@ -141,9 +141,9 @@
             },
             "defaultValue": "0.0"
         },
-        "outcomedeclaration_54eee7e643e62530263795": {
+        "outcomedeclaration_54fd50ab1c5d0167007200": {
             "identifier": "MAXSCORE",
-            "serial": "outcomedeclaration_54eee7e643e62530263795",
+            "serial": "outcomedeclaration_54fd50ab1c5d0167007200",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "MAXSCORE",
@@ -152,9 +152,9 @@
             },
             "defaultValue": "1.0"
         },
-        "outcomedeclaration_54eee7e643f03986328195": {
+        "outcomedeclaration_54fd50ab1c698102137296": {
             "identifier": "FEEDBACKBASIC",
-            "serial": "outcomedeclaration_54eee7e643f03986328195",
+            "serial": "outcomedeclaration_54fd50ab1c698102137296",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACKBASIC",
@@ -163,9 +163,9 @@
             },
             "defaultValue": "empty"
         },
-        "outcomedeclaration_54eee7e643fa1038083325": {
+        "outcomedeclaration_54fd50ab1c757738389463": {
             "identifier": "FEEDBACK_14455851",
-            "serial": "outcomedeclaration_54eee7e643fa1038083325",
+            "serial": "outcomedeclaration_54fd50ab1c757738389463",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_14455851",
@@ -177,9 +177,9 @@
             },
             "defaultValue": "false"
         },
-        "outcomedeclaration_54eee7e644066741373904": {
+        "outcomedeclaration_54fd50ab1c847433076979": {
             "identifier": "FEEDBACK_23266699",
-            "serial": "outcomedeclaration_54eee7e644066741373904",
+            "serial": "outcomedeclaration_54fd50ab1c847433076979",
             "qtiClass": "outcomeDeclaration",
             "attributes": {
                 "identifier": "FEEDBACK_23266699",
@@ -193,9 +193,9 @@
         }
     },
     "responses": {
-        "responsedeclaration_54eee7e643cd0259809564": {
+        "responsedeclaration_54fd50ab1bce3704164022": {
             "identifier": "RESPONSE",
-            "serial": "responsedeclaration_54eee7e643cd0259809564",
+            "serial": "responsedeclaration_54fd50ab1bce3704164022",
             "qtiClass": "responseDeclaration",
             "attributes": {
                 "identifier": "RESPONSE",
@@ -220,7 +220,7 @@
     },
     "feedbacks": [],
     "responseProcessing": {
-        "serial": "response_custom_54eee7e644eb5237786527",
+        "serial": "response_custom_54fd50ab219c8261837818",
         "qtiClass": "responseProcessing",
         "attributes": [],
         "processingType": "custom",
@@ -257,64 +257,66 @@
                         }
                     ]
                 },
-                "responseElseIf": {
-                    "qtiClass": "responseElseIf",
-                    "expression": {
-                        "qtiClass": "match",
-                        "expressions": [
+                "responseElseIfs": [
+                    {
+                        "qtiClass": "responseElseIf",
+                        "expression": {
+                            "qtiClass": "match",
+                            "expressions": [
+                                {
+                                    "qtiClass": "variable",
+                                    "attributes": {
+                                        "identifier": "RESPONSE"
+                                    }
+                                },
+                                {
+                                    "qtiClass": "correct",
+                                    "attributes": {
+                                        "identifier": "RESPONSE"
+                                    }
+                                }
+                            ]
+                        },
+                        "responseRules": [
                             {
-                                "qtiClass": "variable",
+                                "qtiClass": "setOutcomeValue",
                                 "attributes": {
-                                    "identifier": "RESPONSE"
+                                    "identifier": "SCORE"
+                                },
+                                "expression": {
+                                    "qtiClass": "sum",
+                                    "expressions": [
+                                        {
+                                            "qtiClass": "variable",
+                                            "attributes": {
+                                                "identifier": "SCORE"
+                                            }
+                                        },
+                                        {
+                                            "qtiClass": "variable",
+                                            "attributes": {
+                                                "identifier": "MAXSCORE"
+                                            }
+                                        }
+                                    ]
                                 }
                             },
                             {
-                                "qtiClass": "correct",
+                                "qtiClass": "setOutcomeValue",
                                 "attributes": {
-                                    "identifier": "RESPONSE"
+                                    "identifier": "FEEDBACKBASIC"
+                                },
+                                "expression": {
+                                    "qtiClass": "baseValue",
+                                    "attributes": {
+                                        "baseType": "identifier"
+                                    },
+                                    "value": "correct"
                                 }
                             }
                         ]
-                    },
-                    "responseRules": [
-                        {
-                            "qtiClass": "setOutcomeValue",
-                            "attributes": {
-                                "identifier": "SCORE"
-                            },
-                            "expression": {
-                                "qtiClass": "sum",
-                                "expressions": [
-                                    {
-                                        "qtiClass": "variable",
-                                        "attributes": {
-                                            "identifier": "SCORE"
-                                        }
-                                    },
-                                    {
-                                        "qtiClass": "variable",
-                                        "attributes": {
-                                            "identifier": "MAXSCORE"
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "qtiClass": "setOutcomeValue",
-                            "attributes": {
-                                "identifier": "FEEDBACKBASIC"
-                            },
-                            "expression": {
-                                "qtiClass": "baseValue",
-                                "attributes": {
-                                    "baseType": "identifier"
-                                },
-                                "value": "correct"
-                            }
-                        }
-                    ]
-                },
+                    }
+                ],
                 "responseElse": {
                     "qtiClass": "responseElse",
                     "responseRules": [

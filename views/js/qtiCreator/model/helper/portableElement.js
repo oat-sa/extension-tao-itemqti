@@ -1,21 +1,44 @@
 define(['lodash', 'jquery'], function(_, $){
     "use strict";
     
+    /**
+     * Add ns directory to a relative path (a relative path only)
+     * 
+     * @param {String} typeIdentifier
+     * @param {String} file
+     * @returns {String}
+     */
     function _addNsDir(typeIdentifier, file){
-        return typeIdentifier + '/' + file.replace(/^\.\//, '');
+        if(file.match(/^\./)){
+            return typeIdentifier + '/' + file.replace(/^\.\//, '');
+        }else{
+            return file;
+        }
     }
-
-    function addNamespaceDirectory($typeIdentifier, $file){
-        if(_.isString($file)){
-            return _addNsDir($typeIdentifier, $file);
-        }else if(_.isArray($file)){
-            return _.map($file, function($f){
-                return _addNsDir($typeIdentifier, $f);
+    
+    /**
+     * Add namespace directory to a file or an array of file
+     * 
+     * @param {String} typeIdentifier
+     * @param {String|Array} file - a file path or an array of file path
+     * @returns {String}
+     */
+    function addNamespaceDirectory(typeIdentifier, file){
+        if(_.isString(file)){
+            return _addNsDir(typeIdentifier, file);
+        }else if(_.isArray(file)){
+            return _.map(file, function(f){
+                return _addNsDir(typeIdentifier, f);
             });
         }
     }
 
-
+    /**
+     * Get common methods to augment a portableElement implementation
+     * 
+     * @param {object} registry
+     * @returns {object}
+     */
     function getDefaultMethods(registry){
 
         return {

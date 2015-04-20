@@ -20,6 +20,7 @@
 
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\ItemModel;
 
 /**
  * Update script for qti
@@ -29,14 +30,15 @@ use oat\taoQtiItem\model\qti\Item;
 class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
 {
 
-    public function run(){
+    public function run()
+    {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
         $items = $itemClass->getInstances(true);
 
         foreach($items as $item){
             $itemModel = $itemService->getItemModel($item);
-            if(!is_null($itemModel) && $itemModel->getUri() == TAO_ITEM_MODEL_QTI){
+            if(!is_null($itemModel) && $itemModel->getUri() == ItemModel::MODEL_URI){
                 $this->out('qti item found: '.$item->getLabel());
                 $this->convertQtiItem($item);
             }

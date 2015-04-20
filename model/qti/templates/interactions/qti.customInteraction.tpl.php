@@ -19,34 +19,19 @@
  * 
  */
 ?>
-<customInteraction responseIdentifier="graph1">
-
-    <portableCustomInteraction customInteractionTypeIdentifier="IW30MX6U48JF9120GJS">
-
-        <templateVariableMapping templateIdentifier="X" configurationProperty="areaX" />
-        <templateVariableMapping templateIdentifier="Y" configurationProperty="areaY" />
-
-        <responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
-        <resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
-            <libraries>
-                <lib id="/IMSGlobal/raphael_2_0" />
-            </libraries>
-        </resources>
-
-        <properties>
-            <entry key=”x”>10</entry>
-            <entry key=”y”>30</entry>
-            <entry key=”title”>Your Awesome ${title}</entry>
-            <properties key="border">
-                <entry key=”width”>path.to.value</entry>
-                <entry key=”color”>method(‘value’)</entry>
-            </properties>
-        </properties>
-
-        <markup>
-            <div id="graph1" class="graph"></div>
-        </markup>
-
-    </portableCustomInteraction>
-
+<customInteraction <?=get_data('attributes')?>>
+    <pci:portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" hook="<?=get_data('entryPoint')?>">
+        <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
+        <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
+            <pci:libraries>
+                <?foreach(get_data('libraries') as $lib):?>
+                <pci:lib id="<?=$lib?>"/>
+                <?endforeach;?>
+            </pci:libraries>
+        </pci:resources>
+        <?=get_data('serializedProperties')?>
+        <pci:markup>
+            <?=get_data('markup')?>
+        </pci:markup>
+    </pci:portableCustomInteraction>
 </customInteraction>

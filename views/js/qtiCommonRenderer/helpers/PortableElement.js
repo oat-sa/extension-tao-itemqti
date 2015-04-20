@@ -26,7 +26,10 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     function getCommonLibraries(){
         return {
             css : context.root_url + 'tao/views/js/lib/require-css/css',
-            mathJax : context.root_url + 'taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full'
+            mathJax : [
+                context.root_url + 'taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+                context.root_url + 'taoQtiItem/views/js/MathJaxFallback'
+            ]
         };
     }
 
@@ -55,7 +58,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         return $markup.html();
 
     }
-    
+
     /**
      * Transform relative paths in the "paths" argument object into absolute ones
      * 
@@ -73,7 +76,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
         });
         return ret;
     }
-    
+
     /**
      * Get a local require js with typeIdentifier as specific context
      * 
@@ -88,16 +91,16 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         var runtimeLocation = config.runtimeLocation ? config.runtimeLocation : baseUrl + typeIdentifier;
         var requireConfig = window.require.s.contexts._.config;
-        
+
         if(config.useExtensionAlias){
             var urlTokens = baseUrl.split('/');
             var extension = urlTokens[0];
-            
+
             var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
 
             //update baseUrl:
             baseUrl = baseUrl.replace(extension, fullpath);
-            
+
             if(config.runtimeLocation){
                 runtimeLocation = config.runtimeLocation.replace(extension, fullpath);
             }
@@ -109,11 +112,11 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
         //add local namespace
         libs[typeIdentifier] = runtimeLocation;//allow overwrite by config (in test)
-        
+
         return window.require.config({
             context : typeIdentifier, //use unique typeIdentifier as context name
             baseUrl : baseUrl,
-            paths : libs || {},
+            paths : libs,
             shim : {
                 mathJax : {
                     exports : "MathJax",

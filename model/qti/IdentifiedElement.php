@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\IdentifiedElement;
-use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use \common_Logger;
 
@@ -123,7 +121,7 @@ abstract class IdentifiedElement extends Element
         $returnValue = false;
         if(empty($identifier) || is_null($identifier)){
             common_Logger::w('ss');
-            throw new InvalidArgumentException("Id must not be empty");
+            throw new \InvalidArgumentException("Id must not be empty");
         }
 
         if($this->isIdentifierAvailable($identifier)){
@@ -138,7 +136,7 @@ abstract class IdentifiedElement extends Element
                     $identifiedElements = $relatedItem->getIdentifiedElements();
                 }
                 common_Logger::w("Tried to set non unique identifier ".$identifier, array('TAOITEMS', 'QTI'));
-                throw new InvalidArgumentException("The identifier \"{$identifier}\" is already in use");
+                throw new \InvalidArgumentException("The identifier \"{$identifier}\" is already in use");
             }
         }
 
@@ -175,7 +173,7 @@ abstract class IdentifiedElement extends Element
      * Check if the given new identifier is valid in the current state of the qti element
      * 
      * @param string $newIdentifier
-     * @return booean
+     * @return boolean
      * @throws InvalidArgumentException
      */
     public function isIdentifierAvailable($newIdentifier){
@@ -206,8 +204,11 @@ abstract class IdentifiedElement extends Element
      *
      * @access protected
      * @author Sam, <sam@taotesting.com>
-     * @param  string prefix
+     *
+     * @param string $prefix
+     *
      * @return mixed
+     * @throws QtiModelException
      */
     protected function generateIdentifier($prefix = ''){
 

@@ -79,5 +79,8 @@ return array(
 	
 		#BASE WWW the web resources path
 		'BASE_WWW'				=> ROOT_URL	.'taoQtiItem/views/',
-	)
+	),
+    'extra' => array(
+        'structures' => dirname(__FILE__).DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'structures.xml',
+    )
 );

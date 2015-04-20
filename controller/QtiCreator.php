@@ -32,7 +32,7 @@ use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
-use oat\tao\model\media\TaoMediaResolver;
+use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\tao\model\media\MediaService;
 
@@ -45,6 +45,42 @@ use oat\tao\model\media\MediaService;
  */
 class QtiCreator extends tao_actions_CommonModule
 {
+    /**
+     * create a new QTI item
+     * 
+     * @requiresRight id WRITE
+     */
+    public function createItem()
+    {
+        if(!\tao_helpers_Request::isAjax()){
+            throw new \Exception("wrong request mode");
+        }
+        $clazz = new \core_kernel_classes_Resource($this->getRequestParameter('id'));
+        if ($clazz->isClass()) {
+            $clazz = new \core_kernel_classes_Class($clazz);
+        } else {
+            foreach ($clazz->getTypes() as $type) {
+                // determine class from selected instance
+                $clazz = $type;
+                break;
+            }
+        }
+        $service = \taoItems_models_classes_ItemsService::singleton();
+        
+        $label = $service->createUniqueLabel($clazz);
+        $item = $service->createInstance($clazz, $label);
+        
+        if(!is_null($item)){
+            $service->setItemModel($item, new \core_kernel_classes_Resource(ItemModel::MODEL_URI));
+            $response = array(
+                'label'	=> $item->getLabel(),
+                'uri' 	=> $item->getUri()
+            );
+        } else {
+            $response = false;
+        }
+        $this->returnJson($response);
+    }
 
     public function index()
     {
@@ -152,7 +188,7 @@ class QtiCreator extends tao_actions_CommonModule
             $itemService = taoItems_models_classes_ItemsService::singleton();
 
             //check if the item is QTI item
-            if ($itemService->hasItemModel($rdfItem, array(TAO_ITEM_MODEL_QTI))) {
+            if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
 
                 $xml = Authoring::validateQtiXml($xml);
 
