@@ -1,7 +1,7 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
-    'taoQtiItem/qtiCreator/widgets/static/img/states/states',
+    'taoQtiItem/qtiCreator/widgets/static/include/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',

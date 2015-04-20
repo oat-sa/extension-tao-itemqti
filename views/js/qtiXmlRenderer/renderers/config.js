@@ -43,7 +43,8 @@ define(function(){
             'simpleChoice' : 'taoQtiItem/qtiXmlRenderer/renderers/choices/SimpleChoice',
             'customInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/PortableCustomInteraction',
             'endAttemptInteraction' : 'taoQtiItem/qtiXmlRenderer/renderers/interactions/EndAttemptInteraction',
-            'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl'
+            'infoControl' : 'taoQtiItem/qtiXmlRenderer/renderers/PortableInfoControl',
+            'include' : 'taoQtiItem/qtiXmlRenderer/renderers/Include'
         },
         options : {
             userRelativeUrl : true
