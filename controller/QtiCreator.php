@@ -106,11 +106,12 @@ class QtiCreator extends tao_actions_CommonModule
         $this->setView('QtiCreator/index.tpl');
     }
 
-    public function getMediaSources(){
+    public function getMediaSources()
+    {
         // get the config media Sources
         $sources = array_keys(MediaService::singleton()->getBrowsableSources());
         $mediaSources = array();
-        $mediaSources[] = array('root' => 'local', 'path' => '/');
+        $mediaSources[] = array('root' => __('Item'), 'path' => '/');
         foreach($sources as $source){
             $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
         }
