@@ -195,8 +195,8 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
-        $this->assertEquals("/images", $dir['path']);
-        $this->assertEquals("/images", $dir['parent']);
+        $this->assertEquals("/images/", $dir['path']);
+        $this->assertEquals("/images/", $dir['parent']);
 
 
         return $item;
