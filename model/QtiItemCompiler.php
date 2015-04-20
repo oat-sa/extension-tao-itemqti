@@ -178,26 +178,39 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         }
 
         // retrieve the media assets
-        $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-
-        //store variable qti elements data into the private directory
-        $variableElements = $qtiService->getVariableElements($qtiItem);
-        $serializedVariableElements = json_encode($variableElements);
-        file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
-        
-        // render item based on the modified QtiItem
-        $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
-        
-        //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
-        // write index.html
-        file_put_contents($publicDirectory . 'index.html', $xhtml);
-
-        return new common_report_Report(
-            common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
-        );
+        try {
+            $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
+    
+            //store variable qti elements data into the private directory
+            $variableElements = $qtiService->getVariableElements($qtiItem);
+            $serializedVariableElements = json_encode($variableElements);
+            file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
+            
+            // render item based on the modified QtiItem
+            $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
+            
+            //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
+            // write index.html
+            file_put_contents($publicDirectory . 'index.html', $xhtml);
+    
+            return new common_report_Report(
+                common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
+            );
+        } catch (\tao_models_classes_FileNotFoundException $e) {
+            return new common_report_Report(
+                common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFile())
+            );
+        }
     }
     
-    protected function retrieveAssets($item, $lang, $destination)
+    /**
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @param string $lang
+     * @param string $destination
+     * @return \oat\taoQtiItem\model\qti\Item
+     */
+    protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $destination)
     {
         $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
         $qtiParser = new Parser($xml);
