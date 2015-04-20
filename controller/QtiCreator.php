@@ -87,16 +87,13 @@ class QtiCreator extends tao_actions_CommonModule
             $config->setProperty('baseUrl', $url . '&relPath=');
         }
 
-        // get the config media Sources
-        $sources = array_keys(MediaService::singleton()->getBrowsableSources());
-        $mediaSources = array();
-        foreach($sources as $source){
-            $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
-        }
+        $mediaSourcesUrl = tao_helpers_Uri::url(
+            'getMediaSources',
+            'QtiCreator',
+            'taoQtiItem'
+        );
 
-        $mediaSources[] = array('root' => 'local', 'path' => '/');
-        $config->setProperty('mediaSources', $mediaSources);
-
+        $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach ($hookClasses as $hookClass) {
@@ -107,6 +104,18 @@ class QtiCreator extends tao_actions_CommonModule
         $config->init();
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
+    }
+
+    public function getMediaSources(){
+        // get the config media Sources
+        $sources = array_keys(MediaService::singleton()->getBrowsableSources());
+        $mediaSources = array();
+        $mediaSources[] = array('root' => 'local', 'path' => '/');
+        foreach($sources as $source){
+            $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+        }
+
+        $this->returnJson($mediaSources);
     }
 
     public function getItemData()
