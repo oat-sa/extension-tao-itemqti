@@ -180,7 +180,7 @@ define([
         $uploadTrigger.on('click', function(){
             $uploadTrigger.resourcemgr({
                 appendContainer : options.mediaManager.appendContainer,
-                mediaSources : options.mediaManager.mediaSources,
+                mediaSourcesUrl : options.mediaManager.mediaSourcesUrl,
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
                 deleteUrl : options.mediaManager.deleteUrl,
