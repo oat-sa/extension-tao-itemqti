@@ -6,13 +6,13 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/include'
 ], function(_, Renderer, containerHelper, Widget, tpl){
 
-    var CreatorImg = _.clone(Renderer);
+    var CreatorXInclude = _.clone(Renderer);
     
-    CreatorImg.template = tpl;
+    CreatorXInclude.template = tpl;
     
-    CreatorImg.getContainer = containerHelper.get;
+    CreatorXInclude.getContainer = containerHelper.get;
     
-    CreatorImg.render = function(include, options){
+    CreatorXInclude.render = function(include, options){
         
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
@@ -28,5 +28,5 @@ define([
         );
     };
 
-    return CreatorImg;
+    return CreatorXInclude;
 });

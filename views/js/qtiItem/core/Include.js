@@ -10,7 +10,7 @@ define([
         defaultNsUri : 'http://www.w3.org/2001/XInclude',
         nsUriFragment : 'XInclude',
         isEmpty : function(){
-            return (!this.attr('href'));
+            return (!this.attr('href') || this.getBody().isEmpty());
         }
     });
     Container.augment(Include);
