@@ -263,15 +263,15 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
         },
         postRender : function(data, altClassName, renderer){
 
-            renderer = renderer || this.getRenderer();
+            var _renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
-                //post render body element
+                //post render body element, allowing a renderer different if it has its own renderer set
                 this.getBody().postRender({}, '', renderer);
             }
 
-            if(renderer){
-                return renderer.postRender(this, data, altClassName);
+            if(_renderer){
+                return _renderer.postRender(this, data, altClassName);
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
