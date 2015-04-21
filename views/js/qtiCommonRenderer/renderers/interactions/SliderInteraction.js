@@ -24,12 +24,13 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/sliderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'nouislider'
-], function($, _, tpl, containerHelper, instructionMgr, pciResponse){
+], function($, _, __,tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
     var _slideTo = function(options){
@@ -62,7 +63,7 @@ define([
             steps = (max - min) / step; //number of the steps
 
         //add the containers
-        $sliderCurrentValue.append(''<span class="qti-slider-cur-value-text">'+__('Current value:')+' </span>')
+        $sliderCurrentValue.append('<span class="qti-slider-cur-value-text">'+__('Current value:')+' </span>')
             .append('<span class="qti-slider-cur-value"></span>');
 
         $sliderLabels.append('<span class="slider-min">' + (!reverse ? min : max) + '</span>')
