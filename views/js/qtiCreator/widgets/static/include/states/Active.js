@@ -7,12 +7,13 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
     'ui/resourcemgr'
-], function($, _, __, stateFactory, Active, formTpl, formElement, creatorRenderer, xincludeLoader){
+], function($, _, __, stateFactory, Active, formTpl, formElement, creatorRenderer, commonRenderer, xincludeLoader){
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
-
+        
         this.initForm();
 
     }, function(){
@@ -27,7 +28,7 @@ define([
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl;
-
+        
         $form.html(formTpl({
             baseUrl : baseUrl || '',
             href : include.attr('href')
@@ -68,6 +69,7 @@ define([
         else{
             mediaSources = options.mediaManager.mediaSources;
         }
+        
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
                 title : __('Please select an image file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
@@ -85,7 +87,7 @@ define([
                 },
                 pathParam : 'path',
                 select : function(e, files){
-
+                    
                     var file;
 
                     if(files && files.length){
@@ -104,10 +106,13 @@ define([
                         xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
                             creatorRenderer.get().load(function(){
                                 
-                                xinclude.setRenderer(this);
-                                xinclude.render($container);
-                                debugger;
-                                xinclude.postRender();
+                                //set commonRenderer to the composing elements only (because xinclude is "read-only")
+                                var composingElements = xinclude.getComposingElements();
+                                _.each(composingElements, function(elt){
+                                    elt.setRenderer(commonRenderer.get());
+                                });
+                                
+                                widget.refresh();
                                 
                             }, loadedClasses);
                         });
