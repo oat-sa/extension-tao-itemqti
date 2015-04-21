@@ -52,6 +52,13 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
     
     /**
+     * List of regexp of media that should be excluded from retrieval
+     */
+    private static $BLACKLIST = array(
+    	'/^https?:\/\/www\.youtube\.[a-zA-Z]*\//'
+    );
+    
+    /**
      * Compile qti item
      *
      * @throws taoItems_models_classes_CompilationFailedException
@@ -221,6 +228,11 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
+                foreach (self::$BLACKLIST as $blacklist) {
+                    if (preg_match($blacklist, $assetUrl) === 1) {
+                        continue(2);
+                    }
+                }
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
