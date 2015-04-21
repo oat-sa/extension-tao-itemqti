@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:47:41\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-21T13:20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -190,10 +190,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
@@ -217,16 +217,19 @@ msgstr ""
 msgid "CSV file"
 msgstr ""
 
+msgid "Current value:"
+msgstr ""
+
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -521,10 +524,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -579,10 +582,10 @@ msgstr ""
 msgid "Max Length"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -697,10 +700,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
 msgid "Pause"
@@ -836,10 +839,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -896,10 +899,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
