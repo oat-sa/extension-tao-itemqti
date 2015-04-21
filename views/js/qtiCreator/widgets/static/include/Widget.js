@@ -17,11 +17,11 @@ define([
             baseUrl = options.baseUrl;
 
         this.registerStates(states);
-
+        
         Widget.initCreator.call(this);
-
+        
         inlineHelper.togglePlaceholder(this);
-
+        return;
         //check file exists:
         inlineHelper.checkFileExists(this, 'href', options.baseUrl);
         $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
@@ -41,15 +41,15 @@ define([
     };
 
     IncludeWidget.buildContainer = function(){
-
-        helper.buildInlineContainer(this);
-
-//        this.$container.css({
-//            width: this.element.attr('width'),
-//            height: this.element.attr('height')
-//        });
-//        this.$original[0].setAttribute('width', '100%');
-//        this.$original[0].setAttribute('height', '100%');
+        
+        helper.buildBlockContainer(this);
+        this.$container.css({
+            width: this.element.attr('width'),
+            height: this.element.attr('height')
+        });
+        this.$original.removeAttr('data-serial');
+        this.$original[0].setAttribute('width', '100%');
+        this.$original[0].setAttribute('height', '100%');
 
         return this;
     };
