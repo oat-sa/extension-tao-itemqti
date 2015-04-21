@@ -1,6 +1,6 @@
 define([
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/mixin/Container',
+    'taoQtiItem/qtiItem/mixin/ContainerInline',
     'taoQtiItem/qtiItem/mixin/NamespacedElement'
 ], function(Element, Container, NamespacedElement){
     
