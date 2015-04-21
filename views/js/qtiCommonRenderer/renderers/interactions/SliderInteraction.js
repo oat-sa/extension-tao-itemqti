@@ -62,7 +62,7 @@ define([
             steps = (max - min) / step; //number of the steps
 
         //add the containers
-        $sliderCurrentValue.append('<span class="qti-slider-cur-value-text">Current value: </span>')
+        $sliderCurrentValue.append(''<span class="qti-slider-cur-value-text">'+__('Current value:')+' </span>')
             .append('<span class="qti-slider-cur-value"></span>');
 
         $sliderLabels.append('<span class="slider-min">' + (!reverse ? min : max) + '</span>')
