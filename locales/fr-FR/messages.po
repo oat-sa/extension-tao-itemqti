@@ -918,7 +918,7 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
-msgstr ""
+msgstr "choisir une réponse"
 
 msgid "Select a choice from a drop-down list."
 msgstr ""
