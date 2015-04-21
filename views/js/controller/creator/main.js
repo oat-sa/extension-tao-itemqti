@@ -190,7 +190,7 @@ define([
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];
-
+                    
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
                 if(config.properties['multi-column']){
