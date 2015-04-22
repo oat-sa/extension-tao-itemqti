@@ -59,7 +59,7 @@ define([
         $editable.attr('placeholder', options.placeholder);
 
         var ckConfig = {
-//            dtdMode : 'qti',
+            dtdMode : 'qti',
             autoParagraph : false,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
