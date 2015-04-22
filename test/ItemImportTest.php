@@ -28,6 +28,7 @@ use \tao_models_classes_service_FileStorage;
 use \taoItems_models_classes_ItemCompiler;
 use \ZipArchive;
 use oat\taoQtiItem\model\Export;
+use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\ItemModel;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -166,7 +167,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('\core_kernel_classes_Resource', $item);
         $this->assertTrue($item->exists());
 
-        $resourceManager = new \taoItems_helpers_ResourceManager(
+        $resourceManager = new LocalItemSource(
             array( 'item' => $item, 
                 'lang' =>DEFAULT_LANG)
             );
@@ -194,8 +195,8 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $this->assertEquals("application/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
-        $this->assertEquals("/images", $dir['path']);
-        $this->assertEquals(ROOT_URL, substr($dir['url'], 0, strlen(ROOT_URL)));
+        $this->assertEquals("/images/", $dir['path']);
+        $this->assertEquals("/images/", $dir['parent']);
 
 
         return $item;
@@ -296,14 +297,14 @@ class ItemImportTest extends TaoPhpUnitTestRunner
      * @param $item
      * @param $manifest
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     private function createZipArchive($item, $manifest = null)
     {
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('test_') . '.zip';
         $zipArchive = new ZipArchive();
         if ($zipArchive->open($path, ZipArchive::CREATE) !== true) {
-            throw new Exception('Unable to create archive at ' . $path);
+            throw new \Exception('Unable to create archive at ' . $path);
         }
 
         if ($this->itemService->hasItemModel($item, array(ItemModel::MODEL_URI))) {

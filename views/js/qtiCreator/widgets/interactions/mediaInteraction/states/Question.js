@@ -125,7 +125,7 @@ define([
             $uploadTrigger.resourcemgr({
                 title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
-                mediaSources : options.mediaManager.mediaSources,
+                mediaSourcesUrl : options.mediaManager.mediaSourcesUrl,
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
                 deleteUrl : options.mediaManager.deleteUrl,

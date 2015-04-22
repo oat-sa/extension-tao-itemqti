@@ -67,9 +67,10 @@ define([
         }
 
         $container.select2({
-            width : 'resolve',
+            width : 'element',
             placeholder : opts.placeholderText,
-            minimumResultsForSearch : -1
+            minimumResultsForSearch : -1,
+            dropdownCssClass  : 'qti-inlineChoiceInteraction-dropdown'
         });
 
         var $el = $container.select2('container');
