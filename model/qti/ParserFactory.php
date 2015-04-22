@@ -157,7 +157,11 @@ class ParserFactory
 
         return $this->queryXPath($query, $contextNode);
     }
-
+    
+    public function loadContainerStatic(DOMElement $data, Container $container){
+        $this->parseContainerStatic($data, $container);
+    }
+    
     protected function parseContainerStatic(DOMElement $data, Container $container){
 
         //initialize elements array to collect all QTI elements

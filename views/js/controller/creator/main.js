@@ -94,14 +94,13 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-
+            
             //first all, start loading bar
             loadingBar.start();
             //init config
             config = config || module.config();
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
-
 
             var configProperties = config.properties;
 

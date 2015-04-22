@@ -187,7 +187,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-    
+            
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
             $serializedVariableElements = json_encode($variableElements);
@@ -222,7 +222,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
         $qtiParser = new Parser($xml);
         $qtiItem  = $qtiParser->load();
-        $qtiService = Service::singleton()->getDataItemByRdfItem($item, $lang);
+        $qtiService = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
         
         $assetParser = new AssetParser($qtiItem);
         $resolver = new ItemMediaResolver($item, $lang);
