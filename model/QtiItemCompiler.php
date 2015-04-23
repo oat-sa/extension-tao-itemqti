@@ -25,7 +25,6 @@ use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\qti\Service;
-use qtism\data\storage\xml\XmlAssessmentItemDocument;
 use tao_helpers_File;
 use tao_models_classes_service_ConstantParameter;
 use tao_models_classes_service_ServiceCall;
@@ -34,6 +33,7 @@ use taoItems_models_classes_ItemCompiler;
 use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 
 /**
@@ -173,8 +173,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         tao_helpers_File::copy($itemFolder . 'qti.xml', $privateFolder . 'qti.xml', false);
 
         //copy client side resources (javascript loader)
-        $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
+        $extensionManager = common_ext_ExtensionsManager::singleton();
+        $qtiItemDir = $extensionManager->getExtensionById('taoQtiItem')->getDir();
+        $taoDir = $extensionManager->getExtensionById('tao')->getDir();
         $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
         $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
         if (\tao_helpers_Mode::is('production')) {
@@ -220,10 +221,12 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $destination)
     {
         $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
-        $qtiParser = new Parser($xml);
-        $qtiItem  = $qtiParser->load();
-        $qtiService = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
         
+        //parse the original xml to load the qti model
+        $qtiParser = new Parser($xml);
+        $qtiItem = $qtiParser->load();
+        
+        //extract the assets and resolve their location
         $assetParser = new AssetParser($qtiItem);
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
@@ -239,11 +242,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'), $destination);
                 tao_helpers_File::copy($srcPath,$destination.$destPath,false);
                 $xml = str_replace($assetUrl, $destPath, $xml);
+                //note : as other external resources, referenced xinclude are not parsed and theire resources are not copied either
             }
         }
         
+        //parse the modified xml and load in a new qti model
         $qtiParser = new Parser($xml);
-        return $qtiParser->load();
+        $assetRetrievedQtiItem =  $qtiParser->load();
+        
+         //loadxinclude
+        $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
+        $xincludeLoader->load(true);
+
+        return $assetRetrievedQtiItem;
     }
 
 }

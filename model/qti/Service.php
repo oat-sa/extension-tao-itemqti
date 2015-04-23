@@ -35,7 +35,6 @@ use \core_kernel_versioning_Repository;
 use \Exception;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
-use oat\taoQtiItem\model\qti\exception\XIncludeException;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
