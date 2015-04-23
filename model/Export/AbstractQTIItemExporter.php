@@ -60,7 +60,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $mediaSource = $mediaAsset->getMediaSource();
             if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'));
+                $destPath = ltrim($mediaAsset->getMediaIdentifier(),'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
                     $content = str_replace($assetUrl, $destPath, $content);
@@ -83,6 +83,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             // Let's merge QTI and APIP Accessibility!
             Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
             $content = $qtiItemDoc->saveXML();
+            $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
+            for ($i = 0; $i < $fileHrefElts->length; $i++) {
+                $fileHrefElt = $fileHrefElts->item($i);
+                $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $this->addFile($sourcePath, $destPath);
+            }
         }
         
         // add xml file

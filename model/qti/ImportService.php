@@ -297,6 +297,7 @@ class ImportService extends tao_models_classes_GenerisService
                         
                             $destPath = $itemPath.$relPathSafe;
                             tao_helpers_File::copy($auxPath, $destPath, true);
+                            \common_Logger::i("Auxiliary file '${relPathSafe}' copied.");
                         }
                         
                         // Finally, import metadata.
