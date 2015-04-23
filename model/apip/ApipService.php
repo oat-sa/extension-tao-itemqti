@@ -43,4 +43,21 @@ class ApipService extends tao_models_classes_Service
             \common_Logger::i("APIP content stored at '${finalLocation}'.");
         }
     }
+    
+    public function getApipAccessibilityContent(\core_kernel_classes_Resource $item)
+    {
+        $apipContent = null;
+        
+        $itemService = taoItems_models_classes_ItemsService::singleton();
+        $finalLocation = $itemService->getItemFolder($item) . 'apip.xml';
+        
+        if (is_readable($finalLocation) === true) {
+            $apipContent = new \DOMDocument('1.0', 'UTF-8');
+            $apipContent->load($finalLocation);
+            
+            \common_Logger::i("APIP content retrieved at '${finalLocation}'.");
+        }
+        
+        return $apipContent;
+    }
 }

@@ -45,6 +45,25 @@ class ApipTest extends TaoPhpUnitTestRunner
         $apip = Apip::extractApipAccessibility($doc);
         $this->assertSame(null, $apip);
     }
+    
+    public function testMergeApipAccessibilityEmptyContent()
+    {
+        $apip = new \DOMDocument('1.0', 'UTF-8');
+        $apip->load(dirname(__FILE__) . '/../samples/apip/empty_apip_accessibility.xml');
+        
+        $qti = new \DOMDocument('1.0', 'UTF-8');
+        $qti->load(dirname(__FILE__) . '/../samples/apip/apip_choice_not_apip.xml');
+        
+        Apip::mergeApipAccessibility($qti, $apip);
+        
+        // Check that the root namespace is correct i.e. it is now an APIP item.
+        $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $qti->documentElement->namespaceURI);
+        
+        // Check that an APIP accessibility element is there.
+        $apipAccessibilityElts = $qti->documentElement->getElementsByTagName('apipAccessibility');
+        $this->assertEquals(1, $apipAccessibilityElts->length);
+        $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0', $apipAccessibilityElts->item(0)->namespaceURI);
+    }
 }
 
 ?>

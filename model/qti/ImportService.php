@@ -68,7 +68,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
+    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = true)
     {
         $returnValue = null;
 

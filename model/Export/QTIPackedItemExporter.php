@@ -77,7 +77,9 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	 * 
 	 * @throws 
 	 */
-	public function exportManifest() {
+	public function exportManifest($options = array()) {
+	    
+	    $asApip = isset($options['apip']) && $options['apip'] === true;
 	    
 	    $base = $this->buildBasePath();
 		$zipArchive = $this->getZip();
@@ -126,9 +128,11 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    
 		    // -- Build a brand new IMS Manifest.
 		    $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($dir.'model/qti/templates/imsmanifest.tpl.php', array(
+		    $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/imsmanifestApip.tpl.php';
+		    
+		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
 		                    'qtiItems' 				=> array($qtiItemData),
-		                    'manifestIdentifier'    => 'QTI-MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+		                    'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
 		    ));
 		    	
 		    $renderedManifest = $templateRenderer->render();
