@@ -22,6 +22,7 @@ namespace oat\taoQtiItem\model\qti;
 
 use DOMDocument;
 use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\exception\XIncludeException;
 
 /**
  *
@@ -45,23 +46,34 @@ class XIncludeLoader
 
         $xincludes = $this->getXIncludes();
         foreach($xincludes as $xinclude){
-            
             //retrive the xinclude from href
             $href = $xinclude->attr('href');
-            $asset = $this->resolver->resolve($href);
-            $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-
-            //load DOMDocument
-            $xml = new DOMDocument();
-            $xml->load($filePath);
-            $node = $xml->documentElement;
-
-            //parse the href content
-            $parser = new ParserFactory($xml);
-            $parser->loadContainerStatic($node, $xinclude->getBody());
+            if(!empty($href)){
+                $asset = $this->resolver->resolve($href);
+                $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+                if(file_exists($filePath)){
+                    $this->loadXInclude($xinclude, $filePath);
+                }else{
+                    throw new XIncludeException('The file referenced by href does not exist : '.$href);
+                }
+            }
         }
 
         return $xincludes;
+    }
+
+    private function loadXInclude($xinclude, $filePath){
+        //load DOMDocument
+        $xml = new DOMDocument();
+        $xml->load($filePath);
+        $node = $xml->documentElement;
+        if(!is_null($node)){
+            //parse the href content
+            $parser = new ParserFactory($xml);
+            $parser->loadContainerStatic($node, $xinclude->getBody());
+        }else{
+            throw new XIncludeException('Cannot load the XInclude DOM XML');
+        }
     }
 
     private function getXIncludes(){
