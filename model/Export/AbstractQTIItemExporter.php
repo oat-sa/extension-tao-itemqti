@@ -26,6 +26,8 @@ use DOMDocument;
 use DOMXPath;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\apip\ApipService;
+use oat\taoQtiItem\helpers\Apip;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
@@ -43,6 +45,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      */
     public function export($options = array())
     {
+        $asApip = isset($options['apip']) && $options['apip'] === true;
+        
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
         
@@ -64,6 +68,21 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     throw new \Exception('Missing resource '.$srcPath);
                 }
             }
+        }
+        
+        if ($asApip === true) {
+            // 1. let's merge qti.xml and apip.xml.
+            // 2. retrieve apip related assets.
+            $apipService = ApipService::singleton();
+            $apipContentDoc = $apipService->getApipAccessibilityContent($this->getItem());
+            
+            $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
+            $qtiItemDoc->formatOutput = true;
+            $qtiItemDoc->loadXML($content);
+            
+            // Let's merge QTI and APIP Accessibility!
+            Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+            $content = $qtiItemDoc->saveXML();
         }
         
         // add xml file
