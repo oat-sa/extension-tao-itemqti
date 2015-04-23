@@ -16,7 +16,7 @@ require([
             
             QUnit.start();
             QUnit.ok(data.body.body, 'has body');
-            QUnit.equal(_.size(data.body.elements), 1, 'elment img loaded');
+            QUnit.equal(_.size(data.body.elements), 2, 'elment img loaded');
             QUnit.equal(xi.qtiClass, 'include', 'qtiClass ok');
             
             console.log(xi, data);
