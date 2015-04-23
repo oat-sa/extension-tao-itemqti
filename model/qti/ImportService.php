@@ -23,6 +23,8 @@ namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\helpers\Apip;
+use oat\taoQtiItem\model\apip\ApipService;
 use \tao_models_classes_GenerisService;
 use \core_kernel_classes_Class;
 use \core_kernel_classes_Resource;
@@ -66,7 +68,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null)
+    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
     {
         $returnValue = null;
 
@@ -129,6 +131,16 @@ class ImportService extends tao_models_classes_GenerisService
             if($qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
                 $returnValue = $rdfItem;
             }
+            
+            // If APIP content must be imported, just extract the apipAccessibility element
+            // and store it along the qti.xml file.
+            if ($extractApip === true) {
+                $originalDoc = new DOMDocument('1.0', 'UTF-8');
+                $originalDoc->load($qtiFile);
+                
+                $apipService = ApipService::singleton();
+                $apipService->storeApipAccessibilityContent($rdfItem, $originalDoc);
+            }
         }
         
         if ($report->containsError() === true) {
@@ -183,7 +195,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIPACKFile($file, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $rollbackOnError = false, $rollbackOnWarning = false)
+    public function importQTIPACKFile($file, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $rollbackOnError = false, $rollbackOnWarning = false, $extractApip = false)
     {
         //repository
         $repository = is_null($repository) ? taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource() : $repository;
@@ -212,8 +224,8 @@ class ImportService extends tao_models_classes_GenerisService
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $this->validateMultiple($qtiManifestParser, array(
-                $basePath.'models/classes/QTI/data/imscp_v1p1.xsd',
-                $basePath.'models/classes/QTI/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
+                $basePath.'model/qti/data/imscp_v1p1.xsd',
+                $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
             ));
             
             if(!$qtiManifestParser->isValid()) {
