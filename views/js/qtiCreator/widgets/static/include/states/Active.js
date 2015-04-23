@@ -55,8 +55,7 @@ define([
 
     var _initUpload = function(widget){
 
-        var mediaSources,
-            $form = widget.$form,
+        var $form = widget.$form,
             options = widget.options,
             xinclude = widget.element,
             $container = widget.$container,
@@ -65,7 +64,7 @@ define([
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
-                title : __('Please select an image file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                title : __('Please select a shared stimulus file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
                 mediaSourcesUrl : options.mediaManager.mediaSourcesUrl,
                 browseUrl : options.mediaManager.browseUrl,
@@ -76,7 +75,7 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
+                    filters : 'application/xml,text/xml'
                 },
                 pathParam : 'path',
                 select : function(e, files){
@@ -87,16 +86,10 @@ define([
 
                         file = files[0].file;
 
-                        file = 'stimulus.xml';
 
                         xinclude.attr('href', file);
 
-                        console.log('selected include', file);
-                        console.log('fectch data and load into', xinclude);
-                        console.log('rerender the xinclude', $container);
-
-                        var baseUrl = 'taoQtiItem/test/samples/qtiv2p1/associate_include/';
-                        xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
+                        xincludeLoader.load(xinclude, options.baseUrl, function(xi, data, loadedClasses){
                             creatorRenderer.get().load(function(){
 
                                 //set commonRenderer to the composing elements only (because xinclude is "read-only")
