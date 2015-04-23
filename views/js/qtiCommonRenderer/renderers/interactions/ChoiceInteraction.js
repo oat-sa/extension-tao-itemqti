@@ -45,7 +45,10 @@ define([
         $container.off('.commonRenderer');
 
         $container.on('click.commonRenderer', '.qti-choice', function(e){
-
+            if ($(this).closest('.qti-itemBody').hasClass('js-choice-eliminating')) {
+                return;
+            }
+            
             e.preventDefault();
             e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
 
