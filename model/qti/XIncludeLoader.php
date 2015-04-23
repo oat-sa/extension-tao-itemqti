@@ -21,6 +21,9 @@
 namespace oat\taoQtiItem\model\qti;
 
 use DOMDocument;
+use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\XInclude;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 
@@ -36,15 +39,16 @@ class XIncludeLoader
 
     protected $qtiItem = null;
     protected $resolver = null;
-
-    public function __construct($qtiItem, $resolver){
+    
+    public function __construct(Item $qtiItem, ItemMediaResolver $resolver){
         $this->qtiItem = $qtiItem;
         $this->resolver = $resolver;
     }
 
-    public function load(){
+    public function load($removeUnfoundHref = false){
 
         $xincludes = $this->getXIncludes();
+        
         foreach($xincludes as $xinclude){
             //retrive the xinclude from href
             $href = $xinclude->attr('href');
@@ -53,8 +57,10 @@ class XIncludeLoader
                 $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
                 if(file_exists($filePath)){
                     $this->loadXInclude($xinclude, $filePath);
+                }else if($removeUnfoundHref){
+                    $xinclude->attr('href', '');
                 }else{
-                    throw new XIncludeException('The file referenced by href does not exist : '.$href);
+                    throw new XIncludeException('The file referenced by href does not exist : '.$href, $xinclude);
                 }
             }
         }
@@ -62,7 +68,7 @@ class XIncludeLoader
         return $xincludes;
     }
 
-    private function loadXInclude($xinclude, $filePath){
+    private function loadXInclude(XInclude $xinclude, $filePath){
         //load DOMDocument
         $xml = new DOMDocument();
         $xml->load($filePath);
@@ -72,15 +78,14 @@ class XIncludeLoader
             $parser = new ParserFactory($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());
         }else{
-            throw new XIncludeException('Cannot load the XInclude DOM XML');
+            throw new XIncludeException('Cannot load the XInclude DOM XML', $xinclude);
         }
     }
 
     private function getXIncludes(){
         $xincludes = array();
-        $xincludeClass = 'oat\taoQtiItem\model\qti\XInclude';
         foreach($this->qtiItem->getComposingElements() as $element){
-            if($element instanceof $xincludeClass){
+            if($element instanceof XInclude){
                 $xincludes[] = $element;
             }
         }
