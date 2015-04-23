@@ -26,7 +26,8 @@ define(['lodash'], function(_){
                         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                         '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                if(!pattern.test(src)){
+                //if src is base64 encoded or a http request do not touch it
+                if(!pattern.test(src) || !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(src)){
 
                     if(baseUrl && !baseUrl.match(/\/$/)){
                         baseUrl += '/';
