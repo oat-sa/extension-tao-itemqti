@@ -53,11 +53,8 @@ define([
 
     var _initUpload = function(widget){
 
-        var mediaSources,
-            $form = widget.$form,
+        var $form = widget.$form,
             options = widget.options,
-            xinclude = widget.element,
-            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $href = $form.find('input[name=href]');
 
@@ -107,8 +104,9 @@ define([
                 }
             });
         };
-
+        
         $uploadTrigger.on('click', _openResourceMgr);
+        $href.on('click', _openResourceMgr);//href input is read only
 
         //if empty, open file manager immediately
         if(!$href.val()){
