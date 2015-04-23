@@ -6,11 +6,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'taoQtiItem/qtiItem/helper/xincludeLoader',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'ui/resourcemgr'
-], function($, _, __, stateFactory, Active, formTpl, formElement, creatorRenderer, commonRenderer, xincludeLoader){
+], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
 
@@ -89,26 +87,8 @@ define([
 
                         file = 'stimulus.xml';
 
-                        xinclude.attr('href', file);
-
-                        console.log('selected include', file);
-                        console.log('fectch data and load into', xinclude);
-                        console.log('rerender the xinclude', $container);
-
                         var baseUrl = 'taoQtiItem/test/samples/qtiv2p1/associate_include/';
-                        xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
-                            commonRenderer.get().load(function(){
-
-                                //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                                var composingElements = xinclude.getComposingElements();
-                                _.each(composingElements, function(elt){
-                                    elt.setRenderer(commonRenderer.get());
-                                });
-
-                                widget.refresh();
-
-                            }, loadedClasses);
-                        });
+                        xincludeRenderer.render(widget, baseUrl, file);
 
                         _.defer(function(){
                             $href.val(file).trigger('change');

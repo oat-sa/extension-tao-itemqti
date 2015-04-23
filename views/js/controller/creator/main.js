@@ -9,8 +9,9 @@ define([
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
+    'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
     'taoQtiItem/qtiCreator/helper/qtiElements',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     // css editor related
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
@@ -30,6 +31,7 @@ define([
     creatorRenderer,
     commonRenderer,
     qtiElements,
+    xincludeRenderer,
     editor,
     interactionsToolbar,
     ciRegistry,
@@ -210,7 +212,10 @@ define([
 
                         //"post-render it" to initialize the widget
                         var widget = item.postRender(_.clone(configProperties));
-
+                        _.each(item.getElements('include'), function(xinclude){
+                            xincludeRenderer.render(xinclude.data('widget'), config.properties.baseUrl);
+                        });
+                        
                         editor.initGui(widget, configProperties);
                         panel.initSidebarAccordion($propertySidebar);
                         panel.initFormVisibilityListener();
