@@ -60,8 +60,9 @@ define([
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
-                title : __('Please select an image file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                title : __('Please select a shared stimulus file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer : options.mediaManager.appendContainer,
+                excludedFile    : ['/qti.xml'],
                 mediaSourcesUrl : options.mediaManager.mediaSourcesUrl,
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
@@ -71,7 +72,7 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
+                    filters : 'application/xml,text/xml'
                 },
                 pathParam : 'path',
                 select : function(e, files){
@@ -82,10 +83,7 @@ define([
 
                         file = files[0].file;
 
-                        file = 'stimulus.xml';
-
-                        var baseUrl = 'taoQtiItem/test/samples/qtiv2p1/associate_include/';
-                        xincludeRenderer.render(widget, baseUrl, file);
+                        xincludeRenderer.render(widget, options.baseUrl, file);
 
                         _.defer(function(){
                             $href.val(file).trigger('change');
