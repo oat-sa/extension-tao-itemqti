@@ -97,7 +97,7 @@ define([
 
                         var baseUrl = 'taoQtiItem/test/samples/qtiv2p1/associate_include/';
                         xincludeLoader.load(xinclude, baseUrl, function(xi, data, loadedClasses){
-                            creatorRenderer.get().load(function(){
+                            commonRenderer.get().load(function(){
 
                                 //set commonRenderer to the composing elements only (because xinclude is "read-only")
                                 var composingElements = xinclude.getComposingElements();

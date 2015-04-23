@@ -25,7 +25,9 @@ define([
 
                 (new Loader()).loadElement(xinclude, data, function(){
                     if(_.isFunction(callback)){
-                        callback(xinclude, data, this.getLoadedClasses());
+                        var loadedClasses = this.getLoadedClasses();
+                        loadedClasses.push('_container');//the _container class is always required
+                        callback(xinclude, data, loadedClasses);
                     }
                 });
 
