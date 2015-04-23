@@ -6,11 +6,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/include',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/commonRenderer',
-    'taoQtiItem/qtiItem/helper/xincludeLoader',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'ui/resourcemgr'
-], function($, _, __, stateFactory, Active, formTpl, formElement, creatorRenderer, commonRenderer, xincludeLoader){
+], function($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer){
 
     var IncludeStateActive = stateFactory.extend(Active, function(){
 
@@ -57,8 +55,6 @@ define([
 
         var $form = widget.$form,
             options = widget.options,
-            xinclude = widget.element,
-            $container = widget.$container,
             $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
             $href = $form.find('input[name=href]');
 
@@ -87,22 +83,7 @@ define([
 
                         file = files[0].file;
 
-
-                        xinclude.attr('href', file);
-
-                        xincludeLoader.load(xinclude, options.baseUrl, function(xi, data, loadedClasses){
-                            creatorRenderer.get().load(function(){
-
-                                //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                                var composingElements = xinclude.getComposingElements();
-                                _.each(composingElements, function(elt){
-                                    elt.setRenderer(commonRenderer.get());
-                                });
-
-                                widget.refresh();
-
-                            }, loadedClasses);
-                        });
+                        xincludeRenderer.render(widget, options.baseUrl, file);
 
                         _.defer(function(){
                             $href.val(file).trigger('change');
@@ -121,8 +102,9 @@ define([
                 }
             });
         };
-
+        
         $uploadTrigger.on('click', _openResourceMgr);
+        $href.on('click', _openResourceMgr);//href input is read only
 
         //if empty, open file manager immediately
         if(!$href.val()){

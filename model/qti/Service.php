@@ -77,7 +77,7 @@ class Service extends tao_models_classes_Service
                     //loadxinclude
                     $resolver = new ItemMediaResolver($item, $langCode);
                     $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
-                    $xincludeLoader->load();
+                    $xincludeLoader->load(true);
                 }
             
                 if (!$returnValue->getAttributeValue('xml:lang')) {

@@ -166,7 +166,7 @@ class QtiCreator extends tao_actions_CommonModule
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, true);
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);//do not resolve xinclude here, leave it to the client side
             if (!is_null($item)) {
                 $returnValue['itemData'] = $item->toArray();
             }
