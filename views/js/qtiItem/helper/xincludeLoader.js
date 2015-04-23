@@ -31,6 +31,9 @@ define([
                     }
                 });
 
+            }, function(err){
+                //in case the file does not exist
+                callback(xinclude, false, []);
             });
 
         }
