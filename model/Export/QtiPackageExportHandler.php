@@ -93,7 +93,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
 						$exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
 						
-						$exporter->export($options);
+						$exporter->export();
 						$manifest = $exporter->getManifest();
 					}
 				}

@@ -128,7 +128,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		    
 		    // -- Build a brand new IMS Manifest.
 		    $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-		    $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/imsmanifestApip.tpl.php';
+		    $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
 		    
 		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
 		                    'qtiItems' 				=> array($qtiItemData),
