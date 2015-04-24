@@ -42,7 +42,6 @@ define([
         if(!_creatorRenderer || reset){
 
             var $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-            var mediaSources = config.properties.mediaSources || [];
             if(reset
                 || !$bodyEltForm
                 || !$bodyEltForm.length
@@ -67,7 +66,7 @@ define([
                         deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
                         downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
                         fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
-                        mediaSources : mediaSources
+                        mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
                     interactions : _extractInteractionsConfig(config)
                 });
