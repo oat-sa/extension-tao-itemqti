@@ -869,9 +869,23 @@ img.dragging.ui-draggable-dragging {
                 margin-top: 1px;
                 line-height: 1.4;
                 @include font-size(14, true);
+                position: absolute;
             }
-
             .tlb {
+                background: whiten($info, .2);
+                position: relative;
+                &:before {
+                    content: '';
+                    height: 100%;
+                    width: 10px;
+                    position: absolute;
+                    right: 100%;
+                    top: 0;
+                    background: -webkit-linear-gradient(left, transparent, whiten($info, .2));
+                    background: -o-linear-gradient(left, transparent, whiten($info, .2));
+                    background: -moz-linear-gradient(left, transparent, whiten($info, .2));
+                    background: linear-gradient(left, transparent, whiten($info, .2));
+                }
                 .state-switcher {
                     float: right;
                     padding: 0;
