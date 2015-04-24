@@ -26,6 +26,8 @@ use DOMDocument;
 use DOMXPath;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\apip\ApipService;
+use oat\taoQtiItem\helpers\Apip;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
@@ -43,6 +45,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      */
     public function export($options = array())
     {
+        $asApip = isset($options['apip']) && $options['apip'] === true;
+        
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
         
@@ -56,13 +60,35 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $mediaSource = $mediaAsset->getMediaSource();
             if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'));
+                $destPath = ltrim($mediaAsset->getMediaIdentifier(),'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
                     $content = str_replace($assetUrl, $destPath, $content);
                 } else {
                     throw new \Exception('Missing resource '.$srcPath);
                 }
+            }
+        }
+        
+        if ($asApip === true) {
+            // 1. let's merge qti.xml and apip.xml.
+            // 2. retrieve apip related assets.
+            $apipService = ApipService::singleton();
+            $apipContentDoc = $apipService->getApipAccessibilityContent($this->getItem());
+            
+            $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
+            $qtiItemDoc->formatOutput = true;
+            $qtiItemDoc->loadXML($content);
+            
+            // Let's merge QTI and APIP Accessibility!
+            Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+            $content = $qtiItemDoc->saveXML();
+            $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
+            for ($i = 0; $i < $fileHrefElts->length; $i++) {
+                $fileHrefElt = $fileHrefElts->item($i);
+                $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $this->addFile($sourcePath, $destPath);
             }
         }
         

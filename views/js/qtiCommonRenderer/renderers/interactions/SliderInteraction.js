@@ -30,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'nouislider'
-], function($, _, __,tpl, containerHelper, instructionMgr, pciResponse){
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
     var _slideTo = function(options){
