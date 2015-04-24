@@ -60,4 +60,12 @@ class ApipService extends tao_models_classes_Service
         
         return $apipContent;
     }
+    
+    public function getDefaultApipAccessibilityContent(\core_kernel_classes_Resource $item)
+    {
+        // $item not in used but will be. Namespaces might depend on the APIP version in use.
+        $content = new \DOMDocument('1.0', 'UTF-8');
+        $content->loadXML('<apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0" xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"/>');
+        return $content;
+    }
 }
