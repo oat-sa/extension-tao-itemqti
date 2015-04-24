@@ -22,7 +22,6 @@ define([
     IncludeStateActive.prototype.initForm = function(){
 
         var _widget = this.widget,
-            $original = _widget.$original,
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl;
@@ -37,17 +36,6 @@ define([
 
         //... init standard ui widget
         formElement.initWidget($form);
-
-        //init data change callbacks
-        formElement.setChangeCallbacks($form, include, {
-            href : _.throttle(function(include, value){
-
-                console.log('@todo', 'disable the input field');
-
-                include.attr('href', value);
-
-            }, 100)
-        });
 
     };
 
@@ -82,7 +70,8 @@ define([
                     if(files && files.length){
 
                         file = files[0].file;
-
+                        
+                        //set the selected file as the new href and refresh rendering
                         xincludeRenderer.render(widget, options.baseUrl, file);
 
                         _.defer(function(){
