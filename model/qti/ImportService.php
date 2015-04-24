@@ -277,7 +277,7 @@ class ImportService extends tao_models_classes_GenerisService
                 
                 try {
                     $qtiFile = $folder . $qtiItemResource->getFile();
-                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository);
+                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository, $extractApip);
                     $rdfItem = $itemReport->getData();
                     
                     if ($rdfItem) {
