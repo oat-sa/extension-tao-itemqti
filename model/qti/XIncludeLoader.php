@@ -71,9 +71,9 @@ class XIncludeLoader
     private function loadXInclude(XInclude $xinclude, $filePath){
         //load DOMDocument
         $xml = new DOMDocument();
-        $xml->load($filePath);
+        $loadSuccess = $xml->load($filePath);
         $node = $xml->documentElement;
-        if(!is_null($node)){
+        if($loadSuccess && !is_null($node)){
             //parse the href content
             $parser = new ParserFactory($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());

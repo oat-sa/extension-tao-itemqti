@@ -18,7 +18,7 @@
             </m:mrow>
         </m:math>
         And this
-        <m:math>
+        <m:math xmlns="http://www.w3.org/1998/Math/MathML">
             <m:mrow>
                 <m:mfrac>
                     <m:mrow>
@@ -32,7 +32,7 @@
                         </m:msup>
                         <m:mo>+</m:mo>
                         <m:mn>2</m:mn>
-                        <m:mo>&#8290;</m:mo>
+                        <m:mo>&it;</m:mo>
                         <m:msqrt>
                             <m:mrow>
                                 <m:mn>5.12</m:mn>
@@ -52,7 +52,7 @@
                     </m:mrow>
                     <m:mrow>
                         <m:mn>12</m:mn>
-                        <m:mo>&#8290;</m:mo>
+                        <m:mo>&it;</m:mo>
                         <m:mi>j</m:mi>
                         <m:mo>+</m:mo>
                         <m:mrow>
@@ -82,9 +82,9 @@
                 <m:mo>+</m:mo>
                 <m:mover>
                     <m:mi>h</m:mi>
-                    <m:mo>&#9135;</m:mo>
+                    <m:mo>&HorizontalLine;</m:mo>
                 </m:mover>
-                <m:mo>&#8594;</m:mo>
+                <m:mo>&RightArrow;</m:mo>
                 <m:mn>0</m:mn>
             </m:mrow>
         </m:math>

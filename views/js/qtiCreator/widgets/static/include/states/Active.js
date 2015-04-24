@@ -22,7 +22,6 @@ define([
     IncludeStateActive.prototype.initForm = function(){
 
         var _widget = this.widget,
-            $original = _widget.$original,
             $form = _widget.$form,
             include = _widget.element,
             baseUrl = _widget.options.baseUrl;
