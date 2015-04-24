@@ -55,7 +55,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * List of regexp of media that should be excluded from retrieval
      */
     private static $BLACKLIST = array(
-    	'/^https?:\/\/www\.youtube\.[a-zA-Z]*\//',
+        '/^https?:\/\/(www\.youtube\.[a-zA-Z]*|youtu\.be)\//',
         '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
     );
     
@@ -240,8 +240,12 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($fileInfo['name'],'/'), $destination);
+                $filename = $mediaAsset->getMediaIdentifier();
+                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
+                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                    $filename = $fileInfo['name'];
+                }
+                $destPath = \tao_helpers_File::getSafeFileName(ltrim($filename,'/'), $destination);
                 tao_helpers_File::copy($srcPath,$destination.$destPath,false);
                 $xml = str_replace($assetUrl, $destPath, $xml);
             }
