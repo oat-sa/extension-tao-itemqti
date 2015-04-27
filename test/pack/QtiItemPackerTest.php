@@ -331,6 +331,62 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @expectedException \common_Exception
+     */
+    public function testPackingItemWithCssBase64(){
+        $sample = __DIR__ . '/../samples/xml/qtiv2p1/sample-elections.xml';
+        $path   = __DIR__ . '/../samples/css';
+
+
+        $this->assertTrue(file_exists($sample));
+
+        /**
+         * @var QtiItemPacker $itemPackerMock
+         */
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent'))
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($sample)));
+
+        $itemPackerMock->setAssetEncoders(array('js'    => 'base64file',
+                                          'css'   => 'base64file',
+                                          'font'  => 'base64file',
+                                          'img'   => 'none',
+                                          'audio' => 'none',
+                                          'video' => 'none'));
+
+        $itemPackerMock->setNestedResourcesInclusion(false);
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        $this->assertEquals(1, count($itemPack->getAssets('css')));
+        $this->assertEquals(0, count($itemPack->getAssets('font')));
+
+        $css = $itemPack->getAssets( 'css' );
+        $this->assertStringStartsWith( 'data:text/css;', $css[0], 'Have appropriate prefix' );
+        $this->assertRegExp( '/icon-checkbox/', base64_decode( $css[0] ), 'Correctly decoded back' );
+
+        $itemPackerMock->setNestedResourcesInclusion(true);
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+
+    }
+
+
+    /**
      * Test packing a PCI item
      */
     public function testPackingPciItem(){

@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Parser;
-use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use \tao_models_classes_Parser;
 use \DOMDocument;
@@ -46,8 +44,12 @@ class Parser extends tao_models_classes_Parser
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string schema
-     * @return boolean
+     *
+     * @param  string $schema
+     *
+     * @return bool
+     * @throws \Exception
+     * @throws \common_Exception
      */
     public function validate($schema = ''){
         
@@ -67,7 +69,7 @@ class Parser extends tao_models_classes_Parser
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return oat\taoQtiItem\model\qti\Item
+     * @return \oat\taoQtiItem\model\qti\Item
      */
     public function load(){
         

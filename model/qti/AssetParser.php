@@ -59,6 +59,12 @@ class AssetParser
     private $assets = array();
 
     /**
+     * Set mode - if parser have to find all external entries ( like url, require etc )
+     * @var bool
+     */
+    private $deepParsing = true;
+
+    /**
      * Creates a new parser from an item
      * @param Item $item the item to parse
      * @param string $path the path of the item in the FS
@@ -119,7 +125,7 @@ class AssetParser
             $this->addAsset('css', $href);
 
             $parsedUrl = parse_url($href);
-            if(!is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
+            if($this->isDeepParsing() && !is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
                 //relative
                 $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
                 if(file_exists($styleSheetPath)){
@@ -251,5 +257,21 @@ class AssetParser
                 }
             }
         }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDeepParsing()
+    {
+        return $this->deepParsing;
+    }
+
+    /**
+     * @param boolean $deepParsing
+     */
+    public function setDeepParsing( $deepParsing )
+    {
+        $this->deepParsing = $deepParsing;
     }
 }
