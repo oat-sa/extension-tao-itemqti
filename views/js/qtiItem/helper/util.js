@@ -90,7 +90,14 @@ define(['lodash'], function(_){
         },
         addMarkupNamespace : function addMarkupNamespace(markup, ns){
             if(ns) {
-                markup = markup.replace(/<(\/)?([a-z]+)(\s?)([^><]*)>/g, '<$1' + ns + ':$2$3$4>');
+                markup = markup.replace(/<(\/)?([a-z:]+)(\s?)([^><]*)>/g, function($0, $1, $2, $3, $4){
+                    if($2.indexOf(':')>0){
+                        return $0;
+                    }
+                    $1 = $1 || '';
+                    $3 = $3 || '';
+                    return '<'+ $1 + ns + ':'+$2+$3+$4+'>';
+                });
                 return markup;
             }
             return markup;
