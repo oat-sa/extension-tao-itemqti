@@ -24,8 +24,10 @@ use DOMDocument;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\XInclude;
+use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
+use oat\taoQtiItem\model\qti\exception\ParsingException;
 
 /**
  *
@@ -39,7 +41,7 @@ class XIncludeLoader
 
     protected $qtiItem = null;
     protected $resolver = null;
-    
+
     public function __construct(Item $qtiItem, ItemMediaResolver $resolver){
         $this->qtiItem = $qtiItem;
         $this->resolver = $resolver;
@@ -48,7 +50,7 @@ class XIncludeLoader
     public function load($removeUnfoundHref = false){
 
         $xincludes = $this->getXIncludes();
-        
+
         foreach($xincludes as $xinclude){
             //retrive the xinclude from href
             $href = $xinclude->attr('href');
@@ -65,6 +67,42 @@ class XIncludeLoader
             }
         }
 
+        $customElements = $this->getCustomElements();
+        foreach($customElements as $customElement){
+            $xml = new DOMDocument();
+            $xml->formatOutput = true;
+            $loadSuccess = $xml->loadXML($customElement->getMarkup());
+            $node = $xml->documentElement;
+            if($loadSuccess && !is_null($node)){
+                $parser = new ParserFactory($xml);
+                $xincludesNodes = $parser->queryXPath(".//*[name(.)='include']");
+                foreach($xincludesNodes as $xincludeNode){
+                    $href = $xincludeNode->getAttribute('href');
+                    if(!empty($href)){
+                        $asset = $this->resolver->resolve($href);
+                        $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+                        if(file_exists($filePath)){
+                            $fileContent = file_get_contents($filePath);
+                            $xmlInclude = new DOMDocument();
+                            $xmlInclude->formatOutput = true;
+                            $xmlInclude->loadXML($fileContent);
+                            foreach($xmlInclude->documentElement->childNodes as $node){
+                                $importNode = $xml->importNode($node, true);
+                                $xincludeNode->parentNode->insertBefore($importNode, $xincludeNode);
+                            }
+                        }else{
+                            throw new XIncludeException('The file referenced by href does not exist : '.$href, $xinclude);
+                        }
+                    }
+                    $xincludeNode->parentNode->removeChild($xincludeNode);
+                    $xincludes[] = $href;
+                }
+            }else{
+                throw new ParsingException('cannot parse pci markup');
+            }
+            $customElement->setMarkup($xml->saveXML());
+        }
+        
         return $xincludes;
     }
 
@@ -90,6 +128,16 @@ class XIncludeLoader
             }
         }
         return $xincludes;
+    }
+
+    private function getCustomElements(){
+        $customElements = array();
+        foreach($this->qtiItem->getComposingElements() as $element){
+            if($element instanceof PortableCustomInteraction){
+                $customElements[] = $element;
+            }
+        }
+        return $customElements;
     }
 
 }
