@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use \tao_models_classes_Parser;

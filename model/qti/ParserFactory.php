@@ -80,16 +80,12 @@ class ParserFactory
 
     protected $data = null;
     protected $item = null;
-    protected $basePath = '';
     protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
 
-    public function __construct(DOMDocument $data, $basePath = ''){
+    public function __construct(DOMDocument $data){
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
-        if(!empty($basePath)){
-            $this->basePath = $basePath;
-        }
     }
 
     public function load(){
@@ -134,7 +130,7 @@ class ParserFactory
         $node->parentNode->removeChild($node);
     }
 
-    protected function queryXPath($query, DOMElement $contextNode = null){
+    public function queryXPath($query, DOMElement $contextNode = null){
 
         $returnValue = $contextNode;
         if($this->qtiPrefix){
@@ -1288,38 +1284,7 @@ class ParserFactory
 
     private function buildXInclude(DOMElement $data){
 
-        $include = new XInclude($this->extractAttributes($data));
-        
-        //resolve xinclude only when a basepath is defined
-        if(!empty($this->basePath)){
-            
-            //fetch content from href
-            $href = $include->attr('href');
-            $xml = new \DOMDocument();
-            $node = null;
-
-            //@todo use a resolver here:
-            if(strpos($href, 'http://') === 0){
-                //absolute
-                throw new Exception('@TODO');
-            }else if(strpos($href, 'taomediamanager://') === 0){
-                //media manager
-                throw new Exception('@TODO');
-            }else{
-                //local
-                $xml->load($this->basePath.$href);
-                $node = $xml->documentElement;
-            }
-
-            if(!is_null($node)){
-                $parser = new ParserFactory($xml, $this->basePath);
-                $parser->parseContainerStatic($node, $include->getBody());
-            }else{
-                throw new ParsingException('The XInclude cannot be resolved ');
-            }
-        }
-        
-        return $include;
+        return  new XInclude($this->extractAttributes($data));
     }
 
     protected function getNonEmptyChildren(DOMElement $data){
