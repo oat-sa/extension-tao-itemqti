@@ -60,10 +60,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $mediaSource = $mediaAsset->getMediaSource();
             if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = ltrim($mediaAsset->getMediaIdentifier(),'/');
+                $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                $filename = $fileInfo['filePath'];
+                $replacement = $mediaAsset->getMediaIdentifier();
+                if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                    $replacement = $filename;
+                }
+                $destPath = ltrim($filename,'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
-                    $content = str_replace($assetUrl, $destPath, $content);
+                    $content = str_replace($assetUrl, $replacement, $content);
                 } else {
                     throw new \Exception('Missing resource '.$srcPath);
                 }

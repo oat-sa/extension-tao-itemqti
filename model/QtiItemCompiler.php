@@ -237,9 +237,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 $mediaAsset = $resolver->resolve($assetUrl);
                 $mediaSource = $mediaAsset->getMediaSource();
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'), $destination);
+                $filename = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'), $destination);
+                $replacement = $mediaAsset->getMediaIdentifier();
+                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
+                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                    $filename = $fileInfo['filePath'];
+                    if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                        $replacement = $filename;
+                    }
+
+                }
+                $destPath = ltrim($filename,'/');
                 tao_helpers_File::copy($srcPath,$destination.$destPath,false);
-                $xml = str_replace($assetUrl, $destPath, $xml);
+                $xml = str_replace($assetUrl, $replacement, $xml);
             }
         }
         
