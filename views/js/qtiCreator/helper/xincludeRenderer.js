@@ -28,7 +28,7 @@ define([
                         _.each(xinclude.getComposingElements(), function(elt){
                             elt.setRenderer(commonRenderer.get());
                         });
-                        
+
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
 

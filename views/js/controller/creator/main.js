@@ -212,8 +212,10 @@ define([
 
                         //"post-render it" to initialize the widget
                         var widget = item.postRender(_.clone(configProperties));
-                        _.each(item.getElements('include'), function(xinclude){
-                            xincludeRenderer.render(xinclude.data('widget'), config.properties.baseUrl);
+                        _.each(item.getComposingElements(), function(element){
+                            if(element.qtiClass === 'include'){
+                                xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                            }
                         });
                         
                         editor.initGui(widget, configProperties);
