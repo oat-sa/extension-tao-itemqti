@@ -1,4 +1,4 @@
-require(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/Element', 'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'], function(Loader, Element, data){
+define(['taoQtiItem/qtiItem/core/Loader', 'taoQtiItem/qtiItem/core/Element', 'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'], function(Loader, Element, data){
 
     test('loadItemData', function(){
         var loader = new Loader();

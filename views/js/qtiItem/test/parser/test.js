@@ -1,4 +1,4 @@
-require([
+define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/helper/simpleParser',
