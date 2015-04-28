@@ -125,9 +125,6 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
      * @return multitype:
      */
     public function itemProvider(){
-//        return array(array(
-//            dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/associate_include.xml'
-//        ));
         $items = array();
         foreach(array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file){
             $items[] = array($file);

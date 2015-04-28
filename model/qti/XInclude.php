@@ -25,11 +25,12 @@ use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
 
 /**
- * Short description of class oat\taoQtiItem\model\qti\Object
+ * XInclude model of XInclude element, the href identified the location of the xml body string
+ * and the body represents the loaded content from the href.
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
- * @package taoQTI
+ * @package taoQtiItem
  
  */
 class XInclude extends Element implements FlowContainer
@@ -49,34 +50,29 @@ class XInclude extends Element implements FlowContainer
         $this->body = new ContainerStatic('', $relatedItem);
     }
     
+    /**
+     * Get the body of XInclude element
+     * 
+     * @return oat\taoQtiItem\model\qti\container\ContainerStatic
+     */
     public function getBody(){
         return $this->body;
     }
     
+    /**
+     * Get the list of used attributes
+     * 
+     * @return array
+     */
     public function getUsedAttributes(){
         return array();
     }
     
-    public function resolve($basePath = ''){
-        $href = $this->attr('href');
-        //fetch data from href
-        
-        $xml = new \DOMDocument();
-        var_dump($href);exit;
-        if(strpos($href, 'http://') === 0){
-            //absolute
-        }else if(strpos($href, 'taomediamanager://') === 0){
-            //media manager
-        }else{
-            //local
-            $xml->load($basePath.$href);
-            $data = $xml->documentElement;
-        }
-        
-        //set body
-        $this->body = $data->ownerDocument->saveXML($data);
-    }
-    
+    /**
+     * Get the variables for the qti template rendering
+     * 
+     * @return array
+     */
     protected function getTemplateQtiVariables(){
 
         $variables = parent::getTemplateQtiVariables();
@@ -103,6 +99,11 @@ class XInclude extends Element implements FlowContainer
         return $variables;
     }
     
+    /**
+     * Get the xml namespace of the xinclude
+     * 
+     * @return string
+     */
     public function getXIncludeNamespace(){
         $ns = '';
         $relatedItem = $this->getRelatedItem();
