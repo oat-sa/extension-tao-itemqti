@@ -38,7 +38,6 @@ use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 class XIncludeLoaderTest extends TaoPhpUnitTestRunner
 {
     
-    
     /**
      * tests initialization
      */
@@ -46,6 +45,9 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         TaoPhpUnitTestRunner::initTest();
     }
     
+    /**
+     * Test that xinclude are correctly loaded into standard item body elements
+     */
     public function testLoadxincludeInBody(){
         
         $file = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/associate_include.xml';
@@ -54,6 +56,7 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         
         $mediaSource1 = $this->prophesize('oat\taoMediaManager\model\MediaSource');
         $mediaSource1->download($href1)->willReturn($file1);
+        
         $asset1 = $this->prophesize('oat\tao\model\media\MediaAsset');
         $asset1->getMediaSource()->willReturn($mediaSource1->reveal());
         $asset1->getMediaIdentifier()->willReturn($href1);
@@ -62,8 +65,9 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         $resolver = $this->prophesize('oat\taoItems\model\media\ItemMediaResolver');
         $resolver->resolve($href1)->willReturn($asset1Revealed);
         
-        $this->assertEquals($asset1Revealed->getMediaSource()->download($asset1Revealed->getMediaIdentifier()), $file1);
+        $this->assertEquals($file1, $asset1Revealed->getMediaSource()->download($asset1Revealed->getMediaIdentifier()));
         
+        //load item model
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
         $this->assertTrue($item instanceof Item);
@@ -71,17 +75,22 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         $xincludeLoader = new XIncludeLoader($item, $resolver->reveal());
         $xincludes = $xincludeLoader->load();
         
-        $this->assertEquals(count($xincludes), 1);
+        $this->assertEquals(1, count($xincludes));
     }
     
+    /**
+     * Test that xincludes are correctly loaded into pci elements
+     */
     public function testLoadxincludeInPci(){
         
         $file = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/pci_include.xml';
         $href1 = 'stimulus.xml';
         $file1 = dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/stimulus.xml';
         
+        
         $mediaSource1 = $this->prophesize('oat\taoMediaManager\model\MediaSource');
         $mediaSource1->download($href1)->willReturn($file1);
+        
         $asset1 = $this->prophesize('oat\tao\model\media\MediaAsset');
         $asset1->getMediaSource()->willReturn($mediaSource1->reveal());
         $asset1->getMediaIdentifier()->willReturn($href1);
@@ -90,15 +99,14 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         $resolver = $this->prophesize('oat\taoItems\model\media\ItemMediaResolver');
         $resolver->resolve($href1)->willReturn($asset1Revealed);
         
+        $this->assertEquals($file1, $asset1Revealed->getMediaSource()->download($asset1Revealed->getMediaIdentifier()));
+        
+        //load item model
         $qtiParser = new Parser($file);
         $item = $qtiParser->load();
         $this->assertTrue($item instanceof Item);
         
-        $xincludeLoader = new XIncludeLoader($item, $resolver->reveal());
-        $xincludes = $xincludeLoader->load();
-        
-        $this->assertEquals(count($xincludes), 1);
-        
+        //find the unique pci in the sample
         $pci = null;
         foreach($item->getComposingElements() as $element){
             if($element instanceof PortableCustomInteraction){
@@ -107,6 +115,22 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
             }
         }
         $this->assertNotNull($pci);
-//        var_dump($pci->getMarkup());
+        
+        //check inital markup
+        $markupXml = simplexml_load_string($pci->getMarkup());
+        $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='include']")), 'the pci markup has an include element');
+        $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='img']")));
+        $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='m:math']")));
+        
+        //load xinclude
+        $xincludeLoader = new XIncludeLoader($item, $resolver->reveal());
+        $xincludes = $xincludeLoader->load();
+        
+        //check markup after loading
+        $markupXml = simplexml_load_string($pci->getMarkup());
+        $this->assertEquals(1, count($xincludes));
+        $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='include']")), 'the include element has been replaced');
+        $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='img']")));
+        $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='m:math']")));
     }
 }
