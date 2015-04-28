@@ -1,4 +1,4 @@
-require([
+define([
     'lodash',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
     'taoQtiItem/qtiItem/core/Include'
