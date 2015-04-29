@@ -110,7 +110,8 @@ define([
         'inlineChoice',
         'simpleAssociableChoice',
         'simpleChoice',
-        'infoControl'
+        'infoControl',
+        'include'
     ];
 
     var _dependencies = {
@@ -614,14 +615,13 @@ define([
         };
 
         this.getAbsoluteUrl = function(relUrl){
-
-            //allow relative url outpu only if explicitely said so
+            //allow relative url output only if explicitely said so
             if(this.getOption('userRelativeUrl')){
                 return relUrl.replace(/^\.?\//, '');
             }
 
-            if(/^http(s)?:\/\//i.test(relUrl)){
-                //already absolute
+            if(/^http(s)?:\/\//i.test(relUrl) || /^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(relUrl)){
+                //already absolute or base64 encoded
                 return relUrl;
             }else{
 

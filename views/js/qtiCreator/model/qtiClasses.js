@@ -43,7 +43,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'responseProcessing' : 'taoQtiItem/qtiCreator/model/ResponseProcessing',
         'customInteraction' : 'taoQtiItem/qtiCreator/model/interactions/PortableCustomInteraction',
         'endAttemptInteraction' : 'taoQtiItem/qtiCreator/model/interactions/EndAttemptInteraction',
-        'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl'
+        'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl',
+        'include' : 'taoQtiItem/qtiCreator/model/Include'
     }, qtiClasses);
 
 });

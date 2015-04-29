@@ -4,7 +4,7 @@ require([
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/renderers/Renderer',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
-    'taoQtiItem/qtiCreator/helper/simpleParser',
+    'taoQtiItem/qtiItem/helper/simpleParser',
     'text!taoQtiItem/../../test/samples/xml/qtiv2p1/rubricBlock/extended_text_rubric.xml'
 ],
 function($, _, qtiClasses, CreatorRenderer, XmlRenderer, simpleParser, sampleXML){

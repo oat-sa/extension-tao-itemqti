@@ -12,7 +12,8 @@ define([
 
     var _defaultOptions = {
         ns : {
-            math : ''
+            math : '',
+            include : 'xi'
         },
         loaded : null,
         model : null
@@ -77,9 +78,9 @@ define([
 
         return elt;
     }
-
+    
     function parseContainer($container, opts){
-
+        
         var options = _.merge(_.clone(_defaultOptions), opts || {});
 
         var ret = {
@@ -111,6 +112,16 @@ define([
             $qtiElement.replaceWith(_placeholder(element));
 
         });
+        
+        $container.find(_getElementSelector('include', options.ns.include)).each(function(){
+
+            var $qtiElement = $(this);
+            var element = buildElement($qtiElement, opts);
+
+            ret.elements[element.serial] = element;
+            $qtiElement.replaceWith(_placeholder(element));
+
+        });
 
         ret.body = $container.html();
 
@@ -136,7 +147,7 @@ define([
 
             if(_.isFunction(options.loaded) && options.model){
                 var loader = new Loader().setClassesLocation(options.model);
-                loader.loadElement(element, options.loaded);
+                loader.loadAndBuildElement(element, options.loaded);
             }
 
             return element;

@@ -69,7 +69,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $destPath = ltrim($filename,'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
-                    $content = str_replace($assetUrl, $replacement, $content);
+                    $content = str_replace($assetUrl, $destPath, $content);
                 } else {
                     throw new \Exception('Missing resource '.$srcPath);
                 }
@@ -112,7 +112,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang);
         $assetParser = new AssetParser($qtiItem);
-        $assetParser->setGetSharedLibraries(false);
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {

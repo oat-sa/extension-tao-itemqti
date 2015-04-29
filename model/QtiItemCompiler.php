@@ -225,7 +225,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiService = Service::singleton()->getDataItemByRdfItem($item, $lang);
         
         $assetParser = new AssetParser($qtiItem);
-        $assetParser->setGetSharedLibraries(false);
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
@@ -249,7 +248,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 }
                 $destPath = ltrim($filename,'/');
                 tao_helpers_File::copy($srcPath,$destination.$destPath,false);
-                $xml = str_replace($assetUrl, $replacement, $xml);
+                $xml = str_replace($assetUrl, $destPath, $xml);
             }
         }
         

@@ -34,6 +34,13 @@ define([
                     width : 150,
                     height : 100
                 }
+            },
+            include: {
+                icon: 'media',
+                css: {
+                    width : '100%',
+                    height : 100
+                }
             }
         };
 

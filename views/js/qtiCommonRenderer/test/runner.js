@@ -107,7 +107,9 @@ define([
                             interaction.resetResponse();
                         });
                     }
-
+                    if(_.isFunction(config.callback)){
+                        config.callback(item, this);
+                    }
                 }, this.getLoadedClasses());
 
             });
@@ -149,6 +151,10 @@ define([
             _.forIn(globalConfig.runtimeLocations, function(path, ns){
                 testConfig.runtimeLocations[ns] = path.replace(extension, fullpath);
             });
+        }
+        
+        if(_.isFunction(globalConfig.callback)){
+            testConfig.callback = globalConfig.callback;
         }
 
         return testConfig;

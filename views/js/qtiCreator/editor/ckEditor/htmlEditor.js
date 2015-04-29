@@ -249,17 +249,17 @@ define([
                 }
             }
         };
-        
+
         return CKEditor.inline($editable[0], ckConfig);
     }
-    
+
     /**
      * Assess
      * @param {type} $editableContainer
      * @returns {String}
      */
     function getTooltypeFromContainer($editableContainer){
-        
+
         var toolbarType = 'qtiFlow';
         // build parameter for toolbar
         if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
@@ -269,7 +269,7 @@ define([
         }
         return toolbarType;
     }
-    
+
     /**
      * Find an inner element by its data attribute name
      * @param {JQuery} $container
