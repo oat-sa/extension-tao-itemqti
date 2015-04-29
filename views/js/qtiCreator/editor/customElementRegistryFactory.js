@@ -45,7 +45,9 @@ define([
             var paths = {};
 
             _(hooks).values().each(function(hook){
-
+                if (hook.manifest && hook.manifest.disabled) {
+                    return;
+                }
                 if(isValidHook(hook)){
 
                     var id = hook.typeIdentifier;
