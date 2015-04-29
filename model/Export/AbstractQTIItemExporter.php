@@ -35,13 +35,6 @@ use oat\taoQtiItem\model\qti\Service;
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
 
-    /**
-     * List of regexp of media that should be excluded from retrieval
-     */
-    private static $BLACKLIST = array(
-        '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
-    );
-
     abstract public function buildBasePath();
 
     /**
@@ -67,7 +60,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $mediaSource = $mediaAsset->getMediaSource();
             if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'));
+                $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                $filename = $fileInfo['filePath'];
+                $replacement = $mediaAsset->getMediaIdentifier();
+                if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                    $replacement = $filename;
+                }
+                $destPath = ltrim($filename,'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
                     $content = str_replace($assetUrl, $destPath, $content);
@@ -116,11 +115,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
-                foreach (self::$BLACKLIST as $blacklist) {
-                    if (preg_match($blacklist, $assetUrl) === 1) {
-                        continue(2);
-                    }
-                }
                 $returnValue[] = $assetUrl;
             }
         }
