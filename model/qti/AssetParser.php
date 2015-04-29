@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\StyleSheet;
 use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use \SimpleXMLElement;
 
 /**
@@ -51,6 +52,12 @@ class AssetParser
      * @var string
      */
     private $path;
+
+    /**
+    * Set mode - if parser have to find shared libraries (PCI and PIC)
+    * @var bool
+    */
+    private $getSharedLibraries;
 
     /**
      * The extracted assets
@@ -190,10 +197,16 @@ class AssetParser
      */
     private function loadCustomElementAssets(Element $element){
 
+        $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
+        $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
+        $sharedLibrairiesRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
+
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
             $this->addAsset('js', $element->getEntryPoint());
             foreach($element->getLibraries() as $lib){
-                $this->addAsset('js', $lib);
+                if($this->getGetSharedLibraries() || !$sharedLibrairiesRegistry->isRegistered($lib)){
+                    $this->addAsset('js', $lib);
+                }
             }
         }
 
@@ -252,4 +265,22 @@ class AssetParser
             }
         }
     }
+
+    /**
+     * @param boolean $getSharedLibraries
+     */
+    public function setGetSharedLibraries($getSharedLibraries)
+    {
+        $this->getSharedLibraries = $getSharedLibraries;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetSharedLibraries()
+    {
+        return $this->getSharedLibraries;
+    }
+
+
 }
