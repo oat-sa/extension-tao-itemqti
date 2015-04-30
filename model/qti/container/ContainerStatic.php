@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\ContainerStatic;
 use oat\taoQtiItem\model\qti\container\Container;
 
 /**
@@ -30,26 +29,26 @@ use oat\taoQtiItem\model\qti\container\Container;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- 
+
  */
 class ContainerStatic extends Container
 {
-	
-	/**
+
+    /**
      * return the list of available element classes
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
      * @return array
      */
-	public function getValidElementTypes(){
-		return array(
-                    'oat\\taoQtiItem\\model\\qti\\Img',
-			'oat\\taoQtiItem\\model\\qti\\Math',
-			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'taoQTI_models_classes_QTI_PrintedVariable',
-			'oat\\taoQtiItem\\model\\qti\\Object'
-		);
-	}
+    public function getValidElementTypes(){
+        return array(
+            'oat\\taoQtiItem\\model\\qti\\Img',
+            'oat\\taoQtiItem\\model\\qti\\Math',
+            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
+            'oat\\taoQtiItem\\model\\qti\\Object',
+            'oat\\taoQtiItem\\model\\qti\\XInclude'
+        );
+    }
 
 }

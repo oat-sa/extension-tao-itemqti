@@ -21,14 +21,12 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
-use oat\taoQtiItem\model\qti\ContentVariable;
 
 /**
  * The QTI_Container object represents the generic element container

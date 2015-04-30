@@ -29,7 +29,8 @@ define([
             img : 'Image',
             object : 'Media',
             rubricBlock : 'Rubric Block',
-            math : 'Math'
+            math : 'Math',
+            include : 'Shared Stimulus'
         };
 
         // all sections on the right sidebar are invisible by default
