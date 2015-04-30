@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-21T13:11:58\n"
+"PO-Revision-Date: 2015-04-30T09:09:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -139,10 +139,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "chars"
@@ -448,10 +448,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -505,13 +505,10 @@ msgstr ""
 msgid "Is this pair the correct response?"
 msgstr ""
 
-msgid "Item"
+msgid "Item Properties"
 msgstr ""
 
 msgid "Item properties"
-msgstr ""
-
-msgid "Item Properties"
 msgstr ""
 
 msgid "Item width"
@@ -703,10 +700,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
 msgid "Pause"
