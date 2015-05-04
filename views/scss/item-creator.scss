@@ -1017,6 +1017,10 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
+    .widget-inline{
+        z-index: 20;
+    }
+
     .widget-inline,
     .widget-include,
     .qti-hottext,
@@ -1048,7 +1052,7 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-
+    
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
