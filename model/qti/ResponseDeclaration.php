@@ -125,12 +125,7 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         $protectedData['mappingAttributes'] = $mappingAttributes;
         
         //add simple feedbacks
-        $feedbackRules = array();
-        $rules = $this->getFeedbackRules();
-        foreach($rules as $rule){
-            $feedbackRules[$rule->getSerial()] = $rule->toArray($filterVariableContent, $filtered);
-        }
-        $protectedData['feedbackRules'] = $feedbackRules;
+        $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection($this->getFeedbackRules(), $filterVariableContent, $filtered);
         
         if($filterVariableContent){
             $filtered[$this->getSerial()] = $protectedData;

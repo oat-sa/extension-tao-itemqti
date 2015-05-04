@@ -16,6 +16,7 @@ use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
 use \common_Logger;
 use \taoItems_models_classes_TemplateRenderer;
 use \ReflectionClass;
+use \stdClass;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -627,5 +628,35 @@ abstract class Element implements Exportable
         
         return (string) $returnValue;
     }
-
+    
+    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
+        
+        if(empty($elements)){
+            $data = new stdClass();
+        }else{
+            $data = array();
+            foreach($elements as $element){
+                $data[$element->getSerial()] = $element->toArray($filterVariableContent, $filtered);
+            }
+        }
+        return $data;
+    }
+    
+    protected function getArraySerializedPrimitiveCollection($elements){
+        
+        if(empty($elements)){
+            $data = new stdClass();
+        }else{
+            $data = array();
+            foreach($elements as $key => $value){
+                if(is_array($value)){
+                    $data[$key] = $this->getArraySerializedPrimitiveCollection($value);
+                }else{
+                    $data[$key] = $value;
+                }
+            }
+        }
+        return $data;
+    }
+    
 }
