@@ -699,54 +699,6 @@ img.dragging.ui-draggable-dragging {
     position:relative;
 }
 
-.dummy-element {
-    min-width: 50px;
-    @include simple-border();
-    background-color: #eee;
-    font-style: italic;
-    color: white;
-    padding: 0;
-    display: inline-block;
-    line-height: 20px;
-    cursor: default;
-    [class^="icon-"], [class*=" icon-"] {
-        font-size: inherit;
-        line-height: inherit;
-    }
-}
-
-.widget-inline{
-    z-index: 20;
-}
-
-.widget-inline,
-.qti-hottext,
-.qti-gap,
-.dummy-element,
-.inline-text-wrapper {
-    position: relative;
-    display: inline-block;
-    [class^="icon-"], [class*=" icon-"] {
-        display: inline-block;
-        text-align: center;
-        width: 100%;
-        position: relative;
-        top: -2px;
-        text-shadow: 1px 1px 0px #ccc;
-    }
-    & ~ span.mini-tlb[data-edit] {
-        position: absolute !important;
-        top: -2px !important;
-        right: -32px !important;
-        .tlb-button {
-            margin: 0 !important;
-            padding: 0 !important;
-            height: 18px !important;
-            width: 24px !important;
-        }
-    }
-}
-
 .item-editor-item {
     @include simple-border();
     -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
@@ -1047,6 +999,58 @@ img.dragging.ui-draggable-dragging {
 
     .inner-wrapper {
         position: relative;
+    }
+    
+    .dummy-element {
+        min-width: 50px;
+        @include simple-border();
+        background-color: #eee;
+        font-style: italic;
+        color: white;
+        padding: 0;
+        display: inline-block;
+        line-height: 20px;
+        cursor: default;
+        [class^="icon-"], [class*=" icon-"] {
+            font-size: inherit;
+            line-height: inherit;
+        }
+    }
+
+    .widget-inline{
+        z-index: 20;
+    }
+
+    .widget-inline,
+    .widget-include,
+    .qti-hottext,
+    .qti-gap,
+    .dummy-element,
+    .inline-text-wrapper {
+        position: relative;
+        display: inline-block;
+        [class^="icon-"], [class*=" icon-"] {
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            top: -2px;
+            text-shadow: 1px 1px 0px #ccc;
+        }
+        & ~ span.mini-tlb[data-edit]{
+            position: absolute !important;
+            top: -2px !important;
+            right: -32px !important;
+            .tlb-button {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 18px !important;
+                width: 24px !important;
+            }
+        }
+        .mini-tlb[data-edit]{
+            right:-32px !important;
+        }
     }
     
     @import "qtiCreator/_choice";
