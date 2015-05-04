@@ -38,7 +38,7 @@
                     "serial": "object_5530c82992e1b401216320",
                     "qtiClass": "object",
                     "attributes": {
-                        "data": "big-buck-bunny-480p-h264-aac-25fps-1800k-short.mp4",
+                        "data": "sample.mp4",
                         "type": "video\/mp4",
                         "width": 395,
                         "height": 270
