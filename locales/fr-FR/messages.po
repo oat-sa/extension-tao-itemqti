@@ -531,7 +531,7 @@ msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
-msgstr ""
+msgstr "laisser vide"
 
 msgid "left"
 msgstr ""
