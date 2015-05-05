@@ -11,14 +11,14 @@ define([
 
     //configure and instanciate once only:
     var _creatorRenderer = null;
-    
+
     //list of configurable interactions
     //some interactions allow additional non-standard but sometimes useful configuration
     var _configurableInteractions = ['endAttempt'];
-    
+
     /**
      * Extract interaction-specific configuration from the main one
-     * 
+     *
      * @param {object} config - the configuration object of the creatorRenderer
      * @returns {module.exports.properties|Function.properties|config.properties}
      */
@@ -33,10 +33,10 @@ define([
         }
         return ret;
     }
-    
+
     /**
      * Get a preconfigured renderer singleton
-     * 
+     *
      * @param {Boolean} reset
      * @param {Object} config
      * @returns {Object} - a configured instance of creatorRenderer
@@ -48,13 +48,14 @@ define([
         if(!_creatorRenderer || reset){
 
             $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-            if(reset || 
-                !$bodyEltForm || 
-                !$bodyEltForm.length || 
+            if(reset ||
+                !$bodyEltForm ||
+                !$bodyEltForm.length ||
                 !dom.contains($bodyEltForm)){
 
               assetManager = assetManagerFactory([
                     assetStrategies.external,
+                    assetStrategies.base64,
                     assetStrategies.baseUrl
                 ], { baseUrl : config.properties.baseUrl || '' });
 

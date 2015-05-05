@@ -8,6 +8,7 @@ define([
     //asset manager using base url
     var assetManager = assetManagerFactory([
         assetStrategies.external,
+        assetStrategies.base64,
         assetStrategies.baseUrl
     ], {baseUrl : ''});
 
