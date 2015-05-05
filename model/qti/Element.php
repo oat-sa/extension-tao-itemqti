@@ -425,8 +425,11 @@ abstract class Element implements Exportable
         if($this instanceof FlowContainer){
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
-
-//        $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
+        
+        if(DEBUG_MODE){
+            //debug mode
+            $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
+        }
 
         return $data;
     }
@@ -620,13 +623,17 @@ abstract class Element implements Exportable
      */
     protected function buildSerial(){
         
-        $clazz = strtolower(get_class($this));
+        if(DEBUG_MODE){
+            //if debug mode:
+            $clazz = strtolower(get_class($this));
+            $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
+            $serial = str_replace('.', '', uniqid($prefix, true));
+            $serial = str_replace('\\', '_', $serial);
+        }else{
+            $serial = uniqid();
+        }
         
-        $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
-        $returnValue = str_replace('.', '', uniqid($prefix, true));
-        $returnValue = str_replace('\\', '_', $returnValue);
-        
-        return (string) $returnValue;
+        return (string) $serial;
     }
     
     protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
