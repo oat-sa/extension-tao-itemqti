@@ -1,21 +1,24 @@
 define([
-    'taoQtiItem/qtiCreator/renderers/Renderer',
-    'helpers',
     'jquery',
     'lodash',
+    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'taoItems/assets/manager',
+    'taoItems/assets/strategies',
+    'helpers',
     'util/dom'
-], function(Renderer, helpers, $, _, dom){
+], function($, _, Renderer, assetManagerFactory, assetStrategies, helpers, dom){
     "use strict";
+
     //configure and instanciate once only:
     var _creatorRenderer = null;
-    
+
     //list of configurable interactions
     //some interactions allow additional non-standard but sometimes useful configuration
     var _configurableInteractions = ['endAttempt'];
-    
+
     /**
      * Extract interaction-specific configuration from the main one
-     * 
+     *
      * @param {object} config - the configuration object of the creatorRenderer
      * @returns {module.exports.properties|Function.properties|config.properties}
      */
@@ -30,26 +33,36 @@ define([
         }
         return ret;
     }
-    
+
     /**
      * Get a preconfigured renderer singleton
-     * 
+     *
      * @param {Boolean} reset
      * @param {Object} config
      * @returns {Object} - a configured instance of creatorRenderer
      */
     var get = function(reset, config){
+        var assetManager,
+            $bodyEltForm,
+            mediaSources;
+
         if(!_creatorRenderer || reset){
 
-            var $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-            var mediaSources = config.properties.mediaSources || [];
-            if(reset
-                || !$bodyEltForm
-                || !$bodyEltForm.length
-                || !dom.contains($bodyEltForm)){
+            $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
+            mediaSources = config.properties.mediaSources || [];
+
+            if(reset ||
+                !$bodyEltForm ||
+                !$bodyEltForm.length ||
+                !dom.contains($bodyEltForm)){
+
+                assetManager = assetManagerFactory([
+                    assetStrategies.external,
+                    assetStrategies.baseUrl
+                ], { baseUrl : config.properties.baseUrl || '' });
 
                 _creatorRenderer = new Renderer({
-                    baseUrl : '',
+                    assetManager : assetManager,
                     lang : '',
                     uri : '',
                     shuffleChoices : false,

@@ -40,16 +40,18 @@ define([
 
         //reconnect to global itemApi function
         window.onItemApiReady = function onItemApiReady(itemApi) {
-            var qtiRunner = new QtiRunner(),
-                coreItemData = runnerContext.itemData,
-                variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+            var qtiRunner = new QtiRunner();
+            var coreItemData = runnerContext.itemData;
+            var variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+
+            var renderer = new Renderer();
 
             // Makes the runner interface available from outside the frame
             // for preview.
             window.qtiRunner = qtiRunner;
 
             qtiRunner.setItemApi(itemApi);
-            qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));
+            qtiRunner.setRenderer(renderer);
 
             qtiRunner.loadItemData(coreItemData, function() {
 
