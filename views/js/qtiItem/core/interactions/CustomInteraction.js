@@ -1,13 +1,16 @@
 define([
-    'taoQtiItem/qtiItem/core/interactions/Interaction',
     'lodash',
+    'taoQtiItem/qtiItem/core/interactions/Interaction',
+    'taoQtiItem/qtiItem/mixin/CustomElement',
+    'taoQtiItem/qtiItem/mixin/NamespacedElement',
     'taoQtiItem/qtiItem/helper/rendererConfig'
-], function(Interaction, _, rendererConfig){
+], function(_, Interaction, CustomElement, NamespacedElement, rendererConfig){
 
     var CustomInteraction = Interaction.extend({
         qtiClass : 'customInteraction',
         defaultNsName : 'pci',
         defaultNsUri : 'http://www.imsglobal.org/xsd/portableCustomInteraction',
+        nsUriFragment : 'portableCustomInteraction',
         defaultMarkupNsName : 'html5',
         defaultMarkupNsUri : 'html5',
         init : function(serial, attributes){
@@ -51,73 +54,6 @@ define([
             arr.markup = this.markup;
             arr.properties = this.properties;
             return arr;
-        },
-        prop : function(name, value){
-            if(name){
-                if(value !== undefined){
-                    this.properties[name] = value;
-                }else{
-                    if(typeof (name) === 'object'){
-                        for(var prop in name){
-                            this.prop(prop, name[prop]);
-                        }
-                    }else if(typeof (name) === 'string'){
-                        if(this.properties[name] === undefined){
-                            return undefined;
-                        }else{
-                            return this.properties[name];
-                        }
-                    }
-                }
-            }
-            return this;
-        },
-        removeProp : function(propNames){
-            var _this = this;
-            if(typeof (propNames) === 'string'){
-                propNames = [propNames];
-            }
-            _.each(propNames, function(propName){
-                delete _this.properties[propName];
-            });
-            return this;
-        },
-        getProperties : function(){
-            return _.clone(this.properties);
-        },
-        getNamespace : function(){
-
-            if(this.ns && this.ns.name && this.ns.uri){
-                return _.clone(this.ns);
-            }else{
-
-                var relatedItem = this.getRelatedItem();
-                if(relatedItem){
-                    var namespaces = relatedItem.getNamespaces();
-                    for(var ns in namespaces){
-                        if(namespaces[ns].indexOf('portableCustomInteraction') > 0){
-                            return {
-                                name : ns,
-                                uri : namespaces[ns]
-                            };
-                        }
-                    }
-                    //if no ns found in the item, set the default one!
-                    relatedItem.namespaces[this.defaultNsName] = this.defaultNsUri;
-                    return {
-                        name : this.defaultNsName,
-                        uri : this.defaultNsUri
-                    };
-                }
-            }
-
-            return {};
-        },
-        setNamespace : function(name, uri){
-            this.ns = {
-                name : name,
-                uri : uri
-            };
         },
         getMarkupNamespace : function(){
 
@@ -204,7 +140,11 @@ define([
             return this;
         }
     });
-
+    
+    //add portable element standard functions
+    CustomElement.augment(CustomInteraction);
+    NamespacedElement.augment(CustomInteraction);
+    
     return CustomInteraction;
 });
 

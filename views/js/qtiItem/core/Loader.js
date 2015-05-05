@@ -28,7 +28,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadRequiredClasses : function(data, callback, reload){
 
             var requiredClasses = this.getRequiredClasses(data, reload), required = [];
-
+            
             for(var i in requiredClasses){
                 var requiredClass = requiredClasses[i];
                 if(this.classesLocation[requiredClass]){
@@ -37,7 +37,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     throw new Error('missing qti class location declaration : ' + requiredClass);
                 }
             }
-
+            
             var _this = this;
             require(required, function(){
                 _.each(arguments, function(QtiClass){
@@ -109,7 +109,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 }
             });
         },
-        loadElement : function(data, callback){
+        loadAndBuildElement : function(data, callback){
 
             var _this = this;
 
@@ -117,6 +117,16 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
                 var element = _this.buildElement(data);
 
+                if(typeof(callback) === 'function'){
+                    callback.call(_this, element);
+                }
+            });
+        },
+        loadElement : function(element, data, callback){
+            
+            var _this = this;
+            this.loadRequiredClasses(data, function(){
+                _this.loadElementData(element, data);
                 if(typeof(callback) === 'function'){
                     callback.call(_this, element);
                 }
@@ -249,8 +259,10 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return elt;
         },
         loadElementData : function(element, data){
-
-            element.setAttributes(_.clone(data.attributes) || {});
+            
+            //merge attributes when loading element data
+            var attributes = _.defaults(data.attributes || {}, element.attributes || {});
+            element.setAttributes(attributes);
 
             if(element.body && data.body){
                 if(element.bdy){

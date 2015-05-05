@@ -11,14 +11,14 @@ define([
 
     //configure and instanciate once only:
     var _creatorRenderer = null;
-
+    
     //list of configurable interactions
     //some interactions allow additional non-standard but sometimes useful configuration
     var _configurableInteractions = ['endAttempt'];
-
+    
     /**
      * Extract interaction-specific configuration from the main one
-     *
+     * 
      * @param {object} config - the configuration object of the creatorRenderer
      * @returns {module.exports.properties|Function.properties|config.properties}
      */
@@ -33,30 +33,27 @@ define([
         }
         return ret;
     }
-
+    
     /**
      * Get a preconfigured renderer singleton
-     *
+     * 
      * @param {Boolean} reset
      * @param {Object} config
      * @returns {Object} - a configured instance of creatorRenderer
      */
     var get = function(reset, config){
         var assetManager,
-            $bodyEltForm,
-            mediaSources;
+            $bodyEltForm;
 
         if(!_creatorRenderer || reset){
 
             $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-            mediaSources = config.properties.mediaSources || [];
-
-            if(reset ||
-                !$bodyEltForm ||
-                !$bodyEltForm.length ||
+            if(reset || 
+                !$bodyEltForm || 
+                !$bodyEltForm.length || 
                 !dom.contains($bodyEltForm)){
 
-                assetManager = assetManagerFactory([
+              assetManager = assetManagerFactory([
                     assetStrategies.external,
                     assetStrategies.baseUrl
                 ], { baseUrl : config.properties.baseUrl || '' });
@@ -80,7 +77,7 @@ define([
                         deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
                         downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
                         fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
-                        mediaSources : mediaSources
+                        mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
                     interactions : _extractInteractionsConfig(config)
                 });

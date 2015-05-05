@@ -32,6 +32,7 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/renderers/config'], function(_, 
         'customInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/PortableCustomInteraction',
         'endAttemptInteraction' : 'taoQtiItem/qtiCreator/renderers/interactions/EndAttemptInteraction',
         'infoControl' : 'taoQtiItem/qtiCreator/renderers/PortableInfoControl',
+        'include' : 'taoQtiItem/qtiCreator/renderers/Include',
         'gap' : 'taoQtiItem/qtiCreator/renderers/choices/Gap',
         'gapText' : 'taoQtiItem/qtiCreator/renderers/choices/GapText',
         'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext'

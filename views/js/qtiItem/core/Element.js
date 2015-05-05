@@ -229,7 +229,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
         render : function(){
 
             var args = rendererConfig.getOptionsFromArguments(arguments);
-            var renderer = args.renderer || this.getRenderer();
+            var _renderer = args.renderer || this.getRenderer();
 
             var tplData = {},
                 defaultData = {
@@ -238,23 +238,24 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                     'attributes' : this.getAttributes()
                 };
 
-            if(!renderer){
+            if(!_renderer){
                 throw 'render: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
 
             if(typeof this.initContainer === 'function'){
-                defaultData.body = this.getBody().render(renderer);
+                //allow body to have a different renderer if it has its own renderer set
+                defaultData.body = this.getBody().render(args.renderer);
             }
             if(typeof this.initObject === 'function'){
                 defaultData.object = {
                     attributes : this.object.getAttributes()
                 };
-                defaultData.object.attributes.data = renderer.resolveUrl(this.object.attr('data'));
+                defaultData.object.attributes.data = _renderer.resolveUrl(this.object.attr('data'));
             }
 
             tplData = _.merge(defaultData, args.data || {});
-            tplData = renderer.getData(this, tplData, args.subclass);
-            var rendering = renderer.renderTpl(this, tplData, args.subclass);
+            tplData = _renderer.getData(this, tplData, args.subclass);
+            var rendering = _renderer.renderTpl(this, tplData, args.subclass);
             if(args.placeholder){
                 args.placeholder.replaceWith(rendering);
             }
@@ -263,15 +264,15 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
         },
         postRender : function(data, altClassName, renderer){
 
-            renderer = renderer || this.getRenderer();
+            var _renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
-                //post render body element
+                //allow body to have a different renderer if it has its own renderer set
                 this.getBody().postRender({}, '', renderer);
             }
 
-            if(renderer){
-                return renderer.postRender(this, data, altClassName);
+            if(_renderer){
+                return _renderer.postRender(this, data, altClassName);
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
@@ -351,12 +352,12 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
     Element.issetElement = function(serial){
         return !!_instances[serial];
     };
-
+   
     /**
      * Unset a registered element from it's serial
      * @param {String} serial - the element serial
      * @returns {Boolean} true if unset
-     */
+     */ 
     Element.unsetElement = function(serial){
 
         var element = Element.getElementBySerial(serial);
@@ -368,7 +369,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 delete _instances[elt.serial];
             });
             delete _instances[element.serial];
-
+            
             return true;
         }
         return false;

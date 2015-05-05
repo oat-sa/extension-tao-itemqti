@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use \tao_models_classes_Parser;
@@ -67,9 +66,10 @@ class Parser extends tao_models_classes_Parser
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param boolean resolveXInclude
      * @return oat\taoQtiItem\model\qti\Item
      */
-    public function load(){
+    public function load($resolveXInclude = false){
         
         $returnValue = null;
 
@@ -79,6 +79,7 @@ class Parser extends tao_models_classes_Parser
 
         //load it using the DOMDocument library
         $xml = new DOMDocument();
+        
         switch($this->sourceType){
             case self::SOURCE_FILE:
                 $xml->load($this->source);
@@ -91,11 +92,15 @@ class Parser extends tao_models_classes_Parser
                 $xml->loadXML($this->source);
                 break;
         }
-
+        
         if($xml !== false){
-
+            
+            $basePath = '';
+            if($this->sourceType == self::SOURCE_FILE || $this->sourceType == self::SOURCE_URL){
+                $basePath = dirname($this->source).'/';
+            }
             //build the item from the xml
-            $parserFactory = new ParserFactory($xml);
+            $parserFactory = new ParserFactory($xml, $basePath);
             try{
                 $returnValue = $parserFactory->load();
             }catch(UnsupportedQtiElement $e){

@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\ContainerHottext;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\choice\Hottext;
@@ -49,7 +48,6 @@ class ContainerHottext extends Container
                     'oat\\taoQtiItem\\model\\qti\\Img',
 			'oat\\taoQtiItem\\model\\qti\\Math',
 			'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-			'taoQTI_models_classes_QTI_PrintedVariable',
 			'oat\\taoQtiItem\\model\\qti\\Object',
 			'oat\\taoQtiItem\\model\\qti\\choice\\Hottext'
 		);

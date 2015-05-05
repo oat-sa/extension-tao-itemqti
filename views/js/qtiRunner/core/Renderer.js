@@ -110,7 +110,8 @@ define([
         'inlineChoice',
         'simpleAssociableChoice',
         'simpleChoice',
-        'infoControl'
+        'infoControl',
+        'include'
     ];
 
     var _dependencies = {
@@ -463,6 +464,7 @@ define([
             var ret = false,
                 qtiClass = qtiSubclass || qtiInteraction.qtiClass,
                 renderer = _getClassRenderer(qtiClass);
+
             if(renderer){
                 if(_.isFunction(renderer.destroy)){
                     ret = renderer.destroy.call(this, qtiInteraction);
@@ -643,16 +645,13 @@ define([
          * @deprecated in favor of resolveUrl
          */
         this.getAbsoluteUrl = function(relUrl){
-
-            console.warn('Deprecated in favor of Renderer.resolveUrl');
-
-            //allow relative url outpu only if explicitely said so
-            if(this.getOption('luserRelativeUrl')){
+            //allow relative url output only if explicitely said so
+            if(this.getOption('userRelativeUrl')){
                 return relUrl.replace(/^\.?\//, '');
             }
 
-            if(/^http(s)?:\/\//i.test(relUrl)){
-                //already absolute
+            if(/^http(s)?:\/\//i.test(relUrl) || /^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(relUrl)){
+                //already absolute or base64 encoded
                 return relUrl;
             }else{
 

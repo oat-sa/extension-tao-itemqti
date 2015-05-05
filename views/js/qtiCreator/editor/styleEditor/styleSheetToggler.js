@@ -48,7 +48,8 @@ define([
 
                 uploader.resourcemgr({
                     appendContainer: '#mediaManager',
-                    root: '/',
+                    path: '/',
+                    root: 'local',
                     browseUrl: helpers._url('files', 'ItemContent', 'taoItems'),
                     uploadUrl: helpers._url('upload', 'ItemContent', 'taoItems'),
                     deleteUrl: helpers._url('delete', 'ItemContent', 'taoItems'),

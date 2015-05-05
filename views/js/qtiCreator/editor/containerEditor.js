@@ -7,12 +7,13 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
-    'taoQtiItem/qtiCreator/helper/simpleParser',
+    'taoQtiItem/qtiItem/helper/simpleParser',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
-], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, content, htmlEditor, toolbarTpl){
+], function(_, $, Loader, Container, Item, event, qtiClasses, xmlRenderer, simpleParser, creatorRenderer, xincludeRenderer, content, htmlEditor, toolbarTpl){
     "use strict";
     var _ns = 'containereditor';
 
@@ -94,12 +95,20 @@ define([
             this.loadContainer(container, data);
 
             //apply common renderer :
-            creatorRenderer.load(['img', 'object', 'math', '_container'], function(){
+            creatorRenderer.load(['img', 'object', 'math', 'include', '_container'], function(){
                 
+                var baseUrl = this.getOption('baseUrl');
                 container.setRenderer(this);
                 $container.html(container.render());
                 container.postRender();
-
+                
+                //resolve xinclude
+                _.each(container.getComposingElements(), function(element){
+                    if(element.qtiClass === 'include'){
+                        xincludeRenderer.render(element.data('widget'), baseUrl);
+                    }
+                });
+                        
                 buildContainer($container);
                 createToolbar($container, options.$toolbarLocation);
                 buildEditor($container, container, {
