@@ -1,4 +1,18 @@
-define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_, defaultRenderConfig){
+define([
+    'lodash',
+    'taoQtiItem/qtiDefaultRenderer/renderers/config',
+    'taoItems/assets/manager',
+    'taoItems/assets/strategies',
+], function(_, defaultRenderConfig, assetManagerFactory, assetStrategies){
+
+    //asset manager using base url
+    var assetManager = assetManagerFactory([
+        assetStrategies.taomedia,
+        assetStrategies.external,
+        assetStrategies.base64,
+        assetStrategies.baseUrl
+    ], {baseUrl : ''});
+
     var locations = _.extend(_.clone(defaultRenderConfig.locations), {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
@@ -46,7 +60,10 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
     });
     return {
         name:'commonRenderer',
-        locations : locations
+        locations: locations,
+        options:   {
+            assetManager: assetManager
+        }
     };
 });
 

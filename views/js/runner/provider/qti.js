@@ -24,8 +24,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiCommonRenderer/renderers/Renderer'],
-function($, _, QtiLoader, QtiRenderer){
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoItems/assets/manager',
+], function($, _, QtiLoader, QtiRenderer, assetManagerFactory){
     'use strict';
 
     /**
@@ -36,9 +37,9 @@ function($, _, QtiLoader, QtiRenderer){
         init : function(itemData, done){
             var self = this;
 
-            //TODO configure the renderer URLs using an AssetManager
+            //TODO configure the  AssetManager strategies
             this._renderer = new QtiRenderer({
-                baseUrl : './'
+                assetManager : assetManagerFactory(function(url){ return url;})
             });
 
             new QtiLoader().loadItemData(itemData, function(item){

@@ -250,7 +250,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 defaultData.object = {
                     attributes : this.object.getAttributes()
                 };
-                defaultData.object.attributes.data = _renderer.getAbsoluteUrl(this.object.attr('data'));
+                defaultData.object.attributes.data = _renderer.resolveUrl(this.object.attr('data'));
             }
 
             tplData = _.merge(defaultData, args.data || {});
