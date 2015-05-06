@@ -32,7 +32,9 @@ define([
     var assetManager = assetManagerFactory([{
         name : 'nomalize',
         handle: function normalizeStrategy(url){
-            return url.replace(/^\.?\//, '');
+            if(url){
+                return url.toString().replace(/^\.?\//, '');
+            }
         }
     }]);
 
