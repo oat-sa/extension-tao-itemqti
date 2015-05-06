@@ -54,6 +54,7 @@ define([
                 !dom.contains($bodyEltForm)){
 
               assetManager = assetManagerFactory([
+                    assetStrategies.taomedia,
                     assetStrategies.external,
                     assetStrategies.base64,
                     assetStrategies.baseUrl

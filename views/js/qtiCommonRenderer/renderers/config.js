@@ -7,6 +7,7 @@ define([
 
     //asset manager using base url
     var assetManager = assetManagerFactory([
+        assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
         assetStrategies.baseUrl
