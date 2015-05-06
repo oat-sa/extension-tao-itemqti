@@ -256,9 +256,6 @@ define([
 
                 if(containerWidth > 0 || givenWidth > 0){
 
-                    if(!givenWidth && $container.children('.image-sidebar').length){
-                        diff += $container.children('.image-sidebar').outerWidth(true);
-                    }                    
 
                     if(givenWidth < containerWidth && givenWidth < maxWidth){
                         containerWidth = givenWidth - diff;
