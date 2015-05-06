@@ -41,21 +41,31 @@ class OptimizeJsonTest extends TaoPhpUnitTestRunner
      * test the building and exporting out the items
      */
     public function testToQTI(){
-        
+
         $itemCount = 0;
         $jsonStr = '';
-        
-        foreach(array_merge(glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml')) as $file){
+        $files = array_merge(
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'), 
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubrickBlock/*.xml'), 
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml'), 
+            glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml')
+        );
+
+        foreach($files as $file){
 
             $qtiParser = new Parser($file);
             $item = $qtiParser->load();
             $itemData = $item->toArray();
             $itemJson = json_encode($itemData);
-            
+
             $jsonStr .= $itemJson;
             $itemCount++;
+
+            $itemName = basename($file, '.xml');
+            $jsonFile = dirname(__FILE__).'/samples/json/'.$itemName.'.json';
+            file_put_contents($jsonFile, json_encode($itemData, JSON_PRETTY_PRINT));
         }
-        
+
         var_dump($itemCount, strlen($jsonStr));
     }
 
