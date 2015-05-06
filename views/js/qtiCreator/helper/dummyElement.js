@@ -36,7 +36,7 @@ define([
                 }
             },
             include: {
-                icon: 'media',
+                icon: 'shared-file',
                 css: {
                     width : '100%',
                     height : 100
