@@ -2,10 +2,10 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
-    'lodash', 
-    'raphael', 
-    'scale.raphael', 
+    'jquery',
+    'lodash',
+    'raphael',
+    'scale.raphael',
     'json!taoQtiItem/qtiCommonRenderer/renderers/graphic-style.json'
 ], function($, _, raphael, scaleRaphael, gstyle){
 
@@ -40,7 +40,7 @@ define([
                 coords[3] - coords[1]
             ];
         },
-        
+
         /**
          * Creates the coords for a default shape (a rectangle that covers all the paper)
          * @param {Raphael.Paper} paper - the paper
@@ -49,7 +49,7 @@ define([
         'default' : function(paper){
            return [ 0, 0, paper.width, paper.height ];
         },
-        
+
         /**
          * polygone coordinate mapper:  from x1,y1,...,xn,yn to SVG path format
          * @param {Array} coords - QTI coords
@@ -64,7 +64,7 @@ define([
                 coords.push(coords[0]);
                 coords.push(coords[1]);
             }
-            
+
             // move to first point
             coords[0] = "M" + coords[0];
             for(a = 1; a < size; a++){
@@ -102,10 +102,10 @@ define([
            return [
                 attr.cx,
                 attr.cy,
-                attr.r      
+                attr.r
            ];
         },
-        
+
         /**
          * Ellispe coordinate mapper
          * @param {Object} attr - Raphael Element's attributes
@@ -128,7 +128,7 @@ define([
         'default' : function(attr){
            return this.rect(attr);
         },
-        
+
         /**
          * polygone coordinate mapper:  from SVG path (available as segments) to x1,y1,...,xn,yn format
          * @param {Raphael.Paper} paper - the paper
@@ -156,7 +156,7 @@ define([
      * @exports qtiCommonRenderer/helpers/Graphic
      */
     var GraphicHelper = {
-   
+
         /**
          * Raw access to the styles
          * @type {Object}
@@ -187,7 +187,7 @@ define([
          * @param {Number} [options.height] - the paper height
          * @param {String} [options.imgId] - an identifier for the image element
          * @returns {Raphael.Paper} the paper
-         */ 
+         */
         responsivePaper : function(id, serial, options){
 
             var paper, image;
@@ -195,7 +195,7 @@ define([
             var $container = options.container || $('#' + id).parent();
             var $editor    = $('.image-editor', $container);
             var $body  = $container.closest('.qti-itemBody');
-            var factory = raphael.type === 'SVG' ? scaleRaphael : raphael; 
+            var factory = raphael.type === 'SVG' ? scaleRaphael : raphael;
 
             var width = options.width || $container.innerWidth();
             var height = options.height || $container.innerHeight();
@@ -209,18 +209,18 @@ define([
             image = paper.image(options.img, 0, 0, width, height);
             if(options.imgId){
                 image.id = options.imgId;
-            } 
+            }
 
-            //retry to resize once the SVG is loaded 
+            //retry to resize once the SVG is loaded
             $(image.node)
               .attr('externalResourcesRequired','true')
               .on("load", function() {
-            
-                resizePaper(); 
+
+                resizePaper();
             });
 
-            if(raphael.type === 'SVG'){ 
-           
+            if(raphael.type === 'SVG'){
+
                 //scale on creation
                 resizePaper();
 
@@ -239,7 +239,7 @@ define([
                     options.resize(width, 1);
                 }
             }
-            
+
             /**
              * scale the raphael paper
              * @private
@@ -258,7 +258,7 @@ define([
 
                     if(!givenWidth && $container.children('.image-sidebar').length){
                         diff += $container.children('.image-sidebar').outerWidth(true);
-                    }                    
+                    }
 
                     if(givenWidth < containerWidth && givenWidth < maxWidth){
                         containerWidth = givenWidth - diff;
@@ -267,7 +267,7 @@ define([
                     } else {
                         containerWidth -= diff;
                     }
-     
+
                     if($container.hasClass('responsive')){
                         factor = containerWidth / width;
 
@@ -285,7 +285,7 @@ define([
 
             return paper;
         },
- 
+
         /**
          * Create a new Element into a raphael paper
          * @param {Raphael.Paper} paper - the interaction paper
@@ -294,7 +294,7 @@ define([
          * @param {Object} [options] - additional creation options
          * @param {String} [options.id] - to set the new element id
          * @param {String} [options.title] - to set the new element title
-         * @param {String} [options.style = basic] - to default style 
+         * @param {String} [options.style = basic] - to default style
          * @param {Boolean} [options.hover = true] - to disable the default hover state
          * @param {Boolean} [options.touchEffect = true] - a circle appears on touch
          * @param {Boolean} [options.qtiCoords = true] - if the coords are in QTI format
@@ -303,7 +303,7 @@ define([
         createElement : function(paper, type, coords, options){
             var self = this;
             var element;
-            var bbox; 
+            var bbox;
             var shaper = shapeMap[type] ? paper[shapeMap[type]] : paper[type];
             var shapeCoords = options.qtiCoords !== false ? self.raphaelCoords(paper, type, coords) : coords;
 
@@ -316,12 +316,17 @@ define([
                     if(options.title){
                         element.attr('title', options.title);
                     }
+
                     element.attr(gstyle[options.style || 'basic'])
                             .toFront();
+
+                    //preven issue in firefox 37
+                    $(element.node).removeAttr('stroke-dasharray');
+
                     if(options.hover !== false){
                       element.hover(function(){
                             if(!element.flashing){
-                                self.updateElementState(this, 'hover'); 
+                                self.updateElementState(this, 'hover');
                             }
                       }, function(){
                             if(!element.flashing){
@@ -329,18 +334,18 @@ define([
                             }
                       });
                     }
-                        
+
                    if(options.touchEffect !== false){
                        element.touchstart(function(){
                             self.createTouchCircle(paper, element.getBBox());
                        });
                    }
                }
-    
+
             } else {
                 throw new Error('Unable to find method ' + type + ' on paper');
             }
-            return element; 
+            return element;
         },
 
         /**
@@ -350,7 +355,7 @@ define([
          * @param {Object} [options.id] - and id to identify the target
          * @param {Object} [options.point] - the point to add to the paper
          * @param {Number} [options.point.x = 0] - point's x coord
-         * @param {Number} [options.point.y = 0] - point's y coord 
+         * @param {Number} [options.point.y = 0] - point's y coord
          * @param {Boolean} [options.hover] = true - the target has an hover effect
          * @param {Function} [options.create] - call once created
          * @param {Function} [options.remove] - call once removed
@@ -360,14 +365,14 @@ define([
             options     = options || {};
             var point   = options.point || {x : 0, y : 0};
             var baseSize= 18;
-            var factor  = (paper.w && paper.width) ? paper.width / paper.w : 1; 
+            var factor  = (paper.w && paper.width) ? paper.width / paper.w : 1;
             var size    = factor !== 1 ? Math.floor(18 / factor) + 1 : baseSize;
             var half    = size / 2;
             var x       = point.x >= half ? point.x - half : 0;
             var y       = point.y >= half ? point.y - half : 0;
             var hover   = typeof options.hover === 'undefined' ? true : !!options.hover;
             var tBBox;
-        
+
             //create the target from a path
             var target = paper
                 .path(gstyle.target.path)
@@ -383,7 +388,7 @@ define([
                 paper.forEach(function(element){
                     if(element.data('target')){
                         count++;
-                    }   
+                    }
                 });
                 target.id = 'target-' + count;
             }
@@ -425,7 +430,7 @@ define([
             if(_.isFunction(options.create)){
                 options.create(target);
             }
-    
+
             return target;
         },
 
@@ -446,11 +451,11 @@ define([
             }
             if(!_.isArray(coords) || coords.length < coordsValidator[type]){
                 throw new Error('Invalid coords ' + JSON.stringify(coords) + '  for type ' + type);
-            } 
+            }
             switch(type){
-                case 'rect' : shapeCoords = qti2raphCoordsMapper.rect(coords); break; 
-                case 'default' : shapeCoords = qti2raphCoordsMapper['default'].call(null, paper); break; 
-                case 'poly' : shapeCoords = qti2raphCoordsMapper.poly(coords); break; 
+                case 'rect' : shapeCoords = qti2raphCoordsMapper.rect(coords); break;
+                case 'default' : shapeCoords = qti2raphCoordsMapper['default'].call(null, paper); break;
+                case 'poly' : shapeCoords = qti2raphCoordsMapper.poly(coords); break;
                 default : shapeCoords = coords; break;
             }
             return shapeCoords;
@@ -471,10 +476,10 @@ define([
             }
             return result;
         },
- 
+
         /**
          * Create a circle that animate and disapear from a shape.
-         * 
+         *
          * @param {Raphael.Paper} paper - the paper
          * @param {Raphael.Element} element - used to get the bbox from
          */
@@ -485,13 +490,13 @@ define([
             _.defer(function(){
                 tCircle.animate({'r' : radius + 5, opacity: 0.7}, 300, function(){
                     tCircle.remove();
-                });     
+                });
             });
         },
 
         /**
          * Create a text, that scales.
-         * 
+         *
          * @param {Raphael.Paper} paper - the paper
          * @param {Object} options - the text options
          * @param {Number} options.left - x coord
@@ -511,7 +516,7 @@ define([
             var style   = options.style || 'small-text';
             var title   = options.title || '';
             var factor  = 1;
-        
+
             if(paper.width && paper.w){
                 factor = paper.width / paper.w;
             }
@@ -523,25 +528,25 @@ define([
             if(options.hide){
                 text.hide();
             }
-                
+
             text.attr(gstyle[style]);
- 
+
             if(typeof factor !== 'undefined' && factor !== 1){
                 fontSize = parseInt(text.attr('font-size'), 10);
                 scaledFontSize   = Math.floor(fontSize / factor) + 1;
-        
+
                 text.attr('font-size', scaledFontSize);
             }
-  
+
             if(title){
                 this.updateTitle(text, title);
             }
-            return text; 
+            return text;
         },
 
         /**
          * Create a text in the middle of the related shape.
-         * 
+         *
          * @param {Raphael.Paper} paper - the paper
          * @param {Raphael.Element} shape - the shape to add the text to
          * @param {Object} options - the text options
@@ -557,23 +562,23 @@ define([
             var self    = this;
             var fontSize, scaledFontSize;
             var bbox    = shape.getBBox();
-       
+
             var text = this.createText(paper, _.merge({
                 left : bbox.x + (bbox.width / 2),
                 top  : bbox.y + (bbox.height / 2)
             }, options));
- 
+
             if(options.shapeClick){
                 text.click(function(){
                     self.trigger(shape, 'click');
                 });
-            }   
-            return text; 
+            }
+            return text;
         },
 
         /**
          * Create an image with a padding and a border, using a set.
-         * 
+         *
          * @param {Raphael.Paper} paper - the paper
          * @param {Object} options - image options
          * @param {Number} options.left - x coord
@@ -589,19 +594,19 @@ define([
         createBorderedImage : function(paper, options){
             var padding = options.padding >= 0 ? options.padding : 6;
             var halfPad = padding / 2;
- 
+
             var rx = options.left,
-                ry = options.top, 
-                rw = options.width + padding, 
+                ry = options.top,
+                rw = options.width + padding,
                 rh = options.height + padding;
 
             var ix = options.left + halfPad,
                 iy = options.top + halfPad,
-                iw = options.width, 
+                iw = options.width,
                 ih = options.height;
 
             var set = paper.set();
-    
+
             //create a rectangle with a padding and a border.
             var rect = paper
                 .rect(rx, ry, rw, rh)
@@ -613,7 +618,7 @@ define([
                 .attr(gstyle['imageset-img']);
 
             if(options.shadow){
-                set.push(rect.glow({ 
+                set.push(rect.glow({
                     width   : 2,
                     offsetx : 1,
                     offsety : 1
@@ -635,10 +640,10 @@ define([
                 image.animateWith(elt, animation, {x : x + halfPad, y : y + halfPad}, duration || 400);
                 return set;
             };
-        
+
             return set;
         },
-        
+
         /**
          * Update the visual state of an Element
          * @param {Raphael.Element} element - the element to change the state
@@ -649,8 +654,11 @@ define([
             if(element && element.animate){
                 element.animate(gstyle[state], 200, 'linear', function(){
                     element.attr(gstyle[state]); //for attr that don't animate
+
+                    //preven issue in firefox 37
+                    $(element.node).removeAttr('stroke-dasharray');
                 });
-        
+
                 if(title){
                     this.updateTitle(element, title);
                 }
@@ -670,7 +678,7 @@ define([
                         element.node.removeChild(child);
                     }
                 });
-                
+
                 //then set the new title
                 element.attr('title', title);
             }
@@ -684,11 +692,11 @@ define([
         highlightError : function(element, restoredState){
             var self = this;
             if(element){
-               element.flashing = true; 
+               element.flashing = true;
                self.updateElementState(element, 'error');
                 _.delay(function(){
                     self.updateElementState(element, restoredState || 'basic');
-                    element.flashing = false; 
+                    element.flashing = false;
                 }, 800);
            }
         },
@@ -731,20 +739,20 @@ define([
                 } else if(paper.width > paper.w){
                     rwidth = (paper.width - paper.w) / 2;
                     point.x = Math.round(point.x - rwidth);
-                } else {  
+                } else {
                     wfactor = paper.w / paper.width;
                     point.x = Math.round(point.x * wfactor);
 
                     rheight = (paper.height - (paper.height * (2 - wfactor))) / 2;
                     point.y = Math.round((point.y * wfactor) - rheight);
-                } 
+                }
             }
-    
+
             return point;
         },
 
         /**
-         * Get paper position relative to the container 
+         * Get paper position relative to the container
          * @param {jQueryElement} $container - the paper container
          * @param {Raphael.Paper} paper - the interaction paper
          * @returns {Object} position with top and left
@@ -756,8 +764,8 @@ define([
             var ch = parseInt($container.height(), 10);
 
             return {
-                left : ((cw - pw) / 2), 
-                top : ((ch - ph) / 2) 
+                left : ((cw - pw) / 2),
+                top : ((ch - ph) / 2)
             };
         },
 
@@ -766,9 +774,9 @@ define([
          * @param {jQueryElement} $container - the element that contains the paper
          * @param {MouseEvent} event - the event triggered by the click
          * @returns {Object} the x,y point
-         */ 
+         */
         clickPoint : function($container, event){
-            var x, y; 
+            var x, y;
             var offset = $container.offset();
              if (event.pageX || event.pageY) {
                 x = event.pageX - offset.left;
