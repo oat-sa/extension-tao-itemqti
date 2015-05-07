@@ -427,7 +427,7 @@ abstract class Element implements Exportable
         }
         
         if(DEBUG_MODE){
-            //debug mode
+            //in debug mode, add debug data, such as the related item
             $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
         }
 
@@ -624,12 +624,13 @@ abstract class Element implements Exportable
     protected function buildSerial(){
         
         if(DEBUG_MODE){
-            //if debug mode:
+            //in debug mode, use more meaningful serials
             $clazz = strtolower(get_class($this));
             $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
             $serial = str_replace('.', '', uniqid($prefix, true));
             $serial = str_replace('\\', '_', $serial);
         }else{
+            //build a short unique id for memory saving
             $serial = uniqid();
         }
         
