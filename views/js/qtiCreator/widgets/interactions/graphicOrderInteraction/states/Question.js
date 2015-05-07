@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -14,8 +34,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicOrder',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
-    'taoQtiItem/qtiCreator/helper/panel'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement, identifierHelper, formTpl, choiceFormTpl, panel){
+    'taoQtiItem/qtiCreator/helper/panel',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
+    'ui/mediasizer'
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement, identifierHelper, formTpl, choiceFormTpl, panel, resourceManager, bgImage){
+
+    'use strict';
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -164,6 +189,7 @@ define([
         if(widget._editor){
             widget._editor.destroy();
         }
+        $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
     };
     
     /**
@@ -198,30 +224,14 @@ define([
 
         formElement.initWidget($form);
         
+        bgImage.setupImage(widget);
+
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:false});
-        callbacks.data = function(i, value){
-            interaction.object.attr('data', value);
-            widget.rebuild({
-                ready:function(widget){
-                    widget.changeState('question');
-                }
-            });
-        };
-        callbacks.width = function(i, value){
-            interaction.object.attr('width', value);
-        };
-        callbacks.height = function(i, value){
-            interaction.object.attr('height', value);
-        };
-        callbacks.type = function(i, value){
-            if(!value || value === ''){
-                interaction.object.removeAttr('type');
-            } else {
-                interaction.object.attr('type', value);
-            }
-        };
-        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit : false });
+        bgImage.setChangeCallbacks(
+            widget,
+            formElement,
+            formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', {updateCardinality:false})
+        );
         
         interactionFormElement.syncMaxChoices(widget);
     };

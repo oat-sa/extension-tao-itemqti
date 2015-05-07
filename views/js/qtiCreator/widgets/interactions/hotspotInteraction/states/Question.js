@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -15,8 +35,12 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
     'taoQtiItem/qtiCreator/helper/panel',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'ui/mediasizer'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl,  panel){
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement,  identifierHelper, formTpl, choiceFormTpl, panel, resourceManager, bgImage){
+
+    'use strict';
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -179,10 +203,6 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
-        var $container = widget.$original;
-        var isResponsive = $container.hasClass('responsive');
-        var $mediaSizer;
-        var $bgImage;
 
         $form.html(formTpl({
             baseUrl         : options.baseUrl,
@@ -195,62 +215,17 @@ define([
             type            : interaction.object.attr('type')
         }));
 
-        imageSelector($form, options); 
+        imageSelector($form, options);
 
         formElement.initWidget($form);
 
-        if(!isResponsive) {
-            $mediaSizer = $form.find('.media-sizer-panel');
+        bgImage.setupImage(widget);
 
-            $bgImage = $container.find('.svggroup svg image');
-
-            if(!!$bgImage.length){
-                $mediaSizer.empty().mediasizer({
-                    target: $bgImage,
-                    showResponsiveToggle: false,
-                    showSync: false,
-                    responsive: false,
-                    parentSelector: $container.attr('id'),
-                    applyToMedium: false,
-                    maxWidth: interaction.object.attr('width')
-                });
-            }
-
-            $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-
-                interaction.object.attr('width', params.width);
-                interaction.object.attr('height', params.height);
-
-                $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
-            });
-        }
-        
-        //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices');
-        callbacks.data = function(inteaction, value){
-            interaction.object.attr('data', value);
-            widget.rebuild({
-                ready: function(widget){
-                    _.defer(function(){
-                        widget.changeState('question');
-                    });
-                }
-            });
-        };
-        callbacks.width = function(inteaction, value){
-            interaction.object.attr('width', value);
-        };
-        callbacks.height = function(inteaction, value){
-            interaction.object.attr('height', value);
-        };
-        callbacks.type = function(inteaction, value){
-            if(!value || value === ''){
-                interaction.object.removeAttr('type');
-            } else {
-                interaction.object.attr('type', value);
-            }
-        };
-        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit : false });
+        bgImage.setChangeCallbacks(
+            widget,
+            formElement,
+            formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices')
+        );
         
         interactionFormElement.syncMaxChoices(widget);
     };

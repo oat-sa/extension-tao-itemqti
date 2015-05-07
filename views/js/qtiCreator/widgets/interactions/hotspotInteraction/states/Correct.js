@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -11,10 +31,12 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
+    'use strict';
+
     /**
      * Initialize the state: use the common renderer to set the correct response.
      */
-    function initCorrectState(){
+    var initCorrectState = function initCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
@@ -38,12 +60,12 @@ define([
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(PciResponse.unserialize(data.response, interaction));
         });
-    }
+    };
 
     /**
      * Exit the correct state
      */
-    function exitCorrectState(){
+    var exitCorrectState = function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
         
@@ -62,7 +84,7 @@ define([
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();
         widget.createChoices(); 
-    }
+    };
 
     /**
      * The correct answer state for the hotspot interaction
