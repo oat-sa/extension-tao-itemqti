@@ -47,7 +47,22 @@ class QtiItemPacker implements Packable
     private static $itemType = 'qti';
 
     /**
+     * Determines what type of assets should be packed as well as packer
+     * @example array('css'=>'base64')
+     * @var array
+     */
+    protected $assetEncoders = array( 'js'    => 'none',
+                                      'css'   => 'none',
+                                      'font'  => 'none',
+                                      'img'   => 'none',
+                                      'audio' => 'none',
+                                      'video' => 'none');
+
+    protected $nestedResourcesInclusion = true;
+
+    /**
      * packItem implementation for QTI
+     * @inheritdoc
      * @see {@link Packable}
      * @throws InvalidArgumentException
      * @throws common_Exception
@@ -77,10 +92,13 @@ class QtiItemPacker implements Packable
             if(!is_null($qtiItem)){
                 $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
 
+                $itemPack->setAssetEncoders($this->getAssetEncoders());
 
                 $assetParser = new AssetParser($qtiItem, $path);
-                foreach($assetParser->extract() as $type => $assets){
-                    $itemPack->setAssets($type, $assets);
+                $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
+
+                foreach($assetParser->extract($itemPack) as $type => $assets){
+                    $itemPack->setAssets($type, $assets , $path);
                 }
             }
 
@@ -106,5 +124,37 @@ class QtiItemPacker implements Packable
             return file_get_contents($file);
         }
         throw new common_Exception('Unable to retrieve item content at : ' . $file);
+    }
+
+    /**
+     * @return array
+     */
+    private function getAssetEncoders()
+    {
+        return $this->assetEncoders;
+    }
+
+    /**
+     * @param array $assetEncoders
+     */
+    public function setAssetEncoders( array $assetEncoders )
+    {
+        $this->assetEncoders = $assetEncoders;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNestedResourcesInclusion()
+    {
+        return $this->nestedResourcesInclusion;
+    }
+
+    /**
+     * @param boolean $nestedResourcesInclusion
+     */
+    public function setNestedResourcesInclusion( $nestedResourcesInclusion )
+    {
+        $this->nestedResourcesInclusion = $nestedResourcesInclusion;
     }
 }

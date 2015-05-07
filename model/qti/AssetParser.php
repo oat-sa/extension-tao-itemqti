@@ -60,6 +60,12 @@ class AssetParser
     private $getSharedLibraries;
 
     /**
+     * Set mode - if parser have to find all external entries ( like url, require etc )
+     * @var bool
+     */
+    private $deepParsing = true;
+
+    /**
      * The extracted assets
      * @var array
      */
@@ -126,7 +132,7 @@ class AssetParser
             $this->addAsset('css', $href);
 
             $parsedUrl = parse_url($href);
-            if(!is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
+            if($this->isDeepParsing() && !is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
                 //relative
                 $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
                 if(file_exists($styleSheetPath)){
@@ -282,5 +288,19 @@ class AssetParser
         return $this->getSharedLibraries;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isDeepParsing()
+    {
+        return $this->deepParsing;
+    }
 
+    /**
+     * @param boolean $deepParsing
+     */
+    public function setDeepParsing( $deepParsing )
+    {
+        $this->deepParsing = $deepParsing;
+    }
 }

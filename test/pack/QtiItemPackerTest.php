@@ -331,6 +331,102 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @expectedException \common_Exception
+     */
+    public function testPackingItemWithCssBase64(){
+        $sample = __DIR__ . '/../samples/xml/qtiv2p1/sample-elections.xml';
+        $path   = __DIR__ . '/../samples/css';
+
+
+        $this->assertTrue(file_exists($sample));
+
+        /**
+         * @var QtiItemPacker $itemPackerMock
+         */
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent'))
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($sample)));
+
+        $itemPackerMock->setAssetEncoders(array('js'    => 'base64file',
+                                          'css'   => 'base64file',
+                                          'font'  => 'base64file',
+                                          'img'   => 'none',
+                                          'audio' => 'none',
+                                          'video' => 'none'));
+
+        $itemPackerMock->setNestedResourcesInclusion(false);
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        $this->assertEquals(1, count($itemPack->getAssets('css')));
+        $this->assertEquals(0, count($itemPack->getAssets('font')));
+
+        $css = $itemPack->getAssets( 'css' );
+        $this->assertStringStartsWith( 'data:text/css;', $css[0], 'Have appropriate prefix' );
+        $this->assertRegExp( '/icon-checkbox/', base64_decode( $css[0] ), 'Correctly decoded back' );
+
+        $itemPackerMock->setNestedResourcesInclusion(true);
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+
+    }
+
+    public function testPackingItemWithVideoBase64(){
+        $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
+        $path   = __DIR__ . '/../samples/xml/packer';
+
+        $this->assertTrue(file_exists($sample));
+
+        /**
+         * @var QtiItemPacker $itemPackerMock
+         */
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent'))
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($sample)));
+
+        $itemPackerMock->setAssetEncoders(array('js'    => 'none',
+                                                'css'   => 'none',
+                                                'font'  => 'none',
+                                                'img'   => 'base64file',
+                                                'audio' => 'base64file',
+                                                'video' => 'base64file'));
+
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        $this->assertEquals(2, count($itemPack->getAssets('video')));
+
+        $video = $itemPack->getAssets( 'video' );
+        $this->assertStringStartsWith( 'data:video/mp4;', $video[0], 'Encoded as it is local resource' );
+        $this->assertStringStartsWith( 'https://', $video[1], 'Is external resource' );
+
+    }
+
+    /**
      * Test packing a PCI item
      */
     public function testPackingPciItem(){
@@ -361,6 +457,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(3, count($itemPack->getAssets('img')));
         $this->assertEquals(2, count($itemPack->getAssets('css')));
-        $this->assertEquals(3, count($itemPack->getAssets('js')));
+        $this->assertEquals(2, count($itemPack->getAssets('js')));
     }
 }
