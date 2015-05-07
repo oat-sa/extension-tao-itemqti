@@ -1,6 +1,6 @@
 define([
-    'taoQtiItem/qtiItem/core/Element', 
-    'lodash', 
+    'taoQtiItem/qtiItem/core/Element',
+    'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util'
 ], function(Element, _, rendererConfig, util){
@@ -45,10 +45,10 @@ define([
                 default:
                     defaultData.object = true;
             }
-            
-            defaultData.attributes = {data : renderer.getAbsoluteUrl(this.attr('data'))};
+
+            defaultData.attributes = {data : renderer.resolveUrl(this.attr('data'))};
             defaultData.body = this._alt;
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         isEmpty : function(){

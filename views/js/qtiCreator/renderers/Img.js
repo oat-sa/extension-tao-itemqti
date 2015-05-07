@@ -7,7 +7,7 @@ define([
     var CreatorImg = _.clone(Renderer);
 
     CreatorImg.render = function(img, options){
-        
+
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
         options.uri = this.getOption('uri');

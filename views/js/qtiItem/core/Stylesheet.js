@@ -8,7 +8,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'taoQtiItem/qtiItem/helper/
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {};
 
-            defaultData.attributes = {href : renderer.getAbsoluteUrl(this.attr('href'))};
+            defaultData.attributes = {href : renderer.resolveUrl(this.attr('href'))};
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         }

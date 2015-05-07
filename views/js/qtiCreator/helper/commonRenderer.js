@@ -4,26 +4,25 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container'
 ], function(_, Renderer, containerHelper){
     "use strict";
+
     //store the curret execution context of the common renderer (preview)
     var _$previousContext = null;
-    
+
     //configure and instanciate once only:
     var _renderer = new Renderer({
-        baseUrl : '',
         shuffleChoices : true
     });
-    
-    
+
     var commonRenderer = {
         render : function(item, $container){
 
             commonRenderer.setContext($container);
-            
+
             return _renderer.load(function(){
-                
+
                 $container.append(item.render(this));
                 item.postRender({}, '', this);
-                
+
             }, item.getUsedClasses());
         },
         get : function(){

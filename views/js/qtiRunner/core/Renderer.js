@@ -147,20 +147,13 @@ define([
      * The built Renderer class
      * @constructor
      * @param {Object} [options] - the renderer options
+     * @param {AssetManager} [options.assetManager] - The renderer needs an AssetManager to resolve URLs (see {@link taoItems/assets/manager})
+     * @param {Boolean} [options.shuffleChoices = true] - Does the renderer take care of the shuffling
      * @param {Object} [options.decorators] - to set up rendering decorator
      * @param {preRenderDecorator} [options.decorators.before] - to set up a pre decorator
      * @param {postRenderDecorator} [options.decorators.after] - to set up a post decorator
      */
     var Renderer = function(options){
-
-        options = options || {};
-
-        this.isRenderer = true;
-        this.name = '';
-        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
-
-        //store shuffled choice here
-        this.shuffledChoices = [];
 
         /**
          * Store the registered renderer location
@@ -171,6 +164,18 @@ define([
          * Store loaded renderers
          */
         var _renderers = {};
+
+        options = options || {};
+
+
+        this.isRenderer = true;
+
+        this.name = '';
+
+        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
+
+        //store shuffled choice here
+        this.shuffledChoices = [];
 
         /**
          * Get the actual renderer of the give qti class or subclass:
@@ -225,6 +230,14 @@ define([
                 return options[key];
             }
             return null;
+        };
+
+        /**
+         * Get the bound assetManager
+         * @returns {AssetManager} the assetManager
+         */
+        this.getAssetManager = function getAssetManager(){
+            return options.assetManager;
         };
 
         /**
@@ -614,6 +627,23 @@ define([
             return _locations;
         };
 
+        /**
+         * Resolve URLs using the defined assetManager's strategies
+         * @param {String} url - the URL to resolve
+         * @returns {String} the resolved URL
+         */
+        this.resolveUrl = function resolveUrl(url){
+            if(!options.assetManager){
+                return url;
+            }
+            if(typeof url === 'string' && url.length > 0){
+                return options.assetManager.resolve(url);
+            }
+        };
+
+        /**
+         * @deprecated in favor of resolveUrl
+         */
         this.getAbsoluteUrl = function(relUrl){
             //allow relative url output only if explicitely said so
             if(this.getOption('userRelativeUrl')){
@@ -648,7 +678,18 @@ define([
         };
     };
 
+    /**
+     * Expose the renderer's factory
+     * @exports taoQtiItem/qtiRunner/core/Renderer
+     */
     return {
+
+        /**
+         * Creates a new Renderer by extending the Renderer's prototype
+         * @param {Object} renderersLocations -
+         * @param {String} [name] - the new renderer name
+         * @param {Object} [defaultOptions] - the renderer options
+         */
         build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
                 Renderer.apply(this, arguments);
