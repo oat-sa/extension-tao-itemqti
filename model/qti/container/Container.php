@@ -328,6 +328,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
         );
         
         if(DEBUG_MODE){
+            //in debug mode, add debug data, such as the related item
             $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
         }   
         
