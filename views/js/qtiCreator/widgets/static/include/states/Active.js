@@ -48,10 +48,9 @@ define([
 
         var _openResourceMgr = function(){
             $uploadTrigger.resourcemgr({
-                title : __('Please select a shared stimulus file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                title : __('Please select a shared stimulus file from the resource manager.'),
                 appendContainer : options.mediaManager.appendContainer,
-                excludedFile    : ['/qti.xml'],
-                mediaSourcesUrl : options.mediaManager.mediaSourcesUrl,
+                mediaSourcesUrl : options.mediaManager.mediaSourcesUrl+'?exclude=local',
                 browseUrl : options.mediaManager.browseUrl,
                 uploadUrl : options.mediaManager.uploadUrl,
                 deleteUrl : options.mediaManager.deleteUrl,
