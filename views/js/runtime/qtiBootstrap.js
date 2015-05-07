@@ -15,8 +15,14 @@
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/qtiCommonRenderer/renderers/Renderer', 'iframeNotifier', 'core/history'],
-    function($, _, QtiRunner, Renderer, iframeNotifier, history){
+define([
+    'jquery',
+    'lodash',
+    'taoQtiItem/qtiRunner/core/QtiRunner',
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'iframeNotifier',
+    'core/history'
+], function($, _, QtiRunner, Renderer, iframeNotifier, history){
     'use strict';
 
     //fix backspace going back into the history
@@ -24,33 +30,35 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
 
     /**
      * The bootstrap is used to set up a QTI item at runtime. It connects to the itemApi.
-     * 
+     *
      * @author Bertrand Chevrier <bertrand@taotesting.com>
-     * @export taoQtiItem/runtime/qtiBootstrap
-     * 
+     * @exports taoQtiItem/runtime/qtiBootstrap
+     *
      * @param {Object} runnerContext - the item context
      */
     return function bootstrap (runnerContext){
-       
+
         //reconnect to global itemApi function
         window.onItemApiReady = function onItemApiReady(itemApi) {
-            var qtiRunner = new QtiRunner(),
-                coreItemData = runnerContext.itemData,
-                variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
-            
+            var qtiRunner = new QtiRunner();
+            var coreItemData = runnerContext.itemData;
+            var variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+
+            var renderer = new Renderer();
+
             // Makes the runner interface available from outside the frame
             // for preview.
             window.qtiRunner = qtiRunner;
-            
+
             qtiRunner.setItemApi(itemApi);
-            qtiRunner.setRenderer(new Renderer({'baseUrl': ''}));
-            
+            qtiRunner.setRenderer(renderer);
+
             qtiRunner.loadItemData(coreItemData, function() {
 
                 qtiRunner.loadElements(variableElementsData, function() {
-                    
+
                     qtiRunner.renderItem(undefined, function() {
-                        
+
                        //exec user scripts
                         if (_.isArray(runnerContext.userScripts)) {
                             require(runnerContext.userScripts, function() {
@@ -61,9 +69,9 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
                                 });
                             });
                         }
-                        
+
                         iframeNotifier.parent('itemloaded');
-                        
+
                         //IE9/10 loose the iframe focus, so we force getting it back.
                         _.defer(function(){
                             window.focus();
@@ -78,7 +86,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiRunner/core/QtiRunner', 'taoQtiItem/q
            //tell the parent to connect the item api
            iframeNotifier.parent('itemready');
        });
-   
+
     };
 });
 

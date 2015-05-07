@@ -9,19 +9,26 @@ define([
 
     CreatorCustomInteraction.render = function(interaction, options){
         
+        var w,
+            pciCreator = ciRegistry.getCreator(interaction.typeIdentifier),
+            Widget = pciCreator.getWidget(),
+            $container = Renderer.getContainer(interaction);
+        
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), interaction, {baseUrl : ciRegistry.getBaseUrl(interaction.typeIdentifier)});
         
-        var pciCreator = ciRegistry.getCreator(interaction.typeIdentifier),
-            Widget = pciCreator.getWidget();
-        
-        return Widget.build(
+        w =  Widget.build(
             interaction,
-            Renderer.getContainer(interaction),
+            $container,
             this.getOption('interactionOptionForm'),
             this.getOption('responseOptionForm'),
             options
             );
+        
+        w.changeState('question');//trigger rendering of inner elements
+        w.changeState('sleep');//restore default state "sleep"
+        
+        return w;
     };
 
     return CreatorCustomInteraction;

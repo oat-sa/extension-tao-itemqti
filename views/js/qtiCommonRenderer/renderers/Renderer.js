@@ -6,5 +6,5 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/config',
     'css!taoQtiItemCss/qti'
 ], function(Renderer, config){
-    return Renderer.build(config.locations, config.name);
+    return Renderer.build(config.locations, config.name, config.options);
 });

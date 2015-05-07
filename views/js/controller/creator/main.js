@@ -9,8 +9,9 @@ define([
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
+    'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
     'taoQtiItem/qtiCreator/helper/qtiElements',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     // css editor related
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
@@ -30,6 +31,7 @@ define([
     creatorRenderer,
     commonRenderer,
     qtiElements,
+    xincludeRenderer,
     editor,
     interactionsToolbar,
     ciRegistry,
@@ -94,14 +96,13 @@ define([
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-
+            
             //first all, start loading bar
             loadingBar.start();
             //init config
             config = config || module.config();
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
-
 
             var configProperties = config.properties;
 
@@ -190,7 +191,7 @@ define([
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];
-
+                    
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
                 if(config.properties['multi-column']){
@@ -211,7 +212,12 @@ define([
 
                         //"post-render it" to initialize the widget
                         var widget = item.postRender(_.clone(configProperties));
-
+                        _.each(item.getComposingElements(), function(element){
+                            if(element.qtiClass === 'include'){
+                                xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                            }
+                        });
+                        
                         editor.initGui(widget, configProperties);
                         panel.initSidebarAccordion($propertySidebar);
                         panel.initFormVisibilityListener();

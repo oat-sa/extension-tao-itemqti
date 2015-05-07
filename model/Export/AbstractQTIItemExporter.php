@@ -16,7 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013- (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2015 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 namespace oat\taoQtiItem\model\Export;
@@ -26,6 +26,8 @@ use DOMDocument;
 use DOMXPath;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
+use oat\taoQtiItem\model\apip\ApipService;
+use oat\taoQtiItem\helpers\Apip;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Service;
@@ -43,6 +45,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      */
     public function export($options = array())
     {
+        $asApip = isset($options['apip']) && $options['apip'] === true;
+        
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
         
@@ -56,13 +60,46 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $mediaSource = $mediaAsset->getMediaSource();
             if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
                 $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $destPath = \tao_helpers_File::getSafeFileName(ltrim($mediaAsset->getMediaIdentifier(),'/'));
+                $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                $filename = $fileInfo['filePath'];
+                $replacement = $mediaAsset->getMediaIdentifier();
+                if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                    $replacement = $filename;
+                }
+                $destPath = ltrim($filename,'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
                     $content = str_replace($assetUrl, $destPath, $content);
                 } else {
                     throw new \Exception('Missing resource '.$srcPath);
                 }
+            }
+        }
+        
+        if ($asApip === true) {
+            // 1. let's merge qti.xml and apip.xml.
+            // 2. retrieve apip related assets.
+            $apipService = ApipService::singleton();
+            $apipContentDoc = $apipService->getApipAccessibilityContent($this->getItem());
+            
+            if ($apipContentDoc === null) {
+                \common_Logger::i("No APIP accessibility content found for item '" . $this->getItem()->getUri() . "', default inserted.");
+                $apipContentDoc = $apipService->getDefaultApipAccessibilityContent($this->getItem());
+            }
+            
+            $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
+            $qtiItemDoc->formatOutput = true;
+            $qtiItemDoc->loadXML($content);
+            
+            // Let's merge QTI and APIP Accessibility!
+            Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+            $content = $qtiItemDoc->saveXML();
+            $fileHrefElts = $qtiItemDoc->getElementsByTagName('fileHref');
+            for ($i = 0; $i < $fileHrefElts->length; $i++) {
+                $fileHrefElt = $fileHrefElts->item($i);
+                $destPath = $basePath . '/' . $fileHrefElt->nodeValue;
+                $sourcePath = $this->getItemLocation() . $fileHrefElt->nodeValue;
+                $this->addFile($sourcePath, $destPath);
             }
         }
         

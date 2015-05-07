@@ -26,7 +26,8 @@ define(['lodash'], function(_){
                         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                         '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                if(!pattern.test(src)){
+                //if src is base64 encoded or a http request do not touch it
+                if(!pattern.test(src) || !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(src) || src.indexOf('/') === -1){
 
                     if(baseUrl && !baseUrl.match(/\/$/)){
                         baseUrl += '/';
@@ -89,7 +90,14 @@ define(['lodash'], function(_){
         },
         addMarkupNamespace : function addMarkupNamespace(markup, ns){
             if(ns) {
-                markup = markup.replace(/<(\/)?([a-z]+)(\s?)([^><]*)>/g, '<$1' + ns + ':$2$3$4>');
+                markup = markup.replace(/<(\/)?([a-z:]+)(\s?)([^><]*)>/g, function($0, $1, $2, $3, $4){
+                    if($2.indexOf(':')>0){
+                        return $0;
+                    }
+                    $1 = $1 || '';
+                    $3 = $3 || '';
+                    return '<'+ $1 + ns + ':'+$2+$3+$4+'>';
+                });
                 return markup;
             }
             return markup;

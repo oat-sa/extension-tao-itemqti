@@ -170,6 +170,9 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             }
 
             return found;
+        },
+        isEmpty : function(){
+            return !this.bdy;
         }
     });
 

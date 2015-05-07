@@ -229,8 +229,12 @@ define([
                 //if the context option is provided, the function will fetch the widget container that in this context
                 //mandatory for detached of duplicated DOM element (e.g. ckEditor)
                 $container = options.context.find('.widget-box[data-serial=' + element.serial + ']');
-            }else{
+            }else if(this.$container.length && $.contains(document, this.$container[0])){
+                //if the container exist and is NOT detached
                 $container = this.$container;
+            }else{
+                //otherwise use less performance efficient selector
+                $container = $('.widget-box[data-serial=' + element.serial + ']');
             }
 
             //once required data ref has been set, destroy it:

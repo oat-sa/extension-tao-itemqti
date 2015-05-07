@@ -13,7 +13,7 @@ define([
                 defaultData = {};
 
             defaultData.attributes = {
-                src : renderer.getAbsoluteUrl(this.attr('src'))
+                src : renderer.resolveUrl(this.attr('src'))
             };
 
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);

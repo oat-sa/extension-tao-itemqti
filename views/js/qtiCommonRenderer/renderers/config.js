@@ -1,12 +1,26 @@
-define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_, defaultRenderConfig){
+define([
+    'lodash',
+    'taoQtiItem/qtiDefaultRenderer/renderers/config',
+    'taoItems/assets/manager',
+    'taoItems/assets/strategies',
+], function(_, defaultRenderConfig, assetManagerFactory, assetStrategies){
+
+    //asset manager using base url
+    var assetManager = assetManagerFactory([
+        assetStrategies.taomedia,
+        assetStrategies.external,
+        assetStrategies.base64,
+        assetStrategies.baseUrl
+    ], {baseUrl : ''});
+
     var locations = _.extend(_.clone(defaultRenderConfig.locations), {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
         '_simpleFeedbackRule' : false,
         'stylesheet' : 'taoQtiItem/qtiCommonRenderer/renderers/Stylesheet',
-        'outcomeDeclaration' : 'taoQtiItem/qtiCommonRenderer/renderers/OutcomeDeclaration',
-        'responseDeclaration' : 'taoQtiItem/qtiCommonRenderer/renderers/ResponseDeclaration',
-        'responseProcessing' : 'taoQtiItem/qtiCommonRenderer/renderers/ResponseProcessing',
+        'outcomeDeclaration' : false,
+        'responseDeclaration' : false,
+        'responseProcessing' : false,
         'img' : 'taoQtiItem/qtiCommonRenderer/renderers/Img',
         'math' : 'taoQtiItem/qtiCommonRenderer/renderers/Math',
         'object' : 'taoQtiItem/qtiCommonRenderer/renderers/Object',
@@ -41,11 +55,15 @@ define(['lodash', 'taoQtiItem/qtiDefaultRenderer/renderers/config'], function(_,
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
         'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
         'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
+        'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     });
     return {
         name:'commonRenderer',
-        locations : locations
+        locations: locations,
+        options:   {
+            assetManager: assetManager
+        }
     };
 });
 
