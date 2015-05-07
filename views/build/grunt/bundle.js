@@ -20,6 +20,12 @@ module.exports = function(grunt) {
     var runtimeLibsPattern  = ['views/js/qtiItem/core/**/*.js', 'views/js/qtiCommonRenderer/renderers/**/*.js',  'views/js/qtiCommonRenderer/helpers/**/*.js'];
     var runtimeLibs         = ext.getExtensionSources('taoQtiItem', runtimeLibsPattern, true);
 
+    var paths = {
+        'taoQtiItem' : root + '/taoQtiItem/views/js',
+        'taoQtiItemCss' :  root + '/taoQtiItem/views/css',
+        'taoItems' : root + '/taoItems/views/js'
+    };
+
     /**
      * Remove bundled and bundling files
      */
@@ -33,7 +39,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir : out,
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
+            paths : paths,
             modules : [{
                 name: 'taoQtiItem/controller/routes',
                 include : ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
@@ -50,7 +56,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir: out,
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css'},
+            paths : paths,
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
