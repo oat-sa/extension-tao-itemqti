@@ -144,12 +144,20 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function getMediaSources()
     {
+        $exclude = '';
+        if($this->hasRequestParameter('exclude')){
+            $exclude = $this->getRequestParameter('exclude');
+        }
         // get the config media Sources
         $sources = array_keys(MediaService::singleton()->getBrowsableSources());
         $mediaSources = array();
-        $mediaSources[] = array('root' => __('Item'), 'path' => '/');
+        if($exclude !== 'local'){
+            $mediaSources[] = array('root' => 'local', 'path' => '/');
+        }
         foreach($sources as $source){
-            $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+            if($source !== $exclude){
+                $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+            }
         }
 
         $this->returnJson($mediaSources);
