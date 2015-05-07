@@ -457,6 +457,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(3, count($itemPack->getAssets('img')));
         $this->assertEquals(2, count($itemPack->getAssets('css')));
-        $this->assertEquals(3, count($itemPack->getAssets('js')));
+        $this->assertEquals(2, count($itemPack->getAssets('js')));
     }
 }
