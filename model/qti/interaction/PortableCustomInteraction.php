@@ -89,8 +89,8 @@ class PortableCustomInteraction extends CustomInteraction
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         
-        $returnValue['libraries'] = array();
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['libraries'] = $this->libraries;
+        $returnValue['properties'] = $this->properties;
         $returnValue['entryPoint'] = $this->entryPoint;
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         

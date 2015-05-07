@@ -13,7 +13,7 @@
         <p>This is a sample PCI.</p>
         
         <customInteraction responseIdentifier="graph1">
-            <pci:portableCustomInteraction customInteractionTypeIdentifier="IW30MX6U48JF9120GJS" hook="graphingInteractionX.js">
+            <pci:portableCustomInteraction customInteractionTypeIdentifier="IW30MX6U48JF9120GJS">
 
                 <pci:templateVariableMapping templateIdentifier="X" configurationProperty="areaX" />
                 <pci:templateVariableMapping templateIdentifier="Y" configurationProperty="areaY" />

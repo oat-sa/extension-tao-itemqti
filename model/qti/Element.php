@@ -16,7 +16,6 @@ use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
 use \common_Logger;
 use \taoItems_models_classes_TemplateRenderer;
 use \ReflectionClass;
-use \stdClass;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -425,11 +424,8 @@ abstract class Element implements Exportable
         if($this instanceof FlowContainer){
             $data['body'] = $this->getBody()->toArray($filterVariableContent, $filtered);
         }
-        
-        if(DEBUG_MODE){
-            //in debug mode, add debug data, such as the related item
-            $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
-        }
+
+//        $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
 
         return $data;
     }
@@ -623,48 +619,13 @@ abstract class Element implements Exportable
      */
     protected function buildSerial(){
         
-        if(DEBUG_MODE){
-            //in debug mode, use more meaningful serials
-            $clazz = strtolower(get_class($this));
-            $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
-            $serial = str_replace('.', '', uniqid($prefix, true));
-            $serial = str_replace('\\', '_', $serial);
-        }else{
-            //build a short unique id for memory saving
-            $serial = uniqid();
-        }
+        $clazz = strtolower(get_class($this));
         
-        return (string) $serial;
-    }
-    
-    protected function getArraySerializedElementCollection($elements, $filterVariableContent = false, &$filtered = array()){
+        $prefix = substr($clazz, strpos($clazz, 'taoqtiitem\\model\\qti\\') + 21).'_';
+        $returnValue = str_replace('.', '', uniqid($prefix, true));
+        $returnValue = str_replace('\\', '_', $returnValue);
         
-        if(empty($elements)){
-            $data = new stdClass();
-        }else{
-            $data = array();
-            foreach($elements as $element){
-                $data[$element->getSerial()] = $element->toArray($filterVariableContent, $filtered);
-            }
-        }
-        return $data;
+        return (string) $returnValue;
     }
-    
-    protected function getArraySerializedPrimitiveCollection($elements){
-        
-        if(empty($elements)){
-            $data = new stdClass();
-        }else{
-            $data = array();
-            foreach($elements as $key => $value){
-                if(is_array($value)){
-                    $data[$key] = $this->getArraySerializedPrimitiveCollection($value);
-                }else{
-                    $data[$key] = $value;
-                }
-            }
-        }
-        return $data;
-    }
-    
+
 }

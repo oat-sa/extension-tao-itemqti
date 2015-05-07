@@ -268,18 +268,22 @@ class ParserFactory
 
         //parse the xml to find the interaction nodes
         $interactionNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]", $data);
+        $debug = array($data->nodeName);
         foreach($interactionNodes as $k => $interactionNode){
 
             if(strpos($interactionNode->nodeName, 'portableCustomInteraction') === false){
 
                 //build an interaction instance
                 $interaction = $this->buildInteraction($interactionNode);
+                $debug[] = $interactionNode->nodeName;
+
                 if(!is_null($interaction)){
                     $bodyElements[$interaction->getSerial()] = $interaction;
                     $this->replaceNode($interactionNode, $interaction);
                 }
             }
         }
+
 
         //parse for feedback elements interactive! 
         $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
