@@ -324,14 +324,13 @@ abstract class Container extends Element implements IdentifiedElementContainer
         $data = array(
             'serial' => $this->getSerial(),
             'body' => $this->getBody(),
-            'elements' => array(),
+            'elements' => $this->getArraySerializedElementCollection($this->getElements(), $filterVariableContent, $filtered),
         );
-        foreach($this->getElements() as $element){
-            $elementSerial = $element->getSerial();
-            $data['elements'][$elementSerial] = $element->toArray($filterVariableContent, $filtered);
-        }
         
-        $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
+        if(DEBUG_MODE){
+            //in debug mode, add debug data, such as the related item
+            $data['debug'] = array('relatedItem' => is_null($this->getRelatedItem())?'':$this->getRelatedItem()->getSerial());
+        }   
         
         return $data;
     }
