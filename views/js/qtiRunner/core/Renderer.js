@@ -155,6 +155,8 @@ define([
      */
     var Renderer = function(options){
 
+        debugger;
+
         /**
          * Store the registered renderer location
          */
@@ -216,7 +218,7 @@ define([
          * @returns {Renderer} for chaining
          */
         this.setOptions = function(opts){
-            _.extend(options, opts);
+            options = _.extend(options, opts);
             return this;
         };
 
@@ -692,13 +694,13 @@ define([
          */
         build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
-                var options = arguments[0];
-                Renderer.apply(this, defaultOptions || {});
+                var options = _.isPlainObject(arguments[0]) ? arguments[0] : {};
+
+                Renderer.apply(this);
+
                 this.register(renderersLocations);
                 this.name = name || '';
-                if(_.isPlainObject(options)){
-                    this.setOptions(options);
-                }
+                this.setOptions(_.defaults(options, defaultOptions || {}));
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;
