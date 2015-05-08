@@ -37,9 +37,8 @@ define([
         init : function(itemData, done){
             var self = this;
 
-            //TODO configure the  AssetManager strategies
             this._renderer = new QtiRenderer({
-                assetManager : assetManagerFactory(function(url){ return url;})
+                assetManager : this.assetManager
             });
 
             new QtiLoader().loadItemData(itemData, function(item){
