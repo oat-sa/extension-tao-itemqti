@@ -155,8 +155,6 @@ define([
      */
     var Renderer = function(options){
 
-        debugger;
-
         /**
          * Store the registered renderer location
          */
