@@ -429,8 +429,8 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count($itemPack->getAssets('video')));
 
         $video = $itemPack->getAssets( 'video' );
-        $this->assertStringStartsWith( 'data:video/mp4;', $video[0], 'Encoded as it is local resource' );
-        $this->assertStringStartsWith( 'https://', $video[1], 'Is external resource' );
+        $this->assertStringStartsWith( 'data:video/mp4;', $video['sample.mp4'], 'Encoded as it is local resource' );
+        $this->assertStringStartsWith( 'https://', $video['https://www.youtube.com/watch?v=J1c2KzJbcGA'], 'Is external resource' );
 
     }
 
