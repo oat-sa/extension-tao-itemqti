@@ -692,11 +692,12 @@ define([
          */
         build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
-                Renderer.apply(this, arguments);
+                var options = arguments[0];
+                Renderer.apply(this, defaultOptions || {});
                 this.register(renderersLocations);
                 this.name = name || '';
-                if(defaultOptions){
-                    this.setOptions(defaultOptions);
+                if(_.isPlainObject(options)){
+                    this.setOptions(options);
                 }
             };
             NewRenderer.prototype = Renderer.prototype;
