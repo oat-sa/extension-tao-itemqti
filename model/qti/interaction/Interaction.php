@@ -337,7 +337,10 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
 
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $data = parent::toArray($filterVariableContent, $filtered);
-        $data['choices'] = $this->getArraySerializedElementCollection($this->getChoices(), $filterVariableContent, $filtered);
+        $data['choices'] = array();
+        foreach($this->getChoices() as $choice){
+            $data['choices'][$choice->getSerial()] = $choice->toArray($filterVariableContent, $filtered);
+        }
         return $data;
     }
 

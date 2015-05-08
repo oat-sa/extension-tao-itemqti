@@ -24,6 +24,8 @@ use common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\qti\JsonLoader;
+//include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -177,6 +179,19 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
             if(!$parserValidator->isValid()){
                 $this->fail($parserValidator->displayErrors());
             }
+        }
+    }
+
+    public function testJsonLoading(){
+
+        foreach(glob(dirname(__FILE__).'/samples/json/*.json') as $file){
+
+            if(strpos($file, 'ALL') !== false){continue;}
+
+            $json = json_decode(file_get_contents($file), true);
+            $jsonLoader = new JsonLoader($json['full']);
+            $item = $jsonLoader->load();
+            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
         }
     }
 

@@ -177,11 +177,14 @@ class MatchInteraction extends BlockInteraction
             'qtiClass' => $this->getQtiTag(),
             'attributes' => $this->getAttributeValues(),
             'prompt' => $this->getPrompt()->toArray($filterVariableContent, $filtered),
-            'choices' => array(
-                $this->getArraySerializedElementCollection($this->getChoices(0), $filterVariableContent, $filtered),
-                $this->getArraySerializedElementCollection($this->getChoices(1), $filterVariableContent, $filtered)
-            )
+            'choices' => array(array(), array())
         );
+
+        for($i = 0; $i < 2; $i++){
+            foreach($this->getChoices($i) as $choice){
+                $data['choices'][$i][$choice->getSerial()] = $choice->toArray($filterVariableContent, $filtered);
+            }
+        }
 
         return $data;
     }
