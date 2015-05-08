@@ -56,7 +56,7 @@ define([
                 deleteUrl : options.mediaManager.deleteUrl,
                 downloadUrl : options.mediaManager.downloadUrl,
                 fileExistsUrl : options.mediaManager.fileExistsUrl,
-                disallowUpload : true,
+                disableUpload : true,
                 params : {
                     uri : options.uri,
                     lang : options.lang,
