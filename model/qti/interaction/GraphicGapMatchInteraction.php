@@ -88,6 +88,7 @@ class GraphicGapMatchInteraction extends GraphicInteraction
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['gapImgs'] = $this->getArraySerializedElementCollection($this->getGapImgs(), $filterVariableContent, $filtered);
+        return $data;
     }
 
     public static function getTemplateQti(){
