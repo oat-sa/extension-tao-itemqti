@@ -318,6 +318,10 @@ define([
                     }
                     element.attr(gstyle[options.style || 'basic'])
                             .toFront();
+
+                     //preven issue in firefox 37
+                    $(element.node).removeAttr('stroke-dasharray');
+
                     if(options.hover !== false){
                       element.hover(function(){
                             if(!element.flashing){
@@ -649,6 +653,9 @@ define([
             if(element && element.animate){
                 element.animate(gstyle[state], 200, 'linear', function(){
                     element.attr(gstyle[state]); //for attr that don't animate
+
+                     //preven issue in firefox 37
+                     $(element.node).removeAttr('stroke-dasharray');
                 });
         
                 if(title){
