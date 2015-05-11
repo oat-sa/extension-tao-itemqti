@@ -35,11 +35,24 @@ define([
 
     var askForSave = false,
         serializeTimeOut,
-        lastItemData,
-        serializeItem = function (element) {
-            lastItemData = itemSerializer.serialize(element);
-        };
+        lastItemData;
 
+    /**
+     * Serializes an element
+     * @param {Object} element
+     * @returns {String}
+     */
+    var serializeItem = function (element) {
+        return itemSerializer.serialize(element);
+    };
+
+    /**
+     * Sets the value of lastItemData. Serialize the value before assign it.
+     * @param {Object} element
+     */
+    var setLastItemData = function (element) {
+        lastItemData = serializeItem(element);
+    };
 
     /**
      * Limit the size of the editor panel. This addresses an issue in which a
@@ -111,13 +124,13 @@ define([
         //serialize the item at the initialization level
         //TODO wait for an item ready event
         // itemWidget.$container.on('ready...
-        serializeTimeOut = setTimeout(function() {
-            serializeItem(widget.element);
-        }, 500);
+        if (_.isUndefined(lastItemData)) {
+            setLastItemData(widget.element);
+        }
 
         //get the last value by saving
         $('#save-trigger').on('click.qti-creator', function() {
-            serializeItem(widget.element);
+            setLastItemData(widget.element);
         });
 
         $(document).on('stylechange.qti-creator', function () {
@@ -186,7 +199,7 @@ define([
 
     /**
      * Update the height of the authoring tool
-     * @private 
+     * @private
      */
     var updateHeight = function updateHeight(){
         var $itemEditorPanel = $('#item-editor-panel');
