@@ -53,7 +53,7 @@ class QtiItemPacker extends ItemPacker
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $lang)
+    public function packItem(core_kernel_classes_Resource $item, $lang = "")
     {
         $itemPack = null;
 
