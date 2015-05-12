@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 define([
     'jquery',
     'lodash',
@@ -34,12 +52,34 @@ define([
     'use strict';
 
     var askForSave = false,
-        serializeTimeOut,
-        lastItemData,
-        serializeItem = function (element) {
-            lastItemData = itemSerializer.serialize(element);
-        };
+        lastItemData;
 
+    /**
+     * Serializes an element
+     * @param {Object} element
+     * @returns {String}
+     */
+    var serializeItem = function (element) {
+        return itemSerializer.serialize(element);
+    };
+
+    /**
+     * Sets the value of lastItemData. Serialize the value before assign it.
+     * @param {Object} element
+     */
+    var setLastItemData = function (element) {
+        lastItemData = serializeItem(element);
+    };
+
+    /**
+     * Serializes the item at the initialization level
+     * @param {Object} element
+     */
+    var initLastItemData = function(element) {
+        if (_.isUndefined(lastItemData)) {
+            setLastItemData(element);
+        }
+    };
 
     /**
      * Limit the size of the editor panel. This addresses an issue in which a
@@ -107,23 +147,8 @@ define([
 
         var previewContainer, previewUrl;
 
-        clearTimeout(serializeTimeOut);
         //serialize the item at the initialization level
-        //TODO wait for an item ready event
-        // itemWidget.$container.on('ready...
-        serializeTimeOut = setTimeout(function() {
-            serializeItem(widget.element);
-        }, 500);
-
-        //get the last value by saving
-        $('#save-trigger').on('click.qti-creator', function() {
-            serializeItem(widget.element);
-        });
-
-        $(document).on('stylechange.qti-creator', function () {
-            //we need to save before preview of style has changed (because style content is not part of the item model)
-            askForSave = true;
-        });
+        initLastItemData(widget.element);
 
         //compare the current item with the last serialized to see if there is any change
         if (!askForSave) {
@@ -160,10 +185,41 @@ define([
      */
     var initGui = function(widget, config){
 
+        lastItemData = undefined;
+        askForSave = false;
+
+        //serialize the item at the initialization level
+        widget.on('ready.qti-widget', function() {
+            initLastItemData(widget.element);
+        });
+
+        //get the last value by saving
+        $('#save-trigger')
+            .off('.qti-creator')
+            .on('click.qti-creator', function() {
+                //catch the last value when saving
+                setLastItemData(widget.element);
+            })
+            .on('aftersave.qti-creator', function(success) {
+                //disable the askForSave flag only on save success
+                if (success){
+                    askForSave = false;
+                }
+            });
+
+        //catch style changes
+        $(document)
+            .off('.qti-creator')
+            .on('stylechange.qti-creator', function () {
+                //we need to save before preview of style has changed (because style content is not part of the item model)
+                askForSave = true;
+            });
+
         updateHeight();
         limitItemPanelWidth();
 
-        $(window).off('resize.qti-editor')
+        $(window)
+            .off('resize.qti-editor')
             .on('resize.qti-editor', _.throttle(
                 function() {
                     updateHeight();
@@ -186,7 +242,7 @@ define([
 
     /**
      * Update the height of the authoring tool
-     * @private 
+     * @private
      */
     var updateHeight = function updateHeight(){
         var $itemEditorPanel = $('#item-editor-panel');
