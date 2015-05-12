@@ -45,8 +45,12 @@ class Parser extends tao_models_classes_Parser
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string schema
-     * @return boolean
+     *
+     * @param  string $schema
+     *
+     * @return bool
+     * @throws \Exception
+     * @throws \common_Exception
      */
     public function validate($schema = ''){
         
@@ -67,7 +71,7 @@ class Parser extends tao_models_classes_Parser
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param boolean resolveXInclude
-     * @return oat\taoQtiItem\model\qti\Item
+     * @return \oat\taoQtiItem\model\qti\Item
      */
     public function load($resolveXInclude = false){
         
@@ -92,9 +96,9 @@ class Parser extends tao_models_classes_Parser
                 $xml->loadXML($this->source);
                 break;
         }
-        
+
         if($xml !== false){
-            
+
             $basePath = '';
             if($this->sourceType == self::SOURCE_FILE || $this->sourceType == self::SOURCE_URL){
                 $basePath = dirname($this->source).'/';

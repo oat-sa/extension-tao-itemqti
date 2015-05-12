@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\model\pack;
 
-use oat\taoItems\model\pack\Packable;
 use oat\taoItems\model\pack\ItemPack;
+use oat\taoItems\model\pack\ItemPacker;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use \core_kernel_classes_Resource;
@@ -37,7 +37,7 @@ use \common_Exception;
  * @package taoQtiItem
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class QtiItemPacker implements Packable
+class QtiItemPacker extends ItemPacker
 {
 
     /**
@@ -48,13 +48,16 @@ class QtiItemPacker implements Packable
 
     /**
      * packItem implementation for QTI
-     * @see {@link Packable}
+     * @inheritdoc
+     * @see {@link ItemPacker}
      * @throws InvalidArgumentException
      * @throws common_Exception
      */
-    public function packItem(core_kernel_classes_Resource $item, $path)
+    public function packItem(core_kernel_classes_Resource $item, $lang = "")
     {
         $itemPack = null;
+
+        $path = $this->getPath($item, $lang);
 
         $content = $this->getItemContent($path);
 
@@ -66,26 +69,29 @@ class QtiItemPacker implements Packable
 
             //validate it
             $qtiParser->validate();
-            if(!$qtiParser->isValid()){
+            if (!$qtiParser->isValid()) {
                 throw new common_Exception('Invalid QTI content : ' . $qtiParser->displayErrors(false));
             }
 
             //parse
-            $qtiItem  = $qtiParser->load();
+            $qtiItem = $qtiParser->load();
 
             //then build the ItemPack from the parsed data
-            if(!is_null($qtiItem)){
+            if (!is_null($qtiItem)) {
                 $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
 
+                $itemPack->setAssetEncoders($this->getAssetEncoders());
 
                 $assetParser = new AssetParser($qtiItem, $path);
-                foreach($assetParser->extract() as $type => $assets){
-                    $itemPack->setAssets($type, $assets);
+                $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
+
+                foreach ($assetParser->extract($itemPack) as $type => $assets) {
+                    $itemPack->setAssets($type, $assets, $path);
                 }
             }
 
-        } catch(common_Exception $e){
-            throw new common_Exception('Unable to pack item '. $item->getUri() . ' : ' . $e->getMessage());
+        } catch (common_Exception $e) {
+            throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
         }
 
         return $itemPack;
@@ -102,9 +108,10 @@ class QtiItemPacker implements Packable
     protected function getItemContent($folder)
     {
         $file = $folder . DIRECTORY_SEPARATOR . 'qti.xml';
-        if(file_exists($file)){
+        if (file_exists($file)) {
             return file_get_contents($file);
         }
         throw new common_Exception('Unable to retrieve item content at : ' . $file);
     }
+
 }
