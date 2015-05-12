@@ -80,10 +80,10 @@ define([
             mediaOptions;
         var $container          = containerHelper.get(interaction);
         var media               = interaction.object;
-        var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
         var enablePause         = $container.hasClass('pause');
         var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
+        var url                 = media.attr('data') ? this.resolveUrl(media.attr('data')) : '';
 
         var playFromPauseEvent  = false;
         var pauseFromClick      = false;
@@ -134,6 +134,7 @@ define([
             //the player is loaded
             success: function(mediaElement, playerDom) {
 
+                var playFromPauseEvent = false;
                 var stillNeedToCallPlay = true;
                 var $meContainer    = $(playerDom).closest('.mejs-container');
                 var $layers         = $('.mejs-layers', $meContainer);
@@ -261,7 +262,7 @@ define([
         };
 
         //create the HTML tags
-        $meTag = $(_buildMedia(media, mediaType, baseUrl)).appendTo($('.media-container', $container));
+        $meTag = $(_buildMedia(media, url, mediaType)).appendTo($('.media-container', $container));
 
         //prevent contextmenu and control click on the player to prevent unwanted pause.
         $meTag
@@ -293,13 +294,12 @@ define([
      * Build the HTML5 tags for a media
      * @private
      * @param {Object} media - interaction.object
+     * @param {String} url - the resolved url
      * @param {String} type  - the media type in video, audio and video/youtube
-     * @param {String} baseUrl - to prepend media.url if this is relative resource
      * @returns {String} the html5 tags
      */
-    var _buildMedia = function _buildMedia(media, type, baseUrl){
+    var _buildMedia = function _buildMedia(media, url, type){
         var element;
-        var url;
         var attrs;
 
         //inline an object to html attributes
@@ -311,18 +311,16 @@ define([
         };
 
         if(media){
-            url = media.attr('data') ? media.attr('data').replace(/^\//, '') : '';
 
             attrs = {
-                width : media.attr('width')     + 'px',
-                height: media.attr('height')    + 'px',
-                preload : 'none'
+                width:   media.attr('width')     + 'px',
+                height:  media.attr('height')    + 'px',
+                preload: 'none'
             };
-            if (!/^http(s)?:\/\//.test(url)){
-                url = baseUrl + url;
+
+            if (!/^http(s)?:\/\//.test(media.attr('data'))){
                 attrs.type = media.attr('type');
             }
-
             if (type === 'video/youtube') {
                 element =   '<video ' + inlineAttrs(attrs) + '> ' +
                                 ' <source type="video/youtube" src="' + url + '" /> ' +
