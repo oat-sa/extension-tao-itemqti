@@ -150,23 +150,6 @@ define([
         //serialize the item at the initialization level
         initLastItemData(widget.element);
 
-        //get the last value by saving
-        $('#save-trigger').on('click.qti-creator', function() {
-            //catch the last value when saving
-            setLastItemData(widget.element);
-        })
-        .on('aftersave.qti-creator', function(success) {
-            // disable the askForSave flag only on save success
-            if (success){
-                askForSave = false;
-            }
-        });
-
-        $(document).on('stylechange.qti-creator', function () {
-            //we need to save before preview of style has changed (because style content is not part of the item model)
-            askForSave = true;
-        });
-
         //compare the current item with the last serialized to see if there is any change
         if (!askForSave) {
             var currentItemData = serializeItem(widget.element);
@@ -202,13 +185,41 @@ define([
      */
     var initGui = function(widget, config){
 
+        lastItemData = undefined;
+        askForSave = false;
+
         //serialize the item at the initialization level
-        initLastItemData(widget.element);
+        widget.on('ready.qti-widget', function() {
+            initLastItemData(widget.element);
+        });
+
+        //get the last value by saving
+        $('#save-trigger')
+            .off('.qti-creator')
+            .on('click.qti-creator', function() {
+                //catch the last value when saving
+                setLastItemData(widget.element);
+            })
+            .on('aftersave.qti-creator', function(success) {
+                //disable the askForSave flag only on save success
+                if (success){
+                    askForSave = false;
+                }
+            });
+
+        //catch style changes
+        $(document)
+            .off('.qti-creator')
+            .on('stylechange.qti-creator', function () {
+                //we need to save before preview of style has changed (because style content is not part of the item model)
+                askForSave = true;
+            });
 
         updateHeight();
         limitItemPanelWidth();
 
-        $(window).off('resize.qti-editor')
+        $(window)
+            .off('resize.qti-editor')
             .on('resize.qti-editor', _.throttle(
                 function() {
                     updateHeight();
