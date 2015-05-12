@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 define([
     'lodash',
     'i18n',
@@ -34,9 +52,9 @@ define([
     itemEditor,
     genericFeedbackPopup
     ){
-    
+
     'use strict';
-    
+
     var ItemWidget = Widget.clone();
 
     ItemWidget.initCreator = function(config){
@@ -94,7 +112,7 @@ define([
         $saveBtn.on('click', function(e){
 
             var $saveButton = $(this);
-            
+
             //trigger save event
             $saveButton.trigger('beforesave.qti-creator');
 
@@ -104,13 +122,13 @@ define([
             }
 
             $saveButton.addClass('active');
-            
+
             //defer exceution of save function to give beforesave chance to be executed
             _.defer(function(){
 
                 $.when(styleEditor.save(), _widget.save()).done(function(){
 
-                    var success = true, 
+                    var success = true,
                         feedbackArgs = {
                         message : __('Your item has been saved'),
                         type : 'success'
@@ -129,12 +147,12 @@ define([
                             break;
                         }
                     }
-                    
+
                     $saveButton.trigger('aftersave.qti-creator', [success]);
                     _createInfoBox(feedbackArgs);
                 });
             });
-            
+
         });
 
         $previewBtn.on('click', function(){
@@ -181,7 +199,7 @@ define([
             $itemBody.addClass('hoverable').removeClass('inserting');
 
         }).on('dropped.gridEdit.insertable', function(e, qtiClass, $placeholder){
-            
+
             //a new qti element has been added: update the model + render
             $placeholder.removeAttr('id');//prevent it from being deleted
 
@@ -270,7 +288,7 @@ define([
 
         callback = callback || _.noop;
 
-        //temporarily tag col that need to be transformed into 
+        //temporarily tag col that need to be transformed into
         $originalContainer.find('.qti-itemBody > .grid-row').each(function(){
 
             var $row = $(this);
@@ -311,7 +329,7 @@ define([
                 });
             }
         });
-        
+
         //clone the container to create the new container model:
         var $clonedContainer = $originalContainer.clone();
         $clonedContainer.find('.qti-itemBody > .grid-row [data-text-block-id]').each(function(){
@@ -385,8 +403,8 @@ define([
     };
 
     /**
-     * Enable debugging 
-     * 
+     * Enable debugging
+     *
      * @param {Boolean} [options.state = false] - log state change in console
      * @param {Boolean} [options.xml = false] - real-time qti xml display under the creator
      */
@@ -427,6 +445,6 @@ define([
 
         return $messageBox;
     };
-    
+
     return ItemWidget;
 });

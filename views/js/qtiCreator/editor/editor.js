@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 define([
     'jquery',
     'lodash',
@@ -34,7 +52,6 @@ define([
     'use strict';
 
     var askForSave = false,
-        serializeTimeOut,
         lastItemData;
 
     /**
@@ -52,6 +69,16 @@ define([
      */
     var setLastItemData = function (element) {
         lastItemData = serializeItem(element);
+    };
+
+    /**
+     * Serializes the item at the initialization level
+     * @param {Object} element
+     */
+    var initLastItemData = function(element) {
+        if (_.isUndefined(lastItemData)) {
+            setLastItemData(element);
+        }
     };
 
     /**
@@ -120,17 +147,19 @@ define([
 
         var previewContainer, previewUrl;
 
-        clearTimeout(serializeTimeOut);
         //serialize the item at the initialization level
-        //TODO wait for an item ready event
-        // itemWidget.$container.on('ready...
-        if (_.isUndefined(lastItemData)) {
-            setLastItemData(widget.element);
-        }
+        initLastItemData(widget.element);
 
         //get the last value by saving
         $('#save-trigger').on('click.qti-creator', function() {
+            //catch the last value when saving
             setLastItemData(widget.element);
+        })
+        .on('aftersave.qti-creator', function(success) {
+            // disable the askForSave flag only on save success
+            if (success){
+                askForSave = false;
+            }
         });
 
         $(document).on('stylechange.qti-creator', function () {
@@ -172,6 +201,9 @@ define([
      * Initialize interface
      */
     var initGui = function(widget, config){
+
+        //serialize the item at the initialization level
+        initLastItemData(widget.element);
 
         updateHeight();
         limitItemPanelWidth();
