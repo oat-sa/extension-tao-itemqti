@@ -54,6 +54,7 @@ define([
         'graphicGapMatchInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
         'gapImg' : 'taoQtiItem/qtiCommonRenderer/renderers/choices/GapImg',
         'graphicAssociateInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
+        'associableHotspot' : false,
         'customInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
         'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',

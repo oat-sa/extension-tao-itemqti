@@ -85,8 +85,8 @@ class PortableInfoControl extends InfoControl
 
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
-        $returnValue['libraries'] = $this->libraries;
-        $returnValue['properties'] = $this->properties;
+        $returnValue['libraries'] = array();
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
         $returnValue['entryPoint'] = $this->entryPoint;
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
 

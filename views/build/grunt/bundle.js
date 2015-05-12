@@ -93,7 +93,7 @@ module.exports = function(grunt) {
                 'jquery'        : 'lib/jqueryamd-1.8.3',
                 'taoQtiItemCss/qti' : root + '/taoQtiItem/views/css/qti-runner'
             },
-            excludeShallow : ['mathJax', 'mediaElement', 'ckeditor'],
+            excludeShallow : ['mathJax', 'ckeditor'],
             include: runtimeLibs.concat([ 'tpl', 'json']),
             name: "taoQtiItem/runner/qtiItemRunner",
             out: out + "/qtiItemRunner.min.js"
