@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 //@todo : move this to the ../helper directory
 define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qtiItem/core/Element'], function(_, Class, qtiClasses, Element){
 
@@ -28,7 +46,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadRequiredClasses : function(data, callback, reload){
 
             var requiredClasses = this.getRequiredClasses(data, reload), required = [];
-            
+
             for(var i in requiredClasses){
                 var requiredClass = requiredClasses[i];
                 if(this.classesLocation[requiredClass]){
@@ -37,7 +55,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                     throw new Error('missing qti class location declaration : ' + requiredClass);
                 }
             }
-            
+
             var _this = this;
             require(required, function(){
                 _.each(arguments, function(QtiClass){
@@ -123,7 +141,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             });
         },
         loadElement : function(element, data, callback){
-            
+
             var _this = this;
             this.loadRequiredClasses(data, function(){
                 _this.loadElementData(element, data);
@@ -259,7 +277,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             return elt;
         },
         loadElementData : function(element, data){
-            
+
             //merge attributes when loading element data
             var attributes = _.defaults(data.attributes || {}, element.attributes || {});
             element.setAttributes(attributes);
