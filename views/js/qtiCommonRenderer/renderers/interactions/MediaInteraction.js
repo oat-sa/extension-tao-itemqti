@@ -28,9 +28,8 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/mediaInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'mediaElement'
-], function($, _, __, tpl, pciResponse, containerHelper, instructionMgr, MediaElementPlayer) {
+], function($, _, __, tpl, pciResponse, containerHelper, MediaElementPlayer) {
     'use strict';
 
     /**
@@ -50,6 +49,18 @@ define([
             }
         }
         return type;
+    };
+
+    /**
+     * Resize video player elements to fit container size
+     * @param {Object} mediaElement - player instance
+     * @param {jQueryElement} $container   - container element to adapt
+     */
+    var resizeVideo = function (mediaElement, $container) {
+        var height = $container.find('.media-container').height(),
+            width =  $container.find('.media-container').width();
+        mediaElement.player.setPlayerSize(width, height);
+        mediaElement.player.media.setVideoSize(width, height);
     };
 
     //some default values
@@ -75,10 +86,10 @@ define([
      */
     var render = function render(interaction) {
 
-        var mediaInteractionObjectToReturn,
-            $meTag,
+        var $meTag,
             mediaOptions;
         var $container          = containerHelper.get(interaction);
+        var $item               = $container.parents('.qti-item');
         var media               = interaction.object;
         var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
@@ -141,6 +152,8 @@ define([
                 var $bigPlayBtn     = $('.mejs-overlay-play', $meContainer);
                 var $controls       = $('.mejs-controls', $meContainer);
                 var controlsHeight  = $controls.outerHeight();
+                /** Resize video player internal timer to prevent multiply execution */
+                var rTimer;
 
                 interaction.mediaElement = mediaElement;
 
@@ -248,6 +261,21 @@ define([
                         //mediaElement.play();
                     }
                 });
+
+                resizeVideo(mediaElement, $container);
+
+                var delayedResize = function () {
+                    clearTimeout(rTimer);
+                    rTimer = setTimeout(function () {
+                        resizeVideo(mediaElement, $container);
+                    }, 200);
+                };
+
+                $(window).off('resize.video')
+                    .on('resize.video', delayedResize);
+
+                $item.off('resize.gridEdit')
+                    .on('resize.gridEdit', delayedResize);
 
                 /**
                  * @event playerready
