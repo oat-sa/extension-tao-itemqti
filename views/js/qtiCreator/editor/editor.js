@@ -209,7 +209,7 @@ define([
 
         //catch style changes
         $(document)
-            .off('.qti-creator')
+            .off('stylechange.qti-creator')
             .on('stylechange.qti-creator', function () {
                 //we need to save before preview of style has changed (because style content is not part of the item model)
                 askForSave = true;
