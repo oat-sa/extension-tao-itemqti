@@ -386,6 +386,9 @@ define([
 
         $container.removeData('timesPlayed');
 
+
+        $(window).off('resize.video');
+
         //remove all references to a cache container
         containerHelper.reset(interaction);
     };
