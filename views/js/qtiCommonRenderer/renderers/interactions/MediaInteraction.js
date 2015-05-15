@@ -85,7 +85,6 @@ define([
         var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
         var url                 = media.attr('data') ? this.resolveUrl(media.attr('data')) : '';
 
-        var playFromPauseEvent  = false;
         var pauseFromClick      = false;
 
         var features = enablePause ? ['playpause', 'progress', 'current', 'duration', 'volume'] : ['playpause', 'current', 'duration', 'volume'];
