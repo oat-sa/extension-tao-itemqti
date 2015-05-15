@@ -216,7 +216,7 @@ define([
          * @returns {Renderer} for chaining
          */
         this.setOptions = function(opts){
-            _.extend(options, opts);
+            options = _.extend(options, opts);
             return this;
         };
 
@@ -692,12 +692,13 @@ define([
          */
         build : function(renderersLocations, name, defaultOptions){
             var NewRenderer = function(){
-                Renderer.apply(this, arguments);
+                var options = _.isPlainObject(arguments[0]) ? arguments[0] : {};
+
+                Renderer.apply(this);
+
                 this.register(renderersLocations);
                 this.name = name || '';
-                if(defaultOptions){
-                    this.setOptions(defaultOptions);
-                }
+                this.setOptions(_.defaults(options, defaultOptions || {}));
             };
             NewRenderer.prototype = Renderer.prototype;
             return NewRenderer;

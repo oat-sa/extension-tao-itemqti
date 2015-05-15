@@ -1,8 +1,26 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
 define([
     'jquery',
     'lodash',
     'module',
     'async',
+    'history',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/model/helper/event',
@@ -23,6 +41,7 @@ define([
     _,
     module,
     async,
+    history,
     loadingBar,
     section,
     event,
@@ -40,11 +59,11 @@ define([
     ){
 
     loadingBar.start();
-    
+
     function _getAuthoringElements(interactionModels){
-        
+
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-        
+
         _.each(interactionModels, function(interactionModel){
             var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
             if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
@@ -53,11 +72,11 @@ define([
                 throw 'invalid authoring data for custom interaction';
             }
         });
-        
+
         return toolbarInteractions;
     }
-    
-    
+
+
     function _initializeInteractionsToolbar($toolbar, interactionModels){
 
         //create toolbar:
@@ -72,11 +91,11 @@ define([
         panel.toggleInlineInteractionGroup();
 
     }
-    
+
     function _initializeElementAdder(item, $itemPanel, interactionModels){
-        
+
         var authoringElements = _getAuthoringElements(interactionModels);
-        
+
         blockAdder.create(item, $itemPanel, authoringElements);
     }
 
@@ -92,11 +111,11 @@ define([
 
     return {
         /**
-         * 
+         *
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
-            
+
             //first all, start loading bar
             loadingBar.start();
             //init config
@@ -140,9 +159,8 @@ define([
             $('#authoringBack').on('click', function(e){
                 e.preventDefault();
 
-                //Capitalized History means polyfilled by History.js
-                if(window.History){
-                    window.History.back();
+                if (history) {
+                    history.back();
                 }
             });
 
@@ -191,7 +209,7 @@ define([
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];
-                    
+
                 //init interaction sidebar
                 _initializeInteractionsToolbar(configProperties.dom.getInteractionToolbar(), interactionHooks);
                 if(config.properties['multi-column']){
@@ -217,7 +235,7 @@ define([
                                 xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
                             }
                         });
-                        
+
                         editor.initGui(widget, configProperties);
                         panel.initSidebarAccordion($propertySidebar);
                         panel.initFormVisibilityListener();

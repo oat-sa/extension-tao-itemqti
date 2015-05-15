@@ -26,13 +26,13 @@ define([
 
             var $imageEditor = $container.find('.image-editor');
             var serial = $container.data('serial');
-            var $imageBox = $('.main-image-box', $imageEditor);
             var $sideBar = $(sidebarTmpl({
                     showTarget : !!showTarget 
-                 })).insertBefore($imageEditor);
+                 }));
+            $imageEditor.prepend($sideBar);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
-            //var newWidth = $container.width() - $sideBar.outerWidth(true) - 2; //-2 is a security to prevent the element to dislpay below the sidebar
+
            
             /**
              * Set a form/shape into an active state
@@ -100,24 +100,15 @@ define([
                 }
             }); 
              
-            $container.on('resize.qti-widget.' + serial, function(){
-                _.defer(function(){
-                    $sideBar.find('.forms').height($imageEditor.innerHeight());
-                });
-            });
+
             $container.trigger('resize.qti-widget.' + serial); 
             return $sideBar;
         },
 
         remove : function remove($container){
             var $sideBar = $('.image-sidebar', $container);
-            var $imageEditor = $container.find('.image-editor');
-            var $imageBox = $('.main-image-box', $imageEditor);
             if($sideBar.length){
                 $sideBar.remove();
-                //$imageBox.css('width', 'auto');
-                //$imageEditor.css('width', 'auto');
-
                 $container.off('resize.qti-widget.sidebar');
                 $container.trigger('resize.qti-widget'); 
             }

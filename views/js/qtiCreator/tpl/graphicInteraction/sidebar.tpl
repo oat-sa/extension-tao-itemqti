@@ -1,4 +1,4 @@
-<div class="image-sidebar lft  {{#if showTarget}}tall{{/if}}">
+<div class="image-sidebar">
     <ul class="none forms">
         <li data-type="rect"><span title="{{__ 'Draw a rectangle on the image'}}" class="icon-rectangle"></span></li>
         <li data-type="circle"><span title="{{__ 'Draw a circle on the image'}}" class="icon-circle"></span></li>

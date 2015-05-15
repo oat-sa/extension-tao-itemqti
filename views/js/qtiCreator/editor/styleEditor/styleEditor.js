@@ -279,6 +279,12 @@ define([
                     setTimeout(function() {
                         $(doc).trigger('customcssloaded.styleeditor', [style]);
                         $(window).trigger('resize');
+
+                        /**
+                         * Fires a change notification on the item style
+                         * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
+                         */
+                        $(doc).trigger('stylechange.qti-creator');
                     }, isLocal ? 500 : 3500);
 
                 };
@@ -326,7 +332,7 @@ define([
          * @param item
          */
         var addItemStylesheets = function() {
-            
+
             var currentStylesheet;
 
             for(var key in currentItem.stylesheets) {
@@ -344,7 +350,7 @@ define([
                 // add those that are loaded synchronously
                 addStylesheet(currentItem.stylesheets[key]);
             }
-            
+
             // if no custom css had been found, add empty stylesheet anyway
             if(!customStylesheet) {
                 customStylesheet = currentItem.createStyleSheet('style/custom/tao-user-styles.css');
@@ -357,7 +363,7 @@ define([
         var removeOrphanedStylesheets = function() {
             $('link[data-serial]').remove();
         };
-        
+
         /**
          * retrieve the current item
          *
@@ -373,10 +379,10 @@ define([
          * @param config
          */
         var init = function(item, config) {
-            
+
             // promise
             currentItem = item;
-            
+
             //prepare config object (don't pass all of them, otherwise, $.param will break)
             itemConfig = {
                 uri : config.uri,
@@ -385,13 +391,13 @@ define([
             };
 
             removeOrphanedStylesheets();
-            
+
             // this creates at the same time customStylesheet in case it doesn't exist yet
             addItemStylesheets();
 
             var resizerTarget = $('#item-editor-item-resizer').data('target'),
                 href = customStylesheet.attr('href');
-            
+
             currentItem.data('responsive', true);
 
             $.when(

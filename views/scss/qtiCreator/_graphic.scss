@@ -15,20 +15,21 @@
     }
 
     .image-sidebar {
-        float: left;
-        height: 100%;
-        min-height: 280px;
-        top: 0;
-        width: 50px;
+        position: absolute;
+        left: -45px;
+        top: 2px;
         z-index: 1000;
+        background: whiten($uiClickableDefaultBg, .5);
+        @include simple-border();
+        padding: 5px;
 
         .forms {
             overflow: hidden;
-            min-height: 230px;
-            border-right: solid 1px #fff;
+            background: white;
             [class^="icon-"], [class*=" icon-"] {
-                @include font-size(40, true);
+                @include font-size(26, true);
                 line-height:1.2;
+                padding: 0 5px;
             }
             li {
                 border: 1px solid transparent;
@@ -45,10 +46,10 @@
                     height: 1px;
                     background-color: #ccc;
                     padding: 0;
-                    margin: 0 3px;
+                    margin: 10px 3px;
                 }
                 &.disabled {
-                    background: whiten($uiClickableDefaultBg, .4) !important;
+                    background: white !important;
                     color: #ccc !important;
                 }
                 &.bin {
@@ -62,7 +63,6 @@
         }
         & ~ .image-editor {
             min-height: 292px;
-            float: left;
         }
         &.tall{
             min-height: 320px;
