@@ -1000,7 +1000,7 @@ img.dragging.ui-draggable-dragging {
     .inner-wrapper {
         position: relative;
     }
-    
+
     .dummy-element {
         min-width: 50px;
         @include simple-border();
@@ -1022,11 +1022,34 @@ img.dragging.ui-draggable-dragging {
     }
 
     .widget-inline,
+    .inline-text-wrapper {
+        position: relative;
+        display: inline-block;
+        [class^="icon-"], [class*=" icon-"] {
+            width: 100%;
+            top: -2px;
+            text-shadow: 1px 1px 0px #ccc;
+        }
+        & ~ span.mini-tlb[data-edit]{
+            position: absolute !important;
+            top: -2px !important;
+            right: -32px !important;
+            .tlb-button {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 18px !important;
+                width: 24px !important;
+            }
+        }
+        .mini-tlb[data-edit]{
+            right:-32px !important;
+        }
+    }
+
     .widget-include,
     .qti-hottext,
     .qti-gap,
-    .dummy-element,
-    .inline-text-wrapper {
+    .dummy-element {
         position: relative;
         display: inline-block;
         [class^="icon-"], [class*=" icon-"] {
@@ -1052,7 +1075,7 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-    
+
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
@@ -1071,7 +1094,7 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_grid-editor";
     @import "qtiCreator/_custom";
     @import "qtiCreator/_element-selector";
-    
+
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-simpleChoice {
         .mini-tlb[data-edit="question"] {
