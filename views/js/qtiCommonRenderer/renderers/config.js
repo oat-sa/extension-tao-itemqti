@@ -1,9 +1,26 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ */
+
 define([
-    'lodash',
-    'taoQtiItem/qtiDefaultRenderer/renderers/config',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(_, defaultRenderConfig, assetManagerFactory, assetStrategies){
+], function(assetManagerFactory, assetStrategies){
+    'use strict';
 
     //asset manager using base url
     var assetManager = assetManagerFactory([
@@ -13,7 +30,7 @@ define([
         assetStrategies.baseUrl
     ], {baseUrl : ''});
 
-    var locations = _.extend(_.clone(defaultRenderConfig.locations), {
+    var locations = {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
         '_simpleFeedbackRule' : false,
@@ -59,7 +76,7 @@ define([
         'infoControl' : 'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
-    });
+    };
     return {
         name:'commonRenderer',
         locations: locations,
