@@ -4,7 +4,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement'
 ], function(stateFactory, Active, formTpl, formElement){
-
+    
+    'use strict';
+    
     var ItemStateActive = stateFactory.create(Active, function(){
 
         this.initForm();

@@ -38,8 +38,8 @@ define([
                             callback(item, this.getLoadedClasses());
                         });
                     }else{
-
-                        var item = new Item().id(_generateIdentifier(config.uri));
+                        
+                        var item = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
                         var outcome = item.createOutcomeDeclaration({
                             cardinality : 'single',
                             baseType : 'float'

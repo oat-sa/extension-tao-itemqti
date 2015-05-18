@@ -29,7 +29,6 @@ use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\qti\Service;
 use tao_actions_CommonModule;
 use tao_helpers_File;
-use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\ItemModel;
