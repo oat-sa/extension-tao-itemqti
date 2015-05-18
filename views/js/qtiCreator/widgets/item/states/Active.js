@@ -23,6 +23,7 @@ define([
         $form.html(formTpl({
             serial : item.getSerial(),
             identifier : item.id(),
+            title : item.attr('title'),
             timeDependent : !!item.attr('timeDependent')
         }));
         
@@ -32,6 +33,7 @@ define([
         //init data validation and binding
         formElement.setChangeCallbacks($form, item, {
             identifier : formElement.getAttributeChangeCallback(),
+            title : formElement.getAttributeChangeCallback(),
             timeDependent : formElement.getAttributeChangeCallback()
         });
     };
