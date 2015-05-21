@@ -89,7 +89,7 @@ define([
     function limitItemPanelWidth () {
         var itemEditorPanel = document.getElementById('item-editor-panel'),
             width = (function() {
-                var _width = $('#panel-authoring').outerWidth();
+                var _width = $('#panel-authoring').clientWidth;
                 $('.item-editor-sidebar').each(function() {
                     _width -= $(this).outerWidth();
                 });
