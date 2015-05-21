@@ -57,7 +57,9 @@ define([
     icRegistry,
     blockAdder
     ){
-
+    
+    'use strict';
+    
     loadingBar.start();
 
     function _getAuthoringElements(interactionModels){
@@ -184,7 +186,7 @@ define([
                 },
                 //load item
                 function(callback){
-                    loader.loadItem({uri : configProperties.uri}, function(item){
+                    loader.loadItem({uri : configProperties.uri, label : configProperties.label}, function(item){
 
                         //configure commonRenderer for the preview
                         commonRenderer.setOption('baseUrl', configProperties.baseUrl);
