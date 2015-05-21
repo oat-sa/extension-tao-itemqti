@@ -1,3 +1,20 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
 define([
     'jquery',
     'helpers',
@@ -29,12 +46,12 @@ define([
                             itemData = data.itemData;
 
                         loader.loadItemData(itemData, function(item){
-                            
+
                             //hack to fix #2652
                             if(item.isEmpty()){
                                 item.body('');
                             }
-                            
+
                             callback(item, this.getLoadedClasses());
                         });
                     }else{
@@ -45,12 +62,12 @@ define([
                             baseType : 'float'
                         });
                         outcome.buildIdentifier('SCORE', false);
-                        
+
                         item.createResponseProcessing();
-                        
+
                         //always add math element : since it has become difficult to know when a math element has been added to the item
                         item.addNamespace('m', 'http://www.w3.org/1998/Math/MathML');
-                        
+
                         callback(item);
                     }
 
