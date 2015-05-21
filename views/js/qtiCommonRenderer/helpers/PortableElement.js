@@ -1,4 +1,22 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ */
 define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], function(context, _, $, util){
+    'use strict';
 
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
@@ -9,8 +27,8 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
     }
 
     /**
-     * Get root url of available vendor specific libraries 
-     * 
+     * Get root url of available vendor specific libraries
+     *
      * @returns {object} - an "associative" array object
      */
     function getSharedLibrariesPaths(){
@@ -20,7 +38,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     /**
      * Get lists of required OAT delivery engine libs
-     * 
+     *
      * @returns {Object}
      */
     function getCommonLibraries(){
@@ -35,7 +53,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     /**
      * Replace all identified relative media urls by the absolute one
-     * 
+     *
      * @param {String} markupStr
      * @param {Object} the renderer
      * @returns {String}
@@ -61,7 +79,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     /**
      * Transform relative paths in the "paths" argument object into absolute ones
-     * 
+     *
      * @param {String} baseUrl
      * @param {Object} paths
      * @returns {Object}
@@ -79,7 +97,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     /**
      * Get a local require js with typeIdentifier as specific context
-     * 
+     *
      * @param {String} typeIdentifier
      * @param {String} baseUrl
      * @param {Object} libs
@@ -134,7 +152,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
 
     /**
      * local require js caches
-     * 
+     *
      * @type Object
      */
     var _localRequires = {};
@@ -145,7 +163,7 @@ define(['context', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/util'], functi
      * Warning only the typeIdentifier and baseUrl will be used as key (not libs)
      * This means that if you want to ensure that the baseUrl and libs are different,
      * you may want to use getLocalRequire instead
-     * 
+     *
      * @param {String} typeIdentifier
      * @param {String} baseUrl
      * @param {Object} libs
