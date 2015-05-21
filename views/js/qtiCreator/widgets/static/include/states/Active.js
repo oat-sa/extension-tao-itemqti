@@ -60,7 +60,7 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'application/xml,text/xml'
+                    filters : 'application/xhtml+xml'
                 },
                 pathParam : 'path',
                 select : function(e, files){
