@@ -1,19 +1,53 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
-    'lodash'
+    'lodash',
+    'ui/listStyler'
 ], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _){
 
+    'use strict';
+
     var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
+
+    // Note: any change of this needs to be reflected in CSS
+    var listStylePrefix = 'list-style-';
+
+    function getListStyle(interaction) {
+        var className = interaction.attr('class') || '',
+            listStyle = className.match(/\blist-style-[\w-]+/);
+
+        return !_.isNull(listStyle) ? listStyle.pop().replace(listStylePrefix, '') : null;
+    }
 
     ChoiceInteractionStateQuestion.prototype.initForm = function(updateCardinality){
 
         var _widget = this.widget,
             $form = _widget.$form,
-            interaction = _widget.element;
+            interaction = _widget.element,
+            currListStyle = getListStyle(interaction),
+            $choiceArea = _widget.$container.find('.choice-area');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
@@ -21,6 +55,19 @@ define([
             minChoices : parseInt(interaction.attr('minChoices')),
             choicesCount : _.size(_widget.element.getChoices())
         }));
+
+
+        $form.find('[data-list-style]').liststyler( { selected: currListStyle })
+            .on('stylechange.liststyler', function(e, data) {
+                // model
+                interaction.removeClass(listStylePrefix + data.oldStyle);
+                // current visual
+                $choiceArea.removeClass(listStylePrefix + data.oldStyle);
+                if(data.newStyle !== 'none'){
+                    interaction.addClass(listStylePrefix + data.newStyle);
+                    $choiceArea.addClass(listStylePrefix + data.newStyle);
+                }
+            });
 
         formElement.initWidget($form);
         
