@@ -12,6 +12,19 @@
 </div>
 
 <div class="panel">
+    <label for="">{{__ "Title"}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">{{__ "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."}}</div>
+
+    <input type="text" 
+           name="title" 
+           value="{{title}}" 
+           placeholder="e.g. My Item A" 
+           data-validate="$notEmpty;">
+    
+</div>
+
+<div class="panel">
     <label>
         <input name="timeDependent" type="checkbox" {{#if timeDependent}}checked="checked"{{/if}}/>
         <span class="icon-checkbox"></span>

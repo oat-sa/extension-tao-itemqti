@@ -35,6 +35,13 @@ use oat\taoQtiItem\model\qti\Service;
 abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExporter
 {
 
+    /**
+    * List of regexp of media that should be excluded from retrieval
+    */
+    private static $BLACKLIST = array(
+        '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
+    );
+
     abstract public function buildBasePath();
 
     /**
@@ -69,7 +76,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $destPath = ltrim($filename,'/');
                 if (file_exists($srcPath)) {
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
-                    $content = str_replace($assetUrl, $destPath, $content);
+                    $content = str_replace($assetUrl, $replacement, $content);
                 } else {
                     throw new \Exception('Missing resource '.$srcPath);
                 }
@@ -115,6 +122,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $returnValue = array();
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
+                foreach (self::$BLACKLIST as $blacklist) {
+                    if (preg_match($blacklist, $assetUrl) === 1) {
+                        continue(2);
+                    }
+                }
                 $returnValue[] = $assetUrl;
             }
         }

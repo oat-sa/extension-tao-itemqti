@@ -530,12 +530,15 @@ define([
     };
 
     var enable = function(interaction) {
-        var ckeOptions = {};
         var $container = containerHelper.get(interaction);
         $container.find('input, textarea').removeAttr('disabled');
 
         if ( _getFormat(interaction) === 'xhtml') {
-            _ckEditor(interaction).readOnly = false;
+            if (_ckEditor(interaction).status === 'ready') {
+                _ckEditor(interaction).setReadOnly(false);
+            } else {
+                _ckEditor(interaction).readOnly = false;
+            }
         }
     };
 
@@ -544,7 +547,11 @@ define([
         $container.find('input, textarea').attr('disabled', 'disabled');
 
         if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
-            _ckEditor(interaction).readOnly = true;
+            if (_ckEditor(interaction).status === 'ready') {
+                _ckEditor(interaction).setReadOnly(true);
+            } else {
+                _ckEditor(interaction).readOnly = true;
+            }
         }
     };
 
