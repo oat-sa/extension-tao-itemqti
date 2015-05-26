@@ -1,15 +1,32 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ */
 define(['lodash'], function(_){
     "use strict";
     /**
-     * Argument cols format: 
+     * Argument cols format:
      * [{elt:elementRef, units:6, min:4}]
-     * 
+     *
      * Return format:
      * {last:6, middle:4, distributed:[{elt:elementRef, units:5}]}
-     * 
-     * @param {array} cols 
-     * @param {int} min 
-     * @param {int} max 
+     *
+     * @param {array} cols
+     * @param {int} min
+     * @param {int} max
      * @returns {object}
      */
     function distributeUnits(cols, min, max){
@@ -90,7 +107,7 @@ define(['lodash'], function(_){
 
     /**
      * Rebistributs the cols proportionally to fill out the "max" width
-     * 
+     *
      * @param {array} cols
      * @param {integer} max
      * @returns {object}
@@ -122,21 +139,21 @@ define(['lodash'], function(_){
             totalRefactoredUnits += rounded;
 
             col.refactoredUnits = rounded;
-            
+
             if(rounded > refactoredUnits){
                 positive.push(col);
             }else{
                 negative.push(col);
             }
-            
+
         });
-        
+
         positive = _.sortBy(positive, 'refactoredUnits');
         negative = _.sortBy(negative, 'refactoredUnits');
-        
+
         if(totalRefactoredUnits > max){
             //too much !
-            
+
             //@todo : start with the hightest refactored
             _.eachRight(positive, function(col){
                 col.refactoredUnits --;
@@ -145,9 +162,9 @@ define(['lodash'], function(_){
                     return false;
                 }
             });
-            
+
         }else if(totalRefactoredUnits < max){
-            
+
             //@todo : start with the lowest refactored
             _.each(negative, function(col){
                 col.refactoredUnits ++;
@@ -156,9 +173,9 @@ define(['lodash'], function(_){
                     return false;
                 }
             });
-            
+
         }
-        
+
         _.each(negative, function(col){
             ret.push(col);
         });
@@ -168,7 +185,7 @@ define(['lodash'], function(_){
 
         return _cols;
     }
-    
+
 
     return {
         distribute : function(cols, min, max){
