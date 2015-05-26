@@ -4,7 +4,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement'
 ], function(stateFactory, Active, formTpl, formElement){
-
+    
+    'use strict';
+    
     var ItemStateActive = stateFactory.create(Active, function(){
 
         this.initForm();
@@ -23,6 +25,7 @@ define([
         $form.html(formTpl({
             serial : item.getSerial(),
             identifier : item.id(),
+            title : item.attr('title'),
             timeDependent : !!item.attr('timeDependent')
         }));
         
@@ -32,6 +35,7 @@ define([
         //init data validation and binding
         formElement.setChangeCallbacks($form, item, {
             identifier : formElement.getAttributeChangeCallback(),
+            title : formElement.getAttributeChangeCallback(),
             timeDependent : formElement.getAttributeChangeCallback()
         });
     };
