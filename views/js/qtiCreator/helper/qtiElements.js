@@ -409,7 +409,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Order Interaction'),
                 icon : 'icon-graphic-order',
                 description : __('Order the areas (hotspots) displayed on a picture.'),
-                short : __('Graphic Order'),
+                short : __('Order'),
                 qtiClass : 'graphicOrderInteraction',
                 tags:['Graphic Interactions', 'ordering']
             },
@@ -417,7 +417,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Associate Interaction'),
                 icon : 'icon-graphic-associate',
                 description : __('Create association(s) between areas (hotspots) displayed on a picture.'),
-                short : __('Graphic Associate'),
+                short : __('Associate'),
                 qtiClass : 'graphicAssociateInteraction',
                 tags:['Graphic Interactions', 'association']
             },
@@ -425,7 +425,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Gap Match Interaction'),
                 icon : 'icon-graphic-gap',
                 description : __('Fill in the gaps on a picture with a set of image choices.'),
-                short : __('Graphic Gap'),
+                short : __('Gap Match'),
                 qtiClass : 'graphicGapMatchInteraction',
                 tags:['Graphic Interactions', 'association']
             },
