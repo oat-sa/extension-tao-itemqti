@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+                        http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd
+                        http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd"
+    identifier="QUE_00001" title="Question 1" adaptive="false" timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>three</value>
+        </correctResponse>
+     </responseDeclaration>
+     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+         <defaultValue>
+             <value>0</value>
+         </defaultValue>
+     </outcomeDeclaration>
+     <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+         <defaultValue>
+             <value>100</value>
+         </defaultValue>
+     </outcomeDeclaration>
+     <itemBody>
+         <p>Look at this expression.</p>
+         <p>
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mrow>
+                     <mi> k </mi>
+                     <mo> ( </mo>
+                     <mrow>
+                         <mrow>
+                             <mi> m </mi> <mo> #20; </mo> <mi> k </mi>
+                         </mrow>
+                         <mo> - </mo>
+                         <msup>
+                             <mi> k </mi> <mn> 2 </mn>
+                         </msup>
+                     </mrow>
+                     <mo> ) </mo>
+                 </mrow>
+             </math>
+         </p>
+         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
+             <prompt>
+                 What is the value of this expression when k=-1 and m=2 ?
+             </prompt>
+             <simpleChoice identifier="minus-two" fixed="true">
+                 <p>-2</p>
+             </simpleChoice>
+             <simpleChoice identifier="zero" fixed="true">
+                 <p>0</p>
+             </simpleChoice>
+             <simpleChoice identifier="one" fixed="true">
+                 <p>1</p>
+             </simpleChoice>
+             <simpleChoice identifier="three" fixed="true">
+                 <p>3</p>
+             </simpleChoice>
+         </choiceInteraction>
+     </itemBody>
+     <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE"/>
+                    <correct identifier="RESPONSE"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="MAXSCORE"/>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+     </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0">
+        <!-- BLANK To ensure validation against the CORE PROFILE. -->
+    </apipAccessibility>
+</assessmentItem>

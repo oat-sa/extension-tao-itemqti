@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+                        http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd"
+    identifier="APIP_4d2"
+    title="Class Vote on Colors"
+    adaptive="false"
+    timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+        <correctResponse>
+            <value>option1</value>
+            <value>option2</value>
+            <value>option4</value>
+        </correctResponse>
+        <mapping lowerBound="0" upperBound="3" defaultValue="-2">
+            <mapEntry mapKey="option1" mappedValue="1"/>
+            <mapEntry mapKey="option2" mappedValue="1"/>
+            <mapEntry mapKey="option3" mappedValue="-1"/>
+            <mapEntry mapKey="option4" mappedValue="1"/>
+            <mapEntry mapKey="option5" mappedValue="-1"/>
+        </mapping>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody id="theWholeItem">
+        <p id="p1"><span id="a">Ms. Smith's class contains 24 students. </span><span id="b">Each student voted for his or her favorite color. </span><span id="c">The result of the class vote is shown </span><span id="z">in the table below.</span></p>
+        <table id="table001">
+            <caption id="d">Results of the Class Vote</caption>
+            <tbody>
+                <tr id="columnheadings">
+                    <th id="th001"><span id="e">Color</span></th>
+                    <th id="th002"><span id="f">Number of Students</span></th>
+                </tr>
+                <tr id="u">
+                    <td id="td001"><span id="g">Red</span></td>
+                    <td id="td002"><span id="h">12</span></td>
+                </tr>
+                <tr id="v">
+                    <td id="td003"><span id="i">Blue</span></td>
+                    <td id="td004"><span id="j">6</span></td>
+                </tr>
+                <tr id="w">
+                    <td id="td005"><span id="k">Green</span></td>
+                    <td id="td006"><span id="l">4</span></td>
+                </tr>
+                <tr id="x">
+                    <td id="td007"><span id="m">Yellow</span></td>
+                    <td id="td008"><span id="n">2</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="5">
+            <prompt id="o">Indicate which of the following statements are accurate.</prompt>
+            <simpleChoice identifier="option1" fixed="true">
+                <p id="p">The majority of students voted for Red.</p>
+            </simpleChoice>
+            <simpleChoice identifier="option2" fixed="true">
+                <p id="q">Twice as many students voted for Red a voted for Blue.</p>
+            </simpleChoice>
+            <simpleChoice identifier="option3" fixed="true">
+                <p id="r">Two percent of students voted for Yellow.</p>
+            </simpleChoice>
+            <simpleChoice identifier="option4" fixed="true">
+                <p id="s">Red received more votes thatn any other color.</p>
+            </simpleChoice>
+            <simpleChoice identifier="option5" fixed="true">
+                <p id="t">Twenty-five percent of students voted for Green.</p>
+            </simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <!--APIP specific code-->
+    <apip:apipAccessibility>
+        <apip:companionMaterialsInfo>
+            <apip:calculator>
+                <apip:calculatorType>Basic</apip:calculatorType>
+                <apip:description>Four function calculator</apip:description>
+            </apip:calculator>
+        </apip:companionMaterialsInfo>
+        <!--APIP Inclusion Order-->
+        <apip:inclusionOrder>
+            <apip:textOnlyDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <!--skip over the content in the table, you can get it in the on demand order-->
+                <apip:elementOrder identifierRef="ae016">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae017">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae018">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae019">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae020">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae021">
+                    <apip:order>11</apip:order>
+                </apip:elementOrder>
+            </apip:textOnlyDefaultOrder>
+            <apip:textOnlyOnDemandOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae007">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae008">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae009">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae010">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae011">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae012">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae013">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae014">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae015">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+            </apip:textOnlyOnDemandOrder>
+            <!-- text and graphics user -->
+            <apip:textGraphicsDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <!--table -->
+                <apip:elementOrder identifierRef="ae022">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae023">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae024">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae025">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae026">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae027">
+                    <apip:order>11</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae028">
+                    <apip:order>12</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae016">
+                    <apip:order>13</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae017">
+                    <apip:order>14</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae018">
+                    <apip:order>15</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae019">
+                    <apip:order>16</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae020">
+                    <apip:order>17</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae021">
+                    <apip:order>18</apip:order>
+                </apip:elementOrder>
+            </apip:textGraphicsDefaultOrder>
+            <apip:textGraphicsOnDemandOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae007">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae008">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae009">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae010">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae011">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae012">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae013">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae014">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae015">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+            </apip:textGraphicsOnDemandOrder>
+            <apip:nonVisualDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <!--prompt-->
+                <apip:elementOrder identifierRef="ae016">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <!--response options-->
+                <apip:elementOrder identifierRef="ae017">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae018">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae019">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae020">
+                    <apip:order>11</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae021">
+                    <apip:order>12</apip:order>
+                </apip:elementOrder>
+                <!--table-->
+                <apip:elementOrder identifierRef="ae022">
+                    <apip:order>13</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae023">
+                    <apip:order>14</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae024">
+                    <apip:order>15</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae025">
+                    <apip:order>16</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae026">
+                    <apip:order>17</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae027">
+                    <apip:order>18</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae028">
+                    <apip:order>19</apip:order>
+                </apip:elementOrder>
+            </apip:nonVisualDefaultOrder>
+            <!--there is NO on demand order for non-visual or braille users-->
+            <apip:brailleDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <!--prompt-->
+                <apip:elementOrder identifierRef="ae016">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <!--response options-->
+                <apip:elementOrder identifierRef="ae017">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae018">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae019">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae020">
+                    <apip:order>11</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae021">
+                    <apip:order>12</apip:order>
+                </apip:elementOrder>
+                <!--table-->
+                <apip:elementOrder identifierRef="ae022">
+                    <apip:order>13</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae023">
+                    <apip:order>14</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae024">
+                    <apip:order>15</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae025">
+                    <apip:order>16</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae026">
+                    <apip:order>17</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae027">
+                    <apip:order>18</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae028">
+                    <apip:order>19</apip:order>
+                </apip:elementOrder>
+            </apip:brailleDefaultOrder>
+            <apip:aslDefaultOrder>
+                <apip:elementOrder identifierRef="ae030">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae031">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae016">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae017">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae018">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae019">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae020">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae021">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+            </apip:aslDefaultOrder>
+            <apip:aslOnDemandOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae007">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae008">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae009">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae010">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae011">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae012">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae013">
+                    <apip:order>8</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae014">
+                    <apip:order>9</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae015">
+                    <apip:order>10</apip:order>
+                </apip:elementOrder>
+            </apip:aslOnDemandOrder>
+        </apip:inclusionOrder>
+        <!--APIP Accessibility Element Details-->
+        <apip:accessibilityInfo>
+            <!--Each accessElement will get it's own identifier-->
+            <apip:accessElement identifier="ae001">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="a">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <!--the accessibility content for ae001-->
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio001" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file1.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext001">Ms. Smith's class contains twenty four students.</apip:spokenText>
+                        <!--only need to include the pronunciation tag if it differs from the audioText string-->
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp001">Miz Smiths class contains twenty-four students.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <!--If this element will be accessed by a braille user, ALWAYS include the braille text string, even when it repeats the string of text you are linking to-->
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText001">Ms. Smith's class contains 24 students.</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae002">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="b">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio002" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file2.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext002">Each student voted for his or her favorite color.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp002">Each student voted for his or her favorite color.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText002">Each student voted for his or her favorite color.</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae003">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="c">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio003" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file3.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext003">The result of the class vote is shown </apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp003">The result of the class vote is shown </apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText003">The result of the class vote is shown </apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae004">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="z">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio004" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file4.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext004">in the table below.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp004">in the table below.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText004">in the table below.</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae005">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="d">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio005" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file5.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext005">Results of the Class Vote</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp005">Results of the Class Vote</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <!--No Braille text is specified here because non-visual users will use a different access element -->
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae006">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="e">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio006" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file6.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext006">Color</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp006">Color</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_006" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:00</apip:startCue>
+                                <apip:endCue>00:00:03.3</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae007">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="f">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio007" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file7.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext007">Number of Students</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp007">Number of Students</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_007" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:03.1</apip:startCue>
+                                <apip:endCue>00:00:06.9</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae008">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="g">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio008" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file8.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext008">Red</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp008">Red</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_008" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:06.9</apip:startCue>
+                                <apip:endCue>00:00:08.8</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae009">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="h">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio009" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file9.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext009">Twelve</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp009">Twelve</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_009" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:08.8</apip:startCue>
+                                <apip:endCue>00:00:10.43</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae010">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="i">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio010" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file10.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext010">Blue</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp010">Blue</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_010" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:10.43</apip:startCue>
+                                <apip:endCue>00:00:12.37</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae011">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="j">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio011" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file11.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext011">six</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp011">six</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_011" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:12.37</apip:startCue>
+                                <apip:endCue>00:00:13.26</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae012">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="k">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio012" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file12.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext012">Green</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp012">Green</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_012" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:13.26</apip:startCue>
+                                <apip:endCue>00:00:15.9</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae013">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="l">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio013" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file13.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext013">four</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp013">four</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_014" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:15.9</apip:startCue>
+                                <apip:endCue>00:00:17.8</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae014">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="m">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio014" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file14.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext014">Yellow</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="verbaltext014-Yellow">yell-oh</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video014" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:17.8</apip:startCue>
+                                <apip:endCue>00:00:19.4</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae015">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="n">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio015" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file15.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext015">two</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp015">two</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_015" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_onDemand.m4v</apip:fileHref>
+                                <apip:startCue>00:00:19.4</apip:startCue>
+                                <apip:endCue>00:00:21</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae016">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="o">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio016" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file16.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext016">Indicate which of the following statements are accurate.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp016">Indicate which of the following state-mints are accurate.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText016">Indicate which of the following statements are accurate.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_016" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:28.87</apip:startCue>
+                                <apip:endCue>00:00:37</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--choices for response-->
+            <apip:accessElement identifier="ae017">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="p">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio017" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file17.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext017">Option one: The majority of students voted for Red.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp017">Option one: The majority of students voted for Red.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText017">option 1: The majority of students voted for Red.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_017" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:37</apip:startCue>
+                                <apip:endCue>00:00:44.93</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae018">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="q">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio018" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file18.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext018">Option two: Twice as many students voted for Red as voted for Blue.</apip:spokenText>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText018">option 2: Twice as many students voted for Red as voted for Blue.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_018" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:44.93</apip:startCue>
+                                <apip:endCue>00:00:52.3</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae019">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio019" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file19.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext019">Option three: Two percent of students voted for Yellow.</apip:spokenText>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText019">option 3: 2% of students voted for Yellow.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_019" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:52.3</apip:startCue>
+                                <apip:endCue>00:01:01</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae020">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="s">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio020" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file20.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext020">Option four: Red received more votes than any other color.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp020">Option four: Red received more votes than any other color.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText020">option 4:  Red received more votes than any other color.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_020" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:01:01</apip:startCue>
+                                <apip:endCue>00:01:11.5</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae021">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="t">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio021" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file21.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext021">Option five: Twenty-five percent of students voted for Green.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp021">Option five: Twenty-five percent of students voted for Green.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText021">option 5: 25% of students voted for Green.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_021"
+                                mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:01:11.5</apip:startCue>
+                                <apip:endCue>00:01:20.6</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--end of options-->
+            <!--this access element points to "d" just like ae005, but this will be used for text and graphics users, and non-visual users-->
+            <apip:accessElement identifier="ae022">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="d">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio022" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file22.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext022">Shown is a table with the title, "Results of the Class Vote."  The table has two columns with four rows of data.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp022">Shown is a table with the title, "Results of the Class Vote."  The table has two columns with four rows of data.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText022">Shown is a table with the title: Results of the Class Vote. The table has 2 columns with 4 rows of data.</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!-- access elements related to column headings for graphic description-->
+            <apip:accessElement identifier="ae023">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="th001">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio023" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file23.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext023">Column one heading is Color.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp023">Column one heading is Color.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText023">column 1 heading is Color</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae024">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="th002">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio024" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file24.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext024">Column two heading is Number of Students.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp024">Column two heading is Number of Students.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText024">column 2 heading is Number of Students</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--rows in the table-->
+            <apip:accessElement identifier="ae025">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="u">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio025" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file25.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext025">Row one: the color is red. The number of students is twelve.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp025">Row one: the color is red. The number of students is twelve.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText025">Row 1: the color is red. The number of students is 12</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae026">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="v">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio026" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file26.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext026">Row two: the color is blue. The number of students is six.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp026">Row two: the color is blue. The number of students is six.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText026">Row 2: the color is blue. The number of students is 6</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae027">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="w">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio027" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file27.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext027">Row three: the color is green. The number of students is four.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp027">Row three: the color is green. The number of students is four.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText027">Row 3: the color is green. The number of students is 4</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae028">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="x">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio028" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file28.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext028">Row four: the color is yellow. The number of students is two.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp028">Row four: the color is yellow. The number of students is two.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText028">Row 4: the color is yellow. The number of students is 2</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--this enables the word accurate to be highlighted (bolded) and to have a flag that will clarify the meaning of the word-->
+            <apip:accessElement identifier="ae029">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="o">
+                    <apip:textLink>
+                        <apip:wordLink>8</apip:wordLink>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:keyWordEmphasis/>
+                    <apip:guidance>
+                        <apip:languageLearnerSupport>
+                            <apip:supportOrder>1</apip:supportOrder>
+                            <apip:textString contentLinkIdentifier="note029">Accurate means correct.</apip:textString>
+                        </apip:languageLearnerSupport>
+                    </apip:guidance>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--now some elements that have different groupings of the content for ASL-->
+            <apip:accessElement identifier="ae030">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="a">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:contentLinkInfo qtiLinkIdentifierRef="b">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_030" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:00</apip:startCue>
+                                <apip:endCue>00:00:20.3</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae031">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="c">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:contentLinkInfo qtiLinkIdentifierRef="z">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video_031" mimeType="video/x-m4v">
+                                <apip:fileHref>apip_example_4d2resources/apip_example_4d2_item.m4v</apip:fileHref>
+                                <apip:startCue>00:00:20.3</apip:startCue>
+                                <apip:endCue>00:00:28.87</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!-- this is an access element that refers to supporting accessibility information (the note text in the flag for the word accurate)-->
+            <apip:accessElement identifier="ae032">
+                <apip:contentLinkInfo apipLinkIdentifierRef="note029">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:audioFileInfo contentLinkIdentifier="audio032" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_example_4d2resources/file32.mp3</apip:fileHref>
+                            <apip:voiceType>Human</apip:voiceType>
+                        </apip:audioFileInfo>
+                        <apip:spokenText contentLinkIdentifier="verbaltext032">Accurate means correct.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp032">Accurate means correct.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText032">accurate means correct</apip:brailleTextString>
+                    </apip:brailleText>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+        </apip:accessibilityInfo>
+    </apip:apipAccessibility>
+</assessmentItem>

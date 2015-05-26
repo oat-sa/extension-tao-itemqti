@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem title="Where did the crocodile come from" identifier="apip_exemplar05"
+    adaptive="false" timeDependent="false"
+    xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+    http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd">
+    <responseDeclaration identifier="RESPONSE" baseType="identifier" cardinality="single">
+        <correctResponse>
+            <value>B</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody id="content2">
+
+        <choiceInteraction id="content1" maxChoices="1" minChoices="0" shuffle="false"
+            responseIdentifier="RESPONSE">
+            <prompt id="content4">Where did the crocodile come from?</prompt>
+            <simpleChoice showHide="show" identifier="A" id="content3" fixed="true"> the bathroom </simpleChoice>
+            <simpleChoice showHide="show" identifier="B" id="content6" fixed="true"> a magazine cover </simpleChoice>
+            <simpleChoice showHide="show" identifier="C" id="content7" fixed="true"> under the bed </simpleChoice>
+            <simpleChoice showHide="show" identifier="D" id="content5" fixed="true"> a nearby river
+            </simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE"/>
+                    <correct identifier="RESPONSE"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="MAXSCORE"/>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0">
+        <inclusionOrder>
+            <brailleDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+            </brailleDefaultOrder>
+            <nonVisualDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+            </nonVisualDefaultOrder>
+            <textOnlyDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+            </textOnlyDefaultOrder>
+            <textGraphicsDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+            </textGraphicsDefaultOrder>
+        </inclusionOrder>
+        <accessibilityInfo>
+            <accessElement identifier="accessElement1">
+                <contentLinkInfo qtiLinkIdentifierRef="content4">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement1BrailleTextString">Where did the crocodile come from?</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText1">Where did the crocodile come from?</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech1">Where did the crocodile come from?</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement2">
+                <contentLinkInfo qtiLinkIdentifierRef="content3">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement2BrailleTextString">the bathroom</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText2">the
+                            bathroom</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech2">the
+                            bathroom</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement3">
+                <contentLinkInfo qtiLinkIdentifierRef="content6">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement3BrailleTextString">
+                            a
+                            magazine cover</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText3">
+                            a magazine cover
+                        </spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech3">
+                            a magazine cover
+                        </textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement4">
+                <contentLinkInfo qtiLinkIdentifierRef="content7">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement4BrailleTextString">under the bed</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText4">under the
+                            bed</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech4">under
+                            the bed</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement5">
+                <contentLinkInfo qtiLinkIdentifierRef="content5">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement5BrailleTextString">a
+                            nearby river</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText5">a nearby
+                            river</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech5">a
+                            nearby river</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+        </accessibilityInfo>
+    </apipAccessibility>
+</assessmentItem>

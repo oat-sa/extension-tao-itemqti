@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .apip-creator .selector .qti-item-body div{
+                border : 1px solid #ddd;
+                padding : 10px;
+            }
+            .apip-creator .selector .qti-item-body span{
+                border : 1px solid #ddd;
+                padding : 5px;
+            }
+            .apip-creator .selector .qti-item-body div.hover,.apip-creator .selector .qti-item-body span.hover {
+                border-color: #266D9C;
+                cursor:pointer;
+            }
+            .qti-img {display: inline-block;}
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+            $(function(){
+                $('.apip-creator').on('mouseenter', 'div, span', function(e){
+                    e.stopPropagation();
+                    $(this).addClass('hover');
+                    $(this).parent().mouseleave();
+                }).on('mouseleave', 'div,span', function(e){
+                    e.stopPropagation();
+                    $(this).removeClass('hover');
+                    $(this).parent().mouseenter();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="apip-creator">
+            <div class="selector">
+                <div class="qti-item-body">
+                    <div class="qti-div">
+                        <span class="qti-img">
+                            <img src="http://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png"/>
+                        </span>
+                        <span class="qti-span">A</span>
+                        <span class="qti-span">B</span>
+                        <span class="qti-span">C</span>
+                    </div>
+                    <div class="qti-choiceInteraction">
+                        <div class="qti-prompt">
+                            In the figure above, what fraction of the rectangle <span class="qti-em">ABCD</span> is shaded?
+                        </div>
+                        <div class="qti-simpleChoice">
+                            <div class="qti-p">
+                                <span class="qti-math">
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1">
+                                    <mfrac>
+                                    <mn>1</mn>
+                                    <mn>3</mn>
+                                    </mfrac>
+                                    </math>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="qti-simpleChoice">
+                            <div class="qti-p">
+                                <span class="qti-math">
+                                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1">
+                                    <mfrac>
+                                    <mn>1</mn>
+                                    <mn>5</mn>
+                                    </mfrac>
+                                    </math>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

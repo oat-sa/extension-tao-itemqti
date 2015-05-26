@@ -1,0 +1,43 @@
+<manifest identifier="Manifest_1333650936937_1" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+  http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest">
+      <educational>
+        <learningResourceType>
+          <source>APIPv1.0</source>
+          <value>APIP Package</value>
+        </learningResourceType>
+      </educational>
+      <general>
+        <identifier/>
+        <title/>
+      </general>
+      <lifeCycle>
+        <contribute/>
+        <version/>
+      </lifeCycle>
+      <rights>
+        <copyrightAndOtherRestrictions/>
+        <description/>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations/>
+  <resources>
+    <resource identifier="Resource1" type="imsqti_apipitem_xmlv2p2" href="apip_example_4d1.xml">
+      <file href="apip_example_4d1.xml"/>
+      <dependency identifierref="Resource2"/>
+      <dependency identifierref="Resource3"/>
+    </resource>
+    <resource identifier="Resource2" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d1resources/example4d1_tactile.mp3">
+      <file href="apip_example_4d1resources/example4d1_tactile.mp3"/>
+    </resource>
+    <resource identifier="Resource3" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d1resources/file676.mp3">
+      <file href="apip_example_4d1resources/file676.mp3"/>
+    </resource>
+  </resources>
+</manifest>

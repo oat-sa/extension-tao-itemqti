@@ -1,0 +1,59 @@
+<manifest identifier="Manifest_1333654827299_1" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+  http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest">
+      <educational>
+        <learningResourceType>
+          <source>APIPv1.0</source>
+          <value>APIP Package</value>
+        </learningResourceType>
+      </educational>
+      <general>
+        <identifier/>
+        <title/>
+      </general>
+      <lifeCycle>
+        <contribute/>
+        <version/>
+      </lifeCycle>
+      <rights>
+        <copyrightAndOtherRestrictions/>
+        <description/>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations/>
+  <resources>
+    <resource identifier="Resource1" href="apip_exemplarSection01.xml" type="imsqti_apipsection_xmlv2p2">
+      <file href="apip_exemplarSection01.xml"/>
+      <dependency identifierref="Resource2"/>
+      <dependency identifierref="Resource3"/>
+      <dependency identifierref="Resource4"/>
+      <dependency identifierref="Resource5"/>
+      <dependency identifierref="Resource6"/>
+      <dependency identifierref="Resource7"/>
+    </resource>
+    <resource identifier="Resource2" href="apip_exemplarSection01resources/apip_exemplarSection01_title.png" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="apip_exemplarSection01resources/apip_exemplarSection01_title.png"/>
+    </resource>
+    <resource identifier="Resource3" href="apip_exemplar06.xml" type="imsqti_apipitem_xmlv2p2">
+      <file href="apip_exemplar06.xml"/>
+    </resource>
+    <resource identifier="Resource4" href="apip_exemplarSection01resources/apip_exemplarSection01_croc.png" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="apip_exemplarSection01resources/apip_exemplarSection01_croc.png"/>
+    </resource>
+    <resource identifier="Resource5" href="apip_exemplar04.xml" type="imsqti_apipitem_xmlv2p2">
+      <file href="apip_exemplar04.xml"/>
+    </resource>
+    <resource identifier="Resource6" href="apip_exemplarSection01resources/apip_exemplarSection01_flamingos.png" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="apip_exemplarSection01resources/apip_exemplarSection01_flamingos.png"/>
+    </resource>
+    <resource identifier="Resource7" href="apip_exemplar05.xml" type="imsqti_apipitem_xmlv2p2">
+      <file href="apip_exemplar05.xml"/>
+    </resource>
+  </resources>
+</manifest>
