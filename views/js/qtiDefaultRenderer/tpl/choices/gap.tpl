@@ -1,1 +1,0 @@
-<span class="gap" id="{{attributes.identifier}}"></span>
