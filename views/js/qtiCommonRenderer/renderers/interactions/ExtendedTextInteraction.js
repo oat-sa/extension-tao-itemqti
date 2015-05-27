@@ -29,9 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ckeditor',
-    'ui/ckeditor/ckConfigurator',
+    'taoQtiItem/qtiCommonRenderer/helpers/ckConfigurator',
     'polyfill/placeholders'
-], function($, _, __, tpl, containerHelper, instructionMgr, ckEditor ,ckConfigurator){
+], function($, _, __, tpl, containerHelper, instructionMgr, ckEditor, ckConfigurator){
     'use strict';
 
     /**

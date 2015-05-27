@@ -3,7 +3,7 @@ define([
     'i18n',
     'jquery',
     'ckeditor',
-    'ui/ckeditor/ckConfigurator',
+    'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
