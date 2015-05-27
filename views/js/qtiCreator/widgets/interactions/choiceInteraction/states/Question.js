@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'lodash',
-    'ui/listStyler'
+    'ui/liststyler'
 ], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _){
 
     'use strict';
