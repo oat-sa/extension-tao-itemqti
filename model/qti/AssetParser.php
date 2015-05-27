@@ -57,7 +57,13 @@ class AssetParser
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
     */
-    private $getSharedLibraries;
+    private $getSharedLibraries = true;
+
+    /**
+     * Set mode - if parser have to find shared stimulus
+     * @var bool
+     */
+    private $getXinclude = true;
 
     /**
      * Set mode - if parser have to find all external entries ( like url, require etc )
@@ -91,6 +97,9 @@ class AssetParser
             $this->extractObject($element);
             $this->extractStyleSheet($element);
             $this->extractCustomElement($element);
+            if($this->getGetXinclude()){
+                $this->extractXinclude($element);
+            }
         }
         return $this->assets;
     }
@@ -119,6 +128,18 @@ class AssetParser
         }
         if($element instanceof QtiObject){
             $this->loadObjectAssets($element);
+        }
+    }
+
+    /**
+     * Lookup and extract assets from IMG elements
+     * @param Element $element container of the target element
+     */
+    private function extractXinclude(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                $this->addAsset('xinclude', $xinclude->attr('href'));
+            }
         }
     }
 
@@ -286,6 +307,22 @@ class AssetParser
     public function getGetSharedLibraries()
     {
         return $this->getSharedLibraries;
+    }
+
+    /**
+     * @param boolean $getXinclude
+     */
+    public function setGetXinclude($getXinclude)
+    {
+        $this->getXinclude = $getXinclude;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetXinclude()
+    {
+        return $this->getXinclude;
     }
 
     /**
