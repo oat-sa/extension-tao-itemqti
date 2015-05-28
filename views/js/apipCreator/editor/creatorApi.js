@@ -17,10 +17,11 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/apipCreator/editor/accessElementInfo/registry',
     'taoQtiItem/apipCreator/helper/parser',
     'taoQtiItem/apipCreator/helper/'
-], function(accessElementInfoRegistry, parser, serializer){
+], function(_, accessElementInfoRegistry, parser, serializer){
 
     /**
      * Instanciate an creator api that will works on an APIP authoring model
@@ -30,8 +31,28 @@ define([
      */
     function CreatorApi(apipItemXML){
         
-        //apipItem is an private variable in this scope that holds the authoring model
+        //apipItem is an private variable in this scope, which holds the authoring model
         var apipItem = parser.parse(apipItemXML);
+        
+        /**
+         * Get a clone of the parsed item body
+         * This will be used to generate the item view for the apip authoring tool
+         * 
+         * @returns {Object}
+         */
+        function getItemBodyModel(){
+            return _.cloneDeep(apipItem.itemBody);
+        }
+        
+        /**
+         * Find the qti element identified by its serial
+         * 
+         * @param {String} qtiElementSerial
+         * @returns {Object}
+         */
+        function getQtiElementBySerial(qtiElementSerial){
+            return {};
+        }
         
         /**
          * Get the access element related to a qti element if it exists
