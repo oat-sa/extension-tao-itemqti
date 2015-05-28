@@ -16,5 +16,56 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
+define([], function(){
 
+    /**
+     * Get a short and descriptive view 
+     * Something that can be served as a thumbnail
+     * 
+     * @returns {String} the rendered HTML
+     */
+    function getDescriptiveView(accessElementInfo){
+        return 'this is a spoken access element info';
+    }
 
+    /**
+     * 
+     * @param {type} accessElementInfo
+     * @returns {undefined}
+     */
+    function getFormView(accessElementInfo){
+        return '<form></form>';
+    }
+
+    /**
+     * Set the attribute value for the spoken access element
+     * Allowed values are spokenText, testToSpeechPronunciation, audioFileInfo.fileHref
+     * 
+     * @param {Object} accessElementInfo
+     * @param {String} name
+     * @param {Mixed} value
+     * @returns {Mixed}
+     */
+    function setAttribute(accessElementInfo, name, value){
+        return accessElementInfo;
+    }
+    
+    /**
+     * Get the attribute value for the spoken access element
+     * 
+     * @param {Object} accessElementInfo
+     * @param {String} name
+     * @param {Mixed} value
+     * @returns {Mixed}
+     */
+    function getAttribute(accessElementInfo, name, value){
+        return null;
+    }
+
+    return {
+        typeId : 'spoken',
+        label : 'spoken',
+        getDescriptiveView : getDescriptiveView,
+        getFormView : getFormView
+    };
+});
