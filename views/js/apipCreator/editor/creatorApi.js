@@ -22,11 +22,13 @@ define([
     'taoQtiItem/apipCreator/helper/parser',
     'taoQtiItem/apipCreator/helper/'
 ], function(_, accessElementInfoRegistry, parser, serializer){
-
+    
+    'use strict';
+    
     /**
      * Instanciate an creator api that will works on an APIP authoring model
      * 
-     * @param {String} apipItem - the APIP-QTI item XML
+     * @param {String} apipItemXML - the APIP-QTI item XML
      * @returns {Object}
      */
     function CreatorApi(apipItemXML){
@@ -55,13 +57,33 @@ define([
         }
         
         /**
-         * Get the access element related to a qti element if it exists
+         * Find the related QtiElement object from the associated accessElement
+         * 
+         * @param {Object} accessElement
+         * @returns {Object}
+         */
+        function getQtiElementByAccessElement(accessElement){
+            return {};
+        }
+        
+        /**
+         * Get the access element identified by its serial
+         * 
+         * @param {String} accessElementSerial
+         * @returns {Object}
+         */
+        function getAccessElementBySerial(accessElementSerial){
+            return {};
+        }
+        
+        /**
+         * Get the access element related to a qti element
          * 
          * @param {Object} qtiElement
          * @returns {Object}
          */
-        function getAccessElement(qtiElement){
-            
+        function getAccessElementByQtiElement(qtiElement){
+            return {};
         }
         
         /**
@@ -88,7 +110,7 @@ define([
          * Get the access element info related to an access element if it exists
          * 
          * @param {Object} accessElement
-         * @param {String} accessElementInfoType
+         * @param {String} accessElementInfoType - possible values are spoken, brailleText, signing
          * @returns {Object}
          */
         function getAccessElementInfo(accessElement, accessElementInfoType){
@@ -112,13 +134,36 @@ define([
         }
         
         /**
+         * Get the attribute value for the access element info
+         * 
+         * @param {Object} accessElementInfo
+         * @param {String} name
+         * @returns {Mixed}
+         */
+        function getAccessElementInfoAttribute(accessElementInfo, name){
+            return;
+        }
+        
+        /**
+         * Set the attribute value for the access element info
+         * 
+         * @param {Object} accessElementInfo
+         * @param {String} name
+         * @param {Mixed} value
+         * @returns {Object} the accessElementInfo itself for chaining
+         */
+        function setAccessElementInfoAttribute(accessElementInfo, name, value){
+            return accessElementInfo;
+        }
+        
+        /**
          * Get the order of the qti element within the item body
-         * This is to be used for inserting a new access element in one of the insertionOrder
+         * This is used for inserting a new access element in one of the insertionOrder in a position that reflects the default one
          * 
          * @param {Object} qtiElement - the qtiElement object
          * @returns {Integer}
          */
-        function getAccessElementNativeOrder(qtiElement){
+        function getQtiElementNativeOrder(qtiElement){
             return -1;
         }
         
@@ -147,12 +192,17 @@ define([
         return {
             getItemBodyModel : getItemBodyModel,
             getQtiElementBySerial : getQtiElementBySerial,
-            getAccessElement : getAccessElement,
+            getQtiElementByAccessElement : getQtiElementByAccessElement,
+            getAccessElementBySerial : getAccessElementBySerial,
+            getAccessElementByQtiElement : getAccessElementByQtiElement,
             createAccessElement : createAccessElement,
             removeAccessElement : removeAccessElement,
+            getAccessElementInfo : getAccessElementInfo,
             createAccessElementInfo : createAccessElementInfo,
             removeAccessElementInfo : removeAccessElementInfo,
-            getAccessElementNativeOrder : getAccessElementNativeOrder,
+            getAccessElementInfoAttribute : getAccessElementInfoAttribute,
+            setAccessElementInfoAttribute : setAccessElementInfoAttribute,
+            getQtiElementNativeOrder : getQtiElementNativeOrder,
             setOrder: setOrder,
             toXML : toXML
         };
