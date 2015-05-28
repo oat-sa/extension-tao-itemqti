@@ -88,9 +88,10 @@ define([
          * Get the access element info related to an access element if it exists
          * 
          * @param {Object} accessElement
+         * @param {String} accessElementInfoType
          * @returns {Object}
          */
-        function getAccessElementInfo(accessElement){
+        function getAccessElementInfo(accessElement, accessElementInfoType){
             return {};
         }
         
@@ -100,7 +101,7 @@ define([
          * 
          * @param {Object} accessElement
          * @param {String} accessElementInfoType
-         * @returns {Object} the newLy create accessElementInfo
+         * @returns {Object} the newly created accessElementInfo
          */
         function createAccessElementInfo(accessElement, accessElementInfoType){
             return {};
