@@ -144,12 +144,15 @@ define([
         }
         
         return {
+            getItemBodyModel : getItemBodyModel,
+            getQtiElementBySerial : getQtiElementBySerial,
             getAccessElement : getAccessElement,
             createAccessElement : createAccessElement,
             removeAccessElement : removeAccessElement,
             createAccessElementInfo : createAccessElementInfo,
             removeAccessElementInfo : removeAccessElementInfo,
             getAccessElementNativeOrder : getAccessElementNativeOrder,
+            setOrder: setOrder,
             toXML : toXML
         };
 
