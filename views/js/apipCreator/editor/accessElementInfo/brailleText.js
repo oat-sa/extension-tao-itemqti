@@ -17,7 +17,9 @@
  *
  */
 define([], function(){
-
+    
+    'use strict';
+    
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
@@ -61,10 +63,9 @@ define([], function(){
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
-     * @param {Mixed} value
      * @returns {Mixed}
      */
-    function getAttribute(accessElementInfo, name, value){
+    function getAttribute(accessElementInfo, name){
         return null;
     }
 
@@ -72,6 +73,8 @@ define([], function(){
         typeId : 'brailleText',
         label : 'brailleText',
         getDescriptiveView : getDescriptiveView,
-        getFormView : getFormView
+        getFormView : getFormView,
+        setAttribute : setAttribute,
+        getAttribute : getAttribute
     };
 });
