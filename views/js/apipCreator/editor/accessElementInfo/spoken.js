@@ -29,9 +29,10 @@ define([], function(){
     }
 
     /**
+     * Get the renderer html form for the accessElementInfo 
      * 
-     * @param {type} accessElementInfo
-     * @returns {undefined}
+     * @param {Object} accessElementInfo
+     * @returns {String}
      */
     function getFormView(accessElementInfo){
         return '<form></form>';
@@ -39,7 +40,17 @@ define([], function(){
 
     /**
      * Set the attribute value for the spoken access element
-     * Allowed values are spokenText, testToSpeechPronunciation, audioFileInfo.fileHref
+     * 
+     * Allowed values are: 
+     * - spokenText
+     * - testToSpeechPronunciation
+     * - audioFileInfo.fileHref
+     * - audioFileInfo.startTime
+     * - audioFileInfo.duration
+     * - audioFileInfo.voiceType
+     * - audioFileInfo.voiceSpeed
+     * 
+     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found, if none exists, create one
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
@@ -52,6 +63,17 @@ define([], function(){
     
     /**
      * Get the attribute value for the spoken access element
+     * 
+     * Allowed values are: 
+     * - spokenText
+     * - testToSpeechPronunciation
+     * - audioFileInfo.fileHref
+     * - audioFileInfo.startTime
+     * - audioFileInfo.duration
+     * - audioFileInfo.voiceType
+     * - audioFileInfo.voiceSpeed
+     * 
+     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found
      * 
      * @param {Object} accessElementInfo
      * @param {String} name

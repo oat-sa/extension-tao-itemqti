@@ -16,5 +16,62 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
+define([], function(){
 
+    /**
+     * Get a short and descriptive view 
+     * Something that can be served as a thumbnail
+     * 
+     * @returns {String} the rendered HTML
+     */
+    function getDescriptiveView(accessElementInfo){
+        return 'this is a brailleText access element info';
+    }
 
+    /**
+     * Get the renderer html form for the accessElementInfo 
+     * 
+     * @param {Object} accessElementInfo
+     * @returns {String}
+     */
+    function getFormView(accessElementInfo){
+        return '<form></form>';
+    }
+
+    /**
+     * Set the attribute value for the signing access element
+     * 
+     * Allowed values are: 
+     * - brailleTextString
+     * 
+     * @param {Object} accessElementInfo
+     * @param {String} name
+     * @param {Mixed} value
+     * @returns {Mixed}
+     */
+    function setAttribute(accessElementInfo, name, value){
+        return accessElementInfo;
+    }
+    
+    /**
+     * Get the attribute value for the signing access element
+     * 
+     * Allowed values are: 
+     * - brailleTextString
+     * 
+     * @param {Object} accessElementInfo
+     * @param {String} name
+     * @param {Mixed} value
+     * @returns {Mixed}
+     */
+    function getAttribute(accessElementInfo, name, value){
+        return null;
+    }
+
+    return {
+        typeId : 'brailleText',
+        label : 'brailleText',
+        getDescriptiveView : getDescriptiveView,
+        getFormView : getFormView
+    };
+});
