@@ -13,30 +13,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
- * 
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function(){
+define([
+    'jquery',
+    'lodash',
+    'module',
+    'history'
+], function(
+    $,
+    _,
+    module,
+    history
+    ){
+    
     'use strict';
 
     return {
-        'QtiPreview' : {
-            'actions' : {
-                'index' : 'taoItems/controller/preview/itemRunner'
-            }
-        },
-        'QtiCreator' : {
-            'actions' : {
-                'index' : 'controller/creator/main'
-            }
-        },
-        'ApipCreator' : {
-            'actions' : {
-                'index' : 'controller/apip-creator/main'
-            }
+        /**
+         *
+         * @param {object} config (baseUrl, uri, lang)
+         */
+        start : function(config){
+            
+            config = config || module.config();
+            
+            //back button
+            $('#authoringBack').on('click', function(e){
+                e.preventDefault();
+
+                if (history) {
+                    history.back();
+                }
+            });
+            
+            console.log(config);
+
         }
     };
 });
