@@ -1,4 +1,5 @@
 <?php
+
 use oat\tao\helpers\Template;
 ?>
 
@@ -10,6 +11,12 @@ use oat\tao\helpers\Template;
         <main id="item-editor-panel" class="clearfix">
             <div class="item-editor-action-bar action-bar plain content-action-bar horizontal-action-bar">
                 <ul class="plain item-editor-menu action-group">
+                    <li id="authoringBack" class="btn-info small">
+                        <span class="li-inner">
+                            <span class="icon-left"></span>
+                            <?=__('Manage Items')?>
+                        </span>
+                    </li>
                     <li id="save-trigger" class="btn-info small">
                         <span class="li-inner">
                             <span class="icon-save"></span>
