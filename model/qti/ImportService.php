@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\tao\model\media\MediaService;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\helpers\Apip;
@@ -68,9 +69,10 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
+    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false, $packageName = '')
     {
         $returnValue = null;
+        $error = false;
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, 'The IMS QTI Item was successfully imported.');
         
@@ -112,7 +114,8 @@ class ImportService extends tao_models_classes_GenerisService
                 $report->add(common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $eStrs))));
             }
         }
-        
+
+        $files = array();
         if ($valid) {
             //load the QTI item from the file
             $qtiItem = $qtiParser->load();
@@ -126,9 +129,35 @@ class ImportService extends tao_models_classes_GenerisService
             
             //set the label
             $rdfItem->setLabel($qtiItem->getAttributeValue('title'));
-            
+
+            if(count($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude')) > 0){
+                //extract shared stimulus and store them into the first registered media manager
+                $sources = MediaService::singleton()->getManagementSources();
+                /** @var \oat\tao\model\media\MediaManagement $source */
+                $source = array_shift($sources);
+                if(!is_null($source)){
+                    try{
+                        /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
+                        $label = ($packageName === '') ? $rdfItem->getLabel() : $packageName;
+                        foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                            $fileInfo = $source->add(dirname($qtiFile).'/'.$xinclude->attr('href'), basename($xinclude->attr('href')), $label);
+                            //modify the href to link to the imported one
+                            $files[] = $xinclude->attr('href');
+                            $xinclude->attr('href', $fileInfo['uri']);
+                        }
+                    }
+                    catch(\common_Exception $e){
+                        $report->add(common_report_Report::createFailure($e->getMessage()));
+                        $error = true;
+                    }
+                }
+                else{
+                    common_Logger::i("No media source found");
+                }
+            }
+
             //save itemcontent
-            if($qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
+            if(!$error && $qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
                 $returnValue = $rdfItem;
             }
             
@@ -148,7 +177,7 @@ class ImportService extends tao_models_classes_GenerisService
             $report->setMessage(__('The IMS QTI Item could not be imported.'));
         }
 
-        $report->setData($returnValue);
+        $report->setData(array('item' => $returnValue, 'files' => $files));
         
         return $report;
     }
@@ -271,15 +300,20 @@ class ImportService extends tao_models_classes_GenerisService
             $successCount = 0;
             $itemCount = 0;
             
+            $name = basename($file, '.zip');
+            $name = preg_replace('/[^_]+_/', '',$name, 1);
             foreach ($qtiItemResources as $qtiItemResource) {
                 
                 $itemCount++;
                 
                 try {
                     $qtiFile = $folder . $qtiItemResource->getFile();
-                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository, $extractApip);
-                    $rdfItem = $itemReport->getData();
-                    
+                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository, $extractApip, $name);
+                    $data = $itemReport->getData();
+                    $rdfItem = $data['item'];
+                    $files = $data['files'];
+                    $itemReport->setData($rdfItem);
+common_Logger::w(print_r($files,true));
                     if ($rdfItem) {
                         $itemPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($rdfItem);
                         $itemContent = $itemService->getItemContent($rdfItem);
@@ -288,16 +322,20 @@ class ImportService extends tao_models_classes_GenerisService
                             // $auxResource is a relativ URL, so we need to replace the slashes with directory separators
                             $auxPath = $folder.str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
                             $relPath = helpers_File::getRelPath($qtiFile, $auxPath);
+                            common_Logger::w(print_r($relPath,true));
+                            if(!in_array($relPath,$files)){
+
+                                //prevent directory traversal:
+                                $relPathSafe = str_replace('..'.DIRECTORY_SEPARATOR, '', $relPath, $count);
+                                if($count){
+                                    $itemContent = str_replace($relPath, $relPathSafe, $itemContent);
+                                }
                         
-                            //prevent directory traversal:
-                            $relPathSafe = str_replace('..'.DIRECTORY_SEPARATOR, '', $relPath, $count);
-                            if($count){
-                                $itemContent = str_replace($relPath, $relPathSafe, $itemContent);
+                                $destPath = $itemPath.$relPathSafe;
+                                tao_helpers_File::copy($auxPath, $destPath, true);
+                                \common_Logger::i("Auxiliary file '${relPathSafe}' copied.");
+
                             }
-                        
-                            $destPath = $itemPath.$relPathSafe;
-                            tao_helpers_File::copy($auxPath, $destPath, true);
-                            \common_Logger::i("Auxiliary file '${relPathSafe}' copied.");
                         }
                         
                         // Finally, import metadata.
