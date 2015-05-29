@@ -25,13 +25,22 @@ define(['taoQtiItem/apipCreator/api/authoringObject'], function(authoringObject)
     }
 
     /**
-     * Get the access element(s) related to a qti element
+     * Get all the access element(s) related to a qti element
      * According to the standard, there could more than one access element by qtiElement
      * 
      * @returns {Array} array of accessElement
      */
     QtiElement.prototype.getAccessElements = function getAccessElements(){
         return [];
+    };
+
+    /**
+     * Get the unique access element related to a qti element in a specific inclusionOrder
+     * 
+     * @returns {Array} array of accessElement
+     */
+    QtiElement.prototype.getAccessElementByInclusionOrder = function getAccessElementByInclusionOrder(inclusionOrderType){
+        return {};
     };
 
     /**
