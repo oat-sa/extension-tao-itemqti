@@ -5,7 +5,7 @@ use oat\tao\helpers\Template;
 
 <link rel="stylesheet" href="<?=Template::css('apip-creator.css')?>" />
 
-<div id="item-editor-scope" data-content-target="wide">
+<div id="apip-creator-scope" data-content-target="wide">
     <div class="wrapper clearfix content sidebar-popup-parent" id="item-editor-wrapper">
         <!-- item panel -->
         <main id="item-editor-panel" class="clearfix">
