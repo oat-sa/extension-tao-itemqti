@@ -18,10 +18,9 @@
  */
 define([
     'lodash',
-    'taoQtiItem/apipCreator/editor/accessElementInfo/registry',
     'taoQtiItem/apipCreator/helper/parser',
-    'taoQtiItem/apipCreator/helper/'
-], function(_, accessElementInfoRegistry, parser, serializer){
+    'taoQtiItem/apipCreator/helper/serializer'
+], function(_, parser, serializer){
     
     'use strict';
     
@@ -77,13 +76,14 @@ define([
         }
         
         /**
-         * Get the access element related to a qti element
+         * Get the access element(s) related to a qti element
+         * According to the standard, there could more than one access element by qtiElement
          * 
          * @param {Object} qtiElement
-         * @returns {Object}
+         * @returns {Array} array of accessElement
          */
-        function getAccessElementByQtiElement(qtiElement){
-            return {};
+        function getAccessElementsByQtiElement(qtiElement){
+            return [];
         }
         
         /**
@@ -98,6 +98,7 @@ define([
         
         /**
          * Remove an access element
+         * For a matter of the model consitency, it should also call removeOrder() to remove the deleted accessElement properly
          * 
          * @param {Object} accessElement
          * @returns {undefined}
@@ -111,7 +112,7 @@ define([
          * 
          * @param {Object} accessElement
          * @param {String} accessElementInfoType - possible values are spoken, brailleText, signing
-         * @returns {Object}
+         * @returns {Object} return the accessElementInfo object or null if not found
          */
         function getAccessElementInfo(accessElement, accessElementInfoType){
             return {};
@@ -157,6 +158,26 @@ define([
         }
         
         /**
+         * 
+         * @param {accessElementInfo} accessElementInfo
+         * @returns {accessElement}
+         */
+        function getAssociatedAccessElement(accessElementInfo){
+            return {};
+        }
+        
+        /**
+         * Get the inclusion order(s) where the accessElement has been referenced
+         * According to the standard, there could be 0 or more.
+         * 
+         * @param {Object} accessElement
+         * @returns {Array} get the array of insertionOrder type used 
+         */
+        function getAssociatedInclusionOrders(accessElement){
+            return [];
+        }
+        
+        /**
          * Get the order of the qti element within the item body
          * This is used for inserting a new access element in one of the insertionOrder in a position that reflects the default one
          * 
@@ -181,6 +202,17 @@ define([
         }
         
         /**
+         * Remove the accessElement from the given insertionOrder
+         * 
+         * @param {Object} accessElement
+         * @param {String} insertionOrderType
+         * @returns {Boolean}
+         */
+        function removeOrder(accessElement, insertionOrderType){
+            return true;
+        }
+        
+        /**
          * Serialize the authoring model into XML for saving
          * 
          * @returns {String}
@@ -194,7 +226,7 @@ define([
             getQtiElementBySerial : getQtiElementBySerial,
             getQtiElementByAccessElement : getQtiElementByAccessElement,
             getAccessElementBySerial : getAccessElementBySerial,
-            getAccessElementByQtiElement : getAccessElementByQtiElement,
+            getAccessElementsByQtiElement : getAccessElementsByQtiElement,
             createAccessElement : createAccessElement,
             removeAccessElement : removeAccessElement,
             getAccessElementInfo : getAccessElementInfo,
@@ -202,8 +234,11 @@ define([
             removeAccessElementInfo : removeAccessElementInfo,
             getAccessElementInfoAttribute : getAccessElementInfoAttribute,
             setAccessElementInfoAttribute : setAccessElementInfoAttribute,
+            getAssociatedAccessElement : getAssociatedAccessElement,
+            getAssociatedInclusionOrders : getAssociatedInclusionOrders,
             getQtiElementNativeOrder : getQtiElementNativeOrder,
             setOrder: setOrder,
+            removeOrder: removeOrder,
             toXML : toXML
         };
 
