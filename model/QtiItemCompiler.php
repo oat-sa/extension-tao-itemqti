@@ -224,6 +224,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiItem  = $qtiParser->load();
         
         $assetParser = new AssetParser($qtiItem);
+        $assetParser->setGetSharedLibraries(false);
+        $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
