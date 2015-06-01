@@ -16,12 +16,18 @@
     .apip-selector-view{
         .element{
             position:relative;
-            border : 1px solid #ddd;
+            border : 1px solid #DDD;
             padding : 10px;
             margin : 2px;
+            &.has-access-element{
+                border : 1px solid #AAA;
+            }
             &.hover{
-                border-color: #266D9C;
+                border-color: whiten($info, .4);
                 cursor:pointer;
+            }
+            &.active{
+                border-color: whiten($info, .1);
             }
             &.qti-img {
                 display: inline-block;

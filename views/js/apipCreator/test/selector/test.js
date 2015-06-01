@@ -11,10 +11,19 @@ require([
             
             QUnit.expect(0);
             
-            var $itemBody = $($('#qti-sample').html());
-            console.log($itemBody);
-            var rendering = selector.renderSelectorView($itemBody[0]);
             var $selectorContainer = $('#apip-creator-scope .apip-selector-view');
+            var $itemBody = $($('#qti-sample').html());
+            var rendering = selector.renderSelectorView($itemBody[0]);
+            
             $selectorContainer.append(rendering);
+        });
+        
+        QUnit.test('selectable', function(){
+            
+            QUnit.expect(0);
+            
+            var $selectorContainer = $('#apip-creator-scope .apip-selector-view');
+            selector.selectable($selectorContainer);
+            
         });
     });

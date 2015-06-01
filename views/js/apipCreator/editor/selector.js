@@ -25,12 +25,14 @@ define([
 
     'use strict';
 
+    var _ns = '.apip-selector';
+
     var _renderers = {
         img : function (){
             return '<img src="' + this.src + '"/>';
         },
         math : function (){
-            return '<math>'+this.innerHTML+'</math>';
+            return '<math>' + this.innerHTML + '</math>';
         }
     };
 
@@ -48,7 +50,7 @@ define([
     ];
 
     function renderSelectorElement(elementNode){
-        
+
         var rendering, tplData;
         var nodeName = elementNode.nodeName.toLowerCase();
         var model = _.find(_selectables, {id : nodeName});
@@ -74,7 +76,7 @@ define([
                     }
                 });
             }
-            
+
             //call rendering tpl
             if(model.inline){
                 rendering = elementInlineTpl(tplData);
@@ -90,7 +92,54 @@ define([
         return renderSelectorElement(itemBodyDOM);
     }
 
+
+
+    function selectable($container){
+
+        var $currentActive;
+
+        function activateElement($element){
+            $element.addClass('active');
+            $container.trigger('activated' + _ns, [$element.data('serial')]);
+            $currentActive = $element;
+        }
+        function deactivateElement($element){
+            $element.removeClass('active');
+            $container.trigger('deactivated' + _ns, [$element.data('serial')]);
+        }
+
+        $container.off(_ns).on('mouseenter' + _ns, '.element', function (e){
+
+//            e.stopPropagation();
+            $(this).addClass('hover');
+            $(this).parent().trigger('mouseleave');;
+
+        }).on('mouseleave' + _ns, '.element', function (e){
+
+//            e.stopPropagation();
+            $(this).removeClass('hover');
+            $(this).parent().trigger('mouseenter');
+
+        }).on('click' + _ns, '.element', function (e){
+
+            e.stopPropagation();
+            var $element = $(this);
+            if($element.hasClass('active')){
+                //toggle off:
+                deactivateElement($element, $container);
+            }else{
+                activateElement($element, $container);
+            }
+
+        }).on('activated' + _ns, function (){
+            if($currentActive){
+                deactivateElement($currentActive, $container);
+            }
+        });
+    }
+
     return {
-        renderSelectorView : renderSelectorView
+        renderSelectorView : renderSelectorView,
+        selectable : selectable
     };
 });
