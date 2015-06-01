@@ -34,14 +34,16 @@ use tao_helpers_Uri;
 class ApipCreator extends tao_actions_CommonModule
 {
 
-    public function index()
-    {
+    public function index(){
 
-        $config = new CreatorConfig();
-
-        if ($this->hasRequestParameter('id')) {
+        $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
+        if(is_null($itemUri) || empty($itemUri)){
+            throw new tao_models_classes_MissingRequestParameterException("id");
+        }else{
+            //set authoring config :
+            $config = new CreatorConfig();
+            
             //uri:
-            $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
             $config->setProperty('uri', $itemUri);
 
             //get label:
@@ -55,20 +57,17 @@ class ApipCreator extends tao_actions_CommonModule
 
             //base url:
             $url = tao_helpers_Uri::url(
-                'getFile',
-                'QtiCreator',
-                'taoQtiItem',
-                array(
-                    'uri' => $itemUri,
-                    'lang' => $lang
-                )
+                            'getFile', 'QtiCreator', 'taoQtiItem', array(
+                        'uri' => $itemUri,
+                        'lang' => $lang
+                            )
             );
-            $config->setProperty('baseUrl', $url . '&relPath=');
+            $config->setProperty('baseUrl', $url.'&relPath=');
+
+            $conf = $config->toArray();
+            $this->setData('config', $conf);
+            $this->setView('ApipCreator/index.tpl');
         }
-        
-        $conf = $config->toArray();
-        $this->setData('config', $conf);
-        $this->setView('ApipCreator/index.tpl');
     }
 
 }
