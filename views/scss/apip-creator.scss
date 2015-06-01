@@ -13,4 +13,25 @@
         }
         margin-right:10px;
     }
+    .apip-selector-view{
+        .element{
+            position:relative;
+            border : 1px solid #ddd;
+            padding : 10px;
+            margin : 2px;
+            &.hover{
+                border-color: #266D9C;
+                cursor:pointer;
+            }
+            &.qti-img {
+                display: inline-block;
+            }
+            .information{
+                position :relative;
+                .label{
+                    position:relative;
+                }
+            }
+        }
+    }
 }

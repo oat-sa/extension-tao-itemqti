@@ -20,9 +20,8 @@ define([
     'lodash',
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/selector/elementBlock',
-    'tpl!taoQtiItem/apipCreator/tpl/selector/elementInline',
-    'taoQtiItem/qtiItem/helper/qtiElements'
-], function (_, $, elementBlockTpl, elementInlineTpl, qtiElements){
+    'tpl!taoQtiItem/apipCreator/tpl/selector/elementInline'
+], function (_, $, elementBlockTpl, elementInlineTpl){
 
     'use strict';
 
