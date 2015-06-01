@@ -16,16 +16,36 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
+define([], function () {
+    'use strict';
     
     /**
-     * Serialize the qti apip item object back to the standard xml format
+     * Convert xml document to string
+     * @param {object} xmlData
+     * @returns {string} 
+     */
+    function xmlToString(xmlData) { 
+        var xmlString;
+        
+        xmlData = xmlData.documentElement;
+        if (window.XMLSerializer !== undefined) {
+            xmlString = (new window.XMLSerializer()).serializeToString(xmlData);
+        } else if (xmlData.xml === undefined) {
+            xmlString = xmlData.xml;
+        }
+        return xmlString;
+    }   
+
+    
+    /**
+     * Serialize the qti apip item xml document back to the standard xml format
      * (That includes the restoration of the namespaces, math, xinclude, pci, etc.)
      * 
-     * @returns {String}
+     * @params {object} XML document
+     * @returns {String} serialized XML
      */
-    function serialize(apipItem){
-        return '';
+    function serialize(apipItem) {
+        return xmlToString(apipItem);
     }
 
     return {
