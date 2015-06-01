@@ -38,7 +38,7 @@ class ApipCreator extends tao_actions_CommonModule
 
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
         if(is_null($itemUri) || empty($itemUri)){
-            throw new tao_models_classes_MissingRequestParameterException("id");
+            throw new \tao_models_classes_MissingRequestParameterException("id");
         }else{
             //set authoring config :
             $config = new CreatorConfig();
