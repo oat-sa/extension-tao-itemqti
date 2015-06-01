@@ -26,7 +26,7 @@ define([], function () {
      */
     function xmlToString(xmlData) { 
         var xmlString;
-        
+        console.log(xmlData);
         xmlData = xmlData.documentElement;
         if (window.XMLSerializer !== undefined) {
             xmlString = (new window.XMLSerializer()).serializeToString(xmlData);

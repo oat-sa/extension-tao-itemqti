@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function () {
+define(['jquery'], function ($) {
     'use strict';
 
     /**
