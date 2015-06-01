@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+        <title>APIP creator API</title>
+        <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script  type="text/javascript">
+            require(['/tao/ClientConfig/config'], function () {
+                require(['taoQtiItem/apipCreator/api/qtiElement'], function (QtiElement) {
+                    $.get(
+                        '/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
+                    ).done(function (xml) {
+                        var qtiElement = new QtiElement(xml);
+
+                        test("creator.getAccessElements()", function () {
+                            equal(QtiElement.getAccessElements(), 'itemBody');
+                            //ensure that element was cloned.
+                            notEqual(creator.getItemBodyModel(), $(xml).find('itemBody')[0]);
+                        });
+                        
+                        test("creator.getQtiElementBySerial()", function () {
+                            var element = creator.getQtiElementBySerial('simpleChoice1');
+                            ok(element.tagName && element.tagName === 'simpleChoice');
+                            equal(creator.getQtiElementBySerial('wrongSerial'), null);
+                        });
+                        
+                        test("creator.getAccessElementBySerial()", function () {
+                            var element = creator.getAccessElementBySerial('accessElement1');
+                            equal(typeof element, 'object');
+                            ok(element.tagName && element.tagName === 'accessElement');
+                            
+                            equal(creator.getAccessElementBySerial('elementOrder1'), null);
+                            equal(creator.getAccessElementBySerial('simpleChoice1'), null);
+                        });
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>
