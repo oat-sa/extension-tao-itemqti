@@ -1,0 +1,47 @@
+<manifest identifier="Manifest_1333406511890_1" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+  http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest">
+      <educational>
+        <learningResourceType>
+          <source>APIPv1.0</source>
+          <value>APIP Package</value>
+        </learningResourceType>
+      </educational>
+      <general>
+        <identifier/>
+        <title/>
+      </general>
+      <lifeCycle>
+        <contribute/>
+        <version/>
+      </lifeCycle>
+      <rights>
+        <copyrightAndOtherRestrictions/>
+        <description/>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations/>
+  <resources>
+    <resource type="imsqti_apipitem_xmlv2p2" identifier="Resource1" href="apip_example_exemplar01.xml">
+      <file href="apip_example_exemplar01.xml"/>
+      <dependency identifierref="Resource2"/>
+      <dependency identifierref="Resource3"/>
+      <dependency identifierref="Resource4"/>
+    </resource>
+    <resource type="associatedcontent/apip_xmlv1p0/learning-application-resource" identifier="Resource2" href="apip_exemplar01resources/apip_exemplar01.flv">
+      <file href="apip_exemplar01resources/apip_exemplar01.flv"/>
+    </resource>
+    <resource type="associatedcontent/apip_xmlv1p0/learning-application-resource" identifier="Resource3" href="apip_exemplar01resources/apip_exemplar01_figure.svg">
+      <file href="apip_exemplar01resources/apip_exemplar01_figure.svg"/>
+    </resource>
+    <resource type="associatedcontent/apip_xmlv1p0/learning-application-resource" identifier="Resource4" href="apip_exemplar01resources/apip_exemplar01.css">
+      <file href="apip_exemplar01resources/apip_exemplar01.css"/>
+    </resource>
+  </resources>
+</manifest>

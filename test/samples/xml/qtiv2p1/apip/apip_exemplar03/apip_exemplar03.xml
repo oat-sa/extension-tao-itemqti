@@ -1,0 +1,121 @@
+<assessmentItem identifier="apip_exemplar03" title="APIP Exemplar 03 Standard True/False Example"
+    adaptive="false" timeDependent="false"
+    xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+                        http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd">
+    <responseDeclaration identifier="RESPONSE" baseType="identifier" cardinality="single">
+        <correctResponse>
+            <value>true</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="FEEDBACK" cardinality="multiple" baseType="identifier"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="integer">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody id="content5">
+        <p id="content2">Answer the following question.</p>
+        <choiceInteraction maxChoices="1" minChoices="0" id="content1" shuffle="false"
+            responseIdentifier="RESPONSE">
+            <prompt id="content6">Sigmund Freud and Carl Jung both belong to the psychoanalytic school of psychology.</prompt>
+            <simpleChoice id="content8" fixed="true" showHide="show" identifier="true">
+                <p id="content7">True</p>
+            </simpleChoice>
+            <simpleChoice id="content4" fixed="true" showHide="show" identifier="false">
+                <p id="content3">False</p>
+            </simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE"/>
+                    <correct identifier="RESPONSE"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="MAXSCORE"/>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0">
+        <inclusionOrder>
+            <textGraphicsDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+            </textGraphicsDefaultOrder>
+        </inclusionOrder>
+        <accessibilityInfo>
+            <accessElement identifier="accessElement1">
+                <contentLinkInfo qtiLinkIdentifierRef="content2">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText1">Answer the following question.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech1" >Answer the following question.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement2">
+                <contentLinkInfo qtiLinkIdentifierRef="content6">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText2">Sigmund Freud and Carl Jung both belong to the psychoanalytic school of psychology.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech2">Sigmund Froyd and Carl Young both belong to the psycho-analytic school of psychology.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement3">
+                <contentLinkInfo qtiLinkIdentifierRef="content7">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText3">True</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech3">True</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement4">
+                <contentLinkInfo qtiLinkIdentifierRef="content3">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText4">False</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech4">False</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+        </accessibilityInfo>
+    </apipAccessibility>
+</assessmentItem>

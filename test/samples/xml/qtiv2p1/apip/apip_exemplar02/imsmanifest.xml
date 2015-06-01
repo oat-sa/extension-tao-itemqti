@@ -1,0 +1,184 @@
+<manifest identifier="APIP_Package_Example_09" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+                      http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd
+                      http://ltsc.ieee.org/xsd/apipv1p0/LOM/resource http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lomresourcev1p0_v1p0.xsd
+                      http://www.imsglobal.org/xsd/apip/apipv1p0/qtimetadata/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtimetadatav2p2_v1p0.xsd"    
+  xmlns:lomm="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest" 
+  xmlns:lomr="http://ltsc.ieee.org/xsd/apipv1p0/LOM/resource" 
+  xmlns:qti="http://www.imsglobal.org/xsd/apip/apipv1p0/qtimetadata/imsqti_v2p2">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lomm:lom>
+      <lomm:general>
+        <lomm:identifier>
+          <lomm:entry>Globally Unique APIP Package Identifier</lomm:entry>
+        </lomm:identifier>
+        <lomm:title>
+          <lomm:string>Package with Variants</lomm:string>
+        </lomm:title>
+      </lomm:general>
+      <lomm:rights>
+        <lomm:description>
+          <lomm:string>...Usage rights...</lomm:string>
+        </lomm:description>
+        <lomm:copyrightAndOtherRestrictions>
+          <lomm:source>LOMv1.0</lomm:source>
+          <lomm:value>yes</lomm:value>
+        </lomm:copyrightAndOtherRestrictions>
+      </lomm:rights>
+    </lomm:lom>
+  </metadata>
+  <organizations/>
+  <resources xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd">
+    <resource identifier="I_00001_CF" type="controlfile/apip_xmlv1p0">
+      <file href="controlxsds/apipv1p0_imscpv1p2_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_cpextv1p2_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_lommanifestv1p0_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_lomresourcev1p0_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_qtiextv2p2_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_qtiitemv2p2_v1p0.xsd"/>
+      <file href="controlxsds/apipv1p0_qtimetadatav2p2_v1p0.xsd"/>
+      <file href="controlxsds/xml.xsd"/>
+    </resource>
+    <resource identifier="SecondaryResource_1" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_1.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_2" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_1.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_3" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_2.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_4" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_2.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_5" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_3.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_6" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_3.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_7" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_4.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_8" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_4.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_9" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_5.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_10" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_5.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_11" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_h_m0610099_6.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_12" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_1/en_s_m0610099_6.mp3"/>
+    </resource>
+    <resource identifier="Assessment_Item_1" type="imsqti_apipitem_xmlv2p2" xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd">
+      <metadata>
+        <lomr:lom>
+          <lomr:general>
+            <lomr:identifier>
+              <lomr:entry>Globally Unique APIP Item Identifier</lomr:entry>
+            </lomr:identifier>
+            <lomr:title>
+              <lomr:string>...Title...</lomr:string>
+            </lomr:title>
+          </lomr:general>
+          <lomr:educational>
+          </lomr:educational>
+          <lomr:lifeCycle>
+            <lomr:version>
+              <lomr:string>...APIP Item Version...</lomr:string>
+            </lomr:version>
+            <lomr:status>
+              <lomr:source>LOMv1.0</lomr:source>
+              <lomr:value>final</lomr:value>
+            </lomr:status>
+          </lomr:lifeCycle>
+          <qti:qtiMetadata>
+            <qti:composite>false</qti:composite>
+            <qti:interactionType>choiceInteraction</qti:interactionType>
+            <qti:toolName>...Tool Name...</qti:toolName>
+            <qti:toolVersion>...Tool Version...</qti:toolVersion>
+            <qti:toolVendor>...Tool Vendor...</qti:toolVendor>
+          </qti:qtiMetadata>
+        </lomr:lom>
+      </metadata>
+      <file href="Assessment_Item_1/variantAPIPExample_01_master.xml"/>
+      <dependency identifierref="SecondaryResource_1"/>
+      <dependency identifierref="SecondaryResource_2"/>
+      <dependency identifierref="SecondaryResource_3"/>
+      <dependency identifierref="SecondaryResource_4"/>
+      <dependency identifierref="SecondaryResource_5"/>
+      <dependency identifierref="SecondaryResource_6"/>
+      <dependency identifierref="SecondaryResource_7"/>
+      <dependency identifierref="SecondaryResource_8"/>
+      <dependency identifierref="SecondaryResource_9"/>
+      <dependency identifierref="SecondaryResource_10"/>
+      <dependency identifierref="SecondaryResource_11"/>
+      <dependency identifierref="SecondaryResource_12"/>
+    </resource>
+    <resource identifier="SecondaryResource_13" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_1.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_14" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_2.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_15" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_3.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_16" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_4.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_17" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_5.mp3"/>
+    </resource>
+    <resource identifier="SecondaryResource_18" type="associatedcontent/apip_xmlv1p0/learning-application-resource">
+      <file href="Assessment_Item_2/es_h_m0610099_6.mp3"/>
+    </resource>
+    <resource identifier="Assessment_Item_2" type="imsqti_apipitem_xmlv2p2" xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd">
+      <metadata>
+        <lomr:lom>
+          <lomr:general>
+            <lomr:identifier>
+              <lomr:entry>Globally Unique APIP Item Identifier</lomr:entry>
+            </lomr:identifier>
+            <lomr:title>
+              <lomr:string>...Title...</lomr:string>
+            </lomr:title>
+          </lomr:general>
+          <lomr:educational>
+          </lomr:educational>
+          <lomr:lifeCycle>
+            <lomr:version>
+              <lomr:string>...APIP Item Version...</lomr:string>
+            </lomr:version>
+            <lomr:status>
+              <lomr:source>LOMv1.0</lomr:source>
+              <lomr:value>final</lomr:value>
+            </lomr:status>
+          </lomr:lifeCycle>
+          <qti:qtiMetadata>
+            <qti:composite>false</qti:composite>
+            <qti:interactionType>choiceInteraction</qti:interactionType>
+            <qti:toolName>...Tool Name...</qti:toolName>
+            <qti:toolVersion>...Tool Version...</qti:toolVersion>
+            <qti:toolVendor>...Tool Vendor...</qti:toolVendor>
+          </qti:qtiMetadata>
+        </lomr:lom>
+      </metadata>
+      <file href="Assessment_Item_2/variantAPIPExample_01_spanish.xml"/>
+      <dependency identifierref="SecondaryResource_13"/>
+      <dependency identifierref="SecondaryResource_14"/>
+      <dependency identifierref="SecondaryResource_15"/>
+      <dependency identifierref="SecondaryResource_16"/>
+      <dependency identifierref="SecondaryResource_17"/>
+      <dependency identifierref="SecondaryResource_18"/>
+    </resource>
+  </resources>
+</manifest>

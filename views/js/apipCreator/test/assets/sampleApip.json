@@ -1,0 +1,116 @@
+{
+    "qtiClass": "assessmentItem",
+    "itemBody": {
+        "qtiClass": "itemBody",
+        "content": [
+            {
+                "qtiClass": "div",
+                "serial":"i123465",
+                "attributes": {
+                    "id": "div1"
+                },
+                "content": [
+                    {
+                        "qtiClass": "img",
+                        "serial":"i123456a",
+                        "attributes": {}
+                    },
+                    {
+                        "qtiClass": "span",
+                        "serial":"i123465b",
+                        "attributes": {
+                            "id": "labelA"
+                        },
+                        "content": "A"
+                    },
+                    {
+                        "qtiClass": "span",
+                        "serial":"i123465c",
+                        "attributes": {
+                            "id": "labelB"
+                        },
+                        "content": "B"
+                    },
+                    {
+                        "qtiClass": "span",
+                        "serial":"i123465d",
+                        "attributes": {
+                            "id": "labelC"
+                        },
+                        "content": "C"
+                    },
+                    {
+                        "qtiClass": "span",
+                        "serial":"i123465e",
+                        "attributes": {
+                            "id": "labelD"
+                        },
+                        "content": "D"
+                    }
+                ]
+            },
+            {
+                "qtiClass": "choiceInteraction",
+                "serial":"i123465f",
+                "attributes": {
+                    "responseIdentifier=": "RESPONSE"
+                },
+                "content": [
+                    {
+                        "qtiClass": "prompt",
+                        "serial":"i123465g",
+                        "attributes": {
+                            "id": "prompt"
+                        },
+                        "content": [
+                            "In the figure above, what fraction of the rectangle ",
+                            {
+                                "qtiClass": "em",
+                                "content": "ABCD"
+                            },
+                            " is shaded?"
+                        ]
+                    },
+                    {
+                        "qtiClass": "simpleChoice",
+                        "serial":"i123465h",
+                        "attributes": {
+                            "identifier": "A",
+                            "fixed": "true"
+                        },
+                        "content": [
+                            {
+                                "qtiClass": "p",
+                                "content": [
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "qtiClass": "simpleChoice",
+                        "serial":"i123465i",
+                        "attributes": {
+                            "identifier": "B",
+                            "fixed": "true"
+                        },
+                        "content": [
+                            {
+                                "qtiClass": "p",
+                                "content": [
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "apipAccessibility": {
+        "companionMaterialsInfo": [
+        ],
+        "inclusionOrder": [
+        ],
+        "accessibilityInfo": [
+        ]
+    }
+}

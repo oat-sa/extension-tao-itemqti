@@ -1,0 +1,35 @@
+<manifest identifier="Manifest_1333406508356_1" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+  http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest">
+      <educational>
+        <learningResourceType>
+          <source>APIPv1.0</source>
+          <value>APIP Package</value>
+        </learningResourceType>
+      </educational>
+      <general>
+        <identifier/>
+        <title/>
+      </general>
+      <lifeCycle>
+        <contribute/>
+        <version/>
+      </lifeCycle>
+      <rights>
+        <copyrightAndOtherRestrictions/>
+        <description/>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations/>
+  <resources>
+    <resource type="imsqti_apipitem_xmlv2p2" identifier="Resource1" href="apip_exemplar03.xml">
+      <file href="apip_exemplar03.xml"/>
+    </resource>
+  </resources>
+</manifest>

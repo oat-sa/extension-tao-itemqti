@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+                        http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd
+                        http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd"
+    identifier="apip_exemplar01" title="fraction of rectangle that is shaded" adaptive="false"
+    timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>D</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <stylesheet href="apip_exemplar01resources/apip_exemplar01.css" type="text/css"/>
+    <itemBody>
+        <div id="div1">
+            <img id="figure1" height="165" width="250"
+                src="apip_exemplar01resources/apip_exemplar01_figure.svg"
+                alt="Figure showing Rectangle ABCD divided into 12 equal boxes. 4 of the boxes are shaded."/>
+            <span id="labelA">A</span>
+            <span id="labelB">B</span>
+            <span id="labelC">C</span>
+            <span id="labelD">D</span>
+        </div>
+        <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1"
+            id="choicereduction">
+            <prompt id="prompt">In the figure above, what fraction of the rectangle <em>ABCD</em> is
+                shaded?</prompt>
+            <simpleChoice identifier="A" fixed="true">
+                <p id="p2">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1">
+                        <mfrac>
+                            <mn>1</mn>
+                            <mn>3</mn>
+                        </mfrac>
+                    </math></p>
+            </simpleChoice>
+            <simpleChoice identifier="B" fixed="true">
+                <p id="p3">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r2">
+                        <mfrac>
+                            <mn>1</mn>
+                            <mn>5</mn>
+                        </mfrac>
+                    </math>
+                </p>
+            </simpleChoice>
+            <simpleChoice identifier="C" fixed="true">
+                <p id="p4">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r3">
+                        <mfrac>
+                            <mn>1</mn>
+                            <mn>4</mn>
+                        </mfrac>
+                    </math>
+                </p>
+            </simpleChoice>
+            <simpleChoice identifier="D" fixed="true">
+                <p id="p5">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r4">
+                        <mfrac>
+                            <mn>1</mn>
+                            <mn>3</mn>
+                        </mfrac>
+                    </math>
+                </p>
+            </simpleChoice>
+            <simpleChoice identifier="E" fixed="true">
+                <p id="p6">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" id="r5">
+                        <mfrac>
+                            <mn>1</mn>
+                            <mn>2</mn>
+                        </mfrac>
+                    </math>
+                </p>
+            </simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+
+    <apip:apipAccessibility>
+        <apip:companionMaterialsInfo>
+            <apip:calculator>
+                <apip:calculatorType>Basic</apip:calculatorType>
+                <apip:description>Four function calculator.</apip:description>
+            </apip:calculator>
+        </apip:companionMaterialsInfo>
+        <apip:inclusionOrder>
+            <apip:textOnlyDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+            </apip:textOnlyDefaultOrder>
+            <apip:textOnlyOnDemandOrder>
+                <apip:elementOrder identifierRef="ae007">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae008">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae009">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae010">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+            </apip:textOnlyOnDemandOrder>
+            <apip:textGraphicsDefaultOrder>
+                <apip:elementOrder identifierRef="ae000">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+            </apip:textGraphicsDefaultOrder>
+            <apip:textGraphicsOnDemandOrder>
+                <apip:elementOrder identifierRef="ae007">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae008">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae009">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae010">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+            </apip:textGraphicsOnDemandOrder>
+            <apip:nonVisualDefaultOrder>
+                <apip:elementOrder identifierRef="ae000">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+            </apip:nonVisualDefaultOrder>
+            <apip:brailleDefaultOrder>
+                <apip:elementOrder identifierRef="ae000">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>7</apip:order>
+                </apip:elementOrder>
+            </apip:brailleDefaultOrder>
+            <apip:graphicsOnlyOnDemandOrder>
+                <apip:elementOrder identifierRef="ae000">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+            </apip:graphicsOnlyOnDemandOrder>
+            <apip:aslDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+                <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+            </apip:aslDefaultOrder>
+        </apip:inclusionOrder>
+        <apip:accessibilityInfo>
+            <apip:accessElement identifier="ae000">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="image1">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailletextnv000">Figure of rectangle ABCD. The rectangle is divided into 12 equally sized squares. 4 of the squares are shaded.</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext000">Figure of rectangle A-B-C-D. The rectangle is divided into twelve equally sized squares. Four of the squares are shaded.</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp000">Figure of rect-tangle A-B-C-D. The rect-tangle is divided into twelve equally sized squares. Four of the squares are shaded.</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae001">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="prompt">
+                    <apip:textLink>
+                        <apip:fullString/>
+                    </apip:textLink>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="braille001">In the figure, what fraction of the rectangle ABCD is shaded?</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext001">In the figure above, what fraction of the rectangle A-B-C-D is shaded?</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp001">In the figure above, what fraction of the rectangle A-B-C-D is shaded?</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video1"
+                                mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:00</apip:startCue>
+                                <apip:endCue>00:00:19</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae002">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r1">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="braille002">1/6</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext_two">one sixth</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp002">one sixth</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video2"
+                                mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:19</apip:startCue>
+                                <apip:endCue>00:00:24</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae003">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r2">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="braille003">1/5</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext003">one fifth</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp003">one fifth</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video3"
+                                mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:24</apip:startCue>
+                                <apip:endCue>00:00:27</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae004">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r3">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailleText004">1/4</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext004">one fourth</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp004">one fourth</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video4" mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:27</apip:startCue>
+                                <apip:endCue>00:00:31</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae005">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r4">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="brailletext005">1/3</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext005">one third</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp005">one third</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video5" mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:31</apip:startCue>
+                                <apip:endCue>00:00:34</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae006">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="r5"/>
+                <apip:relatedElementInfo>
+                    <apip:brailleText>
+                        <apip:brailleTextString contentLinkIdentifier="braille006">1/2</apip:brailleTextString>
+                    </apip:brailleText>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext006">one half</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp006">one half</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                    <apip:signing>
+                        <apip:signFileASL>
+                            <apip:videoFileInfo contentLinkIdentifier="video6" mimeType="video/x-flv">
+                                <apip:fileHref>apip_exemplar01resources/apip_exemplar01.flv</apip:fileHref>
+                                <apip:startCue>00:00:34</apip:startCue>
+                                <apip:endCue>00:00:37</apip:endCue>
+                            </apip:videoFileInfo>
+                        </apip:signFileASL>
+                    </apip:signing>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <!--labels A-D -->
+            <apip:accessElement identifier="ae007">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="labelA">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext007">A</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp007">A</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae008">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="labelB">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext008">B</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp008">B</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae009">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="labelC">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext009">C</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp009">C</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+            <apip:accessElement identifier="ae010">
+                <apip:contentLinkInfo qtiLinkIdentifierRef="labelD">
+                    <apip:objectLink/>
+                </apip:contentLinkInfo>
+                <apip:relatedElementInfo>
+                    <apip:spoken>
+                        <apip:spokenText contentLinkIdentifier="verbaltext010">D</apip:spokenText>
+                        <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp010">D</apip:textToSpeechPronunciation>
+                    </apip:spoken>
+                </apip:relatedElementInfo>
+            </apip:accessElement>
+        </apip:accessibilityInfo>
+    </apip:apipAccessibility>
+</assessmentItem>

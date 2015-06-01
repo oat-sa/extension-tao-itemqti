@@ -1,0 +1,86 @@
+<assessmentItem title="Why did Anina call the flamingos" identifier="apip_exemplar06"
+    adaptive="false" timeDependent="false"
+    xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+    http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd">
+  
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
+    
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody id="content1">
+        <extendedTextInteraction expectedLength="300" id="content2" expectedLines="4" format="plain"
+            maxStrings="1" minStrings="1" responseIdentifier="RESPONSE">
+            <prompt id="content3">Why did Anina call the flamingos?</prompt>
+        </extendedTextInteraction>
+
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE"/>
+                    <correct identifier="RESPONSE"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="MAXSCORE"/>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0">
+        <inclusionOrder>
+            <brailleDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+            </brailleDefaultOrder>
+            <nonVisualDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+            </nonVisualDefaultOrder>
+            <textOnlyDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+            </textOnlyDefaultOrder>
+            <textGraphicsDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+            </textGraphicsDefaultOrder>
+        </inclusionOrder>
+        <accessibilityInfo>
+            <accessElement identifier="accessElement1">
+                <contentLinkInfo qtiLinkIdentifierRef="content3">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement1BrailleTextString">Why did Anina call the flamingos?</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText1">
+                            Why did Anina call the flamingos?
+                        </spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech1">
+                            Why did A-nina call the flamingos?
+                        </textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+        </accessibilityInfo>
+    </apipAccessibility>
+</assessmentItem>

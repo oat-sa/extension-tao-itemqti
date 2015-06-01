@@ -1,0 +1,257 @@
+<assessmentItem title="Put the following sentences in order" identifier="apip_exemplar04"
+    adaptive="false" timeDependent="false"
+    xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+    http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd">
+    <responseDeclaration identifier="RESPONSE" baseType="identifier" cardinality="single">
+        <correctResponse>
+            <value>fourthSentence</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <itemBody id="content4">
+
+        <orderInteraction id="content1" maxChoices="5" minChoices="0" shuffle="false"
+            orientation="vertical" responseIdentifier="RESPONSE">
+            <prompt id="content2"> Put the following sentences in the order in which they happened
+                in the story. </prompt>
+            <simpleChoice showHide="show" identifier="firstSentence" id="content5" fixed="true">
+                Anina saw the crocodile. </simpleChoice>
+            <simpleChoice showHide="show" identifier="secondSentence" id="content3" fixed="true">
+                The crocodile ate two flamingos. </simpleChoice>
+            <simpleChoice showHide="show" identifier="thirdSentence" id="content6" fixed="true">
+                Anina tried to explain the broken door to her parents. </simpleChoice>
+            <simpleChoice showHide="show" identifier="fourthSentence" id="content8" fixed="true">
+                Anina started to walk to the bathroom. </simpleChoice>
+            <simpleChoice showHide="show" identifier="fifthSentence" id="content7" fixed="true">
+                Anina ran to the bedroom and slammed the door. </simpleChoice>
+        </orderInteraction>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="RESPONSE"/>
+                    <correct identifier="RESPONSE"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="MAXSCORE"/>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0">
+        <inclusionOrder>
+            <brailleDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement6">
+                    <order>6</order>
+                </elementOrder>
+            </brailleDefaultOrder>
+            <nonVisualDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement6">
+                    <order>6</order>
+                </elementOrder>
+            </nonVisualDefaultOrder>
+            <textOnlyDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement6">
+                    <order>6</order>
+                </elementOrder>
+            </textOnlyDefaultOrder>
+            <textGraphicsDefaultOrder>
+                <elementOrder identifierRef="accessElement1">
+                    <order>1</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement2">
+                    <order>2</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement3">
+                    <order>3</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement4">
+                    <order>4</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement5">
+                    <order>5</order>
+                </elementOrder>
+                <elementOrder identifierRef="accessElement6">
+                    <order>6</order>
+                </elementOrder>
+            </textGraphicsDefaultOrder>
+        </inclusionOrder>
+        <accessibilityInfo>
+            <accessElement identifier="accessElement1">
+                <contentLinkInfo qtiLinkIdentifierRef="content2">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement1BrailleTextString">
+                            Put the following sentences in the order in which they happened in the
+                            story.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText1">Put the following
+                            sentences in the order in which they happened in the story.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech1">Put
+                            the following sentences in the order in which they happened in the
+                            story.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement2">
+                <contentLinkInfo qtiLinkIdentifierRef="content5">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement2BrailleTextString">
+                            Anina saw the crocodile.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText2">Anina saw the
+                            crocodile.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech2">Anina
+                            saw the crocodile.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement3">
+                <contentLinkInfo qtiLinkIdentifierRef="content3">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement3BrailleTextString"
+                            >The crocodile ate two flamingos.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText3">The crocodile ate two
+                            flamingos.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech3">The
+                            crocodile ate two flamingos.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement4">
+                <contentLinkInfo qtiLinkIdentifierRef="content6">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement4BrailleTextString">
+                            Anina tried to explain the broken door to her
+                            parents.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText4">Anina tried to explain
+                            the broken door to her parents.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech4">Anina
+                            tried to explain the broken door to her
+                            parents.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement5">
+                <contentLinkInfo qtiLinkIdentifierRef="content8">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement5BrailleTextString">
+                            Anina started to walk to the bathroom.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText5">Anina started to walk
+                            to the bathroom.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech5">Anina
+                            started to walk to the bathroom.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+            <accessElement identifier="accessElement6">
+                <contentLinkInfo qtiLinkIdentifierRef="content7">
+                    <textLink>
+                        <fullString/>
+                    </textLink>
+                </contentLinkInfo>
+                <relatedElementInfo>
+                    <brailleText>
+                        <brailleTextString contentLinkIdentifier="accessElement6BrailleTextString">
+                            Anina ran to the bedroom and slammed the door.</brailleTextString>
+                    </brailleText>
+                    <spoken>
+                        <spokenText contentLinkIdentifier="spokenAudioText6">Anina ran to the
+                            bedroom and slammed the door.</spokenText>
+                        <textToSpeechPronunciation contentLinkIdentifier="spokenTextToSpeech6">Anina
+                            ran to the bedroom and slammed the door.</textToSpeechPronunciation>
+                    </spoken>
+                </relatedElementInfo>
+            </accessElement>
+        </accessibilityInfo>
+    </apipAccessibility>
+</assessmentItem>

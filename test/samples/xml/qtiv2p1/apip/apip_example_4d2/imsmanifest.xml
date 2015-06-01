@@ -1,0 +1,159 @@
+<manifest identifier="Manifest_1333651043779_1" xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd
+  http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd">
+  <metadata>
+    <schema>APIP Package</schema>
+    <schemaversion>1.0.0</schemaversion>
+    <lom xmlns="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest">
+      <educational>
+        <learningResourceType>
+          <source>APIPv1.0</source>
+          <value>APIP Package</value>
+        </learningResourceType>
+      </educational>
+      <general>
+        <identifier/>
+        <title/>
+      </general>
+      <lifeCycle>
+        <contribute/>
+        <version/>
+      </lifeCycle>
+      <rights>
+        <copyrightAndOtherRestrictions/>
+        <description/>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations/>
+  <resources>
+    <resource identifier="Resource1" type="imsqti_apipitem_xmlv2p2" href="apip_example_4d2.xml">
+      <file href="apip_example_4d2.xml"/>
+      <dependency identifierref="Resource2"/>
+      <dependency identifierref="Resource3"/>
+      <dependency identifierref="Resource4"/>
+      <dependency identifierref="Resource5"/>
+      <dependency identifierref="Resource6"/>
+      <dependency identifierref="Resource7"/>
+      <dependency identifierref="Resource8"/>
+      <dependency identifierref="Resource9"/>
+      <dependency identifierref="Resource10"/>
+      <dependency identifierref="Resource11"/>
+      <dependency identifierref="Resource12"/>
+      <dependency identifierref="Resource13"/>
+      <dependency identifierref="Resource14"/>
+      <dependency identifierref="Resource15"/>
+      <dependency identifierref="Resource16"/>
+      <dependency identifierref="Resource17"/>
+      <dependency identifierref="Resource18"/>
+      <dependency identifierref="Resource19"/>
+      <dependency identifierref="Resource20"/>
+      <dependency identifierref="Resource21"/>
+      <dependency identifierref="Resource22"/>
+      <dependency identifierref="Resource23"/>
+      <dependency identifierref="Resource24"/>
+      <dependency identifierref="Resource25"/>
+      <dependency identifierref="Resource26"/>
+      <dependency identifierref="Resource27"/>
+      <dependency identifierref="Resource28"/>
+      <dependency identifierref="Resource29"/>
+      <dependency identifierref="Resource30"/>
+      <dependency identifierref="Resource31"/>
+      <dependency identifierref="Resource32"/>
+    </resource>
+    <resource identifier="Resource2" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file10.mp3">
+      <file href="apip_example_4d2resources/file10.mp3"/>
+    </resource>
+    <resource identifier="Resource3" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file28.mp3">
+      <file href="apip_example_4d2resources/file28.mp3"/>
+    </resource>
+    <resource identifier="Resource4" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file24.mp3">
+      <file href="apip_example_4d2resources/file24.mp3"/>
+    </resource>
+    <resource identifier="Resource5" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file3.mp3">
+      <file href="apip_example_4d2resources/file3.mp3"/>
+    </resource>
+    <resource identifier="Resource6" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file14.mp3">
+      <file href="apip_example_4d2resources/file14.mp3"/>
+    </resource>
+    <resource identifier="Resource7" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file20.mp3">
+      <file href="apip_example_4d2resources/file20.mp3"/>
+    </resource>
+    <resource identifier="Resource8" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/apip_example_4d2_onDemand.m4v">
+      <file href="apip_example_4d2resources/apip_example_4d2_onDemand.m4v"/>
+    </resource>
+    <resource identifier="Resource9" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/apip_example_4d2_item.m4v">
+      <file href="apip_example_4d2resources/apip_example_4d2_item.m4v"/>
+    </resource>
+    <resource identifier="Resource10" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file1.mp3">
+      <file href="apip_example_4d2resources/file1.mp3"/>
+    </resource>
+    <resource identifier="Resource11" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file8.mp3">
+      <file href="apip_example_4d2resources/file8.mp3"/>
+    </resource>
+    <resource identifier="Resource12" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file11.mp3">
+      <file href="apip_example_4d2resources/file11.mp3"/>
+    </resource>
+    <resource identifier="Resource13" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file7.mp3">
+      <file href="apip_example_4d2resources/file7.mp3"/>
+    </resource>
+    <resource identifier="Resource14" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file6.mp3">
+      <file href="apip_example_4d2resources/file6.mp3"/>
+    </resource>
+    <resource identifier="Resource15" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file5.mp3">
+      <file href="apip_example_4d2resources/file5.mp3"/>
+    </resource>
+    <resource identifier="Resource16" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file27.mp3">
+      <file href="apip_example_4d2resources/file27.mp3"/>
+    </resource>
+    <resource identifier="Resource17" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file12.mp3">
+      <file href="apip_example_4d2resources/file12.mp3"/>
+    </resource>
+    <resource identifier="Resource18" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file21.mp3">
+      <file href="apip_example_4d2resources/file21.mp3"/>
+    </resource>
+    <resource identifier="Resource19" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file26.mp3">
+      <file href="apip_example_4d2resources/file26.mp3"/>
+    </resource>
+    <resource identifier="Resource20" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file19.mp3">
+      <file href="apip_example_4d2resources/file19.mp3"/>
+    </resource>
+    <resource identifier="Resource21" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file32.mp3">
+      <file href="apip_example_4d2resources/file32.mp3"/>
+    </resource>
+    <resource identifier="Resource22" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file13.mp3">
+      <file href="apip_example_4d2resources/file13.mp3"/>
+    </resource>
+    <resource identifier="Resource23" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file18.mp3">
+      <file href="apip_example_4d2resources/file18.mp3"/>
+    </resource>
+    <resource identifier="Resource24" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file4.mp3">
+      <file href="apip_example_4d2resources/file4.mp3"/>
+    </resource>
+    <resource identifier="Resource25" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file22.mp3">
+      <file href="apip_example_4d2resources/file22.mp3"/>
+    </resource>
+    <resource identifier="Resource26" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file2.mp3">
+      <file href="apip_example_4d2resources/file2.mp3"/>
+    </resource>
+    <resource identifier="Resource27" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file9.mp3">
+      <file href="apip_example_4d2resources/file9.mp3"/>
+    </resource>
+    <resource identifier="Resource28" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file16.mp3">
+      <file href="apip_example_4d2resources/file16.mp3"/>
+    </resource>
+    <resource identifier="Resource29" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file25.mp3">
+      <file href="apip_example_4d2resources/file25.mp3"/>
+    </resource>
+    <resource identifier="Resource30" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file17.mp3">
+      <file href="apip_example_4d2resources/file17.mp3"/>
+    </resource>
+    <resource identifier="Resource31" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file23.mp3">
+      <file href="apip_example_4d2resources/file23.mp3"/>
+    </resource>
+    <resource identifier="Resource32" type="associatedcontent/apip_xmlv1p0/learning-application-resource" href="apip_example_4d2resources/file15.mp3">
+      <file href="apip_example_4d2resources/file15.mp3"/>
+    </resource>
+  </resources>
+</manifest>

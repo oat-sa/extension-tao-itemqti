@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"
+	xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
+	                    http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd"
+	title="Variant Example 01 Español"
+	identifier="variantAPIPExample_01_spanish"
+	timeDependent="false">
+	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+		<correctResponse>
+		<value>D</value>
+		</correctResponse>
+	</responseDeclaration>
+	<itemBody>
+		<p><span id='t1'>Tres de los siguientes conjuntos de rayas puden ser usados para construir en triángulo. </span><span id='t2'>¿Cúal de los siguientes conjutos no se puede usar?</span></p>
+		<choiceInteraction responseIdentifier="RESPONSE" maxChoices="1">
+			<simpleChoice identifier="A">
+				<p id='t3'>4 cm, 5 cm, 6 cm</p>
+			</simpleChoice>
+			<simpleChoice identifier="B">
+				<p id='t4'>3 cm, 4 cm, 5 cm</p>
+			</simpleChoice>
+			<simpleChoice identifier="C">
+				<p id='t5'>2 cm, 3 cm, 4 cm</p>
+			</simpleChoice>
+			<simpleChoice identifier="D">
+				<p id='t6'>1 cm, 2 cm, 3 cm</p>
+			</simpleChoice>
+		</choiceInteraction>
+	</itemBody>
+	<apip:apipAccessibility>
+	<apip:inclusionOrder>
+            <apip:textOnlyDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+			</apip:textOnlyDefaultOrder>
+			 <apip:textGraphicsDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+			</apip:textGraphicsDefaultOrder>
+			<apip:nonVisualDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+			</apip:nonVisualDefaultOrder>
+			<apip:brailleDefaultOrder>
+                <apip:elementOrder identifierRef="ae001">
+                    <apip:order>1</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae002">
+                    <apip:order>2</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae003">
+                    <apip:order>3</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae004">
+                    <apip:order>4</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae005">
+                    <apip:order>5</apip:order>
+                </apip:elementOrder>
+				  <apip:elementOrder identifierRef="ae006">
+                    <apip:order>6</apip:order>
+                </apip:elementOrder>
+			</apip:brailleDefaultOrder>
+		</apip:inclusionOrder>
+		<apip:accessibilityInfo>
+		 <apip:accessElement identifier="ae001">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t1">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio001h">
+                             <apip:fileHref>es_h_m0610099_1.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+						
+                         <apip:spokenText contentLinkIdentifier="verbaltext001">Tres de los siguientes conjuntos de rayas puden ser usados para construir en triángulo.</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp001">Tres de los siguientes conjuntos de rayas puden ser usados para construir en triángulo.</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText001">Tres de los siguientes conjuntos de rayas puden ser usados para construir en triángulo.</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			 <apip:accessElement identifier="ae002">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t2">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio002h">
+                             <apip:fileHref>es_h_m0610099_2.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+						
+                         <apip:spokenText contentLinkIdentifier="verbaltext002">¿Cúal de los siguientes conjutos no se puede usar?</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp002">¿Cúal de los siguientes conjutos no se puede usar?</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText002">¿Cúal de los siguientes conjutos no se puede usar?</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			 <apip:accessElement identifier="ae003">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t3">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio003h">
+                             <apip:fileHref>es_h_m0610099_3.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+						
+                         <apip:spokenText contentLinkIdentifier="verbaltext003">four centímetros, five centímetros, six centímetros</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp003">four centímetros, five centímetros, six centrímetros</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText003">4 cm, 5 cm, 6 cm</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			 <apip:accessElement identifier="ae004">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t4">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio004h">
+                             <apip:fileHref>es_h_m0610099_4.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+                         <apip:spokenText contentLinkIdentifier="verbaltext004">three centímetros, four centímetros, six centímetros</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp004">3 centrímetros, 4 centrímetros, 5 centrímetros</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText004">3 cm, 4 cm, 5 cm</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			 <apip:accessElement identifier="ae005">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t5">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                        
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio005h">
+                             <apip:fileHref>es_h_m0610099_5.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+                         <apip:spokenText contentLinkIdentifier="verbaltext005">two centímetros, three centímetros, four centímetros</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp005">2 centrímetros, 3 centrímetros, 4 centrímetros</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText005">2 cm, 3 cm, 4 cm</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			 <apip:accessElement identifier="ae006">
+                 <apip:contentLinkInfo qtiLinkIdentifierRef="t6">
+                     <apip:textLink>
+                         <apip:fullString/>
+                     </apip:textLink>
+                 </apip:contentLinkInfo>
+                 <apip:relatedElementInfo>
+                     <apip:spoken>
+                         <apip:audioFileInfo mimeType="audio/mpeg" contentLinkIdentifier="audio006h">
+                             <apip:fileHref>es_h_m0610099_6.mp3</apip:fileHref>
+							 <apip:voiceType>Synthetic</apip:voiceType>
+                         </apip:audioFileInfo>
+                         <apip:spokenText contentLinkIdentifier="verbaltext006">one centímetros, two centímetros, three centímetros</apip:spokenText>
+					 	<apip:textToSpeechPronunciation contentLinkIdentifier="ttsp006">1 centrímetros, 2 centrímetros, 3 centrímetros</apip:textToSpeechPronunciation>
+                     </apip:spoken>
+                     <apip:brailleText>
+                         <apip:brailleTextString contentLinkIdentifier="brailleText006">1 cm, 2 cm, 3 cm</apip:brailleTextString>
+                     </apip:brailleText>
+                 </apip:relatedElementInfo>
+             </apip:accessElement>
+			 
+			</apip:accessibilityInfo>
+	</apip:apipAccessibility>
+</assessmentItem>
