@@ -99,13 +99,20 @@ define([
         var $currentActive;
 
         function activateElement($element){
+            
+            //only one element active at once
+             if($currentActive){
+                deactivateElement($currentActive, $container);
+            }
+            
             $element.addClass('active');
-            $container.trigger('activated' + _ns, [$element.data('serial')]);
             $currentActive = $element;
+            $container.trigger('activated' + _ns, [$element.data('serial'), $element]);
         }
+        
         function deactivateElement($element){
             $element.removeClass('active');
-            $container.trigger('deactivated' + _ns, [$element.data('serial')]);
+            $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
         }
 
         $container.off(_ns).on('mouseenter' + _ns, '.element', function (e){
@@ -116,7 +123,6 @@ define([
 
         }).on('mouseleave' + _ns, '.element', function (e){
 
-//            e.stopPropagation();
             $(this).removeClass('hover');
             $(this).parent().trigger('mouseenter' + _ns);
 
@@ -131,13 +137,24 @@ define([
                 activateElement($element, $container);
             }
 
-        }).on('activated' + _ns, function (){
-            if($currentActive){
-                deactivateElement($currentActive, $container);
-            }
+        }).on('activated' + _ns, function (e, serial, $element){
+            
         });
     }
-
+    
+    function resetAccessElements(){
+        
+    }
+    
+    /**
+     * 
+     * @param {Array} accessElements - arrau of access element serials
+     * @returns {undefined}
+     */
+    function setAccessElements(inclusionOrder, accessElements){
+        
+    }
+    
     return {
         renderSelectorView : renderSelectorView,
         selectable : selectable
