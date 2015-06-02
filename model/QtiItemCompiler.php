@@ -205,7 +205,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             );
         } catch (\tao_models_classes_FileNotFoundException $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFile())
+                common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
         }
     }
@@ -224,6 +224,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiItem  = $qtiParser->load();
         
         $assetParser = new AssetParser($qtiItem);
+        $assetParser->setGetSharedLibraries(false);
+        $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {

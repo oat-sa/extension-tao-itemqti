@@ -31,7 +31,7 @@ define([
                 assert.equal($container.find('.qti-mediaInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-mediaInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
                 assert.equal($container.find('.qti-mediaInteraction video').length, 1, 'the interaction contains a video tag');
-                assert.equal($container.find('.qti-mediaInteraction video').attr('src'),'./sample.mp4', 'the interaction has proper file attached');
+                assert.equal($container.find('.qti-mediaInteraction video').attr('src'),'sample.mp4', 'the interaction has proper file attached');
 
                 //check DOM data
                 assert.equal($container.children('.qti-item').data('identifier'), 'i1429259831305858', 'the .qti-item node has the right identifier');

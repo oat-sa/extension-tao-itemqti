@@ -1,1 +1,0 @@
-<div id="{{serial}}" title="{{attributes.title}}" class="qti-modal-feedback">{{{body}}}</div>

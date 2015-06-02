@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:48:15\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:10:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -23,13 +23,13 @@ msgid "A choice must be selected"
 msgstr "必須選擇一個選項"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr "評估標準(rubric)區塊是一個考題的內容，也是給看考題的人使用的指示。雖然專欄塊被定義為簡單的區塊，他們不能與使用者有互動。"
+msgstr "指導語區塊是一個題目的內容，也是給看題目的人使用的指示。雖然專欄塊被定義為簡單的區塊，他們不能與使用者有互動。"
 
 msgid "Actual size"
 msgstr "實際大小"
 
 msgid "Adapt to item size"
-msgstr "適應項目(試題)大小"
+msgstr "適應題目大小"
 
 msgid "Adapt to screen size"
 msgstr "調整到屏幕大小"
@@ -44,7 +44,7 @@ msgid "Add a QTI XML file"
 msgstr "加入一個QTI XML檔案"
 
 msgid "Add a zip file containing QTI items"
-msgstr "加入含有QTI項目(試題)的ZIP檔案"
+msgstr "加入含有QTI題目的ZIP檔案"
 
 msgid "Add another option"
 msgstr "加入另一個選項"
@@ -92,7 +92,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "在解析IMS QTI數據時發生錯誤。"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr "匯入IMS QTI 項目（考題）包時發生了錯誤。 "
+msgstr "匯入IMS QTI 題目包時發生了錯誤。 "
 
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在處理回應時發生了錯誤。 "
@@ -121,14 +121,14 @@ msgstr "自動啟動"
 msgid "Background color"
 msgstr "背景色彩"
 
-msgid "Block"
-msgstr "區塊"
-
 msgid "block"
 msgstr "區塊"
 
+msgid "Block"
+msgstr "區塊"
+
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr "區塊中含有考題項目內容(刺激物)，例如：文字或圖片。這是在線互動所需要的。"
+msgstr "區塊中含有題目內容(刺激物)，例如：文字或圖片。這是在線互動所需要的。"
 
 msgid "Border color"
 msgstr "邊界色彩"
@@ -139,10 +139,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
+msgstr "取消"
+
+msgid "cancel"
 msgstr "取消"
 
 msgid "chars"
@@ -160,10 +160,10 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "choices"
+msgid "Choices"
 msgstr "選擇"
 
-msgid "Choices"
+msgid "choices"
 msgstr "選擇"
 
 msgid "Click again to remove"
@@ -190,10 +190,10 @@ msgstr "約束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制視頻和音頻的播放參數(自動播放，循環)再報告已播放的次數。"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正確"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正確"
 
 msgid "Create assocations and fill the score in the form below"
@@ -217,16 +217,19 @@ msgstr "從一系列的選擇創建對組"
 msgid "CSV file"
 msgstr "CSV 檔"
 
+msgid "Current value:"
+msgstr ""
+
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr "目前，不可從 MathML 轉換到 LaTeX。在這裡編輯 MathML 會丟棄 LaTeX 的代碼。"
 
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
 msgid "Define correct response"
@@ -242,7 +245,7 @@ msgid "Define whether a choice must be selected by the candidate in order to for
 msgstr "設定考生是否需要選一個選擇，才能成立一個有效應得回應。"
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr "設定當在遞送時，項目(考題)是否有記考生載累計運行的時間。"
+msgstr "設定當在遞送時，題目是否有記考生載累計運行的時間。"
 
 msgid "Defined width"
 msgstr "限定的闊度"
@@ -350,7 +353,7 @@ msgid "Extended Text Interaction"
 msgstr "長文本互動"
 
 msgid "Failed to save item"
-msgstr "無法儲存項目(試題)"
+msgstr "無法儲存題目"
 
 msgid "Feedback"
 msgstr "回饋"
@@ -445,10 +448,10 @@ msgstr "如何編輯數學表達式應"
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -467,13 +470,13 @@ msgid "Import a QTI 2.X Package"
 msgstr "匯入 QTI 2.X 包"
 
 msgid "Import QTI 2.X Item"
-msgstr "匯入 QTI 2.X 項目（考題）"
+msgstr "匯入 QTI 2.X 題目"
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
 msgstr "在可視化的環境中，字符串互動通常由空框表示。考生把回應輸入到空框裡。遞送器應該使用這個屬性的值(如果有的話) ，而不是使用它們的預設佔位符文。"
 
 msgid "incorrect"
-msgstr "答錯"
+msgstr "不對"
 
 msgid "inline"
 msgstr "行內"
@@ -502,18 +505,18 @@ msgstr "這個選擇是對的答案嗎？"
 msgid "Is this pair the correct response?"
 msgstr "這一對是正確的答案嗎？"
 
-msgid "Item properties"
-msgstr "項目(試題)屬性"
-
 msgid "Item Properties"
-msgstr "項目(試題)屬性"
+msgstr "題目屬性"
+
+msgid "Item properties"
+msgstr "題目屬性"
 
 msgid "Item width"
-msgstr "項目(試題)闊度"
+msgstr "題目闊度"
 
 #, tao-public
 msgid "Items"
-msgstr "項目 (試題)"
+msgstr "題目"
 
 msgid "JPEG image"
 msgstr "JPEG 圖片"
@@ -521,19 +524,19 @@ msgstr "JPEG 圖片"
 msgid "Label"
 msgstr "標籤"
 
-msgid "Latex"
+msgid "LaTex"
 msgstr "LaTeX"
 
-msgid "LaTex"
+msgid "Latex"
 msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Length"
@@ -548,12 +551,12 @@ msgstr "循環"
 msgid "Lower Bound"
 msgstr "下限"
 
-msgid "Manage Items"
-msgstr "管理項目(試題)"
-
 #, tao-public
 msgid "Manage items"
-msgstr ""
+msgstr "管理題目"
+
+msgid "Manage Items"
+msgstr "管理題目"
 
 msgid "Mapping default"
 msgstr "預設映射"
@@ -573,20 +576,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
-msgstr "最大長度"
-
 msgid "Max Length"
 msgstr "最大長度"
 
-msgid "Max Words"
-msgstr "最多字數"
+msgid "Max length"
+msgstr "最大長度"
 
 msgid "Max words"
 msgstr "最多字數"
 
+msgid "Max Words"
+msgstr "最多字數"
+
 msgid "Max. number of matches"
-msgstr ""
+msgstr "最多的匹配"
 
 msgid "Maximal score for this interaction."
 msgstr "這個互動的最高分數。"
@@ -625,7 +628,7 @@ msgid "MIME-type"
 msgstr "MIME 類型"
 
 msgid "Min"
-msgstr "最小值"
+msgstr "最低"
 
 msgid "Minimal  score for this interaction."
 msgstr "此互動的最低分數。"
@@ -653,7 +656,7 @@ msgstr "MPEG 影音檔"
 
 #, tao-public
 msgid "New item"
-msgstr ""
+msgstr "新增題目"
 
 msgid "No"
 msgstr "否"
@@ -665,7 +668,7 @@ msgid "No file selected"
 msgstr "未選取任何檔案"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr "沒有項目可以從所選擇的IMS QTI包匯入。"
+msgstr "沒有題目可以從所選擇的IMS QTI包匯入。"
 
 msgid "No value set"
 msgstr "沒有設定數值"
@@ -715,7 +718,7 @@ msgstr "純文字"
 msgid "Please create areas that correspond to the response and associate them a score.\n"
 "You can also position the target to the exact point as the correct response."
 msgstr "請建立對應于該回應并使他們與分數相關聯的區域。\n"
-"你也可以定位目標到精確點作為正確的回應。"
+"您也可以定位目標到精確點作為正確的回應。"
 
 msgid "Please define association pairs and their scores below."
 msgstr "請定義以下的關聯配對和它們的分數。"
@@ -727,7 +730,7 @@ msgid "Please define the correct order in the box to the right."
 msgstr "請在右側的框中定義該正確順序。"
 
 msgid "Please define the correct response and the score below."
-msgstr "請定義正確的回應和在以下的分數。"
+msgstr "請定義以下的正確回應和分數。"
 
 msgid "Please define the correct response below."
 msgstr "請定義以下的正確回應。"
@@ -754,16 +757,16 @@ msgid "Please order the choices below to set the correct answer"
 msgstr "請順序以下的選項從而設置正確的答案"
 
 msgid "Please select a background picture for your interaction from the resource manager.                      You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "請從資源管理器中為您的互動選一個背景圖片。你可以從你的電腦用按鈕 \"加入檔案\" 中加入新的檔案。"
 
 msgid "Please select a choice picture for your interaction from the resource manager.                   You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "請從資源管理器中為您的互動選一個圖片。你可以從你的電腦有按鈕 \"加入檔案\" 中加入新的檔案。"
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "請從資源管理器中選擇一個媒體檔案(視頻或音頻).你可以從你的計算機有按鈕 \"加入檔案\" 中加入新的檔案。"
+msgstr "請從資源管理器中選擇一個媒體檔案(視頻或音頻).你可以從你的電腦有按鈕 \"加入檔案\" 中加入新的檔案。"
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "請從資源管理器中選擇一個圖像文檔。你可以在你的計算機有按鈕\"加入檔案\"中加入新的檔案。"
+msgstr "請從資源管理器中選擇一個圖像文檔。你可以在你的電腦有按鈕\"加入檔案\"中加入新的檔案。"
 
 msgid "Please select the correct hotspot choices below."
 msgstr "請選擇以下正確的熱點選項。"
@@ -802,13 +805,13 @@ msgid "Print"
 msgstr "列印"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr "提供考生一個提示作為輸入的行所要求的預期數。A線預計將有大約72個字符。"
+msgstr "提供考生一個提示作為輸入的行所要求的預期數。一條線預計將有大約72個字符。"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
 msgstr "提供報考者一個提示作為預計總長度所需回應的字符數的測量。"
 
 msgid "QTI Item"
-msgstr "QTI 項目(試題)"
+msgstr "QTI 題目"
 
 msgid "QTI Package"
 msgstr "QTI 包"
@@ -829,7 +832,7 @@ msgid "recommanded"
 msgstr "所建議的"
 
 msgid "Recommendations"
-msgstr "推薦"
+msgstr "建議"
 
 msgid "recommended"
 msgstr "所建議的"
@@ -837,10 +840,10 @@ msgstr "所建議的"
 msgid "Reduce font size"
 msgstr "縮小字型"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -856,7 +859,7 @@ msgid "Remove custom font size"
 msgstr "移除自訂字型大小"
 
 msgid "Remove custom item width"
-msgstr "刪除自訂項目（考題）寬度"
+msgstr "刪除自訂題目寬度"
 
 msgid "Remove custom text color"
 msgstr "刪除自定文字顏色"
@@ -897,10 +900,10 @@ msgstr "倒轉..."
 msgid "Save"
 msgstr "儲存"
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
@@ -1015,7 +1018,7 @@ msgid "TAO default styles"
 msgstr "TAO預設的樣式"
 
 msgid "Text Block"
-msgstr ""
+msgstr "文字塊"
 
 msgid "Text Block Properties"
 msgstr "文本區塊屬性"
@@ -1054,16 +1057,16 @@ msgid "The highlighted choice cannot be associated more than %d time(s)."
 msgstr "突出顯示的選擇不能被相關聯超過 %d 次數。"
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或題目使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或題目使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "這是模式反饋的標識符。這個標識符不能被任何其他模式反饋或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
+msgstr "這是模式反饋的標識符。這個標識符不能被任何其他模式反饋或題目使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或項目(考題)使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
+msgstr "這是考題選項的識別符。這個標識符不能被任何其他的選項或題目使用。一個標識符是一個字符串的字符而且必須以字母或下劃線(\"_\")為第一個字並且只包含字母，下劃線，連字符 (\"-\")，句號(\".\")數字，組合字符和擴展字符。"
 
 msgid "The IMS Manifest file could not be validated:\n"
 "%s\", implode($eStrs, \"\n"
@@ -1073,10 +1076,10 @@ msgstr "在IMS清單文件不能被驗證:\n"
 ""
 
 msgid "The IMS QTI Item could not be imported."
-msgstr "無法匯入 IMS QTI Item。"
+msgstr "無法匯入 IMS QTI 題目。"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr "該項目需先儲存才可以可以預覽"
+msgstr "該題目需先儲存才可以可以預覽"
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr "形狀的左部相對於像素為背景的左上角。當背景圖像的尺寸適於容器，該值可以被縮放。"
@@ -1127,10 +1130,10 @@ msgid "The number of units corresponding to a step on the slider"
 msgstr "滑動鈕的每一個階段等於多少個單位"
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr "該項目的原理標識符。此標識符必須在項目的元數據中有對應的條目。"
+msgstr "該題目的原理標識符。此標識符必須在題目的元數據中有對應的條目。"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr "使用評估標準(rubric)的目的。例如：有多個項目(考題)的文章，或作為於某部分的說明。"
+msgstr "使用指導語目的。例如：有多個題目的文章，或作為於某部分的說明。"
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
 msgstr "此QTI 類別 \"%1$s\" 在於第 \"%2$d\" 行已經不被支援。"
@@ -1157,13 +1160,13 @@ msgid "The upper bound of the slider"
 msgstr "滑動鈕的上限"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr "此含有 IMS QTI 項目(考題)的ZIP壓縮文件不能被提取。"
+msgstr "此含有 IMS QTI 題目的ZIP壓縮文件不能被提取。"
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr "此ZIP壓縮文件沒有 imsmanifest.xml 檔案或它一個無效的ZIP壓縮文件。"
 
 msgid "There is an incomplete element in your item : please click on it to complete it."
-msgstr "有一個在您的項目(考題)一個不完整的元素：請點擊它來完成它。"
+msgstr "有一個在您的題目一個不完整的元素：請點擊它來完成它。"
 
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "下載CSS時發生了問題，請重試一次。"
@@ -1184,7 +1187,7 @@ msgid "Top"
 msgstr "上面"
 
 msgid "Trigger the end of the item attempt."
-msgstr "停止使用此項目(考題)。"
+msgstr "停止使用此題目。"
 
 msgid "Undo"
 msgstr "復原"
@@ -1286,7 +1289,7 @@ msgid "You need to make"
 msgstr "您必需使"
 
 msgid "Your item has been saved"
-msgstr "您的項目(考題)已儲存"
+msgstr "您的題目已儲存"
 
 msgid "ZIP archive"
 msgstr "ZIP 壓縮檔"

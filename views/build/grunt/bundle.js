@@ -160,8 +160,8 @@ module.exports = function(grunt) {
     replace.qtiruntime = {
          options: {
              patterns: [{
-                match : 'taoQtiItem/runtime/qtiBootstrap',
-                replacement:  'taoQtiItem/runtime/qtiBootstrap.min',
+                match : 'qtiBootstrap',
+                replacement:  'qtiBootstrap.min',
                 expression: false
              }],
              force : true,
