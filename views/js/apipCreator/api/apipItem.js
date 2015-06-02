@@ -26,7 +26,7 @@ define([
     'taoQtiItem/apipCreator/helper/jquery.xpath.min'
 ], function (_, $, parser, serializer, QtiElement, AccessElement) {
     'use strict';
-
+    
     /**
      * Instanciate an creator api that will works on an APIP authoring model
      * 
@@ -76,10 +76,10 @@ define([
     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
         var node = this.xpath("qti:itemBody//*[@serial='" + qtiElementSerial + "']"),
-            result = null;
+            result = null
 
         if (node && node.length) {
-            result = new QtiElement(this.apipItem, node[0]);
+            result = new QtiElement(this, node[0]);
         }
 
         return result;
@@ -109,7 +109,7 @@ define([
 
         if (nodes.length > 0) {
             collection = nodes.map(function (key, node) {
-                return new AccessElement(this.apipItem, node);
+                return new AccessElement(this, node);
             });
         }
 
