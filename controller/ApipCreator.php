@@ -34,15 +34,16 @@ use tao_helpers_Uri;
 class ApipCreator extends tao_actions_CommonModule
 {
 
-    public function index(){
+    public function index()
+    {
 
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
-        if(is_null($itemUri) || empty($itemUri)){
+        if (is_null($itemUri) || empty($itemUri)) {
             throw new \tao_models_classes_MissingRequestParameterException("id");
-        }else{
+        } else {
             //set authoring config :
             $config = new CreatorConfig();
-            
+
             //uri:
             $config->setProperty('uri', $itemUri);
 
@@ -57,10 +58,11 @@ class ApipCreator extends tao_actions_CommonModule
 
             //base url:
             $url = tao_helpers_Uri::url(
-                            'getFile', 'QtiCreator', 'taoQtiItem', array(
-                        'uri' => $itemUri,
-                        'lang' => $lang
-                            )
+                    'getFile', 'QtiCreator', 'taoQtiItem',
+                    array(
+                    'uri' => $itemUri,
+                    'lang' => $lang
+                    )
             );
             $config->setProperty('baseUrl', $url.'&relPath=');
 
@@ -69,5 +71,4 @@ class ApipCreator extends tao_actions_CommonModule
             $this->setView('ApipCreator/index.tpl');
         }
     }
-
 }
