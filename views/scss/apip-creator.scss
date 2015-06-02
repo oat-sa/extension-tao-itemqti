@@ -1,5 +1,5 @@
 @import "inc/bootstrap";
-
+    
 #apip-creator-scope{
     #authoringBack {
         span {
@@ -16,10 +16,12 @@
     .apip-selector-view{
         .element{
             position:relative;
-            border : 1px solid #DDD;
+            border : 1px solid #EEE;
             padding : 11px;
             margin : 4px;
-            &.apip-feature{
+            &.apipfied{
+                padding : 10px;
+                border-width:2px;
                 border-color : #AAA;
             }
             &.hover{

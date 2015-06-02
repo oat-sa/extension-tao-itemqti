@@ -53,12 +53,16 @@ define([
 
         var rendering, tplData;
         var nodeName = elementNode.nodeName.toLowerCase();
+        var serial;
+//        var serial = elementNode.getAttribute('serial');
         var model = _.find(_selectables, {id : nodeName});
+        
         if(model){
             tplData = {
                 qtiClass : model.qtiClass,
                 label : model.label,
-                content : ''
+                content : '',
+                serial : serial
             };
 
             //render inner content:
@@ -99,17 +103,17 @@ define([
         var $currentActive;
 
         function activateElement($element){
-            
+
             //only one element active at once
-             if($currentActive){
+            if($currentActive){
                 deactivateElement($currentActive, $container);
             }
-            
+
             $element.addClass('active');
             $currentActive = $element;
             $container.trigger('activated' + _ns, [$element.data('serial'), $element]);
         }
-        
+
         function deactivateElement($element){
             $element.removeClass('active');
             $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
@@ -138,25 +142,35 @@ define([
             }
 
         }).on('activated' + _ns, function (e, serial, $element){
-            
+
         });
     }
-    
-    function resetAccessElements(){
-        
+
+    function resetQtiAccessElements($container){
+        $container.find('.apipfied').removeClass(function (index, css){
+            var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
+            classes.push('apipfied');
+            return classes.join(' ');
+        }).removeData('apip-features');
     }
-    
-    /**
-     * 
-     * @param {Array} accessElements - arrau of access element serials
-     * @returns {undefined}
-     */
-    function setAccessElements(inclusionOrder, accessElements){
-        
+
+    function setQtiAccessElements($container, qtiElementSerial, inclusionOrder, accessElementSerials){
+        if(_.isArray(accessElementSerials) && accessElementSerials.lenght){
+            var $qtiElement = $container.find('.element[serial=' + qtiElementSerial + ']');
+            $qtiElement.addClass('apipfied').addClass('apip-feature-' + inclusionOrder);
+            var features = $qtiElement.data('apip-features') || {};
+            if(!features[inclusionOrder]){
+                features[inclusionOrder] = [];
+            }
+            features[inclusionOrder].push(accessElementSerials);
+            $qtiElement.data('apip-features', features);
+        }
     }
-    
+
     return {
         renderSelectorView : renderSelectorView,
-        selectable : selectable
+        selectable : selectable,
+        setQtiAccessElements : setQtiAccessElements,
+        resetQtiAccessElements : resetQtiAccessElements
     };
 });
