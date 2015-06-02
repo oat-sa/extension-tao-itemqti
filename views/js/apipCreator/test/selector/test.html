@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Apip authoring selector Test</title>
+        <base href="../../../../../../" />
+        <link rel="stylesheet" type="text/css" href="tao/views/js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="tao/views/js/lib/qunit/qunit.js"></script>
+        
+        <link rel="stylesheet" href="tao/views/css/tao-main-style.css" />
+        <link rel="stylesheet" href="taoQtiItem/views/css/apip-creator.css" />
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function (){
+                require(['taoQtiItem/apipCreator/test/selector/test'], function (){
+                    QUnit.start();
+                });
+            });
+        </script>
+        <script id="qti-sample" type="text/qti-sample">
+            <itemBody>
+                <div id="div1">
+                    <img id="figure1" height="165" width="250"
+                        src="http://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png"
+                        alt="Figure showing Rectangle ABCD divided into 12 equal boxes. 4 of the boxes are shaded."/>
+                    <span id="labelA">A</span>
+                    <span id="labelB">B</span>
+                    <span id="labelC">C</span>
+                    <span id="labelD">D</span>
+                </div>
+                <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1"
+                    id="choicereduction">
+                    <prompt id="prompt">In the figure above, what fraction of the rectangle <em>ABCD</em> is
+                        shaded?</prompt>
+                    <simpleChoice identifier="A" fixed="true">
+                        <p id="p2">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>3</mn>
+                                </mfrac>
+                            </math></p>
+                    </simpleChoice>
+                    <simpleChoice identifier="B" fixed="true">
+                        <p id="p3">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r2">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>5</mn>
+                                </mfrac>
+                            </math>
+                        </p>
+                    </simpleChoice>
+                    <simpleChoice identifier="C" fixed="true">
+                        <p id="p4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r3">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>4</mn>
+                                </mfrac>
+                            </math>
+                        </p>
+                    </simpleChoice>
+                    <simpleChoice identifier="D" fixed="true">
+                        <p id="p5">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r4">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>3</mn>
+                                </mfrac>
+                            </math>
+                        </p>
+                    </simpleChoice>
+                    <simpleChoice identifier="E" fixed="true">
+                        <p id="p6">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r5">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math>
+                        </p>
+                    </simpleChoice>
+                </choiceInteraction>
+            </itemBody>
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="apip-creator-scope">
+            <div class="apip-selector-view"></div>
+        </div>
+    </body>
+</html>
