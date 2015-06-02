@@ -19,13 +19,14 @@
 define([
     'lodash',
     'jquery',
-    'tpl!taoQtiItem/apipCreator/tpl/selector/elementBlock',
-    'tpl!taoQtiItem/apipCreator/tpl/selector/elementInline'
-], function (_, $, elementBlockTpl, elementInlineTpl){
+    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/selector',
+    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementBlock',
+    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline'
+], function (_, $, selectorTpl, elementBlockTpl, elementInlineTpl){
 
     'use strict';
 
-    var _ns = '.apip-selector';
+    var _ns = '.qti-element-selector';
 
     var _renderers = {
         img : function (){
@@ -92,11 +93,10 @@ define([
         return rendering;
     }
 
-    function renderSelectorView(itemBodyDOM){
-        return renderSelectorElement(itemBodyDOM);
+    function render($container, itemBodyDOM){
+        var selectorBody =  renderSelectorElement(itemBodyDOM);
+        $container.append(selectorTpl({selectorBody:selectorBody}));
     }
-
-
 
     function selectable($container){
 
@@ -168,7 +168,7 @@ define([
     }
 
     return {
-        renderSelectorView : renderSelectorView,
+        render : render,
         selectable : selectable,
         setQtiAccessElements : setQtiAccessElements,
         resetQtiAccessElements : resetQtiAccessElements

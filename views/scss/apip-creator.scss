@@ -13,7 +13,7 @@
         }
         margin-right:10px;
     }
-    .apip-selector-view{
+    .qti-element-selector{
         .element{
             position:relative;
             border : 1px solid #EEE;
@@ -27,13 +27,13 @@
             &.hover{
                 padding : 10px;
                 border-width:2px;
-                border-color: whiten($info, .4);
+                border-color: whiten($info, .5);
                 cursor:pointer;
             }
             &.active{
                 padding : 10px;
                 border-width:2px;
-                border-color: whiten($info, .1);
+                border-color: whiten($info, 0);
             }
             &.qti-img {
                 display: inline-block;
