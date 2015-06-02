@@ -71,7 +71,7 @@ define([
                         tplData.content += node.data;
                     }else{
                         //node type:
-                        var content = renderSelectorElement(node)
+                        var content = renderSelectorElement(node);
                         tplData.content += content ? content : '';
                     }
                 });
@@ -110,15 +110,15 @@ define([
 
         $container.off(_ns).on('mouseenter' + _ns, '.element', function (e){
 
-//            e.stopPropagation();
+            e.stopPropagation();
             $(this).addClass('hover');
-            $(this).parent().trigger('mouseleave');;
+            $(this).parent().trigger('mouseleave' + _ns);
 
         }).on('mouseleave' + _ns, '.element', function (e){
 
 //            e.stopPropagation();
             $(this).removeClass('hover');
-            $(this).parent().trigger('mouseenter');
+            $(this).parent().trigger('mouseenter' + _ns);
 
         }).on('click' + _ns, '.element', function (e){
 

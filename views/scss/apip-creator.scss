@@ -17,16 +17,20 @@
         .element{
             position:relative;
             border : 1px solid #DDD;
-            padding : 10px;
-            margin : 2px;
+            padding : 11px;
+            margin : 4px;
             &.has-access-element{
-                border : 1px solid #AAA;
+                border-color : #AAA;
             }
             &.hover{
+                padding : 10px;
+                border-width:2px;
                 border-color: whiten($info, .4);
                 cursor:pointer;
             }
             &.active{
+                padding : 10px;
+                border-width:2px;
                 border-color: whiten($info, .1);
             }
             &.qti-img {

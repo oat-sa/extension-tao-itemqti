@@ -25,17 +25,17 @@
                         src="http://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png"
                         alt="Figure showing Rectangle ABCD divided into 12 equal boxes. 4 of the boxes are shaded."/>
                     <span id="labelA">A</span>
-                    <span id="labelB">B</span>
+                    <span id="labelB" serial="span2">B</span>
                     <span id="labelC">C</span>
                     <span id="labelD">D</span>
                 </div>
                 <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1"
-                    id="choicereduction">
+                    id="choicereduction" serial="interaction1">
                     <prompt id="prompt">In the figure above, what fraction of the rectangle <em>ABCD</em> is
                         shaded?</prompt>
                     <simpleChoice identifier="A" fixed="true">
                         <p id="p2">
-                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" id="r1" serial="math1">
                                 <mfrac>
                                     <mn>1</mn>
                                     <mn>3</mn>
