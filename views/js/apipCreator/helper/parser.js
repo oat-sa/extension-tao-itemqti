@@ -16,19 +16,63 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
-    
+define(['jquery'], function ($) {
+    'use strict';
+
     /**
-     * Parse the xml string into an qti apip object
-     * 
-     * @param {String} xml - the qti apip xml string to be parsed
-     * @returns {Object}
+     * QTI Item xml document
+     * @type object
      */
-    function parse(xml){
-        return {};
+    var itemXML;
+
+    /**
+     * Convert string to XML document.
+     * @param {string} string XML string.
+     * @returns {object} XML document 
+     */
+    function stringToXml(string) {
+        var xmlDoc,
+            parser;
+
+        if (window.DOMParser) {
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(string, "text/xml");
+        } else {
+            // IE
+            xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = false;
+            xmlDoc.loadXML(string);
+        }
+        return xmlDoc;
     }
-    
+
+    /**
+     * Parse the xml string or xml document. 
+     * Attribute <i>serial</i> will be added for each node. The value of attribute is node name plus node number (e.g. 'div1', 'div1' etc.).
+     * 
+     * @param {String | Object} xml - the qti apip xml string or xml document to be parsed
+     * @returns {Object} XML documents
+     */
+    function parse(xml) {
+        var tagNames = {};
+        
+        if (typeof xml === 'string') {
+            itemXML = stringToXml(xml);
+        } else {
+            itemXML = xml;
+        }
+        $(itemXML).find('*').each(function (key, element) {
+            if (!tagNames[element.localName]) {
+                tagNames[element.localName] = 0;
+            }
+            tagNames[element.localName]++;
+            $(element).attr('serial', (element.localName + tagNames[element.localName]));
+        });
+        return itemXML;
+    }
+
     return {
-        parse : parse
+        parse : parse,
+        stringToXml : stringToXml
     };
 });
