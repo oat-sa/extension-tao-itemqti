@@ -17,7 +17,9 @@
  *
  */
 define([], function(){
-
+    
+    'use strict';
+    
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
@@ -25,7 +27,7 @@ define([], function(){
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo){
-        return 'this is a brailleText access element info';
+        return 'this is a spoken access element info';
     }
 
     /**
@@ -39,10 +41,18 @@ define([], function(){
     }
 
     /**
-     * Set the attribute value for the signing access element
+     * Set the attribute value for the spoken access element
      * 
      * Allowed values are: 
-     * - brailleTextString
+     * - spokenText
+     * - testToSpeechPronunciation
+     * - audioFileInfo.fileHref
+     * - audioFileInfo.startTime
+     * - audioFileInfo.duration
+     * - audioFileInfo.voiceType
+     * - audioFileInfo.voiceSpeed
+     * 
+     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found, if none exists, create one
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
@@ -54,24 +64,33 @@ define([], function(){
     }
     
     /**
-     * Get the attribute value for the signing access element
+     * Get the attribute value for the spoken access element
      * 
      * Allowed values are: 
-     * - brailleTextString
+     * - spokenText
+     * - testToSpeechPronunciation
+     * - audioFileInfo.fileHref
+     * - audioFileInfo.startTime
+     * - audioFileInfo.duration
+     * - audioFileInfo.voiceType
+     * - audioFileInfo.voiceSpeed
+     * 
+     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
-     * @param {Mixed} value
      * @returns {Mixed}
      */
-    function getAttribute(accessElementInfo, name, value){
+    function getAttribute(accessElementInfo, name){
         return null;
     }
 
     return {
-        typeId : 'brailleText',
-        label : 'brailleText',
+        typeId : 'spoken',
+        label : 'spoken',
         getDescriptiveView : getDescriptiveView,
-        getFormView : getFormView
+        getFormView : getFormView,
+        setAttribute : setAttribute,
+        getAttribute : getAttribute
     };
 });

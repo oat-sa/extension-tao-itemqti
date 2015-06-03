@@ -17,7 +17,9 @@
  *
  */
 define([], function(){
-
+    
+    'use strict';
+    
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
@@ -25,7 +27,7 @@ define([], function(){
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo){
-        return 'this is a signing access element info';
+        return 'this is a brailleText access element info';
     }
 
     /**
@@ -42,14 +44,7 @@ define([], function(){
      * Set the attribute value for the signing access element
      * 
      * Allowed values are: 
-     * - signFileASL.videoFileInfo.fileHref
-     * - signFileASL.videoFileInfo.startCue
-     * - signFileASL.videoFileInfo.endCue
-     * - signFileASL.boneAnimationVideoFile.fileHref
-     * - signFileSignedEnglish.videoFileInfo.fileHref
-     * - signFileSignedEnglish.videoFileInfo.startCue
-     * - signFileSignedEnglish.videoFileInfo.endCue
-     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
+     * - brailleTextString
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
@@ -64,28 +59,22 @@ define([], function(){
      * Get the attribute value for the signing access element
      * 
      * Allowed values are: 
-     * - signFileASL.videoFileInfo.fileHref
-     * - signFileASL.videoFileInfo.startCue
-     * - signFileASL.videoFileInfo.endCue
-     * - signFileASL.boneAnimationVideoFile.fileHref
-     * - signFileSignedEnglish.videoFileInfo.fileHref
-     * - signFileSignedEnglish.videoFileInfo.startCue
-     * - signFileSignedEnglish.videoFileInfo.endCue
-     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
+     * - brailleTextString
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
-     * @param {Mixed} value
      * @returns {Mixed}
      */
-    function getAttribute(accessElementInfo, name, value){
+    function getAttribute(accessElementInfo, name){
         return null;
     }
 
     return {
-        typeId : 'signing',
-        label : 'signing',
+        typeId : 'brailleText',
+        label : 'brailleText',
         getDescriptiveView : getDescriptiveView,
-        getFormView : getFormView
+        getFormView : getFormView,
+        setAttribute : setAttribute,
+        getAttribute : getAttribute
     };
 });

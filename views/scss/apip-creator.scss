@@ -1,0 +1,43 @@
+@import "inc/bootstrap";
+
+#apip-creator-scope{
+    #authoringBack {
+        span {
+            position: relative;
+            top: -1px;
+            &.icon-left {
+                @include font-size(20);
+                top: 3px;
+                padding-right: 6px;
+            }
+        }
+        margin-right:10px;
+    }
+    .apip-selector-view{
+        .element{
+            position:relative;
+            border : 1px solid #DDD;
+            padding : 10px;
+            margin : 2px;
+            &.has-access-element{
+                border : 1px solid #AAA;
+            }
+            &.hover{
+                border-color: whiten($info, .4);
+                cursor:pointer;
+            }
+            &.active{
+                border-color: whiten($info, .1);
+            }
+            &.qti-img {
+                display: inline-block;
+            }
+            .information{
+                position :relative;
+                .label{
+                    position:relative;
+                }
+            }
+        }
+    }
+}

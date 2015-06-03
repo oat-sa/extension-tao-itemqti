@@ -17,7 +17,9 @@
  *
  */
 define([], function(){
-
+    
+    'use strict';
+    
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
@@ -25,7 +27,7 @@ define([], function(){
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo){
-        return 'this is a spoken access element info';
+        return 'this is a signing access element info';
     }
 
     /**
@@ -39,18 +41,17 @@ define([], function(){
     }
 
     /**
-     * Set the attribute value for the spoken access element
+     * Set the attribute value for the signing access element
      * 
      * Allowed values are: 
-     * - spokenText
-     * - testToSpeechPronunciation
-     * - audioFileInfo.fileHref
-     * - audioFileInfo.startTime
-     * - audioFileInfo.duration
-     * - audioFileInfo.voiceType
-     * - audioFileInfo.voiceSpeed
-     * 
-     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found, if none exists, create one
+     * - signFileASL.videoFileInfo.fileHref
+     * - signFileASL.videoFileInfo.startCue
+     * - signFileASL.videoFileInfo.endCue
+     * - signFileASL.boneAnimationVideoFile.fileHref
+     * - signFileSignedEnglish.videoFileInfo.fileHref
+     * - signFileSignedEnglish.videoFileInfo.startCue
+     * - signFileSignedEnglish.videoFileInfo.endCue
+     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
@@ -62,32 +63,32 @@ define([], function(){
     }
     
     /**
-     * Get the attribute value for the spoken access element
+     * Get the attribute value for the signing access element
      * 
      * Allowed values are: 
-     * - spokenText
-     * - testToSpeechPronunciation
-     * - audioFileInfo.fileHref
-     * - audioFileInfo.startTime
-     * - audioFileInfo.duration
-     * - audioFileInfo.voiceType
-     * - audioFileInfo.voiceSpeed
-     * 
-     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found
+     * - signFileASL.videoFileInfo.fileHref
+     * - signFileASL.videoFileInfo.startCue
+     * - signFileASL.videoFileInfo.endCue
+     * - signFileASL.boneAnimationVideoFile.fileHref
+     * - signFileSignedEnglish.videoFileInfo.fileHref
+     * - signFileSignedEnglish.videoFileInfo.startCue
+     * - signFileSignedEnglish.videoFileInfo.endCue
+     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
      * 
      * @param {Object} accessElementInfo
      * @param {String} name
-     * @param {Mixed} value
      * @returns {Mixed}
      */
-    function getAttribute(accessElementInfo, name, value){
+    function getAttribute(accessElementInfo, name){
         return null;
     }
 
     return {
-        typeId : 'spoken',
-        label : 'spoken',
+        typeId : 'signing',
+        label : 'signing',
         getDescriptiveView : getDescriptiveView,
-        getFormView : getFormView
+        getFormView : getFormView,
+        setAttribute : setAttribute,
+        getAttribute : getAttribute
     };
 });
