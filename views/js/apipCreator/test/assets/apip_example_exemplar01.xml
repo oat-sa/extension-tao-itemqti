@@ -25,7 +25,7 @@
     <stylesheet href="apip_exemplar01resources/apip_exemplar01.css" type="text/css"/>
     <itemBody>
         <div id="div1">
-            <img id="figure1" height="165" width="250"
+            <img id="image1" height="165" width="250"
                 src="apip_exemplar01resources/apip_exemplar01_figure.svg"
                 alt="Figure showing Rectangle ABCD divided into 12 equal boxes. 4 of the boxes are shaded."/>
             <span id="labelA">A</span>
@@ -99,10 +99,10 @@
         <apip:inclusionOrder>
             <apip:textOnlyDefaultOrder>
                 <apip:elementOrder identifierRef="ae001">
-                    <apip:order>1</apip:order>
+                    <apip:order>2</apip:order>
                 </apip:elementOrder>
                 <apip:elementOrder identifierRef="ae002">
-                    <apip:order>2</apip:order>
+                    <apip:order>1</apip:order>
                 </apip:elementOrder>
                 <apip:elementOrder identifierRef="ae003">
                     <apip:order>3</apip:order>
@@ -252,6 +252,16 @@
                     <apip:spoken>
                         <apip:spokenText contentLinkIdentifier="verbaltext000">Figure of rectangle A-B-C-D. The rectangle is divided into twelve equally sized squares. Four of the squares are shaded.</apip:spokenText>
                         <apip:textToSpeechPronunciation contentLinkIdentifier="ttsp000">Figure of rect-tangle A-B-C-D. The rect-tangle is divided into twelve equally sized squares. Four of the squares are shaded.</apip:textToSpeechPronunciation>
+                        <apip:audioFileInfo contentLinkIdentifier="verbaltext000" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_exemplar01resources/apip_exemplar01.mp3</apip:fileHref>
+                            <apip:startTime>1000</apip:startTime>
+                            <apip:duration>3000</apip:duration>
+                        </apip:audioFileInfo>
+                        <apip:audioFileInfo contentLinkIdentifier="verbaltext000" mimeType="audio/mpeg">
+                            <apip:fileHref>apip_exemplar01resources/apip_exemplar01.mp3</apip:fileHref>
+                            <apip:startTime>1000</apip:startTime>
+                            <apip:duration>3000</apip:duration>
+                        </apip:audioFileInfo>
                     </apip:spoken>
                 </apip:relatedElementInfo>
             </apip:accessElement>
