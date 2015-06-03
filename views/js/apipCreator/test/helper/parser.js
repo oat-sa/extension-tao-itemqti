@@ -18,8 +18,8 @@
  */
 define(
     [
-        '/taoQtiItem/views/js/apipCreator/helper/parser.js',
-        '/taoQtiItem/views/js/apipCreator/helper/serializer.js',
+        'taoQtiItem/apipCreator/helper/parser',
+        'taoQtiItem/apipCreator/helper/serializer',
         'text!/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
     ], 
     function (parser, serializer, xml) {
