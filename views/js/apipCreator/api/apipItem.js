@@ -34,8 +34,13 @@ define([
      * @returns {Object}
      */
     function ApipItem(apipItemXML) {
-        this.apipItem = parser.parse(apipItemXML);
-        this.$apipItem = $(this.apipItem);
+        this.apipDoc = parser.parse(apipItemXML);
+        window.x = this.apipDoc;
+        this.$apipDoc = $(this.apipDoc);
+        this.XMLNS = {
+            'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
+            'qti': 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2'
+        };
     }
 
     /**
@@ -45,19 +50,59 @@ define([
      * @returns {unresolved}
      */
     ApipItem.prototype.xpath = function (xpath, context) {
+        var that = this;
         if (!context) {
-            context = this.apipItem.documentElement;
+            context = this.apipDoc.documentElement;
         }
         return $.xpath(context, xpath, function (prefix) {
-            switch (prefix) {
-            case 'apip':
-                return 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0';
-            case 'qti':
-                return 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2';
+            if (that.XMLNS[prefix]) {
+                return that.XMLNS[prefix];
             }
         });
     };
-
+    
+    /**
+     * Add serial attributes to node including nested nodes.
+     * @param {object} node XML node
+     * @returns {object} XML node
+     */
+    ApipItem.prototype.addSerialAttr = function (node) {
+        var that = this,
+            serial = node.localName + (that.xpath('//' + node.nodeName).length + 1);
+    
+        if(!node.getAttribute('serial')) {
+            node.setAttribute('serial', serial);
+        }
+        
+        _.forEach(node.childNodes, function (childNode) {
+            that.addSerialAttr(childNode);
+        });
+        
+        return node;
+    };
+    
+    /**
+     * Create xml node
+     * @param {string} namespace
+     * @param {string} name node name
+     * @returns {object} attributes list of attributes. Example: {"id": "myId", "class": "myClass"}
+     * @returns created node;
+     */
+    ApipItem.prototype.createNode = function (namespace, name, attributes) {
+        var that = this,
+            namespaceURI = that.XMLNS[namespace] ? that.XMLNS[namespace] : 'http://www.w3.org/1999/xhtml',
+            node = that.apipDoc.createElementNS(namespaceURI, namespace + ":" + name);
+    
+        if (attributes) {
+            _.forEach(attributes, function (val, attrName) {
+                node.setAttribute(attrName, val);
+            });
+        }
+        
+        that.addSerialAttr(node);
+        return node;
+    };
+    
     /**
      * Get a clone of the parsed item body
      * This will be used to generate the (main) item selecting view for the apip authoring tool
@@ -65,7 +110,7 @@ define([
      * @returns {Object} XML node (<itemBody>);
      */
     ApipItem.prototype.getItemBodyModel = function getItemBodyModel() {
-        return this.$apipItem.find('itemBody').clone()[0];
+        return this.$apipDoc.find('itemBody').clone()[0];
     };
 
     /**
@@ -76,7 +121,7 @@ define([
     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
         var node = this.xpath("qti:itemBody//*[@serial='" + qtiElementSerial + "']"),
-            result = null
+            result = null;
 
         if (node && node.length) {
             result = new QtiElement(this, node[0]);
@@ -103,17 +148,18 @@ define([
      * @returns {Object | Array}
      */
     ApipItem.prototype.getAccessElementByAttr = function getAccessElementByAttr(attr, val) {
-        var nodes = this.xpath("//apip:accessElement[@" + attr + "='" + val + "']"),
-            collection,
+        var that = this,
+            nodes = this.xpath("//apip:accessElement[@" + attr + "='" + val + "']"),
+            collection = [],
             result;
 
         if (nodes.length > 0) {
-            collection = nodes.map(function (key, node) {
-                return new AccessElement(this, node);
+            _.forEach(nodes, function (node) {
+                collection.push(new AccessElement(that, node));
             });
         }
-
-        if (!collection) {
+        
+        if (collection.length === 0) {
             result = null;
         } else {
             result = collection.length === 1 ? collection[0] : collection;
@@ -158,9 +204,9 @@ define([
      * @returns {String}
      */
     ApipItem.prototype.toXML = function toXML() {
-        var apipItem = this.apipItem.cloneNode(true);
-        $(apipItem).find('[serial]').removeAttr('serial');
-        return serializer.serialize(apipItem);
+        var apipDoc = this.apipDoc.cloneNode(true);
+        $(apipDoc).find('[serial]').removeAttr('serial');
+        return serializer.serialize(apipDoc);
     };
 
     return ApipItem;

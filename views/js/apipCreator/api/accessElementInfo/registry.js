@@ -17,9 +17,9 @@
  *
  */
 define([
-    'taoQtiItem/apipCreator/editor/accessElementInfo/brailleText',
-    'taoQtiItem/apipCreator/editor/accessElementInfo/signing',
-    'taoQtiItem/apipCreator/editor/accessElementInfo/spoken'
+    'taoQtiItem/apipCreator/api/accessElementInfo/brailleText',
+    'taoQtiItem/apipCreator/api/accessElementInfo/signing',
+    'taoQtiItem/apipCreator/api/accessElementInfo/spoken'
 ], function(brailleText, signing, spoken){
     
     /**

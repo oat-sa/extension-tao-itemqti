@@ -74,9 +74,11 @@ define(
          * @returns {Object} the newly create apip access element
          */
         QtiElement.prototype.createAccessElement = function createAccessElement() {
-            var that = this;
-            
-            return new AccessElement(that.apipItem, node)
+            var that = this,
+                accessElement = new AccessElement(that.apipItem);
+        
+            accessElement.addQtiElement(that);
+            return accessElement;
         };
 
         /**

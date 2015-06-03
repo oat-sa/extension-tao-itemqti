@@ -17,40 +17,54 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/apipCreator/api/authoringObject',
     'taoQtiItem/apipCreator/api/accessElementInfo/registry'
-], function(authoringObject, registry){
-
+], function (_, authoringObject, registry) {
     'use strict';
 
-    function AccessElementInfo(apipItem){
-        authoringObject.init(this, apipItem);
+    function AccessElementInfo(apipItem, node, accessElementInfoType) {
+        if (!node) {
+            node = this.createXMLNode(apipItem, accessElementInfoType);
+        }
+        authoringObject.init(this, apipItem, node);
     }
 
-    AccessElementInfo.prototype.remove = function remove(){
+    /**
+     * Create xml node of appropriate type.
+     * @param {object} apipItem apipItem creator api instance 
+     * @see {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
+     * @returns {Object} created XML node
+     */
+    AccessElementInfo.prototype.createXMLNode = function createXMLNode(apipItem, accessElementInfoType) {
+        if (!registry[accessElementInfoType]) {
+            throw new TypeError(accessElementInfoType + ' type is not supported.');
+        }
+        return registry[accessElementInfoType].createXMLNode(apipItem);
+    };
+
+    AccessElementInfo.prototype.remove = function remove() {
         //access elementInfos may require some serial to make it easier to find
     };
 
     /**
      * Get the attribute value for the access element info
      * 
-     * @param {Object} accessElementInfo
      * @param {String} name
      * @returns {Mixed}
      */
-    AccessElementInfo.prototype.getAttribute = function getAttribute(name){
+    AccessElementInfo.prototype.getAttribute = function getAttribute(name) {
         return;
     };
 
     /**
      * Set the attribute value for the access element info
      * 
-     * @param {Object} accessElementInfo
      * @param {String} name
      * @param {Mixed} value
      * @returns {Object} the accessElementInfo itself for chaining
      */
-    AccessElementInfo.prototype.setAttribute = function setAttribute(name, value){
+    AccessElementInfo.prototype.setAttribute = function setAttribute(name, value) {
         return this;
     };
 
@@ -59,7 +73,7 @@ define([
      * 
      * @returns {accessElement}
      */
-    AccessElementInfo.prototype.getAssociatedAccessElement = function getAssociatedAccessElement(){
+    AccessElementInfo.prototype.getAssociatedAccessElement = function getAssociatedAccessElement() {
         return {};
     };
 

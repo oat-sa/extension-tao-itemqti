@@ -36,10 +36,25 @@ define([], function(){
      * @param {Object} accessElementInfo
      * @returns {String}
      */
-    function getFormView(accessElementInfo){
+    function getFormView(accessElementInfo) {
         return '<form></form>';
     }
-
+    
+    /**
+     * Create new xml node.
+     * @param {object} apipItem
+     * @returns {object} new XML node
+     */
+    function createXMLNode(apipItem) {
+//    <apip:brailleText>
+//        <apip:brailleTextString contentLinkIdentifier="brailletextnv000">Figure of rectangle ABCD. The rectangle is divided into 12 equally sized squares. 4 of the squares are shaded.</apip:brailleTextString>
+//    </apip:brailleText>
+        var accessElementNode = apipItem.createNode('apip', 'brailleText');
+        accessElementNode.appendChild(apipItem.createNode('apip', 'brailleTextString'));
+        return accessElementNode;
+    }
+    
+    
     /**
      * Set the attribute value for the signing access element
      * 
@@ -75,6 +90,7 @@ define([], function(){
         getDescriptiveView : getDescriptiveView,
         getFormView : getFormView,
         setAttribute : setAttribute,
-        getAttribute : getAttribute
+        getAttribute : getAttribute,
+        createXMLNode : createXMLNode
     };
 });
