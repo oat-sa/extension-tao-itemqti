@@ -7,36 +7,15 @@
         <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
         <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script  type="text/javascript">
-            require(
-                [
-                    '/taoQtiItem/views/js/apipCreator/helper/parser.js',
-                    '/taoQtiItem/views/js/apipCreator/helper/serializer.js',
-                ], 
-                function (parser, serializer) {
-                $.get(
-                    '/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
-                ).done(function (xml) {
-                    test("parser.parse() parse form xml document", function () {
-                        var xmlDoc = parser.parse(xml);
-                        ok(xmlDoc.documentElement && xmlDoc.documentElement.nodeName === 'assessmentItem');
-                    });
-                    
-                    test("parser.parse() parse form xml string", function () {
-                        var xmlString = serializer.serialize(xml),
-                            xmlDoc;
-                            
-                        ok(xmlString.indexOf('<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"') === 0);
-                        
-                        xmlDoc = parser.parse(xmlString);
-                        ok(xmlDoc.documentElement && xmlDoc.documentElement.nodeName === 'assessmentItem');
-                    });
-                    test("parser.parse() check serial attribute", function () {
-                        var xmlDoc = parser.parse(xml);
-                        ok($(xmlDoc).find('*').length === $(xmlDoc).find('[serial]').length, 'Each node has "serial" attribute');
-                    });
-                });
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function(){
+                require(
+                    ['taoQtiItem/apipCreator/test/helper/parser'], 
+                    function () {
+                        QUnit.start();
+                    }
+                );
             });
         </script>
     </head>
