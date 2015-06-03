@@ -16,25 +16,23 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
- define(
-    [
-        'jquery',
-        '/taoQtiItem/views/js/apipCreator/helper/serializer.js',
-        'text!/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
-    ], 
-    function ($, serializer, xml) {
-        'use strict';
-        var xmlDoc = (new DOMParser()).parseFromString(xml, "text/xml");
+ define([
+    'jquery',
+    'taoQtiItem/apipCreator/helper/serializer',
+    'text!/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
+], 
+function ($, serializer, xml) {
+    'use strict';
+    var xmlDoc = (new DOMParser()).parseFromString(xml, "text/xml");
 
-        QUnit.test("serializer.serialize()", function () {
-            var xmlString = serializer.serialize(xmlDoc);
-            QUnit.ok(xmlString.indexOf('<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"') === 0);
-        });
+    QUnit.test("serializer.serialize()", function () {
+        var xmlString = serializer.serialize(xmlDoc);
+        QUnit.ok(xmlString.indexOf('<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"') === 0);
+    });
 
-        QUnit.test("serializer.serialize() non xml document given", function () {
-            QUnit.throws(function () {
-                serializer.serialize('wrong');
-            }, TypeError);
-        });
-    }
-);
+    QUnit.test("serializer.serialize() non xml document given", function () {
+        QUnit.throws(function () {
+            serializer.serialize('wrong');
+        }, TypeError);
+    });
+});

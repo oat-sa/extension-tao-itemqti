@@ -11,8 +11,8 @@
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function () {
                 require(
-                    ['/taoQtiItem/views/js/apipCreator/test/helper/serializer.js'], 
-                    function (parser) {
+                    ['taoQtiItem/apipCreator/test/helper/serializer'], 
+                    function () {
                         QUnit.start();
                     });
                 }
