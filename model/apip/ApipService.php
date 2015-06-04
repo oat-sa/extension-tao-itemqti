@@ -35,6 +35,12 @@ use DOMDocument;
 class ApipService extends tao_models_classes_Service
 {
 
+    /**
+     * Split the QTI APIP XML Document into the QTI item part and the APIP item part
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @param DOMDocument $originalDoc
+     */
     public function storeApipAccessibilityContent(core_kernel_classes_Resource $item, DOMDocument $originalDoc)
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
@@ -48,6 +54,12 @@ class ApipService extends tao_models_classes_Service
         }
     }
 
+    /**
+     * Get the accessibility node for an rdf item
+     * 
+     * @param core_kernel_classes_Resource $item
+     * @return \DOMDocument
+     */
     public function getApipAccessibilityContent(core_kernel_classes_Resource $item)
     {
         $apipContent = null;
@@ -66,6 +78,7 @@ class ApipService extends tao_models_classes_Service
     }
 
     /**
+     * Get the default ApipAccessbility node
      * 
      * @return \DOMDocument
      */
