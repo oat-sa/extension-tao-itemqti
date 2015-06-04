@@ -16,13 +16,4 @@ require([
 
     });
 
-    QUnit.test('selectable', function (){
-
-        QUnit.expect(0);
-
-        var $selectorContainer = $('#apip-creator-scope');
-        qtiElementSelector.selectable($selectorContainer);
-
-    });
-
 });

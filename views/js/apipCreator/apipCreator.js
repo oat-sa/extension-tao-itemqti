@@ -19,21 +19,24 @@
 define([
     'taoQtiItem/apipCreator/helper/parser',
     'taoQtiItem/apipCreator/helper/serializer',
-    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function(parser, serializer, inclusionOrderSelector){
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'taoQtiItem/apipCreator/editor/qtiElementSelector'
+], function(parser, serializer, inclusionOrderSelector, qtiElementSelector){
 
     function init(config){
         
         var $container = $('#apip-creator-scope');
         var $actionBar = $container.find('.item-editor-action-bar');
+        var $editorInner = $container.find('#item-editor-scroll-inner');
         var xmlDoc = parser.parse(config.properties.xml);
+        
         console.log(config);
         console.log(config.properties.xml);
         console.log(xmlDoc);
         console.log(serializer.serialize(xmlDoc));
         
         inclusionOrderSelector.render($actionBar);
-        
+//        qtiElementSelector.render($editorInner, xmlDoc);
         initEvents($container);
     }
     
@@ -41,6 +44,10 @@ define([
         
         $container.on('inclusionorderactivated', function(e, inclusionOrderType){
            console.log('activated', inclusionOrderType); 
+        }).on('activated.qti-element-selector', function(e, qtiElementSerial){
+            //show contextual popup + load form
+        }).on('deactivated.qti-element-selector', function(){
+            //destroy contextual popup
         });
     }
     

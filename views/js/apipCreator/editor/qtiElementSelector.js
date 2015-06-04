@@ -22,17 +22,17 @@ define([
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/selector',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementBlock',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline'
-], function (_, $, selectorTpl, elementBlockTpl, elementInlineTpl){
+], function(_, $, selectorTpl, elementBlockTpl, elementInlineTpl){
 
     'use strict';
 
     var _ns = '.qti-element-selector';
 
     var _renderers = {
-        img : function (){
+        img : function(){
             return '<img src="' + this.src + '"/>';
         },
-        math : function (){
+        math : function(){
             return '<math>' + this.innerHTML + '</math>';
         }
     };
@@ -57,7 +57,7 @@ define([
         var serial;
 //        var serial = elementNode.getAttribute('serial');
         var model = _.find(_selectables, {id : nodeName});
-        
+
         if(model){
             tplData = {
                 qtiClass : model.qtiClass,
@@ -70,7 +70,7 @@ define([
             if(model.renderer){
                 tplData.content = model.renderer.call(elementNode);
             }else{
-                _.each(elementNode.childNodes, function (node){
+                _.each(elementNode.childNodes, function(node){
                     if(node.nodeType === 3 && node.data.trim()){
                         //text node:
                         tplData.content += node.data;
@@ -94,10 +94,22 @@ define([
     }
 
     function render($container, itemBodyDOM){
-        var selectorBody =  renderSelectorElement(itemBodyDOM);
-        $container.append(selectorTpl({selectorBody:selectorBody}));
+
+        var selectorBody = renderSelectorElement(itemBodyDOM);
+        $container.append(selectorTpl({selectorBody : selectorBody}));
+
+        //make it also selectable:
+        selectable($container);
     }
 
+    /**
+     * Init selectable behaviour and bind events to the given container
+     * 
+     * @param {JQuery} $container
+     * @fires "activated.qti-element-selector" when an element is "on focus" so selected
+     * @fires "deactivated.qti-element-selector" when an element is "blurred" so unselected
+     * @returns {undefined}
+     */
     function selectable($container){
 
         var $currentActive;
@@ -119,18 +131,18 @@ define([
             $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
         }
 
-        $container.off(_ns).on('mouseenter' + _ns, '.element', function (e){
+        $container.off(_ns).on('mouseenter' + _ns, '.element', function(e){
 
             e.stopPropagation();
             $(this).addClass('hover');
             $(this).parent().trigger('mouseleave' + _ns);
 
-        }).on('mouseleave' + _ns, '.element', function (e){
+        }).on('mouseleave' + _ns, '.element', function(e){
 
             $(this).removeClass('hover');
             $(this).parent().trigger('mouseenter' + _ns);
 
-        }).on('click' + _ns, '.element', function (e){
+        }).on('click' + _ns, '.element', function(e){
 
             e.stopPropagation();
             var $element = $(this);
@@ -141,13 +153,11 @@ define([
                 activateElement($element, $container);
             }
 
-        }).on('activated' + _ns, function (e, serial, $element){
-
         });
     }
 
     function resetQtiAccessElements($container){
-        $container.find('.apipfied').removeClass(function (index, css){
+        $container.find('.apipfied').removeClass(function(index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             classes.push('apipfied');
             return classes.join(' ');
