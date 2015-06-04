@@ -50,10 +50,11 @@ define([
 
     function render($container, selectedInclusionOrder){
         
-        var tplData = {};
+        var tplData = {inclusionOrders:{}};
         _.forIn(_inclusionOrders, function (v, k){
-            tplData[k] = {label : v};
+            tplData.inclusionOrders[k] = {label : v};
         });
+        
         $container.append(selectorTpl(tplData));
 
         if(selectedInclusionOrder){

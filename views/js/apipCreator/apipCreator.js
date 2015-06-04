@@ -18,15 +18,23 @@
  */
 define([
     'taoQtiItem/apipCreator/helper/parser',
-    'taoQtiItem/apipCreator/helper/serializer'
-], function(parser, serializer){
+    'taoQtiItem/apipCreator/helper/serializer',
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
+], function(parser, serializer, inclusionOrderSelector){
 
     function init(config){
+        
+        var $container = $('#apip-creator-scope');
+        var $actionBar = $container.find('.item-editor-action-bar');
+        
         console.log(config);
         console.log(config.properties.xml);
         var xmlDoc = parser.parse(config.properties.xml);
         console.log(xmlDoc);
         console.log(serializer.serialize(xmlDoc));
+        
+        
+        inclusionOrderSelector.render($actionBar);
     }
     
     return {

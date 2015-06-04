@@ -1,5 +1,5 @@
 @import "inc/bootstrap";
-    
+
 #apip-creator-scope{
     #authoringBack {
         span {
@@ -44,6 +44,20 @@
                     position:relative;
                 }
             }
+        }
+    }
+    .inclusion-order-container{
+        position: absolute;
+        right: 5px;
+        label{
+            color: whiten($info, .9);
+            padding-right:5px;
+        }
+        .select2-choice{
+            background-color: whiten($info, .9);
+        }
+        .select2-dropdown-open .select2-choice{
+            background-color: white;
         }
     }
 }
