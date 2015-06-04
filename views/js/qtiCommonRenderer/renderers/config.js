@@ -17,13 +17,32 @@
  */
 
 define([
+    'lodash',
+    'module',
+    'context',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(assetManagerFactory, assetStrategies){
+], function(_, module, context, assetManagerFactory, assetStrategies){
     'use strict';
 
+    var config = module.config();
+    var themes = _.defaults(config.themes || {}, {
+        base    : 'taoQtiItem/views/css/qti.css',
+        available : {
+            light   : 'taoQtiItem/views/css/themes/light.css',
+            dark    : 'taoQtiItem/views/css/themes/dark.css'
+        }
+    });
+
     //asset manager using base url
-    var assetManager = assetManagerFactory([
+    var assetManager = assetManagerFactory([{
+            name : 'theme',
+            handle : function handleTheme(url){
+                if(url.path === themes.base || _.contains(_.values(themes.available), url.path)){
+                    return context.root_url + url.toString();
+                }
+            }
+        },
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
@@ -77,15 +96,13 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
+
     return {
         name:'commonRenderer',
         locations: locations,
         options:   {
-            assetManager: assetManager
+            assetManager: assetManager,
+            themes : themes
         }
     };
 });
-
-
-
-

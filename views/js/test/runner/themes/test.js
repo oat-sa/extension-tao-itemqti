@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'taoQtiItem/qtiRunner/themes/loader',
+    'taoQtiItem/runner/themes/loader',
 ], function($, themeLoader){
 
     var config = {

@@ -3,8 +3,7 @@
  */
 define([
     'taoQtiItem/qtiRunner/core/Renderer',
-    'taoQtiItem/qtiCommonRenderer/renderers/config',
-    'css!taoQtiItemCss/qti'
+    'taoQtiItem/qtiCommonRenderer/renderers/config'
 ], function(Renderer, config){
     return Renderer.build(config.locations, config.name, config.options);
 });
