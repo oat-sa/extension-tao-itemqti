@@ -19,12 +19,14 @@ define([
     'jquery',
     'lodash',
     'module',
-    'history'
+    'history',
+    'taoQtiItem/apipCreator/apipCreator'
 ], function(
     $,
     _,
     module,
-    history
+    history,
+    apipCreator
     ){
     
     'use strict';
@@ -47,8 +49,7 @@ define([
                 }
             });
             
-            console.log(config);
-
+            apipCreator.init(config);
         }
     };
 });

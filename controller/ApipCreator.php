@@ -21,9 +21,13 @@
 namespace oat\taoQtiItem\controller;
 
 use core_kernel_classes_Resource;
+use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\CreatorConfig;
+use oat\taoQtiItem\helpers\Apip;
+use oat\taoQtiItem\model\apip\ApipService;
 use tao_actions_CommonModule;
 use tao_helpers_Uri;
+use DOMDocument;
 
 /**
  * APIPCreator Controller provide actions to edit a APIP item
@@ -34,16 +38,15 @@ use tao_helpers_Uri;
 class ApipCreator extends tao_actions_CommonModule
 {
 
-    public function index()
-    {
+    public function index(){
 
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
-        if (is_null($itemUri) || empty($itemUri)) {
+        if(is_null($itemUri) || empty($itemUri)){
             throw new \tao_models_classes_MissingRequestParameterException("id");
-        } else {
+        }else{
             //set authoring config :
             $config = new CreatorConfig();
-
+            
             //uri:
             $config->setProperty('uri', $itemUri);
 
@@ -58,17 +61,38 @@ class ApipCreator extends tao_actions_CommonModule
 
             //base url:
             $url = tao_helpers_Uri::url(
-                    'getFile', 'QtiCreator', 'taoQtiItem',
-                    array(
-                    'uri' => $itemUri,
-                    'lang' => $lang
-                    )
+                            'getFile', 'QtiCreator', 'taoQtiItem', array(
+                        'uri' => $itemUri,
+                        'lang' => $lang
+                            )
             );
             $config->setProperty('baseUrl', $url.'&relPath=');
-
+            
+            //set apip item xml content:
+            $config->setProperty('xml', $this->getApipItemXml($rdfItem, $lang));
+            
             $conf = $config->toArray();
             $this->setData('config', $conf);
             $this->setView('ApipCreator/index.tpl');
         }
     }
+
+    protected function getApipItemXml($rdfItem, $lang){
+
+        $qtiContent = taoItems_models_classes_ItemsService::singleton()->getItemContent($rdfItem, $lang);
+
+        $apipService = ApipService::singleton();
+        $apipContentDoc = $apipService->getApipAccessibilityContent($rdfItem);
+        if($apipContentDoc === null){
+            $apipContentDoc = $apipService->getDefaultApipAccessibilityContent($rdfItem);
+        }
+
+        $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
+        $qtiItemDoc->loadXML($qtiContent);
+
+        //merge QTI and APIP Accessibility
+        Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+        return $qtiItemDoc->saveXML();
+    }
+
 }
