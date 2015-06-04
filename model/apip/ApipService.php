@@ -47,6 +47,7 @@ class ApipService extends tao_models_classes_Service
 
         if (($apipContent = Apip::extractApipAccessibility($originalDoc)) !== null) {
             // Call ApipService to store the data separately.
+            //@todo prepare to receive the argument "lang" for getItemFolder()
             $finalLocation = $itemService->getItemFolder($item).'apip.xml';
             file_put_contents($finalLocation, $apipContent->saveXML());
 

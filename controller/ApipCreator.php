@@ -23,8 +23,11 @@ namespace oat\taoQtiItem\controller;
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\apip\ApipService;
+use oat\taoQtiItem\helpers\Apip;
+use oat\taoQtiItem\model\ItemModel;
 use tao_actions_CommonModule;
 use tao_helpers_Uri;
+use DOMDocument;
 
 /**
  * APIPCreator Controller provide actions to edit a APIP item
@@ -35,15 +38,16 @@ use tao_helpers_Uri;
 class ApipCreator extends tao_actions_CommonModule
 {
 
-    public function index(){
+    public function index()
+    {
 
         $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('id'));
-        if(is_null($itemUri) || empty($itemUri)){
+        if (is_null($itemUri) || empty($itemUri)) {
             throw new \tao_models_classes_MissingRequestParameterException("id");
-        }else{
+        } else {
             //set authoring config :
             $config = new CreatorConfig();
-            
+
             //uri:
             $config->setProperty('uri', $itemUri);
 
@@ -57,27 +61,80 @@ class ApipCreator extends tao_actions_CommonModule
             $config->setProperty('lang', $lang);
 
             //base url:
-            $url = tao_helpers_Uri::url(
-                            'getFile', 'QtiCreator', 'taoQtiItem', array(
-                        'uri' => $itemUri,
-                        'lang' => $lang
-                            )
+            $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem',
+                    array(
+                    'uri' => $itemUri,
+                    'lang' => $lang
+                    )
             );
             $config->setProperty('baseUrl', $url.'&relPath=');
-            
+
             //set apip item xml content:
             $config->setProperty('xml', $this->getApipItemXml($rdfItem, $lang));
-            
+
             $conf = $config->toArray();
             $this->setData('config', $conf);
             $this->setView('ApipCreator/index.tpl');
         }
     }
 
-    protected function getApipItemXml($rdfItem, $lang){
+    public function save()
+    {
 
-        $itemDoc = ApipService::singleton()->getMergedApipItemContent($rdfItem, $lang);
+        $returnValue = array('success' => false);
+        $itemUri     = tao_helpers_Uri::decode($this->getRequestParameter('id'));
+        $lang        = tao_helpers_Uri::decode($this->getRequestParameter('lang'));
+        if (empty($itemUri)) {
+            throw new \tao_models_classes_MissingRequestParameterException("id");
+        } else if (empty($lang)) {
+            throw new \tao_models_classes_MissingRequestParameterException("lang");
+        } else {
+            $rdfItem = new core_kernel_classes_Resource($itemUri);
+            $xml     = file_get_contents('php://input');
+            if ($this->storeApipItemXml($rdfItem, $lang, $xml)) {
+                $returnValue['success'] = true;
+                $returnValue['xml']     = $xml;
+            }
+        }
+        $this->returnJson($returnValue);
+    }
+
+    /**
+     * Get the XML string for an complete QTI APIP item
+     *
+     * @param core_kernel_classes_Resource $rdfItem
+     * @param string $lang
+     * @return string
+     */
+    protected function getApipItemXml(core_kernel_classes_Resource $rdfItem, $lang)
+    {
+
+        $apipService = ApipService::singleton();
+        $itemDoc     = $apipService->getMergedApipItemContent($rdfItem, $lang);
         return $itemDoc->saveXML();
     }
 
+    /**
+     * Store the complete QTI APIP item XML
+     * 
+     * @param core_kernel_classes_Resource $rdfItem
+     * @param string $lang
+     * @param string $xml
+     */
+    protected function storeApipItemXml(core_kernel_classes_Resource $rdfItem, $lang, $xml)
+    {
+
+        $itemDoc     = new DOMDocument('1.0', 'UTF-8');
+        $itemDoc->loadXML($xml);
+        $itemService = taoItems_models_classes_ItemsService::singleton();
+        if ($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))) {
+            if (Apip::isValid($itemDoc)) {
+                $apipService = ApipService::singleton();
+                $apipService->storeApipAccessibilityContent($rdfItem, $xml);
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

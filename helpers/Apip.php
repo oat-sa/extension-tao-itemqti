@@ -20,11 +20,13 @@
 
 namespace oat\taoQtiItem\helpers;
 
+use DOMDocument;
+
 /**
  * APIP Utility class.
  * 
  * @author Jérôme Bogaerts <jerome@taotesting.com>
- *
+ * @author Sam <sam@taotesting.com>
  */
 class Apip
 {
@@ -34,16 +36,16 @@ class Apip
      * The returned DOMDocument will have the apipAccessibility element as its document element.
      * If no apipAccessibility element can be extracted, null is returned.
      * 
-     * @param \DOMDocument $doc
-     * @return null|\DOMDocument
+     * @param DOMDocument $doc
+     * @return null|DOMDocument
      */
-    static public function extractApipAccessibility(\DOMDocument $doc)
+    static public function extractApipAccessibility(DOMDocument $doc)
     {
         $apipDoc = null;
         
         $accessibilityElts = $doc->getElementsByTagName('apipAccessibility');
         if ($accessibilityElts->length > 0) {
-            $apipDoc = new \DOMDocument('1.0', 'UTF-8');
+            $apipDoc = new DOMDocument('1.0', 'UTF-8');
             $accessibilityElt = $accessibilityElts->item(0);
             
             $newNode = $apipDoc->importNode($accessibilityElt, true);
@@ -52,8 +54,14 @@ class Apip
         
         return $apipDoc;
     }
-    
-    static public function mergeApipAccessibility(\DOMDocument $qtiItem, \DOMDocument $apipContent)
+
+    /**
+     * Merge the apipContent into the qtiItem
+     * 
+     * @param DOMDocument $qtiItem
+     * @param DOMDocument $apipContent
+     */
+    static public function mergeApipAccessibility(DOMDocument $qtiItem, DOMDocument $apipContent)
     {
         $newNode = $qtiItem->importNode($apipContent->documentElement, true);
         $qtiItem->documentElement->appendChild($newNode);
@@ -63,5 +71,18 @@ class Apip
         $raw = str_replace('http://www.imsglobal.org/xsd/imsqti_v2p1', 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $raw);
         
         $qtiItem->loadXML($raw);
+    }
+
+    /**
+     * Check if the provided QTI APIP item is a correct one.
+     * 1. validate by xsd
+     * 2. check for consistency and missing references (an access element reference an non existing qti element for instance)
+     *
+     * @todo to be implemented
+     * @param DOMDocument $doc
+     * @return boolean
+     */
+    static public function isValid(DOMDocument $doc){
+        return true;
     }
 }
