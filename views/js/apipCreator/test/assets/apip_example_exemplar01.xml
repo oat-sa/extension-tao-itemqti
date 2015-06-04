@@ -33,6 +33,11 @@
             <span id="labelC">C</span>
             <span id="labelD">D</span>
         </div>
+        <pci:markup>
+            <html5:div class="textReaderInteraction qti-interaction" id="namespaceTest1">
+                Namespace test
+            </html5:div>
+        </pci:markup>
         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1"
             id="choicereduction">
             <prompt id="prompt">In the figure above, what fraction of the rectangle <em>ABCD</em> is

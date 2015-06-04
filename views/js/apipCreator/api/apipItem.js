@@ -84,7 +84,7 @@ define([
      * Create xml node
      * @param {string} namespace
      * @param {string} name node name
-     * @returns {object} attributes list of attributes. Example: {"id": "myId", "class": "myClass"}
+     * @param {object} attributes list of attributes. Example: {"id": "myId", "class": "myClass"}
      * @returns created node;
      */
     ApipItem.prototype.createNode = function (namespace, name, attributes) {

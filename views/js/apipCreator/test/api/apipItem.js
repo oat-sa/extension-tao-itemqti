@@ -32,7 +32,8 @@ define([
 
     QUnit.test("creator.getQtiElementBySerial()", function () {
         var qtiChoiceElement = apipItem.getQtiElementBySerial('simpleChoice1'),
-            qtiImgElement = apipItem.getQtiElementBySerial('img1');
+            qtiImgElement = apipItem.getQtiElementBySerial('img1'),
+            qtiNamespaceDivElement = apipItem.getQtiElementBySerial('div2');
 
         QUnit.equal(typeof qtiChoiceElement, 'object');
         QUnit.ok(qtiChoiceElement.data.tagName && qtiChoiceElement.data.tagName === 'simpleChoice');
@@ -42,6 +43,10 @@ define([
         QUnit.equal(typeof qtiImgElement, 'object');
         QUnit.ok(qtiImgElement.data.tagName && qtiImgElement.data.tagName === 'img');
         QUnit.equal(qtiImgElement.serial, 'img1');
+        
+        QUnit.equal(typeof qtiNamespaceDivElement, 'object');
+        QUnit.ok(qtiNamespaceDivElement.data.tagName && qtiNamespaceDivElement.data.tagName === 'div');
+        QUnit.equal(qtiNamespaceDivElement.serial, 'div2');
 
         QUnit.equal(apipItem.getQtiElementBySerial('wrongSerial'), null);
     });
