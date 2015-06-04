@@ -17,14 +17,16 @@
  *
  */
 define([
-    'taoQtiItem/apipCreator/helper/parser'
-], function(parser){
+    'taoQtiItem/apipCreator/helper/parser',
+    'taoQtiItem/apipCreator/helper/serializer'
+], function(parser, serializer){
 
     function init(config){
         console.log(config);
         console.log(config.properties.xml);
         var xmlDoc = parser.parse(config.properties.xml);
         console.log(xmlDoc);
+        console.log(serializer.serialize(xmlDoc));
     }
     
     return {

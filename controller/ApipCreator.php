@@ -21,13 +21,10 @@
 namespace oat\taoQtiItem\controller;
 
 use core_kernel_classes_Resource;
-use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\CreatorConfig;
-use oat\taoQtiItem\helpers\Apip;
 use oat\taoQtiItem\model\apip\ApipService;
 use tao_actions_CommonModule;
 use tao_helpers_Uri;
-use DOMDocument;
 
 /**
  * APIPCreator Controller provide actions to edit a APIP item
@@ -79,20 +76,8 @@ class ApipCreator extends tao_actions_CommonModule
 
     protected function getApipItemXml($rdfItem, $lang){
 
-        $qtiContent = taoItems_models_classes_ItemsService::singleton()->getItemContent($rdfItem, $lang);
-
-        $apipService = ApipService::singleton();
-        $apipContentDoc = $apipService->getApipAccessibilityContent($rdfItem);
-        if($apipContentDoc === null){
-            $apipContentDoc = $apipService->getDefaultApipAccessibilityContent($rdfItem);
-        }
-
-        $qtiItemDoc = new DOMDocument('1.0', 'UTF-8');
-        $qtiItemDoc->loadXML($qtiContent);
-
-        //merge QTI and APIP Accessibility
-        Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
-        return $qtiItemDoc->saveXML();
+        $itemDoc = ApipService::singleton()->getMergedApipItemContent($rdfItem, $lang);
+        return $itemDoc->saveXML();
     }
 
 }
