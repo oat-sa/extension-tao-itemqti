@@ -23,7 +23,7 @@ define([
     'taoQtiItem/apipCreator/api/accessElementInfo'
 ], function (_, authoringObject, QtiElement, AccessElementInfo) {
     'use strict';
-
+    
     /**
      * accessElement constructor
      * @param {object} apipItem apipItem creator api instance 
@@ -126,20 +126,20 @@ define([
      * Get the access element info related to an access element if it exists
      * 
      * @param {String} accessElementInfoType - possible values are spoken, brailleText, signing. If not given all types will be returned.
-     * @returns {Object} return the accessElementInfo object or null if not found
+     * @returns {Array} list of accessElementInfo objects or null if not found
      */
     AccessElement.prototype.getAccessElementInfo = function getAccessElementInfo(accessElementInfoType) {
         var that = this,
             result = [],
-            accessElementInfoNodes = this.apipItem.xpath("//apip:accessElement[@serial='" + this.serial + "']/apip:relatedElementInfo/*");
-
+            accessElementInfoNodes = this.apipItem.xpath("apip:relatedElementInfo/*", this.data);
+    
         _.forEach(accessElementInfoNodes, function (accessElementInfoNode) {
             if (!accessElementInfoType || accessElementInfoType === accessElementInfoNode.localName) {
                 result.push(new AccessElementInfo(that.apipItem, accessElementInfoNode));
             }
         });
 
-        return result;
+        return result.length === 0 ? null : result;
     };
 
     /**
@@ -147,13 +147,14 @@ define([
      * Available types are : spoken, brailleText, signing
      * 
      * @param {String} accessElementInfoType
+     * @param {object} options
      * @returns {Object} the newly created accessElementInfo
      */
-    AccessElement.prototype.createAccessElementInfo = function createAccessElementInfo(accessElementInfoType) {
+    AccessElement.prototype.createAccessElementInfo = function createAccessElementInfo(accessElementInfoType, options) {
         var that = this,
-            elementInfo = new AccessElementInfo(that.apipItem, null, accessElementInfoType),
-            relatedElementInfoNode = this.apipItem.xpath("//apip:accessElement[@serial='" + this.serial + "']/apip:relatedElementInfo")[0];
-
+            elementInfo = new AccessElementInfo(that.apipItem, null, accessElementInfoType, options),
+            relatedElementInfoNode = this.apipItem.xpath("apip:relatedElementInfo", this.data)[0];
+    
         relatedElementInfoNode.appendChild(elementInfo.data);
         return elementInfo;
     };

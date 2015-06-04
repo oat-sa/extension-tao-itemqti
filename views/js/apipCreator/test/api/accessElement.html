@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-        <title>APIP creator API</title>
+        <title>APIP accessElement API</title>
         <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
         <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function () {
-                require(['/taoQtiItem/views/js/apipCreator/test/api/accessElement.js'], function(){
+                require(['taoQtiItem/apipCreator/test/api/accessElement'], function(){
                     QUnit.start();
                 });
             });

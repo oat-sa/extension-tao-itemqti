@@ -258,9 +258,9 @@
                             <apip:duration>3000</apip:duration>
                         </apip:audioFileInfo>
                         <apip:audioFileInfo contentLinkIdentifier="verbaltext000" mimeType="audio/mpeg">
-                            <apip:fileHref>apip_exemplar01resources/apip_exemplar01.mp3</apip:fileHref>
-                            <apip:startTime>1000</apip:startTime>
-                            <apip:duration>3000</apip:duration>
+                            <apip:fileHref>apip_exemplar01resources/apip_exemplar02.mp3</apip:fileHref>
+                            <apip:startTime>4000</apip:startTime>
+                            <apip:duration>6000</apip:duration>
                         </apip:audioFileInfo>
                     </apip:spoken>
                 </apip:relatedElementInfo>

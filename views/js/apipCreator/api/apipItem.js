@@ -35,7 +35,6 @@ define([
      */
     function ApipItem(apipItemXML) {
         this.apipDoc = parser.parse(apipItemXML);
-        window.x = this.apipDoc;
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {
             'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
@@ -47,7 +46,7 @@ define([
      * Get xml node by xpath. Empty array will be returned in nothing found.
      * @param {string} xpath
      * @param {object} context XML document
-     * @returns {unresolved}
+     * @returns {object} query result (XML collection)
      */
     ApipItem.prototype.xpath = function (xpath, context) {
         var that = this;

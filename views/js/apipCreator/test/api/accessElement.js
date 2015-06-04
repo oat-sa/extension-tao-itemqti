@@ -29,10 +29,12 @@ require([
     QUnit.test("accessElement.getQtiElement()", function () {
         var accessElement = apipItem.getAccessElementBySerial('accessElement1'),
             qtiElements = accessElement.getQtiElements();
+            
         QUnit.equal(qtiElements.length, 1);
         QUnit.equal(qtiElements[0].data.getAttribute('id'), 'image1');
         QUnit.equal(qtiElements[0].serial, 'img1');
     });
+    
     
     QUnit.test("accessElement.addQtiElement()", function () {
         var accessElement = apipItem.getAccessElementBySerial('accessElement1'),
@@ -45,6 +47,7 @@ require([
         
         QUnit.equal(accessElement.getQtiElements().length, (qtiElements.length + 1));
     });
+    
     
     QUnit.test("accessElement.remove()", function () {
         var apipItem = new ApipItem(xml),
@@ -62,6 +65,7 @@ require([
         QUnit.equal(apipItem.xpath("//apip:elementOrder[@identifierRef='" + identifier + "']").length, 0);
     });
     
+    
     QUnit.test("accessElement.getAccessElementInfo()", function () {
         var apipItem = new ApipItem(xml),
             accessElement = apipItem.getAccessElementBySerial('accessElement1'),
@@ -78,19 +82,53 @@ require([
         QUnit.equal(brailleTextElement[0].data.localName, 'brailleText');
     });
     
+    
     QUnit.test("accessElement.createAccessElementInfo()", function () {
         var apipItem = new ApipItem(xml),
             accessElement = apipItem.getAccessElementBySerial('accessElement8'),
+            signingTextElement,
+            spokenTextElement,
             brailleTextElement;
             
-        QUnit.equal(accessElement.getAccessElementInfo('brailleText').length, 0); 
-        
+        //create brailleText element
+        QUnit.equal(accessElement.getAccessElementInfo('brailleText'), null); 
         brailleTextElement = accessElement.createAccessElementInfo('brailleText');
         
         QUnit.equal(accessElement.getAccessElementInfo('brailleText').length, 1); 
         QUnit.equal(brailleTextElement.data.localName, 'brailleText');
         QUnit.ok($.contains(accessElement.data, brailleTextElement.data));
+
+
+        //create signing element (signFileASL type)
+        QUnit.equal(accessElement.getAccessElementInfo('signing'), null);
+        signingTextElement = accessElement.createAccessElementInfo('signing');
+        
+        QUnit.equal(accessElement.getAccessElementInfo('signing').length, 1); 
+        QUnit.equal(signingTextElement.data.localName, 'signing');
+        QUnit.ok($.contains(accessElement.data, signingTextElement.data));
+        QUnit.equal(signingTextElement.data.querySelector('signFileSignedEnglish'), null); 
+        
+        //create signing element (signFileSignedEnglish type)
+        accessElement.getAccessElementInfo('signing')[0].remove(); 
+        QUnit.equal(accessElement.getAccessElementInfo('signing'), null); 
+        signingTextElement = accessElement.createAccessElementInfo('signing', {type:'signFileSignedEnglish'});
+        
+        QUnit.equal(accessElement.getAccessElementInfo('signing').length, 1); 
+        QUnit.equal(signingTextElement.data.localName, 'signing');
+        QUnit.ok($.contains(accessElement.data, signingTextElement.data));
+        QUnit.equal(signingTextElement.data.querySelectorAll('signFileSignedEnglish').length, 1); 
+        
+        
+        //create spoken element
+        accessElement.getAccessElementInfo('spoken')[0].remove(); 
+        QUnit.equal(accessElement.getAccessElementInfo('spoken'), null); 
+        spokenTextElement = accessElement.createAccessElementInfo('spoken');
+        
+        QUnit.equal(accessElement.getAccessElementInfo('spoken').length, 1); 
+        QUnit.equal(spokenTextElement.data.localName, 'spoken');
+        QUnit.ok($.contains(accessElement.data, spokenTextElement.data));
     });
+    
     
     QUnit.test("accessElement.getInclusionOrders()", function () {
         var apipItem = new ApipItem(xml),
@@ -106,11 +144,11 @@ require([
         QUnit.equal(inclusionOrders.length, 5);
     });
     
+    
     QUnit.test("accessElement.setInclusionOrder()", function () {
         var apipItem = new ApipItem(xml),
             accessElement = apipItem.getAccessElementBySerial('accessElement2'),
             identifier = accessElement.data.getAttribute('identifier');
-            
         
         QUnit.equal(apipItem.xpath("//apip:textOnlyOnDemandOrder/apip:elementOrder[@identifierRef='" + identifier + "']").length, 0);
         accessElement.setInclusionOrder('textOnlyOnDemandOrder', 5);

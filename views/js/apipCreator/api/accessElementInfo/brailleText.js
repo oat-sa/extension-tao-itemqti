@@ -16,9 +16,16 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
-    
+define([], function() {
     'use strict';
+    var attributes = {
+        "brailleTextString" : {
+            "type" : 'textNode'
+        },
+        "brailleTextString.contentLinkIdentifier" : {
+            "type" : 'attribute'
+        }
+    };
     
     /**
      * Get a short and descriptive view 
@@ -26,7 +33,7 @@ define([], function(){
      * 
      * @returns {String} the rendered HTML
      */
-    function getDescriptiveView(accessElementInfo){
+    function getDescriptiveView(accessElementInfo) {
         return 'this is a brailleText access element info';
     }
 
@@ -46,42 +53,9 @@ define([], function(){
      * @returns {object} new XML node
      */
     function createXMLNode(apipItem) {
-//    <apip:brailleText>
-//        <apip:brailleTextString contentLinkIdentifier="brailletextnv000">Figure of rectangle ABCD. The rectangle is divided into 12 equally sized squares. 4 of the squares are shaded.</apip:brailleTextString>
-//    </apip:brailleText>
         var accessElementNode = apipItem.createNode('apip', 'brailleText');
-        accessElementNode.appendChild(apipItem.createNode('apip', 'brailleTextString'));
+        accessElementNode.appendChild(apipItem.createNode('apip', 'brailleTextString', {contentLinkIdentifier : ''}));
         return accessElementNode;
-    }
-    
-    
-    /**
-     * Set the attribute value for the signing access element
-     * 
-     * Allowed values are: 
-     * - brailleTextString
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @param {Mixed} value
-     * @returns {Mixed}
-     */
-    function setAttribute(accessElementInfo, name, value){
-        return accessElementInfo;
-    }
-    
-    /**
-     * Get the attribute value for the signing access element
-     * 
-     * Allowed values are: 
-     * - brailleTextString
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @returns {Mixed}
-     */
-    function getAttribute(accessElementInfo, name){
-        return null;
     }
 
     return {
@@ -89,8 +63,7 @@ define([], function(){
         label : 'brailleText',
         getDescriptiveView : getDescriptiveView,
         getFormView : getFormView,
-        setAttribute : setAttribute,
-        getAttribute : getAttribute,
+        attributes : attributes,
         createXMLNode : createXMLNode
     };
 });

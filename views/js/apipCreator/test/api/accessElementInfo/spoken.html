@@ -3,15 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-        <title>APIP creator API</title>
+        <title>Spoken access element info</title>
         <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
         <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
         <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script  type="text/javascript">
             QUnit.config.autostart = false;
             require(['/tao/ClientConfig/config'], function () {
-                require(['taoQtiItem/apipCreator/test/api/apipItem'], function(){
+                require(['taoQtiItem/apipCreator/test/api/accessElementInfo/spoken'], function(){
                     QUnit.start();
                 });
             });

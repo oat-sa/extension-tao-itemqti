@@ -16,17 +16,90 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
-    
+define(['lodash'], function (_) {
     'use strict';
+
+    var attributes = {
+        "spokenText" : {
+            "type" : 'textNode'
+        },
+        "spokenText.contentLinkIdentifier" : {
+            "type" : 'attribute'
+        },
+        "textToSpeechPronunciation" : {
+            "type" : 'textNode'
+        },
+        "textToSpeechPronunciation.contentLinkIdentifier" : {
+            "type" : 'attribute'
+        },
+        "audioFileInfo.contentLinkIdentifier" : {
+            "type" : 'attribute',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.fileHref" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.startTime" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.duration" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.voiceType" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.voiceSpeed" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
+        "audioFileInfo.mimeType" : {
+            "type" : 'attribute',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        }
+    };
+
+    function createAttribute(accessElementInfo, name) {
+        var attributeNode,
+            apipItem = accessElementInfo.apipItem;
     
+        switch(name) {
+            case 'audioFileInfo':
+                var attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
+                attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
+                attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
+                attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
+                accessElementInfo.data.appendChild(attributeNode);
+            break;
+        }
+        
+        return attributeNode;
+    }
+
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
      * 
      * @returns {String} the rendered HTML
      */
-    function getDescriptiveView(accessElementInfo){
+    function getDescriptiveView(accessElementInfo) {
         return 'this is a spoken access element info';
     }
 
@@ -36,61 +109,28 @@ define([], function(){
      * @param {Object} accessElementInfo
      * @returns {String}
      */
-    function getFormView(accessElementInfo){
+    function getFormView(accessElementInfo) {
         return '<form></form>';
-    }
-
-    /**
-     * Set the attribute value for the spoken access element
-     * 
-     * Allowed values are: 
-     * - spokenText
-     * - testToSpeechPronunciation
-     * - audioFileInfo.fileHref
-     * - audioFileInfo.startTime
-     * - audioFileInfo.duration
-     * - audioFileInfo.voiceType
-     * - audioFileInfo.voiceSpeed
-     * 
-     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found, if none exists, create one
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @param {Mixed} value
-     * @returns {Mixed}
-     */
-    function setAttribute(accessElementInfo, name, value){
-        return accessElementInfo;
     }
     
     /**
-     * Get the attribute value for the spoken access element
-     * 
-     * Allowed values are: 
-     * - spokenText
-     * - testToSpeechPronunciation
-     * - audioFileInfo.fileHref
-     * - audioFileInfo.startTime
-     * - audioFileInfo.duration
-     * - audioFileInfo.voiceType
-     * - audioFileInfo.voiceSpeed
-     * 
-     * Note : audioFileInfo.fileHref and the other audioFileInfo.* will target the first audioFileInfo node found
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @returns {Mixed}
+     * Create new xml node.
+     * @param {object} apipItem
+     * @returns {object} new XML node
      */
-    function getAttribute(accessElementInfo, name){
-        return null;
+    function createXMLNode(apipItem) {
+        var accessElementNode = apipItem.createNode('apip', 'spoken');
+        accessElementNode.appendChild(apipItem.createNode('apip', 'spokenText', {contentLinkIdentifier : ''}));
+        accessElementNode.appendChild(apipItem.createNode('apip', 'textToSpeechPronunciation', {contentLinkIdentifier : ''}));
+        return accessElementNode;
     }
-
+    
     return {
         typeId : 'spoken',
         label : 'spoken',
         getDescriptiveView : getDescriptiveView,
         getFormView : getFormView,
-        setAttribute : setAttribute,
-        getAttribute : getAttribute
+        attributes : attributes,
+        createXMLNode : createXMLNode
     };
 });

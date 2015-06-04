@@ -17,8 +17,46 @@
  *
  */
 define([], function(){
-    
     'use strict';
+    
+    var attributes = {
+        "signFileASL.videoFileInfo.fileHref" : {
+            "type" : 'textNode'
+        },
+        "signFileASL.videoFileInfo.contentLinkIdentifier" : {
+            "type" : 'attribute'
+        },
+        "signFileASL.videoFileInfo.mimeType" : {
+            "type" : 'attribute'
+        },
+        "signFileASL.videoFileInfo.startCue" : {
+            "type" : 'textNode',
+        },
+        "signFileASL.videoFileInfo.endCue" : {
+            "type" : 'textNode',
+        },
+        "signFileASL.boneAnimationVideoFile.fileHref" : {
+            "type" : 'textNode',
+        },
+        "signFileSignedEnglish.videoFileInfo.fileHref" : {
+            "type" : 'textNode',
+        },
+        "signFileSignedEnglish.videoFileInfo.contentLinkIdentifier" : {
+            "type" : 'attribute'
+        },
+        "signFileSignedEnglish.videoFileInfo.mimeType" : {
+            "type" : 'attribute'
+        },
+        "signFileSignedEnglish.videoFileInfo.startCue" : {
+            "type" : 'textNode'
+        },
+        "signFileSignedEnglish.videoFileInfo.endCue" : {
+            "type" : 'textNode'
+        },
+        "signFileSignedEnglish.boneAnimationVideoFile.fileHref" : {
+            "type" : 'textNode'
+        }
+    };
     
     /**
      * Get a short and descriptive view 
@@ -41,54 +79,36 @@ define([], function(){
     }
 
     /**
-     * Set the attribute value for the signing access element
-     * 
-     * Allowed values are: 
-     * - signFileASL.videoFileInfo.fileHref
-     * - signFileASL.videoFileInfo.startCue
-     * - signFileASL.videoFileInfo.endCue
-     * - signFileASL.boneAnimationVideoFile.fileHref
-     * - signFileSignedEnglish.videoFileInfo.fileHref
-     * - signFileSignedEnglish.videoFileInfo.startCue
-     * - signFileSignedEnglish.videoFileInfo.endCue
-     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @param {Mixed} value
-     * @returns {Mixed}
+     * Create new xml node.
+     * @param {object} apipItem
+     * @param {object} options
+     * @param {object} options.type 'signFileSignedEnglish' or 'signFileASL'. 'signFileASL' - default value.
+     * @returns {object} new XML node
      */
-    function setAttribute(accessElementInfo, name, value){
-        return accessElementInfo;
+    function createXMLNode(apipItem, options) {
+        options = options || {};
+        var type = options.type || 'signFileASL',
+            accessElementNode = apipItem.createNode('apip', 'signing'),
+            signTypeNode = apipItem.createNode('apip', type),
+            videoFileInfoNode = apipItem.createNode('apip', 'videoFileInfo', {contentLinkIdentifier : ''});
+            
+        videoFileInfoNode.appendChild(apipItem.createNode('apip', 'fileHref', {contentLinkIdentifier : ''}));
+        videoFileInfoNode.appendChild(apipItem.createNode('apip', 'startCue', {contentLinkIdentifier : ''}));
+        videoFileInfoNode.appendChild(apipItem.createNode('apip', 'endCue', {contentLinkIdentifier : ''}));
+        
+        signTypeNode.appendChild(videoFileInfoNode);
+        accessElementNode.appendChild(signTypeNode);
+        
+        return accessElementNode;
     }
-    
-    /**
-     * Get the attribute value for the signing access element
-     * 
-     * Allowed values are: 
-     * - signFileASL.videoFileInfo.fileHref
-     * - signFileASL.videoFileInfo.startCue
-     * - signFileASL.videoFileInfo.endCue
-     * - signFileASL.boneAnimationVideoFile.fileHref
-     * - signFileSignedEnglish.videoFileInfo.fileHref
-     * - signFileSignedEnglish.videoFileInfo.startCue
-     * - signFileSignedEnglish.videoFileInfo.endCue
-     * - signFileSignedEnglish.boneAnimationVideoFile.fileHref
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @returns {Mixed}
-     */
-    function getAttribute(accessElementInfo, name){
-        return null;
-    }
+
 
     return {
         typeId : 'signing',
         label : 'signing',
+        attributes : attributes,
         getDescriptiveView : getDescriptiveView,
-        getFormView : getFormView,
-        setAttribute : setAttribute,
-        getAttribute : getAttribute
+        createXMLNode : createXMLNode,
+        getFormView : getFormView
     };
 });
