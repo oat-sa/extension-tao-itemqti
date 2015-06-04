@@ -50,12 +50,21 @@ define(['jquery', 'lodash'], function($, _){
     };
 
     /**
+     * Get the stylesheet
+     * @param {String} name - the stylesheet/theme name
+     * @returns {jQueryElement} the link
+     */
+    var getLink = function getLink(name){
+        return $('link[data-name="' + name + '"][data-type^="' + prefix + '"]', $container);
+    };
+
+    /**
      * Is the stylesheet attached to the container ?
      * @param {String} name - the stylesheet/theme name
      * @param {Boolean} [disabled = false] - is the stylesheet disabled
      */
     var isAttached = function isAttached(name){
-        return $('link[data-name="' + name + '"][data-type^="' + prefix + '"]', $container).length > 0;
+        return getLink(name).length > 0;
     };
 
     /**
@@ -91,7 +100,7 @@ define(['jquery', 'lodash'], function($, _){
     var themeLoader = function themeLoader(config){
 
         var defaultTheme;
-        var styles;
+        var styles = {};
 
         /*
          * validate config
@@ -114,11 +123,12 @@ define(['jquery', 'lodash'], function($, _){
          */
         defaultTheme = config.default || _.first(_.keys(config.available));
 
-        styles = {
-            base : createStyleSheet('base', config.base, false)
-        };
-        _.forEach(config.available, function(location, name){
-            styles[name] = createStyleSheet(name, location, name !== defaultTheme);
+        _.forEach(_.merge({}, { 'base' : config.base }, config.available), function(location, name){
+            if(isAttached(name)){
+                styles[name] = getLink(name);
+            } else {
+                styles[name] = createStyleSheet(name, location);
+            }
         });
 
         /**
@@ -134,20 +144,23 @@ define(['jquery', 'lodash'], function($, _){
                 _.forEach(styles, function($link, name){
                     if(!isAttached(name)){
                         $container.append($link);
-                        if(name !== 'base' && name !== defaultTheme){
-                            disable($link);
-                        }
+                    }
+                    if(name !== 'base' && name !== defaultTheme){
+                        disable($link);
+                    } else {
+                        enable($link);
                     }
                 });
                 return this;
             },
 
             /**
-             * Unload the themes
+             * Unload the stylesheets (disable them)
              * @returns {Object} chains
              */
             unload : function unload(){
-                $('link[data-type^="' + prefix + '"]', $container).remove();
+                disable($('link[data-type^="' + prefix  + '"]', $container));
+
                 return this;
             },
 
@@ -162,7 +175,7 @@ define(['jquery', 'lodash'], function($, _){
                     disable($('link[data-type="' + prefix  + 'theme"]', $container));
 
                     //enable the theme only
-                    enable($('link[data-type="' + prefix + 'theme"][data-name="' + theme + '"]', $container));
+                    enable(getLink(theme));
                 }
                 return this;
             }
