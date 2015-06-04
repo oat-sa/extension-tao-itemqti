@@ -87,13 +87,23 @@ define([
      */
     AccessElement.prototype.addQtiElement = function addQtiElement(qtiElement) {
         var that = this,
-            contentLinkInfo = that.apipItem.createNode(
-                'apip',
-                'contentLinkInfo',
-                {"qtiLinkIdentifierRef" : qtiElement.data.getAttribute('id')}
-            ),
+            qtiLinkIdentifierRef = qtiElement.data.getAttribute('id'),
+            contentLinkInfo,
             accessElementInfoNode = that.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:relatedElementInfo"),
             linkingMethodNode;
+    
+        if (!qtiLinkIdentifierRef) {
+            do {
+                qtiLinkIdentifierRef = qtiElement.data.localName + (new Date()).getTime();
+            } while (that.apipItem.xpath("qti:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0)
+            qtiElement.data.setAttribute('id', qtiLinkIdentifierRef);
+        }
+        
+        contentLinkInfo = that.apipItem.createNode(
+            'apip',
+            'contentLinkInfo',
+            {"qtiLinkIdentifierRef" : qtiElement.data.getAttribute('id')}
+        );
 
         switch (qtiElement.data.localName) {
         case 'math':

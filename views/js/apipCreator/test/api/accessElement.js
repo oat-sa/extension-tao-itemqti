@@ -46,6 +46,11 @@ require([
         accessElement.addQtiElement(qtiElement);
         
         QUnit.equal(accessElement.getQtiElements().length, (qtiElements.length + 1));
+        qtiElement = apipItem.getQtiElementBySerial('markup1');
+        console.log(qtiElement);
+        accessElement.addQtiElement(qtiElement);
+        
+        QUnit.equal(accessElement.getQtiElements().length, (qtiElements.length + 2));
     });
     
     
