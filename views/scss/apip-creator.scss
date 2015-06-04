@@ -50,6 +50,7 @@
         position: absolute;
         right: 5px;
         label{
+            cursor : default;
             color: whiten($info, .9);
             padding-right:5px;
         }

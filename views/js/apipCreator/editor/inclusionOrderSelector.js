@@ -33,10 +33,10 @@ define([
 
     function addEvents($container){
         
-        $container.find('inclusion-order-container select').off(_ns).on('change'+_ns, function(){
+        $container.find('.inclusion-order-container select').off(_ns).on('change', function(){
             
             var $select = $(this);
-            var newValue = $select.attr('name');
+            var newValue = $select.val();
             var previousValue = $select.data('previous-value');
             
             if(previousValue){

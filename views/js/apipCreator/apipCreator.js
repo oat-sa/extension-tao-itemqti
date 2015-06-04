@@ -26,15 +26,22 @@ define([
         
         var $container = $('#apip-creator-scope');
         var $actionBar = $container.find('.item-editor-action-bar');
-        
+        var xmlDoc = parser.parse(config.properties.xml);
         console.log(config);
         console.log(config.properties.xml);
-        var xmlDoc = parser.parse(config.properties.xml);
         console.log(xmlDoc);
         console.log(serializer.serialize(xmlDoc));
         
-        
         inclusionOrderSelector.render($actionBar);
+        
+        initEvents($container);
+    }
+    
+    function initEvents($container){
+        
+        $container.on('inclusionorderactivated', function(e, inclusionOrderType){
+           console.log('activated', inclusionOrderType); 
+        });
     }
     
     return {
