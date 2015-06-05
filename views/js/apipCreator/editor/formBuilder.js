@@ -19,14 +19,23 @@
 define([
     'ui/contextualPopup'
 ], function(contextualPopup){
-    
+
     'use strict';
-    
-    function buildForm($anchor, qtiElement){
-//        console.log('buildForm',  $anchor, qtiElement);
+
+    function build($anchor, qtiElement){
+        var formContent = renderForm(qtiElement);
+        return buildPopup($anchor, formContent);
     }
-    
+
+    function renderForm(qtiElement){
+        return 'the form';
+    }
+
+    function buildPopup($anchor, formContent){
+        return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {content : formContent});
+    }
+
     return {
-        build : buildForm
+        build : build
     };
 });
