@@ -15,6 +15,97 @@
         "serial": "container_containeritembody_546cb89e037ba814681360",
         "body": "<p id=\"stimulus\">\n\t\t\tDuring more than 30 years, the American Space Shuttle transported 355 astronauts in space over 135\n\t\t\torbital launchings from Cap Canaveral, Florida. This 2046-ton Behemoth traveled 870 million kilometers\n\t\t\taround the Earth from 12th of April 1981 to 21st of July 2011. The National Aeronautics and Space\n\t\t\tAdministration (NASA) built 5 Space Shuttles: Columbia, Challenger, Discovery, Atlantis and Endeavour.\n\t\t</p>\n    {{interaction_choiceinteraction_546cb89e04090230494786}}",
         "elements": {
+          "portableinfocontrol_556f08e21039e128137685": {
+            "serial": "portableinfocontrol_556f08e21039e128137685",
+            "qtiClass": "infoControl",
+            "attributes": {
+              "title": "PIC Mock 1",
+              "class": "sts-scope sts-tmp-element"
+            },
+            "debug": {
+              "relatedItem": "item_556f08e1e8b38617090200"
+            },
+            "typeIdentifier": "picMock1",
+            "markup": "<div id=\"sts-picMock1\" class=\"sts-toolcontainer\" data-position=\"1\">\n            <span class=\"sts-button sts-launch-button\" data-typeIdentifier=\"picMock1\" title=\"PIC Mock 1\">\n              <img src=\"picMock1\/runtime\/media\/tool-icon.svg\" alt=\"PIC Mock 1\"\/>\n            <\/span>\n            <div class=\"sts-container sts-hidden-container sts-picMock1-container\">\n              <!-- Tool content here -->\n            <\/div>\n          <\/div>",
+            "libraries": [
+
+            ],
+            "properties": {
+              "movable": "",
+              "theme": "tao-light",
+              "position": "7",
+              "toolbarId": "sts-studentToolbar"
+            },
+            "entryPoint": "pic-mock-1.js"
+          },
+          "portableinfocontrol_556f08e211b49955612514": {
+            "serial": "portableinfocontrol_556f08e211b49955612514",
+            "qtiClass": "infoControl",
+            "attributes": {
+              "title": "PIC Mock 2",
+              "class": "sts-scope sts-tmp-element"
+            },
+            "debug": {
+              "relatedItem": "item_556f08e1e8b38617090200"
+            },
+            "typeIdentifier": "picMock2",
+            "markup": "<div id=\"sts-picMock2\" class=\"sts-toolcontainer\" data-position=\"2\">\n            <span class=\"sts-button sts-launch-button\" data-typeIdentifier=\"picMock2\" title=\"PIC Mock 2\">\n              <img src=\"picMock2\/runtime\/media\/tool-icon.svg\" alt=\"PIC Mock 2\"\/>\n            <\/span>\n            <div class=\"sts-container sts-hidden-container sts-picMock2-container\">\n              <!-- Tool content here -->\n            <\/div>\n          <\/div>",
+            "libraries": [
+
+            ],
+            "properties": {
+              "is": {
+
+              },
+              "position": "-1",
+              "toolbarId": "sts-studentToolbar"
+            },
+            "entryPoint": "pic-mock-2.js"
+          },
+          "portableinfocontrol_556f08e211bf6383569033": {
+            "serial": "portableinfocontrol_556f08e211bf6383569033",
+            "qtiClass": "infoControl",
+            "attributes": {
+              "title": "PIC Mock 3",
+              "class": "sts-scope sts-tmp-element"
+            },
+            "debug": {
+              "relatedItem": "item_556f08e1e8b38617090200"
+            },
+            "typeIdentifier": "picMock3",
+            "markup": "<div id=\"sts-picMock3\" class=\"sts-toolcontainer\" data-position=\"3\">\n            <span class=\"sts-button sts-launch-button\" data-typeIdentifier=\"picMock3\" title=\"PIC Mock 3\">\n              <img src=\"picMock3\/runtime\/media\/tool-icon.svg\" alt=\"PIC Mock 3\"\/>\n            <\/span>\n            <div class=\"sts-container sts-hidden-container sts-picMock3-container\">\n              <!-- Tool content here -->\n            <\/div>\n          <\/div>",
+            "libraries": [
+
+            ],
+            "properties": {
+              "movable": "",
+              "theme": "tao-light",
+              "position": "3",
+              "toolbarId": "sts-studentToolbar"
+            },
+            "entryPoint": "pic-mock-3.js"
+          },
+          "portableinfocontrol_556f08e211c79279799350": {
+            "serial": "portableinfocontrol_556f08e211c79279799350",
+            "qtiClass": "infoControl",
+            "attributes": {
+              "title": "Student Toolbar",
+              "class": "sts-scope"
+            },
+            "debug": {
+              "relatedItem": "item_556f08e1e8b38617090200"
+            },
+            "typeIdentifier": "studentToolbar",
+            "markup": "<div class=\"sts-scope\">\n            <div id=\"sts-studentToolbar\" class=\"sts-container sts-studentToolbar-container sts-movable-container\">\n              <div class=\"sts-title-bar\">\n                <div class=\"sts-title\">Student Toolbar<\/div>\n              <\/div>\n              <div class=\"sts-content\">\n                <!-- Actual tools go here -->\n              <\/div>\n            <\/div>\n          <\/div>",
+            "libraries": [
+
+            ],
+            "properties": {
+              "position": "100",
+              "toolbarId": "sts-studentToolbar"
+            },
+            "entryPoint": "pic-mock-studentToolbar.js"
+          },
             "interaction_choiceinteraction_546cb89e04090230494786": {
                 "serial": "interaction_choiceinteraction_546cb89e04090230494786",
                 "qtiClass": "choiceInteraction",

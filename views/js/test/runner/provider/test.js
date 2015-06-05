@@ -5,6 +5,7 @@ define([
     'taoQtiItem/runner/provider/qti',
     'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function($, _, itemRunner, qtiRuntimeProvider, itemData){
+    'use strict';
 
     var containerId = 'item-container';
 
@@ -403,6 +404,89 @@ define([
                 assert.ok(typeof responses[0] === 'object' , 'the response is an object');
                 assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
                 assert.equal(responses[0].RESPONSE.base.identifier, 'Atlantis', 'the response contains the set value');
+
+                QUnit.start();
+            })
+            .init()
+            .render(container);
+    });
+
+
+    module('Provider PIC', {
+        teardown : function(){
+            //reset the provides
+            itemRunner.providers = undefined;
+        }
+    });
+
+    QUnit.asyncTest('Get the list of PIC', function(assert){
+        QUnit.expect(17);
+
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemData)
+            .on('listpic', function(picManager){
+                assert.ok(typeof picManager === 'object', 'the pic manager is an object');
+                assert.ok(typeof picManager.getList === 'function', 'the pic manager has a getList method');
+
+                var picList = picManager.getList();
+
+                assert.ok(picList instanceof Array, 'the list is an array');
+                assert.equal(picList.length, 4, 'the list contains 4 items');
+                _.each(picList, function(pic, i) {
+                    assert.ok(typeof pic === 'object' , 'element ' + i + ' is an object');
+                    assert.ok(typeof pic.getPic === 'function', 'the pic manager has a getPic method');
+                    assert.equal(pic.getPic().qtiClass, 'infoControl', 'element ' + i + ' is a PIC manager');
+                });
+
+                console.log('getList()', picList)
+                QUnit.start();
+            })
+            .init()
+            .render(container);
+    });
+
+    QUnit.asyncTest('Get a particular PIC', function(assert){
+        QUnit.expect(17);
+
+        var container = document.getElementById(containerId);
+
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemData)
+            .on('listpic', function(picManager){
+                assert.ok(typeof picManager === 'object', 'the pic manager is an object');
+                assert.ok(typeof picManager.getPic === 'function', 'the pic manager has a getPic method');
+
+                var pic;
+
+                pic = picManager.getPic('picMock1');
+                assert.ok(typeof pic === 'object' , 'the pic manager is an object');
+                assert.ok(typeof pic.getPic === 'function', 'the pic manager has a getPic method');
+                assert.ok(typeof pic.getSerial === 'function', 'the pic manager has a getSerial method');
+                assert.ok(typeof pic.getTypeIdentifier === 'function', 'the pic manager has a getTypeIdentifier method');
+                assert.equal(pic.getPic().qtiClass, 'infoControl', 'it\'s a PIC manager');
+                assert.equal(pic.getTypeIdentifier(), 'picMock1', 'the PIC has the right identifier');
+                assert.equal(pic.getSerial(), 'portableinfocontrol_556f08e21039e128137685', 'the PIC has the right serial');
+
+                pic = picManager.getPic('portableinfocontrol_556f08e211b49955612514');
+                assert.ok(typeof pic.getPic === 'function', 'the pic manager has a getPic method');
+                assert.ok(typeof pic.getSerial === 'function', 'the pic manager has a getSerial method');
+                assert.ok(typeof pic.getTypeIdentifier === 'function', 'the pic manager has a getTypeIdentifier method');
+                assert.equal(pic.getPic().qtiClass, 'infoControl', 'it\'s a PIC manager');
+                assert.equal(pic.getTypeIdentifier(), 'picMock2', 'the PIC has the right identifier');
+                assert.equal(pic.getSerial(), 'portableinfocontrol_556f08e211b49955612514', 'the PIC has the right serial');
+
+                console.log('getPic("picMock2")', pic)
+
+                pic = picManager.getPic('portableinfocontrol_1234567890123456789012');
+                assert.ok(typeof pic === 'undefined' , 'the unknown pic is undefined');
 
                 QUnit.start();
             })
