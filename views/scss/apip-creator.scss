@@ -1,17 +1,46 @@
 @import "inc/bootstrap";
 
 #apip-creator-scope{
-    #authoringBack {
-        span {
-            position: relative;
-            top: -1px;
-            &.icon-left {
-                @include font-size(20);
-                top: 3px;
-                padding-right: 6px;
+    .item-editor-action-bar{
+        position:relative;
+        #item-editor-label {
+            width: 30%;
+            position: absolute;
+            // must be _below_ actions
+            z-index: 5;
+            left: 35%;
+            color: white(.9);
+            top: 7px;
+            text-shadow: 1px 1px 0 blacken($info, .2);
+            font-weight:bold;
+        }
+        #authoringBack {
+            span {
+                position: relative;
+                top: -1px;
+                &.icon-left {
+                    @include font-size(20);
+                    top: 3px;
+                    padding-right: 6px;
+                }
+            }
+            margin-right:10px;
+        }
+        .inclusion-order-container{
+            position: absolute;
+            right: 5px;
+            label{
+                cursor : default;
+                color: whiten($info, .9);
+                padding-right:5px;
+            }
+            .select2-choice{
+                background-color: whiten($info, .9);
+            }
+            .select2-dropdown-open .select2-choice{
+                background-color: white;
             }
         }
-        margin-right:10px;
     }
     .qti-element-selector{
         .element{
@@ -44,21 +73,6 @@
                     position:relative;
                 }
             }
-        }
-    }
-    .inclusion-order-container{
-        position: absolute;
-        right: 5px;
-        label{
-            cursor : default;
-            color: whiten($info, .9);
-            padding-right:5px;
-        }
-        .select2-choice{
-            background-color: whiten($info, .9);
-        }
-        .select2-dropdown-open .select2-choice{
-            background-color: white;
         }
     }
 }

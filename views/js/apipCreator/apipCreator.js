@@ -34,10 +34,15 @@ define([
         console.log(config.properties.xml);
         console.log(xmlDoc);
         console.log(serializer.serialize(xmlDoc));
+        initLabel($container, config);
         
         inclusionOrderSelector.render($actionBar);
 //        qtiElementSelector.render($editorInner, xmlDoc);
         initEvents($container);
+    }
+    
+    function initLabel($container, config){
+        $container.find('#item-editor-label').html(config.properties.label);
     }
     
     function initEvents($container){
