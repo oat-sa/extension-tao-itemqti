@@ -26,23 +26,30 @@ define([
     function init(config){
         
         var $container = $('#apip-creator-scope');
-        var $actionBar = $container.find('.item-editor-action-bar');
-        var $editorInner = $container.find('#item-editor-scroll-inner');
         var xmlDoc = parser.parse(config.properties.xml);
         
         console.log(config);
         console.log(config.properties.xml);
         console.log(xmlDoc);
         console.log(serializer.serialize(xmlDoc));
-        initLabel($container, config);
         
-        inclusionOrderSelector.render($actionBar);
-//        qtiElementSelector.render($editorInner, xmlDoc);
-        initEvents($container);
+        initLabel($container, config);
+        initInclusionOrderSelector($container, config);
+        initQtiElementSelector($container, config);
+        initEvents($container, config);
     }
     
     function initLabel($container, config){
         $container.find('#item-editor-label').html(config.properties.label);
+    }
+    
+    function initInclusionOrderSelector($container, config){
+        inclusionOrderSelector.render($container.find('.item-editor-action-bar'));
+    }
+    
+    function initQtiElementSelector($container, config){
+        return;
+        qtiElementSelector.render($container.find('#item-editor-scroll-inner'), xmlDoc);
     }
     
     function initEvents($container){
