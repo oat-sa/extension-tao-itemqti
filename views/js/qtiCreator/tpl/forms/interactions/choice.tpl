@@ -33,3 +33,15 @@
         </span>
     </div>
 </div>
+
+
+
+<div class="panel">
+    <h3>{{__ "List Style"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)'}}
+        </span>
+
+    <select data-list-style/>
+</div>
