@@ -2,6 +2,8 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"
+    xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" 
+    xmlns:html5="html5"
     xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p2_v1p0.xsd
                         http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiextv2p2_v1p0.xsd
                         http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd"

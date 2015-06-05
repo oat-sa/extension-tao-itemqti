@@ -29,7 +29,7 @@ define([
      * @param {object} apipItem apipItem creator api instance 
      * @see {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
      * @param {type} node XML element node. If not given then new empty node will be created and appended to the item XML.
-     * @returns {accessElement_L19.AccessElement}
+     * @returns {object} AccessElement instance
      */
     function AccessElement(apipItem, node) {
         if (node === undefined) {
@@ -46,15 +46,24 @@ define([
      */
     AccessElement.prototype.createXMLNode = function createXMLNode(apipItem) {
         var accessElementNum = apipItem.xpath('//apip:accessElement').length,
-            accessElementNode = apipItem.createNode(
-                'apip',
-                'accessElement',
-                {"identifier" : ('ae' + accessElementNum)}
-            ),
+            identifier,
+            accessElementNode,
             accessElementInfoNode = apipItem.createNode('apip', 'relatedElementInfo');
+
+        do {
+            accessElementNum++;
+            identifier = 'ae' + accessElementNum;
+        } while (apipItem.xpath("//apip:accessElement[@identifier='" + identifier + "']").length > 0);
+
+        accessElementNode = apipItem.createNode(
+            'apip',
+            'accessElement',
+            {"identifier" : ('ae' + accessElementNum)}
+        );
 
         accessElementNode.appendChild(accessElementInfoNode);
         apipItem.xpath('//apip:accessibilityInfo')[0].appendChild(accessElementNode);
+
         return accessElementNode;
     };
 
@@ -91,14 +100,14 @@ define([
             contentLinkInfo,
             accessElementInfoNode = that.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:relatedElementInfo"),
             linkingMethodNode;
-    
+
         if (!qtiLinkIdentifierRef) {
             do {
                 qtiLinkIdentifierRef = qtiElement.data.localName + (new Date()).getTime();
-            } while (that.apipItem.xpath("qti:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0)
+            } while (that.apipItem.xpath("qti:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
             qtiElement.data.setAttribute('id', qtiLinkIdentifierRef);
         }
-        
+
         contentLinkInfo = that.apipItem.createNode(
             'apip',
             'contentLinkInfo',
@@ -142,7 +151,7 @@ define([
         var that = this,
             result = [],
             accessElementInfoNodes = this.apipItem.xpath("apip:relatedElementInfo/*", this.data);
-    
+
         _.forEach(accessElementInfoNodes, function (accessElementInfoNode) {
             if (!accessElementInfoType || accessElementInfoType === accessElementInfoNode.localName) {
                 result.push(new AccessElementInfo(that.apipItem, accessElementInfoNode));
@@ -164,7 +173,7 @@ define([
         var that = this,
             elementInfo = new AccessElementInfo(that.apipItem, null, accessElementInfoType, options),
             relatedElementInfoNode = this.apipItem.xpath("apip:relatedElementInfo", this.data)[0];
-    
+
         relatedElementInfoNode.appendChild(elementInfo.data);
         return elementInfo;
     };

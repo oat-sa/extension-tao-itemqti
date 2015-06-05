@@ -164,4 +164,19 @@ require([
         accessElement.setInclusionOrder('textOnlyDefaultOrder', 7);
         QUnit.ok(apipItem.xpath("//apip:textOnlyDefaultOrder/apip:elementOrder[@identifierRef='" + identifier + "']/apip:order")[0].innerHTML == 7);
     });
+    
+    QUnit.test("accessElement.createXMLNode()", function () {
+        var apipItem = new ApipItem(xml),
+            accessElement = apipItem.getAccessElementBySerial('accessElement2'),
+            node1 = accessElement.createXMLNode(apipItem),
+            node2 = accessElement.createXMLNode(apipItem),
+            node3;
+            
+        QUnit.ok(node1.getAttribute('identifier') !== node2.getAttribute('identifier'));
+        
+        node1.parentNode.removeChild(node1);
+        node3 = accessElement.createXMLNode(apipItem);
+        
+        QUnit.ok(node2.getAttribute('identifier') != node3.getAttribute('identifier'));
+    });
 });

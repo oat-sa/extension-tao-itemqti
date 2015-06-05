@@ -26,7 +26,7 @@ define([
     'taoQtiItem/apipCreator/helper/jquery.xpath.min'
 ], function (_, $, parser, serializer, QtiElement, AccessElement) {
     'use strict';
-    
+
     /**
      * Instanciate an creator api that will works on an APIP authoring model
      * 
@@ -59,7 +59,7 @@ define([
             }
         });
     };
-    
+
     /**
      * Add serial attributes to node including nested nodes.
      * @param {object} node XML node
@@ -67,19 +67,27 @@ define([
      */
     ApipItem.prototype.addSerialAttr = function (node) {
         var that = this,
-            serial = node.localName + (that.xpath('//' + node.nodeName).length + 1);
-    
-        if(!node.getAttribute('serial')) {
+            serial,
+            num = that.xpath("//*[local-name() = '" + node.localName + "']").length;
+
+        do {
+            num++;
+            serial = node.localName + num;
+        } while (that.xpath("//*[@serial='" + serial + "']").length > 0);
+
+        if (!node.getAttribute('serial')) {
             node.setAttribute('serial', serial);
         }
-        
+
         _.forEach(node.childNodes, function (childNode) {
-            that.addSerialAttr(childNode);
+            if (typeof childNode === 'object' && childNode.nodeType === 1) {
+                that.addSerialAttr(childNode);
+            }
         });
-        
+
         return node;
     };
-    
+
     /**
      * Create xml node
      * @param {string} namespace
@@ -91,17 +99,17 @@ define([
         var that = this,
             namespaceURI = that.XMLNS[namespace] ? that.XMLNS[namespace] : 'http://www.w3.org/1999/xhtml',
             node = that.apipDoc.createElementNS(namespaceURI, namespace + ":" + name);
-    
+
         if (attributes) {
             _.forEach(attributes, function (val, attrName) {
                 node.setAttribute(attrName, val);
             });
         }
-        
+
         that.addSerialAttr(node);
         return node;
     };
-    
+
     /**
      * Get a clone of the parsed item body
      * This will be used to generate the (main) item selecting view for the apip authoring tool
@@ -157,7 +165,7 @@ define([
                 collection.push(new AccessElement(that, node));
             });
         }
-        
+
         if (collection.length === 0) {
             result = null;
         } else {

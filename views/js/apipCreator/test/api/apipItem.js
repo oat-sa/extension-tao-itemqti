@@ -34,7 +34,7 @@ define([
         var qtiChoiceElement = apipItem.getQtiElementBySerial('simpleChoice1'),
             qtiImgElement = apipItem.getQtiElementBySerial('img1'),
             qtiNamespaceDivElement = apipItem.getQtiElementBySerial('div2');
-
+        
         QUnit.equal(typeof qtiChoiceElement, 'object');
         QUnit.ok(qtiChoiceElement.data.tagName && qtiChoiceElement.data.tagName === 'simpleChoice');
         QUnit.equal(qtiChoiceElement.serial, 'simpleChoice1');
@@ -45,7 +45,7 @@ define([
         QUnit.equal(qtiImgElement.serial, 'img1');
         
         QUnit.equal(typeof qtiNamespaceDivElement, 'object');
-        QUnit.ok(qtiNamespaceDivElement.data.tagName && qtiNamespaceDivElement.data.tagName === 'div');
+        QUnit.ok(qtiNamespaceDivElement.data.tagName && qtiNamespaceDivElement.data.localName === 'div');
         QUnit.equal(qtiNamespaceDivElement.serial, 'div2');
 
         QUnit.equal(apipItem.getQtiElementBySerial('wrongSerial'), null);
@@ -72,5 +72,22 @@ define([
 
         QUnit.equal($(xml).find('[serial]').length, 0);
         QUnit.equal($(xml).find('assessmentItem').length, 1);
+    });
+    
+    QUnit.test("creator.addSerialAttr()", function () {
+        var apipItem = new ApipItem(xml),
+            spanNum = apipItem.$apipDoc.find('span').length,
+            penultQtiElement = apipItem.getQtiElementBySerial('span' + (spanNum-1)),
+            qtiElement = apipItem.getQtiElementBySerial('span' + spanNum);
+        
+        QUnit.equal(penultQtiElement.serial, 'span' + (spanNum-1));
+        QUnit.equal(qtiElement.serial, 'span' + spanNum);
+        
+        penultQtiElement.data.setAttribute('serial', 'span' + (spanNum + 1));
+        qtiElement.data.removeAttribute('serial');
+        
+        apipItem.addSerialAttr(qtiElement.data);
+        
+        QUnit.equal(apipItem.xpath("//*[@serial='" + qtiElement.data.getAttribute('serial') + "']").length , 1);
     });
 });
