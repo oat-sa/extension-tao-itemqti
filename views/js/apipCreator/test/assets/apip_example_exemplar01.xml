@@ -28,7 +28,7 @@
     <itemBody>
         <div id="div1">
             <img id="image1" height="165" width="250"
-                src="apip_exemplar01resources/apip_exemplar01_figure.svg"
+                src="http://www.taotesting.com/wp-content/uploads/2014/09/oat-header-logo.png"
                 alt="Figure showing Rectangle ABCD divided into 12 equal boxes. 4 of the boxes are shaded."/>
             <span id="labelA">A</span>
             <span id="labelB">B</span>

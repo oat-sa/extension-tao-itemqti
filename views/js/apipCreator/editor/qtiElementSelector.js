@@ -30,7 +30,7 @@ define([
 
     var _renderers = {
         img : function(){
-            return '<img src="' + this.src + '"/>';
+            return '<img src="' + this.getAttribute('src') + '"/>';
         },
         math : function(){
             return '<math>' + this.innerHTML + '</math>';
@@ -53,17 +53,15 @@ define([
     function renderSelectorElement(elementNode){
 
         var rendering, tplData;
-        var nodeName = elementNode.nodeName.toLowerCase();
-        var serial;
-//        var serial = elementNode.getAttribute('serial');
-        var model = _.find(_selectables, {id : nodeName});
+        var nodeName = elementNode.tagName;
+        var model = _.find(_selectables, {qtiClass : nodeName});
+        if(elementNode.nodeType === 1 && model){
 
-        if(model){
             tplData = {
                 qtiClass : model.qtiClass,
                 label : model.label,
                 content : '',
-                serial : serial
+                serial : elementNode.getAttribute('serial')
             };
 
             //render inner content:
@@ -94,7 +92,7 @@ define([
     }
 
     function render($container, itemBodyDOM){
-
+        
         var selectorBody = renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
 

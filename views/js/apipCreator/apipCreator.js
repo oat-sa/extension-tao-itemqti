@@ -17,25 +17,19 @@
  *
  */
 define([
-    'taoQtiItem/apipCreator/helper/parser',
-    'taoQtiItem/apipCreator/helper/serializer',
+    'taoQtiItem/apipCreator/api/apipItem', 
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'taoQtiItem/apipCreator/editor/qtiElementSelector'
-], function(parser, serializer, inclusionOrderSelector, qtiElementSelector){
+], function(ApipItem, inclusionOrderSelector, qtiElementSelector){
 
     function init(config){
         
         var $container = $('#apip-creator-scope');
-        var xmlDoc = parser.parse(config.properties.xml);
-        
-        console.log(config);
-        console.log(config.properties.xml);
-        console.log(xmlDoc);
-        console.log(serializer.serialize(xmlDoc));
+        var apipItem = new ApipItem(config.properties.xml);
         
         initLabel($container, config);
         initInclusionOrderSelector($container, config);
-        initQtiElementSelector($container, config);
+        initQtiElementSelector($container, config, apipItem);
         initEvents($container, config);
     }
     
@@ -47,9 +41,8 @@ define([
         inclusionOrderSelector.render($container.find('.item-editor-action-bar'));
     }
     
-    function initQtiElementSelector($container, config){
-        return;
-        qtiElementSelector.render($container.find('#item-editor-scroll-inner'), xmlDoc);
+    function initQtiElementSelector($container, config, apipItem){
+        qtiElementSelector.render($container.find('#item-editor-scroll-inner'), apipItem.getItemBodyModel());
     }
     
     function initEvents($container){
