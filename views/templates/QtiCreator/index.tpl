@@ -2,7 +2,6 @@
 use oat\tao\helpers\Template;
 ?>
 
-<link rel="stylesheet" href="<?= Template::css('qti.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 
@@ -297,6 +296,6 @@ use oat\tao\helpers\Template;
 requirejs.config({
    config: {
        'taoQtiItem/controller/creator/main' : <?= json_encode(get_data('config')) ?>
-   } 
+   }
 });
 </script>
