@@ -17,41 +17,144 @@
  *
  */
 define([
+    'lodash',
     'taoQtiItem/apipCreator/api/authoringObject',
     'taoQtiItem/apipCreator/api/accessElementInfo/registry'
-], function(authoringObject, registry){
-
+], function (_, authoringObject, registry) {
     'use strict';
 
-    function AccessElementInfo(apipItem){
-        authoringObject.init(this, apipItem);
+    function AccessElementInfo(apipItem, node, accessElementInfoType, options) {
+        if (!node) {
+            node = this.createXMLNode(apipItem, accessElementInfoType, options);
+        }
+        authoringObject.init(this, apipItem, node);
     }
 
-    AccessElementInfo.prototype.remove = function remove(){
-        //access elementInfos may require some serial to make it easier to find
+    /**
+     * Create xml node of appropriate type.
+     * @param {object} apipItem apipItem creator api instance 
+     * @see {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
+     * @returns {Object} created XML node
+     */
+    AccessElementInfo.prototype.createXMLNode = function createXMLNode(apipItem, accessElementInfoType, options) {
+        return this.getImplementation(accessElementInfoType).createXMLNode(apipItem, options);
     };
 
     /**
-     * Get the attribute value for the access element info
+     * Remove accessElementInfo node.
+     * @returns {undefined}
+     */
+    AccessElementInfo.prototype.remove = function remove() {
+        this.data.parentNode.removeChild(this.data);
+    };
+
+    /**
+     * Set the attribute value for the access element
      * 
-     * @param {Object} accessElementInfo
+     * Allowed names listed in the <code>attributes</code> property of appropriate elementInfo implementation.
+     * If node is not exists then will be attempt to create it (in case if <code>creator</code> function defined for attribute).
+     * 
+     * @param {String} name
+     * @param {Mixed} value
+     * @returns {Mixed}
+     */
+    AccessElementInfo.prototype.setAttribute = function (name, value) {
+        var node = this.getAttributeNode(name),
+            nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
+            nameParts = name.split('.'),
+            attributes = this.getImplementation().attributes,
+            result = null;
+
+        if (attributes[nameWithoutIndex]) {
+            if (!node && typeof attributes[nameWithoutIndex].creator === 'function') {
+                attributes[nameWithoutIndex].creator(this);
+                node = this.getAttributeNode(name);
+            }
+            
+            if (node) {
+                if (attributes[nameWithoutIndex].type === 'attribute') {
+                    node.setAttribute(nameParts.pop(), value);
+                } else {
+                    node.innerHTML = value;
+                }
+                result = value;
+            }
+        }    
+
+        return result;
+    };
+
+    /**
+     * Get the attribute value for the spoken access element
+     * 
+     * Allowed names listed in the <code>attributes</code> property of appropriate elementInfo implementation. 
+     * 
      * @param {String} name
      * @returns {Mixed}
      */
-    AccessElementInfo.prototype.getAttribute = function getAttribute(name){
-        return;
-    };
+     AccessElementInfo.prototype.getAttribute = function (name) {
+        var node = this.getAttributeNode(name),
+            nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
+            nameParts = name.split('.'),
+            attributes = this.getImplementation().attributes,
+            result = null;
 
+        if (node) {
+            if (attributes[nameWithoutIndex].type === 'attribute') {
+                result = node.getAttribute(nameParts.pop());
+            } else {
+                result = node.innerHTML;
+            }
+        }
+
+        return result;
+    };
+    
     /**
-     * Set the attribute value for the access element info
-     * 
-     * @param {Object} accessElementInfo
-     * @param {String} name
-     * @param {Mixed} value
-     * @returns {Object} the accessElementInfo itself for chaining
+     * Get attribute node by name. Attribute names listed in the <b>attributes</b> property of appropriate elementInfo implementation.
+     * @param {type} name
+     * @returns {unresolved}
      */
-    AccessElementInfo.prototype.setAttribute = function setAttribute(name, value){
-        return this;
+    AccessElementInfo.prototype.getAttributeNode = function (name) {
+        var nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
+            node,
+            result = null,
+            xpath = '',
+            attributes = this.getImplementation().attributes,
+            nameParts = name.split('.');
+    
+        if (attributes[nameWithoutIndex]) {
+            _.forEach(nameParts, function (val, num) {
+                if ((num + 1) === nameParts.length && attributes[nameWithoutIndex].type === 'attribute') {//last part of path is attribute name
+                    xpath += "[@" + val  + "]";
+                } else { //part of path is node name
+                    if (num !== 0) {
+                        xpath += "/";
+                    }
+                    xpath += "apip:" + val;
+                }
+            });
+
+            node = this.apipItem.xpath(xpath, this.data);
+            result = node.length ? node[0] : null;
+        }
+
+        return result;
+    };
+    
+    /**
+     * Get the "parent" access element
+     * 
+     * @returns {accessElement}
+     */
+    AccessElementInfo.prototype.getAssociatedAccessElement = function getAssociatedAccessElement() {
+        var node = this.apipItem.xpath("//*[@serial='" + this.serial + "']/ancestor::apip:accessElement");
+        
+        if (node.length) {
+            return this.apipItem.getAccessElementBySerial(node[0].getAttribute('serial'));
+        } else {
+            return null;
+        }
     };
 
     /**
@@ -59,8 +162,12 @@ define([
      * 
      * @returns {accessElement}
      */
-    AccessElementInfo.prototype.getAssociatedAccessElement = function getAssociatedAccessElement(){
-        return {};
+    AccessElementInfo.prototype.getImplementation = function getImplementation(accessElementInfoType) {
+        accessElementInfoType = accessElementInfoType || this.data.localName;
+        if (!registry[accessElementInfoType]) {
+            throw new TypeError(accessElementInfoType + ' type is not supported.');
+        }
+        return registry[accessElementInfoType];
     };
 
     return AccessElementInfo;
