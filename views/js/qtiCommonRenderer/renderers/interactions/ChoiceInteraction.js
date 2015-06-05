@@ -237,7 +237,7 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      *
      * @param {Object} interaction - the interaction instance
-     * @returns {Object} the response formated in PCI
+     * @returns {Object} the response formatted in PCI
      */
     var getResponse = function(interaction){
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
@@ -249,9 +249,11 @@ define([
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
      */
-    var getCustomData = function(interaction, data){
+    var getCustomData = function(interaction, data) {
+        var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
-            horizontal : (interaction.attr('orientation') === 'horizontal')
+            horizontal : (interaction.attr('orientation') === 'horizontal'),
+            listStyle: listStyles.pop()
         });
     };
 
