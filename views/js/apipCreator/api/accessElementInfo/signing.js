@@ -16,9 +16,9 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
+define([], function () {
     'use strict';
-    
+
     var attributes = {
         "signFileASL.videoFileInfo.fileHref" : {
             "type" : 'textNode'
@@ -30,16 +30,16 @@ define([], function(){
             "type" : 'attribute'
         },
         "signFileASL.videoFileInfo.startCue" : {
-            "type" : 'textNode',
+            "type" : 'textNode'
         },
         "signFileASL.videoFileInfo.endCue" : {
-            "type" : 'textNode',
+            "type" : 'textNode'
         },
         "signFileASL.boneAnimationVideoFile.fileHref" : {
-            "type" : 'textNode',
+            "type" : 'textNode'
         },
         "signFileSignedEnglish.videoFileInfo.fileHref" : {
-            "type" : 'textNode',
+            "type" : 'textNode'
         },
         "signFileSignedEnglish.videoFileInfo.contentLinkIdentifier" : {
             "type" : 'attribute'
@@ -57,14 +57,14 @@ define([], function(){
             "type" : 'textNode'
         }
     };
-    
+
     /**
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
      * 
      * @returns {String} the rendered HTML
      */
-    function getDescriptiveView(accessElementInfo){
+    function getDescriptiveView(accessElementInfo) {
         return 'this is a signing access element info';
     }
 
@@ -74,7 +74,7 @@ define([], function(){
      * @param {Object} accessElementInfo
      * @returns {String}
      */
-    function getFormView(accessElementInfo){
+    function getFormView(accessElementInfo) {
         return '<form></form>';
     }
 
@@ -91,14 +91,14 @@ define([], function(){
             accessElementNode = apipItem.createNode('apip', 'signing'),
             signTypeNode = apipItem.createNode('apip', type),
             videoFileInfoNode = apipItem.createNode('apip', 'videoFileInfo', {contentLinkIdentifier : ''});
-            
+
         videoFileInfoNode.appendChild(apipItem.createNode('apip', 'fileHref', {contentLinkIdentifier : ''}));
         videoFileInfoNode.appendChild(apipItem.createNode('apip', 'startCue', {contentLinkIdentifier : ''}));
         videoFileInfoNode.appendChild(apipItem.createNode('apip', 'endCue', {contentLinkIdentifier : ''}));
-        
+
         signTypeNode.appendChild(videoFileInfoNode);
         accessElementNode.appendChild(signTypeNode);
-        
+
         return accessElementNode;
     }
 

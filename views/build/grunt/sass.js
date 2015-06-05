@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     sass.taoqtiitem.files[root + 'css/item-creator.css'] = root + 'scss/item-creator.scss';
     sass.taoqtiitem.files[root + 'css/qti.css'] = root + 'scss/qti.scss';
     sass.taoqtiitem.files[root + 'css/qti-runner.css'] = root + 'scss/qti-runner.scss';
-
+    sass.taoqtiitem.files[root + 'css/apip-creator.css'] = root + 'scss/apip-creator.scss';
 
     watch.taoqtiitemsass = {
         files : [root + 'scss/**/*.scss'],

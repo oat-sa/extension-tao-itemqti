@@ -79,8 +79,8 @@ define(['lodash'], function (_) {
     function createAttribute(accessElementInfo, name) {
         var attributeNode,
             apipItem = accessElementInfo.apipItem;
-    
-        switch(name) {
+
+        switch (name) {
             case 'audioFileInfo':
                 var attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
                 attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
@@ -89,7 +89,7 @@ define(['lodash'], function (_) {
                 accessElementInfo.data.appendChild(attributeNode);
             break;
         }
-        
+
         return attributeNode;
     }
 
@@ -112,7 +112,7 @@ define(['lodash'], function (_) {
     function getFormView(accessElementInfo) {
         return '<form></form>';
     }
-    
+
     /**
      * Create new xml node.
      * @param {object} apipItem
@@ -124,7 +124,7 @@ define(['lodash'], function (_) {
         accessElementNode.appendChild(apipItem.createNode('apip', 'textToSpeechPronunciation', {contentLinkIdentifier : ''}));
         return accessElementNode;
     }
-    
+
     return {
         typeId : 'spoken',
         label : 'spoken',
