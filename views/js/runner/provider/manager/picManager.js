@@ -32,6 +32,7 @@ define([
      */
     var picManager = {
         /**
+         * Creates a manager for a particular PIC
          *
          * @param {Object} pic
          * @param {QtiItem} item
@@ -196,7 +197,7 @@ define([
      */
     var picManagerCollection = {
         /**
-         * Creates the collection from an Item
+         * Creates the collection of PIC from an Item
          *
          * @param {QtiItem} item
          * @returns {picManagerCollection}
