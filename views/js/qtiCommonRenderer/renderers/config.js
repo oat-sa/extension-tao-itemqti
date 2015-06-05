@@ -27,10 +27,10 @@ define([
 
     var config = module.config();
     var themes = _.defaults(config.themes || {}, {
-        base    : 'taoQtiItem/views/css/qti.css',
+        base    : 'taoQtiItem/views/css/qti-runner.css',
+        default : 'tao',
         available : {
-            light   : 'taoQtiItem/views/css/themes/light.css',
-            dark    : 'taoQtiItem/views/css/themes/dark.css'
+            tao   : 'taoQtiItem/views/css/themes/default.css',
         }
     });
 
