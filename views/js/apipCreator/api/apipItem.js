@@ -34,11 +34,12 @@ define([
      * @returns {Object}
      */
     function ApipItem(apipItemXML) {
+        var that = this;
         this.apipDoc = parser.parse(apipItemXML);
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {
             'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
-            'qti': 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2'
+            'xmlns' : that.apipDoc.documentElement.getAttribute('xmlns')
         };
     }
 
@@ -56,6 +57,8 @@ define([
         return $.xpath(context, xpath, function (prefix) {
             if (that.XMLNS[prefix]) {
                 return that.XMLNS[prefix];
+            } else {
+                return that.apipDoc.documentElement.getAttribute('xmlns');
             }
         });
     };
@@ -127,9 +130,9 @@ define([
      * @returns {Object} QtiElement instance
     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
-        var node = this.xpath("qti:itemBody//*[@serial='" + qtiElementSerial + "']"),
+        var node = this.xpath("xmlns:itemBody//*[@serial='" + qtiElementSerial + "']"),
             result = null;
-
+        
         if (node && node.length) {
             result = new QtiElement(this, node[0]);
         }
