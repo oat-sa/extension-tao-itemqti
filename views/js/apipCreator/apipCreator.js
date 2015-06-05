@@ -19,44 +19,51 @@
 define([
     'taoQtiItem/apipCreator/api/apipItem', 
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
-    'taoQtiItem/apipCreator/editor/qtiElementSelector'
-], function(ApipItem, inclusionOrderSelector, qtiElementSelector){
+    'taoQtiItem/apipCreator/editor/qtiElementSelector',
+    'taoQtiItem/apipCreator/editor/formBuilder'
+], function(ApipItem, inclusionOrderSelector, qtiElementSelector, formBuilder){
 
-    function init(config){
-        
-        var $container = $('#apip-creator-scope');
-        var apipItem = new ApipItem(config.properties.xml);
-        
-        initLabel($container, config);
-        initInclusionOrderSelector($container, config);
-        initQtiElementSelector($container, config, apipItem);
-        initEvents($container, config);
+    function ApipCreator($container, config){
+        this.$container = $container;
+        this.config = config;
+        this.inclusionOrderType = '';
+        this.apipItem = new ApipItem(config.properties.xml);
     }
     
-    function initLabel($container, config){
-        $container.find('#item-editor-label').html(config.properties.label);
-    }
-    
-    function initInclusionOrderSelector($container, config){
-        inclusionOrderSelector.render($container.find('.item-editor-action-bar'));
-    }
-    
-    function initQtiElementSelector($container, config, apipItem){
-        qtiElementSelector.render($container.find('#item-editor-scroll-inner'), apipItem.getItemBodyModel());
-    }
-    
-    function initEvents($container){
-        
-        $container.on('inclusionorderactivated', function(e, inclusionOrderType){
-           console.log('activated', inclusionOrderType); 
-        }).on('activated.qti-element-selector', function(e, qtiElementSerial){
-            //show contextual popup + load form
-        }).on('deactivated.qti-element-selector', function(){
-            //destroy contextual popup
-        });
-    }
-    
-    return {
-        init : init
+    ApipCreator.prototype.initLabel = function initLabel(){
+        this.$container.find('#item-editor-label').html(this.config.properties.label);
     };
+    
+    ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
+        inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'));
+    };
+    
+    ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
+        qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
+    };
+    
+    ApipCreator.prototype.initEvents = function initQtiElementSelector(){
+        
+        var self = this;
+        this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
+            
+           console.log('activated', inclusionOrderType); 
+           self.inclusionOrderType = inclusionOrderType;
+           
+        }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
+            
+            //show contextual popup + load form
+            var qtiElement = self.apipItem.getQtiElementBySerial(qtiElementSerial);
+            console.log('selected', qtiElementSerial, qtiElement);
+            console.log('item', self.apipItem.toString());
+            formBuilder.build($element, qtiElement);
+            
+        }).on('deactivated.qti-element-selector', function(){
+            
+            //destroy contextual popup
+            
+        });
+    };
+    
+    return ApipCreator;
 });

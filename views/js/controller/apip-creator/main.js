@@ -26,7 +26,7 @@ define([
     _,
     module,
     history,
-    apipCreator
+    ApipCreator
     ){
     
     'use strict';
@@ -49,7 +49,11 @@ define([
                 }
             });
             
-            apipCreator.init(config);
+            var apipCreator = new ApipCreator($('#apip-creator-scope'), config);
+            apipCreator.initLabel();
+            apipCreator.initInclusionOrderSelector();
+            apipCreator.initQtiElementSelector();
+            apipCreator.initEvents();
         }
     };
 });

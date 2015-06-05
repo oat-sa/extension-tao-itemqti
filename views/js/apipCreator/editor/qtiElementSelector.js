@@ -163,8 +163,8 @@ define([
     }
 
     function setQtiAccessElements($container, qtiElementSerial, inclusionOrder, accessElementSerials){
-        if(_.isArray(accessElementSerials) && accessElementSerials.lenght){
-            var $qtiElement = $container.find('.element[serial=' + qtiElementSerial + ']');
+        if(_.isArray(accessElementSerials) && accessElementSerials.length){
+            var $qtiElement = $container.find('.element[data-serial=' + qtiElementSerial + ']');
             $qtiElement.addClass('apipfied').addClass('apip-feature-' + inclusionOrder);
             var features = $qtiElement.data('apip-features') || {};
             if(!features[inclusionOrder]){

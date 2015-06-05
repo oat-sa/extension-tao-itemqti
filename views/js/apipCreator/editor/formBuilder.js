@@ -22,11 +22,11 @@ define([
     
     'use strict';
     
-    function buildForm($anchor, QtiElement){
-        
+    function buildForm($anchor, qtiElement){
+//        console.log('buildForm',  $anchor, qtiElement);
     }
     
     return {
-        buildForm : buildForm
+        build : buildForm
     };
 });
