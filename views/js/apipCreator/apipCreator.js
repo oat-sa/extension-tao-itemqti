@@ -17,7 +17,7 @@
  *
  */
 define([
-    'taoQtiItem/apipCreator/api/apipItem', 
+    'taoQtiItem/apipCreator/api/apipItem',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'taoQtiItem/apipCreator/editor/qtiElementSelector',
     'taoQtiItem/apipCreator/editor/formBuilder'
@@ -29,41 +29,58 @@ define([
         this.inclusionOrderType = '';
         this.apipItem = new ApipItem(config.properties.xml);
     }
-    
+
     ApipCreator.prototype.initLabel = function initLabel(){
         this.$container.find('#item-editor-label').html(this.config.properties.label);
     };
-    
+
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
         inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'));
     };
-    
+
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
         qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
     };
-    
+
     ApipCreator.prototype.initEvents = function initQtiElementSelector(){
-        
-        var self = this;
+
+        var formPopup,
+            self = this;
+
         this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
-            
-           console.log('activated', inclusionOrderType); 
-           self.inclusionOrderType = inclusionOrderType;
-           
+
+            console.log('activated', inclusionOrderType);
+            self.inclusionOrderType = inclusionOrderType;
+
         }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
-            
+
             //show contextual popup + load form
             var qtiElement = self.apipItem.getQtiElementBySerial(qtiElementSerial);
             console.log('selected', qtiElementSerial, qtiElement);
-            console.log('item', self.apipItem.toString());
-            formBuilder.build($element, qtiElement);
-            
+            console.log('item', self.apipItem.toString(), self.apipItem.toXML());
+            if(true || qtiElement){
+
+                //one popup at once
+                if(formPopup){
+                    formPopup.destroy();
+                }
+
+                //build form popup and keep the reference for later
+                formPopup = formBuilder.build($element, qtiElement, self.inclusionOrderType);
+
+            }else{
+                throw 'qti element not found in the apipItem model';
+            }
+
         }).on('deactivated.qti-element-selector', function(){
-            
+
             //destroy contextual popup
-            
+            //one popup at once
+            if(formPopup){
+                formPopup.destroy();
+            }
         });
     };
-    
+
     return ApipCreator;
 });
