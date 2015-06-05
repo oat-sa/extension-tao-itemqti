@@ -21,7 +21,7 @@ define([], function(){
     function init(instance, apipItem, node){
         instance.apipItem = apipItem;
         instance.data = node;
-        instance.serial = '';
+        instance.serial = node.getAttribute('serial');
         return instance;
     }
     

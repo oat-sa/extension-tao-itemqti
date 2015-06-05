@@ -33,6 +33,11 @@
             <span id="labelC">C</span>
             <span id="labelD">D</span>
         </div>
+        <pci:markup>
+            <html5:div class="textReaderInteraction qti-interaction" id="namespaceTest1">
+                Namespace test
+            </html5:div>
+        </pci:markup>
         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1"
             id="choicereduction">
             <prompt id="prompt">In the figure above, what fraction of the rectangle <em>ABCD</em> is
@@ -258,9 +263,9 @@
                             <apip:duration>3000</apip:duration>
                         </apip:audioFileInfo>
                         <apip:audioFileInfo contentLinkIdentifier="verbaltext000" mimeType="audio/mpeg">
-                            <apip:fileHref>apip_exemplar01resources/apip_exemplar01.mp3</apip:fileHref>
-                            <apip:startTime>1000</apip:startTime>
-                            <apip:duration>3000</apip:duration>
+                            <apip:fileHref>apip_exemplar01resources/apip_exemplar02.mp3</apip:fileHref>
+                            <apip:startTime>4000</apip:startTime>
+                            <apip:duration>6000</apip:duration>
                         </apip:audioFileInfo>
                     </apip:spoken>
                 </apip:relatedElementInfo>
