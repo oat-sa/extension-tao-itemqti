@@ -215,6 +215,15 @@ define([
         $(apipDoc).find('[serial]').removeAttr('serial');
         return serializer.serialize(apipDoc);
     };
+    
+    /**
+     * Dump the actual apipItem into a string object (for debugging)
+     * 
+     * @returns {String}
+     */
+    ApipItem.prototype.toString = function toString() {
+        return serializer.serialize(this.apipDoc);
+    };
 
     return ApipItem;
 });
