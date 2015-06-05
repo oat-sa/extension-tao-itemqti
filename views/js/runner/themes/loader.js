@@ -74,6 +74,7 @@ define(['jquery', 'lodash'], function($, _){
      */
     var enable = function enable($nodes){
         $nodes.prop('disabled', false)
+              .removeProp('disabled')
               .removeAttr('disabled');
     };
 
