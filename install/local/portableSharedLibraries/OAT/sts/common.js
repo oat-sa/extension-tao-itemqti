@@ -8,7 +8,7 @@ define([
     _,
     interact,
     rotator
-    ){
+){
 
     'use strict';
 
@@ -54,6 +54,7 @@ define([
             $launcher = $container.find('.sts-launch-button'),
             $closer   = $container.find('.sts-close'),
             $tool     = $container.find('.sts-container'),
+            $wrapper  = $container.closest('.qti-infoControl'),
             tool      = $tool[0],
             handleSelector = (function() {
                 var selectors = [];
@@ -87,7 +88,10 @@ define([
 //            });
 //        }
 
-
+        // forward the serial from the QTI wrapper element to the PIC container
+        if ($wrapper.length) {
+            $container.attr('data-pic-serial', $wrapper.data('serial'));
+        }
 
         $container.removeAttr('style');
 
