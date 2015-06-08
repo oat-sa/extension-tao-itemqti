@@ -76,6 +76,9 @@ define([
             content : formContent,
             controls : {
                 done:true
+            },
+            style : {
+                popupWidth : 750
             }
         });
     }
