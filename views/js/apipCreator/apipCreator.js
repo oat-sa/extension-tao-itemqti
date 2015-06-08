@@ -39,7 +39,7 @@ define([
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
-        qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
+        this.elementSelector = qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
     };
 
     ApipCreator.prototype.initEvents = function initQtiElementSelector(){
@@ -80,6 +80,7 @@ define([
         }).on('done.contextual-popup', function(){
             //done editing
             //blur the current selected element
+            self.elementSelector.deactivate();
         });
     };
 

@@ -97,7 +97,7 @@ define([
         $container.append(selectorTpl({selectorBody : selectorBody}));
 
         //make it also selectable:
-        selectable($container);
+        return selectable($container);
     }
 
     /**
@@ -149,6 +149,17 @@ define([
             }
 
         });
+        
+        return {
+            activate : function(serial){
+                var $element = $container.find('.element[data-serial="'+serial+'"]');
+                activateElement($element);
+            },
+            deactivate : function(){
+                deactivateElement($currentActive);
+                $currentActive.removeClass('hover');
+            }
+        };
     }
 
     function resetQtiAccessElements($container){
