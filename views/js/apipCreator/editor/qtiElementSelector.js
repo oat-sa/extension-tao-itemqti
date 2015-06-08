@@ -92,7 +92,7 @@ define([
     }
 
     function render($container, itemBodyDOM){
-        
+
         var selectorBody = renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
 
@@ -149,15 +149,17 @@ define([
             }
 
         });
-        
+
         return {
             activate : function(serial){
-                var $element = $container.find('.element[data-serial="'+serial+'"]');
+                var $element = $container.find('.element[data-serial="' + serial + '"]');
                 activateElement($element);
             },
             deactivate : function(){
-                deactivateElement($currentActive);
-                $currentActive.removeClass('hover');
+                if($currentActive){
+                    deactivateElement($currentActive);
+                    $currentActive.removeClass('hover');
+                }
             }
         };
     }

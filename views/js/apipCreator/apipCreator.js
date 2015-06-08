@@ -51,7 +51,10 @@ define([
 
             console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
-
+            
+            //blur the current selected element
+            self.elementSelector.deactivate();
+            
         }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
 
             //show contextual popup + load form
