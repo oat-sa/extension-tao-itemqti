@@ -8,9 +8,7 @@
             </ul>
         </div>
     </div>
-    <div class="feedback-info">
-        {{{usageInfo}}}
-    </div>
+    {{{usageInfo}}}
     <div class="accessElementInfo-form-content">
         {{{form}}}
     </div>

@@ -44,25 +44,25 @@ define([
         var aeModel = aeInfo.getImplementation();
         var formView = aeModel.getFormView(aeInfo);
         var htmlForm = formView.render();
-        var htmlUsageInfo = '';
-
+        var htmlUsageInfo, htmlAccessElementInfo, $form;
         var inclusionOrders = getRelatedInclusionOrder(aeInfo);
-        if(inclusionOrders.length){
+        
+        if(inclusionOrders.length > 1){
             //render ae usage info
             htmlUsageInfo = aeUsageInfoTpl({
                 usages : inclusionOrders
             });
         }
 
-        var accessElementInfo = accessElementInfoTpl({
+        htmlAccessElementInfo = accessElementInfoTpl({
             serial : aeInfo.serial,
             type : aeModel.typeId,
             usageInfo : htmlUsageInfo,
             form : htmlForm
         });
 
-        var $form = $(accessElementTpl({
-            accessElementInfo : accessElementInfo
+        $form = $(accessElementTpl({
+            accessElementInfo : htmlAccessElementInfo
         }));
 
         //bind events :
