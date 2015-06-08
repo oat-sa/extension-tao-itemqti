@@ -44,11 +44,11 @@ define([
             'xmlns' : that.apipDoc.documentElement.getAttribute('xmlns')
         };
         
-        accessibilityInfoNode = that.xpath('//apip:accessibilityInfo');
+        accessibilityInfoNode = that.xpath('//*:accessibilityInfo');
         
         if (accessibilityInfoNode.length === 0) {
             accessibilityInfoNode = that.createNode('apip', 'accessibilityInfo');
-            that.xpath('//apip:apipAccessibility')[0].appendChild(accessibilityInfoNode);
+            that.xpath('//*:apipAccessibility')[0].appendChild(accessibilityInfoNode);
         } 
     }
 
@@ -139,7 +139,7 @@ define([
      * @returns {Object} QtiElement instance
     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
-        var node = this.xpath("xmlns:itemBody//*[@serial='" + qtiElementSerial + "']"),
+        var node = this.xpath("*:itemBody//*[@serial='" + qtiElementSerial + "']"),
             result = null;
         
         if (node && node.length) {
@@ -168,7 +168,7 @@ define([
      */
     ApipItem.prototype.getAccessElementByAttr = function getAccessElementByAttr(attr, val) {
         var that = this,
-            nodes = this.xpath("//apip:accessElement[@" + attr + "='" + val + "']"),
+            nodes = this.xpath("//*:accessElement[@" + attr + "='" + val + "']"),
             collection = [],
             result;
 
@@ -195,13 +195,13 @@ define([
      * @returns {Array}
      */
     ApipItem.prototype.getAccessElementsByInclusionOrder = function getAccessElementsByInclusionOrder(inclusionOrderType) {
-        var nodes = this.xpath('//apip:' + inclusionOrderType + '/apip:elementOrder'),
+        var nodes = this.xpath('//*:' + inclusionOrderType + '/apip:elementOrder'),
             that = this,
             result,
             elementsList;
 
         elementsList = nodes.map(function (key, node) {
-            var orderNode = that.xpath('apip:order', node);
+            var orderNode = that.xpath('*:order', node);
             return {
                 accessElementIdentifier: node.getAttribute('identifierRef'),
                 order : orderNode[0].innerHTML

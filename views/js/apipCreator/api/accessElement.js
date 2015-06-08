@@ -81,7 +81,7 @@ define([
             result = [];
         
         _.forEach(contentLinks, function (link) {
-            var node = that.apipItem.xpath("//xmlns:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
+            var node = that.apipItem.xpath("//*:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
 
             if (node && node.length) {
                 result.push(new QtiElement(this, node[0]));
@@ -107,7 +107,7 @@ define([
         if (!qtiLinkIdentifierRef) {
             do {
                 qtiLinkIdentifierRef = qtiElement.data.localName + (new Date()).getTime();
-            } while (that.apipItem.xpath("qti:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
+            } while (that.apipItem.xpath("*:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
             qtiElement.data.setAttribute('id', qtiLinkIdentifierRef);
         }
 
