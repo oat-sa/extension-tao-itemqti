@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['lodash'], function (_) {
+define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, Form) {
     'use strict';
 
     var attributes = {

@@ -17,10 +17,11 @@
  *
  */
 define([
+    'lodash',
     'ui/contextualPopup',
     'taoQtiItem/apipCreator/tpl/form/accessElement',
     'taoQtiItem/apipCreator/tpl/form/aeUsageInfo'
-], function(contextualPopup, accessElementTpl, aeUsageInfoTpl){
+], function(_, contextualPopup, accessElementTpl, aeUsageInfoTpl){
 
     'use strict';
 
@@ -32,15 +33,15 @@ define([
     };
 
     function build($anchor, qtiElement, inclusionOrderType){
-        var $formContent = renderForm(qtiElement, inclusionOrderType);
-        return buildPopup($anchor, $formContent);
+        var $form = renderForm(qtiElement, inclusionOrderType);
+        return buildPopup($anchor, $form);
     }
 
     function renderForm(qtiElement, inclusionOrderType){
         var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
         var aeModel = aeInfo.getImplementation();
         var formView = aeModel.getFormView();
-        var htmlForm = formView.render(aeInfo);
+        var htmlForm = formView.render();
         var htmlUsageInfo = '';
         console.log(aeModel);
         
