@@ -19,9 +19,10 @@
 define([
     'lodash',
     'ui/contextualPopup',
-    'taoQtiItem/apipCreator/tpl/form/accessElement',
-    'taoQtiItem/apipCreator/tpl/form/aeUsageInfo'
-], function(_, contextualPopup, accessElementTpl, aeUsageInfoTpl){
+    'tpl!taoQtiItem/apipCreator/tpl/form/accessElement',
+    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo',
+    'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo'
+], function(_, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl){
 
     'use strict';
 
@@ -38,12 +39,12 @@ define([
     }
 
     function renderForm(qtiElement, inclusionOrderType){
+        
         var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
         var aeModel = aeInfo.getImplementation();
-        var formView = aeModel.getFormView();
+        var formView = aeModel.getFormView(aeInfo);
         var htmlForm = formView.render();
         var htmlUsageInfo = '';
-        console.log(aeModel);
         
         var inclusionOrders = getRelatedInclusionOrder(aeInfo);
         if(inclusionOrders.length){
@@ -53,7 +54,7 @@ define([
             });
         }
         
-        var accessElementInfo = tpl({
+        var accessElementInfo = accessElementInfoTpl({
             serial : aeInfo.serial,
             type : aeModel.typeId,
             usageInfo : htmlUsageInfo,
