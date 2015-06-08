@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['lodash'], function (_) {
+define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, Form) {
     'use strict';
 
     var attributes = {
@@ -117,7 +117,7 @@ define(['lodash'], function (_) {
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo);
     }
 
     /**
@@ -131,7 +131,7 @@ define(['lodash'], function (_) {
         accessElementNode.appendChild(apipItem.createNode('apip', 'textToSpeechPronunciation', {contentLinkIdentifier : ''}));
         return accessElementNode;
     }
-
+    
     return {
         typeId : 'spoken',
         label : 'spoken',
