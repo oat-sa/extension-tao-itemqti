@@ -76,17 +76,23 @@ define(['lodash'], function (_) {
         }
     };
 
+    /**
+     * Create element info node.
+     * @param {object} accessElementInfo 
+     * @param {string} name
+     * @returns {object} created XML node.
+     */
     function createAttribute(accessElementInfo, name) {
         var attributeNode,
             apipItem = accessElementInfo.apipItem;
 
         switch (name) {
-            case 'audioFileInfo':
-                var attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
-                attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
-                attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
-                attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
-                accessElementInfo.data.appendChild(attributeNode);
+        case 'audioFileInfo':
+            attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
+            attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
+            accessElementInfo.data.appendChild(attributeNode);
             break;
         }
 
@@ -97,6 +103,7 @@ define(['lodash'], function (_) {
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
      * 
+     * @param {object} accessElementInfo
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo) {
