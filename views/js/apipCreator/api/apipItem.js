@@ -34,13 +34,22 @@ define([
      * @returns {Object}
      */
     function ApipItem(apipItemXML) {
-        var that = this;
+        var that = this,
+            accessibilityInfoNode;
+        
         this.apipDoc = parser.parse(apipItemXML);
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {
             'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
             'xmlns' : that.apipDoc.documentElement.getAttribute('xmlns')
         };
+        
+        accessibilityInfoNode = that.xpath('//apip:accessibilityInfo');
+        
+        if (accessibilityInfoNode.length === 0) {
+            accessibilityInfoNode = that.createNode('apip', 'accessibilityInfo');
+            that.xpath('//apip:apipAccessibility')[0].appendChild(accessibilityInfoNode);
+        } 
     }
 
     /**

@@ -48,6 +48,7 @@ define([
         var accessElementNum = apipItem.xpath('//apip:accessElement').length,
             identifier,
             accessElementNode,
+            accessibilityInfoNode,
             accessElementInfoNode = apipItem.createNode('apip', 'relatedElementInfo');
 
         do {
@@ -62,8 +63,10 @@ define([
         );
 
         accessElementNode.appendChild(accessElementInfoNode);
-        apipItem.xpath('//apip:accessibilityInfo')[0].appendChild(accessElementNode);
-
+        
+        accessibilityInfoNode = apipItem.xpath('//apip:accessibilityInfo')[0];
+        accessibilityInfoNode.appendChild(accessElementNode);
+        
         return accessElementNode;
     };
 
@@ -76,9 +79,9 @@ define([
         var that = this,
             contentLinks = this.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:contentLinkInfo"),
             result = [];
-
+        
         _.forEach(contentLinks, function (link) {
-            var node = that.apipItem.xpath("qti:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
+            var node = that.apipItem.xpath("//xmlns:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
 
             if (node && node.length) {
                 result.push(new QtiElement(this, node[0]));
