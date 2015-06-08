@@ -79,6 +79,7 @@ class ParserFactory
 {
 
     protected $data = null;
+    /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
@@ -385,6 +386,7 @@ class ParserFactory
 
     protected function findNamespace($nsFragment){
         $returnValue = '';
+
         if(is_null($this->item)){
             foreach($this->queryXPath('namespace::*') as $node){
                 $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
@@ -396,10 +398,42 @@ class ParserFactory
             }
         }else{
             $namespaces = $this->item->getNamespaces();
+
             foreach($namespaces as $name => $uri){
                 if(strpos($uri, $nsFragment) > 0){
                     $returnValue = $name;
                     break;
+                }
+            }
+            if($returnValue === ''){
+                $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
+            }
+        }
+        return $returnValue;
+    }
+
+    private function recursivelyFindNamespace($element, $nsFragment) {
+
+        $returnValue = '';
+
+        foreach ($element->childNodes as $child) {
+
+            if($child->nodeType === XML_ELEMENT_NODE) {
+                if($child->nodeName === 'xi:include'){
+                    foreach($this->queryXPath('namespace::*', $child) as $node){
+                        $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+                        $uri = $node->nodeValue;
+                        if(strpos($uri, $nsFragment) > 0){
+                            $returnValue = $name;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    $value = $this->recursivelyFindNamespace($child, $nsFragment);
+                    if($value !== ''){
+                        $returnValue = $value;
+                    }
                 }
             }
         }
