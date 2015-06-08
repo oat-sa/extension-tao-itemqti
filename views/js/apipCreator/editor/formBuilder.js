@@ -17,24 +17,99 @@
  *
  */
 define([
-    'ui/contextualPopup'
-], function(contextualPopup){
+    'ui/contextualPopup',
+    'taoQtiItem/apipCreator/tpl/form/accessElement',
+    'taoQtiItem/apipCreator/tpl/form/aeUsageInfo'
+], function(contextualPopup, accessElementTpl, aeUsageInfoTpl){
 
     'use strict';
 
-    function build($anchor, qtiElement){
-        var formContent = renderForm(qtiElement);
-        return buildPopup($anchor, formContent);
+    var _aeInfoMap = {
+        textGraphicsDefaultOrder : 'spoken',
+        textGraphicsOnDemandOrder : 'spoken',
+        aslDefaultOrder : 'signing',
+        aslOnDemandOrder : 'signing'
+    };
+
+    function build($anchor, qtiElement, inclusionOrderType){
+        var $formContent = renderForm(qtiElement, inclusionOrderType);
+        return buildPopup($anchor, $formContent);
     }
 
-    function renderForm(qtiElement){
-        return 'the form';
+    function renderForm(qtiElement, inclusionOrderType){
+        var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
+        var aeModel = aeInfo.getImplementation();
+        var formView = aeModel.getFormView();
+        var htmlForm = formView.render(aeInfo);
+        var htmlUsageInfo = '';
+        console.log(aeModel);
+        
+        var inclusionOrders = getRelatedInclusionOrder(aeInfo);
+        if(inclusionOrders.length){
+            //render ae usage info
+            htmlUsageInfo = aeUsageInfoTpl({
+                usages : inclusionOrders
+            });
+        }
+        
+        var accessElementInfo = tpl({
+            serial : aeInfo.serial,
+            type : aeModel.typeId,
+            usageInfo : htmlUsageInfo,
+            form : htmlForm
+        });
+        
+        var $form = $(accessElementTpl({
+            accessElementInfo : accessElementInfo
+        }));
+        
+        
+        //bind events :
+        formView.initEvents($form);
+        
+        return $form;
     }
 
     function buildPopup($anchor, formContent){
         return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {content : formContent});
     }
 
+    function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
+        var ae, aeInfo, aeInfoType = _aeInfoMap[inclusionOrderType];
+        if(aeInfoType){
+            ae = qtiElement.getAccessElementByInclusionOrder(inclusionOrderType);
+            if(!ae){
+                //does not exist ? create one
+                ae = qtiElement.createAccessElement();
+            }
+            aeInfo = ae.getAccessElementInfo(aeInfoType);
+            if(!aeInfo){
+                //does not exist ? create one
+                aeInfo = ae.createAccessElementInfo(aeInfoType);
+            }
+        }else{
+            throw 'unknown type of inclusionOrderType';
+        }
+        return aeInfo;
+    }
+
+    function getRelatedInclusionOrder(aeInfo){
+        var ae = aeInfo.getAssociatedAccessElement();
+        var inclusionOrders = ae.getInclusionOrders();
+        var ret = [];
+        _.each(inclusionOrders, function(orderType){
+            ret.push({
+                type : orderType,
+                name : orderType
+            });
+        });
+        return ret;
+    }
+
+    function renderAccessElementInfoForm(aeInfo){
+        
+    }
+    
     return {
         build : build
     };

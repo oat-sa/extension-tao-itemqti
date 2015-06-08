@@ -9,9 +9,9 @@
         </div>
     </div>
     <div class="feedback-info">
-        info
+        {{{usageInfo}}}
     </div>
     <div class="accessElementInfo-form-content">
-        {{{content}}}
+        {{{form}}}
     </div>
 </div>

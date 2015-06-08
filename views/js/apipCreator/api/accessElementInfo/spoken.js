@@ -110,7 +110,7 @@ define(['lodash'], function (_) {
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo);
     }
 
     /**
@@ -124,7 +124,7 @@ define(['lodash'], function (_) {
         accessElementNode.appendChild(apipItem.createNode('apip', 'textToSpeechPronunciation', {contentLinkIdentifier : ''}));
         return accessElementNode;
     }
-
+    
     return {
         typeId : 'spoken',
         label : 'spoken',

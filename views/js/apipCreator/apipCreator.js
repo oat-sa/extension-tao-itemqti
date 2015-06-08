@@ -26,7 +26,7 @@ define([
     function ApipCreator($container, config){
         this.$container = $container;
         this.config = config;
-        this.inclusionOrderType = '';
+        this.inclusionOrderType = 'textGraphicsDefaultOrder';
         this.apipItem = new ApipItem(config.properties.xml);
     }
 
@@ -35,7 +35,7 @@ define([
     };
 
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
-        inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'));
+        inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'), this.inclusionOrderType);
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
@@ -56,9 +56,7 @@ define([
 
             //show contextual popup + load form
             var qtiElement = self.apipItem.getQtiElementBySerial(qtiElementSerial);
-            console.log('selected', qtiElementSerial, qtiElement);
-            console.log('item', self.apipItem.toString(), self.apipItem.toXML());
-            if(true || qtiElement){
+            if(qtiElement){
 
                 //one popup at once
                 if(formPopup){
