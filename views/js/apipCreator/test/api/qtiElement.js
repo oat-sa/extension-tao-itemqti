@@ -23,7 +23,7 @@ require([
     'text!/taoQtiItem/views/js/apipCreator/test/assets/apip_example_exemplar01.xml'
 ], function ($, QtiElement, ApipItem, xml) {
     'use strict';
-
+    
     QUnit.test("qtiElement.getAccessElements()", function () {
         var apipItem = new ApipItem(xml),
             qtiElement = apipItem.getQtiElementBySerial('img1'),
