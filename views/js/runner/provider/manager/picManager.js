@@ -85,7 +85,7 @@ define([
 
         /**
          * Gets the underlying DOM element of the managed PIC
-         * @returns {Object} An object providing the underlying DOM elements of the PIC and its tool
+         * @returns {{pic: (jQuery), tool: (jQuery), button: (jQuery), broken: (Boolean))}|*} An object providing the underlying DOM elements of the PIC and its tool
          */
         getDom : function() {
             if (!this._dom) {
@@ -104,6 +104,7 @@ define([
                         this._dom = {
                             pic : pic,
                             tool : tool,
+                            button : tool.find('.sts-button'),
                             broken : pic.is(':empty') // tells if the tool has been moved outside of the PIC
                         };
                     }
@@ -123,7 +124,7 @@ define([
             var dom = this.getDom();
             if (dom) {
                 // just remove the disabled state and destroy the disable mask
-                dom.tool.find('.sts-button').removeClass('disabled');
+                dom.button.removeClass('disabled');
                 dom.tool.find('.sts-button-disable-mask').remove();
 
                 this.disabled = false;
@@ -144,7 +145,7 @@ define([
             var button;
             if (dom) {
                 // set a disabled state by adding a CSS class, then mask the button with a top-level element
-                button = dom.tool.find('.sts-button').addClass('disabled');
+                button = dom.button.addClass('disabled');
 
                 $('<div class="sts-button-disable-mask" style="position:absolute;z-index:10000000000000"></div>')
                     .appendTo(dom.tool)
