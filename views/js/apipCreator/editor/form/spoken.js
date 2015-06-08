@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['tpl!taoQtiItem/apipCreator/tpl/formAccessElementInfo/spoken'], function(formTpl){
+define(['tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken'], function(formTpl){
     
     function Form(accessElementInfo){
         this.accessElementInfo = accessElementInfo;
