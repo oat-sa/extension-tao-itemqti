@@ -27,7 +27,17 @@ define([
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
-        assetStrategies.baseUrl
+        assetStrategies.baseUrl,
+        {
+            name : 'portableElementLocation',
+            handle : function handlePortableElementLocation(url){
+                //strategy should never be reached the ususal way and should be called using resolveBy
+                if(url.source === url.relative){
+                    return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+
+                }
+            }
+        }
     ], {baseUrl : ''});
 
     var locations = {

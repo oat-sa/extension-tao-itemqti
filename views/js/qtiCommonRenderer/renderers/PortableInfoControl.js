@@ -6,11 +6,12 @@ define([
     'taoQtiItem/qtiItem/helper/util',
     'context'
 ], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util, context){
+    'use strict';
 
     /**
      * Get the PIC instance associated to the infoControl object
      * If none exists, create a new one based on the PIC typeIdentifier
-     * 
+     *
      * @param {Object} infoControl - the js object representing the infoControl
      * @returns {Object} PIC instance
      */
@@ -41,34 +42,41 @@ define([
     /**
      * Execute javascript codes to bring the infoControl to life.
      * At this point, the html markup must already be ready in the document.
-     * 
-     * It is done in 5 steps : 
+     *
+     * It is done in 5 steps :
      * 1. register required libs in the "portableInfoControl" context
      * 2. require all required libs
      * 3. create a pic instance based on the infoControl model
-     * 4. initialize the rendering 
+     * 4. initialize the rendering
      * 5. restore full state if applicable
-     * 
+     *
      * @param {Object} infoControl
      */
     var render = function(infoControl, options){
 
         options = options || {};
 
-        var id = infoControl.attr('id'),
-            typeIdentifier = infoControl.typeIdentifier,
-            baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
-            config = infoControl.properties,
-            entryPoint = util.fullpath(infoControl.entryPoint, baseUrl),
-            $dom = containerHelper.get(infoControl).children(),
-            state = {}; //@todo pass state and response to renderer here:
-            
-        //create a new require context to load the libs: 
-        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, {
-            qtiInfoControlContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiInfoControlContext'
-        });
+        var id = infoControl.attr('id');
+        var typeIdentifier = infoControl.typeIdentifier;
+        var runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
+        var config = infoControl.properties;
+        var $dom = containerHelper.get(infoControl).children();
+        var localRequireConfig = { paths : {} };
+        var runtimeLocation;
+        var state = {}; //@todo pass state and response to renderer here:
+        var entryPoint = infoControl.entryPoint.replace(/\.js$/, '');
 
-        localRequire([entryPoint], function(){
+        if(runtimeLocations && runtimeLocations[typeIdentifier]){
+            runtimeLocation = runtimeLocations[typeIdentifier];
+        } else{
+            runtimeLocation = this.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
+        }
+        if(runtimeLocation){
+            localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+            require.config(localRequireConfig);
+        }
+
+        require([entryPoint], function(){
 
             var pci = _getPic(infoControl);
             if(pci && $dom.length){
@@ -77,15 +85,14 @@ define([
                 //restore context (state + response)
                 pci.setSerializedState(state);
             }
-
         });
     };
-    
+
     /**
      * Reverse operation performed by render()
-     * After this function is executed, only the inital naked markup remains 
+     * After this function is executed, only the inital naked markup remains
      * Event listeners are removed and the state and the response are reset
-     * 
+     *
      * @param {Object} infoControl
      */
     var destroy = function(infoControl){
@@ -95,7 +102,7 @@ define([
 
     /**
      * Restore the state of the infoControl from the serializedState.
-     * 
+     *
      * @param {Object} infoControl
      * @param {Object} serializedState - json format
      */
@@ -107,7 +114,7 @@ define([
     /**
      * Get the current state of the infoControl as a string.
      * It enables saving the state for later usage.
-     * 
+     *
      * @param {Object} infoControl
      * @returns {Object} json format
      */
@@ -120,13 +127,13 @@ define([
         qtiClass : 'infoControl',
         template : tpl,
         getData : function(infoControl, data){
-            
+
             //remove ns + fix media file path
             var markup = data.markup;
             markup = util.removeMarkupNamespaces(markup);
             markup = PortableElement.fixMarkupMediaSources(markup, this);
             data.markup = markup;
-            
+
             return data;
         },
         render : render,

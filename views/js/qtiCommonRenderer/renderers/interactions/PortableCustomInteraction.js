@@ -27,7 +27,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
-    'taoQtiItem/runtime/qtiCustomInteractionContext',
+    'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util'
 ], function(_, context, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
 
@@ -79,29 +79,29 @@ define([
 
         options = options || {};
 
-        var id = interaction.attr('responseIdentifier'),
-            typeIdentifier = interaction.typeIdentifier,
-            baseUrl = this.getOption('baseUrl') || PortableElement.getDocumentBaseUrl(), //require a base url !
-            runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations'),
-            config = _.clone(interaction.properties), //pass a clone instead
-            entryPoint = this.getAbsoluteUrl(interaction.entryPoint),
-            $dom = containerHelper.get(interaction).children(),
-            localRequirePaths = {
-                qtiCustomInteractionContext : context.root_url + 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
-            },
-        localRequireConfig = {},
-            state = {}, //@todo pass state and response to renderer here:
-            response = {base : null};
+        var id = interaction.attr('responseIdentifier');
+        var typeIdentifier = interaction.typeIdentifier;
+        var runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
+        var config = _.clone(interaction.properties); //pass a clone instead
+        var $dom = containerHelper.get(interaction).children();
+        var localRequireConfig = { paths : {} };
+        var state = {}; //@todo pass state and response to renderer here:
+        var response = {base : null};
+        var entryPoint = interaction.entryPoint.replace(/\.js$/, '');
+        var runtimeLocation;
 
         if(runtimeLocations && runtimeLocations[typeIdentifier]){
-            //we are overwriting the runtime libs location:
-            localRequireConfig.runtimeLocation = runtimeLocations[typeIdentifier];
+            runtimeLocation = runtimeLocations[typeIdentifier];
+        } else{
+            runtimeLocation = this.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
+        }
+        if(runtimeLocation){
+            localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+            require.config(localRequireConfig);
         }
 
-        //create a new require context to load the libs:
-        var localRequire = PortableElement.getCachedLocalRequire(typeIdentifier, baseUrl, localRequirePaths, localRequireConfig);
 
-        localRequire([entryPoint], function(){
+        require([entryPoint], function(){
 
             var pci = _getPci(interaction);
             if(pci){
@@ -113,7 +113,6 @@ define([
                 //call callback function
                 interaction.triggerPciReady(pci);
             }
-
         });
     };
 
