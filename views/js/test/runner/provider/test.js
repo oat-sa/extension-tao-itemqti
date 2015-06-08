@@ -4,7 +4,7 @@ define([
     'taoItems/runner/api/itemRunner',
     'taoQtiItem/runner/provider/qti',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
-    'json!taoQtiItem/test/samples/json/space-shuttle-PIC.json'
+    'json!taoQtiItem/test/samples/json/space-shuttle-pic.json'
 ], function($, _, itemRunner, qtiRuntimeProvider, itemData, itemDataPic){
     'use strict';
 
