@@ -50,7 +50,7 @@ define([
         },
 
         /**
-         * Gets the related PIC
+         * Gets the managed PIC
          *
          * @returns {Object} the descriptor of the PIC
          */
@@ -84,8 +84,8 @@ define([
         },
 
         /**
-         * Gets the underlying DOM element for a particular PIC
-         * @returns {Object} An object providing the the underlying DOM elements of the PIC and its tool
+         * Gets the underlying DOM element of the managed PIC
+         * @returns {Object} An object providing the underlying DOM elements of the PIC and its tool
          */
         getDom : function() {
             if (!this._dom) {
@@ -114,7 +114,8 @@ define([
         },
 
         /**
-         * Enables the PIC
+         * Enables the PIC.
+         * @fires enable
          * @returns {picManager}
          */
         enable : function() {
@@ -134,6 +135,7 @@ define([
 
         /**
          * Disables the PIC
+         * @fires disable
          * @returns {picManager}
          */
         disable : function() {
@@ -162,6 +164,7 @@ define([
 
         /**
          * Shows the PIC
+         * @fires show
          * @returns {picManager}
          */
         show : function() {
@@ -177,6 +180,7 @@ define([
 
         /**
          * Hides the PIC
+         * @fires hide
          * @returns {picManager}
          */
         hide : function() {
@@ -233,10 +237,10 @@ define([
         },
 
         /**
-         * Gets the list of PIC provided by the related item.
+         * Gets the list of PIC managers for the PIC provided by the running item.
          *
          * @param {Boolean} [force] Force a list rebuild
-         * @returns {Array} the list of provided PIC (descriptors)
+         * @returns {Array} Returns the list of managers for the provided PIC
          */
         getList : function(force) {
             var self = this;
@@ -263,10 +267,10 @@ define([
         },
 
         /**
-         * Gets the first PIC matching the identifier from the list provided by the running item.
+         * Gets the manager of the first PIC matching the identifier from the list provided by the running item.
          *
          * @param {String} picId The PIC typeIdentifier or serial
-         * @returns {Object} the descriptor of the PIC
+         * @returns {Object} The manager of the PIC
          */
         getPic : function(picId) {
             this.getList();
@@ -274,10 +278,10 @@ define([
         },
 
         /**
-         * Executes an action on a particular PIC
+         * Executes an action on a particular PIC from the running item.
          * @param {String} picId The PIC typeIdentifier or serial
-         * @param {String} action The action to call
-         * @returns {*}
+         * @param {String} action The name of the action to call
+         * @returns {*} Returns the action result
          */
         execute : function(picId, action) {
             var pic = this.getPic(picId);
@@ -287,8 +291,8 @@ define([
         },
 
         /**
-         * Executes an action on each PIC
-         * @param {String} action The action to call
+         * Executes an action on each PIC provided by the running item.
+         * @param {String} action The name of the action to call
          * @param {Function} [filter] An optional filter to reduce the list
          * @returns {picManagerCollection}
          */
@@ -314,8 +318,8 @@ define([
         },
 
         /**
-         * Calls a callback function on each listed PIC
-         * @param {Function} cb
+         * Calls a callback function on each listed PIC from the running item.
+         * @param {Function} cb The callback function to apply on each listed PIC
          * @returns {picManagerCollection}
          */
         each : function(cb) {
@@ -324,7 +328,7 @@ define([
         },
 
         /**
-         * Enables a PIC
+         * Enables a PIC provided by the running item.
          *
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
@@ -335,7 +339,7 @@ define([
         },
 
         /**
-         * Disables a PIC
+         * Disables a PIC provided by the running item.
          *
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
@@ -346,7 +350,7 @@ define([
         },
 
         /**
-         * Shows a PIC
+         * Shows a PIC provided by the running item.
          *
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
@@ -357,7 +361,7 @@ define([
         },
 
         /**
-         * Hides a PIC
+         * Hides a PIC provided by the running item.
          *
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
@@ -368,9 +372,9 @@ define([
         },
 
         /**
-         * Enables all PIC
+         * Enables all PIC provided by the running item.
          *
-         * @param {Function} [filter] An optional filter to reduce the list of PIC to show
+         * @param {Function} [filter] An optional filter to reduce the list of PIC to enable
          * @returns {picManagerCollection}
          */
         enableAll : function(filter) {
@@ -379,7 +383,7 @@ define([
         },
 
         /**
-         * Disables all PIC
+         * Disables all PIC provided by the running item.
          *
          * @param {Function} [filter] An optional filter to reduce the list of PIC to disable
          * @returns {picManagerCollection}
@@ -390,7 +394,7 @@ define([
         },
 
         /**
-         * Shows all PIC
+         * Shows all PIC provided by the running item.
          *
          * @param {Function} [filter] An optional filter to reduce the list of PIC to show
          * @returns {picManagerCollection}
@@ -401,7 +405,7 @@ define([
         },
 
         /**
-         * Hides all PIC
+         * Hides all PIC provided by the running item.
          *
          * @param {Function} [filter] An optional filter to reduce the list of PIC to hide
          * @returns {picManagerCollection}
