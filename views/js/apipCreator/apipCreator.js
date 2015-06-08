@@ -26,7 +26,7 @@ define([
     function ApipCreator($container, config){
         this.$container = $container;
         this.config = config;
-        this.inclusionOrderType = 'textGraphicsDefaultOrder';
+        this.inclusionOrderType = 'textGraphicsDefaultOrder';//initial selected inclusion order
         this.apipItem = new ApipItem(config.properties.xml);
     }
 
@@ -77,6 +77,9 @@ define([
             if(formPopup){
                 formPopup.destroy();
             }
+        }).on('done.contextual-popup', function(){
+            //done editing
+            //blur the current selected element
         });
     };
 

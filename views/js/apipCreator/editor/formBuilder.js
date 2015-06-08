@@ -39,13 +39,13 @@ define([
     }
 
     function renderForm(qtiElement, inclusionOrderType){
-        
+
         var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
         var aeModel = aeInfo.getImplementation();
         var formView = aeModel.getFormView(aeInfo);
         var htmlForm = formView.render();
         var htmlUsageInfo = '';
-        
+
         var inclusionOrders = getRelatedInclusionOrder(aeInfo);
         if(inclusionOrders.length){
             //render ae usage info
@@ -53,27 +53,31 @@ define([
                 usages : inclusionOrders
             });
         }
-        
+
         var accessElementInfo = accessElementInfoTpl({
             serial : aeInfo.serial,
             type : aeModel.typeId,
             usageInfo : htmlUsageInfo,
             form : htmlForm
         });
-        
+
         var $form = $(accessElementTpl({
             accessElementInfo : accessElementInfo
         }));
-        
-        
+
         //bind events :
         formView.initEvents($form);
-        
+
         return $form;
     }
 
     function buildPopup($anchor, formContent){
-        return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {content : formContent});
+        return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
+            content : formContent,
+            controls : {
+                done:true
+            }
+        });
     }
 
     function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
@@ -108,10 +112,6 @@ define([
         return ret;
     }
 
-    function renderAccessElementInfoForm(aeInfo){
-        
-    }
-    
     return {
         build : build
     };

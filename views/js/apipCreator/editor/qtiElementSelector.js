@@ -129,25 +129,22 @@ define([
             $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
         }
 
-        $container.off(_ns).on('mouseenter' + _ns, '.element', function(e){
+        $container.off(_ns).on('mouseenter' + _ns, '.element:not(.qti-itemBody)', function(e){
 
             e.stopPropagation();
             $(this).addClass('hover');
             $(this).parent().trigger('mouseleave' + _ns);
 
-        }).on('mouseleave' + _ns, '.element', function(e){
+        }).on('mouseleave' + _ns, '.element:not(.qti-itemBody)', function(e){
 
             $(this).removeClass('hover');
             $(this).parent().trigger('mouseenter' + _ns);
 
-        }).on('click' + _ns, '.element', function(e){
+        }).on('click' + _ns, '.element:not(.qti-itemBody)', function(e){
 
             e.stopPropagation();
             var $element = $(this);
-            if($element.hasClass('active')){
-                //toggle off:
-                deactivateElement($element, $container);
-            }else{
+            if(!$element.hasClass('active')){
                 activateElement($element, $container);
             }
 
