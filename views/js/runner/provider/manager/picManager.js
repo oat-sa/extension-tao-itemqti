@@ -21,8 +21,7 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiItem/core/Element',
-
+    'taoQtiItem/qtiItem/core/Element'
 ], function ($, _, Element) {
     'use strict';
 
@@ -119,9 +118,16 @@ define([
          * @returns {picManager}
          */
         enable : function() {
-            // @todo
+            // @todo: find a better solution for disabling/enabling a PIC
+            var dom = this.getDom();
+            if (dom) {
+                // just remove the disabled state and destroy the disable mask
+                dom.tool.find('.sts-button').removeClass('disabled');
+                dom.tool.find('.sts-button-disable-mask').remove();
 
-            this.trigger('enable');
+                this.disabled = false;
+                this.trigger('enable');
+            }
 
             return this;
         },
@@ -131,9 +137,25 @@ define([
          * @returns {picManager}
          */
         disable : function() {
-            // @todo
+            // @todo: find a better solution for disabling/enabling a PIC
+            var dom = this.getDom();
+            var button;
+            if (dom) {
+                // set a disabled state by adding a CSS class, then mask the button with a top-level element
+                button = dom.tool.find('.sts-button').addClass('disabled');
 
-            this.trigger('disable');
+                $('<div class="sts-button-disable-mask" style="position:absolute;z-index:10000000000000"></div>')
+                    .appendTo(dom.tool)
+                    .offset(button.offset())
+                    .width(button.outerWidth())
+                    .height(button.outerHeight());
+
+                // also hide any sub component
+                dom.tool.find('.sts-container, .sts-menu-container').addClass('sts-hidden-container');
+
+                this.disabled = true;
+                this.trigger('disable');
+            }
 
             return this;
         },
@@ -267,7 +289,7 @@ define([
         /**
          * Executes an action on each PIC
          * @param {String} action The action to call
-         * @param {Funcrion} [filter] An optional filter to reduce the list
+         * @param {Function} [filter] An optional filter to reduce the list
          * @returns {picManagerCollection}
          */
         executeAll : function(action, filter) {
@@ -342,6 +364,50 @@ define([
          */
         hidePic : function(picId) {
             this.execute(picId, 'hide');
+            return this;
+        },
+
+        /**
+         * Enables all PIC
+         *
+         * @param {Function} [filter] An optional filter to reduce the list of PIC to show
+         * @returns {picManagerCollection}
+         */
+        enableAll : function(filter) {
+            this.executeAll('enable', filter);
+            return this;
+        },
+
+        /**
+         * Disables all PIC
+         *
+         * @param {Function} [filter] An optional filter to reduce the list of PIC to disable
+         * @returns {picManagerCollection}
+         */
+        disableAll : function(filter) {
+            this.executeAll('disable', filter);
+            return this;
+        },
+
+        /**
+         * Shows all PIC
+         *
+         * @param {Function} [filter] An optional filter to reduce the list of PIC to show
+         * @returns {picManagerCollection}
+         */
+        showAll : function(filter) {
+            this.executeAll('show', filter);
+            return this;
+        },
+
+        /**
+         * Hides all PIC
+         *
+         * @param {Function} [filter] An optional filter to reduce the list of PIC to hide
+         * @returns {picManagerCollection}
+         */
+        hideAll : function(filter) {
+            this.executeAll('hide', filter);
             return this;
         }
     };
