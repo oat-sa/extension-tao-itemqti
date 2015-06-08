@@ -69,10 +69,9 @@ class ImportService extends tao_models_classes_GenerisService
      * @throws common_exception_Error
      * @return common_report_Report
      */
-    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false, $packageName = '')
+    public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
     {
         $returnValue = null;
-        $error = false;
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, 'The IMS QTI Item was successfully imported.');
         
@@ -131,33 +130,15 @@ class ImportService extends tao_models_classes_GenerisService
             $rdfItem->setLabel($qtiItem->getAttributeValue('title'));
 
             if(count($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude')) > 0){
-                //extract shared stimulus and store them into the first registered media manager
-                $sources = MediaService::singleton()->getManagementSources();
-                /** @var \oat\tao\model\media\MediaManagement $source */
-                $source = array_shift($sources);
-                if(!is_null($source)){
-                    try{
-                        /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
-                        $label = ($packageName === '') ? $rdfItem->getLabel() : $packageName;
-                        foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
-                            $fileInfo = $source->add(dirname($qtiFile).'/'.$xinclude->attr('href'), basename($xinclude->attr('href')), $label);
-                            //modify the href to link to the imported one
-                            $files[] = $xinclude->attr('href');
-                            $xinclude->attr('href', $fileInfo['uri']);
-                        }
-                    }
-                    catch(\common_Exception $e){
-                        $report->add(common_report_Report::createFailure($e->getMessage()));
-                        $error = true;
-                    }
-                }
-                else{
-                    common_Logger::i("No media source found");
+                //extract shared stimulus to store them into the first registered media manager
+                /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
+                foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                    $files[$xinclude->attr('href')] = array('md5' => md5_file(dirname($qtiFile).'/'.$xinclude->attr('href')), 'file' => dirname($qtiFile).'/'.$xinclude->attr('href'));
                 }
             }
 
             //save itemcontent
-            if(!$error && $qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
+            if($qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
                 $returnValue = $rdfItem;
             }
             
@@ -302,28 +283,32 @@ class ImportService extends tao_models_classes_GenerisService
             
             $name = basename($file, '.zip');
             $name = preg_replace('/[^_]+_/', '',$name, 1);
+            $sources = MediaService::singleton()->getWritableSources();
+            /** @var \oat\tao\model\media\MediaManagement $source */
+            $source = array_shift($sources);
+            $files = array();
+            $items = array();
             foreach ($qtiItemResources as $qtiItemResource) {
-                
+
                 $itemCount++;
-                
+
                 try {
                     $qtiFile = $folder . $qtiItemResource->getFile();
-                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository, $extractApip, $name);
+                    $itemReport = $this->importQTIFile($qtiFile, $itemClass, $validate, $repository, $extractApip);
                     $data = $itemReport->getData();
                     $rdfItem = $data['item'];
-                    $files = $data['files'];
+                    $files = array_merge($files,$data['files']);
                     $itemReport->setData($rdfItem);
-common_Logger::w(print_r($files,true));
+
                     if ($rdfItem) {
                         $itemPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($rdfItem);
                         $itemContent = $itemService->getItemContent($rdfItem);
-                        
+                        $items[] = $rdfItem;
                         foreach ($qtiItemResource->getAuxiliaryFiles() as $auxResource) {
                             // $auxResource is a relativ URL, so we need to replace the slashes with directory separators
                             $auxPath = $folder.str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
                             $relPath = helpers_File::getRelPath($qtiFile, $auxPath);
-                            common_Logger::w(print_r($relPath,true));
-                            if(!in_array($relPath,$files)){
+                            if(!array_key_exists($relPath,$files) || is_null($source)){
 
                                 //prevent directory traversal:
                                 $relPathSafe = str_replace('..'.DIRECTORY_SEPARATOR, '', $relPath, $count);
@@ -364,6 +349,35 @@ common_Logger::w(print_r($files,true));
                     common_Logger::e($e->getMessage());
                 }
             }
+
+            if(!is_null($source)){
+                try{
+                    $files = $this->addSharedStimulus($source, $name, $files);
+
+                    //modify item body with new link to shared stimulus
+                    /** @var  \core_kernel_classes_Resource $item */
+                    foreach ($items as $item) {
+
+                        $itemContent = $itemService->getItemContent($item);
+                        $qtiParser = new Parser($itemContent);
+                        $qtiItem = $qtiParser->load();
+                        /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
+                        foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                            //modify the href to link to the imported one
+                            if(isset($files[$xinclude->attr('href')])){
+                                $xinclude->attr('href', $files[$xinclude->attr('href')]);
+                            }
+                        }
+                        $itemService->setItemContent($item, $qtiItem->toXML());
+                    }
+                }
+                catch(\common_Exception $e){
+                    $report->add(common_report_Report::createFailure($e->getMessage()));
+                }
+            }
+            else{
+                common_Logger::i("No media source found");
+            }
             
             if ($successCount > 0) {
                 // Some items were imported from the package.
@@ -397,6 +411,34 @@ common_Logger::w(print_r($files,true));
         tao_helpers_File::delTree($folder);
 
         return $report;
+    }
+
+    /**
+     * @param \oat\tao\model\MediaManagement $source
+     * @param string $name the class into which to import
+     * @param array $files [ 'relPath' => ['md5' => 12fedl34, 'file' => absolute path]]
+     * @return array ['relPath' => link]
+     */
+    private function addSharedStimulus($source, $name, $files = array()){
+
+        $similar = array();
+        //detect similar files
+        foreach($files as $file => $info){
+            if(!isset($similar[$info['md5']]) || !in_array($file, $similar[$info['md5']])){
+                $similar[$info['md5']][] = $file;
+            }
+        }
+
+        foreach($similar as $md5 => $similars){
+            //import first
+            $fileInfo = $source->add($files[$similars[0]]['file'], basename($files[$similars[0]]['file']), $name, true);
+            //update all
+            foreach($similars as $file){
+                $files[$file] = $fileInfo['uri'];
+            }
+        }
+
+        return $files;
     }
     
     /**
