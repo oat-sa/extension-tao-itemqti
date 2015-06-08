@@ -37,7 +37,7 @@ define([
          * @param {QtiItem} item
          * @returns {picManager}
          */
-        init : function(pic, item) {
+        init : function init(pic, item) {
             if (Element.isA(pic, 'infoControl')) {
                 this._pic = pic;
             }
@@ -54,7 +54,7 @@ define([
          *
          * @returns {Object} the descriptor of the PIC
          */
-        getPic : function() {
+        getPic : function getPic() {
             return this._pic;
         },
 
@@ -63,7 +63,7 @@ define([
          *
          * @returns {QtiItem} the Item
          */
-        getItem : function() {
+        getItem : function getItem() {
             return this._item;
         },
 
@@ -71,7 +71,7 @@ define([
          * Gets the PIC serial
          * @returns {String}
          */
-        getSerial : function() {
+        getSerial : function getSerial() {
             return this._pic && this._pic.serial;
         },
 
@@ -79,7 +79,7 @@ define([
          * Gets the PIC type identifier
          * @returns {String}
          */
-        getTypeIdentifier : function() {
+        getTypeIdentifier : function getTypeIdentifier() {
             return this._pic && this._pic.typeIdentifier;
         },
 
@@ -87,7 +87,7 @@ define([
          * Gets the underlying DOM element of the managed PIC
          * @returns {{pic: (jQuery), tool: (jQuery), button: (jQuery), broken: (Boolean))}|*} An object providing the underlying DOM elements of the PIC and its tool
          */
-        getDom : function() {
+        getDom : function getDom() {
             if (!this._dom) {
                 var serial = this.getSerial();
                 var pic, tool;
@@ -119,7 +119,7 @@ define([
          * @fires enable
          * @returns {picManager}
          */
-        enable : function() {
+        enable : function enable() {
             // @todo: find a better solution for disabling/enabling a PIC
             var dom = this.getDom();
             if (dom) {
@@ -139,7 +139,7 @@ define([
          * @fires disable
          * @returns {picManager}
          */
-        disable : function() {
+        disable : function disable() {
             // @todo: find a better solution for disabling/enabling a PIC
             var dom = this.getDom();
             var button;
@@ -168,7 +168,7 @@ define([
          * @fires show
          * @returns {picManager}
          */
-        show : function() {
+        show : function show() {
             var dom = this.getDom();
             if (dom) {
                 dom.tool.show();
@@ -184,7 +184,7 @@ define([
          * @fires hide
          * @returns {picManager}
          */
-        hide : function() {
+        hide : function hide() {
             var dom = this.getDom();
             if (dom) {
                 dom.tool.hide();
@@ -200,7 +200,7 @@ define([
          * @param {String} eventName
          * @returns {picManager}
          */
-        trigger : function(eventName) {
+        trigger : function trigger(eventName) {
             var dom = this.getDom();
             var args = _.rest(arguments, 1);
 
@@ -229,7 +229,7 @@ define([
          * @param {QtiItem} item
          * @returns {picManagerCollection}
          */
-        init : function(item) {
+        init : function init(item) {
             if (Element.isA(item, 'assessmentItem')) {
                 this._item = item;
             }
@@ -243,7 +243,7 @@ define([
          * @param {Boolean} [force] Force a list rebuild
          * @returns {Array} Returns the list of managers for the provided PIC
          */
-        getList : function(force) {
+        getList : function getList(force) {
             var self = this;
 
             // build the list if empty
@@ -273,7 +273,7 @@ define([
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {Object} The manager of the PIC
          */
-        getPic : function(picId) {
+        getPic : function getPic(picId) {
             this.getList();
             return this._map[picId];
         },
@@ -284,7 +284,7 @@ define([
          * @param {String} action The name of the action to call
          * @returns {*} Returns the action result
          */
-        execute : function(picId, action) {
+        execute : function execute(picId, action) {
             var pic = this.getPic(picId);
             if (pic && pic[action]) {
                 return pic[action].apply(pic, _.rest(arguments, 2));
@@ -297,7 +297,7 @@ define([
          * @param {Function} [filter] An optional filter to reduce the list
          * @returns {picManagerCollection}
          */
-        executeAll : function(action, filter) {
+        executeAll : function executeAll(action, filter) {
             var args = _.rest(arguments, 2);
             var cb;
 
@@ -323,7 +323,7 @@ define([
          * @param {Function} cb The callback function to apply on each listed PIC
          * @returns {picManagerCollection}
          */
-        each : function(cb) {
+        each : function each(cb) {
             _.forEach(this.getList(), cb);
             return this;
         },
@@ -334,7 +334,7 @@ define([
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
          */
-        enablePic : function(picId) {
+        enablePic : function enablePic(picId) {
             this.execute(picId, 'enable');
             return this;
         },
@@ -345,7 +345,7 @@ define([
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
          */
-        disablePic : function(picId) {
+        disablePic : function disablePic(picId) {
             this.execute(picId, 'disable');
             return this;
         },
@@ -356,7 +356,7 @@ define([
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
          */
-        showPic : function(picId) {
+        showPic : function showPic(picId) {
             this.execute(picId, 'show');
             return this;
         },
@@ -367,7 +367,7 @@ define([
          * @param {String} picId The PIC typeIdentifier or serial
          * @returns {picManagerCollection}
          */
-        hidePic : function(picId) {
+        hidePic : function hidePic(picId) {
             this.execute(picId, 'hide');
             return this;
         },
@@ -378,7 +378,7 @@ define([
          * @param {Function} [filter] An optional filter to reduce the list of PIC to enable
          * @returns {picManagerCollection}
          */
-        enableAll : function(filter) {
+        enableAll : function enableAll(filter) {
             this.executeAll('enable', filter);
             return this;
         },
@@ -389,7 +389,7 @@ define([
          * @param {Function} [filter] An optional filter to reduce the list of PIC to disable
          * @returns {picManagerCollection}
          */
-        disableAll : function(filter) {
+        disableAll : function disableAll(filter) {
             this.executeAll('disable', filter);
             return this;
         },
@@ -400,7 +400,7 @@ define([
          * @param {Function} [filter] An optional filter to reduce the list of PIC to show
          * @returns {picManagerCollection}
          */
-        showAll : function(filter) {
+        showAll : function showAll(filter) {
             this.executeAll('show', filter);
             return this;
         },
@@ -411,7 +411,7 @@ define([
          * @param {Function} [filter] An optional filter to reduce the list of PIC to hide
          * @returns {picManagerCollection}
          */
-        hideAll : function(filter) {
+        hideAll : function hideAll(filter) {
             this.executeAll('hide', filter);
             return this;
         }
@@ -423,7 +423,7 @@ define([
      * @param {QtiItem} item
      * @returns {picManager} Returns the instance of the PIC manager
      */
-    var managerFactory = function(pic, item) {
+    var managerFactory = function managerFactory(pic, item) {
         var manager = _.clone(picManager, true);
         return manager.init(pic, item);
     };
@@ -433,7 +433,7 @@ define([
      * @param {QtiItem} item
      * @returns {picManager} Returns the instance of the PIC manager
      */
-    var collectionFactory = function(item) {
+    var collectionFactory = function collectionFactory(item) {
         var collection = _.clone(picManagerCollection, true);
         return collection.init(item);
     };

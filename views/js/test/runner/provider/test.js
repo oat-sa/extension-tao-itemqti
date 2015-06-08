@@ -3,8 +3,9 @@ define([
     'lodash',
     'taoItems/runner/api/itemRunner',
     'taoQtiItem/runner/provider/qti',
-    'json!taoQtiItem/test/samples/json/space-shuttle.json'
-], function($, _, itemRunner, qtiRuntimeProvider, itemData){
+    'json!taoQtiItem/test/samples/json/space-shuttle.json',
+    'json!taoQtiItem/test/samples/json/space-shuttle-PIC.json'
+], function($, _, itemRunner, qtiRuntimeProvider, itemData, itemDataPic){
     'use strict';
 
     var containerId = 'item-container';
@@ -42,7 +43,7 @@ define([
 
 
 
-    module('Provider init', {
+    QUnit.module('Provider init', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -81,7 +82,7 @@ define([
     });
 
 
-    module('Provider render', {
+    QUnit.module('Provider render', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -134,7 +135,7 @@ define([
 
 
 
-    module('Provider clear', {
+    QUnit.module('Provider clear', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -169,7 +170,7 @@ define([
 
 
 
-    module('Provider state', {
+    QUnit.module('Provider state', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -344,7 +345,7 @@ define([
             .render(container);
     });
 
-    module('Provider responses', {
+    QUnit.module('Provider responses', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -412,7 +413,7 @@ define([
     });
 
 
-    module('Provider PIC', {
+    QUnit.module('Provider PIC', {
         teardown : function(){
             //reset the provides
             itemRunner.providers = undefined;
@@ -428,7 +429,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        itemRunner('qti', itemDataPic)
             .on('listpic', function(picManager){
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getList === 'function', 'the pic manager has a getList method');
@@ -443,7 +444,6 @@ define([
                     assert.equal(pic.getPic().qtiClass, 'infoControl', 'element ' + i + ' is a PIC manager');
                 });
 
-                console.log('getList()', picList)
                 QUnit.start();
             })
             .init()
@@ -459,7 +459,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        itemRunner('qti', itemDataPic)
             .on('listpic', function(picManager){
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getPic === 'function', 'the pic manager has a getPic method');
@@ -482,8 +482,6 @@ define([
                 assert.equal(pic.getPic().qtiClass, 'infoControl', 'it\'s a PIC manager');
                 assert.equal(pic.getTypeIdentifier(), 'picMock2', 'the PIC has the right identifier');
                 assert.equal(pic.getSerial(), 'portableinfocontrol_556f08e211b49955612514', 'the PIC has the right serial');
-
-                console.log('getPic("picMock2")', pic)
 
                 pic = picManager.getPic('portableinfocontrol_1234567890123456789012');
                 assert.ok(typeof pic === 'undefined' , 'the unknown pic is undefined');
