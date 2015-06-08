@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:10:27\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-08T14:42:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -43,6 +43,9 @@ msgstr ""
 msgid "Add a QTI XML file"
 msgstr ""
 
+msgid "Add a zip file containing APIP items"
+msgstr ""
+
 msgid "Add a zip file containing QTI items"
 msgstr ""
 
@@ -67,10 +70,10 @@ msgstr ""
 msgid "Alignment (optional)"
 msgstr ""
 
-msgid "Allowed number of associations"
+msgid "Allowed associations"
 msgstr ""
 
-msgid "Allowed number of choices"
+msgid "Allowed choices"
 msgstr ""
 
 msgid "Allowed number of matches"
@@ -88,7 +91,13 @@ msgstr ""
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr ""
 
+msgid "An error occured while loading a shared stimulus."
+msgstr ""
+
 msgid "An error occured while parsing IMS QTI data."
+msgstr ""
+
+msgid "An unexpected error occured during the import of the IMS APIP Item Package."
 msgstr ""
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
@@ -98,6 +107,12 @@ msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package."
+msgstr ""
+
+msgid "APIP Package"
+msgstr ""
+
+msgid "APIP Package 1.0"
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
@@ -121,10 +136,10 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -139,10 +154,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "chars"
@@ -160,10 +175,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Click again to remove"
@@ -226,10 +241,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -343,6 +358,9 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
+msgid "Export APIP 1.0 Package"
+msgstr ""
+
 msgid "Export QTI 2.1 Package"
 msgstr ""
 
@@ -400,25 +418,13 @@ msgstr ""
 msgid "GIF image"
 msgstr ""
 
-msgid "Graphic Associate"
-msgstr ""
-
 msgid "Graphic Associate Interaction"
-msgstr ""
-
-msgid "Graphic Gap"
 msgstr ""
 
 msgid "Graphic Gap Match Interaction"
 msgstr ""
 
-msgid "Graphic Order"
-msgstr ""
-
 msgid "Graphic Order Interaction"
-msgstr ""
-
-msgid "he maximum number of associations that the candidate is allowed to make."
 msgstr ""
 
 msgid "Height"
@@ -467,6 +473,9 @@ msgid "Import"
 msgstr ""
 
 msgid "Import a QTI 2.X Package"
+msgstr ""
+
+msgid "Import an APIP 1.0 Package"
 msgstr ""
 
 msgid "Import QTI 2.X Item"
@@ -524,25 +533,28 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Length"
 msgstr ""
 
 msgid "Lines"
+msgstr ""
+
+msgid "List Style"
 msgstr ""
 
 msgid "Loop"
@@ -582,10 +594,10 @@ msgstr ""
 msgid "Max length"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -619,9 +631,6 @@ msgid "Microsoft Powerpoint"
 msgstr ""
 
 msgid "Microsoft Word"
-msgstr ""
-
-msgid "Mime Type"
 msgstr ""
 
 msgid "MIME-type"
@@ -670,6 +679,9 @@ msgstr ""
 msgid "No Items could be imported from the given IMS QTI package."
 msgstr ""
 
+msgid "No preview available"
+msgstr ""
+
 msgid "No value set"
 msgstr ""
 
@@ -700,10 +712,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
 msgid "Pause"
@@ -762,6 +774,9 @@ msgid "Please select a choice picture for your interaction from the resource man
 msgstr ""
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a shared stimulus file from the resource manager."
 msgstr ""
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
@@ -899,10 +914,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -960,6 +975,9 @@ msgid "Select Point"
 msgstr ""
 
 msgid "Select Point Interaction"
+msgstr ""
+
+msgid "Select shared stimulus"
 msgstr ""
 
 msgid "Select the area to add an image"
@@ -1049,6 +1067,9 @@ msgstr ""
 msgid "The file path to the media."
 msgstr ""
 
+msgid "The file path to the shared stimulus."
+msgstr ""
+
 msgid "the following Qti Element is currently not supported in TAO"
 msgstr ""
 
@@ -1078,6 +1099,9 @@ msgstr ""
 msgid "The item needs to be saved before it can be previewed"
 msgstr ""
 
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr ""
+
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
 
@@ -1091,6 +1115,9 @@ msgid "The manifest argument must be an instance of DOMDocument."
 msgstr ""
 
 msgid "The maximum number of association is unlimited."
+msgstr ""
+
+msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr ""
 
 msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
@@ -1156,6 +1183,9 @@ msgstr ""
 msgid "The upper bound of the slider"
 msgstr ""
 
+msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
+msgstr ""
+
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr ""
 
@@ -1180,6 +1210,9 @@ msgstr ""
 msgid "Time dependent"
 msgstr ""
 
+msgid "Title"
+msgstr ""
+
 msgid "Top"
 msgstr ""
 
@@ -1196,6 +1229,9 @@ msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr ""
 
 msgid "Upper Bound"
+msgstr ""
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
 msgstr ""
 
 msgid "Used to control the format of the text entered by the candidate."
