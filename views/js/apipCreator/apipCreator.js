@@ -17,12 +17,17 @@
  *
  */
 define([
+    'jquery',
+    'helpers',
+    'ui/feedback',
     'taoQtiItem/apipCreator/api/apipItem',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'taoQtiItem/apipCreator/editor/qtiElementSelector',
     'taoQtiItem/apipCreator/editor/formBuilder'
-], function(ApipItem, inclusionOrderSelector, qtiElementSelector, formBuilder){
-
+], function($, helpers, feedback, ApipItem, inclusionOrderSelector, qtiElementSelector, formBuilder){
+    
+    var _ns = '.apip-creator';
+    
     function ApipCreator($container, config){
         this.$container = $container;
         this.config = config;
@@ -51,10 +56,10 @@ define([
 
             console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
-            
+
             //blur the current selected element
             self.elementSelector.deactivate();
-            
+
         }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
 
             //show contextual popup + load form
@@ -84,6 +89,45 @@ define([
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
+        });
+    };
+    
+    /**
+     * Init the save trigger event 'on click'
+     * 
+     * @fires 'saved.apip-creator' when the save is successful
+     * @returns {undefined}
+     */
+    ApipCreator.prototype.initSave = function initSave(){
+        var self = this;
+        this.$container.find('#save-trigger').off('click').on('click', function(){
+            var $trigger = $(this);
+            self.save().done(function(r){
+                if(r && r.success){
+                    feedback().success('Item saved');
+                    $trigger.trigger('saved'+_ns, [r.xml]);
+                }else{
+                    feedback().error('Item cannot be saved');
+                }
+            });
+        });
+    };
+    
+    /**
+     * Save the item + apip content to the server
+     * 
+     * @returns {jqXHR} 
+     */
+    ApipCreator.prototype.save = function save(){
+        var itemUri = this.config.properties.uri;
+        var lang = this.config.properties.lang;
+        var xml = this.apipItem.toXML();
+        return $.ajax({
+            url : helpers._url('save', 'ApipCreator', 'taoQtiItem', {id : itemUri, lang : lang}),
+            type : 'POST',
+            contentType : 'text/xml',
+            dataType : 'json',
+            data : xml
         });
     };
 

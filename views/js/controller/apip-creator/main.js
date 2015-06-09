@@ -51,6 +51,7 @@ define([
             
             var apipCreator = new ApipCreator($('#apip-creator-scope'), config);
             apipCreator.initLabel();
+            apipCreator.initSave();
             apipCreator.initInclusionOrderSelector();
             apipCreator.initQtiElementSelector();
             apipCreator.initEvents();
