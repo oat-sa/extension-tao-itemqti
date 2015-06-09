@@ -107,12 +107,13 @@ class ParserFactory
     public function getBodyData(DOMElement $data, $removeNamespace = false){
 
         //prepare the data string
-        $bodyData = $this->saveXML($data);
+        $bodyData = '';
 
-        $pattern = "/<{$data->nodeName}\b[^>]*\/>|<{$data->nodeName}\b[^>]*>(.*?)<\/{$data->nodeName}>/is";
-        preg_match_all($pattern, $bodyData, $matches);
-        if(isset($matches[1]) && isset($matches[1][0])){
-            $bodyData = trim($matches[1][0]);
+        $children  = $data->childNodes;
+
+        foreach ($children as $child)
+        {
+            $bodyData .= $data->ownerDocument->saveXML($child);
         }
 
         if($removeNamespace){

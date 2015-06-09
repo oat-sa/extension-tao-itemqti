@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.0.1\n"
-"PO-Revision-Date: 2015-05-27T14:14:51\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-08T14:41:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -154,10 +154,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "chars"
@@ -175,10 +175,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
 msgid "Click again to remove"
@@ -241,10 +241,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -514,10 +514,10 @@ msgstr ""
 msgid "Is this pair the correct response?"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -533,19 +533,19 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
 msgid "Length"
@@ -554,17 +554,20 @@ msgstr ""
 msgid "Lines"
 msgstr ""
 
+msgid "List Style"
+msgstr ""
+
 msgid "Loop"
 msgstr ""
 
 msgid "Lower Bound"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "Mapping default"
@@ -585,16 +588,16 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
-msgstr ""
-
 msgid "Max Length"
 msgstr ""
 
-msgid "Max words"
+msgid "Max length"
 msgstr ""
 
 msgid "Max Words"
+msgstr ""
+
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -709,10 +712,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
 msgid "Pause"
@@ -851,10 +854,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -911,10 +914,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -1226,6 +1229,9 @@ msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr ""
 
 msgid "Upper Bound"
+msgstr ""
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
 msgstr ""
 
 msgid "Used to control the format of the text entered by the candidate."
