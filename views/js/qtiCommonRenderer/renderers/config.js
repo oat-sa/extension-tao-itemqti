@@ -22,24 +22,27 @@ define([
 ], function(assetManagerFactory, assetStrategies){
     'use strict';
 
-    //asset manager using base url
+    //stratgy to resolve portable info control and portable interactions paths.
+    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
+    var portableAssetStrategy = {
+        name : 'portableElementLocation',
+        handle : function handlePortableElementLocation(url){
+            if(url.source === url.relative){
+                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            }
+        }
+    };
+
+    //Create asset manager stack
     var assetManager = assetManagerFactory([
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
         assetStrategies.baseUrl,
-        {
-            name : 'portableElementLocation',
-            handle : function handlePortableElementLocation(url){
-                //strategy should never be reached the ususal way and should be called using resolveBy
-                if(url.source === url.relative){
-                    return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
-
-                }
-            }
-        }
+        portableAssetStrategy
     ], {baseUrl : ''});
 
+    //renderers locations
     var locations = {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
@@ -87,10 +90,11 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
+
     return {
-        name:'commonRenderer',
+        name: 'commonRenderer',
         locations: locations,
-        options:   {
+        options: {
             assetManager: assetManager
         }
     };

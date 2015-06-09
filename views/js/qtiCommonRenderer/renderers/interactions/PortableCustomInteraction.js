@@ -30,6 +30,7 @@ define([
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util'
 ], function(_, context, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
+    'use strict';
 
     /**
      * Get the PCI instance associated to the interaction object
@@ -67,7 +68,7 @@ define([
      * At this point, the html markup must already be ready in the document.
      *
      * It is done in 5 steps :
-     * 1. register required libs in the "portableCustomInteraction" context
+     * 1. configure the paths
      * 2. require all required libs
      * 3. create a pci instance based on the interaction model
      * 4. initialize the rendering
@@ -79,17 +80,18 @@ define([
 
         options = options || {};
 
-        var id = interaction.attr('responseIdentifier');
-        var typeIdentifier = interaction.typeIdentifier;
-        var runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
-        var config = _.clone(interaction.properties); //pass a clone instead
-        var $dom = containerHelper.get(interaction).children();
-        var localRequireConfig = { paths : {} };
-        var state = {}; //@todo pass state and response to renderer here:
-        var response = {base : null};
-        var entryPoint = interaction.entryPoint.replace(/\.js$/, '');
         var runtimeLocation;
+        var state              = {}; //@todo pass state and response to renderer here:
+        var localRequireConfig = { paths : {} };
+        var response           = {base : null};
+        var id                 = interaction.attr('responseIdentifier');
+        var typeIdentifier     = interaction.typeIdentifier;
+        var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
+        var config             = _.clone(interaction.properties); //pass a clone instead
+        var $dom               = containerHelper.get(interaction).children();
+        var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
 
+        //update config with runtime paths
         if(runtimeLocations && runtimeLocations[typeIdentifier]){
             runtimeLocation = runtimeLocations[typeIdentifier];
         } else{
@@ -100,7 +102,7 @@ define([
             require.config(localRequireConfig);
         }
 
-
+        //load the entrypoint
         require([entryPoint], function(){
 
             var pci = _getPci(interaction);

@@ -1,11 +1,32 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+
+/**
+ * Portable Info Control Common Renderer
+ */
 define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
-    'context'
-], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util, context){
+], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util){
     'use strict';
 
     /**
@@ -44,31 +65,35 @@ define([
      * At this point, the html markup must already be ready in the document.
      *
      * It is done in 5 steps :
-     * 1. register required libs in the "portableInfoControl" context
+     * 1. ensure the context is configured correctly
      * 2. require all required libs
      * 3. create a pic instance based on the infoControl model
      * 4. initialize the rendering
      * 5. restore full state if applicable
      *
      * @param {Object} infoControl
+     * @param {Object} [options]
+     * @param {Object} [options.runtimeLocations] - to set manually the runtime path of PIC
      */
     var render = function(infoControl, options){
 
         options = options || {};
 
-        var id = infoControl.attr('id');
-        var typeIdentifier = infoControl.typeIdentifier;
-        var runtimeLocations = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
-        var config = infoControl.properties;
-        var $dom = containerHelper.get(infoControl).children();
-        var localRequireConfig = { paths : {} };
         var runtimeLocation;
-        var state = {}; //@todo pass state and response to renderer here:
-        var entryPoint = infoControl.entryPoint.replace(/\.js$/, '');
+        var state              = {}; //@todo pass state and response to renderer here:
+        var localRequireConfig = { paths : {} };
+        var id                 = infoControl.attr('id');
+        var typeIdentifier     = infoControl.typeIdentifier;
+        var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
+        var config             = infoControl.properties;
+        var $dom               = containerHelper.get(infoControl).children();
+        var entryPoint         = infoControl.entryPoint.replace(/\.js$/, '');   //ensure the entry point is in AMD
 
+        //update config
         if(runtimeLocations && runtimeLocations[typeIdentifier]){
             runtimeLocation = runtimeLocations[typeIdentifier];
         } else{
+            //use the asset strategy named "portableElementLocation"
             runtimeLocation = this.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
         }
         if(runtimeLocation){
@@ -76,6 +101,7 @@ define([
             require.config(localRequireConfig);
         }
 
+        //load the entry point
         require([entryPoint], function(){
 
             var pci = _getPic(infoControl);

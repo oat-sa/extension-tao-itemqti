@@ -26,14 +26,14 @@ use oat\tao\model\ClientLibRegistry;
 
 
 /**
- * 
+ *
  * @author Sam <sam@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
 
     /**
-     * 
+     *
      * @param string $initialVersion
      * @return string
      */
@@ -114,14 +114,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('qtiCreator', array('multi-column' => false));
             $currentVersion = '2.7.5';
         }
-        
+
         if($currentVersion == '2.7.5'){
 
             $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 
             $currentVersion = '2.7.6';
         }
-        
+
         if($currentVersion == '2.7.6'){
 
             $clientLibRegistry = new ClientLibRegistry();

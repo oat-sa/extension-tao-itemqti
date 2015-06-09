@@ -646,7 +646,8 @@ define([
          */
         this.getAbsoluteUrl = function(relUrl){
 
-            console.warn('use deprecated method getAbsoluteUrl with ', arguments);
+            //let until method is removed
+            console.warn('DEPRECATED used getAbsoluteUrl with ', arguments);
 
             //allow relative url output only if explicitely said so
             if(this.getOption('userRelativeUrl')){

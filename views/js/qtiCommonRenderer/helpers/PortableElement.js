@@ -15,6 +15,11 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
+
+
+/**
+ * Portable element helper
+ */
 define(['jquery'], function($){
     'use strict';
 
