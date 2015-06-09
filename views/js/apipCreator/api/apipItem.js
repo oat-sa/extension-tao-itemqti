@@ -85,12 +85,10 @@ define([
      */
     ApipItem.prototype.addSerialAttr = function (node) {
         var that = this,
-            serial,
-            num = that.xpath("//*[local-name() = '" + node.localName + "']").length;
+            serial;
 
         do {
-            num++;
-            serial = node.localName + num;
+            serial = node.localName + _.uniqueId(node.localName+'_');
         } while (that.xpath("//*[@serial='" + serial + "']").length > 0);
 
         if (!node.getAttribute('serial')) {
