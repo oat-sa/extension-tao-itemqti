@@ -7,10 +7,10 @@
     </div>
     <div class="field">
         <label>{{__ 'Start time'}}</label>
-        <input name="{{type}}.videoFileInfo.startCue" value="{{startCue}}"/>
+        <input type="text" name="{{type}}.videoFileInfo.startCue" value="{{startCue}}"/>
     </div>
     <div class="field">
         <label>{{__ 'End time'}}</label>
-        <input name="{{type}}.videoFileInfo.endCue" value="{{endCue}}"/>
+        <input type="text" name="{{type}}.videoFileInfo.endCue" value="{{endCue}}"/>
     </div>
 </div>
