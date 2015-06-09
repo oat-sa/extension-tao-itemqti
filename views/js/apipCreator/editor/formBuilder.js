@@ -30,7 +30,17 @@ define([
         textGraphicsDefaultOrder : 'spoken',
         textGraphicsOnDemandOrder : 'spoken',
         aslDefaultOrder : 'signing',
-        aslOnDemandOrder : 'signing'
+        aslOnDemandOrder : 'signing',
+        signedEnglishDefaultOrder : 'signing',
+        signedEnglishOnDemandOrder : 'signing'
+    },
+    _aeInfoOptionsMap = {
+        textGraphicsDefaultOrder : {},
+        textGraphicsOnDemandOrder : {},
+        aslDefaultOrder : {type: 'signFileASL'},
+        aslOnDemandOrder : {type: 'signFileASL'},
+        signedEnglishDefaultOrder : {type: 'signFileSignedEnglish'},
+        signedEnglishOnDemandOrder : {type: 'signFileSignedEnglish'}
     };
 
     function build($anchor, qtiElement, inclusionOrderType){
@@ -84,17 +94,22 @@ define([
     }
 
     function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
-        var ae, aeInfo, aeInfoType = _aeInfoMap[inclusionOrderType];
+        var ae, aeInfo, aeInfoType = _aeInfoMap[inclusionOrderType],
+                aeInfoOptions = _aeInfoOptionsMap[inclusionOrderType];
+        
         if(aeInfoType){
             ae = qtiElement.getAccessElementByInclusionOrder(inclusionOrderType);
             if(!ae){
                 //does not exist ? create one
                 ae = qtiElement.createAccessElement();
+                ae.setInclusionOrder(inclusionOrderType, 0);
             }
             aeInfo = ae.getAccessElementInfo(aeInfoType);
             if(!aeInfo){
                 //does not exist ? create one
-                aeInfo = ae.createAccessElementInfo(aeInfoType);
+                aeInfo = ae.createAccessElementInfo(aeInfoType, aeInfoOptions);
+            } else {
+                aeInfo = aeInfo[0];
             }
         }else{
             throw 'unknown type of inclusionOrderType';

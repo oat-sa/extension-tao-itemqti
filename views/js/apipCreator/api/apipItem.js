@@ -35,6 +35,7 @@ define([
      */
     function ApipItem(apipItemXML) {
         var that = this,
+            inclusionOrderNode,
             accessibilityInfoNode;
         
         this.apipDoc = parser.parse(apipItemXML);
@@ -45,10 +46,15 @@ define([
         };
         
         accessibilityInfoNode = that.xpath('//*:accessibilityInfo');
-        
         if (accessibilityInfoNode.length === 0) {
             accessibilityInfoNode = that.createNode('apip', 'accessibilityInfo');
             that.xpath('//*:apipAccessibility')[0].appendChild(accessibilityInfoNode);
+        } 
+        
+        inclusionOrderNode = that.xpath('//*:inclusionOrder');
+        if (inclusionOrderNode.length === 0) {
+            inclusionOrderNode = that.createNode('apip', 'inclusionOrder');
+            that.xpath('//*:apipAccessibility')[0].appendChild(inclusionOrderNode);
         } 
     }
 

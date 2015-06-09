@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function () {
+define(['lodash', 'taoQtiItem/apipCreator/editor/form/signing'], function (_, Form) {
     'use strict';
 
     var attributes = {
@@ -75,7 +75,7 @@ define([], function () {
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo);
     }
 
     /**
