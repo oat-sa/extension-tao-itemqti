@@ -10,17 +10,19 @@ define([
     'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json',
     'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json',
     'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
-    'json!taoQtiItem/test/samples/json/customrp/order.json'
+    'json!taoQtiItem/test/samples/json/customrp/order.json',
+    'json!taoQtiItem/test/samples/json/es6.json',
 ], function(_, scorer, qtiScoringProvider,
-            singleCorrectData,
-            multipleCorrectData,
-            multipleMapData,
-            singleMapPointData,
-            customChoiceMultipleData,
-            customTextEntryNumericData,
-            customChoiceMultipleData2,
-            customChoiceSingleData,
-            orderData
+        singleCorrectData,
+        multipleCorrectData,
+        multipleMapData,
+        singleMapPointData,
+        customChoiceMultipleData,
+        customTextEntryNumericData,
+        customChoiceMultipleData2,
+        customChoiceSingleData,
+        orderData,
+        multipleResponseCorrectData
 ){
     'use strict';
 
@@ -117,9 +119,6 @@ define([
         }
     });
 
-
-    QUnit.module('templates');
-
     var tplDataProvider = [{
         title   : 'match correct single identifier',
         item    : singleCorrectData,
@@ -194,7 +193,31 @@ define([
                 .process(responses, data.item);
         });
 
-    QUnit.module('custom');
+    QUnit.asyncTest('process multiple responses', function(assert){
+
+            QUnit.expect(1);
+
+            var responses = {
+                'RESPONSE' : { list : { identifier : ["choice_3"] } },
+                'RESPONSE_1' : { list : { identifier : ["choice_7"] } },
+            };
+            scorer.register('qti', qtiScoringProvider);
+
+            scorer('qti')
+                .on('error', function(err){
+                    assert.ok(false, 'Got an error : ' + err);
+                })
+                .on('outcome', function(outcomes){
+
+                    assert.ok(true);
+                    console.log(outcomes);
+
+                    QUnit.start();
+                })
+                .process(responses, multipleResponseCorrectData);
+    });
+
+    QUnit.module('Custom template');
 
     var customDataProvider = [{
         title   : 'choice multiple correct',
