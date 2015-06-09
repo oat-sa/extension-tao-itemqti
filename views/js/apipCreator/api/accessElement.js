@@ -102,11 +102,13 @@ define([
             qtiLinkIdentifierRef = qtiElement.data.getAttribute('id'),
             contentLinkInfo,
             accessElementInfoNode = that.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:relatedElementInfo"),
+            num = that.apipItem.xpath("//*[local-name() = '" + qtiElement.data.localName + "']").length,
             linkingMethodNode;
 
         if (!qtiLinkIdentifierRef) {
             do {
-                qtiLinkIdentifierRef = qtiElement.data.localName + (new Date()).getTime();
+                qtiLinkIdentifierRef = qtiElement.data.localName + num;
+                num++;
             } while (that.apipItem.xpath("*:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
             qtiElement.data.setAttribute('id', qtiLinkIdentifierRef);
         }
