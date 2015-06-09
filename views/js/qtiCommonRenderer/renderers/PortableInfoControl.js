@@ -2,7 +2,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
-    'taoQtiItem/runtime/qtiInfoControlContext',
+    'qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
     'context'
 ], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util, context){
