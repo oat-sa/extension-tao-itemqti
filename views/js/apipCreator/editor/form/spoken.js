@@ -33,9 +33,9 @@ define(['tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken'], functio
     Form.prototype.initEvents = function initEvents($container){
         var aeInfo = this.accessElementInfo;
         $container.on('change', 'input', function(){
-            var $input = $(this);
-            var name = $input.attr('name');
-            var value = $input.value();
+            var $input = $(this),
+                name = $input.attr('name'),
+                value = $input.val();
             aeInfo.setAttribute(name, value);
         });
     };

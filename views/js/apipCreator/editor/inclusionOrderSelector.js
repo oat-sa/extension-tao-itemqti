@@ -28,7 +28,9 @@ define([
         textGraphicsDefaultOrder : 'Spoken, Text & Graphic - default',
         textGraphicsOnDemandOrder : 'Spoken, Text & Graphic - on demand',
         aslDefaultOrder : 'American Sign Language - default',
-        aslOnDemandOrder : 'American Sign Language - on demand'
+        aslOnDemandOrder : 'American Sign Language - on demand',
+        signedEnglishDefaultOrder : 'Signed English - default',
+        signedEnglishOnDemandOrder : 'Signed English - on demand'
     };
 
     function addEvents($container){

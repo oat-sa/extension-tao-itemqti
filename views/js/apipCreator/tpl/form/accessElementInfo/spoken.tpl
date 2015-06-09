@@ -5,6 +5,6 @@
     </div>
     <div class="field">
         <label>text to speech pronunciation</label>
-        <input name="spokenText" value="{{textToSpeechPronunciation}}"/>
+        <input name="textToSpeechPronunciation" value="{{textToSpeechPronunciation}}"/>
     </div>
 </div>

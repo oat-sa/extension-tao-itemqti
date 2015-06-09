@@ -16,26 +16,32 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/signing'], function(formTpl){
+define([
+    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/signing',
+], function(formTpl){
     
     function Form(accessElementInfo){
         this.accessElementInfo = accessElementInfo;
     }
     
-    Form.prototype.render = function render(){
-        var tplData = {
-            spokenText : this.accessElementInfo.getAttribute('spokenText'),
-            textToSpeechPronunciation : this.accessElementInfo.getAttribute('textToSpeechPronunciation')
-        };
+    Form.prototype.render = function render() {
+        var type = this.accessElementInfo.data.children[0].localName, 
+            tplData = {
+                "fileHref" : this.accessElementInfo.getAttribute(type + '.videoFileInfo.fileHref'),
+                "startCue" : this.accessElementInfo.getAttribute(type + '.videoFileInfo.startCue'),
+                "endCue" : this.accessElementInfo.getAttribute(type + '.videoFileInfo.endCue'),
+                "type" : type
+            };
         return formTpl(tplData);
     };
     
-    Form.prototype.initEvents = function initEvents($container){
+    Form.prototype.initEvents = function initEvents($container) {
         var aeInfo = this.accessElementInfo;
+        
         $container.on('change', 'input', function(){
             var $input = $(this);
             var name = $input.attr('name');
-            var value = $input.value();
+            var value = $input.val();
             aeInfo.setAttribute(name, value);
         });
     };

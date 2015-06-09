@@ -57,13 +57,14 @@ define(
             var that = this,
                 accessElements = this.getAccessElements(),
                 result = null;
-                $.each(accessElements, function (key, accessElement) {
-                    var identifier = accessElement.data.getAttribute('identifier'),
-                        elementOrder = that.apipItem.xpath("//apip:" + inclusionOrderType + "/apip:elementOrder[@identifierRef='" + identifier + "']");
-                    if (elementOrder.length) {
-                        result = accessElement;
-                    }
-                });
+        
+            $.each(accessElements, function (key, accessElement) {
+                var identifier = accessElement.data.getAttribute('identifier'),
+                    elementOrder = that.apipItem.xpath("//apip:" + inclusionOrderType + "/apip:elementOrder[@identifierRef='" + identifier + "']");
+                if (elementOrder.length) {
+                    result = accessElement;
+                }
+            });
                 
             return result;
         };
