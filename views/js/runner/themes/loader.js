@@ -32,39 +32,47 @@ define(['jquery', 'lodash'], function($, _){
     var $container = $('head').length ? $('head') : $('body');
 
     /**
+     * @typedef Theme
+     * @property {String} id - theme identifier (uniq)
+     * @property {String} path  - theme location
+     * @property {String} [name] - name to display
+     */
+
+
+    /**
      * Create a stylesheet tag
-     * @param {String} name - to identify this tag
-     * @param {String} location - for the href
+     * @param {Theme} theme - the theme
      * @return {jQueryElement} the link node
      */
-    var createStyleSheet  = function createStyleSheet(name, location){
-        var type = (name === 'base') ? prefix + 'base' : prefix + 'theme';
+    var createStyleSheet  = function createStyleSheet(theme){
+        var type = (theme.id === 'base') ? prefix + 'base' : prefix + 'theme';
         return $('<link>')
                     .attr({
                         rel         : 'stylesheet',
                         type        : 'text/css',
-                        href        : location,
+                        href        : theme.path,
                         'data-type' : type,
-                        'data-name' : name,
+                        'data-name' : theme.name || theme.id,
+                        'data-id'   : theme.id,
                     });
     };
 
     /**
      * Get the stylesheet
-     * @param {String} name - the stylesheet/theme name
+     * @param {String} id - the theme identifier
      * @returns {jQueryElement} the link
      */
-    var getLink = function getLink(name){
-        return $('link[data-name="' + name + '"][data-type^="' + prefix + '"]', $container);
+    var getLink = function getLink(id){
+        return $('link[data-id="' + id + '"][data-type^="' + prefix + '"]', $container);
     };
 
     /**
      * Is the stylesheet attached to the container ?
-     * @param {String} name - the stylesheet/theme name
+     * @param {String} id - the theme identifier
      * @param {Boolean} [disabled = false] - is the stylesheet disabled
      */
-    var isAttached = function isAttached(name){
-        return getLink(name).length > 0;
+    var isAttached = function isAttached(id){
+        return getLink(id).length > 0;
     };
 
     /**
@@ -94,7 +102,7 @@ define(['jquery', 'lodash'], function($, _){
      * @param {Object} config - the themes configuration
      * @param {String} config.base - the location of the base style
      * @param {String} [config.default] - the name of the default theme (one of the key of the available list )
-     * @param {Object} config.available - the list of available themes as { themeName : theLocation, ...}
+     * @param {Theme[]} config.available - the list of available themes
      * @returns {Object} the loader
      * @throws TypeError if the config hasn't the correct form
      */
@@ -102,6 +110,8 @@ define(['jquery', 'lodash'], function($, _){
 
         var defaultTheme;
         var styles = {};
+        var themes;
+        var i;
 
         /*
          * validate config
@@ -114,21 +124,33 @@ define(['jquery', 'lodash'], function($, _){
             throw new TypeError('Theme loader configuration is an object with a base property configuration');
         }
 
-        if(!_.isPlainObject(config.available) || _.size(config.available) === 0 ){
+        if(!_.isArray(config.available) || !config.available.length ){
             throw new TypeError('No theme declared in the configuration');
         }
 
+        for(i in config.available){
+            if(!_.isPlainObject(config.available[i]) || _.isEmpty(config.available[i].id) || _.isEmpty(config.available[i].path)){
+                throw new TypeError('There is a theme that does not contain an id or a path');
+            }
+        }
 
         /*
          * Extract data from config
          */
-        defaultTheme = config.default || _.first(_.keys(config.available));
+        defaultTheme = config.default || _.first(_.pluck(config.available, 'id'));
 
-        _.forEach(_.merge({}, { 'base' : config.base }, config.available), function(location, name){
-            if(isAttached(name)){
-                styles[name] = getLink(name);
+        themes = [{
+            id : 'base',
+            path : config.base,
+            name : 'TAO'
+        }];
+        themes = themes.concat(config.available);
+
+        _.forEach(themes, function(theme){
+            if(isAttached(theme.id)){
+                styles[theme.id] = getLink(theme.id);
             } else {
-                styles[name] = createStyleSheet(name, location);
+                styles[theme.id] = createStyleSheet(theme);
             }
         });
 
@@ -142,11 +164,11 @@ define(['jquery', 'lodash'], function($, _){
              * @returns {Object} chains
              */
             load : function load(){
-                _.forEach(styles, function($link, name){
-                    if(!isAttached(name)){
+                _.forEach(styles, function($link, id){
+                    if(!isAttached(id)){
                         $container.append($link);
                     }
-                    if(name !== 'base' && name !== defaultTheme){
+                    if(id !== 'base' && id !== defaultTheme){
                         disable($link);
                     } else {
                         enable($link);
@@ -167,16 +189,16 @@ define(['jquery', 'lodash'], function($, _){
 
             /**
              * Change the current theme
-             * @param {String} theme - the theme name to use
+             * @param {String} id - the theme id to use
              * @returns {Object} chains
              */
-            change : function change(theme){
-                if(isAttached(theme)){
+            change : function change(id){
+                if(isAttached(id)){
                     //diable all
                     disable($('link[data-type="' + prefix  + 'theme"]', $container));
 
                     //enable the theme only
-                    enable(getLink(theme));
+                    enable(getLink(id));
                 }
                 return this;
             }

@@ -6,11 +6,16 @@ define([
     var config = {
         base : 'base.css',
         default : 'blue',
-        available : {
-            blue : 'blue.css',
-            green : 'green.css'
+        available : [{
+            id   : 'blue',
+            path : 'blue.css',
+            name : 'Blue'
+        }, {
+            id : 'green',
+            path : 'green.css',
+            name : 'Green'
         }
-    };
+    ]};
 
     var pink = 'rgb(255, 192, 203)';
     var blue = 'rgb(0, 0, 255)';
@@ -56,7 +61,7 @@ define([
 
     QUnit.module('Theme loading', {
         teardown: function(){
-            //$('head').find('link[data-type^="qti-item-style"]').remove();
+            $('head').find('link[data-type^="qti-item-style"]').remove();
         }
     });
 
@@ -101,9 +106,9 @@ define([
             setTimeout(function(){
 
                 assert.equal($('link[data-type^="qti-item-style"]').length, 3, 'The stylesheets are stil there');
-                assert.ok($('link[data-name="base"]').prop('disabled'), 'The base stylesheet is disabled');
-                assert.ok($('link[data-name="green"]').prop('disabled'), 'The green stylesheet is disabled');
-                assert.ok($('link[data-name="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
+                assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
+                assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
+                assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
 
                 assert.notEqual($container.css('background-color'), pink, 'The base style is  unloaded');
                 assert.notEqual($container.css('color'), blue, 'The theme style is unloaded');
@@ -161,18 +166,18 @@ define([
 
             setTimeout(function(){
                 assert.equal($('link[data-type^="qti-item-style"]').length, 3, 'The stylesheets are stil there');
-                assert.ok($('link[data-name="base"]').prop('disabled'), 'The base stylesheet is disabled');
-                assert.ok($('link[data-name="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
-                assert.ok($('link[data-name="green"]').prop('disabled'), 'The green stylesheet is disabled');
+                assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
+                assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
+                assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
 
                 var loader2 = themeLoader(config);
                 loader2.load();
 
                 setTimeout(function(){
 
-                    assert.ok( ! $('link[data-name="base"]').prop('disabled'), 'The base stylesheet is now enabled');
-                    assert.ok( ! $('link[data-name="blue"]').prop('disabled'), 'The blue stylesheet is now enabled');
-                    assert.ok($('link[data-name="green"]').prop('disabled'), 'The green stylesheet is disabled');
+                    assert.ok( ! $('link[data-id="base"]').prop('disabled'), 'The base stylesheet is now enabled');
+                    assert.ok( ! $('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is now enabled');
+                    assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
 
                     loader2.change('green');
 

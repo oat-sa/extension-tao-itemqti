@@ -25,20 +25,23 @@ define([
 ], function(_, module, context, assetManagerFactory, assetStrategies){
     'use strict';
 
+
     var config = module.config();
     var themes = _.defaults(config.themes || {}, {
         base    : 'taoQtiItem/views/css/qti-runner.css',
-        default : 'tao',
-        available : {
-            tao   : 'taoQtiItem/views/css/themes/default.css',
-        }
+        'default' : 'tao',
+        available : [{
+            id   : 'tao',
+            path : 'taoQtiItem/views/css/themes/default.css',
+            name : 'TAO'
+        }]
     });
 
     //asset manager using base url
     var assetManager = assetManagerFactory([{
             name : 'theme',
             handle : function handleTheme(url){
-                if(url.path === themes.base || _.contains(_.values(themes.available), url.path)){
+                if(url.path === themes.base || _.contains(_.pluck(themes.available, 'path'), url.path)){
                     return context.root_url + url.toString();
                 }
             }

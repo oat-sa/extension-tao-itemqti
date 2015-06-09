@@ -500,8 +500,8 @@ define([
 
                 //resolve themes paths
                 options.themes.base = this.resolveUrl(options.themes.base);
-                _.forEach(options.themes.available, function(url, name){
-                    options.themes.available[name] = self.resolveUrl(url);
+                _.forEach(options.themes.available, function(theme, index){
+                    options.themes.available[index].path = self.resolveUrl(theme.path);
                 });
                 this.themeLoader = themeLoader(options.themes).load();
             }
