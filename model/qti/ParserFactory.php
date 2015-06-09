@@ -419,7 +419,6 @@ class ParserFactory
         foreach ($element->childNodes as $child) {
 
             if($child->nodeType === XML_ELEMENT_NODE) {
-                if($child->nodeName === 'xi:include'){
                     foreach($this->queryXPath('namespace::*', $child) as $node){
                         $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
                         $uri = $node->nodeValue;
@@ -428,15 +427,13 @@ class ParserFactory
                             break;
                         }
                     }
-                }
-                else{
-                    $value = $this->recursivelyFindNamespace($child, $nsFragment);
-                    if($value !== ''){
-                        $returnValue = $value;
-                    }
+                $value = $this->recursivelyFindNamespace($child, $nsFragment);
+                if($value !== ''){
+                    $returnValue = $value;
                 }
             }
         }
+
         return $returnValue;
     }
 
