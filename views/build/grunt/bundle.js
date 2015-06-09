@@ -23,7 +23,9 @@ module.exports = function(grunt) {
     var paths = {
         'taoQtiItem' : root + '/taoQtiItem/views/js',
         'taoQtiItemCss' :  root + '/taoQtiItem/views/css',
-        'taoItems' : root + '/taoItems/views/js'
+        'taoItems' : root + '/taoItems/views/js',
+        'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+        'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
     };
 
     /**
@@ -91,7 +93,9 @@ module.exports = function(grunt) {
                 'taoItems'      : root + '/taoItems/views/js',
                 'taoCss'        : root + '/tao/views/css',
                 'jquery'        : 'lib/jqueryamd-1.8.3',
-                'taoQtiItemCss/qti' : root + '/taoQtiItem/views/css/qti-runner'
+                'taoQtiItemCss/qti' : root + '/taoQtiItem/views/css/qti-runner',
+                'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+                'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
             },
             excludeShallow : ['mathJax', 'ckeditor'],
             include: runtimeLibs.concat([ 'tpl', 'json']),
@@ -120,7 +124,7 @@ module.exports = function(grunt) {
                 end : "define(['taoQtiItem/scoring/qtiScorer'], function(scorer){ return scorer; });"
             },
             wrapShim: true,
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js',  'taoItems' : root + '/taoItems/views/js'},
+            paths : paths,
             include: ['lodash'],
             name: "taoQtiItem/scoring/qtiScorer",
             out: out + "/qtiScorer.min.js"
