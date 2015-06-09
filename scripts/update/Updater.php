@@ -22,6 +22,8 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\tao\model\ClientLibRegistry;
+
 
 /**
  * 
@@ -120,6 +122,15 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.6';
         }
         
+        if($currentVersion == '2.7.6'){
+
+            $clientLibRegistry = new ClientLibRegistry();
+            $clientLibRegistry->register('qtiCustomInteractionContext', ROOT_PATH . 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
+            $clientLibRegistry->register('qtiInfoControlContext', ROOT_PATH . 'taoQtiItem/views/js/runtime/qtiInfoControlContext');
+
+            $currentVersion = '2.7.7';
+        }
+
         return $currentVersion;
     }
 
