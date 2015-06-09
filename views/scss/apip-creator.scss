@@ -56,13 +56,13 @@
             &.hover{
                 padding : 10px;
                 border-width:2px;
-                border-color: whiten($info, .5);
+                border-color: whiten($info, .7);
                 cursor:pointer;
             }
             &.active{
                 padding : 10px;
                 border-width:2px;
-                border-color: whiten($info, 0);
+                border-color: whiten($info, .2);
             }
             &.qti-img {
                 display: inline-block;
@@ -72,6 +72,9 @@
                 .label{
                     position:relative;
                 }
+            }
+            .element-placeholder{
+                display:inline-block;
             }
         }
     }
