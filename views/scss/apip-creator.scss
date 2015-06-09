@@ -90,11 +90,19 @@
             }
             .toolbar{
                 position:absolute;
-                top:1rem;
+                top:8px;
                 right:3px;
                 li{
+                    font-size : 15px;
                     float:left;
                     margin-left:15px;
+                    &:hover{
+                        cursor:pointer;
+                        color:$info;
+                    }
+                    &.detach{
+                        display:none;
+                    }
                 }
             }
         }
