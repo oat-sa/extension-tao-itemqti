@@ -17,8 +17,11 @@
  *
  */
 define([
+    'i18n',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/signing',
-], function(formTpl){
+    'helpers',
+    'ui/resourcemgr'
+], function(__, formTpl, helpers){
     
     function Form(accessElementInfo){
         this.accessElementInfo = accessElementInfo;
@@ -35,16 +38,68 @@ define([
         return formTpl(tplData);
     };
     
+    Form.prototype.initResourceMgr = function initResourceMgr($container) {
+        var that = this,
+            type = that.accessElementInfo.data.children[0].localName, 
+            $src = $container.find('input[name*="videoFileInfo.fileHref"]'),
+            $uploadTrigger = $container.find('.selectMediaFile');
+        
+        
+        $uploadTrigger.on('click', function () {
+            $uploadTrigger.resourcemgr({
+                title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                appendContainer : '.spoken-form-container',
+                mediaSourcesUrl : helpers._url('getMediaSources', 'QtiCreator', 'taoQtiItem'),
+                browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
+                uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
+                deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
+                downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
+                fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
+                params : {
+                    uri : that.accessElementInfo.apipItem.options.id,
+                    //lang : "en-US", //TODO set user language
+                    filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv'
+                },
+                pathParam : 'path',
+                select : function(e, files){
+                    if(files && files.length){
+                        // set data field content and meybe detect and set media type here
+                        that.accessElementInfo.setAttribute(type + '.videoFileInfo.mimeType', files[0].mime);
+                        /*interaction.object.attr('type', files[0].mime);
+                        $form.find('input[name=data]')
+                            .val(files[0].file)
+                            .trigger('change');*/
+                    }
+                },
+                open : function(){
+                    //hide tooltip if displayed
+                    /*if($src.hasClass('tooltipstered')){
+                        $src.blur().tooltipster('hide');
+                    }*/
+                },
+                close : function(){
+                    //triggers validation : 
+                    $src.blur();
+                }
+            });
+        });
+    };
+    
+    
     Form.prototype.initEvents = function initEvents($container) {
         var aeInfo = this.accessElementInfo;
         
+        this.initResourceMgr($container);
+        
         $container.on('change', 'input', function(){
-            var $input = $(this);
-            var name = $input.attr('name');
-            var value = $input.val();
+            var $input = $(this),
+                name = $input.attr('name'),
+                value = $input.val();
             aeInfo.setAttribute(name, value);
         });
     };
+    
+    
     
     return Form;
 });
