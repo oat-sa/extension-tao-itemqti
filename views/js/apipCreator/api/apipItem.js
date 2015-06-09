@@ -33,11 +33,16 @@ define([
      * @param {String} apipItemXML - the APIP-QTI item XML
      * @returns {Object}
      */
-    function ApipItem(apipItemXML) {
+    function ApipItem(apipItemXML, options) {
         var that = this,
             inclusionOrderNode,
             accessibilityInfoNode;
         
+        if (!options.id) {
+            throw new TypeError('options.id parameter is required');
+        }
+        
+        this.options = options;
         this.apipDoc = parser.parse(apipItemXML);
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {

@@ -32,7 +32,7 @@ define([
         this.$container = $container;
         this.config = config;
         this.inclusionOrderType = 'textGraphicsDefaultOrder';//initial selected inclusion order
-        this.apipItem = new ApipItem(config.properties.xml);
+        this.apipItem = new ApipItem(config.properties.xml, {id : config.id});
     }
 
     ApipCreator.prototype.initLabel = function initLabel(){

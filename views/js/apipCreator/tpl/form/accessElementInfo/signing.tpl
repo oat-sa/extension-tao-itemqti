@@ -3,6 +3,7 @@
         <label>
             <div>{{__ 'File'}}</div>
             <input type="text" name="{{type}}.videoFileInfo.fileHref" placeholder="Please select file" value="{{fileHref}}"/>
+            <button class="selectMediaFile btn-info small block">{{__ 'Select media file'}}</button>
         </label>
     </div>
     <div class="field">
