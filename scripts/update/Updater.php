@@ -124,9 +124,9 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($currentVersion == '2.7.6'){
 
-            $clientLibRegistry = new ClientLibRegistry();
-            $clientLibRegistry->register('qtiCustomInteractionContext', ROOT_PATH . 'taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
-            $clientLibRegistry->register('qtiInfoControlContext', ROOT_PATH . 'taoQtiItem/views/js/runtime/qtiInfoControlContext');
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
+            $clientLibRegistry->register('qtiInfoControlContext', '../../../taoQtiItem/views/js/runtime/qtiInfoControlContext');
 
             $currentVersion = '2.7.7';
         }

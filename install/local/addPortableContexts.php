@@ -20,9 +20,8 @@
 
 use oat\tao\model\ClientLibRegistry;
 
-$basePath = ROOT_PATH . 'taoQtiItem/views/js/runtime/';
+$basePath = '../../../taoQtiItem/views/js/runtime/';
 
-
-$registry = new ClientLibRegistry();
+$registry = ClientLibRegistry::getRegistry();
 $registry->register('qtiCustomInteractionContext', $basePath . 'qtiCustomInteractionContext');
 $registry->register('qtiInfoControlContext', $basePath . 'qtiInfoControlContext');
