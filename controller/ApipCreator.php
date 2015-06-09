@@ -27,6 +27,7 @@ use oat\taoQtiItem\helpers\Apip;
 use oat\taoQtiItem\model\ItemModel;
 use tao_actions_CommonModule;
 use tao_helpers_Uri;
+use taoItems_models_classes_ItemsService;
 use DOMDocument;
 
 /**
@@ -130,7 +131,7 @@ class ApipCreator extends tao_actions_CommonModule
         if ($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))) {
             if (Apip::isValid($itemDoc)) {
                 $apipService = ApipService::singleton();
-                $apipService->storeApipAccessibilityContent($rdfItem, $xml);
+                $apipService->storeApipAccessibilityContent($rdfItem, $itemDoc);
                 return true;
             }
         }
