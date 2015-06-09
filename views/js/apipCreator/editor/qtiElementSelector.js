@@ -34,6 +34,9 @@ define([
         },
         math : function(){
             return '<math>' + this.innerHTML + '</math>';
+        },
+        inlinePlaceholder : function(){
+            return '<span class="element-placeholder">'+this.tagName+'</span>';
         }
     };
 
@@ -44,9 +47,12 @@ define([
         {id : 'img', qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
         {id : 'span', qtiClass : 'span', label : 'span', inline : true},
         {id : 'choiceinteraction', qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
+        {id : 'textentryinteraction', qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
+        {id : 'inlineChoiceInteraction', qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
         {id : 'prompt', qtiClass : 'prompt', label : 'prompt', inline : false},
         {id : 'simplechoice', qtiClass : 'simpleChoice', label : 'choice', inline : false},
         {id : 'p', qtiClass : 'p', label : 'p', inline : false},
+        {id : 'blockquote', qtiClass : 'blockquote', label : 'blockquote', inline : false},
         {id : 'math', qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
 
