@@ -156,7 +156,7 @@ define([
                             evt.preventDefault();
                         }
                         if(maxLength){
-                            var value = _getTextareaValue(interaction);
+                            var value = _getTextareaValue(interaction, true);
                             setText(interaction,value);
                         }
                     }
@@ -414,7 +414,7 @@ define([
                     value = parseFloat(_getTextareaValue(interaction));
                 }
                 else if (baseType === 'string') {
-                    value = _getTextareaValue(interaction);
+                    value = _getTextareaValue(interaction, true);
                 }
             }
 
@@ -427,11 +427,12 @@ define([
     /**
      * return the value of the textarea or ckeditor data
      * @param  {Object} interaction
+     * @param  {Boolean} raw Tells if the returned data does not have to be filtered (i.e. XHTML tags not removed)
      * @return {String}             the value
      */
-    var _getTextareaValue = function(interaction) {
+    var _getTextareaValue = function(interaction, raw) {
         if (_getFormat(interaction) === 'xhtml') {
-            return _ckEditorData(interaction);
+            return _ckEditorData(interaction, raw);
         }
         else {
             return containerHelper.get(interaction).find('textarea').val();
@@ -469,15 +470,30 @@ define([
     /**
      * get the text content of the ckEditor ( not the entire html )
      * @param  {object} interaction the interaction
+     * @param  {Boolean} raw Tells if the returned data does not have to be filtered (i.e. XHTML tags not removed)
      * @return {string}             text content of the ckEditor
      */
-    var _ckEditorData = function(interaction) {
-        var tempNode = document.createElement('div');
+    var _ckEditorData = function(interaction, raw) {
         var editor = _getCKEditor(interaction);
-        if (editor) {
-            tempNode.innerHTML = editor.getData();
+        var data = editor && editor.getData() || '';
+
+        if (!raw) {
+            data = _stripTags(data);
         }
-        return  tempNode.textContent;
+
+        return data;
+    };
+
+    /**
+     * Remove HTML tags from a string
+     * @param {String} str
+     * @returns {String}
+     * @private
+     */
+    var _stripTags = function(str) {
+        var tempNode = document.createElement('div');
+        tempNode.innerHTML = str;
+        return tempNode.textContent;
     };
 
     var _getFormat = function(interaction) {

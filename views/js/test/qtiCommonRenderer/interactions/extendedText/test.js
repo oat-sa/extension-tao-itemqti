@@ -275,7 +275,7 @@ define([
         QUnit.expect(20);
 
         var $container = $('#' + fixtureContainerId + '7');
-        var response = { base  : { string : 'test' } };
+        var response = { base  : { string : '<strong>test</strong>' } };
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
