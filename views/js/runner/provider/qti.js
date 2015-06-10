@@ -130,13 +130,11 @@ define([
         },
 
         getResponses : function(){
-            var responses = [];
+            var responses = {};
             if(this._item){
                 _.reduce(this._item.getInteractions(), function(res, interaction){
-                    var response = {};
-                    response[interaction.attr('responseIdentifier')] = interaction.getResponse();
-                    res.push(response);
-                    return res;
+                    responses[interaction.attr('responseIdentifier')] = interaction.getResponse();
+                    return responses;
                 }, responses);
             }
             return responses;
