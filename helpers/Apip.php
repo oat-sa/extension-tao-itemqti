@@ -62,9 +62,13 @@ class Apip
      * @param DOMDocument $apipContent
      */
     static public function mergeApipAccessibility(DOMDocument $qtiItem, DOMDocument $apipContent)
-    {
-        $newNode = $qtiItem->importNode($apipContent->documentElement, true);
-        $qtiItem->documentElement->appendChild($newNode);
+    {        
+        $apipXMLString = $apipContent->saveXML($apipContent->documentElement);
+        
+        $fragment = $qtiItem->createDocumentFragment();
+        $fragment->appendXml($apipXMLString);
+        
+        $qtiItem->documentElement->appendChild($fragment);
         
         $raw = $qtiItem->saveXML();
         $raw = str_replace('http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd', 'http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p1_v1p0.xsd', $raw);

@@ -48,7 +48,7 @@ define([
         $uploadTrigger.on('click', function () {
             $uploadTrigger.resourcemgr({
                 title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
-                appendContainer : '.spoken-form-container',
+                appendContainer : '#mediaManager',
                 mediaSourcesUrl : helpers._url('getMediaSources', 'QtiCreator', 'taoQtiItem'),
                 browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
                 uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
@@ -57,28 +57,19 @@ define([
                 fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
                 params : {
                     uri : that.accessElementInfo.apipItem.options.id,
-                    //lang : "en-US", //TODO set user language
-                    filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv'
+                    lang : "en-US", //TODO set user language
+                    filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,application/octet-stream'
                 },
                 pathParam : 'path',
                 select : function(e, files){
                     if(files && files.length){
-                        // set data field content and meybe detect and set media type here
                         that.accessElementInfo.setAttribute(type + '.videoFileInfo.mimeType', files[0].mime);
-                        /*interaction.object.attr('type', files[0].mime);
-                        $form.find('input[name=data]')
-                            .val(files[0].file)
-                            .trigger('change');*/
+                        $src.val(files[0].file).trigger('change');
                     }
                 },
                 open : function(){
-                    //hide tooltip if displayed
-                    /*if($src.hasClass('tooltipstered')){
-                        $src.blur().tooltipster('hide');
-                    }*/
                 },
                 close : function(){
-                    //triggers validation : 
                     $src.blur();
                 }
             });
@@ -95,6 +86,7 @@ define([
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
+                
             aeInfo.setAttribute(name, value);
         });
     };
