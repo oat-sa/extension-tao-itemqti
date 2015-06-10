@@ -21,22 +21,25 @@ define([
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/selector',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementBlock',
-    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline'
-], function(_, $, selectorTpl, elementBlockTpl, elementInlineTpl){
+    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline',
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
+], function (_, $, selectorTpl, elementBlockTpl, elementInlineTpl, inclusionOrderSelector){
 
     'use strict';
 
     var _ns = '.qti-element-selector';
 
+    var _apipFeaturePrefix = 'apip-feature-';
+
     var _renderers = {
-        img : function(){
+        img : function (){
             return '<img src="' + this.getAttribute('src') + '"/>';
         },
-        math : function(){
+        math : function (){
             return '<math>' + this.innerHTML + '</math>';
         },
-        inlinePlaceholder : function(){
-            return '<span class="element-placeholder">'+this.tagName+'</span>';
+        inlinePlaceholder : function (){
+            return '<span class="element-placeholder">' + this.tagName + '</span>';
         }
     };
 
@@ -56,6 +59,8 @@ define([
         {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
 
+    var _inclusionOrders = inclusionOrderSelector.getAvailableInclusionOrders();
+
     function renderSelectorElement(elementNode){
 
         var rendering, tplData;
@@ -74,7 +79,7 @@ define([
             if(model.renderer){
                 tplData.content = model.renderer.call(elementNode);
             }else{
-                _.each(elementNode.childNodes, function(node){
+                _.each(elementNode.childNodes, function (node){
                     if(node.nodeType === 3 && node.data.trim()){
                         //text node:
                         tplData.content += node.data;
@@ -135,18 +140,18 @@ define([
             $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
         }
 
-        $container.off(_ns).on('mouseenter' + _ns, '.element:not(.qti-itemBody)', function(e){
+        $container.off(_ns).on('mouseenter' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             e.stopPropagation();
             $(this).addClass('hover');
             $(this).parent().trigger('mouseleave' + _ns);
 
-        }).on('mouseleave' + _ns, '.element:not(.qti-itemBody)', function(e){
+        }).on('mouseleave' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             $(this).removeClass('hover');
             $(this).parent().trigger('mouseenter' + _ns);
 
-        }).on('click' + _ns, '.element:not(.qti-itemBody)', function(e){
+        }).on('click' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             e.stopPropagation();
             var $element = $(this);
@@ -157,11 +162,11 @@ define([
         });
 
         return {
-            activate : function(serial){
+            activate : function (serial){
                 var $element = $container.find('.element[data-serial="' + serial + '"]');
                 activateElement($element);
             },
-            deactivate : function(){
+            deactivate : function (){
                 if($currentActive){
                     deactivateElement($currentActive);
                     $currentActive.removeClass('hover');
@@ -171,7 +176,7 @@ define([
     }
 
     function resetQtiAccessElements($container){
-        $container.find('.apipfied').removeClass(function(index, css){ 
+        $container.find('.apipfied').removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             classes.push('apipfied');
             return classes.join(' ');
@@ -190,28 +195,53 @@ define([
             $qtiElement.data('apip-features', features);
         }
     }
-    
-    function setApipFeatures($container, apipItem, inclusionOrder){
-        
+
+    function setApipFeatures($container, apipItem, inclusionOrderName){
+
         //check inclusionOrder and 
         //set inclusionOrder css class
         if(true){
-            $container.addClass(inclusionOrder);
+            $container.addClass(_apipFeaturePrefix + inclusionOrderName);
         }
-        
-         //get ae
-        var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrder);
-        
+
+        //get ae
+        var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
+
         //check feature presence
-        
-        //set feature in qti element + 
+        var aeInfoType = _getInfoTypeByInclusionOrder(inclusionOrderName);
+        _.each(accessElements, function (ae){
+            var aeInfo = ae.getAccessElementInfo(aeInfoType);
+            if(aeInfo){
+                //feature detected
+                var qtiElements = ae.getQtiElements();
+                _.each(qtiElements, function (qtiElement){
+                    //set feature css class to qti element
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass(_apipFeaturePrefix + aeInfoType);
+                });
+            }
+        });
     }
-    
+
+    function _getInfoTypeByInclusionOrder(inclusionOrderName){
+        var inclusionOrderData = _.find(_inclusionOrders, {type : inclusionOrderName});
+        if(inclusionOrderData){
+            return inclusionOrderData.accessElementInfo.type;
+        }else{
+            throw 'unknown type of inclusionOrder';
+        }
+    }
+
+    function resetApipFeatures($container){
+        $container.find('.element').addBack().removeClass(function (index, css){
+            var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
+            return classes.join(' ');
+        });
+    }
+
     return {
         render : render,
         selectable : selectable,
-        setQtiAccessElements : setQtiAccessElements,
-        resetQtiAccessElements : resetQtiAccessElements,
-        setApipFeatures : setApipFeatures
+        setApipFeatures : setApipFeatures,
+        resetApipFeatures : resetApipFeatures
     };
 });
