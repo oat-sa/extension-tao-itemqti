@@ -22,16 +22,18 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\tao\model\ThemeRegistry;
+
 
 /**
- * 
+ *
  * @author Sam <sam@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
 
     /**
-     * 
+     *
      * @param string $initialVersion
      * @return string
      */
@@ -112,21 +114,29 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('qtiCreator', array('multi-column' => false));
             $currentVersion = '2.7.5';
         }
-        
+
         if($currentVersion == '2.7.5'){
 
             $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
 
             $currentVersion = '2.7.6';
         }
-        
+
         if($currentVersion == '2.7.6'){
 
             $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
 
             $currentVersion = '2.7.7';
         }
-        
+
+        if($currentVersion == '2.7.7'){
+            ThemeRegistry::getRegistry()->createTarget('items', 'taoQtiItem/views/css/qti-runner.css');
+            ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
+            ThemeRegistry::getRegistry()->setDefaultTheme('items', 'tao');
+
+            $currentVersion = '2.7.8';
+
+        }
         return $currentVersion;
     }
 
