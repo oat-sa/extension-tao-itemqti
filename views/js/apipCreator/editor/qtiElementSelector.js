@@ -171,7 +171,7 @@ define([
     }
 
     function resetQtiAccessElements($container){
-        $container.find('.apipfied').removeClass(function(index, css){
+        $container.find('.apipfied').removeClass(function(index, css){ 
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             classes.push('apipfied');
             return classes.join(' ');
@@ -190,11 +190,32 @@ define([
             $qtiElement.data('apip-features', features);
         }
     }
-
+    
+    function setApipFeatures($container, apipItem, inclusionOrder){
+        
+        //check inclusionOrder and 
+        //set inclusionOrder css class
+        if(true){
+            $container.addClass(inclusionOrder);
+        }
+        
+         //get ae
+        var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrder);
+        
+        
+        
+       
+        
+        //check feature presence
+        
+        //set feature in qti element + 
+    }
+    
     return {
         render : render,
         selectable : selectable,
         setQtiAccessElements : setQtiAccessElements,
-        resetQtiAccessElements : resetQtiAccessElements
+        resetQtiAccessElements : resetQtiAccessElements,
+        setApipFeatures : setApipFeatures
     };
 });

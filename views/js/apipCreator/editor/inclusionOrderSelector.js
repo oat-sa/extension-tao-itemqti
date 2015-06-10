@@ -24,6 +24,25 @@ define([
     
     var _ns = '.inclusion-order-selector';
     
+    var _inclusionOrders1 = [
+        {
+            type : 'textGraphicsDefaultOrder',
+            label : 'Spoken, Text & Graphic - default',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'textGraphicsOnDemandOrder',
+            label : 'Spoken, Text & Graphic - on demand',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        }
+    ];
+    
     var _inclusionOrders = {
         textGraphicsDefaultOrder : 'Spoken, Text & Graphic - default',
         textGraphicsOnDemandOrder : 'Spoken, Text & Graphic - on demand',
@@ -65,8 +84,13 @@ define([
         
         addEvents($container);
     }
-
+    
+    function getModel(){
+        
+    }
+    
     return {
-        render : render
+        render : render,
+        getModel : getModel
     };
 });
