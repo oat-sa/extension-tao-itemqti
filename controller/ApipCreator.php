@@ -90,7 +90,7 @@ class ApipCreator extends tao_actions_CommonModule
         } else if (empty($lang)) {
             throw new \tao_models_classes_MissingRequestParameterException("lang");
         } else {
-            $rdfItem = new core_kernel_classes_Resource($itemUri);
+            $rdfItem = new \core_kernel_classes_Resource($itemUri);
             $xml     = file_get_contents('php://input');
             if ($this->storeApipItemXml($rdfItem, $lang, $xml)) {
                 $returnValue['success'] = true;
