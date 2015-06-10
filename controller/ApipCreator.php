@@ -29,6 +29,7 @@ use tao_actions_CommonModule;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use DOMDocument;
+use oat\taoQtiItem\helpers\Authoring;
 
 /**
  * APIPCreator Controller provide actions to edit a APIP item
@@ -92,14 +93,14 @@ class ApipCreator extends tao_actions_CommonModule
         } else {
             $rdfItem = new \core_kernel_classes_Resource($itemUri);
             $xml     = file_get_contents('php://input');
-            if ($this->storeApipItemXml($rdfItem, $lang, $xml)) {
+            if ($this->storeApipItemXml($rdfItem, $lang, $xml) && $this->setQtiItemContent($rdfItem, $lang, $xml)) {
                 $returnValue['success'] = true;
                 $returnValue['xml']     = $xml;
             }
         }
         $this->returnJson($returnValue);
     }
-
+    
     /**
      * Get the XML string for an complete QTI APIP item
      *
@@ -114,7 +115,30 @@ class ApipCreator extends tao_actions_CommonModule
         $itemDoc     = $apipService->getMergedApipItemContent($rdfItem, $lang);
         return $itemDoc->saveXML();
     }
+    
+    /**
+     * Store the complete QTI item XML
+     * 
+     * @param core_kernel_classes_Resource $rdfItem
+     * @param string $lang
+     * @param string $xml
+     */
+    protected function setQtiItemContent(core_kernel_classes_Resource $rdfItem, $lang, $xml)
+    {
+        $itemService = taoItems_models_classes_ItemsService::singleton();
+        if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
+            $itemDoc = new DOMDocument('1.0', 'UTF-8');
+            $itemDoc->loadXML($xml);
+            $itemDoc = Apip::extractQtiModel($itemDoc);
+            
+            $xml = Authoring::validateQtiXml($itemDoc->saveXML());
 
+            return $itemService->setItemContent($rdfItem, $xml);
+        }
+        
+        return false;
+    }
+    
     /**
      * Store the complete QTI APIP item XML
      * 
