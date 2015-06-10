@@ -298,6 +298,6 @@ use oat\tao\helpers\Template;
 requirejs.config({
    config: {
        'taoQtiItem/controller/creator/main' : <?= json_encode(get_data('config')) ?>
-   }
+   } 
 });
 </script>

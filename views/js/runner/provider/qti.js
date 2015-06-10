@@ -25,8 +25,9 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, QtiLoader, QtiRenderer, assetManagerFactory){
+], function($, _, QtiLoader, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -96,7 +97,16 @@ define([
                     });
 
                 //TODO use post render cb once implemented
-                _.delay(done, 100);
+                _.delay(function() {
+                    done();
+
+                    /**
+                     * Lists the PIC provided by this item.
+                     * @event qti#listpic
+                     */
+                    self.trigger('listpic', picManager.collection(self._item));
+
+                }, 100);
             }
         },
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:10:30\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-08T14:42:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -43,6 +43,9 @@ msgstr "添加一个模态反馈"
 msgid "Add a QTI XML file"
 msgstr "添加一个QTI XML文件"
 
+msgid "Add a zip file containing APIP items"
+msgstr ""
+
 msgid "Add a zip file containing QTI items"
 msgstr "添加含有QTI题目的ZIP文件"
 
@@ -67,11 +70,11 @@ msgstr "对齐方式"
 msgid "Alignment (optional)"
 msgstr "对齐方式（选用）"
 
-msgid "Allowed number of associations"
-msgstr "允许关联的数量"
+msgid "Allowed associations"
+msgstr ""
 
-msgid "Allowed number of choices"
-msgstr "允许的选择数"
+msgid "Allowed choices"
+msgstr ""
 
 msgid "Allowed number of matches"
 msgstr "允许匹配数"
@@ -88,8 +91,14 @@ msgstr "在QTI模式的层次发生了错​​误。"
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr "当在解压缩IMS内容包时，ZIP压缩文件发生了错误。"
 
+msgid "An error occured while loading a shared stimulus."
+msgstr ""
+
 msgid "An error occured while parsing IMS QTI data."
 msgstr "在解析IMS QTI数据时发生错误。"
+
+msgid "An unexpected error occured during the import of the IMS APIP Item Package."
+msgstr ""
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "导入IMS QTI题目包时发生了错误。"
@@ -99,6 +108,12 @@ msgstr "在处理回应时发生了错误。"
 
 msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "当导入IMS QTI包时发生不明的错误。"
+
+msgid "APIP Package"
+msgstr ""
+
+msgid "APIP Package 1.0"
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "按正确的顺序排列选项列表。"
@@ -121,10 +136,10 @@ msgstr "自动启动"
 msgid "Background color"
 msgstr "背景色彩"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -139,10 +154,10 @@ msgstr "浏览你的电脑，并选择文件。"
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
 msgid "chars"
@@ -160,10 +175,10 @@ msgstr "选择的互动"
 msgid "Choice Properties"
 msgstr "选择的属性"
 
-msgid "Choices"
+msgid "choices"
 msgstr "选择"
 
-msgid "choices"
+msgid "Choices"
 msgstr "选择"
 
 msgid "Click again to remove"
@@ -226,10 +241,10 @@ msgstr "目前，不可从MathML转换到LaTeX。 在这里编辑MathML会丢�
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -343,6 +358,9 @@ msgstr "放大字型大小"
 msgid "Export"
 msgstr "导出"
 
+msgid "Export APIP 1.0 Package"
+msgstr ""
+
 msgid "Export QTI 2.1 Package"
 msgstr "导出 QTI 2.1包"
 
@@ -400,26 +418,14 @@ msgstr "空格"
 msgid "GIF image"
 msgstr "GIF 图像"
 
-msgid "Graphic Associate"
-msgstr "图像相连"
-
 msgid "Graphic Associate Interaction"
 msgstr "图像相连互动"
-
-msgid "Graphic Gap"
-msgstr "图像空格"
 
 msgid "Graphic Gap Match Interaction"
 msgstr "图像空格匹配互动"
 
-msgid "Graphic Order"
-msgstr "图像顺序"
-
 msgid "Graphic Order Interaction"
 msgstr "图像顺序互动"
-
-msgid "he maximum number of associations that the candidate is allowed to make."
-msgstr "考生可使用相连线的最多次数。"
 
 msgid "Height"
 msgstr "长度"
@@ -468,6 +474,9 @@ msgstr "导入"
 
 msgid "Import a QTI 2.X Package"
 msgstr "导入QTI 2.X包"
+
+msgid "Import an APIP 1.0 Package"
+msgstr ""
 
 msgid "Import QTI 2.X Item"
 msgstr "导入QTI 2.X题目"
@@ -524,19 +533,19 @@ msgstr "JPEG图片"
 msgid "Label"
 msgstr "标签"
 
-msgid "LaTex"
+msgid "Latex"
 msgstr "LaTeX"
 
-msgid "Latex"
+msgid "LaTex"
 msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Length"
@@ -544,6 +553,9 @@ msgstr "长度"
 
 msgid "Lines"
 msgstr "线"
+
+msgid "List Style"
+msgstr ""
 
 msgid "Loop"
 msgstr "循环"
@@ -582,10 +594,10 @@ msgstr "最大长度"
 msgid "Max length"
 msgstr "最大长度"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字数"
 
 msgid "Max. number of matches"
@@ -620,9 +632,6 @@ msgstr "Microsoft PowerPoint"
 
 msgid "Microsoft Word"
 msgstr "Microsoft Word"
-
-msgid "Mime Type"
-msgstr "MIME 类型"
 
 msgid "MIME-type"
 msgstr "MIME 类型"
@@ -670,6 +679,9 @@ msgstr "未选取任何文件"
 msgid "No Items could be imported from the given IMS QTI package."
 msgstr "没有题目可以从所选择的IMS QTI包导入。"
 
+msgid "No preview available"
+msgstr ""
+
 msgid "No value set"
 msgstr "没有设定数值"
 
@@ -700,10 +712,10 @@ msgstr "在图片上排列这些区域(热点)。"
 msgid "Pair scoring"
 msgstr "对得分"
 
-msgid "pattern"
+msgid "Pattern"
 msgstr "样式"
 
-msgid "Pattern"
+msgid "pattern"
 msgstr "样式"
 
 msgid "Pause"
@@ -764,6 +776,9 @@ msgstr "请从资源管理器中为您的互动选一个图片。 你可以从�
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "请从资源管理器中选择一个媒体文件(视频或音频).你可以从你的计算机有按钮\"添加文件\"中添加新的文件。"
+
+msgid "Please select a shared stimulus file from the resource manager."
+msgstr ""
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "请从资源管理器中选择一个图像文档。 你可以在你的计算机有按钮\"添加档案\"中添加新的档案。"
@@ -900,10 +915,10 @@ msgstr "倒转..."
 msgid "Save"
 msgstr "储存"
 
-msgid "Score"
+msgid "score"
 msgstr "分数"
 
-msgid "score"
+msgid "Score"
 msgstr "分数"
 
 msgid "Score range"
@@ -962,6 +977,9 @@ msgstr "选择点处"
 
 msgid "Select Point Interaction"
 msgstr "点处互动"
+
+msgid "Select shared stimulus"
+msgstr ""
 
 msgid "Select the area to add an image"
 msgstr "选择添加图片的区域"
@@ -1050,6 +1068,9 @@ msgstr "图片文件路径。"
 msgid "The file path to the media."
 msgstr "媒体文件路径。"
 
+msgid "The file path to the shared stimulus."
+msgstr ""
+
 msgid "the following Qti Element is currently not supported in TAO"
 msgstr "目前在TAO中不支持以下QTI的元素"
 
@@ -1081,6 +1102,9 @@ msgstr "无法导入IMS QTI题目。"
 msgid "The item needs to be saved before it can be previewed"
 msgstr "该题目需先储存才可以可以预览"
 
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr ""
+
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr "形状的左部相对于像素为背景的左上角。 当背景图像的尺寸适于容器，该值可以被缩放。"
 
@@ -1095,6 +1119,9 @@ msgstr "清单参数必须是DOMDocument的实例。"
 
 msgid "The maximum number of association is unlimited."
 msgstr "关联的使用次数没有限制。"
+
+msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr ""
 
 msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
 msgstr "设定当考生选择回应时，不可以超过的最多选择数量。 考生选择数量要在限定内，回应才有效。"
@@ -1159,6 +1186,9 @@ msgstr "形状的顶部相对于像素为背景的左上角。 当背景图像�
 msgid "The upper bound of the slider"
 msgstr "滑动钮的上限"
 
+msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
+msgstr ""
+
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "此含有IMS QTI题目的ZIP压缩文件不能被提取。"
 
@@ -1183,6 +1213,9 @@ msgstr "这个样式表没有在服务器上找到。 您可能需要删除此�
 msgid "Time dependent"
 msgstr "累计运行的时间"
 
+msgid "Title"
+msgstr ""
+
 msgid "Top"
 msgstr "上面"
 
@@ -1200,6 +1233,9 @@ msgstr "上传一个文件(例如：档案，图片)作为一个回应。"
 
 msgid "Upper Bound"
 msgstr "上限"
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
+msgstr ""
 
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "用来控制考生输入的文本格式。"
