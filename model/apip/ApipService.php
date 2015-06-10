@@ -51,15 +51,6 @@ class ApipService extends tao_models_classes_Service
             $apipFinalLocation = $itemService->getItemFolder($item).'apip.xml';
             file_put_contents($apipFinalLocation, $apipContent->saveXML());
             \common_Logger::i("APIP content stored at '$apipFinalLocation'.");
-            
-            
-            $qtiContent = clone($originalDoc);
-            $qtiFinalLocation = $itemService->getItemFolder($item).'qti.xml';
-            $accessibilityNode = $qtiContent->getElementsByTagName('apipAccessibility');
-            $accessibilityNode[0]->parentNode->removeChild($accessibilityNode[0]);
-            
-            file_put_contents($qtiFinalLocation, $qtiContent->saveXML());
-            \common_Logger::i("QTI content stored at '$qtiFinalLocation'.");
         }
     }
 
@@ -85,7 +76,7 @@ class ApipService extends tao_models_classes_Service
 
         return $apipContent;
     }
-
+    
     /**
      * Get the default ApipAccessbility node
      * 
