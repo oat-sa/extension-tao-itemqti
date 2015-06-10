@@ -195,7 +195,7 @@ define([
 
     QUnit.asyncTest('process multiple responses', function(assert){
 
-            QUnit.expect(1);
+            QUnit.expect(7);
 
             var responses = {
                 'RESPONSE' : { list : { identifier : ["choice_3"] } },
@@ -209,8 +209,13 @@ define([
                 })
                 .on('outcome', function(outcomes){
 
-                    assert.ok(true);
-                    console.log(outcomes);
+                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                    assert.ok(typeof outcomes.RESPONSE_1 === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same");
+                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                    assert.deepEqual(outcomes.SCORE, { base : { float : 2 } }, "the score has the correct value");
 
                     QUnit.start();
                 })

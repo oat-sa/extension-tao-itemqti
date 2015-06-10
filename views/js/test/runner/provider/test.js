@@ -351,7 +351,7 @@ define([
     });
 
     QUnit.asyncTest('no responses set', function(assert){
-        QUnit.expect(6);
+        QUnit.expect(4);
 
         var container = document.getElementById(containerId);
 
@@ -363,11 +363,9 @@ define([
             .on('render', function(){
                 var responses  = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.equal(responses.length, 1, 'there is one response');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base, null, 'the response contains a null base property');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base, null, 'the response contains a null base property');
 
                 QUnit.start();
             })
@@ -376,7 +374,7 @@ define([
     });
 
     QUnit.asyncTest('get responses after changes', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(7);
 
         var container = document.getElementById(containerId);
 
@@ -388,21 +386,18 @@ define([
             .on('render', function(){
                 var responses  = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.equal(responses.length, 1, 'there is one response');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base, null, 'the response contains a null base property');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base, null, 'the response contains a null base property');
 
                 //the user set response
                 $('[data-identifier="Atlantis"]', $(container)).click();
 
                 responses = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base.identifier, 'Atlantis', 'the response contains the set value');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base.identifier, 'Atlantis', 'the response contains the set value');
 
                 QUnit.start();
             })
