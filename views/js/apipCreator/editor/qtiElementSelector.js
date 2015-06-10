@@ -41,19 +41,19 @@ define([
     };
 
     var _selectables = [
-        {id : 'itembody', qtiClass : 'itemBody', label : 'item body', inline : false},
-        {id : 'caption', qtiClass : 'caption', label : 'caption', inline : true},
-        {id : 'div', qtiClass : 'div', label : 'div', inline : false},
-        {id : 'img', qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
-        {id : 'span', qtiClass : 'span', label : 'span', inline : true},
-        {id : 'choiceinteraction', qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
-        {id : 'textentryinteraction', qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
-        {id : 'inlineChoiceInteraction', qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
-        {id : 'prompt', qtiClass : 'prompt', label : 'prompt', inline : false},
-        {id : 'simplechoice', qtiClass : 'simpleChoice', label : 'choice', inline : false},
-        {id : 'p', qtiClass : 'p', label : 'p', inline : false},
-        {id : 'blockquote', qtiClass : 'blockquote', label : 'blockquote', inline : false},
-        {id : 'math', qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
+        {qtiClass : 'itemBody', label : 'item body', inline : false},
+        {qtiClass : 'caption', label : 'caption', inline : true},
+        {qtiClass : 'div', label : 'div', inline : false},
+        {qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
+        {qtiClass : 'span', label : 'span', inline : true},
+        {qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
+        {qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
+        {qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
+        {qtiClass : 'prompt', label : 'prompt', inline : false},
+        {qtiClass : 'simpleChoice', label : 'choice', inline : false},
+        {qtiClass : 'p', label : 'p', inline : false},
+        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
 
     function renderSelectorElement(elementNode){
