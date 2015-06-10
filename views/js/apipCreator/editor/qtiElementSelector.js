@@ -202,10 +202,6 @@ define([
          //get ae
         var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrder);
         
-        
-        
-       
-        
         //check feature presence
         
         //set feature in qti element + 
