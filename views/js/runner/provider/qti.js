@@ -84,7 +84,7 @@ define([
                     })
                     .off('endattempt')
                     .on('endattempt', function(e, responseIdentifier){
-                        self.trigger('endattempt', responseIdentifier || e.originalEvent.defail);
+                        self.trigger('endattempt', responseIdentifier || e.originalEvent.detail);
                     })
                     .off('themechange')
                     .on('themechange', function(e, themeName){
