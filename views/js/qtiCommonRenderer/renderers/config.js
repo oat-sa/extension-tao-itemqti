@@ -26,7 +26,6 @@ define([
     'use strict';
 
 
-    var config = module.config();
     var itemThemes = themes.get('items');
 
     //asset manager using base url
