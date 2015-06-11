@@ -51,10 +51,7 @@ return array(
 	'local'	=> array(
 		'php'	=> array(
 		    dirname(__FILE__).'/install/local/addPortableSharedLibraries.php',
-			dirname(__FILE__).'/install/local/addQTIExamples.php',
-			dirname(__FILE__).'/install/local/setDefaultTheme.php',
-
-
+			dirname(__FILE__).'/install/local/addQTIExamples.php'
 		)
 	),
     'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',

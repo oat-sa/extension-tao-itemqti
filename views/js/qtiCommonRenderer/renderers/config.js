@@ -18,24 +18,15 @@
 
 define([
     'lodash',
-    'module',
     'context',
+    'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(_, module, context, assetManagerFactory, assetStrategies){
+], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
 
-    var config = module.config();
-    var themes = _.defaults(config.themes || {}, {
-        base    : 'taoQtiItem/views/css/qti-runner.css',
-        'default' : 'tao',
-        available : [{
-            id   : 'tao',
-            path : 'taoQtiItem/views/css/themes/default.css',
-            name : 'TAO'
-        }]
-    });
+    var itemThemes = themes.get('items');
 
     //asset manager using base url
     var assetManager = assetManagerFactory([{
@@ -105,7 +96,7 @@ define([
         locations: locations,
         options:   {
             assetManager: assetManager,
-            themes : themes
+            themes : itemThemes
         }
     };
 });
