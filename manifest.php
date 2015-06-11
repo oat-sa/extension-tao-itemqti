@@ -43,14 +43,13 @@ return array(
 		    array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoQtiItem_views_js_portableSharedLibraries', 'location' => 'taoQtiItem/views/js/portableSharedLibraries', 'rights' => 'rw')),
 		    array('type' => 'CheckCustom', 'value' => array('id' => 'taoQtiItem_custom_mathjax', 'name' => 'mathjax', 'extension' => 'taoQtiItem', 'optional' => true))
 		),
-		'php'	=> array(
-					dirname(__FILE__).'/install/local/setDefaultTheme.php',
-		),
-
+	    'php' => array(
+			dirname(__FILE__).'/install/local/setDefaultTheme.php',
+	        dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php'
+		)
 	),
 	'local'	=> array(
 		'php'	=> array(
-		    dirname(__FILE__).'/install/local/addPortableSharedLibraries.php',
 			dirname(__FILE__).'/install/local/addQTIExamples.php'
 		)
 	),
