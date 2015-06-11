@@ -208,7 +208,7 @@ define([
     module('Get responses');
 
     QUnit.asyncTest('no responses set', function(assert){
-        QUnit.expect(6);
+        QUnit.expect(4);
 
         var container = document.getElementById(containerId);
 
@@ -218,11 +218,9 @@ define([
             .on('render', function(){
                 var responses  = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.equal(responses.length, 1, 'there is one response');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base.string, '', 'the response contains an empty string');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base.string, '', 'the response contains an empty string');
 
                 QUnit.start();
             })
@@ -231,7 +229,7 @@ define([
     });
 
     QUnit.asyncTest('get responses after changes', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(7);
 
         var container = document.getElementById(containerId);
 
@@ -241,21 +239,18 @@ define([
             .on('render', function(){
                 var responses  = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.equal(responses.length, 1, 'there is one response');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base.string, '', 'the response contains an empty string');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base.string, '', 'the response contains an empty string');
 
                 //the user set response
                 $('input.qti-textEntryInteraction', $(container)).val('kisscool').trigger('change');
 
                 responses = this.getResponses();
 
-                assert.ok(responses instanceof Array, 'the responses is an array');
-                assert.ok(typeof responses[0] === 'object' , 'the response is an object');
-                assert.ok(typeof responses[0].RESPONSE === 'object' , 'the response contains the interaction response identifier');
-                assert.equal(responses[0].RESPONSE.base.string, 'kisscool', 'the default state contains an empty string');
+                assert.ok(typeof responses === 'object' , 'the response is an object');
+                assert.ok(typeof responses.RESPONSE === 'object' , 'the response contains the interaction response identifier');
+                assert.equal(responses.RESPONSE.base.string, 'kisscool', 'the default state contains an empty string');
 
                 QUnit.start();
             })

@@ -70,15 +70,8 @@ define([
                 !$bodyEltForm.length ||
                 !dom.contains($bodyEltForm)){
 
-              assetManager = assetManagerFactory([
-                    assetStrategies.taomedia,
-                    assetStrategies.external,
-                    assetStrategies.base64,
-                    assetStrategies.baseUrl
-                ], { baseUrl : config.properties.baseUrl || '' });
-
                 _creatorRenderer = new Renderer({
-                    assetManager : assetManager,
+                    //assetManager : assetManager,
                     lang : '',
                     uri : '',
                     shuffleChoices : false,
@@ -100,6 +93,9 @@ define([
                     },
                     interactions : _extractInteractionsConfig(config)
                 });
+
+                //update the resolver baseUrl
+                _creatorRenderer.getAssetManager().setData({baseUrl : config.properties.baseUrl || '' });
 
             }
         }

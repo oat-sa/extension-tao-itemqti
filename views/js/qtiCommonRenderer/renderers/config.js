@@ -17,12 +17,17 @@
  */
 
 define([
+    'lodash',
+    'context',
+    'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(assetManagerFactory, assetStrategies){
+], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
-    //stratgy to resolve portable info control and portable interactions paths.
+    var itemThemes = themes.get('items');
+
+//stratgy to resolve portable info control and portable interactions paths.
     //It should never be reached in the stack the ususal way and should be called only using resolveBy.
     var portableAssetStrategy = {
         name : 'portableElementLocation',
@@ -34,7 +39,14 @@ define([
     };
 
     //Create asset manager stack
-    var assetManager = assetManagerFactory([
+    var assetManager = assetManagerFactory([{
+            name : 'theme',
+            handle : function handleTheme(url){
+                if(url.path === themes.base || _.contains(_.pluck(themes.available, 'path'), url.path)){
+                    return context.root_url + url.toString();
+                }
+            }
+        },
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
@@ -92,14 +104,11 @@ define([
     };
 
     return {
-        name: 'commonRenderer',
+        name:'commonRenderer',
         locations: locations,
-        options: {
-            assetManager: assetManager
+        options:   {
+            assetManager: assetManager,
+            themes : itemThemes
         }
     };
 });
-
-
-
-
