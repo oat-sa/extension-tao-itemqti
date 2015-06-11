@@ -21,6 +21,8 @@
 
 namespace oat\taoQtiItem\model;
 
+use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
+use oat\taoQtiItem\model\import\ApipPackageImport;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
 use oat\taoQtiItem\model\import\QtiPackageImport;
@@ -112,14 +114,16 @@ class ItemModel
      */
     public function getExportHandlers() {
     	return array(
+    	    new ApipPackageExportHandler(),
     		new QtiPackageExportHandler()
     	);
     }
     
     public function getImportHandlers() {
     	return array(
+    	    new ApipPackageImport(),
     		new QtiItemImport(),
-    	    new QtiPackageImport()
+    	    new QtiPackageImport(),
     	);
     }
 

@@ -24,6 +24,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\taoQtiItem\model\qti\Parser;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use \tao_models_classes_Service;
 use \core_kernel_classes_Resource;
@@ -33,6 +34,7 @@ use \common_Exception;
 use \core_kernel_versioning_Repository;
 use \Exception;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoItems\model\media\ItemMediaResolver;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -54,7 +56,7 @@ class Service extends tao_models_classes_Service
      * @throws \common_Exception If $item is not representing an item with a QTI item model.
      * @return oat\taoQtiItem\model\qti\Item An item as a business object.
      */
-    public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = '')
+    public function getDataItemByRdfItem(core_kernel_classes_Resource $item, $langCode = '', $resolveXInclude = false)
     {
         
         $returnValue = null;
@@ -70,7 +72,14 @@ class Service extends tao_models_classes_Service
                 //Parse it and build the QTI_Data_Item
                 $qtiParser = new Parser($itemContent);
                 $returnValue = $qtiParser->load();
-
+                
+                if($resolveXInclude && !empty($langCode)){
+                    //loadxinclude
+                    $resolver = new ItemMediaResolver($item, $langCode);
+                    $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
+                    $xincludeLoader->load(true);
+                }
+            
                 if (!$returnValue->getAttributeValue('xml:lang')) {
                     $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
                 }

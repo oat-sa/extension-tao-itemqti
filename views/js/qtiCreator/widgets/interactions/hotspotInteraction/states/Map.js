@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -19,10 +38,12 @@ define([
     'ui/tooltipster'
 ], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, answerStateHelper, grahicScorePopup, mappingFormTpl, formElement, deleter, tooltipster){
 
+    'use strict';
+
     /**
      * Initialize the state.
      */
-    function initMapState(){
+    var initMapState = function initMapState(){
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
@@ -47,12 +68,12 @@ define([
 
         //set the current corrects responses on the paper
         commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));   
-    }
+    };
 
     /**
      * Exit the map state
      */
-    function exitMapState(){
+    var exitMapState = function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
         
@@ -68,7 +89,7 @@ define([
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();
         widget.createChoices(); 
-    }
+    };
 
 
     /**

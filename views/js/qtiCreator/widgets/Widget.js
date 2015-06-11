@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 define([
     'lodash',
     'jquery',
@@ -21,7 +39,7 @@ define([
     var Widget = {
         /**
          * Intialize qti element creator widget
-         * 
+         *
          * @param {Object} element - standard qti object
          * @param {Jquery} $original - tje proginal DOM element of the qti element
          * @param {JQuery} $form - the property form of the qti element
@@ -69,13 +87,13 @@ define([
                 }else{
                     this.changeState('sleep');
                 }
-                
+
                 //communicate the widget readiness
                 if(_.isFunction(options.ready)){
                     options.ready.call(this, this);
                 }
                 this.$container.trigger('ready.qti-widget', [this]);
-                
+
             }else{
                 throw new Error('element is not a QTI Element');
             }
@@ -229,8 +247,12 @@ define([
                 //if the context option is provided, the function will fetch the widget container that in this context
                 //mandatory for detached of duplicated DOM element (e.g. ckEditor)
                 $container = options.context.find('.widget-box[data-serial=' + element.serial + ']');
-            }else{
+            }else if(this.$container.length && $.contains(document, this.$container[0])){
+                //if the container exist and is NOT detached
                 $container = this.$container;
+            }else{
+                //otherwise use less performance efficient selector
+                $container = $('.widget-box[data-serial=' + element.serial + ']');
             }
 
             //once required data ref has been set, destroy it:

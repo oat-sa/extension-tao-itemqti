@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -5,6 +25,8 @@ define([
     'jquery', 'lodash', 
     'tpl!taoQtiItem/qtiCreator/tpl/graphicInteraction/sidebar'
 ], function($, _, sidebarTmpl){
+
+    'use strict';
 
     /**
      * Helps you to create the side bar used to select shapes to draw in the QTI Create
@@ -26,13 +48,13 @@ define([
 
             var $imageEditor = $container.find('.image-editor');
             var serial = $container.data('serial');
-            var $imageBox = $('.main-image-box', $imageEditor);
             var $sideBar = $(sidebarTmpl({
                     showTarget : !!showTarget 
-                 })).insertBefore($imageEditor);
+                 }));
+            $imageEditor.prepend($sideBar);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
-            //var newWidth = $container.width() - $sideBar.outerWidth(true) - 2; //-2 is a security to prevent the element to dislpay below the sidebar
+
            
             /**
              * Set a form/shape into an active state
@@ -100,24 +122,15 @@ define([
                 }
             }); 
              
-            $container.on('resize.qti-widget.' + serial, function(){
-                _.defer(function(){
-                    $sideBar.find('.forms').height($imageEditor.innerHeight());
-                });
-            });
+
             $container.trigger('resize.qti-widget.' + serial); 
             return $sideBar;
         },
 
         remove : function remove($container){
             var $sideBar = $('.image-sidebar', $container);
-            var $imageEditor = $container.find('.image-editor');
-            var $imageBox = $('.main-image-box', $imageEditor);
             if($sideBar.length){
                 $sideBar.remove();
-                //$imageBox.css('width', 'auto');
-                //$imageEditor.css('width', 'auto');
-
                 $container.off('resize.qti-widget.sidebar');
                 $container.trigger('resize.qti-widget'); 
             }

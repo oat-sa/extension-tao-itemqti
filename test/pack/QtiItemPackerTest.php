@@ -45,7 +45,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
      */
     public function testConstructor(){
         $itemPacker = new QtiItemPacker();
-        $this->assertInstanceOf('oat\taoItems\model\pack\Packable', $itemPacker);
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPacker', $itemPacker);
     }
 
     /**
@@ -67,7 +67,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     public function testWrongContentToPack(){
 
         $itemPacker = new QtiItemPacker();
-        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'toto');
+        $itemPacker->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
     }
 
 
@@ -85,15 +85,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock = $this
                     ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
+                    ->setMethods(array('getItemContent', 'getPath'))
                     ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
 
-        $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+
+        $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
     }
 
     /**
@@ -108,14 +112,18 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock = $this
                     ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
+                    ->setMethods(array('getItemContent', 'getPath'))
                     ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -143,14 +151,18 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock = $this
                     ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
+                    ->setMethods(array('getItemContent', 'getPath'))
                     ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -173,15 +185,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($samplePath . $sample));
 
         $itemPackerMock = $this
-                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
-                    ->getMock();
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -210,15 +226,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($samplePath . $sample));
 
         $itemPackerMock = $this
-                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
-                    ->getMock();
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -242,15 +262,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($samplePath . $sample));
 
         $itemPackerMock = $this
-                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
-                    ->getMock();
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -274,15 +298,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($samplePath . $sample));
 
         $itemPackerMock = $this
-                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
-                    ->getMock();
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -308,14 +336,18 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock = $this
                     ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
+                    ->setMethods(array('getItemContent', 'getPath'))
                     ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $path);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($path));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -331,6 +363,110 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @expectedException \common_Exception
+     */
+    public function testPackingItemWithCssBase64(){
+        $sample = __DIR__ . '/../samples/xml/qtiv2p1/sample-elections.xml';
+        $path   = __DIR__ . '/../samples/css';
+
+
+        $this->assertTrue(file_exists($sample));
+
+        /**
+         * @var QtiItemPacker $itemPackerMock
+         */
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($sample)));
+
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue(file_get_contents($path)));
+
+        $itemPackerMock->setAssetEncoders(array('js'    => 'base64file',
+                                          'css'   => 'base64file',
+                                          'font'  => 'base64file',
+                                          'img'   => 'none',
+                                          'audio' => 'none',
+                                          'video' => 'none'));
+
+        $itemPackerMock->setNestedResourcesInclusion(false);
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
+
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $data = $itemPack->getData();
+
+        $this->assertEquals('assessmentItem', $data['qtiClass']);
+        $this->assertEquals('elections-in-the-united-states-2004', $data['identifier']);
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        $this->assertEquals(1, count($itemPack->getAssets('css')));
+        $this->assertEquals(0, count($itemPack->getAssets('font')));
+
+        $css = $itemPack->getAssets( 'css' );
+        $this->assertStringStartsWith( 'data:text/css;', $css[0], 'Have appropriate prefix' );
+        $this->assertRegExp( '/icon-checkbox/', base64_decode( $css[0] ), 'Correctly decoded back' );
+
+        $itemPackerMock->setNestedResourcesInclusion(true);
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
+
+    }
+
+    public function testPackingItemWithVideoBase64(){
+        $sample = __DIR__ . '/../samples/xml/packer/qti.xml';
+        $path   = __DIR__ . '/../samples/xml/packer';
+
+        $this->assertTrue(file_exists($sample));
+
+        /**
+         * @var QtiItemPacker $itemPackerMock
+         */
+        $itemPackerMock = $this
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
+
+        $itemPackerMock
+            ->method('getItemContent')
+            ->will($this->returnValue(file_get_contents($sample)));
+
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($path));
+
+        $itemPackerMock->setAssetEncoders(array('js'    => 'none',
+                                                'css'   => 'none',
+                                                'font'  => 'none',
+                                                'img'   => 'base64file',
+                                                'audio' => 'base64file',
+                                                'video' => 'base64file'));
+
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
+
+
+        $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
+        $this->assertEquals('qti', $itemPack->getType());
+
+        $this->assertEquals(1, count($itemPack->getAssets('img')));
+        $this->assertEquals(2, count($itemPack->getAssets('video')));
+
+        $video = $itemPack->getAssets( 'video' );
+        $this->assertStringStartsWith( 'data:video/mp4;', $video['sample.mp4'], 'Encoded as it is local resource' );
+        $this->assertStringStartsWith( 'https://', $video['https://www.youtube.com/watch?v=J1c2KzJbcGA'], 'Is external resource' );
+
+    }
+
+    /**
      * Test packing a PCI item
      */
     public function testPackingPciItem(){
@@ -341,15 +477,19 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertTrue(file_exists($samplePath . $sample));
 
         $itemPackerMock = $this
-                    ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
-                    ->setMethods(array('getItemContent'))
-                    ->getMock();
+            ->getMockBuilder('oat\taoQtiItem\model\pack\QtiItemPacker')
+            ->setMethods(array('getItemContent', 'getPath'))
+            ->getMock();
 
         $itemPackerMock
             ->method('getItemContent')
             ->will($this->returnValue(file_get_contents($samplePath . $sample)));
 
-        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), $samplePath);
+        $itemPackerMock
+            ->method('getPath')
+            ->will($this->returnValue($samplePath));
+
+        $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');
 
         $this->assertInstanceOf('oat\taoItems\model\pack\ItemPack', $itemPack);
         $this->assertEquals('qti', $itemPack->getType());
@@ -361,6 +501,6 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(3, count($itemPack->getAssets('img')));
         $this->assertEquals(2, count($itemPack->getAssets('css')));
-        $this->assertEquals(3, count($itemPack->getAssets('js')));
+        $this->assertEquals(2, count($itemPack->getAssets('js')));
     }
 }

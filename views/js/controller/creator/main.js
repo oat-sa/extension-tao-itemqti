@@ -1,16 +1,35 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
 define([
     'jquery',
     'lodash',
     'module',
     'async',
+    'history',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
-    'taoQtiItem/qtiCreator/helper/commonRenderer', //for the preview
+    'taoQtiItem/qtiCreator/helper/commonRenderer', //for read-only element : preview + xinclude
     'taoQtiItem/qtiCreator/helper/qtiElements',
+    'taoQtiItem/qtiCreator/helper/xincludeRenderer',
     // css editor related
     'taoQtiItem/qtiCreator/editor/editor',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
@@ -22,6 +41,7 @@ define([
     _,
     module,
     async,
+    history,
     loadingBar,
     section,
     event,
@@ -30,19 +50,22 @@ define([
     creatorRenderer,
     commonRenderer,
     qtiElements,
+    xincludeRenderer,
     editor,
     interactionsToolbar,
     ciRegistry,
     icRegistry,
     blockAdder
     ){
-
-    loadingBar.start();
     
+    'use strict';
+    
+    loadingBar.start();
+
     function _getAuthoringElements(interactionModels){
-        
+
         var toolbarInteractions = qtiElements.getAvailableAuthoringElements();
-        
+
         _.each(interactionModels, function(interactionModel){
             var data = ciRegistry.getAuthoringData(interactionModel.getTypeIdentifier());
             if(data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
@@ -51,11 +74,11 @@ define([
                 throw 'invalid authoring data for custom interaction';
             }
         });
-        
+
         return toolbarInteractions;
     }
-    
-    
+
+
     function _initializeInteractionsToolbar($toolbar, interactionModels){
 
         //create toolbar:
@@ -70,11 +93,11 @@ define([
         panel.toggleInlineInteractionGroup();
 
     }
-    
+
     function _initializeElementAdder(item, $itemPanel, interactionModels){
-        
+
         var authoringElements = _getAuthoringElements(interactionModels);
-        
+
         blockAdder.create(item, $itemPanel, authoringElements);
     }
 
@@ -90,7 +113,7 @@ define([
 
     return {
         /**
-         * 
+         *
          * @param {object} config (baseUrl, uri, lang)
          */
         start : function(config){
@@ -101,7 +124,6 @@ define([
             config = config || module.config();
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
-
 
             var configProperties = config.properties;
 
@@ -139,9 +161,8 @@ define([
             $('#authoringBack').on('click', function(e){
                 e.preventDefault();
 
-                //Capitalized History means polyfilled by History.js
-                if(window.History){
-                    window.History.back();
+                if (history) {
+                    history.back();
                 }
             });
 
@@ -165,7 +186,7 @@ define([
                 },
                 //load item
                 function(callback){
-                    loader.loadItem({uri : configProperties.uri}, function(item){
+                    loader.loadItem({uri : configProperties.uri, label : configProperties.label}, function(item){
 
                         //configure commonRenderer for the preview
                         commonRenderer.setOption('baseUrl', configProperties.baseUrl);
@@ -211,6 +232,11 @@ define([
 
                         //"post-render it" to initialize the widget
                         var widget = item.postRender(_.clone(configProperties));
+                        _.each(item.getComposingElements(), function(element){
+                            if(element.qtiClass === 'include'){
+                                xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                            }
+                        });
 
                         editor.initGui(widget, configProperties);
                         panel.initSidebarAccordion($propertySidebar);

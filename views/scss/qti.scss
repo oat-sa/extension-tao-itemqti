@@ -1,9 +1,15 @@
 @charset "UTF-8";
 
 @import "inc/bootstrap";
+
+// override font to avoid @font-face load
+$regularFont: 'Franklin Gothic', 'Franklin Gothic Medium', sans-serif;
+
 $mainContainer : '.qti-item';
 @import "inc/base";
 @import "inc/select2";
+@import "inc/mediaelementplayer";
+
 
 %selectableHover {
     background: whiten($info, .95) !important;

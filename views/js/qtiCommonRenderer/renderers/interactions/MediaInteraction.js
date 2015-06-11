@@ -28,9 +28,8 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/mediaInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'mediaElement'
-], function($, _, __, tpl, pciResponse, containerHelper, instructionMgr, MediaElementPlayer) {
+], function($, _, __, tpl, pciResponse, containerHelper, MediaElementPlayer) {
     'use strict';
 
     /**
@@ -50,6 +49,18 @@ define([
             }
         }
         return type;
+    };
+
+    /**
+     * Resize video player elements to fit container size
+     * @param {Object} mediaElement - player instance
+     * @param {jQueryElement} $container   - container element to adapt
+     */
+    var resizeVideo = function (mediaElement, $container) {
+        var height = $container.find('.media-container').height(),
+            width =  $container.find('.media-container').width();
+        mediaElement.player.setPlayerSize(width, height);
+        mediaElement.player.media.setVideoSize(width, height);
     };
 
     //some default values
@@ -75,17 +86,16 @@ define([
      */
     var render = function render(interaction) {
 
-        var mediaInteractionObjectToReturn,
-            $meTag,
+        var $meTag,
             mediaOptions;
         var $container          = containerHelper.get(interaction);
+        var $item               = $container.parents('.qti-item');
         var media               = interaction.object;
-        var baseUrl             = this.getOption('baseUrl') || '';
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
         var enablePause         = $container.hasClass('pause');
         var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
+        var url                 = media.attr('data') ? this.resolveUrl(media.attr('data')) : '';
 
-        var playFromPauseEvent  = false;
         var pauseFromClick      = false;
 
         var features = enablePause ? ['playpause', 'progress', 'current', 'duration', 'volume'] : ['playpause', 'current', 'duration', 'volume'];
@@ -134,6 +144,7 @@ define([
             //the player is loaded
             success: function(mediaElement, playerDom) {
 
+                var playFromPauseEvent = false;
                 var stillNeedToCallPlay = true;
                 var $meContainer    = $(playerDom).closest('.mejs-container');
                 var $layers         = $('.mejs-layers', $meContainer);
@@ -141,6 +152,8 @@ define([
                 var $bigPlayBtn     = $('.mejs-overlay-play', $meContainer);
                 var $controls       = $('.mejs-controls', $meContainer);
                 var controlsHeight  = $controls.outerHeight();
+                /** Resize video player internal timer to prevent multiply execution */
+                var rTimer;
 
                 interaction.mediaElement = mediaElement;
 
@@ -249,6 +262,21 @@ define([
                     }
                 });
 
+                resizeVideo(mediaElement, $container);
+
+                var delayedResize = function () {
+                    clearTimeout(rTimer);
+                    rTimer = setTimeout(function () {
+                        resizeVideo(mediaElement, $container);
+                    }, 200);
+                };
+
+                $(window).off('resize.video')
+                    .on('resize.video', delayedResize);
+
+                $item.off('resize.gridEdit')
+                    .on('resize.gridEdit', delayedResize);
+
                 /**
                  * @event playerready
                  */
@@ -261,7 +289,7 @@ define([
         };
 
         //create the HTML tags
-        $meTag = $(_buildMedia(media, mediaType, baseUrl)).appendTo($('.media-container', $container));
+        $meTag = $(_buildMedia(media, url, mediaType)).appendTo($('.media-container', $container));
 
         //prevent contextmenu and control click on the player to prevent unwanted pause.
         $meTag
@@ -293,13 +321,12 @@ define([
      * Build the HTML5 tags for a media
      * @private
      * @param {Object} media - interaction.object
+     * @param {String} url - the resolved url
      * @param {String} type  - the media type in video, audio and video/youtube
-     * @param {String} baseUrl - to prepend media.url if this is relative resource
      * @returns {String} the html5 tags
      */
-    var _buildMedia = function _buildMedia(media, type, baseUrl){
+    var _buildMedia = function _buildMedia(media, url, type){
         var element;
-        var url;
         var attrs;
 
         //inline an object to html attributes
@@ -311,18 +338,16 @@ define([
         };
 
         if(media){
-            url = media.attr('data') ? media.attr('data').replace(/^\//, '') : '';
 
             attrs = {
-                width : media.attr('width')     + 'px',
-                height: media.attr('height')    + 'px',
-                preload : 'none'
+                width:   media.attr('width')     + 'px',
+                height:  media.attr('height')    + 'px',
+                preload: 'none'
             };
-            if (!/^http(s)?:\/\//.test(url)){
-                url = baseUrl + url;
+
+            if (!/^http(s)?:\/\//.test(media.attr('data'))){
                 attrs.type = media.attr('type');
             }
-
             if (type === 'video/youtube') {
                 element =   '<video ' + inlineAttrs(attrs) + '> ' +
                                 ' <source type="video/youtube" src="' + url + '" /> ' +
@@ -357,6 +382,9 @@ define([
         $('.media-container', $container).empty();
 
         $container.removeData('timesPlayed');
+
+
+        $(window).off('resize.video');
 
         //remove all references to a cache container
         containerHelper.reset(interaction);

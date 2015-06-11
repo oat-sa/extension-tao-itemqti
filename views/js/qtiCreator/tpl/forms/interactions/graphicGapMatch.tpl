@@ -17,5 +17,5 @@
 <input name="width" value="{{width}}" type="hidden" />
 <input name="height" value="{{height}}" type="hidden" />
 
-    <input type="hidden" name="type" value="{{type}}" type="text" />
+    <input type="hidden" name="type" value="{{type}}" />
 </div>

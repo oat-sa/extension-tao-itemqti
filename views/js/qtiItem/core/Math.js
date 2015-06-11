@@ -1,60 +1,64 @@
-define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(_, Element, rendererConfig){
-
-    var _stripMathTags = function(mathML, nsName){
+define([
+    'lodash',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/rendererConfig',
+    'taoQtiItem/qtiItem/mixin/NamespacedElement'
+], function(_, Element, rendererConfig, NamespacedElement){
+    
+    /**
+     * Remove the closing MathML tags and remove useless line breaks before and after it
+     * 
+     * @param {String} mathML
+     * @param {String} nsName
+     * @returns {String}
+     */
+    function _stripMathTags(mathML, nsName){
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : '') + 'math[^>]*>', 'g');
         return mathML.replace(regex, '')
             .replace(/^\s*[\r\n]/gm, '')//remove first blank line
             .replace(/\s*[\r\n]$/gm, '');//last blank line
     };
-
-    var _stripNamespace = function(mathML, nsName){
+    
+    /**
+     * Remove mathML ns name prefix from the mathML
+     * 
+     * @param {String} mathML
+     * @param {String} nsName
+     * @returns {String}
+     */
+    function _stripNamespace(mathML, nsName){
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : ''), 'g');
         return mathML.replace(regex, '<$1');
     };
+    
+    /**
+     * Check if the mathML string is to be considered empty
+     * 
+     * @param {String} mathStr
+     * @returns {Boolean}
+     */
+    function _isEmptyMathML(mathStr){
 
+        var hasContent = false;
+
+        if(mathStr && mathStr.trim()){
+            var $math = $(mathStr);
+            hasContent = !!$math.text();
+        }
+
+        return !hasContent;
+    }
+    
     var Math = Element.extend({
         qtiClass : 'math',
         defaultNsName : 'm',
         defaultNsUri : 'http://www.w3.org/1998/Math/MathML',
+        nsUriFragment : 'MathML',
         init : function(serial, attributes){
             this._super(serial, attributes);
             this.ns = null;
             this.mathML = '';
             this.annotations = {};
-        },
-        getNamespace : function(){
-
-            if(this.ns && this.ns.name && this.ns.uri){
-                return _.clone(this.ns);
-            }else{
-
-                var relatedItem = this.getRelatedItem();
-                if(relatedItem){
-                    var namespaces = relatedItem.getNamespaces();
-                    for(var ns in namespaces){
-                        if(namespaces[ns].indexOf('MathML') > 0){
-                            return {
-                                name : ns,
-                                uri : namespaces[ns]
-                            };
-                        }
-                    }
-                    //if no ns found in the item, set the default one!
-                    relatedItem.namespaces[this.defaultNsName] = this.defaultNsUri;
-                    return {
-                        name : this.defaultNsName,
-                        uri : this.defaultNsUri
-                    };
-                }
-            }
-
-            return {};
-        },
-        setNamespace : function(name, uri){
-            this.ns = {
-                name : name,
-                uri : uri
-            };
         },
         setAnnotation : function(encoding, value){
             this.annotations[encoding] = value;
@@ -119,18 +123,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Element', 'taoQtiItem/qtiItem/helper/
             return _isEmptyMathML(this.mathML) && (!this.annotations['latex'] || !this.annotations['latex'].trim());
         }
     });
-
-    var _isEmptyMathML = function(mathStr){
-
-        var hasContent = false;
-
-        if(mathStr && mathStr.trim()){
-            var $math = $(mathStr);
-            hasContent = !!$math.text();
-        }
-
-        return !hasContent;
-    }
-
+    
+    NamespacedElement.augment(Math);
+    
     return Math;
 });

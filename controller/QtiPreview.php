@@ -173,7 +173,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
      */
     protected function getRenderedItem($item) {
         
-        $qtiItem = Service::singleton()->getDataItemByRdfItem($item);
+        //@todo make getRenderedItem language dependent
+        $lang = \common_session_SessionManager::getSession()->getDataLanguage();
+        $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
         
         $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
         

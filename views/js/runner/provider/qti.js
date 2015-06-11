@@ -24,8 +24,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiCommonRenderer/renderers/Renderer'],
-function($, _, QtiLoader, QtiRenderer){
+    'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/runner/provider/manager/picManager',
+    'taoItems/assets/manager',
+], function($, _, QtiLoader, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -36,9 +38,8 @@ function($, _, QtiLoader, QtiRenderer){
         init : function(itemData, done){
             var self = this;
 
-            //TODO configure the renderer URLs using an AssetManager
             this._renderer = new QtiRenderer({
-                baseUrl : './'
+                assetManager : this.assetManager
             });
 
             new QtiLoader().loadItemData(itemData, function(item){
@@ -84,7 +85,16 @@ function($, _, QtiLoader, QtiRenderer){
 
 
                 //TODO use post render cb once implemented
-                _.delay(done, 100);
+                _.delay(function() {
+                    done();
+
+                    /**
+                     * Lists the PIC provided by this item.
+                     * @event qti#listpic
+                     */
+                    self.trigger('listpic', picManager.collection(self._item));
+
+                }, 100);
             }
         },
 

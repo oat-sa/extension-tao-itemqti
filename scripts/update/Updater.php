@@ -113,6 +113,20 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.5';
         }
         
+        if($currentVersion == '2.7.5'){
+
+            $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
+
+            $currentVersion = '2.7.6';
+        }
+        
+        if($currentVersion == '2.7.6'){
+
+            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+
+            $currentVersion = '2.7.7';
+        }
+        
         return $currentVersion;
     }
 
