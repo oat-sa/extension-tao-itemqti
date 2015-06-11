@@ -45,7 +45,7 @@ define([
 
         //test when some data is entering in the input field
         //@todo plug the validator + tooltip
-        $element.on('keyup', function(){
+        $element.on('keyup.commonRenderer', function(){
             $element.removeClass('field-error');
             if(!patt.test($element.val())){
                 $element.addClass('field-error');
@@ -115,10 +115,10 @@ define([
                 // replace the textarea with ckEditor
                 var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
                 // store the instance inside data on the container
-                $container.data('editor', editor);
+                _setCKEditor(interaction, editor);
             }
             else {
-                $el.bind('keyup change', function(e) {
+                $el.on('keyup.commonRenderer change.commonRenderer', function(e) {
                     containerHelper.triggerResponseChangeEvent(interaction, {});
                 });
             }
@@ -156,7 +156,7 @@ define([
                             evt.preventDefault();
                         }
                         if(maxLength){
-                            var value = _getTextareaValue(interaction);
+                            var value = _getTextareaValue(interaction, true);
                             setText(interaction,value);
                         }
                     }
@@ -203,7 +203,7 @@ define([
                 ];
 
                 if (_getFormat(interaction) === "xhtml") {
-                    _ckEditor(interaction).on('key',function(e){
+                    _getCKEditor(interaction).on('key',function(e){
                         if (_.contains(keycodes,e.data.keyCode)){
                             updateCounter();
                         }else{
@@ -211,7 +211,7 @@ define([
                         }
                     });
                 }else{
-                    $textarea.on('keydown',function(e){
+                    $textarea.on('keydown.commonRenderer',function(e){
                        if (_.contains(keycodes,e.which)){
                             updateCounter();
                         }else{
@@ -246,7 +246,7 @@ define([
 
                 if (minStrings > 0) {
 
-                    $el.on('blur', function() {
+                    $el.on('blur.commonRenderer', function() {
                         setTimeout(function() {
                             //checking if the user was clicked outside of the input fields
 
@@ -271,14 +271,14 @@ define([
                 }
             }
 
-            //set the fileds pattern mask
+            //set the fields pattern mask
             if (attributes.patternMask) {
                 $el.each(function() {
                     _setPattern($(this), attributes.patternMask);
                 });
             }
 
-            //set the fileds placeholder
+            //set the fields placeholder
             if (attributes.placeholderText) {
                 /**
                  * The type of the fileds placeholder:
@@ -306,7 +306,7 @@ define([
      */
     var resetResponse = function(interaction) {
         if (_getFormat(interaction) === 'xhtml') {
-            _ckEditor(interaction).setData('');
+            _getCKEditor(interaction).setData('');
         }else{
             containerHelper.get(interaction).find('input, textarea').val('');
         }
@@ -330,14 +330,10 @@ define([
             interaction.getContainer().find('#'+identifier).val(value);
         };
 
-        var _setVal = function(value) {
-            interaction.getContainer().find('textarea').val(value);
-        };
-
         var baseType = interaction.getResponseDeclaration().attr('baseType');
 
         if (response.base && response.base[baseType] !== undefined) {
-            _setVal(response.base[baseType]);
+            setText(interaction, response.base[baseType]);
         }
         else if (response.list && response.list[baseType]) {
 
@@ -418,7 +414,7 @@ define([
                     value = parseFloat(_getTextareaValue(interaction));
                 }
                 else if (baseType === 'string') {
-                    value = _getTextareaValue(interaction);
+                    value = _getTextareaValue(interaction, true);
                 }
             }
 
@@ -431,11 +427,12 @@ define([
     /**
      * return the value of the textarea or ckeditor data
      * @param  {Object} interaction
+     * @param  {Boolean} raw Tells if the returned data does not have to be filtered (i.e. XHTML tags not removed)
      * @return {String}             the value
      */
-    var _getTextareaValue = function(interaction) {
+    var _getTextareaValue = function(interaction, raw) {
         if (_getFormat(interaction) === 'xhtml') {
-            return _ckEditorData(interaction);
+            return _ckEditorData(interaction, raw);
         }
         else {
             return containerHelper.get(interaction).find('textarea').val();
@@ -443,23 +440,60 @@ define([
     };
 
     /**
-     * return the ckEditor instance
-     * @param  {object} interaction the interaction
-     * @return {object}             ckeditor instance
+     * Sets the CKEditor instance
+     * @param  {Object} interaction The interaction
+     * @param {Object} [editor] CKEditor instance
      */
-    var _ckEditor = function(interaction){
-        return containerHelper.get(interaction).data('editor');
+    var _setCKEditor = function(interaction, editor) {
+        var name = editor && editor.name;
+        var $container = containerHelper.get(interaction);
+
+        if (name) {
+            $container.data('editor', name);
+        } else {
+            $container.removeData('editor');
+        }
+    };
+
+    /**
+     * Gets the CKEditor instance
+     * @param  {Object} interaction The interaction
+     * @return {Object}             CKEditor instance
+     */
+    var _getCKEditor = function(interaction){
+        var $container = containerHelper.get(interaction);
+        var name = $container.data('editor');
+
+        return ckEditor.instances[name];
     };
 
     /**
      * get the text content of the ckEditor ( not the entire html )
      * @param  {object} interaction the interaction
+     * @param  {Boolean} raw Tells if the returned data does not have to be filtered (i.e. XHTML tags not removed)
      * @return {string}             text content of the ckEditor
      */
-    var _ckEditorData = function(interaction) {
+    var _ckEditorData = function(interaction, raw) {
+        var editor = _getCKEditor(interaction);
+        var data = editor && editor.getData() || '';
+
+        if (!raw) {
+            data = _stripTags(data);
+        }
+
+        return data;
+    };
+
+    /**
+     * Remove HTML tags from a string
+     * @param {String} str
+     * @returns {String}
+     * @private
+     */
+    var _stripTags = function(str) {
         var tempNode = document.createElement('div');
-        tempNode.innerHTML = _ckEditor(interaction).getData();
-        return  tempNode.textContent;
+        tempNode.innerHTML = str;
+        return tempNode.textContent;
     };
 
     var _getFormat = function(interaction) {
@@ -514,12 +548,12 @@ define([
 
         if ( _getFormat(interaction) === 'xhtml') {
             var editor = ckEditor.replace($container.find('.text-container')[0], ckeOptions);
-            $container.data('editor', editor);
+            _setCKEditor(interaction, editor);
         }
         else {
             // preFormatted or plain
             if (from === 'xhtml') {
-                _ckEditor(interaction).destroy();
+                _getCKEditor(interaction).destroy();
             }
             if ( _getFormat(interaction) === 'preformatted'){
                 $container.find('textarea').addClass('text-preformatted');
@@ -531,26 +565,36 @@ define([
 
     var enable = function(interaction) {
         var $container = containerHelper.get(interaction);
+        var editor;
+
         $container.find('input, textarea').removeAttr('disabled');
 
-        if ( _getFormat(interaction) === 'xhtml') {
-            if (_ckEditor(interaction).status === 'ready') {
-                _ckEditor(interaction).setReadOnly(false);
-            } else {
-                _ckEditor(interaction).readOnly = false;
+        if (_getFormat(interaction) === 'xhtml') {
+            editor = _getCKEditor(interaction);
+            if (editor) {
+                if (editor.status === 'ready') {
+                    editor.setReadOnly(false);
+                } else {
+                    editor.readOnly = false;
+                }
             }
         }
     };
 
     var disable = function(interaction) {
         var $container = containerHelper.get(interaction);
+        var editor;
+
         $container.find('input, textarea').attr('disabled', 'disabled');
 
-        if ( _getFormat(interaction) === 'xhtml' && $container.data('editor')) {
-            if (_ckEditor(interaction).status === 'ready') {
-                _ckEditor(interaction).setReadOnly(true);
-            } else {
-                _ckEditor(interaction).readOnly = true;
+        if (_getFormat(interaction) === 'xhtml') {
+            editor = _getCKEditor(interaction);
+            if (editor) {
+                if (editor.status === 'ready') {
+                    editor.setReadOnly(true);
+                } else {
+                    editor.readOnly = true;
+                }
             }
         }
     };
@@ -560,14 +604,11 @@ define([
     };
 
     var setText = function(interaction, text) {
-        var $container = containerHelper.get(interaction);
-
         if ( _getFormat(interaction) === 'xhtml') {
-            var editor = _ckEditor(interaction);
-            editor.setData(text);
+            _getCKEditor(interaction).setData(text);
         }
         else {
-            $container.find('textarea').val(text);
+            containerHelper.get(interaction).find('textarea').val(text);
         }
     };
 
@@ -578,8 +619,12 @@ define([
     var destroy = function(interaction){
 
         var $container = containerHelper.get(interaction);
+        var $el = $container.find('input, textarea');
+
+        _setCKEditor(interaction);
 
         //remove event
+        $el.off('.commonRenderer');
         $(document).off('.commonRenderer');
 
         //remove instructions
@@ -598,8 +643,12 @@ define([
     var setState  = function setState(interaction, state){
         if(_.isObject(state)){
             if(state.response){
-                interaction.resetResponse();
-                interaction.setResponse(state.response);
+                try {
+                    interaction.setResponse(state.response);
+                } catch(e) {
+                    interaction.resetResponse();
+                    throw e;
+                }
             }
         }
     };
@@ -611,7 +660,6 @@ define([
      * @returns {Object} the interaction current state
      */
     var getState = function getState(interaction){
-        var $container;
         var state =  {};
         var response =  interaction.getResponse();
 
