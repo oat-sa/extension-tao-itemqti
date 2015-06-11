@@ -19,9 +19,8 @@
 define([
     'lodash',
     'taoQtiItem/apipCreator/api/authoringObject',
-    'taoQtiItem/apipCreator/api/qtiElement',
     'taoQtiItem/apipCreator/api/accessElementInfo'
-], function (_, authoringObject, QtiElement, AccessElementInfo) {
+], function (_, authoringObject, AccessElementInfo) {
     'use strict';
     
     /**
@@ -84,7 +83,7 @@ define([
             var node = that.apipItem.xpath("//*:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
 
             if (node && node.length) {
-                result.push(new QtiElement(this, node[0]));
+                result.push(that.apipItem.getQtiElementInstance(node[0]));
             }
         });
 

@@ -152,6 +152,16 @@ define([
 
         return result;
     };
+    
+    /**
+     * Instanciate QtiElement object
+     * 
+     * @param {String} node XML node.
+     * @returns {Object} QtiElement instance
+    */
+    ApipItem.prototype.getQtiElementInstance = function getQtiElementInstance(node) {
+        return new QtiElement(this, node);
+    };
 
     /**
      * Get the access element identified by its serial
