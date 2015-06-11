@@ -89,6 +89,11 @@ define([
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
+        }).on('destroy', function(){
+            self.elementSelector.deactivate();
+            if(formPopup){
+                formPopup.destroy();
+            }
         });
     };
     

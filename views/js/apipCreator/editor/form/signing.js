@@ -18,14 +18,17 @@
  */
 define([
     'i18n',
+    'taoQtiItem/apipCreator/editor/form/common',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/signing',
     'helpers',
     'ui/resourcemgr'
-], function(__, formTpl, helpers){
+], function(__, CommonForm, formTpl, helpers){
     
     function Form(accessElementInfo){
         this.accessElementInfo = accessElementInfo;
     }
+    
+    Form.prototype = Object.create(CommonForm.prototype);
     
     Form.prototype.render = function render() {
         var type = this.accessElementInfo.data.children[0].localName, 
@@ -38,12 +41,16 @@ define([
         return formTpl(tplData);
     };
     
+    /**
+     * Initialize resource manager (for uploading and selecting video files)
+     * @param {object} $container jQuery element. Popup container.
+     * @returns {undefined}
+     */
     Form.prototype.initResourceMgr = function initResourceMgr($container) {
         var that = this,
             type = that.accessElementInfo.data.children[0].localName, 
             $src = $container.find('input[name*="videoFileInfo.fileHref"]'),
             $uploadTrigger = $container.find('.selectMediaFile');
-        
         
         $uploadTrigger.on('click', function () {
             $uploadTrigger.resourcemgr({
@@ -76,22 +83,15 @@ define([
         });
     };
     
-    
+    /**
+     * Initialize form events.
+     * @param {object} $container jQuery element. Popup container.
+     * @returns {undefined}
+     */
     Form.prototype.initEvents = function initEvents($container) {
-        var aeInfo = this.accessElementInfo;
-        
+        CommonForm.prototype.initEvents.apply(this, arguments);
         this.initResourceMgr($container);
-        
-        $container.on('change', 'input', function(){
-            var $input = $(this),
-                name = $input.attr('name'),
-                value = $input.val();
-                
-            aeInfo.setAttribute(name, value);
-        });
     };
-    
-    
     
     return Form;
 });

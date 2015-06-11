@@ -17,23 +17,36 @@
  *
  */
 define([
-    'taoQtiItem/apipCreator/editor/form/common',
-    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken'
-], function(CommonForm, formTpl){
+    'ui/feedback'
+], function(feedback) {
     'use strict';
     
-    function Form(accessElementInfo){
-        this.accessElementInfo = accessElementInfo;
+    function Form() {
+        
     }
     
-    Form.prototype = Object.create(CommonForm.prototype);
-    
-    Form.prototype.render = function render() {
-        var tplData = {
-            spokenText : this.accessElementInfo.getAttribute('spokenText'),
-            textToSpeechPronunciation : this.accessElementInfo.getAttribute('textToSpeechPronunciation')
-        };
-        return formTpl(tplData);
+    Form.prototype.initEvents = function initEvents($container) {
+        var that = this,
+            aeInfo = this.accessElementInfo;
+        
+        $container.on('change', 'input', function(){
+            var $input = $(this),
+                name = $input.attr('name'),
+                value = $input.val();
+                
+            aeInfo.setAttribute(name, value);
+        });
+        
+        $container.on('click', '.delete', function(){
+            var ae = aeInfo.getAssociatedAccessElement();
+            
+            aeInfo.remove();
+            if (ae.getAccessElementInfo() === null) {
+                ae.remove();
+            }
+            feedback().info('Access element removed.');
+            $container.trigger('destroy');
+        });
     };
     
     return Form;
