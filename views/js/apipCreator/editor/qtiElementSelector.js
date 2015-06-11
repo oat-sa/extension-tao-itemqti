@@ -21,40 +21,45 @@ define([
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/selector',
     'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementBlock',
-    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline'
-], function(_, $, selectorTpl, elementBlockTpl, elementInlineTpl){
+    'tpl!taoQtiItem/apipCreator/tpl/qtiElementSelector/elementInline',
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
+], function (_, $, selectorTpl, elementBlockTpl, elementInlineTpl, inclusionOrderSelector){
 
     'use strict';
 
     var _ns = '.qti-element-selector';
 
+    var _apipFeaturePrefix = 'apip-feature-';
+
     var _renderers = {
-        img : function(){
+        img : function (){
             return '<img src="' + this.getAttribute('src') + '"/>';
         },
-        math : function(){
+        math : function (){
             return '<math>' + this.innerHTML + '</math>';
         },
-        inlinePlaceholder : function(){
-            return '<span class="element-placeholder">'+this.tagName+'</span>';
+        inlinePlaceholder : function (){
+            return '<span class="element-placeholder">' + this.tagName + '</span>';
         }
     };
 
     var _selectables = [
-        {id : 'itembody', qtiClass : 'itemBody', label : 'item body', inline : false},
-        {id : 'caption', qtiClass : 'caption', label : 'caption', inline : true},
-        {id : 'div', qtiClass : 'div', label : 'div', inline : false},
-        {id : 'img', qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
-        {id : 'span', qtiClass : 'span', label : 'span', inline : true},
-        {id : 'choiceinteraction', qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
-        {id : 'textentryinteraction', qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
-        {id : 'inlineChoiceInteraction', qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
-        {id : 'prompt', qtiClass : 'prompt', label : 'prompt', inline : false},
-        {id : 'simplechoice', qtiClass : 'simpleChoice', label : 'choice', inline : false},
-        {id : 'p', qtiClass : 'p', label : 'p', inline : false},
-        {id : 'blockquote', qtiClass : 'blockquote', label : 'blockquote', inline : false},
-        {id : 'math', qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
+        {qtiClass : 'itemBody', label : 'item body', inline : false},
+        {qtiClass : 'caption', label : 'caption', inline : true},
+        {qtiClass : 'div', label : 'div', inline : false},
+        {qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
+        {qtiClass : 'span', label : 'span', inline : true},
+        {qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
+        {qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
+        {qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
+        {qtiClass : 'prompt', label : 'prompt', inline : false},
+        {qtiClass : 'simpleChoice', label : 'choice', inline : false},
+        {qtiClass : 'p', label : 'p', inline : false},
+        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
+
+    var _inclusionOrders = inclusionOrderSelector.getAvailableInclusionOrders();
 
     function renderSelectorElement(elementNode){
 
@@ -74,7 +79,7 @@ define([
             if(model.renderer){
                 tplData.content = model.renderer.call(elementNode);
             }else{
-                _.each(elementNode.childNodes, function(node){
+                _.each(elementNode.childNodes, function (node){
                     if(node.nodeType === 3 && node.data.trim()){
                         //text node:
                         tplData.content += node.data;
@@ -135,18 +140,18 @@ define([
             $container.trigger('deactivated' + _ns, [$element.data('serial'), $element]);
         }
 
-        $container.off(_ns).on('mouseenter' + _ns, '.element:not(.qti-itemBody)', function(e){
+        $container.off(_ns).on('mouseenter' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             e.stopPropagation();
             $(this).addClass('hover');
             $(this).parent().trigger('mouseleave' + _ns);
 
-        }).on('mouseleave' + _ns, '.element:not(.qti-itemBody)', function(e){
+        }).on('mouseleave' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             $(this).removeClass('hover');
             $(this).parent().trigger('mouseenter' + _ns);
 
-        }).on('click' + _ns, '.element:not(.qti-itemBody)', function(e){
+        }).on('click' + _ns, '.element:not(.qti-itemBody)', function (e){
 
             e.stopPropagation();
             var $element = $(this);
@@ -157,11 +162,11 @@ define([
         });
 
         return {
-            activate : function(serial){
+            activate : function (serial){
                 var $element = $container.find('.element[data-serial="' + serial + '"]');
                 activateElement($element);
             },
-            deactivate : function(){
+            deactivate : function (){
                 if($currentActive){
                     deactivateElement($currentActive);
                     $currentActive.removeClass('hover');
@@ -171,7 +176,7 @@ define([
     }
 
     function resetQtiAccessElements($container){
-        $container.find('.apipfied').removeClass(function(index, css){
+        $container.find('.apipfied').removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             classes.push('apipfied');
             return classes.join(' ');
@@ -191,10 +196,52 @@ define([
         }
     }
 
+    function setApipFeatures($container, apipItem, inclusionOrderName){
+
+        //check inclusionOrder and 
+        //set inclusionOrder css class
+        if(true){
+            $container.addClass(_apipFeaturePrefix + inclusionOrderName);
+        }
+
+        //get ae
+        var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
+
+        //check feature presence
+        var aeInfoType = _getInfoTypeByInclusionOrder(inclusionOrderName);
+        _.each(accessElements, function (ae){
+            var aeInfo = ae.getAccessElementInfo(aeInfoType);
+            if(aeInfo){
+                //feature detected
+                var qtiElements = ae.getQtiElements();
+                _.each(qtiElements, function (qtiElement){
+                    //set feature css class to qti element
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass(_apipFeaturePrefix + aeInfoType);
+                });
+            }
+        });
+    }
+
+    function _getInfoTypeByInclusionOrder(inclusionOrderName){
+        var inclusionOrderData = _.find(_inclusionOrders, {type : inclusionOrderName});
+        if(inclusionOrderData){
+            return inclusionOrderData.accessElementInfo.type;
+        }else{
+            throw 'unknown type of inclusionOrder';
+        }
+    }
+
+    function resetApipFeatures($container){
+        $container.find('.element').addBack().removeClass(function (index, css){
+            var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
+            return classes.join(' ');
+        });
+    }
+
     return {
         render : render,
         selectable : selectable,
-        setQtiAccessElements : setQtiAccessElements,
-        resetQtiAccessElements : resetQtiAccessElements
+        setApipFeatures : setApipFeatures,
+        resetApipFeatures : resetApipFeatures
     };
 });

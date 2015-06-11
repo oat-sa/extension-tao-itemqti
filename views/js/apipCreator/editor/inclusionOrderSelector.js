@@ -24,14 +24,56 @@ define([
     
     var _ns = '.inclusion-order-selector';
     
-    var _inclusionOrders = {
-        textGraphicsDefaultOrder : 'Spoken, Text & Graphic - default',
-        textGraphicsOnDemandOrder : 'Spoken, Text & Graphic - on demand',
-        aslDefaultOrder : 'American Sign Language - default',
-        aslOnDemandOrder : 'American Sign Language - on demand',
-        signedEnglishDefaultOrder : 'Signed English - default',
-        signedEnglishOnDemandOrder : 'Signed English - on demand'
-    };
+    var _inclusionOrders = [
+        {
+            type : 'textGraphicsDefaultOrder',
+            label : 'Spoken, Text & Graphic - default',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'textGraphicsOnDemandOrder',
+            label : 'Spoken, Text & Graphic - on demand',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'aslDefaultOrder',
+            label : 'American Sign Language - default',
+            accessElementInfo : {
+                type : 'signing',
+                options: {type: 'signFileASL'}
+            }
+        },
+        {
+            type : 'aslOnDemandOrder',
+            label : 'American Sign Language - on demand',
+            accessElementInfo : {
+                type : 'signing',
+                options: {type: 'signFileASL'}
+            }
+        },
+        {
+            type : 'signedEnglishDefaultOrder',
+            label : 'Signed English - default',
+            accessElementInfo : {
+                type : 'signing',
+                options: {type: 'signFileSignedEnglish'}
+            }
+        },
+        {
+            type : 'signedEnglishOnDemandOrder',
+            label : 'Signed English - on demand',
+            accessElementInfo : {
+                type : 'signing',
+                options: {type: 'signFileSignedEnglish'}
+            }
+        }
+    ];
 
     function addEvents($container){
         
@@ -52,9 +94,12 @@ define([
 
     function render($container, selectedInclusionOrder){
         
-        var tplData = {inclusionOrders:{}};
-        _.forIn(_inclusionOrders, function (v, k){
-            tplData.inclusionOrders[k] = {label : v};
+        var tplData = {inclusionOrders:[]};
+        _.forIn(_inclusionOrders, function (order){
+            tplData.inclusionOrders.push({
+                type : order.type,
+                label : order.label
+            });
         });
         
         $container.append(selectorTpl(tplData));
@@ -65,8 +110,13 @@ define([
         
         addEvents($container);
     }
-
+    
+    function getAvailableInclusionOrders(){
+        return _.clone(_inclusionOrders);
+    }
+    
     return {
-        render : render
+        render : render,
+        getAvailableInclusionOrders : getAvailableInclusionOrders
     };
 });

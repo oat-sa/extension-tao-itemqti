@@ -25,7 +25,9 @@ define([
 ], function(_, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl){
 
     'use strict';
-
+    
+    var _ns = '.form-builder';
+    
     var _aeInfoMap = {
         textGraphicsDefaultOrder : 'spoken',
         textGraphicsOnDemandOrder : 'spoken',
@@ -45,7 +47,9 @@ define([
 
     function build($anchor, qtiElement, inclusionOrderType){
         var $form = renderForm(qtiElement, inclusionOrderType);
-        return buildPopup($anchor, $form);
+        var formPopup = buildPopup($anchor, $form);
+        $anchor.trigger('formready'+_ns, [formPopup, $anchor, $form]);
+        return formPopup;
     }
 
     function renderForm(qtiElement, inclusionOrderType){

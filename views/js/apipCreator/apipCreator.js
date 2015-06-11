@@ -33,6 +33,7 @@ define([
         this.config = config;
         this.inclusionOrderType = 'textGraphicsDefaultOrder';//initial selected inclusion order
         this.apipItem = new ApipItem(config.properties.xml);
+        this.elementSelector;
     }
 
     ApipCreator.prototype.initLabel = function initLabel(){
@@ -89,6 +90,8 @@ define([
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
+        }).on('formready.form-builder', function(){
+           console.log('form ready.form-builder'); 
         });
     };
     
