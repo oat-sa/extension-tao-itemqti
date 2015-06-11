@@ -17,13 +17,26 @@
  */
 
 define([
+    'lodash',
+    'context',
+    'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(assetManagerFactory, assetStrategies){
+], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
+
+    var itemThemes = themes.get('items');
+
     //asset manager using base url
-    var assetManager = assetManagerFactory([
+    var assetManager = assetManagerFactory([{
+            name : 'theme',
+            handle : function handleTheme(url){
+                if(url.path === themes.base || _.contains(_.pluck(themes.available, 'path'), url.path)){
+                    return context.root_url + url.toString();
+                }
+            }
+        },
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
@@ -77,15 +90,13 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
+
     return {
         name:'commonRenderer',
         locations: locations,
         options:   {
-            assetManager: assetManager
+            assetManager: assetManager,
+            themes : itemThemes
         }
     };
 });
-
-
-
-
