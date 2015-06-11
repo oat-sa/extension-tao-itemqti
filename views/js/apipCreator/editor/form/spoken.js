@@ -30,8 +30,8 @@ define([
     
     Form.prototype.render = function render() {
         var tplData = {
-            spokenText : this.accessElementInfo.getAttribute('spokenText'),
-            textToSpeechPronunciation : this.accessElementInfo.getAttribute('textToSpeechPronunciation')
+            spokenText : this.getAttributeValue('spokenText'),//this.accessElementInfo.getAttribute('spokenText'),
+            textToSpeechPronunciation : this.getAttributeValue('textToSpeechPronunciation')
         };
         return formTpl(tplData);
     };

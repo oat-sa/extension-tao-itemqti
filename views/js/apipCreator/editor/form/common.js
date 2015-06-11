@@ -18,6 +18,7 @@
  */
 define([
     'ui/feedback',
+    'taoQtiItem/apipCreator/editor/form/common',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
 ], function(feedback, inclusionOrderSelector) {
     'use strict';
@@ -25,6 +26,23 @@ define([
     function Form() {
         
     }
+    
+    Form.prototype.getAttributeValue = function getAttributeValue(attributeName) {
+        var that = this,
+            aeInfo = this.accessElementInfo,
+            ae = aeInfo.getAssociatedAccessElement(),
+            qtiElements,
+            result = this.accessElementInfo.getAttribute(attributeName);
+        
+        if (!result) {
+            qtiElements = ae.getQtiElements();
+            if (qtiElements.length) {
+                result = $(qtiElements[0].data).text();
+            }
+        }
+        
+        return result;
+    };
     
     Form.prototype.initEvents = function initEvents($container) {
         var that = this,
