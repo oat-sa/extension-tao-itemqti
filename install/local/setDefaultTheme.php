@@ -25,6 +25,11 @@
 
 use oat\tao\model\ThemeRegistry;
 
+$itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
+$itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
+
+$websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
+ThemeRegistry::getRegistry()->setWebSource($websource->getId());
 
 ThemeRegistry::getRegistry()->createTarget('items', 'taoQtiItem/views/css/qti-runner.css');
 ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
