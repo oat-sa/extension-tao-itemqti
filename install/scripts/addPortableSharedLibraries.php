@@ -23,7 +23,7 @@ use \helpers_File;
 
 $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
 $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-$installBasePath = ROOT_PATH . 'taoQtiItem/install/local/portableSharedLibraries';
+$installBasePath = __DIR__ . '/portableSharedLibraries';
 
 // clean directory...
 helpers_File::emptyDirectory($libBasePath, true);
