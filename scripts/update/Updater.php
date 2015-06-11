@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\scripts\update;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\ClientLibRegistry;
+
 
 /**
  * 
@@ -141,10 +143,18 @@ class Updater extends \common_ext_ExtensionUpdater
             ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
             ThemeRegistry::getRegistry()->setDefaultTheme('items', 'tao');
 
-
-           $currentVersion = '2.7.8';
-
+        	$currentVersion = '2.7.8';
         }
+
+		if($currentVersion == '2.7.8'){
+
+            $clientLibRegistry = ClientLibRegistry::getRegistry();
+            $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
+            $clientLibRegistry->register('qtiInfoControlContext', '../../../taoQtiItem/views/js/runtime/qtiInfoControlContext');
+
+            $currentVersion = '2.7.9';
+        }
+
         return $currentVersion;
     }
 

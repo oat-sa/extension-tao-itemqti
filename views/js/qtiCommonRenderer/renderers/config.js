@@ -25,10 +25,20 @@ define([
 ], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
-
     var itemThemes = themes.get('items');
 
-    //asset manager using base url
+//stratgy to resolve portable info control and portable interactions paths.
+    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
+    var portableAssetStrategy = {
+        name : 'portableElementLocation',
+        handle : function handlePortableElementLocation(url){
+            if(url.source === url.relative){
+                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            }
+        }
+    };
+
+    //Create asset manager stack
     var assetManager = assetManagerFactory([{
             name : 'theme',
             handle : function handleTheme(url){
@@ -40,9 +50,11 @@ define([
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
-        assetStrategies.baseUrl
+        assetStrategies.baseUrl,
+        portableAssetStrategy
     ], {baseUrl : ''});
 
+    //renderers locations
     var locations = {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
