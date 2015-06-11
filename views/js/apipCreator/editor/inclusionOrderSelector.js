@@ -60,13 +60,18 @@ define([
         $container.append(selectorTpl(tplData));
 
         if(selectedInclusionOrder){
-            $container.find('inclusion-order-container select').val(selectedInclusionOrder).change();
+            $container.find('.inclusion-order-container select').val(selectedInclusionOrder).change();
         }
         
         addEvents($container);
     }
 
+    function getValue() {
+        return $('.inclusion-order-container select').val();
+    }
+
     return {
-        render : render
+        render : render,
+        getValue : getValue
     };
 });

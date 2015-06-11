@@ -17,8 +17,9 @@
  *
  */
 define([
-    'ui/feedback'
-], function(feedback) {
+    'ui/feedback',
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
+], function(feedback, inclusionOrderSelector) {
     'use strict';
     
     function Form() {
@@ -37,10 +38,11 @@ define([
             aeInfo.setAttribute(name, value);
         });
         
-        $container.on('click', '.delete', function(){
+        $container.on('click', '.delete', function() {
             var ae = aeInfo.getAssociatedAccessElement();
-            
             aeInfo.remove();
+            ae.removeInclusionOrder(inclusionOrderSelector.getValue());
+            
             if (ae.getAccessElementInfo() === null) {
                 ae.remove();
             }
