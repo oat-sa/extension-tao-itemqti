@@ -198,7 +198,11 @@ define([
      */
     QtiRunner.prototype.listenForThemeChange = function listenForThemeChange(){
         var self = this;
-        $('#qti_item')
+        var $container = this.renderer.getContainer(this.item);
+        if(!$container.length){
+            $container = $('.qti-item');
+        }
+        $container
             .off('themechange')
             .on('themechange', function(e, themeName){
                 var themeLoader = self.renderer.getThemeLoader();
