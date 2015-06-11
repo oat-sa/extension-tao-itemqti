@@ -42,7 +42,7 @@ class Updater extends \common_ext_ExtensionUpdater
         //add portable shared libraries:
         $libBasePath = ROOT_PATH.'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL.'taoQtiItem/views/js/portableSharedLibraries';
-        $installBasePath = ROOT_PATH.'taoQtiItem/install/local/portableSharedLibraries';
+        $installBasePath = ROOT_PATH.'taoQtiItem/install/scripts/portableSharedLibraries';
         $registry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 
         //migrate from 2.6 to 2.7.0
