@@ -24,6 +24,7 @@
  */
 
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\websource\TokenWebSource;
 
 $itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
 $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
