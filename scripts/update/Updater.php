@@ -122,13 +122,13 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.7.6';
         }
 
-        if($currentVersion == '2.7.6'){
+        if($currentVersion == '2.7.7'){
 
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('qtiCustomInteractionContext', '../../../taoQtiItem/views/js/runtime/qtiCustomInteractionContext');
             $clientLibRegistry->register('qtiInfoControlContext', '../../../taoQtiItem/views/js/runtime/qtiInfoControlContext');
 
-            $currentVersion = '2.7.7';
+            $currentVersion = '2.7.8';
         }
 
         return $currentVersion;
