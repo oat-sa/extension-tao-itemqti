@@ -22,6 +22,8 @@ define([
     'tpl!taoQtiItem/apipCreator/tpl/inclusionOrderSelector/selector'
 ], function (_, $, selectorTpl){
     
+    'use strict';
+    
     var _ns = '.inclusion-order-selector';
     
     var _inclusionOrders = [
@@ -74,8 +76,16 @@ define([
             }
         }
     ];
-
-    function addEvents($container){
+    
+    /**
+     * Add events listener to the inclusion order selector
+     * 
+     * @fires activated.inclusion-order-selector
+     * @fires deactivated.inclusion-order-selector
+     * @param {JQuery} $container
+     * @returns {undefined}
+     */
+    function _addEvents($container){
         
         $container.find('.inclusion-order-container select').off(_ns).on('change', function(){
             
@@ -91,7 +101,15 @@ define([
             $container.trigger('activated'+_ns, [newValue]);
         });
     }
-
+    
+    /**
+     * Render the inclusion order selection widget into the given ĉontainer
+     * Then initalize the events for use interaction
+     * 
+     * @param {JQuery} $container
+     * @param {string} selectedInclusionOrder
+     * @returns {undefined}
+     */
     function render($container, selectedInclusionOrder){
         
         var tplData = {inclusionOrders:[]};
@@ -108,13 +126,24 @@ define([
             $container.find('inclusion-order-container select').val(selectedInclusionOrder).change();
         }
         
-        addEvents($container);
+        _addEvents($container);
     }
     
+    /**
+     * Get the array of all available inclusion orders in the apip authoring
+     * 
+     * @returns {array}
+     */
     function getAvailableInclusionOrders(){
         return _.clone(_inclusionOrders);
     }
     
+    /**
+     * Get a inclusion order data model by its name/id
+     * 
+     * @param {string} inclusionOrderName
+     * @returns {unresolved}
+     */
     function getInclusionOrder(inclusionOrderName){
         var inclusionOrderData = _.find(_inclusionOrders, {type : inclusionOrderName});
         if(inclusionOrderData){
@@ -124,6 +153,12 @@ define([
         }
     }
     
+    /**
+     * Get the value of the inclusionOrder
+     * 
+     * @todo replace this method with a non-global jquery selector..
+     * @returns {JQuery}
+     */
     function getValue() {
         return $('.inclusion-order-container select').val();
     }

@@ -113,7 +113,7 @@ define([
     /**
      * Init the save trigger event 'on click'
      * 
-     * @fires 'saved.apip-creator' when the save is successful
+     * @fires ApipCreator#saved.apip-creator - when the save is successful
      * @returns {undefined}
      */
     ApipCreator.prototype.initSave = function initSave(){

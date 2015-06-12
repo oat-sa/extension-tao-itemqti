@@ -56,8 +56,15 @@ define([
         {qtiClass : 'blockquote', label : 'blockquote', inline : false},
         {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
-
-    function renderSelectorElement(elementNode){
+    
+    /**
+     * Wrap each element listed in _selectables with a specific decorated wrapper
+     * and return the rendered html
+     * 
+     * @param {object} elementNode
+     * @returns {unresolved}
+     */
+    function _renderSelectorElement(elementNode){
 
         var rendering, tplData;
         var nodeName = elementNode.tagName;
@@ -81,7 +88,7 @@ define([
                         tplData.content += node.data;
                     }else{
                         //node type:
-                        var content = renderSelectorElement(node);
+                        var content = _renderSelectorElement(node);
                         tplData.content += content ? content : '';
                     }
                 });
@@ -97,10 +104,17 @@ define([
 
         return rendering;
     }
-
+    
+    /**
+     * Initialize the selector of an itemBody XML dom object adn bind events to interact with it
+     * 
+     * @param {JQuery} $container
+     * @param {object} itemBodyDOM
+     * @returns {string}
+     */
     function render($container, itemBodyDOM){
 
-        var selectorBody = renderSelectorElement(itemBodyDOM);
+        var selectorBody = _renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
 
         //make it also selectable:
@@ -111,9 +125,9 @@ define([
      * Init selectable behaviour and bind events to the given container
      * 
      * @param {JQuery} $container
-     * @fires "activated.qti-element-selector" when an element is "on focus" so selected
-     * @fires "deactivated.qti-element-selector" when an element is "blurred" so unselected
-     * @returns {undefined}
+     * @fires activated.qti-element-selector - when an element is "on focus" so selected
+     * @fires deactivated.qti-element-selector - when an element is "blurred" so unselected
+     * @returns {object} - return the selectable api to enable programmatically activate and deactive elements
      */
     function selectable($container){
 
@@ -170,7 +184,16 @@ define([
             }
         };
     }
-
+    
+    /**
+     * Add css classes to elements that has a defined apip feature 
+     * that is being used in the given inclusionOrder
+     * 
+     * @param {JQuery} $container
+     * @param {Object} apipItem
+     * @param {type} inclusionOrderName
+     * @returns {undefined}
+     */
     function setApipFeatures($container, apipItem, inclusionOrderName){
 
         //check inclusionOrder and 
@@ -197,7 +220,12 @@ define([
             }
         });
     }
-
+    
+    /**
+     * Remove all added classes set by 
+     * @param {type} $container
+     * @returns {undefined}
+     */
     function resetApipFeatures($container){
         $container.find('.element').addBack().removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
