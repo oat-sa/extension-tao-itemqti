@@ -23,32 +23,28 @@
 define(['jquery'], function($){
     'use strict';
 
+    var imgSrcPattern = /(<img[^>]*src=["'])([^"']+)(["'])/ig;
+
     /**
-     * Replace all identified relative media urls by the absolute one
+     * Replace all identified relative media urls by the absolute one.
+     * For now only images are supported.
      *
-     * @param {String} markupStr
+     * @param {String} html - the html to parse
      * @param {Object} the renderer
-     * @returns {String}
+     * @returns {String} the html without updated URLs
      */
-    function fixMarkupMediaSources(markupStr, renderer){
+    function fixMarkupMediaSources(html, renderer){
+        html = html || '';
 
-        //load markup string into a div container
-        var $markup = $('<div>', {'class' : 'wrapper'}).html(markupStr);
-
-        //for each media source
-        $markup.find('img').each(function(){
-
-            var $img = $(this),
-                src = $img.attr('src'),
-                fullPath = renderer.resolveUrl(src);
-
-            $img.attr('src', fullPath);
+        return html.replace(imgSrcPattern, function(substr, $1, $2, $3){
+            var resolved = renderer.resolveUrl($2) || $2;
+            return $1 + resolved + $3;
         });
-
-        return $markup.html();
-
     }
 
+    /**
+     * @exports taoQtiItem/qtiCommonRenderer/helpers/PortableElement
+     */
     return {
         fixMarkupMediaSources : fixMarkupMediaSources,
     };
