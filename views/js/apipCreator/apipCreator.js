@@ -49,7 +49,7 @@ define([
         this.refreshVisualApipFeatures();
     };
 
-    ApipCreator.prototype.initEvents = function initQtiElementSelector(){
+    ApipCreator.prototype.initEvents = function initEvents(){
 
         var formPopup,
             self = this;
