@@ -898,7 +898,7 @@ img.dragging.ui-draggable-dragging {
             top: -6px;
         }
         &.invalid {
-            border: 1px solid $error !important;
+            border: 1px solid $warning !important;
         }
         &.widget-blockInteraction {
             .qti-choice {
