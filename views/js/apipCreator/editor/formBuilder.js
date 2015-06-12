@@ -21,30 +21,14 @@ define([
     'ui/contextualPopup',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElement',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo',
-    'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo'
-], function(_, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl){
+    'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo',
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
+], function(_, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector){
 
     'use strict';
     
     var _ns = '.form-builder';
     
-    var _aeInfoMap = {
-            textGraphicsDefaultOrder : 'spoken',
-            textGraphicsOnDemandOrder : 'spoken',
-            aslDefaultOrder : 'signing',
-            aslOnDemandOrder : 'signing',
-            signedEnglishDefaultOrder : 'signing',
-            signedEnglishOnDemandOrder : 'signing'
-        },
-        _aeInfoOptionsMap = {
-            textGraphicsDefaultOrder : {},
-            textGraphicsOnDemandOrder : {},
-            aslDefaultOrder : {type: 'signFileASL'},
-            aslOnDemandOrder : {type: 'signFileASL'},
-            signedEnglishDefaultOrder : {type: 'signFileSignedEnglish'},
-            signedEnglishOnDemandOrder : {type: 'signFileSignedEnglish'}
-        };
-
     function build($anchor, qtiElement, inclusionOrderType){
         var $form = renderForm(qtiElement, inclusionOrderType);
         var formPopup = buildPopup($anchor, $form);
@@ -98,8 +82,12 @@ define([
     }
 
     function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
-        var ae, aeInfo, aeInfoType = _aeInfoMap[inclusionOrderType],
-                aeInfoOptions = _aeInfoOptionsMap[inclusionOrderType];
+        
+        var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderType);
+        var ae, 
+            aeInfo, 
+            aeInfoType = inclOrder.accessElementInfo.type,
+            aeInfoOptions = inclOrder.accessElementInfo.options;
         
         if(aeInfoType){
             ae = qtiElement.getAccessElementByInclusionOrder(inclusionOrderType);

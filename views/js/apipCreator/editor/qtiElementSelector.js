@@ -57,8 +57,6 @@ define([
         {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
 
-    var _inclusionOrders = inclusionOrderSelector.getAvailableInclusionOrders();
-
     function renderSelectorElement(elementNode){
 
         var rendering, tplData;
@@ -206,7 +204,8 @@ define([
         var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
 
         //check feature presence
-        var aeInfoType = _getInfoTypeByInclusionOrder(inclusionOrderName);
+        var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderName);
+        var aeInfoType = inclOrder.accessElementInfo.type;
         _.each(accessElements, function (ae){
             var aeInfo = ae.getAccessElementInfo(aeInfoType);
             if(aeInfo){
@@ -218,15 +217,6 @@ define([
                 });
             }
         });
-    }
-
-    function _getInfoTypeByInclusionOrder(inclusionOrderName){
-        var inclusionOrderData = _.find(_inclusionOrders, {type : inclusionOrderName});
-        if(inclusionOrderData){
-            return inclusionOrderData.accessElementInfo.type;
-        }else{
-            throw 'unknown type of inclusionOrder';
-        }
     }
 
     function resetApipFeatures($container){

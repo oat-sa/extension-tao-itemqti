@@ -49,12 +49,12 @@ define([
         this.refreshVisualApipFeatures();
     };
 
-    ApipCreator.prototype.initEvents = function initQtiElementSelector(){
+    ApipCreator.prototype.initEvents = function initEvents(){
 
         var formPopup,
             self = this;
 
-        this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
+        this.$container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
 
             self.inclusionOrderType = inclusionOrderType;
 

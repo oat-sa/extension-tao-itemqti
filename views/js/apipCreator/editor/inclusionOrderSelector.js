@@ -84,11 +84,11 @@ define([
             var previousValue = $select.data('previous-value');
             
             if(previousValue){
-                $container.trigger('inclusionorderdeactivated', [previousValue]);
+                $container.trigger('deactivated'+_ns, [previousValue]);
             }
             $select.data('previous-value', newValue);
             
-            $container.trigger('inclusionorderactivated', [newValue]);
+            $container.trigger('activated'+_ns, [newValue]);
         });
     }
 
@@ -115,6 +115,15 @@ define([
         return _.clone(_inclusionOrders);
     }
     
+    function getInclusionOrder(inclusionOrderName){
+        var inclusionOrderData = _.find(_inclusionOrders, {type : inclusionOrderName});
+        if(inclusionOrderData){
+            return inclusionOrderData;
+        }else{
+            throw 'unknown type of inclusionOrder';
+        }
+    }
+    
     function getValue() {
         return $('.inclusion-order-container select').val();
     }
@@ -122,6 +131,7 @@ define([
     return {
         render : render,
         getValue : getValue,
-        getAvailableInclusionOrders : getAvailableInclusionOrders
+        getAvailableInclusionOrders : getAvailableInclusionOrders,
+        getInclusionOrder : getInclusionOrder
     };
 });
