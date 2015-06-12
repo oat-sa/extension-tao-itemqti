@@ -18,18 +18,17 @@
  */
 define([
     'i18n',
-    'taoQtiItem/apipCreator/editor/form/common',
+    'taoQtiItem/apipCreator/editor/form/formHelper',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/signing',
     'helpers',
     'ui/resourcemgr'
-], function(__, CommonForm, formTpl, helpers){
+], function (__, formHelper, formTpl, helpers) {
+    'use strict';
     
-    function Form(accessElementInfo){
+    function Form(accessElementInfo) {
         this.accessElementInfo = accessElementInfo;
     }
-    
-    Form.prototype = Object.create(CommonForm.prototype);
-    
+
     Form.prototype.render = function render() {
         var type = this.accessElementInfo.data.children[0].localName, 
             tplData = {
@@ -40,7 +39,7 @@ define([
             };
         return formTpl(tplData);
     };
-    
+
     /**
      * Initialize resource manager (for uploading and selecting video files)
      * @param {object} $container jQuery element. Popup container.
@@ -48,10 +47,10 @@ define([
      */
     Form.prototype.initResourceMgr = function initResourceMgr($container) {
         var that = this,
-            type = that.accessElementInfo.data.children[0].localName, 
+            type = that.accessElementInfo.data.children[0].localName,
             $src = $container.find('input[name*="videoFileInfo.fileHref"]'),
             $uploadTrigger = $container.find('.selectMediaFile');
-        
+
         $uploadTrigger.on('click', function () {
             $uploadTrigger.resourcemgr({
                 title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
@@ -68,30 +67,25 @@ define([
                     filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,application/octet-stream'
                 },
                 pathParam : 'path',
-                select : function(e, files){
-                    if(files && files.length){
+                select : function (e, files) {
+                    if (files && files.length) {
                         that.accessElementInfo.setAttribute(type + '.videoFileInfo.mimeType', files[0].mime);
                         $src.val(files[0].file).trigger('change');
                     }
-                },
-                open : function(){
-                },
-                close : function(){
-                    $src.blur();
                 }
             });
         });
     };
-    
+
     /**
      * Initialize form events.
      * @param {object} $container jQuery element. Popup container.
      * @returns {undefined}
      */
     Form.prototype.initEvents = function initEvents($container) {
-        CommonForm.prototype.initEvents.apply(this, arguments);
+        formHelper.initEvents(this, $container);
         this.initResourceMgr($container);
     };
-    
+
     return Form;
 });

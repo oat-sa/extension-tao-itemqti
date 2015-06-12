@@ -89,7 +89,7 @@ define([
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
-        }).on('destroy', function(){
+        }).on('destroy.apip-from', function(){
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();

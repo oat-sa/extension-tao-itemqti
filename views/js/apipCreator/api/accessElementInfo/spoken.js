@@ -32,6 +32,12 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, For
         "textToSpeechPronunciation.contentLinkIdentifier" : {
             "type" : 'attribute'
         },
+        "audioFileInfo" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
+        },
         "audioFileInfo.contentLinkIdentifier" : {
             "type" : 'attribute',
             "creator" : function (accessElementInfo) {

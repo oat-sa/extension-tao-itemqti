@@ -7,7 +7,7 @@
         <label>{{__ 'Text to speech pronunciation'}}</label>
         <textarea name="textToSpeechPronunciation">{{textToSpeechPronunciation}}</textarea>
     </div>
-    <div class="js-audio-file-form-container">
+    <div class="audio-file-form-container js-audio-file-form-container">
         
     </div>
     <div class="field">
@@ -16,20 +16,20 @@
 </div>
 <script id="audio-file-template" type="text/x-handlebars-template">
 <div class="audio-file-form">
+    <span class="icon-close js-remove-audio-file-form" data-audio-file-index="\{{num}}"></span>
     <div class="field">
         <label>
             <div>{{__ 'File'}}</div>
-            <input type="text" name="{{type}}.videoFileInfo.fileHref" readonly="readonly" placeholder="Please select file" value="{{fileHref}}"/>
-            <button class="selectMediaFile btn-info small block">{{__ 'Select media file'}}</button>
+            <input class="file-uploader-field" type="text" name="audioFileInfo[\{{num}}].fileHref" readonly="readonly" placeholder="Please select file" value="\{{fileHref}}"/>
         </label>
     </div>
     <div class="field">
         <label>{{__ 'Start time'}}</label>
-        <input name="{{type}}.videoFileInfo.startCue" value="{{startTime}}"/>
+        <input name="audioFileInfo[\{{num}}].startTime" value="\{{startTime}}"/>
     </div>
     <div class="field">
         <label>{{__ 'Duration'}}</label>
-        <input name="{{type}}.videoFileInfo.endCue" value="{{duration}}"/>
+        <input name="audioFileInfo[\{{num}}].duration" value="\{{duration}}"/>
     </div>
 </div>
 </script>

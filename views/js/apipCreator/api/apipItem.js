@@ -38,9 +38,9 @@ define([
             inclusionOrderNode,
             accessibilityInfoNode;
         
-        if (!options.id) {
+        /*if (!options.id) {
             throw new TypeError('options.id parameter is required');
-        }
+        }*/
         
         this.options = options;
         this.apipDoc = parser.parse(apipItemXML);
@@ -157,7 +157,17 @@ define([
 
         return result;
     };
-
+    
+    /**
+     * Instanciate QtiElement object
+     * 
+     * @param {String} node XML node.
+     * @returns {Object} QtiElement instance
+    */
+    ApipItem.prototype.getQtiElementInstance = function getQtiElementInstance(node) {
+        return new QtiElement(this, node);
+    };
+    
     /**
      * Get the access element identified by its serial
      * 

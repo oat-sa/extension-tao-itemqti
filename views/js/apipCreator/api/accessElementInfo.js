@@ -85,7 +85,7 @@ define([
     };
 
     /**
-     * Get the attribute value for the spoken access element
+     * Get the attribute value
      * 
      * Allowed names listed in the <code>attributes</code> property of appropriate elementInfo implementation. 
      * 
@@ -105,6 +105,62 @@ define([
             } else {
                 result = node.innerHTML;
             }
+        }
+
+        return result;
+    };
+    
+    /**
+     * Remove the attribute value 
+     * 
+     * Allowed names listed in the <code>attributes</code> property of appropriate elementInfo implementation. 
+     * 
+     * @param {String} name
+     * @returns {Mixed}
+     */
+     AccessElementInfo.prototype.removeAttribute = function removeAttribute(name) {
+        var node = this.getAttributeNode(name),
+            nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
+            nameParts = name.split('.'),
+            attributes = this.getImplementation().attributes;
+
+        if (node) {
+            if (attributes[nameWithoutIndex].type === 'attribute') {
+                node.removeAttribute(nameParts.pop());
+            } else {
+                node.parentNode.removeChild(node);
+            }
+        }
+    };
+    
+    /**
+     * Get number of attributes.
+     * 
+     * Allowed names listed in the <code>attributes</code> property of appropriate elementInfo implementation. 
+     * 
+     * @param {String} name
+     * @returns {Mixed}
+     */
+    AccessElementInfo.prototype.getAttributeNum = function getAttributeNum(name) {
+        var node,
+            result = 0,
+            xpath = '',
+            attributes = this.getImplementation().attributes,
+            nameParts = name.split('.');
+    
+        if (attributes[name]) {
+            _.forEach(nameParts, function (val, num) {
+                if ((num + 1) === nameParts.length && attributes[name].type === 'attribute') {//last part of path is attribute name
+                    xpath += "[@" + val  + "]";
+                } else { //part of path is node name
+                    if (num !== 0) {
+                        xpath += "/";
+                    }
+                    xpath += "apip:" + val;
+                }
+            });
+            node = this.apipItem.xpath(xpath, this.data);
+            result = node.length;
         }
 
         return result;

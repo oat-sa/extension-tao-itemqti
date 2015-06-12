@@ -76,7 +76,6 @@ define([
     ];
 
     function addEvents($container){
-        
         $container.find('.inclusion-order-container select').off(_ns).on('change', function(){
             
             var $select = $(this);
@@ -87,7 +86,6 @@ define([
                 $container.trigger('inclusionorderdeactivated', [previousValue]);
             }
             $select.data('previous-value', newValue);
-            
             $container.trigger('inclusionorderactivated', [newValue]);
         });
     }
@@ -101,7 +99,7 @@ define([
                 label : order.label
             });
         });
-        
+        console.log(tplData);
         $container.append(selectorTpl(tplData));
 
         if(selectedInclusionOrder){
@@ -115,8 +113,13 @@ define([
         return _.clone(_inclusionOrders);
     }
     
+    function getValue() {
+        return $('.inclusion-order-container select').val();
+    }
+    
     return {
         render : render,
+        getValue : getValue,
         getAvailableInclusionOrders : getAvailableInclusionOrders
     };
 });

@@ -2,7 +2,7 @@
     <div class="field">
         <label>
             <div>{{__ 'File'}}</div>
-            <input type="text" name="{{type}}.videoFileInfo.fileHref" readonly="readonly" placeholder="Please select file" value="{{fileHref}}"/>
+            <input class="file-uploader-field" type="text" name="{{type}}.videoFileInfo.fileHref" readonly="readonly" placeholder="Please select file" value="{{fileHref}}"/>
             <button class="selectMediaFile btn-info small block">{{__ 'Select media file'}}</button>
         </label>
     </div>

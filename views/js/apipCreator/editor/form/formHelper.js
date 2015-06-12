@@ -17,57 +17,54 @@
  *
  */
 define([
+    'jquery',
     'ui/feedback',
-    'taoQtiItem/apipCreator/editor/form/common',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function(feedback, inclusionOrderSelector) {
+], function ($, feedback, inclusionOrderSelector) {
     'use strict';
-    
-    function Form() {
-        
-    }
-    
-    Form.prototype.getAttributeValue = function getAttributeValue(attributeName) {
-        var that = this,
-            aeInfo = this.accessElementInfo,
+
+    function getAttributeValue(formInstance, attributeName) {
+        var aeInfo = formInstance.accessElementInfo,
             ae = aeInfo.getAssociatedAccessElement(),
             qtiElements,
-            result = this.accessElementInfo.getAttribute(attributeName);
-        
+            result = formInstance.accessElementInfo.getAttribute(attributeName);
+
         if (!result) {
             qtiElements = ae.getQtiElements();
             if (qtiElements.length) {
                 result = $(qtiElements[0].data).text();
             }
         }
-        
+
         return result;
-    };
-    
-    Form.prototype.initEvents = function initEvents($container) {
-        var that = this,
-            aeInfo = this.accessElementInfo;
-        
-        $container.on('change', 'input', function(){
+    }
+
+    function initEvents(formInstance, $container) {
+        var aeInfo = formInstance.accessElementInfo;
+
+        $container.on('change', 'input,textarea,select', function () {
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
-                
+
             aeInfo.setAttribute(name, value);
         });
-        
-        $container.on('click', '.delete', function() {
+
+        $container.on('click', '.delete', function () {
             var ae = aeInfo.getAssociatedAccessElement();
             aeInfo.remove();
             ae.removeInclusionOrder(inclusionOrderSelector.getValue());
-            
+
             if (ae.getAccessElementInfo() === null) {
                 ae.remove();
             }
             feedback().info('Access element removed.');
-            $container.trigger('destroy');
+            $container.trigger('destroy.apip-from');
         });
+    }
+
+    return {
+        getAttributeValue : getAttributeValue,
+        initEvents : initEvents
     };
-    
-    return Form;
 });
