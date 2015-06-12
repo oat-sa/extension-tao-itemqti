@@ -64,15 +64,11 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, For
         },
         "audioFileInfo.voiceType" : {
             "type" : 'textNode',
-            "creator" : function (accessElementInfo) {
-                return createAttribute(accessElementInfo, 'audioFileInfo');
-            }
+            "creator" : createAttribute
         },
         "audioFileInfo.voiceSpeed" : {
             "type" : 'textNode',
-            "creator" : function (accessElementInfo) {
-                return createAttribute(accessElementInfo, 'audioFileInfo');
-            }
+            "creator" : createAttribute
         },
         "audioFileInfo.mimeType" : {
             "type" : 'attribute',
@@ -90,15 +86,32 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, For
      */
     function createAttribute(accessElementInfo, name) {
         var attributeNode,
+            nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
             apipItem = accessElementInfo.apipItem;
 
-        switch (name) {
+        switch (nameWithoutIndex) {
         case 'audioFileInfo':
             attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
             attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
             attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
             attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'voiceType'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'voiceSpeed'));
             accessElementInfo.data.appendChild(attributeNode);
+            break;
+        case 'audioFileInfo.voiceType':
+            var parentNode = accessElementInfo.getAttributeNode(name.split('.').slice(0, -1).join('.'));
+            if (!parentNode) {
+                parentNode = createAttribute(name.split('.').slice(0, -1).join('.'));
+            }
+            parentNode.appendChild(apipItem.createNode('apip', 'voiceType'));
+            break;
+        case 'audioFileInfo.voiceSpeed':
+            var parentNode = accessElementInfo.getAttributeNode(name.split('.').slice(0, -1).join('.'));
+            if (!parentNode) {
+                parentNode = createAttribute(name.split('.').slice(0, -1).join('.'));
+            }
+            parentNode.appendChild(apipItem.createNode('apip', 'voiceSpeed'));
             break;
         }
 

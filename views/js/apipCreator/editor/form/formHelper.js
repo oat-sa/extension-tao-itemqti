@@ -66,7 +66,9 @@ define([
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
-
+            
+            console.log(name, value);
+            console.log(aeInfo.data);
             aeInfo.setAttribute(name, value);
         });
 
@@ -108,7 +110,7 @@ define([
             };
 
         options = _.merge(defaultOptions, options);
-        
+
         options.$uploadTrigger.on('click', function () {
             options.$uploadTrigger.resourcemgr(options);
         });

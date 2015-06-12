@@ -20,9 +20,9 @@ define([
     'jquery',
     'taoQtiItem/apipCreator/editor/form/formHelper',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken',
-    'handlebars',
+    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spokenAudioFile',
     'ui/resourcemgr'
-], function ($, formHelper, formTpl, Handlebars) {
+], function ($, formHelper, formTpl, audioFileTpl) {
     'use strict';
 
     function Form(accessElementInfo) {
@@ -44,8 +44,6 @@ define([
      */
     Form.prototype.initEvents = function initEvents($container) {
         var that = this;
-
-        that.audioFormTemplate = Handlebars.compile($container.find("#audio-file-template").html());
 
         formHelper.initEvents(this, $container);
 
@@ -75,18 +73,25 @@ define([
 
     Form.prototype.buildAudioFileForm = function buildAudioFileForm($container) {
         var that = this,
+            $audioFileForm,
             audioFormTemplateIndex = 1,
             numberOfAudioFiles = this.accessElementInfo.getAttributeNum('audioFileInfo');
 
         $container.find('.js-audio-file-form-container').hide().empty();
         for (audioFormTemplateIndex; audioFormTemplateIndex <= numberOfAudioFiles; audioFormTemplateIndex++) {
-            $container.find('.js-audio-file-form-container').append(that.audioFormTemplate({
+            $audioFileForm = $(audioFileTpl({
                 "num" : audioFormTemplateIndex,
                 "fileHref" : this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].fileHref'),
                 "duration" : this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].duration'),
                 "startTime" : this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].startTime')
             }));
-            $container.find('.js-audio-file-form-container').show();
+            
+            $audioFileForm.find('select[name$="voiceType"]')
+                .val(this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].voiceType'));
+            $audioFileForm.find('select[name$="voiceSpeed"]')
+                .val(this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].voiceSpeed'));
+        
+            $container.find('.js-audio-file-form-container').append($audioFileForm).show();
         }
     };
 

@@ -67,7 +67,7 @@ define([
 
         if (attributes[nameWithoutIndex]) {
             if (!node && typeof attributes[nameWithoutIndex].creator === 'function') {
-                attributes[nameWithoutIndex].creator(this);
+                attributes[nameWithoutIndex].creator(this, name);
                 node = this.getAttributeNode(name);
             }
             
