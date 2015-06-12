@@ -44,6 +44,13 @@ define([
             });
         }, TypeError, 'A config parameter with available themes property is required');
 
+        assert.throws(function(){
+            themeLoader({
+                base : '',
+                available : [{}]
+            });
+        }, TypeError, 'Themes should contain path and id');
+
         //does not fail
         themeLoader(config);
     });
@@ -147,6 +154,40 @@ define([
     });
 
 
+    QUnit.asyncTest('change back to default', 9, function(assert){
+        var loader = themeLoader(config);
+        var $container = $('#qti-item');
+        assert.equal($container.length, 1, 'The container exists');
+
+        loader.load();
+        setTimeout(function(){
+
+            var $styleSheets = $('link[data-type^="qti-item-style"]');
+            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
+            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
+
+            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
+            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
+
+            loader.change('green');
+
+            setTimeout(function(){
+
+                assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
+                assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
+
+                loader.change('default');
+                setTimeout(function(){
+
+                    assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
+                    assert.equal($container.css('color'), blue, 'The default theme style is loaded');
+
+                    QUnit.start();
+                }, 50);
+            }, 50);
+        }, 50);
+    });
+
     QUnit.asyncTest('reload and change', 14, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
@@ -193,5 +234,6 @@ define([
             }, 50);
         }, 50);
     });
+
 
 });

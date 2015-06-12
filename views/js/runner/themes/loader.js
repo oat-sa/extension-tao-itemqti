@@ -193,6 +193,12 @@ define(['jquery', 'lodash'], function($, _){
              * @returns {Object} chains
              */
             change : function change(id){
+
+                //support to change to the "default" theme regardless it's id
+                if(_.contains(['base', 'default'], id) && !isAttached(id)){
+                    id = defaultTheme;
+                }
+
                 if(isAttached(id)){
                     //diable all
                     disable($('link[data-type="' + prefix  + 'theme"]', $container));
