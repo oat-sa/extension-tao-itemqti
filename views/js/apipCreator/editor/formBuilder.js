@@ -33,7 +33,7 @@ define([
      * Build the form for a qtiElement apip feature editing
      * 
      * @param {JQuery} $anchor
-     * @param {JQuery} qtiElement
+     * @param {object} qtiElement
      * @param {string} inclusionOrderType
      * @returns {Object} the popup container
      */
