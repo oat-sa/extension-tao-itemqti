@@ -33,7 +33,8 @@ define([
         this.config = config;
         this.inclusionOrderType = 'textGraphicsDefaultOrder';//initial selected inclusion order
         this.apipItem = new ApipItem(config.properties.xml, {id : config.id});
-    }
+		this.elementSelector;    
+	}
 
     ApipCreator.prototype.initLabel = function initLabel(){
         this.$container.find('#item-editor-label').html(this.config.properties.label);
@@ -45,6 +46,7 @@ define([
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
         this.elementSelector = qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
+        this.refreshVisualApipFeatures();
     };
 
     ApipCreator.prototype.initEvents = function initQtiElementSelector(){
@@ -59,7 +61,8 @@ define([
 
             //blur the current selected element
             self.elementSelector.deactivate();
-
+            self.refreshVisualApipFeatures();
+            
         }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
 
             //show contextual popup + load form
@@ -89,6 +92,11 @@ define([
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
+        }).on('formready.form-builder', function(){
+            
+            //refresh the vial apip features here because a new access element might have been created when init the form
+            //@todo could be improved by only listening to event of new access element info creation
+            self.refreshVisualApipFeatures();
         }).on('destroy.apip-from', function(){
             self.elementSelector.deactivate();
             if(formPopup){
@@ -135,6 +143,11 @@ define([
             data : xml
         });
     };
-
+    
+    ApipCreator.prototype.refreshVisualApipFeatures = function(){
+        qtiElementSelector.resetApipFeatures(this.$container);
+        qtiElementSelector.setApipFeatures(this.$container, this.apipItem, this.inclusionOrderType);
+    };
+    
     return ApipCreator;
 });

@@ -26,7 +26,7 @@ require([
     'use strict';
     var apipItem = new ApipItem(xml);
 
-    QUnit.test("accessElement.getQtiElement()", function () {
+    QUnit.test("accessElement.getQtiElements()", function () {
         var accessElement = apipItem.getAccessElementBySerial('accessElement1'),
             qtiElements = accessElement.getQtiElements();
             
