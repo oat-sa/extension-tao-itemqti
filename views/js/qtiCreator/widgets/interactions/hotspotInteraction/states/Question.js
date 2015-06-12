@@ -66,7 +66,7 @@ define([
             shapeCreated : function(shape, type){
                 var newChoice = interaction.createChoice({
                     shape  : type === 'path' ? 'poly' : type,
-                    coords : GraphicHelper.qtiCoords(shape) 
+                    coords : GraphicHelper.qtiCoords(shape)
                 });
 
                 //link the shape to the choice
@@ -86,22 +86,22 @@ define([
                 var choice = interaction.getChoice(shape.id);
                 if(choice){
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
-    
+
                     if($left && $left.length){
                         bbox = shape.getBBox();
-                        $left.val(parseInt(bbox.x, 10)); 
+                        $left.val(parseInt(bbox.x, 10));
                         $top.val(parseInt(bbox.y, 10));
                         $width.val(parseInt(bbox.width, 10));
-                        $height.val(parseInt(bbox.height, 10));                         
-                    }         
+                        $height.val(parseInt(bbox.height, 10));
+                    }
                 }
             }
         });
-    
+
         //and create an instance
         widget._editor.create();
 
-        //we need to stop the question mode on resize, to keep the coordinate system coherent, 
+        //we need to stop the question mode on resize, to keep the coordinate system coherent,
         //even in responsive (the side bar introduce a biais)
         $(window).on('resize.changestate', function(){
             widget.changeState('sleep');
@@ -127,10 +127,10 @@ define([
                         identifier  : choice.id(),
                         fixed       : choice.attr('fixed'),
                         serial      : serial,
-                        x           : parseInt(bbox.x, 10), 
+                        x           : parseInt(bbox.x, 10),
                         y           : parseInt(bbox.y, 10),
                         width       : parseInt(bbox.width, 10),
-                        height      : parseInt(bbox.height, 10)                         
+                        height      : parseInt(bbox.height, 10)
                     })
                 );
 
@@ -139,7 +139,7 @@ define([
                 //init data validation and binding
                 formElement.setChangeCallbacks($choiceForm, choice, {
                     identifier  : identifierHelper.updateChoiceIdentifier,
-                    fixed       : formElement.getAttributeChangeCallback() 
+                    fixed       : formElement.getAttributeChangeCallback()
                 });
 
                 $formChoicePanel.show();
@@ -153,7 +153,7 @@ define([
                 $height = $('input[name=height]', $choiceForm);
             }
         }
-        
+
         /**
          * Leave the choice form
          * @private
@@ -174,11 +174,14 @@ define([
         var widget      = this.widget;
         var interaction = widget.element;
         var paper       = interaction.paper;
+        var valid       = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+
+        widget.isValid('hotspotInteraction', valid);
 
         if(!paper){
             return;
         }
-        
+
         $(window).off('resize.changestate');
 
         if(widget._editor){
@@ -186,7 +189,7 @@ define([
         }
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     };
-    
+
     /**
      * The question state for the hotspot interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
@@ -226,7 +229,7 @@ define([
             formElement,
             formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices')
         );
-        
+
         interactionFormElement.syncMaxChoices(widget);
     };
 
