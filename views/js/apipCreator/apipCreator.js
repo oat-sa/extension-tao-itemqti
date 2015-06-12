@@ -56,7 +56,6 @@ define([
 
         this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
 
-            console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
 
             //blur the current selected element

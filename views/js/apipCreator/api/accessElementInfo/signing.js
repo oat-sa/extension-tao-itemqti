@@ -75,7 +75,7 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/signing'], function (_, Fo
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return new Form(accessElementInfo);
+        return new Form(accessElementInfo, {type: accessElementInfo.data.children[0].localName});
     }
 
     /**
@@ -101,7 +101,6 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/signing'], function (_, Fo
 
         return accessElementNode;
     }
-
 
     return {
         typeId : 'signing',

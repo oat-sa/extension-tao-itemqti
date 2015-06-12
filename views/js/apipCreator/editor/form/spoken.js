@@ -18,13 +18,11 @@
  */
 define([
     'jquery',
-    'i18n',
     'taoQtiItem/apipCreator/editor/form/formHelper',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken',
-    'helpers',
     'handlebars',
     'ui/resourcemgr'
-], function ($, __, formHelper, formTpl, helpers, Handlebars) {
+], function ($, formHelper, formTpl, Handlebars) {
     'use strict';
 
     function Form(accessElementInfo) {
@@ -58,14 +56,28 @@ define([
             that.buildAudioFileForm($container);
         });
         that.buildAudioFileForm($container);
-        that.initResourceMgr($container);
+        formHelper.initResourceMgr(this, $container, {
+            params : {
+                filters : 'audio/mpeg3,audio/x-mpeg-3,audio/mpeg,audio/wav,audio/mp3,audio/x-wav,application/octet-stream'
+            },
+            select : function (e, files) {
+                if (files && files.length) {
+                    var index = that.accessElementInfo.getAttributeNum('audioFileInfo') + 1;
+
+                    that.accessElementInfo.setAttribute('audioFileInfo[' + index + '].mimeType', files[0].mime);
+                    that.accessElementInfo.setAttribute('audioFileInfo[' + index + '].fileHref', files[0].file);
+                    that.buildAudioFileForm($container);
+                }
+            },
+            $uploadTrigger : $container.find('.js-add-audio-file')
+        });
     };
 
     Form.prototype.buildAudioFileForm = function buildAudioFileForm($container) {
         var that = this,
             audioFormTemplateIndex = 1,
             numberOfAudioFiles = this.accessElementInfo.getAttributeNum('audioFileInfo');
-        
+
         $container.find('.js-audio-file-form-container').hide().empty();
         for (audioFormTemplateIndex; audioFormTemplateIndex <= numberOfAudioFiles; audioFormTemplateIndex++) {
             $container.find('.js-audio-file-form-container').append(that.audioFormTemplate({
@@ -76,44 +88,6 @@ define([
             }));
             $container.find('.js-audio-file-form-container').show();
         }
-    };
-
-    /**
-     * Initialize resource manager (for uploading and selecting video files)
-     * @param {object} $container jQuery element. Popup container.
-     * @returns {undefined}
-     */
-    Form.prototype.initResourceMgr = function initResourceMgr($container) {
-        var that = this,
-            $uploadTrigger = $container.find('.js-add-audio-file');
-
-        $uploadTrigger.on('click', function () {
-            $uploadTrigger.resourcemgr({
-                title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
-                appendContainer : '#mediaManager',
-                mediaSourcesUrl : helpers._url('getMediaSources', 'QtiCreator', 'taoQtiItem'),
-                browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
-                uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
-                deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
-                downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
-                fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
-                params : {
-                    uri : that.accessElementInfo.apipItem.options.id,
-                    lang : "en-US", //TODO set user language
-                    filters : 'audio/mpeg3,audio/x-mpeg-3,audio/mpeg,audio/wav,audio/mp3,audio/x-wav,application/octet-stream'
-                },
-                pathParam : 'path',
-                select : function (e, files) {
-                    if (files && files.length) {
-                        var index = that.accessElementInfo.getAttributeNum('audioFileInfo') + 1;
-
-                        that.accessElementInfo.setAttribute('audioFileInfo[' + index + '].mimeType', files[0].mime);
-                        that.accessElementInfo.setAttribute('audioFileInfo[' + index + '].fileHref', files[0].file);
-                        that.buildAudioFileForm($container);
-                    }
-                }
-            });
-        });
     };
 
     return Form;

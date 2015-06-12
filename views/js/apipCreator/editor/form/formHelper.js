@@ -18,11 +18,25 @@
  */
 define([
     'jquery',
+    'lodash',
+    'i18n',
     'ui/feedback',
-    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function ($, feedback, inclusionOrderSelector) {
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'helpers',
+    'ui/resourcemgr'
+], function ($, _, __, feedback, inclusionOrderSelector, helpers) {
     'use strict';
 
+    /**
+     * Get access element info attribute value. 
+     * 
+     * If access element exists in the model then value from the model will be returned.
+     * Otherwise qti element content (text) will be returned.
+     * 
+     * @param {object} formInstance
+     * @param {atring} attributeName
+     * @returns {string}
+     */
     function getAttributeValue(formInstance, attributeName) {
         var aeInfo = formInstance.accessElementInfo,
             ae = aeInfo.getAssociatedAccessElement(),
@@ -39,6 +53,12 @@ define([
         return result;
     }
 
+    /**
+     * Initialize access element info authoring form.
+     * @param {object} formInstance
+     * @param {jQueryElement} $container
+     * @returns {undefined}
+     */
     function initEvents(formInstance, $container) {
         var aeInfo = formInstance.accessElementInfo;
 
@@ -63,8 +83,40 @@ define([
         });
     }
 
+    /**
+     * Initialize resource manager (for uploading and selecting video files)
+     * @param {jQueryElement} $container Popup container.
+     * @param {object} options resource manager options.
+     * @returns {undefined}
+     */
+    function initResourceMgr(formInstance, $container, options) {
+        var defaultOptions = {
+                title : __('Please select a video file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                appendContainer : '#mediaManager',
+                mediaSourcesUrl : helpers._url('getMediaSources', 'QtiCreator', 'taoQtiItem'),
+                browseUrl : helpers._url('files', 'ItemContent', 'taoItems'),
+                uploadUrl : helpers._url('upload', 'ItemContent', 'taoItems'),
+                deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
+                downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
+                fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
+                params : {
+                    uri : formInstance.accessElementInfo.apipItem.options.id,
+                    lang : "en-US", //TODO set user language
+                    filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,application/octet-stream'
+                },
+                pathParam : 'path'
+            };
+
+        options = _.merge(defaultOptions, options);
+        
+        options.$uploadTrigger.on('click', function () {
+            options.$uploadTrigger.resourcemgr(options);
+        });
+    }
+
     return {
         getAttributeValue : getAttributeValue,
-        initEvents : initEvents
+        initEvents : initEvents,
+        initResourceMgr : initResourceMgr
     };
 });
