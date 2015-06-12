@@ -65,7 +65,6 @@ require([
         accessElement.remove();
         
         QUnit.equal(apipItem.xpath("//*[@serial='" + accessElement.serial + "']").length, 0);
-        QUnit.equal(apipItem.xpath("//*[@serial='" + accessElement.serial + "']").length, 0);
         QUnit.equal(apipItem.xpath("//apip:elementOrder[@identifierRef='" + identifier + "']").length, 0);
     });
     

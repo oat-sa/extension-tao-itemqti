@@ -29,21 +29,21 @@ define([
     var _ns = '.form-builder';
     
     var _aeInfoMap = {
-        textGraphicsDefaultOrder : 'spoken',
-        textGraphicsOnDemandOrder : 'spoken',
-        aslDefaultOrder : 'signing',
-        aslOnDemandOrder : 'signing',
-        signedEnglishDefaultOrder : 'signing',
-        signedEnglishOnDemandOrder : 'signing'
-    },
-    _aeInfoOptionsMap = {
-        textGraphicsDefaultOrder : {},
-        textGraphicsOnDemandOrder : {},
-        aslDefaultOrder : {type: 'signFileASL'},
-        aslOnDemandOrder : {type: 'signFileASL'},
-        signedEnglishDefaultOrder : {type: 'signFileSignedEnglish'},
-        signedEnglishOnDemandOrder : {type: 'signFileSignedEnglish'}
-    };
+            textGraphicsDefaultOrder : 'spoken',
+            textGraphicsOnDemandOrder : 'spoken',
+            aslDefaultOrder : 'signing',
+            aslOnDemandOrder : 'signing',
+            signedEnglishDefaultOrder : 'signing',
+            signedEnglishOnDemandOrder : 'signing'
+        },
+        _aeInfoOptionsMap = {
+            textGraphicsDefaultOrder : {},
+            textGraphicsOnDemandOrder : {},
+            aslDefaultOrder : {type: 'signFileASL'},
+            aslOnDemandOrder : {type: 'signFileASL'},
+            signedEnglishDefaultOrder : {type: 'signFileSignedEnglish'},
+            signedEnglishOnDemandOrder : {type: 'signFileSignedEnglish'}
+        };
 
     function build($anchor, qtiElement, inclusionOrderType){
         var $form = renderForm(qtiElement, inclusionOrderType);
@@ -81,7 +81,7 @@ define([
 
         //bind events :
         formView.initEvents($form);
-
+               
         return $form;
     }
 

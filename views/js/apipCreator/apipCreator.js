@@ -32,9 +32,9 @@ define([
         this.$container = $container;
         this.config = config;
         this.inclusionOrderType = 'textGraphicsDefaultOrder';//initial selected inclusion order
-        this.apipItem = new ApipItem(config.properties.xml);
-        this.elementSelector;
-    }
+        this.apipItem = new ApipItem(config.properties.xml, {id : config.id});
+		this.elementSelector;    
+	}
 
     ApipCreator.prototype.initLabel = function initLabel(){
         this.$container.find('#item-editor-label').html(this.config.properties.label);
@@ -56,6 +56,7 @@ define([
 
         this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
 
+            console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
 
             //blur the current selected element
@@ -96,6 +97,11 @@ define([
             //refresh the vial apip features here because a new access element might have been created when init the form
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
+        }).on('destroy.apip-from', function(){
+            self.elementSelector.deactivate();
+            if(formPopup){
+                formPopup.destroy();
+            }
         });
     };
     

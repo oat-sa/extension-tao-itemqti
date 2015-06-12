@@ -115,8 +115,13 @@ define([
         return _.clone(_inclusionOrders);
     }
     
+    function getValue() {
+        return $('.inclusion-order-container select').val();
+    }
+    
     return {
         render : render,
+        getValue : getValue,
         getAvailableInclusionOrders : getAvailableInclusionOrders
     };
 });

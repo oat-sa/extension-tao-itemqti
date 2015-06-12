@@ -120,6 +120,28 @@
                     }
                     input, textarea{
                         width:100%;
+                        max-width: none;
+                    }
+                }
+            }
+            .audio-file-form-container {
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 15px;
+                .audio-file-form {
+                    padding: 10px 10px 0 10px;
+                    margin-bottom: 15px;
+                    border: 1px solid #E1E1E1;
+                    position: relative;
+                    .icon-close {
+                        position: absolute;
+                        right: 5px;
+                        top: 5px;
+                        z-index: 10;
+                        &:hover {
+                            cursor: pointer;
+                            color: #0e5d91;
+                        }
                     }
                 }
             }

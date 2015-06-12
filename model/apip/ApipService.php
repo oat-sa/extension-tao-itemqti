@@ -48,10 +48,9 @@ class ApipService extends tao_models_classes_Service
         if (($apipContent = Apip::extractApipAccessibility($originalDoc)) !== null) {
             // Call ApipService to store the data separately.
             //@todo prepare to receive the argument "lang" for getItemFolder()
-            $finalLocation = $itemService->getItemFolder($item).'apip.xml';
-            file_put_contents($finalLocation, $apipContent->saveXML());
-
-            \common_Logger::i("APIP content stored at '${finalLocation}'.");
+            $apipFinalLocation = $itemService->getItemFolder($item).'apip.xml';
+            file_put_contents($apipFinalLocation, $apipContent->saveXML());
+            \common_Logger::i("APIP content stored at '$apipFinalLocation'.");
         }
     }
 
@@ -77,7 +76,7 @@ class ApipService extends tao_models_classes_Service
 
         return $apipContent;
     }
-
+    
     /**
      * Get the default ApipAccessbility node
      * 
@@ -87,7 +86,7 @@ class ApipService extends tao_models_classes_Service
     {
         // $item not in used but will be. Namespaces might depend on the APIP version in use.
         $content = new DOMDocument('1.0', 'UTF-8');
-        $content->loadXML('<apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0" xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"/>');
+        $content->loadXML('<apip:apipAccessibility xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"></apip:apipAccessibility>');
         return $content;
     }
 
@@ -114,6 +113,7 @@ class ApipService extends tao_models_classes_Service
 
         //merge QTI and APIP Accessibility
         Apip::mergeApipAccessibility($qtiItemDoc, $apipContentDoc);
+        
         return $qtiItemDoc;
     }
 }
