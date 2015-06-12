@@ -36,13 +36,30 @@ define([
 ], function($, _, imageUtil, stateFactory, Question, imageSelector, formElement, interactionFormElement, formTpl, resourceManager, bgImage){
 
     'use strict';
-    
+
+    /**
+     * Question State initialization: set up side bar, editors and shae factory
+     */
+    var initQuestionState = function initQuestionState(){
+    };
+
+    /**
+     * Exit the question state, leave the room cleaned up
+     */
+    var exitQuestionState = function initQuestionState(){
+        var widget      = this.widget;
+        var interaction = widget.element;
+        var valid       = !!interaction.object.attr('data');
+
+        widget.isValid('selectPointInteraction', valid);
+    };
+
     /**
      * The question state for the selectPoint interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
      * @exports taoQtiItem/qtiCreator/widgets/interactions/selectPointInteraction/states/Question
      */
-    var SelectPointInteractionStateQuestion = stateFactory.extend(Question);
+    var SelectPointInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
      * Initialize the form linked to the interaction
@@ -64,19 +81,19 @@ define([
             type            : interaction.object.attr('type')
         }));
 
-        imageSelector($form, options); 
+        imageSelector($form, options);
 
         formElement.initWidget($form);
-        
+
         bgImage.setupImage(widget);
-        
+
         //init data change callbacks
         bgImage.setChangeCallbacks(
             widget,
             formElement,
             formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices')
         );
-        
+
         interactionFormElement.syncMaxChoices(widget);
     };
 
