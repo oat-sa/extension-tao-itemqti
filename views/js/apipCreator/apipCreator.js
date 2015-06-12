@@ -46,6 +46,7 @@ define([
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
         this.elementSelector = qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
+        this.refreshVisualApipFeatures();
     };
 
     ApipCreator.prototype.initEvents = function initQtiElementSelector(){
@@ -55,12 +56,12 @@ define([
 
         this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
 
-            console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
 
             //blur the current selected element
             self.elementSelector.deactivate();
-
+            self.refreshVisualApipFeatures();
+            
         }).on('activated.qti-element-selector', function(e, qtiElementSerial, $element){
 
             //show contextual popup + load form
@@ -91,7 +92,10 @@ define([
             //blur the current selected element
             self.elementSelector.deactivate();
         }).on('formready.form-builder', function(){
-           console.log('form ready.form-builder'); 
+            
+            //refresh the vial apip features here because a new access element might have been created when init the form
+            //@todo could be improved by only listening to event of new access element info creation
+            self.refreshVisualApipFeatures();
         });
     };
     
@@ -133,6 +137,11 @@ define([
             data : xml
         });
     };
-
+    
+    ApipCreator.prototype.refreshVisualApipFeatures = function(){
+        qtiElementSelector.resetApipFeatures(this.$container);
+        qtiElementSelector.setApipFeatures(this.$container, this.apipItem, this.inclusionOrderType);
+    };
+    
     return ApipCreator;
 });

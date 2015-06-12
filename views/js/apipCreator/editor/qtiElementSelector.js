@@ -29,8 +29,6 @@ define([
 
     var _ns = '.qti-element-selector';
 
-    var _apipFeaturePrefix = 'apip-feature-';
-
     var _renderers = {
         img : function (){
             return '<img src="' + this.getAttribute('src') + '"/>';
@@ -201,7 +199,7 @@ define([
         //check inclusionOrder and 
         //set inclusionOrder css class
         if(true){
-            $container.addClass(_apipFeaturePrefix + inclusionOrderName);
+            $container.addClass('apip-feature-order-' + inclusionOrderName);
         }
 
         //get ae
@@ -216,7 +214,7 @@ define([
                 var qtiElements = ae.getQtiElements();
                 _.each(qtiElements, function (qtiElement){
                     //set feature css class to qti element
-                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass(_apipFeaturePrefix + aeInfoType);
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass('apip-feature-info-' + aeInfoType);
                 });
             }
         });
