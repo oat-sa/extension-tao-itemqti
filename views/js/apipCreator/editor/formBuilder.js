@@ -29,14 +29,28 @@ define([
     
     var _ns = '.form-builder';
     
+    /**
+     * Build the form for a qtiElement apip feature editing
+     * 
+     * @param {JQuery} $anchor
+     * @param {JQuery} qtiElement
+     * @param {string} inclusionOrderType
+     * @returns {Object} the popup container
+     */
     function build($anchor, qtiElement, inclusionOrderType){
-        var $form = renderForm(qtiElement, inclusionOrderType);
-        var formPopup = buildPopup($anchor, $form);
+        var $form = _renderForm(qtiElement, inclusionOrderType);
+        var formPopup = _buildPopup($anchor, $form);
         $anchor.trigger('formready'+_ns, [formPopup, $anchor, $form]);
         return formPopup;
     }
-
-    function renderForm(qtiElement, inclusionOrderType){
+    
+    /**
+     * Create the form to edit the access feature for an qtiElement in a specific inclusionOrder
+     * @param {object} qtiElement
+     * @param {string} inclusionOrderType
+     * @returns {JQuery}
+     */
+    function _renderForm(qtiElement, inclusionOrderType){
 
         var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
         var aeModel = aeInfo.getImplementation();
@@ -68,10 +82,17 @@ define([
                
         return $form;
     }
-
-    function buildPopup($anchor, formContent){
+    
+    /**
+     * Build the popup container for the $form and bind it to the $anchor
+     * 
+     * @param {JQuery} $anchor
+     * @param {JQuery} $formContent
+     * @returns {Object} the created popup
+     */
+    function _buildPopup($anchor, $formContent){
         return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
-            content : formContent,
+            content : $formContent,
             controls : {
                 done:true
             },
@@ -80,7 +101,16 @@ define([
             }
         });
     }
-
+    
+    /**
+     * Get the access element info associate to a qtiElement and in a specific inclusionOrder
+     * If none has been found, create a new one
+     * 
+     * @todo might be worth throwing an event upon creation
+     * @param {object} qtiElement
+     * @param {string} inclusionOrderType
+     * @returns {object} - the access element instance
+     */
     function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
         
         var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderType);
@@ -108,7 +138,13 @@ define([
         }
         return aeInfo;
     }
-
+    
+    /**
+     * Get the inclusion orders associated to an access element info object
+     * 
+     * @param {object} aeInfo
+     * @returns {Array}
+     */
     function getRelatedInclusionOrder(aeInfo){
         var ae = aeInfo.getAssociatedAccessElement();
         var inclusionOrders = ae.getInclusionOrders();
