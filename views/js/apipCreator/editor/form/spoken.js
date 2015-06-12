@@ -65,8 +65,8 @@ define([
         var that = this,
             audioFormTemplateIndex = 1,
             numberOfAudioFiles = this.accessElementInfo.getAttributeNum('audioFileInfo');
-
-        $container.find('.js-audio-file-form-container').empty();
+        
+        $container.find('.js-audio-file-form-container').hide().empty();
         for (audioFormTemplateIndex; audioFormTemplateIndex <= numberOfAudioFiles; audioFormTemplateIndex++) {
             $container.find('.js-audio-file-form-container').append(that.audioFormTemplate({
                 "num" : audioFormTemplateIndex,
@@ -74,6 +74,7 @@ define([
                 "duration" : this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].duration'),
                 "startTime" : this.accessElementInfo.getAttribute('audioFileInfo[' + audioFormTemplateIndex + '].startTime')
             }));
+            $container.find('.js-audio-file-form-container').show();
         }
     };
 

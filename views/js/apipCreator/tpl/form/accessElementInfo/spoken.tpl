@@ -7,7 +7,7 @@
         <label>{{__ 'Text to speech pronunciation'}}</label>
         <textarea name="textToSpeechPronunciation">{{textToSpeechPronunciation}}</textarea>
     </div>
-    <div class="audio-file-form-container js-audio-file-form-container">
+    <div class="audio-file-form-container js-audio-file-form-container" style="display: none;">
         
     </div>
     <div class="field">

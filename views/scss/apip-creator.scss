@@ -120,15 +120,12 @@
                     input, textarea{
                         width:100%;
                         max-width: none;
-                        &.file-uploader-field{
-                            width: auto;
-                        }
                     }
                 }
             }
             .audio-file-form-container {
                 max-height: 300px;
-                overflow-y: scroll;
+                overflow-y: auto;
                 margin-bottom: 15px;
                 .audio-file-form {
                     padding: 10px 10px 0 10px;

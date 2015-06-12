@@ -24,13 +24,13 @@ define([
     'ui/resourcemgr'
 ], function (__, formHelper, formTpl, helpers) {
     'use strict';
-    
+
     function Form(accessElementInfo) {
         this.accessElementInfo = accessElementInfo;
     }
 
     Form.prototype.render = function render() {
-        var type = this.accessElementInfo.data.children[0].localName, 
+        var type = this.accessElementInfo.data.children[0].localName,
             tplData = {
                 "fileHref" : this.accessElementInfo.getAttribute(type + '.videoFileInfo.fileHref'),
                 "startCue" : this.accessElementInfo.getAttribute(type + '.videoFileInfo.startCue'),
