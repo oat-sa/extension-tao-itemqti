@@ -48,11 +48,7 @@
             border : 1px solid #EEE;
             padding : 11px;
             margin : 4px;
-            &.apipfied{
-                padding : 10px;
-                border-width:2px;
-                border-color : #AAA;
-            }
+            
             &.hover{
                 padding : 10px;
                 border-width:2px;
@@ -76,6 +72,11 @@
             .element-placeholder{
                 display:inline-block;
             }
+        }
+        [class*=" apip-feature-info-"], [class^="apip-feature-info-"]{
+            padding : 10px;
+            border-width:2px;
+            border-color : #AAA;
         }
     }
     .contextual-popup{
