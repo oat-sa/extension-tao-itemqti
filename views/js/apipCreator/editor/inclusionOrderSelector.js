@@ -84,11 +84,11 @@ define([
             var previousValue = $select.data('previous-value');
             
             if(previousValue){
-                $container.trigger('inclusionorderdeactivated', [previousValue]);
+                $container.trigger('deactivated'+_ns, [previousValue]);
             }
             $select.data('previous-value', newValue);
             
-            $container.trigger('inclusionorderactivated', [newValue]);
+            $container.trigger('activated'+_ns, [newValue]);
         });
     }
 

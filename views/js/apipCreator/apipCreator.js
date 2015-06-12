@@ -54,9 +54,8 @@ define([
         var formPopup,
             self = this;
 
-        this.$container.on('inclusionorderactivated', function(e, inclusionOrderType){
+        this.$container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
 
-            console.log('activated', inclusionOrderType);
             self.inclusionOrderType = inclusionOrderType;
 
             //blur the current selected element

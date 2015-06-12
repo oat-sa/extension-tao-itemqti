@@ -6,8 +6,6 @@ require([
     'text!taoQtiItem/apipCreator/test/assets/apip_example_exemplar01.xml'
 ], function ($, _, qtiElementSelector, ApipItem, sampleXML){
     
-    console.log({sampleXML:sampleXML});
-    
     'use strict';
 
     QUnit.test('render view', function (){
