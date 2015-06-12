@@ -171,27 +171,6 @@ define([
         };
     }
 
-    function resetQtiAccessElements($container){
-        $container.find('.apipfied').removeClass(function (index, css){
-            var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
-            classes.push('apipfied');
-            return classes.join(' ');
-        }).removeData('apip-features');
-    }
-
-    function setQtiAccessElements($container, qtiElementSerial, inclusionOrder, accessElementSerials){
-        if(_.isArray(accessElementSerials) && accessElementSerials.length){
-            var $qtiElement = $container.find('.element[data-serial=' + qtiElementSerial + ']');
-            $qtiElement.addClass('apipfied').addClass('apip-feature-' + inclusionOrder);
-            var features = $qtiElement.data('apip-features') || {};
-            if(!features[inclusionOrder]){
-                features[inclusionOrder] = [];
-            }
-            features[inclusionOrder].push(accessElementSerials);
-            $qtiElement.data('apip-features', features);
-        }
-    }
-
     function setApipFeatures($container, apipItem, inclusionOrderName){
 
         //check inclusionOrder and 
