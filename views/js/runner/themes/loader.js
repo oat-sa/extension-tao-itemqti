@@ -166,6 +166,7 @@ define(['jquery', 'lodash'], function($, _){
             load : function load(){
                 _.forEach(styles, function($link, id){
                     if(!isAttached(id)){
+/bin/bash: q : commande introuvable
                         $container.append($link);
                     }
                     if(id !== 'base' && id !== defaultTheme){
