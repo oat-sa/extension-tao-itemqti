@@ -88,20 +88,26 @@ define([
             if(formPopup){
                 formPopup.destroy();
             }
+            
         }).on('done.contextual-popup', function(){
             //done editing
             //blur the current selected element
             self.elementSelector.deactivate();
+            
         }).on('formready.form-builder', function(){
             
             //refresh the vial apip features here because a new access element might have been created when init the form
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
+            
         }).on('destroy.apip-from', function(){
+            
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();
             }
+            //@todo could be improved by only listening to event of new access element info deletion
+            self.refreshVisualApipFeatures();
         });
     };
     
