@@ -20,13 +20,36 @@ define([
     'lodash',
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/inclusionOrderSelector/selector'
-], function (_, $, selectorTpl){
-    
+], function (_, $, selectorTpl) {
     'use strict';
-    
+
     var _ns = '.inclusion-order-selector';
-    
+
     var _inclusionOrders = [
+        {
+            type : 'textOnlyDefaultOrder',
+            label : 'Spoken, Text Only - default',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'textOnlyOnDemandOrder',
+            label : 'Spoken, Text Only - on demand',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'graphicsOnlyOnDemandOrder',
+            label : 'Spoken, Graphics Only',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
         {
             type : 'textGraphicsDefaultOrder',
             label : 'Spoken, Text & Graphic - default',
@@ -40,6 +63,22 @@ define([
             label : 'Spoken, Text & Graphic - on demand',
             accessElementInfo : {
                 type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'nonVisualDefaultOrder',
+            label : 'Spoken, Non-Visual',
+            accessElementInfo : {
+                type : 'spoken',
+                options: {}
+            }
+        },
+        {
+            type : 'brailleDefaultOrder',
+            label : 'Braille user',
+            accessElementInfo : {
+                type : 'brailleText',
                 options: {}
             }
         },
@@ -76,7 +115,7 @@ define([
             }
         }
     ];
-    
+
     /**
      * Add events listener to the inclusion order selector
      * 
@@ -103,7 +142,7 @@ define([
     }
     
     /**
-     * Render the inclusion order selection widget into the given ĉontainer
+     * Render the inclusion order selection widget into the given container
      * Then initalize the events for use interaction
      * 
      * @param {JQuery} $container
