@@ -12,6 +12,10 @@ define([
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {};
 
+            if(this.relatedItem && this.relatedItem.assets && this.relatedItem.assets.img && this.relatedItem.assets.img[this.attr('src')]){
+                this.attr('src', this.relatedItem.assets.img[this.attr('src')]);
+            }
+
             defaultData.attributes = {
                 src : renderer.resolveUrl(this.attr('src'))
             };
