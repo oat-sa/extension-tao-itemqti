@@ -20,8 +20,7 @@ define([
     'jquery',
     'taoQtiItem/apipCreator/editor/form/formHelper',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spoken',
-    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spokenAudioFile',
-    'ui/resourcemgr'
+    'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo/spokenAudioFile'
 ], function ($, formHelper, formTpl, audioFileTpl) {
     'use strict';
 
@@ -70,7 +69,12 @@ define([
             $uploadTrigger : $container.find('.js-add-audio-file')
         });
     };
-
+    
+    /**
+     * Render audio file form according to the accessElementInfo.
+     * @param {jQueryElement} $container - Audio file forms container.
+     * @returns {undefined}
+     */
     Form.prototype.buildAudioFileForm = function buildAudioFileForm($container) {
         var that = this,
             $audioFileForm,

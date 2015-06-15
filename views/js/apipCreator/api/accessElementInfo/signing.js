@@ -82,7 +82,7 @@ define(['lodash', 'taoQtiItem/apipCreator/editor/form/signing'], function (_, Fo
      * Create new xml node.
      * @param {object} apipItem
      * @param {object} options
-     * @param {object} options.type 'signFileSignedEnglish' or 'signFileASL'. 'signFileASL' - default value.
+     * @param {string} options.type - 'signFileSignedEnglish' or 'signFileASL' ('signFileASL' - default value).
      * @returns {object} new XML node
      */
     function createXMLNode(apipItem, options) {

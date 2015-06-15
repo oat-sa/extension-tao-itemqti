@@ -18,6 +18,7 @@
  */
 define([], function() {
     'use strict';
+    
     var attributes = {
         "brailleTextString" : {
             "type" : 'textNode'

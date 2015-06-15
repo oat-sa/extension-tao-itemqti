@@ -17,8 +17,17 @@
  *
  */
 define([], function(){
+    'use strict';
     
-    function init(instance, apipItem, node){
+    /**
+     * Initialize authoring object (e.g. Access Element or QtiElement instances).
+     * 
+     * @param {object} instance - Authoring object
+     * @param {object} apipItem - Apip item instance {@link '/taoQtiItem/views/js/apipCreator/api/apipItem.js'}
+     * @param {domElement} node - XML node
+     * @returns {object} initialized authoring object
+     */
+    function init(instance, apipItem, node) {
         instance.apipItem = apipItem;
         instance.data = node;
         instance.serial = node.getAttribute('serial');

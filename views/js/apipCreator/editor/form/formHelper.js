@@ -23,8 +23,9 @@ define([
     'ui/feedback',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'helpers',
+    'context',
     'ui/resourcemgr'
-], function ($, _, __, feedback, inclusionOrderSelector, helpers) {
+], function ($, _, __, feedback, inclusionOrderSelector, helpers, context) {
     'use strict';
 
     /**
@@ -66,9 +67,7 @@ define([
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
-            
-            console.log(name, value);
-            console.log(aeInfo.data);
+
             aeInfo.setAttribute(name, value);
         });
 
@@ -87,8 +86,9 @@ define([
 
     /**
      * Initialize resource manager (for uploading and selecting video files)
-     * @param {jQueryElement} $container Popup container.
-     * @param {object} options resource manager options.
+     * @param {object} formInstance
+     * @param {jQueryElement} $container Popup container
+     * @param {object} options resource manager options
      * @returns {undefined}
      */
     function initResourceMgr(formInstance, $container, options) {
@@ -103,12 +103,12 @@ define([
                 fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
                 params : {
                     uri : formInstance.accessElementInfo.apipItem.options.id,
-                    lang : "en-US", //TODO set user language
+                    lang : context.locale,
                     filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,application/octet-stream'
                 },
                 pathParam : 'path'
             };
-
+            
         options = _.merge(defaultOptions, options);
 
         options.$uploadTrigger.on('click', function () {

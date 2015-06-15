@@ -31,16 +31,15 @@ define([
      * Instanciate an creator api that will works on an APIP authoring model
      * 
      * @param {String} apipItemXML - the APIP-QTI item XML
+     * @param {object} options item options
+     * @param {string} options.id item id
+     * 
      * @returns {Object}
      */
     function ApipItem(apipItemXML, options) {
         var that = this,
             inclusionOrderNode,
             accessibilityInfoNode;
-        
-        /*if (!options.id) {
-            throw new TypeError('options.id parameter is required');
-        }*/
         
         this.options = options;
         this.apipDoc = parser.parse(apipItemXML);
@@ -161,7 +160,7 @@ define([
     /**
      * Instanciate QtiElement object
      * 
-     * @param {String} node XML node.
+     * @param {domElement} node - XML node.
      * @returns {Object} QtiElement instance
     */
     ApipItem.prototype.getQtiElementInstance = function getQtiElementInstance(node) {
@@ -182,8 +181,9 @@ define([
      * Get the access element by attribute name and its value. 
      * If found more than one element then array of elements will be returned. Otherwise one accessElement instance will be returned.
      * 
-     * @param {String} accessElementSerial
-     * @returns {Object | Array}
+     * @param {string} attr - Attribute name
+     * @param {string} val - Attrbure value
+     * @returns {object[]} array of access element instances
      */
     ApipItem.prototype.getAccessElementByAttr = function getAccessElementByAttr(attr, val) {
         var that = this,

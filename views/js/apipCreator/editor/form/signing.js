@@ -27,6 +27,12 @@ define([
         this.options = options;
     }
 
+    /**
+     * Render form
+     * @param {object} options
+     * @param {string} options.type - Type of Access Element Info ('signFileASL' or 'signFileASL').
+     * @returns {unresolved}
+     */
     Form.prototype.render = function render(options) {
         var tplData = {
             "fileHref" : this.accessElementInfo.getAttribute(this.options.type + '.videoFileInfo.fileHref'),
@@ -39,7 +45,7 @@ define([
 
     /**
      * Initialize form events.
-     * @param {object} $container jQuery element. Popup container.
+     * @param {object} $container - jQuery element. Popup container.
      * @returns {undefined}
      */
     Form.prototype.initEvents = function initEvents($container) {

@@ -32,8 +32,9 @@ define([
 
     /**
      * Create xml node of appropriate type.
-     * @param {object} apipItem apipItem creator api instance 
-     * @see {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
+     * @param {object} apipItem - ApipItem creator api instance {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
+     * @param {string} accessElementInfoType
+     * @param {object} options
      * @returns {Object} created XML node
      */
     AccessElementInfo.prototype.createXMLNode = function createXMLNode(apipItem, accessElementInfoType, options) {
@@ -216,6 +217,7 @@ define([
     /**
      * Get the "parent" access element
      * 
+     * @param {string} accessElementInfoType - Type of AccessElementInfo (e.g. 'spoken', 'signing')
      * @returns {accessElement}
      */
     AccessElementInfo.prototype.getImplementation = function getImplementation(accessElementInfoType) {
