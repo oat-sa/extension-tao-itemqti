@@ -34,7 +34,7 @@ define([
      */
     Form.prototype.render = function render(options) {
         var tplData = {
-            "brailleTextString" : this.accessElementInfo.getAttribute('brailleTextString')
+            "brailleTextString" : formHelper.getAttributeValue(this, 'brailleTextString')
         };
         return formTpl(tplData);
     };
