@@ -61,9 +61,24 @@ define([
     });
 
     QUnit.test("creator.getAccessElementsByInclusionOrder()", function () {
-        var acccessElement = apipItem.getAccessElementsByInclusionOrder('textOnlyDefaultOrder');
+        var orderType = 'textOnlyDefaultOrder',
+            acccessElement = apipItem.getAccessElementsByInclusionOrder(orderType),
+            elementsOrderNodes =  apipItem.xpath("//apip:" + orderType + "/apip:elementOrder"),
+            elementsOrder = [];
+            
         QUnit.equal(acccessElement.length, 6);
-        //todo check inclusion order here
+        
+        //check sorting
+        _.forEach(elementsOrderNodes, function (element) {
+            elementsOrder.push({
+                identifier: element.getAttribute('identifierRef'),
+                order: element.querySelector('order').innerHTML
+            });
+        });
+        elementsOrder = _.sortBy(elementsOrder, 'order');
+        _.forEach(elementsOrder, function (val, key) {
+            QUnit.equal(acccessElement[key].data.getAttribute('identifier'), val.identifier);
+        });
     });
 
     QUnit.test("creator.toXML()", function () {

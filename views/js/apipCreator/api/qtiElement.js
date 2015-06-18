@@ -33,7 +33,7 @@ define(
          * Get all the access element(s) related to a qti element
          * According to the standard, there could more than one access element by qtiElement
          * 
-         * @returns {Array} array of accessElement
+         * @returns {object[]} array of accessElement
          */
         QtiElement.prototype.getAccessElements = function getAccessElements() {
             var that = this,
@@ -49,21 +49,23 @@ define(
         };
 
         /**
-         * Get the unique access element related to a qti element in a specific inclusionOrder
+         * Get the unique access element related to a qti element in a specific inclusionOrder (for example 'graphicsOnlyOnDemandOrder').
          * 
+         * @param {string} inclusionOrderType
          * @returns {Object} accessElement
          */
         QtiElement.prototype.getAccessElementByInclusionOrder = function getAccessElementByInclusionOrder(inclusionOrderType) {
             var that = this,
                 accessElements = this.getAccessElements(),
                 result = null;
-                $.each(accessElements, function (key, accessElement) {
-                    var identifier = accessElement.data.getAttribute('identifier'),
-                        elementOrder = that.apipItem.xpath("//apip:" + inclusionOrderType + "/apip:elementOrder[@identifierRef='" + identifier + "']");
-                    if (elementOrder.length) {
-                        result = accessElement;
-                    }
-                });
+        
+            $.each(accessElements, function (key, accessElement) {
+                var identifier = accessElement.data.getAttribute('identifier'),
+                    elementOrder = that.apipItem.xpath("//apip:" + inclusionOrderType + "/apip:elementOrder[@identifierRef='" + identifier + "']");
+                if (elementOrder.length) {
+                    result = accessElement;
+                }
+            });
                 
             return result;
         };

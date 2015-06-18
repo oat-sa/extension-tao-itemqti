@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Apip authoring -Qti Element Selector Test</title>
+        <base href="../../../../../../" />
+        <link rel="stylesheet" type="text/css" href="tao/views/js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="tao/views/js/lib/qunit/qunit.js"></script>
+        
+        <link rel="stylesheet" href="tao/views/css/tao-main-style.css" />
+        <link rel="stylesheet" href="taoQtiItem/views/css/apip-creator.css" />
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function (){
+                require(['taoQtiItem/apipCreator/test/qtiElementSelector/test'], function (){
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="apip-creator-scope"></div>
+    </body>
+</html>

@@ -29,23 +29,43 @@ define([
 
     /**
      * Instanciate an creator api that will works on an APIP authoring model
-     * 
+     *
      * @param {String} apipItemXML - the APIP-QTI item XML
+     * @param {object} options item options
+     * @param {string} options.id item id
+     *
      * @returns {Object}
      */
-    function ApipItem(apipItemXML) {
+    function ApipItem(apipItemXML, options) {
+        var that = this,
+            inclusionOrderNode,
+            accessibilityInfoNode;
+
+        this.options = options;
         this.apipDoc = parser.parse(apipItemXML);
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {
             'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
-            'qti': 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p2'
+            'xmlns': that.apipDoc.documentElement.getAttribute('xmlns')
         };
+
+        accessibilityInfoNode = that.xpath('//*:accessibilityInfo');
+        if (accessibilityInfoNode.length === 0) {
+            accessibilityInfoNode = that.createNode('apip', 'accessibilityInfo');
+            that.xpath('//*:apipAccessibility')[0].appendChild(accessibilityInfoNode);
+        }
+
+        inclusionOrderNode = that.xpath('//*:inclusionOrder');
+        if (inclusionOrderNode.length === 0) {
+            inclusionOrderNode = that.createNode('apip', 'inclusionOrder');
+            that.xpath('//*:apipAccessibility')[0].appendChild(inclusionOrderNode);
+        }
     }
 
     /**
      * Get xml node by xpath. Empty array will be returned in nothing found.
      * @param {string} xpath
-     * @param {object} context XML document
+     * @param {object} [context] XML document
      * @returns {object} query result (XML collection)
      */
     ApipItem.prototype.xpath = function (xpath, context) {
@@ -56,6 +76,8 @@ define([
         return $.xpath(context, xpath, function (prefix) {
             if (that.XMLNS[prefix]) {
                 return that.XMLNS[prefix];
+            } else {
+                return that.apipDoc.documentElement.getAttribute('xmlns');
             }
         });
     };
@@ -67,12 +89,10 @@ define([
      */
     ApipItem.prototype.addSerialAttr = function (node) {
         var that = this,
-            serial,
-            num = that.xpath("//*[local-name() = '" + node.localName + "']").length;
+            serial;
 
         do {
-            num++;
-            serial = node.localName + num;
+            serial = node.localName + _.uniqueId(node.localName + '_');
         } while (that.xpath("//*[@serial='" + serial + "']").length > 0);
 
         if (!node.getAttribute('serial')) {
@@ -105,7 +125,6 @@ define([
                 node.setAttribute(attrName, val);
             });
         }
-
         that.addSerialAttr(node);
         return node;
     };
@@ -113,7 +132,7 @@ define([
     /**
      * Get a clone of the parsed item body
      * This will be used to generate the (main) item selecting view for the apip authoring tool
-     * 
+     *
      * @returns {Object} XML node (<itemBody>);
      */
     ApipItem.prototype.getItemBodyModel = function getItemBodyModel() {
@@ -122,12 +141,12 @@ define([
 
     /**
      * Find the qti element identified by its serial
-     * 
+     *
      * @param {String} qtiElementSerial
      * @returns {Object} QtiElement instance
-    */
+     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
-        var node = this.xpath("qti:itemBody//*[@serial='" + qtiElementSerial + "']"),
+        var node = this.xpath("*:itemBody//*[@serial='" + qtiElementSerial + "']"),
             result = null;
 
         if (node && node.length) {
@@ -138,8 +157,18 @@ define([
     };
 
     /**
+     * Instanciate QtiElement object
+     *
+     * @param {object} node - XML node.
+     * @returns {object} QtiElement instance
+     */
+    ApipItem.prototype.getQtiElementInstance = function getQtiElementInstance(node) {
+        return new QtiElement(this, node);
+    };
+
+    /**
      * Get the access element identified by its serial
-     * 
+     *
      * @param {String} accessElementSerial
      * @returns {Object} AccessElement instance
      */
@@ -148,15 +177,16 @@ define([
     };
 
     /**
-     * Get the access element by attribute name and its value. 
+     * Get the access element by attribute name and its value.
      * If found more than one element then array of elements will be returned. Otherwise one accessElement instance will be returned.
-     * 
-     * @param {String} accessElementSerial
-     * @returns {Object | Array}
+     *
+     * @param {string} attr - Attribute name
+     * @param {string} val - Attrbure value
+     * @returns {object[]} array of access element instances
      */
     ApipItem.prototype.getAccessElementByAttr = function getAccessElementByAttr(attr, val) {
         var that = this,
-            nodes = this.xpath("//apip:accessElement[@" + attr + "='" + val + "']"),
+            nodes = this.xpath("//*:accessElement[@" + attr + "='" + val + "']"),
             collection = [],
             result;
 
@@ -178,21 +208,21 @@ define([
     /**
      * Get the sorted array of accessElements referenced in the inclusion order
      * The accessElements are sorted according to the order attribute in the inclusionOrder
-     * 
+     *
      * @param {String} inclusionOrderType
      * @returns {Array}
      */
     ApipItem.prototype.getAccessElementsByInclusionOrder = function getAccessElementsByInclusionOrder(inclusionOrderType) {
-        var nodes = this.xpath('//apip:' + inclusionOrderType + '/apip:elementOrder'),
+        var nodes = this.xpath('//*:' + inclusionOrderType + '/apip:elementOrder'),
             that = this,
             result,
             elementsList;
 
         elementsList = nodes.map(function (key, node) {
-            var orderNode = that.xpath('apip:order', node);
+            var orderNode = that.xpath('*:order', node);
             return {
                 accessElementIdentifier: node.getAttribute('identifierRef'),
-                order : orderNode[0].innerHTML
+                order: orderNode[0].innerHTML
             };
         });
 
@@ -207,13 +237,22 @@ define([
 
     /**
      * Serialize the authoring model into XML for saving
-     * 
+     *
      * @returns {String}
      */
     ApipItem.prototype.toXML = function toXML() {
         var apipDoc = this.apipDoc.cloneNode(true);
         $(apipDoc).find('[serial]').removeAttr('serial');
         return serializer.serialize(apipDoc);
+    };
+
+    /**
+     * Dump the actual apipItem into a string object (for debugging)
+     *
+     * @returns {String}
+     */
+    ApipItem.prototype.toString = function toString() {
+        return serializer.serialize(this.apipDoc);
     };
 
     return ApipItem;

@@ -19,9 +19,8 @@
 define([
     'lodash',
     'taoQtiItem/apipCreator/api/authoringObject',
-    'taoQtiItem/apipCreator/api/qtiElement',
     'taoQtiItem/apipCreator/api/accessElementInfo'
-], function (_, authoringObject, QtiElement, AccessElementInfo) {
+], function (_, authoringObject, AccessElementInfo) {
     'use strict';
     
     /**
@@ -48,6 +47,7 @@ define([
         var accessElementNum = apipItem.xpath('//apip:accessElement').length,
             identifier,
             accessElementNode,
+            accessibilityInfoNode,
             accessElementInfoNode = apipItem.createNode('apip', 'relatedElementInfo');
 
         do {
@@ -62,8 +62,10 @@ define([
         );
 
         accessElementNode.appendChild(accessElementInfoNode);
-        apipItem.xpath('//apip:accessibilityInfo')[0].appendChild(accessElementNode);
-
+        
+        accessibilityInfoNode = apipItem.xpath('//apip:accessibilityInfo')[0];
+        accessibilityInfoNode.appendChild(accessElementNode);
+        
         return accessElementNode;
     };
 
@@ -76,12 +78,12 @@ define([
         var that = this,
             contentLinks = this.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:contentLinkInfo"),
             result = [];
-
+        
         _.forEach(contentLinks, function (link) {
-            var node = that.apipItem.xpath("qti:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
+            var node = that.apipItem.xpath("//*:itemBody//*[@id='" + link.getAttribute('qtiLinkIdentifierRef') + "']");
 
             if (node && node.length) {
-                result.push(new QtiElement(this, node[0]));
+                result.push(that.apipItem.getQtiElementInstance(node[0]));
             }
         });
 
@@ -99,12 +101,14 @@ define([
             qtiLinkIdentifierRef = qtiElement.data.getAttribute('id'),
             contentLinkInfo,
             accessElementInfoNode = that.apipItem.xpath("//apip:accessElement[@serial='" + that.serial + "']/apip:relatedElementInfo"),
+            num = that.apipItem.xpath("//*[local-name() = '" + qtiElement.data.localName + "']").length,
             linkingMethodNode;
 
         if (!qtiLinkIdentifierRef) {
             do {
-                qtiLinkIdentifierRef = qtiElement.data.localName + (new Date()).getTime();
-            } while (that.apipItem.xpath("qti:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
+                qtiLinkIdentifierRef = qtiElement.data.localName + num;
+                num++;
+            } while (that.apipItem.xpath("*:itemBody//*[@id='" + qtiLinkIdentifierRef + "']").length > 0);
             qtiElement.data.setAttribute('id', qtiLinkIdentifierRef);
         }
 

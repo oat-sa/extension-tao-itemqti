@@ -16,8 +16,12 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function() {
+define([
+    'lodash',
+    'taoQtiItem/apipCreator/editor/form/brailleText'
+], function (_, Form) {
     'use strict';
+
     var attributes = {
         "brailleTextString" : {
             "type" : 'textNode'
@@ -26,11 +30,12 @@ define([], function() {
             "type" : 'attribute'
         }
     };
-    
+
     /**
-     * Get a short and descriptive view 
+     * Get a short and descriptive view
      * Something that can be served as a thumbnail
-     * 
+     *
+     * @param {object} accessElementInfo - Access element instance {@link /taoQtiItem/views/js/apipCreator/api/accessElement.js}
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo) {
@@ -38,15 +43,15 @@ define([], function() {
     }
 
     /**
-     * Get the renderer html form for the accessElementInfo 
-     * 
-     * @param {Object} accessElementInfo
+     * Get the renderer html form for the accessElementInfo
+     *
+     * @param {object} accessElementInfo - Access element instance {@link /taoQtiItem/views/js/apipCreator/api/accessElement.js}
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo, {});
     }
-    
+
     /**
      * Create new xml node.
      * @param {object} apipItem

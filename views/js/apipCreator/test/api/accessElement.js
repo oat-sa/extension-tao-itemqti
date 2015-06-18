@@ -26,7 +26,7 @@ require([
     'use strict';
     var apipItem = new ApipItem(xml);
 
-    QUnit.test("accessElement.getQtiElement()", function () {
+    QUnit.test("accessElement.getQtiElements()", function () {
         var accessElement = apipItem.getAccessElementBySerial('accessElement1'),
             qtiElements = accessElement.getQtiElements();
             
@@ -64,7 +64,6 @@ require([
         
         accessElement.remove();
         
-        QUnit.equal(apipItem.xpath("//*[@serial='" + accessElement.serial + "']").length, 0);
         QUnit.equal(apipItem.xpath("//*[@serial='" + accessElement.serial + "']").length, 0);
         QUnit.equal(apipItem.xpath("//apip:elementOrder[@identifierRef='" + identifier + "']").length, 0);
     });

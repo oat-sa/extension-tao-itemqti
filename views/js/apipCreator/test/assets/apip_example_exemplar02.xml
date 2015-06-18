@@ -1,0 +1,31 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1  http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtiitemv2p1_v1p0.xsd" identifier="space-shuttle-30-years-of-adventure" title="The Space Shuttle, 30 years of adventure" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1-dev">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+    <correctResponse>
+      <value>Atlantis</value>
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+    <defaultValue>
+      <value>0</value>
+    </defaultValue>
+  </outcomeDeclaration>
+  <itemBody>
+    <p id="stimulus">
+            During more than 30 years, the American Space Shuttle transported 355 astronauts in space over 135
+            orbital launchings from Cap Canaveral, Florida. This 2046-ton Behemoth traveled 870 million kilometers
+            around the Earth from 12th of April 1981 to 21st of July 2011. The National Aeronautics and Space
+            Administration (NASA) built 5 Space Shuttles: Columbia, Challenger, Discovery, Atlantis and Endeavour.
+		</p>
+    <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1" minChoices="0" id="interaction">
+      <prompt>Which was the last Space Shuttle going into space during the STS-135 mission in July 2011?</prompt>
+      <simpleChoice identifier="Discovery" fixed="false">Discovery</simpleChoice>
+      <simpleChoice identifier="Challenger" fixed="false">Challenger</simpleChoice>
+      <simpleChoice identifier="Pathfinder" fixed="false">Pathfinder</simpleChoice>
+      <simpleChoice identifier="Atlantis" fixed="false">Atlantis</simpleChoice>
+      <simpleChoice identifier="Endeavour" fixed="false">Endeavour</simpleChoice>
+    </choiceInteraction>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+<apipAccessibility xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0" xmlns:apip="http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0"/>
+
+</assessmentItem>

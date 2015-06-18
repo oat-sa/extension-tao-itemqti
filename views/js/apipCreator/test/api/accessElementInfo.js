@@ -129,7 +129,7 @@ require([
         );
 
         //create audioFileInfo attribute
-        spokenTextElement.setAttribute('audioFileInfo.fileHref', 'hrefValue'),
+        spokenTextElement.setAttribute('audioFileInfo.fileHref', 'hrefValue');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo.fileHref'),
             'hrefValue'
@@ -145,84 +145,156 @@ require([
             'testValue1'
         );
 
-        spokenTextElement.setAttribute('textToSpeechPronunciation', 'testValue2'),
+        spokenTextElement.setAttribute('textToSpeechPronunciation', 'testValue2');
         QUnit.equal(
             spokenTextElement.getAttribute('textToSpeechPronunciation'),
             'testValue2'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo.mimeType', 'testValue3'),
+        spokenTextElement.setAttribute('audioFileInfo.mimeType', 'testValue3');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo.mimeType'),
             'testValue3'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo.fileHref', 'testValue4'),
+        spokenTextElement.setAttribute('audioFileInfo.fileHref', 'testValue4');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo.fileHref'),
             'testValue4'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo.startTime', 'testValue5'),
+        spokenTextElement.setAttribute('audioFileInfo.startTime', 'testValue5');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo.startTime'),
             'testValue5'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo.duration', 'testValue6'),
+        spokenTextElement.setAttribute('audioFileInfo.duration', 'testValue6');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo.duration'),
             'testValue6'
         );
 
 
-        spokenTextElement.setAttribute('audioFileInfo[1].mimeType', 'testValue7'),
+        spokenTextElement.setAttribute('audioFileInfo[1].mimeType', 'testValue7');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[1].mimeType'),
             'testValue7'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[1].fileHref', 'testValue8'),
+        spokenTextElement.setAttribute('audioFileInfo[1].mimeType', 'testValue7_redefine');
+        QUnit.equal(
+            spokenTextElement.getAttribute('audioFileInfo[1].mimeType'),
+            'testValue7_redefine'
+        );
+        
+        spokenTextElement.setAttribute('audioFileInfo[1].fileHref', 'testValue8');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[1].fileHref'),
             'testValue8'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[1].startTime', 'testValue9'),
+        spokenTextElement.setAttribute('audioFileInfo[1].startTime', 'testValue9');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[1].startTime'),
             'testValue9'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[1].duration', 'testValue10'),
+        spokenTextElement.setAttribute('audioFileInfo[1].duration', 'testValue10');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[1].duration'),
             'testValue10'
         );
 
 
-        spokenTextElement.setAttribute('audioFileInfo[2].mimeType', 'testValue11'),
+        spokenTextElement.setAttribute('audioFileInfo[2].mimeType', 'testValue11');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[2].mimeType'),
             'testValue11'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[2].fileHref', 'testValue12'),
+        spokenTextElement.setAttribute('audioFileInfo[2].fileHref', 'testValue12');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[2].fileHref'),
             'testValue12'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[2].startTime', 'testValue13'),
+        spokenTextElement.setAttribute('audioFileInfo[2].startTime', 'testValue13');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[2].startTime'),
             'testValue13'
         );
 
-        spokenTextElement.setAttribute('audioFileInfo[2].duration', 'testValue14'),
+        spokenTextElement.setAttribute('audioFileInfo[2].duration', 'testValue14');
         QUnit.equal(
             spokenTextElement.getAttribute('audioFileInfo[2].duration'),
             'testValue14'
+        );
+    });
+    
+    QUnit.test("AccessElementInfo.removeAttribute()", function () {
+        var apipItem = new ApipItem(xml),
+            accessElement = apipItem.getAccessElementBySerial('accessElement2'),
+            spokenTextElement = accessElement.getAccessElementInfo('spoken')[0];
+        
+        spokenTextElement.setAttribute('spokenText', 'testValue1'),
+        QUnit.equal(
+            spokenTextElement.getAttribute('spokenText'),
+            'testValue1'
+        );
+        spokenTextElement.removeAttribute('spokenText');
+        QUnit.equal(
+            spokenTextElement.getAttribute('spokenText'),
+            null
+        );
+
+
+        spokenTextElement.setAttribute('audioFileInfo[1].fileHref', 'testValue2');
+        spokenTextElement.setAttribute('audioFileInfo[2].fileHref', 'testValue3');
+        QUnit.equal(
+            spokenTextElement.apipItem.xpath('apip:audioFileInfo', spokenTextElement.data).length,
+            2
+        );
+        
+        spokenTextElement.removeAttribute('audioFileInfo[2]');
+        QUnit.equal(
+            spokenTextElement.apipItem.xpath('apip:audioFileInfo', spokenTextElement.data).length,
+            1
+        );
+        QUnit.equal(
+            spokenTextElement.getAttribute('audioFileInfo.fileHref'),
+            'testValue2'
+        );
+
+
+        spokenTextElement.removeAttribute('audioFileInfo');
+        QUnit.equal(
+            spokenTextElement.apipItem.xpath('apip:audioFileInfo', spokenTextElement.data).length,
+            0
+        );
+    });
+    
+    QUnit.test("AccessElementInfo.getAttributeNum()", function () {
+        var apipItem = new ApipItem(xml),
+            accessElement = apipItem.getAccessElementBySerial('accessElement1'),
+            spokenTextElement = accessElement.getAccessElementInfo('spoken')[0];
+            
+        QUnit.equal(
+            spokenTextElement.getAttributeNum('audioFileInfo'),
+            2
+        );
+        QUnit.equal(
+            spokenTextElement.getAttributeNum('audioFileInfo.fileHref'),
+            2
+        );
+
+        QUnit.equal(
+            spokenTextElement.getAttributeNum('spokenText'),
+            1
+        );
+        QUnit.equal(
+            spokenTextElement.getAttributeNum('textToSpeechPronunciation'),
+            1
         );
     });
     

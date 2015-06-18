@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['lodash'], function (_) {
+define(['lodash', 'taoQtiItem/apipCreator/editor/form/spoken'], function (_, Form) {
     'use strict';
 
     var attributes = {
@@ -31,6 +31,12 @@ define(['lodash'], function (_) {
         },
         "textToSpeechPronunciation.contentLinkIdentifier" : {
             "type" : 'attribute'
+        },
+        "audioFileInfo" : {
+            "type" : 'textNode',
+            "creator" : function (accessElementInfo) {
+                return createAttribute(accessElementInfo, 'audioFileInfo');
+            }
         },
         "audioFileInfo.contentLinkIdentifier" : {
             "type" : 'attribute',
@@ -58,15 +64,11 @@ define(['lodash'], function (_) {
         },
         "audioFileInfo.voiceType" : {
             "type" : 'textNode',
-            "creator" : function (accessElementInfo) {
-                return createAttribute(accessElementInfo, 'audioFileInfo');
-            }
+            "creator" : createAttribute
         },
         "audioFileInfo.voiceSpeed" : {
             "type" : 'textNode',
-            "creator" : function (accessElementInfo) {
-                return createAttribute(accessElementInfo, 'audioFileInfo');
-            }
+            "creator" : createAttribute
         },
         "audioFileInfo.mimeType" : {
             "type" : 'attribute',
@@ -76,17 +78,40 @@ define(['lodash'], function (_) {
         }
     };
 
+    /**
+     * Create element info node.
+     * @param {object} accessElementInfo 
+     * @param {string} name
+     * @returns {object} created XML node.
+     */
     function createAttribute(accessElementInfo, name) {
         var attributeNode,
+            nameWithoutIndex = name.replace(/(\w+)(\[\d+\])?(.*)/, '$1$3'),
             apipItem = accessElementInfo.apipItem;
 
-        switch (name) {
-            case 'audioFileInfo':
-                var attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
-                attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
-                attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
-                attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
-                accessElementInfo.data.appendChild(attributeNode);
+        switch (nameWithoutIndex) {
+        case 'audioFileInfo':
+            attributeNode = apipItem.createNode('apip', 'audioFileInfo', {contentLinkIdentifier : ''});
+            attributeNode.appendChild(apipItem.createNode('apip', 'fileHref'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'startTime'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'duration'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'voiceType'));
+            attributeNode.appendChild(apipItem.createNode('apip', 'voiceSpeed'));
+            accessElementInfo.data.appendChild(attributeNode);
+            break;
+        case 'audioFileInfo.voiceType':
+            var parentNode = accessElementInfo.getAttributeNode(name.split('.').slice(0, -1).join('.'));
+            if (!parentNode) {
+                parentNode = createAttribute(name.split('.').slice(0, -1).join('.'));
+            }
+            parentNode.appendChild(apipItem.createNode('apip', 'voiceType'));
+            break;
+        case 'audioFileInfo.voiceSpeed':
+            var parentNode = accessElementInfo.getAttributeNode(name.split('.').slice(0, -1).join('.'));
+            if (!parentNode) {
+                parentNode = createAttribute(name.split('.').slice(0, -1).join('.'));
+            }
+            parentNode.appendChild(apipItem.createNode('apip', 'voiceSpeed'));
             break;
         }
 
@@ -97,6 +122,7 @@ define(['lodash'], function (_) {
      * Get a short and descriptive view 
      * Something that can be served as a thumbnail
      * 
+     * @param {object} accessElementInfo
      * @returns {String} the rendered HTML
      */
     function getDescriptiveView(accessElementInfo) {
@@ -110,7 +136,7 @@ define(['lodash'], function (_) {
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo);
     }
 
     /**
@@ -124,7 +150,7 @@ define(['lodash'], function (_) {
         accessElementNode.appendChild(apipItem.createNode('apip', 'textToSpeechPronunciation', {contentLinkIdentifier : ''}));
         return accessElementNode;
     }
-
+    
     return {
         typeId : 'spoken',
         label : 'spoken',

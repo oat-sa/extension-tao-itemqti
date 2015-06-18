@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function () {
+define(['lodash', 'taoQtiItem/apipCreator/editor/form/signing'], function (_, Form) {
     'use strict';
 
     var attributes = {
@@ -75,14 +75,14 @@ define([], function () {
      * @returns {String}
      */
     function getFormView(accessElementInfo) {
-        return '<form></form>';
+        return new Form(accessElementInfo, {type: accessElementInfo.data.children[0].localName});
     }
 
     /**
      * Create new xml node.
      * @param {object} apipItem
      * @param {object} options
-     * @param {object} options.type 'signFileSignedEnglish' or 'signFileASL'. 'signFileASL' - default value.
+     * @param {string} options.type - 'signFileSignedEnglish' or 'signFileASL' ('signFileASL' - default value).
      * @returns {object} new XML node
      */
     function createXMLNode(apipItem, options) {
@@ -101,7 +101,6 @@ define([], function () {
 
         return accessElementNode;
     }
-
 
     return {
         typeId : 'signing',

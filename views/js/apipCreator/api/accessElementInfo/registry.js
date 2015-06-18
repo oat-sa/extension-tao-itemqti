@@ -20,8 +20,9 @@ define([
     'taoQtiItem/apipCreator/api/accessElementInfo/brailleText',
     'taoQtiItem/apipCreator/api/accessElementInfo/signing',
     'taoQtiItem/apipCreator/api/accessElementInfo/spoken'
-], function(brailleText, signing, spoken){
-    
+], function (brailleText, signing, spoken) {
+    'use strict';
+
     /**
      * The registry contains the list of available accessElementInfo implementations
      */
