@@ -21,22 +21,36 @@ define([
 ], function($, _){
     'use strict';
 
+    //throttle events because of the loop
     var informLoaded = _.throttle(function(){
         $(document).trigger('customcssloaded.styleeditor');
     }, 10, {leading : false});
 
-    var attach = function(stylesheets) {
+    /**
+     * Attach QTI Stylesheets to the document
+     *
+     * @param {Array} stylesheets - the QTI model stylesheets
+     * @fires customcssloaded.styleeditor on document 10ms after stylesheets are loaded
+     */
+    var attach = function attach(stylesheets) {
         var $head = $('head');
+
+        //fallback
+        if(!$head.length){
+            $head = $('body');
+        }
 
          // relative links with cache buster
         _(stylesheets).forEach(function(stylesheet){
             var sep,
-                $link;
-            var href = stylesheet.attr('href');
+                $link,
+                href;
 
             //if the href is something
-            if(href){
+            if(stylesheet.attr('href')){
                 $link = $(stylesheet.render());
+                //get the resolved href once rendererd
+                href = $link.attr('href');
 
                 //bust cache only for network URLs
                 if(!/^data\:/.test(href)){
@@ -59,6 +73,9 @@ define([
         });
     };
 
+    /**
+     * @exports taoQtiItem/qtiCommonRenderer/helpers/itemStylesheetHandler
+     */
     return {
         attach: attach
     };
