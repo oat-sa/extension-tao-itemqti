@@ -18,17 +18,17 @@
  */
 define([
     'lodash',
+    'jquery',
     'ui/contextualPopup',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElement',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo',
     'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function(_, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector){
-
+], function (_, $, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector) {
     'use strict';
-    
+
     var _ns = '.form-builder';
-    
+
     /**
      * Build the form for a qtiElement apip feature editing
      * 
@@ -37,30 +37,33 @@ define([
      * @param {string} inclusionOrderType
      * @returns {Object} the popup container
      */
-    function build($anchor, qtiElement, inclusionOrderType){
-        var $form = _renderForm(qtiElement, inclusionOrderType);
-        var formPopup = _buildPopup($anchor, $form);
-        $anchor.trigger('formready'+_ns, [formPopup, $anchor, $form]);
+    function build($anchor, qtiElement, inclusionOrderType) {
+        var $form = _renderForm(qtiElement, inclusionOrderType),
+            formPopup = _buildPopup($anchor, $form);
+        $anchor.trigger('formready' + _ns, [formPopup, $anchor, $form]);
         return formPopup;
     }
-    
+
     /**
      * Create the form to edit the access feature for an qtiElement in a specific inclusionOrder
      * @param {object} qtiElement
      * @param {string} inclusionOrderType
      * @returns {JQuery}
      */
-    function _renderForm(qtiElement, inclusionOrderType){
+    function _renderForm(qtiElement, inclusionOrderType) {
 
-        var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType);
-        var aeModel = aeInfo.getImplementation();
-        var formView = aeModel.getFormView(aeInfo);
-        var htmlForm = formView.render();
-        var htmlUsageInfo, htmlAccessElementInfo, $form;
-        var inclusionOrders = getRelatedInclusionOrder(aeInfo);
-        
-        if(inclusionOrders.length > 1){
+        var aeInfo = getRelatedAccessElementInfo(qtiElement, inclusionOrderType),
+            aeModel = aeInfo.getImplementation(),
+            formView = aeModel.getFormView(aeInfo),
+            htmlForm = formView.render(),
+            htmlUsageInfo, htmlAccessElementInfo, $form,
+            inclusionOrders = getRelatedInclusionOrder(aeInfo);
+
+        if (inclusionOrders.length > 1) {
             //render ae usage info
+            inclusionOrders = _.filter(inclusionOrders, function (val, key) {
+                return val.type !== inclusionOrderType;
+            });
             htmlUsageInfo = aeUsageInfoTpl({
                 usages : inclusionOrders
             });
@@ -79,10 +82,10 @@ define([
 
         //bind events :
         formView.initEvents($form);
-               
+
         return $form;
     }
-    
+
     /**
      * Build the popup container for the $form and bind it to the $anchor
      * 
@@ -94,14 +97,14 @@ define([
         return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
             content : $formContent,
             controls : {
-                done:true
+                done: true
             },
             style : {
                 popupWidth : 750
             }
         });
     }
-    
+
     /**
      * Get the access element info associate to a qtiElement and in a specific inclusionOrder
      * If none has been found, create a new one
@@ -112,47 +115,50 @@ define([
      * @returns {object} - the access element instance
      */
     function getRelatedAccessElementInfo(qtiElement, inclusionOrderType){
-        
+
         var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderType);
-        var ae, 
-            aeInfo, 
+        var ae,
+            aeInfo,
             aeInfoType = inclOrder.accessElementInfo.type,
             aeInfoOptions = inclOrder.accessElementInfo.options;
-        
-        if(aeInfoType){
+
+        if (aeInfoType) {
             ae = qtiElement.getAccessElementByInclusionOrder(inclusionOrderType);
-            if(!ae){
+            if (!ae) {
                 //does not exist ? create one
                 ae = qtiElement.createAccessElement();
                 ae.setInclusionOrder(inclusionOrderType, 0);
             }
             aeInfo = ae.getAccessElementInfo(aeInfoType);
-            if(!aeInfo){
+            if (!aeInfo) {
                 //does not exist ? create one
                 aeInfo = ae.createAccessElementInfo(aeInfoType, aeInfoOptions);
             } else {
                 aeInfo = aeInfo[0];
             }
-        }else{
+        } else {
             throw 'unknown type of inclusionOrderType';
         }
         return aeInfo;
     }
-    
+
     /**
      * Get the inclusion orders associated to an access element info object
      * 
      * @param {object} aeInfo
      * @returns {Array}
      */
-    function getRelatedInclusionOrder(aeInfo){
-        var ae = aeInfo.getAssociatedAccessElement();
-        var inclusionOrders = ae.getInclusionOrders();
-        var ret = [];
-        _.each(inclusionOrders, function(orderType){
+    function getRelatedInclusionOrder(aeInfo) {
+        var ae = aeInfo.getAssociatedAccessElement(),
+            inclusionOrders = ae.getInclusionOrders(),
+            inclusionOrder,
+            ret = [];
+
+        _.each(inclusionOrders, function (orderType) {
+            inclusionOrder = inclusionOrderSelector.getInclusionOrder(orderType);
             ret.push({
-                type : orderType,
-                name : orderType
+                type : inclusionOrder.type,
+                label : inclusionOrder.label
             });
         });
         return ret;

@@ -29,43 +29,43 @@ define([
 
     /**
      * Instanciate an creator api that will works on an APIP authoring model
-     * 
+     *
      * @param {String} apipItemXML - the APIP-QTI item XML
      * @param {object} options item options
      * @param {string} options.id item id
-     * 
+     *
      * @returns {Object}
      */
     function ApipItem(apipItemXML, options) {
         var that = this,
             inclusionOrderNode,
             accessibilityInfoNode;
-        
+
         this.options = options;
         this.apipDoc = parser.parse(apipItemXML);
         this.$apipDoc = $(this.apipDoc);
         this.XMLNS = {
             'apip': 'http://www.imsglobal.org/xsd/apip/apipv1p0/imsapip_qtiv1p0',
-            'xmlns' : that.apipDoc.documentElement.getAttribute('xmlns')
+            'xmlns': that.apipDoc.documentElement.getAttribute('xmlns')
         };
-        
+
         accessibilityInfoNode = that.xpath('//*:accessibilityInfo');
         if (accessibilityInfoNode.length === 0) {
             accessibilityInfoNode = that.createNode('apip', 'accessibilityInfo');
             that.xpath('//*:apipAccessibility')[0].appendChild(accessibilityInfoNode);
-        } 
-        
+        }
+
         inclusionOrderNode = that.xpath('//*:inclusionOrder');
         if (inclusionOrderNode.length === 0) {
             inclusionOrderNode = that.createNode('apip', 'inclusionOrder');
             that.xpath('//*:apipAccessibility')[0].appendChild(inclusionOrderNode);
-        } 
+        }
     }
 
     /**
      * Get xml node by xpath. Empty array will be returned in nothing found.
      * @param {string} xpath
-     * @param {object} context XML document
+     * @param {object} [context] XML document
      * @returns {object} query result (XML collection)
      */
     ApipItem.prototype.xpath = function (xpath, context) {
@@ -92,7 +92,7 @@ define([
             serial;
 
         do {
-            serial = node.localName + _.uniqueId(node.localName+'_');
+            serial = node.localName + _.uniqueId(node.localName + '_');
         } while (that.xpath("//*[@serial='" + serial + "']").length > 0);
 
         if (!node.getAttribute('serial')) {
@@ -125,7 +125,6 @@ define([
                 node.setAttribute(attrName, val);
             });
         }
-
         that.addSerialAttr(node);
         return node;
     };
@@ -133,7 +132,7 @@ define([
     /**
      * Get a clone of the parsed item body
      * This will be used to generate the (main) item selecting view for the apip authoring tool
-     * 
+     *
      * @returns {Object} XML node (<itemBody>);
      */
     ApipItem.prototype.getItemBodyModel = function getItemBodyModel() {
@@ -142,34 +141,34 @@ define([
 
     /**
      * Find the qti element identified by its serial
-     * 
+     *
      * @param {String} qtiElementSerial
      * @returns {Object} QtiElement instance
-    */
+     */
     ApipItem.prototype.getQtiElementBySerial = function getQtiElementBySerial(qtiElementSerial) {
         var node = this.xpath("*:itemBody//*[@serial='" + qtiElementSerial + "']"),
             result = null;
-        
+
         if (node && node.length) {
             result = new QtiElement(this, node[0]);
         }
 
         return result;
     };
-    
+
     /**
      * Instanciate QtiElement object
-     * 
-     * @param {domElement} node - XML node.
-     * @returns {Object} QtiElement instance
-    */
+     *
+     * @param {object} node - XML node.
+     * @returns {object} QtiElement instance
+     */
     ApipItem.prototype.getQtiElementInstance = function getQtiElementInstance(node) {
         return new QtiElement(this, node);
     };
-    
+
     /**
      * Get the access element identified by its serial
-     * 
+     *
      * @param {String} accessElementSerial
      * @returns {Object} AccessElement instance
      */
@@ -178,9 +177,9 @@ define([
     };
 
     /**
-     * Get the access element by attribute name and its value. 
+     * Get the access element by attribute name and its value.
      * If found more than one element then array of elements will be returned. Otherwise one accessElement instance will be returned.
-     * 
+     *
      * @param {string} attr - Attribute name
      * @param {string} val - Attrbure value
      * @returns {object[]} array of access element instances
@@ -209,7 +208,7 @@ define([
     /**
      * Get the sorted array of accessElements referenced in the inclusion order
      * The accessElements are sorted according to the order attribute in the inclusionOrder
-     * 
+     *
      * @param {String} inclusionOrderType
      * @returns {Array}
      */
@@ -223,7 +222,7 @@ define([
             var orderNode = that.xpath('*:order', node);
             return {
                 accessElementIdentifier: node.getAttribute('identifierRef'),
-                order : orderNode[0].innerHTML
+                order: orderNode[0].innerHTML
             };
         });
 
@@ -238,7 +237,7 @@ define([
 
     /**
      * Serialize the authoring model into XML for saving
-     * 
+     *
      * @returns {String}
      */
     ApipItem.prototype.toXML = function toXML() {
@@ -246,10 +245,10 @@ define([
         $(apipDoc).find('[serial]').removeAttr('serial');
         return serializer.serialize(apipDoc);
     };
-    
+
     /**
      * Dump the actual apipItem into a string object (for debugging)
-     * 
+     *
      * @returns {String}
      */
     ApipItem.prototype.toString = function toString() {
