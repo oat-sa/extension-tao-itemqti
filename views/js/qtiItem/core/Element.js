@@ -79,21 +79,34 @@ define([
             return this.serial;
         },
         getUsedIdentifiers : function(){
-            var i, id, elt, elts;
-
-            this._usedIds = this._usedIds || {};
-            elts = this.getComposingElements();
-            for(i in elts){
-                elt = elts[i];
-                id = elt.attr('identifier') || elt.attr('id');
+            var usedIds = {};
+            var elts = this.getComposingElements();
+            for(var i in elts){
+                var elt = elts[i];
+                var id = elt.attr('identifier');
                 if(id){
                     //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
-                    this._usedIds[id] = elt;
+                    usedIds[id] = elt;
                 }
             }
-
-            return this._usedIds;
+            return usedIds;
         },
+
+        /**
+         * Get the ids in use. (id is different from identifier)
+         * @returns {Array} of the ids in use
+         */
+        getUsedIds : function getUsedIds(){
+            var usedIds = [];
+            _.forEach(this.getComposingElements(), function(elt){
+                var id = elt.attr('id');
+                if(id && !_.contains(usedIds, id)){
+                    usedIds.push(id);
+                }
+            });
+            return usedIds;
+        },
+
         attr : function(name, value){
             if(name){
                 if(value !== undefined){

@@ -137,7 +137,7 @@ define([
 
                     //we ensure the info control has an identifier
                     if(!this.attr('id')){
-                        this.attr('id', util.buildIdentifier(this.getRelatedItem(), 'pic', true));
+                        this.attr('id', util.buildId(this.getRelatedItem(), typeId));
                     }
                 }
 

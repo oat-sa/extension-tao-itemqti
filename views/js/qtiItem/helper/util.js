@@ -35,6 +35,39 @@ define(['lodash'], function(_){
         },
 
         /**
+         * Generates an id for a Qti element (the generation is different from identifier)
+         * @param {Object} item - the element related item
+         * @param {String} prefix - identifier prefix
+         * @returns {String} the identifier
+         * @throws {TypeError} if there is no item
+         */
+        buildId : function buildSerial(item, prefix){
+            var id;
+            var usedIds;
+            var i = 1;
+            var suffix = '';
+            var exists = false;
+
+            if(!item){
+                throw new TypeError('A item is required to generate a unique identifier');
+            }
+
+            usedIds   = item.getUsedIds();
+
+            do{
+                exists = false;
+                id = prefix + suffix;
+                if(_.contains(usedIds, id)){
+                    exists = true;
+                    suffix = '_' + i;
+                    i++;
+                }
+            } while(exists);
+
+            return id;
+        },
+
+        /**
          * Generates an identifier for a Qti element
          * @param {Object} item - the element related item
          * @param {String} prefix - identifier prefix
@@ -79,7 +112,6 @@ define(['lodash'], function(_){
                 }
             } while(exists);
 
-            //this.attr('identifier', id);
             return id;
         },
 

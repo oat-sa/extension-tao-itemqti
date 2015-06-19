@@ -130,35 +130,53 @@ define([
             done();
         },
 
-        getState : function(){
+        /**
+         * Get state implementation.
+         * @returns {Object} that represents the state
+         */
+        getState : function getState(){
             var state = {};
             if(this._item){
+
+                //get the state from interactions
                 _.forEach(this._item.getInteractions(), function(interaction){
                     state[interaction.attr('responseIdentifier')] = interaction.getState();
                 });
 
-                    //_.forEach(self._item.getElements(), function(element) {
-                        //var manager;
-
-                        //if (Element.isA(element, 'infoControl')) {
-                            //manager = managerFactory(element, self._item);
-                            //self._list.push(manager);
-                            //self._map[element.serial] = manager;
-                            //self._map[element.typeIdentifier] = manager;
-                        //}
-                    //});
+                //get the state from infoControls
+                _.forEach(this._item.getElements(), function(element) {
+                    if (Element.isA(element, 'infoControl') && element.attr('id')) {
+                        state.pic = state.pic || {};
+                        state.pic[element.attr('id')] = element.getState();
+                    }
+                });
             }
             return state;
         },
 
-        setState : function(state){
+        /**
+         * Set state implementation.
+         * @param {Object} state - the state
+         */
+        setState : function setState(state){
             if(this._item && state){
+
+                //set interaction state
                 _.forEach(this._item.getInteractions(), function(interaction){
                     var id = interaction.attr('responseIdentifier');
                     if(id && state[id]){
                         interaction.setState(state[id]);
                     }
                 });
+
+                //set info control state
+                if(state.pic){
+                _.forEach(this._item.getElements(), function(element) {
+                    if (Element.isA(element, 'infoControl') && state.pic[element.attr('id')]) {
+                        element.setState(state.pic[element.attr('id')]);
+                    }
+                });
+                }
             }
         },
 
