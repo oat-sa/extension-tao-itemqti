@@ -200,7 +200,7 @@ define([
                 //catch the last value when saving
                 setLastItemData(widget.element);
             })
-            .on('aftersave.qti-creator', function(success) {
+            .on('aftersave.qti-creator', function(event, success) {
                 //disable the askForSave flag only on save success
                 if (success){
                     askForSave = false;
@@ -210,9 +210,9 @@ define([
         //catch style changes
         $(document)
             .off('stylechange.qti-creator')
-            .on('stylechange.qti-creator', function () {
+            .on('stylechange.qti-creator', function (event, detail) {
                 //we need to save before preview of style has changed (because style content is not part of the item model)
-                askForSave = true;
+                askForSave = !detail || !detail.initializing;
             });
 
         updateHeight();
