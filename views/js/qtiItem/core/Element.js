@@ -1,4 +1,30 @@
-define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, Class, _, util, rendererConfig){
+
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+define([
+    'jquery',
+    'lodash',
+    'class',
+    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function($, _, Class, util, rendererConfig){
+    'use strict';
 
     var _instances = {};
 
@@ -53,17 +79,20 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
             return this.serial;
         },
         getUsedIdentifiers : function(){
-            var usedIds = {};
-            var elts = this.getComposingElements();
-            for(var i in elts){
-                var elt = elts[i];
-                var id = elt.attr('identifier');
+            var i, id, elt, elts;
+
+            this._usedIds = this._usedIds || {};
+            elts = this.getComposingElements();
+            for(i in elts){
+                elt = elts[i];
+                id = elt.attr('identifier') || elt.attr('id');
                 if(id){
                     //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
-                    usedIds[id] = elt;
+                    this._usedIds[id] = elt;
                 }
             }
-            return usedIds;
+
+            return this._usedIds;
         },
         attr : function(name, value){
             if(name){
@@ -352,12 +381,12 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
     Element.issetElement = function(serial){
         return !!_instances[serial];
     };
-   
+
     /**
      * Unset a registered element from it's serial
      * @param {String} serial - the element serial
      * @returns {Boolean} true if unset
-     */ 
+     */
     Element.unsetElement = function(serial){
 
         var element = Element.getElementBySerial(serial);
@@ -369,7 +398,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 delete _instances[elt.serial];
             });
             delete _instances[element.serial];
-            
+
             return true;
         }
         return false;

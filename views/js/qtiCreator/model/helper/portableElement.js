@@ -1,9 +1,38 @@
-define(['lodash', 'jquery'], function(_, $){
-    "use strict";
-    
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+
+/**
+ * Helpers for portable elements
+ *
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define([
+    'lodash',
+    'jquery',
+    'taoQtiItem/qtiItem/helper/util'
+], function(_, $, util){
+    'use strict';
+
     /**
      * Add ns directory to a relative path (a relative path only)
-     * 
+     *
      * @param {String} typeIdentifier
      * @param {String} file
      * @returns {String}
@@ -15,10 +44,10 @@ define(['lodash', 'jquery'], function(_, $){
             return file;
         }
     }
-    
+
     /**
      * Add namespace directory to a file or an array of file
-     * 
+     *
      * @param {String} typeIdentifier
      * @param {String|Array} file - a file path or an array of file path
      * @returns {String}
@@ -35,7 +64,7 @@ define(['lodash', 'jquery'], function(_, $){
 
     /**
      * Get common methods to augment a portableElement implementation
-     * 
+     *
      * @param {object} registry
      * @returns {object}
      */
@@ -60,7 +89,7 @@ define(['lodash', 'jquery'], function(_, $){
                     creator = registry.getCreator(typeId),
                     manifest = registry.getManifest(typeId),
                     item = this.getRelatedItem();
-                
+
                 //add required resource
                 //@todo need afterCreate() to return a promise
                 var _this = this;
@@ -94,7 +123,7 @@ define(['lodash', 'jquery'], function(_, $){
                         }
                     });
                 }
-                
+
                 //@todo fix this !
                 if(manifest.response){//for custom interaciton only
                     //create response
@@ -102,9 +131,14 @@ define(['lodash', 'jquery'], function(_, $){
                         baseType : manifest.response.baseType,
                         cardinality : manifest.response.cardinality
                     });
-                }else{
+                } else {
                     //the attribute is mendatory for info control
                     this.attr('title', manifest.label);
+
+                    //we ensure the info control has an identifier
+                    if(!this.attr('id')){
+                        this.attr('id', util.buildIdentifier(this.getRelatedItem(), 'pic', true));
+                    }
                 }
 
                 //set markup

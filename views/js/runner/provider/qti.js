@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -136,6 +136,17 @@ define([
                 _.forEach(this._item.getInteractions(), function(interaction){
                     state[interaction.attr('responseIdentifier')] = interaction.getState();
                 });
+
+                    //_.forEach(self._item.getElements(), function(element) {
+                        //var manager;
+
+                        //if (Element.isA(element, 'infoControl')) {
+                            //manager = managerFactory(element, self._item);
+                            //self._list.push(manager);
+                            //self._map[element.serial] = manager;
+                            //self._map[element.typeIdentifier] = manager;
+                        //}
+                    //});
             }
             return state;
         },
