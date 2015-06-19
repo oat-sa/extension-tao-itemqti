@@ -1,21 +1,41 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
 define([
-    'taoQtiItem/qtiCreator/renderers/Renderer',
-    'helpers',
     'jquery',
     'lodash',
+    'taoQtiItem/qtiCreator/renderers/Renderer',
+    'taoItems/assets/manager',
+    'taoItems/assets/strategies',
+    'helpers',
     'util/dom'
-], function(Renderer, helpers, $, _, dom){
+], function($, _, Renderer, assetManagerFactory, assetStrategies, helpers, dom){
     "use strict";
+
     //configure and instanciate once only:
     var _creatorRenderer = null;
-    
+
     //list of configurable interactions
     //some interactions allow additional non-standard but sometimes useful configuration
     var _configurableInteractions = ['endAttempt'];
-    
+
     /**
      * Extract interaction-specific configuration from the main one
-     * 
+     *
      * @param {object} config - the configuration object of the creatorRenderer
      * @returns {module.exports.properties|Function.properties|config.properties}
      */
@@ -30,26 +50,28 @@ define([
         }
         return ret;
     }
-    
+
     /**
      * Get a preconfigured renderer singleton
-     * 
+     *
      * @param {Boolean} reset
      * @param {Object} config
      * @returns {Object} - a configured instance of creatorRenderer
      */
     var get = function(reset, config){
+        var assetManager,
+            $bodyEltForm;
+
         if(!_creatorRenderer || reset){
 
-            var $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
-            var mediaSources = config.properties.mediaSources || [];
-            if(reset
-                || !$bodyEltForm
-                || !$bodyEltForm.length
-                || !dom.contains($bodyEltForm)){
+            $bodyEltForm = _creatorRenderer ? _creatorRenderer.getOption('bodyElementOptionForm') : null;
+            if(reset ||
+                !$bodyEltForm ||
+                !$bodyEltForm.length ||
+                !dom.contains($bodyEltForm)){
 
                 _creatorRenderer = new Renderer({
-                    baseUrl : '',
+                    //assetManager : assetManager,
                     lang : '',
                     uri : '',
                     shuffleChoices : false,
@@ -67,10 +89,13 @@ define([
                         deleteUrl : helpers._url('delete', 'ItemContent', 'taoItems'),
                         downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
                         fileExistsUrl : helpers._url('fileExists', 'ItemContent', 'taoItems'),
-                        mediaSources : mediaSources
+                        mediaSourcesUrl : config.properties.mediaSourcesUrl
                     },
                     interactions : _extractInteractionsConfig(config)
                 });
+
+                //update the resolver baseUrl
+                _creatorRenderer.getAssetManager().setData({baseUrl : config.properties.baseUrl || '' });
 
             }
         }

@@ -1,14 +1,16 @@
 define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/mixin/CustomElement',
+    'taoQtiItem/qtiItem/mixin/NamespacedElement',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'lodash'
-], function(Element, CustomElement, rendererConfig, _){
+], function(Element, CustomElement, NamespacedElement, rendererConfig, _){
     
     var PortableInfoControl = Element.extend({
         qtiClass : 'infoControl',
         defaultNsName : 'pic',
         defaultNsUri : 'http://www.imsglobal.org/xsd/portableInfoControl',
+        nsUriFragment : 'portableInfoControl',
         defaultMarkupNsName : 'html5',
         defaultMarkupNsUri : 'html5',
         init : function(serial, attributes){
@@ -55,6 +57,7 @@ define([
     
     //add portable element standard functions
     CustomElement.augment(PortableInfoControl);
+    NamespacedElement.augment(PortableInfoControl);
     
     return PortableInfoControl;
 });

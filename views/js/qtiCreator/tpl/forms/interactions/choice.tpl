@@ -12,7 +12,7 @@
 </div>
 
 <div class="panel">
-    <h3>{{__ "Allowed number of choices"}}</h3>
+    <h3>{{__ "Allowed choices"}}</h3>
 
     <div>
         <label for="minChoices" class="spinner">Min</label>
@@ -32,4 +32,16 @@
             {{__ 'The maximum number of choices that the candidate is allowed to select to form a valid response.'}}
         </span>
     </div>
+</div>
+
+
+
+<div class="panel">
+    <h3>{{__ "List Style"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)'}}
+        </span>
+
+    <select data-list-style/>
 </div>

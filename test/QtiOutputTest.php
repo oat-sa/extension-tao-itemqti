@@ -65,7 +65,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
         $parserValidator = new Parser($tmpFile);
         $parserValidator->validate();
-
+        
         if(!$parserValidator->isValid()){
             $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }

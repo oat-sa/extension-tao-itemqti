@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 //@todo : move this to the ../helper directory
 define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qtiItem/core/Element'], function(_, Class, qtiClasses, Element){
 
@@ -109,7 +127,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                 }
             });
         },
-        loadElement : function(data, callback){
+        loadAndBuildElement : function(data, callback){
 
             var _this = this;
 
@@ -117,6 +135,16 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
                 var element = _this.buildElement(data);
 
+                if(typeof(callback) === 'function'){
+                    callback.call(_this, element);
+                }
+            });
+        },
+        loadElement : function(element, data, callback){
+
+            var _this = this;
+            this.loadRequiredClasses(data, function(){
+                _this.loadElementData(element, data);
                 if(typeof(callback) === 'function'){
                     callback.call(_this, element);
                 }
@@ -250,7 +278,9 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         },
         loadElementData : function(element, data){
 
-            element.setAttributes(_.clone(data.attributes) || {});
+            //merge attributes when loading element data
+            var attributes = _.defaults(data.attributes || {}, element.attributes || {});
+            element.setAttributes(attributes);
 
             if(element.body && data.body){
                 if(element.bdy){

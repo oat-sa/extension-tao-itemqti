@@ -39,9 +39,9 @@ define([
 
             var assertions = config.assertions || {};
             var loader = new Loader();
-            var renderer = new Renderer({
-                baseUrl : config.baseUrl
-            });
+
+            var renderer = new Renderer();
+            renderer.getAssetManager().setData('baseUrl', config.baseUrl);
 
             //allow specifying the runtimeLocation (useful in debug mode)
             if(config.runtimeLocations){
@@ -107,7 +107,9 @@ define([
                             interaction.resetResponse();
                         });
                     }
-
+                    if(_.isFunction(config.callback)){
+                        config.callback(item, this);
+                    }
                 }, this.getLoadedClasses());
 
             });
@@ -149,6 +151,10 @@ define([
             _.forIn(globalConfig.runtimeLocations, function(path, ns){
                 testConfig.runtimeLocations[ns] = path.replace(extension, fullpath);
             });
+        }
+        
+        if(_.isFunction(globalConfig.callback)){
+            testConfig.callback = globalConfig.callback;
         }
 
         return testConfig;

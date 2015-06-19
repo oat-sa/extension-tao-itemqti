@@ -25,8 +25,6 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                     Qti[arguments[i].prototype.qtiClass] = arguments[i];
                 }
                 
-//                debugger;
-                
                 //create new elements
                 var newElts = {};
                 var newBody = body.replace(regex,

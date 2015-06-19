@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\StyleSheet;
 use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use \SimpleXMLElement;
 
 /**
@@ -51,6 +52,24 @@ class AssetParser
      * @var string
      */
     private $path;
+
+    /**
+    * Set mode - if parser have to find shared libraries (PCI and PIC)
+    * @var bool
+    */
+    private $getSharedLibraries = true;
+
+    /**
+     * Set mode - if parser have to find shared stimulus
+     * @var bool
+     */
+    private $getXinclude = true;
+
+    /**
+     * Set mode - if parser have to find all external entries ( like url, require etc )
+     * @var bool
+     */
+    private $deepParsing = true;
 
     /**
      * The extracted assets
@@ -78,6 +97,9 @@ class AssetParser
             $this->extractObject($element);
             $this->extractStyleSheet($element);
             $this->extractCustomElement($element);
+            if($this->getGetXinclude()){
+                $this->extractXinclude($element);
+            }
         }
         return $this->assets;
     }
@@ -110,6 +132,18 @@ class AssetParser
     }
 
     /**
+     * Lookup and extract assets from IMG elements
+     * @param Element $element container of the target element
+     */
+    private function extractXinclude(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                $this->addAsset('xinclude', $xinclude->attr('href'));
+            }
+        }
+    }
+
+    /**
      * Lookup and extract assets from a stylesheet element
      * @param Element $element the stylesheet element
      */
@@ -119,7 +153,7 @@ class AssetParser
             $this->addAsset('css', $href);
 
             $parsedUrl = parse_url($href);
-            if(!is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
+            if($this->isDeepParsing() && !is_null($this->path) && array_key_exists('path', $parsedUrl) && !array_key_exists('host', $parsedUrl)){
                 //relative
                 $styleSheetPath = $this->path . DIRECTORY_SEPARATOR . $parsedUrl['path'];
                 if(file_exists($styleSheetPath)){
@@ -175,7 +209,8 @@ class AssetParser
      * @param string $type the asset type: img, css, js, audio, video, font, etc.
      * @param string $uri the asset URI
      */
-    private function addAsset($type, $uri){
+    private function addAsset($type, $uri)
+    {
         if(!array_key_exists($type, $this->assets)){
             $this->assets[$type] = array();
         }
@@ -188,12 +223,22 @@ class AssetParser
      * Load assets from the custom elements (CustomInteraction, PCI, PIC)
      * @param Element $element the custom element
      */
-    private function loadCustomElementAssets(Element $element){
+    private function loadCustomElementAssets(Element $element)
+    {
+
+        $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
+        $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
+        $sharedLibrairiesRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
-            $this->addAsset('js', $element->getEntryPoint());
+            $entryPoint = $element->getEntryPoint();
+            $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
+            $this->addAsset('js', $fileName);
             foreach($element->getLibraries() as $lib){
-                $this->addAsset('js', $lib);
+                if ($this->getGetSharedLibraries() || !$sharedLibrairiesRegistry->isRegistered($lib)) {
+                    $fileName = substr($lib, -3) != '.js' ? $lib.'.js' : $lib;
+                    $this->addAsset('js', $fileName);
+                }
             }
         }
 
@@ -251,5 +296,53 @@ class AssetParser
                 }
             }
         }
+    }
+
+    /**
+     * @param boolean $getSharedLibraries
+     */
+    public function setGetSharedLibraries($getSharedLibraries)
+    {
+        $this->getSharedLibraries = $getSharedLibraries;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetSharedLibraries()
+    {
+        return $this->getSharedLibraries;
+    }
+
+    /**
+     * @param boolean $getXinclude
+     */
+    public function setGetXinclude($getXinclude)
+    {
+        $this->getXinclude = $getXinclude;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetXinclude()
+    {
+        return $this->getXinclude;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDeepParsing()
+    {
+        return $this->deepParsing;
+    }
+
+    /**
+     * @param boolean $deepParsing
+     */
+    public function setDeepParsing( $deepParsing )
+    {
+        $this->deepParsing = $deepParsing;
     }
 }

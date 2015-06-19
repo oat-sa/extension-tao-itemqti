@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -14,8 +34,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicOrder',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
-    'taoQtiItem/qtiCreator/helper/panel'
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement, identifierHelper, formTpl, choiceFormTpl, panel){
+    'taoQtiItem/qtiCreator/helper/panel',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
+    'ui/mediasizer'
+], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, interactionFormElement, identifierHelper, formTpl, choiceFormTpl, panel, resourceManager, bgImage){
+
+    'use strict';
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
@@ -41,7 +66,7 @@ define([
             shapeCreated : function(shape, type){
                 var newChoice = interaction.createChoice({
                     shape  : type === 'path' ? 'poly' : type,
-                    coords : GraphicHelper.qtiCoords(shape) 
+                    coords : GraphicHelper.qtiCoords(shape)
                 });
 
                 //link the shape to the choice
@@ -61,22 +86,22 @@ define([
                 var choice = interaction.getChoice(shape.id);
                 if(choice){
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
-    
+
                     if($left && $left.length){
                         bbox = shape.getBBox();
-                        $left.val(parseInt(bbox.x, 10)); 
+                        $left.val(parseInt(bbox.x, 10));
                         $top.val(parseInt(bbox.y, 10));
                         $width.val(parseInt(bbox.width, 10));
-                        $height.val(parseInt(bbox.height, 10));                         
-                    }         
+                        $height.val(parseInt(bbox.height, 10));
+                    }
                 }
             }
         });
-    
+
         //and create an instance
         widget._editor.create();
 
-        //we need to stop the question mode on resize, to keep the coordinate system coherent, 
+        //we need to stop the question mode on resize, to keep the coordinate system coherent,
         //even in responsive (the side bar introduce a biais)
         $(window).on('resize.changestate', function(){
             widget.changeState('sleep');
@@ -97,7 +122,7 @@ define([
             var choice = interaction.getChoice(serial);
             var element, bbox;
             if(choice){
-                
+
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
@@ -107,10 +132,10 @@ define([
                         identifier  : choice.id(),
                         fixed       : choice.attr('fixed'),
                         serial      : serial,
-                        x           : parseInt(bbox.x, 10), 
+                        x           : parseInt(bbox.x, 10),
                         y           : parseInt(bbox.y, 10),
                         width       : parseInt(bbox.width, 10),
-                        height      : parseInt(bbox.height, 10)                         
+                        height      : parseInt(bbox.height, 10)
                     })
                 );
 
@@ -119,7 +144,7 @@ define([
                 //init data validation and binding
                 formElement.setChangeCallbacks($choiceForm, choice, {
                     identifier  : identifierHelper.updateChoiceIdentifier,
-                    fixed       : formElement.getAttributeChangeCallback() 
+                    fixed       : formElement.getAttributeChangeCallback()
                 });
 
                 $formChoicePanel.show();
@@ -133,7 +158,7 @@ define([
                 $height = $('input[name=height]', $choiceForm);
             }
         }
-        
+
         /**
          * Leave the choice form
          * @private
@@ -154,18 +179,22 @@ define([
         var widget      = this.widget;
         var interaction = widget.element;
         var paper       = interaction.paper;
+        var valid       = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+
+        widget.isValid('graphicOrderInteraction', valid);
 
         if(!paper){
             return;
         }
-        
+
         $(window).off('resize.changestate');
 
         if(widget._editor){
             widget._editor.destroy();
         }
+        $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
     };
-    
+
     /**
      * The question state for the graphicOrder interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
@@ -194,35 +223,19 @@ define([
             type            : interaction.object.attr('type')
         }));
 
-        imageSelector($form, options); 
+        imageSelector($form, options);
 
         formElement.initWidget($form);
-        
+
+        bgImage.setupImage(widget);
+
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:false});
-        callbacks.data = function(i, value){
-            interaction.object.attr('data', value);
-            widget.rebuild({
-                ready:function(widget){
-                    widget.changeState('question');
-                }
-            });
-        };
-        callbacks.width = function(i, value){
-            interaction.object.attr('width', value);
-        };
-        callbacks.height = function(i, value){
-            interaction.object.attr('height', value);
-        };
-        callbacks.type = function(i, value){
-            if(!value || value === ''){
-                interaction.object.removeAttr('type');
-            } else {
-                interaction.object.attr('type', value);
-            }
-        };
-        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit : false });
-        
+        bgImage.setChangeCallbacks(
+            widget,
+            formElement,
+            formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', {updateCardinality:false})
+        );
+
         interactionFormElement.syncMaxChoices(widget);
     };
 

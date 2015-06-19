@@ -21,28 +21,25 @@
 
 namespace oat\taoQtiItem\controller;
 
-use \core_kernel_classes_Resource;
-use oat\tao\helpers\MediaRetrieval;
-use oat\tao\model\media\MediaSource;
-use oat\taoMediaManager\model\fileManagement\FileManager;
-use oat\taoQtiItem\model\qti\Service;
+use common_exception_Error;
+use core_kernel_classes_Resource;
 use oat\taoQtiItem\helpers\Authoring;
-use \taoItems_models_classes_ItemsService;
-use \tao_actions_CommonModule;
-use \tao_helpers_Uri;
-use \tao_helpers_File;
-use \tao_helpers_Http;
-use \common_exception_Error;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
+use oat\taoQtiItem\model\qti\Service;
+use tao_actions_CommonModule;
+use tao_helpers_File;
+use tao_helpers_Uri;
+use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\ItemModel;
+use oat\taoItems\model\media\ItemMediaResolver;
+use oat\tao\model\media\MediaService;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoQTI
-
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class QtiCreator extends tao_actions_CommonModule
@@ -91,14 +88,14 @@ class QtiCreator extends tao_actions_CommonModule
 
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         $creatorConfig = $ext->getConfig('qtiCreator');
-        
-        if(is_array($creatorConfig)){
-            foreach($creatorConfig as $prop => $value){
+
+        if (is_array($creatorConfig)) {
+            foreach ($creatorConfig as $prop => $value) {
                 $config->setProperty($prop, $value);
             }
         }
-        
-        if($this->hasRequestParameter('instance')){
+
+        if ($this->hasRequestParameter('instance')) {
             //uri:
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('instance'));
             $config->setProperty('uri', $itemUri);
@@ -113,21 +110,28 @@ class QtiCreator extends tao_actions_CommonModule
             $config->setProperty('lang', $lang);
 
             //base url:
-            $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem', array(
-                        'uri' => $itemUri,
-                        'lang' => $lang
-            ));
-            $config->setProperty('baseUrl', $url.'&relPath=');
+            $url = tao_helpers_Uri::url(
+                'getFile',
+                'QtiCreator',
+                'taoQtiItem',
+                array(
+                    'uri' => $itemUri,
+                    'lang' => $lang
+                )
+            );
+            $config->setProperty('baseUrl', $url . '&relPath=');
         }
 
-        // get the config media Sources
-        $sources = array_keys(MediaSource::getMediaBrowserSources());
-        $sources[] = 'local';
-        $config->setProperty('mediaSources', $sources);
+        $mediaSourcesUrl = tao_helpers_Uri::url(
+            'getMediaSources',
+            'QtiCreator',
+            'taoQtiItem'
+        );
 
+        $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
-        foreach($hookClasses as $hookClass){
+        foreach ($hookClasses as $hookClass) {
             $hook = new $hookClass();
             $hook->init($config);
         }
@@ -137,18 +141,40 @@ class QtiCreator extends tao_actions_CommonModule
         $this->setView('QtiCreator/index.tpl');
     }
 
-    public function getItemData(){
+    public function getMediaSources()
+    {
+        $exclude = '';
+        if($this->hasRequestParameter('exclude')){
+            $exclude = $this->getRequestParameter('exclude');
+        }
+        // get the config media Sources
+        $sources = array_keys(MediaService::singleton()->getBrowsableSources());
+        $mediaSources = array();
+        if($exclude !== 'local'){
+            $mediaSources[] = array('root' => 'local', 'path' => '/');
+        }
+        foreach($sources as $source){
+            if($source !== $exclude){
+                $mediaSources[] = array('root' => $source, 'path' => 'taomedia://'.$source.'/');
+            }
+        }
+
+        $this->returnJson($mediaSources);
+    }
+
+    public function getItemData()
+    {
 
         $returnValue = array(
             'itemData' => null
         );
 
-        if($this->hasRequestParameter('uri')){
+        if ($this->hasRequestParameter('uri')) {
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang);
-            if(!is_null($item)){
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);//do not resolve xinclude here, leave it to the client side
+            if (!is_null($item)) {
                 $returnValue['itemData'] = $item->toArray();
             }
         }
@@ -156,11 +182,12 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($returnValue);
     }
 
-    public function saveItem(){
+    public function saveItem()
+    {
 
         $returnValue = array('success' => false);
 
-        if($this->hasRequestParameter('uri')){
+        if ($this->hasRequestParameter('uri')) {
 
             $uri = urldecode($this->getRequestParameter('uri'));
             $xml = file_get_contents('php://input');
@@ -181,42 +208,32 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($returnValue);
     }
 
-    public function getFile(){
+    public function getFile()
+    {
 
-        if($this->hasRequestParameter('uri') && $this->hasRequestParameter('lang') && $this->hasRequestParameter('relPath')){
+        if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('lang') && $this->hasRequestParameter(
+                'relPath'
+            )
+        ) {
             $uri = urldecode($this->getRequestParameter('uri'));
             $rdfItem = new core_kernel_classes_Resource($uri);
 
             $lang = urldecode($this->getRequestParameter('lang'));
-            $relPath = urldecode($this->getRequestParameter('relPath'));
+            $relPath = ltrim(urldecode($this->getRequestParameter('relPath')), '/');
 
             $this->renderFile($rdfItem, $relPath, $lang);
         }
     }
 
-    private function renderFile($item, $path, $lang){
+    private function renderFile($item, $path, $lang)
+    {
 
-        $folder = taoItems_models_classes_ItemsService::singleton()->getItemFolder($item, $lang);
-        if(tao_helpers_File::securityCheck($path, true)){
-            $mediaInfo = MediaRetrieval::getRealPathAndIdentifier($path);
-            extract($mediaInfo);
-
-            if($identifier === '' || $identifier === 'local'){
-                $filename = $folder.$relPath;
-            }else if($identifier === 'mediamanager'){
-                $fileManager = FileManager::getFileManagementModel();
-                $filename = $fileManager->retrieveFile($relPath);
-            }else{
-                $filename = $folder.$relPath;
-            }
-
-            //@todo : find better way to to this
-            //load amd module
-            if(!file_exists($filename) && file_exists($filename.'.js')){
-                $filename = $filename.'.js';
-            }
-            tao_helpers_Http::returnFile($filename);
-        }else{
+        if (tao_helpers_File::securityCheck($path, true)) {
+            $resolver = new ItemMediaResolver($item, $lang);
+            $asset = $resolver->resolve($path);
+            $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
+            \tao_helpers_Http::returnFile($filePath);
+        } else {
             throw new common_exception_Error('invalid item preview file path');
         }
     }

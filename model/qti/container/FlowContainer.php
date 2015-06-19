@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\FlowContainer;
-
 /**
  * By implementing the FlowContainer interface, the object's content must mainly be represented
  * by a QTI element container. It must therefore provide a method to return its content as
@@ -47,4 +45,3 @@ interface FlowContainer
     public function getBody();
 
 }
-?>

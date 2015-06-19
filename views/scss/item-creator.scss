@@ -111,9 +111,6 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
-// the icon creator specific part
-@import "inc/widgets";
-
 .font-selector {
     optgroup {
         font-style: normal;
@@ -675,6 +672,8 @@ img.dragging.ui-draggable-dragging {
         min-height: 300px;
         padding-bottom: 20px;
         margin-top: 20px;
+        position: relative;
+        z-index: 10;
     }
     .item-editor-row {
         min-height: 100px;
@@ -695,50 +694,6 @@ img.dragging.ui-draggable-dragging {
     background-repeat: no-repeat;
     min-height: 300px;
     position:relative;
-}
-
-.dummy-element {
-    min-width: 50px;
-    @include simple-border();
-    background-color: #eee;
-    font-style: italic;
-    color: white;
-    padding: 0;
-    display: inline-block;
-    line-height: 20px;
-    cursor: default;
-    [class^="icon-"], [class*=" icon-"] {
-        font-size: inherit;
-        line-height: inherit;
-    }
-}
-
-.widget-inline,
-.qti-hottext,
-.qti-gap,
-.dummy-element,
-.inline-text-wrapper {
-    position: relative;
-    display: inline-block;
-    [class^="icon-"], [class*=" icon-"] {
-        display: inline-block;
-        text-align: center;
-        width: 100%;
-        position: relative;
-        top: -2px;
-        text-shadow: 1px 1px 0px #ccc;
-    }
-    & ~ span.mini-tlb[data-edit] {
-        position: absolute !important;
-        top: -2px !important;
-        right: -32px !important;
-        .tlb-button {
-            margin: 0 !important;
-            padding: 0 !important;
-            height: 18px !important;
-            width: 24px !important;
-        }
-    }
 }
 
 .item-editor-item {
@@ -867,9 +822,23 @@ img.dragging.ui-draggable-dragging {
                 margin-top: 1px;
                 line-height: 1.4;
                 @include font-size(14, true);
+                position: absolute;
             }
-
             .tlb {
+                background: whiten($info, .2);
+                position: relative;
+                &:before {
+                    content: '';
+                    height: 100%;
+                    width: 10px;
+                    position: absolute;
+                    right: 100%;
+                    top: 0;
+                    background: -webkit-linear-gradient(left, transparent, whiten($info, .2));
+                    background: -o-linear-gradient(left, transparent, whiten($info, .2));
+                    background: -moz-linear-gradient(left, transparent, whiten($info, .2));
+                    background: linear-gradient(left, transparent, whiten($info, .2));
+                }
                 .state-switcher {
                     float: right;
                     padding: 0;
@@ -929,7 +898,7 @@ img.dragging.ui-draggable-dragging {
             top: -6px;
         }
         &.invalid {
-            border: 1px solid $error !important;
+            border: 1px solid $warning !important;
         }
         &.widget-blockInteraction {
             .qti-choice {
@@ -1028,7 +997,82 @@ img.dragging.ui-draggable-dragging {
     .inner-wrapper {
         position: relative;
     }
-    
+
+    .dummy-element {
+        min-width: 50px;
+        @include simple-border();
+        background-color: #eee;
+        font-style: italic;
+        color: white;
+        padding: 0;
+        display: inline-block;
+        line-height: 20px;
+        cursor: default;
+        [class^="icon-"], [class*=" icon-"] {
+            font-size: inherit;
+            line-height: inherit;
+        }
+    }
+
+    .widget-inline{
+        z-index: 20;
+    }
+
+    .widget-inline,
+    .inline-text-wrapper {
+        position: relative;
+        display: inline-block;
+        [class^="icon-"], [class*=" icon-"] {
+            width: 100%;
+            top: -2px;
+            text-shadow: 1px 1px 0px #ccc;
+        }
+        & ~ span.mini-tlb[data-edit]{
+            position: absolute !important;
+            top: -2px !important;
+            right: -32px !important;
+            .tlb-button {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 18px !important;
+                width: 24px !important;
+            }
+        }
+        .mini-tlb[data-edit]{
+            right:-32px !important;
+        }
+    }
+
+    .widget-include,
+    .qti-hottext,
+    .qti-gap,
+    .dummy-element {
+        position: relative;
+        display: inline-block;
+        [class^="icon-"], [class*=" icon-"] {
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            top: -2px;
+            text-shadow: 1px 1px 0px #ccc;
+        }
+        & ~ span.mini-tlb[data-edit]{
+            position: absolute !important;
+            top: -2px !important;
+            right: -32px !important;
+            .tlb-button {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 18px !important;
+                width: 24px !important;
+            }
+        }
+        .mini-tlb[data-edit]{
+            right:-32px !important;
+        }
+    }
+
     @import "qtiCreator/_choice";
     @import "qtiCreator/_order";
     @import "qtiCreator/_associate";
@@ -1047,7 +1091,7 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_grid-editor";
     @import "qtiCreator/_custom";
     @import "qtiCreator/_element-selector";
-    
+
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-simpleChoice {
         .mini-tlb[data-edit="question"] {

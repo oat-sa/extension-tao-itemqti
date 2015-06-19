@@ -20,6 +20,14 @@ module.exports = function(grunt) {
     var runtimeLibsPattern  = ['views/js/qtiItem/core/**/*.js', 'views/js/qtiCommonRenderer/renderers/**/*.js',  'views/js/qtiCommonRenderer/helpers/**/*.js'];
     var runtimeLibs         = ext.getExtensionSources('taoQtiItem', runtimeLibsPattern, true);
 
+    var paths = {
+        'taoQtiItem' : root + '/taoQtiItem/views/js',
+        'taoQtiItemCss' :  root + '/taoQtiItem/views/css',
+        'taoItems' : root + '/taoItems/views/js',
+        'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+        'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
+    };
+
     /**
      * Remove bundled and bundling files
      */
@@ -33,7 +41,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir : out,
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css', 'taoItems' : root + '/taoItems/views/js'},
+            paths : paths,
             modules : [{
                 name: 'taoQtiItem/controller/routes',
                 include : ext.getExtensionsControllers(['taoQtiItem']).concat(creatorLibs),
@@ -50,7 +58,7 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir: out,
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js', 'taoQtiItemCss' :  root + '/taoQtiItem/views/css'},
+            paths : paths,
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
@@ -84,9 +92,12 @@ module.exports = function(grunt) {
                 'taoQtiItemCss' : root + '/taoQtiItem/views/css',
                 'taoItems'      : root + '/taoItems/views/js',
                 'taoCss'        : root + '/tao/views/css',
-                'jquery'        : 'lib/jqueryamd-1.8.3'
+                'jquery'        : 'lib/jqueryamd-1.8.3',
+                'taoQtiItemCss/qti' : root + '/taoQtiItem/views/css/qti-runner',
+                'qtiCustomInteractionContext' : root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+                'qtiInfoControlContext' : root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext',
             },
-            excludeShallow : ['mathJax', 'mediaElement', 'ckeditor'],
+            excludeShallow : ['mathJax', 'ckeditor'],
             include: runtimeLibs.concat([ 'tpl', 'json']),
             name: "taoQtiItem/runner/qtiItemRunner",
             out: out + "/qtiItemRunner.min.js"
@@ -113,7 +124,7 @@ module.exports = function(grunt) {
                 end : "define(['taoQtiItem/scoring/qtiScorer'], function(scorer){ return scorer; });"
             },
             wrapShim: true,
-            paths : { 'taoQtiItem' : root + '/taoQtiItem/views/js',  'taoItems' : root + '/taoItems/views/js'},
+            paths : paths,
             include: ['lodash'],
             name: "taoQtiItem/scoring/qtiScorer",
             out: out + "/qtiScorer.min.js"
@@ -153,8 +164,8 @@ module.exports = function(grunt) {
     replace.qtiruntime = {
          options: {
              patterns: [{
-                match : 'taoQtiItem/runtime/qtiBootstrap',
-                replacement:  'taoQtiItem/runtime/qtiBootstrap.min',
+                match : 'qtiBootstrap',
+                replacement:  'qtiBootstrap.min',
                 expression: false
              }],
              force : true,
