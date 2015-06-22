@@ -38,7 +38,11 @@ define([
 
     QUnit.test('Get the variable value even null', function(assert){
         var state = {
-            RESPONSE : null
+            RESPONSE :  {
+                cardinality         : 'single',
+                baseType            : 'identifier',
+                value               : null
+            }
         };
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
