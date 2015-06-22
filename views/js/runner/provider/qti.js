@@ -24,10 +24,11 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, QtiLoader, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -171,11 +172,11 @@ define([
 
                 //set info control state
                 if(state.pic){
-                _.forEach(this._item.getElements(), function(element) {
-                    if (Element.isA(element, 'infoControl') && state.pic[element.attr('id')]) {
-                        element.setState(state.pic[element.attr('id')]);
-                    }
-                });
+                    _.forEach(this._item.getElements(), function(element) {
+                        if (Element.isA(element, 'infoControl') && state.pic[element.attr('id')]) {
+                            element.setState(state.pic[element.attr('id')]);
+                        }
+                    });
                 }
             }
         },

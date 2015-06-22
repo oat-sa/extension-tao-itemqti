@@ -129,22 +129,22 @@ define([
     /**
      * Restore the state of the infoControl from the serializedState.
      *
-     * @param {Object} infoControl
-     * @param {Object} serializedState - json format
+     * @param {Object} infoControl - the element instance
+     * @param {Object} state - the state to set
      */
-    var setSerializedState = function(infoControl, serializedState){
+    var setState = function setState(infoControl, state){
 
-        _getPic(infoControl).setSerializedState(serializedState);
+        _getPic(infoControl).setSerializedState(state);
     };
 
     /**
      * Get the current state of the infoControl as a string.
      * It enables saving the state for later usage.
      *
-     * @param {Object} infoControl
-     * @returns {Object} json format
+     * @param {Object} infoControl - the element instance
+     * @returns {Object} the state
      */
-    var getSerializedState = function(infoControl){
+    var getState = function getState(infoControl){
 
         return _getPic(infoControl).getSerializedState();
     };
@@ -165,7 +165,7 @@ define([
         render : render,
         getContainer : containerHelper.get,
         destroy : destroy,
-        getSerializedState : getSerializedState,
-        setSerializedState : setSerializedState
+        getState : getState,
+        setState : setState
     };
 });

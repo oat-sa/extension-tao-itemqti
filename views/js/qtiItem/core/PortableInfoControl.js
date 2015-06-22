@@ -61,8 +61,8 @@ define([
         getState : function getState(){
             var ret = null;
             var renderer = this.getRenderer();
-            if(renderer && _.isFunction(renderer.getSerializedState)){
-                ret = renderer.getSerializedState(this);
+            if(renderer && _.isFunction(renderer.getState)){
+                ret = renderer.getState(this);
             }
             return ret;
         },
@@ -75,8 +75,8 @@ define([
          */
         setState : function setState(state){
             var renderer = this.getRenderer();
-            if(renderer && _.isFunction(renderer.getSerializedState)){
-                renderer.setSerializedState(this, state);
+            if(renderer && _.isFunction(renderer.getState)){
+                renderer.setState(this, state);
             }
         },
 
