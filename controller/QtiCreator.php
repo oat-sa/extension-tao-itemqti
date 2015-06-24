@@ -197,7 +197,7 @@ class QtiCreator extends tao_actions_CommonModule
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
 
-                $xml = Authoring::validateQtiXml($xml);
+                $xml = Authoring::validateQtiXml(Authoring::sanitizeQtiXml($xml));
 
                 //get the QTI xml
                 $returnValue['success'] = $itemService->setItemContent($rdfItem, $xml);
