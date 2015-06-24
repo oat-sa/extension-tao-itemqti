@@ -34,6 +34,10 @@ use \taoItems_models_classes_ItemsService;
 use \common_exception_Error;
 use \common_ext_ExtensionsManager;
 use \core_kernel_classes_Property;
+use \core_kernel_classes_Session;
+use \core_kernel_versioning_File;
+use \DOMDocument;
+use \DOMXpath;
 use \tao_models_classes_Parser;
 use \tao_helpers_File;
 use \helpers_File;
@@ -120,7 +124,7 @@ class ImportService extends tao_models_classes_GenerisService
             //create the instance
             // @todo add type and repository
             $rdfItem = $itemService->createInstance($itemClass);
-            
+
             //set the QTI type
             $itemService->setItemModel($rdfItem, new core_kernel_classes_Resource(ItemModel::MODEL_URI));
             
@@ -129,7 +133,26 @@ class ImportService extends tao_models_classes_GenerisService
             
             //save itemcontent
             if($qtiService->saveDataItemToRdfItem($qtiItem, $rdfItem)){
+
+                $itemContents = $rdfItem->getPropertyValuesByLg(
+                    new core_kernel_classes_Property(TAO_ITEM_CONTENT_PROPERTY), core_kernel_classes_Session::singleton()->getDataLanguage()
+                );
+                $itemContent = $itemContents->get(0);
+                $file = new core_kernel_versioning_File($itemContent);
+
+                $srcPath = dirname($qtiFile) . DIRECTORY_SEPARATOR;
+                $dstPath = taoItems_models_classes_ItemsService::singleton()->getItemFolder($rdfItem);
+
+                foreach($this->extractMediaFromXML($qtiItem->toXML()) as $file) {
+
+                    if (file_exists($srcPath . $file)) {
+                        tao_helpers_File::copy($srcPath . $file, $dstPath . $file);
+                    }
+
+                }
+
                 $returnValue = $rdfItem;
+
             }
             
             // If APIP content must be imported, just extract the apipAccessibility element
@@ -151,6 +174,34 @@ class ImportService extends tao_models_classes_GenerisService
         $report->setData($returnValue);
         
         return $report;
+    }
+
+    public function extractMediaFromXML($content) {
+
+        $doc = new DOMDocument;
+        if (!$doc->loadXML($content)) {
+            return array();
+        }
+
+        $returnValue = array();
+        $tags    = array('img', 'object');
+        $srcAttr = array('src', 'data');
+        $xpath = new DOMXpath($doc);
+        $query = implode(' | ', array_map(create_function('$a', "return '//*[name(.)=\\''.\$a.'\\']';"), $tags));
+        $pattern = preg_quote(ROOT_URL, '/');
+
+        foreach($xpath->query($query) as $element) {
+            foreach($srcAttr as $attr){
+                if($element->hasAttribute($attr)){
+                    $source = trim($element->getAttribute($attr));
+                    if (!preg_match("/^$pattern/", $source)) {
+                        $returnValue[] = $source;
+                    }
+                }
+            }
+        }
+
+        return $returnValue;
     }
 
     /**
