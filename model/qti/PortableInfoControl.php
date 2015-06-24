@@ -137,7 +137,7 @@ class PortableInfoControl extends InfoControl
 
         $markupNodes = $parser->queryXPathChildren(array('portableInfoControl', 'markup'), $data, $ns);
         if($markupNodes->length){
-            $markup = $parser->getBodyData($markupNodes->item(0), true);
+            $markup = $parser->getBodyData($markupNodes->item(0), true, true);
             $this->setMarkup($markup);
         }
     }
