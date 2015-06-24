@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T16:28:37\n"
+"Project-Id-Version: TAO 3.1.0-rc01\n"
+"PO-Revision-Date: 2015-06-24T17:24:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -233,7 +233,7 @@ msgid "CSV file"
 msgstr ""
 
 msgid "Current value:"
-msgstr "Valeur actuelle"
+msgstr ""
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr ""
@@ -540,7 +540,7 @@ msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
-msgstr "laisser vide"
+msgstr ""
 
 msgid "Left"
 msgstr ""
@@ -930,7 +930,7 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
-msgstr "choisir une réponse"
+msgstr ""
 
 msgid "Select a choice from a drop-down list."
 msgstr ""

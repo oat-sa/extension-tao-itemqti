@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T16:29:23\n"
+"Project-Id-Version: TAO 3.1.0-rc01\n"
+"PO-Revision-Date: 2015-06-24T17:25:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -44,7 +44,7 @@ msgid "Add a QTI XML file"
 msgstr "添加一个QTI XML文件"
 
 msgid "Add a zip file containing APIP items"
-msgstr ""
+msgstr "添加一个有APIP題目的ZIP文件"
 
 msgid "Add a zip file containing QTI items"
 msgstr "添加含有QTI题目的ZIP文件"
@@ -98,7 +98,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "在解析IMS QTI数据时发生错误。"
 
 msgid "An unexpected error occured during the import of the IMS APIP Item Package."
-msgstr ""
+msgstr "导入IMS APIP 题目包时发生了错误。"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "导入IMS QTI题目包时发生了错误。"
@@ -110,10 +110,10 @@ msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "当导入IMS QTI包时发生不明的错误。"
 
 msgid "APIP Package"
-msgstr ""
+msgstr "APIP 包"
 
 msgid "APIP Package 1.0"
-msgstr ""
+msgstr "APIP 1.0 包 "
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "按正确的顺序排列选项列表。"
@@ -359,7 +359,7 @@ msgid "Export"
 msgstr "导出"
 
 msgid "Export APIP 1.0 Package"
-msgstr ""
+msgstr "导出 APIP 1.0 包"
 
 msgid "Export QTI 2.1 Package"
 msgstr "导出 QTI 2.1包"
@@ -476,7 +476,7 @@ msgid "Import a QTI 2.X Package"
 msgstr "导入QTI 2.X包"
 
 msgid "Import an APIP 1.0 Package"
-msgstr ""
+msgstr "导入 APIP 1.0 包"
 
 msgid "Import QTI 2.X Item"
 msgstr "导入QTI 2.X题目"
@@ -1187,7 +1187,7 @@ msgid "The upper bound of the slider"
 msgstr "滑动钮的上限"
 
 msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
-msgstr ""
+msgstr "此含有IMS APIP题目的ZIP压缩文件不能被提取。"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "此含有IMS QTI题目的ZIP压缩文件不能被提取。"
