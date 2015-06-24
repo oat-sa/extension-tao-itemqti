@@ -50,32 +50,17 @@ class Authoring
      */
     public static function validateQtiXml($qti){
 
-        $returnValue = '';
+        $dom = self::loadQtiXml($qti);
+        $returnValue = $dom->saveXML();
 
-        // render and clean the xml
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
-
-        if($dom->loadXML($qti)){
-            $returnValue = $dom->saveXML();
-
-            //in debug mode, systematically check if the save QTI is standard compliant
-            if(DEBUG_MODE){
-                $parserValidator = new Parser($returnValue);
-                $parserValidator->validate();
-                if(!$parserValidator->isValid()){
-                    common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
-                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue), true));
-                    throw new QtiModelException('invalid QTI item XML '.PHP_EOL.' '.$parserValidator->displayErrors());
-                }
-            }
-        }else{
-            $parserValidator = new Parser($qti);
+        //in debug mode, systematically check if the save QTI is standard compliant
+        if(DEBUG_MODE){
+            $parserValidator = new Parser($returnValue);
             $parserValidator->validate();
             if(!$parserValidator->isValid()){
-                throw new QtiModelException('Wrong QTI item output format');
+                common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
+                common_Logger::d(print_r(explode(PHP_EOL, $returnValue), true));
+                throw new QtiModelException('invalid QTI item XML '.PHP_EOL.' '.$parserValidator->displayErrors());
             }
         }
 
@@ -115,7 +100,7 @@ class Authoring
                     $returnValue[] = $relPath;
                 }else{
                     throw new common_exception_Error('the resource "'.$source.'" cannot be copied');
-            }
+                }
             }else{
                 throw new common_exception_Error('invalid resource file path');
             }
@@ -123,5 +108,47 @@ class Authoring
 
         return $returnValue;
     }
+    
+    /**
+     * Remove invalid elements and attributes from QTI XML. 
+     * @param string $qti
+     * @return string sanitized XML
+     */
+    public static function sanitizeQtiXml($qti)
+    {
+        $doc = self::loadQtiXml($qti);
+        
+        $xpath = new \DOMXpath($doc);
+        $xpath->registerNamespace('qti', "http://www.imsglobal.org/xsd/imsqti_v2p1");
+        
+        foreach ($xpath->query('//qti:itemBody//*[@style]') as $elementWithStyle) {
+            $elementWithStyle->removeAttribute('style');
+        }
+        
+        return $doc->saveXML();
+    }
+    
+    /**
+     * Load QTI xml and return DOMDocument instance. If string is not valid xml QtiModelException will be thrown.
+     * @param string $qti
+     * @throws QtiModelException
+     * @return DOMDocument
+     */
+    public static function loadQtiXml($qti) 
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+        $dom->validateOnParse = false;
 
+        if(!$dom->loadXML($qti)){
+            $parserValidator = new Parser($qti);
+            $parserValidator->validate();
+            if(!$parserValidator->isValid()){
+                throw new QtiModelException('Wrong QTI item output format');
+            }
+        }
+
+        return $dom;
+    }
 }
