@@ -43,16 +43,14 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     {
         $xmlStr = file_get_contents(dirname(__FILE__) . '/samples/authoring/sanitizeQtiXml.xml');
         $xml = simplexml_load_string($xmlStr);
-        $xml->registerXPathNamespace('qti', "http://www.imsglobal.org/xsd/imsqti_v2p1");
         
-        $this->assertTrue(count($xml->xpath('//qti:itemBody//*[@style]')) > 0);
+        $this->assertTrue(count($xml->xpath("//*[local-name() = 'itemBody']//*[@style]")) > 0);
         
         $sanitizedXmlStr = Authoring::sanitizeQtiXml($xmlStr);
         
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
-        $sanitizedXml->registerXPathNamespace('qti', "http://www.imsglobal.org/xsd/imsqti_v2p1");
         
-        $this->assertTrue(count($sanitizedXml->xpath('//qti:itemBody//*[@style]')) === 0);
+        $this->assertTrue(count($sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")) === 0);
     }
     
     public function testLoadQtiXml()

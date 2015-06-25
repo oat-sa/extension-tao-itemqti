@@ -123,9 +123,8 @@ class Authoring
         $doc = self::loadQtiXml($qti);
         
         $xpath = new \DOMXpath($doc);
-        $xpath->registerNamespace('qti', "http://www.imsglobal.org/xsd/imsqti_v2p1");
         
-        foreach ($xpath->query('//qti:itemBody//*[@style]') as $elementWithStyle) {
+        foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
             $elementWithStyle->removeAttribute('style');
         }
         
