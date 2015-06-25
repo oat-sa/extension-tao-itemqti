@@ -28,8 +28,9 @@ define([
     'jquery',
     'handlebars',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/helper/interactionHelper'
-], function(_, $, Handlebars, Element, interactionHelper){
+    'taoQtiItem/qtiItem/helper/interactionHelper',
+    'taoQtiItem/runner/themes/loader',
+], function(_, $, Handlebars, Element, interactionHelper, themeLoader){
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -167,7 +168,6 @@ define([
 
         options = options || {};
 
-
         this.isRenderer = true;
 
         this.name = '';
@@ -239,6 +239,15 @@ define([
         this.getAssetManager = function getAssetManager(){
             return options.assetManager;
         };
+
+        /**
+         * Get the bound theme loader
+         * @returns {Object} the themeLoader
+         */
+        this.getThemeLoader = function getThemeLoader(){
+            return this.themeLoader;
+        };
+
 
         /**
          * Renders the template
@@ -486,6 +495,17 @@ define([
         this.load = function(callback, requiredClasses){
            var self = this;
             var required = [];
+
+            if(options.themes){
+
+                //resolve themes paths
+                options.themes.base = this.resolveUrl(options.themes.base);
+                _.forEach(options.themes.available, function(theme, index){
+                    options.themes.available[index].path = self.resolveUrl(theme.path);
+                });
+                this.themeLoader = themeLoader(options.themes).load();
+            }
+
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
 
@@ -545,6 +565,16 @@ define([
                 }
             });
 
+            return this;
+        };
+
+        /**
+         * Unload the renderer
+         */
+        this.unload = function unload(){
+            if(this.themeLoader){
+                themeLoader(options.themes).unload();
+            }
             return this;
         };
 
@@ -645,6 +675,10 @@ define([
          * @deprecated in favor of resolveUrl
          */
         this.getAbsoluteUrl = function(relUrl){
+
+            //let until method is removed
+            console.warn('DEPRECATED used getAbsoluteUrl with ', arguments);
+
             //allow relative url output only if explicitely said so
             if(this.getOption('userRelativeUrl')){
                 return relUrl.replace(/^\.?\//, '');

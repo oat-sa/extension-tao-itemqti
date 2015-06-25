@@ -385,6 +385,9 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+
+        widget.isValid('graphicGapMatchInteraction', valid);
 
         if (!paper) {
             return;

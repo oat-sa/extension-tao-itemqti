@@ -10,17 +10,19 @@ define([
     'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json',
     'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json',
     'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
-    'json!taoQtiItem/test/samples/json/customrp/order.json'
+    'json!taoQtiItem/test/samples/json/customrp/order.json',
+    'json!taoQtiItem/test/samples/json/es6.json',
 ], function(_, scorer, qtiScoringProvider,
-            singleCorrectData,
-            multipleCorrectData,
-            multipleMapData,
-            singleMapPointData,
-            customChoiceMultipleData,
-            customTextEntryNumericData,
-            customChoiceMultipleData2,
-            customChoiceSingleData,
-            orderData
+        singleCorrectData,
+        multipleCorrectData,
+        multipleMapData,
+        singleMapPointData,
+        customChoiceMultipleData,
+        customTextEntryNumericData,
+        customChoiceMultipleData2,
+        customChoiceSingleData,
+        orderData,
+        multipleResponseCorrectData
 ){
     'use strict';
 
@@ -117,9 +119,6 @@ define([
         }
     });
 
-
-    QUnit.module('templates');
-
     var tplDataProvider = [{
         title   : 'match correct single identifier',
         item    : singleCorrectData,
@@ -194,7 +193,36 @@ define([
                 .process(responses, data.item);
         });
 
-    QUnit.module('custom');
+    QUnit.asyncTest('process multiple responses', function(assert){
+
+            QUnit.expect(7);
+
+            var responses = {
+                'RESPONSE' : { list : { identifier : ["choice_3"] } },
+                'RESPONSE_1' : { list : { identifier : ["choice_7"] } },
+            };
+            scorer.register('qti', qtiScoringProvider);
+
+            scorer('qti')
+                .on('error', function(err){
+                    assert.ok(false, 'Got an error : ' + err);
+                })
+                .on('outcome', function(outcomes){
+
+                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                    assert.ok(typeof outcomes.RESPONSE_1 === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same");
+                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                    assert.deepEqual(outcomes.SCORE, { base : { float : 2 } }, "the score has the correct value");
+
+                    QUnit.start();
+                })
+                .process(responses, multipleResponseCorrectData);
+    });
+
+    QUnit.module('Custom template');
 
     var customDataProvider = [{
         title   : 'choice multiple correct',

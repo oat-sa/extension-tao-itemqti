@@ -68,7 +68,7 @@ define([
             shapeCreated : function(shape, type){
                 var newChoice = interaction.createChoice({
                     shape  : type === 'path' ? 'poly' : type,
-                    coords : GraphicHelper.qtiCoords(shape) 
+                    coords : GraphicHelper.qtiCoords(shape)
                 });
 
                 //link the shape to the choice
@@ -88,18 +88,18 @@ define([
                 var choice = interaction.getChoice(shape.id);
                 if(choice){
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
-    
+
                     if($left && $left.length){
                         bbox = shape.getBBox();
-                        $left.val(parseInt(bbox.x, 10)); 
+                        $left.val(parseInt(bbox.x, 10));
                         $top.val(parseInt(bbox.y, 10));
                         $width.val(parseInt(bbox.width, 10));
-                        $height.val(parseInt(bbox.height, 10));                         
-                    }         
+                        $height.val(parseInt(bbox.height, 10));
+                    }
                 }
             }
         });
-    
+
         //and create an instance
         widget._editor.create();
 
@@ -113,7 +113,7 @@ define([
             var element, bbox;
 
             if(choice){
-                
+
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
@@ -126,10 +126,10 @@ define([
                         matchMin    : choice.attr('matchMin'),
                         matchMax    : choice.attr('matchMax'),
                         choicesCount: _.size(interaction.getChoices()),
-                        x           : parseInt(bbox.x, 10), 
+                        x           : parseInt(bbox.x, 10),
                         y           : parseInt(bbox.y, 10),
                         width       : parseInt(bbox.width, 10),
-                        height      : parseInt(bbox.height, 10)                         
+                        height      : parseInt(bbox.height, 10)
                     })
                 );
 
@@ -145,7 +145,7 @@ define([
                 $formChoicePanel.show();
                 panel.openSections($formChoicePanel.children('section'));
                 panel.closeSections($formInteractionPanel.children('section'));
-                
+
                 //change the nodes bound to the position fields
                 $left   = $('input[name=x]', $choiceForm);
                 $top    = $('input[name=y]', $choiceForm);
@@ -153,7 +153,7 @@ define([
                 $height = $('input[name=height]', $choiceForm);
             }
         }
-        
+
         /**
          * Leave the choice form
          * @private
@@ -170,15 +170,18 @@ define([
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function initQuestionState(){
+    var exitQuestionState = function exitQuestionState(){
         var widget      = this.widget;
         var interaction = widget.element;
         var paper       = interaction.paper;
+        var valid       = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+
+        widget.isValid('graphicAssociateInteraction', valid);
 
         if(!paper){
             return;
         }
-        
+
         $(window).off('resize.changestate');
 
         if(widget._editor){
@@ -186,7 +189,7 @@ define([
         }
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
     };
-    
+
     /**
      * The question state for the graphicAssociate interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
@@ -208,12 +211,12 @@ define([
          * Get the maximum number of pairs regarding the number of choices: f(n) = n(n-1)/2
          * @param {Number} choices - the number of choices
          * @returns {Number} the number of possible pairs
-         */ 
+         */
         var getMaxPairs = function getMaxPairs(choices){
             var pairs = 0;
             if(choices > 0){
                 return Math.round((choices * (choices - 1)) / 2);
-            } 
+            }
             return pairs;
         };
 
@@ -231,7 +234,7 @@ define([
         imageSelector($form, options);
 
         formElement.initWidget($form);
-        
+
         bgImage.setupImage(widget);
 
         bgImage.setChangeCallbacks(
@@ -239,7 +242,7 @@ define([
             formElement,
             formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations')
         );
-        
+
         interactionFormElement.syncMaxChoices(widget, 'minAssociations', 'maxAssociations');
     };
 

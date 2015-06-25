@@ -114,8 +114,8 @@ class Authoring
                 if(tao_helpers_File::copy($source, $destination)){
                     $returnValue[] = $relPath;
                 }else{
-                    throw new common_exception_Error('the resource cannot be moved');
-                }
+                    throw new common_exception_Error('the resource "'.$source.'" cannot be copied');
+            }
             }else{
                 throw new common_exception_Error('invalid resource file path');
             }

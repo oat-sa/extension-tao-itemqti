@@ -38,9 +38,14 @@ define([
         init : function(itemData, done){
             var self = this;
 
-            this._renderer = new QtiRenderer({
+            var rendererOptions = {
                 assetManager : this.assetManager
-            });
+            };
+            if(this.options.themes){
+                rendererOptions.themes = this.options.themes;
+            }
+
+            this._renderer = new QtiRenderer(rendererOptions);
 
             new QtiLoader().loadItemData(itemData, function(item){
                 if(!item){
@@ -80,9 +85,16 @@ define([
                     })
                     .off('endattempt')
                     .on('endattempt', function(e, responseIdentifier){
-                        self.trigger('endattempt', responseIdentifier);
+                        self.trigger('endattempt', responseIdentifier || e.originalEvent.detail);
+                    })
+                    .off('themechange')
+                    .on('themechange', function(e, themeName){
+                        var themeLoader = self._renderer.getThemeLoader();
+                        themeName = themeName || e.originalEvent.detail;
+                        if(themeLoader){
+                            themeLoader.change(themeName);
+                        }
                     });
-
 
                 //TODO use post render cb once implemented
                 _.delay(function() {
@@ -98,12 +110,22 @@ define([
             }
         },
 
+        /**
+         * Clean up stuffs
+         */
         clear : function(elt, done){
             if(this._item){
 
                _.invoke(this._item.getInteractions(), 'clear');
 
-                $(elt).off('responseChange').empty();
+                $(elt).off('responseChange')
+                      .off('endattempt')
+                      .off('themechange')
+                      .empty();
+
+                if(this._renderer){
+                    this._renderer.unload();
+                }
             }
             done();
         },
@@ -130,13 +152,11 @@ define([
         },
 
         getResponses : function(){
-            var responses = [];
+            var responses = {};
             if(this._item){
                 _.reduce(this._item.getInteractions(), function(res, interaction){
-                    var response = {};
-                    response[interaction.attr('responseIdentifier')] = interaction.getResponse();
-                    res.push(response);
-                    return res;
+                    responses[interaction.attr('responseIdentifier')] = interaction.getResponse();
+                    return responses;
                 }, responses);
             }
             return responses;

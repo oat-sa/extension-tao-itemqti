@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-08T14:41:25\n"
+"PO-Revision-Date: 2015-06-18T16:28:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -1192,7 +1192,7 @@ msgstr ""
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr ""
 
-msgid "There is an incomplete element in your item : please click on it to complete it."
+msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr ""
 
 msgid "There was a problem downloading your CSS, please try again."

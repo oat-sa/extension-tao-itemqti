@@ -26,7 +26,7 @@ return array(
     'label' => 'QTI item model',
 	'description' => 'TAO QTI item model',
     'license' => 'GPL-2.0',
-    'version' => '2.7.7',
+    'version' => '2.7.9',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
 	    'taoItems' => '>=2.6'
@@ -43,11 +43,15 @@ return array(
 		    array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoQtiItem_views_js_portableSharedLibraries', 'location' => 'taoQtiItem/views/js/portableSharedLibraries', 'rights' => 'rw')),
 		    array('type' => 'CheckCustom', 'value' => array('id' => 'taoQtiItem_custom_mathjax', 'name' => 'mathjax', 'extension' => 'taoQtiItem', 'optional' => true))
 		),
+	    'php' => array(
+			dirname(__FILE__).'/install/local/setDefaultTheme.php',
+			dirname(__FILE__).'/install/local/addPortableContexts.php',
+			dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php'
+		)
 	),
 	'local'	=> array(
 		'php'	=> array(
-		    dirname(__FILE__).'/install/local/addPortableSharedLibraries.php',
-			dirname(__FILE__).'/install/local/addQTIExamples.php'
+		    dirname(__FILE__).'/install/local/addQTIExamples.php'
 		)
 	),
     'update' => 'oat\\taoQtiItem\\scripts\\update\\Updater',
