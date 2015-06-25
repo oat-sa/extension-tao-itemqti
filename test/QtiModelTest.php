@@ -162,6 +162,23 @@ class QtiModelTest extends TaoPhpUnitTestRunner
 
     }
 
+    public function testGetComposingElements(){
+
+        \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+
+        $qtiParser = new Parser(dirname(__FILE__).'/samples/xml/qtiv2p1/xinclude/embeded_stimulus.xml');
+        $item = $qtiParser->load();
+
+        $stimulus = $item->getComposingElements('oat\taoQtiItem\model\qti\Xinclude');
+        $this->assertCount(1,$stimulus);
+        $stim = array_shift($stimulus);
+        $this->assertEquals('stimulus.xml',$stim->attr('href'));
+
+        $elements = $item->getComposingElements();
+        \common_Logger::w(print_r(array_keys($elements),true));
+        $this->assertCount(21,$elements);
+    }
+
     /**
      * test the building of item from all the samples
      */
