@@ -77,10 +77,10 @@ abstract class VariableDeclaration extends IdentifiedElement
     
     /**
      * Overwrite parent because of infinite call loop
-     * 
+     * @param string $className
      * @return array
      */
-    public function getComposingElements(){
+    public function getComposingElements($className = ''){
         return array();
     }
 
