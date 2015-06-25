@@ -41,7 +41,7 @@ define(['lodash'], function(_){
          * @returns {String} the identifier
          * @throws {TypeError} if there is no item
          */
-        buildId : function buildSerial(item, prefix){
+        buildId : function buildId(item, prefix){
             var id;
             var usedIds;
             var i = 1;
