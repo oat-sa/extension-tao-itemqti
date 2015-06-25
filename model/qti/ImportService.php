@@ -129,10 +129,10 @@ class ImportService extends tao_models_classes_GenerisService
             //set the label
             $rdfItem->setLabel($qtiItem->getAttributeValue('title'));
 
-            if(count($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude')) > 0){
+            if(count($qtiItem->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude')) > 0){
                 //extract shared stimulus to store them into the first registered media manager
                 /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
-                foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                foreach($qtiItem->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
                     $files[$xinclude->attr('href')] = array('md5' => md5_file(dirname($qtiFile).'/'.$xinclude->attr('href')), 'file' => dirname($qtiFile).'/'.$xinclude->attr('href'));
                 }
             }
@@ -362,7 +362,7 @@ class ImportService extends tao_models_classes_GenerisService
                         $qtiParser = new Parser($itemContent);
                         $qtiItem = $qtiParser->load();
                         /** @var  \oat\taoQtiItem\model\qti\Xinclude $xinclude */
-                        foreach($qtiItem->getBody()->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                        foreach($qtiItem->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
                             //modify the href to link to the imported one
                             if(isset($files[$xinclude->attr('href')])){
                                 $xinclude->attr('href', $files[$xinclude->attr('href')]);
