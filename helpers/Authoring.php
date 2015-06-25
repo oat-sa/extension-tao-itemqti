@@ -42,15 +42,19 @@ class Authoring
 {
 
     /**
-     * Validate and format (if possible) a QTI XML string
+     * Validate and format (if possible) a QTI XML string.
+     * 
+     * QTI XML string will be sanitized (if possible invalid elements will be removed).
      * 
      * @param string $qti
      * @return string
      * @throws QtiModelException
      */
     public static function validateQtiXml($qti){
-
-        $dom = self::loadQtiXml($qti);
+        
+        $sanitizedQti = self::sanitizeQtiXml($qti);
+        
+        $dom = self::loadQtiXml($sanitizedQti);
         $returnValue = $dom->saveXML();
 
         //in debug mode, systematically check if the save QTI is standard compliant
@@ -129,26 +133,28 @@ class Authoring
     }
     
     /**
-     * Load QTI xml and return DOMDocument instance. If string is not valid xml QtiModelException will be thrown.
+     * Load QTI xml and return DOMDocument instance. 
+     * If string is not valid xml then QtiModelException will be thrown.
      * @param string $qti
      * @throws QtiModelException
      * @return DOMDocument
      */
     public static function loadQtiXml($qti) 
     {
+        $errors = array();
+        
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse = false;
-
-        if(!$dom->loadXML($qti)){
-            $parserValidator = new Parser($qti);
-            $parserValidator->validate();
-            if(!$parserValidator->isValid()){
-                throw new QtiModelException('Wrong QTI item output format');
-            }
+        
+        libxml_use_internal_errors(true);
+        
+        if (!$dom->loadXML($qti)) {
+            $errors = libxml_get_errors();
+            throw new QtiModelException('Wrong QTI item output format');
         }
-
+        
         return $dom;
     }
 }

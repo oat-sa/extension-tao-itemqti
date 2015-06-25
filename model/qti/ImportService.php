@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\helpers\Apip;
 use oat\taoQtiItem\model\apip\ApipService;
 use \tao_models_classes_GenerisService;
@@ -71,6 +72,7 @@ class ImportService extends tao_models_classes_GenerisService
     public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
     {
         $returnValue = null;
+        $qtiXml = Authoring::validateQtiXml(file_get_contents($qtiFile));
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, 'The IMS QTI Item was successfully imported.');
         
@@ -84,9 +86,8 @@ class ImportService extends tao_models_classes_GenerisService
         if (!$itemService->isItemClass($itemClass)) {
             throw new common_exception_Error('provided non Itemclass for '.__FUNCTION__);
         }
-
         //validate the file to import
-        $qtiParser = new Parser($qtiFile);
+        $qtiParser = new Parser($qtiXml);
         $valid = true;
         
         if ($validate) {
@@ -136,7 +137,7 @@ class ImportService extends tao_models_classes_GenerisService
             // and store it along the qti.xml file.
             if ($extractApip === true) {
                 $originalDoc = new DOMDocument('1.0', 'UTF-8');
-                $originalDoc->load($qtiFile);
+                $originalDoc->loadXML($qtiXml);
                 
                 $apipService = ApipService::singleton();
                 $apipService->storeApipAccessibilityContent($rdfItem, $originalDoc);

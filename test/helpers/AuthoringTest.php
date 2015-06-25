@@ -55,4 +55,20 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $this->assertTrue(count($sanitizedXml->xpath('//qti:itemBody//*[@style]')) === 0);
     }
     
+    public function testLoadQtiXml()
+    {
+        $xmlStr = file_get_contents(dirname(__FILE__) . '/samples/authoring/loadQtiXml.xml');
+        $this->assertTrue(Authoring::loadQtiXml($xmlStr) instanceof \DOMDocument);
+    }
+    
+    /**
+     * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @expectedExceptionMessage Wrong QTI item output format
+     */
+    public function testLoadWrongQtiXml()
+    {
+        $xmlStr = file_get_contents(dirname(__FILE__) . '/samples/authoring/loadWrongQtiXml.xml');
+        Authoring::loadQtiXml($xmlStr);
+    }
+    
 }
