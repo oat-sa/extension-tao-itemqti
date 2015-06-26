@@ -103,16 +103,25 @@ class ParserFactory
         return $data->ownerDocument->saveXML($data);
     }
 
-    public function getBodyData(DOMElement $data, $removeNamespace = false){
+
+    /**
+     * Get the body data (markups) of an element.
+     * @param \DOMELement $data the element
+     * @param boolean $removeNamespace if XML namespacese should be removed 
+     * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
+     * @return string the body data (XML markup)
+     */
+    public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false){
 
         //prepare the data string
         $bodyData = '';
+        $saveOptions = $keepEmptyTags ?  LIBXML_NOEMPTYTAG : 0;
 
         $children  = $data->childNodes;
 
         foreach ($children as $child)
         {
-            $bodyData .= $data->ownerDocument->saveXML($child);
+            $bodyData .= $data->ownerDocument->saveXML($child, $saveOptions);
         }
 
         if($removeNamespace){

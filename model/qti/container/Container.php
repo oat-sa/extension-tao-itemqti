@@ -104,7 +104,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $placeholder = $qtiElement->getPlaceholder();
                 if(strpos($body, $placeholder) === false){
                     if($requiredPlaceholder){
-                        throw new InvalidArgumentException('no placeholder found for the element in the new container body: '.get_class($qtiElement).':'.$placeholder);
+                        throw new \InvalidArgumentException('no placeholder found for the element in the new container body: '.get_class($qtiElement).':'.$placeholder);
                     }else{
                         //assume implicitly add to the end
                         $body .= $placeholder;
