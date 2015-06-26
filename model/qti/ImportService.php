@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\helpers\Authoring;
@@ -321,6 +322,9 @@ class ImportService extends tao_models_classes_GenerisService
                     
                 } catch (ParsingException $e) {
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage()));
+                } catch (QtiModelException $e) {
+                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage()));
+                    common_Logger::e($e->getMessage());
                 } catch (Exception $e) {
                     // an error occured during a specific item
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package.")));
