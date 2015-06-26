@@ -175,7 +175,6 @@ class QtiModelTest extends TaoPhpUnitTestRunner
         $this->assertEquals('stimulus.xml',$stim->attr('href'));
 
         $elements = $item->getComposingElements();
-        \common_Logger::w(print_r(array_keys($elements),true));
         $this->assertCount(21,$elements);
     }
 
