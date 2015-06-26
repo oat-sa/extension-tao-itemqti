@@ -61,7 +61,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     
     /**
      * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
-     * @expectedExceptionMessage Wrong QTI item output format
+     * @expectedExceptionMessageRegExp |^Wrong QTI item output format.*|
      */
     public function testLoadWrongQtiXml()
     {

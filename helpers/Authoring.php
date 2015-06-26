@@ -62,9 +62,9 @@ class Authoring
             $parserValidator = new Parser($returnValue);
             $parserValidator->validate();
             if(!$parserValidator->isValid()){
-                common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
+                common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
                 common_Logger::d(print_r(explode(PHP_EOL, $returnValue), true));
-                throw new QtiModelException('invalid QTI item XML '.PHP_EOL.' '.$parserValidator->displayErrors());
+                throw new QtiModelException('invalid QTI item XML ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
             }
         }
 
@@ -151,7 +151,17 @@ class Authoring
         
         if (!$dom->loadXML($qti)) {
             $errors = libxml_get_errors();
-            throw new QtiModelException('Wrong QTI item output format');
+            
+            $errorsMsg = 'Wrong QTI item output format:' 
+            . PHP_EOL 
+            . array_reduce($errors, function ($carry, $item) {
+                $carry .= $item->message . PHP_EOL;
+                return $carry;
+            });
+            
+            common_Logger::w($errorsMsg);
+            
+            throw new QtiModelException($errorsMsg);
         }
         
         return $dom;
