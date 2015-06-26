@@ -90,22 +90,23 @@ define([
              * @returns {*} the parsed value
              */
             parseValue : function(value, baseType, cardinality){
+                if(value !== null){
+                    if (cardinality === 'record') {
+                        return _.mapValues(value, preProcessor.parseVariable);
+                    }
 
-                if (cardinality === 'record') {
-                    return _.mapValues(value, preProcessor.parseVariable);
-                }
+                    var caster = typeCaster(baseType);
+                    cardinality = cardinality || 'single';
 
-                var caster = typeCaster(baseType);
-                cardinality = cardinality || 'single';
+                    if(cardinality === 'single'){
+                        value = caster(value, state);
+                    } else {
+                        value = _.map(value, caster);
+                    }
 
-                if(cardinality === 'single'){
-                    value = caster(value, state);
-                } else {
-                    value = _.map(value, caster);
-                }
-
-                if(cardinality === 'multiple'){
-                    value = value.sort();   //sort for comparison
+                    if(cardinality === 'multiple'){
+                        value = value.sort();   //sort for comparison
+                    }
                 }
                 return value;
             },
