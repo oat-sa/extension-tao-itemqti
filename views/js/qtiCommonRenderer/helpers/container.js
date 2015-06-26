@@ -79,7 +79,7 @@ define([
                 //find in the globally set context
                 return _$containerContext.find(_getSelector(element));
 
-            }else if(!_containers[serial] || _containers[serial].length){
+            }else if(!_containers[serial] || !_containers[serial].length){
 
                 //find in the global context
                 _containers[serial] = $(_getSelector(element));
