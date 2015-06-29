@@ -27,7 +27,7 @@ define([
 
     var itemThemes = themes.get('items');
 
-//stratgy to resolve portable info control and portable interactions paths.
+    //stratgy to resolve portable info control and portable interactions paths.
     //It should never be reached in the stack the ususal way and should be called only using resolveBy.
     var portableAssetStrategy = {
         name : 'portableElementLocation',
