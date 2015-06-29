@@ -28,6 +28,9 @@ define([
             //note : if the uri is defined, it will be set the uri in the xml on xml serialization,
             //which may trigger xsd validation, which is troublesome for html5 (use xhtml5 maybe ?)
             this.markupNs = {};
+
+            //stack of callback waiting to be ready
+            this.readyStack = [];
         },
 
         is : function(qtiClass){
@@ -85,6 +88,37 @@ define([
             arr.markup = this.markup;
             arr.properties = this.properties;
             return arr;
+        },
+
+
+        /**
+         * Execute a callback when the PIC is ready (ie. registered, loaded and rendererd)
+         * @param {Function} cb - the function to execute once ready
+         */
+        onReady : function onReady(cb){
+
+            this.readyStack.push(cb);
+
+            //if we are ready this will pop the stack
+            if(this.data('_ready') && this.data('pic')){
+                this.triggerReady();
+            }
+        },
+
+        /**
+         * Define the PIC as ready and consume the waiting functions in the stack.
+         */
+        triggerReady : function triggerReady(){
+            var self = this;
+            _.forEach(this.readyStack, function(cb){
+                cb.call(self, self.data('pic'));
+            });
+
+            //empty the stack
+            this.readyStack = [];
+
+            //mark the infoControl as ready
+            this.data('_ready', true);
         }
     });
 

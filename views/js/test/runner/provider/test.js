@@ -498,25 +498,20 @@ define([
 
         itemRunner('qti', itemDataPic)
             .on('render', function(){
-                var self = this;
-                _.delay(function(){
-                    var state = self.getState();
-                    assert.ok(typeof state === 'object', 'The state is an object');
-                    assert.ok(typeof state.pic === 'object', 'The state has a pic object');
-                    assert.ok(typeof state.pic['mock-1'] === 'object', 'The state of the mock-1 pic is an object');
-                    assert.ok(typeof state.pic['mock-2'] === 'object', 'The state of the mock-2 pic is an object');
-                    assert.ok(typeof state.pic['mock-3'] === 'object', 'The state of the mock-3 pic is an object');
+                var state = this.getState();
+                assert.ok(typeof state === 'object', 'The state is an object');
+                assert.ok(typeof state.pic === 'object', 'The state has a pic object');
+                assert.ok(typeof state.pic['mock-1'] === 'object', 'The state of the mock-1 pic is an object');
+                assert.ok(typeof state.pic['mock-2'] === 'object', 'The state of the mock-2 pic is an object');
+                assert.ok(typeof state.pic['mock-3'] === 'object', 'The state of the mock-3 pic is an object');
 
-                    state.pic['mock-2'].foo = 'bar';
+                state.pic['mock-2'].foo = 'bar';
 
-                    self.setState(state);
+                this.setState(state);
 
-                    var newState = self.getState();
-                    assert.equal(newState.pic['mock-2'].foo, 'bar', 'The state values is set and retrieved');
-
-                    QUnit.start();
-
-                }, 200);
+                var newState = this.getState();
+                assert.equal(newState.pic['mock-2'].foo, 'bar', 'The state values is set and retrieved');
+                QUnit.start();
             })
             .init()
             .render(container);

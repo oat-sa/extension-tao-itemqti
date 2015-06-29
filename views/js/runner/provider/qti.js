@@ -23,12 +23,13 @@
 define([
     'jquery',
     'lodash',
+    'async',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, async, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -64,6 +65,11 @@ define([
 
         render : function(elt, done){
             var self = this;
+            var pics;
+            var renderDone;
+            var current = 0;
+            var timeout = this.options.timeout || 20000;
+
             if(this._item){
                 try {
                     elt.innerHTML = this._item.render({});
@@ -97,17 +103,46 @@ define([
                         }
                     });
 
-                //TODO use post render cb once implemented
-                _.delay(function() {
+                //the collection of PICs
+                pics = picManager.collection(self._item);
+
+                //call once the rendering is done
+                renderDone = function renderDone(){
                     done();
 
                     /**
                      * Lists the PIC provided by this item.
                      * @event qti#listpic
                      */
-                    self.trigger('listpic', picManager.collection(self._item));
+                    self.trigger('listpic', pics);
+                };
 
-                }, 100);
+                if(pics.getList().length){
+                    //wait until all PICs are loaded/ready
+                    async.until(
+                        function arePicReady(){
+                            return _.every(pics.getList(), function(pic){
+                                return pic.getTypeIdentifier() === 'studentToolbar' || pic.getPic().data('_ready');
+                            });
+                        },
+                        function iterate(cb){
+                            current += 100;
+                            if(current > timeout){
+                                return cb(new Error('Timeout : Unable to load portable elements'));
+                            }
+                            _.delay(cb, 100);
+                        },
+                        function end(err){
+                            if(err){
+                                return self.trigger('error', err);
+                            }
+                            renderDone();
+                        }
+                    );
+                    return;
+                }
+
+                renderDone();
             }
         },
 

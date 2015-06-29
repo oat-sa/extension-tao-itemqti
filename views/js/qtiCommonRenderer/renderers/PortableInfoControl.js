@@ -104,12 +104,14 @@ define([
         //load the entry point
         require([entryPoint], function(){
 
-            var pci = _getPic(infoControl);
-            if(pci && $dom.length){
+            var pic = _getPic(infoControl);
+            if(pic && $dom.length){
                 //call pci initialize() to render the pci
-                pci.initialize(id, $dom[0], config);
+                pic.initialize(id, $dom[0], config);
                 //restore context (state + response)
-                pci.setSerializedState(state);
+                pic.setSerializedState(state);
+
+                infoControl.triggerReady();
             }
         });
     };
@@ -121,9 +123,10 @@ define([
      *
      * @param {Object} infoControl
      */
-    var destroy = function(infoControl){
-
-        _getPic(infoControl).destroy();
+    var destroy = function destroy(infoControl){
+        infoControl.onReady(function(){
+            _getPic(infoControl).destroy();
+        });
     };
 
     /**
@@ -133,8 +136,9 @@ define([
      * @param {Object} state - the state to set
      */
     var setState = function setState(infoControl, state){
-
-        _getPic(infoControl).setSerializedState(state);
+        infoControl.onReady(function(){
+            _getPic(infoControl).setSerializedState(state);
+        });
     };
 
     /**
@@ -145,8 +149,10 @@ define([
      * @returns {Object} the state
      */
     var getState = function getState(infoControl){
-
-        return _getPic(infoControl).getSerializedState();
+         if(infoControl.data('_ready')){
+            return _getPic(infoControl).getSerializedState();
+        }
+        return {};
     };
 
     return {
@@ -159,7 +165,6 @@ define([
             markup = util.removeMarkupNamespaces(markup);
             markup = PortableElement.fixMarkupMediaSources(markup, this);
             data.markup = markup;
-
             return data;
         },
         render : render,

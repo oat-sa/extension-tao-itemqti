@@ -13,7 +13,7 @@
     },
     "body": {
         "serial": "container_containeritembody_546cb89e037ba814681360",
-        "body": "<p id=\"stimulus\">\n\t\t\tDuring more than 30 years, the American Space Shuttle transported 355 astronauts in space over 135\n\t\t\torbital launchings from Cap Canaveral, Florida. This 2046-ton Behemoth traveled 870 million kilometers\n\t\t\taround the Earth from 12th of April 1981 to 21st of July 2011. The National Aeronautics and Space\n\t\t\tAdministration (NASA) built 5 Space Shuttles: Columbia, Challenger, Discovery, Atlantis and Endeavour.\n\t\t</p>\n    {{interaction_choiceinteraction_546cb89e04090230494786}}",
+        "body": "{{portableinfocontrol_556f08e21039e128137685}} {{portableinfocontrol_556f08e211b49955612514}} {{portableinfocontrol_556f08e211bf6383569033}}<p id=\"stimulus\">\n\t\t\tDuring more than 30 years, the American Space Shuttle transported 355 astronauts in space over 135\n\t\t\torbital launchings from Cap Canaveral, Florida. This 2046-ton Behemoth traveled 870 million kilometers\n\t\t\taround the Earth from 12th of April 1981 to 21st of July 2011. The National Aeronautics and Space\n\t\t\tAdministration (NASA) built 5 Space Shuttles: Columbia, Challenger, Discovery, Atlantis and Endeavour.\n\t\t</p>\n    {{interaction_choiceinteraction_546cb89e04090230494786}}",
         "elements": {
             "portableinfocontrol_556f08e21039e128137685": {
                 "serial": "portableinfocontrol_556f08e21039e128137685",
