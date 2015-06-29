@@ -129,7 +129,7 @@
                     "attributes": {
                         "responseIdentifier": "RESPONSE_1",
                         "shuffle": false,
-                        "maxChoices": 0,
+                        "maxChoices": 1,
                         "minChoices": 0,
                         "orientation": "vertical"
                     },
@@ -285,15 +285,15 @@
                 "qtiClass": "responseDeclaration",
                 "attributes": {
                     "identifier": "RESPONSE_1",
-                    "cardinality": "multiple",
+                    "cardinality": "single",
                     "baseType": "identifier"
                 },
                 "debug": {
                     "relatedItem": "item_5576b71e3bd72041243459"
                 },
-                "correctResponses": [
+                "correctResponses":
                     "choice_7"
-                ],
+                ,
                 "mapping": [],
                 "areaMapping": [],
                 "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/match_correct",

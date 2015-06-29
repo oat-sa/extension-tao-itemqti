@@ -95,14 +95,14 @@ define([
         var container = document.getElementById(containerId);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
-        assert.equal(container.childNodes.length, 0, 'the container has no children');
+        assert.equal(container.children.length, 0, 'the container has no children');
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
         itemRunner('qti', itemData)
             .on('render', function(){
 
-                assert.equal(container.childNodes.length, 1, 'the container has children');
+                assert.equal(container.children.length, 1, 'the container has children');
 
                 QUnit.start();
             })
@@ -148,19 +148,19 @@ define([
         var container = document.getElementById(containerId);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
-        assert.equal(container.childNodes.length, 0, 'the container has no children');
+        assert.equal(container.children.length, 0, 'the container has no children');
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
         itemRunner('qti', itemData)
             .on('render', function(){
-                assert.equal(container.childNodes.length, 1, 'the container has children');
+                assert.equal(container.children.length, 1, 'the container has children');
 
                 this.clear();
 
             }).on('clear', function(){
 
-                assert.equal(container.childNodes.length, 0, 'the container children are removed');
+                assert.equal(container.children.length, 0, 'the container children are removed');
 
                 QUnit.start();
             })

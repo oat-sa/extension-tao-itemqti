@@ -21,31 +21,46 @@ define([
 ], function($, _){
     'use strict';
 
-    var itemStylesheetHandler = (function(){
+    //throttle events because of the loop
+    var informLoaded = _.throttle(function(){
+        $(document).trigger('customcssloaded.styleeditor');
+    }, 10, {leading : false});
 
-        var informLoaded = _.throttle(function(){
-            $(document).trigger('customcssloaded.styleeditor');
-        }, 10, {leading : false});
+    /**
+     * Attach QTI Stylesheets to the document
+     *
+     * @param {Array} stylesheets - the QTI model stylesheets
+     * @fires customcssloaded.styleeditor on document 10ms after stylesheets are loaded
+     */
+    var attach = function attach(stylesheets) {
+        var $head = $('head');
 
-        var attach = function(stylesheets) {
-            var $head = $('head'), link;
+        //fallback
+        if(!$head.length){
+            $head = $('body');
+        }
 
-             $('body').addClass('tao-scope');
+         // relative links with cache buster
+        _(stylesheets).forEach(function(stylesheet){
+            var sep,
+                $link,
+                href;
 
-             // relative links with cache buster
-            _(stylesheets).forEach(function(stylesheet){
+            //if the href is something
+            if(stylesheet.attr('href')){
+                $link = $(stylesheet.render());
+                //get the resolved href once rendererd
+                href = $link.attr('href');
 
-                var $link = $(stylesheet.render());
-                var href = $link.attr('href');
-                var sep  = href.indexOf('?') > -1 ? '&' : '?';
+                //bust cache only for network URLs
+                if(!/^data\:/.test(href)){
+                    sep = href.indexOf('?') > -1 ? '&' : '?';
+                    if(href.indexOf('/') === 0) {
+                        href = href.slice(1);
+                    }
 
-
-
-                if(href.indexOf('/') === 0) {
-                    href = href.slice(1);
+                    href +=  sep + (new Date().getTime()).toString();
                 }
-
-                href +=  sep + (new Date().getTime()).toString();
 
                 //we need to set the href after the link is appended to the head (for our dear IE)
                 $link.removeAttr('href')
@@ -54,14 +69,14 @@ define([
 
                 //wait for the styles to applies
                 _.delay(informLoaded, 10);
-            });
-        };
+            }
+        });
+    };
 
-        return {
-            attach: attach
-        };
-
-    }());
-
-    return itemStylesheetHandler;
+    /**
+     * @exports taoQtiItem/qtiCommonRenderer/helpers/itemStylesheetHandler
+     */
+    return {
+        attach: attach
+    };
 });

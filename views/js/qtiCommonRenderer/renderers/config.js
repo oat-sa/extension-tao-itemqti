@@ -42,7 +42,7 @@ define([
     var assetManager = assetManagerFactory([{
             name : 'theme',
             handle : function handleTheme(url){
-                if(url.path === themes.base || _.contains(_.pluck(themes.available, 'path'), url.path)){
+                if(itemThemes && url.path && (url.path === itemThemes.base || _.contains(_.pluck(itemThemes.available, 'path'), url.path))){
                     return context.root_url + url.toString();
                 }
             }
