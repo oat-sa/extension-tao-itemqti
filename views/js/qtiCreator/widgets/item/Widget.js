@@ -77,11 +77,11 @@ define([
 
             //when the text widgets are ready:
             this.initGridEditor();
-
+            
             //active debugger
             this.debug({
-                state : false,
-                xml : false
+                state : config['debug-state'],
+                xml : config['debug-xml']
             });
         });
     };
@@ -417,11 +417,7 @@ define([
         }
 
         if(options.xml){
-            var $code = $('<code>', {'class' : 'language-markup'}),
-                $pre = $('<pre>', {'class' : 'line-numbers'}).append($code);
-
-            $('#item-editor-wrapper').append($pre);
-            devTools.liveXmlPreview(this.element, $code);
+            devTools.liveXmlPreview(this.element);
         }
 
     };

@@ -47,50 +47,36 @@ define([
 
         return states;
     };
-
-    tools.liveXmlPreview = function(item, $destination) {
-
+    
+    var xmlPreviewWindow;
+    
+    function getXmlPreviewWindow(){
+        xmlPreviewWindow = xmlPreviewWindow || window.open('http://tao.localdomain/taoQtiItem/views/js/qtiXmlRenderer/test/renderer/popup.html', "QTI XML Preview");
+        return xmlPreviewWindow;
+    }
+    
+    function closeXmlPreviewWindow(){
+        if(xmlPreviewWindow){
+            xmlPreviewWindow.close();
+        }
+    }
+    
+    tools.liveXmlPreview = function(item) {
+        
+        getXmlPreviewWindow();
+        var rawXml = xmlRenderer.render(item);
+        _.delay(function(){
+            getXmlPreviewWindow().updateXml(rawXml);
+        }, 1000);
+            
         //render qti xml:
         $(document).on(event.getList().join(' '), _.throttle(function(){
 
             var rawXml = xmlRenderer.render(item);
+            getXmlPreviewWindow().updateXml(rawXml);
 
-            _printXml(rawXml, $destination);
+        }, 600));
 
-        }, 200));
-
-    };
-
-    var _formatXml = function(xml) {
-        return vkbeautify.xml(xml, '\t');
-    };
-
-    var _printXml = function(rawXml, $destination) {
-
-        var $code = $(),
-                xml = _formatXml(rawXml);
-
-        xml = xml
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-
-        if ($destination.hasClass('language-markup')) {
-            $code = $destination;
-        } else {
-            $code = $destination.find('code.language-markup');
-            if (!$code.length) {
-                $code = $('<code>', {'class': 'language-markup'});
-                $destination.addClass('line-numbers').html($code);
-            }
-        }
-
-        if ($code.length) {
-            $code.html(xml);
-            Prism.highlightElement($code[0]);
-        }
     };
 
     return tools;
