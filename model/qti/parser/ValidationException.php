@@ -26,9 +26,13 @@ class ValidationException extends \common_Exception {
     
     private $errors;
     
+    /**
+     * @param string $file
+     * @param array $errors
+     */
     public function __construct($file, $errors)
     {
-        $this->errors();
+        $this->errors = $errors;
         parent::__construct('Failed to validate '.$file);
     }
     
@@ -37,6 +41,6 @@ class ValidationException extends \common_Exception {
      */
     public function getReport()
     {
-        return common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $eStrs)));
+        return common_report_Report::createFailure(__("Malformed XML:\n%s", implode("\n", $this->errors)));
     }
 }
