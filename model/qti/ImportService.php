@@ -264,7 +264,7 @@ class ImportService extends tao_models_classes_GenerisService
         if (!is_dir($folder)) {
             throw new ExtractException();
         }
-
+        
         try {
             //load the information about resources in the manifest 
             $qtiItemResources = $this->createQtiManifest($folder.'imsmanifest.xml');
@@ -316,6 +316,7 @@ class ImportService extends tao_models_classes_GenerisService
                     foreach ($qtiItemResource->getAuxiliaryFiles() as $auxResource) {
                         // file on FS
                         $auxFile = $folder.str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
+                        
                         // rel path in item
                         $auxPath = str_replace(DIRECTORY_SEPARATOR, '/', helpers_File::getRelPath($qtiFile, $auxFile));
                         
@@ -354,24 +355,28 @@ class ImportService extends tao_models_classes_GenerisService
                         if ($auxPath != $info['uri']) {
                             $itemContent = str_replace($auxPath, $info['uri'], $itemContent);
                         }
-
-                        // Finally, import metadata.
-                        $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
-
-                        // And Apip if wanted
-                        if ($extractApip) {
-                            $this->storeApip($qtiFile, $rdfItem);
-                        }
-                        
-                        $itemService->setItemContent($rdfItem, $itemContent);
-                        $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
                     }
+                    
+                    // Finally, import metadata.
+                    $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
+                    
+                    // And Apip if wanted
+                    if ($extractApip) {
+                        $this->storeApip($qtiFile, $rdfItem);
+                    }
+                    
+                    $itemService->setItemContent($rdfItem, $itemContent);
+                    $successItems[$qtiItemResource->getIdentifier()] = $rdfItem;
                     
                     $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.', $qtiItemResource->getIdentifier());
                     $report->add(common_report_Report::createSuccess($msg, $rdfItem));
                     
                 } catch (ParsingException $e) {
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage()));
+                } catch (ValidationException $ve) {
+                    $itemReport = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $qtiItemResource->getIdentifier()));
+                    $itemReport->add($ve->getReport());
+                    $report->add($itemReport);
                 } catch (Exception $e) {
                     // an error occured during a specific item
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package.")));
@@ -402,7 +407,6 @@ class ImportService extends tao_models_classes_GenerisService
                 }
             }
         } catch (ValidationException $ve) {
-            tao_helpers_File::delTree($folder);
             $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");
             $validationReport->add($ve->getReport());
             $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
@@ -412,7 +416,7 @@ class ImportService extends tao_models_classes_GenerisService
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
         }
-
+        
         // cleanup
         tao_helpers_File::delTree($folder);
 
