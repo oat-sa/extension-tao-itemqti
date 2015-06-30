@@ -32,6 +32,11 @@ use oat\tao\helpers\Template;
                 });
             }());
         </script>
+        <style>
+            body {
+                margin:0
+            }
+        </style>
 	</head>
 	<body>
 	</body>
