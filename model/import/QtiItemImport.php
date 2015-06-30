@@ -72,9 +72,6 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler
             try{
                 $importService = ImportService::singleton();
                 $report = $importService->importQTIFile($uploadedFile, $class, true);
-                $data = $report->getData();
-                $rdfItem = $data['item'];
-                $report->setData($rdfItem);
             }catch(UnsupportedQtiElement $e){
                 $report = common_report_Report::createFailure(__('The "%s" QTI component is not supported.', $e->getType()));
             }catch(ParsingException $e){
