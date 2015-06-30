@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i14295683603462526" title="Item title" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="3.0.0">
+<assessmentItem 
+    xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:m="http://www.w3.org/1998/Math/MathML" 
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" 
+    identifier="i14295683603462526" 
+    title="Item title" 
+    adaptive="false" 
+    timeDependent="false" 
+    label="" 
+    xml:lang="en-US" 
+    toolName="TAO" 
+    toolVersion="3.0.0">
   <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
     <correctResponse>
       <value><![CDATA[B-sIsyD]]></value>
@@ -10,31 +22,26 @@
   <itemBody>
     <div class="grid-row">
       <div class="col-7">
-        <p>Read the passage from <em>Cocoa Ice. </em>Then answer the questions</p>
+        <p>Lorem ipsum</p>
       </div>
     </div>
     <div class="grid-row">
       <div class="col-6">
-        <p class="txt-ctr">from <em>Cocoa Ice </em></p>
-        <p class="txt-ctr"><em style="line-height: 1.4;">by </em>Diana Appelbaum</p>
+        <p class="txt-ctr">Lorem Ipsum <em>dolor sit ame </em></p>
+        <p class="txt-ctr"><em style="line-height: 1.4;">consectetur </em>adipiscing</p>
       </div>
     </div>
     <div class="grid-row">
       <div class="col-7">
-        <p><strong> 1</strong>  Early morning is the best time to climb a tree because the sun has not yet had time to bake the earth until it is hot and steamy like a roasted plantain. If you wait until afternoon, rain will make the trees too slippery to climb. But if you get up while the birds are looking for their breakfast and sit absolutely still, one may come so close that you can feel its feathers ruffle the air. Still, the main reason why morning is the best time to climb to the top of a very tall tree is that if a schooner comes into the bay, you will be the first to see it.</p>
-        <p> <strong>2 </strong>We have every kind of tree around our house: coconut, papaya, mango, orange, banana, plantain, breadfruit, guava, and a special kind called cacao—trees that grow chocolate. Cacao trees grow only in shade, so Papa plants young cacaos under tall banana trees that shade the growing cacao.</p>
-        <p> <strong>3</strong> Little pink cacao flowers grow right on the trunk. Green cacao pods grow side by side with the flowers, and next to them grow ripe yellow and red pods, ready to be picked. A cacao tree is always blooming, always ripening, and always ready to harvest.</p>
-        <p> <strong>4 </strong>Papa splits the ripe cacao pods open with his machete and scoops out white pulp and pale beans. We spread slippery beans and sticky-sweet pulp on a carpet of banana leaves, then cover everything with more banana leaves.</p>
-        <p> <strong>5 </strong>I like to eat the sweet cacao pulp while we work, but I don’t chew the beans! Once I bit a fresh cocoa bean. It was so bitter it set my teeth on edge. Papa laughed and said, “Don’t be so impatient, little one. Wait for the sun to make chocolate.” And it does.</p>
-        <p> <strong>6 </strong>After a few hot days under the banana leaves, the pale, bitter cocoa beans begin to change color. We pick beans out of the old, smelly pulp and spread them to dry in the sun, turning them until they become a dark, beautiful brown.</p>
+        <p>Suspendisse varius purus in mauris elementum, id sagittis metus bibendum. Fusce a rutrum orci, a facilisis quam. Proin ac erat ultrices, tempor neque sed, pulvinar dui. Maecenas semper maximus pretium. Nulla condimentum nisl justo, vitae imperdiet neque ullamcorper nec.</p>
       </div>
       <div class="col-5">
         <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
-          <prompt>What does <strong>to bake the earth</strong> mean as it is used in paragraph 1?</prompt>
-          <simpleChoice identifier="A-LdesL" fixed="false" showHide="show"> to cook the earth</simpleChoice>
-          <simpleChoice identifier="B-sIsyD" fixed="false" showHide="show"> to heat the land</simpleChoice>
-          <simpleChoice identifier="C-YldDB" fixed="false" showHide="show"> to roast the fruit</simpleChoice>
-          <simpleChoice identifier="D-vN5S0" fixed="false" showHide="show">to burn the forest</simpleChoice>
+          <prompt>Aenean consequat <strong>tleo purus</strong>, quis finibus dui ornare vitae.</prompt>
+          <simpleChoice identifier="A-LdesL" fixed="false" showHide="show"> Cras mauris justo, mollis eget</simpleChoice>
+          <simpleChoice identifier="B-sIsyD" fixed="false" showHide="show"> nisi eget, eleifend iaculis</simpleChoice>
+          <simpleChoice identifier="C-YldDB" fixed="false" showHide="show"> isi. Maecenas in ornare ante</simpleChoice>
+          <simpleChoice identifier="D-vN5S0" fixed="false" showHide="show">Quisque dignissim ultrices nisi,</simpleChoice>
         </choiceInteraction>
       </div>
     </div>
