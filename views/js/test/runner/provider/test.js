@@ -95,14 +95,14 @@ define([
         var container = document.getElementById(containerId);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
-        assert.equal(container.childNodes.length, 0, 'the container has no children');
+        assert.equal(container.children.length, 0, 'the container has no children');
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
         itemRunner('qti', itemData)
             .on('render', function(){
 
-                assert.equal(container.childNodes.length, 1, 'the container has children');
+                assert.equal(container.children.length, 1, 'the container has children');
 
                 QUnit.start();
             })
@@ -148,19 +148,19 @@ define([
         var container = document.getElementById(containerId);
 
         assert.ok(container instanceof HTMLElement , 'the item container exists');
-        assert.equal(container.childNodes.length, 0, 'the container has no children');
+        assert.equal(container.children.length, 0, 'the container has no children');
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
         itemRunner('qti', itemData)
             .on('render', function(){
-                assert.equal(container.childNodes.length, 1, 'the container has children');
+                assert.equal(container.children.length, 1, 'the container has children');
 
                 this.clear();
 
             }).on('clear', function(){
 
-                assert.equal(container.childNodes.length, 0, 'the container children are removed');
+                assert.equal(container.children.length, 0, 'the container children are removed');
 
                 QUnit.start();
             })
@@ -481,6 +481,36 @@ define([
                 pic = picManager.getPic('portableinfocontrol_1234567890123456789012');
                 assert.ok(typeof pic === 'undefined' , 'the unknown pic is undefined');
 
+                QUnit.start();
+            })
+            .init()
+            .render(container);
+    });
+
+
+    QUnit.asyncTest('PIC state', function(assert){
+        QUnit.expect(7);
+
+        var container = document.getElementById(containerId);
+        assert.ok(container instanceof HTMLElement , 'the item container exists');
+
+        itemRunner.register('qti', qtiRuntimeProvider);
+
+        itemRunner('qti', itemDataPic)
+            .on('render', function(){
+                var state = this.getState();
+                assert.ok(typeof state === 'object', 'The state is an object');
+                assert.ok(typeof state.pic === 'object', 'The state has a pic object');
+                assert.ok(typeof state.pic['mock-1'] === 'object', 'The state of the mock-1 pic is an object');
+                assert.ok(typeof state.pic['mock-2'] === 'object', 'The state of the mock-2 pic is an object');
+                assert.ok(typeof state.pic['mock-3'] === 'object', 'The state of the mock-3 pic is an object');
+
+                state.pic['mock-2'].foo = 'bar';
+
+                this.setState(state);
+
+                var newState = this.getState();
+                assert.equal(newState.pic['mock-2'].foo, 'bar', 'The state values is set and retrieved');
                 QUnit.start();
             })
             .init()

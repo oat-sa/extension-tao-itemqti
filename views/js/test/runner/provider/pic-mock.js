@@ -38,6 +38,7 @@ function ($, common, qtiInfoControlContext) {
                 this.id = id;
                 this.dom = dom;
                 this.config = config || {};
+                this.state = {};
 
                 var $container = $(dom);
 
@@ -61,6 +62,7 @@ function ($, common, qtiInfoControlContext) {
              * @param {Object} serializedState - json format
              */
             setSerializedState: function (serializedState) {
+                this.state = serializedState;
             },
 
             /**
@@ -69,7 +71,7 @@ function ($, common, qtiInfoControlContext) {
              * @returns {Object} json format
              */
             getSerializedState: function () {
-                return {};
+                return this.state || {};
             }
         };
 
