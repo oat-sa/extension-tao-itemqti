@@ -27,6 +27,7 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
+use \InvalidArgumentException;
 
 /**
  * The QTI_Container object represents the generic element container
@@ -104,7 +105,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $placeholder = $qtiElement->getPlaceholder();
                 if(strpos($body, $placeholder) === false){
                     if($requiredPlaceholder){
-                        throw new \InvalidArgumentException('no placeholder found for the element in the new container body: '.get_class($qtiElement).':'.$placeholder);
+                        throw new InvalidArgumentException('no placeholder found for the element in the new container body: '.get_class($qtiElement).':'.$placeholder);
                     }else{
                         //assume implicitly add to the end
                         $body .= $placeholder;
