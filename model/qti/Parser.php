@@ -64,7 +64,7 @@ class Parser extends tao_models_classes_Parser
 
         return (bool) $returnValue;
     }
-
+    
     /**
      * load the file content, parse it  and build the a QTI_Item instance
      *
@@ -135,5 +135,4 @@ class Parser extends tao_models_classes_Parser
             parent::addError($error);
         }
     }
-
 }

@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\helpers\Apip;
 use oat\taoQtiItem\model\apip\ApipService;
 use \tao_models_classes_GenerisService;
@@ -71,6 +73,7 @@ class ImportService extends tao_models_classes_GenerisService
     public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $extractApip = false)
     {
         $returnValue = null;
+        $qtiXml = Authoring::validateQtiXml(file_get_contents($qtiFile));
 
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, 'The IMS QTI Item was successfully imported.');
         
@@ -84,19 +87,18 @@ class ImportService extends tao_models_classes_GenerisService
         if (!$itemService->isItemClass($itemClass)) {
             throw new common_exception_Error('provided non Itemclass for '.__FUNCTION__);
         }
-
         //validate the file to import
-        $qtiParser = new Parser($qtiFile);
+        $qtiParser = new Parser($qtiXml);
         $valid = true;
         
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $this->validateMultiple($qtiParser, array(
+            
+            $qtiParser->validateMultiple(array(
                 $basePath.'model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
                 $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd',
                 $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
             ));
-            
             if (!$qtiParser->isValid()) {
                 $valid = false;
                 $eStrs = array();
@@ -136,7 +138,7 @@ class ImportService extends tao_models_classes_GenerisService
             // and store it along the qti.xml file.
             if ($extractApip === true) {
                 $originalDoc = new DOMDocument('1.0', 'UTF-8');
-                $originalDoc->load($qtiFile);
+                $originalDoc->loadXML($qtiXml);
                 
                 $apipService = ApipService::singleton();
                 $apipService->storeApipAccessibilityContent($rdfItem, $originalDoc);
@@ -151,28 +153,6 @@ class ImportService extends tao_models_classes_GenerisService
         $report->setData($returnValue);
         
         return $report;
-    }
-
-    /**
-     * Excecute parser validation and stops at the first valid one, and returns the identified schema
-     * 
-     * @param tao_models_classes_Parser $parser
-     * @param array $xsds
-     * @return string
-     */
-    public function validateMultiple(tao_models_classes_Parser $parser, $xsds = array())
-    {
-        $returnValue = '';
-
-        foreach ($xsds as $xsd) {
-            $parser->validate($xsd);
-            if ($parser->isValid()) {
-                $returnValue = $xsd;
-                break;
-            }
-        }
-
-        return $returnValue;
     }
 
     /**
@@ -223,7 +203,7 @@ class ImportService extends tao_models_classes_GenerisService
         
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $this->validateMultiple($qtiManifestParser, array(
+            $qtiManifestParser->validateMultiple(array(
                 $basePath.'model/qti/data/imscp_v1p1.xsd',
                 $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
             ));
@@ -320,6 +300,9 @@ class ImportService extends tao_models_classes_GenerisService
                     
                 } catch (ParsingException $e) {
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage()));
+                } catch (QtiModelException $e) {
+                    $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, $e->getMessage()));
+                    common_Logger::e($e->getMessage());
                 } catch (Exception $e) {
                     // an error occured during a specific item
                     $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __("An unknown error occured while importing the IMS QTI Package.")));
