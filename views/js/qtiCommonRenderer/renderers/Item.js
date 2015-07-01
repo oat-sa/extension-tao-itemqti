@@ -1,19 +1,56 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ */
+
+/**
+ * Define the Item Element Renderer
+ */
 define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/item',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/itemStylesheetHandler'
 ], function(tpl, containerHelper, itemStylesheetHandler) {
+    'use strict';
+
     return {
         qtiClass: 'assessmentItem',
         template: tpl,
         getContainer: containerHelper.get,
-        render: function(item) {
-            
+
+        /**
+         * Rendering initializations for the item
+         * @param {Object} item - the item model
+         */
+        render: function render(item) {
+
             //target blank for all <a>
             containerHelper.targetBlank(containerHelper.get(item));
-            
+
             //add stylesheets
             itemStylesheetHandler.attach(item.stylesheets);
+        },
+
+        /**
+         * Unrender
+         */
+        destroy : function destroy(){
+
+            //clear the container cache
+            containerHelper.clear();
         }
     };
 });

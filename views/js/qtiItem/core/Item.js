@@ -1,3 +1,28 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ *
+ */
+
+/**
+ * QTI Item Element model
+ *
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/IdentifiedElement',
@@ -6,6 +31,7 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/helper/util'
 ], function(Element, IdentifiedElement, Container, _, $, util){
+    'use strict';
 
     var Item = IdentifiedElement.extend({
         qtiClass : 'assessmentItem',
@@ -136,32 +162,33 @@ define([
             return this;
         },
         toArray : function(){
+            var i;
             var arr = this._super();
             arr.outcomes = {};
-            for(var i in this.outcomes){
+            for(i in this.outcomes){
                 arr.outcomes[i] = this.outcomes[i].toArray();
             }
             arr.responses = {};
-            for(var i in this.responses){
+            for(i in this.responses){
                 arr.responses[i] = this.responses[i].toArray();
             }
             arr.stylesheets = {};
-            for(var i in this.stylesheets){
+            for(i in this.stylesheets){
                 arr.stylesheets[i] = this.stylesheets[i].toArray();
             }
             arr.namespaces = this.namespaces;
             return arr;
         },
         isEmpty : function(){
-        
+
             var body = this.body().trim();
-            
+
             if(body){
-                
+
                 //hack to fix #2652
                 var $dummy = $('<div>').html(body),
                     $children = $dummy.children();
-                
+
                 if($children.length === 1 && $children.hasClass('empty')){
                     return true;
                 }else{
@@ -170,7 +197,20 @@ define([
             }else{
                 return true;
             }
-        }
+        },
+
+        /**
+         * Clean up an item rendering.
+         * Ask the renderer to run destroy if exists.
+         */
+        clear : function(){
+            var renderer = this.getRenderer();
+            if(renderer){
+                if(_.isFunction(renderer.destroy)){
+                    renderer.destroy(this);
+                }
+            }
+        },
     });
 
     Container.augment(Item);
