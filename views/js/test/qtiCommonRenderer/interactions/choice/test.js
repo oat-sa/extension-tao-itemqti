@@ -5,11 +5,19 @@ define([
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
     'json!taoQtiItem/test/samples/json/space-shuttle-m.json'
 ], function($, _, qtiItemRunner, choiceData, multipleChoiceData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Choice Interaction');
+    module('Choice Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(17);
@@ -19,7 +27,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
 
                 //check DOM
@@ -57,7 +65,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
@@ -88,7 +96,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
@@ -132,7 +140,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', multipleChoiceData)
+        runner = qtiItemRunner('qti', multipleChoiceData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-choiceInteraction').length, 1, 'the container contains a choice interaction .qti-choiceInteraction');
                 assert.equal($container.find('.qti-choiceInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
@@ -172,7 +180,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $container).prop('checked'), 'Atlantis is not checked');
@@ -195,7 +203,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
                 var self = this;
 
@@ -228,7 +236,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', choiceData)
+        runner = qtiItemRunner('qti', choiceData)
             .on('render', function(){
                 var self = this;
 
@@ -271,7 +279,7 @@ define([
         var shuffled = _.cloneDeep(choiceData);
         shuffled.body.elements.interaction_choiceinteraction_546cb89e04090230494786.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 
