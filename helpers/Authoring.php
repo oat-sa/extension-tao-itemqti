@@ -46,7 +46,7 @@ class Authoring
      * 
      * QTI XML string will be sanitized (if possible invalid elements will be removed).
      * 
-     * @param string $qti
+     * @param string $qti File path or XML string
      * @return string
      * @throws QtiModelException
      */
@@ -94,7 +94,7 @@ class Authoring
         foreach($relativeSourceFiles as $relPath){
             if(tao_helpers_File::securityCheck($relPath, true)){
                 
-                $relPath = preg_replace('/^\.\//', '', $relPath);
+               $relPath = preg_replace('/^\.\//', '', $relPath);
                 $source = $sourceDirectory.$relPath;
                 
                 $destination = tao_helpers_File::concat(array(
@@ -118,7 +118,7 @@ class Authoring
     
     /**
      * Remove invalid elements and attributes from QTI XML. 
-     * @param string $qti
+     * @param string $qti File path or XML string
      * @return string sanitized XML
      */
     public static function sanitizeQtiXml($qti)
@@ -137,12 +137,21 @@ class Authoring
     /**
      * Load QTI xml and return DOMDocument instance. 
      * If string is not valid xml then QtiModelException will be thrown.
-     * @param string $qti
+     * @param string $file File path or XML string
      * @throws QtiModelException
+     * @throws common_exception_Error
      * @return DOMDocument
      */
-    public static function loadQtiXml($qti) 
+    public static function loadQtiXml($file) 
     {
+        if (preg_match("/^<\?xml(.*)?/m", trim($file))) {
+            $qti = $file;
+        } elseif (is_file($file)){
+            $qti = file_get_contents($file);
+        } else {
+            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got ".substr($file, 0, 500));
+        }
+        
         $errors = array();
         
         $dom = new DOMDocument('1.0', 'UTF-8');

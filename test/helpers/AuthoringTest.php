@@ -78,7 +78,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     {
         //check if wrong files are not validated correctly
         foreach (glob($this->getSamplePath('/wrong/*.*')) as $file) {
-            Authoring::validateQtiXml(file_get_contents($file));
+            Authoring::validateQtiXml($file);
         }
     }
 
@@ -90,7 +90,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         );
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml(file_get_contents($file));
+            $xml = Authoring::validateQtiXml($file);
             $this->assertTrue($dom->loadXML($xml));
         }
     }
@@ -101,7 +101,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml(file_get_contents($file));
+            $xml = Authoring::validateQtiXml($file);
             $this->assertTrue($dom->loadXML($xml));
         }
     }
@@ -112,7 +112,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml(file_get_contents($file));
+            $xml = Authoring::validateQtiXml($file);
             $this->assertTrue($dom->loadXML($xml));
         }
     }
