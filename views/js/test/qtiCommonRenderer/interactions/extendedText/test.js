@@ -10,6 +10,7 @@ define([
 ], function($, _, qtiItemRunner, itemDataPlain, itemDataXhtml, keystroker, containerHelper, ckEditor){
     'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container-';
 
     var showErrors = true;
@@ -22,7 +23,13 @@ define([
 
 /** PLAIN **/
 
-    QUnit.module('Extended Text Interaction - plain format');
+    QUnit.module('Extended Text Interaction - plain format', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
 
     QUnit.asyncTest('renders correctly', function(assert){
@@ -33,7 +40,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataPlain)
+        runner = qtiItemRunner('qti', itemDataPlain)
             .on('error', logError)
             .on('render', function(){
 
@@ -71,7 +78,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataPlain)
+        runner = qtiItemRunner('qti', itemDataPlain)
             .on('error', logError)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
@@ -101,7 +108,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataPlain)
+        runner = qtiItemRunner('qti', itemDataPlain)
             .on('error', logError)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
@@ -128,7 +135,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataPlain)
+        runner = qtiItemRunner('qti', itemDataPlain)
             .on('error', logError)
             .on('render', function(){
                 var self = this;
@@ -165,7 +172,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataPlain)
+        runner = qtiItemRunner('qti', itemDataPlain)
             .on('error', logError)
             .on('render', function(){
                 var self = this;
@@ -197,8 +204,13 @@ define([
 
 /** XHTML **/
 
-    QUnit.module('Extended Text Interaction - XHTML format');
-
+    QUnit.module('Extended Text Interaction - XHTML format', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correctly', function(assert){
         QUnit.expect(10);
@@ -208,7 +220,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataXhtml)
+        runner = qtiItemRunner('qti', itemDataXhtml)
             .on('error', logError)
             .on('render', function(){
                 _.delay(function() {
@@ -244,7 +256,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataXhtml)
+        runner = qtiItemRunner('qti', itemDataXhtml)
             .on('error', logError)
             .on('render', function(){
                 var self = this;
@@ -282,7 +294,7 @@ define([
 
         var cpt = 0;
 
-        var runner = qtiItemRunner('qti', itemDataXhtml)
+        runner = qtiItemRunner('qti', itemDataXhtml)
             .on('error', logError)
             .on('render', function(){
                 var self = this;
@@ -329,7 +341,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataXhtml)
+        runner = qtiItemRunner('qti', itemDataXhtml)
             .on('error', logError)
             .on('render', function(){
                 var self = this;
@@ -366,7 +378,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', itemDataXhtml)
+        runner = qtiItemRunner('qti', itemDataXhtml)
             .on('error', logError)
             .on('render', function(){
                 var self = this;

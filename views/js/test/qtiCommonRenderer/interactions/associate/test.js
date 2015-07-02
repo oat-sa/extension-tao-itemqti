@@ -4,11 +4,20 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/rivals.json',
 ], function($, _, qtiItemRunner, associateData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Associate Interaction');
+
+    module('Associate Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(21);
@@ -18,7 +27,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
 
                 //check DOM
@@ -60,7 +69,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', associateData)
+        runner = qtiItemRunner('qti', associateData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-associateInteraction').length, 1, 'the container contains an associate interaction .qti-associateInteraction');
 

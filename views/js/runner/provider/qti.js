@@ -65,7 +65,7 @@ define([
 
         render : function(elt, done){
             var self = this;
-            var pics;
+            var pics, picsList;
             var renderDone;
             var current = 0;
             var timeout = this.options.timeout || 20000;
@@ -105,6 +105,8 @@ define([
 
                 //the collection of PICs
                 pics = picManager.collection(self._item);
+                picsList = pics.getList();
+
 
                 //call once the rendering is done
                 renderDone = function renderDone(){
@@ -117,11 +119,12 @@ define([
                     self.trigger('listpic', pics);
                 };
 
-                if(pics.getList().length){
+                if(picsList.length){
+
                     //wait until all PICs are loaded/ready
                     async.until(
                         function arePicReady(){
-                            return _.every(pics.getList(), function(pic){
+                            return _.every(picsList, function(pic){
                                 return pic.getTypeIdentifier() === 'studentToolbar' || pic.getPic().data('_ready');
                             });
                         },
@@ -141,8 +144,7 @@ define([
                     );
                     return;
                 }
-
-                renderDone();
+                _.defer(renderDone);
             }
         },
 
@@ -152,6 +154,7 @@ define([
         clear : function(elt, done){
             if(this._item){
 
+                this._item.clear();
                _.invoke(this._item.getInteractions(), 'clear');
 
                 $(elt).off('responseChange')

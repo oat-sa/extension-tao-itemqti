@@ -4,11 +4,19 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/history.json'
 ], function($, _, qtiItemRunner, orderData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Order Interaction');
+    module('Order Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(18);
@@ -18,7 +26,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
 
                 //check DOM
@@ -56,7 +64,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-orderInteraction').length, 1, 'the container contains a choice interaction .qti-orderInteraction');
                 assert.equal($container.find('.qti-orderInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
@@ -89,7 +97,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-orderInteraction').length, 1, 'the container contains a choice interaction .qti-orderInteraction');
                 assert.equal($container.find('.qti-orderInteraction .qti-choice').length, 5, 'the interaction has 5 choices');
@@ -140,7 +148,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-orderInteraction .choice-area .qti-choice').length, 5, 'the choice list contains all choices');
@@ -167,7 +175,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
                 var self = this;
 
@@ -199,7 +207,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
                 var self = this;
 
@@ -244,7 +252,7 @@ define([
         var shuffled = _.cloneDeep(orderData);
         shuffled.body.elements.interaction_orderinteraction_547481ffc8c1b803673841.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 
@@ -283,7 +291,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', orderData)
+        runner = qtiItemRunner('qti', orderData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-orderInteraction').length, 1, 'the container contains a choice interaction .qti-orderInteraction');

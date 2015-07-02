@@ -99,6 +99,14 @@ define([
         },
 
         /**
+         * Clear the containers cache
+         */
+        clear : function clear(){
+            _containers = {};
+            _$containerContext = $();
+        },
+
+        /**
          * Trigger an event on the element's container
          * @param {String} eventType - the name of the event
          * @param {QtiElement} element - find the container of this element
@@ -143,7 +151,6 @@ define([
             });
         }
     };
-
 
     return containerHelper;
 });

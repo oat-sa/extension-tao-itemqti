@@ -8,6 +8,7 @@ define([
 ], function($, _, itemRunner, qtiRuntimeProvider, itemData, itemDataPic){
     'use strict';
 
+    var runner;
     var containerId = 'item-container';
 
 
@@ -85,7 +86,9 @@ define([
     QUnit.module('Provider render', {
         teardown : function(){
             //reset the provides
+            runner.clear();
             itemRunner.providers = undefined;
+
         }
     });
 
@@ -99,7 +102,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
 
                 assert.equal(container.children.length, 1, 'the container has children');
@@ -117,7 +120,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('init', function(){
                 this._item.renderer = null;
                 this.render(container);
@@ -173,6 +176,7 @@ define([
     QUnit.module('Provider state', {
         teardown : function(){
             //reset the provides
+            runner.clear();
             itemRunner.providers = undefined;
         }
     });
@@ -186,7 +190,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
                 var state  = this.getState();
 
@@ -209,7 +213,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('error', function(e){
                 console.error(e);
             })
@@ -258,7 +262,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
@@ -282,7 +286,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
 
                 assert.ok( ! $('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is not checked');
@@ -318,7 +322,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('statechange', function(state){
 
                 assert.ok($('[data-identifier="Atlantis"] input', $(container)).prop('checked'), 'The choice is checked');
@@ -348,6 +352,7 @@ define([
     QUnit.module('Provider responses', {
         teardown : function(){
             //reset the provides
+            runner.clear();
             itemRunner.providers = undefined;
         }
     });
@@ -361,7 +366,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
                 var responses  = this.getResponses();
 
@@ -384,7 +389,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemData)
+        runner = itemRunner('qti', itemData)
             .on('render', function(){
                 var responses  = this.getResponses();
 
@@ -411,6 +416,7 @@ define([
     QUnit.module('Provider PIC', {
         teardown : function(){
             //reset the provides
+            runner.clear();
             itemRunner.providers = undefined;
         }
     });
@@ -424,7 +430,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemDataPic)
+        runner = itemRunner('qti', itemDataPic)
             .on('listpic', function(picManager){
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getList === 'function', 'the pic manager has a getList method');
@@ -454,7 +460,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemDataPic)
+        runner = itemRunner('qti', itemDataPic)
             .on('listpic', function(picManager){
                 assert.ok(typeof picManager === 'object', 'the pic manager is an object');
                 assert.ok(typeof picManager.getPic === 'function', 'the pic manager has a getPic method');
@@ -496,7 +502,7 @@ define([
 
         itemRunner.register('qti', qtiRuntimeProvider);
 
-        itemRunner('qti', itemDataPic)
+        runner = itemRunner('qti', itemDataPic)
             .on('render', function(){
                 var state = this.getState();
                 assert.ok(typeof state === 'object', 'The state is an object');
