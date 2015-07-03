@@ -75,7 +75,7 @@ define([
 
         var noRulesItemData = _.cloneDeep(singleCorrectData);
         noRulesItemData.responseProcessing.responseRules = [];
-        console.log(noRulesItemData);
+
         scorer.register('qti', qtiScoringProvider);
 
         scorer('qti')
