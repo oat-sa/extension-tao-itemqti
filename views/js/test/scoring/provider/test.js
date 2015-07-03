@@ -88,7 +88,7 @@ define([
                 assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
                 assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
                 assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-                assert.deepEqual(outcomes.SCORE, { base : { integer : '0' } }, "the score has the default value");
+                assert.deepEqual(outcomes.SCORE, { base : { integer : 0 } }, "the score has the default value");
 
                 QUnit.start();
             })
@@ -266,7 +266,7 @@ define([
         item    : customChoiceMultipleData,
         resp    : { RESPONSE_13390220 : { list : { identifier: ['choice_853818748'] } } },
         outcomes : {
-            SCORE : { base : { 'float' : '0.0' } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     }, {
@@ -290,7 +290,7 @@ define([
         item    : customTextEntryNumericData,
         resp    : { RESPONSE_1 : { base : { float: 5.8756 } } },
         outcomes : {
-            SCORE : { base : { 'float' : '0.0' } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     },{
@@ -322,7 +322,7 @@ define([
         item    : customChoiceSingleData,
         resp    : { RESPONSE : { list : { directedPair: [ 'Match29886762 Match30518135', 'Match2607634 Match5256823', 'Match4430647 Match8604807', 'Match1403839 Match5570831'] } } },
         outcomes : {
-            SCORE : { base : { 'float' : "0.0" } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     },{
