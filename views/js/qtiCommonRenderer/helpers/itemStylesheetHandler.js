@@ -15,6 +15,10 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * TODO this code should be merged with the theme loader
+ */
 define([
     'jquery',
     'lodash'
@@ -74,9 +78,25 @@ define([
     };
 
     /**
+     * Remove QTI Stylesheets from the document
+     *
+     * @param {Array} stylesheets - the QTI model stylesheets
+     */
+    var detach = function detach(stylesheets) {
+        _(stylesheets).forEach(function(stylesheet){
+            if(stylesheet.serial){
+                $('link[data-serial="' + stylesheet.serial + '"]').remove();
+            }
+        });
+
+    };
+
+
+    /**
      * @exports taoQtiItem/qtiCommonRenderer/helpers/itemStylesheetHandler
      */
     return {
-        attach: attach
+        attach: attach,
+        detach : detach
     };
 });

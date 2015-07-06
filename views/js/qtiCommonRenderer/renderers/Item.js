@@ -46,11 +46,17 @@ define([
 
         /**
          * Unrender
+         * @param {Object} item - the item model
          */
-        destroy : function destroy(){
+        destroy : function destroy(item){
 
             //clear the container cache
             containerHelper.clear();
+
+            //detach stylesheets
+            if(item.stylesheets){
+                itemStylesheetHandler.detach(item.stylesheets);
+            }
         }
     };
 });
