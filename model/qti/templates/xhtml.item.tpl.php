@@ -23,18 +23,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=get_data('title')?></title>
-
-        <style>
-            body {margin:0; padding:0;}
-            #qti-preview-view-options{padding:10px;border:1px solid #ddd;background:rgba(238,238,238,0.8);color:#333;}
-            #qti-preview-view-options ul{margin:0;}
-            #qti-preview-view {font-weight: bold;}
-            #qti-preview-view:hover{opacity:0.5;cursor:pointer;}
-            .qti-view-option{text-decoration: underline;color:blue;cursor:pointer;}
-            .qti-view-option:hover{opacity:0.5;}
-            .qti-view-selected{text-decoration: none;color:black;}
-        </style>
-
+        <style> body { margin:0; } </style>
         <script id="initQtiRunner" type="text/javascript">
             (function(){
                 window.tao = window.tao || {};
