@@ -25,6 +25,7 @@
         <title><?=get_data('title')?></title>
 
         <style>
+            body {margin:0; padding:0;}
             #qti-preview-view-options{padding:10px;border:1px solid #ddd;background:rgba(238,238,238,0.8);color:#333;}
             #qti-preview-view-options ul{margin:0;}
             #qti-preview-view {font-weight: bold;}
