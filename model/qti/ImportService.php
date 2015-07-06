@@ -136,7 +136,7 @@ class ImportService extends tao_models_classes_GenerisService
     
     protected function createQtiItemModel($qtiFile, $validate = true)
     {
-        $qtiXml = Authoring::validateQtiXml($qtiFile);
+        $qtiXml = Authoring::sanitizeQtiXml($qtiFile);
         //validate the file to import
         $qtiParser = new Parser($qtiXml);
         
