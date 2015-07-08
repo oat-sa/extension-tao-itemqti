@@ -98,7 +98,7 @@ define([
 
         //if maxChoice = 1, use the radio group behaviour
         //if maxChoice = 0, infinite choice possible
-        if(max > 1 && max < choiceCount){
+        if(max >= 1 && max < choiceCount){
 
             var highlightInvalidInput = function($choice){
                 var $input = $choice.find('.real-label > input'),
