@@ -140,7 +140,7 @@ define([
                     }
                 });
             }else if(max > min){
-                msg = max === 1 ? __('You can select maximum of 1 choice') : __('You can select a maximum of %s choices', max);
+                msg = max === 1 ? __('You can select maximum of 1 choice') : __('You can select maximum of %s choices', max);
                 instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
