@@ -290,12 +290,20 @@ define([
     };
 
     QtiRunner.prototype.showModalFeedback = function(modalFeedback, callback){
+        var $modalFeedback,
+            $modalFeedbackBox = $('#modalFeedbacks');
 
         if(modalFeedback instanceof ModalFeedback){
             //load (potential) new qti classes used in the modal feedback (e.g. math, img)
             this.renderer.load(function(){
-                //render the modal feedback
-                $('#modalFeedbacks').append(modalFeedback.render());
+                $modalFeedback = $modalFeedbackBox.find('#' + modalFeedback.getSerial());
+                if (!$modalFeedback.length) {
+                    //render the modal feedback
+                    $modalFeedback = modalFeedback.render();
+                    $modalFeedbackBox.append($modalFeedback);
+                } else {
+                    $modalFeedback.modal();
+                }
                 modalFeedback.postRender({
                     callback : callback
                 });

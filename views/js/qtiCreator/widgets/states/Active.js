@@ -11,8 +11,12 @@ define([
             item = this.widget.element.getRelatedItem();
 
         //move to sleep state by clicking anywhere outside the interaction 
-        $('#item-editor-panel').on('mousedown.active', function(e){
-            if(container !== e.target && !$.contains(container, e.target)){
+        $('#item-editor-panel').on('mousedown.active.' + _widget.serial, function(e){
+            if (
+                container !== e.target 
+                && !$.contains(container, e.target) 
+                && !$.contains($('#modalFeedbacks')[0], e.target) //if click triggered inside the #modalFeedback then state must not be changed.
+            ){
                 _widget.changeState('sleep');
             }
         }).on('beforesave.qti-creator.active', function(){
@@ -33,7 +37,7 @@ define([
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');
         
         this.widget.$container.off('.active');
-        $('#item-editor-panel').off('.active');
+        $('#item-editor-panel').off('.active.'+ this.widget.serial);
         
         var item = this.widget.element.getRelatedItem();
         if(item && item.data('widget')){

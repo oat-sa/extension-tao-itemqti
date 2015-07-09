@@ -25,6 +25,17 @@ define([
             value : 5
         }
     }, {
+        title : 'null identifier',
+        expression : {
+            attributes : { baseType : 'indentifier' },
+            value : null
+        },
+        expectedResult : {
+            cardinality : 'single',
+            baseType : 'indentifier',
+            value : null
+        }
+    }, {
         title : 'float',
         expression : {
             attributes : { baseType : 'float' },

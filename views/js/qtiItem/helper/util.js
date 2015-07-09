@@ -1,8 +1,30 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+
 /**
  * Common basic util functions
  */
 define(['lodash'], function(_){
+    'use strict';
+
     var util = {
+
         buildSerial : function buildSerial(prefix){
             var id = prefix || '';
             var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -11,6 +33,92 @@ define(['lodash'], function(_){
             }
             return id;
         },
+
+        /**
+         * Generates an id for a Qti element (the generation is different from identifier)
+         * @param {Object} item - the element related item
+         * @param {String} prefix - identifier prefix
+         * @returns {String} the identifier
+         * @throws {TypeError} if there is no item
+         */
+        buildId : function buildId(item, prefix){
+            var id;
+            var usedIds;
+            var i = 1;
+            var suffix = '';
+            var exists = false;
+
+            if(!item){
+                throw new TypeError('A item is required to generate a unique identifier');
+            }
+
+            usedIds   = item.getUsedIds();
+
+            do{
+                exists = false;
+                id = prefix + suffix;
+                if(_.contains(usedIds, id)){
+                    exists = true;
+                    suffix = '_' + i;
+                    i++;
+                }
+            } while(exists);
+
+            return id;
+        },
+
+        /**
+         * Generates an identifier for a Qti element
+         * @param {Object} item - the element related item
+         * @param {String} prefix - identifier prefix
+         * @param {Boolean} [useSuffix = true] - add a "_ + index" to the identifier
+         * @returns {String} the identifier
+         * @throws {TypeError} if there is no item
+         */
+        buildIdentifier : function buildIdentifier(item, prefix, useSuffix){
+
+            var id;
+            var usedIds;
+            var suffix = '';
+            var i = 1;
+            var exists = false;
+
+            if(!item){
+                throw new TypeError('A item is required to generate a unique identifier');
+            }
+
+            usedIds   = item.getUsedIdentifiers();
+            useSuffix = _.isUndefined(useSuffix) ? true : useSuffix;
+
+            if(prefix){
+                prefix = prefix.replace(/_[0-9]+$/ig, '_') //detect incremental id of type choice_12, response_3, etc.
+                               .replace(/[^a-zA-Z0-9_]/ig, '_')
+                               .replace(/(_)+/ig, '_');
+                if(useSuffix){
+                    suffix = '_' + i;
+                }
+            } else {
+                prefix = this.qtiClass;
+                suffix = '_' + i;
+            }
+
+            do{
+                exists = false;
+                id = prefix + suffix;
+                if(usedIds[id]){
+                    exists = true;
+                    suffix = '_' + i;
+                    i++;
+                }
+            } while(exists);
+
+            return id;
+        },
+
+
+        /**
+         * @deprecated in favor or asset manager
+         */
         fullpath : function fullpath(src, baseUrl){
 
             src = src || '';
@@ -19,7 +127,7 @@ define(['lodash'], function(_){
             if(src){
 
                 src = src.replace(/^\//, '');
-                
+
                 var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
                         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
                         '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
@@ -39,6 +147,7 @@ define(['lodash'], function(_){
 
             return src;
         },
+
         findInCollection : function findInCollection(element, collectionNames, searchedSerial){
 
             var found = null;

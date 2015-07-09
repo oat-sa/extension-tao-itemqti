@@ -6,10 +6,17 @@ define([
 ], function($, _, qtiItemRunner, mediaData){
     'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Media Interaction');
+    module('Media Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correctly', function(assert){
         QUnit.expect(12);
@@ -19,7 +26,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', mediaData)
+        runner = qtiItemRunner('qti', mediaData)
             .on('render', function(){
 
                 //check DOM
@@ -53,7 +60,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', mediaData)
+        runner = qtiItemRunner('qti', mediaData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-mediaInteraction').length, 1, 'the container contains a choice interaction .qti-mediaInteraction');
                 assert.equal($container.find('.qti-mediaInteraction video').length, 1, 'the interaction has element');

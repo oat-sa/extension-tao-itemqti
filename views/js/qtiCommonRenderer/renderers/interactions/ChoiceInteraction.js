@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -43,7 +43,6 @@ define([
     var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
-
         $container.on('click.commonRenderer', '.qti-choice', function(e){
 
             e.preventDefault();
@@ -92,29 +91,35 @@ define([
 
         var min = interaction.attr('minChoices'),
             max = interaction.attr('maxChoices'),
+            msg,
             choiceCount = _.size(interaction.getChoices()),
             minInstructionSet = false;
 
-        //if maxChoice = 1, use the radio gorup behaviour
-        //if maxChoice = 0, inifinite choice possible
+        //if maxChoice = 1, use the radio group behaviour
+        //if maxChoice = 0, infinite choice possible
         if(max > 1 && max < choiceCount){
 
             var highlightInvalidInput = function($choice){
                 var $input = $choice.find('.real-label > input'),
                     $li = $choice.css('color', '#BA122B'),
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
+                var timeout = interaction.data('__instructionTimeout');
 
-                setTimeout(function(){
+                if(timeout){
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(function(){
                     $input.prop('checked', false);
                     $li.removeAttr('style');
                     $icon.removeAttr('style').removeClass('cross');
                     containerHelper.triggerResponseChangeEvent(interaction);
                 }, 150);
+                interaction.data('__instructionTimeout', timeout);
             };
 
             if(max === min){
                 minInstructionSet = true;
-                var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
+                msg = __('You must select exactly %s choices', max);
                 instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
@@ -139,7 +144,8 @@ define([
                     }
                 });
             }else if(max > min){
-                instructionMgr.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
+                msg = max === 1 ? __('You can select maximum of 1 choice') : __('You can select maximum of %s choices', max);
+                instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
                         if(this.checkState('fulfilled')){
@@ -165,7 +171,8 @@ define([
         }
 
         if(!minInstructionSet && min > 0 && min < choiceCount){
-            instructionMgr.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
+            msg = min === 1 ? __('You must select at least 1 choice') : __('You must select at least %s choices', min);
+            instructionMgr.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
@@ -264,6 +271,12 @@ define([
      */
     var destroy = function destroy(interaction){
         var $container = containerHelper.get(interaction);
+
+        var timeout = interaction.data('__instructionTimeout');
+
+        if(timeout){
+            clearTimeout(timeout);
+        }
 
         //remove event
         $container.off('.commonRenderer');

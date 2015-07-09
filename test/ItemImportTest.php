@@ -65,11 +65,10 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     /**
      * @return string
      */
-    protected function getSampleDir()
+    protected function getSamplePath($relPath)
     {
-        return dirname(__FILE__) . '/samples';
+        return __DIR__.DIRECTORY_SEPARATOR.'samples'.str_replace('/',DIRECTORY_SEPARATOR, $relPath);
     }
-
 
     /**
      * @expectedException oat\taoQtiItem\model\qti\exception\ParsingException
@@ -78,7 +77,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongPackage()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/InvalidArchive.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/InvalidArchive.zip'),
             $itemClass);
         
     }
@@ -89,7 +88,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongClass()
     {
         $itemClass = new \core_kernel_classes_Class(TAO_ITEM_MODEL_PROPERTY);
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/package.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/package.zip'),
             $itemClass);
 
     }
@@ -101,7 +100,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemXml.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
@@ -114,7 +113,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedItemInTheMiddleXml.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemInTheMiddleXml.zip'),
             $itemClass, true, null, false, true);
         $this->assertEquals(\common_report_Report::TYPE_WARNING, $report->getType());
 
@@ -128,7 +127,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         $itemClass = $this->itemService->getRootClass();
 
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/MalformedManifest.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedManifest.zip'),
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
 
@@ -142,16 +141,38 @@ class ItemImportTest extends TaoPhpUnitTestRunner
 
         $itemClass = $this->itemService->getRootClass();
 
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/wrong/WrongManifestFileItemHref.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/WrongManifestFileItemHref.zip'),
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
     }
 
 
+    public function testImportQti20()
+    {
+        $itemClass = $this->itemService->getRootClass();
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/QTI/qti20.zip'),
+            $itemClass);
+        $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
+        
+        $items = array();
+        foreach ($report as $itemReport) {
+            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
+            $data = $itemReport->getData();
+            if (!is_null($data)) {
+                $items[] = $data;
+            }
+        }
+        $this->assertEquals(2, count($items));
+        
+        foreach ($items as $item) {
+            $this->itemService->deleteItem($item);    
+        }
+    }
+
     public function testImport()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSampleDir() . '/package/QTI/package.zip',
+        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/QTI/package.zip'),
             $itemClass);
 
         $items = array();
