@@ -61,10 +61,10 @@ define([
                 $controls.each(function(){
                     var cls = this.className.match(/sts-handle-rotate-[a-z]{1,2}/);
                     if(cls.length){
-                        selectors.push('.' + cls[0])
+                        selectors.push('.' + cls[0]);
                     }
                 });
-                return selectors.join(',')
+                return selectors.join(',');
             }());
 
         // this needs to be a single DOM element
@@ -116,28 +116,33 @@ define([
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
 
-        $content.on('mousedown', function() {
-            this.style.cursor = 'move';
-        }).on('mouseup', function() {
-            this.style.cursor = 'default';
-        });
+        if (config.is.movable) {
 
-        // init moving
-        interact(tool)
-            .draggable({ max: Infinity })
-            .on('dragstart', function (event) {
-                var $el = $(event.target);
-                event.interaction.x = parseInt($el.css('left'), 10) || 0;
-                event.interaction.y = parseInt($el.css('top'), 10) || 0;
-            })
-            .on('dragmove', function (event) {
-                event.interaction.x += event.dx;
-                event.interaction.y += event.dy;
-                event.target.style.left = event.interaction.x + 'px';
-                event.target.style.top  = event.interaction.y + 'px';
+            $content.on('mousedown', function () {
+                this.style.cursor = 'move';
+            }).on('mouseup', function () {
+                this.style.cursor = 'default';
             });
 
-        rotator.init(tool, handleSelector);
+            // init moving
+            interact(tool)
+                .draggable({max: Infinity})
+                .on('dragstart', function (event) {
+                    var $el = $(event.target);
+                    event.interaction.x = parseInt($el.css('left'), 10) || 0;
+                    event.interaction.y = parseInt($el.css('top'), 10) || 0;
+                })
+                .on('dragmove', function (event) {
+                    event.interaction.x += event.dx;
+                    event.interaction.y += event.dy;
+                    event.target.style.left = event.interaction.x + 'px';
+                    event.target.style.top = event.interaction.y + 'px';
+                });
+        }
+
+        if (_.any(config.is.rotatable)) {
+            rotator.init(tool, handleSelector);
+        }
     }
 
 
