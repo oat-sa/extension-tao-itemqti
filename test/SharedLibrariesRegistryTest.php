@@ -28,11 +28,6 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         return dirname(__FILE__) . '/samples/sharedLibraries/';
     }
     
-    protected function getConfigId()
-    {
-        return SharedLibrariesRegistry::CONFIG_ID;
-    }
-    
     protected function setRegistry(SharedLibrariesRegistry $registry)
     {
         $this->registry = $registry;
@@ -43,25 +38,11 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         return $this->registry;
     }
     
-    protected function setInitialMapping(array $initialMapping)
-    {
-        $this->initialMapping = $initialMapping;
-    }
-    
-    protected function getInitialMapping()
-    {
-        return $this->initialMapping;
-    }
-    
     public function setUp()
     {
         parent::setUp();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $initialMapping = $ext->getConfig($this->getConfigId());
         
         // Save installation original mapping for restitution in tearDown.
-        $this->setInitialMapping((is_array($initialMapping)) ? $initialMapping : array());
-        $ext->setConfig($this->getConfigId(), array());
         @mkdir($this->getBasePath());
         $this->setRegistry(new SharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
     }
@@ -69,8 +50,6 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     public function tearDown()
     {
         parent::tearDown();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $ext->setConfig($this->getConfigId(), array($this->getInitialMapping()));
         helpers_File::remove($this->getBasePath());
     }
     

@@ -22,7 +22,6 @@ namespace oat\taoQtiItem\model;
 use \common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
-use oat\oatbox\AbstractRegistry;
 use oat\tao\model\ClientLibRegistry;
 
 
@@ -40,34 +39,13 @@ use oat\tao\model\ClientLibRegistry;
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see http://www.imsglobal.org/assessment/PCI_Change_Request_v1pd.html The Pacific Metrics PCI Change Proposal introducing the notion of Shared Libraries.
  */
-class SharedLibrariesRegistry extends AbstractRegistry
+class SharedLibrariesRegistry
 {
-    
-    const CONFIG_ID = 'local_shared_libraries';
     
     private $basePath;
     
     private $baseUrl;
-   
-    /**
-     * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return string
-     */
-    protected function getConfigId()
-    {
-        return self::CONFIG_ID;
-    }
-    
-    /**
-     * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    protected function getExtension()
-    {  
-        return common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-    }
-    
+
     /**
      * Create a new SharedLibrariesRegistry object.
      * 
@@ -170,8 +148,6 @@ class SharedLibrariesRegistry extends AbstractRegistry
         
         // Take care with windows...
         $mappingPath = str_replace("\\", '/', $mappingPath);
-                
-        $map = self::set($id, "${baseUrl}/${mappingPath}");
         
         $mappingDirname = pathinfo($mappingPath, PATHINFO_DIRNAME);
         ClientLibRegistry::getRegistry()->register($id, "${baseUrl}/${mappingDirname}/${fileName}");
@@ -202,7 +178,7 @@ class SharedLibrariesRegistry extends AbstractRegistry
             
             if (($name = $libElt->getAttribute('name')) !== '') {
                 // Is the library already registered?
-                if ($this->isRegistered($name) === false) {
+                if (ClientLibRegistry::getRegistry()->isRegistered($name) === false) {
                     // So we consider to find the library at item's $basePath . $name
                     $expectedLibLocation = "${basePath}/". str_replace(array('tpl!', 'css!'), '', $name);
                     
