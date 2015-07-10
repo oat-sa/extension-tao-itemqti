@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use \SimpleXMLElement;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * Parse and Extract all assets of an item.
