@@ -23,7 +23,6 @@ use \common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMXPath;
 use oat\tao\model\ClientLibRegistry;
-use oat\oatbox\AbstractRegistry;
 
 /**
  * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
