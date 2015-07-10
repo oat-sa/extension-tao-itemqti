@@ -20,7 +20,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     
     protected function getBaseUrl()
     {
-        return 'http://mysuperlibrarycdn';
+        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
     }
     
     protected function getSamplesDir()
@@ -99,9 +99,9 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     public function registerFromFileProvider()
     {
         return array(
-            array('OAT/Jacky/Julietta', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . '/OAT/Jacky/julietta.js'),
-            array('OAT/Jacky/Julietta/julietta.js', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . '/OAT/Jacky/Julietta/julietta.js'),
-            array('css!OAT/Jacky/Julietta/julietta.css', $this->getSamplesDir() . 'julietta.css', $this->getBaseUrl() . '/OAT/Jacky/Julietta/julietta.css'),
+            array('OAT/Jacky/Julietta', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . 'OAT/Jacky/julietta.js'),
+            array('OAT/Jacky/Julietta/julietta.js', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . 'OAT/Jacky/Julietta/julietta.js'),
+            array('css!OAT/Jacky/Julietta/julietta.css', $this->getSamplesDir() . 'julietta.css', $this->getBaseUrl() . 'OAT/Jacky/Julietta/julietta.css'),
         );
     }
     
@@ -140,9 +140,9 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
             array(
                 "${dir}/registry_with_unofficial/item.xml",
                 array(
-                    'OAT/shapes/collisions.js' => $this->getBaseUrl() . '/OAT/shapes/collisions.js',
-                    'tpl!OAT/shapes/shapes.tpl' => $this->getBaseUrl() . '/OAT/shapes/shapes.tpl',
-                    'css!OAT/shapes/shapes.css' => $this->getBaseUrl() . '/OAT/shapes/shapes.css'
+                    'OAT/shapes/collisions.js' => $this->getBaseUrl() . 'OAT/shapes/collisions.js',
+                    'tpl!OAT/shapes/shapes.tpl' => $this->getBaseUrl() . 'OAT/shapes/shapes.tpl',
+                    'css!OAT/shapes/shapes.css' => $this->getBaseUrl() . 'OAT/shapes/shapes.css'
                 )
             )
         );
@@ -183,7 +183,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     // --- Test Utility Methods.
     static private function registerOfficialLibraries(SharedLibrariesRegistry $registry) 
     {
-        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/local/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
-        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/local/portableSharedLibraries/OAT/lodash.js');
+        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
+        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/OAT/lodash.js');
     }
 }
