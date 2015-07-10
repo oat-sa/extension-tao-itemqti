@@ -39,11 +39,11 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         return $this->registry;
     }
 
-    
+
     public function setUp()
     {
         parent::setUp();
-        
+
         // Save installation original mapping for restitution in tearDown.
         @mkdir($this->getBasePath());
         $this->setRegistry(new SharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
