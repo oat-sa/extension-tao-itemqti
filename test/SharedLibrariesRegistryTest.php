@@ -1,6 +1,7 @@
 <?php
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\tao\model\ClientLibRegistry;
 use \helpers_File;
 use \common_ext_ExtensionsManager;
 
@@ -28,50 +29,40 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         return dirname(__FILE__) . '/samples/sharedLibraries/';
     }
     
-    protected function getConfigId()
-    {
-        return SharedLibrariesRegistry::CONFIG_ID;
-    }
-    
     protected function setRegistry(SharedLibrariesRegistry $registry)
     {
         $this->registry = $registry;
     }
-    
+
     protected function getRegistry()
     {
         return $this->registry;
     }
-    
-    protected function setInitialMapping(array $initialMapping)
-    {
-        $this->initialMapping = $initialMapping;
-    }
-    
-    protected function getInitialMapping()
-    {
-        return $this->initialMapping;
-    }
+
     
     public function setUp()
     {
         parent::setUp();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $initialMapping = $ext->getConfig($this->getConfigId());
         
         // Save installation original mapping for restitution in tearDown.
-        $this->setInitialMapping((is_array($initialMapping)) ? $initialMapping : array());
-        $ext->setConfig($this->getConfigId(), array());
         @mkdir($this->getBasePath());
         $this->setRegistry(new SharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
+
+        $this->initialMapping = $this->getRegistry()->getMap();
     }
     
     public function tearDown()
     {
         parent::tearDown();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $ext->setConfig($this->getConfigId(), array($this->getInitialMapping()));
         helpers_File::remove($this->getBasePath());
+
+        //unregister all
+        $registry = $this->getRegistry();
+        $ids = array_keys( array_diff($registry->getMap(), $this->initialMapping));
+
+        foreach ($ids as $id) {
+            $registry->remove($id);
+        }
     }
     
     /**
@@ -120,7 +111,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         
         // Save it for latter diff...
         $officialMapping = $registry->getMap();
-        
+
         // Register the item libraries!
         $registry->registerFromItem($itemPath);
 
@@ -185,5 +176,23 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     {
         $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
         $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/OAT/lodash.js');
+    }
+
+    /**
+     * @dataProvider registerFromFileProvider
+     * @depends testRegisterFromFile
+     */
+    public function testRemove($id, $path)
+    {
+        $registry = $this->getRegistry();
+
+        $registry->registerFromFile($id, $path);
+        $registry->remove($id);
+
+        $mapSharedLib = $registry->getMap();
+        $mapClientLibRegistry = ClientLibRegistry::getRegistry()->getMap();
+
+        $this->assertArrayNotHasKey($id, $mapSharedLib);
+        $this->assertArrayNotHasKey($id, $mapClientLibRegistry);
     }
 }

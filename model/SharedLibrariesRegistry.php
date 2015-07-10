@@ -233,4 +233,16 @@ class SharedLibrariesRegistry extends AbstractRegistry
             return false;
         }
     }
+
+    /**
+     * Overrides parent for additional remove from ClientLibRegistry
+     *
+     * @param string $id
+     */
+    public function remove($id)
+    {
+        parent::remove($id);
+
+        ClientLibRegistry::getRegistry()->remove($id);
+    }
 }
