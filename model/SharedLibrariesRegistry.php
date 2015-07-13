@@ -24,7 +24,6 @@ use DOMDocument;
 use DOMXPath;
 use oat\tao\model\ClientLibRegistry;
 
-
 /**
  * The SharedLibrariesRegistry is a registration tool for PCI/PIC shared libraries.
  * 
@@ -186,27 +185,6 @@ class SharedLibrariesRegistry
                     $this->registerFromFile($name, $expectedLibLocation);
                 }
             }
-        }
-    }
-    
-    /**
-     * Get the path on the file system where is stored the shared library
-     * with name $id.
-     * 
-     * @param string $id A shared library name.
-     * @return string|boolean The path on the file system or false, if no library with name $id is registered.
-     */
-    public function getPathFromId($id)
-    {
-        $mapping = self::getMap();
-        
-        if (isset($mapping[$id]) === true) {
-            $url = $mapping[$id];
-            
-            // replace baseUrl with basePath.
-            return str_replace($this->getBaseUrl(), $this->getBasePath(), $url);
-        } else {
-            return false;
         }
     }
 }
