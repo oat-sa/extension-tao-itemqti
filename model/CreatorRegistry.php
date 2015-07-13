@@ -24,6 +24,7 @@ use \core_kernel_classes_Resource;
 use \common_exception_Error;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * CreatorRegistry stores reference to 
@@ -37,10 +38,6 @@ abstract class CreatorRegistry
      * constructor
      */
     public function __construct(){
-
-        $this->baseDevDir = $this->getBaseDevDir();
-        $this->baseDevUrl = $this->getBaseDevUrl();
-        $this->sharedLibRegistry = Service::singleton()->getSharedLibrariesRegistry();
     }
 
     /**
@@ -81,7 +78,7 @@ abstract class CreatorRegistry
 
         $hookFileName = $this->getHookFileName();
 
-        foreach(glob($this->baseDevDir.'*/'.$hookFileName.'.js') as $file){
+        foreach(glob($this->getBaseDevDir().'*/'.$hookFileName.'.js') as $file){
 
             $dir = str_replace($hookFileName.'.js', '', $file);
             $manifestFile = $dir.$hookFileName.'.json';
@@ -89,7 +86,7 @@ abstract class CreatorRegistry
             if(file_exists($manifestFile)){
 
                 $typeIdentifier = basename($dir);
-                $baseUrl = $this->baseDevUrl.$typeIdentifier.'/';
+                $baseUrl = $this->getBaseDevUrl().$typeIdentifier.'/';
                 $manifest = json_decode(file_get_contents($manifestFile), true);
                 
                 $returnValue[] = array(
@@ -135,7 +132,7 @@ abstract class CreatorRegistry
      * @throws \common_Exception
      */
     public function getDevImplementationDirectory($typeIdentifier){
-        $dir = $this->baseDevDir.$typeIdentifier;
+        $dir = $this->getBaseDevDir().$typeIdentifier;
         if(file_exists($dir)){
             return $dir;
         }else{
@@ -177,7 +174,7 @@ abstract class CreatorRegistry
 
         //include libraries remotely only, so this block is temporarily disabled
         foreach($manifest['libraries'] as $lib){
-            if(!$this->sharedLibRegistry->isRegistered($lib)){
+            if(!ClientLibRegistry::getRegistry()->isRegistered($lib)){
                 $lib = preg_replace('/^.\//', '', $lib);
                 $lib .= '.js'; //add js extension
                 $required[] = $lib;
