@@ -62,13 +62,12 @@ define([
         viewBox[3] = imgHeight;
         $svg[0].setAttribute('viewBox', viewBox.join(' '));
 
-      //  debugger
         $svg[0].setAttribute('width', imgWidth);
         $svg[0].setAttribute('height', imgHeight);
 
         $svg.parents('.main-image-box').css({ height: imgHeight, width: imgWidth });
 
-        //widget.$original.trigger('resize.qti-widget.' + widget.serial, [imgWidth]);
+        widget.$original.trigger('resize.qti-widget.' + widget.serial, [imgWidth, imgHeight]);
     }
 
 
@@ -121,7 +120,7 @@ define([
             widget.element.object.attr('width', width);
             widget.element.object.attr('height', height);
 
-            widget.$original.trigger('resize.qti-widget.' + widget.serial, [width]);
+            widget.$original.trigger('resize.qti-widget.' + widget.serial, [width, height]);
         });
         return $mediaSizer;
     }
