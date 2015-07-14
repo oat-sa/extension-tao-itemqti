@@ -28,10 +28,11 @@
 define([
     'jquery',
     'lodash',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, ItemLoader, pci, ModalFeedback){
+], function($, _, Promise, ItemLoader, pci, ModalFeedback){
     'use strict';
 
     var QtiRunner = function(){
@@ -147,13 +148,21 @@ define([
 
                     _this.item.setRenderer(_this.renderer);
                     _this.item.render({}, $('#qti_item'));
-                    _this.item.postRender();
-                    _this.initInteractionsResponse();
-                    _this.listenForThemeChange();
+                    Promise
+                        .all(_this.item.postRender())
+                        .then(function(){
 
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                            _this.initInteractionsResponse();
+                            _this.listenForThemeChange();
+
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
+                        })
+                        .catch(function(err){
+                            console.error(err);
+                            throw new Error('Error in post rendering : ' + err);
+                        });
 
                 }, _this.getLoader().getLoadedClasses());
 

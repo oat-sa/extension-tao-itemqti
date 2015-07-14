@@ -21,12 +21,13 @@
  * Portable Info Control Common Renderer
  */
 define([
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/infoControl',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiInfoControlContext',
     'taoQtiItem/qtiItem/helper/util',
-], function(tpl, containerHelper, PortableElement, qtiInfoControlContext, util){
+], function(Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util){
     'use strict';
 
     /**
@@ -76,43 +77,46 @@ define([
      * @param {Object} [options.runtimeLocations] - to set manually the runtime path of PIC
      */
     var render = function(infoControl, options){
-
+        var self = this;
         options = options || {};
 
-        var runtimeLocation;
-        var state              = {}; //@todo pass state and response to renderer here:
-        var localRequireConfig = { paths : {} };
-        var id                 = infoControl.attr('id');
-        var typeIdentifier     = infoControl.typeIdentifier;
-        var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
-        var config             = infoControl.properties;
-        var $dom               = containerHelper.get(infoControl).children();
-        var entryPoint         = infoControl.entryPoint.replace(/\.js$/, '');   //ensure the entry point is in AMD
+        return new Promise(function(resolve, reject){
 
-        //update config
-        if(runtimeLocations && runtimeLocations[typeIdentifier]){
-            runtimeLocation = runtimeLocations[typeIdentifier];
-        } else{
-            //use the asset strategy named "portableElementLocation"
-            runtimeLocation = this.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-        }
-        if(runtimeLocation){
-            localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-            require.config(localRequireConfig);
-        }
+            var runtimeLocation;
+            var state              = {}; //@todo pass state and response to renderer here:
+            var localRequireConfig = { paths : {} };
+            var id                 = infoControl.attr('id');
+            var typeIdentifier     = infoControl.typeIdentifier;
+            var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : self.getOption('runtimeLocations');
+            var config             = infoControl.properties;
+            var $dom               = containerHelper.get(infoControl).children();
+            var entryPoint         = infoControl.entryPoint.replace(/\.js$/, '');   //ensure the entry point is in AMD
 
-        //load the entry point
-        require([entryPoint], function(){
-
-            var pic = _getPic(infoControl);
-            if(pic && $dom.length){
-                //call pci initialize() to render the pci
-                pic.initialize(id, $dom[0], config);
-                //restore context (state + response)
-                pic.setSerializedState(state);
-
-                infoControl.triggerReady();
+            //update config
+            if(runtimeLocations && runtimeLocations[typeIdentifier]){
+                runtimeLocation = runtimeLocations[typeIdentifier];
+            } else{
+                //use the asset strategy named "portableElementLocation"
+                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
             }
+            if(runtimeLocation){
+                localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+                require.config(localRequireConfig);
+            }
+
+            //load the entry point
+            require([entryPoint], function(){
+
+                var pic = _getPic(infoControl);
+                if(pic && $dom.length){
+                    //call pci initialize() to render the pci
+                    pic.initialize(id, $dom[0], config);
+                    //restore context (state + response)
+                    pic.setSerializedState(state);
+                    return resolve();
+                }
+                return reject('Unable to initiliaze infoControl : ' + id);
+            }, reject);
         });
     };
 
@@ -124,9 +128,7 @@ define([
      * @param {Object} infoControl
      */
     var destroy = function destroy(infoControl){
-        infoControl.onReady(function(){
-            _getPic(infoControl).destroy();
-        });
+        _getPic(infoControl).destroy();
     };
 
     /**
@@ -136,9 +138,7 @@ define([
      * @param {Object} state - the state to set
      */
     var setState = function setState(infoControl, state){
-        infoControl.onReady(function(){
-            _getPic(infoControl).setSerializedState(state);
-        });
+        _getPic(infoControl).setSerializedState(state);
     };
 
     /**
@@ -149,10 +149,7 @@ define([
      * @returns {Object} the state
      */
     var getState = function getState(infoControl){
-         if(infoControl.data('_ready')){
-            return _getPic(infoControl).getSerializedState();
-        }
-        return {};
+        return _getPic(infoControl).getSerializedState();
     };
 
     return {

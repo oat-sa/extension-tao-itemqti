@@ -24,15 +24,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'raphael',
-    'scale.raphael',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicOrderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
-
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -42,34 +41,41 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
-        var $container = containerHelper.get(interaction);
-        var $orderList = $('ul', $container);
-        var background = interaction.object.attributes;
-        var baseUrl = this.getOption('baseUrl') || '';
+        var self = this;
 
-        //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width,
-            height      : background.height,
-            img         : this.resolveUrl(background.data),
-            imgId       : 'bg-image-' + interaction.serial,
-            container   : $container
-        });
+        return new Promise(function(resolve, reject){
+            var $container = containerHelper.get(interaction);
+            var $orderList = $('ul', $container);
+            var background = interaction.object.attributes;
 
-        //create the list of number to order
-        _renderOrderList(interaction, $orderList);
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
 
-        //call render choice for each interaction's choices
-        _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction, $orderList));
+            //create the paper
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width       : background.width,
+                height      : background.height,
+                img         : self.resolveUrl(background.data),
+                imgId       : 'bg-image-' + interaction.serial,
+                container   : $container
+            });
 
-        //set up the constraints instructions
-        instructionMgr.minMaxChoiceInstructions(interaction, {
-            min: interaction.attr('minChoices'),
-            max: interaction.attr('maxChoices'),
-            getResponse : _getRawResponse,
-            onError : function(data){
-                graphic.highlightError(data.target);
-            }
+            //create the list of number to order
+            _renderOrderList(interaction, $orderList);
+
+            //call render choice for each interaction's choices
+            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction, $orderList));
+
+            //set up the constraints instructions
+            instructionMgr.minMaxChoiceInstructions(interaction, {
+                min: interaction.attr('minChoices'),
+                max: interaction.attr('maxChoices'),
+                getResponse : _getRawResponse,
+                onError : function(data){
+                    graphic.highlightError(data.target);
+                }
+            });
         });
     };
 

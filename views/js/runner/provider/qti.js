@@ -23,13 +23,13 @@
 define([
     'jquery',
     'lodash',
-    'async',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, async, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -65,86 +65,54 @@ define([
 
         render : function(elt, done){
             var self = this;
-            var pics, picsList;
-            var renderDone;
             var current = 0;
-            var timeout = this.options.timeout || 20000;
 
             if(this._item){
+
                 try {
+                    //render item html
                     elt.innerHTML = this._item.render({});
                 } catch(e){
-                    console.error(e);
-                    self.trigger('error', 'Error in template rendering : ' +  e);
+                    self.trigger('error', 'Error in template rendering : ' +  e.message);
                 }
                 try {
-                    this._item.postRender();
-                } catch(e){
-                    console.error(e);
-                    self.trigger('error', 'Error in post rendering : ' +  e);
-                }
-
-                $(elt)
-                    .off('responseChange')
-                    .on('responseChange', function(){
-                        self.trigger('statechange', self.getState());
-                        self.trigger('responsechange', self.getResponses());
-                    })
-                    .off('endattempt')
-                    .on('endattempt', function(e, responseIdentifier){
-                        self.trigger('endattempt', responseIdentifier || e.originalEvent.detail);
-                    })
-                    .off('themechange')
-                    .on('themechange', function(e, themeName){
-                        var themeLoader = self._renderer.getThemeLoader();
-                        themeName = themeName || e.originalEvent.detail;
-                        if(themeLoader){
-                            themeLoader.change(themeName);
-                        }
-                    });
-
-                //the collection of PICs
-                pics = picManager.collection(self._item);
-                picsList = pics.getList();
-
-
-                //call once the rendering is done
-                renderDone = function renderDone(){
-                    done();
-
-                    /**
-                     * Lists the PIC provided by this item.
-                     * @event qti#listpic
-                     */
-                    self.trigger('listpic', pics);
-                };
-
-                if(picsList.length){
-
-                    //wait until all PICs are loaded/ready
-                    async.until(
-                        function arePicReady(){
-                            return _.every(picsList, function(pic){
-                                return pic.getTypeIdentifier() === 'studentToolbar' || pic.getPic().data('_ready');
+                    //run post render scripts
+                    Promise
+                     .all(this._item.postRender())
+                     .then(function(){
+                        $(elt)
+                            .off('responseChange')
+                            .on('responseChange', function(){
+                                self.trigger('statechange', self.getState());
+                                self.trigger('responsechange', self.getResponses());
+                            })
+                            .off('endattempt')
+                            .on('endattempt', function(e, responseIdentifier){
+                                self.trigger('endattempt', responseIdentifier || e.originalEvent.detail);
+                            })
+                            .off('themechange')
+                            .on('themechange', function(e, themeName){
+                                var themeLoader = self._renderer.getThemeLoader();
+                                themeName = themeName || e.originalEvent.detail;
+                                if(themeLoader){
+                                    themeLoader.change(themeName);
+                                }
                             });
-                        },
-                        function iterate(cb){
-                            current += 100;
-                            if(current > timeout){
-                                return cb(new Error('Timeout : Unable to load portable elements'));
-                            }
-                            _.delay(cb, 100);
-                        },
-                        function end(err){
-                            if(err){
-                                return self.trigger('error', err);
-                            }
-                            renderDone();
-                        }
-                    );
-                    return;
+
+                        /**
+                         * Lists the PIC provided by this item.
+                         * @event qti#listpic
+                         */
+                        self.trigger('listpic', picManager.collection(self._item));
+
+                        done();
+
+                    }).catch(function(err){
+                        self.trigger('error', 'Error in post rendering : ' +  err.message);
+                    });
+                } catch(err){
+                    self.trigger('error', 'Error in post rendering : ' + err.message);
                 }
-                _.defer(renderDone);
             }
         },
 

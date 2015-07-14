@@ -24,14 +24,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'raphael',
-    'scale.raphael',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -41,37 +41,44 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
+        var self = this;
 
-        var $container = containerHelper.get(interaction);
-        var background = interaction.object.attributes;
-        var baseUrl = this.getOption('baseUrl') || '';
-        var $imageBox  = $('.main-image-box', $container);
-        interaction._vsets = [];
+        return new Promise(function(resolve, reject){
 
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width,
-            height      : background.height,
-            img         : this.resolveUrl(background.data),
-            imgId       : 'bg-image-' + interaction.serial,
-            container   : $container
-        });
+            var $container = containerHelper.get(interaction);
+            var background = interaction.object.attributes;
+            var $imageBox  = $('.main-image-box', $container);
+            interaction._vsets = [];
 
-        //call render choice for each interaction's choices
-        _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
 
-        //make the paper clear the selection by clicking it
-        _paperUnSelect(interaction);
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width       : background.width,
+                height      : background.height,
+                img         : self.resolveUrl(background.data),
+                imgId       : 'bg-image-' + interaction.serial,
+                container   : $container
+            });
 
-        //set up the constraints instructions
-        instructionMgr.minMaxChoiceInstructions(interaction, {
-            min: interaction.attr('minAssociations'),
-            max: interaction.attr('maxAssociations'),
-            getResponse : _getRawResponse,
-            onError : function(data){
-                if(data && data.target){
-                    graphic.highlightError(data.target);
+            //call render choice for each interaction's choices
+            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+
+            //make the paper clear the selection by clicking it
+            _paperUnSelect(interaction);
+
+            //set up the constraints instructions
+            instructionMgr.minMaxChoiceInstructions(interaction, {
+                min: interaction.attr('minAssociations'),
+                max: interaction.attr('maxAssociations'),
+                getResponse : _getRawResponse,
+                onError : function(data){
+                    if(data && data.target){
+                        graphic.highlightError(data.target);
+                    }
                 }
-            }
+            });
         });
     };
 

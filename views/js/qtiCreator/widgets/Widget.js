@@ -22,6 +22,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
 ], function(_, $, Element, invalidator){
+    'use strict';
 
     var _pushState = function(widget, stateName){
         var currentState = new widget.registeredStates[stateName](widget);
@@ -133,10 +134,9 @@ define([
                 currentState = this.getCurrentState();
 
             if(this.registeredStates[stateName]){
-                state = new this.registeredStates[stateName];
+                state = new this.registeredStates[stateName]();
             }else{
                 throw new Error('unknown target state : ' + stateName);
-                return null;
             }
 
             if(currentState){

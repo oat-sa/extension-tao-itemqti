@@ -1,9 +1,10 @@
 define([
-    'taoQtiItem/qtiItem/core/Element', 
-    'lodash', 
+    'taoQtiItem/qtiItem/core/Element',
+    'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util'
 ], function(Element, _, rendererConfig, util){
+    'use strict';
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){
@@ -90,7 +91,7 @@ define([
             if(!renderer){
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
-            
+
             var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
             var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
             var _this = this;
@@ -104,23 +105,24 @@ define([
                     }
                 }
             });
-            
+
             var tplName = args.subclass ? this.qtiClass + '.' + args.subclass : this.qtiClass;
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, tplName, renderer);
         },
         postRender : function(data, altClassName, renderer){
-
+            var self = this;
             renderer = renderer || this.getRenderer();
 
-            var choices = this.getChoices();
-            for(var i in choices){
-                var c = choices[i];
-                if(Element.isA(c, 'choice')){
-                    c.postRender({}, c.qtiClass + '.' + this.qtiClass, renderer);
-                }
-            }
-            return this._super(data, altClassName, renderer);
+            return _(this.getChoices())
+                .filter(function(elt){
+                    return Element.isA(elt, 'choice');
+                })
+                .map(function(choice){
+                    return choice.postRender({}, choice.qtiClass + '.' + self.qtiClass, renderer);
+                })
+                .value()
+                .concat(this._super(data, altClassName, renderer));
         },
         setResponse : function(values){
             var ret = null;
@@ -154,11 +156,11 @@ define([
         },
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * The state is provided by the interaction's renderer.
-         * 
+         *
          * @returns {Object} the interaction's state
-         * @throws {Error} if no renderer is found 
+         * @throws {Error} if no renderer is found
          */
         getState : function(){
             var ret = null;
@@ -174,11 +176,11 @@ define([
         },
 
         /**
-         * Retrieve the state of the interaction. 
+         * Retrieve the state of the interaction.
          * The state will be given to the interaction's renderer.
-         * 
+         *
          * @param {Object} state - the interaction's state
-         * @throws {Error} if no renderer is found 
+         * @throws {Error} if no renderer is found
          */
         setState : function(state){
             var renderer = this.getRenderer();
@@ -194,8 +196,8 @@ define([
         /**
          * Clean up an interaction rendering.
          * Ask the renderer to run destroy if exists.
-         * 
-         * @throws {Error} if no renderer is found 
+         *
+         * @throws {Error} if no renderer is found
          */
         clear : function(){
             var renderer = this.getRenderer();
