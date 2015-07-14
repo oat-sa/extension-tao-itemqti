@@ -29,8 +29,8 @@ use oat\taoQtiItem\model\qti\StyleSheet;
 use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use \SimpleXMLElement;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * Parse and Extract all assets of an item.
@@ -228,14 +228,13 @@ class AssetParser
 
         $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-        $sharedLibrairiesRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
             $entryPoint = $element->getEntryPoint();
             $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
             $this->addAsset('js', $fileName);
             foreach($element->getLibraries() as $lib){
-                if ($this->getGetSharedLibraries() || !$sharedLibrairiesRegistry->isRegistered($lib)) {
+                if ($this->getGetSharedLibraries() || !ClientLibRegistry::getRegistry()->isRegistered($lib)) {
                     $fileName = substr($lib, -3) != '.js' ? $lib.'.js' : $lib;
                     $this->addAsset('js', $fileName);
                 }

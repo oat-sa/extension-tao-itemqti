@@ -154,8 +154,8 @@ define([
         clear : function(elt, done){
             if(this._item){
 
+                _.invoke(this._item.getInteractions(), 'clear');
                 this._item.clear();
-               _.invoke(this._item.getInteractions(), 'clear');
 
                 $(elt).off('responseChange')
                       .off('endattempt')

@@ -185,7 +185,7 @@ define([
             max = parseInt(interaction.attr('maxChoices'));
 
         if(min){
-            instructionMgr.appendInstruction(interaction, __('You must use at least ' + min + ' choices'), function(){
+            instructionMgr.appendInstruction(interaction, __('You must use at least %d choices', min), function(){
                 if($resultArea.find('>li').length >= min){
                     this.setLevel('success');
                 }else{
@@ -195,7 +195,7 @@ define([
         }
 
         if(max && max < _.size(interaction.getChoices())){
-            var instructionMax = instructionMgr.appendInstruction(interaction, __('You can use maximum ' + max + ' choices'), function(){
+            var instructionMax = instructionMgr.appendInstruction(interaction, __('You can use maximum %d choices', max), function(){
                 if($resultArea.find('>li').length >= max){
                     $choiceArea.find('>li').addClass('deactivated');
                     this.setMessage(__('Maximum choices reached'));
