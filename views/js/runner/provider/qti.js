@@ -82,7 +82,7 @@ define([
                     // Race between postRendering and timeout
                     // postRendering waits for everything to be resolved or one reject
                     Promise.race([
-                        Promise.all(this.item.postRender()),
+                        Promise.all(this._item.postRender()),
                         new Promise(function(resolve, reject){
                             _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
                         })
