@@ -23,14 +23,17 @@
 define([
     'jquery',
     'lodash',
+    'context',
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
+
+    var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
 
     /**
      * @exports taoQtiItem/runner/provider/qti
@@ -76,10 +79,15 @@ define([
                     self.trigger('error', 'Error in template rendering : ' +  e.message);
                 }
                 try {
-                    //run post render scripts
-                    Promise
-                     .all(this._item.postRender())
-                     .then(function(){
+                    // Race between postRendering and timeout
+                    // postRendering waits for everything to be resolved or one reject
+                    Promise.race([
+                        Promise.all(this.item.postRender()),
+                        new Promise(function(resolve, reject){
+                            _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
+                        })
+                    ])
+                    .then(function(){
                         $(elt)
                             .off('responseChange')
                             .on('responseChange', function(){

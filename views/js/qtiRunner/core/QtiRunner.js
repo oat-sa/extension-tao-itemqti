@@ -28,12 +28,15 @@
 define([
     'jquery',
     'lodash',
+    'context',
     'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, Promise, ItemLoader, pci, ModalFeedback){
+], function($, _, context, Promise, ItemLoader, pci, ModalFeedback){
     'use strict';
+
+    var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
 
     var QtiRunner = function(){
         this.item = null;
@@ -135,9 +138,12 @@ define([
         }
     };
 
-    QtiRunner.prototype.renderItem = function(data, callback){
+    QtiRunner.prototype.renderItem = function(data, done){
 
         var _this = this;
+
+        done = _.isFunction(done) ? done : _.noop;
+
         var render = function(){
             if(!_this.item){
                 throw 'cannot render item: empty item';
@@ -148,21 +154,29 @@ define([
 
                     _this.item.setRenderer(_this.renderer);
                     _this.item.render({}, $('#qti_item'));
-                    Promise
-                        .all(_this.item.postRender())
-                        .then(function(){
 
-                            _this.initInteractionsResponse();
-                            _this.listenForThemeChange();
-
-                            if (typeof callback === 'function') {
-                                callback();
-                            }
+                    // Race between postRendering and timeout
+                    // postRendering waits for everything to be resolved or one reject
+                    Promise.race([
+                        Promise.all(_this.item.postRender()),
+                        new Promise(function(resolve, reject){
+                            _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
                         })
-                        .catch(function(err){
-                            console.error(err);
-                            throw new Error('Error in post rendering : ' + err);
-                        });
+                    ])
+                    .then(function(){
+
+                        _this.initInteractionsResponse();
+                        _this.listenForThemeChange();
+                        done();
+
+                    })
+                    .catch(function(err){
+
+                        //in case of postRendering issue, we are also done
+                        done();
+
+                        throw new Error('Error in post rendering : ' + err);
+                    });
 
                 }, _this.getLoader().getLoadedClasses());
 
