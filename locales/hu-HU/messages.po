@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T16:28:40\n"
+"Project-Id-Version: TAO v3.1.0-sprint02\n"
+"PO-Revision-Date: 2015-07-08T18:49:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu-HU\n"
@@ -16,6 +16,9 @@ msgstr ""
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr ""
 
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr ""
 
@@ -23,9 +26,6 @@ msgid "A choice must be selected"
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
-
-msgid "Actual size"
 msgstr ""
 
 msgid "Adapt to item size"
@@ -103,6 +103,9 @@ msgstr ""
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr ""
 
+msgid "An unexpected error occured during the import of the QTI Item. The system returned the following error:"
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
@@ -136,10 +139,10 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -175,9 +178,6 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr ""
 
@@ -209,6 +209,9 @@ msgid "correct"
 msgstr ""
 
 msgid "Correct"
+msgstr ""
+
+msgid "Could not create language specific directory for item \'%s\"
 msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
@@ -275,9 +278,6 @@ msgid "Delete this modal feedback"
 msgstr ""
 
 msgid "Description"
-msgstr ""
-
-msgid "Desktop preview"
 msgstr ""
 
 msgid "Disable this stylesheet temporarily"
@@ -370,6 +370,9 @@ msgstr ""
 msgid "Extended Text Interaction"
 msgstr ""
 
+msgid "Failed to publish %1$s in %2$s"
+msgstr ""
+
 msgid "Failed to save item"
 msgstr ""
 
@@ -454,10 +457,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -479,6 +482,9 @@ msgid "Import an APIP 1.0 Package"
 msgstr ""
 
 msgid "Import QTI 2.X Item"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr ""
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
@@ -514,6 +520,12 @@ msgstr ""
 msgid "Is this pair the correct response?"
 msgstr ""
 
+msgid "Item \"%s\" is not available in any language"
+msgstr ""
+
+msgid "Item \'%s\' has no model"
+msgstr ""
+
 msgid "Item Properties"
 msgstr ""
 
@@ -533,10 +545,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -563,11 +575,15 @@ msgstr ""
 msgid "Lower Bound"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Malformed XML:\n"
+"%s"
 msgstr ""
 
 msgid "Manage Items"
+msgstr ""
+
+#, tao-public
+msgid "Manage items"
 msgstr ""
 
 msgid "Mapping default"
@@ -642,9 +658,6 @@ msgstr ""
 msgid "Minimal  score for this interaction."
 msgstr ""
 
-msgid "Mobile preview"
-msgstr ""
-
 msgid "Modal feedback is shown to the candidate directly following response processing."
 msgstr ""
 
@@ -677,9 +690,6 @@ msgid "No file selected"
 msgstr ""
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr ""
-
-msgid "No preview available"
 msgstr ""
 
 msgid "No value set"
@@ -728,7 +738,7 @@ msgid "Plain text"
 msgstr ""
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-"You can also position the target to the exact point as the correct response."
+""
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -765,12 +775,6 @@ msgid "Please fill the gap with the texts below, then edit the score for each pa
 msgstr ""
 
 msgid "Please order the choices below to set the correct answer"
-msgstr ""
-
-msgid "Please select a background picture for your interaction from the resource manager.                      You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
-msgid "Please select a choice picture for your interaction from the resource manager.                   You can add new files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
@@ -824,7 +828,13 @@ msgstr ""
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
 msgstr ""
 
+msgid "Published %s"
+msgstr ""
+
 msgid "QTI Item"
+msgstr ""
+
+msgid "QTI Item Runner"
 msgstr ""
 
 msgid "QTI Package"
@@ -834,6 +844,9 @@ msgid "QTI Package 2.0"
 msgstr ""
 
 msgid "QTI Package 2.1"
+msgstr ""
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr ""
 
 msgid "Question"
@@ -854,10 +867,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1025,6 +1038,9 @@ msgstr ""
 msgid "Style Sheet Manager"
 msgstr ""
 
+msgid "Successfully compiled \"%s"
+msgstr ""
+
 msgid "SVG image"
 msgstr ""
 
@@ -1047,6 +1063,9 @@ msgid "Text Entry"
 msgstr ""
 
 msgid "Text Entry Interaction"
+msgstr ""
+
+msgid "The \"%s\" QTI component is not supported."
 msgstr ""
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
@@ -1088,12 +1107,16 @@ msgstr ""
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
 msgstr ""
 
-msgid "The IMS Manifest file could not be validated:\n"
-"%s\", implode($eStrs, \"\n"
-""
+msgid "The IMS QTI Item could not be imported."
 msgstr ""
 
-msgid "The IMS QTI Item could not be imported."
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
+msgstr ""
+
+msgid "The IMS QTI Item was successfully imported."
 msgstr ""
 
 msgid "The item needs to be saved before it can be previewed"
@@ -1162,6 +1185,9 @@ msgstr ""
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
 msgstr ""
 
+msgid "The Response Processing Template \"%s\" is not supported."
+msgstr ""
+
 msgid "The selected file is ready to be sent."
 msgstr ""
 
@@ -1181,6 +1207,10 @@ msgid "The top position of the shape relative to the top left corner of the back
 msgstr ""
 
 msgid "The upper bound of the slider"
+msgstr ""
+
+msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr ""
 
 msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
@@ -1219,10 +1249,13 @@ msgstr ""
 msgid "Trigger the end of the item attempt."
 msgstr ""
 
-msgid "Undo"
+msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
 msgid "undo"
+msgstr ""
+
+msgid "Undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
@@ -1264,19 +1297,25 @@ msgstr ""
 msgid "XHTML"
 msgstr ""
 
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "Yes"
 msgstr ""
 
-msgid "You can select maximum"
+msgid "You can select maximum %d choice"
 msgstr ""
 
-msgid "You can select maximum %d choice\",max):__(\"You can select maximum %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgid "You can select maximum %d choices"
 msgstr ""
 
-msgid "You can use maximum \"+max+\" choices"
+msgid "You can select maximum of %s choices"
 msgstr ""
 
-msgid "You can use maximum ' + max + ' choices"
+msgid "You can select maximum of 1 choice"
+msgstr ""
+
+msgid "You can use maximum %d choices"
 msgstr ""
 
 msgid "You have deleted"
@@ -1291,7 +1330,7 @@ msgstr ""
 msgid "You may make as many association pairs as you want."
 msgstr ""
 
-msgid "You must at least %d choice\",min):__(\"You must select at least %d choices\",max),self.appendInstruction(interaction,msg,function(){getResponse(interaction).length>=min?this.setLevel(\"success"
+msgid "You must at least %d choice"
 msgstr ""
 
 msgid "You must select %1$d to %2$d choices."
@@ -1300,22 +1339,31 @@ msgstr ""
 msgid "You must select 0 to %d choices."
 msgstr ""
 
-msgid "You must select at least"
+msgid "You must select at least %d choices"
 msgstr ""
 
-msgid "You must select exactly"
+msgid "You must select at least %s choices"
 msgstr ""
 
-msgid "You must select exactly %d choice\",max):__(\"You must select exactly %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgid "You must select at least 1 choice"
+msgstr ""
+
+msgid "You must select exactly %d choice"
 msgstr ""
 
 msgid "You must select exactly %d choice(s)."
 msgstr ""
 
-msgid "You must use at least \"+min+\" choices"
+msgid "You must select exactly %d choices"
 msgstr ""
 
-msgid "You must use at least ' + min + ' choices"
+msgid "You must select exactly %s choices"
+msgstr ""
+
+msgid "You must select exactly 1 choice"
+msgstr ""
+
+msgid "You must use at least %d choices"
 msgstr ""
 
 msgid "You need to make"

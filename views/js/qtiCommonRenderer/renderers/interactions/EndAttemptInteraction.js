@@ -13,9 +13,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 
+
+/**
+ * CommonRenderer for the EndAttempt interaction
+ *
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/endAttemptInteraction',
@@ -23,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'i18n'
 ], function(_, tpl, containerHelper, pciResponse, __){
-    "use strict";
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -31,14 +38,18 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10402
      *
      * @param {object} interaction
+     * @fires endattempt with the response identifier
      */
-    var render = function(interaction, options){
+    var render = function render(interaction, options){
 
         var $container = containerHelper.get(interaction);
 
         //on click,
         $container.on('click.commonRenderer', function(){
             $container.val(true);
+
+            containerHelper.triggerResponseChangeEvent(interaction);
+
             $container.trigger('endattempt', [interaction.attr('responseIdentifier')]);
         });
     };
@@ -55,7 +66,7 @@ define([
      * @param {object} interaction
      * @param {object} response
      */
-    var setResponse = function(interaction, response){
+    var setResponse = function setResponse(interaction, response){
 
         _setVal(interaction, pciResponse.unserialize(response, interaction)[0]);
     };
@@ -73,7 +84,7 @@ define([
      * @param {object} interaction
      * @returns {object}
      */
-    var getResponse = function(interaction){
+    var getResponse = function getResponse(interaction){
         var val = containerHelper.get(interaction).val();
         val = (val && val !== 'false' && val !== '0');
         return pciResponse.serialize([val], interaction);
@@ -84,7 +95,7 @@ define([
 
      * @param {type} interaction
      */
-    var resetResponse = function(interaction){
+    var resetResponse = function resetResponse(interaction){
         _setVal(interaction, false);
     };
 
@@ -106,13 +117,9 @@ define([
      *
      * @param {Object} interaction
      */
-    var destroy = function(interaction){
-
+    var destroy = function destroy(interaction){
         //remove event
         containerHelper.get(interaction).off('.commonRenderer');
-
-        //destroy response
-        resetResponse(interaction);
     };
 
     /**
@@ -122,7 +129,7 @@ define([
      * @param {Object} data
      * @returns {Object}
      */
-    var getCustomData = function(interaction, data){
+    var getCustomData = function getCustomData(interaction, data){
         if(!data.attributes.title){
             data.attributes.title = __('End Attempt');
         }

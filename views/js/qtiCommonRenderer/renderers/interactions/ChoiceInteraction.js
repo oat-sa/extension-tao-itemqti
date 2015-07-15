@@ -43,7 +43,6 @@ define([
     var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
-
         $container.on('click.commonRenderer', '.qti-choice', function(e){
 
             e.preventDefault();
@@ -98,24 +97,29 @@ define([
 
         //if maxChoice = 1, use the radio group behaviour
         //if maxChoice = 0, infinite choice possible
-        if(max >= 1 && max < choiceCount){
+        if(max > 1 && max < choiceCount){
 
             var highlightInvalidInput = function($choice){
                 var $input = $choice.find('.real-label > input'),
                     $li = $choice.css('color', '#BA122B'),
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
+                var timeout = interaction.data('__instructionTimeout');
 
-                setTimeout(function(){
+                if(timeout){
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(function(){
                     $input.prop('checked', false);
                     $li.removeAttr('style');
                     $icon.removeAttr('style').removeClass('cross');
                     containerHelper.triggerResponseChangeEvent(interaction);
                 }, 150);
+                interaction.data('__instructionTimeout', timeout);
             };
 
             if(max === min){
                 minInstructionSet = true;
-                msg = max === 1 ? __('You must select exactly 1 choice') : __('You must select exactly %s choices', max);
+                msg = __('You must select exactly %s choices', max);
                 instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
@@ -267,6 +271,12 @@ define([
      */
     var destroy = function destroy(interaction){
         var $container = containerHelper.get(interaction);
+
+        var timeout = interaction.data('__instructionTimeout');
+
+        if(timeout){
+            clearTimeout(timeout);
+        }
 
         //remove event
         $container.off('.commonRenderer');
