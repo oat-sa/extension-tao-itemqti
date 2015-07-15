@@ -48,7 +48,8 @@ class Resource
      */
     protected static $testTypes = array(
         'imsqti_apiptestroot_xmlv2p1',
-        'imsqti_test_xmlv2p1'
+        'imsqti_test_xmlv2p1',
+        'imsqti_assessment_xmlv2p1'
     );
     
     /**
@@ -139,6 +140,16 @@ class Resource
      */
     public static function isAssessmentTest($type){
         return (!empty($type) && in_array($type, self::$testTypes));
+    }
+
+    /**
+     * Get all valid test types
+     *
+     * @return array
+     */
+    public static function getTestTypes()
+    {
+        return self::$testTypes;
     }
 
     /**
