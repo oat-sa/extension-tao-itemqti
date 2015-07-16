@@ -365,7 +365,7 @@ define([
         var $container = containerHelper.get(interaction);
         var attributes = interaction.getAttributes();
         var responseDeclaration = interaction.getResponseDeclaration();
-        var baseType = responseDeclaration ? responseDeclaration.attr('baseType') : '';
+        var baseType = responseDeclaration.attr('baseType');
         var numericBase = attributes.base || 10;
         var multiple = !!(attributes.maxStrings && (responseDeclaration.attr('cardinality') === 'multiple' || responseDeclaration.attr('cardinality') === 'ordered'));
         var ret = multiple ? {list:{}} : {base:{}};
