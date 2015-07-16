@@ -134,7 +134,9 @@ define([
 
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
-
+        
+        console.log(config);
+        
         if (config.is.movable) {
 
             $content.on('mousedown', function () {
