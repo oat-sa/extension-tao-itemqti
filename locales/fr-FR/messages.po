@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T18:49:36\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-17T13:03:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -157,10 +157,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "chars"
@@ -205,10 +205,10 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Could not create language specific directory for item \'%s\"
@@ -244,10 +244,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -545,19 +545,19 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
 msgid "leave empty"
 msgstr "laisser vide"
 
-msgid "Left"
+msgid "left"
 msgstr ""
 
-msgid "left"
+msgid "Left"
 msgstr ""
 
 msgid "Length"
@@ -579,11 +579,11 @@ msgid "Malformed XML:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "Mapping default"
@@ -604,10 +604,10 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
 msgid "Max Words"
@@ -867,10 +867,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1358,9 +1358,6 @@ msgid "You must select exactly %d choices"
 msgstr ""
 
 msgid "You must select exactly %s choices"
-msgstr ""
-
-msgid "You must select exactly 1 choice"
 msgstr ""
 
 msgid "You must use at least %d choices"
