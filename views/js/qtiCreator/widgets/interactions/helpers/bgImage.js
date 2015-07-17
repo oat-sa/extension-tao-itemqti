@@ -41,32 +41,33 @@ define([
         var viewBox;
         var $bgImage = $svg.find('image');
         var trueSize = $bgImage[0].getBoundingClientRect();
+        var imgWidth = parseInt(trueSize.width, 10);
+        var imgHeight = parseInt(trueSize.height, 10);
 
-        if(trueSize.width >= Number(widget.element.object.attr('width'))) {
+        if(imgWidth >= Number(widget.element.object.attr('width'))) {
             return;
         }
 
         // update model
-        widget.element.object.attr('width', trueSize.width);
-        widget.element.object.attr('height', trueSize.height);
+        widget.element.object.attr('width', imgWidth);
+        widget.element.object.attr('height', imgHeight);
 
         // change image attributes
-        $bgImage[0].setAttribute('width', trueSize.width);
-        $bgImage[0].setAttribute('height', trueSize.height);
+        $bgImage[0].setAttribute('width', imgWidth);
+        $bgImage[0].setAttribute('height', imgHeight);
 
         // change svg view box
         viewBox = $svg[0].getAttribute('viewBox').split(' ');
-        viewBox[2] = trueSize.width;
-        viewBox[3] = trueSize.height;
+        viewBox[2] = imgWidth;
+        viewBox[3] = imgHeight;
         $svg[0].setAttribute('viewBox', viewBox.join(' '));
 
-      //  debugger
-        $svg[0].setAttribute('width', trueSize.width);
-        $svg[0].setAttribute('height', trueSize.height);
+        $svg[0].setAttribute('width', imgWidth);
+        $svg[0].setAttribute('height', imgHeight);
 
-        $svg.parents('.main-image-box').css({ height: trueSize.height, width: trueSize.width });
+        $svg.parents('.main-image-box').css({ height: imgHeight, width: imgWidth });
 
-        //widget.$original.trigger('resize.qti-widget.' + widget.serial, [trueSize.width]);
+        widget.$original.trigger('resize.qti-widget.' + widget.serial, [imgWidth, imgHeight]);
     }
 
 
@@ -109,15 +110,17 @@ define([
             responsive: false,
             parentSelector: widget.$original.attr('id'),
             applyToMedium: false,
-            maxWidth: widget.element.object.attr('width')
+            maxWidth: parseInt(widget.element.object.attr('width'), 10)
         });
 
         $mediaSizer.on('sizechange.mediasizer', function (e, params) {
+            var width = parseInt(params.width, 10);
+            var height = parseInt(params.height, 10);
 
-            widget.element.object.attr('width', params.width);
-            widget.element.object.attr('height', params.height);
+            widget.element.object.attr('width', width);
+            widget.element.object.attr('height', height);
 
-            widget.$original.trigger('resize.qti-widget.' + widget.serial, [params.width]);
+            widget.$original.trigger('resize.qti-widget.' + widget.serial, [width, height]);
         });
         return $mediaSizer;
     }
@@ -142,10 +145,10 @@ define([
             });
         };
         callbacks.width = function (interaction, value) {
-            interaction.object.attr('width', value);
+            interaction.object.attr('width', parseInt(value, 10));
         };
         callbacks.height = function (interaction, value) {
-            interaction.object.attr('height', value);
+            interaction.object.attr('height', parseInt(value, 10));
         };
         callbacks.type = function (interaction, value) {
             if (!value || value === '') {
