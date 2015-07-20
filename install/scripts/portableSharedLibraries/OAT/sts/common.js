@@ -62,7 +62,8 @@ define([
     }
 
     function init($container, config) {
-
+        config.is = config.is || {};
+        
         // just in case...
         if(!$container.length){
             return;
@@ -134,7 +135,7 @@ define([
 
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
-
+        
         if (config.is.movable) {
 
             $content.on('mousedown', function () {
