@@ -1,20 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-04-30 17:24+0000\n"
-"Last-Translator: Michael <michael.t@examguardian.com>\n"
-"Language: zh-CN\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:31:20\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: zh-CN\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: zh-CN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1430414648.000000\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "从一组选择中填写文本中的空缺。"
@@ -470,9 +467,7 @@ msgid "If given, the pattern mask specifies a regular expression that the candid
 msgstr "如有图样面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
-msgstr ""
-"如有样式面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。 考生需要明白输入格式的要求，尤其有些考试累进时会检查回应是否有效。 "
-"例如：这可以在提示中提供说明和回应样本。"
+msgstr "如有样式面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。 考生需要明白输入格式的要求，尤其有些考试累进时会检查回应是否有效。 例如：这可以在提示中提供说明和回应样本。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "如果字符串的互动被限制为数字回应，那基本属性必须被使用来设置基数，这也是用来解释由考生输入的值。"
@@ -493,8 +488,7 @@ msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be i
 msgstr ""
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
-"在可视化的环境中，字符串互动通常由空框表示。 考生把回应输入到空框里。 递送器应该使用这个属性的值(如果有的话) ，而不是使用它们的默认占位符文。"
+msgstr "在可视化的环境中，字符串互动通常由空框表示。 考生把回应输入到空框里。 递送器应该使用这个属性的值(如果有的话) ，而不是使用它们的默认占位符文。"
 
 msgid "incorrect"
 msgstr "不对"
@@ -1377,3 +1371,4 @@ msgstr "您的题目已储存"
 
 msgid "ZIP archive"
 msgstr "ZIP压缩档"
+
