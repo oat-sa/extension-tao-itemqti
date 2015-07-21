@@ -91,7 +91,7 @@ define([
 
                             //if it returns response rules, then we add them to the trail
                             if(_.isArray(processResult)){
-                                trail = trail.concat(_.filter(processResult, ruleEngineFactory.isRuleSupported));
+                                trail = trail.concat(_.filter(processResult, ruleEngineFactory.isRuleSupported).reverse());
                             }
                         }
                     });

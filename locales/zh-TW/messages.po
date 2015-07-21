@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T18:50:31\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:31:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -157,10 +157,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "chars"
@@ -203,12 +203,12 @@ msgid "Contraints"
 msgstr "約束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr "控制視頻和音頻的播放參數(自動播放，循環)再報告已播放的次數。"
-
-msgid "correct"
-msgstr "正確"
+msgstr "控制視頻和音頻的播放檔案(自動播放，循環)再報告已播放的次數。"
 
 msgid "Correct"
+msgstr "正確"
+
+msgid "correct"
 msgstr "正確"
 
 msgid "Could not create language specific directory for item \'%s\"
@@ -244,10 +244,10 @@ msgstr "目前，不可從 MathML 轉換到 LaTeX。在這裡編輯 MathML 會�
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
 msgid "Define correct response"
@@ -545,19 +545,19 @@ msgstr "JPEG 圖片"
 msgid "Label"
 msgstr "標籤"
 
-msgid "LaTex"
+msgid "Latex"
 msgstr "LaTeX"
 
-msgid "Latex"
+msgid "LaTex"
 msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Length"
@@ -579,11 +579,11 @@ msgid "Malformed XML:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理題目"
-
 #, tao-public
 msgid "Manage items"
+msgstr "管理題目"
+
+msgid "Manage Items"
 msgstr "管理題目"
 
 msgid "Mapping default"
@@ -604,10 +604,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
 msgid "Max Words"
@@ -867,10 +867,10 @@ msgstr "所建議的"
 msgid "Reduce font size"
 msgstr "縮小字型"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1075,7 +1075,7 @@ msgid "The button label."
 msgstr "按鈕標籤。"
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr "當沒有給出顯示映射的源值時，從目標設定的默認值將被使用。"
+msgstr "當沒有給出顯示映射的源值時，從目標設定的預設值將被使用。"
 
 msgid "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
 msgstr "預計長度屬性提供報考者一個提示作為預計總長度所需回應的字符數的測量。這并不是一個有效的約束。"
@@ -1358,9 +1358,6 @@ msgid "You must select exactly %d choices"
 msgstr ""
 
 msgid "You must select exactly %s choices"
-msgstr ""
-
-msgid "You must select exactly 1 choice"
 msgstr ""
 
 msgid "You must use at least %d choices"

@@ -157,6 +157,11 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion == '2.7.9'){
              $currentVersion = '2.8.0';
         }
+        
+        if($currentVersion == '2.8.0'){
+            $currentVersion = '2.8.1';
+            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+        }
 
         return $currentVersion;
     }

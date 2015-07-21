@@ -64,14 +64,16 @@ class XIncludeLoader
             //retrive the xinclude from href
             $href = $xinclude->attr('href');
             if(!empty($href)){
-                $asset = $this->resolver->resolve($href);
-                $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-                if(file_exists($filePath)){
+                try {
+                    $asset = $this->resolver->resolve($href);
+                    $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
                     $this->loadXInclude($xinclude, $filePath);
-                }else if($removeUnfoundHref){
-                    $xinclude->attr('href', '');
-                }else{
-                    throw new XIncludeException('The file referenced by href does not exist : '.$href, $xinclude);
+                } catch (\tao_models_classes_FileNotFoundException $exception) {
+                    if ($removeUnfoundHref) {
+                        $xinclude->attr('href', '');
+                    } else {
+                        throw new XIncludeException('The file referenced by href does not exist : '.$href, $xinclude);
+                    }
                 }
             }
         }

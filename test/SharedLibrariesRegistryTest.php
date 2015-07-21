@@ -1,6 +1,7 @@
 <?php
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\tao\model\ClientLibRegistry;
 use \helpers_File;
 use \common_ext_ExtensionsManager;
 
@@ -20,7 +21,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     
     protected function getBaseUrl()
     {
-        return 'http://mysuperlibrarycdn';
+        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConstant('BASE_WWW');
     }
     
     protected function getSamplesDir()
@@ -28,50 +29,43 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         return dirname(__FILE__) . '/samples/sharedLibraries/';
     }
     
-    protected function getConfigId()
-    {
-        return SharedLibrariesRegistry::CONFIG_ID;
-    }
-    
     protected function setRegistry(SharedLibrariesRegistry $registry)
     {
         $this->registry = $registry;
     }
-    
+
     protected function getRegistry()
     {
         return $this->registry;
     }
-    
-    protected function setInitialMapping(array $initialMapping)
+
+    protected function getClientLibRegistryMap()
     {
-        $this->initialMapping = $initialMapping;
+        return ClientLibRegistry::getRegistry()->getMap();
     }
-    
-    protected function getInitialMapping()
-    {
-        return $this->initialMapping;
-    }
-    
+
     public function setUp()
     {
         parent::setUp();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $initialMapping = $ext->getConfig($this->getConfigId());
-        
+
         // Save installation original mapping for restitution in tearDown.
-        $this->setInitialMapping((is_array($initialMapping)) ? $initialMapping : array());
-        $ext->setConfig($this->getConfigId(), array());
         @mkdir($this->getBasePath());
         $this->setRegistry(new SharedLibrariesRegistry($this->getBasePath(), $this->getBaseUrl()));
+
+        $this->initialMapping = $this->getClientLibRegistryMap();
     }
     
     public function tearDown()
     {
         parent::tearDown();
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $ext->setConfig($this->getConfigId(), array($this->getInitialMapping()));
         helpers_File::remove($this->getBasePath());
+
+        //unregister all
+        $ids = array_keys( array_diff_key( $this->getClientLibRegistryMap(), $this->initialMapping ));
+
+        foreach ($ids as $id) {
+            ClientLibRegistry::getRegistry()->remove($id);
+        }
     }
     
     /**
@@ -79,14 +73,12 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
      */
     public function testRegisterFromFile($id, $path, $expected)
     {
-        $originalId = $id;
         $registry = $this->getRegistry();
         $registry->registerFromFile($id, $path);
         
         // A correct entry must be found in the mapping provided by the registry.
-        $mapping = $registry->getMap();
-        $this->assertTrue(isset($mapping[$id]), "No mapping found for '${id}'.");
-        $this->assertEquals($expected, $mapping[$id], "Expected mapping entry '${expected}' not for id '${id}'.");
+        $mapping = $this->getClientLibRegistryMap();
+        $this->assertIdIsRegistered($id, $expected, $mapping);
         
         $parts = explode('/', $id);
         $id = implode('/', array_slice($parts, 0, count($parts) - 1));
@@ -95,13 +87,19 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         // A file must be placed at "$this->getBasePath()/id/basename($path)"
         $this->assertTrue(file_exists($expectedLocation), "No library at location '${expectedLocation}'.");
     }
+
+    protected function assertIdIsRegistered($id, $expectedPath, $mapping)
+    {
+        $this->assertTrue(isset($mapping[$id]), "No mapping found for '${id}'.");
+        $this->assertEquals($expectedPath, $mapping[$id]['path'], "Expected mapping entry '{$expectedPath}' not for id '${id}'.");
+    }
     
     public function registerFromFileProvider()
     {
         return array(
-            array('OAT/Jacky/Julietta', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . '/OAT/Jacky/julietta.js'),
-            array('OAT/Jacky/Julietta/julietta.js', $this->getSamplesDir() . 'julietta.js', $this->getBaseUrl() . '/OAT/Jacky/Julietta/julietta.js'),
-            array('css!OAT/Jacky/Julietta/julietta.css', $this->getSamplesDir() . 'julietta.css', $this->getBaseUrl() . '/OAT/Jacky/Julietta/julietta.css'),
+            array('OAT/Jacky/Julietta', $this->getSamplesDir() . 'julietta.js', 'OAT/Jacky/julietta'),
+            array('OAT/Jacky/Julietta/julietta.js', $this->getSamplesDir() . 'julietta.js', 'OAT/Jacky/Julietta/julietta'),
+            array('css!OAT/Jacky/Julietta/julietta.css', $this->getSamplesDir() . 'julietta.css', 'OAT/Jacky/Julietta/julietta'),
         );
     }
     
@@ -119,13 +117,16 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         self::registerOfficialLibraries($registry);
         
         // Save it for latter diff...
-        $officialMapping = $registry->getMap();
-        
+        $officialMapping = $this->getClientLibRegistryMap();
+
         // Register the item libraries!
         $registry->registerFromItem($itemPath);
 
-        $diff = array_diff($registry->getMap(), $officialMapping);
-        $this->assertEquals($mappingDiff, $diff);
+        $diff = array_diff_key($this->getClientLibRegistryMap(), $officialMapping);
+
+        foreach( $mappingDiff as $id => $path ){
+            $this->assertIdIsRegistered($id, $path, $diff);
+        }
     }
     
     public function registerFromItemProvider()
@@ -140,9 +141,9 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
             array(
                 "${dir}/registry_with_unofficial/item.xml",
                 array(
-                    'OAT/shapes/collisions.js' => $this->getBaseUrl() . '/OAT/shapes/collisions.js',
-                    'tpl!OAT/shapes/shapes.tpl' => $this->getBaseUrl() . '/OAT/shapes/shapes.tpl',
-                    'css!OAT/shapes/shapes.css' => $this->getBaseUrl() . '/OAT/shapes/shapes.css'
+                    'OAT/shapes/collisions.js' => 'OAT/shapes/collisions',
+                    'tpl!OAT/shapes/shapes.tpl' => 'OAT/shapes/shapes',
+                    'css!OAT/shapes/shapes.css' => 'OAT/shapes/shapes'
                 )
             )
         );
@@ -160,7 +161,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
         $registry = $this->getRegistry();
         self::registerOfficialLibraries($registry);
         
-        $this->assertSame($expected, $registry->isRegistered($id));
+        $this->assertSame($expected, ClientLibRegistry::getRegistry()->isRegistered($id));
     }
     
     public function isRegisteredProvider()
@@ -183,7 +184,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     // --- Test Utility Methods.
     static private function registerOfficialLibraries(SharedLibrariesRegistry $registry) 
     {
-        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/local/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
-        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/local/portableSharedLibraries/OAT/lodash.js');
+        $registry->registerFromFile('IMSGlobal/jquery_2_1_1', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/IMSGlobal/jquery_2_1_1.js');
+        $registry->registerFromFile('OAT/lodash', dirname(__FILE__) . '/../install/scripts/portableSharedLibraries/OAT/lodash.js');
     }
 }
