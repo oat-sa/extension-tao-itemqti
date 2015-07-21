@@ -42,12 +42,13 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 		TaoPhpUnitTestRunner::initTest();
 		$this->qtiService = Service::singleton();
 	}
-
+    
 	/**
 	 * test qti file parsing: validation and loading in a non-persistant context
 	 */
 	public function testFileParsingQti2p1(){
-
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+        
 		//check if wrong files are not validated correctly
 		foreach(glob(dirname(__FILE__).'/samples/wrong/*.*') as $file){
 			$qtiParser = new Parser($file);
@@ -85,6 +86,8 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
      * @author Thibault Milan <thibault.milan@vesperiagroup.com>
      */
     public function testFileParsingCDATA(){
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+        
         $file = dirname(__FILE__).'/samples/xml/cdata/item.xml';
 
         $qtiParser = new Parser($file);

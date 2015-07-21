@@ -502,7 +502,9 @@ define([
      * @returns {undefined}
      */
     function _focus(editor){
-
+        if (!editor.editable().parentNode){
+            return;
+        }
         editor.focus();
         var range = editor.createRange();
         range.moveToElementEditablePosition(editor.editable(), true);

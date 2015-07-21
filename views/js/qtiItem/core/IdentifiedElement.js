@@ -1,48 +1,69 @@
-define(['taoQtiItem/qtiItem/core/Element'], function(Element){
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+
+/**
+ * IdentifiedElement model
+ * @author Sam Sipasseuth <sam@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define([
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/util'
+], function(Element, util){
+    'use strict';
+
+    /**
+     * IdentifiedElement model
+     */
     var IdentifiedElement = Element.extend({
-        buildIdentifier : function(prefix, useSuffix){
-            if(useSuffix === undefined){
-                useSuffix = true;
-            }
+
+        /**
+         * Generates and assign an identifier
+         * @param {String} prefix - identifier prefix
+         * @param {Boolean} [useSuffix = true] - add a "_ + index" to the identifier
+         * @returns {Object} for chaining
+         */
+        buildIdentifier : function buildIdentifier(prefix, useSuffix){
             var item = this.getRelatedItem();
-            if(item){
-                var suffix = '', i = 1, usedIds = item.getUsedIdentifiers();
-                if(prefix){
-                    prefix = prefix.replace(/_[0-9]+$/ig, '_'); //detect incremental id of type choice_12, response_3, etc.
-                    prefix = prefix.replace(/[^a-zA-Z0-9_]/ig, '_');
-                    prefix = prefix.replace(/(_)+/ig, '_');
-                    if(useSuffix){
-                        suffix = '_' + i;
-                    }
-                }else{
-                    prefix = this.qtiClass;
-                    suffix = '_' + i;
-                }
-
-                do{
-                    var exists = false;
-                    var id = prefix + suffix;
-                    if(usedIds[id]){
-                        exists = true;
-                        suffix = '_' + i;
-                        i++;
-                    }
-                }while(exists);
-
+            var id = util.buildIdentifier(item, prefix, useSuffix);
+            if(id){
                 this.attr('identifier', id);
-            }else{
-                throw 'cannot build identifier of an element that is not attached to an assessment item';
             }
             return this;
         },
-        id : function(value){
+
+        /**
+         * Get/set and identifier. It will be generated if it doesn't exists.
+         * @param {String} [value] - set the value or get it if not set.
+         * @returns {String} the identifier
+         */
+        id : function id(value){
             if(!value && !this.attr('identifier')){
-                this.buildIdentifier(value);
+                value = this.buildIdentifier(this.relatedItem(), value);
             }
             return this.attr('identifier', value);
         }
     });
 
+    /**
+     * @exports taoQtiItem/qtiItem/core/IdentifiableElement
+     */
     return IdentifiedElement;
 });
 

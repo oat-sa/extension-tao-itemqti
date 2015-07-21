@@ -112,7 +112,7 @@ define([
 
             setTimeout(function(){
 
-                assert.equal($('link[data-type^="qti-item-style"]').length, 3, 'The stylesheets are stil there');
+                assert.equal($('link[data-type^="qti-item-style"]').length, 3, 'The stylesheets are still there');
                 assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
                 assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
                 assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
@@ -126,7 +126,7 @@ define([
     });
 
 
-    QUnit.asyncTest('change', 7, function(assert){
+    QUnit.asyncTest('change', 8, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -147,6 +147,7 @@ define([
 
                 assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
                 assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
+                assert.equal(loader.getActiveTheme(), 'green', 'The new theme became the active theme');
 
                 QUnit.start();
             }, 50);
@@ -154,7 +155,7 @@ define([
     });
 
 
-    QUnit.asyncTest('change back to default', 9, function(assert){
+    QUnit.asyncTest('change back to default', 10, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -177,10 +178,13 @@ define([
                 assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
 
                 loader.change('default');
+
+
                 setTimeout(function(){
 
                     assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
                     assert.equal($container.css('color'), blue, 'The default theme style is loaded');
+                    assert.equal(loader.getActiveTheme(), 'blue', 'The active theme has been reset to default');
 
                     QUnit.start();
                 }, 50);
@@ -188,7 +192,7 @@ define([
         }, 50);
     });
 
-    QUnit.asyncTest('reload and change', 14, function(assert){
+    QUnit.asyncTest('reload and change', 15, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -226,6 +230,7 @@ define([
 
                         assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
                         assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
+                        assert.equal(loader2.getActiveTheme(), 'green', 'The new theme became the active theme');
 
                         QUnit.start();
 

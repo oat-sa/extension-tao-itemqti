@@ -4,11 +4,20 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/richardIII-1.json'
 ], function($, _, qtiItemRunner, inlineChoiceData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Inline Choice Interaction');
+    module('Inline Choice Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
+
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(17);
@@ -18,7 +27,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
 
                 //check DOM
@@ -58,7 +67,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
 
                 var $select = $('select.qti-inlineChoiceInteraction', $container);
@@ -89,7 +98,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
 
                 var $select = $('select.qti-inlineChoiceInteraction', $container);
@@ -118,7 +127,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
                 var self = this;
 
@@ -156,7 +165,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
                 var self = this;
 
@@ -200,7 +209,7 @@ define([
         var shuffled = _.cloneDeep(inlineChoiceData);
         shuffled.body.elements.interaction_inlinechoiceinteraction_547464dbc7afc574464937.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 
@@ -241,7 +250,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', inlineChoiceData)
+        runner = qtiItemRunner('qti', inlineChoiceData)
             .on('render', function(){
                 var $select = $('select.qti-inlineChoiceInteraction', $container);
                 assert.equal($select.length, 1, 'the container contains an inlineChoice interaction .qti-inlineChoiceInteraction');

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -23,11 +23,13 @@
 define([
     'jquery',
     'lodash',
+    'async',
     'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
     'taoItems/assets/manager',
-], function($, _, QtiLoader, QtiRenderer, picManager, assetManagerFactory){
+], function($, _, async, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
     /**
@@ -63,17 +65,22 @@ define([
 
         render : function(elt, done){
             var self = this;
+            var pics, picsList;
+            var renderDone;
+            var current = 0;
+            var timeout = this.options.timeout || 20000;
+
             if(this._item){
                 try {
                     elt.innerHTML = this._item.render({});
                 } catch(e){
-                    console.error(e);
+                    //console.error(e);
                     self.trigger('error', 'Error in template rendering : ' +  e);
                 }
                 try {
                     this._item.postRender();
                 } catch(e){
-                    console.error(e);
+                    //console.error(e);
                     self.trigger('error', 'Error in post rendering : ' +  e);
                 }
 
@@ -96,17 +103,48 @@ define([
                         }
                     });
 
-                //TODO use post render cb once implemented
-                _.delay(function() {
+                //the collection of PICs
+                pics = picManager.collection(self._item);
+                picsList = pics.getList();
+
+
+                //call once the rendering is done
+                renderDone = function renderDone(){
                     done();
 
                     /**
                      * Lists the PIC provided by this item.
                      * @event qti#listpic
                      */
-                    self.trigger('listpic', picManager.collection(self._item));
+                    self.trigger('listpic', pics);
+                };
 
-                }, 100);
+                if(picsList.length){
+
+                    //wait until all PICs are loaded/ready
+                    async.until(
+                        function arePicReady(){
+                            return _.every(picsList, function(pic){
+                                return pic.getTypeIdentifier() === 'studentToolbar' || pic.getPic().data('_ready');
+                            });
+                        },
+                        function iterate(cb){
+                            current += 100;
+                            if(current > timeout){
+                                return cb(new Error('Timeout : Unable to load portable elements'));
+                            }
+                            _.delay(cb, 100);
+                        },
+                        function end(err){
+                            if(err){
+                                return self.trigger('error', err);
+                            }
+                            renderDone();
+                        }
+                    );
+                    return;
+                }
+                _.defer(renderDone);
             }
         },
 
@@ -116,7 +154,8 @@ define([
         clear : function(elt, done){
             if(this._item){
 
-               _.invoke(this._item.getInteractions(), 'clear');
+                _.invoke(this._item.getInteractions(), 'clear');
+                this._item.clear();
 
                 $(elt).off('responseChange')
                       .off('endattempt')
@@ -130,24 +169,53 @@ define([
             done();
         },
 
-        getState : function(){
+        /**
+         * Get state implementation.
+         * @returns {Object} that represents the state
+         */
+        getState : function getState(){
             var state = {};
             if(this._item){
+
+                //get the state from interactions
                 _.forEach(this._item.getInteractions(), function(interaction){
                     state[interaction.attr('responseIdentifier')] = interaction.getState();
+                });
+
+                //get the state from infoControls
+                _.forEach(this._item.getElements(), function(element) {
+                    if (Element.isA(element, 'infoControl') && element.attr('id')) {
+                        state.pic = state.pic || {};
+                        state.pic[element.attr('id')] = element.getState();
+                    }
                 });
             }
             return state;
         },
 
-        setState : function(state){
+        /**
+         * Set state implementation.
+         * @param {Object} state - the state
+         */
+        setState : function setState(state){
             if(this._item && state){
+
+                //set interaction state
                 _.forEach(this._item.getInteractions(), function(interaction){
                     var id = interaction.attr('responseIdentifier');
                     if(id && state[id]){
                         interaction.setState(state[id]);
                     }
                 });
+
+                //set info control state
+                if(state.pic){
+                    _.forEach(this._item.getElements(), function(element) {
+                        if (Element.isA(element, 'infoControl') && state.pic[element.attr('id')]) {
+                            element.setState(state.pic[element.attr('id')]);
+                        }
+                    });
+                }
             }
         },
 

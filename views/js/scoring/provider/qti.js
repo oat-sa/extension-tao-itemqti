@@ -27,8 +27,9 @@ define([
     'lodash',
     'require',
     'taoQtiItem/scoring/processor/responseRules/engine',
+    'taoQtiItem/scoring/processor/expressions/preprocessor',
     'taoQtiItem/scoring/processor/errorHandler'
-], function(_, require, ruleEngineFactory, errorHandler){
+], function(_, require, ruleEngineFactory, preProcessor, errorHandler){
     'use strict';
 
     /**
@@ -95,19 +96,28 @@ define([
         //load outcomes variables
         _.forEach(itemData.outcomes, function(outcome){
             var identifier = outcome.attributes.identifier;
+            var outcomeVariable;
             if(state[identifier]){
                 //throw an error
                 return errorHandler.throw('scoring', new Error('Variable collision : the state already contains the outcome variable ' + identifier));
             }
-            state[identifier] = {
+            outcomeVariable = {
                 cardinality  : outcome.attributes.cardinality,
                 baseType     : outcome.attributes.baseType,
 
             };
-            if(typeof outcome.defaultValue){
-                state[identifier].defaultValue = outcome.defaultValue;
-                state[identifier].value = outcome.defaultValue;
+            if(typeof outcome.defaultValue !== 'undefined'){
+                outcomeVariable.defaultValue = outcome.defaultValue;
+                if(outcomeVariable.defaultValue === null && outcomeVariable.cardinality === 'single'){
+                    if(outcomeVariable.baseType === 'integer' || outcomeVariable.baseType === 'float'){
+                        outcomeVariable.value = 0;
+                    }
+                } else {
+                   outcomeVariable.value = outcomeVariable.defaultValue;
+                }
             }
+
+            state[identifier] = preProcessor().parseVariable(outcomeVariable);
         });
 
         return state;

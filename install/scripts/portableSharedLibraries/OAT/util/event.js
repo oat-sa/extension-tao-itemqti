@@ -9,7 +9,7 @@ define(['OAT/util/EventMgr'], function(EventMgr){
                 eventMgr.on(event, callback);
             };
             instance.off = function off(event){
-                eventMgr.on(event);
+                eventMgr.off(event);
             };
             instance.trigger = function trigger(event, data){
                 eventMgr.trigger(event, data);

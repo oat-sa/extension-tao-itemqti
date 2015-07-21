@@ -80,7 +80,7 @@ class QtiItemImportForm
     	
 		$this->form->addElement($fileElt);
 		
-		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source','qti_desc', 'disable_validation'));
+		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source'));
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
 		$qtiSentElt->setValue(1);

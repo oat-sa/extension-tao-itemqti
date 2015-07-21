@@ -266,7 +266,7 @@ define([
             var renderer   = _getClassRenderer(qtiClass);
             var decorators = this.getOption('decorators');
 
-            if(!renderer && !_.isFunction(renderer.template)){
+            if(!renderer || !_.isFunction(renderer.template)){
                 throw new Error('no renderer template loaded under the class name : ' + qtiClass);
             }
 

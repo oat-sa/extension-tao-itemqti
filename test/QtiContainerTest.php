@@ -16,15 +16,33 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author lionel
- * @license GPLv2
- * @package package_name
- * @subpackage
  *
  */
+namespace oat\taoQtiItem\test;
 
-use oat\tao\model\ThemeRegistry;
+use oat\taoQtiItem\model\qti\container\ContainerItemBody;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-ThemeRegistry::getRegistry()->createTarget('items', 'taoQtiItem/views/css/qti-runner.css');
-ThemeRegistry::getRegistry()->registerTheme('tao', 'TAO', 'taoQtiItem/views/css/themes/default.css', array('items'));
-ThemeRegistry::getRegistry()->setDefaultTheme('items', 'tao');
+class QTI_Container extends TaoPhpUnitTestRunner
+{
+
+    /**
+     * tests initialization
+     */
+    public function setUp()
+    {
+        TaoPhpUnitTestRunner::initTest();
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testEdit()
+    {
+        $cont = new ContainerItemBody();
+        $cont->edit(11);
+    }
+
+}

@@ -79,6 +79,7 @@ class ParserFactory
 {
 
     protected $data = null;
+    /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
@@ -103,16 +104,25 @@ class ParserFactory
         return $data->ownerDocument->saveXML($data);
     }
 
-    public function getBodyData(DOMElement $data, $removeNamespace = false){
+
+    /**
+     * Get the body data (markups) of an element.
+     * @param \DOMELement $data the element
+     * @param boolean $removeNamespace if XML namespacese should be removed 
+     * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
+     * @return string the body data (XML markup)
+     */
+    public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false){
 
         //prepare the data string
         $bodyData = '';
+        $saveOptions = $keepEmptyTags ?  LIBXML_NOEMPTYTAG : 0;
 
         $children  = $data->childNodes;
 
         foreach ($children as $child)
         {
-            $bodyData .= $data->ownerDocument->saveXML($child);
+            $bodyData .= $data->ownerDocument->saveXML($child, $saveOptions);
         }
 
         if($removeNamespace){
@@ -386,6 +396,7 @@ class ParserFactory
 
     protected function findNamespace($nsFragment){
         $returnValue = '';
+
         if(is_null($this->item)){
             foreach($this->queryXPath('namespace::*') as $node){
                 $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
@@ -397,13 +408,42 @@ class ParserFactory
             }
         }else{
             $namespaces = $this->item->getNamespaces();
+
             foreach($namespaces as $name => $uri){
                 if(strpos($uri, $nsFragment) > 0){
                     $returnValue = $name;
                     break;
                 }
             }
+            if($returnValue === ''){
+                $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
+            }
         }
+        return $returnValue;
+    }
+
+    private function recursivelyFindNamespace($element, $nsFragment) {
+
+        $returnValue = '';
+
+        foreach ($element->childNodes as $child) {
+
+            if($child->nodeType === XML_ELEMENT_NODE) {
+                    foreach($this->queryXPath('namespace::*', $child) as $node){
+                        $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+                        $uri = $node->nodeValue;
+                        if(strpos($uri, $nsFragment) > 0){
+                            $returnValue = $name;
+                            break;
+                        }
+                    }
+                $value = $this->recursivelyFindNamespace($child, $nsFragment);
+                if($value !== ''){
+                    $returnValue = $value;
+                }
+            }
+        }
+
         return $returnValue;
     }
 
