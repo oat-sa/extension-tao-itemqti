@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-17T13:03:58\n"
+"PO-Revision-Date: 2015-07-21T16:30:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr " Fylltu í eyðurnar í textanum úr gefnum svarmöguleikum."
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
@@ -23,7 +23,7 @@ msgid "-- Any kind of file --"
 msgstr ""
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Það verður að merkja við svarmöguleika"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr ""
@@ -32,28 +32,28 @@ msgid "Adapt to item size"
 msgstr ""
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "Aðlaga að skjástærð"
 
 msgid "Add"
-msgstr ""
+msgstr "Bæta við"
 
 msgid "Add a modal feedback"
 msgstr ""
 
 msgid "Add a QTI XML file"
-msgstr ""
+msgstr "Bæta við QTI XML skrá"
 
 msgid "Add a zip file containing APIP items"
 msgstr ""
 
 msgid "Add a zip file containing QTI items"
-msgstr ""
+msgstr "Bæta við zip skrá með QTI atriðum"
 
 msgid "Add another option"
-msgstr ""
+msgstr "Bæta við öðrum valmöguleika"
 
 msgid "Add choice"
-msgstr ""
+msgstr "Nýr valmöguleiki"
 
 msgid "Add else feedback"
 msgstr ""
@@ -65,10 +65,10 @@ msgid "Add Style Sheet"
 msgstr ""
 
 msgid "Alignment"
-msgstr ""
+msgstr "Jöfnun"
 
 msgid "Alignment (optional)"
-msgstr ""
+msgstr "Jöfnun (valfrjálst)"
 
 msgid "Allowed associations"
 msgstr ""
@@ -134,52 +134,52 @@ msgid "at least"
 msgstr ""
 
 msgid "Autostart"
-msgstr ""
+msgstr "Sjálfræsing"
 
 msgid "Background color"
-msgstr ""
+msgstr "Bakgrunnslitur"
 
 msgid "block"
-msgstr ""
+msgstr "blokk"
 
 msgid "Block"
-msgstr ""
+msgstr "Blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr ""
 
 msgid "Border color"
-msgstr ""
+msgstr "Litur ramma"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr ""
 
 msgid "Browse..."
-msgstr ""
+msgstr "Velja..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Hætta við"
 
 msgid "cancel"
-msgstr ""
+msgstr "hætta við"
 
 msgid "chars"
 msgstr ""
 
 msgid "Choice"
-msgstr ""
+msgstr "Valmöguleiki"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "Myndavalmöguleiki"
 
 msgid "Choice Interaction"
 msgstr ""
 
 msgid "Choice Properties"
-msgstr ""
+msgstr "Eiginleikar valmöguleika"
 
 msgid "Choices"
-msgstr ""
+msgstr "Valmöguleikar"
 
 msgid "Click again to remove"
 msgstr ""
@@ -188,7 +188,7 @@ msgid "Click to display interaction widget"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Loka"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr ""
@@ -197,7 +197,7 @@ msgid "Collect open-ended information in one or more text area(s) (strings or nu
 msgstr ""
 
 msgid "Color Picker"
-msgstr ""
+msgstr "Litaval"
 
 msgid "Contraints"
 msgstr ""
@@ -206,10 +206,10 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr ""
 
 msgid "Correct"
-msgstr ""
+msgstr "Rétt"
 
 msgid "correct"
-msgstr ""
+msgstr "rétt"
 
 msgid "Could not create language specific directory for item \'%s\"
 msgstr ""
