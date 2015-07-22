@@ -16,6 +16,7 @@ use \common_Serializable;
 use \common_Logger;
 use \taoItems_models_classes_TemplateRenderer;
 use \DOMDocument;
+use oat\tao\helpers\Template;
 
 /**
  * The QTI_Item object represent the assessmentItem.
@@ -437,12 +438,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         //user scripts
-        $variables['user_scripts'] = array();
-        $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
-
-        foreach($userScriptConfig as $data){
-            $variables['user_scripts'][] = sprintf('../../../%s/views/js/%s', $data['extension'], $data['src']);
-        }
+        $variables['user_scripts'] = $this->getUserScripts();
 
         $dataForDelivery = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
@@ -461,6 +457,20 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $returnValue = $tplRenderer->render();
 
         return (string) $returnValue;
+    }
+    
+    protected function getUserScripts()
+    {
+        $userScripts = array();
+        
+        $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
+        if (is_array($userScriptConfig )) {
+            foreach($userScriptConfig as $data){
+        \common_Logger::w('aaaaaaa .'.Template::js($data['src'], $data['extension']));
+                $userScripts[] = Template::js($data['src'], $data['extension']);
+            }
+        }
+        return $userScripts;
     }
 
     public static function getTemplateQti(){
