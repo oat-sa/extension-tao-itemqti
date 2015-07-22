@@ -436,6 +436,14 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             }
         }
 
+        //user scripts
+        $variables['user_scripts'] = array();
+        $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
+
+        foreach($userScriptConfig as $data){
+            $variables['user_scripts'][] = sprintf('../../../%s/views/js/%s', $data['extension'], $data['src']);
+        }
+
         $dataForDelivery = $this->getDataForDelivery();
         $variables['itemData'] = $dataForDelivery['core'];
 

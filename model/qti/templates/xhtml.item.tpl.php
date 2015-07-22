@@ -31,7 +31,8 @@
                     itemData : <?=json_encode(get_data('itemData'))?>,
                     variableElements : <?=json_encode(get_data('contentVariableElements'))?>,
                     userVars : <?=json_encode(get_data('js_variables'))?>,
-                    customScripts : <?=json_encode(get_data('javascripts'))?>
+                    customScripts : <?=json_encode(get_data('javascripts'))?>,
+                    userScripts : <?=json_encode(get_data('user_scripts'))?>
                 };
             }());
         </script>
