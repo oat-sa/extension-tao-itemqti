@@ -466,7 +466,6 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
         if (is_array($userScriptConfig )) {
             foreach($userScriptConfig as $data){
-        \common_Logger::w('aaaaaaa .'.Template::js($data['src'], $data['extension']));
                 $userScripts[] = Template::js($data['src'], $data['extension']);
             }
         }
