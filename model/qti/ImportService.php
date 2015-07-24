@@ -142,11 +142,7 @@ class ImportService extends tao_models_classes_GenerisService
         
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $qtiParser->validateMultiple(array(
-                $basePath.'model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
-                $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd',
-                $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-            ));
+            $qtiParser->validate();
         
             if (!$qtiParser->isValid()) {
                 $failedValidation = true;
