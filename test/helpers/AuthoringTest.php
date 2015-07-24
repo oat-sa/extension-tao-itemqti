@@ -53,6 +53,16 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
         $this->assertTrue(count($sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")) === 0);
+        
+        return $sanitizedXmlStr;
+    }
+    
+    /**
+     * @depends testSanitizeQtiXml
+     */
+    public function testValidateSanitizedString($xmlStr)
+    {
+        Authoring::loadQtiXml($xmlStr);
     }
 
     public function testLoadQtiXml()
@@ -90,8 +100,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         );
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml($file);
-            $this->assertTrue($dom->loadXML($xml));
+            Authoring::validateQtiXml($file);
         }
     }
     
@@ -101,8 +110,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml($file);
-            $this->assertTrue($dom->loadXML($xml));
+            Authoring::validateQtiXml($file);
         }
     }
 
@@ -112,8 +120,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         
         $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
-            $xml = Authoring::validateQtiXml($file);
-            $this->assertTrue($dom->loadXML($xml));
+            Authoring::validateQtiXml($file);
         }
     }
     

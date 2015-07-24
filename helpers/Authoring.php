@@ -42,31 +42,23 @@ class Authoring
 {
 
     /**
-     * Validate and format (if possible) a QTI XML string.
-     * 
-     * QTI XML string will be sanitized (if possible invalid elements will be removed).
+     * Validate a QTI XML string.
      * 
      * @param string $qti File path or XML string
-     * @return string
      * @throws QtiModelException
      */
     public static function validateQtiXml($qti)
     {
         
-        $sanitizedQti = self::sanitizeQtiXml($qti);
-        $basePath = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        
-        $dom = self::loadQtiXml($sanitizedQti);
+        $dom = self::loadQtiXml($qti);
         $returnValue = $dom->saveXML();
 
         $parserValidator = new Parser($returnValue);
         $parserValidator->validate();
-        if(!$parserValidator->isValid()){
+        if(!$parserValidator->isValid()) {
             common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
             throw new QtiModelException('invalid QTI item XML ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
         }
-
-        return (string) $returnValue;
     }
 
     /**

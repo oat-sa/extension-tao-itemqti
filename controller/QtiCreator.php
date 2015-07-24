@@ -198,12 +198,12 @@ class QtiCreator extends tao_actions_CommonModule
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
                 try {
-                    $xml = Authoring::validateQtiXml($xml);
+                    $sanitized = Authoring::sanitizeQtiXml($xml);
+                    Authoring::validateQtiXml($sanitized);
                     //get the QTI xml
-                    $returnValue['success'] = $itemService->setItemContent($rdfItem, $xml);
+                    $returnValue['success'] = $itemService->setItemContent($rdfItem, $sanitized);
                     $returnValue['xml'] = $xml;
                 } catch (QtiModelException $e) {
-                    \common_Logger::e($e->getMessage());
                     throw new \RuntimeException($e->getUserMessage(), 0, $e);
                 }
             }
