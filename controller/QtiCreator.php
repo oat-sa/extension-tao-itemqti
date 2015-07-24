@@ -202,7 +202,6 @@ class QtiCreator extends tao_actions_CommonModule
                     Authoring::validateQtiXml($sanitized);
                     //get the QTI xml
                     $returnValue['success'] = $itemService->setItemContent($rdfItem, $sanitized);
-                    $returnValue['xml'] = $xml;
                 } catch (QtiModelException $e) {
                     throw new \RuntimeException($e->getUserMessage(), 0, $e);
                 }
