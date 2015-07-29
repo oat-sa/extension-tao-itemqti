@@ -25,7 +25,7 @@
 define(['jquery', 'lodash'], function($, _){
     'use strict';
 
-    //used to differenciate the stylesheets
+    //used to differentiate the stylesheets
     var prefix = 'qti-item-style-';
 
     //where to attach the stylesheets
@@ -33,7 +33,7 @@ define(['jquery', 'lodash'], function($, _){
 
     /**
      * @typedef Theme
-     * @property {String} id - theme identifier (uniq)
+     * @property {String} id - theme identifier (unique)
      * @property {String} path  - theme location
      * @property {String} [name] - name to display
      */
@@ -53,7 +53,7 @@ define(['jquery', 'lodash'], function($, _){
                         href        : theme.path,
                         'data-type' : type,
                         'data-name' : theme.name || theme.id,
-                        'data-id'   : theme.id,
+                        'data-id'   : theme.id
                     });
     };
 
@@ -109,6 +109,7 @@ define(['jquery', 'lodash'], function($, _){
     var themeLoader = function themeLoader(config){
 
         var defaultTheme;
+        var activeTheme;
         var styles = {};
         var themes;
         var i;
@@ -138,6 +139,8 @@ define(['jquery', 'lodash'], function($, _){
          * Extract data from config
          */
         defaultTheme = config.default || _.first(_.pluck(config.available, 'id'));
+
+        activeTheme = defaultTheme;
 
         themes = [{
             id : 'base',
@@ -201,13 +204,23 @@ define(['jquery', 'lodash'], function($, _){
                 }
 
                 if(isAttached(id)){
-                    //diable all
+                    //disable all
                     disable($('link[data-type="' + prefix  + 'theme"]', $container));
 
                     //enable the theme only
                     enable(getLink(id));
+
+                    activeTheme = id;
                 }
                 return this;
+            },
+
+            /**
+             * Return the current theme
+             * @returns {String} activeTheme
+             */
+            getActiveTheme : function getActiveTheme() {
+                return activeTheme;
             }
         };
     };

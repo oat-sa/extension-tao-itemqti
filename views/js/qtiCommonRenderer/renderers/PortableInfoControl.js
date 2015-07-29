@@ -104,12 +104,14 @@ define([
         //load the entry point
         require([entryPoint], function(){
 
-            var pci = _getPic(infoControl);
-            if(pci && $dom.length){
+            var pic = _getPic(infoControl);
+            if(pic && $dom.length){
                 //call pci initialize() to render the pci
-                pci.initialize(id, $dom[0], config);
+                pic.initialize(id, $dom[0], config);
                 //restore context (state + response)
-                pci.setSerializedState(state);
+                pic.setSerializedState(state);
+
+                infoControl.triggerReady();
             }
         });
     };
@@ -121,32 +123,36 @@ define([
      *
      * @param {Object} infoControl
      */
-    var destroy = function(infoControl){
-
-        _getPic(infoControl).destroy();
+    var destroy = function destroy(infoControl){
+        infoControl.onReady(function(){
+            _getPic(infoControl).destroy();
+        });
     };
 
     /**
      * Restore the state of the infoControl from the serializedState.
      *
-     * @param {Object} infoControl
-     * @param {Object} serializedState - json format
+     * @param {Object} infoControl - the element instance
+     * @param {Object} state - the state to set
      */
-    var setSerializedState = function(infoControl, serializedState){
-
-        _getPic(infoControl).setSerializedState(serializedState);
+    var setState = function setState(infoControl, state){
+        infoControl.onReady(function(){
+            _getPic(infoControl).setSerializedState(state);
+        });
     };
 
     /**
      * Get the current state of the infoControl as a string.
      * It enables saving the state for later usage.
      *
-     * @param {Object} infoControl
-     * @returns {Object} json format
+     * @param {Object} infoControl - the element instance
+     * @returns {Object} the state
      */
-    var getSerializedState = function(infoControl){
-
-        return _getPic(infoControl).getSerializedState();
+    var getState = function getState(infoControl){
+         if(infoControl.data('_ready')){
+            return _getPic(infoControl).getSerializedState();
+        }
+        return {};
     };
 
     return {
@@ -159,13 +165,12 @@ define([
             markup = util.removeMarkupNamespaces(markup);
             markup = PortableElement.fixMarkupMediaSources(markup, this);
             data.markup = markup;
-
             return data;
         },
         render : render,
         getContainer : containerHelper.get,
         destroy : destroy,
-        getSerializedState : getSerializedState,
-        setSerializedState : setSerializedState
+        getState : getState,
+        setState : setState
     };
 });

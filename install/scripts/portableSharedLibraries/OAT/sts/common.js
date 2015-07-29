@@ -1,3 +1,22 @@
+/**
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; under version 2
+* of the License (non-upgradable).
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*
+* Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+*
+*/
+
 define([
     'IMSGlobal/jquery_2_1_1',
     'OAT/lodash',
@@ -43,7 +62,8 @@ define([
     }
 
     function init($container, config) {
-
+        config.is = config.is || {};
+        
         // just in case...
         if(!$container.length){
             return;
@@ -61,10 +81,10 @@ define([
                 $controls.each(function(){
                     var cls = this.className.match(/sts-handle-rotate-[a-z]{1,2}/);
                     if(cls.length){
-                        selectors.push('.' + cls[0])
+                        selectors.push('.' + cls[0]);
                     }
                 });
-                return selectors.join(',')
+                return selectors.join(',');
             }());
 
         // this needs to be a single DOM element
@@ -115,29 +135,34 @@ define([
 
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
+        
+        if (config.is.movable) {
 
-        $content.on('mousedown', function() {
-            this.style.cursor = 'move';
-        }).on('mouseup', function() {
-            this.style.cursor = 'default';
-        });
-
-        // init moving
-        interact(tool)
-            .draggable({ max: Infinity })
-            .on('dragstart', function (event) {
-                var $el = $(event.target);
-                event.interaction.x = parseInt($el.css('left'), 10) || 0;
-                event.interaction.y = parseInt($el.css('top'), 10) || 0;
-            })
-            .on('dragmove', function (event) {
-                event.interaction.x += event.dx;
-                event.interaction.y += event.dy;
-                event.target.style.left = event.interaction.x + 'px';
-                event.target.style.top  = event.interaction.y + 'px';
+            $content.on('mousedown', function () {
+                this.style.cursor = 'move';
+            }).on('mouseup', function () {
+                this.style.cursor = 'default';
             });
 
-        rotator.init(tool, handleSelector);
+            // init moving
+            interact(tool)
+                .draggable({max: Infinity})
+                .on('dragstart', function (event) {
+                    var $el = $(event.target);
+                    event.interaction.x = parseInt($el.css('left'), 10) || 0;
+                    event.interaction.y = parseInt($el.css('top'), 10) || 0;
+                })
+                .on('dragmove', function (event) {
+                    event.interaction.x += event.dx;
+                    event.interaction.y += event.dy;
+                    event.target.style.left = event.interaction.x + 'px';
+                    event.target.style.top = event.interaction.y + 'px';
+                });
+        }
+
+        if (_.any(config.is.rotatable)) {
+            rotator.init(tool, handleSelector);
+        }
     }
 
 

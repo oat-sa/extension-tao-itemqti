@@ -104,6 +104,7 @@ class QtiSerializer
         foreach($xml->children() as $child){
             $name = $child->getName();
             $methodName = 'parse'.ucfirst($name).'Xml';
+
             if(method_exists(__CLASS__, $methodName)){
                 $responseRules[] = self::$methodName($child);
             }else{
@@ -139,7 +140,13 @@ class QtiSerializer
         $responseRules = array();
         foreach($xml->children() as $child){
             if($i){
-                $responseRules[] = self::parseResponseRuleXml($child);
+                $name = $child->getName();
+                $methodName = 'parse'.ucfirst($name).'Xml';
+                if(method_exists(__CLASS__, $methodName)){
+                    $responseRules[] = self::$methodName($child);
+                } else{
+                    $responseRules[] = self::parseResponseRuleXml($child);
+                }
             }else{
                 //the first child is the expression
                 $expression = self::parseExpressionXml($child);

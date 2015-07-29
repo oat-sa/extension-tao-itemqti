@@ -19,7 +19,6 @@
  */
 
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
-use \helpers_File;
 
 $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
 $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
