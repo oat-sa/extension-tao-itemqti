@@ -41,46 +41,56 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 	public function setUp(){
 		TaoPhpUnitTestRunner::initTest();
 		$this->qtiService = Service::singleton();
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 	}
-    
+	
+	/**
+	 * Provide valid and invalid files for the qti parser
+	 */
+	public function QtiFileProvider() {
+	    $qtiSamples = array();
+	    foreach (glob(dirname(__FILE__).'/samples/wrong/*.*') as $file) {
+	        $qtiSamples[] = array(
+	        	'file' => $file,
+	            'valid' => false
+	        );
+	    }
+	    $files = array_merge(
+	        glob(dirname(__FILE__).'/samples/xml/qtiv2p0/*.xml'),
+	        glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'),
+	        glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubricBlock/*.xml')
+	    );
+	    foreach ($files as $file) {
+	        $qtiSamples[] = array(
+	            'file' => $file,
+	            'valid' => true
+	        );
+	    }
+	     
+	    return $qtiSamples; 
+	}
+	
 	/**
 	 * test qti file parsing: validation and loading in a non-persistant context
+	 * @dataProvider QtiFileProvider
 	 */
-	public function testFileParsingQti2p1(){
-        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        
-		//check if wrong files are not validated correctly
-		foreach(glob(dirname(__FILE__).'/samples/wrong/*.*') as $file){
-			$qtiParser = new Parser($file);
-			$qtiParser->validate();
-
-			$this->assertFalse($qtiParser->isValid());
-			$this->assertTrue(count($qtiParser->getErrors()) > 0);
-			$this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
-		}
-
-        $files = array_merge(
-                glob(dirname(__FILE__).'/samples/xml/qtiv2p1/*.xml'), glob(dirname(__FILE__).'/samples/xml/qtiv2p1/rubricBlock/*.xml')
-        );
-		//check if samples are loaded
-		foreach($files as $file){
-
-			$qtiParser = new Parser($file);
-			$qtiParser->validate();
-
-            if(!$qtiParser->isValid()){
-                echo $qtiParser->displayErrors();
-            }
-
-			$this->assertTrue($qtiParser->isValid());
-
-			$item = $qtiParser->load();
-
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-
-		}
-
+	public function testParsingQti($file, $valid)
+	{
+	    $qtiParser = new Parser($file);
+	    $qtiParser->validate();
+	    
+	    if ($valid) {
+	        $this->assertEquals(array(), $qtiParser->getErrors());
+	        $this->assertTrue($qtiParser->isValid());
+	        $item = $qtiParser->load();
+	        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+	    } else {
+	        $this->assertFalse($qtiParser->isValid());
+	        $this->assertTrue(count($qtiParser->getErrors()) > 0);
+	        $this->assertTrue(strlen($qtiParser->displayErrors()) > 0);
+	    }
 	}
+	
     /**
      * test if a correctResponse with CDATA works
      * @author Thibault Milan <thibault.milan@vesperiagroup.com>

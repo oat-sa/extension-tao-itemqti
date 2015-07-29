@@ -99,7 +99,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongFormatClass()
     {
         $itemClass = $this->itemService->getRootClass();
-
+        
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
@@ -213,7 +213,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
 
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertEquals("application/xml", $file['mime']);
+        $this->assertContains("/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
         $this->assertEquals("/images/", $dir['path']);

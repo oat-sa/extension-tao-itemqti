@@ -74,13 +74,13 @@ define([
                 try {
                     elt.innerHTML = this._item.render({});
                 } catch(e){
-                    console.error(e);
+                    //console.error(e);
                     self.trigger('error', 'Error in template rendering : ' +  e);
                 }
                 try {
                     this._item.postRender();
                 } catch(e){
-                    console.error(e);
+                    //console.error(e);
                     self.trigger('error', 'Error in post rendering : ' +  e);
                 }
 

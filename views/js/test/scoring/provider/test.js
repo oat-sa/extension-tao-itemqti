@@ -12,6 +12,7 @@ define([
     'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
     'json!taoQtiItem/test/samples/json/customrp/order.json',
     'json!taoQtiItem/test/samples/json/es6.json',
+    'json!taoQtiItem/test/samples/json/pluto.json',
 ], function(_, scorer, qtiScoringProvider,
         singleCorrectData,
         multipleCorrectData,
@@ -22,7 +23,8 @@ define([
         customChoiceMultipleData2,
         customChoiceSingleData,
         orderData,
-        multipleResponseCorrectData
+        multipleResponseCorrectData,
+        embedConditionsData
 ){
     'use strict';
 
@@ -251,7 +253,13 @@ define([
                 .process(responses, multipleResponseCorrectData);
     });
 
-    QUnit.module('Custom template');
+    QUnit.module('Custom template', {
+        teardown : function(){
+            //reset the provides
+            scorer.providers = undefined;
+        }
+    });
+
 
     var customDataProvider = [{
         title   : 'choice multiple correct',
@@ -339,8 +347,57 @@ define([
         outcomes : {
             SCORE : { base : { 'float' : 0 } }
         }
-    }
-    ];
+    }, {
+        title   : 'embed conditions correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : { identifier: 'choice_6' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 2 } }
+        }
+    }, {
+        title   : 'embed conditions  first correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : { identifier: 'choice_7' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'embed conditions 2nd correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_2' } },
+            RESPONSE_1 : { base : { identifier: 'choice_6' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+    }, {
+        title   : 'embed conditions 2nd null',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : null },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'embed conditions null',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : null },
+            RESPONSE_1 : { base : null },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+    }];
 
     QUnit
         .cases(customDataProvider)
@@ -364,5 +421,6 @@ define([
                 })
                 .process(data.resp, data.item);
         });
+
 });
 

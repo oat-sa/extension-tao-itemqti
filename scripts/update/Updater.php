@@ -157,6 +157,17 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion == '2.7.9'){
              $currentVersion = '2.8.0';
         }
+        
+        if($currentVersion == '2.8.0'){
+            $currentVersion = '2.8.1';
+            $registry->registerFromFile('OAT/sts/common', $installBasePath . '/OAT/sts/common.js');
+        }
+        
+        if ($currentVersion == '2.8.1') {
+            $qtiItem = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $qtiItem->setConfig('userScripts', array());
+            $currentVersion = '2.9.0';
+        }
 
         return $currentVersion;
     }

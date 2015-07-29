@@ -189,9 +189,7 @@ define([
         askForSave = false;
 
         //serialize the item at the initialization level
-        widget.on('ready.qti-widget', function() {
-            initLastItemData(widget.element);
-        });
+        initLastItemData(widget.element);
 
         //get the last value by saving
         $('#save-trigger')
