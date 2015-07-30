@@ -215,14 +215,17 @@ class PortableCustomInteraction extends CustomInteraction
      * @param string $ns
      * @return string
      */
-    private function serializePciProperties($properties, $ns = ''){
+    private function serializePciProperties($properties, $ns = '', $name = ''){
         
         $ns = $this->formatPciNs($ns);
-       
-        $returnValue = '<'.$ns.'properties>';
+        if (!empty($name)) {
+            $returnValue = '<'.$ns.'properties key="' . $name . '">';
+        } else {
+            $returnValue = '<'.$ns.'properties>';
+        }
         foreach($properties as $name => $value){
             if(is_array($value)){
-                $returnValue .= $this->serializePciProperties($value, $ns);
+                $returnValue .= $this->serializePciProperties($value, $ns, $name);
             }else{
                 $returnValue .= '<'.$ns.'entry key="'.$name.'">'.$value.'</'.$ns.'entry>';
             }
