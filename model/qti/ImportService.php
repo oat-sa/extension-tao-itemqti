@@ -322,7 +322,10 @@ class ImportService extends tao_models_classes_GenerisService
                             }
                         } else {
                             // store locally, in a safe directory
-                            $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            $safePath = '';
+                            if (dirname($auxPath) !== '.') {
+                                $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            }
                             $info = $local->add($auxFile, basename($auxFile), $safePath);
                             \common_Logger::i('Auxiliary file \''.$auxPath.'\' copied.');
                         }

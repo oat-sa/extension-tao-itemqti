@@ -227,7 +227,7 @@ class PortableCustomInteraction extends CustomInteraction
             if(is_array($value)){
                 $returnValue .= $this->serializePciProperties($value, $ns, $name);
             }else{
-                $returnValue .= '<'.$ns.'entry key="'.$name.'">'.$value.'</'.$ns.'entry>';
+                $returnValue .= '<'.$ns.'entry key="'.$name.'">'.htmlentities($value).'</'.$ns.'entry>';
             }
         }
         $returnValue .= '</'.$ns.'properties>';
