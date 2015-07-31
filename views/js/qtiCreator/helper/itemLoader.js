@@ -67,7 +67,10 @@ define([
 
                         //always add math element : since it has become difficult to know when a math element has been added to the item
                         item.addNamespace('m', 'http://www.w3.org/1998/Math/MathML');
-
+                        
+                        //tag the item as a new one
+                        item.data('new', true);
+                        
                         callback(item);
                     }
 
