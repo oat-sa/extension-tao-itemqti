@@ -78,7 +78,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                     $this->addFile($srcPath, $basePath. '/'.$destPath);
                     $content = str_replace($assetUrl, $replacement, $content);
                 } else {
-                    throw new \Exception('Missing resource '.$srcPath);
+                    $content = str_replace($assetUrl, '', $content);
+                    \common_Logger::e('Missing resource '.$srcPath);
                 }
             }
         }
