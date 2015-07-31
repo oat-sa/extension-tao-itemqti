@@ -69,41 +69,42 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      * @see tao_models_classes_export_ExportHandler::export()
      */
     public function export($formValues, $destination) {
-    	$file = null;
+        $report = \common_report_Report::createSuccess();
     	if(isset($formValues['filename'])) {
 			$instances = $formValues['instances'];
 			if(count($instances) > 0){
-				
+
 				$itemService = taoItems_models_classes_ItemsService::singleton();
-				
+
 				$fileName = $formValues['filename'].'_'.time().'.zip';
 				$path = tao_helpers_File::concat(array($destination, $fileName));
 				if(!tao_helpers_File::securityCheck($path, true)){
 					throw new Exception('Unauthorized file name');
 				}
-				
+
 				$zipArchive = new ZipArchive();
 				if($zipArchive->open($path, ZipArchive::CREATE) !== true){
 					throw new Exception('Unable to create archive at '.$path);
 				}
-				
+
 				$manifest = null;
 				foreach($instances as $instance){
 					$item = new core_kernel_classes_Resource($instance);
 					if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
 						$exporter = new QTIPackedItemExporter($item, $zipArchive, $manifest);
 						
-						$exporter->export();
+						$subReport = $exporter->export();
 						$manifest = $exporter->getManifest();
+                        $report->add($subReport);
 					}
 				}
 				
 				$zipArchive->close();
-				$file = $path;
+				$report->setData($path);
 			}
 		} else {
 			common_Logger::w('Missing filename for export using '.__CLASS__);
 		}
-		return $file;
+		return $report;
     }
 }

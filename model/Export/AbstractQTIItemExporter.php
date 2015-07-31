@@ -48,10 +48,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
      * Overriden export from QTI items.
      *
      * @param array $options An array of options.
+     * @return \common_report_Report $report
      * @see taoItems_models_classes_ItemExporter::export()
      */
     public function export($options = array())
     {
+        $report = \common_report_Report::createSuccess();
         $asApip = isset($options['apip']) && $options['apip'] === true;
         
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
@@ -63,24 +65,27 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         
         // get the local resources and add them
         foreach ($this->getAssets($this->getItem(), $lang) as $assetUrl) {
-            $mediaAsset = $resolver->resolve($assetUrl);
-            $mediaSource = $mediaAsset->getMediaSource();
-            if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
-                $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
-                $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
-                $filename = $fileInfo['filePath'];
-                $replacement = $mediaAsset->getMediaIdentifier();
-                if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
-                    $replacement = $filename;
+            try{
+                $mediaAsset = $resolver->resolve($assetUrl);
+                $mediaSource = $mediaAsset->getMediaSource();
+                if (get_class($mediaSource) !== 'oat\tao\model\media\sourceStrategy\HttpSource') {
+                    $srcPath = $mediaSource->download($mediaAsset->getMediaIdentifier());
+                    $fileInfo = $mediaSource->getFileInfo($mediaAsset->getMediaIdentifier());
+                    $filename = $fileInfo['filePath'];
+                    $replacement = $mediaAsset->getMediaIdentifier();
+                    if($mediaAsset->getMediaIdentifier() !== $fileInfo['uri']){
+                        $replacement = $filename;
+                    }
+                    $destPath = ltrim($filename,'/');
+                    if (file_exists($srcPath)) {
+                        $this->addFile($srcPath, $basePath. '/'.$destPath);
+                        $content = str_replace($assetUrl, $replacement, $content);
+                    }
                 }
-                $destPath = ltrim($filename,'/');
-                if (file_exists($srcPath)) {
-                    $this->addFile($srcPath, $basePath. '/'.$destPath);
-                    $content = str_replace($assetUrl, $replacement, $content);
-                } else {
-                    $content = str_replace($assetUrl, '', $content);
-                    \common_Logger::e('Missing resource '.$srcPath);
-                }
+            } catch(\tao_models_classes_FileNotFoundException $e){
+                $content = str_replace($assetUrl, '', $content);
+                $report->setMessage('Missing resource for ' . $assetUrl);
+                $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
         
@@ -113,6 +118,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
+
+        return $report;
 
     }
     
