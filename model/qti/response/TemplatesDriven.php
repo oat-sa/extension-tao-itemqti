@@ -303,14 +303,19 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     protected function convertToTemplate(){
         $returnValue = null;
         $interactions = $this->getRelatedItem()->getInteractions();
+        
         if(count($interactions) == 1){
-            foreach($interactions as $interaction){
-                $response = $interaction->getResponse();
-                if(count($response->getFeedbackRules())){
-                    break;//need to output feedback rules
-                }else{
-                    $uri = $response->getHowMatch();
-                    $returnValue = new Template($uri);
+            $interaction = reset($interactions);
+            //check if the unique interaction has the right responseIdentifier RESPONSE
+            if($interaction->attr('responseIdentifier') === 'RESPONSE'){
+                foreach($interactions as $interaction){
+                    $response = $interaction->getResponse();
+                    if(count($response->getFeedbackRules())){
+                        break;//need to output feedback rules
+                    }else{
+                        $uri = $response->getHowMatch();
+                        $returnValue = new Template($uri);
+                    }
                 }
             }
         }
