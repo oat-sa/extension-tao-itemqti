@@ -135,7 +135,11 @@ define([
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
-
+    
+    var _defaults = {
+        shuffleChoices : true
+    };
+    
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
      * @returns {String}
@@ -166,13 +170,11 @@ define([
          */
         var _renderers = {};
 
-        options = options || {};
+        options = _.defaults(options || {}, _defaults);
 
         this.isRenderer = true;
 
         this.name = '';
-
-        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
 
         //store shuffled choice here
         this.shuffledChoices = [];
