@@ -33,14 +33,11 @@ use oat\taoQtiItem\model\qti\Parser;
  */
 class QtiParsingTest extends TaoPhpUnitTestRunner {
 
-	protected $qtiService;
-
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
 		TaoPhpUnitTestRunner::initTest();
-		$this->qtiService = Service::singleton();
         common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 	}
 	
@@ -74,7 +71,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 	 * test qti file parsing: validation and loading in a non-persistant context
 	 * @dataProvider QtiFileProvider
 	 */
-	public function testParsingQti($file, $valid)
+	public function _testParsingQti($file, $valid)
 	{
 	    $qtiParser = new Parser($file);
 	    $qtiParser->validate();
@@ -123,7 +120,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function testFileParsingQti2p0(){
+    public function _testFileParsingQti2p0(){
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $qtiv2p1xsd = $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
 
@@ -158,7 +155,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function testFileParsingApipv1p0(){
+    public function _testFileParsingApipv1p0(){
 
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
 
@@ -221,7 +218,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
     /**
 	 * test qti file parsing: validation and loading in a non-persistant context
 	 */
-	public function testFileParsingQtiPci(){
+	public function _testFileParsingQtiPci(){
 
         $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml');
 
@@ -240,7 +237,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 
 	}
 
-	public function testFileParsingQtiPic(){
+	public function _testFileParsingQtiPic(){
 
         $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
 
@@ -259,4 +256,17 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 		}
 	}
 
+    public function testParseRpComposite(){
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/composite.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
+//        print_r($item->toArray());
+//        print_r($item->getResponseProcessing());
+    }
 }
