@@ -114,7 +114,10 @@ define([
         'infoControl',
         'include'
     ];
-
+    
+    /**
+     * The list of qti element dependencies. It is used internally to load dependent qti classes
+     */
     var _dependencies = {
         assessmentItem : ['stylesheet', '_container', 'prompt', 'modalFeedback'],
         rubricBlock : ['_container'],
@@ -130,12 +133,18 @@ define([
         matchInteraction : ['simpleAssociableChoice'],
         orderInteraction : ['simpleChoice']
     };
-
+    
+    /**
+     * The list of supported qti subclasses.
+     */
     var _renderableSubclasses = {
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
     
+    /**
+     * List of the default properties for the item
+     */
     var _defaults = {
         shuffleChoices : true
     };
