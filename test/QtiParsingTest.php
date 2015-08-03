@@ -22,7 +22,6 @@ namespace oat\taoQtiItem\test;
 
 use common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
 
 /**
@@ -71,7 +70,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 	 * test qti file parsing: validation and loading in a non-persistant context
 	 * @dataProvider QtiFileProvider
 	 */
-	public function _testParsingQti($file, $valid)
+	public function testParsingQti($file, $valid)
 	{
 	    $qtiParser = new Parser($file);
 	    $qtiParser->validate();
@@ -120,7 +119,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function _testFileParsingQti2p0(){
+    public function testFileParsingQti2p0(){
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $qtiv2p1xsd = $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
 
@@ -155,7 +154,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function _testFileParsingApipv1p0(){
+    public function testFileParsingApipv1p0(){
 
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
 
@@ -218,7 +217,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
     /**
 	 * test qti file parsing: validation and loading in a non-persistant context
 	 */
-	public function _testFileParsingQtiPci(){
+	public function testFileParsingQtiPci(){
 
         $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pci/*.xml');
 
@@ -237,7 +236,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 
 	}
 
-	public function _testFileParsingQtiPic(){
+	public function testFileParsingQtiPic(){
 
         $files = glob(dirname(__FILE__).'/samples/xml/qtiv2p1/pic/*.xml');
 
