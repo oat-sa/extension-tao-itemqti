@@ -256,8 +256,9 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 		}
 	}
 
-    public function testParseRpComposite(){
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/composite.xml';
+    public function testParseRpCustom(){
+
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
         
@@ -266,7 +267,40 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
-//        print_r($item->toArray());
-//        print_r($item->getResponseProcessing());
+
+        //a response processing
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom_based_on_template.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
+    }
+
+    public function testParseRpTemplateDriven(){
+
+        //a rp using standard template will be parsed into a template driven rp (for authoring purpose)
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/template.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+        print_r($item->toXML());
+        
+        //tao custom rp build using the tao "recognizable" response condition
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
     }
 }
