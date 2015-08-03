@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" xmlns:m="http://www.w3.org/1998/Math/MathML"
                 identifier="i1438602034285160" title="Item 12" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="3.1.0-sprint04" >
-    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE_1" >
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE" >
         <correctResponse>
             <value><![CDATA[choice_6 choice_8]]></value>
         </correctResponse>
@@ -16,7 +16,7 @@
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <matchInteraction shuffle="true" maxAssociations="0" minAssociations="0" responseIdentifier="RESPONSE_1" >
+                <matchInteraction shuffle="true" maxAssociations="0" minAssociations="0" responseIdentifier="RESPONSE" >
                     <prompt  />
                     <simpleMatchSet>
                         <simpleAssociableChoice fixed="false" showHide="show" matchMax="0" matchMin="0" identifier="choice_6" >choice #1</simpleAssociableChoice>
@@ -33,18 +33,18 @@
         </div>
     </itemBody>
     <responseProcessing>
-        <!--this response condition will be not be serialized back to a standard template : match_correct, because the identifier is not RESPONSE -->
+        <!--this response condition will be serialized back to a standard template : match_correct-->
         <responseCondition>
             <responseIf>
                 <not>
                     <isNull>
-                        <variable identifier="RESPONSE_1" />
+                        <variable identifier="RESPONSE" />
                     </isNull>
                 </not>
                 <setOutcomeValue identifier="SCORE">
                     <sum>
                         <variable identifier="SCORE" />
-                        <mapResponse identifier="RESPONSE_1" />
+                        <mapResponse identifier="RESPONSE" />
                     </sum>
                 </setOutcomeValue>
             </responseIf>
