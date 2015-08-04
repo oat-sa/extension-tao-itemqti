@@ -222,7 +222,7 @@ class ImportService extends tao_models_classes_GenerisService
      */
     public function importQTIPACKFile($file, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $rollbackOnError = false, $rollbackOnWarning = false, $extractApip = false)
     {
-
+        
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         
         //load and validate the package
@@ -275,14 +275,14 @@ class ImportService extends tao_models_classes_GenerisService
             foreach ($qtiItemResources as $qtiItemResource) {
 
                 $itemCount++;
-
+                
                 try {
                     $qtiFile = $folder . $qtiItemResource->getFile();
                     
                     $qtiModel = $this->createQtiItemModel($qtiFile);
                     $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
                     $itemContent = $itemService->getItemContent($rdfItem);
-                    
+
                     $xincluded = array();
                     foreach($qtiModel->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeEle) {
                         $xincluded[] = $xincludeEle->attr('href');
@@ -322,13 +322,16 @@ class ImportService extends tao_models_classes_GenerisService
                             }
                         } else {
                             // store locally, in a safe directory
-                            $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            $safePath = '';
+                            if (dirname($auxPath) !== '.') {
+                                $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            }
                             $info = $local->add($auxFile, basename($auxFile), $safePath);
                             \common_Logger::i('Auxiliary file \''.$auxPath.'\' copied.');
                         }
                         
                         // replace uri if changed
-                        if ($auxPath != $info['uri']) {
+                        if ($auxPath != ltrim($info['uri'], '/')) {
                             $itemContent = str_replace($auxPath, $info['uri'], $itemContent);
                         }
                     }
