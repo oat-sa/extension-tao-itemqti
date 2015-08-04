@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\Export;
 use core_kernel_classes_Property;
 use DOMDocument;
 use DOMXPath;
+use oat\taoQtiItem\model\qti\exception\ExportException;
 use taoItems_models_classes_ItemExporter;
 use oat\taoQtiItem\model\qti\AssetParser;
 use oat\taoQtiItem\model\apip\ApipService;
@@ -58,7 +59,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $basePath = $this->buildBasePath();
-        
+
+        if(is_null($this->getItemModel())){
+            throw new ExportException('', 'No Item Model found for item : '.$this->getItem()->getUri());
+        }
         $dataFile = (string) $this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_DATAFILE_PROPERTY));
         $content = $this->getItemService()->getItemContent($this->getItem());
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
