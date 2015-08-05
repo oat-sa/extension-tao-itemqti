@@ -436,11 +436,10 @@ define([
      * @returns {undefined}
      */
     function _activateInnerWidget(containerWidget, innerWidget){
-
+        
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
             var listenToWidgetCreation = function(){
-
                 containerWidget.$container.off('widgetCreated').one('widgetCreated', function(e, widgets){
                     var targetWidget = widgets[innerWidget.serial];
                     if(targetWidget){
@@ -462,12 +461,13 @@ define([
                 });
 
             };
-
-            if(Element.isA(containerWidget.element, '_container')){
-
+            
+            if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
+                
+                //only _container that are NOT stateless need to change its state to sleep before activating the new one.
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
-
+                
             }else if(Element.isA(containerWidget.element, 'choice')){
 
                 listenToWidgetCreation();
