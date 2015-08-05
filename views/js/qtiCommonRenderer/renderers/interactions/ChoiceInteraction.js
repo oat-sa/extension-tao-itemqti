@@ -43,28 +43,40 @@ define([
     var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
+
+        var $radios = $('.qti-choice').find('input:radio').not('[disabled]').not('.disabled');
+
+        $radios.on('keypress.commonRenderer', function(e){
+            if(e.keyCode == 32 ){
+                _triggerCheckboxes($(this).closest('.qti-choice'));
+            }
+        });
+
         $container.on('click.commonRenderer', '.qti-choice', function(e){
 
             e.preventDefault();
             e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
 
-            var $box = $(this);
-            var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
-
-            if($radios.length){
-                $radios.not(':checked').prop('checked', true);
-                $radios.trigger('change');
-            }
-
-            if($checkboxes.length){
-                $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-                $checkboxes.trigger('change');
-            }
+            _triggerCheckboxes($(this));
 
             instructionMgr.validateInstructions(interaction, {choice : $box});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
+    };
+
+    var _triggerCheckboxes = function($box){
+        var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
+        var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+
+        if($radios.length){
+            $radios.not(':checked').prop('checked', true).focus();
+            $radios.trigger('change');
+        }
+
+        if($checkboxes.length){
+            $checkboxes.prop('checked', !$checkboxes.prop('checked'));
+            $checkboxes.trigger('change');
+        }
     };
 
     /**
