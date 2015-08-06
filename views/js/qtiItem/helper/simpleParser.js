@@ -62,7 +62,7 @@ define([
             var $annotation = $(this);
             var encoding = $annotation.attr('encoding');
             if(encoding){
-                elt.annotations[encoding] = $annotation.html();
+                elt.setAnnotation(encoding, $annotation.html());
             }
             $annotation.remove();
         });
