@@ -382,7 +382,9 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
         loadMathData : function(math, data){
             math.ns = data.ns || {};
             math.setMathML(data.mathML || '');
-            math.annotations = data.annotations || {};
+            _.forIn(data.annotations || {}, function(value, encoding){
+                math.setAnnotation(encoding, value);
+            });
         },
         loadPciData : function(pci, data){
             loadPortableCustomElementData(pci, data);
