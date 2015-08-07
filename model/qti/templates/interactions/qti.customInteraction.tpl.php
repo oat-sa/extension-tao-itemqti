@@ -24,9 +24,9 @@
         <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
         <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
             <pci:libraries>
-                <?foreach(get_data('libraries') as $lib):?>
+                <?php foreach(get_data('libraries') as $lib):?>
                 <pci:lib id="<?=$lib?>"/>
-                <?endforeach;?>
+                <?php endforeach;?>
             </pci:libraries>
         </pci:resources>
         <?=get_data('serializedProperties')?>

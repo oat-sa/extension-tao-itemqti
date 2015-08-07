@@ -23,7 +23,6 @@
 
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use \taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoItems\model\media\LocalItemSource;
 
