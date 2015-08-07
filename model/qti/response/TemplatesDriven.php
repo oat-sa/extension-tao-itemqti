@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,10 +15,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
  * 
  */
-
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
@@ -36,27 +34,12 @@ use \common_exception_Error;
 use \taoItems_models_classes_TemplateRenderer;
 
 /**
- * TAO - taoQTI/models/classes/QTI/response/class.TemplatesDriven.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 09.02.2012, 16:25:40 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoQTI
- 
- */
-
-/**
- * Short description of class
+ * Response processing similar to the QTI templates, but with
+ * support for multiple interactions
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
- 
  */
 class TemplatesDriven extends ResponseProcessing implements Rule
 {
@@ -69,7 +52,8 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function getRule(){
+    public function getRule()
+    {
         throw new common_exception_Error('please use buildRule for templateDriven instead');
     }
 
@@ -78,19 +62,20 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string uri
+     * @param
+     *            string uri
      * @return taoQTI_models_classes_Matching_bool
      */
-    public static function isSupportedTemplate($uri){
-
+    public static function isSupportedTemplate($uri)
+    {
         $mythoMap = Array(
             Template::MATCH_CORRECT,
             Template::MAP_RESPONSE,
             Template::MAP_RESPONSE_POINT
         );
-
+        
         $returnValue = in_array($uri, $mythoMap);
-
+        
         return (bool) $returnValue;
     }
 
@@ -99,20 +84,26 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Item item
+     * @param
+     *            Item item
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    public static function create(Item $item){
+    public static function create(Item $item)
+    {
         $returnValue = new TemplatesDriven();
-        if(count($item->getOutcomes()) == 0){
+        if (count($item->getOutcomes()) == 0) {
             $item->setOutcomes(array(
-                new OutcomeDeclaration(array('identifier' => 'SCORE', 'baseType' => 'float', 'cardinality' => 'single'))
+                new OutcomeDeclaration(array(
+                    'identifier' => 'SCORE',
+                    'baseType' => 'float',
+                    'cardinality' => 'single'
+                ))
             ));
         }
-        foreach($item->getInteractions() as $interaction){
+        foreach ($item->getInteractions() as $interaction) {
             $returnValue->setTemplate($interaction->getResponse(), Template::MATCH_CORRECT);
         }
-
+        
         return $returnValue;
     }
 
@@ -121,28 +112,31 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  ResponseProcessing responseProcessing
-     * @param  Item item
+     * @param
+     *            ResponseProcessing responseProcessing
+     * @param
+     *            Item item
      * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
      */
-    public static function takeOverFrom(ResponseProcessing $responseProcessing, Item $item){
+    public static function takeOverFrom(ResponseProcessing $responseProcessing, Item $item)
+    {
         $returnValue = null;
-
-        if($responseProcessing instanceof self){
+        
+        if ($responseProcessing instanceof self) {
             return $responseProcessing;
         }
-
-        if($responseProcessing instanceof Template){
+        
+        if ($responseProcessing instanceof Template) {
             $returnValue = new TemplatesDriven();
             // theoretic only interaction 'RESPONSE' should be considered
-            foreach($item->getInteractions() as $interaction){
+            foreach ($item->getInteractions() as $interaction) {
                 $returnValue->setTemplate($interaction->getResponse(), $responseProcessing->getUri());
             }
             $returnValue->setRelatedItem($item);
-        }else{
+        } else {
             throw new TakeoverFailedException();
         }
-
+        
         return $returnValue;
     }
 
@@ -151,15 +145,17 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Response response
-     * @param  string template
+     * @param
+     *            Response response
+     * @param
+     *            string template
      * @return boolean
      */
-    public function setTemplate(ResponseDeclaration $response, $template){
-
+    public function setTemplate(ResponseDeclaration $response, $template)
+    {
         $response->setHowMatch($template);
         $returnValue = true;
-
+        
         return (bool) $returnValue;
     }
 
@@ -168,10 +164,12 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Response response
+     * @param
+     *            Response response
      * @return string
      */
-    public function getTemplate(ResponseDeclaration $response){
+    public function getTemplate(ResponseDeclaration $response)
+    {
         return (string) $response->getHowMatch();
     }
 
@@ -180,11 +178,14 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Interaction interaction
-     * @param  Item item
+     * @param
+     *            Interaction interaction
+     * @param
+     *            Item item
      * @return mixed
      */
-    public function takeNoticeOfAddedInteraction(Interaction $interaction, Item $item){
+    public function takeNoticeOfAddedInteraction(Interaction $interaction, Item $item)
+    {
         $interaction->getResponse()->setHowMatch(Template::MATCH_CORRECT);
     }
 
@@ -193,26 +194,29 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Interaction interaction
-     * @param  Item item
+     * @param
+     *            Interaction interaction
+     * @param
+     *            Item item
      * @return mixed
      */
-    public function takeNoticeOfRemovedInteraction(Interaction $interaction, Item $item){
-        
-    }
+    public function takeNoticeOfRemovedInteraction(Interaction $interaction, Item $item)
+    {}
 
     /**
      * Short description of method getForm
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Response response
+     * @param
+     *            Response response
      * @return tao_helpers_form_Form
      */
-    public function getForm(ResponseDeclaration $response){
+    public function getForm(ResponseDeclaration $response)
+    {
         $formContainer = new TemplatesDrivenResponseOptions($this, $response);
         $returnValue = $formContainer->getForm();
-
+        
         return $returnValue;
     }
 
@@ -223,36 +227,36 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function buildQTI(){
-        
+    public function buildQTI()
+    {
         $template = $this->convertToTemplate();
-        if(!is_null($template)){
-            //if the TemplateDriven rp is convertible to a Template, render that template
+        if (! is_null($template)) {
+            // if the TemplateDriven rp is convertible to a Template, render that template
             return $template->toQTI();
         }
         
         $returnValue = "<responseProcessing>";
         $interactions = $this->getRelatedItem()->getInteractions();
         
-        foreach($interactions as $interaction){
+        foreach ($interactions as $interaction) {
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
             $templateName = substr($uri, strrpos($uri, '/') + 1);
-            $matchingTemplate = dirname(__FILE__).'/rpTemplate/qti.'.$templateName.'.tpl.php';
-
+            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/qti.' . $templateName . '.tpl.php';
+            
             $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, Array(
-                'responseIdentifier' => $response->getIdentifier()
-                , 'outcomeIdentifier' => 'SCORE'
+                'responseIdentifier' => $response->getIdentifier(),
+                'outcomeIdentifier' => 'SCORE'
             ));
             $returnValue .= $tplRenderer->render();
-
-            //add simple feedback rules:
-            foreach($response->getFeedbackRules() as $rule){
+            
+            // add simple feedback rules:
+            foreach ($response->getFeedbackRules() as $rule) {
                 $returnValue .= $rule->toQTI();
             }
         }
         $returnValue .= "</responseProcessing>";
-
+        
         return (string) $returnValue;
     }
 
@@ -260,26 +264,32 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * Short description of method buildRule
      *
      * @deprecated
+     *
+     *
+     *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Item item
+     * @param
+     *            Item item
      * @return string
      */
-    public function buildRule(Item $item){
+    public function buildRule(Item $item)
+    {
         $returnValue = (string) '';
-
-        foreach($item->getInteractions() as $interaction){
+        
+        foreach ($item->getInteractions() as $interaction) {
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
             $templateName = substr($uri, strrpos($uri, '/') + 1);
-            $matchingTemplate = dirname(__FILE__).'/rpTemplate/rule.'.$templateName.'.tpl.php';
-
-            $tplRenderer = new taoItems_models_classes_TemplateRenderer(
-                    $matchingTemplate, Array('responseIdentifier' => $response->getIdentifier(), 'outcomeIdentifier' => 'SCORE')
-            );
+            $matchingTemplate = dirname(__FILE__) . '/rpTemplate/rule.' . $templateName . '.tpl.php';
+            
+            $tplRenderer = new taoItems_models_classes_TemplateRenderer($matchingTemplate, Array(
+                'responseIdentifier' => $response->getIdentifier(),
+                'outcomeIdentifier' => 'SCORE'
+            ));
             $returnValue .= $tplRenderer->render();
         }
-
+        
         return (string) $returnValue;
     }
 
@@ -290,48 +300,46 @@ class TemplatesDriven extends ResponseProcessing implements Rule
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function toQTI(){
+    public function toQTI()
+    {
         throw new common_exception_Error('please use buildQTI for templateDriven instead');
     }
-    
+
     /**
      * Convert the TemplateDriven instance into a Template instance if it is possible
      * Returns null otherwise.
-     * 
+     *
      * @return \oat\taoQtiItem\model\qti\response\Template
      */
-    protected function convertToTemplate(){
+    protected function convertToTemplate()
+    {
         $returnValue = null;
         $interactions = $this->getRelatedItem()->getInteractions();
         
-        if(count($interactions) == 1){
+        if (count($interactions) == 1) {
             $interaction = reset($interactions);
-            //check if the unique interaction has the right responseIdentifier RESPONSE
-            if($interaction->attr('responseIdentifier') === 'RESPONSE'){
-                foreach($interactions as $interaction){
-                    $response = $interaction->getResponse();
-                    if(count($response->getFeedbackRules())){
-                        break;//need to output feedback rules
-                    }else{
-                        $uri = $response->getHowMatch();
-                        $returnValue = new Template($uri);
-                    }
+            // check if the unique interaction has the right responseIdentifier RESPONSE
+            if ($interaction->attr('responseIdentifier') === 'RESPONSE') {
+                $response = $interaction->getResponse();
+                if (count($response->getFeedbackRules()) == 0) {
+                    $uri = $response->getHowMatch();
+                    $returnValue = new Template($uri);
                 }
             }
         }
         return $returnValue;
     }
-    
-    public function toArray($filterVariableContent = false, &$filtered = array()){
-        
+
+    public function toArray($filterVariableContent = false, &$filtered = array())
+    {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $rp = null;
         $template = $this->convertToTemplate();
-        if(is_null($template)){
-            //cannot be converted into a Template instance, so build the rp from the current instance
+        if (is_null($template)) {
+            // cannot be converted into a Template instance, so build the rp from the current instance
             $rp = $this->buildQTI();
-        }else{
-            //can be converted into a Template instance, so get the Template content
+        } else {
+            // can be converted into a Template instance, so get the Template content
             $rp = $template->getTemplateContent();
         }
         $rpSerialized = QtiSerializer::parseResponseProcessingXml(simplexml_load_string($rp));
@@ -340,17 +348,17 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             'responseRules' => $rpSerialized['responseRules']
         );
         
-        if($filterVariableContent){
+        if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
-        }else{
+        } else {
             $returnValue = array_merge($returnValue, $protectedData);
         }
         
         return $returnValue;
     }
 
-    protected function getUsedAttributes(){
+    protected function getUsedAttributes()
+    {
         return array();
     }
-
 }
