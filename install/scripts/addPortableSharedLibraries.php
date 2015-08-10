@@ -44,3 +44,4 @@ $registry->registerFromFile('OAT/interact-rotate', $installBasePath . '/OAT/inte
 $registry->registerFromFile('OAT/sts/transform-helper', $installBasePath . '/OAT/sts/transform-helper.js');
 $registry->registerFromFile('OAT/handlebars', $installBasePath . '/OAT/handlebars.js');
 $registry->registerFromFile('OAT/sts/stsEventManager', $installBasePath . '/OAT/sts/stsEventManager.js');
+$registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
