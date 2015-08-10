@@ -87,7 +87,18 @@ class MetadataRegistry
     public function getMapping()
     {
         $mapping = $this->getExtension()->getConfig(self::CONFIG_ID);
-        return is_array($mapping) ? $mapping : array('injectors' => array(), 'extractors' => array(), 'guardians' => array());
+        
+        if (is_array($mapping) === true) {
+            if (isset($mapping['guardians']) === false) {
+                // Sometimes, guardians key is not set...
+                $mapping['guardians'] = array();
+            }
+            
+            return $mapping;
+        } else {
+            
+            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array());
+        }
     }
     
     /**
