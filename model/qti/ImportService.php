@@ -252,10 +252,15 @@ class ImportService extends tao_models_classes_GenerisService
             $domManifest->load($folder.'imsmanifest.xml');
             $metadataMapping = $qtiService->getMetadataRegistry()->getMapping();
             $metadataInjectors = array();
+            $metadataGuardians = array();
             $metadataValues = array();
             
             foreach ($metadataMapping['injectors'] as $injector) {
                 $metadataInjectors[] = new $injector();
+            }
+            
+            foreach ($metadataMapping['guardians'] as $guardian) {
+                $metadataGuardians[] = new $guardian();
             }
             
             foreach ($metadataMapping['extractors'] as $extractor) {
@@ -272,11 +277,29 @@ class ImportService extends tao_models_classes_GenerisService
             $sharedStorage = array_shift($sources);
             $sharedFiles = array();
             
+            // Will contains "already in item bank" ontology resources.
+            $alreadyStored = array();
+            
             foreach ($qtiItemResources as $qtiItemResource) {
 
                 $itemCount++;
                 
                 try {
+                    
+                    // Use the guardians to check whether or not the item has to be imported.
+                    foreach ($metadataGuardians as $guardian) {
+                        $resourceIdentifier = $qtiItemResource->getIdentifier();
+                        if (isset($metadataValues[$resourceIdentifier]) === true) {
+                            if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
+                                $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $qtiItemResource->getIdentifier());
+                                $report->add(common_report_Report::createInfo($msg, $guard));
+                                
+                                // Simply do not import again.
+                                continue 2;
+                            }
+                        }
+                    }
+                    
                     $qtiFile = $folder . $qtiItemResource->getFile();
                     
                     $qtiModel = $this->createQtiItemModel($qtiFile);
