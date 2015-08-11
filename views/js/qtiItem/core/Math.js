@@ -61,7 +61,7 @@ define([
             this.annotations = {};
         },
         setAnnotation : function(encoding, value){
-            this.annotations[encoding] = value;
+            this.annotations[encoding] = _.unescape(value);
         },
         getAnnotation : function(encoding){
             return this.annotations[encoding];
@@ -93,7 +93,7 @@ define([
                 annotations = '';
 
             for(var encoding in this.annotations){
-                annotations += '<annotation encoding="' + encoding + '">' + this.annotations[encoding] + '</annotation>';
+                annotations += '<annotation encoding="' + encoding + '">' + _.escape(this.annotations[encoding]) + '</annotation>';
             }
 
             if(annotations){

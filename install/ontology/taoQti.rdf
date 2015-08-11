@@ -17,7 +17,6 @@
     <item:DataFileName><![CDATA[qti.xml]]></item:DataFileName>
     <item:ItemAuthoring xml:lang="en-US"><![CDATA[taoQtiItem/QtiCreator/index]]></item:ItemAuthoring>
     <item:ItemModelStatus rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#StatusStable"/>
-    <item:ModelTarget rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#OnlineTarget"/>
     <item:ModelService><![CDATA[\oat\taoQtiItem\model\ItemModel]]></item:ModelService>
   </rdf:Description>
   

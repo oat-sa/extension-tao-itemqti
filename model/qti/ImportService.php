@@ -252,10 +252,20 @@ class ImportService extends tao_models_classes_GenerisService
             $domManifest->load($folder.'imsmanifest.xml');
             $metadataMapping = $qtiService->getMetadataRegistry()->getMapping();
             $metadataInjectors = array();
+            $metadataGuardians = array();
+            $metadataClassLookups = array();
             $metadataValues = array();
             
             foreach ($metadataMapping['injectors'] as $injector) {
                 $metadataInjectors[] = new $injector();
+            }
+            
+            foreach ($metadataMapping['guardians'] as $guardian) {
+                $metadataGuardians[] = new $guardian();
+            }
+            
+            foreach ($metadataMapping['classLookups'] as $classLookup) {
+                $metadataClassLookups[] = new $classLookup();
             }
             
             foreach ($metadataMapping['extractors'] as $extractor) {
@@ -272,15 +282,45 @@ class ImportService extends tao_models_classes_GenerisService
             $sharedStorage = array_shift($sources);
             $sharedFiles = array();
             
+            // Will contains "already in item bank" ontology resources.
+            $alreadyStored = array();
+            
             foreach ($qtiItemResources as $qtiItemResource) {
 
                 $itemCount++;
                 
                 try {
+                    
+                    $resourceIdentifier = $qtiItemResource->getIdentifier();
+                    
+                    // Use the guardians to check whether or not the item has to be imported.
+                    foreach ($metadataGuardians as $guardian) {
+                        
+                        if (isset($metadataValues[$resourceIdentifier]) === true) {
+                            if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
+                                $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $qtiItemResource->getIdentifier());
+                                $report->add(common_report_Report::createInfo($msg, $guard));
+                                
+                                // Simply do not import again.
+                                continue 2;
+                            }
+                        }
+                    }
+                    
+                    $targetClass = null;
+                    // Use the classLookups to determine where the item has to go.
+                    foreach ($metadataClassLookups as $classLookup) {
+                        if (isset($metadataValues[$resourceIdentifier]) === true) {
+                            if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
+                                break;
+                            }
+                        }
+                    }
+                    
                     $qtiFile = $folder . $qtiItemResource->getFile();
                     
                     $qtiModel = $this->createQtiItemModel($qtiFile);
-                    $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
+                    $rdfItem = $this->createRdfItem((($targetClass !== null) ? $targetClass : $itemClass), $qtiModel);
                     $itemContent = $itemService->getItemContent($rdfItem);
 
                     $xincluded = array();
@@ -411,7 +451,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param oat\taoQtiItem\model\qti\metadata\MetadataInjector[] $ontologyInjectors Implementations of MetadataInjector that will take care to inject the metadata values in the appropriate Ontology Resource Properties.
      * @throws oat\taoQtiItem\model\qti\metadata\MetadataInjectionException If an error occurs while importing the metadata. 
      */
-    protected function importItemMetadata(array $metadataValues, Resource $qtiResource, core_kernel_classes_Resource $resource, array $ontologyInjectors = array())
+    public function importItemMetadata(array $metadataValues, Resource $qtiResource, core_kernel_classes_Resource $resource, array $ontologyInjectors = array())
     {
         // Filter metadata values for this given item.
         $identifier = $qtiResource->getIdentifier();
