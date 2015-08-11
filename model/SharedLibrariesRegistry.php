@@ -168,7 +168,7 @@ class SharedLibrariesRegistry
         $dom->load($path);
         $basePath = pathinfo($dom->documentURI, PATHINFO_DIRNAME);
         
-        $basePath = ltrim($basePath, 'file:/');
+        $basePath = preg_replace('/^file:\//', '', $basePath);
         
         $xpath = new DOMXPath($dom);
         $xpath->registerNamespace('pci', 'http://www.imsglobal.org/xsd/portableCustomInteraction');
