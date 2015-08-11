@@ -102,7 +102,7 @@ class MetadataRegistry
             return $mapping;
         } else {
             
-            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array());
+            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array(), 'classLookups' => array());
         }
     }
     
