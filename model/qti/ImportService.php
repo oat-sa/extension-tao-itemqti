@@ -253,6 +253,7 @@ class ImportService extends tao_models_classes_GenerisService
             $metadataMapping = $qtiService->getMetadataRegistry()->getMapping();
             $metadataInjectors = array();
             $metadataGuardians = array();
+            $metadataClassLookups = array();
             $metadataValues = array();
             
             foreach ($metadataMapping['injectors'] as $injector) {
@@ -261,6 +262,10 @@ class ImportService extends tao_models_classes_GenerisService
             
             foreach ($metadataMapping['guardians'] as $guardian) {
                 $metadataGuardians[] = new $guardian();
+            }
+            
+            foreach ($metadataMapping['classLookups'] as $classLookup) {
+                $metadataClassLookups[] = new $classLookup();
             }
             
             foreach ($metadataMapping['extractors'] as $extractor) {
@@ -286,9 +291,11 @@ class ImportService extends tao_models_classes_GenerisService
                 
                 try {
                     
+                    $resourceIdentifier = $qtiItemResource->getIdentifier();
+                    
                     // Use the guardians to check whether or not the item has to be imported.
                     foreach ($metadataGuardians as $guardian) {
-                        $resourceIdentifier = $qtiItemResource->getIdentifier();
+                        
                         if (isset($metadataValues[$resourceIdentifier]) === true) {
                             if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
                                 $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $qtiItemResource->getIdentifier());
@@ -300,10 +307,20 @@ class ImportService extends tao_models_classes_GenerisService
                         }
                     }
                     
+                    $targetClass = null;
+                    // Use the classLookups to determine where the item has to go.
+                    foreach ($metadataClassLookups as $classLookup) {
+                        if (isset($metadataValues[$resourceIdentifier]) === true) {
+                            if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
+                                break;
+                            }
+                        }
+                    }
+                    
                     $qtiFile = $folder . $qtiItemResource->getFile();
                     
                     $qtiModel = $this->createQtiItemModel($qtiFile);
-                    $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
+                    $rdfItem = $this->createRdfItem((($targetClass !== null) ? $targetClass : $itemClass), $qtiModel);
                     $itemContent = $itemService->getItemContent($rdfItem);
 
                     $xincluded = array();
