@@ -32,6 +32,9 @@ define([
 ], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
+    const KEY_CODE_SPACE = 32;
+    const KEY_CODE_ENTER = 13;
+
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
@@ -47,17 +50,18 @@ define([
         var $radios = $('.qti-choice').find('input:radio').not('[disabled]').not('.disabled');
 
         $radios.on('keypress.commonRenderer', function(e){
-            if(e.keyCode == 32 ){
+            if(e.keyCode == KEY_CODE_SPACE || e.keyCode == KEY_CODE_ENTER){
                 _triggerCheckboxes($(this).closest('.qti-choice'));
             }
         });
 
         $container.on('click.commonRenderer', '.qti-choice', function(e){
+            var $box = $(this);
 
             e.preventDefault();
             e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
 
-            _triggerCheckboxes($(this));
+            _triggerCheckboxes($box);
 
             instructionMgr.validateInstructions(interaction, {choice : $box});
             containerHelper.triggerResponseChangeEvent(interaction);
