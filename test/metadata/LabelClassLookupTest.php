@@ -50,21 +50,22 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
     
     public function testLabelClassLookupTest()
     {
-        
+        $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
+        $this->assertEquals(1, count($class->countInstances()));
     }
     
     public static function tearDownAfterClass()
     {
-//         \taoItems_models_classes_ItemsService::singleton()->deleteItem(self::$itemResource);
+        \taoItems_models_classes_ItemsService::singleton()->deleteItem(self::$itemResource);
         
-//         // Unregister Metadata ClassLookup.
-//         \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataClassLookup('oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup');
+        // Unregister Metadata ClassLookup.
+        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataClassLookup('oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup');
         
-//         // Unregister Metadata Extractor.
-//         \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
+        // Unregister Metadata Extractor.
+        \oat\taoQtiItem\model\qti\Service::singleton()->getMetadataRegistry()->unregisterMetadataExtractor('oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor');
         
-//         // Delete fake class
-//         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
-//         $class->delete(true);
+        // Delete fake class
+        $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
+        $class->delete(true);
     }
 }
