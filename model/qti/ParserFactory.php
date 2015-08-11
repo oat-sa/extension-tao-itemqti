@@ -1381,11 +1381,14 @@ class ParserFactory
         $attributes = $this->extractAttributes($data);
         $myFeedback = new $feedbackClass($attributes, $this->item);
 
-
         if($data->nodeName == 'modalFeedback'){
             $myFeedback = new $feedbackClass($attributes, $this->item);
             $this->parseContainerStatic($data, $myFeedback->getBody());
-        }else{
+        } elseif ($data->nodeName == 'feedbackInline') {
+            //@todo: to be implemented: <feedbackInline> {@see http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html#section10008}
+            common_Logger::i('Importing item that contains <feedbackInline> element.');
+            $myFeedback = null;
+        } else {
 
             //@todo: to be implemented: interactive feedback
             throw new UnsupportedQtiElement($data);
@@ -1496,7 +1499,7 @@ class ParserFactory
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
-            $classeNames = split('/\s+/', $classes);
+            $classeNames = preg_split('/\s+/', $classes);
             foreach($classeNames as $classeName){
                 $ciClass = InfoControlRegistry::getInfoControlByName($classeName);
                 if($ciClass){
