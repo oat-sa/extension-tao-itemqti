@@ -48,10 +48,10 @@ define([
 
         options = _.defaults(options, _defaults);
 
-        if(!$editable instanceof $ || !$editable.length){
+        if( !($editable instanceof $) || !$editable.length){
             throw 'invalid jquery element for $editable';
         }
-        if(!$editableContainer instanceof $ || !$editableContainer.length){
+        if( !($editableContainer instanceof $) || !$editableContainer.length){
             throw 'invalid jquery element for $editableContainer';
         }
 
@@ -228,11 +228,6 @@ define([
                 },
                 blur : function(e){
                     return false;
-                    if(options.hideTriggerOnBlur){
-                        $trigger.hide();
-                    }
-                    $('.qti-item').trigger('toolbarchange');
-
                 },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
@@ -440,7 +435,6 @@ define([
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
             var listenToWidgetCreation = function(){
-
                 containerWidget.$container.off('widgetCreated').one('widgetCreated', function(e, widgets){
                     var targetWidget = widgets[innerWidget.serial];
                     if(targetWidget){
@@ -463,8 +457,9 @@ define([
 
             };
 
-            if(Element.isA(containerWidget.element, '_container')){
+            if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
 
+                //only _container that are NOT stateless need to change its state to sleep before activating the new one.
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
 
@@ -502,7 +497,9 @@ define([
      * @returns {undefined}
      */
     function _focus(editor){
-
+        if (!editor.editable().parentNode){
+            return;
+        }
         editor.focus();
         var range = editor.createRange();
         range.moveToElementEditablePosition(editor.editable(), true);

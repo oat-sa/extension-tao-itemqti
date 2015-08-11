@@ -40,6 +40,11 @@ class PortableCustomInteraction extends CustomInteraction
     
     const NS_NAME = 'pci';
     
+    protected $nsMap = array(
+        'pci' => 'http://www.imsglobal.org/xsd/portableCustomInteraction'
+    );
+    
+    
     protected $properties = array();
     protected $libraries = array();
     protected $typeIdentifier = '';
@@ -215,21 +220,55 @@ class PortableCustomInteraction extends CustomInteraction
      * @param string $ns
      * @return string
      */
-    private function serializePciProperties($properties, $ns = ''){
+    private function serializePciProperties($properties, $ns = '', $name = null, $element = null){
+        $document = null;
+        $result = '';
         
-        $ns = $this->formatPciNs($ns);
-       
-        $returnValue = '<'.$ns.'properties>';
-        foreach($properties as $name => $value){
+        if (!isset($this->nsMap[$ns])) {
+            $ns = '';
+        }
+        
+        if ($element === null) {
+            $document = new \DomDocument();
+            $element = $ns ? 
+                $document->createElementNS($this->nsMap[$ns], $ns . ':properties') : 
+                $document->createElement('properties');
+            
+            $document->appendChild($element);
+        } else {
+            $newElement = $ns ? 
+                $element->ownerDocument->createElementNS($this->nsMap[$ns], $ns . ':properties') : 
+                $element->ownerDocument->createElement('properties');
+            
+            $element->appendChild($newElement);
+            $element = $newElement;
+        }
+
+        if ($name !== null) {
+            $element->setAttribute('key', $name);
+        } 
+
+        foreach ($properties as $name => $value) {
             if(is_array($value)){
-                $returnValue .= $this->serializePciProperties($value, $ns);
-            }else{
-                $returnValue .= '<'.$ns.'entry key="'.$name.'">'.$value.'</'.$ns.'entry>';
+                $this->serializePciProperties($value, $ns, $name, $element);
+            } else {
+                $entryElement = $ns ? 
+                    $element->ownerDocument->createElementNS($this->nsMap[$ns], $ns . ':entry') : 
+                    $element->ownerDocument->createElementNS('entry');
+                
+                $entryElement->setAttribute('key', $name);
+                $entryElement->appendChild(new \DOMText($value));
+                $element->appendChild($entryElement);
             }
         }
-        $returnValue .= '</'.$ns.'properties>';
+
+        if ($document !== null) {
+            foreach ($document->childNodes as $node) {
+               $result .= $document->saveXML($node);
+            }
+        }
         
-        return $returnValue;
+        return $result;
     }
     
 }

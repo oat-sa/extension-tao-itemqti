@@ -34,6 +34,7 @@ use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\tao\model\media\MediaService;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -196,12 +197,14 @@ class QtiCreator extends tao_actions_CommonModule
 
             //check if the item is QTI item
             if($itemService->hasItemModel($rdfItem, array(ItemModel::MODEL_URI))){
-
-                $xml = Authoring::validateQtiXml($xml);
-
-                //get the QTI xml
-                $returnValue['success'] = $itemService->setItemContent($rdfItem, $xml);
-                $returnValue['xml'] = $xml;
+                try {
+                    $sanitized = Authoring::sanitizeQtiXml($xml);
+                    Authoring::validateQtiXml($sanitized);
+                    //get the QTI xml
+                    $returnValue['success'] = $itemService->setItemContent($rdfItem, $sanitized);
+                } catch (QtiModelException $e) {
+                    throw new \RuntimeException($e->getUserMessage(), 0, $e);
+                }
             }
         }
 

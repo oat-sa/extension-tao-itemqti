@@ -42,44 +42,23 @@ class Authoring
 {
 
     /**
-     * Validate and format (if possible) a QTI XML string
+     * Validate a QTI XML string.
      * 
-     * @param string $qti
-     * @return string
+     * @param string $qti File path or XML string
      * @throws QtiModelException
      */
-    public static function validateQtiXml($qti){
+    public static function validateQtiXml($qti)
+    {
+        
+        $dom = self::loadQtiXml($qti);
+        $returnValue = $dom->saveXML();
 
-        $returnValue = '';
-
-        // render and clean the xml
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
-
-        if($dom->loadXML($qti)){
-            $returnValue = $dom->saveXML();
-
-            //in debug mode, systematically check if the save QTI is standard compliant
-            if(DEBUG_MODE){
-                $parserValidator = new Parser($returnValue);
-                $parserValidator->validate();
-                if(!$parserValidator->isValid()){
-                    common_Logger::w('Invalid QTI output: '.PHP_EOL.' '.$parserValidator->displayErrors());
-                    common_Logger::d(print_r(explode(PHP_EOL, $returnValue), true));
-                    throw new QtiModelException('invalid QTI item XML '.PHP_EOL.' '.$parserValidator->displayErrors());
-                }
-            }
-        }else{
-            $parserValidator = new Parser($qti);
-            $parserValidator->validate();
-            if(!$parserValidator->isValid()){
-                throw new QtiModelException('Wrong QTI item output format');
-            }
+        $parserValidator = new Parser($returnValue);
+        $parserValidator->validate();
+        if(!$parserValidator->isValid()) {
+            common_Logger::w('Invalid QTI output: ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
+            throw new QtiModelException('invalid QTI item XML ' . PHP_EOL . ' ' . $parserValidator->displayErrors());
         }
-
-        return (string) $returnValue;
     }
 
     /**
@@ -102,7 +81,7 @@ class Authoring
         foreach($relativeSourceFiles as $relPath){
             if(tao_helpers_File::securityCheck($relPath, true)){
                 
-                $relPath = preg_replace('/^\.\//', '', $relPath);
+               $relPath = preg_replace('/^\.\//', '', $relPath);
                 $source = $sourceDirectory.$relPath;
                 
                 $destination = tao_helpers_File::concat(array(
@@ -115,7 +94,7 @@ class Authoring
                     $returnValue[] = $relPath;
                 }else{
                     throw new common_exception_Error('the resource "'.$source.'" cannot be copied');
-            }
+                }
             }else{
                 throw new common_exception_Error('invalid resource file path');
             }
@@ -123,5 +102,67 @@ class Authoring
 
         return $returnValue;
     }
-
+    
+    /**
+     * Remove invalid elements and attributes from QTI XML. 
+     * @param string $qti File path or XML string
+     * @return string sanitized XML
+     */
+    public static function sanitizeQtiXml($qti)
+    {
+        $doc = self::loadQtiXml($qti);
+        
+        $xpath = new \DOMXpath($doc);
+        
+        foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
+            $elementWithStyle->removeAttribute('style');
+        }
+        
+        return $doc->saveXML();
+    }
+    
+    /**
+     * Load QTI xml and return DOMDocument instance. 
+     * If string is not valid xml then QtiModelException will be thrown.
+     * @param string $file File path or XML string
+     * @throws QtiModelException
+     * @throws common_exception_Error
+     * @return DOMDocument
+     */
+    public static function loadQtiXml($file) 
+    {
+        if (preg_match("/^<\?xml(.*)?/m", trim($file))) {
+            $qti = $file;
+        } elseif (is_file($file)){
+            $qti = file_get_contents($file);
+        } else {
+            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got ".substr($file, 0, 500));
+        }
+        
+        $errors = array();
+        
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+        $dom->validateOnParse = false;
+        
+        libxml_use_internal_errors(true);
+        
+        if (!$dom->loadXML($qti)) {
+            $errors = libxml_get_errors();
+            
+            $errorsMsg = 'Wrong QTI item output format:' 
+            . PHP_EOL 
+            . array_reduce($errors, function ($carry, $item) {
+                $carry .= $item->message . PHP_EOL;
+                return $carry;
+            });
+            
+            common_Logger::w($errorsMsg);
+            
+            throw new QtiModelException($errorsMsg);
+        }
+        
+        return $dom;
+    }
 }

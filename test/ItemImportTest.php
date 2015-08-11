@@ -99,7 +99,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     public function testWrongFormatClass()
     {
         $itemClass = $this->itemService->getRootClass();
-
+        
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/wrong/MalformedItemXml.zip'),
             $itemClass, true, null, true);
         $this->assertEquals(\common_report_Report::TYPE_ERROR, $report->getType());
@@ -168,6 +168,39 @@ class ItemImportTest extends TaoPhpUnitTestRunner
             $this->itemService->deleteItem($item);    
         }
     }
+    
+    public function testImportPCI()
+    {
+        $itemClass = $this->itemService->getRootClass();
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/PCI/pcisample.zip'),
+            $itemClass
+        );
+        $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
+        
+        $items = array();
+        foreach ($report as $itemReport) {
+            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
+            $data = $itemReport->getData();
+            if (!is_null($data)) {
+                $items[] = $data;
+            }
+        }
+        $this->assertEquals(1, count($items));
+        $item = \oat\taoQtiItem\model\qti\Service::singleton()->getDataItemByRdfItem($items[0], DEFAULT_LANG, false);
+        
+        $itemData = $item->toArray();
+        $itemDataElemetns = current($itemData['body']['elements']);
+        
+        //ensure that path prefixed with interaction identifies was not changed;
+        $this->assertEquals($itemDataElemetns['entryPoint'], "adaptiveChoiceInteraction/runtime/adaptiveChoiceInteraction.js");
+        //ensure that interaction properties imported properly
+        $this->assertTrue(isset($itemDataElemetns['properties']['choices'][0]['label']));
+        
+        foreach ($items as $item) {
+            $this->itemService->deleteItem($item);    
+        }
+    }
 
     public function testImport()
     {
@@ -213,7 +246,7 @@ class ItemImportTest extends TaoPhpUnitTestRunner
         }
 
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertEquals("application/xml", $file['mime']);
+        $this->assertContains("/xml", $file['mime']);
         $this->assertTrue($file['size'] > 0);
 
         $this->assertEquals("/images/", $dir['path']);

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T18:49:28\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:30:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -14,16 +14,16 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr "Llenar los espacios vacíos en una imagen con un conjunto de opciones de imágenes."
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "–Cualquier tipo de archivo–"
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Se debe seleccionar una opción"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr ""
@@ -59,28 +59,28 @@ msgid "Add else feedback"
 msgstr ""
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "Agregar nuevos pares"
 
 msgid "Add Style Sheet"
 msgstr ""
 
 msgid "Alignment"
-msgstr ""
+msgstr "Alineación"
 
 msgid "Alignment (optional)"
-msgstr ""
+msgstr "Alineación (opcional)"
 
 msgid "Allowed associations"
-msgstr ""
+msgstr "Asociaciones permitidas"
 
 msgid "Allowed choices"
-msgstr ""
+msgstr "Opciones permitidas"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "Cantidad de coincidencias permitidas"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "Cantidad de usos permitidos"
 
 msgid "Alt Text"
 msgstr ""
@@ -119,7 +119,7 @@ msgid "APIP Package 1.0"
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "Organizar una lista de opciones en el orden correcto."
 
 msgid "Associate"
 msgstr ""
@@ -155,19 +155,19 @@ msgid "Browse your computer and select the appropriate file."
 msgstr ""
 
 msgid "Browse..."
-msgstr ""
-
-msgid "cancel"
-msgstr ""
+msgstr "Buscar..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
+
+msgid "cancel"
+msgstr "cancelar"
 
 msgid "chars"
 msgstr ""
 
 msgid "Choice"
-msgstr ""
+msgstr "Opciones"
 
 msgid "Choice Image"
 msgstr ""
@@ -182,7 +182,7 @@ msgid "Choices"
 msgstr ""
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "Haga clic de nuevo para eliminar"
 
 msgid "Click to display interaction widget"
 msgstr ""
@@ -205,11 +205,11 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr ""
 
-msgid "correct"
-msgstr ""
-
 msgid "Correct"
-msgstr ""
+msgstr "Correcto"
+
+msgid "correct"
+msgstr "correcto"
 
 msgid "Could not create language specific directory for item \'%s\"
 msgstr ""
@@ -218,25 +218,25 @@ msgid "Create assocations and fill the score in the form below"
 msgstr ""
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Crear asociaciones entre áreas (zonas activas) que aparecen en una imagen."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "Crear asociaciones entre dos conjuntos de opciones que se muestran en un cuadro (fila y columna)."
 
 msgid "Create gap"
-msgstr ""
+msgstr "Crear intervalo"
 
 msgid "Create hottext"
-msgstr ""
+msgstr "Crear texto activo"
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "Crear pares de una serie de opciones."
 
 msgid "CSV file"
 msgstr ""
 
 msgid "Current value:"
-msgstr ""
+msgstr "Valor actual:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr ""
@@ -244,10 +244,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define correct response"
@@ -290,7 +290,7 @@ msgid "Display larger editor"
 msgstr ""
 
 msgid "done"
-msgstr ""
+msgstr "Hecho"
 
 msgid "Download this stylesheet"
 msgstr ""
@@ -308,7 +308,7 @@ msgid "Draw an ellipsis on the image"
 msgstr ""
 
 msgid "Drop the target to select a point"
-msgstr ""
+msgstr "Coloquar el destino para seleccionar un punto"
 
 msgid "e.g. 13"
 msgstr ""
@@ -347,7 +347,7 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr ""
 
 msgid "End Attempt"
-msgstr ""
+msgstr "Finalizar intento"
 
 msgid "End Attempt Interaction"
 msgstr ""
@@ -377,7 +377,7 @@ msgid "Failed to save item"
 msgstr ""
 
 msgid "Feedback"
-msgstr ""
+msgstr "Comentario"
 
 msgid "File"
 msgstr ""
@@ -386,13 +386,13 @@ msgid "File name"
 msgstr ""
 
 msgid "File Upload"
-msgstr ""
+msgstr "Carga de archivo"
 
 msgid "File Upload Interaction"
 msgstr ""
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
+msgstr "Llenar los espacios vacíos en una imagen con un conjunto de opciones de imágenes."
 
 msgid "Flash video"
 msgstr ""
@@ -545,23 +545,23 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "LaTex"
-msgstr ""
-
 msgid "Latex"
 msgstr ""
 
+msgid "LaTex"
+msgstr ""
+
 msgid "leave empty"
+msgstr "dejar vacío"
+
+msgid "left"
 msgstr ""
 
 msgid "Left"
 msgstr ""
 
-msgid "left"
-msgstr ""
-
 msgid "Length"
-msgstr ""
+msgstr "Longitud"
 
 msgid "Lines"
 msgstr ""
@@ -579,11 +579,11 @@ msgid "Malformed XML:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "Mapping default"
@@ -602,34 +602,34 @@ msgid "MathML"
 msgstr ""
 
 msgid "Max"
-msgstr ""
-
-msgid "Max Length"
-msgstr ""
+msgstr "Máx."
 
 msgid "Max length"
-msgstr ""
+msgstr "Longitud máx."
+
+msgid "Max Length"
+msgstr "Longitud máx."
 
 msgid "Max Words"
-msgstr ""
+msgstr "Máx. de palabras"
 
 msgid "Max words"
-msgstr ""
+msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
-msgstr ""
+msgstr "Cantidad máx. de coincidencias"
 
 msgid "Maximal score for this interaction."
-msgstr ""
+msgstr "Puntuación máxima para esta interacción."
 
 msgid "maximum"
-msgstr ""
+msgstr "Máximo"
 
 msgid "Maximum choices reached"
-msgstr ""
+msgstr "Opciones máximas alcanzadas"
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "Cantidad máxima de opciones alcanzadas."
 
 msgid "Media"
 msgstr ""
@@ -702,7 +702,7 @@ msgid "None defined yet."
 msgstr ""
 
 msgid "Number of associations"
-msgstr ""
+msgstr "Cantidad de asociaciones"
 
 msgid "of"
 msgstr ""
@@ -717,7 +717,7 @@ msgid "Order Interaction"
 msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Ordenar las áreas (zonas activas) que aparecen en una imagen."
 
 msgid "Pair scoring"
 msgstr ""
@@ -769,7 +769,7 @@ msgid "Please fill the gap with the correct choices."
 msgstr ""
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
+msgstr "Llenar el espacio vacío con las imágenes que aparecen a continuación y luego modificar la puntuación de cada par de espacio vacío/imagen."
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
 msgstr ""
@@ -799,7 +799,7 @@ msgid "Please the score of each hotspot choice."
 msgstr ""
 
 msgid "Please type the correct response below."
-msgstr ""
+msgstr "Escribir la respuesta correcta a continuación."
 
 msgid "Please type the correct response in the box below."
 msgstr ""
@@ -867,10 +867,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -943,7 +943,7 @@ msgid "Select a "
 msgstr ""
 
 msgid "select a choice"
-msgstr ""
+msgstr "Seleccionar una opción"
 
 msgid "Select a choice from a drop-down list."
 msgstr ""
@@ -997,13 +997,13 @@ msgid "Select the area to add an image"
 msgstr ""
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr ""
+msgstr "Seleccionar la manera en que debe procesarse la respuesta de su interacción"
 
 msgid "Select this area"
-msgstr ""
+msgstr "Seleccionar esta área"
 
 msgid "Select this area to start an association"
-msgstr ""
+msgstr "Seleccionar esta área para iniciar una asociación."
 
 msgid "Set the score for this response"
 msgstr ""
@@ -1162,7 +1162,7 @@ msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr ""
 
 msgid "The minimum number of answers is "
-msgstr ""
+msgstr "La cantidad mínima de respuestas es"
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
 msgstr ""
@@ -1247,7 +1247,7 @@ msgid "Top"
 msgstr ""
 
 msgid "Trigger the end of the item attempt."
-msgstr ""
+msgstr "Desencadenar la finalización del intento del ítem."
 
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
@@ -1259,7 +1259,7 @@ msgid "Undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
+msgstr "Cargar un archivo (por ejemplo, un documento o una imagen) como respuesta."
 
 msgid "Upper Bound"
 msgstr ""
@@ -1307,7 +1307,8 @@ msgid "You can select maximum %d choice"
 msgstr ""
 
 msgid "You can select maximum %d choices"
-msgstr ""
+msgstr "Puede usar %d opciones como máximo.\n"
+""
 
 msgid "You can select maximum of %s choices"
 msgstr ""
@@ -1331,16 +1332,16 @@ msgid "You may make as many association pairs as you want."
 msgstr ""
 
 msgid "You must at least %d choice"
-msgstr ""
+msgstr "Debe usar al menos %d opción."
 
 msgid "You must select %1$d to %2$d choices."
-msgstr ""
+msgstr "Debe seleccionar de (%1$d) a (%2$d) opciones."
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "Debe seleccionar de 0 a (%d) opciones."
 
 msgid "You must select at least %d choices"
-msgstr ""
+msgstr "Debe seleccionar exactamente %d opción(es)."
 
 msgid "You must select at least %s choices"
 msgstr ""
@@ -1360,11 +1361,8 @@ msgstr ""
 msgid "You must select exactly %s choices"
 msgstr ""
 
-msgid "You must select exactly 1 choice"
-msgstr ""
-
 msgid "You must use at least %d choices"
-msgstr ""
+msgstr "Debe usar al menos %d opciones"
 
 msgid "You need to make"
 msgstr ""

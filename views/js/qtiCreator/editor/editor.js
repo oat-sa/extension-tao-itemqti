@@ -186,7 +186,7 @@ define([
     var initGui = function(widget, config){
 
         lastItemData = undefined;
-        askForSave = false;
+        askForSave = !!widget.element.data('new');//new item needs to be saved once before being able to preview it
 
         //serialize the item at the initialization level
         initLastItemData(widget.element);

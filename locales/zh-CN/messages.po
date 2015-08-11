@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T18:50:23\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:31:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -44,7 +44,7 @@ msgid "Add a QTI XML file"
 msgstr "添加一个QTI XML文件"
 
 msgid "Add a zip file containing APIP items"
-msgstr ""
+msgstr "添加一个有APIP題目的ZIP文件"
 
 msgid "Add a zip file containing QTI items"
 msgstr "添加含有QTI题目的ZIP文件"
@@ -98,7 +98,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "在解析IMS QTI数据时发生错误。"
 
 msgid "An unexpected error occured during the import of the IMS APIP Item Package."
-msgstr ""
+msgstr "导入IMS APIP 题目包时发生了错误。"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "导入IMS QTI题目包时发生了错误。"
@@ -113,10 +113,10 @@ msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "当导入IMS QTI包时发生不明的错误。"
 
 msgid "APIP Package"
-msgstr ""
+msgstr "APIP 包"
 
 msgid "APIP Package 1.0"
-msgstr ""
+msgstr "APIP 1.0 包 "
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "按正确的顺序排列选项列表。"
@@ -157,10 +157,10 @@ msgstr "浏览你的电脑，并选择文件。"
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "chars"
@@ -203,12 +203,12 @@ msgid "Contraints"
 msgstr "约束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr "控制视频和音频的播放参数(自动播放，循环)再报告已播放的次数。"
-
-msgid "correct"
-msgstr "正确"
+msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
 msgid "Correct"
+msgstr "正确"
+
+msgid "correct"
 msgstr "正确"
 
 msgid "Could not create language specific directory for item \'%s\"
@@ -244,10 +244,10 @@ msgstr "目前，不可从MathML转换到LaTeX。 在这里编辑MathML会丢�
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -275,13 +275,13 @@ msgid "Delete else statement"
 msgstr "删除else语句"
 
 msgid "Delete this modal feedback"
-msgstr "删除此模式反馈"
+msgstr "删除这个模式反馈"
 
 msgid "Description"
 msgstr "描述"
 
 msgid "Disable this stylesheet temporarily"
-msgstr "暂时禁用此样式表"
+msgstr "暂时禁用这个样式表"
 
 msgid "Display"
 msgstr "显示"
@@ -359,7 +359,7 @@ msgid "Export"
 msgstr "导出"
 
 msgid "Export APIP 1.0 Package"
-msgstr ""
+msgstr "导出 APIP 1.0 包"
 
 msgid "Export QTI 2.1 Package"
 msgstr "导出 QTI 2.1包"
@@ -467,7 +467,7 @@ msgid "If given, the pattern mask specifies a regular expression that the candid
 msgstr "如有图样面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
-msgstr "如有样式面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。 考生需要明白输入格式的要求，尤其有些考试累进时会检查回应是否有效。 例如：可以在提示中提供说明和回应样本。"
+msgstr "如有样式面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。 考生需要明白输入格式的要求，尤其有些考试累进时会检查回应是否有效。 例如：这可以在提示中提供说明和回应样本。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "如果字符串的互动被限制为数字回应，那基本属性必须被使用来设置基数，这也是用来解释由考生输入的值。"
@@ -479,7 +479,7 @@ msgid "Import a QTI 2.X Package"
 msgstr "导入QTI 2.X包"
 
 msgid "Import an APIP 1.0 Package"
-msgstr ""
+msgstr "导入 APIP 1.0 包"
 
 msgid "Import QTI 2.X Item"
 msgstr "导入QTI 2.X题目"
@@ -488,7 +488,7 @@ msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be i
 msgstr ""
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr "在可视化的环境中，字符串互动通常由空框表示。 考生把回应输入到空框里。 递送器应该使用这个属性的值(如果有的话) ，而不是使用它们的预设占位符文。"
+msgstr "在可视化的环境中，字符串互动通常由空框表示。 考生把回应输入到空框里。 递送器应该使用这个属性的值(如果有的话) ，而不是使用它们的默认占位符文。"
 
 msgid "incorrect"
 msgstr "不对"
@@ -545,19 +545,19 @@ msgstr "JPEG图片"
 msgid "Label"
 msgstr "标签"
 
-msgid "LaTex"
+msgid "Latex"
 msgstr "LaTeX"
 
-msgid "Latex"
+msgid "LaTex"
 msgstr "LaTeX"
 
 msgid "leave empty"
 msgstr "留空"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
-msgid "left"
+msgid "Left"
 msgstr "左"
 
 msgid "Length"
@@ -579,15 +579,15 @@ msgid "Malformed XML:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr "管理题目"
-
 #, tao-public
 msgid "Manage items"
 msgstr "管理题目"
 
+msgid "Manage Items"
+msgstr "管理题目"
+
 msgid "Mapping default"
-msgstr "预设映射"
+msgstr "默认映射"
 
 msgid "Match"
 msgstr "匹配"
@@ -604,10 +604,10 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大长度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大长度"
 
 msgid "Max Words"
@@ -656,7 +656,7 @@ msgid "Min"
 msgstr "最低"
 
 msgid "Minimal  score for this interaction."
-msgstr "此互动的最低分数。"
+msgstr "这个互动的最低分数。"
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
 msgstr "回应处理后，模态反馈将会显示给考生看。"
@@ -867,10 +867,10 @@ msgstr "所建议的"
 msgid "Reduce font size"
 msgstr "缩小字型"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -901,7 +901,7 @@ msgid "Remove the selected shape"
 msgstr "移除选取的形状"
 
 msgid "Remove this stylesheet"
-msgstr "移除此样式表"
+msgstr "移除这个样式表"
 
 msgid "required"
 msgstr "必要的"
@@ -1048,7 +1048,7 @@ msgid "Table headings"
 msgstr "表格标题"
 
 msgid "TAO default styles"
-msgstr "TAO预设的样式"
+msgstr "TAO默认的样式"
 
 msgid "Text Block"
 msgstr "文字块"
@@ -1126,7 +1126,7 @@ msgid "The item of the qti item. It is currently used as a meta data only. It is
 msgstr ""
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "形状的左部相对于像素为背景的左上角。 当背景图像的尺寸适于容器，该值可以被缩放。"
+msgstr "形状的左部相对于像素为背景的左上角。 当背景图像的尺寸适于容器，这个值可以被缩放。"
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
 msgstr "环路属性用于设置连续播放模式。 在连续播放模式中，一旦媒体对象已经开始播放，它就应该继续播放(需maxPlays)。"
@@ -1150,10 +1150,10 @@ msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "考生可以使用的最多选择数量。"
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr "这选择可以与多少其他选择有相关联(最多数量)。"
+msgstr "这个选择可以与多少其他选择有相关联(最多数量)。"
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr "这选择可以与多少其他选择有相关联(最多数量）。 如果matchMax是0就没有限制。"
+msgstr "这个选择可以与多少其他选择有相关联(最多数量）。 如果matchMax是0就没有限制。"
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "maxPlays属性所述媒体对象可以播放的最多次数。 考生播放媒体对象必须不能多于maxPlay次数。 当指数是0(预设)就表示没有限制。"
@@ -1177,7 +1177,7 @@ msgid "The number of units corresponding to a step on the slider"
 msgstr "滑动钮的每一个阶段等于多少个单位"
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr "该题目的原理标识符。 此标识符必须在题目的元数据中有对应的条目。"
+msgstr "该题目的原理标识符。 这个标识符必须在题目的元数据中有对应的条目。"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
 msgstr "使用指导语目的。 例如：有多个题目的文章，或作为于某部分的说明。"
@@ -1192,10 +1192,10 @@ msgid "The selected file is ready to be sent."
 msgstr "所选择的文件已预备好，可以发送。"
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "形状高度以像素为单位。 当背景图像的尺寸适于容器，该值可以被缩放。"
+msgstr "形状高度以像素为单位。 当背景图像的尺寸适于容器，这个值可以被缩放。"
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "形状宽度以像素为单位。 当背景图像的尺寸适于容器，该值可以被缩放。"
+msgstr "形状宽度以像素为单位。 当背景图像的尺寸适于容器，这个值可以被缩放。"
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "目标必须是DOMDocument的一个实例"
@@ -1204,7 +1204,7 @@ msgid "The text to be displayed if the image is not available."
 msgstr "如果没有提供图像，此文本会显示。"
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "形状的顶部相对于像素为背景的左上角。 当背景图像的尺寸适于容器，该值可以被缩放。"
+msgstr "形状的顶部相对于像素为背景的左上角。 当背景图像的尺寸适于容器，这个值可以被缩放。"
 
 msgid "The upper bound of the slider"
 msgstr "滑动钮的上限"
@@ -1214,7 +1214,7 @@ msgid "The validation of the imported QTI item failed. The system returned the f
 msgstr ""
 
 msgid "The ZIP archive containing the IMS APIP Item cannot be extracted."
-msgstr ""
+msgstr "此含有IMS APIP题目的ZIP压缩文件不能被提取。"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "此含有IMS QTI题目的ZIP压缩文件不能被提取。"
@@ -1229,13 +1229,13 @@ msgid "There was a problem downloading your CSS, please try again."
 msgstr "下载CSS时发生了问题，请重试一次。"
 
 msgid "this identifier is already in use"
-msgstr "此标识符已被使用"
+msgstr "这个标识符已被使用"
 
 msgid "This is not a valid answer"
 msgstr "这不是一个有效的答案"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr "这个样式表没有在服务器上找到。 您可能需要删除此参照。"
+msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
 
 msgid "Time dependent"
 msgstr "累计运行的时间"
@@ -1358,9 +1358,6 @@ msgid "You must select exactly %d choices"
 msgstr ""
 
 msgid "You must select exactly %s choices"
-msgstr ""
-
-msgid "You must select exactly 1 choice"
 msgstr ""
 
 msgid "You must use at least %d choices"

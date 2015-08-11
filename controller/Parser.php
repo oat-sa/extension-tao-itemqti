@@ -43,7 +43,7 @@ class Parser extends tao_actions_CommonModule
         );
 
         $xml = file_get_contents('php://input');
-        $xml = Authoring::validateQtiXml($xml);
+        Authoring::validateQtiXml($xml);
 
         $qtiParser = new QtiParser($xml);
         $item = $qtiParser->load();

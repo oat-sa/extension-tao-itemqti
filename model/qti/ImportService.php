@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti;
 use oat\tao\model\media\MediaService;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
+use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\helpers\Apip;
 use oat\taoQtiItem\model\apip\ApipService;
 use \tao_models_classes_GenerisService;
@@ -135,16 +136,13 @@ class ImportService extends tao_models_classes_GenerisService
     
     protected function createQtiItemModel($qtiFile, $validate = true)
     {
+        $qtiXml = Authoring::sanitizeQtiXml($qtiFile);
         //validate the file to import
-        $qtiParser = new Parser($qtiFile);
+        $qtiParser = new Parser($qtiXml);
         
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $this->validateMultiple($qtiParser, array(
-                $basePath.'model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
-                $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd',
-                $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-            ));
+            $qtiParser->validate();
         
             if (!$qtiParser->isValid()) {
                 $failedValidation = true;
@@ -173,7 +171,7 @@ class ImportService extends tao_models_classes_GenerisService
         
         if ($validate) {
             $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $this->validateMultiple($qtiManifestParser, array(
+            $qtiManifestParser->validateMultiple(array(
                 $basePath.'model/qti/data/imscp_v1p1.xsd',
                 $basePath.'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
             ));
@@ -203,28 +201,6 @@ class ImportService extends tao_models_classes_GenerisService
     }
 
     /**
-     * Excecute parser validation and stops at the first valid one, and returns the identified schema
-     * 
-     * @param tao_models_classes_Parser $parser
-     * @param array $xsds
-     * @return string
-     */
-    public function validateMultiple(tao_models_classes_Parser $parser, $xsds = array())
-    {
-        $returnValue = '';
-
-        foreach ($xsds as $xsd) {
-            $parser->validate($xsd);
-            if ($parser->isValid()) {
-                $returnValue = $xsd;
-                break;
-            }
-        }
-
-        return $returnValue;
-    }
-
-    /**
      * imports a qti package and
      * returns the number of items imported
      *
@@ -246,7 +222,7 @@ class ImportService extends tao_models_classes_GenerisService
      */
     public function importQTIPACKFile($file, core_kernel_classes_Class $itemClass, $validate = true, core_kernel_versioning_Repository $repository = null, $rollbackOnError = false, $rollbackOnWarning = false, $extractApip = false)
     {
-
+        
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         
         //load and validate the package
@@ -276,10 +252,15 @@ class ImportService extends tao_models_classes_GenerisService
             $domManifest->load($folder.'imsmanifest.xml');
             $metadataMapping = $qtiService->getMetadataRegistry()->getMapping();
             $metadataInjectors = array();
+            $metadataGuardians = array();
             $metadataValues = array();
             
             foreach ($metadataMapping['injectors'] as $injector) {
                 $metadataInjectors[] = new $injector();
+            }
+            
+            foreach ($metadataMapping['guardians'] as $guardian) {
+                $metadataGuardians[] = new $guardian();
             }
             
             foreach ($metadataMapping['extractors'] as $extractor) {
@@ -296,17 +277,35 @@ class ImportService extends tao_models_classes_GenerisService
             $sharedStorage = array_shift($sources);
             $sharedFiles = array();
             
+            // Will contains "already in item bank" ontology resources.
+            $alreadyStored = array();
+            
             foreach ($qtiItemResources as $qtiItemResource) {
 
                 $itemCount++;
-
+                
                 try {
+                    
+                    // Use the guardians to check whether or not the item has to be imported.
+                    foreach ($metadataGuardians as $guardian) {
+                        $resourceIdentifier = $qtiItemResource->getIdentifier();
+                        if (isset($metadataValues[$resourceIdentifier]) === true) {
+                            if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
+                                $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $qtiItemResource->getIdentifier());
+                                $report->add(common_report_Report::createInfo($msg, $guard));
+                                
+                                // Simply do not import again.
+                                continue 2;
+                            }
+                        }
+                    }
+                    
                     $qtiFile = $folder . $qtiItemResource->getFile();
                     
                     $qtiModel = $this->createQtiItemModel($qtiFile);
                     $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
                     $itemContent = $itemService->getItemContent($rdfItem);
-                    
+
                     $xincluded = array();
                     foreach($qtiModel->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeEle) {
                         $xincluded[] = $xincludeEle->attr('href');
@@ -346,13 +345,16 @@ class ImportService extends tao_models_classes_GenerisService
                             }
                         } else {
                             // store locally, in a safe directory
-                            $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            $safePath = '';
+                            if (dirname($auxPath) !== '.') {
+                                $safePath = str_replace('../', '', dirname($auxPath)).'/';
+                            }
                             $info = $local->add($auxFile, basename($auxFile), $safePath);
                             \common_Logger::i('Auxiliary file \''.$auxPath.'\' copied.');
                         }
                         
                         // replace uri if changed
-                        if ($auxPath != $info['uri']) {
+                        if ($auxPath != ltrim($info['uri'], '/')) {
                             $itemContent = str_replace($auxPath, $info['uri'], $itemContent);
                         }
                     }
@@ -432,7 +434,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param oat\taoQtiItem\model\qti\metadata\MetadataInjector[] $ontologyInjectors Implementations of MetadataInjector that will take care to inject the metadata values in the appropriate Ontology Resource Properties.
      * @throws oat\taoQtiItem\model\qti\metadata\MetadataInjectionException If an error occurs while importing the metadata. 
      */
-    protected function importItemMetadata(array $metadataValues, Resource $qtiResource, core_kernel_classes_Resource $resource, array $ontologyInjectors = array())
+    public function importItemMetadata(array $metadataValues, Resource $qtiResource, core_kernel_classes_Resource $resource, array $ontologyInjectors = array())
     {
         // Filter metadata values for this given item.
         $identifier = $qtiResource->getIdentifier();
