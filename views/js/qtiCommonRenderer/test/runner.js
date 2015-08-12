@@ -2,7 +2,7 @@ define([
     'lodash',
     'jquery',
     'helpers',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer'
 ], function(_, $, helpers, Loader, Element, Renderer){

@@ -28,7 +28,7 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
 ], function($, _, ItemLoader, pci, ModalFeedback){

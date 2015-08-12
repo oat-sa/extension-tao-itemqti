@@ -18,7 +18,7 @@
 define([
     'jquery',
     'helpers',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses'
 ], function($, helpers, Loader, Item, qtiClasses){

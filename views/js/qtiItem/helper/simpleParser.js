@@ -2,7 +2,7 @@ define([
     'lodash',
     'jquery',
     'taoQtiItem/qtiItem/helper/util',
-    'taoQtiItem/qtiItem/core/Loader'
+    'ui/themeLoader'
 ], function(_, $, util, Loader){
     "use strict";
     var _parsableElements = ['img', 'object'];

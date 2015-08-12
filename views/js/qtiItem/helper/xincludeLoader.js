@@ -2,7 +2,7 @@ define([
     'jquery',
     'lodash', 
     'taoQtiItem/qtiItem/helper/simpleParser',
-    'taoQtiItem/qtiItem/core/Loader'
+    'ui/themeLoader'
 ], function($, _, simpleParser, Loader){
 
     function load(xinclude, baseUrl, callback){

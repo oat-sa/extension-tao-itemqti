@@ -1,7 +1,7 @@
 define([
     'lodash',
     'jquery',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiCreator/model/Container',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/helper/event',
