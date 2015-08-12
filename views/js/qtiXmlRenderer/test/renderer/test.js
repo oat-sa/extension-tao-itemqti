@@ -1,6 +1,6 @@
 require([
     'jquery',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'

@@ -2,7 +2,7 @@ define([
     'lodash',
     'jquery',
     'context',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'json!taoQtiItem/qtiItem/../../../test/samples/json/ALL.json'

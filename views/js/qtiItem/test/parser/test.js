@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiItem/helper/simpleParser',
     'text!taoQtiItem/test/samples/qtiv2p1/extended_text_rubric/qti.xml',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Container',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer'
 ], function($, _, simpleParser, sampleXML, Loader, Container, XmlRenderer){

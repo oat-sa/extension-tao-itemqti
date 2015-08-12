@@ -1,7 +1,7 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'json!taoQtiItem/test/samples/json/space-shuttle.json'
 ], function($, _, QtiLoader, QtiRenderer, itemData){

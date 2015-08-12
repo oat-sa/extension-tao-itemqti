@@ -24,7 +24,7 @@ define([
     'jquery',
     'lodash',
     'async',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',

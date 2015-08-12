@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'taoQtiItem/qtiItem/core/Loader',
+    'ui/themeLoader',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
