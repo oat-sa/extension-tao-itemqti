@@ -26,7 +26,6 @@ define([
     var CreatorSimpleChoice = _.clone(SimpleChoice);
 
     CreatorSimpleChoice.render = function(choice, options){
-        debugger;
         SimpleChoiceWidget.build(
             choice,
             SimpleChoice.getContainer(choice),

@@ -246,13 +246,15 @@ define([
         var responses = {};
         var interactions = this.item.getInteractions();
 
-        for (var serial in interactions) {
-
-            var interaction = interactions[serial];
-            var response = interaction.getResponse();
-
+        _.forEach(interactions, function(interaction){
+            var response = {};
+            try {
+                response = interaction.getResponse();
+            } catch(e){
+                console.error(e);
+            }
             responses[interaction.attr('responseIdentifier')] = response;
-        }
+        });
 
         return responses;
     };
@@ -262,12 +264,15 @@ define([
         var states = {};
         var interactions = this.item.getInteractions();
 
-        for (var serial in interactions) {
-
-            var interaction = interactions[serial];
-            var state = interaction.getState();
+        _.forEach(interactions, function(interaction){
+            var state = {};
+            try {
+                state = interaction.getState();
+            } catch(e){
+                console.error(e);
+            }
             states[interaction.attr('responseIdentifier')] = state;
-        }
+        });
 
         return states;
     };

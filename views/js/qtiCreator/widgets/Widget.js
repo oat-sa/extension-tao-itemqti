@@ -264,7 +264,8 @@ define([
             if(renderer && renderer.isRenderer){
                 if(renderer.name === 'creatorRenderer'){
                     element.render($container);
-                    return element.postRender(postRenderOpts);
+                    element.postRender(postRenderOpts);
+                    return element.data('widget');
                 }else{
                     throw new Error('The renderer is no longer the creatorRenderer');
                 }
