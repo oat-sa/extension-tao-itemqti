@@ -2,8 +2,6 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ClientLibRegistry;
-use \helpers_File;
-use \common_ext_ExtensionsManager;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
@@ -131,7 +129,7 @@ class LocalSharedLibrariesTest extends TaoPhpUnitTestRunner
     
     public function registerFromItemProvider()
     {
-        $dir = $this->getSamplesDir();
+        $dir = rtrim($this->getSamplesDir(), '/\\');
         
         return array(
             array(

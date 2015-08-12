@@ -90,14 +90,19 @@ class MetadataRegistry
         
         if (is_array($mapping) === true) {
             if (isset($mapping['guardians']) === false) {
-                // Sometimes, guardians key is not set...
+                // Sometimes, 'guardians' key is not set...
                 $mapping['guardians'] = array();
+            }
+            
+            if (isset($mapping['classLookups']) === false) {
+                // Sometimes, 'classLookups' key is not set...
+                $mapping['classLookups'] = array();
             }
             
             return $mapping;
         } else {
             
-            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array());
+            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array(), 'classLookups' => array());
         }
     }
     
@@ -223,6 +228,45 @@ class MetadataRegistry
     
         if (($key = array_search($fqcn, $mapping['guardians'])) !== false) {
             unset($mapping['guardians'][$key]);
+        }
+    
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Register a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataClassLookup interface.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataClassLookup The MetadataClassLookup interface.
+     */
+    public function registerMetadataClassLookup($fqcn)
+    {
+        // Check if $fqcn class implements the correct interface.
+        $interfaces = class_implements($fqcn);
+        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup', $interfaces) === false) {
+            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup interface";
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $mapping = $this->getMapping();
+        $mapping['classLookups'][] = $fqcn;
+        
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Unregister a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataClassLookup The MetadataClassLookup interface.
+     */
+    public function unregisterMetadataClassLookup($fqcn)
+    {
+        $mapping = $this->getMapping();
+    
+        if (($key = array_search($fqcn, $mapping['classLookups'])) !== false) {
+            unset($mapping['classLookups'][$key]);
         }
     
         $this->setMapping($mapping);
