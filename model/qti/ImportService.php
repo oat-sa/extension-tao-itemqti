@@ -352,7 +352,7 @@ class ImportService extends tao_models_classes_GenerisService
                     }
                 }
 
-                $targetClass = null;
+                $targetClass = false;
                 // Use the classLookups to determine where the item has to go.
                 foreach ($metadataClassLookups as $classLookup) {
                     if (isset($metadataValues[$resourceIdentifier]) === true) {
@@ -365,7 +365,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $qtiFile = $folder . $qtiItemResource->getFile();
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
-                $rdfItem = $this->createRdfItem((($targetClass !== null) ? $targetClass : $itemClass), $qtiModel);
+                $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
                 $itemContent = $itemService->getItemContent($rdfItem);
 
                 $xincluded = array();
