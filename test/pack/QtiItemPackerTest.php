@@ -386,7 +386,7 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock
             ->method('getPath')
-            ->will($this->returnValue(file_get_contents($path)));
+            ->will($this->returnValue($path));
 
         $itemPackerMock->setAssetEncoders(array('js'    => 'base64file',
                                           'css'   => 'base64file',
@@ -413,8 +413,9 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $this->assertEquals(0, count($itemPack->getAssets('font')));
 
         $css = $itemPack->getAssets( 'css' );
-        $this->assertStringStartsWith( 'data:text/css;', $css[0], 'Have appropriate prefix' );
-        $this->assertRegExp( '/icon-checkbox/', base64_decode( $css[0] ), 'Correctly decoded back' );
+        
+        $this->assertStringStartsWith( 'data:text/css;', current($css), 'Have appropriate prefix' );
+        $this->assertRegExp( '/icon-checkbox/', base64_decode( str_replace('data:text/css;base64,', '', current($css)) ), 'Correctly decoded back' );
 
         $itemPackerMock->setNestedResourcesInclusion(true);
         $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), 'en-US');

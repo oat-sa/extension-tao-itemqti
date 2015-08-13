@@ -29,7 +29,7 @@ define([
     'handlebars',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper',
-    'taoQtiItem/runner/themes/loader',
+    'ui/themeLoader',
 ], function(_, $, Handlebars, Element, interactionHelper, themeLoader){
     'use strict';
 

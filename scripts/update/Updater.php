@@ -169,6 +169,11 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.9.0';
         }
 
+        if ($currentVersion === '2.9.0') {
+            $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
+            $currentVersion = '2.9.1';
+        }
+
         return $currentVersion;
     }
 

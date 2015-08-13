@@ -90,7 +90,7 @@ class OntologyMetadataInjector implements MetadataInjector
     
     protected function getRuleByValue($path, $value) 
     {
-        $pathKey = Implode('->', $path);
+        $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
         
         if (isset($rules[$pathKey]) === true) {
@@ -105,7 +105,7 @@ class OntologyMetadataInjector implements MetadataInjector
     }
     
     protected function getRuleByPath($path) {
-        $pathKey = Implode('->', $path);
+        $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
         if (isset($rules[$pathKey]) === true) {
             return $rules[$pathKey][0];
