@@ -91,7 +91,7 @@ define([
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
             
-            var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
+            var choices = (this.attr('shuffle') && renderer.getOption('shuffleChoices')) ? renderer.getShuffledChoices(this) : this.getChoices();
             var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
             var _this = this;
             _.each(choices, function(choice){

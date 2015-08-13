@@ -831,6 +831,19 @@ class ParserFactory
             $templateUri = (string) $data->getAttribute('template');
             $returnValue = new Template($templateUri);
         }elseif($data->childNodes->length === 1){
+
+            //check response declaration identifier, which must be RESPONSE in standard rp
+            $responses = $this->item->getResponses();
+            if(count($responses) == 1){
+                $response = reset($responses);
+                if($response->getIdentifier() !== 'RESPONSE'){
+                    throw new UnexpectedResponseProcessing('the response declaration identifier must be RESPONSE');
+                }
+            }else{
+                //invalid number of response declaration
+                throw new UnexpectedResponseProcessing('the item must have exactly one response declaration');
+            }
+
             $patternCorrectIMS = 'responseCondition [count(./*) = 2 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] [name(./*[2]) = "responseElse" ] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue" ] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
             $patternMappingIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponse"]';
             $patternMappingPointIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponsePoint"]';
@@ -1368,11 +1381,14 @@ class ParserFactory
         $attributes = $this->extractAttributes($data);
         $myFeedback = new $feedbackClass($attributes, $this->item);
 
-
         if($data->nodeName == 'modalFeedback'){
             $myFeedback = new $feedbackClass($attributes, $this->item);
             $this->parseContainerStatic($data, $myFeedback->getBody());
-        }else{
+        } elseif ($data->nodeName == 'feedbackInline') {
+            //@todo: to be implemented: <feedbackInline> {@see http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html#section10008}
+            common_Logger::i('Importing item that contains <feedbackInline> element.');
+            $myFeedback = null;
+        } else {
 
             //@todo: to be implemented: interactive feedback
             throw new UnsupportedQtiElement($data);
@@ -1483,7 +1499,7 @@ class ParserFactory
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
-            $classeNames = split('/\s+/', $classes);
+            $classeNames = preg_split('/\s+/', $classes);
             foreach($classeNames as $classeName){
                 $ciClass = InfoControlRegistry::getInfoControlByName($classeName);
                 if($ciClass){

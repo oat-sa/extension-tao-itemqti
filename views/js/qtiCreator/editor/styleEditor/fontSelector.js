@@ -48,7 +48,9 @@ define([
             },
             format = function (state) {
                 var originalOption = state.element;
-                if (!state.id) return state.text;
+                if (!state.id) {
+                    return state.text;
+                }
                 return '<span style="font-size: 12px;' + $(originalOption).attr('style') + '">' + state.text + '</span>';
             },
             reset = function() {
@@ -92,9 +94,9 @@ define([
         $(document).on('customcssloaded.styleeditor', function(e, style) {
             //@todo : to be fixed ! currently disabled because keep triggering error "style is undefined"
             return;
-            if(style[target] && style[target]['font-family']) {
-                fontSelector.select2('val', style[target]['font-family']);
-            }
+            //if(style[target] && style[target]['font-family']) {
+                //fontSelector.select2('val', style[target]['font-family']);
+            //}
         });
 
         fontSelector.on('change', function () {

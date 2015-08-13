@@ -1,3 +1,20 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
 define([
     'lodash',
     'i18n',
@@ -9,6 +26,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
 ], function(_, __, $, CKEditor, ckConfigurator, Element, contentHelper, deletingHelper){
     "use strict";
+
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
 
@@ -48,10 +66,10 @@ define([
 
         options = _.defaults(options, _defaults);
 
-        if(!$editable instanceof $ || !$editable.length){
+        if( !($editable instanceof $) || !$editable.length){
             throw 'invalid jquery element for $editable';
         }
-        if(!$editableContainer instanceof $ || !$editableContainer.length){
+        if( !($editableContainer instanceof $) || !$editableContainer.length){
             throw 'invalid jquery element for $editableContainer';
         }
 
@@ -228,11 +246,6 @@ define([
                 },
                 blur : function(e){
                     return false;
-                    if(options.hideTriggerOnBlur){
-                        $trigger.hide();
-                    }
-                    $('.qti-item').trigger('toolbarchange');
-
                 },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
@@ -396,8 +409,10 @@ define([
     function _shieldInnerContent($container, containerWidget){
 
         $container.find('.widget-box').each(function(){
+            var $widget = $(this);
 
-            addShield($(this)).on('click', function(e){
+            addShield($widget).on('click', function(e){
+                var innerWidget;
 
                 //click on shield:
                 //1. this.widget.changeState('sleep');
@@ -405,10 +420,9 @@ define([
 
                 e.stopPropagation();
 
+                innerWidget = $widget.data('widget');
                 _activateInnerWidget(containerWidget, innerWidget);
-
             });
-
         });
 
     }
@@ -440,31 +454,27 @@ define([
         if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
 
             var listenToWidgetCreation = function(){
-
-                containerWidget.$container.off('widgetCreated').one('widgetCreated', function(e, widgets){
+                containerWidget.$container
+                  .off('widgetCreated')
+                  .one('widgetCreated', function(e, widgets){
                     var targetWidget = widgets[innerWidget.serial];
                     if(targetWidget){
-                        //@todo : fix this race condition
-
+                        //FIXME potential race condition ? (debounce the enclosing event handler ?)
                         _.delay(function(){
-
-                            if(Element.isA(innerWidget.element, 'interaction')){
-
+                            if(Element.isA(targetWidget.element, 'interaction')){
                                 targetWidget.changeState('question');
-
-                            }else{
-
+                            } else{
                                 targetWidget.changeState('active');
                             }
-
                         }, 100);
                     }
                 });
 
             };
 
-            if(Element.isA(containerWidget.element, '_container')){
+            if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
 
+                //only _container that are NOT stateless need to change its state to sleep before activating the new one.
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
 

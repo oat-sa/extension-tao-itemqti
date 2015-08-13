@@ -82,12 +82,28 @@ class MetadataRegistry
     /**
      * Get the class mapping of Extractor/Injector classes.
      * 
-     * @return array An associative array with two main keys. The 'injectors' and 'extractors' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.  
+     * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.  
      */
     public function getMapping()
     {
         $mapping = $this->getExtension()->getConfig(self::CONFIG_ID);
-        return is_array($mapping) ? $mapping : array('injectors' => array(), 'extractors' => array());
+        
+        if (is_array($mapping) === true) {
+            if (isset($mapping['guardians']) === false) {
+                // Sometimes, 'guardians' key is not set...
+                $mapping['guardians'] = array();
+            }
+            
+            if (isset($mapping['classLookups']) === false) {
+                // Sometimes, 'classLookups' key is not set...
+                $mapping['classLookups'] = array();
+            }
+            
+            return $mapping;
+        } else {
+            
+            return array('injectors' => array(), 'extractors' => array(), 'guardians' => array(), 'classLookups' => array());
+        }
     }
     
     /**
@@ -128,7 +144,7 @@ class MetadataRegistry
      * @param string $fqcn A Fully Qualified Class Name.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataInjector The MetadataInjector interface.
      */
-    public function unregisterMetadataIntjector($fqcn)
+    public function unregisterMetadataInjector($fqcn)
     {
         $mapping = $this->getMapping();
         
@@ -175,6 +191,84 @@ class MetadataRegistry
             unset($mapping['extractors'][$key]);
         }
         
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Register a MetadataGuardian implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataGuardian interface.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataGuardian The MetadataExtractor interface.
+     */
+    public function registerMetadataGuardian($fqcn)
+    {
+        // Check if $fqcn class implements the correct interface.
+        $interfaces = class_implements($fqcn);
+        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataGuardian', $interfaces) === false) {
+            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataGuardian interface";
+            throw new InvalidArgumentException($msg);
+        }
+    
+        $mapping = $this->getMapping();
+        $mapping['guardians'][] = $fqcn;
+    
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Unregister a MetadataGuardian implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataGuardian The MetadataGuardian interface.
+     */
+    public function unregisterMetadataGuardian($fqcn)
+    {
+        $mapping = $this->getMapping();
+    
+        if (($key = array_search($fqcn, $mapping['guardians'])) !== false) {
+            unset($mapping['guardians'][$key]);
+        }
+    
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Register a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataClassLookup interface.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataClassLookup The MetadataClassLookup interface.
+     */
+    public function registerMetadataClassLookup($fqcn)
+    {
+        // Check if $fqcn class implements the correct interface.
+        $interfaces = class_implements($fqcn);
+        if (in_array('oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup', $interfaces) === false) {
+            $msg = "Class ${fqcn} does not implement oat\\taoQtiItem\\model\\qti\metadata\\MetadataClassLookup interface";
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $mapping = $this->getMapping();
+        $mapping['classLookups'][] = $fqcn;
+        
+        $this->setMapping($mapping);
+    }
+    
+    /**
+     * Unregister a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
+     *
+     * @param string $fqcn A Fully Qualified Class Name.
+     * @see oat\taoQtiItem\model\qti\metadata\MetadataClassLookup The MetadataClassLookup interface.
+     */
+    public function unregisterMetadataClassLookup($fqcn)
+    {
+        $mapping = $this->getMapping();
+    
+        if (($key = array_search($fqcn, $mapping['classLookups'])) !== false) {
+            unset($mapping['classLookups'][$key]);
+        }
+    
         $this->setMapping($mapping);
     }
 }
