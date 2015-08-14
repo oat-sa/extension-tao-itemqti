@@ -405,8 +405,9 @@ class ImportService extends tao_models_classes_GenerisService
 
                 foreach ($qtiItemResource->getAuxiliaryFiles() as $auxResource) {
                     // file on FS
-                    $auxFile = $folder . str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
-
+                    $auxFile = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder . $auxResource);
+                    $qtiFile = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $qtiFile);
+                    
                     // rel path in item
                     $auxPath = str_replace(DIRECTORY_SEPARATOR, '/', helpers_File::getRelPath($qtiFile, $auxFile));
 
