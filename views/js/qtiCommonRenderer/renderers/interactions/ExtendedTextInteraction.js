@@ -80,8 +80,8 @@ define([
 
                             limitUserInput(interaction);
 
-                            //ckeditor has some setTimeout internally...
-                            _.delay(resolve, 200);
+                            //ckeditor has some internal setTimeout...
+                            _.delay(resolve, 500);
                         });
                         editor.on('change', function(e) {
                             containerHelper.triggerResponseChangeEvent(interaction, {});
@@ -593,7 +593,6 @@ define([
     };
 
     var updateFormat = function(interaction, from) {
-        var ckeOptions = {};
         var $container = containerHelper.get(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
