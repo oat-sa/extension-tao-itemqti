@@ -53,8 +53,6 @@ define([
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
             if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
                 _triggerCheckboxes($(this).closest('.qti-choice'));
-            } else {
-                console.log(e.keyCode, e);
             }
         });
 
