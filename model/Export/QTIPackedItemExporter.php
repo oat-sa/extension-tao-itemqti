@@ -151,10 +151,10 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		        $resourcesNodes = $dom1->getElementsByTagName('resources');
                 /** @var \DOMElement $resourcesNode */
                 foreach ($resourcesNodes as $resourcesNode) {
+                    $resourceFinals = $resourcesNode->getElementsByTagName('resource');
                     /** @var \DOMElement $resourceNode */
 		            foreach ($resourceNodes as $resourceNode) {
                         $addResource = true;
-                        $resourceFinals = $resourcesNode->getElementsByTagName('resource');
 
                         /** @var \DOMElement $resourceFinal */
                         foreach($resourceFinals as $resourceFinal){
