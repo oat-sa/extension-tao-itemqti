@@ -32,8 +32,8 @@ define([
 ], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
-    const KEY_CODE_SPACE = 32;
-    const KEY_CODE_ENTER = 13;
+    var KEY_CODE_SPACE = 32;
+    var KEY_CODE_ENTER = 13;
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -50,8 +50,11 @@ define([
         var $radios = $('.qti-choice').find('input:radio').not('[disabled]').not('.disabled');
 
         $radios.on('keypress.commonRenderer', function(e){
-            if(e.keyCode == KEY_CODE_SPACE || e.keyCode == KEY_CODE_ENTER){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+            if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
                 _triggerCheckboxes($(this).closest('.qti-choice'));
+            } else {
+                console.log(e.keyCode, e);
             }
         });
 
