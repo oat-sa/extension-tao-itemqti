@@ -46,7 +46,10 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	    parent::__construct($item, $zip);
 	    $this->setManifest($manifest);
 	}
-	
+
+    /**
+     * @return DOMDocument
+     */
 	public function getManifest() {
 	    return $this->manifest;
 	}
@@ -146,12 +149,25 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 		        $dom2->loadXML($renderedManifest);
 		        $resourceNodes = $dom2->getElementsByTagName('resource');
 		        $resourcesNodes = $dom1->getElementsByTagName('resources');
-		    
-		        foreach ($resourcesNodes as $resourcesNode) {
-		    
+                /** @var \DOMElement $resourcesNode */
+                foreach ($resourcesNodes as $resourcesNode) {
+                    /** @var \DOMElement $resourceNode */
 		            foreach ($resourceNodes as $resourceNode) {
-		                $newResourceNode = $dom1->importNode($resourceNode, true);
-		                $resourcesNode->appendChild($newResourceNode);
+                        $addResource = true;
+                        $resourceFinals = $resourcesNode->getElementsByTagName('resource');
+
+                        /** @var \DOMElement $resourceFinal */
+                        foreach($resourceFinals as $resourceFinal){
+                            if($resourceFinal->getAttribute('identifier') === $resourceNode->getAttribute('identifier')){
+                                $addResource = false;
+                                break;
+                            }
+                        }
+
+                        if($addResource){
+                            $newResourceNode = $dom1->importNode($resourceNode, true);
+                            $resourcesNode->appendChild($newResourceNode);
+                        }
 		            }
 		        }
 		    
