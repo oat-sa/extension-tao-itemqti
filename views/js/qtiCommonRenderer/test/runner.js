@@ -137,10 +137,9 @@ define([
 
         var urlTokens = globalConfig.relBaseUrl.split('/');
         var extension = urlTokens[0];
-        var requireConfig = require.s.contexts._.config;
-        var fullpath = requireConfig.baseUrl + requireConfig.paths[extension];
+        var fullpath = require.s.contexts._.config.paths[extension];
         var baseUrl = globalConfig.relBaseUrl.replace(extension, fullpath);
-
+        
         var testConfig = {
             baseUrl : baseUrl,
             assertions : _.defaults(globalConfig.assertions || {}, _defaultAssertions)

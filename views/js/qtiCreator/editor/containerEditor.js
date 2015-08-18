@@ -78,6 +78,9 @@ define([
             //create a new container object
             var container = new Container();
             
+            //tag the new container as statelss, which means that its state is not supposed to change
+            container.data('stateless', true);
+            
             $container.data('container', container);
 
             //need to attach a container to the item to enable innserElement.remove()

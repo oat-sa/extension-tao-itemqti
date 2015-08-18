@@ -69,7 +69,7 @@ define([
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
 
-            if(this.attr('shuffle') && renderer.shuffleChoices){
+            if(this.attr('shuffle') && renderer.getOption('shuffleChoices')){
                 choices = renderer.getShuffledChoices(this);
             }else{
                 choices = this.getChoices();
@@ -83,7 +83,7 @@ define([
                     }
                 }
             }
-
+            
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         postRender : function(data, altClassName, renderer){
