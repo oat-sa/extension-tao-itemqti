@@ -39,11 +39,14 @@ define([
         render : function render (math, data){
             return new Promise(function(resolve, reject){
                 if(typeof(MathJax) !== 'undefined' && MathJax){
-                    _.delay(function(){//defer execution fix some rendering issue in chrome
+                    //MathJax needs to be exported globally to integrate with tools like TTS, it's weird...
+                    if(!window.MathJax){
+                        window.MathJax = MathJax;
+                    }
+                    _.defer(function(){ //defer execution fix some rendering issue in chrome
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, containerHelper.get(math).parent()[0]]);
-                        resolve();
-                    }, 60);
-                    return;
+                        MathJax.Hub.Register.StartupHook("End", resolve);
+                    });
                 }
                 resolve();
             });
