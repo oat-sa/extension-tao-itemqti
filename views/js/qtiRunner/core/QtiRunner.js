@@ -28,12 +28,16 @@
 define([
     'jquery',
     'lodash',
+    'context',
+    'core/promise',
     'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, iframeNotifier, ItemLoader, pci, ModalFeedback){
+], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback){
     'use strict';
+
+    var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
 
     var QtiRunner = function(){
         this.item = null;
@@ -135,9 +139,12 @@ define([
         }
     };
 
-    QtiRunner.prototype.renderItem = function(data, callback){
+    QtiRunner.prototype.renderItem = function(data, done){
 
         var _this = this;
+
+        done = _.isFunction(done) ? done : _.noop;
+
         var render = function(){
             if(!_this.item){
                 throw 'cannot render item: empty item';
@@ -145,22 +152,38 @@ define([
             if(_this.renderer){
 
                 _this.renderer.load(function(){
-                    
+
                     _this.item.setRenderer(_this.renderer);
                     _this.item.render({}, $('#qti_item'));
-                    _this.item.postRender();
-                    _this.item.getContainer().on('responseChange', function(e, data){
-                        if(data.interaction && data.interaction.attr('responseIdentifier') && data.response){
-                            iframeNotifier.parent('responsechange', [data.interaction.attr('responseIdentifier'), data.response]);
-                        }
-                    });
-                    _this.initInteractionsResponse();
-                    _this.listenForThemeChange();
 
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
-                    
+                    // Race between postRendering and timeout
+                    // postRendering waits for everything to be resolved or one reject
+                    Promise.race([
+                        Promise.all(_this.item.postRender()),
+                        new Promise(function(resolve, reject){
+                            _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
+                        })
+                    ])
+                    .then(function(){
+                        _this.item.getContainer().on('responseChange', function(e, data){
+                            if(data.interaction && data.interaction.attr('responseIdentifier') && data.response){
+                                iframeNotifier.parent('responsechange', [data.interaction.attr('responseIdentifier'), data.response]);
+                            }
+                        });
+
+                        _this.initInteractionsResponse();
+                        _this.listenForThemeChange();
+                        done();
+
+                    })
+                    .catch(function(err){
+
+                        //in case of postRendering issue, we are also done
+                        done();
+
+                        throw new Error('Error in post rendering : ' + err);
+                    });
+
                 }, _this.getLoader().getLoadedClasses());
 
             }else{
@@ -231,13 +254,15 @@ define([
         var responses = {};
         var interactions = this.item.getInteractions();
 
-        for (var serial in interactions) {
-
-            var interaction = interactions[serial];
-            var response = interaction.getResponse();
-
+        _.forEach(interactions, function(interaction){
+            var response = {};
+            try {
+                response = interaction.getResponse();
+            } catch(e){
+                console.error(e);
+            }
             responses[interaction.attr('responseIdentifier')] = response;
-        }
+        });
 
         return responses;
     };
@@ -247,12 +272,15 @@ define([
         var states = {};
         var interactions = this.item.getInteractions();
 
-        for (var serial in interactions) {
-
-            var interaction = interactions[serial];
-            var state = interaction.getState();
+        _.forEach(interactions, function(interaction){
+            var state = {};
+            try {
+                state = interaction.getState();
+            } catch(e){
+                console.error(e);
+            }
             states[interaction.attr('responseIdentifier')] = state;
-        }
+        });
 
         return states;
     };

@@ -24,14 +24,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'raphael',
-    'scale.raphael',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/hotspotInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function($, _, __, raphael, scaleRaphael, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -41,34 +41,41 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
+        var self = this;
 
-        var $container = containerHelper.get(interaction);
-        var background = interaction.object.attributes;
+        return new Promise(function(resolve, reject){
+            var $container = containerHelper.get(interaction);
+            var background = interaction.object.attributes;
 
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width     : background.width,
-            height    : background.height,
-            img       : this.resolveUrl(background.data),
-            container : $container
-        });
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
 
-        //call render choice for each interaction's choices
-        _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width     : background.width,
+                height    : background.height,
+                img       : self.resolveUrl(background.data),
+                container : $container
+            });
 
-        //set up the constraints instructions
-        instructionMgr.minMaxChoiceInstructions(interaction, {
-            min: interaction.attr('minChoices'),
-            max: interaction.attr('maxChoices'),
-            getResponse : _getRawResponse,
-            onError : function(data){
-                if(data.target.active){
-                    data.target.active = false;
-                    graphic.updateElementState(this, 'basic', __('Select this area'));
-                    graphic.highlightError(data.target);
-                    containerHelper.triggerResponseChangeEvent(interaction);
-                    $container.trigger('inactiveChoice.qti-widget', [data.choice, data.target]);
+            //call render choice for each interaction's choices
+            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+
+            //set up the constraints instructions
+            instructionMgr.minMaxChoiceInstructions(interaction, {
+                min: interaction.attr('minChoices'),
+                max: interaction.attr('maxChoices'),
+                getResponse : _getRawResponse,
+                onError : function(data){
+                    if(data.target.active){
+                        data.target.active = false;
+                        graphic.updateElementState(this, 'basic', __('Select this area'));
+                        graphic.highlightError(data.target);
+                        containerHelper.triggerResponseChangeEvent(interaction);
+                        $container.trigger('inactiveChoice.qti-widget', [data.choice, data.target]);
+                    }
                 }
-            }
+            });
         });
     };
 

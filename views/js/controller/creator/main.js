@@ -20,6 +20,7 @@ define([
     'lodash',
     'module',
     'async',
+    'core/promise',
     'history',
     'layout/actions',
     'layout/loading-bar',
@@ -42,6 +43,7 @@ define([
     _,
     module,
     async,
+    Promise,
     history,
     actionManager,
     loadingBar,
@@ -59,9 +61,8 @@ define([
     icRegistry,
     blockAdder
     ){
-    
     'use strict';
-    
+
     loadingBar.start();
 
     function _getAuthoringElements(interactionModels){
@@ -111,7 +112,7 @@ define([
                 hook.init(configProperties);
             });
         });
-    };
+    }
 
     return {
         /**
@@ -226,6 +227,7 @@ define([
                     .get()
                     .setOptions(configProperties)
                     .load(function(){
+                        var widget;
 
                         //set renderer
                         item.setRenderer(this);
@@ -234,38 +236,45 @@ define([
                         configProperties.dom.getItemPanel().append(item.render());
 
                         //"post-render it" to initialize the widget
-                        var widget = item.postRender(_.clone(configProperties));
-                        _.each(item.getComposingElements(), function(element){
-                            if(element.qtiClass === 'include'){
-                                xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
-                            }
+                        Promise
+                         .all(item.postRender(_.clone(configProperties)))
+                         .then(function(){
+                            widget = item.data('widget');
+                            _.each(item.getComposingElements(), function(element){
+                                if(element.qtiClass === 'include'){
+                                    xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                                }
+                            });
+
+                            editor.initGui(widget, configProperties);
+                            panel.initSidebarAccordion($propertySidebar);
+                            panel.initFormVisibilityListener();
+
+                            //hide loading bar when completed
+                            loadingBar.stop();
+
+                            //destroy by leaving the section
+                            section.on('hide', function(hiddenSection){
+                                if(hiddenSection.id === 'authoring'){
+
+                                    //remove global events
+                                    $(window).off('.qti-widget');
+                                    $doc.off('.qti-widget').off('.qti-creator');
+                                }
+                            });
+
+                            //set reference to item widget object
+                            $editorScope.data('widget', item);
+
+                            //fires event itemloaded
+                            $doc.trigger('widgetloaded.qticreator', [widget]);
+
+                            //init event listeners:
+                            event.initElementToWidgetListeners();
+                        })
+                        .catch(function(err){
+                            console.error(err);
                         });
-
-                        editor.initGui(widget, configProperties);
-                        panel.initSidebarAccordion($propertySidebar);
-                        panel.initFormVisibilityListener();
-
-                        //hide loading bar when completed
-                        loadingBar.stop();
-
-                        //destroy by leaving the section
-                        section.on('hide', function(hiddenSection){
-                            if(hiddenSection.id === 'authoring'){
-
-                                //remove global events
-                                $(window).off('.qti-widget');
-                                $doc.off('.qti-widget').off('.qti-creator');
-                            }
-                        });
-
-                        //set reference to item widget object
-                        $editorScope.data('widget', item);
-
-                        //fires event itemloaded
-                        $doc.trigger('widgetloaded.qticreator', [widget]);
-
-                        //init event listeners:
-                        event.initElementToWidgetListeners();
 
                     }, item.getUsedClasses());
 

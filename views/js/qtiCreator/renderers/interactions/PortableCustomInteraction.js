@@ -56,8 +56,6 @@ define([
 
         widget.changeState('question');//trigger rendering of inner elements
         widget.changeState('sleep');//restore default state "sleep"
-
-        return widget;
     };
 
     return CreatorCustomInteraction;
