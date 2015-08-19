@@ -28,10 +28,11 @@
 define([
     'jquery',
     'lodash',
+    'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, ItemLoader, pci, ModalFeedback){
+], function($, _, iframeNotifier, ItemLoader, pci, ModalFeedback){
     'use strict';
 
     var QtiRunner = function(){
@@ -144,17 +145,22 @@ define([
             if(_this.renderer){
 
                 _this.renderer.load(function(){
-
+                    
                     _this.item.setRenderer(_this.renderer);
                     _this.item.render({}, $('#qti_item'));
                     _this.item.postRender();
+                    _this.item.getContainer().on('responseChange', function(e, data){
+                        if(data.interaction && data.interaction.attr('responseIdentifier') && data.response){
+                            iframeNotifier.parent('responsechange', [data.interaction.attr('responseIdentifier'), data.response]);
+                        }
+                    });
                     _this.initInteractionsResponse();
                     _this.listenForThemeChange();
 
                     if (typeof callback === 'function') {
                         callback();
                     }
-
+                    
                 }, _this.getLoader().getLoadedClasses());
 
             }else{
@@ -179,12 +185,14 @@ define([
                 _this.itemApi.getVariable(responseId, function(values){
                     if(values){
                         interaction.setState(values);
+                        iframeNotifier.parent('stateready', [responseId, values]);
                     }
                     else{
                         var states = _this.getStates();
                         if(_.indexOf(states, responseId)){
                             _this.itemApi.setVariable(responseId, states[responseId]);
                             interaction.setState(states[responseId]);
+                            iframeNotifier.parent('stateready', [responseId, states[responseId]]);
                         }
                     }
                 });
