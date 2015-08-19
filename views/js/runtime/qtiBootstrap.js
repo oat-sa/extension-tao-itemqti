@@ -18,11 +18,12 @@
 define([
     'jquery',
     'lodash',
+    'module',
     'taoQtiItem/qtiRunner/core/QtiRunner',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'iframeNotifier',
     'core/history'
-], function($, _, QtiRunner, Renderer, iframeNotifier, history){
+], function($, _, module, QtiRunner, Renderer, iframeNotifier, history){
     'use strict';
 
     //fix backspace going back into the history
@@ -58,6 +59,18 @@ define([
                 qtiRunner.loadElements(variableElementsData, function() {
 
                     qtiRunner.renderItem(undefined, function() {
+
+                    	//runtime user functions
+                    	var config = module.config();
+                    	if (config && config.userModules && _.isArray(config.userModules)) {
+                    		require(config.userModules, function() {
+                                _.forEach(arguments, function(dependency) {
+                                    if (dependency && _.isFunction(dependency.exec)) {
+                                        dependency.exec();
+                                    }
+                                });
+                            });
+                        }
 
                        //exec user scripts
                         if (_.isArray(runnerContext.userScripts)) {
