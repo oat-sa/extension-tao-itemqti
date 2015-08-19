@@ -26,7 +26,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiInfoControlContext',
-    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/qtiItem/helper/util'
 ], function(Promise, tpl, containerHelper, PortableElement, qtiInfoControlContext, util){
     'use strict';
 

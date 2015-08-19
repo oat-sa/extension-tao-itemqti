@@ -29,7 +29,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
 ], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
     'use strict';
 

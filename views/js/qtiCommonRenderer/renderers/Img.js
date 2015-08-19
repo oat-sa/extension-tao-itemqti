@@ -24,6 +24,6 @@ define([
     return {
         qtiClass : 'img',
         template : tpl,
-        getContainer : containerHelper.get,
+        getContainer : containerHelper.get
     };
 });
