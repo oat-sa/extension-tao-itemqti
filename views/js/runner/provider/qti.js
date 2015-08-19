@@ -29,7 +29,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/runner/provider/manager/picManager',
-    'taoItems/assets/manager',
+    'taoItems/assets/manager'
 ], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
 
