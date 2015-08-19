@@ -30,10 +30,11 @@ define([
     'lodash',
     'context',
     'core/promise',
+    'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, context, Promise, ItemLoader, pci, ModalFeedback){
+], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -164,6 +165,11 @@ define([
                         })
                     ])
                     .then(function(){
+                        _this.item.getContainer().on('responseChange', function(e, data){
+                            if(data.interaction && data.interaction.attr('responseIdentifier') && data.response){
+                                iframeNotifier.parent('responsechange', [data.interaction.attr('responseIdentifier'), data.response]);
+                            }
+                        });
 
                         _this.initInteractionsResponse();
                         _this.listenForThemeChange();
@@ -202,12 +208,14 @@ define([
                 _this.itemApi.getVariable(responseId, function(values){
                     if(values){
                         interaction.setState(values);
+                        iframeNotifier.parent('stateready', [responseId, values]);
                     }
                     else{
                         var states = _this.getStates();
                         if(_.indexOf(states, responseId)){
                             _this.itemApi.setVariable(responseId, states[responseId]);
                             interaction.setState(states[responseId]);
+                            iframeNotifier.parent('stateready', [responseId, states[responseId]]);
                         }
                     }
                 });

@@ -30,7 +30,7 @@ define([
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper',
-    'taoQtiItem/runner/themes/loader',
+    'ui/themeLoader'
 ], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader){
     'use strict';
 
@@ -115,7 +115,7 @@ define([
         'infoControl',
         'include'
     ];
-    
+
     /**
      * The list of qti element dependencies. It is used internally to load dependent qti classes
      */
@@ -134,7 +134,7 @@ define([
         matchInteraction : ['simpleAssociableChoice'],
         orderInteraction : ['simpleChoice']
     };
-    
+
     /**
      * The list of supported qti subclasses.
      */
@@ -142,14 +142,14 @@ define([
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
-    
+
     /**
      * List of the default properties for the item
      */
     var _defaults = {
         shuffleChoices : true
     };
-    
+
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
      * @returns {String}
