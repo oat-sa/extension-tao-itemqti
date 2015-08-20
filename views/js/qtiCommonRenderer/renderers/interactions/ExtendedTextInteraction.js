@@ -47,15 +47,16 @@ define([
     var render = function render (interaction){
         return new Promise(function(resolve, reject){
 
+            var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType, editor;
             var $container = containerHelper.get(interaction);
 
             var response = interaction.getResponseDeclaration();
             var multiple = _isMultiple(interaction);
+            var limiter  = inputLimiter(interaction);
 
             var placeholderText = interaction.attr('placeholderText');
 
-            var $el, expectedLength, minStrings, expectedLines, patternMask, placeholderType;
-
+            var toolbarType = 'extendedText';
             var ckOptions = {
                 'extraPlugins': 'onchange',
                 'resize_enabled': true
@@ -69,33 +70,39 @@ define([
                 }
                 if (_getFormat(interaction) === "xhtml") {
 
-                    // ckEditor config event.
-                    ckEditor.on('instanceCreated', function(event) {
-                        var editor = event.editor;
-                        var toolbarType = 'extendedText';
+                    editor = _setUpCKEditor(interaction, ckOptions);
+                    if(!editor){
+                        reject('Unable to instantiate ckEditor');
+                    }
 
-                        editor.on('configLoaded', function(e) {
-                            editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
-                            editor.disableAutoInline = false; // NOT A GOOD IDEA, JUST TRY
+                    editor.on('loaded', function(){
+                        //it seems there's still something done after loaded, so resolved must be defered
+                        _.delay(resolve, 200);
+                    });
+                    if(editor.status === 'ready' || editor.status === 'loaded'){
+                        resolve();
+                    }
+                    editor.on('configLoaded', function(e) {
+                        editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
+                        editor.disableAutoInline = false; // NOT A GOOD IDEA, JUST TRY
 
-                            limitUserInput(interaction);
-
-                            //ckeditor has some internal setTimeout...
-                            _.delay(resolve, 500);
-                        });
-                        editor.on('change', function(e) {
-                            containerHelper.triggerResponseChangeEvent(interaction, {});
-                        });
+                        if(limiter.enabled){
+                            limiter.listenKeyPress();
+                        }
+                    });
+                    editor.on('change', function(e) {
+                        containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
-                    _setUpCKEditor(interaction, ckOptions);
                 } else {
 
                     $el.on('keyup.commonRenderer change.commonRenderer', function(e) {
                         containerHelper.triggerResponseChangeEvent(interaction, {});
                     });
 
-                    limitUserInput(interaction);
+                    if(limiter.enabled){
+                        limiter.listenKeyPress();
+                    }
 
                     resolve();
                 }
@@ -223,7 +230,6 @@ define([
                 var serial = (response.list.serial === undefined) ? '' : response.list.serial[i];
                 _setMultipleVal(serial + '_' + i, response.list[baseType][i]);
             }
-
         }
         else {
             throw new Error('wrong response format in argument.');
@@ -306,12 +312,7 @@ define([
         return ret;
     };
 
-
-    /**
-     * Limit the input (words, chars, etc.)
-     * @param {Object} interaction - the extended text interaction model
-     */
-    var limitUserInput = function limitUserInput(interaction){
+    var inputLimiter = function userInputLimier(interaction){
 
         var $container     = containerHelper.get(interaction);
         var expectedLength = interaction.attr('expectedLength');
@@ -322,76 +323,13 @@ define([
             $wordsCounter,
             maxWords,
             maxLength;
+        var enabled = false;
 
-        /**
-         * Keycode to ignore
-         * @type {Array}
-         */
-        var keycodes = [
-            8, // backspace
-            222832, // Shift + backspace in ckEditor
-            1114120, // Ctrl + backspace in ckEditor
-            1114177, // Ctrl + a in ckEditor
-            1114202, // Ctrl + z in ckEditor
-            1114200, // Ctrl + x in ckEditor
-        ];
 
-        /**
-         * Prevent the user to enter more text (words or char) than the limit allow
-         * @param  {event} evt the event that is trigged and which call this function
-         */
-        var limit = function limit(evt){
-            /**
-             * store the keycode regardless the format of the interaction
-             * @type {Number}
-             */
-            var keys = [
-                32, // space
-                13, // enter
-                2228237, // shift + enter in ckEditor
-            ];
-            var keyCode = (typeof evt.data !== "undefined") ? evt.data.keyCode : evt.which ;
-            if ((maxWords && getWordsCount() >= maxWords && _.contains(keys,keyCode)) || (maxLength && getCharsCount() >= maxLength)){
-                if (typeof evt.cancel !== "undefined"){
-                    evt.cancel();
-                }else {
-                    evt.preventDefault();
-                }
-                if(maxLength){
-                    var value = _getTextareaValue(interaction, true);
-                    setText(interaction,value);
-                }
-            }
-            updateCounter();
-        };
-
-        /**
-         * Update the rendering of the counters
-         */
-        var updateCounter = function(){
-            $charsCounter.text(getCharsCount());
-            $wordsCounter.text(getWordsCount());
-        };
-
-        /**
-         * Get the number of words that are actually written in the response field
-         * @return {Number} number of words
-         */
-        var getWordsCount = function(){
-            var value = _getTextareaValue(interaction);
-            return value.replace(/\s+/gi, ' ').split(' ').length;
-        };
-
-        /**
-         * Get the number of characters that are actually written in the response field
-         * @return {Number} number of characters
-         */
-        var getCharsCount = function(){
-            var value = _getTextareaValue(interaction);
-            return value.length;
-        };
 
         if (expectedLength || expectedLines || patternMask) {
+
+            enabled = true;
 
             $textarea       = $('.text-container', $container);
             $charsCounter   = $('.count-chars',$container);
@@ -403,26 +341,89 @@ define([
                 maxWords = (_.isNaN(maxWords)) ? undefined : maxWords;
                 maxLength = (_.isNaN(maxLength) ? undefined : maxLength);
             }
-
-            if (_getFormat(interaction) === "xhtml") {
-                _getCKEditor(interaction).on('key',function(e){
-                    if (_.contains(keycodes,e.data.keyCode)){
-                        updateCounter();
-                    } else{
-                        limit(e);
-                    }
-                });
-            }else{
-                $textarea.on('keydown.commonRenderer',function(e){
-                   if (_.contains(keycodes,e.which)){
-                        updateCounter();
-                   } else{
-                    limit(e);
-                   }
-                });
-            }
         }
+
+        var limiter = {
+
+            enabled : enabled,
+
+            listenKeyPress : function listenKeyPress(){
+                var self = this;
+
+
+                var ignoreKeyCodes = [
+                    8, // backspace
+                    222832, // Shift + backspace in ckEditor
+                    1114120, // Ctrl + backspace in ckEditor
+                    1114177, // Ctrl + a in ckEditor
+                    1114202, // Ctrl + z in ckEditor
+                    1114200, // Ctrl + x in ckEditor
+                ];
+                var triggerKeyCodes = [
+                    32, // space
+                    13, // enter
+                    2228237, // shift + enter in ckEditor
+                ];
+
+
+                var limitHandler = function limitHandler(e){
+                    var keyCode = e && e.data ? e.data.keyCode : e.which ;
+                    if ( (!_.contains(ignoreKeyCodes, keyCode) ) &&
+                         (maxWords && self.getWordsCount() >= maxWords && _.contains(triggerKeyCodes, keyCode)) ||
+                         (maxLength && self.getCharsCount() >= maxLength)){
+
+                        if (e.cancel){
+                            e.cancel();
+                        } else {
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                        }
+                        return setText(interaction, _getTextareaValue(interaction, true));
+                    }
+                    _.defer(function(){
+                        self.updateCounter();
+                    });
+                };
+
+                if (_getFormat(interaction) === "xhtml") {
+                    _getCKEditor(interaction).on('key', limitHandler);
+                } else {
+                    $textarea.on('keydown.commonRenderer', limitHandler);
+                }
+            },
+
+            /**
+             * Get the number of words that are actually written in the response field
+             * @return {Number} number of words
+             */
+            getWordsCount : function getWordsCount(){
+                var value = _getTextareaValue(interaction) || '';
+                if(_.isEmpty(value)){
+                    return 0;
+                }
+                return value.replace(/\s+/gi, ' ').split(' ').length;
+            },
+
+            /**
+             * Get the number of characters that are actually written in the response field
+             * @return {Number} number of characters
+             */
+            getCharsCount : function getCharsCount(){
+                var value = _getTextareaValue(interaction) || '';
+                return value.length;
+            },
+
+
+            updateCounter : function udpateCounter(){
+                $charsCounter.text(this.getCharsCount());
+                $wordsCounter.text(this.getWordsCount());
+            }
+        };
+
+
+        return limiter;
     };
+
 
     /**
      * return the value of the textarea or ckeditor data
@@ -476,15 +477,15 @@ define([
      *
      * @param {Object} interaction - the extended text interaction model
      * @param {Object} [options = {}] - the CKEditor configuration options
+     * @returns {Object} the ckEditor instance (or you'll be in trouble
      */
     var _setUpCKEditor = function _setUpCKEditor(interaction, options){
         var $container = containerHelper.get(interaction);
         var editor = ckEditor.replace($container.find('.text-container')[0], options || {});
-
         if (editor) {
             $container.data('editor', editor.name);
+            return editor;
         }
-        return editor;
     };
 
     /**
@@ -652,11 +653,19 @@ define([
     };
 
     var setText = function(interaction, text) {
+        var limiter = inputLimiter(interaction);
+
         if ( _getFormat(interaction) === 'xhtml') {
-            _getCKEditor(interaction).setData(text);
-        }
-        else {
+            _getCKEditor(interaction).setData(text, function(){
+                if(limiter.enabled){
+                    limiter.updateCounter();
+                }
+            });
+        } else {
             containerHelper.get(interaction).find('textarea').val(text);
+            if(limiter.enabled){
+                limiter.updateCounter();
+            }
         }
     };
 
