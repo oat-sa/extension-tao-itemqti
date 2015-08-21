@@ -22,4 +22,8 @@
 /**
  * Default user scripts, should be empty
  */
-return array();
+return array(
+    array('src'=>'compatibilityFix.js',
+          'extension'=>'taoQtiItem',
+          )
+);
