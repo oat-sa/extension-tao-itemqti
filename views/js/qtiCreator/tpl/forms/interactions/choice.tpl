@@ -51,7 +51,7 @@
     <h3>{{__ 'Orientation'}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">
-            {{__ 'Does the choices display horizontaly or verticaly'}}
+            {{__ 'Display the choices either horizontaly or verticaly'}}
         </span>
     <div>
         <label class="smaller-prompt">
