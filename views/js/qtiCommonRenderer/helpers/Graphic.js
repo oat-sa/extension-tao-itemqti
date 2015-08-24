@@ -46,8 +46,6 @@ define([
 ], function($, _, raphael, scaleRaphael, gstyle){
     'use strict';
 
-    'use strict';
-
     //maps the QTI shapes to Raphael shapes
     var shapeMap = {
         'default' : 'rect',
@@ -225,6 +223,7 @@ define([
          * @param {Number} [options.width] - the paper width
          * @param {Number} [options.height] - the paper height
          * @param {String} [options.imgId] - an identifier for the image element
+         * @param {Function} [options.done] - executed once the image is loaded
          * @returns {Raphael.Paper} the paper
          */
         responsivePaper : function(id, serial, options){
@@ -254,9 +253,8 @@ define([
             $(image.node)
               .attr('externalResourcesRequired','true')
               .on("load", function() {
-
                 resizePaper();
-            });
+              });
 
             if(raphael.type === 'SVG'){
 

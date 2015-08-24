@@ -46,7 +46,7 @@ define([
         //initial rendering:
         Renderer.render.call(commonRenderer.get(), infoControl, renderOptions);
 
-        return pciCreator.getWidget().build(
+        pciCreator.getWidget().build(
             infoControl,
             Renderer.getContainer(infoControl),
             this.getOption('bodyElementOptionForm'),

@@ -10,7 +10,9 @@ define([
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Media Interaction', {
+    var sampleUrl = '../../../taoQtiItem/views/js/test/samples/json/media/sample.mp4';
+
+    QUnit.module('Media Interaction', {
         teardown : function(){
             if(runner){
                 runner.clear();
@@ -27,6 +29,11 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', mediaData)
+            .on('error', function(e){
+
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
 
                 //check DOM
@@ -38,19 +45,25 @@ define([
                 assert.equal($container.find('.qti-mediaInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
                 assert.equal($container.find('.qti-mediaInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
                 assert.equal($container.find('.qti-mediaInteraction video').length, 1, 'the interaction contains a video tag');
-                assert.equal($container.find('.qti-mediaInteraction video').attr('src'),'sample.mp4', 'the interaction has proper file attached');
+                assert.equal($container.find('.qti-mediaInteraction video').attr('src'), sampleUrl, 'the interaction has proper file attached');
 
                 //check DOM data
                 assert.equal($container.children('.qti-item').data('identifier'), 'i1429259831305858', 'the .qti-item node has the right identifier');
 
                 QUnit.start();
             })
+            .assets(function(url){
+                if(/\.mp4$/.test(url.toString())){
+                    return sampleUrl;
+                }
+                return url.toString();
+            })
             .init()
             .render($container);
     });
 
 
-    module('Visual Test');
+    QUnit.module('Visual Test');
 
     QUnit.asyncTest('Display and play', function(assert){
         QUnit.expect(4);
@@ -66,6 +79,12 @@ define([
                 assert.equal($container.find('.qti-mediaInteraction video').length, 1, 'the interaction has element');
 
                 QUnit.start();
+            })
+            .assets(function(url){
+                if(/\.mp4$/.test(url.toString())){
+                    return sampleUrl;
+                }
+                return url.toString();
             })
             .init()
             .render($container);

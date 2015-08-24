@@ -1,9 +1,10 @@
 define([
     'taoQtiItem/qtiItem/core/interactions/Interaction',
-    'taoQtiItem/qtiItem/core/interactions/Prompt', 
+    'taoQtiItem/qtiItem/core/interactions/Prompt',
     'lodash',
     'taoQtiItem/qtiItem/helper/rendererConfig'
 ], function(Interaction, Prompt, _, rendererConfig){
+    'use strict';
 
     var BlockInteraction = Interaction.extend({
         init : function(serial, attributes){
@@ -23,19 +24,20 @@ define([
             return this._super(serial) || this.prompt.find(serial);
         },
         render : function(){
-            
+
             var args = rendererConfig.getOptionsFromArguments(arguments),
                 renderer = args.renderer || this.getRenderer(),
                 defaultData = {
                     'prompt' : this.prompt.render(renderer)
                 };
-            
+
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         postRender : function(data, altClassName, renderer){
             renderer = renderer || this.getRenderer();
-            this.prompt.postRender({}, '', renderer);
-            return this._super(data, altClassName, renderer);
+            return []
+                    .concat(this.prompt.postRender({}, '', renderer))
+                    .concat(this._super(data, altClassName, renderer));
         },
         toArray : function(){
             var arr = this._super();
