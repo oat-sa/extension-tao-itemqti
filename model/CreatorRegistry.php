@@ -185,6 +185,11 @@ abstract class CreatorRegistry
         if(isset($manifest['css'])){
             $required = array_merge($required, array_values($manifest['css']));
         }
+        
+        //include custom interaction specific templates in the item
+        if(isset($manifest['tpl'])){
+            $required = array_merge($required, array_values($manifest['tpl']));
+        }
 
         //include media in the item
         if(isset($manifest['media'])){
