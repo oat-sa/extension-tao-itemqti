@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
 ], function($, _,  __,tpl, containerHelper, instructionMgr, pciResponse){
+    'use strict';
 
     /**
      * TODO do not use global context var, it's value is shared between interaction instances

@@ -104,7 +104,7 @@ define([
      * @param {Object} interaction
      * @param {Boolean} val
      */
-    var _setVal = function _setVal(interaction, val){
+    var _setVal = function(interaction, val){
 
         containerHelper.get(interaction)
             .val(val)
@@ -137,14 +137,14 @@ define([
     };
 
     return {
-        qtiClass:      'endAttemptInteraction',
-        template:      tpl,
-        getData:       getCustomData,
-        render:        render,
-        getContainer:  containerHelper.get,
-        setResponse:   setResponse,
-        getResponse:   getResponse,
-        resetResponse: resetResponse,
-        destroy:       destroy
+        qtiClass : 'endAttemptInteraction',
+        template : tpl,
+        getData : getCustomData,
+        render : render,
+        getContainer : containerHelper.get,
+        setResponse : setResponse,
+        getResponse : getResponse,
+        resetResponse : resetResponse,
+        destroy : destroy
     };
 });

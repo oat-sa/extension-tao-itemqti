@@ -306,18 +306,21 @@ define([
         },
         postRender : function(data, altClassName, renderer){
 
+            var postRenderers = [];
             var _renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
                 //allow body to have a different renderer if it has its own renderer set
-                this.getBody().postRender({}, '', renderer);
+                postRenderers = this.getBody().postRender({}, '', renderer);
             }
 
             if(_renderer){
-                return _renderer.postRender(this, data, altClassName);
+                postRenderers.push(_renderer.postRender(this, data, altClassName));
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
+
+            return _.compact(postRenderers);
         },
         getContainer : function($scope, subclass){
             var renderer = this.getRenderer();
