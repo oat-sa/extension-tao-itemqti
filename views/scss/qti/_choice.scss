@@ -44,6 +44,12 @@
             @include border-radius-bottom(2);
         }
     }
+    .block-listing.horizontal > li {
+        margin: 3px;
+        border: 1px solid #eee;
+        @include border-radius(2);
+    }
+
 
     //IE specific
 
