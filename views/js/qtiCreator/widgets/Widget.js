@@ -22,6 +22,7 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
 ], function(_, $, Element, invalidator){
+    'use strict';
 
     var _pushState = function(widget, stateName){
         var currentState = new widget.registeredStates[stateName](widget);
@@ -133,10 +134,9 @@ define([
                 currentState = this.getCurrentState();
 
             if(this.registeredStates[stateName]){
-                state = new this.registeredStates[stateName];
+                state = new this.registeredStates[stateName]();
             }else{
                 throw new Error('unknown target state : ' + stateName);
-                return null;
             }
 
             if(currentState){
@@ -264,7 +264,8 @@ define([
             if(renderer && renderer.isRenderer){
                 if(renderer.name === 'creatorRenderer'){
                     element.render($container);
-                    return element.postRender(postRenderOpts);
+                    element.postRender(postRenderOpts);
+                    return element.data('widget');
                 }else{
                     throw new Error('The renderer is no longer the creatorRenderer');
                 }

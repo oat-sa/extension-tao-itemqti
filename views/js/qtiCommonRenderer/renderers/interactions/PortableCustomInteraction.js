@@ -24,12 +24,13 @@
 define([
     'lodash',
     'context',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/customInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/PortableElement',
     'qtiCustomInteractionContext',
     'taoQtiItem/qtiItem/helper/util'
-], function(_, context, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
+], function(_, context, Promise, tpl, containerHelper, PortableElement, qtiCustomInteractionContext, util){
     'use strict';
 
     /**
@@ -77,44 +78,48 @@ define([
      * @param {Object} interaction
      */
     var render = function(interaction, options){
+        var self = this;
 
         options = options || {};
+        return new Promise(function(resolve, reject){
+            var runtimeLocation;
+            var state              = {}; //@todo pass state and response to renderer here:
+            var localRequireConfig = { paths : {} };
+            var response           = { base : null};
+            var id                 = interaction.attr('responseIdentifier');
+            var typeIdentifier     = interaction.typeIdentifier;
+            var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : self.getOption('runtimeLocations');
+            var config             = _.clone(interaction.properties); //pass a clone instead
+            var $dom               = containerHelper.get(interaction).children();
+            var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
 
-        var runtimeLocation;
-        var state              = {}; //@todo pass state and response to renderer here:
-        var localRequireConfig = { paths : {} };
-        var response           = {base : null};
-        var id                 = interaction.attr('responseIdentifier');
-        var typeIdentifier     = interaction.typeIdentifier;
-        var runtimeLocations   = options.runtimeLocations ? options.runtimeLocations : this.getOption('runtimeLocations');
-        var config             = _.clone(interaction.properties); //pass a clone instead
-        var $dom               = containerHelper.get(interaction).children();
-        var entryPoint         = interaction.entryPoint.replace(/\.js$/, '');   //ensure it's an AMD module
-
-        //update config with runtime paths
-        if(runtimeLocations && runtimeLocations[typeIdentifier]){
-            runtimeLocation = runtimeLocations[typeIdentifier];
-        } else{
-            runtimeLocation = this.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
-        }
-        if(runtimeLocation){
-            localRequireConfig.paths[typeIdentifier] = runtimeLocation;
-            require.config(localRequireConfig);
-        }
-
-        //load the entrypoint
-        require([entryPoint], function(){
-
-            var pci = _getPci(interaction);
-            if(pci){
-                //call pci initialize() to render the pci
-                pci.initialize(id, $dom[0], config);
-                //restore context (state + response)
-                pci.setSerializedState(state);
-                pci.setResponse(response);
-                //call callback function
-                interaction.triggerPciReady(pci);
+            //update config with runtime paths
+            if(runtimeLocations && runtimeLocations[typeIdentifier]){
+                runtimeLocation = runtimeLocations[typeIdentifier];
+            } else{
+                runtimeLocation = self.getAssetManager().resolveBy('portableElementLocation', typeIdentifier);
             }
+            if(runtimeLocation){
+                localRequireConfig.paths[typeIdentifier] = runtimeLocation;
+                require.config(localRequireConfig);
+            }
+
+            //load the entrypoint
+            require([entryPoint], function(){
+
+                var pci = _getPci(interaction);
+                if(pci){
+                    //call pci initialize() to render the pci
+                    pci.initialize(id, $dom[0], config);
+                    //restore context (state + response)
+                    pci.setSerializedState(state);
+                    pci.setResponse(response);
+                    return resolve();
+                }
+
+                return reject('Unable to initiliaze pci : ' + id);
+
+            }, reject);
         });
     };
 
@@ -126,10 +131,7 @@ define([
      * @param {Object} response
      */
     var setResponse = function(interaction, response){
-
-        interaction.onPciReady(function(){
-            _getPci(interaction).setResponse(response);
-        });
+        _getPci(interaction).setResponse(response);
     };
 
     /**
@@ -140,12 +142,7 @@ define([
      * @returns {Object}
      */
     var getResponse = function(interaction){
-
-        if(interaction.data('pciReady')){
-            return _getPci(interaction).getResponse();
-        }
-        //return pci null
-        return {base : null};
+        return _getPci(interaction).getResponse();
     };
 
     /**
@@ -155,10 +152,7 @@ define([
      * @param {Object} interaction
      */
     var resetResponse = function(interaction){
-
-        interaction.onPciReady(function(){
-            _getPci(interaction).resetResponse();
-        });
+        _getPci(interaction).resetResponse();
     };
 
     /**
@@ -169,10 +163,7 @@ define([
      * @param {Object} interaction
      */
     var destroy = function(interaction){
-
-        interaction.onPciReady(function(){
-            _getPci(interaction).destroy();
-        });
+        _getPci(interaction).destroy();
     };
 
     /**
@@ -182,10 +173,7 @@ define([
      * @param {Object} serializedState - json format
      */
     var setSerializedState = function(interaction, serializedState){
-
-        interaction.onPciReady(function(){
-            _getPci(interaction).setSerializedState(serializedState);
-        });
+        _getPci(interaction).setSerializedState(serializedState);
     };
 
     /**
@@ -196,11 +184,7 @@ define([
      * @returns {Object} json format
      */
     var getSerializedState = function(interaction){
-
-        if(interaction.data('pciReady')){
-            return _getPci(interaction).getSerializedState();
-        }
-        return {};
+        return _getPci(interaction).getSerializedState();
     };
 
     return {

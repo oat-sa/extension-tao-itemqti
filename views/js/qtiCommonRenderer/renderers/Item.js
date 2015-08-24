@@ -36,7 +36,6 @@ define([
          * @param {Object} item - the item model
          */
         render: function render(item) {
-
             //target blank for all <a>
             containerHelper.targetBlank(containerHelper.get(item));
 

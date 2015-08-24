@@ -145,7 +145,7 @@ class PortableInfoControl extends InfoControl
     private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
 
         $properties = array();
-        $ns = $ns ? $ns.':' : '';
+        $ns = $ns ? trim( $ns, ':' ) . ':' : '';
 
         foreach($propertiesNode->childNodes as $prop){
 
