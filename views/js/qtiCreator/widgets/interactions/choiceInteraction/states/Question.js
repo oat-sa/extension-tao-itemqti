@@ -49,9 +49,6 @@ define([
             currListStyle = getListStyle(interaction),
             $choiceArea = _widget.$container.find('.choice-area');
 
-
-        console.log(interaction);
-
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
             maxChoices : parseInt(interaction.attr('maxChoices')),
@@ -75,10 +72,13 @@ define([
 
         formElement.initWidget($form);
 
-        //init data change callbacks
+        //data change callbacks with the usual min/maxChoices
         var callbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'minChoices', 'maxChoices', {updateCardinality:updateCardinality});
+
+        //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
 
+        //data change for orientation, change also the current css class
         callbacks.orientation = function(interaction, value){
             interaction.attr('orientation', value);
             if(value === 'horizontal'){
