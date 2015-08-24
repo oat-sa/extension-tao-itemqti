@@ -59,6 +59,8 @@ define([
             var toolbarType = 'extendedText';
             var ckOptions = {
                 'extraPlugins': 'onchange',
+                'language': 'en',
+                'defaultLanguage': 'en',
                 'resize_enabled': true
             };
 
@@ -69,6 +71,7 @@ define([
                     $el.attr('placeholder', placeholderText);
                 }
                 if (_getFormat(interaction) === "xhtml") {
+
 
                     editor = _setUpCKEditor(interaction, ckOptions);
                     if(!editor){
@@ -84,7 +87,6 @@ define([
                     }
                     editor.on('configLoaded', function(e) {
                         editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
-                        editor.disableAutoInline = false; // NOT A GOOD IDEA, JUST TRY
 
                         if(limiter.enabled){
                             limiter.listenKeyPress();
@@ -312,6 +314,11 @@ define([
         return ret;
     };
 
+    /**
+     * Creates an input limiter object
+     * @param {Object} interaction - the extended text interaction
+     * @returns {Object} the limiter
+     */
     var inputLimiter = function userInputLimier(interaction){
 
         var $container     = containerHelper.get(interaction);
@@ -343,13 +350,21 @@ define([
             }
         }
 
+        /**
+         * The limiter instance
+         */
         var limiter = {
 
+            /**
+             * Is the limiter enabled regarding the interaction configuration
+             */
             enabled : enabled,
 
+            /**
+             * Listen for a key press in the interaction and limit the input if necessary
+             */
             listenKeyPress : function listenKeyPress(){
                 var self = this;
-
 
                 var ignoreKeyCodes = [
                     8, // backspace
@@ -414,6 +429,9 @@ define([
             },
 
 
+            /**
+             * Update the counter element
+             */
             updateCounter : function udpateCounter(){
                 $charsCounter.text(this.getCharsCount());
                 $wordsCounter.text(this.getWordsCount());
@@ -593,25 +611,6 @@ define([
         }
     };
 
-    var updateFormat = function(interaction, from) {
-        var $container = containerHelper.get(interaction);
-
-        if ( _getFormat(interaction) === 'xhtml') {
-            _setUpCKEditor(interaction);
-        }
-        else {
-            // preFormatted or plain
-            if (from === 'xhtml') {
-                _getCKEditor(interaction).destroy();
-            }
-            if ( _getFormat(interaction) === 'preformatted'){
-                $container.find('textarea').addClass('text-preformatted');
-            } else{
-                $container.find('textarea').removeClass('text-preformatted');
-            }
-        }
-    };
-
     var enable = function(interaction) {
         var $container = containerHelper.get(interaction);
         var editor;
@@ -758,7 +757,6 @@ define([
         getState : getState,
         setState : setState,
 
-        updateFormat : updateFormat,
         enable : enable,
         disable : disable,
         clearText : clearText,
