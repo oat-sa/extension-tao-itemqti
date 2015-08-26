@@ -253,11 +253,57 @@ class ImportService extends tao_models_classes_GenerisService
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
         $successItems = array();
         try {
+
+            // -- Initializing metadata services.
+            $metadataMapping = Service::singleton()->getMetadataRegistry()->getMapping();
+            $metadataInjectors = array();
+            $metadataGuardians = array();
+            $metadataClassLookups = array();
+            $metadataValues = array();
+
+            // The metadata import feature needs a DOM representation of the manifest.
+            $domManifest = new DOMDocument('1.0', 'UTF-8');
+            $domManifest->load($folder . 'imsmanifest.xml');
+
+            foreach ($metadataMapping['injectors'] as $injector) {
+                $metadataInjectors[] = new $injector();
+                \common_Logger::i("Metadata Injector '${injector}' registered.");
+            }
+
+            foreach ($metadataMapping['guardians'] as $guardian) {
+                $metadataGuardians[] = new $guardian();
+                \common_Logger::i("Metadata Guardian '${guardian}' registered.");
+            }
+
+            foreach ($metadataMapping['classLookups'] as $classLookup) {
+                $metadataClassLookups[] = new $classLookup();
+                \common_Logger::i("Metadata Class Lookup '{$classLookup}' registered.");
+            }
+
+            foreach ($metadataMapping['extractors'] as $extractor) {
+                $metadataExtractor = new $extractor();
+                \common_Logger::i("Metatada Extractor '${extractor}' registered.");
+                $metadataValues = array_merge($metadataValues, $metadataExtractor->extract($domManifest));
+            }
+
+            $metadataCount = count($metadataValues, COUNT_RECURSIVE);
+            \common_Logger::i("${metadataCount} Metadata Values found in manifest by extractor(s).");
+
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
             $itemCount = 0;
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
-                $itemReport = $this->importQtiItem($folder, $qtiItemResource, $itemClass, $extractApip);
+                $itemReport = $this->importQtiItem(
+                    $folder,
+                    $qtiItemResource,
+                    $itemClass,
+                    $extractApip,
+                    array(),
+                    $metadataValues,
+                    $metadataInjectors,
+                    $metadataGuardians,
+                    $metadataClassLookups
+                );
 
                 $rdfItem = $itemReport->getData();
                 if ($rdfItem) {
@@ -312,6 +358,10 @@ class ImportService extends tao_models_classes_GenerisService
      * @param $itemClass
      * @param bool|false $extractApip
      * @param array $dependencies
+     * @param array $metadataValues
+     * @param array $metadataInjectors
+     * @param array $metadataGuardians
+     * @param array $metadataClassLookups
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -320,7 +370,11 @@ class ImportService extends tao_models_classes_GenerisService
         Resource $qtiItemResource,
         $itemClass,
         $extractApip = false,
-        $dependencies = array()
+        array $dependencies = array(),
+        array $metadataValues = array(),
+        array $metadataInjectors = array(),
+        array $metadataGuardians = array(),
+        array $metadataClassLookups = array()
     ) {
 
         try {
@@ -328,33 +382,6 @@ class ImportService extends tao_models_classes_GenerisService
 
             $itemService = taoItems_models_classes_ItemsService::singleton();
             $qtiService = Service::singleton();
-
-            // The metadata import feature needs a DOM representation of the manifest.
-            $domManifest = new DOMDocument('1.0', 'UTF-8');
-            $domManifest->load($folder . 'imsmanifest.xml');
-            $metadataMapping = $qtiService->getMetadataRegistry()->getMapping();
-            $metadataInjectors = array();
-            $metadataGuardians = array();
-            $metadataClassLookups = array();
-            $metadataValues = array();
-
-            foreach ($metadataMapping['injectors'] as $injector) {
-                $metadataInjectors[] = new $injector();
-            }
-
-            foreach ($metadataMapping['guardians'] as $guardian) {
-                $metadataGuardians[] = new $guardian();
-            }
-
-            foreach ($metadataMapping['classLookups'] as $classLookup) {
-                $metadataClassLookups[] = new $classLookup();
-            }
-
-            foreach ($metadataMapping['extractors'] as $extractor) {
-                $metadataExtractor = new $extractor();
-                $metadataValues = array_merge($metadataValues, $metadataExtractor->extract($domManifest));
-            }
-
 
             $sources = MediaService::singleton()->getWritableSources();
             $sharedStorage = array_shift($sources);
@@ -369,8 +396,8 @@ class ImportService extends tao_models_classes_GenerisService
 
                     if (isset($metadataValues[$resourceIdentifier]) === true) {
                         if (($guard = $guardian->guard($metadataValues[$resourceIdentifier])) !== false) {
-                            $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.',
-                                $qtiItemResource->getIdentifier());
+                            \common_Logger::i("Resource '${resourceIdentifier}' is already stored in the database and will not be imported.");
+                            $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier);
                             $report = common_report_Report::createInfo($msg, $guard);
 
                             // Simply do not import again.
@@ -383,7 +410,9 @@ class ImportService extends tao_models_classes_GenerisService
                 // Use the classLookups to determine where the item has to go.
                 foreach ($metadataClassLookups as $classLookup) {
                     if (isset($metadataValues[$resourceIdentifier]) === true) {
+                        \common_Logger::i("Target Class Lookup for resource '${resourceIdentifier}' ...");
                         if (($targetClass = $classLookup->lookup($metadataValues[$resourceIdentifier])) !== false) {
+                            \common_Logger::i("Class Lookup Successful. Resource '${resourceIdentifier}' will be stored in RDFS Class '" . $targetClass->getUri() . "'.");
                             break;
                         }
                     }
@@ -399,6 +428,7 @@ class ImportService extends tao_models_classes_GenerisService
                 $xincluded = array();
                 foreach ($qtiModel->getBody()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeEle) {
                     $xincluded[] = $xincludeEle->attr('href');
+                    \common_Logger::i("Xinclude component found in resource '${resourceIdentifier}' with href '" . $xincludeEle->attr('href') . "'.");
                 }
 
                 $local = new LocalItemSource(array('item' => $rdfItem));
@@ -561,10 +591,13 @@ class ImportService extends tao_models_classes_GenerisService
         // Filter metadata values for this given item.
         $identifier = $qtiResource->getIdentifier();
         if (isset($metadataValues[$identifier]) === true) {
-
+            \common_Logger::i("Preparing Metadata Values for resource '${identifier}'...");
             $values = $metadataValues[$identifier];
 
             foreach ($ontologyInjectors as $injector) {
+                $valuesCount = count($values);
+                $injectorClass = get_class($injector);
+                \common_Logger::i("Attempting to inject ${valuesCount} Metadata Values in database for resource '${identifier}' with Metadata Injector '${injectorClass}'.");
                 $injector->inject($resource, array($identifier => $values));
             }
         }

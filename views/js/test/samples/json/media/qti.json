@@ -57,16 +57,6 @@
         "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
     },
     "stylesheets": {
-        "stylesheet_5530c8298cdff083075390": {
-            "serial": "stylesheet_5530c8298cdff083075390",
-            "qtiClass": "stylesheet",
-            "attributes": {
-                "href": "style\/custom\/tao-user-styles.css",
-                "type": "text\/css",
-                "media": "all",
-                "title": ""
-            }
-        }
     },
     "outcomes": {
         "outcomedeclaration_5530c8298f185097883591": {

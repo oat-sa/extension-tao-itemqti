@@ -24,12 +24,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/graphicGapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function($, _, __, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+], function($, _, __, Promise, tpl, graphic,  pciResponse, containerHelper, instructionMgr){
+    'use strict';
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -39,41 +41,50 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
-        var $container = containerHelper.get(interaction);
-        var $gapList = $('ul.source', $container);
-        var $imageBox  = $('.main-image-box', $container);
-        var background = interaction.object.attributes;
-        var baseUrl = this.getOption('baseUrl') || '';
+        var self = this;
 
-        interaction.gapFillers = [];
+        return new Promise(function(resolve, reject){
 
-        //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width,
-            height      : background.height,
-            img         : this.resolveUrl(background.data),
-            imgId       : 'bg-image-' + interaction.serial,
-            container   : $container,
-            resize      : function(newSize, factor){
-               $gapList.css('max-width', newSize + 'px');
-               if(factor !== 1){
-                    $gapList.find('img').each(function(){
-                        var $img = $(this);
-                        $img.width( $img.attr('width') * factor );
-                        $img.height( $img.attr('height') * factor );
-                    });
-               }
-            }
+            var $container = containerHelper.get(interaction);
+            var $gapList = $('ul.source', $container);
+            var $imageBox  = $('.main-image-box', $container);
+            var background = interaction.object.attributes;
+
+            interaction.gapFillers = [];
+
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
+
+            //create the paper
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width       : background.width,
+                height      : background.height,
+                img         : self.resolveUrl(background.data),
+                imgId       : 'bg-image-' + interaction.serial,
+                container   : $container,
+                resize      : function(newSize, factor){
+                   $gapList.css('max-width', newSize + 'px');
+                   if(factor !== 1){
+                        $gapList.find('img').each(function(){
+                            var $img = $(this);
+                            $img.width( $img.attr('width') * factor );
+                            $img.height( $img.attr('height') * factor );
+                        });
+                   }
+                }
+            });
+
+            //call render choice for each interaction's choices
+            _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
+
+            //create the list of gap images
+            _renderGapList(interaction, $gapList);
+
+            //clicking the paper to reset selection
+            _paperUnSelect(interaction);
+
         });
-
-        //call render choice for each interaction's choices
-        _.forEach(interaction.getChoices(), _.partial(_renderChoice, interaction));
-
-        //create the list of gap images
-        _renderGapList(interaction, $gapList);
-
-        //clicking the paper to reset selection
-        _paperUnSelect(interaction);
     };
 
 

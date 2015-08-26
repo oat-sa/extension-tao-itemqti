@@ -3,8 +3,9 @@ define([
     'lodash',
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
-    'json!taoQtiItem/test/samples/json/space-shuttle-m.json'
-], function($, _, qtiItemRunner, choiceData, multipleChoiceData){
+    'json!taoQtiItem/test/samples/json/space-shuttle-m.json',
+    'core/promise'
+], function($, _, qtiItemRunner, choiceData, multipleChoiceData, Promise){
     'use strict';
 
     var runner;

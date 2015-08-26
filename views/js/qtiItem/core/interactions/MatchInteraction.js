@@ -5,6 +5,7 @@ define([
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util'
 ], function(BlockInteraction, SimpleAssociableChoice, _, rendererConfig, util){
+    'use strict';
 
     var MatchInteraction = BlockInteraction.extend({
         qtiClass : 'matchInteraction',
@@ -87,20 +88,21 @@ define([
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         postRender : function(data, altClassName, renderer){
-
             renderer = renderer || this.getRenderer();
-
-            var choices = this.getChoices();
-
-            for(var i = 0; i < 2; i++){
-                _.forIn(choices[i], function(c){
-                    if(c instanceof SimpleAssociableChoice){
-                        c.postRender({}, 'simpleAssociableChoice.matchInteraction', renderer);
-                    }
-                });
-            }
-
-            return this._super(data, altClassName, renderer);
+            return _(this.getChoices())
+                .map(function(choices){
+                    return _(choices)
+                        .filter(function(choice){
+                            return choice instanceof SimpleAssociableChoice;
+                        })
+                        .map(function(choice){
+                            return choice.postRender({}, 'simpleAssociableChoice.matchInteraction', renderer);
+                        })
+                        .value();
+                })
+                .flatten(true)
+                .value()
+                .concat(this._super(data, altClassName, renderer));
         },
         toArray : function(){
             var arr = this._super();

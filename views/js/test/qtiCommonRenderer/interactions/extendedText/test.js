@@ -5,21 +5,12 @@ define([
     'json!taoQtiItem/test/samples/json/postcard.json',
     'json!taoQtiItem/test/samples/json/formated-card.json',
     'lib/simulator/jquery.keystroker',
-    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ckeditor'
-], function($, _, qtiItemRunner, itemDataPlain, itemDataXhtml, keystroker, containerHelper, ckEditor){
+], function($, _, qtiItemRunner, itemDataPlain, itemDataXhtml, keystroker,  ckEditor){
     'use strict';
 
     var runner;
     var fixtureContainerId = 'item-container-';
-
-    var showErrors = true;
-
-    var logError = function(err) {
-        if (showErrors) {
-            console.log('Error#', err);
-        }
-    };
 
 /** PLAIN **/
 
@@ -41,7 +32,10 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataPlain)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
 
                 //check DOM
@@ -79,7 +73,10 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataPlain)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
 
@@ -109,7 +106,10 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataPlain)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
 
@@ -136,7 +136,10 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataPlain)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 var self = this;
 
@@ -173,7 +176,10 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataPlain)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 var self = this;
 
@@ -213,7 +219,7 @@ define([
     });
 
     QUnit.asyncTest('renders correctly', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         var $container = $('#' + fixtureContainerId + '5');
 
@@ -221,26 +227,26 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataXhtml)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
-                _.delay(function() {
-                    //check DOM
-                    assert.equal($container.children().length, 1, 'the container a elements');
-                    assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
-                    assert.equal($container.find('.qti-itemBody').length, 1, 'the container contains a the body element .qti-itemBody');
-                    assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
-                    assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
-                    assert.equal($container.find('.qti-extendedTextInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
-                    assert.equal($container.find('.qti-extendedTextInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
+                //check DOM
+                assert.equal($container.children().length, 1, 'the container a elements');
+                assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
+                assert.equal($container.find('.qti-itemBody').length, 1, 'the container contains a the body element .qti-itemBody');
+                assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
+                assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                assert.equal($container.find('.qti-extendedTextInteraction .qti-prompt-container').length, 1, 'the interaction contains a prompt');
+                assert.equal($container.find('.qti-extendedTextInteraction .instruction-container').length, 1, 'the interaction contains a instruction box');
 
-                    //check DOM data
-                    assert.equal($container.children('.qti-item').data('identifier'), 'extendedText', 'the .qti-item node has the right identifier');
+                //check DOM data
+                assert.equal($container.children('.qti-item').data('identifier'), 'extendedText', 'the .qti-item node has the right identifier');
+                assert.ok( typeof $('.qti-extendedTextInteraction', $container).data('editor') === 'string', 'The interaction has the editor instance name');
 
-                    QUnit.start();
 
-                    // remove the container to avoid CKEditor error on the next test
-                    $container.remove();
-                }, 100);
+                QUnit.start();
             })
             .init()
             .render($container);
@@ -248,7 +254,7 @@ define([
 
 
     QUnit.asyncTest('enables to input a response', function(assert){
-        QUnit.expect(5);
+        QUnit.expect(6);
 
         var $container = $('#' + fixtureContainerId + '6');
         var response = 'test';
@@ -257,26 +263,24 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataXhtml)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
-                var self = this;
-                _.delay(function() {
-                    assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                var $interaction = $('.qti-extendedTextInteraction', $container);
+                assert.equal($interaction.length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
 
-                    var interaction = self._item.getInteractions()[0];
-                    var editor = ckEditor.instances[containerHelper.get(interaction).data('editor')];
+                var editor = ckEditor.instances[$interaction.data('editor')];
 
-                    editor.setData(response);
+                assert.ok(typeof editor === 'object', 'the interaction is link to the ck instance');
 
-                    assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : response } } } }, 'the response state is equal to the loaded response');
+                editor.setData(response);
 
-                    assert.equal(editor.getData(), response, 'the editor displays the loaded response');
+                assert.deepEqual(this.getState(), {'RESPONSE': { response : { base  : { string : response } } } }, 'the response state is equal to the loaded response');
+                assert.equal(editor.getData(), response, 'the editor displays the loaded response');
 
-                    QUnit.start();
-
-                    // remove the container to avoid CKEditor error on the next test
-                    $container.remove();
-                }, 100);
+                QUnit.start();
             })
             .init()
             .render($container);
@@ -284,89 +288,37 @@ define([
 
 
     QUnit.asyncTest('enables to load a response', function(assert){
-        QUnit.expect(20);
+        QUnit.expect(5);
 
         var $container = $('#' + fixtureContainerId + '7');
+        //var $container = $('#outside-container');
         var response = { base  : { string : '<strong>test</strong>' } };
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        var cpt = 0;
-
         runner = qtiItemRunner('qti', itemDataXhtml)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 var self = this;
-                _.delay(function() {
-                    assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                //set the state
+                runner.setState({'RESPONSE': { response : response } });
 
-                    var interaction = self._item.getInteractions()[0];
-                    var editor = ckEditor.instances[containerHelper.get(interaction).data('editor')];
-                    runner.setState({'RESPONSE': { response : response } });
+                assert.equal($container.find('.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                assert.deepEqual(self.getState(), {'RESPONSE': { response : response } }, 'the response state is equal to the loaded response');
 
-                    _.delay(function() {
-                        assert.deepEqual(self.getState(), {'RESPONSE': { response : response } }, 'the response state is equal to the loaded response');
+                //ck set the text with a little delay
+                assert.equal($('.qti-extendedTextInteraction iframe.cke_wysiwyg_frame', $container).contents().find('body').text(), 'test', 'the state text is inserted');
 
-                        assert.equal(editor.getData(), response.base.string, 'the editor displays the loaded response');
-
-                        QUnit.start();
-
-                        // remove the container to avoid CKEditor error on the next test
-                        $container.remove();
-                    }, 100);
-
-                }, 100);
-            })
-            .on('statechange', function(state){
-                assert.ok(true, 'A statechange event has been fired #' + (cpt++));
-                assert.ok(typeof state === 'object', 'The state is an object');
-                assert.ok(typeof state.RESPONSE === 'object', 'The state has a response object');
-                assert.deepEqual(state.RESPONSE, { response : response }, 'A text is entered');
-
-                var interaction = this._item.getInteractions()[0];
-                var editor = ckEditor.instances[containerHelper.get(interaction).data('editor')];
-                assert.equal(editor.getData(), response.base.string, 'the editor displays the loaded response');
+                QUnit.start();
             })
             .init()
             .render($container);
     });
 
-
-    QUnit.asyncTest('destroys', function(assert){
-        QUnit.expect(5);
-
-        var $container = $('#' + fixtureContainerId + '8');
-
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
-
-        runner = qtiItemRunner('qti', itemDataXhtml)
-            .on('error', logError)
-            .on('render', function(){
-                var self = this;
-                _.delay(function() {
-                    //call destroy manually
-                    var interaction = self._item.getInteractions()[0];
-                    interaction.renderer.destroy(interaction);
-
-                    assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
-
-                    _.delay(function(){
-
-                        assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : '' } } } }, 'The response state is cleared');
-                        assert.equal($container.find('.qti-extendedTextInteraction .instruction-container').children().length, 0, 'there is no instructions anymore');
-
-                        QUnit.start();
-
-                        // remove the container to avoid CKEditor error on the next test
-                        $container.remove();
-                    }, 100);
-                }, 100);
-            })
-            .init()
-            .render($container);
-    });
 
 
     QUnit.asyncTest('resets the response', function(assert){
@@ -379,42 +331,78 @@ define([
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemDataXhtml)
-            .on('error', logError)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
             .on('render', function(){
                 var self = this;
 
-                _.delay(function() {
-                    assert.equal($container.find('.qti-interaction.qti-extendedTextInteraction').length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                var interaction = self._item.getInteractions()[0];
+                var $interaction = $('.qti-extendedTextInteraction', $container);
+                assert.equal($interaction.length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
 
-                    var interaction = self._item.getInteractions()[0];
-                    var editor = ckEditor.instances[containerHelper.get(interaction).data('editor')];
+                var editor = ckEditor.instances[$interaction.data('editor')];
 
-                    editor.setData(response);
+                editor.setData(response);
 
-                    _.delay(function(){
+                assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : response } } } }, 'A response is set');
 
-                        assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : response } } } }, 'A response is set');
+                _.delay(function(){
+                    interaction.renderer.resetResponse(interaction);
 
-                        var interaction = self._item.getInteractions()[0];
-                        interaction.renderer.resetResponse(interaction);
 
-                        _.delay(function(){
+                    assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : '' } } } }, 'The response is cleared');
+                    assert.equal(editor.getData(), '', 'the editor is cleared');
 
-                            assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : '' } } } }, 'The response is cleared');
-
-                            assert.equal(editor.getData(), '', 'the editor is cleared');
-
-                            QUnit.start();
-
-                            // remove the container to avoid CKEditor error on the next test
-                            $container.remove();
-                        }, 100);
-                    }, 100);
-                }, 100);
+                    QUnit.start();
+                }, 10);
             })
             .init()
             .render($container);
     });
 
+    QUnit.asyncTest('destroys', function(assert){
+        QUnit.expect(8);
+
+        var $container = $('#' + fixtureContainerId + '8');
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        runner = qtiItemRunner('qti', itemDataXhtml)
+            .on('error', function(e){
+                assert.ok(false, e);
+                QUnit.start();
+            })
+            .on('render', function(){
+                var self = this;
+
+                //call destroy manually
+                var interaction = self._item.getInteractions()[0];
+                var $interaction = $('.qti-extendedTextInteraction', $container);
+                assert.equal($interaction.length, 1, 'the container contains a text interaction .qti-extendedTextInteraction');
+                var editorName = $interaction.data('editor');
+
+                assert.ok(typeof editorName === 'string' && editorName.length > 0, 'the editor name is set');
+                assert.ok(typeof ckEditor.instances[editorName] === 'object', 'the editor instance is available');
+
+                _.delay(function(){
+                    interaction.renderer.destroy(interaction);
+
+                    _.delay(function(){
+
+                        assert.deepEqual(self.getState(), {'RESPONSE': { response : { base  : { string : '' } } } }, 'The response state is cleared');
+                        assert.equal($container.find('.qti-extendedTextInteraction .instruction-container').children().length, 0, 'there is no instructions anymore');
+                        assert.ok(typeof ckEditor.instances[editorName] === 'undefined', 'the editor instance is not available anymore');
+
+                        QUnit.start();
+
+                    }, 10);
+                }, 10);
+            })
+            .init()
+            .render($container);
+    });
 });
 

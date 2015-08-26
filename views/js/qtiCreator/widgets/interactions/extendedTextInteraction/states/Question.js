@@ -121,8 +121,12 @@ define([
             var correctResponse = _.values(response.getCorrect());
             var previousFormat = interaction.attr('format');
 
+            //remove the interaction
+            renderer.destroy(interaction);
+
+            //change the format and rerender
             interaction.attr('format', attrValue);
-            renderer.updateFormat(interaction, previousFormat);
+            renderer.render(interaction);
 
             if(previousFormat === 'xhtml'){
                 if(typeof correctResponse[0] !== 'undefined'){
