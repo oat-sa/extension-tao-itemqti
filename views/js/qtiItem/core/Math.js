@@ -1,13 +1,15 @@
 define([
+    'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/mixin/NamespacedElement'
-], function(_, Element, rendererConfig, NamespacedElement){
-    
+], function($, _, Element, rendererConfig, NamespacedElement){
+    'use strict';
+
     /**
      * Remove the closing MathML tags and remove useless line breaks before and after it
-     * 
+     *
      * @param {String} mathML
      * @param {String} nsName
      * @returns {String}
@@ -18,10 +20,10 @@ define([
             .replace(/^\s*[\r\n]/gm, '')//remove first blank line
             .replace(/\s*[\r\n]$/gm, '');//last blank line
     };
-    
+
     /**
      * Remove mathML ns name prefix from the mathML
-     * 
+     *
      * @param {String} mathML
      * @param {String} nsName
      * @returns {String}
@@ -30,10 +32,10 @@ define([
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : ''), 'g');
         return mathML.replace(regex, '<$1');
     };
-    
+
     /**
      * Check if the mathML string is to be considered empty
-     * 
+     *
      * @param {String} mathStr
      * @returns {Boolean}
      */
@@ -48,7 +50,7 @@ define([
 
         return !hasContent;
     }
-    
+
     var Math = Element.extend({
         qtiClass : 'math',
         defaultNsName : 'm',
@@ -123,8 +125,8 @@ define([
             return _isEmptyMathML(this.mathML) && (!this.annotations['latex'] || !this.annotations['latex'].trim());
         }
     });
-    
+
     NamespacedElement.augment(Math);
-    
+
     return Math;
 });
