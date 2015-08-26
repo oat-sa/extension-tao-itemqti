@@ -50,7 +50,7 @@ define([
 
         $container.off('.commonRenderer');
 
-        var $radios = $('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        var $radios = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
         $radios.on('keydown.commonRenderer', function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
