@@ -44,26 +44,40 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	 */
 	public function __construct(core_kernel_classes_Resource $item, ZipArchive $zip, DOMDocument $manifest = null) {
 	    parent::__construct($item, $zip);
-	    $this->setManifest($manifest);
+	    $this->setManifest(is_null($manifest) ? $this->createEmptyManifest() : $manifest);
 	}
-	
+
+    /**
+     * @return DOMDocument
+     */
 	public function getManifest() {
 	    return $this->manifest;
 	}
 	
+	/**
+	 * @param DOMDocument $manifest
+	 */
 	public function setManifest(DOMDocument $manifest = null) {
 	    $this->manifest = $manifest;
 	}
 	
-	public function hasManifest() {
-	    return $this->getManifest() !== null;
-	}
-	
+	/**
+	 * (non-PHPdoc)
+	 * @see \oat\taoQtiItem\model\Export\AbstractQTIItemExporter::export()
+	 */
 	public function export($options = array()) {
-		parent::export($options);
-		$this->exportManifest($options);
+	    if (!$this->containsItem()) {
+		  parent::export($options);
+		  $asApip = isset($options['apip']) && $options['apip'] === true;
+		  $this->addToManifest($asApip);
+		  $this->writeManifest();
+	    }
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \oat\taoQtiItem\model\Export\AbstractQTIItemExporter::buildBasePath()
+	 */
 	public function buildBasePath() {
 	    return tao_helpers_Uri::getUniqueId($this->getItem()->getUri());
 	}
@@ -73,102 +87,147 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	}
 	
 	/**
-	 * Build, merge and export the IMS Manifest into the target ZIP archive.
-	 * 
-	 * @throws 
+	 * Whenever the item is already in the manifest
+	 * @return boolean
 	 */
-	public function exportManifest($options = array()) {
-	    
-	    $asApip = isset($options['apip']) && $options['apip'] === true;
-	    
+	protected function containsItem()
+	{
+	    $found = false;
+	    foreach ($this->getManifest()->getElementsByTagName('resource') as $resourceNode) {
+	       if ($resourceNode->getAttribute('identifier') == $this->buildIdentifier()) {
+	           $found = true;
+	           break;
+	       }
+	    }
+	    return $found;
+	}
+	
+	/**
+	 * @return DOMDocument
+	 */
+	protected function createEmptyManifest($options = array())
+	{
+        $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
+        $templateRenderer = new taoItems_models_classes_TemplateRenderer($dir . 'model/qti/templates/imsmanifest.tpl.php', array(
+            'qtiItems' 				=> array(),
+            'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+        ));
+         
+        $renderedManifest = $templateRenderer->render();
+        $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
+        $newManifest->loadXML($renderedManifest);
+	    return $newManifest;
+	}
+	
+	/**
+	 * Saves the manifest to the zip archive
+	 */
+	protected function writeManifest()
+	{
+	    $this->getZip()->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
+	}
+	
+	/**
+	 * Returns the paths to all resources of the item
+	 * 
+	 * @return string[]
+	 */
+	protected function getResources()
+	{
+	    $zipArchive = $this->getZip();
 	    $base = $this->buildBasePath();
-		$zipArchive = $this->getZip();
-		$qtiFile = '';
-		$qtiResources = array();
-		
-		for ($i = 0; $i < $zipArchive->numFiles; $i++) {
-      		$fileName = $zipArchive->getNameIndex($i);
-      		
-      		if (preg_match("@^" . preg_quote($base) . "@", $fileName)) {
-      			if (basename($fileName) == 'qti.xml') {
-      				$qtiFile = $fileName;
-      			}
-      			else {
-      				$qtiResources[] = $fileName;
-      			}
-      		}
- 		}
+	    
+	    $qtiResources = array();
+	    for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+	        $fileName = $zipArchive->getNameIndex($i);
+	    
+	        if (preg_match("@^" . preg_quote($base) . "@", $fileName) && basename($fileName) != 'qti.xml') {
+                $qtiResources[] = $fileName;
+	        }
+	    }
+	    return $qtiResources;
+	}
+	
+	/**
+	 * Returns the path to the qtiItem
+	 * @return string
+	 */
+	protected function getQtiFile() {
+	    $zipArchive = $this->getZip();
+	    $base = $this->buildBasePath();
+	    
+	    $qtiFile = '';
+	    for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+	        $fileName = $zipArchive->getNameIndex($i);
+	         
+	        if (preg_match("@^" . preg_quote($base) . "@", $fileName) && basename($fileName) == 'qti.xml') {
+                $qtiFile = $fileName;
+                break;
+	        }
+	    }
+	    return $qtiFile;
+	}
+	
+	/**
+	 * Append the item resource to the manifest
+	 * 
+	 * @param boolean $asApip
+	 */
+	protected function addToManifest($asApip = false)
+	{
+	   $qtiResources = $this->getResources();
+	   $qtiFile = $this->getQtiFile();
+	   $qtiType = $asApip ? 'imsqti_apipitem_xmlv2p' : 'imsqti_item_xmlv2p1';
+	   
+	   if ($asApip) {
+	       $this->setApipManifest();
+	   }
+	   
+	   $itemResource = $this->buildItemResource($this->buildIdentifier(), $qtiFile, $qtiType, $qtiResources);
+	   
+	   $resourcesNodes = $this->getManifest()->getElementsByTagName('resources');
+	   $resourcesNodes->item(0)->appendChild($itemResource);
 
-		$qtiItemService = Service::singleton();
-        
-		//@todo add support of multi language packages
-        $rdfItem = $this->getItem();
-		$qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
-		
-		if (!is_null($qtiItem)) {
-            
-		    // -- Prepare data transfer to the imsmanifest.tpl template.
-		    $qtiItemData = array();
-		    
-		    // alter identifier for export to avoid any "clash".
-		    $qtiItemData['identifier'] = $this->buildIdentifier();
-		    $qtiItemData['filePath'] = $qtiFile;
-		    $qtiItemData['medias'] = $qtiResources;
-		    $qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
-		    $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
-		    $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
-		    $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
-		    $qtiItemData['interactions'] = array();
-            
-		    foreach ($qtiItem->getInteractions() as $interaction) {
-		        $interactionData = array();
-		        $interactionData['type'] = $interaction->getQtiTag();
-		        $qtiItemData['interactions'][] = $interactionData;
-		    }
-		    
-		    // -- Build a brand new IMS Manifest.
-		    $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-		    $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
-		    
-		    $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
-		                    'qtiItems' 				=> array($qtiItemData),
-		                    'manifestIdentifier'    => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
-		    ));
-		    	
-		    $renderedManifest = $templateRenderer->render();
-		    $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
-		    $newManifest->loadXML($renderedManifest);
-		    
-		    if ($this->hasManifest()) {
-		        // Merge old manifest and new one.
-		        $dom1 = $this->getManifest();
-		        $dom2 = $newManifest;
-		        $dom2->loadXML($renderedManifest);
-		        $resourceNodes = $dom2->getElementsByTagName('resource');
-		        $resourcesNodes = $dom1->getElementsByTagName('resources');
-		    
-		        foreach ($resourcesNodes as $resourcesNode) {
-		    
-		            foreach ($resourceNodes as $resourceNode) {
-		                $newResourceNode = $dom1->importNode($resourceNode, true);
-		                $resourcesNode->appendChild($newResourceNode);
-		            }
-		        }
-		    
-		        // rendered manifest is now useless.
-		        unset($dom2);
-		    }
-		    else {
-		        // Brand new manifest.
-		        $this->setManifest($newManifest);
-		    }
-		    
-		    // -- Overwrite manifest in the current ZIP archive.
-		    $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
-		}
-		else {
-		    $itemLabel = $this->getItem()->getLabel();
-		    throw new common_Exception("the item '${itemLabel}' involved in the export process has no content.");
-		}
+	}
+	
+	/**
+	 * Sets the namespace to APIP
+	 */
+	protected function setApipManifest()
+	{
+	    foreach ($this->getManifest()->getElementsByTagName('manifest') as $manifest) {
+	        $manifest->setAttribute('xmlns', "http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1");
+	        $manifest->setAttribute('xmlns:lomm', "http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest");
+	    }
+	}
+	
+	/**
+	 * Build the item resource node
+	 * 
+	 * @param string $identifier
+	 * @param string $filePath
+	 * @param string $itemType
+	 * @param string[] $media
+	 * @return DOMElement
+	 */
+	protected function buildItemResource($identifier, $filePath, $itemType = 'imsqti_item_xmlv2p1', $media = array())
+	{
+	    $dom = $this->getManifest();
+	    $item = $dom->createElement('resource');
+	    $item->setAttribute('identifier', $identifier);
+	    $item->setAttribute('type', $itemType);
+	    $item->setAttribute('href', $filePath);
+	     
+	    $itemFile = $dom->createElement('file');
+	    $itemFile->setAttribute('href', $filePath);
+	    $item->appendChild($itemFile);
+	
+	    foreach ($media as $mediaPath) {
+	        $mediaFile = $dom->createElement('file');
+	        $mediaFile->setAttribute('href', $mediaPath);
+	        $item->appendChild($mediaFile);
+	    }
+	
+	    return $item;
 	}
 }
