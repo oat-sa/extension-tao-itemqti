@@ -200,7 +200,13 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
+                    filters : [
+                        {'mime':'image/jpeg'},
+                        {'mime':'image/png'},
+                        {'mime':'image/gif'},
+                        {'mime':'image/svg+xml'},
+                        {'mime':'application/x-gzip', 'extension':'svgz'}
+                    ]
                 },
                 pathParam : 'path',
                 select : function(e, files){
