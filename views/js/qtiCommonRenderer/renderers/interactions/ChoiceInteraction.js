@@ -50,9 +50,9 @@ define([
 
         $container.off('.commonRenderer');
 
-        var $radios = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
-        $radios.on('keydown.commonRenderer', function(e){
+        $choiceInputs.on('keydown.commonRenderer', function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
             if(keyCode != KEY_CODE_TAB){
                 e.preventDefault();
@@ -62,13 +62,13 @@ define([
                 _triggerCheckboxes($(this).closest('.qti-choice'));
             }
 
-            var nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
-            var prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
             if( keyCode == KEY_CODE_UP ){
-                prevInput.focus();
+                $prevInput.focus();
             } else if( keyCode == KEY_CODE_DOWN ){
-                nextInput.focus();
+                $nextInput.focus();
             }
         });
 
