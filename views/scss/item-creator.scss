@@ -1170,8 +1170,10 @@ img.dragging.ui-draggable-dragging {
         margin-top: 25px;
         .mini-tlb{
             white-space: nowrap;
-            top:-26px;
-            right:-4px;
+
+            /* !important added because another important override it... */
+            top:-22px !important;
+            right:-2px !important;
             .tlb-button{
                 min-width:25px;
                 height:20px;
