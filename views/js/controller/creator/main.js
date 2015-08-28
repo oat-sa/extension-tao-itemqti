@@ -166,7 +166,7 @@ define([
 
                 if (history) {
                     history.back();
-                    actionManager.exec('item-properties');
+                    //actionManager.exec('item-properties');   @TODO fix
                 }
             });
 
