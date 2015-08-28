@@ -16,25 +16,15 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-define([
-    'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Choice',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
-], function(stateFactory, Choice, sizeAdapter){
+define(['taoQtiItem/qtiCreator/helper/adaptSize', 'lodash'], function(adaptSize, _){
 
     'use strict';
 
-    var AssociateInteractionStateChoice = stateFactory.extend(Choice, function(){
-        
-        var widget = this.widget;
-        
-        widget.on('containerBodyChange contentChange choiceCreated', function(){
-            sizeAdapter.adaptSize(widget);
-        });
-        
-    }, function(){
-        
-    });
-
-    return AssociateInteractionStateChoice;
+    return {
+        adaptSize : function(widget){
+            _.delay(function(){
+                adaptSize.height(widget.$container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
+            }, 500);
+        }
+    };
 });
