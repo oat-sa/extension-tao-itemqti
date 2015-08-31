@@ -166,10 +166,9 @@ define([
 
                 if (history) {
                     history.back();
-                    $(document).ready(function () {
+                    _.delay(function(){
                         actionManager.exec('item-properties');
-                    });
-
+                    },10);
                 }
             });
 
