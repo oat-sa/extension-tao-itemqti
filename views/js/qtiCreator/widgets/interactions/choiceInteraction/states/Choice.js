@@ -18,14 +18,25 @@
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Question',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Choice',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Answer',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/Map'
-], function(factory, states){
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Choice',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
+], function(stateFactory, Choice, sizeAdapter){
+
     'use strict';
 
-    return factory.createBundle(states, arguments);
+    var ChoiceInteractionStateChoice = stateFactory.extend(Choice, function(){
+        
+        var widget = this.widget;
+        
+        widget.on('containerBodyChange contentChange choiceCreated', function(){
+            if(widget.element.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(widget);
+            }
+        });
+        
+    }, function(){
+        
+    });
+
+    return ChoiceInteractionStateChoice;
 });

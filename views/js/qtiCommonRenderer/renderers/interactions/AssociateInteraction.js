@@ -31,7 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/helper/adaptSize'
+    'util/adaptSize'
 ], function($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
     'use strict';
 

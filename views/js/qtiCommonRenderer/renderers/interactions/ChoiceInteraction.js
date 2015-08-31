@@ -28,8 +28,9 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'util/adaptSize'
+], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, adaptSize){
     'use strict';
 
     /**
@@ -46,7 +47,7 @@ define([
         $container.on('click.commonRenderer', '.qti-choice', function(e){
 
             e.preventDefault();
-            e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
+            e.stopPropagation();
 
             var $box = $(this);
             var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
@@ -80,6 +81,12 @@ define([
         _pseudoLabel(interaction, $container);
 
         _setInstructions(interaction);
+
+        if(interaction.attr('orientation') === 'horizontal') {
+            _.delay(function(){
+                adaptSize.height($container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
+            }, 500);
+        }
     };
 
     /**

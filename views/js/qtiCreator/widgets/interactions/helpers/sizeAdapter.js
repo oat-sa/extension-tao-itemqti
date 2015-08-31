@@ -16,14 +16,43 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-define(['taoQtiItem/qtiCreator/helper/adaptSize', 'lodash'], function(adaptSize, _){
+define([
+    'util/adaptSize',
+    'jquery',
+    'lodash'
+], function(
+    adaptSize,
+    $,
+    _
+    ){
 
     'use strict';
 
     return {
-        adaptSize : function(widget){
+
+        /**
+         * Resize jQueryElement that have changed their dimensions due to a change of the content
+         *
+         * @param {jQueryElement|widget} target
+         */
+        adaptSize : function(target){
+
+            var $elements;
+
+            switch(true) {
+                // widget
+                case (typeof target.$container !== 'undefined'):
+                    $elements = target.$container.find('.add-option, .result-area .target, .choice-area .qti-choice');
+                    break;
+
+                // jquery elements
+                default:
+                    $elements = target;
+            }
+
             _.delay(function(){
-                adaptSize.height(widget.$container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
+                adaptSize.height($elements);
+
             }, 500);
         }
     };
