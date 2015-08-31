@@ -166,7 +166,10 @@ define([
 
                 if (history) {
                     history.back();
-                    //actionManager.exec('item-properties');   @TODO fix
+                    $(document).ready(function () {
+                        actionManager.exec('item-properties');
+                    });
+
                 }
             });
 
