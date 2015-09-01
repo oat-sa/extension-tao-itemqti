@@ -419,6 +419,7 @@ class ImportService extends tao_models_classes_GenerisService
                 }
 
                 $qtiFile = $folder . $qtiItemResource->getFile();
+                $qtiFile = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $qtiFile);
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
@@ -435,8 +436,8 @@ class ImportService extends tao_models_classes_GenerisService
 
                 foreach ($qtiItemResource->getAuxiliaryFiles() as $auxResource) {
                     // file on FS
-                    $auxFile = $folder . str_replace('/', DIRECTORY_SEPARATOR, $auxResource);
-
+                    $auxFile = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder . $auxResource);
+                    
                     // rel path in item
                     $auxPath = str_replace(DIRECTORY_SEPARATOR, '/', helpers_File::getRelPath($qtiFile, $auxFile));
 
