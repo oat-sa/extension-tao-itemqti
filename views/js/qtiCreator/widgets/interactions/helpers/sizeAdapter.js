@@ -53,7 +53,7 @@ define([
             _.delay(function(){
                 adaptSize.height($elements);
 
-            }, 500);
+            }, 150);
         }
     };
 });
