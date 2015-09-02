@@ -83,9 +83,7 @@ define([
         _setInstructions(interaction);
 
         if(interaction.attr('orientation') === 'horizontal') {
-            _.delay(function(){
-                adaptSize.height($container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
-            }, 500);
+            adaptSize.height($container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
         }
     };
 

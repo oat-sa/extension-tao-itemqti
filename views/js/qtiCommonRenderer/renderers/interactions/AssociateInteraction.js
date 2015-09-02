@@ -203,15 +203,6 @@ define([
         }
     };
 
-    var _adaptSize = function(interaction, done){
-        var $container = containerHelper.get(interaction);
-        _.delay(function(){
-            adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
-            if(_.isFunction(done)){
-                done();
-            }
-        }, 500);//@todo : fix the image loading issues
-    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -241,7 +232,7 @@ define([
              */
             var _setChoice = function($choice, $target){
                 setChoice(interaction, $choice, $target);
-                _adaptSize(interaction);
+                adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
             };
 
             var _resetSelection = function(){
@@ -255,7 +246,7 @@ define([
 
             var _unsetChoice = function($choice){
                 unsetChoice(interaction, $choice, true);
-                _adaptSize(interaction);
+                adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
             };
 
             var _isInsertionMode = function(){
@@ -395,7 +386,8 @@ define([
                 _setInstructions(interaction);
             }
 
-            _adaptSize(interaction, resolve);
+            adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+            resolve();
 
         });
     };
