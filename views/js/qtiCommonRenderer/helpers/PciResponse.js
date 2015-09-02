@@ -135,7 +135,8 @@ define(['lodash', 'taoQtiItem/qtiCommonRenderer/helpers/PciPrettyPrint'], functi
                 print += pciPrettyPrint.printList(response, true);
             }
             else if (typeof response.record !== 'undefined') {
-                // @todo pretty print of records.
+                // -- RecordType
+                print += pciPrettyPrint.printRecord(response, true);
             }
             else {
                 throw 'Not a valid PCI JSON Response';
