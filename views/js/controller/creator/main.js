@@ -22,7 +22,7 @@ define([
     'async',
     'core/promise',
     'history',
-    'layout/actions',
+    'uri',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/model/helper/event',
@@ -45,7 +45,7 @@ define([
     async,
     Promise,
     history,
-    actionManager,
+    uri,
     loadingBar,
     section,
     event,
@@ -161,15 +161,13 @@ define([
             };
 
             //back button
-            $('#authoringBack').on('click', function(e){
+            $('#authoringBack').on('click', function (e) {
                 e.preventDefault();
 
-                if (history) {
-                    history.back();
-                    _.delay(function(){
-                        actionManager.exec('item-properties');
-                    },10);
-                }
+                section.get('manage_items').loadContentBlock('/taoItems/Items/editItem', {
+                    id: configProperties.uri,
+                    uri: uri.encode(configProperties.uri)
+                }).show();
             });
 
             //initialize hooks
