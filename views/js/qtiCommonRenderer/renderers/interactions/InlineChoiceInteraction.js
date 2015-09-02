@@ -74,7 +74,7 @@ define([
         });
 
         var $el = $container.select2('container');
-        $el.attr('tabindex', "0");
+        $el.attr('tabindex', "1");
 
         _setInstructions(interaction);
 
