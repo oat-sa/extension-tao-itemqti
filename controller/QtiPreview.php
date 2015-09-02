@@ -25,6 +25,8 @@ namespace oat\taoQtiItem\controller;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
+use OutOfBoundsException;
+use OutOfRangeException;
 use \taoItems_actions_ItemPreview;
 use \tao_helpers_Uri;
 use \core_kernel_classes_Resource;
