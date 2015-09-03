@@ -17,11 +17,3 @@ select.qti-inlineChoiceInteraction,
     font-family: $regularFont !important;
     font-weight: normal !important;
 }
-
-// shadow like focused element
-.qti-inlineChoiceInteraction.select2-container-active {
-    outline-color: rgb(59, 153, 252);
-    outline-offset: -2px;
-    outline-style: auto;
-    outline-width: 5px;
-}
