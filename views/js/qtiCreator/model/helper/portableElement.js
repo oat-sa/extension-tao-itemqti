@@ -88,7 +88,8 @@ define([
                 var typeId = this.typeIdentifier,
                     creator = registry.getCreator(typeId),
                     manifest = registry.getManifest(typeId),
-                    item = this.getRelatedItem();
+                    item = this.getRelatedItem(),
+                    response;
 
                 //add required resource
                 //@todo need afterCreate() to return a promise
@@ -127,10 +128,14 @@ define([
                 //@todo fix this !
                 if(manifest.response){//for custom interaciton only
                     //create response
-                    this.createResponse({
-                        baseType : manifest.response.baseType,
+                    response = this.createResponse({
                         cardinality : manifest.response.cardinality
                     });
+                    
+                    //the base type is optional
+                    if(manifest.response.baseType){
+                        response.attr('baseType', manifest.response.baseType);
+                    }
                 } else {
                     //the attribute is mendatory for info control
                     this.attr('title', manifest.label);
