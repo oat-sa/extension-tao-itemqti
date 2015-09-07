@@ -22,7 +22,6 @@ define([
     'async',
     'core/promise',
     'history',
-    'layout/actions',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/model/helper/event',
@@ -45,7 +44,6 @@ define([
     async,
     Promise,
     history,
-    actionManager,
     loadingBar,
     section,
     event,
@@ -166,8 +164,8 @@ define([
 
                 if (history) {
                     history.back();
-                    actionManager.exec('item-properties');
                 }
+
             });
 
             //initialize hooks

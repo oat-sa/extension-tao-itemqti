@@ -94,7 +94,7 @@ class PortableCustomInteraction extends CustomInteraction
         
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         
-        $returnValue['libraries'] = array();
+        $returnValue['libraries'] = $this->libraries;
         $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
         $returnValue['entryPoint'] = $this->entryPoint;
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
@@ -107,7 +107,7 @@ class PortableCustomInteraction extends CustomInteraction
     }
     
     protected function getTemplateQtiVariables(){
-        
+
         $nsMarkup = 'html5';
         $variables = parent::getTemplateQtiVariables();
         $variables['libraries'] = $this->libraries;

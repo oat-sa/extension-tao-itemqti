@@ -114,6 +114,12 @@ define([
                     //restore context (state + response)
                     pci.setSerializedState(state);
                     pci.setResponse(response);
+
+                    //forward internal PCI event responseChange
+                    interaction.onPci('responseChange', function(){
+                        containerHelper.triggerResponseChangeEvent(interaction);
+                    });
+
                     return resolve();
                 }
 

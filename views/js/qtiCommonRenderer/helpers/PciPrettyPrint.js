@@ -16,6 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define(['lodash'], function(_){
+    
     'use strict';
 
     var _formatters = {
@@ -55,9 +56,16 @@ define(['lodash'], function(_){
         identifier : function(value){
             return value;
         }
-    }
-
-    var _prettyPrintBase = function(value, withType){
+    };
+    
+    /**
+     * Return the pretty print string for a qti base variable
+     * 
+     * @param {type} value
+     * @param {type} withType - the qti baseType
+     * @returns {String}
+     */
+    function printBase(value, withType){
 
         var print = '',
             base = value.base;
@@ -65,7 +73,7 @@ define(['lodash'], function(_){
         withType = (typeof withType !== 'undefined') ? withType : true;
 
         if(base){
-
+            
             _.forIn(_formatters, function(formatter, baseType){
                 if(base[baseType] !== undefined){
 
@@ -80,8 +88,15 @@ define(['lodash'], function(_){
         }
 
     };
-
-    var _prettyPrintList = function(value, withType){
+    
+    /**
+     * Return the pretty print string for a qti list variable
+     * 
+     * @param {object} value
+     * @param {string} withType - the qti basetype of the list
+     * @returns {string}
+     */
+    function printList(value, withType){
 
         var print = '',
             list = value.list;
@@ -114,9 +129,23 @@ define(['lodash'], function(_){
             return print;
         }
     };
-
-    return {
-        printBase : _prettyPrintBase,
-        printList : _prettyPrintList
+    
+    /**
+     * Return the pretty print string for a qti record variable
+     * 
+     * @param {object} value
+     * @returns {String}
+     */
+    function printRecord(value){
+        if(value && value.record){
+            return '(record) ' + JSON.stringify(value.record);
+        }
+        return '';
     }
+    
+    return {
+        printBase : printBase,
+        printList : printList,
+        printRecord : printRecord
+    };
 });

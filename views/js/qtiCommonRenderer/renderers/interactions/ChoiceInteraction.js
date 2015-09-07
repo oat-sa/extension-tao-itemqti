@@ -33,6 +33,12 @@ define([
 ], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, adaptSize){
     'use strict';
 
+    var KEY_CODE_SPACE = 32;
+    var KEY_CODE_ENTER = 13;
+    var KEY_CODE_UP    = 38;
+    var KEY_CODE_DOWN  = 40;
+    var KEY_CODE_TAB   = 9;
+
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
      * This allows the usage of block elements inside the fake label
@@ -44,28 +50,55 @@ define([
     var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
+
+        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+        $choiceInputs.on('keydown.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+            if(keyCode != KEY_CODE_TAB){
+                e.preventDefault();
+            }
+
+            if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
+                _triggerCheckboxes($(this).closest('.qti-choice'));
+            }
+
+            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+            if( keyCode == KEY_CODE_UP ){
+                $prevInput.focus();
+            } else if( keyCode == KEY_CODE_DOWN ){
+                $nextInput.focus();
+            }
+        });
+
         $container.on('click.commonRenderer', '.qti-choice', function(e){
+            var $box = $(this);
 
             e.preventDefault();
-            e.stopPropagation();
+            e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
 
-            var $box = $(this);
-            var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
-
-            if($radios.length){
-                $radios.not(':checked').prop('checked', true);
-                $radios.trigger('change');
-            }
-
-            if($checkboxes.length){
-                $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-                $checkboxes.trigger('change');
-            }
+            _triggerCheckboxes($box);
 
             instructionMgr.validateInstructions(interaction, {choice : $box});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
+    };
+
+    var _triggerCheckboxes = function($box){
+        var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
+        var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+
+        if($radios.length){
+            $radios.not(':checked').prop('checked', true).focus();
+            $radios.trigger('change');
+        }
+
+        if($checkboxes.length){
+            $checkboxes.prop('checked', !$checkboxes.prop('checked'));
+            $checkboxes.trigger('change');
+        }
     };
 
     /**

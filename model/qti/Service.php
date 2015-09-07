@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\taoQtiItem\model\qti\Parser;
@@ -74,10 +75,14 @@ class Service extends tao_models_classes_Service
                 $returnValue = $qtiParser->load();
                 
                 if($resolveXInclude && !empty($langCode)){
-                    //loadxinclude
-                    $resolver = new ItemMediaResolver($item, $langCode);
-                    $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
-                    $xincludeLoader->load(true);
+                    try{
+                        //loadxinclude
+                        $resolver = new ItemMediaResolver($item, $langCode);
+                        $xincludeLoader = new XIncludeLoader($returnValue, $resolver);
+                        $xincludeLoader->load(true);
+                    } catch(XIncludeException $exception){
+                        common_Logger::e($exception->getMessage());
+                    }
                 }
             
                 if (!$returnValue->getAttributeValue('xml:lang')) {
