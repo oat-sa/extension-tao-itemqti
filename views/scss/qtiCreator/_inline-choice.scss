@@ -3,6 +3,9 @@
 .widget-box.widget-inlineChoiceInteraction{
     display:none;
     background: rgba($uiClickableDefaultBg, .9);
+    .tlb-wrapper{
+        top : -26px;
+    }
 }
 
 .inlineChoiceInteraction-placeholder {
