@@ -19,7 +19,9 @@ define([
     'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
-    'taoQtiItem/qtiCreator/model/helper/event'
+    'taoQtiItem/qtiCreator/model/helper/event',
+    'taoQtiItem/qtiXmlRenderer/test/renderer/vkBeautify',
+    'taoQtiItem/qtiXmlRenderer/test/renderer/prism/prism'
 ], function(_, $, xmlRenderer, event) {
     "use strict";
     var tools = {};
