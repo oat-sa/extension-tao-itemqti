@@ -46,6 +46,7 @@ define([
         options.uri = this.getOption('uri');
         options.lang = this.getOption('lang');
         options.mediaManager = this.getOption('mediaManager');
+        options.assetManager = this.getAssetManager();
 
         GraphicGapMatchInteractionWidget.build(
             interaction,
