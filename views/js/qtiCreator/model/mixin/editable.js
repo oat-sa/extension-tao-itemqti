@@ -108,7 +108,7 @@ define([
             if(key !== undefined && value !== undefined){
                 $(document).trigger('attributeChange.qti-widget', {'element' : this, 'key' : key, 'value' : value});
             }
-            return ret;
+            return (/[<>&']+/.test(ret)) ? encodeURIComponent(ret) : ret;
         },
         removeAttr : function(key){
             var ret = this._super(key);

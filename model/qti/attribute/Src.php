@@ -21,9 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\Src;
-use oat\taoQtiItem\model\qti\attribute\Attribute;
-
 /**
  * The Href attribute
  *
@@ -39,5 +36,11 @@ class Src extends Attribute
 	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Uri';
 	static protected $defaultValue = null;
 	static protected $required = true;
+
+	public function setValue($value)
+	{
+		$value = rawurldecode($value);
+		return parent::setValue($value);
+	}
 
 }

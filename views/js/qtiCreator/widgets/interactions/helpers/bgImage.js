@@ -137,7 +137,7 @@ define([
 
         callbacks = callbacks || {};
         callbacks.data = function (interaction, value) {
-            interaction.object.attr('data', value);
+            interaction.object.attr('data', (/[<>&']+/.test(value)) ? encodeURIComponent(value) : value);
             widget.rebuild({
                 ready: function (widget) {
                     widget.changeState('question');
