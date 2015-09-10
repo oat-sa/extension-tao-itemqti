@@ -68,8 +68,7 @@ define([
             src : _.throttle(function(img, value){
 
                 img.attr('src', value);
-
-                $img.attr('src', itemUtil.fullpath(value, baseUrl));
+                $img.attr('src', _widget.getAssetManager().resolve(value));
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
