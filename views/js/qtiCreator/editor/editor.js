@@ -263,7 +263,11 @@ define([
             var $footer = $('body > footer'),
                 footerTop;
             $itemSidebars.hide();
-            footerTop = $footer.offset().top;
+            if ($footer.length) {
+                footerTop = $footer.offset().top;
+            } else {
+                footerTop = window.innerHeight;
+            }
             $itemSidebars.show();
             return footerTop;
         }());
