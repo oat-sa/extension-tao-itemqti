@@ -115,39 +115,6 @@ define(['lodash'], function(_){
             return id;
         },
 
-
-        /**
-         * @deprecated in favor or asset manager
-         */
-        fullpath : function fullpath(src, baseUrl){
-
-            src = src || '';
-            baseUrl = baseUrl || '';
-
-            if(src){
-
-                src = src.replace(/^\//, '');
-
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                //if src is base64 encoded or a http request do not touch it
-                if(!pattern.test(src) || !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(src) || src.indexOf('/') === -1){
-
-                    if(baseUrl && !baseUrl.match(/\/$/)){
-                        baseUrl += '/';
-                    }
-
-                    src = baseUrl + src;
-                }
-            }
-
-            return src;
-        },
-
         findInCollection : function findInCollection(element, collectionNames, searchedSerial){
 
             var found = null;
