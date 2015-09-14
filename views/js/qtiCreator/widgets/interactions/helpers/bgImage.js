@@ -22,8 +22,9 @@
  * @author dieter <dieter@taotesting.com>
  */
 define([
+    'util/url',
     'ui/mediasizer'
-], function () {
+], function (url) {
     'use strict';
 
     /**
@@ -137,7 +138,7 @@ define([
 
         callbacks = callbacks || {};
         callbacks.data = function (interaction, value) {
-            interaction.object.attr('data', (/[<>&']+/.test(value)) ? encodeURIComponent(value) : value);
+            interaction.object.attr('data', url.encodeAsXmlAttr(value));
             widget.rebuild({
                 ready: function (widget) {
                     widget.changeState('question');
