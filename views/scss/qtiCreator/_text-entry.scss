@@ -3,6 +3,9 @@
 .widget-box.widget-textEntryInteraction{
     display:none;
     background: rgba($uiClickableDefaultBg, .9);
+    .tlb-wrapper{
+        top : -26px;
+    }
 }
 
 .textEntryInteraction-placeholder {

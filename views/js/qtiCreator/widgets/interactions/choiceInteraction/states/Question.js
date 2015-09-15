@@ -24,8 +24,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'lodash',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
     'ui/liststyler'
-], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _){
+], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _, sizeAdapter){
 
     'use strict';
 
@@ -104,6 +105,17 @@ define([
                     //checkbox
                     $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
                 }
+            }
+        });
+
+        //adapt size
+        if(_widget.element.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize(_widget);
+        }
+
+        _widget.on('choiceCreated', function(){
+            if(_widget.element.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(_widget);
             }
         });
     };
