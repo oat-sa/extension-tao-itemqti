@@ -3,6 +3,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/editor/widgetToolbar'
 ], function($, Widget, toolbar){
+    "use strict";
 
     var StaticWidget = Widget.clone();
 
@@ -22,6 +23,13 @@ define([
     StaticWidget.createToolbar = function(){
 
         return this;
+    };
+
+    StaticWidget.getAssetManager = function () {
+        if (!this.options || !this.options.assetManager) {
+            throw new Error('Asset Manager have to be provided');
+        }
+        return this.options.assetManager;
     };
 
     StaticWidget.createOkButton = function(){
