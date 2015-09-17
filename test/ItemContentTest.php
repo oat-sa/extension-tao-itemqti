@@ -23,7 +23,6 @@
 
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use \taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoItems\model\media\LocalItemSource;
 
@@ -85,7 +84,7 @@ class ItemContentTest extends TaoPhpUnitTestRunner
         }
         
         $this->assertEquals("qti.xml", $file['name']);
-        $this->assertEquals("application/xml", $file['mime']);
+        $this->assertTrue(strpos($file['mime'], '/xml') !== false); //can be 'application/xml' or 'text/xml'
         $this->assertTrue($file['size'] > 0);
         
         $this->assertEquals("/images/", $dir['path']);

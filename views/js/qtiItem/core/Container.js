@@ -1,4 +1,27 @@
-define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiItem/helper/rendererConfig'], function(Element, _, $, rendererConfig){
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
+define([
+    'jquery',
+    'lodash',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function($, _, Element, rendererConfig){
+    'use strict';
 
     var Container = Element.extend({
         qtiClass : '_container',
@@ -31,7 +54,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             for(var i in elements){
                 var elt = elements[i];
                 if(elt instanceof Element){
-                    
+
                     body = body || this.bdy;
                     if(body.indexOf(elt.placeholder()) === -1){
                         body += elt.placeholder();//append the element if no placeholder found
@@ -126,16 +149,19 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             }
         },
         postRender : function(data, altClassName, renderer){
-
             renderer = renderer || this.getRenderer();
 
-            for(var serial in this.elements){
-                var elt = this.elements[serial];
-                if(typeof elt.postRender === 'function'){
-                    elt.postRender(data, '', renderer);
-                }
-            }
-            this._super(data, altClassName, renderer);
+            var res = _(this.elements)
+                .filter( function(elt){
+                    return typeof elt.postRender === 'function';
+                })
+                .map(function(elt){
+                    return elt.postRender(data, '', renderer);
+                })
+                .flatten(true)
+                .value()
+                .concat(this._super(data, altClassName, renderer));
+            return res;
         },
         toArray : function(){
             var arr = {
@@ -155,13 +181,13 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash', 'jquery', 'taoQtiItem/qtiIt
             var found = null;
 
             if(this.elements[serial]){
-                
+
                 found = {parent : parent || this, element : this.elements[serial], location : 'body'};
-                
+
             }else{
-                
+
                 _.each(this.elements, function(elt){
-                    
+
                     found = elt.find(serial);
                     if(found){
                         return false;//break loop

@@ -54,17 +54,22 @@ class Parser extends tao_models_classes_Parser
      */
     public function validate($schema = ''){
         
-        if(empty($schema)){
-            $schema = dirname(__FILE__).'/data/qtiv2p1/imsqti_v2p1.xsd';
-        }else if(!file_exists($schema)){
+        if (empty($schema)) {
+            $validSchema = $this->validateMultiple(array(
+                __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd',
+                __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
+                __DIR__.'/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+            ));
+            $returnValue = $validSchema !== '';
+        } elseif(!file_exists($schema)) {
             throw new \common_Exception('no schema found in the location '.$schema);
+        } else {
+            $returnValue = parent::validate($schema);
         }
         
-        $returnValue = parent::validate($schema);
-
         return (bool) $returnValue;
     }
-
+    
     /**
      * load the file content, parse it  and build the a QTI_Item instance
      *
@@ -135,5 +140,4 @@ class Parser extends tao_models_classes_Parser
             parent::addError($error);
         }
     }
-
 }

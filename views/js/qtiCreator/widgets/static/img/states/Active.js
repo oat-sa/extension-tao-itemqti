@@ -68,8 +68,7 @@ define([
             src : _.throttle(function(img, value){
 
                 img.attr('src', value);
-
-                $img.attr('src', itemUtil.fullpath(value, baseUrl));
+                $img.attr('src', _widget.getAssetManager().resolve(value));
                 $img.trigger('contentChange.qti-widget').change();
 
                 inlineHelper.togglePlaceholder(_widget);
@@ -200,7 +199,13 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'image/jpeg,image/png,image/gif'
+                    filters : [
+                        {'mime':'image/jpeg'},
+                        {'mime':'image/png'},
+                        {'mime':'image/gif'},
+                        {'mime':'image/svg+xml'},
+                        {'mime':'application/x-gzip', 'extension':'svgz'}
+                    ]
                 },
                 pathParam : 'path',
                 select : function(e, files){

@@ -27,6 +27,7 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
+use \InvalidArgumentException;
 
 /**
  * The QTI_Container object represents the generic element container

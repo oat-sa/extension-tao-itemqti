@@ -54,7 +54,7 @@ define([
                 paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
                     width       : background.width, 
                     height      : background.height,
-                    img         : this.baseUrl + background.data,
+                    img         : this.options.assetManager.resolve(background.data),
                     imgId       : 'bg-image-' + serial,
                     container   : $container,
                     resize      : function() {

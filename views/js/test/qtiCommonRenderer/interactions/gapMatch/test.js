@@ -4,11 +4,20 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/tao-item.json',
 ], function($, _, qtiItemRunner, gapMatchData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('GapMatch Interaction');
+    module('GapMatch Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
+
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(30);
@@ -18,7 +27,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
 
                 //check DOM
@@ -69,7 +78,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
@@ -105,7 +114,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
                 assert.equal($container.find('.qti-gapMatchInteraction .qti-choice').length, 16, 'the interaction has 16 choices including gaps');
@@ -141,7 +150,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-gapMatchInteraction').length, 1, 'the container contains a choice interaction .qti-gapMatchInteraction');
@@ -215,7 +224,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', gapMatchData)
+        runner = qtiItemRunner('qti', gapMatchData)
             .on('render', function(){
                 var self = this;
 
@@ -265,7 +274,7 @@ define([
         var shuffled = _.cloneDeep(gapMatchData);
         shuffled.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 

@@ -2,7 +2,8 @@
 use oat\tao\helpers\Template;
 ?>
 
-<link rel="stylesheet" href="<?= Template::css('qti.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('qti-runner.css') ?>" />
+<link rel="stylesheet" href="<?= Template::css('themes/default.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('item-creator.css') ?>" />
 <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
 

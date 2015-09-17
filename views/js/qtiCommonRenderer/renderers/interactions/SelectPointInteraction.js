@@ -24,12 +24,13 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/selectPointInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function($, _, __, tpl, graphic, pciResponse, containerHelper, instructionMgr){
+], function($, _, __, Promise, tpl, graphic, pciResponse, containerHelper, instructionMgr){
     'use strict';
 
     /**
@@ -40,33 +41,40 @@ define([
      * @param {object} interaction
      */
     var render = function render(interaction){
-        var $container = containerHelper.get(interaction);
-        var background = interaction.object.attributes;
-        var baseUrl = this.getOption('baseUrl') || '';
+        var self = this;
 
-        //create the paper
-        interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
-            width       : background.width,
-            height      : background.height,
-            img         : this.resolveUrl(background.data),
-            imgId       : 'bg-image-' + interaction.serial,
-            container   : $container
-        });
+        return new Promise(function(resolve, reject){
+            var $container = containerHelper.get(interaction);
+            var background = interaction.object.attributes;
 
-        //enable to select the paper to position a target
-        _enableSelection(interaction);
+            $container
+                .off('resized.qti-widget.resolve')
+                .one('resized.qti-widget.resolve', resolve);
 
-        //set up the constraints instructions
-        instructionMgr.minMaxChoiceInstructions(interaction, {
-            min: interaction.attr('minChoices'),
-            max: interaction.attr('maxChoices'),
-            choiceCount : false,
-            getResponse : _getRawResponse,
-            onError : function(data){
-                if(data){
-                    graphic.highlightError(data.target, 'success');
+            //create the paper
+            interaction.paper = graphic.responsivePaper( 'graphic-paper-' + interaction.serial, interaction.serial, {
+                width       : background.width,
+                height      : background.height,
+                img         : self.resolveUrl(background.data),
+                imgId       : 'bg-image-' + interaction.serial,
+                container   : $container
+            });
+
+            //enable to select the paper to position a target
+            _enableSelection(interaction);
+
+            //set up the constraints instructions
+            instructionMgr.minMaxChoiceInstructions(interaction, {
+                min: interaction.attr('minChoices'),
+                max: interaction.attr('maxChoices'),
+                choiceCount : false,
+                getResponse : _getRawResponse,
+                onError : function(data){
+                    if(data){
+                        graphic.highlightError(data.target, 'success');
+                    }
                 }
-            }
+            });
         });
     };
 

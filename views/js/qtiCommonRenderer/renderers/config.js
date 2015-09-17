@@ -17,19 +17,44 @@
  */
 
 define([
+    'lodash',
+    'context',
+    'ui/themes',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
-], function(assetManagerFactory, assetStrategies){
+], function(_, context, themes, assetManagerFactory, assetStrategies){
     'use strict';
 
-    //asset manager using base url
-    var assetManager = assetManagerFactory([
+    var itemThemes = themes.get('items');
+
+    //stratgy to resolve portable info control and portable interactions paths.
+    //It should never be reached in the stack the ususal way and should be called only using resolveBy.
+    var portableAssetStrategy = {
+        name : 'portableElementLocation',
+        handle : function handlePortableElementLocation(url){
+            if(url.source === url.relative){
+                return window.location.pathname.replace(/([^\/]*)$/, '') + url.toString() + '/';
+            }
+        }
+    };
+
+    //Create asset manager stack
+    var assetManager = assetManagerFactory([{
+            name : 'theme',
+            handle : function handleTheme(url){
+                if(itemThemes && url.path && (url.path === itemThemes.base || _.contains(_.pluck(itemThemes.available, 'path'), url.path))){
+                    return context.root_url + url.toString();
+                }
+            }
+        },
         assetStrategies.taomedia,
         assetStrategies.external,
         assetStrategies.base64,
-        assetStrategies.baseUrl
+        assetStrategies.baseUrl,
+        portableAssetStrategy
     ], {baseUrl : ''});
 
+    //renderers locations
     var locations = {
         'assessmentItem' : 'taoQtiItem/qtiCommonRenderer/renderers/Item',
         '_container' : 'taoQtiItem/qtiCommonRenderer/renderers/Container',
@@ -77,15 +102,13 @@ define([
         'include' : 'taoQtiItem/qtiCommonRenderer/renderers/Include',
         'endAttemptInteraction' : 'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction'
     };
+
     return {
         name:'commonRenderer',
         locations: locations,
         options:   {
-            assetManager: assetManager
+            assetManager: assetManager,
+            themes : itemThemes
         }
     };
 });
-
-
-
-

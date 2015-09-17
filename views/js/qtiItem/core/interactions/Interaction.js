@@ -4,6 +4,7 @@ define([
     'taoQtiItem/qtiItem/helper/rendererConfig',
     'taoQtiItem/qtiItem/helper/util'
 ], function(Element, _, rendererConfig, util){
+    'use strict';
 
     var QtiInteraction = Element.extend({
         init : function(serial, attributes){
@@ -91,7 +92,7 @@ define([
                 throw 'no renderer found for the interaction ' + this.qtiClass;
             }
             
-            var choices = (this.attr('shuffle') && renderer.shuffleChoices) ? renderer.getShuffledChoices(this) : this.getChoices();
+            var choices = (this.attr('shuffle') && renderer.getOption('shuffleChoices')) ? renderer.getShuffledChoices(this) : this.getChoices();
             var interactionData = {'interaction' : {'serial' : this.serial, 'attributes' : this.attributes}};
             var _this = this;
             _.each(choices, function(choice){
@@ -110,17 +111,18 @@ define([
             return this._super(_.merge(defaultData, args.data), args.placeholder, tplName, renderer);
         },
         postRender : function(data, altClassName, renderer){
-
+            var self = this;
             renderer = renderer || this.getRenderer();
 
-            var choices = this.getChoices();
-            for(var i in choices){
-                var c = choices[i];
-                if(Element.isA(c, 'choice')){
-                    c.postRender({}, c.qtiClass + '.' + this.qtiClass, renderer);
-                }
-            }
-            return this._super(data, altClassName, renderer);
+            return _(this.getChoices())
+                .filter(function(elt){
+                    return Element.isA(elt, 'choice');
+                })
+                .map(function(choice){
+                    return choice.postRender({}, choice.qtiClass + '.' + self.qtiClass, renderer);
+                })
+                .value()
+                .concat(this._super(data, altClassName, renderer));
         },
         setResponse : function(values){
             var ret = null;

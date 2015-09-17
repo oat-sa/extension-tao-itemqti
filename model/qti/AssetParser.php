@@ -29,8 +29,8 @@ use oat\taoQtiItem\model\qti\StyleSheet;
 use oat\taoQtiItem\model\qti\InfoControl;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use \SimpleXMLElement;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * Parse and Extract all assets of an item.
@@ -57,7 +57,13 @@ class AssetParser
     * Set mode - if parser have to find shared libraries (PCI and PIC)
     * @var bool
     */
-    private $getSharedLibraries;
+    private $getSharedLibraries = true;
+
+    /**
+     * Set mode - if parser have to find shared stimulus
+     * @var bool
+     */
+    private $getXinclude = true;
 
     /**
      * Set mode - if parser have to find all external entries ( like url, require etc )
@@ -91,6 +97,9 @@ class AssetParser
             $this->extractObject($element);
             $this->extractStyleSheet($element);
             $this->extractCustomElement($element);
+            if($this->getGetXinclude()){
+                $this->extractXinclude($element);
+            }
         }
         return $this->assets;
     }
@@ -119,6 +128,18 @@ class AssetParser
         }
         if($element instanceof QtiObject){
             $this->loadObjectAssets($element);
+        }
+    }
+
+    /**
+     * Lookup and extract assets from IMG elements
+     * @param Element $element container of the target element
+     */
+    private function extractXinclude(Element $element){
+        if($element instanceof Container){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\Xinclude') as $xinclude){
+                $this->addAsset('xinclude', $xinclude->attr('href'));
+            }
         }
     }
 
@@ -188,7 +209,8 @@ class AssetParser
      * @param string $type the asset type: img, css, js, audio, video, font, etc.
      * @param string $uri the asset URI
      */
-    private function addAsset($type, $uri){
+    private function addAsset($type, $uri)
+    {
         if(!array_key_exists($type, $this->assets)){
             $this->assets[$type] = array();
         }
@@ -201,17 +223,20 @@ class AssetParser
      * Load assets from the custom elements (CustomInteraction, PCI, PIC)
      * @param Element $element the custom element
      */
-    private function loadCustomElementAssets(Element $element){
+    private function loadCustomElementAssets(Element $element)
+    {
 
         $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-        $sharedLibrairiesRegistry = new SharedLibrariesRegistry($libBasePath, $libRootUrl);
 
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
-            $this->addAsset('js', $element->getEntryPoint());
+            $entryPoint = $element->getEntryPoint();
+            $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
+            $this->addAsset('js', $fileName);
             foreach($element->getLibraries() as $lib){
-                if($this->getGetSharedLibraries() || !$sharedLibrairiesRegistry->isRegistered($lib)){
-                    $this->addAsset('js', $lib);
+                if ($this->getGetSharedLibraries() || !ClientLibRegistry::getRegistry()->isRegistered($lib)) {
+                    $fileName = substr($lib, -3) != '.js' ? $lib.'.js' : $lib;
+                    $this->addAsset('js', $fileName);
                 }
             }
         }
@@ -286,6 +311,22 @@ class AssetParser
     public function getGetSharedLibraries()
     {
         return $this->getSharedLibraries;
+    }
+
+    /**
+     * @param boolean $getXinclude
+     */
+    public function setGetXinclude($getXinclude)
+    {
+        $this->getXinclude = $getXinclude;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getGetXinclude()
+    {
+        return $this->getXinclude;
     }
 
     /**

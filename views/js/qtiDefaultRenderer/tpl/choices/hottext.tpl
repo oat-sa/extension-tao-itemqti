@@ -1,1 +1,0 @@
-<span class="hottext_choice hottext_choice_off {{attributes.class}}" id="hottext_choice_{{attributes.identifier}}">{{{body}}}</span>

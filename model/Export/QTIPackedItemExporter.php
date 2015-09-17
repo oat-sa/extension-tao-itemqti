@@ -60,8 +60,9 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter {
 	}
 	
 	public function export($options = array()) {
-		parent::export($options);
+		$report = parent::export($options);
 		$this->exportManifest($options);
+        return $report;
 	}
 	
 	public function buildBasePath() {

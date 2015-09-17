@@ -38,7 +38,7 @@ define([
 
     QUnit.test('Get the variable value even null', function(assert){
         var state = {
-            RESPONSE : null
+            RESPONSE :  null
         };
         variableProcessor.expression = {
             attributes : { identifier : 'RESPONSE' }
@@ -47,6 +47,28 @@ define([
         variableProcessor.preProcessor = preProcessorFactory(state);
 
         assert.equal(variableProcessor.process(), null, 'returns null');
+    });
+
+    QUnit.test('Get the variable value even with a null value', function(assert){
+        var state = {
+            RESPONSE :  {
+                cardinality         : 'single',
+                baseType            : 'identifier',
+                value               : null
+            }
+        };
+        variableProcessor.expression = {
+            attributes : { identifier : 'RESPONSE' }
+        };
+        variableProcessor.state = state;
+        variableProcessor.preProcessor = preProcessorFactory(state);
+
+        var expectedResult =  {
+            cardinality         : 'single',
+            baseType            : 'identifier',
+            value               : null
+        };
+        assert.deepEqual(variableProcessor.process(), expectedResult, 'returns null');
     });
 
     QUnit.asyncTest('Fails if no variable is found', function(assert){

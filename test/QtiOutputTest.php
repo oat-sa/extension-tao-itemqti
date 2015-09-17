@@ -19,12 +19,15 @@
  * 
  */
 
+
 namespace oat\taoQtiItem\test;
 
 use DOMDocument;
 use DOMException;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
+
+include_once dirname(__FILE__).'/../includes/raw_start.php';
 
 /**
  *
@@ -57,7 +60,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         //test if content has been exported
         $qti = $item->toXML();
         $this->assertFalse(empty($qti));
-
+        
         //test if it's a valid QTI file
         $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
         file_put_contents($tmpFile, $qti);
@@ -69,6 +72,38 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         if(!$parserValidator->isValid()){
             $this->fail($file.' output invalid :'.$parserValidator->displayErrors().' -> '.$qti);
         }
+    }
+    
+    /**
+     * Test serializing array of pci properties into a pci xml
+     */
+    public function testSerializePciProperties()
+    {
+        $properties = array(
+            'prompt' => '<b>lorem ipsum</b>',
+            'choices' => array(
+               0 => array('label' => '<span class="test">Label 1</span>'), 
+               1 => array('label' => '<div>Label 2</div>'),
+            ), 
+            'states' => array(
+                'answer' => '"A & B < C"'
+            )
+        );
+        $PCI = new \oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction();
+        
+        $method = new \ReflectionMethod('oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction', 'serializePciProperties');
+        $method->setAccessible(true);
+        
+        $result = $method->invoke($PCI, $properties, 'pci');
+        
+        $this->assertFalse(strpos($result, '<b>lorem ipsum</b>'));
+        $this->assertFalse(strpos($result, '<span class="test">Label 1</span>'));
+        $this->assertFalse(strpos($result, '"A & B < C"'));
+        
+        $doc = new \DOMDocument();
+        
+        $this->assertTrue($doc->loadXML($result));
+        $this->assertTrue(strpos($doc->saveXml(), $result) !== false);
     }
 
     /**

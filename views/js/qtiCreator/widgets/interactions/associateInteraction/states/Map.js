@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -6,6 +24,8 @@ define([
     'lodash',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/associableChoice.answer'
 ], function($, stateFactory, Map, responseWidget, _, responseToolbarTpl){
+
+    'use strict';
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
@@ -50,6 +70,8 @@ define([
 
         _widget.$container.on('responseChange.qti-widget', function(e, data, extraData){
 
+            var $miniToolbar;
+
             if(extraData.type === 'added'){
 
                 //choice identifier pair:
@@ -72,8 +94,8 @@ define([
 
                     pair.sort();
 
-                    var pairIdentifier = pair.join(' '),
-                        $miniToolbar = extraData.$pair.children('.mini-tlb');
+                    var pairIdentifier = pair.join(' ');
+                    $miniToolbar = extraData.$pair.children('.mini-tlb');
 
                     if(!$miniToolbar.length){
 

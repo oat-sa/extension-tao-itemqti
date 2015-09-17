@@ -33,3 +33,37 @@
         </span>
     </div>
 </div>
+
+
+
+<div class="panel">
+    <h3>{{__ "List Style"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)'}}
+        </span>
+
+    <select data-list-style/>
+</div>
+
+
+<div class="panel">
+    <h3>{{__ 'Orientation'}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Display the choices either horizontaly or verticaly'}}
+        </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="vertical" {{#unless horizontal}}checked{{/unless}} />
+            <span class="icon-radio"></span>
+            {{__ 'Vertical'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Horizontal'}}
+        </label>
+    </div>
+</div>

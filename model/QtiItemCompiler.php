@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model;
 use common_Logger;
 use common_report_Report;
 use core_kernel_classes_Resource;
+use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
 use tao_helpers_File;
 use tao_models_classes_service_ConstantParameter;
@@ -207,6 +208,14 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
+        } catch (XIncludeException $e){
+            return new common_report_Report(
+                common_report_Report::TYPE_ERROR, $e->getUserMessage()
+            );
+        } catch (\Exception $e){
+            return new common_report_Report(
+                common_report_Report::TYPE_ERROR, $e->getMessage()
+            );
         }
     }
     
@@ -224,6 +233,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiItem  = $qtiParser->load();
         
         $assetParser = new AssetParser($qtiItem);
+        $assetParser->setGetSharedLibraries(false);
+        $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {

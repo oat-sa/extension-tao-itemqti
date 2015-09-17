@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -28,9 +28,16 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'util/adaptSize'
+], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, adaptSize){
     'use strict';
+
+    var KEY_CODE_SPACE = 32;
+    var KEY_CODE_ENTER = 13;
+    var KEY_CODE_UP    = 38;
+    var KEY_CODE_DOWN  = 40;
+    var KEY_CODE_TAB   = 9;
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -44,28 +51,54 @@ define([
 
         $container.off('.commonRenderer');
 
+        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+        $choiceInputs.on('keydown.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+            if(keyCode != KEY_CODE_TAB){
+                e.preventDefault();
+            }
+
+            if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
+                _triggerCheckboxes($(this).closest('.qti-choice'));
+            }
+
+            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+            if( keyCode == KEY_CODE_UP ){
+                $prevInput.focus();
+            } else if( keyCode == KEY_CODE_DOWN ){
+                $nextInput.focus();
+            }
+        });
+
         $container.on('click.commonRenderer', '.qti-choice', function(e){
+            var $box = $(this);
 
             e.preventDefault();
             e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
 
-            var $box = $(this);
-            var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
-
-            if($radios.length){
-                $radios.not(':checked').prop('checked', true);
-                $radios.trigger('change');
-            }
-
-            if($checkboxes.length){
-                $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-                $checkboxes.trigger('change');
-            }
+            _triggerCheckboxes($box);
 
             instructionMgr.validateInstructions(interaction, {choice : $box});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
+    };
+
+    var _triggerCheckboxes = function($box){
+        var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
+        var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+
+        if($radios.length){
+            $radios.not(':checked').prop('checked', true).focus();
+            $radios.trigger('change');
+        }
+
+        if($checkboxes.length){
+            $checkboxes.prop('checked', !$checkboxes.prop('checked'));
+            $checkboxes.trigger('change');
+        }
     };
 
     /**
@@ -81,6 +114,10 @@ define([
         _pseudoLabel(interaction, $container);
 
         _setInstructions(interaction);
+
+        if(interaction.attr('orientation') === 'horizontal') {
+            adaptSize.height($container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
+        }
     };
 
     /**
@@ -92,29 +129,35 @@ define([
 
         var min = interaction.attr('minChoices'),
             max = interaction.attr('maxChoices'),
+            msg,
             choiceCount = _.size(interaction.getChoices()),
             minInstructionSet = false;
 
-        //if maxChoice = 1, use the radio gorup behaviour
-        //if maxChoice = 0, inifinite choice possible
+        //if maxChoice = 1, use the radio group behaviour
+        //if maxChoice = 0, infinite choice possible
         if(max > 1 && max < choiceCount){
 
             var highlightInvalidInput = function($choice){
                 var $input = $choice.find('.real-label > input'),
                     $li = $choice.css('color', '#BA122B'),
                     $icon = $choice.find('.real-label > span').css('color', '#BA122B').addClass('cross error');
+                var timeout = interaction.data('__instructionTimeout');
 
-                setTimeout(function(){
+                if(timeout){
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(function(){
                     $input.prop('checked', false);
                     $li.removeAttr('style');
                     $icon.removeAttr('style').removeClass('cross');
                     containerHelper.triggerResponseChangeEvent(interaction);
                 }, 150);
+                interaction.data('__instructionTimeout', timeout);
             };
 
             if(max === min){
                 minInstructionSet = true;
-                var msg = __('You must select exactly') + ' ' + max + ' ' + __('choices');
+                msg = __('You must select exactly %s choices', max);
                 instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setLevel('success');
@@ -139,7 +182,8 @@ define([
                     }
                 });
             }else if(max > min){
-                instructionMgr.appendInstruction(interaction, __('You can select maximum') + ' ' + max + ' ' + __('choices'), function(data){
+                msg = max === 1 ? __('You can select maximum of 1 choice') : __('You can select maximum of %s choices', max);
+                instructionMgr.appendInstruction(interaction, msg, function(data){
                     if(_getRawResponse(interaction).length >= max){
                         this.setMessage(__('Maximum choices reached'));
                         if(this.checkState('fulfilled')){
@@ -165,7 +209,8 @@ define([
         }
 
         if(!minInstructionSet && min > 0 && min < choiceCount){
-            instructionMgr.appendInstruction(interaction, __('You must select at least') + ' ' + min + ' ' + __('choices'), function(){
+            msg = min === 1 ? __('You must select at least 1 choice') : __('You must select at least %s choices', min);
+            instructionMgr.appendInstruction(interaction, msg, function(){
                 if(_getRawResponse(interaction).length >= min){
                     this.setLevel('success');
                 }else{
@@ -237,7 +282,7 @@ define([
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10278
      *
      * @param {Object} interaction - the interaction instance
-     * @returns {Object} the response formated in PCI
+     * @returns {Object} the response formatted in PCI
      */
     var getResponse = function(interaction){
         return pciResponse.serialize(_getRawResponse(interaction), interaction);
@@ -249,9 +294,11 @@ define([
      * @param {Object} [data] - interaction custom data
      * @returns {Object} custom data
      */
-    var getCustomData = function(interaction, data){
+    var getCustomData = function(interaction, data) {
+        var listStyles = (interaction.attr('class') || '').match(/\blist-style-[\w-]+/) || [];
         return _.merge(data || {}, {
-            horizontal : (interaction.attr('orientation') === 'horizontal')
+            horizontal : (interaction.attr('orientation') === 'horizontal'),
+            listStyle: listStyles.pop()
         });
     };
 
@@ -262,6 +309,12 @@ define([
      */
     var destroy = function destroy(interaction){
         var $container = containerHelper.get(interaction);
+
+        var timeout = interaction.data('__instructionTimeout');
+
+        if(timeout){
+            clearTimeout(timeout);
+        }
 
         //remove event
         $container.off('.commonRenderer');

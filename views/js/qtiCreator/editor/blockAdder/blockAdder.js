@@ -9,16 +9,15 @@ define([
     'taoQtiItem/qtiCreator/editor/elementSelector/selector',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget'
 ], function($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget){
-    
     'use strict';
-    
+
     var _ns = '.block-adder';
     var _wrap = '<div class="colrow"></div>';
     var _placeholder = '<div class="placeholder">';
-    
+
     /**
      * Init the block adder on the item editor panel
-     * 
+     *
      * @param {Object} item - standard qti js object
      * @param {JQuery} $editorPanel - the container the selector popup will be located in
      * @param {Array} interactions - the array of authorable interactions
@@ -27,10 +26,10 @@ define([
 
         var selector, widget;
         var $itemEditorPanel = $('#item-editor-panel');
-        
+
         /**
          * Get the qti item body dom
-         * 
+         *
          * @returns {JQuery}
          */
         function _getItemBody(){
@@ -39,7 +38,7 @@ define([
 
         /**
          * Init insertion relative to a widget container
-         * 
+         *
          * @param {JQuery} $widget
          */
         function _initInsertion($widget){
@@ -55,7 +54,7 @@ define([
                 $colRow = $widget.parent('.colrow');
             }
             $colRow.after($wrap);
-            
+
             //create a new selector instance
             selector = elementSelector.create($wrap, $editorPanel, interactions);
 
@@ -97,34 +96,34 @@ define([
             //set into the inserting state
             _getItemBody().addClass('edit-inserting');
         }
-        
+
         /**
          * End the current insertion state
-         * 
+         *
          * @returns {undefined}
          */
         function _endInsertion(){
 
             //destroy selector
             selector.destroy();
-            
+
             //reset references
             selector = null;
             widget = null;
-            
+
             $editorPanel.off('.element-selector');
             _getItemBody().removeClass('edit-inserting');
 
             //need to update item body
             item.body(contentHelper.getContent(_getItemBody()));
-            
+
             //unbind events
             $itemEditorPanel.off(_ns);
         }
-        
+
         /**
          * Function to define behaviour when the insertion is completed
-         * 
+         *
          * @param {JQuery} $wrap
          * @returns {undefined}
          */
@@ -145,12 +144,12 @@ define([
                 }
                 _endInsertion();
             });
-            
+
         }
-        
+
         /**
          * Function defining the behaviour when the insertion has been aborted
-         * 
+         *
          * @param {JQuery} $wrap
          * @returns {undefined}
          */
@@ -185,7 +184,7 @@ define([
                 _appendButton(_widget.$container);
 
                 if(selector && _widget.$container.parent('.colrow.tmp').length){
-                    
+
                     //after update when we are in the selecting mode:
                     if(qtiElement.is('customInteraction')){
                         //pci rendering is asynchornous:
@@ -194,7 +193,7 @@ define([
                         });
                     }
                     selector.reposition();
-                    
+
                     //store the reference to the newly created widget
                     widget = _widget;
                 }
@@ -203,10 +202,10 @@ define([
         });
 
     }
-    
+
     /**
      * Append the "plus" button into a widget
-     * 
+     *
      * @param {JQuery} $widget
      * @returns {undefined}
      */
@@ -225,10 +224,10 @@ define([
             });
         }
     }
-    
+
     /**
      * Create a new qti element in place of the give $placehoder
-     * 
+     *
      * @param {String} qtiClass
      * @param {JQuery} $placeholder
      */
@@ -291,7 +290,8 @@ define([
 
                     }else{
                         elt.render($placeholder);
-                        widget = elt.postRender();
+                        elt.postRender();
+                        widget = elt.data('widget');
                         if(Element.isA(elt, 'blockInteraction')){
                             $widget = widget.$container;
                         }else{

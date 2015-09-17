@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
@@ -10,14 +28,12 @@ define([
     'ui/resourcemgr',
     'nouislider'
 ], function(stateFactory, Active, formTpl, formElement, inlineHelper, _, imageUtil, helpers){
+    'use strict';
 
     var ObjectStateActive = stateFactory.extend(Active, function(){
-        
+
         this.widget.changeState('sleep');
-        return;
-        
-        this.initForm();
-        
+
     }, function(){
 
         this.widget.$form.empty();
@@ -30,7 +46,7 @@ define([
 
     /**
      * Greatly throttled callback function
-     * 
+     *
      * @param {jQuery} $media
      * @param {string} propertyName
      * @returns {function}

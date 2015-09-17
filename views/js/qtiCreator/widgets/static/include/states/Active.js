@@ -60,7 +60,7 @@ define([
                 params : {
                     uri : options.uri,
                     lang : options.lang,
-                    filters : 'application/xhtml+xml'
+                    filters : 'application/qti+xml'
                 },
                 pathParam : 'path',
                 select : function(e, files){
