@@ -291,6 +291,7 @@ class ImportService extends tao_models_classes_GenerisService
 
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
             $itemCount = 0;
+            $sharedFiles = array();
             foreach ($qtiItemResources as $qtiItemResource) {
                 $itemCount++;
                 $itemReport = $this->importQtiItem(
@@ -302,7 +303,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $metadataValues,
                     $metadataInjectors,
                     $metadataGuardians,
-                    $metadataClassLookups
+                    $metadataClassLookups,
+                    $sharedFiles
                 );
 
                 $rdfItem = $itemReport->getData();
@@ -354,7 +356,7 @@ class ImportService extends tao_models_classes_GenerisService
 
     /**
      * @param $folder
-     * @param \taoQtiTest_models_classes_QtiResource $qtiItemResource
+     * @param \oat\taoQtiItem\model\qti\Resource $qtiItemResource
      * @param $itemClass
      * @param bool|false $extractApip
      * @param array $dependencies
@@ -362,6 +364,7 @@ class ImportService extends tao_models_classes_GenerisService
      * @param array $metadataInjectors
      * @param array $metadataGuardians
      * @param array $metadataClassLookups
+     * @param array $sharedFiles
      * @return common_report_Report
      * @throws common_exception_Error
      */
@@ -374,7 +377,8 @@ class ImportService extends tao_models_classes_GenerisService
         array $metadataValues = array(),
         array $metadataInjectors = array(),
         array $metadataGuardians = array(),
-        array $metadataClassLookups = array()
+        array $metadataClassLookups = array(),
+        array &$sharedFiles = array()
     ) {
 
         try {
@@ -385,7 +389,6 @@ class ImportService extends tao_models_classes_GenerisService
 
             $sources = MediaService::singleton()->getWritableSources();
             $sharedStorage = array_shift($sources);
-            $sharedFiles = array();
 
             try {
 
