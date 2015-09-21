@@ -5,11 +5,8 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Element;
-use oat\taoQtiItem\model\qti\Exportable;
-use oat\taoQtiItem\model\qti\Item;
+use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
