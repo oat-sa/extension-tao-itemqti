@@ -62,7 +62,8 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoQtiItem/runtime/qtiBootstrap',
                 include: runtimeLibs,
-                exclude : ['json!i18ntr/messages.json', 'mathJax', 'mediaElement', 'ckeditor'],
+                exclude : ['json!i18ntr/messages.json'],
+                excludeShallow : ['mathJax', 'mediaElement', 'ckeditor']
             }]
         }
     };
