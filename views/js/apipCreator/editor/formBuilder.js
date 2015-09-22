@@ -83,6 +83,8 @@ define([
         //bind events :
         formView.initEvents($form);
 
+        formView.initValidator($form);
+
         return $form;
     }
 

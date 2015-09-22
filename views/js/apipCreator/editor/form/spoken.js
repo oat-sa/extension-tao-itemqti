@@ -69,7 +69,12 @@ define([
             $uploadTrigger : $container.find('.js-add-audio-file')
         });
     };
-    
+
+
+    Form.prototype.initValidator = function initValidator($container) {
+        formHelper.initValidator($container);
+    };
+
     /**
      * Render audio file form according to the accessElementInfo.
      * @param {jQueryElement} $container - Audio file forms container.

@@ -24,8 +24,9 @@ define([
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'helpers',
     'context',
+    'ui/formValidator/formValidator',
     'ui/resourcemgr'
-], function ($, _, __, feedback, inclusionOrderSelector, helpers, context) {
+], function ($, _, __, feedback, inclusionOrderSelector, helpers, context, FormValidator) {
     'use strict';
 
     /**
@@ -85,6 +86,19 @@ define([
     }
 
     /**
+     *
+     * @param {jQuery} $container
+     */
+    function initValidator($container) {
+        new FormValidator({
+            container : $container,
+            highlighter : {
+                type : 'tooltip'
+            }
+        });
+    }
+
+    /**
      * Initialize resource manager (for uploading and selecting video files)
      * @param {object} formInstance
      * @param {jQueryElement} $container Popup container
@@ -119,6 +133,7 @@ define([
     return {
         getAttributeValue : getAttributeValue,
         initEvents : initEvents,
+        initValidator : initValidator,
         initResourceMgr : initResourceMgr
     };
 });
