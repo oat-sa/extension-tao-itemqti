@@ -15,15 +15,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ * 
  */
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title><?=get_data('title')?></title>
-        <style> body { margin:0; } </style>
+        <style>
+            body {
+                margin:0;
+                height: auto !important;
+                min-height: 100% !important;
+            }
+        </style>
         <script id="initQtiRunner" type="text/javascript">
             (function(){
                 window.tao = window.tao || {};
