@@ -85,6 +85,8 @@ define([
 
         formView.initValidator($form);
 
+        $form.data('form-instance', formView);
+
         return $form;
     }
 
@@ -103,6 +105,12 @@ define([
             },
             style : {
                 popupWidth : 750
+            },
+            callbacks : {
+                beforeDone : function () {
+                    var formView = $formContent.data('form-instance');
+                    return formView.validator.validate();
+                }
             }
         });
     }

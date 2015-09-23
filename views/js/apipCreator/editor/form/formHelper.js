@@ -86,11 +86,12 @@ define([
     }
 
     /**
-     *
+     * Initialize form validator
      * @param {jQuery} $container
+     * @return {object} - form validator instance
      */
     function initValidator($container) {
-        new FormValidator({
+        return new FormValidator({
             container : $container,
             highlighter : {
                 type : 'tooltip'

@@ -70,9 +70,12 @@ define([
         });
     };
 
-
+    /**
+     * Initializa form validator
+     * @param $container
+     */
     Form.prototype.initValidator = function initValidator($container) {
-        formHelper.initValidator($container);
+        this.validator = formHelper.initValidator($container);
     };
 
     /**
