@@ -418,7 +418,7 @@ class ImportService extends tao_models_classes_GenerisService
                     }
                 }
 
-                $qtiFile = $folder . helpers_File::utlToPath($qtiItemResource->getFile());
+                $qtiFile = $folder . helpers_File::urlToPath($qtiItemResource->getFile());
 
                 $qtiModel = $this->createQtiItemModel($qtiFile);
                 $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
