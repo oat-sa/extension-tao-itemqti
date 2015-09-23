@@ -169,6 +169,8 @@ define([
                 activateElement($element, $container);
             }
 
+        }).on('click'+_ns, function(){
+            deactivateElement($currentActive, $container);
         });
 
         return {
