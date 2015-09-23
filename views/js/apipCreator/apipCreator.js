@@ -99,8 +99,7 @@ define([
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
             
-        }).on('destroy.apip-from', function(){
-            
+        }).on('destroy.apip-form', function(){
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();

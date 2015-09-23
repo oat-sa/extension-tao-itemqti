@@ -27,7 +27,9 @@ define([
     'ui/resourcemgr'
 ], function ($, _, __, feedback, inclusionOrderSelector, helpers, context) {
     'use strict';
-
+    
+    var _ns = '.apip-form';
+    
     /**
      * Get access element info attribute value. 
      * 
@@ -58,6 +60,8 @@ define([
      * Initialize access element info authoring form.
      * @param {object} formInstance
      * @param {jQueryElement} $container
+     * @fires change.apip-form
+     * @fires delete.apip-form
      * @returns {undefined}
      */
     function initEvents(formInstance, $container) {
@@ -69,6 +73,8 @@ define([
                 value = $input.val();
 
             aeInfo.setAttribute(name, value);
+            
+            $input.trigger('change'+_ns, [aeInfo, name, value]);
         });
 
         $container.on('click', '.delete', function () {
@@ -80,7 +86,7 @@ define([
                 ae.remove();
             }
             feedback().info('Access element removed.');
-            $container.trigger('destroy.apip-from');
+            $container.trigger('destroy'+_ns);
         });
     }
 
