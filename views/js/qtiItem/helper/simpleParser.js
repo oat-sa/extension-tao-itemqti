@@ -5,6 +5,7 @@ define([
     'taoQtiItem/qtiItem/core/Loader'
 ], function(_, $, util, Loader){
     "use strict";
+
     var _parsableElements = ['img', 'object'];
     var _qtiClassNames = {
         rubricblock : 'rubricBlock'
@@ -27,7 +28,7 @@ define([
 
         var qtiClass = $node.prop('tagName').toLowerCase();
 
-        //remove ns : 
+        //remove ns :
         qtiClass = qtiClass.replace(/.*:/, '');
 
         return _qtiClassNames[qtiClass] ? _qtiClassNames[qtiClass] : qtiClass;
@@ -62,15 +63,15 @@ define([
             var $annotation = $(this);
             var encoding = $annotation.attr('encoding');
             if(encoding){
-                elt.annotations[encoding] = $annotation.html();
+                elt.annotations[encoding] = _.unescape($annotation.html());
             }
             $annotation.remove();
         });
-        
+
         //set math xml
         elt.mathML = $elt.html();
-        
-        //set ns: 
+
+        //set ns:
         elt.ns = {
             name : 'm',
             uri : 'http://www.w3.org/1998/Math/MathML'//@todo : remove hardcoding there
@@ -78,9 +79,9 @@ define([
 
         return elt;
     }
-    
+
     function parseContainer($container, opts){
-        
+
         var options = _.merge(_.clone(_defaultOptions), opts || {});
 
         var ret = {
@@ -102,7 +103,7 @@ define([
             });
 
         });
-        
+
         $container.find(_getElementSelector('math', options.ns.math)).each(function(){
 
             var $qtiElement = $(this);
@@ -112,7 +113,7 @@ define([
             $qtiElement.replaceWith(_placeholder(element));
 
         });
-        
+
         $container.find(_getElementSelector('include', options.ns.include)).each(function(){
 
             var $qtiElement = $(this);

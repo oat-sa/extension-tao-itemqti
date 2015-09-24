@@ -27,9 +27,11 @@ define([
     'lodash',
     'jquery',
     'handlebars',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiItem/helper/interactionHelper'
-], function(_, $, Handlebars, Element, interactionHelper){
+    'taoQtiItem/qtiItem/helper/interactionHelper',
+    'ui/themeLoader'
+], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader){
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -114,6 +116,9 @@ define([
         'include'
     ];
 
+    /**
+     * The list of qti element dependencies. It is used internally to load dependent qti classes
+     */
     var _dependencies = {
         assessmentItem : ['stylesheet', '_container', 'prompt', 'modalFeedback'],
         rubricBlock : ['_container'],
@@ -130,9 +135,19 @@ define([
         orderInteraction : ['simpleChoice']
     };
 
+    /**
+     * The list of supported qti subclasses.
+     */
     var _renderableSubclasses = {
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
+    };
+
+    /**
+     * List of the default properties for the item
+     */
+    var _defaults = {
+        shuffleChoices : true
     };
 
     /**
@@ -165,14 +180,11 @@ define([
          */
         var _renderers = {};
 
-        options = options || {};
-
+        options = _.defaults(options || {}, _defaults);
 
         this.isRenderer = true;
 
         this.name = '';
-
-        this.shuffleChoices = (options.shuffleChoices !== undefined) ? options.shuffleChoices : true;
 
         //store shuffled choice here
         this.shuffledChoices = [];
@@ -241,6 +253,15 @@ define([
         };
 
         /**
+         * Get the bound theme loader
+         * @returns {Object} the themeLoader
+         */
+        this.getThemeLoader = function getThemeLoader(){
+            return this.themeLoader;
+        };
+
+
+        /**
          * Renders the template
          * @param {Object} element - the QTI model element
          * @param {Object} data - the data to give to the template
@@ -257,7 +278,7 @@ define([
             var renderer   = _getClassRenderer(qtiClass);
             var decorators = this.getOption('decorators');
 
-            if(!renderer && !_.isFunction(renderer.template)){
+            if(!renderer || !_.isFunction(renderer.template)){
                 throw new Error('no renderer template loaded under the class name : ' + qtiClass);
             }
 
@@ -332,18 +353,12 @@ define([
 
         this.postRender = function(qtiElement, data, qtiSubclass){
 
-            var ret = false,
-                qtiClass = qtiSubclass || qtiElement.qtiClass,
-                renderer = _getClassRenderer(qtiClass);
+            var qtiClass = qtiSubclass || qtiElement.qtiClass;
+            var renderer = _getClassRenderer(qtiClass);
 
-            if(renderer){
-                if(typeof (renderer.render) === 'function'){
-                    ret = renderer.render.call(this, qtiElement, data);
-                }
-                //postRendering is optional, log missing call of postRender?
+            if(renderer && typeof (renderer.render) === 'function') {
+                return renderer.render.call(this, qtiElement, data);
             }
-
-            return ret;
         };
 
         this.setResponse = function(qtiInteraction, response, qtiSubclass){
@@ -486,6 +501,17 @@ define([
         this.load = function(callback, requiredClasses){
            var self = this;
             var required = [];
+
+            if(options.themes){
+
+                //resolve themes paths
+                options.themes.base = this.resolveUrl(options.themes.base);
+                _.forEach(options.themes.available, function(theme, index){
+                    options.themes.available[index].path = self.resolveUrl(theme.path);
+                });
+                this.themeLoader = themeLoader(options.themes).load();
+            }
+
             if(requiredClasses){
                 if(_.isArray(requiredClasses)){
 
@@ -545,6 +571,16 @@ define([
                 }
             });
 
+            return this;
+        };
+
+        /**
+         * Unload the renderer
+         */
+        this.unload = function unload(){
+            if(this.themeLoader){
+                themeLoader(options.themes).unload();
+            }
             return this;
         };
 
@@ -645,6 +681,10 @@ define([
          * @deprecated in favor of resolveUrl
          */
         this.getAbsoluteUrl = function(relUrl){
+
+            //let until method is removed
+            console.warn('DEPRECATED used getAbsoluteUrl with ', arguments);
+
             //allow relative url output only if explicitely said so
             if(this.getOption('userRelativeUrl')){
                 return relUrl.replace(/^\.?\//, '');

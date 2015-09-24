@@ -12,7 +12,6 @@
     }
 }
 
-
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -110,9 +109,6 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
-
-// the icon creator specific part
-@import "inc/widgets";
 
 .font-selector {
     optgroup {
@@ -755,6 +751,7 @@ img.dragging.ui-draggable-dragging {
                 }
                 &.edit-active {
                     @extend %editActive;
+                    padding-top : 24px;
                 }
                 &.edit-question {
                     th.qti-choice {
@@ -812,7 +809,7 @@ img.dragging.ui-draggable-dragging {
             position: absolute;
             width: 100%;
             left : 0;
-            top: -24px;
+            top: 0px;
             display: block;
             cursor: default;
             color: white;
@@ -902,7 +899,7 @@ img.dragging.ui-draggable-dragging {
             top: -6px;
         }
         &.invalid {
-            border: 1px solid $error !important;
+            border: 1px solid $warning !important;
         }
         &.widget-blockInteraction {
             .qti-choice {
@@ -1174,8 +1171,10 @@ img.dragging.ui-draggable-dragging {
         margin-top: 25px;
         .mini-tlb{
             white-space: nowrap;
-            top:-26px;
-            right:-4px;
+
+            /* !important added because another important override it... */
+            top:-22px !important;
+            right:-2px !important;
             .tlb-button{
                 min-width:25px;
                 height:20px;

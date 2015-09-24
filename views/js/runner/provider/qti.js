@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -23,11 +23,17 @@
 define([
     'jquery',
     'lodash',
+    'context',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
-    'taoItems/assets/manager',
-], function($, _, QtiLoader, QtiRenderer, assetManagerFactory){
+    'taoQtiItem/runner/provider/manager/picManager',
+    'taoItems/assets/manager'
+], function($, _, context, Promise, QtiLoader, Element, QtiRenderer, picManager, assetManagerFactory){
     'use strict';
+
+    var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
 
     /**
      * @exports taoQtiItem/runner/provider/qti
@@ -37,9 +43,14 @@ define([
         init : function(itemData, done){
             var self = this;
 
-            this._renderer = new QtiRenderer({
+            var rendererOptions = {
                 assetManager : this.assetManager
-            });
+            };
+            if(this.options.themes){
+                rendererOptions.themes = this.options.themes;
+            }
+
+            this._renderer = new QtiRenderer(rendererOptions);
 
             new QtiLoader().loadItemData(itemData, function(item){
                 if(!item){
@@ -57,76 +68,139 @@ define([
 
         render : function(elt, done){
             var self = this;
+            var current = 0;
+
             if(this._item){
+
                 try {
+                    //render item html
                     elt.innerHTML = this._item.render({});
                 } catch(e){
-                    console.error(e);
-                    self.trigger('error', 'Error in template rendering : ' +  e);
+                    self.trigger('error', 'Error in template rendering : ' +  e.message);
                 }
                 try {
-                    this._item.postRender();
-                } catch(e){
-                    console.error(e);
-                    self.trigger('error', 'Error in post rendering : ' +  e);
-                }
+                    // Race between postRendering and timeout
+                    // postRendering waits for everything to be resolved or one reject
+                    Promise.race([
+                        Promise.all(this._item.postRender()),
+                        new Promise(function(resolve, reject){
+                            _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
+                        })
+                    ])
+                    .then(function(){
+                        $(elt)
+                            .off('responseChange')
+                            .on('responseChange', function(){
+                                self.trigger('statechange', self.getState());
+                                self.trigger('responsechange', self.getResponses());
+                            })
+                            .off('endattempt')
+                            .on('endattempt', function(e, responseIdentifier){
+                                self.trigger('endattempt', responseIdentifier || e.originalEvent.detail);
+                            })
+                            .off('themechange')
+                            .on('themechange', function(e, themeName){
+                                var themeLoader = self._renderer.getThemeLoader();
+                                themeName = themeName || e.originalEvent.detail;
+                                if(themeLoader){
+                                    themeLoader.change(themeName);
+                                }
+                            });
 
-                $(elt)
-                    .off('responseChange')
-                    .on('responseChange', function(){
-                        self.trigger('statechange', self.getState());
-                        self.trigger('responsechange', self.getResponses());
-                    })
-                    .off('endattempt')
-                    .on('endattempt', function(e, responseIdentifier){
-                        self.trigger('endattempt', responseIdentifier);
+                        /**
+                         * Lists the PIC provided by this item.
+                         * @event qti#listpic
+                         */
+                        self.trigger('listpic', picManager.collection(self._item));
+
+                        done();
+
+                    }).catch(function(err){
+                        self.trigger('error', 'Error in post rendering : ' +  err.message);
                     });
-
-
-                //TODO use post render cb once implemented
-                _.delay(done, 100);
+                } catch(err){
+                    self.trigger('error', 'Error in post rendering : ' + err.message);
+                }
             }
         },
 
+        /**
+         * Clean up stuffs
+         */
         clear : function(elt, done){
             if(this._item){
 
-               _.invoke(this._item.getInteractions(), 'clear');
+                _.invoke(this._item.getInteractions(), 'clear');
+                this._item.clear();
 
-                $(elt).off('responseChange').empty();
+                $(elt).off('responseChange')
+                      .off('endattempt')
+                      .off('themechange')
+                      .empty();
+
+                if(this._renderer){
+                    this._renderer.unload();
+                }
             }
             done();
         },
 
-        getState : function(){
+        /**
+         * Get state implementation.
+         * @returns {Object} that represents the state
+         */
+        getState : function getState(){
             var state = {};
             if(this._item){
+
+                //get the state from interactions
                 _.forEach(this._item.getInteractions(), function(interaction){
                     state[interaction.attr('responseIdentifier')] = interaction.getState();
+                });
+
+                //get the state from infoControls
+                _.forEach(this._item.getElements(), function(element) {
+                    if (Element.isA(element, 'infoControl') && element.attr('id')) {
+                        state.pic = state.pic || {};
+                        state.pic[element.attr('id')] = element.getState();
+                    }
                 });
             }
             return state;
         },
 
-        setState : function(state){
+        /**
+         * Set state implementation.
+         * @param {Object} state - the state
+         */
+        setState : function setState(state){
             if(this._item && state){
+
+                //set interaction state
                 _.forEach(this._item.getInteractions(), function(interaction){
                     var id = interaction.attr('responseIdentifier');
                     if(id && state[id]){
                         interaction.setState(state[id]);
                     }
                 });
+
+                //set info control state
+                if(state.pic){
+                    _.forEach(this._item.getElements(), function(element) {
+                        if (Element.isA(element, 'infoControl') && state.pic[element.attr('id')]) {
+                            element.setState(state.pic[element.attr('id')]);
+                        }
+                    });
+                }
             }
         },
 
         getResponses : function(){
-            var responses = [];
+            var responses = {};
             if(this._item){
                 _.reduce(this._item.getInteractions(), function(res, interaction){
-                    var response = {};
-                    response[interaction.attr('responseIdentifier')] = interaction.getResponse();
-                    res.push(response);
-                    return res;
+                    responses[interaction.attr('responseIdentifier')] = interaction.getResponse();
+                    return responses;
                 }, responses);
             }
             return responses;

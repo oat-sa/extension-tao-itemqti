@@ -10,17 +10,21 @@ define([
     'json!taoQtiItem/test/samples/json/customrp/TextEntrynumeric_770468849.json',
     'json!taoQtiItem/test/samples/json/customrp/Choicemultiple_871212949.json',
     'json!taoQtiItem/test/samples/json/customrp/Matchsingle_143114773.json',
-    'json!taoQtiItem/test/samples/json/customrp/order.json'
+    'json!taoQtiItem/test/samples/json/customrp/order.json',
+    'json!taoQtiItem/test/samples/json/es6.json',
+    'json!taoQtiItem/test/samples/json/pluto.json',
 ], function(_, scorer, qtiScoringProvider,
-            singleCorrectData,
-            multipleCorrectData,
-            multipleMapData,
-            singleMapPointData,
-            customChoiceMultipleData,
-            customTextEntryNumericData,
-            customChoiceMultipleData2,
-            customChoiceSingleData,
-            orderData
+        singleCorrectData,
+        multipleCorrectData,
+        multipleMapData,
+        singleMapPointData,
+        customChoiceMultipleData,
+        customTextEntryNumericData,
+        customChoiceMultipleData2,
+        customChoiceSingleData,
+        orderData,
+        multipleResponseCorrectData,
+        embedConditionsData
 ){
     'use strict';
 
@@ -86,7 +90,7 @@ define([
                 assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
                 assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
                 assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
-                assert.deepEqual(outcomes.SCORE, { base : { integer : '0' } }, "the score has the default value");
+                assert.deepEqual(outcomes.SCORE, { base : { integer : 0 } }, "the score has the default value");
 
                 QUnit.start();
             })
@@ -116,9 +120,6 @@ define([
             scorer.providers = undefined;
         }
     });
-
-
-    QUnit.module('templates');
 
     var tplDataProvider = [{
         title   : 'match correct single identifier',
@@ -194,7 +195,71 @@ define([
                 .process(responses, data.item);
         });
 
-    QUnit.module('custom');
+    QUnit.asyncTest('process multiple responses', function(assert){
+
+            QUnit.expect(7);
+
+            var responses = {
+                'RESPONSE' : { list : { identifier : ["choice_3"] } },
+                'RESPONSE_1' : { base : { identifier : "choice_7" } },
+            };
+            scorer.register('qti', qtiScoringProvider);
+
+            scorer('qti')
+                .on('error', function(err){
+                    assert.ok(false, 'Got an error : ' + err);
+                })
+                .on('outcome', function(outcomes){
+
+                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                    assert.ok(typeof outcomes.RESPONSE_1 === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same");
+                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                    assert.deepEqual(outcomes.SCORE, { base : { float : 2 } }, "the score has the correct value");
+
+                    QUnit.start();
+                })
+                .process(responses, multipleResponseCorrectData);
+    });
+
+    QUnit.asyncTest('process multiple responses one is empty', function(assert){
+
+            QUnit.expect(7);
+
+            var responses = {
+                'RESPONSE' : { list : { identifier : ["choice_3"] } },
+                'RESPONSE_1' : { base : null }
+            };
+            scorer.register('qti', qtiScoringProvider);
+
+            scorer('qti')
+                .on('error', function(err){
+                    assert.ok(false, 'Got an error : ' + err);
+                })
+                .on('outcome', function(outcomes){
+
+                    assert.ok(typeof outcomes === 'object', "the outcomes are an object");
+                    assert.ok(typeof outcomes.RESPONSE === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE, responses.RESPONSE, "the response is the same");
+                    assert.ok(typeof outcomes.RESPONSE_1 === 'object', "the outcomes contains the response");
+                    assert.deepEqual(outcomes.RESPONSE_1, responses.RESPONSE_1, "the response is the same");
+                    assert.ok(typeof outcomes.SCORE === 'object', "the outcomes contains the score");
+                    assert.deepEqual(outcomes.SCORE, { base : { float : 1 } }, "the score has the correct value");
+
+                    QUnit.start();
+                })
+                .process(responses, multipleResponseCorrectData);
+    });
+
+    QUnit.module('Custom template', {
+        teardown : function(){
+            //reset the provides
+            scorer.providers = undefined;
+        }
+    });
+
 
     var customDataProvider = [{
         title   : 'choice multiple correct',
@@ -209,7 +274,7 @@ define([
         item    : customChoiceMultipleData,
         resp    : { RESPONSE_13390220 : { list : { identifier: ['choice_853818748'] } } },
         outcomes : {
-            SCORE : { base : { 'float' : '0.0' } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     }, {
@@ -233,7 +298,7 @@ define([
         item    : customTextEntryNumericData,
         resp    : { RESPONSE_1 : { base : { float: 5.8756 } } },
         outcomes : {
-            SCORE : { base : { 'float' : '0.0' } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     },{
@@ -265,7 +330,7 @@ define([
         item    : customChoiceSingleData,
         resp    : { RESPONSE : { list : { directedPair: [ 'Match29886762 Match30518135', 'Match2607634 Match5256823', 'Match4430647 Match8604807', 'Match1403839 Match5570831'] } } },
         outcomes : {
-            SCORE : { base : { 'float' : "0.0" } },
+            SCORE : { base : { 'float' : 0 } },
             FEEDBACKBASIC : { base : { 'identifier' : 'incorrect' } }
         }
     },{
@@ -282,8 +347,57 @@ define([
         outcomes : {
             SCORE : { base : { 'float' : 0 } }
         }
-    }
-    ];
+    }, {
+        title   : 'embed conditions correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : { identifier: 'choice_6' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 2 } }
+        }
+    }, {
+        title   : 'embed conditions  first correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : { identifier: 'choice_7' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'embed conditions 2nd correct',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_2' } },
+            RESPONSE_1 : { base : { identifier: 'choice_6' } },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+    }, {
+        title   : 'embed conditions 2nd null',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : { identifier: 'choice_1' } },
+            RESPONSE_1 : { base : null },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 1 } }
+        }
+    }, {
+        title   : 'embed conditions null',
+        item    : embedConditionsData.data,
+        resp    : {
+            RESPONSE   : { base : null },
+            RESPONSE_1 : { base : null },
+        },
+        outcomes : {
+            SCORE : { base : { 'float' : 0 } }
+        }
+    }];
 
     QUnit
         .cases(customDataProvider)
@@ -307,5 +421,6 @@ define([
                 })
                 .process(data.resp, data.item);
         });
+
 });
 

@@ -15,25 +15,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ * 
  */
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title><?=get_data('title')?></title>
-
         <style>
-            #qti-preview-view-options{padding:10px;border:1px solid #ddd;background:rgba(238,238,238,0.8);color:#333;}
-            #qti-preview-view-options ul{margin:0;}
-            #qti-preview-view {font-weight: bold;}
-            #qti-preview-view:hover{opacity:0.5;cursor:pointer;}
-            .qti-view-option{text-decoration: underline;color:blue;cursor:pointer;}
-            .qti-view-option:hover{opacity:0.5;}
-            .qti-view-selected{text-decoration: none;color:black;}
+            body {
+                margin:0;
+                height: auto !important;
+                min-height: 100% !important;
+            }
         </style>
-
         <script id="initQtiRunner" type="text/javascript">
             (function(){
                 window.tao = window.tao || {};
@@ -41,7 +38,8 @@
                     itemData : <?=json_encode(get_data('itemData'))?>,
                     variableElements : <?=json_encode(get_data('contentVariableElements'))?>,
                     userVars : <?=json_encode(get_data('js_variables'))?>,
-                    customScripts : <?=json_encode(get_data('javascripts'))?>
+                    customScripts : <?=json_encode(get_data('javascripts'))?>,
+                    userScripts : <?=json_encode(get_data('user_scripts'))?>
                 };
             }());
         </script>

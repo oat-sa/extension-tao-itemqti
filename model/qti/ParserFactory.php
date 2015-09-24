@@ -79,6 +79,7 @@ class ParserFactory
 {
 
     protected $data = null;
+    /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
@@ -103,15 +104,25 @@ class ParserFactory
         return $data->ownerDocument->saveXML($data);
     }
 
-    public function getBodyData(DOMElement $data, $removeNamespace = false){
+
+    /**
+     * Get the body data (markups) of an element.
+     * @param \DOMELement $data the element
+     * @param boolean $removeNamespace if XML namespacese should be removed 
+     * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
+     * @return string the body data (XML markup)
+     */
+    public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false){
 
         //prepare the data string
-        $bodyData = $this->saveXML($data);
+        $bodyData = '';
+        $saveOptions = $keepEmptyTags ?  LIBXML_NOEMPTYTAG : 0;
 
-        $pattern = "/<{$data->nodeName}\b[^>]*\/>|<{$data->nodeName}\b[^>]*>(.*?)<\/{$data->nodeName}>/is";
-        preg_match_all($pattern, $bodyData, $matches);
-        if(isset($matches[1]) && isset($matches[1][0])){
-            $bodyData = trim($matches[1][0]);
+        $children  = $data->childNodes;
+
+        foreach ($children as $child)
+        {
+            $bodyData .= $data->ownerDocument->saveXML($child, $saveOptions);
         }
 
         if($removeNamespace){
@@ -385,6 +396,7 @@ class ParserFactory
 
     protected function findNamespace($nsFragment){
         $returnValue = '';
+
         if(is_null($this->item)){
             foreach($this->queryXPath('namespace::*') as $node){
                 $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
@@ -396,13 +408,42 @@ class ParserFactory
             }
         }else{
             $namespaces = $this->item->getNamespaces();
+
             foreach($namespaces as $name => $uri){
                 if(strpos($uri, $nsFragment) > 0){
                     $returnValue = $name;
                     break;
                 }
             }
+            if($returnValue === ''){
+                $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
+            }
         }
+        return $returnValue;
+    }
+
+    private function recursivelyFindNamespace($element, $nsFragment) {
+
+        $returnValue = '';
+
+        foreach ($element->childNodes as $child) {
+
+            if($child->nodeType === XML_ELEMENT_NODE) {
+                    foreach($this->queryXPath('namespace::*', $child) as $node){
+                        $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+                        $uri = $node->nodeValue;
+                        if(strpos($uri, $nsFragment) > 0){
+                            $returnValue = $name;
+                            break;
+                        }
+                    }
+                $value = $this->recursivelyFindNamespace($child, $nsFragment);
+                if($value !== ''){
+                    $returnValue = $value;
+                }
+            }
+        }
+
         return $returnValue;
     }
 
@@ -790,6 +831,19 @@ class ParserFactory
             $templateUri = (string) $data->getAttribute('template');
             $returnValue = new Template($templateUri);
         }elseif($data->childNodes->length === 1){
+
+            //check response declaration identifier, which must be RESPONSE in standard rp
+            $responses = $this->item->getResponses();
+            if(count($responses) == 1){
+                $response = reset($responses);
+                if($response->getIdentifier() !== 'RESPONSE'){
+                    throw new UnexpectedResponseProcessing('the response declaration identifier must be RESPONSE');
+                }
+            }else{
+                //invalid number of response declaration
+                throw new UnexpectedResponseProcessing('the item must have exactly one response declaration');
+            }
+
             $patternCorrectIMS = 'responseCondition [count(./*) = 2 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] [name(./*[2]) = "responseElse" ] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue" ] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
             $patternMappingIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponse"]';
             $patternMappingPointIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponsePoint"]';
@@ -1327,11 +1381,14 @@ class ParserFactory
         $attributes = $this->extractAttributes($data);
         $myFeedback = new $feedbackClass($attributes, $this->item);
 
-
         if($data->nodeName == 'modalFeedback'){
             $myFeedback = new $feedbackClass($attributes, $this->item);
             $this->parseContainerStatic($data, $myFeedback->getBody());
-        }else{
+        } elseif ($data->nodeName == 'feedbackInline') {
+            //@todo: to be implemented: <feedbackInline> {@see http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html#section10008}
+            common_Logger::i('Importing item that contains <feedbackInline> element.');
+            $myFeedback = null;
+        } else {
 
             //@todo: to be implemented: interactive feedback
             throw new UnsupportedQtiElement($data);
@@ -1442,7 +1499,7 @@ class ParserFactory
 
             $ciClass = '';
             $classes = $data->getAttribute('class');
-            $classeNames = split('/\s+/', $classes);
+            $classeNames = preg_split('/\s+/', $classes);
             foreach($classeNames as $classeName){
                 $ciClass = InfoControlRegistry::getInfoControlByName($classeName);
                 if($ciClass){

@@ -1,4 +1,30 @@
-define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiItem/qtiItem/helper/rendererConfig'], function($, Class, _, util, rendererConfig){
+
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ *
+ */
+define([
+    'jquery',
+    'lodash',
+    'class',
+    'taoQtiItem/qtiItem/helper/util',
+    'taoQtiItem/qtiItem/helper/rendererConfig'
+], function($, _, Class, util, rendererConfig){
+    'use strict';
 
     var _instances = {};
 
@@ -65,6 +91,22 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
             }
             return usedIds;
         },
+
+        /**
+         * Get the ids in use. (id is different from identifier)
+         * @returns {Array} of the ids in use
+         */
+        getUsedIds : function getUsedIds(){
+            var usedIds = [];
+            _.forEach(this.getComposingElements(), function(elt){
+                var id = elt.attr('id');
+                if(id && !_.contains(usedIds, id)){
+                    usedIds.push(id);
+                }
+            });
+            return usedIds;
+        },
+
         attr : function(name, value){
             if(name){
                 if(value !== undefined){
@@ -264,18 +306,21 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
         },
         postRender : function(data, altClassName, renderer){
 
+            var postRenderers = [];
             var _renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
                 //allow body to have a different renderer if it has its own renderer set
-                this.getBody().postRender({}, '', renderer);
+                postRenderers = this.getBody().postRender({}, '', renderer);
             }
 
             if(_renderer){
-                return _renderer.postRender(this, data, altClassName);
+                postRenderers.push(_renderer.postRender(this, data, altClassName));
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
+
+            return _.compact(postRenderers);
         },
         getContainer : function($scope, subclass){
             var renderer = this.getRenderer();
@@ -352,12 +397,12 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
     Element.issetElement = function(serial){
         return !!_instances[serial];
     };
-   
+
     /**
      * Unset a registered element from it's serial
      * @param {String} serial - the element serial
      * @returns {Boolean} true if unset
-     */ 
+     */
     Element.unsetElement = function(serial){
 
         var element = Element.getElementBySerial(serial);
@@ -369,7 +414,7 @@ define(['jquery', 'class', 'lodash', 'taoQtiItem/qtiItem/helper/util', 'taoQtiIt
                 delete _instances[elt.serial];
             });
             delete _instances[element.serial];
-            
+
             return true;
         }
         return false;

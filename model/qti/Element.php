@@ -5,11 +5,8 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Element;
-use oat\taoQtiItem\model\qti\Exportable;
-use oat\taoQtiItem\model\qti\Item;
+use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\attribute\Generic;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\attribute\ResponseIdentifier;
@@ -504,12 +501,16 @@ abstract class Element implements Exportable
     
     /**
      * Recursively get all Qti Elements contained within the current Qti Element
-     *  
+     *
+     * @param string $className
      * @return array
      */
-    public function getComposingElements(){
+    public function getComposingElements($className = ''){
 
         $returnValue = array();
+        if($className === ''){
+            $className = 'oat\taoQtiItem\model\qti\Element';
+        }
 
         $reflection = new ReflectionClass($this);
         foreach($reflection->getProperties() as $property){
@@ -520,14 +521,20 @@ abstract class Element implements Exportable
                     if(is_array($value)){
                         foreach($value as $subvalue){
                             if($subvalue instanceof Element){
-                                $returnValue[$subvalue->getSerial()] = $subvalue;
-                                $returnValue = array_merge($returnValue, $subvalue->getComposingElements());
+                                if($subvalue instanceof $className){
+                                    $returnValue[$subvalue->getSerial()] = $subvalue;
+                                }
+                                $returnValue = array_merge($returnValue, $subvalue->getComposingElements($className));
                             }
                         }
-                    }elseif($value instanceof Element){
-                        if($value->getSerial() != $this->getSerial()){
-                            $returnValue[$value->getSerial()] = $value;
-                            $returnValue = array_merge($returnValue, $value->getComposingElements());
+                    }else{
+                        if($value instanceof Element){
+                            if($value instanceof $className){
+                                if($value->getSerial() != $this->getSerial()){
+                                    $returnValue[$value->getSerial()] = $value;
+                                }
+                            }
+                            $returnValue = array_merge($returnValue, $value->getComposingElements($className));
                         }
                     }
                 }

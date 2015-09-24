@@ -41,9 +41,9 @@ define([
     'taoQtiItem/qtiCreator/helper/dummyElement',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
-    'ui/feedback',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'ui/mediasizer'
-], function ($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel, resourceManager) {
+], function ($, _, __, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, identifierHelper, formTpl, choiceFormTpl, gapImgFormTpl, mediaTlbTpl, dummyElement, panel, resourceManager, bgImage) {
 
     "use strict";
 
@@ -385,6 +385,9 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+
+        widget.isValid('graphicGapMatchInteraction', valid);
 
         if (!paper) {
             return;
@@ -439,61 +442,12 @@ define([
 
         formElement.initWidget($form);
 
-        //Toggle the image resizing panel depending on the widget container is responsive or not.
-        $form.find('.panel-interaction-size').toggle(!isResponsive);
+        bgImage.setupImage(widget);
 
-
-        if(!isResponsive) {
-            $mediaSizer = $form.find('.media-sizer-panel');
-
-            $bgImage = $container.find('.svggroup svg image');
-
-            if(!!$bgImage.length){
-                $mediaSizer.empty().mediasizer({
-                    target: $bgImage,
-                    showResponsiveToggle: false,
-                    showSync: false,
-                    responsive: false,
-                    parentSelector: $container.attr('id'),
-                    applyToMedium: false,
-                    maxWidth: interaction.object.attr('width')
-                });
-            }
-
-            $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-
-                interaction.object.attr('width', params.width);
-                interaction.object.attr('height', params.height);
-
-                $container.trigger('resize.qti-widget.' + widget.serial, [params.width]);
-            });
-        }
-
-        //init data change callbacks
-        var callbacks = {};
-        callbacks.data = function (interaction, value) {
-            interaction.object.attr('data', value);
-            widget.rebuild({
-                ready: function (widget) {
-                    widget.changeState('question');
-                }
-            });
-        };
-        callbacks.width = function (interaction, value) {
-            interaction.object.attr('width', value);
-        };
-        callbacks.height = function (interaction, value) {
-            interaction.object.attr('height', value);
-        };
-        callbacks.type = function (interaction, value) {
-            if (!value || value === '') {
-                interaction.object.removeAttr('type');
-            }
-            else {
-                interaction.object.attr('type', value);
-            }
-        };
-        formElement.setChangeCallbacks($form, interaction, callbacks, { validateOnInit: false });
+        bgImage.setChangeCallbacks(
+            widget,
+            formElement
+        );
     };
 
     return GraphicGapMatchInteractionStateQuestion;

@@ -186,12 +186,10 @@ define([
     var initGui = function(widget, config){
 
         lastItemData = undefined;
-        askForSave = false;
+        askForSave = !!widget.element.data('new');//new item needs to be saved once before being able to preview it
 
         //serialize the item at the initialization level
-        widget.on('ready.qti-widget', function() {
-            initLastItemData(widget.element);
-        });
+        initLastItemData(widget.element);
 
         //get the last value by saving
         $('#save-trigger')
@@ -200,7 +198,7 @@ define([
                 //catch the last value when saving
                 setLastItemData(widget.element);
             })
-            .on('aftersave.qti-creator', function(success) {
+            .on('aftersave.qti-creator', function(event, success) {
                 //disable the askForSave flag only on save success
                 if (success){
                     askForSave = false;
@@ -210,9 +208,9 @@ define([
         //catch style changes
         $(document)
             .off('stylechange.qti-creator')
-            .on('stylechange.qti-creator', function () {
+            .on('stylechange.qti-creator', function (event, detail) {
                 //we need to save before preview of style has changed (because style content is not part of the item model)
-                askForSave = true;
+                askForSave = !detail || !detail.initializing;
             });
 
         updateHeight();

@@ -1,4 +1,21 @@
 /**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ */
+/**
  * @author Sam <sams@taotesting.com>
  * @requires jquery
  * @requires lodash
@@ -281,9 +298,9 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
             return (_.indexOf(parents, topClass) >= 0);
         }
     };
-    
+
     QtiElements.getAvailableAuthoringElements = function(){
-        
+
         return {
             choiceInteraction : {
                 label : __('Choice Interaction'),
@@ -409,7 +426,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Order Interaction'),
                 icon : 'icon-graphic-order',
                 description : __('Order the areas (hotspots) displayed on a picture.'),
-                short : __('Graphic Order'),
+                short : __('Order'),
                 qtiClass : 'graphicOrderInteraction',
                 tags:['Graphic Interactions', 'ordering']
             },
@@ -417,7 +434,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Associate Interaction'),
                 icon : 'icon-graphic-associate',
                 description : __('Create association(s) between areas (hotspots) displayed on a picture.'),
-                short : __('Graphic Associate'),
+                short : __('Associate'),
                 qtiClass : 'graphicAssociateInteraction',
                 tags:['Graphic Interactions', 'association']
             },
@@ -425,7 +442,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
                 label : __('Graphic Gap Match Interaction'),
                 icon : 'icon-graphic-gap',
                 description : __('Fill in the gaps on a picture with a set of image choices.'),
-                short : __('Graphic Gap'),
+                short : __('Gap Match'),
                 qtiClass : 'graphicGapMatchInteraction',
                 tags:['Graphic Interactions', 'association']
             },
@@ -439,7 +456,7 @@ define(['jquery', 'lodash', 'i18n'], function($, _, __){
             }
         };
     };
-    
+
     return QtiElements;
 
 });

@@ -9,11 +9,18 @@ select.qti-inlineChoiceInteraction {
 }
 
 .qti-inlineChoiceInteraction .select2-chosen {
-    margin-right: 18px;
+    margin-right: 30px;
 }
 .qti-inlineChoiceInteraction .select2-chosen, 
 select.qti-inlineChoiceInteraction,
 .qti-inlineChoiceInteraction-dropdown .select2-result-label {
     font-family: $regularFont !important;
     font-weight: normal !important;
+}
+
+// shadow like focused element
+.qti-inlineChoiceInteraction.select2-container-active {
+    outline-color: $colorWheel-05;
+    outline-style: auto;
+    outline-width: 5px;
 }

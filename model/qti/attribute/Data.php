@@ -21,9 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\Data;
-use oat\taoQtiItem\model\qti\attribute\Attribute;
-
 /**
  * The Data attribute
  *
@@ -39,5 +36,11 @@ class Data extends Attribute
 	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String';
 	static protected $defaultValue = null;
 	static protected $required = true;
+
+	public function setValue($value)
+	{
+		$value = rawurldecode($value);
+		return parent::setValue($value);
+	}
 
 }

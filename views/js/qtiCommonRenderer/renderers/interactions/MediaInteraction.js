@@ -85,7 +85,7 @@ define([
      * @fires playerready when the player is sucessfully loaded and configured
      */
     var render = function render(interaction) {
-
+        var self = this;
         var $meTag,
             mediaOptions;
         var $container          = containerHelper.get(interaction);
@@ -94,7 +94,7 @@ define([
         var mediaType           = getMediaType(media.attr('type') || defaults.type);
         var enablePause         = $container.hasClass('pause');
         var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
-        var url                 = media.attr('data') ? this.resolveUrl(media.attr('data')) : '';
+        var url                 = media.attr('data') ? self.resolveUrl(media.attr('data')) : '';
 
         var pauseFromClick      = false;
 
@@ -281,6 +281,8 @@ define([
                  * @event playerready
                  */
                 $container.trigger('playerready');
+
+
             },
 
             error: function(playerDom) {
@@ -312,9 +314,7 @@ define([
        });
 
         //gives a small chance to the responseSet event before initializing the player
-        _.defer(function(){
-            initMediaPlayer();
-        });
+        initMediaPlayer();
     };
 
     /**

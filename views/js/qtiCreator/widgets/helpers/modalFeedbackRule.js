@@ -177,7 +177,8 @@ define([
         var $feedbacksContainer = $('#modalFeedbacks');
         if(!_widgets[modalFeedback.serial]){
             $feedbacksContainer.append(modalFeedback.render());
-            _widgets[modalFeedback.serial] = modalFeedback.postRender();
+            modalFeedback.postRender();
+            _widgets[modalFeedback.serial] = modalFeedback.data('widget');
         }
         
         return _widgets[modalFeedback.serial];

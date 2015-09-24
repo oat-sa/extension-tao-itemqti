@@ -6,6 +6,27 @@
         top:1px;
     }
 
+    .choice-area {
+        &[class^="list-style-"], &[class*=" list-style-"] {
+
+            .label-content {
+                padding-left: 30px;
+            }
+
+            p, div, li {
+                &::before {
+                    position: absolute;
+                    left: 30px;
+                    top: 6px
+                }
+                &.add-option:before {
+                    content: '';
+                    display:inline;
+                }
+            }
+        }
+    }
+
     .block-listing > li {
         margin-top: 0;
         margin-bottom: 0;
@@ -23,6 +44,12 @@
             @include border-radius-bottom(2);
         }
     }
+    .block-listing.horizontal > li {
+        margin: 3px;
+        border: 1px solid #eee;
+        @include border-radius(2);
+    }
+
 
     //IE specific
 

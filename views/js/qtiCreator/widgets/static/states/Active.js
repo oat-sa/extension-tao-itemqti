@@ -42,7 +42,7 @@ define([
     }, function(){
 
         this.widget.$container.off('.active');
-        $('#item-editor-panel').off('.active');
+        $('#item-editor-panel').off('.active.' + this.widget.serial);
 
         this.widget.offEvents('otherActive');
     });

@@ -175,6 +175,8 @@ define([
             /**
              * Fires a change notification on the item style
              * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
+             * @property {Object} [detail] An object providing some additional detail on the event
+             * @property {Boolean} [detail.initializing] Tells if the stylechange occurs at init time
              */
             $(document).trigger('stylechange.qti-creator');
         };
@@ -277,14 +279,22 @@ define([
 
                     // time difference between loading the css file and applying the styles
                     setTimeout(function() {
+                        var isInit = false;
+
                         $(doc).trigger('customcssloaded.styleeditor', [style]);
                         $(window).trigger('resize');
+                        if (currentItem.pendingStylesheetsInit) {
+                            isInit = true;
+                            currentItem.pendingStylesheetsInit --;
+                        }
 
                         /**
                          * Fires a change notification on the item style
                          * @event taoQtiItem/qtiCreator/editor/styleEditor/styleEditor#stylechange.qti-creator
+                         * @property {Object} [detail] An object providing some additional detail on the event
+                         * @property {Boolean} [detail.initializing] Tells if the stylechange occurs at init time
                          */
-                        $(doc).trigger('stylechange.qti-creator');
+                        $(doc).trigger('stylechange.qti-creator', [{initializing: isInit}]);
                     }, isLocal ? 500 : 3500);
 
                 };
@@ -334,6 +344,7 @@ define([
         var addItemStylesheets = function() {
 
             var currentStylesheet;
+            currentItem.pendingStylesheetsInit = _.size(currentItem.stylesheets);
 
             for(var key in currentItem.stylesheets) {
                 if(!currentItem.stylesheets.hasOwnProperty(key)) {

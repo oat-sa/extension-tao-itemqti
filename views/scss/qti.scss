@@ -1,10 +1,15 @@
 @charset "UTF-8";
 
 @import "inc/bootstrap";
+
+// override font to avoid @font-face load
+$regularFont: 'Franklin Gothic', 'Franklin Gothic Medium', sans-serif;
+
 $mainContainer : '.qti-item';
 @import "inc/base";
 @import "inc/select2";
 @import "inc/mediaelementplayer";
+
 
 %selectableHover {
     background: whiten($info, .95) !important;
@@ -33,10 +38,31 @@ $mainContainer : '.qti-item';
     @import "inc/forms";
     @import "inc/components";
 
+    // reset grid set-up within the item context
+
+    //!important to override all attempts to change this in the theme
+    overflow-x: visible !important;
+    .grid-row, .fixed-grid-row {
+        width: 100%;
+        [class*=" col-"], [class^="col-"] {
+            &.col-12 {
+                width: 100%;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .grid-container {
+        overflow-x: visible !important;
+    }
+
     padding: 15px;
     background: white();
     margin:auto;
     max-width: 1024px;
+
     &.runtime {
         min-height: 100%;
     }
@@ -114,6 +140,9 @@ $mainContainer : '.qti-item';
     }
 
     .qti-interaction {
+        &:focus {
+            outline-color: $colorWheel-05;
+        }
         .text-container{
             min-height: 50px;
 

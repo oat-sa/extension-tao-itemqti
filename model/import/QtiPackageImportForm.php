@@ -93,7 +93,7 @@ class QtiPackageImportForm
 		$rollbackElt->setDescription(__('Rollback on...'));
 		$this->form->addElement($rollbackElt);
 		
-		$this->form->createGroup('file', __('Import a QTI 2.X Package'), array('qti_desc', 'source', 'rollback'));
+		$this->form->createGroup('file', __('Import a QTI 2.X Package'), array('source', 'rollback'));
 		
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');

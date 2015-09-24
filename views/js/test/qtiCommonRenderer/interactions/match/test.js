@@ -4,11 +4,19 @@ define([
     'taoQtiItem/runner/qtiItemRunner',
     'json!taoQtiItem/test/samples/json/characters.json',
 ], function($, _, qtiItemRunner, matchData){
+    'use strict';
 
+    var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
 
-    module('Match Interaction');
+    module('Match Interaction', {
+        teardown : function(){
+            if(runner){
+                runner.clear();
+            }
+        }
+    });
 
     QUnit.asyncTest('renders correclty', function(assert){
         QUnit.expect(20);
@@ -18,7 +26,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
 
                 //check DOM
@@ -60,7 +68,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-matchInteraction').length, 1, 'the container contains a choice interaction .qti-matchInteraction');
                 assert.equal($container.find('.qti-matchInteraction .qti-choice').length, 7, 'the interaction has 5 choices');
@@ -91,7 +99,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
                 assert.equal($container.find('.qti-interaction.qti-matchInteraction').length, 1, 'the container contains a choice interaction .qti-matchInteraction');
                 assert.equal($container.find('.qti-matchInteraction .qti-choice').length, 7, 'the interaction has 5 choices');
@@ -124,7 +132,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
 
                 var $cr = $('tbody tr:eq(0) td:eq(0) input', $container);
@@ -157,7 +165,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
                 var self = this;
 
@@ -190,7 +198,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
                 var self = this;
 
@@ -234,7 +242,7 @@ define([
         var shuffled = _.cloneDeep(matchData);
         shuffled.body.elements.interaction_matchinteraction_547481b197d23287450469.attributes.shuffle = true;
 
-        qtiItemRunner('qti', shuffled)
+        runner = qtiItemRunner('qti', shuffled)
             .on('render', function(){
                 var self = this;
 
@@ -279,7 +287,7 @@ define([
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        qtiItemRunner('qti', matchData)
+        runner = qtiItemRunner('qti', matchData)
             .on('render', function(){
 
                 assert.equal($container.find('.qti-interaction.qti-matchInteraction').length, 1, 'the container contains a choice interaction .qti-matchInteraction');
