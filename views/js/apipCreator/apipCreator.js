@@ -41,7 +41,7 @@ define([
     };
 
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
-        inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'), this.inclusionOrderType);
+        inclusionOrderSelector.render(this.$container.find('.right-bar .action-bar'), this.inclusionOrderType);
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
