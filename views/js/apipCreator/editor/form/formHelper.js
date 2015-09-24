@@ -49,7 +49,7 @@ define([
         if (!result) {
             qtiElements = ae.getQtiElements();
             if (qtiElements.length) {
-                result = $(qtiElements[0].data).text();
+                result = $(qtiElements[0].data).text().trim();
             }
         }
 
