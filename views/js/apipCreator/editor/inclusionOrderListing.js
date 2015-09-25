@@ -41,7 +41,7 @@ define([
         $container.append(listTpl({
             elements:_elements
         }));
-        
+        console.log(_elements);
         var $sortable = $container.children('.order-list');
         $sortable.sortable({
             axis : 'y',

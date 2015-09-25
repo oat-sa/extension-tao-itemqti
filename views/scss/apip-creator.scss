@@ -31,19 +31,25 @@
         .element{
             position:relative;
             border : 1px solid #EEE;
-            padding : 11px;
+            padding : 11px 21px;
             margin : 4px;
 
             &.hover{
-                padding : 10px;
+                padding : 10px 20px;
                 border-width:2px;
                 border-color: whiten($info, .7);
                 cursor:pointer;
+                .information .order.fill{
+                    border-color: whiten($info, .7);
+                }
             }
             &.active{
-                padding : 10px;
+                padding : 10px 20px;
                 border-width:2px;
                 border-color: whiten($info, .2);
+                .information .order.fill{
+                    border-color: whiten($info, .2);
+                }
             }
             &.qti-img {
                 display: inline-block;
@@ -53,13 +59,25 @@
                 .label{
                     position:relative;
                 }
+                .order.fill{
+                    position: absolute;
+                    left: -31px;
+                    top: -16px;
+                    width: 26px;
+                    height: 26px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background: white none repeat scroll 0% 0%;
+                    padding: 1px;
+                    border: 2px solid #aaa;
+                }
             }
             .element-placeholder{
                 display:inline-block;
             }
         }
         [class*=" apip-feature-info-"], [class^="apip-feature-info-"]{
-            padding : 10px;
+            padding : 10px 20px;
             border-width:2px;
             border-color : #AAA;
         }
@@ -173,7 +191,7 @@
         position: relative;
 
         @include simple-flex-box(195px);
-        
+
         .item-editor-sidebar{
             border-top : 1px solid white;
             padding : 10px 0;

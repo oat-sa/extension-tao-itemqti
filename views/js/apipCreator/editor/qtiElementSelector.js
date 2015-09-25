@@ -206,12 +206,13 @@ define([
             $container.addClass('apip-feature-order-' + inclusionOrderName);
         }
 
-        //get ae
+        //get ae sorted by order
         var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
 
         //check feature presence
         var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderName);
         var aeInfoType = inclOrder.accessElementInfo.type;
+        var i = 1;
         _.each(accessElements, function (ae){
             var aeInfo = ae.getAccessElementInfo(aeInfoType);
             if(aeInfo){
@@ -219,7 +220,11 @@ define([
                 var qtiElements = ae.getQtiElements();
                 _.each(qtiElements, function (qtiElement){
                     //set feature css class to qti element
-                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass('apip-feature-info-' + aeInfoType);
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]')
+                        .addClass('apip-feature-info-' + aeInfoType)
+                        .find('.order').addClass('fill').html(i);
+                    
+                    i++;
                 });
             }
         });
@@ -231,10 +236,10 @@ define([
      * @returns {undefined}
      */
     function resetApipFeatures($container){
-        $container.find('.element').addBack().removeClass(function (index, css){
+        $container.find('.qti-element-selector').find('.element').addBack().removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             return classes.join(' ');
-        });
+        }).find('.order').removeClass('fill').empty();
     }
 
     return {
