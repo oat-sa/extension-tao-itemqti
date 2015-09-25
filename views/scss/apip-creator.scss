@@ -26,21 +26,6 @@
             }
             margin-right:10px;
         }
-        .inclusion-order-container{
-            position: absolute;
-            right: 5px;
-            label{
-                cursor : default;
-                color: whiten($info, .9);
-                padding-right:5px;
-            }
-            .select2-choice{
-                background-color: whiten($info, .9);
-            }
-            .select2-dropdown-open .select2-choice{
-                background-color: white;
-            }
-        }
     }
     .qti-element-selector{
         .element{
@@ -48,7 +33,7 @@
             border : 1px solid #EEE;
             padding : 11px;
             margin : 4px;
-            
+
             &.hover{
                 padding : 10px;
                 border-width:2px;
@@ -170,7 +155,7 @@
         position: relative;
         background-color: mix(#fff, $grey, 85%);
         @include flex-container();
-        
+
         .item-editor-item {
             position : relative;
             [class*=" col-"], [class^="col-"] {
@@ -185,9 +170,9 @@
     .item-editor-sidebar-wrapper {
         background: $canvas;
         position: relative;
-        
+
         @include simple-flex-box(195px);
-        
+
         &.left-bar {
             .action-bar {
                 border-right: 1px solid #ddd;
@@ -198,6 +183,7 @@
         }
         &.right-bar {
             .action-bar {
+                width:350px;
                 border-left: 1px solid #ddd;
             }
             .item-editor-sidebar {
@@ -205,13 +191,71 @@
             }
         }
     }
+    .apip-ordering{
+        .order-list{
+            .order-element{
+                width:100%;
+                padding : 10px;
+                margin : 10px 0px;
+                position :relative;
+                padding : 0px 10px 0px 36px;
+                width:346px;
+                .information{
+                    .order{
+                        position: absolute;
+                        top : 16px;
+                        left: 7px;
+                        font-weight: bold;
+                        border-radius: 50%;
+                        border : 1px solid #eee;
+                        width:22px;
+                        height:22px;
+                        text-align:center;
+                        &:after{
+                            content : '.'
+                        }
+                    }
+                }
+                .content{
+                    border : 1px solid #DDD;
+                    padding: 16px;
+                }
+            }
+        }
+    }
+    .inclusion-order-container{
+        position: absolute;
+        right: 5px;
+        label{
+            cursor : default;
+            color: whiten($info, .9);
+            padding-right:5px;
+        }
+        .select2-choice{
+            background-color: whiten($info, .9);
+        }
+        .select2-dropdown-open .select2-choice{
+            background-color: white;
+        }
+    }
 }
 
 @media (max-width: 1280px) {
-    #apip-creator-scope .item-editor-action-bar #item-editor-label {
-        text-align: right;
-        width: 40%;
-        left: auto;
-        right: 20px;
-    }
+    #apip-creator-scope{
+        .item-editor-action-bar #item-editor-label {
+            text-align: right;
+            width: 40%;
+            left: auto;
+            right: 20px;
+        }
+        .item-editor-sidebar-wrapper.right-bar .action-bar{
+            width:260px;
+            label[for=inclusionOrder]{
+                display:none;
+            }
+        }
+        .apip-ordering .order-list .order-element{
+            width:258px;
+        }
+    } 
 }
