@@ -54,6 +54,7 @@ define([
             apipCreator.initLabel();
             apipCreator.initSave();
             apipCreator.initInclusionOrderSelector();
+            apipCreator.initInclusionOrderListing();
             apipCreator.initQtiElementSelector();
             apipCreator.initEvents();
             

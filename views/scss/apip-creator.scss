@@ -168,57 +168,55 @@
         }
     }
     .item-editor-sidebar-wrapper {
+        border-left: 1px solid white;
         background: $canvas;
         position: relative;
 
         @include simple-flex-box(195px);
-
-        &.left-bar {
-            .action-bar {
-                border-right: 1px solid #ddd;
-            }
-            .item-editor-sidebar {
-                border-right: 1px solid white;
-            }
-        }
-        &.right-bar {
-            .action-bar {
-                width:350px;
-                border-left: 1px solid #ddd;
-            }
-            .item-editor-sidebar {
-                border-left: 1px solid white;
-            }
+        
+        .item-editor-sidebar{
+            border-top : 1px solid white;
+            padding : 10px 0;
         }
     }
-    .apip-ordering{
-        .order-list{
-            .order-element{
-                width:100%;
-                padding : 10px;
-                margin : 10px 0px;
-                position :relative;
-                padding : 0px 10px 0px 36px;
-                width:346px;
-                .information{
-                    .order{
-                        position: absolute;
-                        top : 16px;
-                        left: 7px;
-                        font-weight: bold;
-                        border-radius: 50%;
-                        border : 1px solid #eee;
-                        width:22px;
-                        height:22px;
-                        text-align:center;
-                        &:after{
-                            content : '.'
-                        }
+    .order-list{
+        .order-element{
+            width:100%;
+            padding : 10px;
+            margin-bottom : 10px;
+            position :relative;
+            padding : 0px 10px 0px 36px;
+            width:346px;
+            .information{
+                .order{
+                    position: absolute;
+                    top : 16px;
+                    left: 7px;
+                    font-weight: bold;
+                    border-radius: 50%;
+                    border : 1px solid $canvas;
+                    width:22px;
+                    height:22px;
+                    text-align:center;
+                    background: $canvas;
+                    &:after{
+                        content : '.'
                     }
                 }
+            }
+            .content{
+                cursor : move;
+                border : 1px solid #DDD;
+                padding: 16px;
+            }
+            &.ui-sortable-helper{
                 .content{
-                    border : 1px solid #DDD;
-                    padding: 16px;
+                    background: whiten($canvas, .5);
+                    border-color: whiten($info, .7);
+                }
+                .order{
+                    color: whiten($info, .3);
+                    font-weight: bold;
                 }
             }
         }
@@ -230,6 +228,7 @@
             cursor : default;
             color: whiten($info, .9);
             padding-right:5px;
+            font-weight: bold;
         }
         .select2-choice{
             background-color: whiten($info, .9);
@@ -254,7 +253,7 @@
                 display:none;
             }
         }
-        .apip-ordering .order-list .order-element{
+        .order-list .order-element{
             width:258px;
         }
     } 

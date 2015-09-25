@@ -37,26 +37,7 @@ use oat\tao\helpers\Template;
             <div class="action-bar content-action-bar horizontal-action-bar">
             </div>
             <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
-                <div class="sidebar-right-section-box apip-ordering">
-                    <ul class="plain order-list">
-                        <li class="order-element" data-order="1">
-                            <span class="information">
-                                <span class="order">1</span>
-                            </span>
-                            <div class="content truncate">
-                                Identify the missing word in this famous quote from Shakespeare's Richard III.
-                            </div>
-                        </li>
-                        <li class="order-element" data-order="2">
-                            <span class="information">
-                                <span class="order">2</span>
-                            </span>
-                            <div class="content truncate">
-                                Now is the winter of our discontent Made glorious summer by this sun of...
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <div class="sidebar-right-section-box" id="apip-ordering"></div>
             </div>
         </div>
         <!-- /right sidebar -->

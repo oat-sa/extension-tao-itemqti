@@ -22,9 +22,10 @@ define([
     'ui/feedback',
     'taoQtiItem/apipCreator/api/apipItem',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'taoQtiItem/apipCreator/editor/inclusionOrderListing',
     'taoQtiItem/apipCreator/editor/qtiElementSelector',
     'taoQtiItem/apipCreator/editor/formBuilder'
-], function($, helpers, feedback, ApipItem, inclusionOrderSelector, qtiElementSelector, formBuilder){
+], function($, helpers, feedback, ApipItem, inclusionOrderSelector, inclusionOrderListing, qtiElementSelector, formBuilder){
     
     var _ns = '.apip-creator';
     
@@ -42,6 +43,10 @@ define([
 
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
         inclusionOrderSelector.render(this.$container.find('.right-bar .action-bar'), this.inclusionOrderType);
+    };
+    
+    ApipCreator.prototype.initInclusionOrderListing = function initInclusionOrderListing(){
+        inclusionOrderListing.render(this.$container.find('#apip-ordering'), []);
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
