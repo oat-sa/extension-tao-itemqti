@@ -41,7 +41,7 @@ define([
     };
 
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
-        inclusionOrderSelector.render(this.$container.find('.item-editor-action-bar'), this.inclusionOrderType);
+        inclusionOrderSelector.render(this.$container.find('.right-bar .action-bar'), this.inclusionOrderType);
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
@@ -99,8 +99,7 @@ define([
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
             
-        }).on('destroy.apip-from', function(){
-            
+        }).on('destroy.apip-form', function(){
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();
