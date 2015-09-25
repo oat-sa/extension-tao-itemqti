@@ -157,8 +157,10 @@ define([
             accessElementInfoNodes = this.apipItem.xpath("apip:relatedElementInfo/*", this.data);
 
         _.forEach(accessElementInfoNodes, function (accessElementInfoNode) {
+            var aeInfo;
             if (!accessElementInfoType || accessElementInfoType === accessElementInfoNode.localName) {
-                result.push(new AccessElementInfo(that.apipItem, accessElementInfoNode));
+                aeInfo = new AccessElementInfo(that.apipItem, accessElementInfoNode);
+                result.push(aeInfo);
             }
         });
 

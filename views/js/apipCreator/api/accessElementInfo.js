@@ -24,7 +24,9 @@ define([
     'use strict';
 
     function AccessElementInfo(apipItem, node, accessElementInfoType, options) {
+        this.pristine = false;
         if (!node) {
+            this.pristine = true;
             node = this.createXMLNode(apipItem, accessElementInfoType, options);
         }
         authoringObject.init(this, apipItem, node);

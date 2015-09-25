@@ -130,8 +130,9 @@ class ApipCreator extends tao_actions_CommonModule
             $itemDoc = new DOMDocument('1.0', 'UTF-8');
             $itemDoc->loadXML($xml);
             $itemDoc = Apip::extractQtiModel($itemDoc);
-            
-            $xml = Authoring::validateQtiXml($itemDoc->saveXML());
+
+            $xml = Authoring::sanitizeQtiXml($itemDoc->saveXML());
+            Authoring::validateQtiXml($xml);
 
             return $itemService->setItemContent($rdfItem, $xml);
         }

@@ -93,15 +93,16 @@ define([
     /**
      * Build the popup container for the $form and bind it to the $anchor
      * 
-     * @param {JQuery} $anchor
-     * @param {JQuery} $formContent
+     * @param {jQuery} $anchor
+     * @param {jQuery} $formContent
      * @returns {Object} the created popup
      */
     function _buildPopup($anchor, $formContent){
         return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
             content : $formContent,
             controls : {
-                done: true
+                done : true,
+                cancel : true
             },
             style : {
                 popupWidth : 750
@@ -146,6 +147,7 @@ define([
             } else {
                 aeInfo = aeInfo[0];
             }
+            console.log(aeInfo.pristine);
         } else {
             throw 'unknown type of inclusionOrderType';
         }
