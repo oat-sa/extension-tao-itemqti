@@ -17,6 +17,7 @@
  *
  */
 define([
+    'lodash',
     'jquery',
     'helpers',
     'ui/feedback',
@@ -25,7 +26,7 @@ define([
     'taoQtiItem/apipCreator/editor/inclusionOrderListing',
     'taoQtiItem/apipCreator/editor/qtiElementSelector',
     'taoQtiItem/apipCreator/editor/formBuilder'
-], function($, helpers, feedback, ApipItem, inclusionOrderSelector, inclusionOrderListing, qtiElementSelector, formBuilder){
+], function(_, $, helpers, feedback, ApipItem, inclusionOrderSelector, inclusionOrderListing, qtiElementSelector, formBuilder){
     
     var _ns = '.apip-creator';
     
@@ -46,7 +47,27 @@ define([
     };
     
     ApipCreator.prototype.initInclusionOrderListing = function initInclusionOrderListing(){
-        inclusionOrderListing.render(this.$container.find('#apip-ordering'), []);
+        var orders = this.apipItem.getAccessElementsByInclusionOrder(this.inclusionOrderType);
+        var _orders = _.map(orders, function(ae) {
+            
+            var content, 
+                qtiElement,
+                qtiElementSerial,
+                qtiElements = ae.getQtiElements();
+                
+            if (qtiElements.length) {
+                //@todo render it
+                qtiElement = qtiElements[0];
+                content = $(qtiElement.data).text().trim();
+                qtiElementSerial = qtiElement.getAttribute('serial');
+            }
+            return {
+                id : ae.getAttribute('identifier'),
+                content : content,
+                qti : qtiElementSerial
+            };
+          });
+        inclusionOrderListing.render(this.$container.find('#apip-ordering'), _orders);
     };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
@@ -105,12 +126,18 @@ define([
             self.refreshVisualApipFeatures();
             
         }).on('destroy.apip-form', function(){
+            
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();
             }
             //@todo could be improved by only listening to event of new access element info deletion
             self.refreshVisualApipFeatures();
+        
+        }).on('change.inclusion-order-listing', function(e, aeOrder, qtiOrder){
+            console.log(aeOrder, qtiOrder);
+            //@todo save aeOrder in current inclusionOrderType
+            
         });
     };
     

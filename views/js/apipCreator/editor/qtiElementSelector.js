@@ -116,7 +116,9 @@ define([
 
         var selectorBody = _renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
-
+        
+        //@todo listen to ordering elements
+        
         //make it also selectable:
         return selectable($container);
     }

@@ -1,6 +1,6 @@
 <ol class="plain order-list">
     {{#each elements}}
-        <li class="order-element" data-order="{{order}}" data-id="{{id}}">
+        <li class="order-element" data-order="{{order}}" data-id="{{id}}" data-qti="{{qti}}">
             <span class="information">
                 <span class="order">{{order}}</span>
             </span>
