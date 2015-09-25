@@ -206,3 +206,12 @@
         }
     }
 }
+
+@media (max-width: 1280px) {
+    #apip-creator-scope .item-editor-action-bar #item-editor-label {
+        text-align: right;
+        width: 40%;
+        left: auto;
+        right: 20px;
+    }
+}
