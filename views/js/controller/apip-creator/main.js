@@ -20,7 +20,8 @@ define([
     'lodash',
     'module',
     'history',
-    'taoQtiItem/apipCreator/apipCreator'
+    'taoQtiItem/apipCreator/apipCreator',
+    'xmlEdit/editor'
 ], function(
     $,
     _,
@@ -55,6 +56,16 @@ define([
             apipCreator.initInclusionOrderSelector();
             apipCreator.initQtiElementSelector();
             apipCreator.initEvents();
+            
+            //init hooks
+            if(_.isArray(config.hooks)){
+                _.each(config.hooks, function(hookAmd){
+                    require([hookAmd], function(hook){
+                        hook.init(apipCreator);
+                    });
+                });
+            }
+            
         }
     };
 });

@@ -64,10 +64,10 @@ class ApipCreator extends tao_actions_CommonModule
 
             //base url:
             $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem',
-                    array(
+                array(
                     'uri' => $itemUri,
                     'lang' => $lang
-                    )
+                )
             );
             $config->setProperty('baseUrl', $url.'&relPath=');
 
@@ -100,7 +100,7 @@ class ApipCreator extends tao_actions_CommonModule
         }
         $this->returnJson($returnValue);
     }
-    
+
     /**
      * Get the XML string for an complete QTI APIP item
      *
@@ -115,10 +115,10 @@ class ApipCreator extends tao_actions_CommonModule
         $itemDoc     = $apipService->getMergedApipItemContent($rdfItem, $lang);
         return $itemDoc->saveXML();
     }
-    
+
     /**
      * Store the complete QTI item XML
-     * 
+     *
      * @param core_kernel_classes_Resource $rdfItem
      * @param string $lang
      * @param string $xml
@@ -136,13 +136,13 @@ class ApipCreator extends tao_actions_CommonModule
 
             return $itemService->setItemContent($rdfItem, $xml);
         }
-        
+
         return false;
     }
-    
+
     /**
      * Store the complete QTI APIP item XML
-     * 
+     *
      * @param core_kernel_classes_Resource $rdfItem
      * @param string $lang
      * @param string $xml

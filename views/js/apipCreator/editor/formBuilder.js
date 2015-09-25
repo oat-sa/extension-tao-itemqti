@@ -131,14 +131,16 @@ define([
         var ae,
             aeInfo,
             aeInfoType = inclOrder.accessElementInfo.type,
-            aeInfoOptions = inclOrder.accessElementInfo.options;
+            aeInfoOptions = inclOrder.accessElementInfo.options,
+            inclusionOrder;
 
         if (aeInfoType) {
             ae = qtiElement.getAccessElementByInclusionOrder(inclusionOrderType);
             if (!ae) {
                 //does not exist ? create one
                 ae = qtiElement.createAccessElement();
-                ae.setInclusionOrder(inclusionOrderType, 0);
+                inclusionOrder = ae.apipItem.getAccessElementsByInclusionOrder(inclusionOrderType);
+                ae.setInclusionOrder(inclusionOrderType, inclusionOrder.length);
             }
             aeInfo = ae.getAccessElementInfo(aeInfoType);
             if (!aeInfo) {
