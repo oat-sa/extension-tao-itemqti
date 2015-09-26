@@ -23,8 +23,9 @@ define([
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElement',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo',
     'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo',
-    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function (_, $, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector) {
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'taoQtiItem/apipCreator/editor/form/formHelper'
+], function (_, $, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector, formHelper) {
     'use strict';
 
     var _ns = '.form-builder';
@@ -111,6 +112,13 @@ define([
                 beforeDone : function () {
                     var formView = $formContent.data('form-instance');
                     return formView.validator.validate();
+                },
+                beforeDestroy : function () {
+                    var formView = $formContent.data('form-instance');
+                    if (formView.accessElementInfo.pristine) {
+                        formHelper.removeAssociatedAccessElement(formView);
+                    }
+                    return true;
                 }
             }
         });
@@ -149,7 +157,6 @@ define([
             } else {
                 aeInfo = aeInfo[0];
             }
-            console.log(aeInfo.pristine);
         } else {
             throw 'unknown type of inclusionOrderType';
         }

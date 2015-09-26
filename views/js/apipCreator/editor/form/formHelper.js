@@ -74,21 +74,32 @@ define([
                 value = $input.val();
 
             aeInfo.setAttribute(name, value);
-            
+
             $input.trigger('change'+_ns, [aeInfo, name, value]);
         });
 
         $container.on('click', '.delete', function () {
-            var ae = aeInfo.getAssociatedAccessElement();
-            aeInfo.remove();
-            ae.removeInclusionOrder(inclusionOrderSelector.getValue());
-
-            if (ae.getAccessElementInfo() === null) {
-                ae.remove();
-            }
+            removeAssociatedAccessElement(formInstance);
             feedback().info('Access element removed.');
             $container.trigger('destroy'+_ns);
         });
+    }
+
+    /**
+     * Remove access element
+     * @param {object} formInstance
+     */
+    function removeAssociatedAccessElement(formInstance) {
+        var aeInfo = formInstance.accessElementInfo;
+
+        var ae = aeInfo.getAssociatedAccessElement();
+
+        aeInfo.remove();
+        ae.removeInclusionOrder(inclusionOrderSelector.getValue());
+
+        if (ae.getAccessElementInfo() === null) {
+            ae.remove();
+        }
     }
 
     /**
@@ -141,6 +152,7 @@ define([
         getAttributeValue : getAttributeValue,
         initEvents : initEvents,
         initValidator : initValidator,
-        initResourceMgr : initResourceMgr
+        initResourceMgr : initResourceMgr,
+        removeAssociatedAccessElement : removeAssociatedAccessElement
     };
 });

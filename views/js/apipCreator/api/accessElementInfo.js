@@ -80,6 +80,7 @@ define([
                 } else {
                     node.innerHTML = value;
                 }
+                this.pristine = false;
                 result = value;
             }
         }    
