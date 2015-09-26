@@ -111,6 +111,7 @@ define([
             callbacks : {
                 beforeDone : function () {
                     var formView = $formContent.data('form-instance');
+                    formView.accessElementInfo.pristine = false;
                     return formView.validator.validate();
                 },
                 beforeDestroy : function () {

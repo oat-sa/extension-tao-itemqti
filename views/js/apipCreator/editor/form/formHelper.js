@@ -90,15 +90,15 @@ define([
      * @param {object} formInstance
      */
     function removeAssociatedAccessElement(formInstance) {
-        var aeInfo = formInstance.accessElementInfo;
+        var aeInfo = formInstance.accessElementInfo,
+            ae = aeInfo.getAssociatedAccessElement();
 
-        var ae = aeInfo.getAssociatedAccessElement();
-
-        aeInfo.remove();
-        ae.removeInclusionOrder(inclusionOrderSelector.getValue());
-
-        if (ae.getAccessElementInfo() === null) {
-            ae.remove();
+        if (ae) {
+            aeInfo.remove();
+            ae.removeInclusionOrder(inclusionOrderSelector.getValue());
+            if (ae.getAccessElementInfo() === null) {
+                ae.remove();
+            }
         }
     }
 

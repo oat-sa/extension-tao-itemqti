@@ -48,7 +48,9 @@ define([
      * @returns {undefined}
      */
     AccessElementInfo.prototype.remove = function remove() {
-        this.data.parentNode.removeChild(this.data);
+        if (this.data.parentNode) {
+            this.data.parentNode.removeChild(this.data);
+        }
     };
 
     /**
