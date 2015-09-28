@@ -87,7 +87,7 @@ define([
 
         //setting up the width of the input field
         if(attributes.expectedLength){
-            $el.css('width', parseInt(attributes.expectedLength) + 'em');
+            $el.css('width', parseInt(attributes.expectedLength) + 'ch');
         }
 
         //checking if there's a pattern mask for the input
