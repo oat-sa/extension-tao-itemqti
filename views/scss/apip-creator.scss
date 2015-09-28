@@ -33,7 +33,7 @@
             border : 1px solid #EEE;
             padding : 11px 21px;
             margin : 4px;
-
+            
             &.hover{
                 padding : 10px 20px;
                 border-width:2px;
@@ -173,7 +173,7 @@
         position: relative;
         background-color: mix(#fff, $grey, 85%);
         @include flex-container();
-
+        
         .item-editor-item {
             position : relative;
             [class*=" col-"], [class^="col-"] {
@@ -189,13 +189,18 @@
         border-left: 1px solid white;
         background: $canvas;
         position: relative;
-
+        
         @include simple-flex-box(195px);
-
-        .item-editor-sidebar{
-            border-top : 1px solid white;
-            padding : 10px 0;
-        }
+        
+        &.right-bar{
+            .action-bar{
+                width:360px;
+            }
+            .item-editor-sidebar{
+                border-top : 1px solid white;
+                padding : 10px 0;
+            }
+        } 
     }
     .order-list{
         .order-element{
