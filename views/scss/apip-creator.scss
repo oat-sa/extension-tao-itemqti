@@ -194,7 +194,7 @@
         
         &.right-bar{
             .action-bar{
-                width:360px;
+                width:370px;
             }
             .item-editor-sidebar{
                 border-top : 1px solid white;
@@ -209,7 +209,7 @@
             margin-bottom : 10px;
             position :relative;
             padding : 0px 10px 0px 36px;
-            width:346px;
+            width:370px;
             .information{
                 .order{
                     position: absolute;
@@ -231,10 +231,13 @@
                 cursor : move;
                 border : 1px solid #DDD;
                 padding: 16px;
+                &:hover{
+                    background: whiten($canvas, .3);
+                }
             }
             &.ui-sortable-helper{
                 .content{
-                    background: whiten($canvas, .5);
+                    background: whiten($canvas, .6);
                     border-color: whiten($info, .7);
                 }
                 .order{
@@ -271,13 +274,13 @@
             right: 20px;
         }
         .item-editor-sidebar-wrapper.right-bar .action-bar{
-            width:260px;
+            width:270px;
             label[for=inclusionOrder]{
                 display:none;
             }
         }
         .order-list .order-element{
-            width:258px;
+            width:265px;
         }
     } 
 }
