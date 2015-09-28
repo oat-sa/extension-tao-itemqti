@@ -135,9 +135,13 @@ define([
             self.refreshVisualApipFeatures();
         
         }).on('change.inclusion-order-listing', function(e, aeOrder, qtiOrder){
-            console.log(aeOrder, qtiOrder);
-            //@todo save aeOrder in current inclusionOrderType
+            var i = 1;
+            _.each(aeOrder, function(id){
+                var ae = self.apipItem.getAccessElementByAttr('identifier', id);
+                ae.setInclusionOrder(self.inclusionOrderType, i++);
+            });
             
+            self.refreshVisualApipFeatures();
         });
     };
     
