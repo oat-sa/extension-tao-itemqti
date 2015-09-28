@@ -38,10 +38,9 @@ define([
             };
         });
         
-        $container.append(listTpl({
+        $container.empty().append(listTpl({
             elements:_elements
         }));
-        console.log(_elements);
         var $sortable = $container.children('.order-list');
         $sortable.sortable({
             axis : 'y',

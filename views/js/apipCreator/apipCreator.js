@@ -124,6 +124,7 @@ define([
             //refresh the vial apip features here because a new access element might have been created when init the form
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
+            self.initInclusionOrderListing();
             
         }).on('destroy.apip-form', function(){
             
@@ -133,7 +134,8 @@ define([
             }
             //@todo could be improved by only listening to event of new access element info deletion
             self.refreshVisualApipFeatures();
-        
+            self.initInclusionOrderListing();
+            
         }).on('change.inclusion-order-listing', function(e, aeOrder, qtiOrder){
             var i = 1;
             _.each(aeOrder, function(id){
