@@ -23,8 +23,23 @@ define([
 ], function (_, authoringObject, registry) {
     'use strict';
 
+    /**
+     * Access element info constructor.
+     * @param {object} apipItem
+     * @param {domElement} node - XML node
+     * @param {string} accessElementInfoType - Type of AccessElementInfo (e.g. 'spoken', 'signing')
+     * @param options
+     * @constructor
+     */
     function AccessElementInfo(apipItem, node, accessElementInfoType, options) {
+        
+        /**
+         * Whether this object has initial data and data was not changed.
+         * @name AccessElementInfo#pristine
+         * @type Boolean
+         */
         this.pristine = false;
+
         if (!node) {
             this.pristine = true;
             node = this.createXMLNode(apipItem, accessElementInfoType, options);
@@ -35,9 +50,9 @@ define([
     /**
      * Create xml node of appropriate type.
      * @param {object} apipItem - ApipItem creator api instance {@link package-tao\taoQtiItem\views\js\apipCreator\api\apipItem.js}
-     * @param {string} accessElementInfoType
+     * @param {string} accessElementInfoType - Type of AccessElementInfo (e.g. 'spoken', 'signing')
      * @param {object} options
-     * @returns {Object} created XML node
+     * @returns {domElement} created XML node
      */
     AccessElementInfo.prototype.createXMLNode = function createXMLNode(apipItem, accessElementInfoType, options) {
         return this.getImplementation(accessElementInfoType).createXMLNode(apipItem, options);

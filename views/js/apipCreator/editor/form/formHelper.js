@@ -38,7 +38,7 @@ define([
      * Otherwise qti element content (text) will be returned.
      * 
      * @param {object} formInstance
-     * @param {atring} attributeName
+     * @param {string} attributeName
      * @returns {string}
      */
     function getAttributeValue(formInstance, attributeName) {
@@ -60,28 +60,34 @@ define([
     /**
      * Initialize access element info authoring form.
      * @param {object} formInstance
-     * @param {jQueryElement} $container
+     * @param {jQuery} $container
      * @fires change.apip-form
      * @fires delete.apip-form
      * @returns {undefined}
      */
     function initEvents(formInstance, $container) {
-        var aeInfo = formInstance.accessElementInfo;
+        $container.on('click', '.delete', function () {
+            removeAssociatedAccessElement(formInstance);
+            feedback().info('Access element removed.');
+            $container.trigger('destroy'+_ns);
+        });
+    }
 
-        $container.on('change', 'input,textarea,select', function () {
+    /**
+     * Save Access element info
+     * @param {jQuery} $container
+     * @returns {undefined}
+     */
+    function saveForm($container) {
+        var formInstance = $container.data('formInstance'),
+            aeInfo = formInstance.accessElementInfo;
+
+        $container.find('input,textarea,select').each(function () {
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
 
             aeInfo.setAttribute(name, value);
-
-            $input.trigger('change'+_ns, [aeInfo, name, value]);
-        });
-
-        $container.on('click', '.delete', function () {
-            removeAssociatedAccessElement(formInstance);
-            feedback().info('Access element removed.');
-            $container.trigger('destroy'+_ns);
         });
     }
 
@@ -153,6 +159,7 @@ define([
         initEvents : initEvents,
         initValidator : initValidator,
         initResourceMgr : initResourceMgr,
+        saveForm : saveForm,
         removeAssociatedAccessElement : removeAssociatedAccessElement
     };
 });
