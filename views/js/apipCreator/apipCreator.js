@@ -80,11 +80,6 @@ define([
                 throw 'qti element not found in the apipItem model';
             }
 
-        }).on('done.contextual-popup', function(){
-            //done editing
-            //blur the current selected element
-            //self.elementSelector.deactivate();
-
         }).on('formready.form-builder', function(){
 
             //refresh the vial apip features here because a new access element might have been created when init the form
