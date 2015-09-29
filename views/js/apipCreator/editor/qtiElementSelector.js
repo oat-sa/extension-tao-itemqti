@@ -36,27 +36,90 @@ define([
         math : function (){
             return '<math>' + this.innerHTML + '</math>';
         },
-        inlinePlaceholder : function (){
-            return '<span class="element-placeholder">' + this.tagName + '</span>';
+        inlinePlaceholder : function (data){
+            return '<span class="element-placeholder">' + data.label + '</span>';
         }
     };
 
     var _selectables = [
         {qtiClass : 'itemBody', label : 'item body', inline : false},
-        {qtiClass : 'caption', label : 'caption', inline : true},
+        //xhtml
+        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'caption', label : 'span', inline : true},
+        {qtiClass : 'ol', label : 'span', inline : false},
+        {qtiClass : 'li', label : 'span', inline : false},
+        {qtiClass : 'object', label : 'span', inline : false},
+        {qtiClass : 'a', label : 'span', inline : true},
+        {qtiClass : 'abbr', label : 'span', inline : true},
+        {qtiClass : 'acronym', label : 'span', inline : true},
+        {qtiClass : 'b', label : 'span', inline : true},
+        {qtiClass : 'big', label : 'span', inline : true},
+        {qtiClass : 'cite', label : 'span', inline : true},
+        {qtiClass : 'code', label : 'span', inline : true},
+        {qtiClass : 'dfn', label : 'span', inline : true},
         {qtiClass : 'div', label : 'div', inline : false},
+        {qtiClass : 'em', label : 'span', inline : true},
+        {qtiClass : 'i', label : 'span', inline : true},
         {qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
+        {qtiClass : 'kbd', label : 'span', inline : true},
+        {qtiClass : 'p', label : 'p', inline : false},
+        {qtiClass : 'q', label : 'span', inline : true},
+        {qtiClass : 'samp', label : 'span', inline : true},
+        {qtiClass : 'small', label : 'span', inline : true},
         {qtiClass : 'span', label : 'span', inline : true},
+        {qtiClass : 'strong', label : 'span', inline : true},
+        {qtiClass : 'sub', label : 'span', inline : true},
+        {qtiClass : 'sup', label : 'span', inline : true},
+        {qtiClass : 'table', label : 'span', inline : false},
+        {qtiClass : 'tt', label : 'span', inline : true},
+        {qtiClass : 'var', label : 'span', inline : true},
+        {qtiClass : 'blockquote', label : 'span', inline : false},
+        {qtiClass : 'address', label : 'span', inline : false},
+        {qtiClass : 'h1', label : 'span', inline : false},
+        {qtiClass : 'h2', label : 'span', inline : false},
+        {qtiClass : 'h3', label : 'span', inline : false},
+        {qtiClass : 'h4', label : 'span', inline : false},
+        {qtiClass : 'h5', label : 'span', inline : false},
+        {qtiClass : 'h6', label : 'span', inline : false},
+        {qtiClass : 'pre', label : 'span', inline : false},
+        //interactions
         {qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
+        {qtiClass : 'associateInteraction', label : 'associate interaction', inline : false},
+        {qtiClass : 'orderInteraction', label : 'order interaction', inline : false},
+        {qtiClass : 'matchInteraction', label : 'match interaction', inline : false},
+        {qtiClass : 'hottextInteraction', label : 'hottext interaction', inline : false},
+        {qtiClass : 'gapMatchInteraction', label : 'gap match interaction', inline : false},
+        {qtiClass : 'mediaInteraction', label : 'media interaction', inline : false},
+        {qtiClass : 'sliderInteraction', label : 'slider interaction', inline : false},
+        {qtiClass : 'uploadInteraction', label : 'upload interaction', inline : false},
+        {qtiClass : 'drawingInteraction', label : 'drawing interaction', inline : false},
+        {qtiClass : 'hotspotInteraction', label : 'hotspot interaction', inline : false},
+        {qtiClass : 'graphicAssociateInteraction', label : 'graphic associate interaction', inline : false},
+        {qtiClass : 'graphicOrderInteraction', label : 'graphic order interaction', inline : false},
+        {qtiClass : 'graphicGapMatchInteraction', label : 'graphic gap match interaction', inline : false},
+        {qtiClass : 'selectPointInteraction', label : 'select point interaction', inline : false},
+        {qtiClass : 'extendedTextInteraction', label : 'extended text interaction', inline : false},
+        {qtiClass : 'endAttemptInteraction', label : 'end attempt interaction', inline : false},
+        {qtiClass : 'customInteraction', label : 'custom interaction', inline : false},
         {qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
         {qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
         {qtiClass : 'prompt', label : 'prompt', inline : false},
+        //choices
+        {qtiClass : 'gap', label : 'gap', inline : true},
+        {qtiClass : 'gapImg', label : 'gap image', inline : true},
+        {qtiClass : 'gapText', label : 'gap text', inline : true},
+        {qtiClass : 'hottext', label : 'hottext', inline : true},
+        {qtiClass : 'inlineChoice', label : 'choice', inline : false},
+        {qtiClass : 'simpleAssociableChoice', label : 'choice', inline : false},
         {qtiClass : 'simpleChoice', label : 'choice', inline : false},
-        {qtiClass : 'p', label : 'p', inline : false},
-        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'textEntry', label : 'text antry', inline : true},
+        {qtiClass : 'hottext', label : 'hottext', inline : true},
+        //others
+        {qtiClass : '_container', label : 'text block', inline : false},
+        {qtiClass : 'infoControl', label : 'info control', inline : false},
         {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
-    
+
     /**
      * Wrap each element listed in _selectables with a specific decorated wrapper
      * and return the rendered html
@@ -80,7 +143,7 @@ define([
 
             //render inner content:
             if(model.renderer){
-                tplData.content = model.renderer.call(elementNode);
+                tplData.content = model.renderer.call(elementNode, tplData);
             }else{
                 _.each(elementNode.childNodes, function (node){
                     if(node.nodeType === 3 && node.data.trim()){
@@ -104,7 +167,7 @@ define([
 
         return rendering;
     }
-    
+
     /**
      * Initialize the selector of an itemBody XML dom object adn bind events to interact with it
      * 
@@ -169,7 +232,7 @@ define([
                 activateElement($element, $container);
             }
 
-        }).on('click'+_ns, function(){
+        }).on('click' + _ns, function (){
             deactivateElement($currentActive, $container);
         });
 
@@ -186,7 +249,7 @@ define([
             }
         };
     }
-    
+
     /**
      * Add css classes to elements that has a defined apip feature 
      * that is being used in the given inclusionOrder
@@ -222,7 +285,7 @@ define([
             }
         });
     }
-    
+
     /**
      * Remove all added classes set by 
      * @param {type} $container
