@@ -84,22 +84,20 @@ define([
             var qti = $helper.data('qti');
             var qtiOrder = [];
             var aeOrder = [];
-            var i = 1;
             
-            $sortable.children('.order-element').not('.ui-sortable-helper').each(function(){
+            $sortable.children('.order-element').not('.ui-sortable-helper').each(function(i){
                 
                 var $li = $(this);
-                
+                var index = i+1;
                 if($li.hasClass('ui-sortable-placeholder')){
                     $li = $helper;
                 }
-                $li.data('order', i);
-                $li.find('.order').html(i);
+                $li.data('order', index);
+                $li.find('.order').html(index);
 
                 aeOrder.push($li.data('id'));
                 qtiOrder.push($li.data('qti'));
                 
-                i++;
             });
 
             return {
