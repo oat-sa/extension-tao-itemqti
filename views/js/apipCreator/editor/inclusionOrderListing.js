@@ -65,6 +65,11 @@ define([
             }
         }).disableSelection();
         
+        $sortable.on('click'+_ns, '.content', function(){
+            var $orderElement = $(this).parent('.order-element');
+            $container.trigger('selected'+_ns, [$orderElement.data('id'), $orderElement.data('qti')]);
+        });
+        
         function getSortingData(ui){
             
             var $helper = $(ui.helper);

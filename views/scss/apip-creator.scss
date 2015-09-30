@@ -245,11 +245,14 @@ $active : whiten($info, .2);
                 }
             }
             .content{
-                cursor : move;
+                cursor : pointer;
                 border : 1px solid $uiGeneralContentBorder;
                 padding: 16px;
                 &:hover{
                     background: whiten($canvas, .3);
+                }
+                &:active{
+                    cursor : move;
                 }
             }
             &.ui-sortable-helper{

@@ -153,6 +153,10 @@ define([
         }).on('stop.inclusion-order-listing', function(e, aeOrder, qtiOrder, ae, qti){
             
             $container.find('.element').filter('[data-serial='+qti+']').removeClass('sorting');
+            
+        }).on('selected.inclusion-order-listing', function(e, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').click();
         });
     };
     
