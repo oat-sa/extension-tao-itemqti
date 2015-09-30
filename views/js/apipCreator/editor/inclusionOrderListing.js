@@ -60,8 +60,15 @@ define([
             stop : function(e, ui){
                 var data = getSortingData(ui);
                 $container.trigger('stop'+_ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
+                
+                //reset internal values
                 currentQti = null;
                 currentAe = null;
+                
+                //prevent click after the drag stops
+                $(ui.item).children('.content').one('click', function(e){
+                    e.stopImmediatePropagation();
+                });
             }
         }).disableSelection();
         
@@ -77,11 +84,12 @@ define([
             var qti = $helper.data('qti');
             var qtiOrder = [];
             var aeOrder = [];
-
-            $sortable.children('.order-element').not('.ui-sortable-helper').each(function(i){
+            var i = 1;
+            
+            $sortable.children('.order-element').not('.ui-sortable-helper').each(function(){
 
                 var $li = $(this);
-                var index = i+1;
+                var index = i++;
 
                 if($li.hasClass('ui-sortable-placeholder')){
                     $li = $helper;
