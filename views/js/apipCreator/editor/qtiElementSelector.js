@@ -167,7 +167,9 @@ define([
 
             e.stopPropagation();
             var $element = $(this);
-            if(!$element.hasClass('active')){
+            if($element.hasClass('active')){
+                deactivateElement($element, $container);
+            }else{
                 activateElement($element, $container);
             }
 
