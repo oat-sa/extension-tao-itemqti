@@ -1,5 +1,9 @@
 @import "inc/bootstrap";
 
+$featured : #aaa;
+$hover : whiten($info, .7);
+$active : whiten($info, .2);
+
 #apip-creator-scope{
     .item-editor-action-bar{
         position:relative;
@@ -26,39 +30,40 @@
             }
             margin-right:10px;
         }
-        .inclusion-order-container{
-            position: absolute;
-            right: 5px;
-            label{
-                cursor : default;
-                color: whiten($info, .9);
-                padding-right:5px;
-            }
-            .select2-choice{
-                background-color: whiten($info, .9);
-            }
-            .select2-dropdown-open .select2-choice{
-                background-color: white;
-            }
-        }
     }
     .qti-element-selector{
         .element{
             position:relative;
             border : 1px solid #EEE;
-            padding : 11px;
+            padding : 11px 21px;
             margin : 4px;
-            
             &.hover{
-                padding : 10px;
+                padding : 10px 20px;
                 border-width:2px;
-                border-color: whiten($info, .7);
+                border-color: $hover;
                 cursor:pointer;
+                & > .information > .order.fill{
+                    border-color: $hover;
+                    color : $hover;
+                }
             }
             &.active{
-                padding : 10px;
+                padding : 10px 20px;
                 border-width:2px;
-                border-color: whiten($info, .2);
+                border-color: $active;
+                & > .information > .order.fill{
+                    border-color: $active;
+                    color : $active;
+                }
+            }
+            &.sorting{
+                & > .information > .order.fill{
+                    width: 30px;
+                    height: 30px;
+                    left: -34px;
+                    top: -18px;
+                    padding: 2px;
+                }
             }
             &.qti-img {
                 display: inline-block;
@@ -68,15 +73,29 @@
                 .label{
                     position:relative;
                 }
+                .order.fill{
+                    position: absolute;
+                    left: -32px;
+                    top: -16px;
+                    width: 26px;
+                    height: 26px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background: white none repeat scroll 0% 0%;
+                    padding: 1px;
+                    border: 2px solid $featured;
+                    color : $featured;
+                    font-weight : bold;
+                }
             }
             .element-placeholder{
                 display:inline-block;
             }
         }
         [class*=" apip-feature-info-"], [class^="apip-feature-info-"]{
-            padding : 10px;
+            padding : 10px 20px;
             border-width:2px;
-            border-color : #AAA;
+            border-color : $featured;
         }
     }
     .contextual-popup{
@@ -151,7 +170,7 @@
         padding: 0px;
         background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAAAAAA7VNdtAAAFQElEQVR42iXWW45kSREEUDN/xM3M6h4GJCT2vyl2gVBPV1XeCHc3PjirOPFvQE0HWecC3rZ4D9JFcpqSEy4MRO2Cw6M7y6xFY/xaz9fuThJGVSVNpvK7jL3Ggoyp4NsDzjd8dYJS+H8/HtNCo1HjRoNxoto8Wj1xntjG41srvQ7S67JC9UN30vz3snNpfBrEyNaOi5g3ctJFeluZra4rgwJIpMema9qCmEWtsK/I+fpbeDfSXe+AlQMoSxlwreFXRifYhNd4DL6erzoImTTg83iJFbCoM2Z3QqoGeLSmix3Hcvp11yzyax6ujkMEaV02MD/xYB1j2/SoK+IOi738OidmWCrfzwa2zy975XQeOMxNu1+kFS2esEGHrU+vR48LNyVTyQnrz4WK6oVmkaProfD3o1bvRcfywb4/Xsf9IBi70Ethc9qdj2dJXrNiazeN1XDJ+rdbtHkNE/b6/v6JAALjhrn1YHy9A68JGAQCZ/IfIMyaz7OZZjjBQbg0mo3Hd8RnXKSp348L3cdc+6qF6ePCvPPPniFkFIka9P7jn9GVhx5WeT7jB+qOmTRD0xzec/OaovsMn1/TDyBk8/2Rfnq5E0debzcsHwgqNNkS2ylitYcsytui5a14jaCrYp1kjxPHTa/9zqRGxOd6lqgw79pJoX01SPCpW1edJSW3aiwJVifmfk77O1Lx6ESH4Nh5m8e46RzDxYMnzLBd49Lj7u44gRtXb99uRqoTJlicX/FY7O1mU2QjOfIXH7/19zhujmIxUeU+Y1QKf6YTLa8Oo6YHwLmkaAszyLJfczoMUJK0Ssfo6KM+OetMDtBI2/NUhw3uDJi2X7px2XGNqcjTafYRezNhNrERruMnbpiZXFwxjBmQaEouS1RfvtrwJmjhkNe7Yruln4DMBIEDOQ4uFA/O9jLTjJs1j7tcEYZK2NhqsD6f+5rqyB4ddCnj/R2ewSHpjuOPHdf00AChWR4EYtu0hRXEq97FqHFqbFTz/FZs9/eHVIYJpKPdeVdYw/DE8AKNFyGU7E7MBFDZ5kQ1zX0KzEDPwC7zz35dN4ygpi67/DaP19ij7ycgo6M3hZOvrnzPC4pq0F0wFaCAeYWFYFadZibt79fomJg38vbsoV2ghpuL3RO00EC6vjsc1sRrlaJbpnTUODAa2poFTr0XnfHuH7qtftuDGJPB5vfPPM6AQou7fIzWM4p4XMDEG2D1j8Bk70tqWVqbOzTHDco5l4rs4RA8O5aG6z62mfY6CIgvb8OACvvGIgC1Qx7Y1ExcLWmlHb0t8QBcYYAoeY/Y5t7lbY9uu+7xZwANoTKzaoYO63EvBFqYtK3rasyS/Db5ZIfPROCMjQlJoLuYBNkTENIk9JnLtGBdZwUQGvNmPRxdEfdb50cLevs1Elk7c50Rre4n/vOvQPqRPIRDmbEjsuAiImQDk9gpdlKw/fyh8K4JSMxmGXFfD3doyOvux32enindFoDMb3MF0IGK8gHTZgxoqggpTInvH9ao9B6Td9oo5qyBw8eBBntCRj5GOuTktVxz//XHk+p2mXrifiMokq5BR94DNkPCsJBt3f4071kDOQwd/hPz/rnHgbGRns3vxTOOy2ff5uf7mReOgQ4K8gDID62De5VRZe/rfuSMYKOrdsczymEhx4hTJyZvrbYYie0QBj/1V4agcVV4JXqmYgFb8sxYQ95BFdsNyPPHoadIqM1fLYdiT4gQ+P00xZfZih5YtkFn7Xdw7P/FIeltYjSfW+Q1IZ7wcQgU4DupThfe9aN3wtCUjJoLktqBD27/HztqGm4EFwGoAAAAAElFTkSuQmCC") repeat scroll 0% 0%;
         position: relative;
-        min-height: 1000px;
+        min-height: 800px;
         @include simple-flex-box();
         #item-editor-scroll-outer{
             /*overflow: auto;*/
@@ -183,26 +202,108 @@
         }
     }
     .item-editor-sidebar-wrapper {
+        border-left: 1px solid white;
         background: $canvas;
         position: relative;
         
-        @include simple-flex-box(195px);
+        @include simple-flex-box(370px);
         
-        &.left-bar {
-            .action-bar {
-                border-right: 1px solid #ddd;
+        &.right-bar{
+            .action-bar{
+                width:370px;
             }
-            .item-editor-sidebar {
-                border-right: 1px solid white;
+            .item-editor-sidebar{
+                border-top : 1px solid white;
+                padding : 10px 0;
             }
-        }
-        &.right-bar {
-            .action-bar {
-                border-left: 1px solid #ddd;
+        } 
+    }
+    .order-list{
+        .order-element{
+            width:100%;
+            padding : 10px;
+            margin-bottom : 10px;
+            position :relative;
+            padding : 0px 10px 0px 36px;
+            width:370px;
+            .information{
+                .order{
+                    cursor : default;
+                    position: absolute;
+                    top : 16px;
+                    left: 7px;
+                    font-weight: bold;
+                    border-radius: 50%;
+                    border : 1px solid $canvas;
+                    width:22px;
+                    height:22px;
+                    text-align:center;
+                    background: $canvas;
+                    &:after{
+                        content : '.'
+                    }
+                }
             }
-            .item-editor-sidebar {
-                border-left: 1px solid white;
+            .content{
+                cursor : pointer;
+                border : 1px solid $uiGeneralContentBorder;
+                padding: 16px;
+                &:hover{
+                    background: whiten($canvas, .3);
+                }
+                &:active{
+                    cursor : move;
+                }
+            }
+            &.ui-sortable-helper{
+                .content{
+                    background: whiten($canvas, .6);
+                    border-color: $hover;
+                }
+                .order{
+                    color: $active;
+                    font-weight: bold;
+                }
             }
         }
     }
+    .inclusion-order-container{
+        position: absolute;
+        right: 5px;
+        label{
+            cursor : default;
+            color: whiten($info, .9);
+            padding-right:5px;
+            font-weight: bold;
+        }
+        .select2-choice{
+            background-color: whiten($info, .9);
+        }
+        .select2-dropdown-open .select2-choice{
+            background-color: white;
+        }
+    }
+}
+
+@media (max-width: 1280px) {
+    #apip-creator-scope{
+        .item-editor-action-bar #item-editor-label {
+            text-align: right;
+            width: 40%;
+            left: auto;
+            right: 20px;
+        }
+        .item-editor-sidebar-wrapper {
+            @include simple-flex-box(275px);
+            &.right-bar .action-bar{
+                width:270px;
+                label[for=inclusionOrder]{
+                    display:none;
+                }
+            }
+        }
+        .order-list .order-element{
+            width:265px;
+        }
+    } 
 }

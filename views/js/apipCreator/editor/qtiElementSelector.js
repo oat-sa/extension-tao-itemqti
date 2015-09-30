@@ -179,7 +179,9 @@ define([
 
         var selectorBody = _renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
-
+        
+        //@todo listen to ordering elements
+        
         //make it also selectable:
         return selectable($container);
     }
@@ -228,11 +230,17 @@ define([
 
             e.stopPropagation();
             var $element = $(this);
-            if(!$element.hasClass('active')){
+            //toggle element selection
+            if($element.hasClass('active')){
+                deactivateElement($element, $container);
+            }else{
                 activateElement($element, $container);
             }
 
-        }).on('click' + _ns, function (){
+        }).on('click' + _ns, '.contextual-popup', function (e){
+            //prevent toggle when editing the form in the contextual context
+            e.stopPropagation();
+        }).on('click' + _ns, function(){
             deactivateElement($currentActive, $container);
         });
 
@@ -267,12 +275,13 @@ define([
             $container.addClass('apip-feature-order-' + inclusionOrderName);
         }
 
-        //get ae
+        //get ae sorted by order
         var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
 
         //check feature presence
         var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderName);
         var aeInfoType = inclOrder.accessElementInfo.type;
+        var i = 1;
         _.each(accessElements, function (ae){
             var aeInfo = ae.getAccessElementInfo(aeInfoType);
             if(aeInfo){
@@ -280,22 +289,27 @@ define([
                 var qtiElements = ae.getQtiElements();
                 _.each(qtiElements, function (qtiElement){
                     //set feature css class to qti element
-                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass('apip-feature-info-' + aeInfoType);
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]')
+                        .addClass('apip-feature-info-' + aeInfoType)
+                        .children('.information')
+                        .children('.order').addClass('fill').html(i);
+                    
+                    i++;
                 });
             }
         });
     }
-
+    
     /**
      * Remove all added classes set by 
      * @param {type} $container
      * @returns {undefined}
      */
     function resetApipFeatures($container){
-        $container.find('.element').addBack().removeClass(function (index, css){
+        $container.find('.qti-element-selector').find('.element').addBack().removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             return classes.join(' ');
-        });
+        }).find('.order').removeClass('fill').empty();
     }
 
     return {

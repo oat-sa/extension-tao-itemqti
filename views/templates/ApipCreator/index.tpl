@@ -35,11 +35,9 @@ use oat\tao\helpers\Template;
         <!-- right sidebar -->
         <div class="item-editor-sidebar-wrapper right-bar sidebar-popup-parent">
             <div class="action-bar content-action-bar horizontal-action-bar">
-                
             </div>
             <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
-                <div class="item-editor-item-related sidebar-right-section-box" id="item-style-editor-bar">
-                </div>
+                <div class="sidebar-right-section-box" id="apip-ordering"></div>
             </div>
         </div>
         <!-- /right sidebar -->

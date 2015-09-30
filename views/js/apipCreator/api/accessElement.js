@@ -208,6 +208,7 @@ define([
      * @returns {undefined}
      */
     AccessElement.prototype.setInclusionOrder = function setOrder(insertionOrderType, order) {
+        
         var that = this,
             identifier = this.data.getAttribute('identifier'),
             elementOrderNode = this.apipItem.xpath("//apip:" + insertionOrderType + "/apip:elementOrder[@identifierRef='" + identifier + "']"),
@@ -215,7 +216,7 @@ define([
             inclusionOrderTypeNode;
 
         orderNode.innerHTML = order;
-
+        
         if (elementOrderNode.length === 0) {
             inclusionOrderTypeNode = this.apipItem.xpath("//apip:" + insertionOrderType);
 

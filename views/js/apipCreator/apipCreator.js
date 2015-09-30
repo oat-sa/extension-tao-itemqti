@@ -17,14 +17,16 @@
  *
  */
 define([
+    'lodash',
     'jquery',
     'helpers',
     'ui/feedback',
     'taoQtiItem/apipCreator/api/apipItem',
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'taoQtiItem/apipCreator/editor/inclusionOrderListing',
     'taoQtiItem/apipCreator/editor/qtiElementSelector',
     'taoQtiItem/apipCreator/editor/formBuilder'
-], function($, helpers, feedback, ApipItem, inclusionOrderSelector, qtiElementSelector, formBuilder){
+], function(_, $, helpers, feedback, ApipItem, inclusionOrderSelector, inclusionOrderListing, qtiElementSelector, formBuilder){
     
     var _ns = '.apip-creator';
     
@@ -43,6 +45,30 @@ define([
     ApipCreator.prototype.initInclusionOrderSelector = function initInclusionOrderSelector(){
         inclusionOrderSelector.render(this.$container.find('.right-bar .action-bar'), this.inclusionOrderType);
     };
+    
+    ApipCreator.prototype.initInclusionOrderListing = function initInclusionOrderListing(){
+        var orders = this.apipItem.getAccessElementsByInclusionOrder(this.inclusionOrderType);
+        var _orders = _.map(orders, function(ae) {
+            
+            var content, 
+                qtiElement,
+                qtiElementSerial,
+                qtiElements = ae.getQtiElements();
+                
+            if (qtiElements.length) {
+                //@todo render it
+                qtiElement = qtiElements[0];
+                content = $(qtiElement.data).text().trim();
+                qtiElementSerial = qtiElement.getAttribute('serial');
+            }
+            return {
+                id : ae.getAttribute('identifier'),
+                content : content,
+                qti : qtiElementSerial
+            };
+          });
+        inclusionOrderListing.render(this.$container.find('#apip-ordering'), _orders);
+    };
 
     ApipCreator.prototype.initQtiElementSelector = function initQtiElementSelector(){
         this.elementSelector = qtiElementSelector.render(this.$container.find('#item-editor-scroll-inner'), this.apipItem.getItemBodyModel());
@@ -52,9 +78,10 @@ define([
     ApipCreator.prototype.initEvents = function initEvents(){
 
         var formPopup,
-            self = this;
+            self = this,
+            $container = this.$container;
 
-        this.$container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
+        $container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
 
             self.inclusionOrderType = inclusionOrderType;
 
@@ -98,14 +125,38 @@ define([
             //refresh the vial apip features here because a new access element might have been created when init the form
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
+            self.initInclusionOrderListing();
             
         }).on('destroy.apip-form', function(){
+            
             self.elementSelector.deactivate();
             if(formPopup){
                 formPopup.destroy();
             }
             //@todo could be improved by only listening to event of new access element info deletion
             self.refreshVisualApipFeatures();
+            self.initInclusionOrderListing();
+            
+        }).on('change.inclusion-order-listing', function(e, aeOrder){
+            
+            var i = 1;
+            _.each(aeOrder, function(id){
+                var ae = self.apipItem.getAccessElementByAttr('identifier', id);
+                ae.setInclusionOrder(self.inclusionOrderType, i++);
+            });
+            self.refreshVisualApipFeatures();
+            
+        }).on('start.inclusion-order-listing', function(e, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').addClass('sorting');
+            
+        }).on('stop.inclusion-order-listing', function(e, aeOrder, qtiOrder, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').removeClass('sorting');
+            
+        }).on('selected.inclusion-order-listing', function(e, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').click();
         });
     };
     

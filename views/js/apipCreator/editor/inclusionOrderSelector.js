@@ -160,9 +160,8 @@ define([
         });
         
         $container.append(selectorTpl(tplData));
-
         if(selectedInclusionOrder){
-            $container.find('inclusion-order-container select').val(selectedInclusionOrder).change();
+            $container.find('.inclusion-order-container select').val(selectedInclusionOrder).change();
         }
         
         _addEvents($container);
