@@ -78,9 +78,10 @@ define([
     ApipCreator.prototype.initEvents = function initEvents(){
 
         var formPopup,
-            self = this;
+            self = this,
+            $container = this.$container;
 
-        this.$container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
+        $container.on('activated.inclusion-order-selector', function(e, inclusionOrderType){
 
             self.inclusionOrderType = inclusionOrderType;
 
@@ -136,14 +137,22 @@ define([
             self.refreshVisualApipFeatures();
             self.initInclusionOrderListing();
             
-        }).on('change.inclusion-order-listing', function(e, aeOrder, qtiOrder){
+        }).on('change.inclusion-order-listing', function(e, aeOrder){
+            
             var i = 1;
             _.each(aeOrder, function(id){
                 var ae = self.apipItem.getAccessElementByAttr('identifier', id);
                 ae.setInclusionOrder(self.inclusionOrderType, i++);
             });
-            
             self.refreshVisualApipFeatures();
+            
+        }).on('start.inclusion-order-listing', function(e, aeOrder, qtiOrder, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').addClass('sorting');
+            
+        }).on('stop.inclusion-order-listing', function(e, aeOrder, qtiOrder, ae, qti){
+            
+            $container.find('.element').filter('[data-serial='+qti+']').removeClass('sorting');
         });
     };
     

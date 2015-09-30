@@ -56,6 +56,15 @@ $active : whiten($info, .2);
                     color : $active;
                 }
             }
+            &.sorting{
+                & > .information > .order.fill{
+                    width: 30px;
+                    height: 30px;
+                    left: -34px;
+                    top: -18px;
+                    padding: 2px;
+                }
+            }
             &.qti-img {
                 display: inline-block;
             }
@@ -281,10 +290,13 @@ $active : whiten($info, .2);
             left: auto;
             right: 20px;
         }
-        .item-editor-sidebar-wrapper.right-bar .action-bar{
-            width:270px;
-            label[for=inclusionOrder]{
-                display:none;
+        .item-editor-sidebar-wrapper {
+            @include simple-flex-box(275px);
+            &.right-bar .action-bar{
+                width:270px;
+                label[for=inclusionOrder]{
+                    display:none;
+                }
             }
         }
         .order-list .order-element{
