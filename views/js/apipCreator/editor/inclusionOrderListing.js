@@ -20,61 +20,60 @@ define([
     'lodash',
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/inclusionOrderListing/list'
-], function (_, $, listTpl) {
+], function(_, $, listTpl){
+    
     'use strict';
-    
+
     var _ns = '.inclusion-order-listing';
-    
+
     function render($container, elements){
-        
-        var i = 0;
-        var _elements = _.map(elements, function(element){
-            i++;//starting from 0
+
+        var _elements = _.map(elements, function(element, i){
             return {
                 id : element.id,
                 qti : element.qti,
                 content : element.content,
-                order : i
+                order : (i + 1)//startubg from 1
             };
         });
-        
+
         $container.empty().append(listTpl({
-            elements:_elements
+            elements : _elements
         }));
+        
         var $sortable = $container.children('.order-list');
         $sortable.sortable({
             axis : 'y',
             handle : '.content',
             change : function(e, ui){
-                
+
                 var $helper = $(ui.helper);
-                var i = 1;
                 var qtiOrder = [];
                 var aeOrder = [];
-                
-                $sortable.children('.order-element').not('.ui-sortable-helper').each(function(e){
-                    
+
+                $sortable.children('.order-element').not('.ui-sortable-helper').each(function(i){
+
                     var $li = $(this);
+                    var index = i+1;
                     if($li.hasClass('ui-sortable-placeholder')){
                         $li = $helper;
                     }
-                    $li.data('order', i);
-                    $li.find('.order').html(i);
-                    
+                    $li.data('order', index);
+                    $li.find('.order').html(index);
+
                     aeOrder.push($li.data('id'));
                     qtiOrder.push($li.data('qti'));
-                    
-                    i++;
+
                 });
-                
-                $container.trigger('change'+_ns, [aeOrder, qtiOrder]);
+
+                $container.trigger('change' + _ns, [aeOrder, qtiOrder]);
             }
         }).disableSelection();
-        
+
         //@todo listen to newly created ae
-        
+
     }
-    
+
     return {
         render : render
     };

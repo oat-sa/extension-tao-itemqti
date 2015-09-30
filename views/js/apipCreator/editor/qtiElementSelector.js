@@ -222,7 +222,8 @@ define([
                     //set feature css class to qti element
                     $container.find('.element[data-serial="' + qtiElement.serial + '"]')
                         .addClass('apip-feature-info-' + aeInfoType)
-                        .find('.order').addClass('fill').html(i);
+                        .children('.information')
+                        .children('.order').addClass('fill').html(i);
                     
                     i++;
                 });

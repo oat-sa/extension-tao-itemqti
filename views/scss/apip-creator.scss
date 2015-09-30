@@ -33,13 +33,12 @@
             border : 1px solid #EEE;
             padding : 11px 21px;
             margin : 4px;
-            
             &.hover{
                 padding : 10px 20px;
                 border-width:2px;
                 border-color: whiten($info, .7);
                 cursor:pointer;
-                .information .order.fill{
+                & > .information > .order.fill{
                     border-color: whiten($info, .7);
                 }
             }
@@ -47,7 +46,7 @@
                 padding : 10px 20px;
                 border-width:2px;
                 border-color: whiten($info, .2);
-                .information .order.fill{
+                & > .information > .order.fill{
                     border-color: whiten($info, .2);
                 }
             }
