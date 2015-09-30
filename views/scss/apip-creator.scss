@@ -66,7 +66,7 @@ $active : whiten($info, .2);
                 }
                 .order.fill{
                     position: absolute;
-                    left: -31px;
+                    left: -32px;
                     top: -16px;
                     width: 26px;
                     height: 26px;
@@ -197,7 +197,7 @@ $active : whiten($info, .2);
         background: $canvas;
         position: relative;
         
-        @include simple-flex-box(195px);
+        @include simple-flex-box(370px);
         
         &.right-bar{
             .action-bar{
