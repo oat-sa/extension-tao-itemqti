@@ -146,7 +146,7 @@ define([
             });
             self.refreshVisualApipFeatures();
             
-        }).on('start.inclusion-order-listing', function(e, aeOrder, qtiOrder, ae, qti){
+        }).on('start.inclusion-order-listing', function(e, ae, qti){
             
             $container.find('.element').filter('[data-serial='+qti+']').addClass('sorting');
             

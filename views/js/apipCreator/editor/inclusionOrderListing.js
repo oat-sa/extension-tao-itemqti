@@ -21,11 +21,11 @@ define([
     'jquery',
     'tpl!taoQtiItem/apipCreator/tpl/inclusionOrderListing/list'
 ], function(_, $, listTpl){
-    
+
     'use strict';
 
     var _ns = '.inclusion-order-listing';
-    
+
     function render($container, elements){
 
         var _elements = _.map(elements, function(element, i){
@@ -40,7 +40,7 @@ define([
         $container.empty().append(listTpl({
             elements : _elements
         }));
-        
+
         var currentQti;
         var currentAe;
         var $sortable = $container.children('.order-list');
@@ -48,37 +48,37 @@ define([
             axis : 'y',
             handle : '.content',
             start : function(e, ui){
-                var data = getSortingData(ui);
-                currentQti = data.qti;
-                currentAe = data.ae;
-                $container.trigger('start'+_ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
+                var $helper = $(ui.helper);
+                currentAe = $helper.data('id');
+                currentQti = $helper.data('qti');
+                $container.trigger('start' + _ns, [currentAe, currentQti]);
             },
             change : function(e, ui){
                 var data = getSortingData(ui);
-                $container.trigger('change'+_ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
+                $container.trigger('change' + _ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
             },
             stop : function(e, ui){
                 var data = getSortingData(ui);
-                $container.trigger('stop'+_ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
-                
+                $container.trigger('stop' + _ns, [data.aeOrder, data.qtiOrder, currentAe, currentQti]);
+
                 //reset internal values
                 currentQti = null;
                 currentAe = null;
-                
+
                 //prevent click after the drag stops
                 $(ui.item).children('.content').one('click', function(e){
                     e.stopImmediatePropagation();
                 });
             }
         }).disableSelection();
-        
-        $sortable.on('click'+_ns, '.content', function(){
+
+        $sortable.on('click' + _ns, '.content', function(){
             var $orderElement = $(this).parent('.order-element');
-            $container.trigger('selected'+_ns, [$orderElement.data('id'), $orderElement.data('qti')]);
+            $container.trigger('selected' + _ns, [$orderElement.data('id'), $orderElement.data('qti')]);
         });
-        
+
         function getSortingData(ui){
-            
+
             var $helper = $(ui.helper);
             var ae = $helper.data('id');
             var qti = $helper.data('qti');
@@ -87,20 +87,21 @@ define([
             var i = 1;
             
             $sortable.children('.order-element').not('.ui-sortable-helper').each(function(){
-
+                
                 var $li = $(this);
-                var index = i++;
-
+                
                 if($li.hasClass('ui-sortable-placeholder')){
                     $li = $helper;
                 }
-                $li.data('order', index);
-                $li.find('.order').html(index);
+                $li.data('order', i);
+                $li.find('.order').html(i);
 
                 aeOrder.push($li.data('id'));
                 qtiOrder.push($li.data('qti'));
+                
+                i++;
             });
-            
+
             return {
                 ae : ae,
                 qti : qti,
