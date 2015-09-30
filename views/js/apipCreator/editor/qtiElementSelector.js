@@ -167,12 +167,17 @@ define([
 
             e.stopPropagation();
             var $element = $(this);
+            
+            //toggle element selection
             if($element.hasClass('active')){
                 deactivateElement($element, $container);
             }else{
                 activateElement($element, $container);
             }
-
+            
+        }).on('click' + _ns, '.contextual-popup', function (e){
+            //prevent toggle when editing the form in the contextual context
+            e.stopPropagation();
         }).on('click'+_ns, function(){
             deactivateElement($currentActive, $container);
         });
