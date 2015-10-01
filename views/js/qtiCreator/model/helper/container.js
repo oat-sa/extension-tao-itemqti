@@ -21,8 +21,13 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                 //register and name all loaded classes:
                 var Qti = {};
-                for(var i in arguments){
-                    Qti[arguments[i].prototype.qtiClass] = arguments[i];
+                for(var i in arguments) {
+                    if (!arguments.hasOwnProperty(i)) {
+                        continue;
+                    }
+                    if (arguments[i].prototype) {
+                        Qti[arguments[i].prototype.qtiClass] = arguments[i];
+                    }
                 }
                 
                 //create new elements
