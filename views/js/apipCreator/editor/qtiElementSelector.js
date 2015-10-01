@@ -162,10 +162,9 @@ define([
             $(this).parent().trigger('mouseenter' + _ns);
 
         }).on('click' + _ns, '.element:not(.qti-itemBody)', function (e){
-
             e.stopPropagation();
             var $element = $(this);
-            if(!$element.hasClass('active')){
+            if(!$element.hasClass('active') && $(e.target).hasClass('element')){
                 activateElement($element, $container);
             }
 
