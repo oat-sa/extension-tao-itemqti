@@ -115,14 +115,16 @@ define([
     return {
         /**
          *
-         * @param {object} config (baseUrl, uri, lang)
+         * @param {object} _config (baseUrl, uri, lang)
          */
-        start : function(config){
+        start : function(_config){
 
             //first all, start loading bar
             loadingBar.start();
+            
             //init config
-            config = config || module.config();
+            var config = _.merge({}, _config || {},  module.config() || {});
+            
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
 
@@ -169,7 +171,7 @@ define([
             });
 
             //initialize hooks
-            _initializeHooks(config.uiHooks, configProperties);
+            _initializeHooks(_.union(config.uiHooks, config.hooks), configProperties);
 
             async.parallel([
                 //register custom interacitons
