@@ -115,12 +115,12 @@ define([
                         feedback().success(message);
                         formHelper.saveForm($formContent);
                         //formView.accessElementInfo.pristine = false;
-                        this.destroy();
+                        popup.destroy();
                     }
                     return valid;
                 },
                 beforeCancel : function () {
-                    this.destroy();
+                    popup.destroy();
                     return true;
                 },
                 beforeDestroy : function () {
