@@ -211,8 +211,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param
-     *            rprocessing
+     * @param $rprocessing
      * @return mixed
      */
     public function setResponseProcessing($rprocessing){
@@ -518,6 +517,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
+        $variables['bodyClass'] = $this->getClassName();
 
         return $variables;
     }

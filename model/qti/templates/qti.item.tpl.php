@@ -35,7 +35,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'?>
 
     <?=get_data('stylesheets')?>
 
-    <itemBody>
+    <itemBody<?php if(get_data('class')): ?> class="<?=get_data('class')?>"<?php endif;?>>
 	<?=get_data('body')?>
     </itemBody>
     

@@ -28,7 +28,7 @@ use \common_Logger;
  * The QTI_Element class represent the abstract model for all the QTI objects.
  * It contains all the attributes of the different kind of QTI objects.
  * It manages the identifiers and serial creation.
- * It provides the serialisation and persistance methods.
+ * It provides the serialisation and persistence methods.
  * And give the interface for the rendering.
  *
  * @abstract
@@ -41,7 +41,7 @@ abstract class IdentifiedElement extends Element
 {
 
     /**
-     * It repesents the  QTI  identifier. 
+     * It represents the  QTI  identifier.
      * It must be unique string within an item.
      * It will generated if it hasn't been set.
      *

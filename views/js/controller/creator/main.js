@@ -153,6 +153,9 @@ define([
                 getItemPropertyPanel : function(){
                     return $editorScope.find('#sidebar-right-item-properties');
                 },
+                getItemStylePanel : function(){
+                    return $propertySidebar.find('#item-style-editor-bar');
+                },
                 getModalContainer : function(){
                     return $editorScope.find('#modal-container');
                 }
@@ -172,7 +175,7 @@ define([
             _initializeHooks(config.uiHooks, configProperties);
 
             async.parallel([
-                //register custom interacitons
+                //register custom interactions
                 function(callback){
                     ciRegistry.register(config.interactions);
                     ciRegistry.loadAll(function(hooks){
@@ -209,7 +212,7 @@ define([
                 }
             ], function(err, res){
 
-                //get results from parallelized ajax calls:
+                //get results from paralleled ajax calls:
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];

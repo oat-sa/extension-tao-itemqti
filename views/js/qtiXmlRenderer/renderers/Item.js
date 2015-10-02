@@ -3,13 +3,13 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
         qtiClass : 'assessmentItem',
         template : tpl,
         getData : function(item, data){
-            
             var ns = _.clone(item.namespaces) || [],
                 renderer = this;
             
             delete ns[''];
             delete ns['xsi'];
             delete ns['xml'];
+
             
             var defaultData = {
                 responses : [],
@@ -18,8 +18,14 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 feedbacks : [],
                 namespaces : ns,
                 empty : item.isEmpty(),
-                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : ''
+                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
+                'class' : ''
             };
+
+            if(data.attributes && data.attributes.class) {
+                defaultData.class = data.attributes.class;
+                delete data.attributes.class;
+            }
             
             _.each(item.responses, function(response){
                 defaultData.responses.push(response.render(renderer));

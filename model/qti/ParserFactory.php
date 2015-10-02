@@ -73,7 +73,6 @@ use \SimpleXMLElement;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoQTI
-
  */
 class ParserFactory
 {
@@ -107,8 +106,8 @@ class ParserFactory
 
     /**
      * Get the body data (markups) of an element.
-     * @param \DOMELement $data the element
-     * @param boolean $removeNamespace if XML namespacese should be removed 
+     * @param \DOMElement $data the element
+     * @param boolean $removeNamespace if XML namespaces should be removed
      * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
      * @return string the body data (XML markup)
      */
@@ -457,10 +456,12 @@ class ParserFactory
 
     /**
      * Build a QTI_Item from a DOMElement, the root tag of which is root assessmentItem
-     * 
+     *
      * @param DOMElement $data
-     * @return oat\taoQtiItem\model\qti\Item
-     * @throws oat\taoQtiItem\model\qti\exception\ParsingException
+     * @return \oat\taoQtiItem\model\qti\Item
+     * @throws InvalidArgumentException
+     * @throws ParsingException
+     * @throws UnsupportedQtiElement
      */
     protected function buildItem(DOMElement $data){
         //check on the root tag.
@@ -527,6 +528,7 @@ class ParserFactory
             throw new ParsingException('XML error('.$errormsg.') on itemBody read'.(isset($itemId) ? ' for item '.$itemId : ''));
         }elseif($itemBodies->length){
             $this->parseContainerItemBody($itemBodies->item(0), $this->item->getBody());
+            $this->item->addClass($itemBodies->item(0)->getAttribute('class'));
         }
 
 
@@ -548,13 +550,15 @@ class ParserFactory
     }
 
     /**
-     * Build a QTI_Interaction from a DOMElement (the root tag of this
-     * is an 'interaction' node)
+     * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @return oat\taoQtiItem\model\qti\interaction\Interaction
+     * @param DOMElement $data
+     * @return \oat\taoQtiItem\model\qti\interaction\Interaction
+     * @throws ParsingException
+     * @throws UnsupportedQtiElement
+     * @throws interaction\InvalidArgumentException
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247
      */
     protected function buildInteraction(DOMElement $data){
@@ -683,8 +687,11 @@ class ParserFactory
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @return oat\taoQtiItem\model\qti\choice\Choice
+     * @param  DOMElement $data
+     * @return \oat\taoQtiItem\model\qti\choice\Choice
+     * @throws ParsingException
+     * @throws UnsupportedQtiElement
+     * @throws choice\InvalidArgumentException
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10254
      */
     protected function buildChoice(DOMElement $data){
@@ -718,8 +725,8 @@ class ParserFactory
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @return oat\taoQtiItem\model\qti\ResponseDeclaration
+     * @param  DOMElement $data
+     * @return \oat\taoQtiItem\model\qti\ResponseDeclaration
      * @see http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10074
      */
     protected function buildResponseDeclaration(DOMElement $data){
