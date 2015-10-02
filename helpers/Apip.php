@@ -65,7 +65,7 @@ class Apip
     {
         $accessibilityNode = $doc->getElementsByTagName('apipAccessibility');
         if ($accessibilityNode->length) {
-            $accessibilityNode[0]->parentNode->removeChild($accessibilityNode[0]);
+            $accessibilityNode->item(0)->parentNode->removeChild($accessibilityNode->item(0));
         }
         
         $raw = $doc->saveXML();
