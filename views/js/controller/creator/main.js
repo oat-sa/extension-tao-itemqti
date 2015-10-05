@@ -115,24 +115,28 @@ define([
     return {
         /**
          *
-         * @param {object} config (baseUrl, uri, lang)
+         * @param {object} _config (baseUrl, uri, lang)
          */
-        start : function(config){
-
-            //first all, start loading bar
-            loadingBar.start();
-            //init config
-            config = config || module.config();
-            //reinitialize the renderer:
-            creatorRenderer.get(true, config);
-
-            var configProperties = config.properties;
-
-            //pass reference to useful dom element
-            var $doc = $(document),
+        start : function(_config){
+            
+            var config, 
+                configProperties,
+                //references to useful dom element
+                $doc = $(document),
                 $editorScope = $('#item-editor-scope'),
                 $itemContainer = $('#item-editor-scroll-inner'),
                 $propertySidebar = $('#item-editor-item-widget-bar');
+            
+            //first all, start loading bar
+            loadingBar.start();
+            
+            //init config
+            config = _.merge({}, _config || {},  module.config() || {});
+            
+            //reinitialize the renderer:
+            creatorRenderer.get(true, config);
+
+            configProperties = config.properties;
 
             configProperties.dom = {
                 getEditorScope : function(){
@@ -169,7 +173,7 @@ define([
             });
 
             //initialize hooks
-            _initializeHooks(config.uiHooks, configProperties);
+            _initializeHooks(_.union(config.uiHooks, config.hooks), configProperties);
 
             async.parallel([
                 //register custom interacitons
