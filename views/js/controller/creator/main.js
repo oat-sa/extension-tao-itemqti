@@ -118,23 +118,25 @@ define([
          * @param {object} _config (baseUrl, uri, lang)
          */
         start : function(_config){
-
+            
+            var config, 
+                configProperties,
+                //references to useful dom element
+                $doc = $(document),
+                $editorScope = $('#item-editor-scope'),
+                $itemContainer = $('#item-editor-scroll-inner'),
+                $propertySidebar = $('#item-editor-item-widget-bar');
+            
             //first all, start loading bar
             loadingBar.start();
             
             //init config
-            var config = _.merge({}, _config || {},  module.config() || {});
+            config = _.merge({}, _config || {},  module.config() || {});
             
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
 
-            var configProperties = config.properties;
-
-            //pass reference to useful dom element
-            var $doc = $(document),
-                $editorScope = $('#item-editor-scope'),
-                $itemContainer = $('#item-editor-scroll-inner'),
-                $propertySidebar = $('#item-editor-item-widget-bar');
+            configProperties = config.properties;
 
             configProperties.dom = {
                 getEditorScope : function(){
