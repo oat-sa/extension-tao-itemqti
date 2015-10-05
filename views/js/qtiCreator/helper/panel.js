@@ -250,6 +250,14 @@ define([
 
             $heading.append($closer).append($opener).addClass(closed);
 
+            // this allows multiple calls, required when blocks are added dynamically
+            if($heading.hasClass('_accordion')) {
+                return;
+            }
+            else {
+                $heading.addClass('_accordion');
+            }
+
             // toggle heading class arrow (actually switch arrow)
             $panel.on('panelclose.' + ns + ' panelopen.' + ns, function(e, args){
                 var fn = e.type === 'panelclose' ? 'add' : 'remove';
@@ -257,6 +265,7 @@ define([
             });
 
             $panel.trigger('panel' + action + '.' + ns, {heading : $heading});
+
         });
 
         $sections.each(function(){
