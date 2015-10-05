@@ -372,6 +372,24 @@ define([
                 }
             }
         },
+        /**
+         * Add or remove class. Setting the optional state will force addition/removal.
+         * State is here to keep the jQuery syntax
+         *
+         * @param {String} className
+         * @param {Boolean} [state]
+         */
+        toggleClass : function(className, state) {
+
+            if(typeof state === 'boolean') {
+                return state ? this.addClass(className) : this.removeClass(className);
+            }
+
+            if(this.hasClass(className)) {
+                return this.removeClass(className);
+            }
+            return this.addClass(className);
+        },
         isset : function(){
             return Element.issetElement(this.serial);
         },

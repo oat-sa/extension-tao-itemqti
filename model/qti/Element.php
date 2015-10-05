@@ -19,7 +19,7 @@ use \stdClass;
  * The QTI_Element class represent the abstract model for all the QTI objects.
  * It contains all the attributes of the different kind of QTI objects.
  * It manages the identifiers and serial creation.
- * It provides the serialisation and persistance methods.
+ * It provides the serialisation and persistence methods.
  * And give the interface for the rendering.
  *
  * @abstract
@@ -143,7 +143,7 @@ abstract class Element implements Exportable
      * @param mixed $value
      * @return boolean
      * @throws InvalidArgumentException
-     * @throws oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public function setAttribute($name, $value){
 
@@ -156,7 +156,7 @@ abstract class Element implements Exportable
         if(isset($this->attributes[$name])){
 
             $datatypeClass = $this->attributes[$name]->getType();
-            // check if the atttribute needs an element level validation
+            // check if the attribute needs an element level validation
             if(is_subclass_of($datatypeClass, 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier')){
 
                 if($value instanceof IdentifiedElement){
@@ -199,8 +199,7 @@ abstract class Element implements Exportable
      * @param string $name            
      * @param mixed $value            
      * @return boolean
-     * @throws oat\taoQtiItem\model\qti\exception\QtiModelException
-     * @throws InvalidArgumentException
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public function validateAttribute($name, $value = null){
         $returnValue = false;
@@ -248,7 +247,7 @@ abstract class Element implements Exportable
      *
      * @param string $identifier            
      * @param array $elementClasses            
-     * @return oat\taoQtiItem\model\qti\IdentifiedElement
+     * @return \oat\taoQtiItem\model\qti\IdentifiedElement
      */
     public function getIdentifiedElement($identifier, $elementClasses = array()){
         $returnValue = null;
@@ -303,10 +302,38 @@ abstract class Element implements Exportable
     }
 
     /**
+     * Add a CSS class to the item body
+     *
+     * @author Dieter Raber <dieter@taotesting.com>
+     * @param $className one or more class names, separated by space
+     */
+    public function addClass($className) {
+        $oldClassName    = $this->getAttributeValue('class');
+        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : array();
+        $classNameArr    = array_merge($oldClassNameArr, explode(' ', $className));
+        // housekeeping
+        $classNameArr    = array_unique(array_filter(array_map('trim', $classNameArr)));
+        $this->setAttribute('class', implode(' ', $classNameArr));
+    }
+
+    /**
+     * Add a CSS class from the item body
+     *
+     * @author Dieter Raber <dieter@taotesting.com>
+     * @param $className
+     */
+    public function removeClass($className) {
+        $oldClassName    = $this->getAttributeValue('class');
+        $oldClassNameArr = $oldClassName ? explode(' ', $oldClassName) : array();
+        unset($oldClassNameArr[array_search($className, $oldClassNameArr)]);
+        $this->setAttribute('class', implode(' ', $oldClassNameArr));
+    }
+
+    /**
      * Get the attribute as an Attribute object
      * 
      * @param type $name
-     * @return oat\taoQtiItem\model\qti\attribute\Attribute
+     * @return \oat\taoQtiItem\model\qti\attribute\Attribute
      */
     protected function getAttribute($name){
         return $this->hasAttribute($name) ? $this->attributes[$name] : null;
@@ -355,7 +382,7 @@ abstract class Element implements Exportable
      * Get the absolute path of the template of the qti.xml
      * 
      * @return string
-     * @throws oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public static function getTemplateQti(){
         if(empty(static::$qtiTagName)){
@@ -406,7 +433,9 @@ abstract class Element implements Exportable
     /**
      * Get the array representation of the Qti Element.
      * Particularly helpful for data transformation, e.g. json
-     * 
+     *
+     * @param $filterVariableContent
+     * @param array $filtered
      * @return array
      */
     public function toArray($filterVariableContent = false, &$filtered = array()){
@@ -453,10 +482,10 @@ abstract class Element implements Exportable
      * The related item assignment is propagated to all containing Qti Element of the current one.
      * The "force" option allows changing the associated item (even if it has already been defined)
      * 
-     * @param oat\taoQtiItem\model\qti\Item $item
+     * @param \oat\taoQtiItem\model\qti\Item $item
      * @param boolean $force
      * @return boolean
-     * @throws oat\taoQtiItem\model\qti\exception\QtiModelException
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
      */
     public function setRelatedItem(Item $item, $force = false){
         $returnValue = false;
@@ -547,7 +576,7 @@ abstract class Element implements Exportable
     /**
      * Get the Qti Item the current Qti Element belongs to
      * 
-     * @return oat\taoQtiItem\model\qti\Item
+     * @return \oat\taoQtiItem\model\qti\Item
      */
     public function getRelatedItem(){
         return $this->relatedItem;
@@ -673,5 +702,4 @@ abstract class Element implements Exportable
         }
         return $data;
     }
-    
 }
