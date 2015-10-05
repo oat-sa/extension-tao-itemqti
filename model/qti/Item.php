@@ -517,7 +517,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
-        $variables['bodyClass'] = $this->getClassName();
+        $variables['class'] = $this->getAttributeValue('class');
 
         return $variables;
     }
