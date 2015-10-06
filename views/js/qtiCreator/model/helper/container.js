@@ -20,15 +20,11 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
             require(_.values(required), function(){
 
                 //register and name all loaded classes:
-                var Qti = {};
-                for(var i in arguments) {
-                    if (!arguments.hasOwnProperty(i)) {
-                        continue;
-                    }
-                    if (arguments[i].prototype) {
-                        Qti[arguments[i].prototype.qtiClass] = arguments[i];
-                    }
-                }
+                var Qti = _.reduce([].slice.call(arguments), function (acc, qtiClassElt) {
+                    acc[qtiClassElt.prototype.qtiClass] = qtiClassElt;
+
+                    return acc;
+                }, {});
                 
                 //create new elements
                 var newElts = {};
