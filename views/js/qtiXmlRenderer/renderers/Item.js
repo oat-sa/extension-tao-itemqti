@@ -36,10 +36,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             });
             
             data = _.merge(data || {}, defaultData);
-            if(data.attributes && data.attributes.class) {
-                delete data.attributes['class'];
-                data.attributes = _.omit(data.attributes, 'class');
-            }
+            delete data.attributes.class;
             
             return data;
         }
