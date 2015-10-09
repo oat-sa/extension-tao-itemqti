@@ -36,27 +36,90 @@ define([
         math : function (){
             return '<math>' + this.innerHTML + '</math>';
         },
-        inlinePlaceholder : function (){
-            return '<span class="element-placeholder">' + this.tagName + '</span>';
+        inlinePlaceholder : function (data){
+            return '<span class="element-placeholder">' + data.label + '</span>';
         }
     };
 
     var _selectables = [
         {qtiClass : 'itemBody', label : 'item body', inline : false},
+        //xhtml
+        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
         {qtiClass : 'caption', label : 'caption', inline : true},
+        {qtiClass : 'ol', label : 'ol', inline : false},
+        {qtiClass : 'li', label : 'li', inline : false},
+        {qtiClass : 'object', label : 'object', inline : false},
+        {qtiClass : 'a', label : 'a', inline : true},
+        {qtiClass : 'abbr', label : 'abbr', inline : true},
+        {qtiClass : 'acronym', label : 'acronym', inline : true},
+        {qtiClass : 'b', label : 'b', inline : true},
+        {qtiClass : 'big', label : 'big', inline : true},
+        {qtiClass : 'cite', label : 'cite', inline : true},
+        {qtiClass : 'code', label : 'code', inline : true},
+        {qtiClass : 'dfn', label : 'dfn', inline : true},
         {qtiClass : 'div', label : 'div', inline : false},
+        {qtiClass : 'em', label : 'em', inline : true},
+        {qtiClass : 'i', label : 'i', inline : true},
         {qtiClass : 'img', label : 'img', inline : true, renderer : _renderers.img},
+        {qtiClass : 'kbd', label : 'kbd', inline : true},
+        {qtiClass : 'p', label : 'p', inline : false},
+        {qtiClass : 'q', label : 'q', inline : true},
+        {qtiClass : 'samp', label : 'samp', inline : true},
+        {qtiClass : 'small', label : 'small', inline : true},
         {qtiClass : 'span', label : 'span', inline : true},
+        {qtiClass : 'strong', label : 'strong', inline : true},
+        {qtiClass : 'sub', label : 'sub', inline : true},
+        {qtiClass : 'sup', label : 'sup', inline : true},
+        {qtiClass : 'table', label : 'table', inline : false},
+        {qtiClass : 'tt', label : 'tt', inline : true},
+        {qtiClass : 'var', label : 'var', inline : true},
+        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'address', label : 'address', inline : false},
+        {qtiClass : 'h1', label : 'h1', inline : false},
+        {qtiClass : 'h2', label : 'h2', inline : false},
+        {qtiClass : 'h3', label : 'h3', inline : false},
+        {qtiClass : 'h4', label : 'h4', inline : false},
+        {qtiClass : 'h5', label : 'h5', inline : false},
+        {qtiClass : 'h6', label : 'h6', inline : false},
+        {qtiClass : 'pre', label : 'pre', inline : false},
+        //interactions
         {qtiClass : 'choiceInteraction', label : 'choice interaction', inline : false},
+        {qtiClass : 'associateInteraction', label : 'associate interaction', inline : false},
+        {qtiClass : 'orderInteraction', label : 'order interaction', inline : false},
+        {qtiClass : 'matchInteraction', label : 'match interaction', inline : false},
+        {qtiClass : 'hottextInteraction', label : 'hottext interaction', inline : false},
+        {qtiClass : 'gapMatchInteraction', label : 'gap match interaction', inline : false},
+        {qtiClass : 'mediaInteraction', label : 'media interaction', inline : false},
+        {qtiClass : 'sliderInteraction', label : 'slider interaction', inline : false},
+        {qtiClass : 'uploadInteraction', label : 'upload interaction', inline : false},
+        {qtiClass : 'drawingInteraction', label : 'drawing interaction', inline : false},
+        {qtiClass : 'hotspotInteraction', label : 'hotspot interaction', inline : false},
+        {qtiClass : 'graphicAssociateInteraction', label : 'graphic associate interaction', inline : false},
+        {qtiClass : 'graphicOrderInteraction', label : 'graphic order interaction', inline : false},
+        {qtiClass : 'graphicGapMatchInteraction', label : 'graphic gap match interaction', inline : false},
+        {qtiClass : 'selectPointInteraction', label : 'select point interaction', inline : false},
+        {qtiClass : 'extendedTextInteraction', label : 'extended text interaction', inline : false},
+        {qtiClass : 'endAttemptInteraction', label : 'end attempt interaction', inline : false},
+        {qtiClass : 'customInteraction', label : 'custom interaction', inline : false},
         {qtiClass : 'textEntryInteraction', label : 'text entry interaction', inline : true, renderer : _renderers.inlinePlaceholder},
         {qtiClass : 'inlineChoiceInteraction', label : 'inline choice interaction', inline : true, renderer : _renderers.inlinePlaceholder},
         {qtiClass : 'prompt', label : 'prompt', inline : false},
+        //choices
+        {qtiClass : 'gap', label : 'gap', inline : true},
+        {qtiClass : 'gapImg', label : 'gap image', inline : true},
+        {qtiClass : 'gapText', label : 'gap text', inline : true},
+        {qtiClass : 'hottext', label : 'hottext', inline : true},
+        {qtiClass : 'inlineChoice', label : 'choice', inline : false},
+        {qtiClass : 'simpleAssociableChoice', label : 'choice', inline : false},
         {qtiClass : 'simpleChoice', label : 'choice', inline : false},
-        {qtiClass : 'p', label : 'p', inline : false},
-        {qtiClass : 'blockquote', label : 'blockquote', inline : false},
+        {qtiClass : 'textEntry', label : 'text entry', inline : true},
+        {qtiClass : 'hottext', label : 'hottext', inline : true},
+        //others
+        {qtiClass : '_container', label : 'text block', inline : false},
+        {qtiClass : 'infoControl', label : 'info control', inline : false},
         {qtiClass : 'math', label : 'math', inline : true, renderer : _renderers.math}
     ];
-    
+
     /**
      * Wrap each element listed in _selectables with a specific decorated wrapper
      * and return the rendered html
@@ -80,7 +143,7 @@ define([
 
             //render inner content:
             if(model.renderer){
-                tplData.content = model.renderer.call(elementNode);
+                tplData.content = model.renderer.call(elementNode, tplData);
             }else{
                 _.each(elementNode.childNodes, function (node){
                     if(node.nodeType === 3 && node.data.trim()){
@@ -104,7 +167,7 @@ define([
 
         return rendering;
     }
-    
+
     /**
      * Initialize the selector of an itemBody XML dom object adn bind events to interact with it
      * 
@@ -162,13 +225,20 @@ define([
             $(this).parent().trigger('mouseenter' + _ns);
 
         }).on('click' + _ns, '.element:not(.qti-itemBody)', function (e){
+
             e.stopPropagation();
             var $element = $(this);
-            if(!$element.hasClass('active') && $(e.target).hasClass('element')){
+            //toggle element selection
+            if($element.hasClass('active') && $(e.target).hasClass('element')){
+                deactivateElement($element, $container);
+            }else{
                 activateElement($element, $container);
             }
 
-        }).on('click'+_ns, function(){
+        }).on('click' + _ns, '.contextual-popup', function (e){
+            //prevent toggle when editing the form in the contextual context
+            e.stopPropagation();
+        }).on('click' + _ns, function(){
             deactivateElement($currentActive, $container);
         });
 
@@ -185,7 +255,7 @@ define([
             }
         };
     }
-    
+
     /**
      * Add css classes to elements that has a defined apip feature 
      * that is being used in the given inclusionOrder
@@ -203,12 +273,13 @@ define([
             $container.addClass('apip-feature-order-' + inclusionOrderName);
         }
 
-        //get ae
+        //get ae sorted by order
         var accessElements = apipItem.getAccessElementsByInclusionOrder(inclusionOrderName);
 
         //check feature presence
         var inclOrder = inclusionOrderSelector.getInclusionOrder(inclusionOrderName);
         var aeInfoType = inclOrder.accessElementInfo.type;
+        var i = 1;
         _.each(accessElements, function (ae){
             var aeInfo = ae.getAccessElementInfo(aeInfoType);
             if(aeInfo){
@@ -216,7 +287,12 @@ define([
                 var qtiElements = ae.getQtiElements();
                 _.each(qtiElements, function (qtiElement){
                     //set feature css class to qti element
-                    $container.find('.element[data-serial="' + qtiElement.serial + '"]').addClass('apip-feature-info-' + aeInfoType);
+                    $container.find('.element[data-serial="' + qtiElement.serial + '"]')
+                        .addClass('apip-feature-info-' + aeInfoType)
+                        .children('.information')
+                        .children('.order').addClass('fill').html(i);
+                    
+                    i++;
                 });
             }
         });
@@ -228,10 +304,10 @@ define([
      * @returns {undefined}
      */
     function resetApipFeatures($container){
-        $container.find('.element').addBack().removeClass(function (index, css){
+        $container.find('.qti-element-selector').find('.element').addBack().removeClass(function (index, css){
             var classes = css.match(/(^|\s)apip-feature-\S+/g) || [];
             return classes.join(' ');
-        });
+        }).find('.order').removeClass('fill').empty();
     }
 
     return {
