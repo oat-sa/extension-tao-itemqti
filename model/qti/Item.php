@@ -477,7 +477,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
     protected function getTemplateQtiVariables(){
         $variables = parent::getTemplateQtiVariables();
-
+        
         $variables['stylesheets'] = '';
         foreach($this->stylesheets as $stylesheet){
             $variables['stylesheets'] .= $stylesheet->toQTI();
@@ -515,9 +515,8 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
                 $renderedResponseProcessing = $responseProcessing->toQTI();
             }
         }
-
+        unset($variables['attributes']['class']);
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
-        $variables['class'] = $this->getAttributeValue('class');
 
         return $variables;
     }

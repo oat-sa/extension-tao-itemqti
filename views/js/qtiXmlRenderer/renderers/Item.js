@@ -21,11 +21,6 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
                 'class' : ''
             };
-
-            if(data.attributes && data.attributes.class) {
-                defaultData.class = data.attributes.class;
-                delete data.attributes.class;
-            }
             
             _.each(item.responses, function(response){
                 defaultData.responses.push(response.render(renderer));
@@ -40,7 +35,10 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 defaultData.feedbacks.push(feedback.render(renderer));
             });
             
-            return _.merge(data || {}, defaultData);
+            data = _.merge(data || {}, defaultData);
+            delete data.attributes.class;
+            
+            return data;
         }
     };
 });
