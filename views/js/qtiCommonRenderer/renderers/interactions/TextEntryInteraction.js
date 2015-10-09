@@ -35,44 +35,6 @@ define([
     'use strict';
 
     /**
-     * Setting the pattern mask for the input, for browsers which doesn't support this feature
-     * @param {jQuery} $element
-     * @param {string} pattern
-     * @returns {undefined}
-     */
-    var _setPattern = function($element, pattern){
-        var patt = new RegExp('^' + pattern + '$'),
-            patternSupported = ('pattern' in document.createElement('input'));
-
-
-
-
-        $element.attr('pattern', pattern);
-        //test when some data is entering in the input field
-        $element.on('keyup', function(){
-            $element.removeClass('field-error');
-            if(!patt.test($element.val())){
-
-
-                /*
-                 * FIXME WTF is this check ? If I understand if there is a pattern attribute,
-                 *
-                 * --- orinal comment:
-                 * checking if pattern attribute is not supported of the browser
-                 * or if the browser is safari(bug with pattern attribute support)
-                 *
-                 */
-                if(!patternSupported || navigator.userAgent.match(/Safari/i)){
-                    $element.addClass('field-error');
-                }
-                $element.tooltipster('show');
-            } else {
-                $element.tooltipster('hide');
-            }
-        });
-    };
-
-    /**
      * Init rendering, called after template injected into the DOM
      * All options are listed in the QTI v2.1 information model:
      * http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10333
@@ -99,8 +61,6 @@ define([
                 delay: 350,
                 trigger: 'custom'
             });
-
-            _setPattern($el, attributes.patternMask);
         }
 
         //checking if there's a placeholder for the input
@@ -108,9 +68,26 @@ define([
             $el.attr('placeholder', attributes.placeholderText);
         }
 
-        $el.on('keyup', _.throttle(function(){
+        $el.on('keyup.commonRenderer', _.debounce(function(){
+            
+            var regex;
+            if(attributes.patternMask){
+                regex = new RegExp('^' + attributes.patternMask + '$');
+                 if(regex.test($el.val())){
+                    $el.tooltipster('hide').removeClass('invalid');
+                } else {
+                    
+                    $el.tooltipster('show').addClass('invalid');//adding the class invalid prevent the invalid response to be submitted
+                }
+            }
             containerHelper.triggerResponseChangeEvent(interaction);
-        }, 300, {leading : false}));
+            
+        }, 600)).on('keydown.commonRenderer', function(){
+            //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
+            if(attributes.patternMask){
+                $el.tooltipster('hide');
+            }
+        });
     };
 
     var resetResponse = function(interaction){
@@ -164,8 +141,9 @@ define([
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             numericBase = attributes.base || 10;
-
-        if(attributes.placeholderText && $el.val() === attributes.placeholderText){
+        
+        if($el.hasClass('invalid') || (attributes.placeholderText && $el.val() === attributes.placeholderText)){
+            //invalid response or response equals to the placeholder text are considered empty
             value = '';
         }else{
             if(baseType === 'integer'){
