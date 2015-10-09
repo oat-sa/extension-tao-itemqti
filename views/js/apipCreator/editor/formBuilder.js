@@ -128,6 +128,7 @@ define([
                     if (formView.accessElementInfo.pristine) {
                         formHelper.removeAssociatedAccessElement(formView);
                     }
+                    formView.validator.destroy();
                     $formContent.trigger('destroy' + _ns);
                     return true;
                 }

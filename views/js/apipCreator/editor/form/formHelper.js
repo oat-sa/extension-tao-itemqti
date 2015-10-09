@@ -117,7 +117,7 @@ define([
         return new FormValidator({
             container : $container,
             highlighter : {
-                type : 'tooltip'
+                type : 'qtip'
             }
         });
     }
