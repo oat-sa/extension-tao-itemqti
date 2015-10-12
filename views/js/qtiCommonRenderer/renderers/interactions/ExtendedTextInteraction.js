@@ -61,7 +61,9 @@ define([
                 'extraPlugins': 'onchange',
                 'language': 'en',
                 'defaultLanguage': 'en',
-                'resize_enabled': true
+                'resize_enabled': true,
+                'secure': location.protocol == 'https:',
+                'forceCustomDomain' : true
             };
 
             if(!multiple){
@@ -80,10 +82,10 @@ define([
 
                     editor.on('loaded', function(){
                         //it seems there's still something done after loaded, so resolved must be defered
-                        _.delay(resolve, 200);
+                        _.delay(resolve, 300);
                     });
                     if(editor.status === 'ready' || editor.status === 'loaded'){
-                        resolve();
+                        _.defer(resolve);
                     }
                     editor.on('configLoaded', function(e) {
                         editor.config = ckConfigurator.getConfig(editor, toolbarType, ckOptions);
@@ -655,11 +657,15 @@ define([
         var limiter = inputLimiter(interaction);
 
         if ( _getFormat(interaction) === 'xhtml') {
+            try{
             _getCKEditor(interaction).setData(text, function(){
                 if(limiter.enabled){
                     limiter.updateCounter();
                 }
             });
+            } catch(e){
+                console.error('setText error', e);
+            }
         } else {
             containerHelper.get(interaction).find('textarea').val(text);
             if(limiter.enabled){
