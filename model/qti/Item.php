@@ -515,7 +515,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
                 $renderedResponseProcessing = $responseProcessing->toQTI();
             }
         }
+
+        // move item CSS class to itemBody
+        $variables['class'] = $this->getAttributeValue('class');
         unset($variables['attributes']['class']);
+
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
 
         return $variables;
