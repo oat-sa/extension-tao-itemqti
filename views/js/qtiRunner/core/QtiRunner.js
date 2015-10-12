@@ -204,7 +204,11 @@ define([
             
             var interaction = interactions[serial];
             var response = interaction.getResponse();
-            
+
+            if (interaction.typeIdentifier === 'textReaderInteraction') {
+                continue;
+            }
+ 
             responses[interaction.attr('responseIdentifier')] = response;
         }
         
