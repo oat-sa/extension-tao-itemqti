@@ -55,11 +55,36 @@ class Parser extends tao_models_classes_Parser
     public function validate($schema = ''){
         
         if (empty($schema)) {
-            $validSchema = $this->validateMultiple(array(
-                __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd',
-                __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
-                __DIR__.'/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-            ));
+            
+            // Let's detect NS in use...
+            $dom = new DOMDocument('1.0', 'UTF-8');
+            $dom->loadXML($this->source);
+            
+            // default is QTI 2.1.
+            $schemas = array(
+                __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd'
+            );
+            
+            // Retrieve Root's namespace.
+            $ns = $dom->documentElement->lookupNamespaceUri(null);
+            switch ($ns) {
+                case 'http://www.imsglobal.org/xsd/imsqti_v2p0':
+                    $schemas = array(
+                        __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
+                    );
+                    break;
+                    
+                case 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1':
+                    $schemas = array(
+                        __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
+                        __DIR__.'/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+                    );
+                    break;
+            }
+            
+            \common_Logger::i("The following schema will be used to validate: '" . $schemas[0] . "'.");
+            
+            $validSchema = $this->validateMultiple($schemas);
             $returnValue = $validSchema !== '';
         } elseif(!file_exists($schema)) {
             throw new \common_Exception('no schema found in the location '.$schema);
