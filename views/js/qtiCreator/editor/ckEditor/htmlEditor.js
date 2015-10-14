@@ -160,7 +160,7 @@ define([
 
                     var widgets = {},
                         editor = e.editor;
-
+                    
                     /**
                      * changed callback
                      * @param {Object} editor - ckeditor instance
@@ -312,13 +312,13 @@ define([
         options = options || {};
 
         var widgets = {};
-
+        
         //re-init all widgets:
         _.each(_.values(container.elements), function(elt){
 
             var widget = elt.data('widget'),
                 currentState = widget.getCurrentState().name;
-
+                
             widgets[elt.serial] = widget.rebuild({
                 context : $container,
                 ready : function(widget){
@@ -471,7 +471,7 @@ define([
                 });
 
             };
-
+            
             if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
 
                 //only _container that are NOT stateless need to change its state to sleep before activating the new one.
@@ -512,13 +512,13 @@ define([
      * @returns {undefined}
      */
     function _focus(editor){
-        if (!editor.editable().parentNode){
-            return;
+        var range;
+        if (editor.editable() && editor.editable().parentNode){
+            editor.focus();
+            range = editor.createRange();
+            range.moveToElementEditablePosition(editor.editable(), true);
+            editor.getSelection().selectRanges([range]);
         }
-        editor.focus();
-        var range = editor.createRange();
-        range.moveToElementEditablePosition(editor.editable(), true);
-        editor.getSelection().selectRanges([range]);
     }
 
     var editorFactory = {
