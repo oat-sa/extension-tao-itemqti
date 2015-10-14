@@ -53,9 +53,6 @@ define([
             this.getOption('responseOptionForm'),
             options
         );
-
-        widget.changeState('question');//trigger rendering of inner elements
-        widget.changeState('sleep');//restore default state "sleep"
     };
 
     return CreatorCustomInteraction;
