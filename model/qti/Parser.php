@@ -59,12 +59,7 @@ class Parser extends tao_models_classes_Parser
             // Let's detect NS in use...
             $dom = new DOMDocument('1.0', 'UTF-8');
             $dom->loadXML($this->source);
-            
-            // default is QTI 2.1.
-            $schemas = array(
-                __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd'
-            );
-            
+
             // Retrieve Root's namespace.
             $ns = $dom->documentElement->lookupNamespaceUri(null);
             switch ($ns) {
@@ -73,11 +68,18 @@ class Parser extends tao_models_classes_Parser
                         __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
                     );
                     break;
-                    
+
                 case 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1':
                     $schemas = array(
                         __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
                         __DIR__.'/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+                    );
+                    break;
+                
+                // default is QTI 2.1.
+                default :
+                    $schemas = array(
+                        __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd'
                     );
                     break;
             }
