@@ -10,7 +10,7 @@
     <label for="alt">{{__ "Alt Text"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The text to be displayed if the image is not available.'}}</div>
-    <input type="text" name="alt" value="{{alt}}" data-validate="$notEmpty" placeholder="e.g. House with a garden"/>
+    <input type="text" name="alt" value="{{alt}}" placeholder="e.g. House with a garden"/>
 </div>
 
 <div class="change-alt-modal-feedback modal">
