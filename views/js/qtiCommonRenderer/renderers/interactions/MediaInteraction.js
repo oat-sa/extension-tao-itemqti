@@ -33,25 +33,6 @@ define([
     'use strict';
 
     /**
-     * Get the media type (audio, video or video/youtube) regarding it's mime type.
-     * @param {String} mimetype - the mime type
-     * @returns {String} the catrgory/type
-     */
-    var getMediaType = function(mimetype) {
-        var type = '';
-        if (mimetype !== '') {
-            if (mimetype.indexOf('youtube') !== -1) {
-                type = 'video/youtube';
-            } else if (mimetype.indexOf('video') === 0 || mimetype.indexOf('application/ogg')) {
-                type = 'video';
-            } else if (mimetype.indexOf('audio') === 0) {
-                type = 'audio';
-            }
-        }
-        return type;
-    };
-
-    /**
      * Resize video player elements to fit container size
      * @param {Object} mediaElement - player instance
      * @param {jQueryElement} $container   - container element to adapt
@@ -85,21 +66,19 @@ define([
      */
     var render = function render(interaction) {
         var self = this;
-        var $container          = containerHelper.get(interaction);
-        var $item               = $container.parents('.qti-item');
-        var media               = interaction.object;
-        var mediaType           = getMediaType(media.attr('type') || defaults.type);
-        var enablePause         = $container.hasClass('pause');
-        var maxPlays            = parseInt(interaction.attr('maxPlays'), 10) || 0;
-        var url                 = media.attr('data') ? self.resolveUrl(media.attr('data')) : '';
+        var $container = containerHelper.get(interaction);
+        var $item      = $container.parents('.qti-item');
+        var media      = interaction.object;
+        var maxPlays   = parseInt(interaction.attr('maxPlays'), 10) || 0;
+        var url        = media.attr('data') || '';
 
         //intialize the player if not yet done
         var initMediaPlayer = function initMediaPlayer(){
             if (!interaction.mediaElement) {
                 interaction.mediaElement = mediaplayer({
-                    url: url,
-                    type: mediaType,
-                    canPause: enablePause,
+                    url: url && self.resolveUrl(url),
+                    type: media.attr('type') || defaults.type,
+                    canPause: $container.hasClass('pause'),
                     maxPlays: maxPlays,
                     width: media.attr('width'),
                     height: media.attr('height'),
