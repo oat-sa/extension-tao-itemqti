@@ -103,6 +103,9 @@ define([
 
                         $item.off('resize.gridEdit')
                             .on('resize.gridEdit', delayedResize);
+                    },
+                    onready: function(mediaElement) {
+                        resizeVideo(mediaElement, $container);
 
                         /**
                          * @event playerready
