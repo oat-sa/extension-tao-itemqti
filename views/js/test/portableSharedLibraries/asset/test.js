@@ -19,6 +19,13 @@ define([
         assert.ok(typeof asset.getAll === 'function', 'asset.getAll() is a function');
     });
     
+    QUnit.test('exists', function(assert){
+        var $container = $('#'+containerId);
+        var asset = assetMgr($container);
+        assert.equal(_.size(asset.getAll()), 8, 'all assets identified');
+        assert.ok(asset.exists('asset/add.png'), 'asset url found');
+    });
+    
     QUnit.test('get', function(assert){
         var $container = $('#'+containerId);
         var asset = assetMgr($container);

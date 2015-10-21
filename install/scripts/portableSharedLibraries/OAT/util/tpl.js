@@ -18,8 +18,13 @@
  */
 define(['OAT/handlebars'], function(handlebars){
     
+    'use strict';
+    
     /**
      * Find and compile templates found in the $container
+     * 
+     * @param {jQuery} $container
+     * @returns {object}
      */
     function loadTemplates($container){
         
@@ -29,17 +34,23 @@ define(['OAT/handlebars'], function(handlebars){
             
             var $template = $(this),
                 id = $template.data('template-id'),
-                tplBody = $template.html();
+                tplSource = $template.html();
                 
-            if(id && tplBody){
-                templates[id] = handlebars.compile();
+            if(id && tplSource){
+                templates[id] = handlebars.compile(tplSource);
             }    
         });
         
         return templates;
     }
     
-    function tpl($container){
+    /**
+     * Create a template manager object from a JQuery container
+     * 
+     * @param {JQuery} $container
+     * @returns {Object}
+     */
+    return function tpl($container){
         
         var templates = loadTemplates($container);
         
@@ -55,7 +66,5 @@ define(['OAT/handlebars'], function(handlebars){
                 }
             }
         };
-    }
-    
-    return tpl;
+    };
 });

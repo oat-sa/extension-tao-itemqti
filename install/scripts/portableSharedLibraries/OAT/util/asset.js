@@ -17,8 +17,15 @@
  *
  */
 define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
-
-
+    
+    'use strict';
+    
+    /**
+     * Get all assets found in the $container and returns an object containing [assetId => assetUrl]
+     * 
+     * @param {jQuery} $container
+     * @returns {object}
+     */
     function getAllAssets($container){
         var assets = {};
         var $assets = $($container.find('[type="text/x-asset-manifest"]').html());
@@ -35,11 +42,20 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
         return assets;
     }
     
-    function asset($container){
+    /**
+     * Create an asset manager object from a JQuery container
+     * 
+     * @param {jQuery} $container
+     * @returns {object}
+     */
+    return function asset($container){
         
         var assets = getAllAssets($container);
         
         return {
+            exists : function exists(id){
+                return (id && assets[id]);
+            },
             get : function get(id){
                 return assets[id] || '';
             },
@@ -48,6 +64,4 @@ define(['IMSGlobal/jquery_2_1_1', 'OAT/lodash'], function($, _){
             }
         };
     };
-    
-    return asset;
 });
