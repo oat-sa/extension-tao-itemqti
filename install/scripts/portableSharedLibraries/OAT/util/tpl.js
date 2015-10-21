@@ -16,6 +16,46 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define([], function(){
+define(['OAT/handlebars'], function(handlebars){
     
+    /**
+     * Find and compile templates found in the $container
+     */
+    function loadTemplates($container){
+        
+        var templates = {};
+        var $templates = $($container.find('[type="text/x-template-manifest"]').html());
+        $templates.each(function(){
+            
+            var $template = $(this),
+                id = $template.data('template-id'),
+                tplBody = $template.html();
+                
+            if(id && tplBody){
+                templates[id] = handlebars.compile();
+            }    
+        });
+        
+        return templates;
+    }
+    
+    function tpl($container){
+        
+        var templates = loadTemplates($container);
+        
+        return {
+            exists : function exists(templateId){
+                return (templateId && templates[templateId]);
+            },
+            render : function render(templateId, data){
+                if(templateId && templates[templateId]){
+                    return templates[templateId](data || {});
+                }else{
+                    throw 'no valid template found for the id ' + templateId;
+                }
+            }
+        };
+    }
+    
+    return tpl;
 });
