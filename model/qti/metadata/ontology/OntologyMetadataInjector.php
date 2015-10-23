@@ -88,7 +88,7 @@ class OntologyMetadataInjector implements MetadataInjector
                     $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $metadataValue->getValue(), $lang);
                 }
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-                $metadata = $metadataValues->getPath();
+                $metadata = $metadataValue->getPath();
                 $metadataUri = array_pop($metadata);
                 $eventManager->trigger(new MetadataModified($target, $metadataUri,$metadataValue->getValue()));
             }
