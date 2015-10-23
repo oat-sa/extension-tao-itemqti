@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['OAT/handlebars'], function(handlebars){
+define(['IMSGlobal/jquery_2_1_1', 'OAT/handlebars'], function($, handlebars){
     
     'use strict';
     
