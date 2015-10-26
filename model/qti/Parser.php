@@ -58,9 +58,24 @@ class Parser extends tao_models_classes_Parser
             
             // Let's detect NS in use...
             $dom = new DOMDocument('1.0', 'UTF-8');
-            $dom->loadXML($this->source);
+
+            switch($this->sourceType){
+                case self::SOURCE_FILE:
+                    $dom->load($this->source);
+                    break;
+                case self::SOURCE_URL:
+                    $xmlContent = tao_helpers_Request::load($this->source, true);
+                    $dom->loadXML($xmlContent);
+                    break;
+                case self::SOURCE_STRING:
+                    $dom->loadXML($this->source);
+                    break;
+            }
 
             // Retrieve Root's namespace.
+            if( $dom->documentElement == null ){
+                throw new \common_Exception('dom is null and could not be validate');
+            }
             $ns = $dom->documentElement->lookupNamespaceUri(null);
             switch ($ns) {
                 case 'http://www.imsglobal.org/xsd/imsqti_v2p0':
