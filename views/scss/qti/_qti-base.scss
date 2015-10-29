@@ -77,11 +77,16 @@ $mainContainer : '.qti-item';
     }
     /* authoring */
 
-
     .qti-choice, .qti-prompt-container {
         p:last-child {
             margin-bottom: 0 !important;
         }
+    }
+
+    // MathJax reset
+    .MathJax span {
+        line-height: inherit;
+        font-size: inherit;
     }
 
     //scope all hover, active style for delivery under the runtime class
