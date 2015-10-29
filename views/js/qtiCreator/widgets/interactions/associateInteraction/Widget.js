@@ -19,20 +19,24 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/states/states',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
-], function(Widget, states, sizeAdapter){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
+    'ui/waitForMedia'
+], function(Widget, states, sizeAdapter, waitForMedia){
 
     'use strict';
 
     var AssociateInteractionWidget = Widget.clone();
 
     AssociateInteractionWidget.initCreator = function(){
-        
+
         this.registerStates(states);
         
         Widget.initCreator.call(this);
-        
-        sizeAdapter.adaptSize(this);
+
+        var that = this;
+        $(this.$container).waitForMedia(function() {
+            sizeAdapter.adaptSize(that);
+        });
     };
     
     return AssociateInteractionWidget;
