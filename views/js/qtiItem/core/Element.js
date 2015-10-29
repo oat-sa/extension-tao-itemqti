@@ -363,8 +363,10 @@ define([
 
             var clazz = this.attr('class') || '';
             if(clazz){
-                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-                clazz = clazz.replace(regex, '').replace(/^\s+/, '');
+
+                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)');
+                clazz = clazz.replace(regex, ' ').trim();
+
                 if(clazz){
                     this.attr('class', clazz);
                 }else{
