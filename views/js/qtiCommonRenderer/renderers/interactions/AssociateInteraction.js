@@ -31,8 +31,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'util/adaptSize'
-], function($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
+    'util/adaptSize',
+    'ui/waitForMedia'
+], function($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize, waitForMedia){
     'use strict';
 
     var setChoice = function(interaction, $choice, $target){
@@ -386,7 +387,10 @@ define([
                 _setInstructions(interaction);
             }
 
-            adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+            $container.waitForMedia(function() {
+                adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
+            });
+
             resolve();
 
         });
