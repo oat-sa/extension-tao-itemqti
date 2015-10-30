@@ -17,28 +17,24 @@
  *
  */
 define([
-    'jquery',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/states/states',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
-    'ui/waitForMedia'
-], function($, Widget, states, sizeAdapter, waitForMedia){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
+], function (Widget, states, sizeAdapter) {
 
     'use strict';
 
-    var self = this;
     var AssociateInteractionWidget = Widget.clone();
 
-    AssociateInteractionWidget.initCreator = function(){
+    AssociateInteractionWidget.initCreator = function () {
 
         this.registerStates(states);
-        
+
         Widget.initCreator.call(this);
 
-        $(this.$container).waitForMedia(function() {
-            sizeAdapter.adaptSize(self);
-        });
+        sizeAdapter.adaptSize(this);
+
     };
-    
+
     return AssociateInteractionWidget;
 });
