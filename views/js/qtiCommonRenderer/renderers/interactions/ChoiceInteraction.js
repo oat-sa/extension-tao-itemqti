@@ -56,20 +56,20 @@ define([
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(keyCode != KEY_CODE_TAB){
+            if(keyCode !== KEY_CODE_TAB){
                 e.preventDefault();
             }
 
-            if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
                 _triggerCheckboxes($(this).closest('.qti-choice'));
             }
 
             var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
             var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
-            if( keyCode == KEY_CODE_UP ){
+            if (keyCode === KEY_CODE_UP){
                 $prevInput.focus();
-            } else if( keyCode == KEY_CODE_DOWN ){
+            } else if (keyCode === KEY_CODE_DOWN){
                 $nextInput.focus();
             }
         });
