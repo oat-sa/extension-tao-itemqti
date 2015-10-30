@@ -50,7 +50,7 @@ define([
                     $container = $($elements).first().parent();
             }
 
-            $($container).waitForMedia(function () {
+            $container.waitForMedia(function () {
                 adaptSize.height($elements);
             });
         }
