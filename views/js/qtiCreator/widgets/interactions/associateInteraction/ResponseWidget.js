@@ -21,7 +21,7 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
 ], function(_, __, commonRenderer, sizeAdapter, instructionMgr){
 

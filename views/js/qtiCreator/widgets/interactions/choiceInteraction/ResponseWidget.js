@@ -26,7 +26,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.score',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label',
     'polyfill/placeholders'
