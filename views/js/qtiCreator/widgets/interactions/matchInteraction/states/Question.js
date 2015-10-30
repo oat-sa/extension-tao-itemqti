@@ -25,7 +25,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.adder',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.row',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.cell',
-    'taoQtiItem/qtiCommonRenderer/sizeAdapter'
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
 ], function($, _, stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, sizeAdapter){
 
     'use strict';

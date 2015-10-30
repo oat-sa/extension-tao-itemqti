@@ -31,9 +31,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'util/adaptSize',
-    'ui/waitForMedia'
-], function($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize, waitForMedia){
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
+], function ($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
+
     'use strict';
 
     var setChoice = function(interaction, $choice, $target){
@@ -233,7 +233,7 @@ define([
              */
             var _setChoice = function($choice, $target){
                 setChoice(interaction, $choice, $target);
-                adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+                sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
             };
 
             var _resetSelection = function(){
@@ -247,7 +247,7 @@ define([
 
             var _unsetChoice = function($choice){
                 unsetChoice(interaction, $choice, true);
-                adaptSize.height($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+                sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
             };
 
             var _isInsertionMode = function(){
@@ -387,9 +387,7 @@ define([
                 _setInstructions(interaction);
             }
 
-            $container.waitForMedia(function() {
-                adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
-            });
+            sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', $container));
 
             resolve();
 
