@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'lodash',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'ui/liststyler'
 ], function(stateFactory, Question, formElement, interactionFormElement, formTpl, _, sizeAdapter){
 
