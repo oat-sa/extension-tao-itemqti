@@ -29,9 +29,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'util/adaptSize',
-    'ui/waitForMedia'
-], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, adaptSize, waitForMedia) {
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
+], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
 
     'use strict';
 
@@ -118,9 +117,7 @@ define([
         _setInstructions(interaction);
 
         if(interaction.attr('orientation') === 'horizontal') {
-            $($container).waitForMedia(function() {
-                adaptSize.height($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
-            });
+            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
         }
     };
 
