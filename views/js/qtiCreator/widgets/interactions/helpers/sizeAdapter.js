@@ -35,19 +35,22 @@ define([
         adaptSize: function (target) {
 
             var $elements;
+            var $container;
 
             switch (true) {
                 // widget
                 case (typeof target.$container !== 'undefined'):
                     $elements = target.$container.find('.add-option, .result-area .target, .choice-area .qti-choice');
+                    $container = target.$container;
                     break;
 
                 // jquery elements
                 default:
                     $elements = target;
+                    $container = $($elements).first().parent();
             }
 
-            $(target.$container).waitForMedia(function () {
+            $($container).waitForMedia(function () {
                 adaptSize.height($elements);
             });
         }
