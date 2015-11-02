@@ -21,7 +21,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
 ], function(stateFactory, Question, formElement, formTpl, sizeAdapter){
 
     'use strict';
