@@ -17,14 +17,11 @@
  *
  */
 define([
-    'util/adaptSize',
     'jquery',
-    'lodash'
-], function(
-    adaptSize,
-    $,
-    _
-    ){
+    'lodash',
+    'util/adaptSize',
+    'ui/waitForMedia'
+], function ($, _, adaptSize, waitForMedia) {
 
     'use strict';
 
@@ -35,25 +32,27 @@ define([
          *
          * @param {jQueryElement|widget} target
          */
-        adaptSize : function(target){
+        adaptSize: function (target) {
 
             var $elements;
+            var $container;
 
-            switch(true) {
+            switch (true) {
                 // widget
                 case (typeof target.$container !== 'undefined'):
                     $elements = target.$container.find('.add-option, .result-area .target, .choice-area .qti-choice');
+                    $container = target.$container;
                     break;
 
                 // jquery elements
                 default:
                     $elements = target;
+                    $container = $($elements).first().parent();
             }
 
-            _.delay(function(){
+            $container.waitForMedia(function () {
                 adaptSize.height($elements);
-
-            }, 150);
+            });
         }
     };
 });
