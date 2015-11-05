@@ -548,7 +548,7 @@ abstract class Element implements Exportable
                 if($propertyName != 'relatedItem'){
                     $value = $this->$propertyName;
                     if(is_array($value)){
-                        foreach($value as $subvalue){
+                        foreach ($value as $subvalue) {
                             if($subvalue instanceof Element){
                                 if($subvalue instanceof $className){
                                     $returnValue[$subvalue->getSerial()] = $subvalue;
