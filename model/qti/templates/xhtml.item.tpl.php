@@ -51,7 +51,7 @@
         <?php endif;?>
 
     </head>
-    <body>
+    <body class="tao-item-scope">
         <div id="qti_item"></div>
     </body>
 </html>

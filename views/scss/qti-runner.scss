@@ -9,6 +9,5 @@ $mainContainer : '.qti-item';
 @import "inc/bootstrap";
 @import "inc/fonts/tao-icon-def";
 @import "inc/fonts/tao-icon-vars";
-@import "inc/select2";
 
-@import "qti";
+@import "qti/qti-base";

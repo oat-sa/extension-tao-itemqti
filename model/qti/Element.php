@@ -667,7 +667,7 @@ abstract class Element implements Exportable
             $serial = str_replace('\\', '_', $serial);
         }else{
             //build a short unique id for memory saving
-            $serial = uniqid();
+            $serial = uniqid('i');
         }
         
         return (string) $serial;
