@@ -549,23 +549,11 @@ abstract class Element implements Exportable
                     $value = $this->$propertyName;
                     if(is_array($value)){
                         foreach ($value as $subvalue) {
-                            //for matchInteraction choices is not an array of Element but an array of array of Element
-                            if ($propertyName === 'choices' && is_array($subvalue)) {
-                                foreach ($subvalue as $choice) {
-                                    if ($choice instanceof Element) {
-                                        if ($choice instanceof $className) {
-                                            $returnValue[$choice->getSerial()] = $choice;
-                                        }
-                                        $returnValue = array_merge($returnValue, $choice->getComposingElements($className));
-                                    }
+                            if($subvalue instanceof Element){
+                                if($subvalue instanceof $className){
+                                    $returnValue[$subvalue->getSerial()] = $subvalue;
                                 }
-                            } else {
-                                if($subvalue instanceof Element){
-                                    if($subvalue instanceof $className){
-                                        $returnValue[$subvalue->getSerial()] = $subvalue;
-                                    }
-                                    $returnValue = array_merge($returnValue, $subvalue->getComposingElements($className));
-                                }
+                                $returnValue = array_merge($returnValue, $subvalue->getComposingElements($className));
                             }
                         }
                     }else{
