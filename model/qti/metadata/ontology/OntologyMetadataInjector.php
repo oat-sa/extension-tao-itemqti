@@ -20,6 +20,9 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use \core_kernel_classes_Resource;
@@ -84,6 +87,10 @@ class OntologyMetadataInjector implements MetadataInjector
                     // Direct Injection.
                     $target->setPropertyValueByLg(new core_kernel_classes_Property($rule[0]), $metadataValue->getValue(), $lang);
                 }
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $metadata = $metadataValue->getPath();
+                $metadataUri = array_pop($metadata);
+                $eventManager->trigger(new MetadataModified($target, $metadataUri,$metadataValue->getValue()));
             }
         }
     }
