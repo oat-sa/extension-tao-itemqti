@@ -534,6 +534,7 @@ class ImportService extends tao_models_classes_GenerisService
                     }
                 }
 
+                $itemService->setItemContent($rdfItem, $itemContent);
 
                 // Finally, import metadata.
                 $this->importItemMetadata($metadataValues, $qtiItemResource, $rdfItem, $metadataInjectors);
@@ -543,7 +544,6 @@ class ImportService extends tao_models_classes_GenerisService
                     $this->storeApip($qtiFile, $rdfItem);
                 }
 
-                $itemService->setItemContent($rdfItem, $itemContent);
 
                 $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.',
                     $qtiItemResource->getIdentifier());

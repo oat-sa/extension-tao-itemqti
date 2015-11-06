@@ -94,7 +94,7 @@ class PortableInfoControl extends InfoControl
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'interactions/qti.customInteraction.tpl.php';
+        return static::getTemplatePath().'interactions/qti.infoControlInteraction.tpl.php';
     }
 
     protected function getTemplateQtiVariables(){
