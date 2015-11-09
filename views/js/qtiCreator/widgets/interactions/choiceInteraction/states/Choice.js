@@ -19,7 +19,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Choice',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/sizeAdapter'
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
 ], function(stateFactory, Choice, sizeAdapter){
 
     'use strict';

@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'util/adaptSize'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse, adaptSize){
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
+], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
+
     'use strict';
 
     var KEY_CODE_SPACE = 32;
@@ -55,20 +56,20 @@ define([
 
         $choiceInputs.on('keydown.commonRenderer', function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(keyCode != KEY_CODE_TAB){
+            if(keyCode !== KEY_CODE_TAB){
                 e.preventDefault();
             }
 
-            if( keyCode == KEY_CODE_SPACE || keyCode == KEY_CODE_ENTER){
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
                 _triggerCheckboxes($(this).closest('.qti-choice'));
             }
 
             var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
             var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
-            if( keyCode == KEY_CODE_UP ){
+            if (keyCode === KEY_CODE_UP){
                 $prevInput.focus();
-            } else if( keyCode == KEY_CODE_DOWN ){
+            } else if (keyCode === KEY_CODE_DOWN){
                 $nextInput.focus();
             }
         });
@@ -116,7 +117,7 @@ define([
         _setInstructions(interaction);
 
         if(interaction.attr('orientation') === 'horizontal') {
-            adaptSize.height($container.find('.add-option, .result-area .target, .choice-area .qti-choice'));
+            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
         }
     };
 

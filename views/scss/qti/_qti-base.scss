@@ -10,7 +10,6 @@ $mainContainer : '.qti-item';
 @import "inc/select2";
 @import "inc/mediaelementplayer";
 
-
 %selectableHover {
     background: whiten($info, .95) !important;
     cursor: pointer !important;
@@ -78,11 +77,16 @@ $mainContainer : '.qti-item';
     }
     /* authoring */
 
-
     .qti-choice, .qti-prompt-container {
         p:last-child {
             margin-bottom: 0 !important;
         }
+    }
+
+    // MathJax reset
+    .MathJax span {
+        line-height: inherit;
+        font-size: inherit;
     }
 
     //scope all hover, active style for delivery under the runtime class
@@ -228,19 +232,19 @@ $mainContainer : '.qti-item';
         }
     }
 
-    @import "qti/_choice";
-    @import "qti/_order";
-    @import "qti/_extended-text";
-    @import "qti/_associate";
-    @import "qti/_match";
-    @import "qti/_media";
-    @import "qti/_graphic";
-    @import "qti/_hottext";
-    @import "qti/_gap-match";
-    @import "qti/_slider";
-    @import "qti/_inline-choice";
-    @import "qti/_text-entry";
-    @import "qti/_upload";
-    @import "qti/_rubric-block";
+    @import "choice";
+    @import "order";
+    @import "extended-text";
+    @import "associate";
+    @import "match";
+    @import "media";
+    @import "graphic";
+    @import "hottext";
+    @import "gap-match";
+    @import "slider";
+    @import "inline-choice";
+    @import "text-entry";
+    @import "upload";
+    @import "rubric-block";
 
 }
