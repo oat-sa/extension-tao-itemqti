@@ -70,7 +70,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      */
     public function export($formValues, $destination) {
         $report = \common_report_Report::createSuccess();
-    	if(isset($formValues['filename'])) {
+		if (isset($formValues['filename'], $formValues['instances'])) {
 			$instances = $formValues['instances'];
 			if(count($instances) > 0){
 
