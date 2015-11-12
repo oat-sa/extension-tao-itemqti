@@ -103,7 +103,12 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 				$report->setData($path);
 			}
 		} else {
-			common_Logger::w('Missing filename for export using '.__CLASS__);
+			if (!isset($formValues['filename'])) {
+				common_Logger::w('Missing filename for export using '.__CLASS__);
+			}
+			if (!isset($formValues['instances'])) {
+				common_Logger::w('No instances selected for export using '.__CLASS__);
+			}
 		}
 		return $report;
     }
