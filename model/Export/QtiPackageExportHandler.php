@@ -70,7 +70,7 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
      */
     public function export($formValues, $destination) {
         $report = \common_report_Report::createSuccess();
-    	if(isset($formValues['filename'])) {
+		if (isset($formValues['filename'], $formValues['instances'])) {
 			$instances = $formValues['instances'];
 			if(count($instances) > 0){
 
@@ -103,7 +103,12 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
 				$report->setData($path);
 			}
 		} else {
-			common_Logger::w('Missing filename for export using '.__CLASS__);
+			if (!isset($formValues['filename'])) {
+				common_Logger::w('Missing filename for export using '.__CLASS__);
+			}
+			if (!isset($formValues['instances'])) {
+				common_Logger::w('No instances selected for export using '.__CLASS__);
+			}
 		}
 		return $report;
     }
