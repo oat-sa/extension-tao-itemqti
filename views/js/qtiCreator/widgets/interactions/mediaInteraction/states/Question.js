@@ -148,8 +148,8 @@ define([
                 },
                 open : function(){
                     //hide tooltip if displayed
-                    if($src.hasClass('tooltipstered')){
-                        $src.blur().tooltipster('hide');
+                    if($src.data('qtip')){
+                        $src.blur().qtip('hide');
                     }
                 },
                 close : function(){

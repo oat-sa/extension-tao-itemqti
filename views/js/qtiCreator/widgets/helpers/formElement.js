@@ -240,28 +240,26 @@ define([
 
     };
 
-    var _validationCallback = function _validationCallback(valid, results){
+    var _validationCallback = function _validationCallback(valid, results, validatorOptions){
 
         var $input = $(this),
             rule;
 
         if(dom.contains($input)){
 
-            _createTooltip($input);
-
-            $input.qtip('hide');
+            _createTooltip($input, validatorOptions);
 
             if(!valid){
                 //invalid input!
                 rule = _.where(results, {type : 'failure'})[0];
-                if(rule && rule.data.message){
+                if(rule && rule.data.message && !$('#mediaManager').children('.opened').length){
                     $input.qtip('set', 'content.text', rule.data.message);
-                    if(!$('#mediaManager').children('.opened').length){
-                        //only show it when the file manager is hidden
-                        $input.qtip('show');
-                    }
+                    //only show it when the file manager is hidden
+                    $input.qtip('show');
                 }
 
+            } else {
+                $input.qtip('hide');
             }
 
         }
@@ -270,23 +268,24 @@ define([
 
     };
 
-    var _createTooltip = function($input){
-        if($input.data('hasqtip') === undefined){
+    var _createTooltip = function($input, validatorOptions){
+        if(!$input.data('qtip')){
             $input.qtip({
-                 show: {
-                     event : false
-                 },
-                 hide: {
-                     event : false
-                 },
-                 style : {
-                     classes : 'qtip-rounded qtip-red'
-                 },
-                 position: {
-                     my : 'bottom center',
-                     at : 'top center',
-                     viewport: $(window),
-                 },
+                show: {
+                    event : 'custom'
+                },
+                hide: {
+                    event : 'custom'
+                },
+                style : {
+                    classes : 'qtip-rounded qtip-red'
+                },
+                position: {
+                    my : 'bottom center',
+                    at : 'top center',
+                    viewport: $(window),
+                    container: validatorOptions.$container
+                },
                 content: {
                     text: ''
                 }

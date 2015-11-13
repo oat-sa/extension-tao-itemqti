@@ -71,10 +71,10 @@ define([
             if($scoreInput.data('hasqtip') === undefined){
                 $scoreInput.qtip({
                     show: {
-                        event : false
+                        event : 'custom'
                     },
                     hide: {
-                        event : false
+                        event : 'custom'
                     },
                     style : {
                         classes : 'qtip-rounded qtip-red'
@@ -83,6 +83,7 @@ define([
                         my : 'bottom center',
                         at : 'top center',
                         viewport: $(window),
+                        container: $scoreInput.parent()
                     },
                     content: {
                         text: ''

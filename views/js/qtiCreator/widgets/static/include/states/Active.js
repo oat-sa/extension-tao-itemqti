@@ -81,8 +81,8 @@ define([
                 },
                 open : function(){
                     //hide tooltip if displayed
-                    if($href.hasClass('tooltipstered')){
-                        $href.blur().tooltipster('hide');
+                    if($href.data('qtip')){
+                        $href.blur().qtip('hide');
                     }
                 },
                 close : function(){
