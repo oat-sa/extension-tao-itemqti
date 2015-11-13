@@ -23,19 +23,19 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'util/dom',
     'ui/incrementer',
-    'ui/tooltipster',
+    'ui/qtip',
     'ui/selecter',
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
-], function($, _, __, Element, dom, spinner, tooltip, select2){
+], function($, _, __, Element, dom, spinner, qtip, select2){
     'use strict';
 
     var formElement = {
         initWidget : function($form){
             spinner($form);
-            tooltip($form);
+            qtip($form);
             select2($form);
         },
         /**
@@ -249,17 +249,16 @@ define([
 
             _createTooltip($input);
 
-            $input.tooltipster('hide');
+            $input.qtip('hide');
 
             if(!valid){
-
                 //invalid input!
                 rule = _.where(results, {type : 'failure'})[0];
                 if(rule && rule.data.message){
-                    $input.tooltipster('content', rule.data.message);
+                    $input.qtip('set', 'content.text', rule.data.message);
                     if(!$('#mediaManager').children('.opened').length){
                         //only show it when the file manager is hidden
-                        $input.tooltipster('show');
+                        $input.qtip('show');
                     }
                 }
 
@@ -272,12 +271,25 @@ define([
     };
 
     var _createTooltip = function($input){
-        if(!$input.hasClass('tooltipstered')){
-            $input.tooltipster({
-                theme : 'tao-error-tooltip',
-                content : '',
-                delay : 350,
-                trigger : 'custom'
+        if($input.data('hasqtip') === undefined){
+            $input.qtip({
+                 show: {
+                     event : false
+                 },
+                 hide: {
+                     event : false
+                 },
+                 style : {
+                     classes : 'qtip-rounded qtip-red'
+                 },
+                 position: {
+                     my : 'bottom center',
+                     at : 'top center',
+                     viewport: $(window),
+                 },
+                content: {
+                    text: ''
+                }
             });
         }
     };

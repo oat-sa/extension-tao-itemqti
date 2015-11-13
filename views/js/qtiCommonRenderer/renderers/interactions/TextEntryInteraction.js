@@ -30,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'polyfill/placeholders',
-    'tooltipster'
+    'qtip'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
@@ -55,11 +55,24 @@ define([
         //checking if there's a pattern mask for the input
         if(attributes.patternMask){
             //set up the tooltip plugin for the input
-            $el.tooltipster({
-                theme: 'tao-error-tooltip',
-                content: __('This is not a valid answer'),
-                delay: 350,
-                trigger: 'custom'
+            $el.qtip({
+                style : {
+                    classes : 'qtip-rounded qtip-red'
+                },
+                show : {
+                    event : 'custom'
+                },
+                hide : {
+                    event : 'custom'
+                },
+                position: {
+                    my : 'bottom center',
+                    at : 'top center',
+                    viewport: $(window),
+                },
+                content: {
+                    text: __('This is not a valid answer')
+                }
             });
         }
 
@@ -85,7 +98,7 @@ define([
         }, 600)).on('keydown.commonRenderer', function(){
             //hide the error message while the test taker is inputing an error (let's be indulgent, she is trying to fix her error)
             if(attributes.patternMask){
-                $el.tooltipster('hide');
+                $el.qtip('hide');
             }
         });
     };

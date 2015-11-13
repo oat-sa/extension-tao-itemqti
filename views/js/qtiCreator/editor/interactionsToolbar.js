@@ -6,8 +6,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/tooltipster'
-], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+    'ui/qtip'
+], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, qtip){
     "use strict";
     /**
      * String to identify a custom interaction from the authoring data
@@ -171,7 +171,7 @@ define([
             }));
 
         $inlineInteractionsPanel.append($tooltip);
-        tooltip($inlineInteractionsPanel);
+        qtip($inlineInteractionsPanel);
 
         $tooltip.css({
             position : 'absolute',
@@ -183,12 +183,11 @@ define([
         $inlineInteractionsPanel.on('mouseenter', '.sub-group-cover', function(){
 
             timer = setTimeout(function(){
-                $tooltip.find('[data-tooltip]').tooltipster('show');
+                $tooltip.find('[data-tooltip]').qtip('show');
             }, 300);
 
         }).on('mouseleave', '.sub-group-cover', function(){
-
-            $tooltip.find('[data-tooltip]').tooltipster('hide');
+            $tooltip.find('[data-tooltip]').qtip('hide');
             clearTimeout(timer);
         });
     }
