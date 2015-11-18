@@ -44,7 +44,7 @@ define([
         var hasContent = false;
 
         if(mathStr && mathStr.trim()){
-            var $math = $(mathStr);
+            var $math = $($.parseHTML(mathStr));
             hasContent = !!$math.text();
         }
 
