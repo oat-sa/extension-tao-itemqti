@@ -15,22 +15,21 @@
         {{~/each}}
     </correctResponse>
     {{/if}}
-    {{~#if MAP_RESPONSE}}
-        {{~#if mapEntries~}}
-        <mapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
-            {{~#each mapEntries}}
-            <mapEntry mapKey="{{@key}}" mappedValue="{{.}}" caseSensitive="false"/>
-            {{~/each}}
-        </mapping>
-        {{/if}}
-    {{/if}}
-    {{~#if MAP_RESPONSE_POINT}}
-        {{~#if mapEntries~}}
+    {{~#if isAreaMapping}}
+        {{~#if hasMapEntries~}}
         <areaMapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
             {{~#each mapEntries}}
             <areaMapEntry shape="{{shape}}" coords="{{coords}}" mappedValue="{{mappedValue}}" />
             {{~/each}}
         </areaMapping>
+        {{/if}}
+    {{~else~}}
+        {{~#if hasMapEntries~}}
+        <mapping{{#each mappingAttributes}} {{@key}}="{{.}}"{{/each}}>
+            {{~#each mapEntries}}
+            <mapEntry mapKey="{{@key}}" mappedValue="{{.}}" caseSensitive="false"/>
+            {{~/each}}
+        </mapping>
         {{/if}}
     {{/if}}
     </responseDeclaration>
