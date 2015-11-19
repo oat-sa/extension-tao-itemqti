@@ -107,25 +107,17 @@ define([
                 throw 'qti element not found in the apipItem model';
             }
 
-        }).on('deactivated.qti-element-selector', function(){
-
-            //destroy contextual popup
-            //one popup at once
-            if(formPopup){
-                formPopup.destroy();
-            }
-            
-        }).on('done.contextual-popup', function(){
-            //done editing
-            //blur the current selected element
-            self.elementSelector.deactivate();
-            
         }).on('formready.form-builder', function(){
             
             //refresh the vial apip features here because a new access element might have been created when init the form
             //@todo could be improved by only listening to event of new access element info creation
             self.refreshVisualApipFeatures();
-            self.initInclusionOrderListing();
+			self.initInclusionOrderListing();
+
+        }).on('destroy.form-builder', function(){
+            
+            self.elementSelector.deactivate();
+            self.refreshVisualApipFeatures();
             
         }).on('destroy.apip-form', function(){
             

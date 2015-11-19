@@ -179,9 +179,7 @@ define([
 
         var selectorBody = _renderSelectorElement(itemBodyDOM);
         $container.append(selectorTpl({selectorBody : selectorBody}));
-        
-        //@todo listen to ordering elements
-        
+
         //make it also selectable:
         return selectable($container);
     }
@@ -231,7 +229,7 @@ define([
             e.stopPropagation();
             var $element = $(this);
             //toggle element selection
-            if($element.hasClass('active')){
+            if($element.hasClass('active') && $(e.target).hasClass('element')){
                 deactivateElement($element, $container);
             }else{
                 activateElement($element, $container);

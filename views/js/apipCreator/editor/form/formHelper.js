@@ -24,8 +24,9 @@ define([
     'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
     'helpers',
     'context',
+    'ui/formValidator/formValidator',
     'ui/resourcemgr'
-], function ($, _, __, feedback, inclusionOrderSelector, helpers, context) {
+], function ($, _, __, feedback, inclusionOrderSelector, helpers, context, FormValidator) {
     'use strict';
     
     var _ns = '.apip-form';
@@ -37,7 +38,7 @@ define([
      * Otherwise qti element content (text) will be returned.
      * 
      * @param {object} formInstance
-     * @param {atring} attributeName
+     * @param {string} attributeName
      * @returns {string}
      */
     function getAttributeValue(formInstance, attributeName) {
@@ -59,34 +60,66 @@ define([
     /**
      * Initialize access element info authoring form.
      * @param {object} formInstance
-     * @param {jQueryElement} $container
+     * @param {jQuery} $container
      * @fires change.apip-form
      * @fires delete.apip-form
      * @returns {undefined}
      */
     function initEvents(formInstance, $container) {
-        var aeInfo = formInstance.accessElementInfo;
+        $container.on('click', '.delete', function () {
+            removeAssociatedAccessElement(formInstance);
+            feedback().info('Access element removed.');
+            $container.trigger('destroy'+_ns);
+        });
+    }
 
-        $container.on('change', 'input,textarea,select', function () {
+    /**
+     * Save Access element info
+     * @param {jQuery} $container
+     * @returns {undefined}
+     */
+    function saveForm($container) {
+        var formInstance = $container.data('formInstance'),
+            aeInfo = formInstance.accessElementInfo;
+
+        $container.find('input,textarea,select').each(function () {
             var $input = $(this),
                 name = $input.attr('name'),
                 value = $input.val();
 
             aeInfo.setAttribute(name, value);
-            
-            $input.trigger('change'+_ns, [aeInfo, name, value]);
         });
+    }
 
-        $container.on('click', '.delete', function () {
-            var ae = aeInfo.getAssociatedAccessElement();
+    /**
+     * Remove access element
+     * @param {object} formInstance
+     */
+    function removeAssociatedAccessElement(formInstance) {
+        var aeInfo = formInstance.accessElementInfo,
+            ae = aeInfo.getAssociatedAccessElement();
+
+        if (ae) {
             aeInfo.remove();
             ae.removeInclusionOrder(inclusionOrderSelector.getValue());
-
             if (ae.getAccessElementInfo() === null) {
                 ae.remove();
             }
-            feedback().info('Access element removed.');
-            $container.trigger('destroy'+_ns);
+        }
+    }
+
+    /**
+     * Initialize form validator
+     * @param {jQuery} $container
+     * @return {object} - form validator instance
+     */
+    function initValidator($container) {
+        return new FormValidator({
+            container : $container,
+            events : ['change', 'keyup'],
+            highlighter : {
+                type : 'tooltip'
+            }
         });
     }
 
@@ -125,6 +158,9 @@ define([
     return {
         getAttributeValue : getAttributeValue,
         initEvents : initEvents,
-        initResourceMgr : initResourceMgr
+        initValidator : initValidator,
+        initResourceMgr : initResourceMgr,
+        saveForm : saveForm,
+        removeAssociatedAccessElement : removeAssociatedAccessElement
     };
 });

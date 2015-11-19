@@ -55,7 +55,7 @@ define([
     DeletingState.prototype.getElementToRemove = function(){
 
         var $container = this.widget.$container;
-
+        
         //if is a choice widget:
         if($container.hasClass('qti-choice')){
 
@@ -126,7 +126,7 @@ define([
         } 
                 
         //other block widgets:
-        if($container.hasClass('widget-block')){
+        if($container.hasClass('widget-block') || $container.hasClass('widget-blockInteraction')){
             return $container;
         }
     };

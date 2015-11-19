@@ -48,5 +48,13 @@ define([
         formHelper.initEvents(this, $container);
     };
 
+    /**
+     * Initializa form validator
+     * @param $container
+     */
+    Form.prototype.initValidator = function initValidator($container) {
+        this.validator = formHelper.initValidator($container);
+    };
+
     return Form;
 });

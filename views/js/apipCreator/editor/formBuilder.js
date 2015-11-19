@@ -19,12 +19,15 @@
 define([
     'lodash',
     'jquery',
+    'i18n',
     'ui/contextualPopup',
+    'ui/feedback',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElement',
     'tpl!taoQtiItem/apipCreator/tpl/form/accessElementInfo',
     'tpl!taoQtiItem/apipCreator/tpl/form/aeUsageInfo',
-    'taoQtiItem/apipCreator/editor/inclusionOrderSelector'
-], function (_, $, contextualPopup, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector) {
+    'taoQtiItem/apipCreator/editor/inclusionOrderSelector',
+    'taoQtiItem/apipCreator/editor/form/formHelper'
+], function (_, $, __, contextualPopup, feedback, accessElementTpl, accessElementInfoTpl, aeUsageInfoTpl, inclusionOrderSelector, formHelper) {
     'use strict';
 
     var _ns = '.form-builder';
@@ -80,8 +83,7 @@ define([
             accessElementInfo : htmlAccessElementInfo
         }));
 
-        //bind events :
-        formView.initEvents($form);
+        $form.data('form-instance', formView);
 
         return $form;
     }
@@ -89,20 +91,57 @@ define([
     /**
      * Build the popup container for the $form and bind it to the $anchor
      * 
-     * @param {JQuery} $anchor
-     * @param {JQuery} $formContent
+     * @param {jQuery} $anchor
+     * @param {jQuery} $formContent
      * @returns {Object} the created popup
      */
     function _buildPopup($anchor, $formContent){
-        return contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
+        var popup =  contextualPopup($anchor, $anchor.parents('#item-editor-scroll-inner'), {
             content : $formContent,
             controls : {
-                done: true
+                done : true,
+                cancel : true
             },
             style : {
                 popupWidth : 750
+            },
+            callbacks : {
+                beforeDone : function () {
+                    var formView = $formContent.data('form-instance'),
+                        valid = formView.validator.validate(),
+                        message = formView.accessElementInfo.pristine ? __('Access element created.') : __('Access element saved.');
+
+                    if (valid) {
+                        feedback().success(message);
+                        formHelper.saveForm($formContent);
+                        //formView.accessElementInfo.pristine = false;
+                        popup.destroy();
+                    }
+                    return valid;
+                },
+                beforeCancel : function () {
+                    popup.destroy();
+                    return true;
+                },
+                beforeDestroy : function () {
+                    var formView = $formContent.data('form-instance');
+                    if (formView.accessElementInfo.pristine) {
+                        formHelper.removeAssociatedAccessElement(formView);
+                    }
+                    formView.validator.destroy();
+                    $formContent.trigger('destroy' + _ns);
+                    return true;
+                }
             }
-        });
+        }),
+        formView = $formContent.data('form-instance');
+
+        //bind events :
+        formView.initEvents($formContent);
+
+        formView.initValidator($formContent);
+
+        return popup;
     }
 
     /**

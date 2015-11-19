@@ -31,9 +31,11 @@ define([], function(){
         instance.apipItem = apipItem;
         instance.data = node;
         instance.serial = node.getAttribute('serial');
-        instance.getAttribute = function getAttribute(name){
-            return node.getAttribute(name);
-        };
+        if (typeof instance.getAttribute !== 'function') {
+            instance.getAttribute = function getAttribute(name){
+                return node.getAttribute(name);
+            };
+        }
         return instance;
     }
     

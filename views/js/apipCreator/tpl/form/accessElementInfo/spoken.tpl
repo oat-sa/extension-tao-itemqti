@@ -1,11 +1,11 @@
 <div class="spoken-form-container">
     <div class="field">
         <label>{{__ 'Spoken text'}}</label>
-        <textarea name="spokenText">{{spokenText}}</textarea>
+        <textarea data-validate="$notEmpty(message='{{__ 'This field is required'}}');" name="spokenText">{{spokenText}}</textarea>
     </div>
     <div class="field">
         <label>{{__ 'Text to speech pronunciation'}}</label>
-        <textarea name="textToSpeechPronunciation">{{textToSpeechPronunciation}}</textarea>
+        <textarea data-validate="$notEmpty(message='{{__ 'This field is required'}}');" name="textToSpeechPronunciation">{{textToSpeechPronunciation}}</textarea>
     </div>
     <div class="audio-file-form-container js-audio-file-form-container" style="display: none;">
         
