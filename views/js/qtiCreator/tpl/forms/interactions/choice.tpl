@@ -25,7 +25,7 @@
     </div>
     <div>
         <label for="maxChoices" class="spinner">Max</label>
-        <input name="maxChoices" value="{{maxChoices}}" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
+        <input name="maxChoices" value="{{maxChoices}}" data-zero="true" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
 
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">
