@@ -43,9 +43,12 @@ define([
                     if(!window.MathJax){
                         window.MathJax = MathJax;
                     }
+
                     _.defer(function(){ //defer execution fix some rendering issue in chrome
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, containerHelper.get(math).parent()[0]]);
-                        MathJax.Hub.Register.StartupHook("End", resolve);
+                        
+                        //@see http://mathjax.readthedocs.org/en/latest/typeset.html
+                        MathJax.Hub.Queue(resolve);
                     });
                 }
                 resolve();
