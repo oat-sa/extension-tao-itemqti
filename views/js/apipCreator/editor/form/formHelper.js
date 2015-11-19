@@ -116,8 +116,9 @@ define([
     function initValidator($container) {
         return new FormValidator({
             container : $container,
+            events : ['change', 'keyup'],
             highlighter : {
-                type : 'qtip'
+                type : 'tooltip'
             }
         });
     }
