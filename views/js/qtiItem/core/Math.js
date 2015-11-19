@@ -108,7 +108,7 @@ define([
 
             if (ns && ns.name) {
                 body = raw.replace(/<(\/)?([^!<])/g, '<$1' + ns.name + ':$2');
-                body = body.replace(/(>)([<>]+)(<\/)/g, function (match, p1, p2, p3) {
+                body = body.replace(/(>)([\W]+)(<\/)/g, function (match, p1, p2, p3) {
                     return [p1, _.escape(p2), p3].join('');
                 });
 
