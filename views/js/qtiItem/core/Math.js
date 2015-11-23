@@ -19,7 +19,7 @@ define([
         return mathML.replace(regex, '')
             .replace(/^\s*[\r\n]/gm, '')//remove first blank line
             .replace(/\s*[\r\n]$/gm, '');//last blank line
-    };
+    }
 
     /**
      * Remove mathML ns name prefix from the mathML
@@ -31,7 +31,7 @@ define([
     function _stripNamespace(mathML, nsName){
         var regex = new RegExp('<(\/)?' + (nsName ? nsName + ':' : ''), 'g');
         return mathML.replace(regex, '<$1');
-    };
+    }
 
     /**
      * Check if the mathML string is to be considered empty
@@ -77,7 +77,7 @@ define([
 
             mathML = _stripMathTags(mathML, nsName);
             if(ns){
-                mathML = _stripNamespace(mathML, nsName)
+                mathML = _stripNamespace(mathML, nsName);
             }
             this.mathML = mathML;
         },
@@ -106,8 +106,12 @@ define([
                 }
             }
 
-            if(ns && ns.name){
-                body = raw.replace(/<(\/)?([^!])/g, '<$1' + ns.name + ':$2');
+            if (ns && ns.name) {
+                body = raw.replace(/<(\/)?([^!<])/g, '<$1' + ns.name + ':$2');
+                body = body.replace(/(>)([\W]+)(<\/)/g, function (match, p1, p2, p3) {
+                    return [p1, _.escape(p2), p3].join('');
+                });
+
                 tag = ns.name + ':' + tag;
             }
 
@@ -122,7 +126,7 @@ define([
             return this._super(_.merge(defaultData, args.data), args.placeholder, args.subclass, renderer);
         },
         isEmpty : function(){
-            return _isEmptyMathML(this.mathML) && (!this.annotations['latex'] || !this.annotations['latex'].trim());
+            return _isEmptyMathML(this.mathML) && (!this.annotations.latex || !this.annotations.latex.trim());
         }
     });
 
