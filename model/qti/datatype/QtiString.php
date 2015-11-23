@@ -21,34 +21,25 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Boolean;
 use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
- * The basic boolean datatype
+ * The string base data type
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  
  */
-class Boolean extends Datatype
+class QtiString extends Datatype
 {
 	
 	public static function validate($value){
-		return is_bool($value);
+		return is_string($value);
 	}
 	
 	public static function fix($value){
-		$returnValue = null;
-		
-		if(strcasecmp($value, 'false') == 0){
-			$returnValue = false;
-		}else if(!is_array($value) && !is_object($value)){
-			$returnValue = (bool)$value;//try casting to boolean type
-		}
-		
-		return $returnValue;
+		return (string)$value;
 	}
 
 }

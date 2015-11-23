@@ -36,7 +36,7 @@ class MaxAssociations extends Attribute
 {
 	
 	static protected $name = 'maxAssociations';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 1;
 	static protected $required = false;
 

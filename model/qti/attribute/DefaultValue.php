@@ -36,7 +36,7 @@ class DefaultValue extends Attribute
 {
 	
 	static protected $name = 'defaultValue';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Float';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiFloat';
 	static protected $defaultValue = 0;
 	static protected $required = true;
 

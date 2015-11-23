@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Integer;
 use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
@@ -32,7 +31,7 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  * @package taoQTI
  
  */
-class Integer extends Datatype
+class QtiInteger extends Datatype
 {
 	
 	public static function validate($value){

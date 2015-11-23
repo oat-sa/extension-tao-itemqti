@@ -36,7 +36,7 @@ class Autostart extends Attribute
 {
 	
 	static protected $name = 'autostart';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Boolean';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
 	static protected $defaultValue = null;
 	static protected $required = true;
     static protected $taoDefaultValue = 1;

@@ -88,6 +88,11 @@ class QtiPackageImportForm
 		));
 		$this->form->addElement($fileElt);
 		
+		$apipElt = tao_helpers_form_FormFactory::getElement('apip', 'Checkbox');
+		$apipElt->setOptions(array('import' => 'Apip'));
+		$apipElt->setDescription(__('Import Apip'));
+		$this->form->addElement($apipElt);
+		
 		$rollbackElt = tao_helpers_form_FormFactory::getElement('rollback', 'Checkbox');
 		$rollbackElt->setOptions(array('error' => 'error', 'warning' => 'warning'));
 		$rollbackElt->setDescription(__('Rollback on...'));
