@@ -20,7 +20,7 @@ define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], func
             this.feedbackRules = {};
         },
         getFeedbackRules : function(){
-            return [];
+            return _.values(this.feedbackRules);
         },
         getComposingElements : function(){
             var elts = this._super();
