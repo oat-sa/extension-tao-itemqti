@@ -61,7 +61,7 @@ define([
             }
 
             if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
-                _triggerCheckboxes($(this).closest('.qti-choice'));
+                _triggerInput($(this).closest('.qti-choice'));
             }
 
             var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
@@ -75,30 +75,24 @@ define([
         });
 
         $container.on('click.commonRenderer', '.qti-choice', function(e){
-            var $box = $(this);
+            var $choiceBox = $(this);
 
             e.preventDefault();
-            e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
+            e.stopPropagation();//required otherwise any tao scoped ,form initialization might prevent it from working
 
-            _triggerCheckboxes($box);
+            _triggerInput($choiceBox);
 
-            instructionMgr.validateInstructions(interaction, {choice : $box});
+            instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
     };
 
-    var _triggerCheckboxes = function($box){
-        var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
-        var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+    var _triggerInput = function($choiceBox){
+        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
 
-        if($radios.length){
-            $radios.not(':checked').prop('checked', true).focus();
-            $radios.trigger('change');
-        }
-
-        if($checkboxes.length){
-            $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-            $checkboxes.trigger('change');
+        if($input.length){
+            $input.prop('checked', !$input.prop('checked'));
+            $input.trigger('change');
         }
     };
 
