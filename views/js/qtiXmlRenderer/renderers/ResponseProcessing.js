@@ -3,7 +3,7 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/match_correct',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/map_response_point'
 ], function(_, tpl, correctTpl, mapTpl, mapPointTpl){
     
     var _renderInteractionRp = function(interaction){
