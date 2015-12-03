@@ -11,7 +11,11 @@
     {{~#if correctResponse.length}}
     <correctResponse>
         {{~#each correctResponse}}
+        {{~#if ../isRecord}}
+        <value fieldIdentifier="{{fieldIdentifier}}" baseType="{{baseType}}"><![CDATA[{{{value}}}]]></value>
+        {{else}}
         <value><![CDATA[{{{.}}}]]></value>
+        {{/if}}
         {{~/each}}
     </correctResponse>
     {{/if}}
