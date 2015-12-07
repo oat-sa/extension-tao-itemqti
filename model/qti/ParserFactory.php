@@ -744,7 +744,7 @@ class ParserFactory
 
                 $response = new Value();
                 foreach($value->attributes() as $attrName => $attrValue){
-                    $response->setAttribute($attrName, (string) $attrValue);
+                    $response->setAttribute($attrName, strval($attrValue));
                 }
                 $response->setValue(htmlentities($correct));
                 $responses[] = $response;

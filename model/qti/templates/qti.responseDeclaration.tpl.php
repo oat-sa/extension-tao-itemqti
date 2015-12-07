@@ -28,7 +28,7 @@ $areaMapping = get_data('areaMapping');
 	<correctResponse>
 	    <?php foreach($correctResponses as $value):?>
 	        <?php /** @var oat\taoQtiItem\model\qti\Value $value*/ ?>
-	        <value <?php foreach($value->getAttributeValues() as $attrName => $attrValue):?><?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><?= $value ?></value>
+	        <value<?php foreach($value->getAttributeValues() as $attrName => $attrValue):?> <?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><?= $value ?></value>
 	    <?php endforeach?>
 	</correctResponse>
     <?php endif?>

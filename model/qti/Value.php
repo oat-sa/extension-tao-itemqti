@@ -31,7 +31,7 @@ namespace oat\taoQtiItem\model\qti;
  * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10073
 
  */
-class Value extends VariableDeclaration
+class Value extends Element
 {
     protected function getUsedAttributes(){
         return array(
