@@ -27,7 +27,8 @@ $areaMapping = get_data('areaMapping');
     <?php if(is_array($correctResponses) && count($correctResponses) > 0):?>
 	<correctResponse>
 	    <?php foreach($correctResponses as $value):?>
-	        <value><?=$value?></value>
+	        <?php /** @var oat\taoQtiItem\model\qti\Value $value*/ ?>
+	        <value <?php foreach($value->getAttributeValues() as $attrName => $attrValue):?><?=$attrName?>="<?=$attrValue?>"<?php endforeach;?>><?= $value ?></value>
 	    <?php endforeach?>
 	</correctResponse>
     <?php endif?>

@@ -740,7 +740,14 @@ class ParserFactory
         foreach($correctResponseNodes as $correctResponseNode){
             foreach($correctResponseNode->value as $value){
                 $correct = (string) $value;
-                $responses[] = htmlentities($correct);
+                //$responses[] = htmlentities($correct);
+
+                $response = new Value();
+                foreach($value->attributes() as $attrName => $attrValue){
+                    $response->setAttribute($attrName, (string) $attrValue);
+                }
+                $response->setValue(htmlentities($correct));
+                $responses[] = $response;
             }
             break;
         }
