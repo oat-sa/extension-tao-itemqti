@@ -25,11 +25,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/mediaInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'ui/mediaplayer'
-], function($, _, __, tpl, pciResponse, containerHelper, mediaplayer) {
+], function($, _, __, Promise, tpl, pciResponse, containerHelper, mediaplayer) {
     'use strict';
 
     /**
@@ -66,90 +67,95 @@ define([
      */
     var render = function render(interaction) {
         var self = this;
-        var $container = containerHelper.get(interaction);
-        var $item      = $container.parents('.qti-item');
-        var media      = interaction.object;
-        var maxPlays   = parseInt(interaction.attr('maxPlays'), 10) || 0;
-        var url        = media.attr('data') || '';
+        return new Promise(function(resolve, reject) {
+            var $container = containerHelper.get(interaction);
+            var $item      = $container.parents('.qti-item');
+            var media      = interaction.object;
+            var maxPlays   = parseInt(interaction.attr('maxPlays'), 10) || 0;
+            var url        = media.attr('data') || '';
 
-        //intialize the player if not yet done
-        var initMediaPlayer = function initMediaPlayer(){
-            if (!interaction.mediaElement) {
-                interaction.mediaElement = mediaplayer({
-                    url: url && self.resolveUrl(url),
-                    type: media.attr('type') || defaults.type,
-                    canPause: $container.hasClass('pause'),
-                    maxPlays: maxPlays,
-                    width: media.attr('width'),
-                    height: media.attr('height'),
-                    volume: 100,
-                    autoStart: !!interaction.attr('autostart') && canBePlayed(),
-                    loop: !!interaction.attr('loop'),
-                    renderTo: $('.media-container', $container),
-                    onrender: function($component, mediaElement) {
-                        var rTimer;
+            //intialize the player if not yet done
+            var initMediaPlayer = function initMediaPlayer(){
+                if (!interaction.mediaElement) {
+                    interaction.mediaElement = mediaplayer({
+                        url: url && self.resolveUrl(url),
+                        type: media.attr('type') || defaults.type,
+                        canPause: $container.hasClass('pause'),
+                        maxPlays: maxPlays,
+                        width: media.attr('width'),
+                        height: media.attr('height'),
+                        volume: 100,
+                        autoStart: !!interaction.attr('autostart') && canBePlayed(),
+                        loop: !!interaction.attr('loop'),
+                        renderTo: $('.media-container', $container)
+                    })
+                        .on('render', function() {
+                            var mediaElement = this;
+                            var rTimer;
 
-                        resizeVideo(mediaElement, $container);
+                            resizeVideo(this, $container);
 
-                        var delayedResize = function () {
-                            clearTimeout(rTimer);
-                            rTimer = setTimeout(function () {
-                                resizeVideo(mediaElement, $container);
-                            }, 200);
-                        };
+                            var delayedResize = function () {
+                                clearTimeout(rTimer);
+                                rTimer = setTimeout(function () {
+                                    resizeVideo(mediaElement, $container);
+                                }, 200);
+                            };
 
-                        $(window).off('resize.video')
-                            .on('resize.video', delayedResize);
+                            $(window).off('resize.video')
+                                .on('resize.video', delayedResize);
 
-                        $item.off('resize.gridEdit')
-                            .on('resize.gridEdit', delayedResize);
-                    },
-                    onready: function(mediaElement) {
-                        resizeVideo(mediaElement, $container);
+                            $item.off('resize.gridEdit')
+                                .on('resize.gridEdit', delayedResize);
 
-                        /**
-                         * @event playerready
-                         */
-                        $container.trigger('playerready');
-                    },
-                    onended: function(mediaElement) {
-                        $container.data('timesPlayed', $container.data('timesPlayed') + 1);
-                        containerHelper.triggerResponseChangeEvent(interaction);
+                            resolve();
+                        })
+                        .on('ready', function() {
+                            resizeVideo(this, $container);
 
-                        if (!canBePlayed() ) {
-                            mediaElement.disable();
-                        }
-                    }
-                });
+                            /**
+                             * @event playerready
+                             */
+                            $container.trigger('playerready');
+                        })
+                        .on('ended', function() {
+                            $container.data('timesPlayed', $container.data('timesPlayed') + 1);
+                            containerHelper.triggerResponseChangeEvent(interaction);
+
+                            if (!canBePlayed() ) {
+                                this.disable();
+                            }
+                        });
+                }
+            };
+
+            //check if the media can be played (using timesPlayed and maxPlays)
+            var canBePlayed = function canBePlayed(){
+                var current = parseInt($container.data('timesPlayed'), 10);
+                return maxPlays === 0 || maxPlays > current;
+            };
+
+            if(_.size(media.attributes) === 0){
+                //TODO move to afterCreate
+                media.attr('type', defaults.type);
+                media.attr('width', $container.innerWidth());
+                media.attr('height', defaults.video.height);
+                media.attr('data', '');
             }
-        };
 
-        //check if the media can be played (using timesPlayed and maxPlays)
-        var canBePlayed = function canBePlayed(){
-            var current = parseInt($container.data('timesPlayed'), 10);
-            return maxPlays === 0 || maxPlays > current;
-        };
+            //set up the number of times played
+            if (!$container.data('timesPlayed')) {
+                $container.data('timesPlayed', 0);
+            }
 
-        if(_.size(media.attributes) === 0){
-            //TODO move to afterCreate
-            media.attr('type', defaults.type);
-            media.attr('width', $container.innerWidth());
-            media.attr('height', defaults.video.height);
-            media.attr('data', '');
-        }
+            //initialize the component
+            $container.on('responseSet', function() {
+                initMediaPlayer();
+            });
 
-        //set up the number of times played
-        if (!$container.data('timesPlayed')) {
-            $container.data('timesPlayed', 0);
-        }
-
-        //initialize the component
-        $container.on('responseSet', function() {
+            //gives a small chance to the responseSet event before initializing the player
             initMediaPlayer();
         });
-
-        //gives a small chance to the responseSet event before initializing the player
-        initMediaPlayer();
     };
 
     /**
