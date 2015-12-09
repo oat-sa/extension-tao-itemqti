@@ -68,7 +68,7 @@ define([
         var serial = $choice.data('serial');
         var $container = containerHelper.get(interaction);
 
-        $container.find('.choice-area [data-serial=' + serial + ']').removeClass();
+        $container.find('.choice-area [data-serial=' + serial + ']').removeClass().addClass('qti-choice');
 
         _choiceUsages[serial]--;
 
