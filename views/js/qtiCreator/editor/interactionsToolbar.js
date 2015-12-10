@@ -6,8 +6,8 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
-    'ui/qtip'
-], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, qtip){
+    'ui/tooltip'
+], function($, _, __, ciRegistry, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     "use strict";
     /**
      * String to identify a custom interaction from the authoring data
@@ -171,7 +171,7 @@ define([
             }));
 
         $inlineInteractionsPanel.append($tooltip);
-        qtip($inlineInteractionsPanel);
+        tooltip($inlineInteractionsPanel);
 
         $tooltip.css({
             position : 'absolute',

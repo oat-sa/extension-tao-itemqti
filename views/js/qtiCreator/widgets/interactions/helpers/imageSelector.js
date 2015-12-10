@@ -25,7 +25,7 @@ define([
     'util/image',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'ui/resourcemgr',
-    'qtip'
+    'ui/tooltip'
 ], function($, _, __, imageUtil, resourceManager){
 
     'use strict';

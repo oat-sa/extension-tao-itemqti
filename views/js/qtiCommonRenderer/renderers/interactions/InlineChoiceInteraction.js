@@ -30,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'select2',
-    'qtip'
+    'ui/tooltip'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
@@ -105,14 +105,7 @@ define([
         if(required){
             //set up the tooltip plugin for the input
             $el.qtip({
-                style : {
-                    classes : 'qtip-rounded qtip-orange'
-                },
-                position: {
-                    my : 'bottom center',
-                    at : 'top center',
-                    viewport: $(window),
-                },
+                theme : 'warning',
                 content: {
                     text: __('A choice must be selected')
                 }

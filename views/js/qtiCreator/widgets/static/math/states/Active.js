@@ -217,19 +217,12 @@ define([
             .html(__('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.'));
 
         $mathField.qtip({
-            style : {
-                classes : 'qtip-rounded qtip-orange'
-            },
+            theme : 'error',
             show: {
                 event : 'custom'
             },
             hide: {
                 event : 'custom'
-            },
-            position: {
-                my : 'bottom center',
-                at : 'top center',
-                viewport: $(window),
             },
             content: {
                 text: $content

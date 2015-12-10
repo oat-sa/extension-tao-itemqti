@@ -23,19 +23,19 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'util/dom',
     'ui/incrementer',
-    'ui/qtip',
+    'ui/tooltip',
     'ui/selecter',
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators',
     'polyfill/placeholders'
-], function($, _, __, Element, dom, spinner, qtip, select2){
+], function($, _, __, Element, dom, spinner, tooltip, select2){
     'use strict';
 
     var formElement = {
         initWidget : function($form){
             spinner($form);
-            qtip($form);
+            tooltip($form);
             select2($form);
         },
         /**
@@ -277,13 +277,8 @@ define([
                 hide: {
                     event : 'custom'
                 },
-                style : {
-                    classes : 'qtip-rounded qtip-red'
-                },
+                theme : 'error',
                 position: {
-                    my : 'bottom center',
-                    at : 'top center',
-                    viewport: $(window),
                     container: validatorOptions.$container
                 },
                 content: {

@@ -30,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'polyfill/placeholders',
-    'qtip'
+    'ui/tooltip'
 ], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
     'use strict';
 
@@ -56,19 +56,12 @@ define([
         if(attributes.patternMask){
             //set up the tooltip plugin for the input
             $el.qtip({
-                style : {
-                    classes : 'qtip-rounded qtip-red'
-                },
+                theme : 'error',
                 show : {
                     event : 'custom'
                 },
                 hide : {
                     event : 'custom'
-                },
-                position: {
-                    my : 'bottom center',
-                    at : 'top center',
-                    viewport: $(window),
                 },
                 content: {
                     text: __('This is not a valid answer')
@@ -87,10 +80,9 @@ define([
             if(attributes.patternMask){
                 regex = new RegExp('^' + attributes.patternMask + '$');
                  if(regex.test($el.val())){
-                    $el.tooltipster('hide').removeClass('invalid');
+                    $el.removeClass('invalid').qtip('hide');
                 } else {
-                    
-                    $el.tooltipster('show').addClass('invalid');//adding the class invalid prevent the invalid response to be submitted
+                    $el.addClass('invalid').qtip('show');//adding the class invalid prevent the invalid response to be submitted
                 }
             }
             containerHelper.triggerResponseChangeEvent(interaction);

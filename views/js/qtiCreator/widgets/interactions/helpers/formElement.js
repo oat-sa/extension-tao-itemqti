@@ -3,7 +3,7 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/core/Element',
-    'qtip'
+    'ui/tooltip'
 ], function($, _, formElement, Element){
 
     var _scoreTooltipContent = {
@@ -76,13 +76,8 @@ define([
                     hide: {
                         event : 'custom'
                     },
-                    style : {
-                        classes : 'qtip-rounded qtip-red'
-                    },
+                    theme : 'error',
                     position: {
-                        my : 'bottom center',
-                        at : 'top center',
-                        viewport: $(window),
                         container: $scoreInput.parent()
                     },
                     content: {
