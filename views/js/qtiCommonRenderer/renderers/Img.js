@@ -16,14 +16,21 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 define([
+    'core/promise',
+    'ui/waitForMedia',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/img',
     'taoQtiItem/qtiCommonRenderer/helpers/container'
-], function(tpl, containerHelper){
-    'use strict';
+], function(Promise, waitForMedia, tpl, containerHelper){
+    //'use strict';
 
     return {
         qtiClass : 'img',
         template : tpl,
-        getContainer : containerHelper.get
+        getContainer : containerHelper.get,
+        render : function render (img, data){
+            return new Promise(function(resolve, reject){
+                containerHelper.get(img).waitForMedia(resolve);
+            });
+        }
     };
 });
