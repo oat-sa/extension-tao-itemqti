@@ -178,7 +178,8 @@ define([
                     newOptions.min = value;
 
                     var max = parseInt($max.val());
-                    if(max < value){
+
+                    if(max < value && !(max === 0 && $max.data('zero')===true)){
                         $max.val(value);
                     }
                 }

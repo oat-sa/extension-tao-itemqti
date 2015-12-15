@@ -43,6 +43,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
+use qtism\data\storage\xml\XmlStorageException;
 use tao_helpers_File;
 use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
@@ -555,6 +556,21 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
                     $qtiItemResource->getIdentifier()));
                 $report->add($ve->getReport());
+            } catch (XmlStorageException $e){
+
+                $files = array();
+                $message = __('There are errors in the following shared stimulus : ').PHP_EOL;
+                /** @var \LibXMLError $error */
+                foreach($e->getErrors() as $error){
+                    if(!in_array($error->file, $files)){
+                        $files[] = $error->file;
+                        $message .= '- '.basename($error->file).' :'.PHP_EOL;
+                    }
+                    $message .= $error->message.' at line : '.$error->line.PHP_EOL;
+                }
+
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,
+                    $message);
             } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,
