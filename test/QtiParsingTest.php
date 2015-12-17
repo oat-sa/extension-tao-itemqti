@@ -119,6 +119,40 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
+    /**
+     * test record response type
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     */
+    public function testFileQtiRecordResponse(){
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/qtiRecordResponse.xml';
+
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+
+        if(!$qtiParser->isValid()){
+            $this->fail($qtiParser->displayErrors());
+        }
+
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+
+        $responses = $item->getResponses();
+        foreach ($responses as $response) {
+            $correctResponses = $response->getCorrectResponses();
+            foreach ($correctResponses as $correctResponse) {
+                $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Value', $correctResponse);
+                $this->assertEquals(count($correctResponse->getAttributeValues()), 2);
+                $this->assertTrue($correctResponse->hasAttribute('fieldIdentifier'));
+                $this->assertTrue($correctResponse->hasAttribute('baseType'));
+            }
+        }
+    }
+
     public function testFileParsingQti2p0(){
         $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $qtiv2p1xsd = $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
