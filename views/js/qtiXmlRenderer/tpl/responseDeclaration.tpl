@@ -12,7 +12,9 @@
     <correctResponse>
         {{~#each correctResponse}}
         {{~#if ../isRecord}}
+        {{~#if value}}
         <value fieldIdentifier="{{fieldIdentifier}}" baseType="{{baseType}}"><![CDATA[{{{value}}}]]></value>
+        {{/if}}
         {{else}}
         <value><![CDATA[{{{.}}}]]></value>
         {{/if}}
