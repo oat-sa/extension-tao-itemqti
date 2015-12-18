@@ -21,7 +21,7 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/img',
     'taoQtiItem/qtiCommonRenderer/helpers/container'
 ], function(Promise, waitForMedia, tpl, containerHelper){
-    //'use strict';
+    'use strict';
 
     return {
         qtiClass : 'img',
