@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T16:30:43\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-22T13:55:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -13,10 +13,11 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "QTI atriðakeyrsla"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
+#, fuzzy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts"
-msgstr ""
+msgstr "Fella rennsli á atriði inn í Próftöku. Þessi þjónusta ræsir TAO Apis og samhengi þess."
 

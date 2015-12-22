@@ -1,19 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:56:27\n"
+"PO-Revision-Date: 2015-12-22T13:56:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk-SK\n"
+"Language: uk-UA\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: sk-SK\n"
+"targetLanguage: uk-UA\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI"
-msgstr "QTI"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -23,20 +23,10 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Manager"
-msgstr "QTI Manager"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager Role"
 msgstr ""
-
-# http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "QTI"
-msgstr "IMS Question and Test Interoperability"
-
-# http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "QTI Manager"
-msgstr "QTI Manager Role"
 
