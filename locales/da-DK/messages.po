@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:55:26\n"
+"PO-Revision-Date: 2015-12-23T13:25:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -88,6 +88,12 @@ msgstr ""
 msgid "An error occured at the level of the QTI model."
 msgstr ""
 
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while exporting the item %s."
+msgstr ""
+
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr ""
 
@@ -139,10 +145,10 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -287,6 +293,9 @@ msgid "Display"
 msgstr ""
 
 msgid "Display larger editor"
+msgstr ""
+
+msgid "Display the choices either horizontaly or verticaly"
 msgstr ""
 
 msgid "done"
@@ -436,6 +445,9 @@ msgstr ""
 msgid "Height (optional)"
 msgstr ""
 
+msgid "Horizontal"
+msgstr ""
+
 msgid "Hotspot"
 msgstr ""
 
@@ -457,10 +469,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -526,10 +538,10 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
 msgid "Item width"
@@ -604,16 +616,16 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
-msgstr ""
-
 msgid "Max Length"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max length"
 msgstr ""
 
 msgid "Max words"
+msgstr ""
+
+msgid "Max Words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -719,13 +731,16 @@ msgstr ""
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr ""
 
+msgid "Orientation"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
 msgid "Pause"
@@ -867,10 +882,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1225,6 +1240,9 @@ msgstr ""
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr ""
 
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
 msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr ""
 
@@ -1255,10 +1273,10 @@ msgstr ""
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
@@ -1271,6 +1289,9 @@ msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c
 msgstr ""
 
 msgid "Used to control the format of the text entered by the candidate."
+msgstr ""
+
+msgid "Vertical"
 msgstr ""
 
 msgid "WAV audio"

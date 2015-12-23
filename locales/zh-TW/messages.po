@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:56:45\n"
+"PO-Revision-Date: 2015-12-23T13:26:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -88,6 +88,12 @@ msgstr "替代文字"
 msgid "An error occured at the level of the QTI model."
 msgstr "在QTI 模式的層次發生了錯誤。"
 
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while exporting the item %s."
+msgstr ""
+
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr "當在解壓縮IMS內容包時， ZIP壓縮文件發生了錯誤。 "
 
@@ -139,10 +145,10 @@ msgstr "自動啟動"
 msgid "Background color"
 msgstr "背景色彩"
 
-msgid "block"
+msgid "Block"
 msgstr "區塊"
 
-msgid "Block"
+msgid "block"
 msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -288,6 +294,9 @@ msgstr "顯示"
 
 msgid "Display larger editor"
 msgstr "顯示更大的編輯器"
+
+msgid "Display the choices either horizontaly or verticaly"
+msgstr ""
 
 msgid "done"
 msgstr "完成"
@@ -436,6 +445,9 @@ msgstr "長度"
 msgid "Height (optional)"
 msgstr "高度(選用)"
 
+msgid "Horizontal"
+msgstr ""
+
 msgid "Hotspot"
 msgstr "熱點"
 
@@ -457,10 +469,10 @@ msgstr "如何編輯數學表達式應"
 msgid "identical pair already exists"
 msgstr "相同的對已經存在"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別碼"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別碼"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -526,10 +538,10 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "題目屬性"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -604,16 +616,16 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max length"
-msgstr "最大長度"
-
 msgid "Max Length"
 msgstr "最大長度"
 
-msgid "Max Words"
-msgstr "最多字數"
+msgid "Max length"
+msgstr "最大長度"
 
 msgid "Max words"
+msgstr "最多字數"
+
+msgid "Max Words"
 msgstr "最多字數"
 
 msgid "Max. number of matches"
@@ -719,13 +731,16 @@ msgstr "排序互動"
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "在圖片上排列這些區域(熱點)。"
 
+msgid "Orientation"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr "對得分"
 
-msgid "Pattern"
+msgid "pattern"
 msgstr "樣式"
 
-msgid "pattern"
+msgid "Pattern"
 msgstr "樣式"
 
 msgid "Pause"
@@ -867,10 +882,10 @@ msgstr "所建議的"
 msgid "Reduce font size"
 msgstr "縮小字型"
 
-msgid "remove"
+msgid "Remove"
 msgstr "移除"
 
-msgid "Remove"
+msgid "remove"
 msgstr "移除"
 
 msgid "Remove custom background color"
@@ -1225,6 +1240,9 @@ msgstr "此含有 IMS QTI 題目的ZIP壓縮文件不能被提取。"
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr "此ZIP壓縮文件沒有 imsmanifest.xml 檔案或它一個無效的ZIP壓縮文件。"
 
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
 msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr "在您的題目中有個一個不完整的元素：請點擊它來完成它。"
 
@@ -1255,10 +1273,10 @@ msgstr "停止使用此題目。"
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "復原"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
@@ -1272,6 +1290,9 @@ msgstr "如果你想為前綴的選擇列表中使用此 (例如: 1,2,3,a,b,c)"
 
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "用來控制考生輸入的文本格式。"
+
+msgid "Vertical"
+msgstr ""
 
 msgid "WAV audio"
 msgstr "WAV 音訊"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:55:58\n"
+"PO-Revision-Date: 2015-12-23T13:25:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -88,6 +88,12 @@ msgstr "Alt Texti"
 msgid "An error occured at the level of the QTI model."
 msgstr "Villa kom upp á stigi QTI gerðar."
 
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while exporting the item %s."
+msgstr ""
+
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr "Villa kom upp þegar verið var að draga út ZIP safnið sem geymir IMS innihald."
 
@@ -139,11 +145,11 @@ msgstr "Sjálfræsing"
 msgid "Background color"
 msgstr "Bakgrunnslitur"
 
-msgid "block"
-msgstr "blokk"
-
 msgid "Block"
 msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
@@ -288,6 +294,9 @@ msgstr "Sýna/Skjár"
 
 msgid "Display larger editor"
 msgstr "Sýna stærri ritþór"
+
+msgid "Display the choices either horizontaly or verticaly"
+msgstr ""
 
 msgid "done"
 msgstr "lokið"
@@ -436,6 +445,9 @@ msgstr "Hæð"
 msgid "Height (optional)"
 msgstr "Hæð (valkvæð)"
 
+msgid "Horizontal"
+msgstr ""
+
 msgid "Hotspot"
 msgstr "Heitur reitur"
 
@@ -457,11 +469,11 @@ msgstr "Hvernig á að breyta stærðfræðitákninu."
 msgid "identical pair already exists"
 msgstr "eins par er þegar til"
 
-msgid "identifier"
-msgstr "aðgreinir"
-
 msgid "Identifier"
 msgstr "Aðgreinir"
+
+msgid "identifier"
+msgstr "aðgreinir"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Ef gefið upp, tilgreinir mynstursían hefðbundna framsetningu sem svar próftaka verður að máta við til að teljast gilt "
@@ -526,11 +538,11 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Eiginleikar Atriðis"
-
 msgid "Item properties"
 msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -604,17 +616,17 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max length"
-msgstr "Hámarks lengd"
-
 msgid "Max Length"
 msgstr "Hámarks Lengd"
 
-msgid "Max Words"
-msgstr "Hámarksfjöldi Orða"
+msgid "Max length"
+msgstr "Hámarks lengd"
 
 msgid "Max words"
 msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -719,14 +731,17 @@ msgstr "Röðunar Samverkun"
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Raðaðu svæðunum (heitreitum) sem sýnd eru á myndinni."
 
+msgid "Orientation"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr "Paraskorun"
 
-msgid "Pattern"
-msgstr "Mynstur"
-
 msgid "pattern"
 msgstr "mynstur"
+
+msgid "Pattern"
+msgstr "Mynstur"
 
 msgid "Pause"
 msgstr "Hlé"
@@ -867,11 +882,11 @@ msgstr "mælt með"
 msgid "Reduce font size"
 msgstr "Minnkið leturstærð"
 
-msgid "remove"
-msgstr "fjarlægja"
-
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "remove"
+msgstr "fjarlægja"
 
 msgid "Remove custom background color"
 msgstr "Fjarlægja umbeðinn bakgrunnslit"
@@ -1225,6 +1240,9 @@ msgstr "Ekki er hægt að draga út ZIP skjalasafnið með IMS QTI Atriðinu."
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr "Í ZIP skjalasafninu er ekki imsmanifest.xml skrá eða þetta er ógilt ZIP skjalasafn."
 
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
 msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr "Eitthvað vantar í atriðið þitt: smelltu á það til að ljúka við það."
 
@@ -1255,11 +1273,11 @@ msgstr "Gefur til kynna lok tilraunar."
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "undo"
-msgstr "afturkalla"
-
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "Hlaða upp skrá (t.d. textaskrá, mynd...) sem svari."
@@ -1272,6 +1290,9 @@ msgstr "Notaðu þetta ef þú vilt að listi yfir valkosti sé nefndur (t.d. 1,
 
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "Notað til að stjórna sniði textans sem próftaki setur inn."
+
+msgid "Vertical"
+msgstr ""
 
 msgid "WAV audio"
 msgstr "WAV hljóðskrá"
