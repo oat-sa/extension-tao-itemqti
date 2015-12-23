@@ -162,7 +162,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
         if($integrityCheck && !$this->checkIntegrity($body)){
             return false;
         }
-        $this->body = $this->fixNonvoidTags($body);
+        $this->body = $body;
         return true;
     }
 
@@ -192,7 +192,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
     }
 
     /**
-     * Converts <foo /> to <foo></foo> unless foo is a proper void element such as img etc.
+     * Converts <foo/> to <foo></foo> unless foo is a proper void element such as img etc.
      *
      * @param $html
      * @return mixed
@@ -212,13 +212,6 @@ abstract class Container extends Element implements IdentifiedElementContainer
             // correctly closed element
             return trim(mb_substr($matches[0], 0, -2), 'UTF-8') . '></' . $matches[2] . '>';
         }, $html);
-    }
-
-    /**
-     * Clean the html in the body
-     */
-    public function cleanBody(){
-        
     }
 
     public function isValidElement(Element $element){
