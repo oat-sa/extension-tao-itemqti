@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:55:40\n"
+"PO-Revision-Date: 2015-12-23T13:25:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -88,6 +88,12 @@ msgstr "Texto Alt"
 msgid "An error occured at the level of the QTI model."
 msgstr "Cantidad de usos permitidos"
 
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while exporting the item %s."
+msgstr ""
+
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr "Se produjo un error al extraer el archivo ZIP que representa el paquete de contenido IMS."
 
@@ -139,11 +145,11 @@ msgstr "Inicio automático"
 msgid "Background color"
 msgstr "Color de fondo"
 
-msgid "block"
-msgstr "al menos"
-
 msgid "Block"
 msgstr "Bloque"
+
+msgid "block"
+msgstr "al menos"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Bloque que contiene el contenido (estímulo) del elemento como texto o imagen. También se requiere para interacciones Inline."
@@ -290,6 +296,9 @@ msgstr "Muestra"
 
 msgid "Display larger editor"
 msgstr "Mostrar editor más grande"
+
+msgid "Display the choices either horizontaly or verticaly"
+msgstr ""
 
 msgid "done"
 msgstr "hecho"
@@ -438,6 +447,9 @@ msgstr "Alto"
 msgid "Height (optional)"
 msgstr "Alto (opcional)"
 
+msgid "Horizontal"
+msgstr ""
+
 msgid "Hotspot"
 msgstr "Zona activa"
 
@@ -459,11 +471,11 @@ msgstr "Cómo se debe editar la expresión matemática"
 msgid "identical pair already exists"
 msgstr "ya existe par idéntico"
 
-msgid "identifier"
-msgstr "identificador"
-
 msgid "Identifier"
 msgstr "Identificador"
+
+msgid "identifier"
+msgstr "identificador"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "ya existe par idéntico"
@@ -528,11 +540,11 @@ msgstr "Elemento \"%s\" no está disponible en todos los idiomas"
 msgid "Item \'%s\' has no model"
 msgstr "Elemento \\'%s\\' no tiene modelo"
 
-msgid "Item Properties"
-msgstr "Propiedades del Elemento"
-
 msgid "Item properties"
 msgstr "Propiedades del elemento"
+
+msgid "Item Properties"
+msgstr "Propiedades del Elemento"
 
 msgid "Item width"
 msgstr "Ancho del elemento"
@@ -607,16 +619,16 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Máximo"
 
-msgid "Max length"
-msgstr "Longitud máxima"
-
 msgid "Max Length"
 msgstr "Longitud máxima"
 
-msgid "Max Words"
-msgstr "Máx. de palabras"
+msgid "Max length"
+msgstr "Longitud máxima"
 
 msgid "Max words"
+msgstr "Máx. de palabras"
+
+msgid "Max Words"
 msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
@@ -722,14 +734,17 @@ msgstr "Orden de Interacción"
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordenar las áreas (zonas activas) que aparecen en una imagen."
 
+msgid "Orientation"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr "Par de puntuación"
 
-msgid "Pattern"
-msgstr "Patrón"
-
 msgid "pattern"
 msgstr "patrón"
+
+msgid "Pattern"
+msgstr "Patrón"
 
 msgid "Pause"
 msgstr "Pausar"
@@ -871,11 +886,11 @@ msgstr "recomendado"
 msgid "Reduce font size"
 msgstr "Reducir tamaño de fuente"
 
-msgid "remove"
-msgstr "eliminar"
-
 msgid "Remove"
 msgstr "Eliminar"
+
+msgid "remove"
+msgstr "eliminar"
 
 msgid "Remove custom background color"
 msgstr "Eliminar color de fondo personalizado"
@@ -1230,6 +1245,9 @@ msgstr "El archivo ZIP que contiene el Ítem IMS QTI no se puede extraer."
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr "El archivo ZIP no contiene un archivo imsmanifest.xml o es un archivo ZIP inválido."
 
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
 msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr "Hay un elemento incompleto en su ítem: por favor, haga clic en él para terminarlo."
 
@@ -1260,11 +1278,11 @@ msgstr "Desencadenar la finalización del intento del ítem."
 msgid "Unable to retrieve asset \"%s"
 msgstr "No se puede recuperar recurso\"%s"
 
-msgid "undo"
-msgstr "deshacer"
-
 msgid "Undo"
 msgstr "Deshacer"
+
+msgid "undo"
+msgstr "deshacer"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "Cargar un archivo (por ejemplo, un documento o una imagen) como respuesta."
@@ -1277,6 +1295,9 @@ msgstr "Utilice esta opción si desea que la lista de opciones sea prefijada (po
 
 msgid "Used to control the format of the text entered by the candidate."
 msgstr "Se utiliza para controlar el formato del texto introducido por el candidato."
+
+msgid "Vertical"
+msgstr ""
 
 msgid "WAV audio"
 msgstr "Sonido WAV"
