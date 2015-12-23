@@ -150,6 +150,8 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * modify the content of the body
      * 
      * @param string $body
+     * @param bool $integrityCheck
+     * @return bool
      */
     public function edit($body, $integrityCheck = false){
         if(!is_string($body)){
@@ -158,7 +160,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
         if($integrityCheck && !$this->checkIntegrity($body)){
             return false;
         }
-        $this->body = $body;
+        $this->body = $this->fixNonvoidTags($body);
         return true;
     }
 
@@ -185,6 +187,29 @@ abstract class Container extends Element implements IdentifiedElementContainer
 
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Converts <foo /> to <foo></foo> unless foo is a proper void element such as img etc.
+     *
+     * @param $html
+     * @return mixed
+     */
+    public function fixNonvoidTags($html) {
+        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~', function ($matches) {
+            // something went wrong
+            if(empty($matches[2])) {
+                // do nothing
+                return $matches[0];
+            }
+            // regular void elements
+            if(in_array($matches[2], array('area','base','br','col','embed','hr','img','input','keygen','link','meta','param','source','track','wbr'))) {
+                // do nothing
+                return $matches[0];
+            }
+            // correctly closed element
+            return trim(substr($matches[0], 0, -2)) . '></' . $matches[2] . '>';
+        }, $html);
     }
 
     /**
