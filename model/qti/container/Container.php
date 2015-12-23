@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
 use \InvalidArgumentException;
+use \common_Logger;
 
 /**
  * The QTI_Container object represents the generic element container
@@ -154,6 +155,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * @return bool
      */
     public function edit($body, $integrityCheck = false){
+        common_Logger::i('Editing Item Body');
         if(!is_string($body)){
             throw new InvalidArgumentException('a QTI container must have a body of string type');
         }
@@ -196,7 +198,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * @return mixed
      */
     public function fixNonvoidTags($html) {
-        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~', function ($matches) {
+        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
             // something went wrong
             if(empty($matches[2])) {
                 // do nothing
@@ -208,7 +210,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 return $matches[0];
             }
             // correctly closed element
-            return trim(substr($matches[0], 0, -2)) . '></' . $matches[2] . '>';
+            return trim(mb_substr($matches[0], 0, -2), 'UTF-8') . '></' . $matches[2] . '>';
         }, $html);
     }
 
