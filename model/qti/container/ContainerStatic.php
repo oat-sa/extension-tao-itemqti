@@ -51,4 +51,14 @@ class ContainerStatic extends Container
         );
     }
 
+
+
+    /**
+     * Fix erroneously self-closing elements
+     *
+     * @return string
+     */
+    public function getBody(){
+        return $this->fixNonvoidTags(parent::getBody());
+    }
 }
