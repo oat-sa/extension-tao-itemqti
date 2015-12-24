@@ -80,7 +80,14 @@ class QtiItemImportForm
     	
 		$this->form->addElement($fileElt);
 		
-		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source'));
+		$apipElt = tao_helpers_form_FormFactory::getElement('import_options', 'Checkbox');
+		$apipElt->setOptions(array('apip' => __('APIP data')));
+		$apipElt->setValues(array('apip'));
+		$apipElt->setDescription(__('Import'));
+		$this->form->addElement($apipElt);
+		
+		
+		$this->form->createGroup('file', __('Import QTI 2.X Item'), array('source','import_options'));
 		
 		$qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
 		$qtiSentElt->setValue(1);
