@@ -11,3 +11,10 @@ $mainContainer : '.qti-item';
 
 @import "qti/qti-base";
 
+html{
+  height:auto !important;
+}
+.tao-item-scope{
+  overflow-x:hidden;
+}
+
