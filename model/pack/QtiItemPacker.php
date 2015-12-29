@@ -28,6 +28,8 @@ use oat\taoQtiItem\model\qti\AssetParser;
 use \core_kernel_classes_Resource;
 use \InvalidArgumentException;
 use \common_Exception;
+use oat\taoQtiItem\model\qti\XIncludeLoader;
+use oat\taoItems\model\media\ItemMediaResolver;
 
 /**
  * This class pack a QTI Item. Packing instead of compiling, aims
@@ -45,6 +47,12 @@ class QtiItemPacker extends ItemPacker
      * @var string
      */
     private static $itemType = 'qti';
+
+    /**
+     * XInclude expressions are replaced and not treated as assets
+     * @var boolean
+     */
+    private $replaceXinclude = true;
 
     /**
      * packItem implementation for QTI
@@ -78,12 +86,20 @@ class QtiItemPacker extends ItemPacker
 
             //then build the ItemPack from the parsed data
             if (!is_null($qtiItem)) {
+
+                if($this->replaceXinclude){
+                    $resolver = new ItemMediaResolver($item, $lang);
+                    $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
+                    $xincludeLoader->load(true);
+                }
+
                 $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
 
                 $itemPack->setAssetEncoders($this->getAssetEncoders());
 
                 $assetParser = new AssetParser($qtiItem, $path);
                 $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
+                $assetParser->setGetXinclude(!$this->replaceXinclude);
 
                 foreach ($assetParser->extract($itemPack) as $type => $assets) {
                     $itemPack->setAssets($type, $assets, $path);

@@ -306,18 +306,21 @@ define([
         },
         postRender : function(data, altClassName, renderer){
 
+            var postRenderers = [];
             var _renderer = renderer || this.getRenderer();
 
             if(typeof this.initContainer === 'function'){
                 //allow body to have a different renderer if it has its own renderer set
-                this.getBody().postRender({}, '', renderer);
+                postRenderers = this.getBody().postRender({}, '', renderer);
             }
 
             if(_renderer){
-                return _renderer.postRender(this, data, altClassName);
+                postRenderers.push(_renderer.postRender(this, data, altClassName));
             }else{
                 throw 'postRender: no renderer found for the element ' + this.qtiClass + ':' + this.serial;
             }
+
+            return _.compact(postRenderers);
         },
         getContainer : function($scope, subclass){
             var renderer = this.getRenderer();
@@ -360,14 +363,34 @@ define([
 
             var clazz = this.attr('class') || '';
             if(clazz){
-                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)', '');
-                clazz = clazz.replace(regex, '').replace(/^\s+/, '');
+
+                var regex = new RegExp('(?:^|\\s)' + className + '(?:\\s|$)');
+                clazz = clazz.replace(regex, ' ').trim();
+
                 if(clazz){
                     this.attr('class', clazz);
                 }else{
                     this.removeAttr('class');
                 }
             }
+        },
+        /**
+         * Add or remove class. Setting the optional state will force addition/removal.
+         * State is here to keep the jQuery syntax
+         *
+         * @param {String} className
+         * @param {Boolean} [state]
+         */
+        toggleClass : function(className, state) {
+
+            if(typeof state === 'boolean') {
+                return state ? this.addClass(className) : this.removeClass(className);
+            }
+
+            if(this.hasClass(className)) {
+                return this.removeClass(className);
+            }
+            return this.addClass(className);
         },
         isset : function(){
             return Element.issetElement(this.serial);

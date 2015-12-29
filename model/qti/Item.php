@@ -211,8 +211,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param
-     *            rprocessing
+     * @param $rprocessing
      * @return mixed
      */
     public function setResponseProcessing($rprocessing){
@@ -478,7 +477,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
     protected function getTemplateQtiVariables(){
         $variables = parent::getTemplateQtiVariables();
-
+        
         $variables['stylesheets'] = '';
         foreach($this->stylesheets as $stylesheet){
             $variables['stylesheets'] .= $stylesheet->toQTI();
@@ -516,6 +515,10 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
                 $renderedResponseProcessing = $responseProcessing->toQTI();
             }
         }
+
+        // move item CSS class to itemBody
+        $variables['class'] = $this->getAttributeValue('class');
+        unset($variables['attributes']['class']);
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
 

@@ -27,10 +27,11 @@ define([
     'lodash',
     'jquery',
     'handlebars',
+    'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/helper/interactionHelper',
-    'ui/themeLoader',
-], function(_, $, Handlebars, Element, interactionHelper, themeLoader){
+    'ui/themeLoader'
+], function(_, $, Handlebars, Promise, Element, interactionHelper, themeLoader){
     'use strict';
 
     var _isValidRenderer = function(renderer){
@@ -114,7 +115,7 @@ define([
         'infoControl',
         'include'
     ];
-    
+
     /**
      * The list of qti element dependencies. It is used internally to load dependent qti classes
      */
@@ -133,7 +134,7 @@ define([
         matchInteraction : ['simpleAssociableChoice'],
         orderInteraction : ['simpleChoice']
     };
-    
+
     /**
      * The list of supported qti subclasses.
      */
@@ -141,14 +142,14 @@ define([
         'simpleAssociableChoice' : ['associateInteraction', 'matchInteraction'],
         'simpleChoice' : ['choiceInteraction', 'orderInteraction']
     };
-    
+
     /**
      * List of the default properties for the item
      */
     var _defaults = {
         shuffleChoices : true
     };
-    
+
     /**
      * Get the location of the document, useful to define a baseUrl for the required context
      * @returns {String}
@@ -352,18 +353,12 @@ define([
 
         this.postRender = function(qtiElement, data, qtiSubclass){
 
-            var ret = false,
-                qtiClass = qtiSubclass || qtiElement.qtiClass,
-                renderer = _getClassRenderer(qtiClass);
+            var qtiClass = qtiSubclass || qtiElement.qtiClass;
+            var renderer = _getClassRenderer(qtiClass);
 
-            if(renderer){
-                if(typeof (renderer.render) === 'function'){
-                    ret = renderer.render.call(this, qtiElement, data);
-                }
-                //postRendering is optional, log missing call of postRender?
+            if(renderer && typeof (renderer.render) === 'function') {
+                return renderer.render.call(this, qtiElement, data);
             }
-
-            return ret;
         };
 
         this.setResponse = function(qtiInteraction, response, qtiSubclass){

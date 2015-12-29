@@ -28,9 +28,17 @@ define([
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/choiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, $, __, tpl, containerHelper, instructionMgr, pciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
+], function (_, $, __, tpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
+
     'use strict';
+
+    var KEY_CODE_SPACE = 32;
+    var KEY_CODE_ENTER = 13;
+    var KEY_CODE_UP    = 38;
+    var KEY_CODE_DOWN  = 40;
+    var KEY_CODE_TAB   = 9;
 
     /**
      * 'pseudo-label' is technically a div that behaves like a label.
@@ -43,28 +51,49 @@ define([
     var _pseudoLabel = function(interaction, $container){
 
         $container.off('.commonRenderer');
+
+        var $choiceInputs = $container.find('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+        $choiceInputs.on('keydown.commonRenderer', function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.charCode;
+            if(keyCode !== KEY_CODE_TAB){
+                e.preventDefault();
+            }
+
+            if( keyCode === KEY_CODE_SPACE || keyCode === KEY_CODE_ENTER){
+                _triggerInput($(this).closest('.qti-choice'));
+            }
+
+            var $nextInput = $(this).closest('.qti-choice').next('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+            var $prevInput = $(this).closest('.qti-choice').prev('.qti-choice').find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+            if (keyCode === KEY_CODE_UP){
+                $prevInput.focus();
+            } else if (keyCode === KEY_CODE_DOWN){
+                $nextInput.focus();
+            }
+        });
+
         $container.on('click.commonRenderer', '.qti-choice', function(e){
+            var $choiceBox = $(this);
 
             e.preventDefault();
-            e.stopPropagation();//required toherwise any tao scoped ,i/form initialization might prevent it from working
+            e.stopPropagation();//required otherwise any tao scoped ,form initialization might prevent it from working
 
-            var $box = $(this);
-            var $radios = $box.find('input:radio').not('[disabled]').not('.disabled');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
+            _triggerInput($choiceBox);
 
-            if($radios.length){
-                $radios.not(':checked').prop('checked', true);
-                $radios.trigger('change');
-            }
-
-            if($checkboxes.length){
-                $checkboxes.prop('checked', !$checkboxes.prop('checked'));
-                $checkboxes.trigger('change');
-            }
-
-            instructionMgr.validateInstructions(interaction, {choice : $box});
+            instructionMgr.validateInstructions(interaction, {choice : $choiceBox});
             containerHelper.triggerResponseChangeEvent(interaction);
         });
+    };
+
+    var _triggerInput = function($choiceBox){
+        var $input = $choiceBox.find('input:radio,input:checkbox').not('[disabled]').not('.disabled');
+
+        if($input.length){
+            $input.prop('checked', !$input.prop('checked'));
+            $input.trigger('change');
+        }
     };
 
     /**
@@ -80,6 +109,10 @@ define([
         _pseudoLabel(interaction, $container);
 
         _setInstructions(interaction);
+
+        if(interaction.attr('orientation') === 'horizontal') {
+            sizeAdapter.adaptSize($('.add-option, .result-area .target, .choice-area .qti-choice', $container));
+        }
     };
 
     /**

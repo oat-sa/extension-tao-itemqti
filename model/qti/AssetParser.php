@@ -173,7 +173,7 @@ class AssetParser
                 $this->loadCustomElementAssets($interaction);
             }
 
-            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\CustomInteraction') as $interaction){
+            foreach($element->getElements('oat\taoQtiItem\model\qti\interaction\InfoControl') as $interaction){
                 $this->loadCustomElementAssets($interaction);
             }
         }
@@ -243,7 +243,9 @@ class AssetParser
 
         //parse and extract assets from markup using XPATH
         if($element instanceof CustomInteraction || $element instanceof InfoControl){
-            $xml = new SimpleXMLElement($element->getMarkup());
+            // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
+            $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
+            $xml = new SimpleXMLElement($sanitizedMarkup);
             foreach($xml->xpath('//img') as $img){
                 $this->addAsset('img', (string)$img['src']);
             }

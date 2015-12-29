@@ -6,13 +6,14 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseDeclaration'], func
             var defaultData = {
                 empty : !_.size(responseDeclaration.mapEntries) && !_.size(responseDeclaration.correctResponse) && !_.size(responseDeclaration.defaultValue),
                 correctResponse : _.values(responseDeclaration.correctResponse),
-                MATCH_CORRECT : (responseDeclaration.template === "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"),
-                MAP_RESPONSE : (responseDeclaration.template === "http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"),
-                MAP_RESPONSE_POINT : (responseDeclaration.template === "http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"),
+                isAreaMapping : (responseDeclaration.attributes.baseType === "point"),
                 mappingAttributes : responseDeclaration.mappingAttributes,
+                hasMapEntries : _.size(responseDeclaration.mapEntries),
                 mapEntries : responseDeclaration.mapEntries,
-                defaultValue : responseDeclaration.defaultValue
+                defaultValue : responseDeclaration.defaultValue,
+                isRecord : responseDeclaration.attributes.cardinality === 'record'
             };
+
             return _.merge(defaultData, data || {});
         }
     };

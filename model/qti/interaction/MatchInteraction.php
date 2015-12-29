@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
+use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\interaction\MatchInteraction;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\Item;
@@ -167,6 +168,33 @@ class MatchInteraction extends BlockInteraction
                 $this->removeChoice($choice, $i);
             }
         }
+    }
+
+    public function getComposingElements($className = ''){
+        if($className === ''){
+            $className = 'oat\taoQtiItem\model\qti\Element';
+        }
+        $returnValue = parent::getComposingElements($className);
+        //for matchInteraction choices is not an array of Element but an array of array of Element
+        foreach ($this->getChoices(0) as $choice) {
+            if ($choice instanceof Element) {
+                if ($choice instanceof $className) {
+                    $returnValue[$choice->getSerial()] = $choice;
+                }
+                $returnValue = array_merge($returnValue, $choice->getComposingElements($className));
+            }
+        }
+
+        foreach ($this->getChoices(1) as $choice) {
+            if ($choice instanceof Element) {
+                if ($choice instanceof $className) {
+                    $returnValue[$choice->getSerial()] = $choice;
+                }
+                $returnValue = array_merge($returnValue, $choice->getComposingElements($className));
+            }
+        }
+
+        return $returnValue;
     }
 
     public function toArray($filterVariableContent = false, &$filtered = array()){

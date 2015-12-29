@@ -1,15 +1,36 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
 define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, rendererConfig){
+
+    'use strict';
+
     return {
         qtiClass : 'assessmentItem',
         template : tpl,
         getData : function(item, data){
-            
             var ns = _.clone(item.namespaces) || [],
                 renderer = this;
             
             delete ns[''];
-            delete ns['xsi'];
-            delete ns['xml'];
+            delete ns.xsi;
+            delete ns.xml;
             
             var defaultData = {
                 responses : [],
@@ -18,7 +39,8 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 feedbacks : [],
                 namespaces : ns,
                 empty : item.isEmpty(),
-                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : ''
+                responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
+                'class' : data.attributes.class || ''
             };
             
             _.each(item.responses, function(response){
@@ -34,7 +56,10 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 defaultData.feedbacks.push(feedback.render(renderer));
             });
             
-            return _.merge(data || {}, defaultData);
+            data = _.merge({}, data || {}, defaultData);
+            delete data.attributes.class;
+            
+            return data;
         }
     };
 });

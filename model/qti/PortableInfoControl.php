@@ -94,7 +94,7 @@ class PortableInfoControl extends InfoControl
     }
 
     public static function getTemplateQti(){
-        return static::getTemplatePath().'interactions/qti.customInteraction.tpl.php';
+        return static::getTemplatePath().'interactions/qti.infoControlInteraction.tpl.php';
     }
 
     protected function getTemplateQtiVariables(){
@@ -145,7 +145,7 @@ class PortableInfoControl extends InfoControl
     private function extractPciProperties(DOMElement $propertiesNode, $ns = ''){
 
         $properties = array();
-        $ns = $ns ? $ns.':' : '';
+        $ns = $ns ? trim( $ns, ':' ) . ':' : '';
 
         foreach($propertiesNode->childNodes as $prop){
 

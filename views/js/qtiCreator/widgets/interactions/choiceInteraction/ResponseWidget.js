@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
 define([
     'jquery',
     'lodash',
@@ -7,10 +26,13 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.score',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label',
     'polyfill/placeholders'
-], function($, _, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, scoreTpl, labelTpl){
+], function($, _, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, sizeAdapter, scoreTpl, labelTpl){
+
+    'use strict';
 
     var _fixInputs = function(widget){
 
@@ -68,10 +90,16 @@ define([
 
             commonRenderer.render(interaction);
 
+            if(interaction.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(widget);
+            }
         },
         setResponse : function(interaction, response){
 
             commonRenderer.setResponse(interaction, pciResponse.serialize(_.values(response), interaction));
+            if(interaction.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(interaction.data('widget'));
+            }
         },
         destroy : function(widget){
 
@@ -87,6 +115,11 @@ define([
             widget.$container.find('.real-label > input').attr('disabled', 'disabled');
 
             widget.$container.find('.mini-tlb-label[data-edit=answer], .mini-tlb[data-edit=answer]').remove();
+
+
+            if(interaction.attr('orientation') === 'horizontal') {
+                sizeAdapter.adaptSize(widget);
+            }
         },
         createScoreWidgets : function(widget){
 

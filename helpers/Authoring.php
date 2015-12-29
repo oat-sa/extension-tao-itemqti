@@ -117,6 +117,17 @@ class Authoring
         foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
             $elementWithStyle->removeAttribute('style');
         }
+
+        $ids = array();
+        /** @var \DOMElement $elementWithId */
+        foreach ($xpath->query("//*[@id]") as $elementWithId) {
+            $id = $elementWithId->getAttribute('id');
+            if(in_array($id, $ids)){
+                $elementWithId->removeAttribute('id');
+            } else{
+                $ids[] = $id;
+            }
+        }
         
         return $doc->saveXML();
     }

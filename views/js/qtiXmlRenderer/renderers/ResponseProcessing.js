@@ -35,7 +35,7 @@ define([
                 ret = mapPointTpl(data);
                 break;
             default:
-                throw new Error('unknown rp template : ' + rpTpl)
+                throw new Error('unknown rp template : ' + rpTpl);
         }
 
         return ret;

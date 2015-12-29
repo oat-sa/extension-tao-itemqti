@@ -25,7 +25,7 @@
     </div>
     <div>
         <label for="maxChoices" class="spinner">Max</label>
-        <input name="maxChoices" value="{{maxChoices}}" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
+        <input name="maxChoices" value="{{maxChoices}}" data-zero="true" data-increment="1" data-min="0" data-max="{{choicesCount}}" type="text" />
 
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">
@@ -44,4 +44,26 @@
         </span>
 
     <select data-list-style/>
+</div>
+
+
+<div class="panel">
+    <h3>{{__ 'Orientation'}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Display the choices either horizontaly or verticaly'}}
+        </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="vertical" {{#unless horizontal}}checked{{/unless}} />
+            <span class="icon-radio"></span>
+            {{__ 'Vertical'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Horizontal'}}
+        </label>
+    </div>
 </div>

@@ -179,6 +179,11 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion === '2.10.0') {
             $currentVersion = '2.11.0';
         }
+        if($currentVersion === '2.11.0') {
+            $registry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
+            $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
+            $currentVersion = '2.12.0';
+        }
 
         return $currentVersion;
     }

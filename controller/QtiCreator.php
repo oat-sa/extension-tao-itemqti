@@ -222,7 +222,9 @@ class QtiCreator extends tao_actions_CommonModule
             $rdfItem = new core_kernel_classes_Resource($uri);
 
             $lang = urldecode($this->getRequestParameter('lang'));
-            $relPath = ltrim(urldecode($this->getRequestParameter('relPath')), '/');
+
+            $rawParams = $this->getRequest()->getRawParameters();
+            $relPath   = ltrim(rawurldecode($rawParams['relPath']), '/');
 
             $this->renderFile($rdfItem, $relPath, $lang);
         }

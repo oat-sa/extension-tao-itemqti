@@ -120,7 +120,7 @@ class XIncludeLoader
                         $xincludeNode->parentNode->insertBefore($importNode, $xincludeNode);
                     }
                 }else{
-                    throw new XIncludeException('The file referenced by href does not exist : '.$href, $xinclude);
+                    throw new XIncludeException('The file referenced by href does not exist : '.$href, $xincludeNode);
                 }
                 $xincludeNode->parentNode->removeChild($xincludeNode);
                 $xincludes[] = $href;

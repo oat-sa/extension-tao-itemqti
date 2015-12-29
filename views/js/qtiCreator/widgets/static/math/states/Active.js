@@ -163,7 +163,7 @@ define([
                 mathEditor.setMathML(value).renderFromMathML(function(){
 
                     //save mathML
-                    m.setMathML(value);
+                    m.setMathML(mathEditor.mathML);
 
                     //clear tex:
                     $fields.latex.val('');

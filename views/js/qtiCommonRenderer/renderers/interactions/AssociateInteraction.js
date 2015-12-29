@@ -22,16 +22,18 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'jquery',
     'lodash',
     'i18n',
-    'jquery',
+    'core/promise',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/interactions/associateInteraction.pair',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/helper/adaptSize'
-], function(_, __, $, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, adaptSize){
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
+], function ($, _, __, Promise, tpl, pairTpl, containerHelper, instructionMgr, pciResponse, sizeAdapter) {
+
     'use strict';
 
     var setChoice = function(interaction, $choice, $target){
@@ -202,12 +204,6 @@ define([
         }
     };
 
-    var _adaptSize = function(interaction){
-        var $container = containerHelper.get(interaction);
-        _.delay(function(){
-            adaptSize.height($('.result-area .target, .choice-area .qti-choice', $container));
-        }, 500);//@todo : fix the image loading issues
-    };
 
     /**
      * Init rendering, called after template injected into the DOM
@@ -218,179 +214,184 @@ define([
      */
     var render = function(interaction){
 
-        renderEmptyPairs(interaction);
+        return new Promise(function(resolve, reject){
 
-        var $container = containerHelper.get(interaction);
-        var $choiceArea = $container.find('.choice-area'),
-            $resultArea = $container.find('.result-area'),
-            $activeChoice = null;
+            var $container = containerHelper.get(interaction);
+            var $choiceArea = $container.find('.choice-area');
+            var $resultArea = $container.find('.result-area');
+            var $activeChoice = null;
 
+            var _getChoice = function(serial){
+                return $choiceArea.find('[data-serial=' + serial + ']');
+            };
 
-        var _getChoice = function(serial){
-            return $choiceArea.find('[data-serial=' + serial + ']');
-        };
+            /**
+             * @todo Tried to store $resultArea.find[...] in a variable but this fails
+             * @param $choice
+             * @param $target
+             * @private
+             */
+            var _setChoice = function($choice, $target){
+                setChoice(interaction, $choice, $target);
+                sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+            };
 
-        /**
-         * @todo Tried to store $resultArea.find[...] in a variable but this fails
-         * @param $choice
-         * @param $target
-         * @private
-         */
-        var _setChoice = function($choice, $target){
-            setChoice(interaction, $choice, $target);
-            _adaptSize(interaction);
-        };
+            var _resetSelection = function(){
+                if($activeChoice){
+                    $resultArea.find('.remove-choice').remove();
+                    $activeChoice.removeClass('active');
+                    $container.find('.empty').removeClass('empty');
+                    $activeChoice = null;
+                }
+            };
 
-        var _resetSelection = function(){
-            if($activeChoice){
-                $resultArea.find('.remove-choice').remove();
-                $activeChoice.removeClass('active');
-                $container.find('.empty').removeClass('empty');
-                $activeChoice = null;
-            }
-        };
+            var _unsetChoice = function($choice){
+                unsetChoice(interaction, $choice, true);
+                sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', containerHelper.get(interaction)));
+            };
 
-        var _unsetChoice = function($choice){
-            unsetChoice(interaction, $choice, true);
-            _adaptSize(interaction);
-        };
+            var _isInsertionMode = function(){
+                return ($activeChoice && $activeChoice.data('identifier'));
+            };
 
-        var _isInsertionMode = function(){
-            return ($activeChoice && $activeChoice.data('identifier'));
-        };
+            var _isModeEditing = function(){
+                return ($activeChoice && !$activeChoice.data('identifier'));
+            };
 
-        var _isModeEditing = function(){
-            return ($activeChoice && !$activeChoice.data('identifier'));
-        };
+            renderEmptyPairs(interaction);
 
-        $container.on('mousedown.commonRenderer', function(e){
-            _resetSelection();
-        });
-
-        $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
-
-            e.stopPropagation();
-
-            if($(this).hasClass('deactivated')){
-                e.preventDefault();
-                return;
-            }
-
-            if(_isModeEditing()){
-                //swapping:
-                interaction.swapping = true;
-                _unsetChoice($activeChoice);
-                _setChoice($(this), $activeChoice);
+            $container.on('mousedown.commonRenderer', function(e){
                 _resetSelection();
-                interaction.swapping = false;
-            }else{
+            });
 
-                if($(this).hasClass('active')){
+            $choiceArea.on('mousedown.commonRenderer', '>li', function(e){
+
+                e.stopPropagation();
+
+                if($(this).hasClass('deactivated')){
+                    e.preventDefault();
+                    return;
+                }
+
+                if(_isModeEditing()){
+                    //swapping:
+                    interaction.swapping = true;
+                    _unsetChoice($activeChoice);
+                    _setChoice($(this), $activeChoice);
                     _resetSelection();
+                    interaction.swapping = false;
                 }else{
+
+                    if($(this).hasClass('active')){
+                        _resetSelection();
+                    }else{
+                        _resetSelection();
+
+                        //activate it:
+                        $activeChoice = $(this);
+                        $(this).addClass('active');
+                        $resultArea.find('>li>.target').addClass('empty');
+                    }
+                }
+
+            });
+
+            $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
+                var $target,
+                    choiceSerial,
+                    targetSerial;
+
+                e.stopPropagation();
+
+                if(_isInsertionMode()){
+
+                    $target = $(this);
+                    choiceSerial = $activeChoice.data('serial');
+                    targetSerial = $target.data('serial');
+
+                    if(targetSerial !== choiceSerial){
+
+                        if($target.hasClass('filled')){
+                            interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
+                        }
+
+                        //set choices:
+                        if(targetSerial){
+                            _unsetChoice($target);
+                        }
+
+                        _setChoice($activeChoice, $target);
+
+                        //always reset swapping mode after the choice is set
+                        interaction.swapping = false;
+                    }
+
                     _resetSelection();
 
-                    //activate it:
+                }else if(_isModeEditing()){
+
+                    //editing mode:
+                    $target = $(this);
+                    choiceSerial = $activeChoice.data('serial');
+                    targetSerial = $target.data('serial');
+
+                    if(targetSerial !== choiceSerial){
+
+                        if($target.hasClass('filled') || $activeChoice.siblings('div')[0] === $target[0]){
+                            interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
+                        }
+
+                        _unsetChoice($activeChoice);
+                        if(targetSerial){
+                            //swapping:
+                            _unsetChoice($target);
+                            _setChoice(_getChoice(targetSerial), $activeChoice);
+                        }
+                        _setChoice(_getChoice(choiceSerial), $target);
+
+                        //always reset swapping mode after the choice is set
+                        interaction.swapping = false;
+                    }
+
+                    _resetSelection();
+
+                }else if($(this).data('serial')){
+
+                    //selecting a choice in editing mode:
+                    var serial = $(this).data('serial');
+
                     $activeChoice = $(this);
-                    $(this).addClass('active');
-                    $resultArea.find('>li>.target').addClass('empty');
+                    $activeChoice.addClass('active');
+
+                    $resultArea.find('>li>.target').filter(function(){
+                        return $(this).data('serial') !== serial;
+                    }).addClass('empty');
+
+                    $choiceArea.find('>li:not(.deactivated)').filter(function(){
+                        return $(this).data('serial') !== serial;
+                    }).addClass('empty');
+
+                    //append trash bin:
+                    var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
+                    $bin.on('mousedown', function(e){
+                        e.stopPropagation();
+                        _unsetChoice($activeChoice);
+                        _resetSelection();
+                    });
+                    $(this).append($bin);
                 }
+
+            });
+
+            if(!interaction.responseMappingMode){
+                _setInstructions(interaction);
             }
 
-        });
+            sizeAdapter.adaptSize($('.result-area .target, .choice-area .qti-choice', $container));
 
-        $resultArea.on('mousedown.commonRenderer', '>li>div', function(e){
-            var $target,
-                choiceSerial,
-                targetSerial;
-
-            e.stopPropagation();
-
-            if(_isInsertionMode()){
-
-                $target = $(this);
-                choiceSerial = $activeChoice.data('serial');
-                targetSerial = $target.data('serial');
-
-                if(targetSerial !== choiceSerial){
-
-                    if($target.hasClass('filled')){
-                        interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
-                    }
-
-                    //set choices:
-                    if(targetSerial){
-                        _unsetChoice($target);
-                    }
-
-                    _setChoice($activeChoice, $target);
-
-                    //always reset swapping mode after the choice is set
-                    interaction.swapping = false;
-                }
-
-                _resetSelection();
-
-            }else if(_isModeEditing()){
-
-                //editing mode:
-                $target = $(this);
-                choiceSerial = $activeChoice.data('serial');
-                targetSerial = $target.data('serial');
-
-                if(targetSerial !== choiceSerial){
-
-                    if($target.hasClass('filled') || $activeChoice.siblings('div')[0] === $target[0]){
-                        interaction.swapping = true;//hack to prevent deleting empty pair in infinite association mode
-                    }
-
-                    _unsetChoice($activeChoice);
-                    if(targetSerial){
-                        //swapping:
-                        _unsetChoice($target);
-                        _setChoice(_getChoice(targetSerial), $activeChoice);
-                    }
-                    _setChoice(_getChoice(choiceSerial), $target);
-
-                    //always reset swapping mode after the choice is set
-                    interaction.swapping = false;
-                }
-
-                _resetSelection();
-
-            }else if($(this).data('serial')){
-
-                //selecting a choice in editing mode:
-                var serial = $(this).data('serial');
-
-                $activeChoice = $(this);
-                $activeChoice.addClass('active');
-
-                $resultArea.find('>li>.target').filter(function(){
-                    return $(this).data('serial') !== serial;
-                }).addClass('empty');
-
-                $choiceArea.find('>li:not(.deactivated)').filter(function(){
-                    return $(this).data('serial') !== serial;
-                }).addClass('empty');
-
-                //append trash bin:
-                var $bin = $('<span>', {'class' : 'icon-undo remove-choice', 'title' : __('remove')});
-                $bin.on('mousedown', function(e){
-                    e.stopPropagation();
-                    _unsetChoice($activeChoice);
-                    _resetSelection();
-                });
-                $(this).append($bin);
-            }
+            resolve();
 
         });
-
-        if(!interaction.responseMappingMode){
-            _setInstructions(interaction);
-        }
-
-        _adaptSize(interaction);
     };
 
     var _setInstructions = function(interaction){

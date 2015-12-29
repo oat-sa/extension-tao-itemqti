@@ -20,8 +20,8 @@ define([
     'lodash',
     'module',
     'async',
+    'core/promise',
     'history',
-    'layout/actions',
     'layout/loading-bar',
     'layout/section',
     'taoQtiItem/qtiCreator/model/helper/event',
@@ -42,8 +42,8 @@ define([
     _,
     module,
     async,
+    Promise,
     history,
-    actionManager,
     loadingBar,
     section,
     event,
@@ -59,9 +59,8 @@ define([
     icRegistry,
     blockAdder
     ){
-    
     'use strict';
-    
+
     loadingBar.start();
 
     function _getAuthoringElements(interactionModels){
@@ -111,29 +110,33 @@ define([
                 hook.init(configProperties);
             });
         });
-    };
+    }
 
     return {
         /**
          *
-         * @param {object} config (baseUrl, uri, lang)
+         * @param {object} _config (baseUrl, uri, lang)
          */
-        start : function(config){
-
-            //first all, start loading bar
-            loadingBar.start();
-            //init config
-            config = config || module.config();
-            //reinitialize the renderer:
-            creatorRenderer.get(true, config);
-
-            var configProperties = config.properties;
-
-            //pass reference to useful dom element
-            var $doc = $(document),
+        start : function(_config){
+            
+            var config, 
+                configProperties,
+                //references to useful dom element
+                $doc = $(document),
                 $editorScope = $('#item-editor-scope'),
                 $itemContainer = $('#item-editor-scroll-inner'),
                 $propertySidebar = $('#item-editor-item-widget-bar');
+            
+            //first all, start loading bar
+            loadingBar.start();
+            
+            //init config
+            config = _.merge({}, _config || {},  module.config() || {});
+            
+            //reinitialize the renderer:
+            creatorRenderer.get(true, config);
+
+            configProperties = config.properties;
 
             configProperties.dom = {
                 getEditorScope : function(){
@@ -154,6 +157,9 @@ define([
                 getItemPropertyPanel : function(){
                     return $editorScope.find('#sidebar-right-item-properties');
                 },
+                getItemStylePanel : function(){
+                    return $propertySidebar.find('#item-style-editor-bar');
+                },
                 getModalContainer : function(){
                     return $editorScope.find('#modal-container');
                 }
@@ -165,15 +171,15 @@ define([
 
                 if (history) {
                     history.back();
-                    actionManager.exec('item-properties');
                 }
+
             });
 
             //initialize hooks
-            _initializeHooks(config.uiHooks, configProperties);
+            _initializeHooks(_.union(config.uiHooks, config.hooks), configProperties);
 
             async.parallel([
-                //register custom interacitons
+                //register custom interactions
                 function(callback){
                     ciRegistry.register(config.interactions);
                     ciRegistry.loadAll(function(hooks){
@@ -210,7 +216,7 @@ define([
                 }
             ], function(err, res){
 
-                //get results from parallelized ajax calls:
+                //get results from paralleled ajax calls:
                 var interactionHooks = res[0],
                     infoControlHooks = res[1],
                     item = res[2];
@@ -226,6 +232,7 @@ define([
                     .get()
                     .setOptions(configProperties)
                     .load(function(){
+                        var widget;
 
                         //set renderer
                         item.setRenderer(this);
@@ -234,38 +241,45 @@ define([
                         configProperties.dom.getItemPanel().append(item.render());
 
                         //"post-render it" to initialize the widget
-                        var widget = item.postRender(_.clone(configProperties));
-                        _.each(item.getComposingElements(), function(element){
-                            if(element.qtiClass === 'include'){
-                                xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
-                            }
+                        Promise
+                         .all(item.postRender(_.clone(configProperties)))
+                         .then(function(){
+                            widget = item.data('widget');
+                            _.each(item.getComposingElements(), function(element){
+                                if(element.qtiClass === 'include'){
+                                    xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
+                                }
+                            });
+
+                            editor.initGui(widget, configProperties);
+                            panel.initSidebarAccordion($propertySidebar);
+                            panel.initFormVisibilityListener();
+
+                            //hide loading bar when completed
+                            loadingBar.stop();
+
+                            //destroy by leaving the section
+                            section.on('hide', function(hiddenSection){
+                                if(hiddenSection.id === 'authoring'){
+
+                                    //remove global events
+                                    $(window).off('.qti-widget');
+                                    $doc.off('.qti-widget').off('.qti-creator');
+                                }
+                            });
+
+                            //set reference to item widget object
+                            $editorScope.data('widget', item);
+
+                            //fires event itemloaded
+                            $doc.trigger('widgetloaded.qticreator', [widget]);
+
+                            //init event listeners:
+                            event.initElementToWidgetListeners();
+                        })
+                        .catch(function(err){
+                            console.error(err);
                         });
-
-                        editor.initGui(widget, configProperties);
-                        panel.initSidebarAccordion($propertySidebar);
-                        panel.initFormVisibilityListener();
-
-                        //hide loading bar when completed
-                        loadingBar.stop();
-
-                        //destroy by leaving the section
-                        section.on('hide', function(hiddenSection){
-                            if(hiddenSection.id === 'authoring'){
-
-                                //remove global events
-                                $(window).off('.qti-widget');
-                                $doc.off('.qti-widget').off('.qti-creator');
-                            }
-                        });
-
-                        //set reference to item widget object
-                        $editorScope.data('widget', item);
-
-                        //fires event itemloaded
-                        $doc.trigger('widgetloaded.qticreator', [widget]);
-
-                        //init event listeners:
-                        event.initElementToWidgetListeners();
 
                     }, item.getUsedClasses());
 

@@ -229,15 +229,15 @@ define([
             containerHelper.createElements(container, contentHelper.getContent($editable), function(newElts){
 
                 creatorRenderer.get().load(function(){
+                    var self = this;
 
-                    for(var serial in newElts){
-
-                        var elt = newElts[serial],
-                            $widget,
+                    _.forEach(newElts, function(elt, serial){
+                        var $widget,
                             widget,
                             $colParent = $placeholder.parent();
 
-                        elt.setRenderer(this);
+
+                        elt.setRenderer(self);
 
                         if(Element.isA(elt, '_container')){
                             $colParent.empty();//clear the col content, and leave an empty text field
@@ -246,7 +246,10 @@ define([
                             $widget = widget.$container;
                         }else{
                             elt.render($placeholder);
-                            widget = elt.postRender();
+
+                            //TODO resolve the promise it returns
+                            elt.postRender();
+                            widget = elt.data('widget');
                             if(Element.isA(elt, 'blockInteraction')){
                                 $widget = widget.$container;
                             }else{
@@ -266,7 +269,7 @@ define([
                             widget.changeState('active');
                         }
 
-                    }
+                    });
                 }, this.getUsedClasses());
             });
 

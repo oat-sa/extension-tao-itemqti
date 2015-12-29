@@ -2,10 +2,10 @@
     <div class="pseudo-label-box">
         <label class="real-label">
             {{#if unique}}
-            <input type="radio" name="response-{{interaction.serial}}" value="{{attributes.identifier}}">
+            <input type="radio" name="response-{{interaction.serial}}" value="{{attributes.identifier}}" tabindex="1">
             <span class="icon-radio"></span>
             {{else}}
-            <input type="checkbox" name="response-{{interaction.serial}}" value="{{attributes.identifier}}">
+            <input type="checkbox" name="response-{{interaction.serial}}" value="{{attributes.identifier}}" tabindex="1">
             <span class="icon-checkbox"></span>
             {{/if}}
         </label>

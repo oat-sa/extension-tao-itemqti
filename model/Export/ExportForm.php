@@ -135,7 +135,7 @@ class ExportForm
 		$this->form->addElement($instanceElt);
 
 
-    	$this->form->createGroup('options', __('Export QTI 2.1 Package'), array('xml_desc', 'filename', 'instances'));
+    	$this->form->createGroup('options', __('Export QTI 2.1 Package'), array('filename', 'instances'));
     }
 
 }

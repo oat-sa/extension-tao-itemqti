@@ -13,7 +13,7 @@
         {{{.}}}
     {{~/stylesheets}}
     
-    <itemBody>
+    <itemBody{{#if class}} class="{{class}}"{{/if}}>
         {{#if empty}}
             <div class="empty"></div>
         {{else}}

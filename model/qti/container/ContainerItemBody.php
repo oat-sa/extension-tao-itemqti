@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti\container;
 use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 
 /**
- * The QTI ContainerItemBody reprensents the ItemBody or an assessmentItem
+ * The QTI ContainerItemBody represents the ItemBody or an assessmentItem
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
@@ -53,5 +53,14 @@ class ContainerItemBody extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\XInclude'
 		);
 	}
-	
+
+
+    /**
+     * Fix erroneously self-closing elements
+     *
+     * @return string
+     */
+    public function getBody(){
+        return $this->fixNonvoidTags(parent::getBody());
+    }
 }
