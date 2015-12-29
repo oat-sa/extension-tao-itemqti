@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:26:14\n"
+"PO-Revision-Date: 2015-12-29T10:20:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -117,6 +117,9 @@ msgstr "在处理回应时发生了错误。"
 
 msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "当导入IMS QTI包时发生不明的错误。"
+
+msgid "APIP data"
+msgstr ""
 
 msgid "APIP Package"
 msgstr "APIP 包"
@@ -250,10 +253,10 @@ msgstr "目前，不可从MathML转换到LaTeX。 在这里编辑MathML会丢�
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
-msgid "default"
+msgid "Default"
 msgstr "默认值"
 
-msgid "Default"
+msgid "default"
 msgstr "默认值"
 
 msgid "Define correct response"
@@ -538,10 +541,10 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "题目属性"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "题目属性"
 
 msgid "Item width"
@@ -557,10 +560,10 @@ msgstr "JPEG图片"
 msgid "Label"
 msgstr "标签"
 
-msgid "Latex"
+msgid "LaTex"
 msgstr "LaTeX"
 
-msgid "LaTex"
+msgid "Latex"
 msgstr "LaTeX"
 
 msgid "leave empty"
@@ -616,16 +619,16 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
-msgstr "最大长度"
-
 msgid "Max length"
 msgstr "最大长度"
 
-msgid "Max words"
-msgstr "最多字数"
+msgid "Max Length"
+msgstr "最大长度"
 
 msgid "Max Words"
+msgstr "最多字数"
+
+msgid "Max words"
 msgstr "最多字数"
 
 msgid "Max. number of matches"
@@ -737,10 +740,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "对得分"
 
-msgid "pattern"
+msgid "Pattern"
 msgstr "样式"
 
-msgid "Pattern"
+msgid "pattern"
 msgstr "样式"
 
 msgid "Pause"
@@ -1273,10 +1276,10 @@ msgstr "停止使用此题目。"
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
 msgid "Upload a file (e.g. document, picture...) as a response."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:25:36\n"
+"PO-Revision-Date: 2015-12-29T10:19:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -117,6 +117,9 @@ msgstr "Óvænt villa kom upp þegar verið var að eiga við Svaravinnslu."
 
 msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "Óvænt villa kom upp þegar verið var að flytja inn IMS QTI pakkann."
+
+msgid "APIP data"
+msgstr ""
 
 msgid "APIP Package"
 msgstr "APIP pakki"
@@ -250,10 +253,10 @@ msgstr "Breyting úr MathML í LaTeX er ekki aðgengileg núna. Breytingar á Ma
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
 msgid "Define correct response"
@@ -538,11 +541,11 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item properties"
-msgstr "Eiginleikar atriðis"
-
 msgid "Item Properties"
 msgstr "Eiginleikar Atriðis"
+
+msgid "Item properties"
+msgstr "Eiginleikar atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -557,11 +560,11 @@ msgstr "JPEG mynd"
 msgid "Label"
 msgstr "Merki"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTex"
 msgstr "LaTex"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "hafa autt"
@@ -616,17 +619,17 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max Length"
-msgstr "Hámarks Lengd"
-
 msgid "Max length"
 msgstr "Hámarks lengd"
 
-msgid "Max words"
-msgstr "Hámarksfjöldi orða"
+msgid "Max Length"
+msgstr "Hámarks Lengd"
 
 msgid "Max Words"
 msgstr "Hámarksfjöldi Orða"
+
+msgid "Max words"
+msgstr "Hámarksfjöldi orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -737,11 +740,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Paraskorun"
 
-msgid "pattern"
-msgstr "mynstur"
-
 msgid "Pattern"
 msgstr "Mynstur"
+
+msgid "pattern"
+msgstr "mynstur"
 
 msgid "Pause"
 msgstr "Hlé"
@@ -1273,11 +1276,11 @@ msgstr "Gefur til kynna lok tilraunar."
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "Undo"
-msgstr "Afturkalla"
-
 msgid "undo"
 msgstr "afturkalla"
+
+msgid "Undo"
+msgstr "Afturkalla"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "Hlaða upp skrá (t.d. textaskrá, mynd...) sem svari."

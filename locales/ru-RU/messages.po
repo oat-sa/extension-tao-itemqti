@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:26:00\n"
+"PO-Revision-Date: 2015-12-29T10:20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -116,6 +116,9 @@ msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package."
+msgstr ""
+
+msgid "APIP data"
 msgstr ""
 
 msgid "APIP Package"
@@ -250,10 +253,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -538,10 +541,10 @@ msgstr ""
 msgid "Item \'%s\' has no model"
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -557,10 +560,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -616,16 +619,16 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max Length"
-msgstr ""
-
 msgid "Max length"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Length"
 msgstr ""
 
 msgid "Max Words"
+msgstr ""
+
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -737,10 +740,10 @@ msgstr ""
 msgid "Pair scoring"
 msgstr ""
 
-msgid "pattern"
+msgid "Pattern"
 msgstr ""
 
-msgid "Pattern"
+msgid "pattern"
 msgstr ""
 
 msgid "Pause"
@@ -1273,10 +1276,10 @@ msgstr ""
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
