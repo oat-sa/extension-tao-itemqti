@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:25:19\n"
+"PO-Revision-Date: 2015-12-29T10:09:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -117,6 +117,9 @@ msgstr "Se ha producido un error inesperado durante la importación del artícul
 
 msgid "An unknown error occured while importing the IMS QTI Package."
 msgstr "Un error desconocido ha ocurrido mientras importaba el paquete IMS QTI."
+
+msgid "APIP data"
+msgstr ""
 
 msgid "APIP Package"
 msgstr "Un error desconocido ha ocurrido mientras importaba el paquete IMS QTI."
@@ -252,11 +255,11 @@ msgstr "Actualmente la conversión de MathML a LaTeX no está disponible. Editan
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
 
-msgid "default"
-msgstr "predeterminado"
-
 msgid "Default"
 msgstr "Predeterminado"
+
+msgid "default"
+msgstr "predeterminado"
 
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
@@ -540,11 +543,11 @@ msgstr "Elemento \"%s\" no está disponible en todos los idiomas"
 msgid "Item \'%s\' has no model"
 msgstr "Elemento \\'%s\\' no tiene modelo"
 
-msgid "Item properties"
-msgstr "Propiedades del elemento"
-
 msgid "Item Properties"
 msgstr "Propiedades del Elemento"
+
+msgid "Item properties"
+msgstr "Propiedades del elemento"
 
 msgid "Item width"
 msgstr "Ancho del elemento"
@@ -559,11 +562,11 @@ msgstr "Imagen JPEG"
 msgid "Label"
 msgstr "Etiqueta"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTex"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "leave empty"
 msgstr "dejar vacío"
@@ -619,16 +622,16 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Máximo"
 
-msgid "Max Length"
-msgstr "Longitud máxima"
-
 msgid "Max length"
 msgstr "Longitud máxima"
 
-msgid "Max words"
-msgstr "Máx. de palabras"
+msgid "Max Length"
+msgstr "Longitud máxima"
 
 msgid "Max Words"
+msgstr "Máx. de palabras"
+
+msgid "Max words"
 msgstr "Máx. de palabras"
 
 msgid "Max. number of matches"
@@ -740,11 +743,11 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Par de puntuación"
 
-msgid "pattern"
-msgstr "patrón"
-
 msgid "Pattern"
 msgstr "Patrón"
+
+msgid "pattern"
+msgstr "patrón"
 
 msgid "Pause"
 msgstr "Pausar"
@@ -1278,11 +1281,11 @@ msgstr "Desencadenar la finalización del intento del ítem."
 msgid "Unable to retrieve asset \"%s"
 msgstr "No se puede recuperar recurso\"%s"
 
-msgid "Undo"
-msgstr "Deshacer"
-
 msgid "undo"
 msgstr "deshacer"
+
+msgid "Undo"
+msgstr "Deshacer"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
 msgstr "Cargar un archivo (por ejemplo, un documento o una imagen) como respuesta."
