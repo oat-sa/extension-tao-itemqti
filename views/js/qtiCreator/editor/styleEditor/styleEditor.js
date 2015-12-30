@@ -29,7 +29,7 @@ define([
     'i18n',
     'urlParser',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
-    'lib/jquery.fileDownload'
+    'jquery.fileDownload'
 ], function (
     $,
     _,
