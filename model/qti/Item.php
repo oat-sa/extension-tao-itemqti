@@ -105,7 +105,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function __construct($attributes = array()){
         // override the tool options !
         $attributes['toolName'] = PRODUCT_NAME;
-        $attributes['toolVersion'] = TAO_VERSION;
+        $attributes['toolVersion'] = \tao_models_classes_TaoService::singleton()->getVersion();
 
         // create container
         $this->body = new ContainerItemBody('', $this);
