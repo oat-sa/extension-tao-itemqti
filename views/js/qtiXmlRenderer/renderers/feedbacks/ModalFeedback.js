@@ -3,7 +3,8 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function(tpl){
         qtiClass : 'modalFeedback',
         template : tpl,
         getData : function getData(fb, data){
-            data.feedbackClass = fb.data('feedbackClass');
+            var relatedResponse = fb.data('relatedResponse');
+            console.log(fb.serial, relatedResponse.attr('identifier'));
             return data;
         }
     };
