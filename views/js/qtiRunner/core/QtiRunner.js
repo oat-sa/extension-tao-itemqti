@@ -290,37 +290,54 @@ define([
     };
 
     QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
+        
+        var count;
+        var inlineDisplay = false;
+        var _this = this;
+        
+        if(inlineDisplay){
+            
+            
+        }else{
+            
+            //currently only modal feedbacks are available
+            var lastFeedback,
+                messages = [],
+                feedbacksToBeDisplayed = [];
 
-        //currently only modal feedbacks are available
-        var _this = this,
-            feedbacksToBeDisplayed = [];
-
-        //find which modal feedbacks should be displayed according to the current item session:
-        _.each(this.item.modalFeedbacks, function(feedback){
-            var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-            if(itemSession[outcomeIdentifier]){
-                var feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                if(_.indexOf(feedbackIds, feedback.id()) >= 0){
-                    feedbacksToBeDisplayed.push(feedback);
+            //find which modal feedbacks should be displayed according to the current item session:
+            _.each(this.item.modalFeedbacks, function(feedback){
+                
+                var feedbackIds, message;
+                var outcomeIdentifier = feedback.attr('outcomeIdentifier');
+                
+                if(itemSession[outcomeIdentifier]){
+                    feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
+                    message = getFeedbackMessageSignature(feedback);
+                    if(_.indexOf(feedbackIds, feedback.id()) >= 0 && _.indexOf(messages, message) === -1){
+                        //check content if is already in the display queue
+                        feedbacksToBeDisplayed.push(feedback);
+                        messages.push(message);
+                    }
                 }
+            });
+
+            //record the number of feedbacks to be displayed:
+            count = feedbacksToBeDisplayed.length;
+            
+            if (count > 0 && _.isFunction(onShowCallback)) {
+                onShowCallback();
             }
-        });
 
-        //record the number of feedbacks to be displayed:
-        var count = feedbacksToBeDisplayed.length;
+            //show in reverse order
+            lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
+                _.eachRight(feedbacksToBeDisplayed, function(feedback){
+                _this.showModalFeedback(feedback);
+            });
 
-        if (count > 0 && _.isFunction(onShowCallback)) {
-            onShowCallback();
+            //add callback to the last shown modal feedback
+            this.showModalFeedback(lastFeedback, callback);
         }
-
-        //show in reverse order
-        var lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
-            _.eachRight(feedbacksToBeDisplayed, function(feedback){
-            _this.showModalFeedback(feedback);
-        });
-
-        //add callback to the last shown modal feedback
-        this.showModalFeedback(lastFeedback, callback);
 
         return count;
     };
@@ -346,6 +363,16 @@ define([
             }, this.getLoader().getLoadedClasses());
         }
     };
-
+    
+    /**
+     * Previde the feedbackMessage signature to check if the feedback contents should be considered equals
+     * 
+     * @param {type} feedback
+     * @returns {String}
+     */
+    function getFeedbackMessageSignature(feedback){
+        return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim();
+    }
+    
     return QtiRunner;
 });
