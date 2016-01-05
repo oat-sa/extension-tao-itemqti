@@ -4,9 +4,11 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/modalFeedback',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'lodash',
+    'i18n',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, formTpl, formElement, $){
+], function(stateFactory, Active, commonRenderer, formTpl, formElement, _, __, $){
 
     /**
      * handle z-indices of sidebar and ckeditor
@@ -132,11 +134,15 @@ define([
     ModalFeedbackStateActive.prototype.initForm = function(){
 
         var _widget = this.widget;
-
+        var feedbackStyles = _prepareFeedbackStyles(_widget);
+        var selectedStyle = _.find(feedbackStyles, {selected : true});
+        var selectedCssClass = selectedStyle ? selectedStyle.cssClass : '';
+            
         //build form:
         _widget.$form.html(formTpl({
             serial : _widget.element.getSerial(),
-            identifier : _widget.element.id()
+            identifier : _widget.element.id(),
+            feedbackStyles : feedbackStyles
         }));
 
         formElement.initWidget(_widget.$form);
@@ -145,9 +151,68 @@ define([
         formElement.setChangeCallbacks(_widget.$form, _widget.element, {
             identifier : function(fb, value){
                 fb.id(value);
+            },
+            feedbackStyle : function(fb, value){
+                _setBodyDomClass(fb, value, selectedCssClass);
+                selectedCssClass = value;
             }
         });
     };
+
+    function _getBodyDom(feedback){
+        return $('<div>').html(feedback.body()).find('.tao-wrapper');
+    }
+
+    function _setBodyDomClass(feedback, newClass, oldClass){
+
+        if(oldClass || newClass){
+            
+            var $wrapper = $('<div>').html(feedback.body());
+            var $fbBodyDom = $wrapper.find('.tao-wrapper');
+            
+            if(!$fbBodyDom.length){
+                //create one
+                $wrapper.wrapInner('<div class="tao-wrapper">');
+                $fbBodyDom = $wrapper.find('.tao-wrapper');
+            }
+            if(oldClass){
+                $fbBodyDom.removeClass(oldClass);
+            }
+            if(newClass){
+                $fbBodyDom.addClass(newClass);
+            }
+            //set to the model
+            feedback.body($wrapper.html());
+        }
+
+    }
+
+    function _prepareFeedbackStyles(widget){
+        var $fbBody = _getBodyDom(widget.element);
+        var styles = [
+            {
+                cssClass : '',
+                title : __('standard')
+            },
+            {
+                cssClass : 'modal-feedback-positive',
+                title : __('positive')
+            },
+            {
+                cssClass : 'modal-feedback-negative',
+                title : __('negative')
+            }
+        ];
+        return _(styles)
+            .filter(function(style){
+                return style.cssClass !== undefined;
+            }).map(function(style){
+            if($fbBody.length && $fbBody.hasClass(style.cssClass)){
+                style.selected = true;
+            }
+            return style;
+        }).value();
+    }
 
     return ModalFeedbackStateActive;
 });
