@@ -4,11 +4,12 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/modalFeedback',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiItem/helper/container',
     'lodash',
     'i18n',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, formTpl, formElement, _, __, $){
+], function(stateFactory, Active, commonRenderer, formTpl, formElement, containerHelper, _, __, $){
 
     /**
      * handle z-indices of sidebar and ckeditor
@@ -153,53 +154,25 @@ define([
                 fb.id(value);
             },
             feedbackStyle : function(fb, value){
-                _setBodyDomClass(fb, value, selectedCssClass);
+                containerHelper.setBodyDomClass(fb, value, selectedCssClass);
                 selectedCssClass = value;
             }
         });
     };
 
-    function _getBodyDom(feedback){
-        return $('<div>').html(feedback.body()).find('.tao-wrapper');
-    }
-
-    function _setBodyDomClass(feedback, newClass, oldClass){
-
-        if(oldClass || newClass){
-            
-            var $wrapper = $('<div>').html(feedback.body());
-            var $fbBodyDom = $wrapper.find('.tao-wrapper');
-            
-            if(!$fbBodyDom.length){
-                //create one
-                $wrapper.wrapInner('<div class="tao-wrapper">');
-                $fbBodyDom = $wrapper.find('.tao-wrapper');
-            }
-            if(oldClass){
-                $fbBodyDom.removeClass(oldClass);
-            }
-            if(newClass){
-                $fbBodyDom.addClass(newClass);
-            }
-            //set to the model
-            feedback.body($wrapper.html());
-        }
-
-    }
-
     function _prepareFeedbackStyles(widget){
-        var $fbBody = _getBodyDom(widget.element);
+        var $fbBody = containerHelper.getBodyDom(widget.element);
         var styles = [
             {
                 cssClass : '',
                 title : __('standard')
             },
             {
-                cssClass : 'modal-feedback-positive',
+                cssClass : 'x-tao-modalFeedback-positive',
                 title : __('positive')
             },
             {
-                cssClass : 'modal-feedback-negative',
+                cssClass : 'x-tao-modalFeedback-negative',
                 title : __('negative')
             }
         ];
