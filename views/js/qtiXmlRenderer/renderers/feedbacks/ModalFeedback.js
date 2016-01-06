@@ -32,7 +32,7 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'taoQtiItem/qtiItem/helper/
         getData : function getData(fb, data){
             
             encodeOutcomeInfo(fb);
-            data.body = fb.body();
+            data.body = fb.getBody().render(this);
             
             return data;
         }
