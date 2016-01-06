@@ -15,9 +15,9 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  **/
-define(['lodash', 'jquery'], function(_, $){
+define(['lodash', 'jquery'], function (_, $){
     'use strict';
-    
+
     function checkContainerType(element){
         if(_.isFunction(element.initContainer) && _.isFunction(element.body)){
             return true;
@@ -25,40 +25,82 @@ define(['lodash', 'jquery'], function(_, $){
             throw 'the element is not of a container type';
         }
     }
-    
+
     function _getBodyDom(element){
         if(checkContainerType(element)){
-            return $('<div>').html(element.body()).find('.tao-wrapper');
+            return $('<div>').html(element.body()).find('.x-tao-wrapper');
         }
     }
 
     function _setBodyDomClass(element, newClass, oldClass){
-        
-        if(checkContainerType(element) && (oldClass || newClass) ){
-            
+
+        if(checkContainerType(element) && (oldClass || newClass)){
             var $wrapper = $('<div>').html(element.body());
-            var $fbBodyDom = $wrapper.find('.tao-wrapper');
-            
-            if(!$fbBodyDom.length){
+            var $bodyDom = $wrapper.find('.x-tao-wrapper');
+
+            if(!$bodyDom.length){
                 //create one
-                $wrapper.wrapInner('<div class="tao-wrapper">');
-                $fbBodyDom = $wrapper.find('.tao-wrapper');
+                $wrapper.wrapInner('<div class="x-tao-wrapper">');
+                $bodyDom = $wrapper.find('.x-tao-wrapper');
             }
             if(oldClass){
-                $fbBodyDom.removeClass(oldClass);
+                $bodyDom.removeClass(oldClass);
             }
             if(newClass){
-                $fbBodyDom.addClass(newClass);
+                $bodyDom.addClass(newClass);
             }
             //set to the model
             element.body($wrapper.html());
         }
 
     }
+
+    var _prefix = 'x-tao-';
     
-    return {
-        getBodyDom : _getBodyDom,
-        setBodyDomClass : _setBodyDomClass,
+    function getEncodedDataString(dataName, value){
+        if(dataName && value){
+            return _prefix + dataName + '-' + value;
+        }
+        return '';
     }
     
+    function setEncodedData(element, dataName, newValue){
+        var oldValue = getEncodedData(element, dataName);
+        return _setBodyDomClass(element, getEncodedDataString(dataName, newValue), getEncodedDataString(dataName, oldValue));
+    }
+    
+    function removeEncodedData(element, dataName){
+        var $body = _getBodyDom(element);
+        var oldValue = getEncodedData(element, dataName);
+        if($body && $body.length && dataName && oldValue){
+            return $body.hasClass(getEncodedDataString(dataName, oldValue));
+        }
+    }
+
+    function hasEncodedData(element, dataName, value){
+        var $body = _getBodyDom(element);
+        if($body && $body.length && dataName && value){
+            return $body.hasClass(getEncodedDataString(dataName, value));
+        }
+        return false;
+    }
+
+    function getEncodedData(element, dataName){
+        var regex, matches;
+        var $body = _getBodyDom(element);
+        if(dataName && $body && $body.length && $body.attr('class')){
+            regex = new RegExp(_prefix + dataName + '-([a-zA-Z0-9\-._]*)');
+            matches = $body.attr('class').match(regex);
+            if(matches){
+                return matches[1];
+            }
+        }
+    }
+
+    return {
+        setEncodedData : setEncodedData,
+        hasEncodedData : hasEncodedData,
+        getEncodedData : getEncodedData,
+        removeEncodedData : removeEncodedData
+    };
 });

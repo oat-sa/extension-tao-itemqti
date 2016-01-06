@@ -136,8 +136,8 @@ define([
 
         var _widget = this.widget;
         var feedbackStyles = _prepareFeedbackStyles(_widget);
-        var selectedStyle = _.find(feedbackStyles, {selected : true});
-        var selectedCssClass = selectedStyle ? selectedStyle.cssClass : '';
+//        var selectedStyle = _.find(feedbackStyles, {selected : true});
+//        var selectedCssClass = selectedStyle ? selectedStyle.cssClass : '';
             
         //build form:
         _widget.$form.html(formTpl({
@@ -154,33 +154,34 @@ define([
                 fb.id(value);
             },
             feedbackStyle : function(fb, value){
-                containerHelper.setBodyDomClass(fb, value, selectedCssClass);
-                selectedCssClass = value;
+                containerHelper.setEncodedData(fb, 'modalFeedback', value);
+//                selectedCssClass = value;
             }
         });
     };
 
     function _prepareFeedbackStyles(widget){
-        var $fbBody = containerHelper.getBodyDom(widget.element);
+        
         var styles = [
             {
                 cssClass : '',
                 title : __('standard')
             },
             {
-                cssClass : 'x-tao-modalFeedback-positive',
+                cssClass : 'positive',
                 title : __('positive')
             },
             {
-                cssClass : 'x-tao-modalFeedback-negative',
+                cssClass : 'negative',
                 title : __('negative')
             }
         ];
+        
         return _(styles)
             .filter(function(style){
                 return style.cssClass !== undefined;
             }).map(function(style){
-            if($fbBody.length && $fbBody.hasClass(style.cssClass)){
+            if(containerHelper.hasEncodedData(widget.element, 'modalFeedback', style.cssClass)){
                 style.selected = true;
             }
             return style;

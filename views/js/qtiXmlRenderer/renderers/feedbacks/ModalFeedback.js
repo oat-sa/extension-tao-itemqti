@@ -18,27 +18,11 @@
 define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'taoQtiItem/qtiItem/helper/container'], function(tpl, containerHelper){
     'use strict';
     
-    var classPrefix = 'x-tao-relatedOutcome-';
-    
     function encodeOutcomeInfo(fb){
-        
         var relatedResponse = fb.data('relatedResponse');
-        var oldRelatedOutcomeInfo = '', $fbBody, matches;
-
-        //encode the related outcome into a css class
         if(relatedResponse && relatedResponse.attr('identifier')){
-
-            //find the old one (if applicable)
-            $fbBody = containerHelper.getBodyDom(fb);
-            if($fbBody && $fbBody.length && $fbBody.attr('class')){
-                var regex = new RegExp(classPrefix+'([a-zA-Z0-9\-._]*)');
-                matches = $fbBody.attr('class').match(regex);
-                if(matches){
-                    oldRelatedOutcomeInfo = matches[0];
-                }
-            }
-            //set the new one
-            containerHelper.setBodyDomClass(fb, classPrefix+relatedResponse.attr('identifier'), oldRelatedOutcomeInfo);
+            //encode the related outcome into a css class
+            containerHelper.setEncodedData(fb, 'relatedOutcome', relatedResponse.attr('identifier'));
         }
     }
     
