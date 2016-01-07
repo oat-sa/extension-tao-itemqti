@@ -294,7 +294,7 @@ define([
 
     QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
         
-        var count;
+        var count = 0;
         var inlineDisplay = true;
         var self = this;
         
@@ -346,6 +346,7 @@ define([
                     }
                     
                     //ok, display feedback
+                    count++;
                     messageGroup.push(message);
                     //load (potential) new qti classes used in the modal feedback (e.g. math, img)
                     self.renderer.load(function(){
@@ -375,12 +376,12 @@ define([
             });
             
             //if any feedback is displayed, replace the controls by a "ok" button
-            if(_.size(itemMessages) || _.size(interactionMessages)){
+            if(count){
 
                 if($itemContainer.parents('.tao-preview-scope').length){
                     //preview
                     var $scope = window.parent.parent.$('#preview-console');
-                    var $controls = $scope.find('.preview-console-header .action-bar li');
+                    var $controls = $scope.find('.preview-console-header .action-bar li:visible');
                     $controls.hide();
                     var $ok = $(previewOkBtn()).click(function(){
                         
@@ -394,17 +395,37 @@ define([
                         $controls.show();
                         
                         //exec callback
-                        if (_.isFunction(onShowCallback)) {
-                            onShowCallback();
-                        }
+                        callback();
                     });
                     $scope.find('.console-button-action-bar').append($ok);
                     
                 }else{
                     //delivery
+                    var $scope = window.parent.parent.$('body.qti-test-scope .bottom-action-bar');
+                    var $controls = $scope.find('li:visible');
+                    $controls.hide();
+                    var $ok = $(deliveryOkBtn()).click(function(){
+                        
+                        //end feedback mode, hide feedbacks
+                        _.each(renderedFeebacks, function(fb){
+                            fb.dom.hide();
+                        });
+                        
+                        //restore controls
+                        $ok.remove();
+                        $controls.show();
+                        
+                        //exec callback
+                        callback();
+                    });
+                    $scope.find('.navi-box-list').append($ok);
+                }
+                
+                if (_.isFunction(onShowCallback)) {
+                    onShowCallback();
                 }
             }
-            
+                        
         }else{
             
             //currently only modal feedbacks are available
