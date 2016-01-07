@@ -24,6 +24,23 @@ $mainContainer : '.qti-item';
     z-index:9;
 }
 
+%qtiModalFeedback {
+    margin-top : 10px;
+    .qti-title{
+        margin-top: 0px;
+    }
+    border : 4px solid whiten($infoBorderColor, .3);
+    background: whiten($infoBgColor, .4);
+    &.positive{
+        border-color : whiten($successBorderColor, .3);
+        background: whiten($successBgColor, .4);
+    }
+    &.negative{
+        border-color : whiten($errorBorderColor, .3);
+        background: whiten($errorBgColor, .4);
+    }
+}
+
 #{$mainContainer} {
 
     @import "inc/fonts/tao-icon-classes";
@@ -74,20 +91,18 @@ $mainContainer : '.qti-item';
 
     #modalFeedbacks {
         max-height:0;
-        .qti-title{
-            margin-top: -10px;
-        }
         .qti-modalFeedback{
-            &.positive{
-                border : 4px solid $success;
-                background: whiten($success, .9);
-            }
-            &.negative{
-                border : 4px solid $error;
-                background: whiten($error, .9);
-            }
+            @extend %qtiModalFeedback;
         }
     }
+    
+    .qti-itemBody{
+        .qti-modalFeedback{
+            padding:10px 10px 15px;
+            @extend %qtiModalFeedback;
+        }
+    }
+    
     /* authoring */
 
     .qti-choice, .qti-prompt-container {
