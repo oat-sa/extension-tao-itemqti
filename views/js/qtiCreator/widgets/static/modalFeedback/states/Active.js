@@ -135,9 +135,8 @@ define([
     ModalFeedbackStateActive.prototype.initForm = function(){
 
         var _widget = this.widget;
+        var $container = _widget.$container;
         var feedbackStyles = _prepareFeedbackStyles(_widget);
-//        var selectedStyle = _.find(feedbackStyles, {selected : true});
-//        var selectedCssClass = selectedStyle ? selectedStyle.cssClass : '';
             
         //build form:
         _widget.$form.html(formTpl({
@@ -153,9 +152,16 @@ define([
             identifier : function(fb, value){
                 fb.id(value);
             },
-            feedbackStyle : function(fb, value){
-                containerHelper.setEncodedData(fb, 'modalFeedback', value);
-//                selectedCssClass = value;
+            feedbackStyle : function(fb, newValue){
+                
+                var oldValue = containerHelper.getEncodedData(_widget.element, 'modalFeedback');
+                containerHelper.setEncodedData(fb, 'modalFeedback', newValue);
+                
+                //update the feedback rendering
+                if(oldValue){
+                    $container.removeClass(oldValue);
+                }
+                $container.addClass(newValue);
             }
         });
     };
