@@ -306,21 +306,23 @@ define([
             var $itemContainer = this.item.getContainer();
             _.each(this.item.getComposingElements(), function(element){
                 if(element.is('interaction')){
-                    var $container = element.getContainer();
+                    var $interactionContainer = element.getContainer();
                     var messageGroupId = element.attr('responseIdentifier');
+                    var $displayContainer = $interactionContainer;
                     
                     if(element.is('inlineInteraction')){
-                        $container = $container.closest('[class*=" col-"], [class^="col-"]');
-                        messageGroupId = $container.attr('data-messageGroupId');
+                        $displayContainer = $interactionContainer.closest('[class*=" col-"], [class^="col-"]');
+                        messageGroupId = $displayContainer.attr('data-messageGroupId');
                         if(!messageGroupId){
                             //generate a messageFroupId
                             messageGroupId = _.uniqueId('inline_message_group_');
-                            $container.attr('data-messageGroupId', messageGroupId);
+                            $displayContainer.attr('data-messageGroupId', messageGroupId);
                         }
                     }
                     
                     interactionsDisplayInfo[element.attr('responseIdentifier')] = {
-                        container : $container,
+                        displayContainer : $displayContainer,
+                        interactionContainer : $interactionContainer,
                         messageGroupId : messageGroupId
                     };
                 }
@@ -344,7 +346,7 @@ define([
                     message = getFeedbackMessageSignature(feedback);
                     comparedOutcome = containerHelper.getEncodedData(feedback, 'relatedOutcome');
                     if(comparedOutcome && interactionsDisplayInfo[comparedOutcome]){
-                        $container =  interactionsDisplayInfo[comparedOutcome].container;
+                        $container =  interactionsDisplayInfo[comparedOutcome].displayContainer;
                         _currentMessageGroupId = interactionsDisplayInfo[comparedOutcome].messageGroupId;
                     }else{
                         $container = $itemContainer;
@@ -392,7 +394,6 @@ define([
             
             //if any feedback is displayed, replace the controls by a "ok" button
             if(count){
-
                 if($itemContainer.parents('.tao-preview-scope').length){
                     //preview
                     var $scope = window.parent.parent.$('#preview-console');
@@ -406,6 +407,7 @@ define([
                         });
                         
                         //restore controls
+                        uncover([$itemContainer]);
                         $ok.remove();
                         $controls.show();
                         
@@ -413,7 +415,7 @@ define([
                         callback();
                     });
                     $scope.find('.console-button-action-bar').append($ok);
-                    
+                    cover([$itemContainer]);
                 }else{
                     //delivery
                     var $scope = window.parent.parent.$('body.qti-test-scope .bottom-action-bar');
@@ -515,6 +517,23 @@ define([
      */
     function getFeedbackMessageSignature(feedback){
         return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/,'');
+    }
+    
+    function cover(interactionContainers){
+        var $cover = $('<div class="interaction-cover modal-bg">').css({
+            display : 'block',
+            opacity : 0.05
+//            background : 'none'
+        });
+        _.each(interactionContainers, function($interaction){
+            $interaction.append($cover);
+        });
+    }
+    
+    function uncover(interactionContainers){
+        _.each(interactionContainers, function($interaction){
+            $interaction.find('.interaction-cover').remove();
+        });
     }
     
     return QtiRunner;
