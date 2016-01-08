@@ -30,14 +30,11 @@ $mainContainer : '.qti-item';
         margin-top: 0px;
     }
     border : 4px solid whiten($infoBorderColor, .3);
-    background: whiten($infoBgColor, .4);
     &.positive{
         border-color : whiten($successBorderColor, .3);
-        background: whiten($successBgColor, .4);
     }
     &.negative{
         border-color : whiten($errorBorderColor, .3);
-        background: whiten($errorBgColor, .4);
     }
 }
 
@@ -98,8 +95,17 @@ $mainContainer : '.qti-item';
     
     .qti-itemBody{
         .qti-modalFeedback{
-            padding:10px 10px 15px;
             @extend %qtiModalFeedback;
+            padding:10px 10px 15px;
+            background: whiten($infoBgColor, .4);
+            &.positive{
+                border-color : whiten($successBorderColor, .3);
+                background: whiten($successBgColor, .4);
+            }
+            &.negative{
+                border-color : whiten($errorBorderColor, .3);
+                background: whiten($errorBgColor, .4);
+            }
         }
     }
     
