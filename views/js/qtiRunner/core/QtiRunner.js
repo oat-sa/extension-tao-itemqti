@@ -34,8 +34,9 @@ define([
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
-    'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer'
-], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback, modalFeedbackInline){
+    'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
+    'taoQtiItem/qtiRunner/modalFeedback/modalRenderer'
+], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback, modalFeedbackInline, modalFeedbackModal){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -292,89 +293,15 @@ define([
 
     QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
         
-        var count = 0;
         var inlineDisplay = true;
-        var self = this;
         
+        //currently only modal feedbacks are available
         if(inlineDisplay){
-            
-            modalFeedbackInline.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
-                        
+            return modalFeedbackInline.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
         }else{
-            
-            //currently only modal feedbacks are available
-            var lastFeedback,
-                messages = [],
-                feedbacksToBeDisplayed = [];
-
-            //find which modal feedbacks should be displayed according to the current item session:
-            _.each(this.item.modalFeedbacks, function(feedback){
-                
-                var feedbackIds, message;
-                var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-                
-                if(itemSession[outcomeIdentifier]){
-                    feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                    message = getFeedbackMessageSignature(feedback);
-                    if(_.indexOf(feedbackIds, feedback.id()) >= 0 && _.indexOf(messages, message) === -1){
-                        //check content if is already in the display queue
-                        feedbacksToBeDisplayed.push(feedback);
-                        messages.push(message);
-                    }
-                }
-            });
-
-            //record the number of feedbacks to be displayed:
-            count = feedbacksToBeDisplayed.length;
-            
-            if (count > 0 && _.isFunction(onShowCallback)) {
-                onShowCallback();
-            }
-
-            //show in reverse order
-            lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
-                _.eachRight(feedbacksToBeDisplayed, function(feedback){
-                self.showModalFeedback(feedback);
-            });
-
-            //add callback to the last shown modal feedback
-            this.showModalFeedback(lastFeedback, callback);
-        }
-
-        return count;
-    };
-
-    QtiRunner.prototype.showModalFeedback = function(modalFeedback, callback){
-        var $modalFeedback,
-            $modalFeedbackBox = $('#modalFeedbacks');
-
-        if(modalFeedback instanceof ModalFeedback){
-            //load (potential) new qti classes used in the modal feedback (e.g. math, img)
-            this.renderer.load(function(){
-                $modalFeedback = $modalFeedbackBox.find('#' + modalFeedback.getSerial());
-                if (!$modalFeedback.length) {
-                    //render the modal feedback
-                    $modalFeedback = modalFeedback.render();
-                    $modalFeedbackBox.append($modalFeedback);
-                } else {
-                    $modalFeedback.modal();
-                }
-                modalFeedback.postRender({
-                    callback : callback
-                });
-            }, this.getLoader().getLoadedClasses());
+            return modalFeedbackModal.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
         }
     };
-    
-    /**
-     * Provide the feedbackMessage signature to check if the feedback contents should be considered equals
-     * 
-     * @param {type} feedback
-     * @returns {String}
-     */
-    function getFeedbackMessageSignature(feedback){
-        return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/,'');
-    }
     
     return QtiRunner;
 });
