@@ -32,11 +32,9 @@ define([
     'core/promise',
     'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/helper/pci',
-    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
     'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
     'taoQtiItem/qtiRunner/modalFeedback/modalRenderer'
-], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback, modalFeedbackInline, modalFeedbackModal){
+], function($, _, context, Promise, iframeNotifier, ItemLoader, modalFeedbackInline, modalFeedbackModal){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
