@@ -300,22 +300,35 @@ define([
         
         if(inlineDisplay){
             
-            var interactions = {};
-            var itemMessages = [];
-            var interactionMessages = {};
+            var interactionsDisplayInfo = {};
+            var messages = {};
             var renderedFeebacks = [];
             var $itemContainer = this.item.getContainer();
             _.each(this.item.getComposingElements(), function(element){
                 if(element.is('interaction')){
-                    interactions[element.attr('responseIdentifier')] = {
-                        container : element.getContainer()
+                    var $container = element.getContainer();
+                    var messageGroupId = element.attr('responseIdentifier');
+                    
+                    if(element.is('inlineInteraction')){
+                        $container = $container.closest('[class*=" col-"], [class^="col-"]');
+                        messageGroupId = $container.attr('data-messageGroupId');
+                        if(!messageGroupId){
+                            //generate a messageFroupId
+                            messageGroupId = _.uniqueId('inline_message_group_');
+                            $container.attr('data-messageGroupId', messageGroupId);
+                        }
+                    }
+                    
+                    interactionsDisplayInfo[element.attr('responseIdentifier')] = {
+                        container : $container,
+                        messageGroupId : messageGroupId
                     };
                 }
             });
             
             _.each(this.item.modalFeedbacks, function(feedback){
                 
-                var feedbackIds, message, $container, comparedOutcome, messageGroup;
+                var feedbackIds, message, $container, comparedOutcome, messageGroup, _currentMessageGroupId;
                 var outcomeIdentifier = feedback.attr('outcomeIdentifier');
                 
                 //verify if the feedback should be displayed
@@ -330,24 +343,26 @@ define([
                     //which group of feedbacks (interaction related) the feedback belongs to ?
                     message = getFeedbackMessageSignature(feedback);
                     comparedOutcome = containerHelper.getEncodedData(feedback, 'relatedOutcome');
-                    if(comparedOutcome && interactions[comparedOutcome]){
-                        $container =  interactions[comparedOutcome].container;
-                        if(!interactionMessages[comparedOutcome]){
-                            interactionMessages[comparedOutcome] = [];
-                        }
-                        messageGroup = interactionMessages[comparedOutcome];
+                    if(comparedOutcome && interactionsDisplayInfo[comparedOutcome]){
+                        $container =  interactionsDisplayInfo[comparedOutcome].container;
+                        _currentMessageGroupId = interactionsDisplayInfo[comparedOutcome].messageGroupId;
                     }else{
                         $container = $itemContainer;
-                        messageGroup = itemMessages;
+                        _currentMessageGroupId = '__item__';
                     }
                     //is this message already displayed ?
-                    if(_.indexOf(messageGroup, message) >= 0){
+                    if(!messages[_currentMessageGroupId]){
+                        messages[_currentMessageGroupId] = [];
+                    }
+                    if(_.indexOf(messages[_currentMessageGroupId], message) >= 0){
                         return true; //continue
+                    }else{
+                        messages[_currentMessageGroupId].push(message);
                     }
                     
                     //ok, display feedback
                     count++;
-                    messageGroup.push(message);
+                    
                     //load (potential) new qti classes used in the modal feedback (e.g. math, img)
                     self.renderer.load(function(){
                         
@@ -493,13 +508,13 @@ define([
     };
     
     /**
-     * Previde the feedbackMessage signature to check if the feedback contents should be considered equals
+     * Provide the feedbackMessage signature to check if the feedback contents should be considered equals
      * 
      * @param {type} feedback
      * @returns {String}
      */
     function getFeedbackMessageSignature(feedback){
-        return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim();
+        return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/,'');
     }
     
     return QtiRunner;
