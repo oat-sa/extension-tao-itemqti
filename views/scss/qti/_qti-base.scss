@@ -25,16 +25,17 @@ $mainContainer : '.qti-item';
 }
 
 %qtiModalFeedback {
+    color : blacken($textColor, .5);/*because of the overlay, make it darker*/
     margin-top : 10px;
     .qti-title{
         margin-top: 0px;
     }
-    border : 4px solid whiten($infoBorderColor, .3);
+    border : 4px solid $infoBorderColor;
     &.positive{
-        border-color : whiten($successBorderColor, .3);
+        border-color : $successBorderColor;
     }
     &.negative{
-        border-color : whiten($errorBorderColor, .3);
+        border-color : $errorBorderColor;
     }
 }
 
@@ -97,18 +98,21 @@ $mainContainer : '.qti-item';
         .qti-modalFeedback{
             @extend %qtiModalFeedback;
             padding:10px 10px 15px;
-            background: whiten($infoBgColor, .4);
+            background: $infoBgColor;
             &.positive{
-                border-color : whiten($successBorderColor, .3);
-                background: whiten($successBgColor, .4);
+                background: $successBgColor;
             }
             &.negative{
-                border-color : whiten($errorBorderColor, .3);
-                background: whiten($errorBgColor, .4);
+                background: $errorBgColor;
             }
         }
     }
     
+    .interaction-cover{
+        display : block;
+        opacity : 0.05;
+    }
+        
     /* authoring */
 
     .qti-choice, .qti-prompt-container {

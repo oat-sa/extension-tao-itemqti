@@ -520,11 +520,7 @@ define([
     }
     
     function cover(interactionContainers){
-        var $cover = $('<div class="interaction-cover modal-bg">').css({
-            display : 'block',
-            opacity : 0.05
-//            background : 'none'
-        });
+        var $cover = $('<div class="interaction-cover modal-bg">');
         _.each(interactionContainers, function($interaction){
             $interaction.append($cover);
         });
