@@ -33,11 +33,9 @@ define([
     'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiItem/helper/pci',
-    'taoQtiItem/qtiItem/helper/container',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback',
-    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
-    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton',
-], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, containerHelper, ModalFeedback, previewOkBtn, deliveryOkBtn){
+    'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer'
+], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback, modalFeedbackInline){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -300,148 +298,7 @@ define([
         
         if(inlineDisplay){
             
-            var interactionsDisplayInfo = {};
-            var messages = {};
-            var renderedFeebacks = [];
-            var $itemContainer = this.item.getContainer();
-            _.each(this.item.getComposingElements(), function(element){
-                if(element.is('interaction')){
-                    var $interactionContainer = element.getContainer();
-                    var messageGroupId = element.attr('responseIdentifier');
-                    var $displayContainer = $interactionContainer;
-                    
-                    if(element.is('inlineInteraction')){
-                        $displayContainer = $interactionContainer.closest('[class*=" col-"], [class^="col-"]');
-                        messageGroupId = $displayContainer.attr('data-messageGroupId');
-                        if(!messageGroupId){
-                            //generate a messageFroupId
-                            messageGroupId = _.uniqueId('inline_message_group_');
-                            $displayContainer.attr('data-messageGroupId', messageGroupId);
-                        }
-                    }
-                    
-                    interactionsDisplayInfo[element.attr('responseIdentifier')] = {
-                        displayContainer : $displayContainer,
-                        interactionContainer : $interactionContainer,
-                        messageGroupId : messageGroupId
-                    };
-                }
-            });
-            
-            _.each(this.item.modalFeedbacks, function(feedback){
-                
-                var feedbackIds, message, $container, comparedOutcome, messageGroup, _currentMessageGroupId;
-                var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-                
-                //verify if the feedback should be displayed
-                if(itemSession[outcomeIdentifier]){
-                    
-                    //is the feedback in the list of feedbacks to be displayed ?
-                    feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                    if(_.indexOf(feedbackIds, feedback.id()) === -1){
-                        return true;//continue with next feedback
-                    }
-                    
-                    //which group of feedbacks (interaction related) the feedback belongs to ?
-                    message = getFeedbackMessageSignature(feedback);
-                    comparedOutcome = containerHelper.getEncodedData(feedback, 'relatedOutcome');
-                    if(comparedOutcome && interactionsDisplayInfo[comparedOutcome]){
-                        $container =  interactionsDisplayInfo[comparedOutcome].displayContainer;
-                        _currentMessageGroupId = interactionsDisplayInfo[comparedOutcome].messageGroupId;
-                    }else{
-                        $container = $itemContainer;
-                        _currentMessageGroupId = '__item__';
-                    }
-                    //is this message already displayed ?
-                    if(!messages[_currentMessageGroupId]){
-                        messages[_currentMessageGroupId] = [];
-                    }
-                    if(_.indexOf(messages[_currentMessageGroupId], message) >= 0){
-                        return true; //continue
-                    }else{
-                        messages[_currentMessageGroupId].push(message);
-                    }
-                    
-                    //ok, display feedback
-                    count++;
-                    
-                    //load (potential) new qti classes used in the modal feedback (e.g. math, img)
-                    self.renderer.load(function(){
-                        
-                        var $modalFeedback = $itemContainer.find('#' + feedback.getSerial());
-                        if (!$modalFeedback.length) {
-                            //render the modal feedback
-                            $modalFeedback = $(feedback.render({
-                                inline : true
-                            }));
-                            $container.append($modalFeedback);
-                        }else{
-                            //already rendered, just show it
-                            $modalFeedback.show();
-                        }
-                        
-                        //record rendered feedback for later reference
-                        renderedFeebacks.push({
-                            identifier : feedback.id(),
-                            serial : feedback.getSerial(),
-                            dom : $modalFeedback
-                        });
-                        
-                    }, self.getLoader().getLoadedClasses());
-                    
-                }
-            });
-            
-            //if any feedback is displayed, replace the controls by a "ok" button
-            if(count){
-                if($itemContainer.parents('.tao-preview-scope').length){
-                    //preview
-                    var $scope = window.parent.parent.$('#preview-console');
-                    var $controls = $scope.find('.preview-console-header .action-bar li:visible');
-                    $controls.hide();
-                    var $ok = $(previewOkBtn()).click(function(){
-                        
-                        //end feedback mode, hide feedbacks
-                        _.each(renderedFeebacks, function(fb){
-                            fb.dom.hide();
-                        });
-                        
-                        //restore controls
-                        uncover([$itemContainer]);
-                        $ok.remove();
-                        $controls.show();
-                        
-                        //exec callback
-                        callback();
-                    });
-                    $scope.find('.console-button-action-bar').append($ok);
-                    cover([$itemContainer]);
-                }else{
-                    //delivery
-                    var $scope = window.parent.parent.$('body.qti-test-scope .bottom-action-bar');
-                    var $controls = $scope.find('li:visible');
-                    $controls.hide();
-                    var $ok = $(deliveryOkBtn()).click(function(){
-                        
-                        //end feedback mode, hide feedbacks
-                        _.each(renderedFeebacks, function(fb){
-                            fb.dom.hide();
-                        });
-                        
-                        //restore controls
-                        $ok.remove();
-                        $controls.show();
-                        
-                        //exec callback
-                        callback();
-                    });
-                    $scope.find('.navi-box-list').append($ok);
-                }
-                
-                if (_.isFunction(onShowCallback)) {
-                    onShowCallback();
-                }
-            }
+            modalFeedbackInline.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
                         
         }else{
             
@@ -517,19 +374,6 @@ define([
      */
     function getFeedbackMessageSignature(feedback){
         return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/,'');
-    }
-    
-    function cover(interactionContainers){
-        var $cover = $('<div class="interaction-cover modal-bg">');
-        _.each(interactionContainers, function($interaction){
-            $interaction.append($cover);
-        });
-    }
-    
-    function uncover(interactionContainers){
-        _.each(interactionContainers, function($interaction){
-            $interaction.find('.interaction-cover').remove();
-        });
     }
     
     return QtiRunner;
