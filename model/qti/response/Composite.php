@@ -30,7 +30,7 @@ use oat\taoQtiItem\model\qti\response\Summation;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\InteractionResponseProcessing;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
 use oat\taoQtiItem\model\qti\response\Template;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\Template;
+use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\Template as IrpTemplate;
 use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
@@ -158,7 +158,7 @@ abstract class Composite extends ResponseProcessing implements Rule
             foreach($item->getInteractions() as $interaction){
                 $response = $interaction->getResponse();
                 try{
-                    $irp = Template::createByTemplate(
+                    $irp = IrpTemplate::createByTemplate(
                                     $responseProcessing->getUri(), $response, $item);
                 }catch(Exception $e){
                     throw new TakeoverFailedException();
@@ -172,7 +172,7 @@ abstract class Composite extends ResponseProcessing implements Rule
             foreach($item->getInteractions() as $interaction){
                 $response = $interaction->getResponse();
                 try{
-                    $irp = Template::createByTemplate(
+                    $irp = IrpTemplate::createByTemplate(
                                     $responseProcessing->getTemplate($response)
                                     , $response
                                     , $item
