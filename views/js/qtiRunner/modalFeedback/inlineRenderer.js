@@ -24,36 +24,20 @@ define([
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton'
 ], function(_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn){
-    'use scrict';
+    'use strict';
 
-    function extractDisplayInfo(interaction){
-
-        var $interactionContainer = interaction.getContainer();
-        var responseIdentifier = interaction.attr('responseIdentifier');
-        var messageGroupId, $displayContainer;
-
-        if(interaction.is('inlineInteraction')){
-            $displayContainer = $interactionContainer.closest('[class*=" col-"], [class^="col-"]');
-            messageGroupId = $displayContainer.attr('data-messageGroupId');
-            if(!messageGroupId){
-                //generate a messageFroupId
-                messageGroupId = _.uniqueId('inline_message_group_');
-                $displayContainer.attr('data-messageGroupId', messageGroupId);
-            }
-        }else{
-            messageGroupId = responseIdentifier;
-            $displayContainer = $interactionContainer;
-        }
-
-        return {
-            responseIdentifier : responseIdentifier,
-            interactionContainer : $interactionContainer,
-            displayContainer : $displayContainer,
-            messageGroupId : messageGroupId
-        };
-    }
-
-    function showFeedbacks(item, loader, renderer, itemSession, callback, onShowCallback){
+    /**
+     * Main function for the module. It loads and render the feedbacks accodring to the given itemSession variables
+     * 
+     * @param {Object} item - the standard tao qti item object
+     * @param {Object} loader - the item loader instance
+     * @param {Object} renderer - the item render instance
+     * @param {Object} itemSession - session information containing the list of feedbacks to display
+     * @param {Function} onCloseCallback - the callback to be executed when the feedbacks are closed
+     * @param {Function} [onShowCallback] - the callback to be executed when the feedbacks are shown
+     * @returns {Number} Number of feedbacks to be displayed
+     */
+    function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
 
         var count = 0;
         var interactionsDisplayInfo = {};
@@ -114,7 +98,7 @@ define([
 
         if(count){
             //if any feedback is displayed, replace the controls by a "ok" button
-            replaceControl(renderedFeebacks, $itemContainer, callback);
+            replaceControl(renderedFeebacks, $itemContainer, onCloseCallback);
 
             //if an optional "on show modal" callback has been provided, execute it
             if(_.isFunction(onShowCallback)){
@@ -123,9 +107,54 @@ define([
         }
 
         return count;
-
     }
+    
+    /**
+     * Extract the display information for an interaction-related feedback
+     * 
+     * @private
+     * @param {Object} interaction - a qti interaction object
+     * @returns {Object} Object containing useful display information
+     */
+    function extractDisplayInfo(interaction){
 
+        var $interactionContainer = interaction.getContainer();
+        var responseIdentifier = interaction.attr('responseIdentifier');
+        var messageGroupId, $displayContainer;
+
+        if(interaction.is('inlineInteraction')){
+            $displayContainer = $interactionContainer.closest('[class*=" col-"], [class^="col-"]');
+            messageGroupId = $displayContainer.attr('data-messageGroupId');
+            if(!messageGroupId){
+                //generate a messageFroupId
+                messageGroupId = _.uniqueId('inline_message_group_');
+                $displayContainer.attr('data-messageGroupId', messageGroupId);
+            }
+        }else{
+            messageGroupId = responseIdentifier;
+            $displayContainer = $interactionContainer;
+        }
+
+        return {
+            responseIdentifier : responseIdentifier,
+            interactionContainer : $interactionContainer,
+            displayContainer : $displayContainer,
+            messageGroupId : messageGroupId
+        };
+    }
+    
+    /**
+     * Render a modal feedback into a given container, scoped within an item container
+     * 
+     * @private
+     * @param {type} feedback - feedback object
+     * @param {type} loader - loader instance
+     * @param {type} renderer - renderer instance
+     * @param {JQuery} $container - the targeted feedback container
+     * @param {JQuery} $itemContainer - the item container
+     * @param {type} renderedCallback - callback when the feedback has been rendered
+     * @returns {undefined}
+     */
     function renderModalFeedback(feedback, loader, renderer, $container, $itemContainer, renderedCallback){
 
         //load (potential) new qti classes used in the modal feedback (e.g. math, img)
@@ -151,7 +180,16 @@ define([
 
         }, loader.getLoadedClasses());
     }
-
+    
+    /**
+     * Replace the controls in the running environment  with an "OK" button to trigger the end of the feedback state
+     * 
+     * @private
+     * @todo replace the hack to preview and delivery toolbar with a proper plugin in the new test runner is ready
+     * @param {Array} renderedFeebacks
+     * @param {JQuery} $itemContainer
+     * @param {Function} callback
+     */
     function replaceControl(renderedFeebacks, $itemContainer, callback){
         var $scope, $controls, $toggleContainer;
         if($itemContainer.parents('.tao-preview-scope').length){
@@ -169,7 +207,18 @@ define([
             initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, deliveryOkBtn, callback);
         }
     }
-
+    
+    /**
+     * Initialize the "OK" button to trigger the end of the feedback mode
+     * 
+     * @private
+     * @param {Array} renderedFeebacks
+     * @param {JQuery} $itemContainer
+     * @param {JQuery} $controls
+     * @param {JQuery} $toggleContainer
+     * @param {Function} toggleButtonTemplate
+     * @param {Function} callback
+     */
     function initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, toggleButtonTemplate, callback){
 
         var $ok = $(toggleButtonTemplate()).click(function(){
@@ -192,14 +241,24 @@ define([
         $toggleContainer.append($ok);
         cover([$itemContainer]);
     }
-
+    
+    /**
+     * Cover the given interaction containers with a transparent layer to prevent user interacting with the item
+     * @private
+     * @param {Array} interactionContainers
+     */
     function cover(interactionContainers){
         var $cover = $('<div class="interaction-cover modal-bg">');
         _.each(interactionContainers, function($interaction){
             $interaction.append($cover);
         });
     }
-
+    
+    /**
+     * Remove the layer set by the function cover()
+     * @private
+     * @param {Array} interactionContainers
+     */
     function uncover(interactionContainers){
         _.each(interactionContainers, function($interaction){
             $interaction.find('.interaction-cover').remove();

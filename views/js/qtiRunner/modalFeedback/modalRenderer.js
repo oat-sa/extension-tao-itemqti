@@ -21,8 +21,19 @@ define([
     'jquery',
     'taoQtiItem/qtiItem/helper/pci'
 ], function(_, $, pci){
-    'use scrict';
-
+    'use strict';
+    
+    /**
+     * Main function for the module. It loads and render the feedbacks accodring to the given itemSession variables
+     * 
+     * @param {Object} item - the standard tao qti item object
+     * @param {Object} loader - the item loader instance
+     * @param {Object} renderer - the item render instance
+     * @param {Object} itemSession - session information containing the list of feedbacks to display
+     * @param {Function} onCloseCallback - the callback to be executed when the feedbacks are closed
+     * @param {Function} [onShowCallback] - the callback to be executed when the feedbacks are shown
+     * @returns {Number} Number of feedbacks to be displayed
+     */
     function showFeedbacks(item, loader, renderer, itemSession, callback, onShowCallback){
         
         var lastFeedback,
@@ -65,11 +76,20 @@ define([
         
         return count;
     }
-
+    
+    /**
+     * Render modal feedback as a modal popup
+     * 
+     * @param {Object} feedback - object
+     * @param {Object} loader - loader instance
+     * @param {Object} renderer - renderer instance
+     * @param {Function} [closeCallback] - feedback to be executed when the popop closes
+     * @returns {undefined}
+     */
     function renderModalFeedback(feedback, loader, renderer, closeCallback){
 
         var $feedback,
-            $feedbackBox = $('#modalFeedbacks');
+            $feedbackBox = $('#modalFeedbacks');//feedback.getItem().getContainer().find('#')
 
         if(feedback.is('modalFeedback')){
             //load (potential) new qti classes used in the modal feedback (e.g. math, img)
