@@ -34,7 +34,7 @@ define([
      * @param {Function} [onShowCallback] - the callback to be executed when the feedbacks are shown
      * @returns {Number} Number of feedbacks to be displayed
      */
-    function showFeedbacks(item, loader, renderer, itemSession, callback, onShowCallback){
+    function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
         
         var lastFeedback,
             count = 0,
@@ -72,7 +72,7 @@ define([
         });
 
         //add callback to the last shown modal feedback
-        renderModalFeedback(lastFeedback, loader, renderer, callback);
+        renderModalFeedback(lastFeedback, loader, renderer, onCloseCallback);
         
         return count;
     }

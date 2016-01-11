@@ -23,7 +23,7 @@ define([
     'taoQtiItem/qtiItem/helper/container',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton'
-], function(_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn){
+], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn){
     'use strict';
 
     /**
@@ -38,20 +38,22 @@ define([
      * @returns {Number} Number of feedbacks to be displayed
      */
     function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
-
-        var count = 0;
+        console.log(itemSession);
         var interactionsDisplayInfo = {};
         var messages = {};
         var renderedFeebacks = [];
+        var renderingQueue = [];
         var $itemContainer = item.getContainer();
 
-        _.each(item.getComposingElements(), function(element){
+        _.each(item.getComposingElements(), function (element){
+            var responseIdentifier;
             if(element.is('interaction')){
-                interactionsDisplayInfo[element.attr('responseIdentifier')] = extractDisplayInfo(element);
+                responseIdentifier = element.attr('responseIdentifier');
+                interactionsDisplayInfo[responseIdentifier] = extractDisplayInfo(element);
             }
         });
 
-        _.each(item.modalFeedbacks, function(feedback){
+        _.each(item.modalFeedbacks, function (feedback){
 
             var feedbackIds, message, $container, comparedOutcome, _currentMessageGroupId;
             var outcomeIdentifier = feedback.attr('outcomeIdentifier');
@@ -86,29 +88,39 @@ define([
                 }
 
                 //ok, display feedback
-                count++;
-
-                renderModalFeedback(feedback, loader, renderer, $container, $itemContainer, function(renderingData){
-                    //record rendered feedback for later reference
-                    renderedFeebacks.push(renderingData);
+                renderingQueue.push({
+                    feedback : feedback,
+                    $container : $container
                 });
+
             }
         });
 
 
-        if(count){
+        if(renderingQueue.length){
+
+            //process rendering queue
+            _.each(renderingQueue, function (renderingToken){
+                renderModalFeedback(renderingToken.feedback, loader, renderer, renderingToken.$container, $itemContainer, function (renderingData){
+                    //record rendered feedback for later reference
+                    renderedFeebacks.push(renderingData);
+                    if(renderedFeebacks.length === renderingQueue.length){
+                        //rendering processing queue completed
+                        //if an optional "on show modal" callback has been provided, execute it
+                        if(_.isFunction(onShowCallback)){
+                            onShowCallback();
+                        }
+                    }
+                });
+            });
+
             //if any feedback is displayed, replace the controls by a "ok" button
             replaceControl(renderedFeebacks, $itemContainer, onCloseCallback);
-
-            //if an optional "on show modal" callback has been provided, execute it
-            if(_.isFunction(onShowCallback)){
-                onShowCallback();
-            }
         }
 
-        return count;
+        return renderingQueue.length;
     }
-    
+
     /**
      * Extract the display information for an interaction-related feedback
      * 
@@ -142,7 +154,7 @@ define([
             messageGroupId : messageGroupId
         };
     }
-    
+
     /**
      * Render a modal feedback into a given container, scoped within an item container
      * 
@@ -158,7 +170,7 @@ define([
     function renderModalFeedback(feedback, loader, renderer, $container, $itemContainer, renderedCallback){
 
         //load (potential) new qti classes used in the modal feedback (e.g. math, img)
-        renderer.load(function(){
+        renderer.load(function (){
 
             var $modalFeedback = $itemContainer.find('#' + feedback.getSerial());
             if(!$modalFeedback.length){
@@ -180,7 +192,7 @@ define([
 
         }, loader.getLoadedClasses());
     }
-    
+
     /**
      * Replace the controls in the running environment  with an "OK" button to trigger the end of the feedback state
      * 
@@ -207,7 +219,7 @@ define([
             initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, deliveryOkBtn, callback);
         }
     }
-    
+
     /**
      * Initialize the "OK" button to trigger the end of the feedback mode
      * 
@@ -221,10 +233,10 @@ define([
      */
     function initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, toggleButtonTemplate, callback){
 
-        var $ok = $(toggleButtonTemplate()).click(function(){
+        var $ok = $(toggleButtonTemplate()).click(function (){
 
             //end feedback mode, hide feedbacks
-            _.each(renderedFeebacks, function(fb){
+            _.each(renderedFeebacks, function (fb){
                 fb.dom.hide();
             });
 
@@ -241,26 +253,27 @@ define([
         $toggleContainer.append($ok);
         cover([$itemContainer]);
     }
-    
+
     /**
      * Cover the given interaction containers with a transparent layer to prevent user interacting with the item
      * @private
      * @param {Array} interactionContainers
      */
     function cover(interactionContainers){
+        return;
         var $cover = $('<div class="interaction-cover modal-bg">');
-        _.each(interactionContainers, function($interaction){
+        _.each(interactionContainers, function ($interaction){
             $interaction.append($cover);
         });
     }
-    
+
     /**
      * Remove the layer set by the function cover()
      * @private
      * @param {Array} interactionContainers
      */
     function uncover(interactionContainers){
-        _.each(interactionContainers, function($interaction){
+        _.each(interactionContainers, function ($interaction){
             $interaction.find('.interaction-cover').remove();
         });
     }
