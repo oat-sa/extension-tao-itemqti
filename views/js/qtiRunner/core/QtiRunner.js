@@ -29,12 +29,13 @@ define([
     'jquery',
     'lodash',
     'context',
+    'module',
     'core/promise',
     'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
     'taoQtiItem/qtiRunner/modalFeedback/modalRenderer'
-], function($, _, context, Promise, iframeNotifier, ItemLoader, modalFeedbackInline, modalFeedbackModal){
+], function($, _, context, module, Promise, iframeNotifier, ItemLoader, modalFeedbackInline, modalFeedbackModal){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -291,7 +292,7 @@ define([
 
     QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
         
-        var inlineDisplay = true;
+        var inlineDisplay = !!module.config().inlineModalFeedback;
         
         //currently only modal feedbacks are available
         if(inlineDisplay){
