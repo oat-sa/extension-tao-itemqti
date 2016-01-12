@@ -17,7 +17,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
+\oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
     'taoQtiItem/qtiRunner/core/QtiRunner',
     array(
         'inlineModalFeedback' => false

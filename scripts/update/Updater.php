@@ -185,7 +185,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.12.0';
         }
         if($currentVersion === '2.12.0') {
-            oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
+            \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
                 array(
                     'inlineModalFeedback' => false
