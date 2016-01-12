@@ -1,20 +1,28 @@
 define([
     'jquery',
     'lodash',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
     'json!taoQtiItem/test/samples/json/inlineModalFeedback.json'
-], function ($, _, QtiLoader, QtiRenderer, inlineRenderer, itemData){
+], function ($, _, Element, QtiLoader, QtiRenderer, containerHelper, inlineRenderer, itemData){
 
-    var containerId = '#outside-container';
-
-    QUnit.module('HTML rendering');
-
-    QUnit.asyncTest('renders an item', function (assert){
-
-        var renderer = new QtiRenderer({baseUrl : './'});
-        var testCase = {
+    var containerId = '#item-container';
+    var item;
+    
+    QUnit.module('Modal Feedback rendering', {
+        teardown : function(){
+            if(item instanceof Element){
+                item.unset();
+                containerHelper.clear();
+            }
+        }
+    });
+    
+    var testCases = [
+        {
             title : 'choice interaction',
             itemSession : {
                 FEEDBACK_1 : {base : {identifier : 'feedbackModal_1'}},
@@ -38,9 +46,9 @@ define([
                 order : [],
                 inline : []
             }
-        };
-        var testCaseX = {
-            title : 'choice & order interaction',
+        },
+        {
+            title : 'choice & order interactions',
             itemSession : {
                 FEEDBACK_2 : {base : {identifier : 'feedbackModal_2'}},
                 FEEDBACK_4 : {base : {identifier : 'feedbackModal_4'}},
@@ -65,13 +73,69 @@ define([
                 ],
                 inline : []
             }
-        };
+        },
+        {
+            title : 'choice & inline interactions',
+            itemSession : {
+                FEEDBACK_1 : {base : {identifier : 'feedbackModal_1'}},
+                FEEDBACK_3 : {base : {identifier : 'feedbackModal_3'}},
+                FEEDBACK_6 : {base : {identifier : 'feedbackModal_6'}},
+                FEEDBACK_7 : {base : {identifier : 'feedbackModal_7'}},//feedback #6 and #7 have the same title and text but different style so both will be displayed
+                FEEDBACK_8 : {base : {identifier : 'feedbackModal_8'}},
+                FEEDBACK_9 : {base : {identifier : 'feedbackModal_9'}}//feedback #9 and #7 have the same title, text and style. The are related to inline iteractions that are both in the same block so contaier, so only the first one #7 will be displayed
+            },
+            feedbacks : {
+                choice : [
+                    {
+                        identifier : 'feedbackModal_1',
+                        title : 'modal feedback title',
+                        text : 'right',
+                        style : 'positive'
+                    },
+                    {
+                        identifier : 'feedbackModal_3',
+                        title : '',
+                        text : 'thiss is right',
+                        style : ''
+                    }
+                ],
+                order : [],
+                inline : [
+                    {
+                        identifier : 'feedbackModal_6',
+                        title : '',
+                        text : 'correct',
+                        style : 'positive'
+                    },
+                    {
+                        identifier : 'feedbackModal_7',
+                        title : '',
+                        text : 'correct',
+                        style : ''
+                    },
+                    {
+                        identifier : 'feedbackModal_8',
+                        title : 'modal feedback title',
+                        text : 'Some feedback text.',
+                        style : ''
+                    }
+                ]
+            }
+        }    
+    ];
+    
+    QUnit.cases(testCases)
+        .asyncTest('renders an item', function (testCase, assert){
 
-        new QtiLoader().loadItemData(itemData, function (item){
+        var renderer = new QtiRenderer({baseUrl : './'});
+    
+        new QtiLoader().loadItemData(itemData, function (_item){
             var loader = this;
             renderer.load(function (){
+                
                 var result, $result, count;
-
+                
+                item = _item;
                 item.setRenderer(this);
 
                 result = item.render({});
@@ -80,7 +144,7 @@ define([
                 assert.ok(result.length > 0, 'The renderer create some output');
 
                 $result = $(result);
-
+                
                 var $choiceInteraction = $('.qti-choiceInteraction', $result);
                 var $orderInteraction = $('.qti-orderInteraction', $result);
                 var $textEntryInteraction = $('.qti-textEntryInteraction', $result);
@@ -97,9 +161,10 @@ define([
                 assert.equal($('.qti-modalFeedback', $result).length, 0, 'no modal feedback yet');
 
                 //render in dom
-                var $container = $(containerId);
-                $container.append($result);
+                $(containerId).append($result);
                 count = inlineRenderer.showFeedbacks(item, loader, renderer, testCase.itemSession, _.noop, function(){
+                    
+                    var feedbacks;
                     
                     QUnit.start();
                     
@@ -107,7 +172,7 @@ define([
                     assert.equal($('.qti-modalFeedback', $orderInteraction).length, testCase.feedbacks.order.length, 'modal feedbacks below order interaction');
                     assert.equal($('.qti-modalFeedback', $inlineInteractionContainer).length, testCase.feedbacks.inline.length, 'modal feedbacks below inline block');
                     
-                    var feedbacks = testCase.feedbacks.choice.concat(testCase.feedbacks.order, testCase.feedbacks.inline);
+                    feedbacks = testCase.feedbacks.choice.concat(testCase.feedbacks.order, testCase.feedbacks.inline);
                     assert.equal(feedbacks.length, count, 'number of feedbacks matches');
                     
                     _.each(feedbacks, function(fb){

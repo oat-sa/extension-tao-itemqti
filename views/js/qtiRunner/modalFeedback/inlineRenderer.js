@@ -38,13 +38,13 @@ define([
      * @returns {Number} Number of feedbacks to be displayed
      */
     function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
-        console.log(itemSession);
+        
         var interactionsDisplayInfo = {};
         var messages = {};
         var renderedFeebacks = [];
         var renderingQueue = [];
         var $itemContainer = item.getContainer();
-
+        
         _.each(item.getComposingElements(), function (element){
             var responseIdentifier;
             if(element.is('interaction')){
@@ -260,7 +260,6 @@ define([
      * @param {Array} interactionContainers
      */
     function cover(interactionContainers){
-        return;
         var $cover = $('<div class="interaction-cover modal-bg">');
         _.each(interactionContainers, function ($interaction){
             $interaction.append($cover);
