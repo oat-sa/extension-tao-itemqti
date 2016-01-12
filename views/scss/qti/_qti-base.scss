@@ -97,6 +97,7 @@ $mainContainer : '.qti-item';
     .qti-itemBody{
         .qti-modalFeedback{
             @extend %qtiModalFeedback;
+            border-width : 1px;
             padding:10px 10px 15px;
             background: $infoBgColor;
             &.positive{
