@@ -197,7 +197,7 @@ define([
      * Replace the controls in the running environment  with an "OK" button to trigger the end of the feedback state
      * 
      * @private
-     * @todo replace the hack to preview and delivery toolbar with a proper plugin in the new test runner is ready
+     * @todo FIX ME ! replace the hack to preview and delivery toolbar with a proper plugin in the new test runner is ready
      * @param {Array} renderedFeebacks
      * @param {JQuery} $itemContainer
      * @param {Function} callback
@@ -284,7 +284,7 @@ define([
      * @returns {String}
      */
     function getFeedbackMessageSignature(feedback){
-        return ('' + feedback.body() + feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/, '');
+        return ('' + feedback.body() + feedback.attr('title')).toLowerCase().trim().replace(/x-tao-[a-zA-Z0-9\-._\s]*/g, '');
     }
 
     return {

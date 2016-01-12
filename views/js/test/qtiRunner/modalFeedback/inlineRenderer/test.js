@@ -80,7 +80,7 @@ define([
                 FEEDBACK_1 : {base : {identifier : 'feedbackModal_1'}},
                 FEEDBACK_3 : {base : {identifier : 'feedbackModal_3'}},
                 FEEDBACK_6 : {base : {identifier : 'feedbackModal_6'}},
-                FEEDBACK_7 : {base : {identifier : 'feedbackModal_7'}},//feedback #6 and #7 have the same title and text but different style so both will be displayed
+                FEEDBACK_7 : {base : {identifier : 'feedbackModal_7'}},//feedback #6 and #7 have the same title and text but even with different style, only the first one shall be displayed
                 FEEDBACK_8 : {base : {identifier : 'feedbackModal_8'}},
                 FEEDBACK_9 : {base : {identifier : 'feedbackModal_9'}}//feedback #9 and #7 have the same title, text and style. The are related to inline iteractions that are both in the same block so contaier, so only the first one #7 will be displayed
             },
@@ -106,12 +106,6 @@ define([
                         title : '',
                         text : 'correct',
                         style : 'positive'
-                    },
-                    {
-                        identifier : 'feedbackModal_7',
-                        title : '',
-                        text : 'correct',
-                        style : ''
                     },
                     {
                         identifier : 'feedbackModal_8',

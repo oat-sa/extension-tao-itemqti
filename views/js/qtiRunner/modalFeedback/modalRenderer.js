@@ -116,7 +116,7 @@ define([
      * @returns {String}
      */
     function getFeedbackMessageSignature(feedback){
-        return (''+feedback.body()+feedback.attr('title')).toLowerCase().trim().replace(/x-tao-relatedoutcome-[a-zA-Z0-9\-._]*/,'');
+        return ('' + feedback.body() + feedback.attr('title')).toLowerCase().trim().replace(/x-tao-[a-zA-Z0-9\-._\s]*/g, '');
     }
     
     return {
