@@ -19,8 +19,9 @@
 define([
     'lodash',
     'jquery',
+    'async',
     'taoQtiItem/qtiItem/helper/pci'
-], function(_, $, pci){
+], function(_, $, async, pci){
     'use strict';
     
     /**
@@ -36,8 +37,7 @@ define([
      */
     function showFeedbacks(item, loader, renderer, itemSession, onCloseCallback, onShowCallback){
         
-        var lastFeedback,
-            count = 0,
+        var count,
             messages = [],
             feedbacksToBeDisplayed = [];
 
@@ -57,22 +57,38 @@ define([
                 }
             }
         });
-
+        
         //record the number of feedbacks to be displayed:
         count = feedbacksToBeDisplayed.length;
-
-        if(count > 0 && _.isFunction(onShowCallback)){
-            onShowCallback();
+        if(count){
+            //show in reverse order
+            var callstack = [];
+            
+            //iterate from the right because the modal popup will pile up.
+            _.eachRight(feedbacksToBeDisplayed, function(feedback){
+                
+                //the end callback should be executed to the last displayed modal, which is the last displayed one
+                var endCallback;
+                if(callstack.length === 0){
+                    endCallback = function(){
+                        onCloseCallback();
+                    };
+                }
+                
+                callstack.push(function(cb){
+                    renderModalFeedback(feedback, loader, renderer, function(){
+                        cb(null);
+                    }, endCallback);
+                });
+            });
+            
+            async.series(callstack, function(){
+                //all modal are ready and displayed
+                if(_.isFunction(onShowCallback)){
+                    onShowCallback();
+                }
+            });
         }
-
-        //show in reverse order
-        lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
-        _.eachRight(feedbacksToBeDisplayed, function(feedback){
-            renderModalFeedback(feedback, loader, renderer);
-        });
-
-        //add callback to the last shown modal feedback
-        renderModalFeedback(lastFeedback, loader, renderer, onCloseCallback);
         
         return count;
     }
@@ -86,7 +102,7 @@ define([
      * @param {Function} [closeCallback] - feedback to be executed when the popop closes
      * @returns {undefined}
      */
-    function renderModalFeedback(feedback, loader, renderer, closeCallback){
+    function renderModalFeedback(feedback, loader, renderer, renderedCallback, closeCallback){
 
         var $feedback,
             $feedbackBox = $('#modalFeedbacks');//feedback.getItem().getContainer().find('#')
@@ -102,6 +118,9 @@ define([
                 }else{
                     $feedback.modal();
                 }
+                
+                renderedCallback();
+                
                 feedback.postRender({
                     callback : closeCallback
                 });
