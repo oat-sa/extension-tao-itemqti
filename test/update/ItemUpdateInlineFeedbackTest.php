@@ -17,13 +17,17 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  *
  */
+namespace oat\taoQtiItem\test\update;
+
+use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\taoQtiItem\scripts\update\ItemUpdateInlineFeedback;
 
 /**
  * Description of ItemUpdateInlineFeedback
  *
  * @author sam
  */
-class ItemUpdateInlineFeedback extends TaoPhpUnitTestRunner
+class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 {
     /**
      * tests initialization
@@ -34,6 +38,14 @@ class ItemUpdateInlineFeedback extends TaoPhpUnitTestRunner
     }
 
     public function testProcess(){
+        $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'taoQtiItem/test/update/samples/itemData');
+        $itemUpdater->process();
+        $checkedFiles = $itemUpdater->getCheckedFiles();
+        $modifiedFiles = array_keys(array_filter($checkedFiles, function($v){return $v;}));
+
+        var_dump($checkedFiles, $modifiedFiles);
         
+        $this->assertEquals(1, count($modifiedFiles));
+        $this->assertTrue(strpos($modifiedFiles[0], 'taoQtiItem/test/update/samples/itemData/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml') > 0);
     }
 }

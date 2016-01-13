@@ -14,6 +14,7 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\controller\QTIform\AssessmentItem;
 use \common_Serializable;
 use \common_Logger;
+use \common_ext_ExtensionsManager;
 use \taoItems_models_classes_TemplateRenderer;
 use \DOMDocument;
 use oat\tao\helpers\Template;
@@ -104,8 +105,8 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      */
     public function __construct($attributes = array()){
         // override the tool options !
-        $attributes['toolName'] = PRODUCT_NAME;
-        $attributes['toolVersion'] = TAO_VERSION;
+        $attributes['toolName'] = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('PRODUCT_NAME');
+        $attributes['toolVersion'] = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('TAO_VERSION');
 
         // create container
         $this->body = new ContainerItemBody('', $this);

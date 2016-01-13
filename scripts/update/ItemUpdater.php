@@ -31,14 +31,17 @@ abstract class ItemUpdater
 
     public function __construct($itemRootPath)
     {
-        $this->itemPath = $itemRootPath;
+        if(file_exists($itemRootPath)){
+            $this->itemPath = $itemRootPath;
+        }else{
+            throw new \common_Exception('the given item root path does not exist');
+        }
     }
 
     public function process($changeItemContent = false)
     {
         $returnValue = array();
-        $itemPath    = ROOT_PATH.'data/taoItems/itemData';
-        $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($itemPath), RecursiveIteratorIterator::SELF_FIRST);
+        $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($objects as $itemFile => $cursor) {
 
@@ -63,6 +66,10 @@ abstract class ItemUpdater
         }
 
         return $returnValue;
+    }
+
+    public function getCheckedFiles(){
+        return $this->checkedFiles;
     }
 
     abstract protected function processItem($item);
