@@ -26,7 +26,6 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 
-
 /**
  * 
  * @author Sam <sam@taotesting.com>
@@ -185,12 +184,17 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.12.0';
         }
         if($currentVersion === '2.12.0') {
+            
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
                 array(
                     'inlineModalFeedback' => false
                 )
             );
+
+            $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
+            $itemUpdater->process(true);
+
             $currentVersion = '2.13.0';
         }
 
