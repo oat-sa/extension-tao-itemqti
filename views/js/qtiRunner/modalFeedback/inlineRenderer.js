@@ -44,6 +44,7 @@ define([
         var renderedFeebacks = [];
         var renderingQueue = [];
         var $itemContainer = item.getContainer();
+        var $itemBody = $itemContainer.children('.qti-itemBody');
         
         _.each(item.getComposingElements(), function (element){
             var responseIdentifier;
@@ -74,7 +75,7 @@ define([
                     $container = interactionsDisplayInfo[comparedOutcome].displayContainer;
                     _currentMessageGroupId = interactionsDisplayInfo[comparedOutcome].messageGroupId;
                 }else{
-                    $container = $itemContainer;
+                    $container = $itemBody;
                     _currentMessageGroupId = '__item__';
                 }
                 //is this message already displayed ?
