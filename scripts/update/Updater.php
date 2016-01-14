@@ -193,7 +193,7 @@ class Updater extends \common_ext_ExtensionUpdater
             );
 
             $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
-            $itemUpdater->process(true);
+            $itemUpdater->update(true);
 
             $currentVersion = '2.13.0';
         }

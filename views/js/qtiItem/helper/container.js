@@ -17,24 +17,52 @@
  **/
 define(['lodash', 'jquery'], function (_, $){
     'use strict';
-
-    function checkContainerType(element){
+    
+    /**
+     * Prefix used to the variable storage
+     * @type String
+     */
+    var _prefix = 'x-tao-';
+    
+    /**
+     * Check if the element is of a qti container type
+     * 
+     * @private
+     * @param {Object} element
+     * @returns {Boolean}
+     */
+    function _checkContainerType(element){
         if(_.isFunction(element.initContainer) && _.isFunction(element.body)){
             return true;
         }else{
             throw 'the element is not of a container type';
         }
     }
-
+    
+    /**
+     * Get the body element of the container
+     * 
+     * @private
+     * @param {Object} element
+     * @returns {JQuery}
+     */
     function _getBodyDom(element){
-        if(checkContainerType(element)){
+        if(_checkContainerType(element)){
             return $('<div>').html(element.body()).find('.x-tao-wrapper');
         }
     }
-
+    
+    /**
+     * Add a class to the body element of the qti container
+     * 
+     * @private
+     * @param {Object} element
+     * @param {String} newClass
+     * @param {String} [oldClass]
+     */
     function _setBodyDomClass(element, newClass, oldClass){
 
-        if(checkContainerType(element) && (oldClass || newClass)){
+        if(_checkContainerType(element) && (oldClass || newClass)){
             var $wrapper = $('<div>').html(element.body());
             var $bodyDom = $wrapper.find('.x-tao-wrapper');
 
@@ -52,39 +80,74 @@ define(['lodash', 'jquery'], function (_, $){
             //set to the model
             element.body($wrapper.html());
         }
-
     }
-
-    var _prefix = 'x-tao-';
     
-    function getEncodedDataString(dataName, value){
+    /**
+     * Get the full variable name for the data store
+     * 
+     * @private
+     * @param {String} dataName
+     * @param {String} value
+     * @returns {String}
+     */
+    function _getEncodedDataString(dataName, value){
         if(dataName && value){
             return _prefix + dataName + '-' + value;
         }
         return '';
     }
     
+    /**
+     * Set a data string to the element identified by its dataName
+     * 
+     * @param {Object} element
+     * @param {String} dataName
+     * @param {String} newValue
+     * @returns {undefined}
+     */
     function setEncodedData(element, dataName, newValue){
         var oldValue = getEncodedData(element, dataName);
-        return _setBodyDomClass(element, getEncodedDataString(dataName, newValue), getEncodedDataString(dataName, oldValue));
+        return _setBodyDomClass(element, _getEncodedDataString(dataName, newValue), _getEncodedDataString(dataName, oldValue));
     }
     
+    /**
+     * Remove the stored data from the element by its dataName
+     * 
+     * @param {Object} element
+     * @param {String} dataName
+     * @returns {unresolved}
+     */
     function removeEncodedData(element, dataName){
         var $body = _getBodyDom(element);
         var oldValue = getEncodedData(element, dataName);
         if($body && $body.length && dataName && oldValue){
-            return $body.hasClass(getEncodedDataString(dataName, oldValue));
+            return $body.hasClass(_getEncodedDataString(dataName, oldValue));
         }
     }
 
+    /**
+     * Check if the stored data exist
+     * 
+     * @param {Object} element
+     * @param {String} dataName
+     * @param {String} value
+     * @returns {Boolean}
+     */
     function hasEncodedData(element, dataName, value){
         var $body = _getBodyDom(element);
         if($body && $body.length && dataName && value){
-            return $body.hasClass(getEncodedDataString(dataName, value));
+            return $body.hasClass(_getEncodedDataString(dataName, value));
         }
         return false;
     }
-
+    
+    /**
+     * Get the encoded data identified by its dataName
+     * 
+     * @param {Object} element
+     * @param {String} dataName
+     * @returns {String}
+     */
     function getEncodedData(element, dataName){
         var regex, matches;
         var $body = _getBodyDom(element);
@@ -96,7 +159,10 @@ define(['lodash', 'jquery'], function (_, $){
             }
         }
     }
-
+    
+    /**
+     * Provide a set of helper functions to set,retirve and manage string data to a container type qti element.
+     */
     return {
         setEncodedData : setEncodedData,
         hasEncodedData : hasEncodedData,

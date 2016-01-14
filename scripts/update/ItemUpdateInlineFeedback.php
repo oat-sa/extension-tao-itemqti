@@ -27,7 +27,14 @@ namespace oat\taoQtiItem\scripts\update;
  */
 class ItemUpdateInlineFeedback extends ItemUpdater
 {
-    protected function processItem($item)
+
+    /**
+     * Update the item content by wrapping the modalfeedback body into a new wrapper
+     *
+     * @param oat\taoQtiItem\modal\Item $item
+     * @return boolean
+     */
+    protected function updateItem($item)
     {
         $changed = false;
         $responses = $item->getResponses();

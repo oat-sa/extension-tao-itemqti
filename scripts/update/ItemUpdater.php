@@ -29,6 +29,12 @@ abstract class ItemUpdater
     protected $itemPath     = '';
     protected $checkedFiles = array();
 
+    /**
+     * Init the item updater with the item directory path
+     * 
+     * @param string $itemRootPath
+     * @throws \common_Exception
+     */
     public function __construct($itemRootPath)
     {
         if(file_exists($itemRootPath)){
@@ -38,7 +44,12 @@ abstract class ItemUpdater
         }
     }
 
-    public function process($changeItemContent = false)
+    /**
+     * Update all the item files found within the $itemRootPath
+     * @param boolean $changeItemContent - tells if the item files will be written with the updated content or not
+     * @return array of modified item instances
+     */
+    public function update($changeItemContent = false)
     {
         $returnValue = array();
         $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
@@ -55,7 +66,7 @@ abstract class ItemUpdater
                 $parser = new ParserFactory($xml);
                 $item   = $parser->load();
 
-                if ($this->processItem($item)) {
+                if ($this->updateItem($item)) {
                     $this->checkedFiles[$itemFile] = true;
                     $returnValue[$itemFile]        = $item;
                     if ($changeItemContent) {
@@ -68,9 +79,19 @@ abstract class ItemUpdater
         return $returnValue;
     }
 
+    /**
+     * Get the list of checked files 
+     * @return array
+     */
     public function getCheckedFiles(){
         return $this->checkedFiles;
     }
 
-    abstract protected function processItem($item);
+    /**
+     * Try updating an single item instance,
+     * Returns true if the content has been changed, false otherwise
+     *
+     * @return boolean
+     */
+    abstract protected function updateItem($item);
 }

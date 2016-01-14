@@ -165,7 +165,13 @@ define([
             }
         });
     };
-
+    
+    /**
+     * Get the feedback styles related data for the template rendering
+     * 
+     * @param {Object} widget - the creator widget
+     * @returns {Array}
+     */
     function _prepareFeedbackStyles(widget){
         
         var styles = [
