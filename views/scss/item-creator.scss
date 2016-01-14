@@ -789,18 +789,20 @@ img.dragging.ui-draggable-dragging {
             height: 100%;
             background: rgba($uiClickableDefaultBg, .5);
             .message {
+                padding: 10px;
                 background: rgba($uiClickableDefaultBg, .6);
                 margin: auto;
                 position: absolute;
                 top: 40%;
                 left: 0;
-                bottom: 0;
-                right: 0;
-                display: table;
-                min-height: 50px;
-                min-width: 50px;
+                bottom: auto;
+                right: auto;
+                display: block;
+                min-height: 30px;
+                width: 100%;
             }
         }
+
         .tlb-bar {
             z-index: 99;
         }
@@ -812,7 +814,8 @@ img.dragging.ui-draggable-dragging {
             display: block;
             cursor: default;
             color: white;
-            background: whiten($info, .2);
+            background: whiten($info, .1);
+            text-shadow: 1px 1px 0 blacken($info, .2);
             z-index: 999;
 
             -webkit-box-shadow: 0 0 0 1px whiten($info, .2);
@@ -825,7 +828,6 @@ img.dragging.ui-draggable-dragging {
                 position: absolute;
             }
             .tlb {
-                background: whiten($info, .2);
                 position: relative;
                 &:before {
                     content: '';
@@ -834,9 +836,6 @@ img.dragging.ui-draggable-dragging {
                     position: absolute;
                     right: 100%;
                     top: 0;
-                    background: -webkit-linear-gradient(left, transparent, whiten($info, .2));
-                    background: -o-linear-gradient(left, transparent, whiten($info, .2));
-                    background: -moz-linear-gradient(left, transparent, whiten($info, .2));
                     background: linear-gradient(left, transparent, whiten($info, .2));
                 }
                 .state-switcher {
@@ -859,6 +858,7 @@ img.dragging.ui-draggable-dragging {
                     }
                     margin-right: 15px
                 }
+
                 .tlb-button {
                     padding: 3px 6px 0px;
                     opacity: 0.8;
@@ -867,6 +867,9 @@ img.dragging.ui-draggable-dragging {
                         cursor: pointer;
                         font-weight: bold;
                         opacity: 1;
+                    }
+                    [class^="icon-"], [class*=" icon-"] {
+                        text-shadow: 1px 1px 0 blacken($info, .2);
                     }
                 }
             }
@@ -953,6 +956,8 @@ img.dragging.ui-draggable-dragging {
             display: none;
             float: right;
             margin: 5px;
+            position: relative;
+            z-index: 1;
         }
     }
     .widget-box-placeholder {
@@ -1025,7 +1030,6 @@ img.dragging.ui-draggable-dragging {
         [class^="icon-"], [class*=" icon-"] {
             width: 100%;
             top: -2px;
-            text-shadow: 1px 1px 0px #ccc;
         }
         & ~ span.mini-tlb[data-edit]{
             position: absolute !important;
@@ -1313,5 +1317,3 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
-
-
