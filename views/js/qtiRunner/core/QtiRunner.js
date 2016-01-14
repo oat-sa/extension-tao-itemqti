@@ -96,9 +96,10 @@ define([
             var newStateVariables = JSON.stringify(itemApi.stateVariables);
 
             // Store the results.
-            if (oldStateVariables !== newStateVariables) {
+            if (oldStateVariables !== newStateVariables || itemApi.serviceApi.getHasBeenPaused()) {
                 itemApi.submit(function() {
                     // Send successful signal.
+                    itemApi.serviceApi.setHasBeenPaused(false);
                     killCallback(0);
                 });
             }
