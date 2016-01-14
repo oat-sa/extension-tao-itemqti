@@ -189,7 +189,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if($this->isVersion('2.12.0')) {
             $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-            $compilerClassConfig = 'oat\taoQtiItem\models\QtiItemCompiler';
+            $compilerClassConfig = 'oat\taoQtiItem\model\QtiItemCompiler';
 
             $itemQtiExt->setConfig('compilerClass', $compilerClassConfig);
             $this->setVersion('2.13.0');
