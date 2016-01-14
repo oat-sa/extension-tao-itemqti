@@ -60,7 +60,7 @@ class ItemUpdateInlineFeedback extends ItemUpdater
                         continue;
                     }
                     $message = $modalFeedback->getBody()->getBody();
-                    $modalFeedback->getBody()->edit('<div class="x-tao-wrapper w-tao-relatedOutcome-'.$responseIdentifier.'">'.$message.'</div>',
+                    $modalFeedback->getBody()->edit('<div class="x-tao-wrapper x-tao-relatedOutcome-'.$responseIdentifier.'">'.$message.'</div>',
                         true);
                     $changed = true;
                 }

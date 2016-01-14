@@ -183,7 +183,10 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
             $currentVersion = '2.12.0';
         }
-        if($currentVersion === '2.12.0') {
+
+        $this->setVersion($currentVersion);
+
+        if($this->isVersion('2.12.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -195,10 +198,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
             $itemUpdater->update(true);
 
+            $this->setVersion('2.13.0');
             $currentVersion = '2.13.0';
         }
-
-        return $currentVersion;
     }
 
 }

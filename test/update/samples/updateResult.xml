@@ -157,24 +157,24 @@
     </responseCondition>
   </responseProcessing>
   <modalFeedback identifier="feedbackModal_1" outcomeIdentifier="FEEDBACK_1" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE">correct</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE">correct</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_2" outcomeIdentifier="FEEDBACK_2" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE">correct</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE">correct</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_3" outcomeIdentifier="FEEDBACK_3" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE">wrong</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE">wrong</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_4" outcomeIdentifier="FEEDBACK_4" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE_1">right</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE_1">right</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_5" outcomeIdentifier="FEEDBACK_4" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE_1">wrong</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE_1">wrong</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_6" outcomeIdentifier="FEEDBACK_5" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE_2">correct</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE_2">correct</div>
   </modalFeedback>
   <modalFeedback identifier="feedbackModal_7" outcomeIdentifier="FEEDBACK_5" showHide="show" title="">
-    <div class="x-tao-wrapper w-tao-relatedOutcome-RESPONSE_2">wrong</div>
+    <div class="x-tao-wrapper x-tao-relatedOutcome-RESPONSE_2">wrong</div>
   </modalFeedback>
 </assessmentItem>
