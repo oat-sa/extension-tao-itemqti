@@ -34,7 +34,7 @@ class ItemUpdateInlineFeedback extends ItemUpdater
      * @param oat\taoQtiItem\modal\Item $item
      * @return boolean
      */
-    protected function updateItem($item)
+    protected function updateItem(\oat\taoQtiItem\model\qti\Item $item)
     {
         $changed = false;
         $responses = $item->getResponses();

@@ -93,5 +93,5 @@ abstract class ItemUpdater
      *
      * @return boolean
      */
-    abstract protected function updateItem($item);
+    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item);
 }
