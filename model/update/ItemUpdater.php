@@ -37,9 +37,9 @@ abstract class ItemUpdater
      */
     public function __construct($itemRootPath)
     {
-        if(file_exists($itemRootPath)){
+        if (file_exists($itemRootPath)) {
             $this->itemPath = $itemRootPath;
-        }else{
+        } else {
             throw new \common_Exception('the given item root path does not exist');
         }
     }
@@ -56,21 +56,24 @@ abstract class ItemUpdater
 
         foreach ($objects as $itemFile => $cursor) {
 
-            $this->checkedFiles[$itemFile] = false;
+            if (is_file($itemFile)) {
+                
+                $this->checkedFiles[$itemFile] = false;
 
-            if (basename($itemFile) === 'qti.xml') {
+                if (basename($itemFile) === 'qti.xml') {
 
-                $xml = new \DOMDocument();
-                $xml->load($itemFile);
+                    $xml = new \DOMDocument();
+                    $xml->load($itemFile);
 
-                $parser = new ParserFactory($xml);
-                $item   = $parser->load();
+                    $parser = new ParserFactory($xml);
+                    $item   = $parser->load();
 
-                if ($this->updateItem($item)) {
-                    $this->checkedFiles[$itemFile] = true;
-                    $returnValue[$itemFile]        = $item;
-                    if ($changeItemContent) {
-                        file_put_contents($itemFile, $item->toXML());
+                    if ($this->updateItem($item)) {
+                        $this->checkedFiles[$itemFile] = true;
+                        $returnValue[$itemFile]        = $item;
+                        if ($changeItemContent) {
+                            file_put_contents($itemFile, $item->toXML());
+                        }
                     }
                 }
             }
@@ -83,7 +86,8 @@ abstract class ItemUpdater
      * Get the list of checked files 
      * @return array
      */
-    public function getCheckedFiles(){
+    public function getCheckedFiles()
+    {
         return $this->checkedFiles;
     }
 

@@ -38,18 +38,20 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
     public function testUpdate()
     {
-        $itemRootDir = ROOT_PATH.'taoQtiItem/test/update/samples/itemData/';
+        $itemRootDir = realpath(ROOT_PATH.'taoQtiItem/test/update/samples/itemData');
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
         $items = $itemUpdater->update();
         $checkedFiles  = $itemUpdater->getCheckedFiles();
         $modifiedFiles = array_keys(array_filter($checkedFiles, function($v) {
                 return $v;
             }));
-
-        $this->assertEquals(138, count($checkedFiles));
+            
+        $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
-        $this->assertEquals($modifiedFiles[0], $itemRootDir.'i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml');
-        $this->assertEquals($modifiedFiles[1], $itemRootDir.'i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml');
+
+        sort($modifiedFiles);
+        $this->assertEquals($modifiedFiles[0], realpath($itemRootDir.'/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals($modifiedFiles[1], realpath($itemRootDir.'/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
 
         $item1 = $items[$modifiedFiles[0]];
         $item2 = $items[$modifiedFiles[1]];
@@ -61,7 +63,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $itemStr2 = $item2->toXML();//note : item2 is clone of item1
 
         //compare the content of the items after update
-        $resultFile = dirname(__FILE__).'/samples/updateResult.xml';
+        $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';
         $this->assertEquals(file_get_contents($resultFile), trim($itemStr1));
         $this->assertEquals(file_get_contents($resultFile), trim($itemStr2));
     }
@@ -69,7 +71,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     public function testUpdateTrue()
     {
         $itemRootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR. uniqid('ItemUpdateInlineFeedbackTest').DIRECTORY_SEPARATOR;
-        $originalRootDir = ROOT_PATH.'taoQtiItem/test/update/samples/itemData/';
+        $originalRootDir = realpath(ROOT_PATH.'taoQtiItem/test/update/samples/itemData');
         tao_helpers_File::copy($originalRootDir, $itemRootDir);
 
         $itemUpdater   = new ItemUpdateInlineFeedback($itemRootDir);
@@ -80,13 +82,15 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
                 return $v;
             }));
 
-        $this->assertEquals(138, count($checkedFiles));
+        $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
-        $this->assertEquals($modifiedFiles[0], $itemRootDir.'i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml');
-        $this->assertEquals($modifiedFiles[1], $itemRootDir.'i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml');
+        
+        sort($modifiedFiles);
+        $this->assertEquals($modifiedFiles[0], realpath($itemRootDir.'/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals($modifiedFiles[1], realpath($itemRootDir.'/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
 
         //compare the content of the items after update
-        $resultFile = dirname(__FILE__).'/samples/updateResult.xml';
+        $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';
         $this->assertEquals(file_get_contents($resultFile), trim(file_get_contents($modifiedFiles[0])));
         $this->assertEquals(file_get_contents($resultFile), trim(file_get_contents($modifiedFiles[1])));
     }
