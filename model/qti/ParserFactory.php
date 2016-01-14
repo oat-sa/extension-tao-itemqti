@@ -900,7 +900,7 @@ class ParserFactory
                 common_Logger::d('Processing is Template', array('TAOITEMS', 'QTI'));
             }
         }catch(UnexpectedResponseProcessing $e){
-            
+
         }
         //try templatedriven
         if(is_null($returnValue)){
@@ -1104,9 +1104,12 @@ class ParserFactory
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @param  array interactions
-     * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
+     * @param DOMElement $data
+     * @param $interactions
+     * @return TemplatesDriven
+     * @throws UnexpectedResponseProcessing
+     * @throws exception\QtiModelException
+     * @throws response\InvalidArgumentException
      */
     protected function buildTemplatedrivenResponse(DOMElement $data, $interactions){
 
@@ -1263,8 +1266,11 @@ class ParserFactory
             }
         }
 
-        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0 || count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
-            throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
+        // drop rules that don't have a corresponding response identifier
+        foreach($rules as $ruleKey => $rule){
+            if(!in_array($ruleKey, $responseIdentifiers)) {
+                unset($rules[$ruleKey]);
+            }
         }
 
         $templatesDrivenRP = new TemplatesDriven();
@@ -1283,8 +1289,8 @@ class ParserFactory
      *
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @return oat\taoQtiItem\model\qti\Object
+     * @param  DOMElement $data
+     * @return \oat\taoQtiItem\model\qti\Object
      */
     private function buildObject(DOMElement $data){
 
