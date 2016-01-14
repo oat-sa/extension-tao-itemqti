@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\scripts\update;
+namespace oat\taoQtiItem\model\update;
 
 /**
  * Description of InlineModalFeedbackItemUpdate

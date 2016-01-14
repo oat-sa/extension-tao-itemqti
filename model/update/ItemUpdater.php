@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoQtiItem\scripts\update;
+namespace oat\taoQtiItem\model\update;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use \RecursiveIteratorIterator;

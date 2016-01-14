@@ -21,7 +21,7 @@
 namespace oat\taoQtiItem\test\update;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoQtiItem\scripts\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 use \tao_helpers_File;
 
 class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
