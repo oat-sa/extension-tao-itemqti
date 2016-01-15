@@ -19,12 +19,14 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
-    'taoQtiItem/qtiCreator/widgets/static/modalFeedback/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/modalFeedback/Widget',
+    'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/modal'
+], function(_, Renderer, Widget, modalTpl){
     'use strict';
 
     var ModalFeedback = _.clone(Renderer);
-
+    
+    ModalFeedback.template = modalTpl;
     ModalFeedback.render = function(modalFeedback, options){
 
         options = options || {};
