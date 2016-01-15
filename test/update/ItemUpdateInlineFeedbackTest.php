@@ -59,13 +59,15 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $this->assertTrue($item1 instanceof \oat\taoQtiItem\model\qti\Item);
         $this->assertTrue($item2 instanceof \oat\taoQtiItem\model\qti\Item);
 
-        $itemStr1 = $item1->toXML();
-        $itemStr2 = $item2->toXML();//note : item2 is clone of item1
+        $itemStr1 = $this->normalizeLineEndings(trim($item1->toXML()));
+        $itemStr2 = $this->normalizeLineEndings(trim($item2->toXML()));//note : item2 is clone of item1
 
         //compare the content of the items after update
         $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';
-        $this->assertEquals(file_get_contents($resultFile), trim($itemStr1));
-        $this->assertEquals(file_get_contents($resultFile), trim($itemStr2));
+        $resultFileContent = file_get_contents($resultFile);
+        $resultFileContent = $this->normalizeLineEndings(trim($resultFileContent));
+        $this->assertEquals($resultFileContent, $itemStr1);
+        $this->assertEquals($resultFileContent, $itemStr2);
     }
 
     public function testUpdateTrue()
@@ -91,7 +93,19 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
         //compare the content of the items after update
         $resultFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'updateResult.xml';
-        $this->assertEquals(file_get_contents($resultFile), trim(file_get_contents($modifiedFiles[0])));
-        $this->assertEquals(file_get_contents($resultFile), trim(file_get_contents($modifiedFiles[1])));
+        $resultFileContent = file_get_contents($resultFile);
+        $resultFileContent = $this->normalizeLineEndings(trim($resultFileContent));
+        $this->assertEquals($resultFileContent, trim(file_get_contents($modifiedFiles[0])));
+        $this->assertEquals($resultFileContent, trim(file_get_contents($modifiedFiles[1])));
+    }
+
+    private function normalizeLineEndings($s) {
+        // Normalize line endings
+        // Convert all line-endings to UNIX format
+        $s = str_replace("\r\n", "\n", $s);
+        $s = str_replace("\r", "\n", $s);
+        // Don't allow out-of-control blank lines
+        $s = preg_replace("/\n{2,}/", "\n\n", $s);
+        return $s;
     }
 }
