@@ -1267,10 +1267,8 @@ class ParserFactory
         }
 
         // drop rules that don't have a corresponding response identifier
-        foreach($rules as $ruleKey => $rule){
-            if(!in_array($ruleKey, $responseIdentifiers)) {
-                unset($rules[$ruleKey]);
-            }
+        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0){
+            throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
 
         $templatesDrivenRP = new TemplatesDriven();
