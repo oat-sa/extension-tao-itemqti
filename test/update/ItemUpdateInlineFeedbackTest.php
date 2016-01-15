@@ -34,6 +34,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+        \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');//load tao constants to prevent warning in constant usage
     }
 
     public function testUpdate()

@@ -188,6 +188,14 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->setVersion($currentVersion);
 
         if($this->isVersion('2.12.0')) {
+            $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $compilerClassConfig = 'oat\taoQtiItem\model\QtiItemCompiler';
+
+            $itemQtiExt->setConfig('compilerClass', $compilerClassConfig);
+            $this->setVersion('2.13.0');
+        }
+
+	if($this->isVersion('2.13.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -199,7 +207,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
             $itemUpdater->update(true);
 
-            $this->setVersion('2.13.0');
+            $this->setVersion('2.14.0');
         }
     }
 
