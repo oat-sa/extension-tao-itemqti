@@ -27,6 +27,12 @@
                     </td>
                     <td colspan="2"></td>
                 </tr>
+                <tr data-edit="custom">
+                    <td colspan="3">
+                        <!-- Input solely provides visual in response state -->
+                        <input type="text" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
