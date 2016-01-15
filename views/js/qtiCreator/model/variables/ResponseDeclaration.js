@@ -126,12 +126,12 @@ define([
                 cardinality : 'single',
                 baseType : 'identifier'
             });
-
+            
             var modalFeedback = item.createModalFeedback({
                 identifier : 'feedbackModal',
                 outcomeIdentifier : outcome.id()
-            });
-
+            }, this);
+            
             var rule = new SimpleFeedbackRule('', outcome, modalFeedback);
 
             rule.setCondition(this, 'correct');
@@ -182,7 +182,7 @@ define([
                 modalFeedback = this.getRelatedItem().createModalFeedback({
                     identifier : 'feedbackModal',
                     outcomeIdentifier : rule.feedbackOutcome.id()
-                });
+                }, this);
 
                 rule.setFeedbackElse(modalFeedback);
 

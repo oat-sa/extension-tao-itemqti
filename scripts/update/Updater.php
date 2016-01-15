@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
-
+use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 
 /**
  * 
@@ -193,6 +193,21 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $itemQtiExt->setConfig('compilerClass', $compilerClassConfig);
             $this->setVersion('2.13.0');
+        }
+
+	if($this->isVersion('2.13.0')) {
+            
+            \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
+                'taoQtiItem/qtiRunner/core/QtiRunner',
+                array(
+                    'inlineModalFeedback' => false
+                )
+            );
+
+            $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
+            $itemUpdater->update(true);
+
+            $this->setVersion('2.14.0');
         }
     }
 

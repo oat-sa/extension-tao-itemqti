@@ -29,12 +29,13 @@ define([
     'jquery',
     'lodash',
     'context',
+    'module',
     'core/promise',
     'iframeNotifier',
     'taoQtiItem/qtiItem/core/Loader',
-    'taoQtiItem/qtiItem/helper/pci',
-    'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function($, _, context, Promise, iframeNotifier, ItemLoader, pci, ModalFeedback){
+    'taoQtiItem/qtiRunner/modalFeedback/inlineRenderer',
+    'taoQtiItem/qtiRunner/modalFeedback/modalRenderer'
+], function($, _, context, module, Promise, iframeNotifier, ItemLoader, modalFeedbackInline, modalFeedbackModal){
     'use strict';
 
     var timeout = (context.timeout > 0 ? context.timeout + 1 : 30) * 1000;
@@ -125,10 +126,10 @@ define([
     };
 
     QtiRunner.prototype.loadItemData = function(data, callback){
-        var _this = this;
+        var self = this;
         this.getLoader().loadItemData(data, function(item){
-            _this.item = item;
-            callback(_this.item);
+            self.item = item;
+            callback(self.item);
         });
     };
 
@@ -142,38 +143,38 @@ define([
 
     QtiRunner.prototype.renderItem = function(data, done){
 
-        var _this = this;
+        var self = this;
 
         done = _.isFunction(done) ? done : _.noop;
 
         var render = function(){
-            if(!_this.item){
+            if(!self.item){
                 throw 'cannot render item: empty item';
             }
-            if(_this.renderer){
+            if(self.renderer){
 
-                _this.renderer.load(function(){
+                self.renderer.load(function(){
 
-                    _this.item.setRenderer(_this.renderer);
-                    _this.item.render({}, $('#qti_item'));
+                    self.item.setRenderer(self.renderer);
+                    self.item.render({}, $('#qti_item'));
 
                     // Race between postRendering and timeout
                     // postRendering waits for everything to be resolved or one reject
                     Promise.race([
-                        Promise.all(_this.item.postRender()),
+                        Promise.all(self.item.postRender()),
                         new Promise(function(resolve, reject){
                             _.delay(reject, timeout, new Error('Post rendering ran out of time.'));
                         })
                     ])
                     .then(function(){
-                        _this.item.getContainer().on('responseChange', function(e, data){
+                        self.item.getContainer().on('responseChange', function(e, data){
                             if(data.interaction && data.interaction.attr('responseIdentifier') && data.response){
                                 iframeNotifier.parent('responsechange', [data.interaction.attr('responseIdentifier'), data.response]);
                             }
                         });
 
-                        _this.initInteractionsResponse();
-                        _this.listenForThemeChange();
+                        self.initInteractionsResponse();
+                        self.listenForThemeChange();
                         done();
 
                     })
@@ -185,7 +186,7 @@ define([
                         throw new Error('Error in post rendering : ' + err);
                     });
 
-                }, _this.getLoader().getLoadedClasses());
+                }, self.getLoader().getLoadedClasses());
 
             }else{
                 throw 'cannot render item: no rendered set';
@@ -200,21 +201,21 @@ define([
     };
 
     QtiRunner.prototype.initInteractionsResponse = function(){
-        var _this = this;
-        if(_this.item){
-            var interactions = _this.item.getInteractions();
+        var self = this;
+        if(self.item){
+            var interactions = self.item.getInteractions();
             for(var i in interactions){
                 var interaction = interactions[i];
                 var responseId = interaction.attr('responseIdentifier');
-                _this.itemApi.getVariable(responseId, function(values){
+                self.itemApi.getVariable(responseId, function(values){
                     if(values){
                         interaction.setState(values);
                         iframeNotifier.parent('stateready', [responseId, values]);
                     }
                     else{
-                        var states = _this.getStates();
+                        var states = self.getStates();
                         if(_.indexOf(states, responseId)){
-                            _this.itemApi.setVariable(responseId, states[responseId]);
+                            self.itemApi.setVariable(responseId, states[responseId]);
                             interaction.setState(states[responseId]);
                             iframeNotifier.parent('stateready', [responseId, states[responseId]]);
                         }
@@ -291,62 +292,16 @@ define([
     };
 
     QtiRunner.prototype.showFeedbacks = function(itemSession, callback, onShowCallback){
-
+        
+        var inlineDisplay = !!module.config().inlineModalFeedback;
+        
         //currently only modal feedbacks are available
-        var _this = this,
-            feedbacksToBeDisplayed = [];
-
-        //find which modal feedbacks should be displayed according to the current item session:
-        _.each(this.item.modalFeedbacks, function(feedback){
-            var outcomeIdentifier = feedback.attr('outcomeIdentifier');
-            if(itemSession[outcomeIdentifier]){
-                var feedbackIds = pci.getRawValues(itemSession[outcomeIdentifier]);
-                if(_.indexOf(feedbackIds, feedback.id()) >= 0){
-                    feedbacksToBeDisplayed.push(feedback);
-                }
-            }
-        });
-
-        //record the number of feedbacks to be displayed:
-        var count = feedbacksToBeDisplayed.length;
-
-        if (count > 0 && _.isFunction(onShowCallback)) {
-            onShowCallback();
-        }
-
-        //show in reverse order
-        var lastFeedback = feedbacksToBeDisplayed.shift();//the last feedback to be shown is the first defined in the item
-            _.eachRight(feedbacksToBeDisplayed, function(feedback){
-            _this.showModalFeedback(feedback);
-        });
-
-        //add callback to the last shown modal feedback
-        this.showModalFeedback(lastFeedback, callback);
-
-        return count;
-    };
-
-    QtiRunner.prototype.showModalFeedback = function(modalFeedback, callback){
-        var $modalFeedback,
-            $modalFeedbackBox = $('#modalFeedbacks');
-
-        if(modalFeedback instanceof ModalFeedback){
-            //load (potential) new qti classes used in the modal feedback (e.g. math, img)
-            this.renderer.load(function(){
-                $modalFeedback = $modalFeedbackBox.find('#' + modalFeedback.getSerial());
-                if (!$modalFeedback.length) {
-                    //render the modal feedback
-                    $modalFeedback = modalFeedback.render();
-                    $modalFeedbackBox.append($modalFeedback);
-                } else {
-                    $modalFeedback.modal();
-                }
-                modalFeedback.postRender({
-                    callback : callback
-                });
-            }, this.getLoader().getLoadedClasses());
+        if(inlineDisplay){
+            return modalFeedbackInline.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
+        }else{
+            return modalFeedbackModal.showFeedbacks(this.item, this.getLoader(), this.renderer, itemSession, callback, onShowCallback);
         }
     };
-
+    
     return QtiRunner;
 });
