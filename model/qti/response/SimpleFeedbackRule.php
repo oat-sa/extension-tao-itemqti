@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\response;
 
-use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\feedback\Feedback;
@@ -29,6 +28,7 @@ use oat\taoQtiItem\model\qti\VariableDeclaration;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
 use \taoItems_models_classes_TemplateRenderer;
+use \InvalidArgumentException;
 
 class SimpleFeedbackRule extends Element
 {
@@ -118,7 +118,19 @@ class SimpleFeedbackRule extends Element
                     }else{
                         throw new InvalidArgumentException('compared value must not be null');
                     }
+                    break;
                 }
+            case 'choices':{
+                if(is_array($comparedValue)){
+                    $this->comparedOutcome = $comparedOutcome;
+                    $this->condition = $condition;
+                    $this->comparedValue = $comparedValue;
+                    $returnValue = true;
+                }else{
+                    throw new InvalidArgumentException('compared value must not be an array');
+                }
+                break;
+            }
         }
 
         return $returnValue;
@@ -154,6 +166,10 @@ class SimpleFeedbackRule extends Element
             $tpl = 'qti.'.$this->condition.'.tpl.php';
             //the response processing tpl does not need to be CORRECT to allow condition to be correct
             $variables['responseIdentifier'] = $this->comparedOutcome->getIdentifier();
+        }else if($this->condition == 'choices'){
+            $tpl = 'qti.choices.tpl.php';
+            $variables['responseIdentifier'] = $this->comparedOutcome->getIdentifier();
+            $variables['choices'] = $this->comparedValue;//an array
         }else{
             $tpl = 'qti.condition.tpl.php';
             if($this->comparedOutcome instanceof ResponseDeclaration){
