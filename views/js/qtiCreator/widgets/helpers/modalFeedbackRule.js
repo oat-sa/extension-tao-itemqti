@@ -7,35 +7,60 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel'
 ], function(_, $, __, selecter, formElement, ruleTpl, panelTpl){
-
+    
+    function onSetCorrect($select){
+        $select.siblings('.feedbackRule-compared-value').hide();
+    }
+    
+    function onUnsetCorrect($select){
+        $select.siblings('.feedbackRule-compared-value').val('0');
+    }
+    
+    function onSetCompare($select){
+        $select.siblings('.feedbackRule-compared-value').show();
+    }
+    
+    function getAvailableConditions(){
+        return _availableConditions;
+    }
+    
     var _availableConditions = [
         {
             name : 'correct',
-            label : __('correct')
+            label : __('correct'),
+            onSet : onSetCorrect,
+            onUnset : onUnsetCorrect
         },
         {
             name : 'incorrect',
-            label : __('incorrect')
+            label : __('incorrect'),
+            onSet : onSetCorrect,
+            onUnset : onUnsetCorrect
         },
         {
             name : 'lt',
-            label : '<'
+            label : '<',
+            onSet : onSetCompare
         },
         {
             name : 'lte',
-            label : '<='
+            label : '<=',
+            onSet : onSetCompare
         },
         {
             name : 'equal',
-            label : '='
+            label : '=',
+            onSet : onSetCompare
         },
         {
             name : 'gte',
-            label : '>='
+            label : '>=',
+            onSet : onSetCompare
         },
         {
             name : 'gt',
-            label : '>'
+            label : '>',
+            onSet : onSetCompare
         }
     ];
 
@@ -51,7 +76,7 @@ define([
         }
 
         var rule =  ruleTpl({
-            availableConditions : _availableConditions,
+            availableConditions : getAvailableConditions(),
             serial : feedbackRule.serial,
             condition : feedbackRule.condition,
             comparedValue : feedbackRule.comparedValue,
@@ -113,19 +138,24 @@ define([
 
             var $select = $(this),
                 condition = $select.val(),
+                availableConditions = getAvailableConditions(),
                 $comparedValue = $select.siblings('.feedbackRule-compared-value'),
-                fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial'));
-
-            if(fbRule.condition === 'correct' || fbRule.condition === 'incorrect'){
-                $comparedValue.val('0');//initialize the value to 0
+                fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial')),
+                newRule = _.find(availableConditions, {name : condition}),
+                oldRule = _.find(availableConditions, {name : fbRule.condition});
+            
+            console.log(response);
+            
+            //exec unset old condition callback
+            if(oldRule && _.isFunction(oldRule.onUnset)){
+                oldRule.onUnset($select);
             }
-
-            if(condition === 'correct' || condition === 'incorrect'){
-                $comparedValue.hide();
-            }else{
-                $comparedValue.show();
+            
+            //exec set new condition callback
+            if(newRule && _.isFunction(newRule.onSet)){
+                newRule.onSet($select);
             }
-
+            
             formElement.setScore($comparedValue, {
                 required : true,
                 set : function(key, value){
