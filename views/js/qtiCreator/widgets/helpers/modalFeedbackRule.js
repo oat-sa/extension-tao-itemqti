@@ -23,8 +23,9 @@ define([
     'ui/selecter',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
-    'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel'
-], function(_, $, __, selecter, formElement, ruleTpl, panelTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel',
+    'taoQtiItem/qtiCreator/editor/response/choiceSelector'
+], function(_, $, __, selecter, formElement, ruleTpl, panelTpl, choiceSelector){
     'use strict';
     
     function _resetScore(fbRule, $select){
@@ -75,15 +76,26 @@ define([
             label : __('choices'),
             init : function initChoice(fbRule, $select){
                 var condition = this.name;
+                
                 //@TODO : create the choice selecter
                 //sample code ...
-                var $choiceSelectorContainer = $select.append('<div>', {'class' : 'choiceSelectorContainer'});
+                var $choiceSelectorContainer = $('<div>', {'class' : 'choiceSelectorContainer'}).insertAfter($select);
                 var response = fbRule.comparedOutcome;
-                var choiceSelector = {};
+                var interaction = response.getInteraction();
+                var cSelector = choiceSelector({
+                    renderTo: $choiceSelectorContainer,
+                    interaction : interaction,
+                    choices: fbRule.comparedValue || []
+                });
+                $choiceSelectorContainer.data('choice-selector', cSelector);
+                console.log(cSelector);
                 
-                //on change, assign selected choices (identifiers)
-                var selectedChoices = ['choice_1', 'choice_3', 'choice_ABC'];
-                response.setCondition(fbRule, condition, selectedChoices);
+                cSelector.on('change', function(){
+                    //on change, assign selected choices (identifiers)
+                    var selectedChoices = ['choice_1', 'choice_3', 'choice_ABC'];
+                    response.setCondition(fbRule, condition, selectedChoices);
+                }).trigger('change');
+                
             },
             onSet : function onSetChoices(fbRule, $select){
                 fbRule.comparedOutcome.setCondition(fbRule, this.name, []);
@@ -95,7 +107,9 @@ define([
                 
                 //@TODO : destroy the choice selecter
                 //sample code ...
-                $select.find('.choiceSelectorContainer').remove();
+                var $choiceSelectorContainer = $select.siblings('.choiceSelectorContainer');
+                $choiceSelectorContainer.data('choice-selector').destroy();
+                $choiceSelectorContainer.remove();
                 
             },
             filter : function filterChoices(response){
