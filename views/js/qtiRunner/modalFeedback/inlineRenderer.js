@@ -267,7 +267,6 @@ define([
      * @param {Array} interactionContainers
      */
     function cover(interactionContainers){
-        return;
         var $cover = $('<div class="interaction-cover modal-bg">');
         _.each(interactionContainers, function ($interaction){
             $interaction.append($cover);
