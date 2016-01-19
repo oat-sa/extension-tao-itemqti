@@ -7,7 +7,6 @@
                 <baseValue baseType="identifier">{{.}}</baseValue>
                 {{/each}}
             </multiple>    
-            <correct identifier="{{response}}" />
         </match>
         <setOutcomeValue identifier="{{feedback.outcome}}">
             <baseValue baseType="identifier">{{feedback.then}}</baseValue>
