@@ -205,19 +205,25 @@ define([
      */
     function replaceControl(renderedFeebacks, $itemContainer, callback){
         var $scope, $controls, $toggleContainer;
-        if($itemContainer.parents('.tao-preview-scope').length){
-            //preview mode
-            $scope = window.parent.parent.$('#preview-console');
-            $controls = $scope.find('.preview-console-header .action-bar li:visible');
-            $toggleContainer = $scope.find('.console-button-action-bar');
-            initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, previewOkBtn, callback);
+        if(window.parent && window.parent.parent && window.parent.parent.$){
+            if($itemContainer.parents('.tao-preview-scope').length){
+                //preview mode
+                $scope = window.parent.parent.$('#preview-console');
+                $controls = $scope.find('.preview-console-header .action-bar li:visible');
+                $toggleContainer = $scope.find('.console-button-action-bar');
+                initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, previewOkBtn, callback);
 
+            }else{
+                //delivery delivery
+                $scope = window.parent.parent.$('body.qti-test-scope .bottom-action-bar');
+                $controls = $scope.find('li:visible');
+                $toggleContainer = $scope.find('.navi-box-list');
+                initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, deliveryOkBtn, callback);
+            }
         }else{
-            //delivery delivery
-            $scope = window.parent.parent.$('body.qti-test-scope .bottom-action-bar');
-            $controls = $scope.find('li:visible');
-            $toggleContainer = $scope.find('.navi-box-list');
-            initControlToggle(renderedFeebacks, $itemContainer, $controls, $toggleContainer, deliveryOkBtn, callback);
+            //not in an iframe, add to item body for now
+            $scope = $itemContainer.find('#modalFeedbacks');
+            initControlToggle(renderedFeebacks, $itemContainer, $(), $scope, previewOkBtn, callback);
         }
     }
 
