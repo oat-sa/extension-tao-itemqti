@@ -27,8 +27,14 @@ define([
 ], function(_, $, __, selecter, formElement, ruleTpl, panelTpl){
     'use strict';
     
-    function _setScore(fbRule, condition, $comparedValue){
+    function _resetScore(fbRule, $select){
+        $select.siblings('.feedbackRule-compared-value').val('0');
+    }
+    
+    function onSetScore(fbRule, $select){
         var response = fbRule.comparedOutcome;
+        var condition = this.name;
+        var $comparedValue = $select.siblings('.feedbackRule-compared-value');
         formElement.setScore($comparedValue, {
             required : true,
             set : function(key, value){
@@ -37,64 +43,50 @@ define([
         });
     }
     
-    function _resetScore(fbRule, $select){
-        $select.siblings('.feedbackRule-compared-value').val('0');
-    }
-    
-    function onSetCorrect(fbRule, $select){
-        var condition = this.name;
-        var $comparedValue = $select.siblings('.feedbackRule-compared-value').hide();
-        _setScore(fbRule, condition, $comparedValue);
-    }
-    
     function onUnsetCorrect(fbRule, $select){
         _resetScore(fbRule, $select);
     }
     
-    function onSetCompare(fbRule, $select){
-        var condition = this.name;
-        var $comparedValue = $select.siblings('.feedbackRule-compared-value').show();
-        _setScore(fbRule, condition, $comparedValue);
+    function initCorrect(fbRule, $select){
+        $select.siblings('.feedbackRule-compared-value').hide();
     }
     
-    function getAvailableConditions(response){
-        
-        return _.filter(_availableConditions, function(condition){
-            if(_.isFunction(condition.filter)){
-                return condition.filter(response);
-            }
-            return true;
-        });
-        
-        return _availableConditions;
+    function initCompare(fbRule, $select){
+        $select.siblings('.feedbackRule-compared-value').show();
     }
     
     var _availableConditions = [
         {
             name : 'correct',
             label : __('correct'),
-            onSet : onSetCorrect,
+            init : initCorrect,
+            onSet : onSetScore,
             onUnset : onUnsetCorrect
         },
         {
             name : 'incorrect',
             label : __('incorrect'),
-            onSet : onSetCorrect,
+            init : initCorrect,
+            onSet : onSetScore,
             onUnset : onUnsetCorrect
         },
         {
             name : 'choices',
             label : __('choices'),
-            onSet : function onSetChoices(fbRule, $select){
+            init : function initChoice(fbRule, $select){
                 var condition = this.name;
                 //@TODO : create the choice selecter
                 //sample code ...
                 var $choiceSelectorContainer = $select.append('<div>', {'class' : 'choiceSelectorContainer'});
                 var response = fbRule.comparedOutcome;
+                var choiceSelector = {};
                 
                 //on change, assign selected choices (identifiers)
                 var selectedChoices = ['choice_1', 'choice_3', 'choice_ABC'];
                 response.setCondition(fbRule, condition, selectedChoices);
+            },
+            onSet : function onSetChoices(fbRule, $select){
+                fbRule.comparedOutcome.setCondition(fbRule, this.name, []);
             },
             onUnset : function onUnsetChoices(fbRule, $select){
                 var condition = this.name;
@@ -114,30 +106,47 @@ define([
         {
             name : 'lt',
             label : '<',
-            onSet : onSetCompare
+            init : initCompare,
+            onSet : onSetScore
         },
         {
             name : 'lte',
             label : '<=',
-            onSet : onSetCompare
+            init : initCompare,
+            onSet : onSetScore
         },
         {
             name : 'equal',
             label : '=',
-            onSet : onSetCompare
+            init : initCompare,
+            onSet : onSetScore
         },
         {
             name : 'gte',
             label : '>=',
-            onSet : onSetCompare
+            init : initCompare,
+            onSet : onSetScore
         },
         {
             name : 'gt',
             label : '>',
-            onSet : onSetCompare
+            init : initCompare,
+            onSet : onSetScore
         }
     ];
-
+    
+    function getAvailableConditions(response){
+        
+        return _.filter(_availableConditions, function(condition){
+            if(_.isFunction(condition.filter)){
+                return condition.filter(response);
+            }
+            return true;
+        });
+        
+        return _availableConditions;
+    }
+    
     var _renderFeedbackRule = function(feedbackRule){
         
         var feedbackElseSerial,
@@ -148,20 +157,24 @@ define([
         if(feedbackElse){
             feedbackElseSerial = feedbackElse.serial;
         }
-
+        var availableConditions = getAvailableConditions(feedbackRule.comparedOutcome);
         var rule =  ruleTpl({
-            availableConditions : getAvailableConditions(feedbackRule.comparedOutcome),
+            availableConditions : availableConditions,
             serial : feedbackRule.serial,
             condition : feedbackRule.condition,
             comparedValue : feedbackRule.comparedValue,
             feedbackThen : feedbackRule.feedbackThen.serial,
             feedbackElse : feedbackElseSerial,
             addElse : addElse,
-            hideScore : (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect')
+            hideScore : (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect')//@todo remove this, put in init()
         });
         
         var $rule = $(rule);
         selecter($rule);
+        
+        //init rule editing
+        var condition = _.find(availableConditions, {name : feedbackRule.condition});
+        condition.init(feedbackRule, $rule.find('.feedbackRule-condition'));
         
         return $rule;
     };
@@ -226,7 +239,10 @@ define([
             if(newCondition && _.isFunction(newCondition.onSet)){
                 newCondition.onSet(fbRule, $select);
             }
-
+            
+            //init the new condition editing
+            newCondition.init(fbRule, $select);
+            
         }).on('keyup', '.feedbackRule-compared-value', function(){
 
             var fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial'));
