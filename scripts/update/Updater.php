@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
-use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+
 
 /**
  * 
@@ -209,6 +209,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('2.14.0');
         }
+
+		if($this->isVersion('2.14.0')) {
+			$this->setVersion('2.14.1');
+		}
     }
 
 }
