@@ -3,8 +3,9 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect'
-], function(_, tpl, tplCondition, tplCorrect, tplIncorrect){
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_choices'
+], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplChoices){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
@@ -36,6 +37,11 @@ define([
                     template = tplCondition;
                     tplData.condition = rule.condition;
                     tplData.comparedValue = rule.comparedValue;
+                    break;
+                case 'choices':
+                    template = tplChoices;
+                    tplData.condition = rule.condition;
+                    tplData.choices = rule.comparedValue;//is an array
                     break;
                 default:
                     throw new Error('unknown condition in simple feedback rule rendering : '+rule.condition);

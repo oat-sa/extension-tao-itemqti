@@ -66,7 +66,7 @@ define([
                     var interactions = responseProcessing.getRelatedItem().getInteractions();
                     if(interactions.length === 1){
                         var response = interactions[0].getResponseDeclaration();
-                        if(!_.size(response.getFeedbackRules()) || response.id() !== 'RESPONSE'){
+                        if(_.size(response.getFeedbackRules()) === 0 && response.id() === 'RESPONSE'){
                             //the exact condition to serialize the rp as a standard template is met
                             defaultData.template = response.template;
                             break;
