@@ -379,5 +379,21 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 
         $xml = simplexml_load_string($item->toXML());
         $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response', (string) $xml->responseProcessing[0]['template']);
+
+
+        /**
+         * orphaned response conditions must not lead to a custom response processing
+         */
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenOrphanedResponseConditions.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+
+        $response = current($item->getResponses());
+        $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct', $response->getHowMatch());
     }
 }

@@ -177,6 +177,8 @@ define([
                 arr.stylesheets[i] = this.stylesheets[i].toArray();
             }
             arr.namespaces = this.namespaces;
+            arr.responseProcessing = this.responseProcessing;
+            arr.modalFeedbacks = this.modalFeedbacks;
             return arr;
         },
         isEmpty : function(){

@@ -110,12 +110,12 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                             var feedbackRules = data.responses[i].feedbackRules;
                             if(feedbackRules){
                                 _.forIn(feedbackRules, function(fbData, serial){
-                                    response.feedbackRules[serial] = _this.buildSimpleFeedbackRule(fbData);
+                                    response.feedbackRules[serial] = _this.buildSimpleFeedbackRule(fbData, response);
                                 });
                             }
                         }
                     }
-
+                    
                     if(data.responseProcessing){
                         _this.item.setResponseProcessing(_this.buildResponseProcessing(data.responseProcessing));
                     }
@@ -207,10 +207,10 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
             return response;
         },
-        buildSimpleFeedbackRule : function(data){
+        buildSimpleFeedbackRule : function(data, response){
 
             var feedbackRule = this.buildElement(data);
-
+            
             if(data.condition){
                 feedbackRule.condition = data.condition;
             }
@@ -222,7 +222,16 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
             feedbackRule.feedbackOutcome = this.item.outcomes[data.feedbackOutcome] || null;
             feedbackRule.feedbackThen = this.item.modalFeedbacks[data.feedbackThen] || null;
             feedbackRule.feedbackElse = this.item.modalFeedbacks[data.feedbackElse] || null;
-
+            
+            //associate the compared outcome to the feedbacks if applicable
+            var response = feedbackRule.comparedOutcome;
+            if(feedbackRule.feedbackThen){
+                feedbackRule.feedbackThen.data('relatedResponse', response);
+            }
+            if(feedbackRule.feedbackElse){
+                feedbackRule.feedbackElse.data('relatedResponse', response);
+            }
+            
             return feedbackRule;
         },
         buildOutcome : function(data){
