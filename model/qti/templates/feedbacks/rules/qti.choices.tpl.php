@@ -25,8 +25,7 @@
             <variable identifier="<?=$responseIdentifier?>" />
             <multiple>
                 <?php foreach($choices as $choice):?><baseValue baseType="identifier"><?=$choice?></baseValue><?php endforeach;?>
-            </multiple>    
-            <correct identifier="<?=$responseIdentifier?>" />
+            </multiple>
         </match>
         <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
 <baseValue baseType="identifier"><?=$feedbackIdentifierThen?></baseValue>
