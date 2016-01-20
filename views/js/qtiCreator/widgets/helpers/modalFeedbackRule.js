@@ -75,6 +75,9 @@ define([
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
+                
+                $select.siblings('.feedbackRule-compared-value').hide();
+                
                 var condition = this.name;
                 
                 //@TODO : create the choice selecter
@@ -92,7 +95,7 @@ define([
                 
                 cSelector.on('change', function(){
                     //on change, assign selected choices (identifiers)
-                    var selectedChoices = ['choice_1', 'choice_3', 'choice_ABC'];
+                    var selectedChoices = ['choice_1', 'choice_3', 'choice_2'];
                     response.setCondition(fbRule, condition, selectedChoices);
                 }).trigger('change');
                 
