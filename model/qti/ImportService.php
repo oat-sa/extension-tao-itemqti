@@ -43,10 +43,13 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
+use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\storage\xml\XmlStorageException;
 use tao_helpers_File;
 use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -545,6 +548,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $this->storeApip($qtiFile, $rdfItem);
                 }
 
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
 
                 $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.',
                     $qtiItemResource->getIdentifier());

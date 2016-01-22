@@ -41,6 +41,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 {
 
     const ITEM_FILE_NAME = 'item.json';
+    const VAR_ELT_FILE_NAME = 'variableElements.json';
 
     /**
      * Desploy all the required files into the provided directories
@@ -59,18 +60,6 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $qtiService = Service::singleton();
 
 
-        //copy client side resources (javascript loader)
-        $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
-        $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
-        $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
-        if (\tao_helpers_Mode::is('production')) {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.min.js', $publicDirectory . 'qtiLoader.min.js', false);
-        } else {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.js', $publicDirectory . 'qtiLoader.js', false);
-            tao_helpers_File::copy($assetLibPath . 'require.js', $publicDirectory . 'require.js', false);
-        }
-
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
@@ -82,12 +71,13 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $serializedVariableElements = json_encode($variableElements);
-            file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
+            $serializedVarElts = json_encode($variableElements);
+            file_put_contents($privateFolder . self::VAR_ELT_FILE_NAME, $serializedVarElts);
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
             );
+
         } catch (\tao_models_classes_FileNotFoundException $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())

@@ -4,9 +4,12 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/ModalFeedback',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/modalFeedback',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiItem/helper/container',
+    'lodash',
+    'i18n',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, formTpl, formElement, $){
+], function(stateFactory, Active, commonRenderer, formTpl, formElement, containerHelper, _, __, $){
 
     /**
      * handle z-indices of sidebar and ckeditor
@@ -132,11 +135,14 @@ define([
     ModalFeedbackStateActive.prototype.initForm = function(){
 
         var _widget = this.widget;
-
+        var $container = _widget.$container;
+        var feedbackStyles = _prepareFeedbackStyles(_widget);
+            
         //build form:
         _widget.$form.html(formTpl({
             serial : _widget.element.getSerial(),
-            identifier : _widget.element.id()
+            identifier : _widget.element.id(),
+            feedbackStyles : feedbackStyles
         }));
 
         formElement.initWidget(_widget.$form);
@@ -145,9 +151,54 @@ define([
         formElement.setChangeCallbacks(_widget.$form, _widget.element, {
             identifier : function(fb, value){
                 fb.id(value);
+            },
+            feedbackStyle : function(fb, newValue){
+                
+                var oldValue = containerHelper.getEncodedData(_widget.element, 'modalFeedback');
+                containerHelper.setEncodedData(fb, 'modalFeedback', newValue);
+                
+                //update the feedback rendering
+                if(oldValue){
+                    $container.removeClass(oldValue);
+                }
+                $container.addClass(newValue);
             }
         });
     };
+    
+    /**
+     * Get the feedback styles related data for the template rendering
+     * 
+     * @param {Object} widget - the creator widget
+     * @returns {Array}
+     */
+    function _prepareFeedbackStyles(widget){
+        
+        var styles = [
+            {
+                cssClass : '',
+                title : __('standard')
+            },
+            {
+                cssClass : 'positive',
+                title : __('positive')
+            },
+            {
+                cssClass : 'negative',
+                title : __('negative')
+            }
+        ];
+        
+        return _(styles)
+            .filter(function(style){
+                return style.cssClass !== undefined;
+            }).map(function(style){
+            if(containerHelper.hasEncodedData(widget.element, 'modalFeedback', style.cssClass)){
+                style.selected = true;
+            }
+            return style;
+        }).value();
+    }
 
     return ModalFeedbackStateActive;
 });
