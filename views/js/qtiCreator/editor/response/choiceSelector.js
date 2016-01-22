@@ -29,6 +29,7 @@ define([
 
     var $selectBox = $();
 
+
     //exposed methods
     var choiceSelector = {
         getChoices : function(){},
@@ -50,21 +51,33 @@ define([
     function postRender() {
 
         var self = this,
-            selectChoices = this.config.choices;
+            selectChoices = this.config.choices,
+            format = function (state) {
+                return '<span title="' + $(state.element).attr('title') + '">' + state.text + '</span>';
+            },
+            toTitle = function(content) {
+                var origLength = content.length;
+                content = $('<div>', { html: content }).text().trim().replace(/\s+/g, ' ').substr(0, 30);
+                if(content.length < origLength) {
+                    content += '…';
+                }
+                return content;
+            };
 
         $selectBox = this.$component.find('select');
-        destroy();
 
         _.forOwn(this.config.interaction.getChoices(), function(valueObj, key) {
             var option = new Option(valueObj.attr('identifier'), key, !!selectChoices[key]);
-            option.title = valueObj.bdy.bdy;
+            option.title = toTitle(valueObj.bdy.bdy);
             $selectBox.append(option);
         });
 
         $selectBox.select2({
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
-            minimumResultsForSearch: -1
+            minimumResultsForSearch: -1,
+            formatResult: format,
+            formatSelection: format
         }).on('change', function() {
             self.trigger('change', $selectBox.select2('val'));
         });

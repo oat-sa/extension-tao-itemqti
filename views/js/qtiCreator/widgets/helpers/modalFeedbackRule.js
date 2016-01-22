@@ -24,7 +24,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel',
-    'taoQtiItem/qtiCreator/editor/response/choiceSelector'
+    'taoQtiItem/qtiCreator/editor/response/choiceSelector',
+    'select2'
 ], function(_, $, __, selecter, formElement, ruleTpl, panelTpl, choiceSelector){
     'use strict';
     
@@ -88,7 +89,6 @@ define([
                     choices: fbRule.comparedValue || []
                 });
                 $choiceSelectorContainer.data('choice-selector', cSelector);
-                console.log(cSelector);
                 
                 cSelector.on('change', function(selectedChoices){
                     response.setCondition(fbRule, condition, selectedChoices || []);
@@ -102,13 +102,12 @@ define([
                 var condition = this.name;
                 //this needs to be executed to restore the feedback rule value
                 _resetScore(fbRule, $select);
-
-                //@TODO : destroy the choice selecter
-                //sample code ...
-                var $choiceSelectorContainer = $select.siblings('.choiceSelectorContainer');
+                this.destroy($select.next('.choiceSelectorContainer'));
+            },
+            destroy : function($choiceSelectorContainer) {
+                $choiceSelectorContainer.find('select').select2('destroy');
                 $choiceSelectorContainer.data('choice-selector').destroy();
                 $choiceSelectorContainer.remove();
-                
             },
             filter : function filterChoices(response){
                 var interaction = response.getInteraction();
@@ -217,7 +216,6 @@ define([
             $fbContainer.replaceWith(_renderFeedbackRule(fbRule));
 
         }).on('click', '.feedbackRule-button-delete', function(){
-
             var $deleteButton = $(this),
                 $fbContainer = $deleteButton.parents('.feedbackRule-container'),
                 fbSerial = $fbContainer.data('serial'),
