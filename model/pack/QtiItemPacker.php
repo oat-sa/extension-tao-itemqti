@@ -81,7 +81,7 @@ class QtiItemPacker extends ItemPacker
         //parse
         $qtiItem = $qtiParser->load();
 
-        return$this->packQtiItem($item, $lang, $qtiItem);
+        return $this->packQtiItem($item, $lang, $qtiItem);
 
     }
 
