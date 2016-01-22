@@ -25,8 +25,8 @@ use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
-use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * The QTI Json Item Compiler
@@ -41,14 +41,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     const ITEM_FILE_NAME = 'item.json';
     const VAR_ELT_FILE_NAME = 'variableElements.json';
 
-    /**
-     * @var array keys to sanitize before saving json
-     */
-    private $toSanitizeKeys = array(
-        'responses',
-        'feedbacks',
-        'responseProcessing'
-    );
+    const DATA_JSON_KEY = 'data';
+    const FEEDBACK_JSON_KEY = 'feedbacks';
+    const PROCESSING_JSON_KEY = 'responseProcessing';
+    const RESPONSES_JSON_KEY = 'responses';
+    const CORRECT_RESPONSES_JSON_KEY = 'correctResponses';
+
 
     /**
      * @var string json from the item packed
@@ -86,7 +84,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
             $this->itemJson = $itemPack->JsonSerialize();
             $this->sanitizeJson();
-            file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($this->itemJson));
+            file_put_contents($privateFolder . self::ITEM_FILE_NAME, json_encode($this->itemJson));
 
 
             return new common_report_Report(
@@ -97,11 +95,11 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
-        } catch (XIncludeException $e){
+        } catch (XIncludeException $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getUserMessage()
             );
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
@@ -109,12 +107,27 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     }
 
     /**
-     * Sanitize the packed json to remove some data such as responses, feedback or responseProcessing
+     * Sanitize the packed json to remove some data such as responses, feedback and responseProcessing
      */
-    private function sanitizeJson(){
-        foreach($this->toSanitizeKeys as $key){
-            if(isset($this->itemJson['data'][$key])){
-                unset($this->itemJson['data'][$key]);
+    private function sanitizeJson()
+    {
+        //remove feedbacks data > feedbacks
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY])) {
+            unset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY]);
+        }
+
+        //remove responseProcessing data > responseProcessing
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::PROCESSING_JSON_KEY])) {
+            unset($this->itemJson[self::DATA_JSON_KEY][self::PROCESSING_JSON_KEY]);
+        }
+
+        //remove correct responses data > responses > response_id > correctResponses
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY])) {
+            foreach ($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY] as $key => $response) {
+                if (isset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY][$key][self::CORRECT_RESPONSES_JSON_KEY])) {
+                    unset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY][$key][self::CORRECT_RESPONSES_JSON_KEY]);
+                }
+
             }
         }
     }
