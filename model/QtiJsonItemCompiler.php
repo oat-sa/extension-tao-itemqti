@@ -114,7 +114,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private function sanitizeJson(){
         foreach($this->toSanitizeKeys as $key){
             if(isset($this->itemJson['data'][$key])){
-                $this->itemJson['data'][$key] = 'Please do not cheat';
+                unset($this->itemJson['data'][$key]);
             }
         }
     }
