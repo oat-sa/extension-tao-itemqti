@@ -16,36 +16,65 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery',
+define([
+    'jquery',
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/choiceSelector'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/choiceSelector',
+    'select2'
 ], function($, _, __, component, choiceSelectorTpl){
-    
+
+    'use strict';
+
+    var $selectBox = $();
+
     //exposed methods
     var choiceSelector = {
         getChoices : function(){},
         setChoices : function(){},
         resetChoices : function(){}
     };
-    
+
     function init(){
-        //@todo do some magic here
-        var selectedChoices = this.config.choices || [];
-        var availableChoices = this.config.interaction.getChoices();
-        console.log('selectedChoices', selectedChoices);
-        console.log('availableChoices', availableChoices);
     }
-    
+
     function destroy(){
-        //@todo clean up
+        $selectBox.empty().select2('destroy');
     }
-    
-    var choiceSelectorFactory = function breadcrumbsFactory(config) {
+
+
+    /**
+     * Reset and populate select box and apply select2
+     */
+    function postRender() {
+
+        var self = this,
+            selectChoices = this.config.choices;
+
+        $selectBox = this.$component.find('select');
+        destroy();
+
+        _.forOwn(this.config.interaction.getChoices(), function(valueObj, key) {
+            var option = new Option(valueObj.attr('identifier'), key, !!selectChoices[key]);
+            option.title = valueObj.bdy.bdy;
+            $selectBox.append(option);
+        });
+
+        $selectBox.select2({
+            dropdownAutoWidth: true,
+            placeholder: $selectBox.attr('placeholder'),
+            minimumResultsForSearch: -1
+        }).on('change', function() {
+            self.trigger('change', $selectBox.select2('val'));
+        });
+    }
+
+    var choiceSelectorFactory = function choiceSelectorFactory(config) {
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)
+                .on('render', postRender)
                 .setTemplate(choiceSelectorTpl)
                 .init(config);
     };

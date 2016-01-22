@@ -1,1 +1,3 @@
-<div class="choices-selector">choices-selector</div>
+<div class="choices-selector">
+    <select multiple="multiple" placeholder="{{__ "Enter choices…"}}"/>
+</div>

@@ -90,10 +90,8 @@ define([
                 $choiceSelectorContainer.data('choice-selector', cSelector);
                 console.log(cSelector);
                 
-                cSelector.on('change', function(){
-                    //on change, assign selected choices (identifiers)
-                    var selectedChoices = ['choice_1', 'choice_3', 'choice_ABC'];
-                    response.setCondition(fbRule, condition, selectedChoices);
+                cSelector.on('change', function(selectedChoices){
+                    response.setCondition(fbRule, condition, selectedChoices || []);
                 }).trigger('change');
                 
             },
@@ -104,7 +102,7 @@ define([
                 var condition = this.name;
                 //this needs to be executed to restore the feedback rule value
                 _resetScore(fbRule, $select);
-                
+
                 //@TODO : destroy the choice selecter
                 //sample code ...
                 var $choiceSelectorContainer = $select.siblings('.choiceSelectorContainer');
