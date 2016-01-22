@@ -26,8 +26,6 @@ use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\Service;
-use tao_helpers_File;
-use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\Parser;
 
 /**
@@ -42,6 +40,20 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
     const ITEM_FILE_NAME = 'item.json';
     const VAR_ELT_FILE_NAME = 'variableElements.json';
+
+    /**
+     * @var array keys to sanitize before saving json
+     */
+    private $toSanitizeKeys = array(
+        'responses',
+        'feedbacks',
+        'responseProcessing'
+    );
+
+    /**
+     * @var string json from the item packed
+     */
+    private $itemJson;
 
     /**
      * Desploy all the required files into the provided directories
@@ -64,15 +76,18 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
 
-            //create the item.json file in private directory
-            $itemPacker = new QtiItemPacker();
-            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
-            file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($itemPack->JsonSerialize()));
-
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
             $serializedVarElts = json_encode($variableElements);
             file_put_contents($privateFolder . self::VAR_ELT_FILE_NAME, $serializedVarElts);
+
+            //create the item.json file in private directory
+            $itemPacker = new QtiItemPacker();
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
+            $this->itemJson = $itemPack->JsonSerialize();
+            $this->sanitizeJson();
+            file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($this->itemJson));
+
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
@@ -90,6 +105,17 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
+        }
+    }
+
+    /**
+     * Sanitize the packed json to remove some data such as responses, feedback or responseProcessing
+     */
+    private function sanitizeJson(){
+        foreach($this->toSanitizeKeys as $key){
+            if(isset($this->itemJson['data'][$key])){
+                $this->itemJson['data'][$key] = 'Please do not cheat';
+            }
         }
     }
 
