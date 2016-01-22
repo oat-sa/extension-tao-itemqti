@@ -58,10 +58,6 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
         $qtiService = Service::singleton();
 
-        //create the item.json file in private directory
-        $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem($item, $language);
-        file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($itemPack->JsonSerialize()));
 
         //copy client side resources (javascript loader)
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -78,7 +74,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-    
+
+            //create the item.json file in private directory
+            $itemPacker = new QtiItemPacker();
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
+            file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($itemPack->JsonSerialize()));
+
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
             $serializedVariableElements = json_encode($variableElements);

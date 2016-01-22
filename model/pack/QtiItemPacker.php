@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\pack;
 
 use oat\taoItems\model\pack\ItemPack;
 use oat\taoItems\model\pack\ItemPacker;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 use oat\taoQtiItem\model\qti\AssetParser;
 use \core_kernel_classes_Resource;
@@ -67,45 +68,52 @@ class QtiItemPacker extends ItemPacker
 
         $path = $this->getPath($item, $lang);
 
+        //use the QtiParser to transform the QTI XML into an assoc array representation
         $content = $this->getItemContent($path);
+        //load content
+        $qtiParser = new QtiParser($content);
+        //validate it
+        $qtiParser->validate();
+        if (!$qtiParser->isValid()) {
+            throw new common_Exception('Invalid QTI content : ' . $qtiParser->displayErrors(false));
+        }
 
+        //parse
+        $qtiItem = $qtiParser->load();
+
+        return$this->packQtiItem($item, $lang, $qtiItem);
+
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $item the item to pack
+     * @param string $lang
+     * @param Item $qtiItem
+     * @return ItemPack $itemPack
+     * @throws common_Exception
+     */
+    public function packQtiItem($item, $lang, $qtiItem){
         //use the QtiParser to transform the QTI XML into an assoc array representation
         try {
-
-            //load content
-            $qtiParser = new QtiParser($content);
-
-            //validate it
-            $qtiParser->validate();
-            if (!$qtiParser->isValid()) {
-                throw new common_Exception('Invalid QTI content : ' . $qtiParser->displayErrors(false));
+            //build the ItemPack from the parsed data
+            if($this->replaceXinclude){
+                $resolver = new ItemMediaResolver($item, $lang);
+                $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
+                $xincludeLoader->load(true);
             }
 
-            //parse
-            $qtiItem = $qtiParser->load();
+            $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
 
-            //then build the ItemPack from the parsed data
-            if (!is_null($qtiItem)) {
+            $itemPack->setAssetEncoders($this->getAssetEncoders());
 
-                if($this->replaceXinclude){
-                    $resolver = new ItemMediaResolver($item, $lang);
-                    $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
-                    $xincludeLoader->load(true);
-                }
+            $path = $this->getPath($item, $lang);
+            $assetParser = new AssetParser($qtiItem, $path);
+            $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
+            $assetParser->setGetXinclude(!$this->replaceXinclude);
 
-                $itemPack = new ItemPack(self::$itemType, $qtiItem->toArray());
-
-                $itemPack->setAssetEncoders($this->getAssetEncoders());
-
-                $assetParser = new AssetParser($qtiItem, $path);
-                $assetParser->setDeepParsing($this->isNestedResourcesInclusion());
-                $assetParser->setGetXinclude(!$this->replaceXinclude);
-
-                foreach ($assetParser->extract($itemPack) as $type => $assets) {
-                    $itemPack->setAssets($type, $assets, $path);
-                }
+            foreach ($assetParser->extract($itemPack) as $type => $assets) {
+                $itemPack->setAssets($type, $assets, $path);
             }
-
         } catch (common_Exception $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
         }
