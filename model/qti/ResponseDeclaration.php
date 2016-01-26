@@ -108,12 +108,19 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         
         //prepare the protected data:
         $protectedData = array(
-            'correctResponses' => $this->getCorrectResponses(),
             'mapping' => $this->mapping,
             'areaMapping' => $this->areaMapping,
             'howMatch' => $this->howMatch
         );
-        
+
+        $correctResponses = $this->getCorrectResponses();
+        if (is_array($correctResponses)) {
+            foreach ($correctResponses as $correctResponseKey => $correctResponse) {
+                $correctResponses[$correctResponseKey] = (string) $correctResponse;
+            }
+        }
+        $protectedData['correctResponses'] = $correctResponses;
+
         //add mapping attributes
         $mappingAttributes = array('defaultValue' => $this->mappingDefaultValue);
         if(is_array($this->getAttributeValue('mapping'))){

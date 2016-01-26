@@ -20,14 +20,9 @@
  */
 namespace oat\taoQtiItem\model\qti\response\interactionResponseProcessing;
 
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\Template;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\InteractionResponseProcessing;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\response\Template;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MatchCorrectTemplate;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MapResponseTemplate;
-use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MapResponsePointTemplate;
+use oat\taoQtiItem\model\qti\response\Template as ResponseTemplate;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 
 /**
@@ -65,13 +60,13 @@ abstract class Template
 
         
     switch ($templateUri) {
-			case Template::MATCH_CORRECT :
+			case ResponseTemplate::MATCH_CORRECT :
 				$returnValue = self::create(MatchCorrectTemplate::CLASS_ID, $response, $item);
 				break;
-			case Template::MAP_RESPONSE :
+			case ResponseTemplate::MAP_RESPONSE :
 				$returnValue = self::create(MapResponseTemplate::CLASS_ID, $response, $item);
 				break;
-			case Template::MAP_RESPONSE_POINT :
+			case ResponseTemplate::MAP_RESPONSE_POINT :
 				$returnValue = self::create(MapResponsePointTemplate::CLASS_ID, $response, $item);
 				break;
 			default :
@@ -82,5 +77,4 @@ abstract class Template
         return $returnValue;
     }
 
-} 
-?>
+}
