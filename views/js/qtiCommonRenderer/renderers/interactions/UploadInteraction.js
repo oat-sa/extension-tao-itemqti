@@ -93,13 +93,7 @@ define([
                 $largeDisplayer = $('.file-upload-preview-popup'),
                 $modalBody = $largeDisplayer.find('.modal-body');
 
-            $largeDisplayer
-                .on('opened.modal', function() {
-                console.log('opened');
-            })
-                .on('closed.modal', function() {
-                console.log('closed');
-            });
+
 
             $previewImg.on('click', function(e) {
                 // remove any previous unnecessary content
