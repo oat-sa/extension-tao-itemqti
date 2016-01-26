@@ -30,6 +30,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'ui/progressbar',
+    'ui/previewer',
+    'ui/modal',
     'filereader'
 ], function($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
@@ -76,6 +78,42 @@ define([
             var base64Raw = base64Data.substring(commaPosition + 1);
             _response = { "base" : { "file" : { "data" : base64Raw, "mime" : filetype, "name" : filename } } };
 
+            var visibleFileUploadPreview = getCustomData(interaction);
+
+            $container
+                .find('.file-upload-preview')
+                .toggleClass('visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                .previewer({
+                    url : reader.result,
+                    name : filename,
+                    type : filetype.substr(0, filetype.indexOf('/'))
+                });
+
+            var $previewImg = $('.visible-file-upload-preview img'),
+                $largeDisplayer = $('.file-upload-preview-popup'),
+                $modalBody = $largeDisplayer.find('.modal-body');
+
+            $largeDisplayer
+                .on('opened.modal', function() {
+                console.log('opened');
+            })
+                .on('closed.modal', function() {
+                console.log('closed');
+            });
+
+            $previewImg.on('click', function(e) {
+                // remove any previous unnecessary content
+                $modalBody.empty();
+
+
+                var $clonedImg = $(this).clone();
+                $modalBody.append($clonedImg);
+
+                $largeDisplayer.modal();
+
+
+            });
+
             //FIXME it should trigger a responseChange
         };
 
@@ -87,9 +125,13 @@ define([
         reader.onprogress = function (e) {
         	var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
         	$container.find('.progressbar').progressbar('value', percentProgress);
-        }
+        };
 
         reader.readAsDataURL(file);
+
+        /*reader.onloadend = function(e) {
+        };*/
+
     };
 
     var _resetGui = function(interaction) {
@@ -241,6 +283,22 @@ define([
         return state;
     };
 
+    /**
+     * Set additional data to the template (data that are not really part of the model).
+     * @param {Object} interaction - the interaction
+     * @param {Object} [data] - interaction custom data
+     * @returns {Object} custom data
+     * @TODO isPreviwable could be nicely implemented using tao/views/js/core/mimetype.js
+     * This way we could cover a lot more types. How could this be matched with the preview templates
+     * in tao/views/js/ui/previewer.js
+     */
+    var getCustomData = function(interaction, data) {
+        return _.merge(data || {}, {
+            isPreviewable: interaction.attr('type').indexOf('image') === 0
+        });
+    };
+    //console.log(this.getData());
+
     return {
         qtiClass : 'uploadInteraction',
         template : tpl,
@@ -252,8 +310,10 @@ define([
         destroy : destroy,
         setState : setState,
         getState : getState,
+        getData : getCustomData,
 
         // Exposed private methods for qtiCreator
         resetGui : _resetGui
     };
+
 });
