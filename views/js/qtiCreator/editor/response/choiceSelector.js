@@ -27,48 +27,76 @@ define([
 
     'use strict';
 
-    var $selectBox = $();
-
-
-    //exposed methods
+    /**
+     * Exposed methods
+     * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
+     */
     var choiceSelector = {
-        getChoices : function(){},
-        setChoices : function(){},
-        resetChoices : function(){}
+        getChoices : function(){
+            return this.config.interaction.choices || {};
+        },
+        getSelectedChoices : function() {
+            return this.config.choices || [];
+        },
+        setSelectedChoices : function(choices) {
+            this.config.choices = choices;
+        }
     };
 
-    function init(){
+    /**
+     * Format option for select2 usage
+     *
+     * @param state
+     * @returns {string}
+     */
+    function formatOption (state) {
+        return '<span title="' + $(state.element).attr('title') + '">' + state.text + '</span>';
     }
 
-    function destroy(){
-        $selectBox.empty().select2('destroy');
+    /**
+     * Add a title to select2 options
+     *
+     * @param {String} content
+     * @param {Number} threshold
+     * @returns {*}
+     */
+    function createOptionTitle (content, threshold) {
+        var fullText = $('<div>', { html: content }).text().trim().replace(/\s+/g, ' ');
+        var shortText = fullText.substr(0, threshold);
+        return fullText.length - shortText.length <= 5 ? fullText : shortText + '…';
     }
 
 
     /**
-     * Reset and populate select box and apply select2
+     * Set some additional parameters
      */
-    function postRender() {
+    var init = function init(){
+        if(!this.config.titleLength) {
+            this.config.titleLength = 30;
+        }
+    };
 
-        var self = this,
-            selectChoices = this.config.choices,
-            format = function (state) {
-                return '<span title="' + $(state.element).attr('title') + '">' + state.text + '</span>';
-            },
-            toTitle = function(content) {
-                var origLength = content.length;
-                content = $('<div>', { html: content }).text().trim().replace(/\s+/g, ' ').substr(0, 30);
-                if(content.length < origLength) {
-                    content += '…';
-                }
-                return content;
-            };
 
-        $selectBox = this.$component.find('select');
+    /**
+     * Select 2 needs to be removed prior to destruction of the component
+     */
+    var destroy = function destroy(){
+        this.$component.find('select').select2('destroy');
+    };
 
-        _.forOwn(this.config.interaction.getChoices(), function(valueObj, key) {
-            var option = new Option(valueObj.attr('identifier'), key, !!selectChoices[key]);
-            option.title = toTitle(valueObj.bdy.bdy);
+
+    /**
+     * Populate select box and apply select2
+     */
+    var render = function postRender() {
+
+        var self = this;
+        var $selectBox = this.$component.find('select');
+        var selectedChoices = self.getSelectedChoices();
+
+        _.forOwn(self.getChoices(), function(valueObj, key) {
+            var option = new Option(valueObj.attr('identifier'), key, selectedChoices.indexOf(key) > -1);
+            option.title = createOptionTitle(valueObj.bdy.bdy, self.config.titleLength);
             $selectBox.append(option);
         });
 
@@ -76,18 +104,19 @@ define([
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
             minimumResultsForSearch: -1,
-            formatResult: format,
-            formatSelection: format
+            formatResult: formatOption,
+            formatSelection: formatOption
         }).on('change', function() {
-            self.trigger('change', $selectBox.select2('val'));
+            self.setSelectedChoices($selectBox.select2('val'));
+            self.trigger('change', self.getSelectedChoices());
         });
-    }
+    };
 
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)
-                .on('render', postRender)
+                .on('render', render)
                 .setTemplate(choiceSelectorTpl)
                 .init(config);
     };
