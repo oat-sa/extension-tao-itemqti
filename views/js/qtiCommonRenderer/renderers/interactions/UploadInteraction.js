@@ -105,7 +105,6 @@ define([
 
                 $largeDisplayer.modal();
 
-
             });
 
             //FIXME it should trigger a responseChange
