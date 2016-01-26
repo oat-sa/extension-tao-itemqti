@@ -27,13 +27,13 @@
     .file-upload-preview {
         background-color: $canvas;
         @include simple-border();
-        width: 60%;
-        max-width: 450px;
+        max-width: 100%;
         min-height: 250px;
         margin: 0 20px 20px 0;
         height: auto;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
         display: none;
 
         &.visible-file-upload-preview {
@@ -63,6 +63,10 @@
     }
 
     .file-upload-preview-popup {
+        padding: 40px 0 0;
+        max-width: 100%;
+        width: auto !important;
+
         // position absolute allows the scroll on the a big picture
         &.modal {
             position: absolute;
