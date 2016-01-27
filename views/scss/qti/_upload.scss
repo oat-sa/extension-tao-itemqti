@@ -39,6 +39,9 @@
 
         &.visible-file-upload-preview {
             display: block;
+        }
+
+        &.runtime-visible-file-upload-preview {
             min-width: unset;
             min-height: unset;
             height: auto;
