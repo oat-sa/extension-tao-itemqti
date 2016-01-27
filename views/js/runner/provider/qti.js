@@ -51,8 +51,9 @@ define([
             }
 
             this._renderer = new QtiRenderer(rendererOptions);
+            this._loader   = new QtiLoader();
 
-            new QtiLoader().loadItemData(itemData, function(item){
+            this._loader.loadItemData(itemData, function(item){
                 if(!item){
                     return self.trigger('error', 'Unable to load item from the given data.');
                 }
@@ -63,6 +64,29 @@ define([
 
                     done();
                 }, this.getLoadedClasses());
+            });
+
+            this.on('feedback', function(feedbackData, itemSession, done){
+                self._loader.loadElements(feedbackData, function(item){
+                    self._renderer.load(function(){
+                        var queue = [];
+
+                        _.forEach(item.modalFeedbacks, function(feedback){
+
+                            var outcomeIdentifier = feedback.attr('outcomeIdentifier');
+                            if(itemSession[outcomeIdentifier].base.identfier === feedback.id()){
+                                queue.push(new Promise(function(resolve){
+                                    feedback.render();
+                                    feedback.postRender({
+                                        callback : resolve
+                                    });
+                                }));
+                            }
+                        });
+                        Promise.all(queue).then(done);
+
+                    }, this.getLoadedClasses());
+                });
             });
         },
 
@@ -136,6 +160,7 @@ define([
                 $(elt).off('responseChange')
                       .off('endattempt')
                       .off('themechange')
+                      .off('feedback')
                       .empty();
 
                 if(this._renderer){

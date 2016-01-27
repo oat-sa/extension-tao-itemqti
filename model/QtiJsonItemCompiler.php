@@ -113,7 +113,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     {
         //remove feedbacks data > feedbacks
         if (isset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY])) {
-            unset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY]);
+            $this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY] = new \StdClass;
         }
 
         //remove responseProcessing data > responseProcessing
