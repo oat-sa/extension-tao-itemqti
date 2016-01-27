@@ -1,6 +1,9 @@
 @import "inc/bootstrap";
 
 .qti-uploadInteraction {
+    input[type="file"] {
+        height: 50px;
+    }
 
     @extend %clearfix;
 
