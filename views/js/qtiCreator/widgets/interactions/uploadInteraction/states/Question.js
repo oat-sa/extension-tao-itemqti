@@ -38,7 +38,7 @@ define([
             types = uploadHelper.getMimeTypes(),
             $previewZone = _widget.$container.find('.qti-interaction .file-upload-preview'),
             isImage = function(mime) {
-                return mime.indexOf('image') === 0;
+                return mime && mime.indexOf('image') === 0;
             },
             selectedMime = '',
             previewClassName = 'visible-file-upload-preview';

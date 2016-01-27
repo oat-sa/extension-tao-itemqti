@@ -1,6 +1,9 @@
 @import "inc/bootstrap";
 
 .qti-uploadInteraction {
+    input[type="file"] {
+        height: 50px;
+    }
 
     @extend %clearfix;
 
@@ -21,6 +24,7 @@
     .file-upload {
       margin-right: 20px;
     }
+
 
     //TODO : place this in the proper location - geo
 
