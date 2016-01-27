@@ -28,6 +28,7 @@
         background-color: $canvas;
         @include simple-border();
         max-width: 100%;
+        min-width: 300px;
         min-height: 250px;
         margin: 0 20px 20px 0;
         height: auto;
@@ -38,6 +39,10 @@
 
         &.visible-file-upload-preview {
             display: block;
+            min-width: unset;
+            min-height: unset;
+            height: auto;
+            background: transparent;
         }
 
         p.nopreview {
@@ -63,7 +68,7 @@
     }
 
     .file-upload-preview-popup {
-        padding: 40px 0 0;
+        padding: 40px 0;
         max-width: 100%;
         width: auto !important;
 
@@ -71,7 +76,10 @@
         &.modal {
             position: absolute;
         }
+
+        img {
+            display: block;
+            margin: auto;
+        }
     }
-
-
 }

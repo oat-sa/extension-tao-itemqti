@@ -33,11 +33,17 @@ define([
     UploadInteractionStateQuestion.prototype.initForm = function() {
         var _widget = this.widget,
             $form = _widget.$form,
-            interaction = _widget.element;
+            interaction = _widget.element,
+            callbacks = {},
+            types = uploadHelper.getMimeTypes(),
+            $previewZone = _widget.$container.find('.qti-interaction .file-upload-preview'),
+            isImage = function(mime) {
+                return mime.indexOf('image') === 0;
+            },
+            selectedMime = '',
+            previewClassName = 'visible-file-upload-preview';
 
-        var types = uploadHelper.getMimeTypes();
         types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
-
 
         // Prepare the work...
         if (typeof interaction.attr('type') !== 'undefined') {
@@ -51,6 +57,7 @@ define([
                 for (var i in types) {
                     if (interaction.attr('type') === types[i].mime) {
                         types[i].selected = true;
+                        selectedMime = types[i].mime;
                     }
                 }
             }
@@ -61,17 +68,13 @@ define([
         }));
 
         formElement.initWidget($form);
+        $previewZone.toggleClass(previewClassName, isImage(selectedMime));
 
-        var callbacks = {};
 
         // -- type callback.
-        callbacks['type'] = function(interaction, attrValue) {
-            // TODO
-            // find interaction ($) and toggle class
-            _widget.$container
-                .find('.qti-interaction .file-upload-preview')
-                .toggleClass('visible-file-upload-preview', attrValue.indexOf('image') === 0);
+        callbacks.type = function(interaction, attrValue) {
 
+            $previewZone.toggleClass(previewClassName, isImage(attrValue));
 
             if (attrValue === 'any/kind') {
                 interaction.removeAttr('type');
