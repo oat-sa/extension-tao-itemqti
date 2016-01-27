@@ -83,7 +83,7 @@ define([
             var $previewArea = $container.find('.file-upload-preview');
 
             $previewArea
-                .toggleClass('visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
                 .previewer({
                     url: reader.result,
                     name: filename,
@@ -128,6 +128,10 @@ define([
         var $container = containerHelper.get(interaction);
         $container.find('.file-name').text(__('No file selected'));
         $container.find('.btn-info').text(__('Browse...'));
+        /*$container.find('.file-upload-preview').toggleClass(
+            'visible-file-upload-preview',
+            interaction.attr('type').indexOf('image') === 0
+        );*/
     };
 
     /**
