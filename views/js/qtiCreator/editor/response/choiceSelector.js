@@ -29,7 +29,7 @@ define([
 
     var config,
         defaults = {
-            titleLength: 30
+            titleLength: 0 // no title
         },
         selectedChoices;
 
@@ -56,7 +56,8 @@ define([
      * @returns {string}
      */
     function formatOption (state) {
-        return '<span title="' + $(state.element).attr('title') + '">' + state.text + '</span>';
+        var title = $(state.element).attr('title');
+        return title ? '<span title="' + title + '">' + state.text + '</span>' : state.text;
     }
 
     /**
@@ -85,12 +86,16 @@ define([
 
         _.each(choices, function(choice) {
             var id = choice.id();
-            config.options.push({
+            var option = {
                 value: id,
                 label: id,
-                selected: selected.indexOf(id) > -1,
-                title: createOptionTitle(choice.bdy.bdy, config.titleLength)
-            });
+                selected: selected.indexOf(id) > -1
+            };
+            // 0 as titleLength => no title
+            if(config.titleLength) {
+                option.title = createOptionTitle(choice.bdy.bdy, config.titleLength);
+            }
+            config.options.push(option);
         });
     };
 
@@ -123,6 +128,12 @@ define([
         });
     };
 
+
+    /**
+     * @param {Object} config
+     * @param {Integer} [config.titleLength] - Number of characters used for the title attribute of an option (may be used loosely)
+     *
+     */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
         return component(choiceSelector)
                 .on('init', init)
