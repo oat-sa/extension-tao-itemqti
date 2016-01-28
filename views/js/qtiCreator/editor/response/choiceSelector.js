@@ -94,9 +94,10 @@ define([
         var $selectBox = this.$component.find('select');
         var selectedChoices = self.getSelectedChoices();
 
-        _.forOwn(self.getChoices(), function(valueObj, key) {
-            var option = new Option(valueObj.attr('identifier'), key, selectedChoices.indexOf(key) > -1);
-            option.title = createOptionTitle(valueObj.bdy.bdy, self.config.titleLength);
+        _.each(self.getChoices(), function(choice) {
+            var id = choice.id();
+            var option = new Option(id, id, selectedChoices.indexOf(id) > -1);
+            option.title = createOptionTitle(choice.bdy.bdy, self.config.titleLength);
             $selectBox.append(option);
         });
 

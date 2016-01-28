@@ -30,7 +30,7 @@ define([
     'use strict';
 
     //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-    var selectedChoices = [];
+//    var selectedChoices = [];
 
 
     function _resetScore(fbRule, $select){
@@ -95,7 +95,7 @@ define([
                     interaction : interaction,
 
                     //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-                    choices: selectedChoices,//fbRule.comparedValue || [],
+                    choices: fbRule.comparedValue || [],
 
                     titleLength: 30
                 });
@@ -104,7 +104,7 @@ define([
                 cSelector.on('change', function(selectedChoices){
 
                     //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-                    selectedChoices = cSelector.getSelectedChoices();
+//                    selectedChoices = cSelector.getSelectedChoices();
 
                     response.setCondition(fbRule, condition, selectedChoices || []);
                 }).trigger('change');
@@ -118,7 +118,7 @@ define([
             onUnset : function onUnsetChoices(fbRule, $select){
 
                 //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-                selectedChoices = $select.next('.choiceSelectorContainer').data('choice-selector').getSelectedChoices();
+//                selectedChoices = $select.next('.choiceSelectorContainer').data('choice-selector').getSelectedChoices();
 
                 //this needs to be executed to restore the feedback rule value
                 _resetScore(fbRule, $select);
