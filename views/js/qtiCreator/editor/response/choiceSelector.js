@@ -27,19 +27,25 @@ define([
 
     'use strict';
 
+    var config,
+        defaults = {
+            titleLength: 30
+        },
+        selectedChoices;
+
     /**
      * Exposed methods
      * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
      */
     var choiceSelector = {
         getChoices : function(){
-            return this.config.interaction.choices || {};
+            return config.interaction.choices || {};
         },
         getSelectedChoices : function() {
-            return this.config.choices || [];
+            return config.choices || [];
         },
         setSelectedChoices : function(choices) {
-            this.config.choices = choices;
+            selectedChoices = choices;
         }
     };
 
@@ -71,9 +77,21 @@ define([
      * Set some additional parameters
      */
     var init = function init(){
-        if(!this.config.titleLength) {
-            this.config.titleLength = 30;
-        }
+        var selected = this.config.choices || [];
+        var choices = this.config.interaction.choices || {};
+
+        config = _.defaults(this.config || {}, defaults);
+        config.options = [];
+
+        _.each(choices, function(choice) {
+            var id = choice.id();
+            config.options.push({
+                value: id,
+                label: id,
+                selected: selected.indexOf(id) > -1,
+                title: createOptionTitle(choice.bdy.bdy, config.titleLength)
+            });
+        });
     };
 
 
@@ -92,14 +110,6 @@ define([
 
         var self = this;
         var $selectBox = this.$component.find('select');
-        var selectedChoices = self.getSelectedChoices();
-
-        _.each(self.getChoices(), function(choice) {
-            var id = choice.id();
-            var option = new Option(id, id, selectedChoices.indexOf(id) > -1);
-            option.title = createOptionTitle(choice.bdy.bdy, self.config.titleLength);
-            $selectBox.append(option);
-        });
 
         $selectBox.select2({
             dropdownAutoWidth: true,
