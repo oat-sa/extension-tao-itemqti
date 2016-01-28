@@ -80,6 +80,9 @@ define([
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
+
+				$select.siblings('.feedbackRule-compared-value').hide();
+
                 console.log(fbRule.comparedValue)
                 var condition = this.name;
                 var response = fbRule.comparedOutcome;

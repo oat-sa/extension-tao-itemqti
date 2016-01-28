@@ -72,7 +72,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         /**
          * tao custom rp build using the tao "recognizable" response condition, with 2 interactions
          */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenMultiple.xml';
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/multiple.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
         $this->assertTrue($qtiParser->isValid());
@@ -136,7 +136,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         /**
          * tao rp to match multiple choices
          */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenMatchChoices.xml';
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
         $this->assertTrue($qtiParser->isValid());
@@ -144,8 +144,28 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+
+        $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
+        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]';
+        $this->assertEquals($rpExpected, $rpJson);
         
-        print_r($item->toArray());
+        
+        /**
+         * tao rp to match multiple choices with else condition
+         */
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices_else.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+
+        $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
+        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]';
+        $this->assertEquals($rpExpected, $rpJson);
+
     }
     
 }
