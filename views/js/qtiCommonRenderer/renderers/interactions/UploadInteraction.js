@@ -84,7 +84,7 @@ define([
             var $previewArea = $container.find('.file-upload-preview');
 
             $previewArea
-                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', !visibleFileUploadPreview.isPreviewable)
                 .previewer({
                     url: reader.result,
                     name: filename,
@@ -95,8 +95,8 @@ define([
             $previewArea.waitForMedia(function(){
 
                 var $originalImg = $previewArea.find('img'), // the previable image
-                    imgNaturalWidth = $originalImg[0].naturalWidth;
-                    //imgNaturalHeight = $originalImg[0].naturalHeight;
+                    imgNaturalWidth = $originalImg[0].naturalWidth,
+                    imgNaturalHeight = $originalImg[0].naturalHeight;
 
                 // if the image natural width is smaller than the qti-item, we do nothing
                 if( imgNaturalWidth <= $('.qti-item').width() ) {
@@ -111,34 +111,44 @@ define([
                     var $popupImg = $originalImg.clone(),
                         $largeDisplayer = $('.file-upload-preview-popup'),
                         $modalBody = $largeDisplayer.find('.modal-body'),
-                        winWidth = $(window).width();
+                        winWidth = $(window).width(),
+                        winHeight = $(window).height(),
+                        $modalOverlay = $container.find('.modal-bg'),
+                        $taoItemScope = $('.tao-item-scope');
+
+                    if( imgNaturalWidth <= $('.qti-item').width() ) {
+                        $largeDisplayer.modal('remove');
+                    }
 
                     // remove any previous unnecessary content before inserting the preview image
+                    $modalOverlay.remove();
                     $modalBody.empty().append($popupImg);
+
+                    $popupImg.wrap('<div>');
 
                     $largeDisplayer
                         .on('opened.modal', function(){
 
-                            console.log($modalBody.length);
                             // setting the modal width depending on the size of the popup image
                             var width = Math.min(winWidth, imgNaturalWidth);
+                            var height = Math.min(winHeight, imgNaturalHeight);
 
                             // prevents the rest of the page from scrolling when modal is open
-                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'hidden');
+                            $taoItemScope.css('overflow', 'hidden');
 
                             $largeDisplayer.width(width);
-                            $largeDisplayer.height($(document).height());
+                            $largeDisplayer.height(height);
+
+                            console.log('$largeDisplayer width =' , $largeDisplayer.width());
+                            console.log('$largeDisplayer height =' , $largeDisplayer.height());
+                            console.log('imgNaturalHeight' , imgNaturalHeight);
                     })
                         .on('closed.modal', function(){
                             // make the page scrollable again
-                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'auto');
+                            $taoItemScope.css('overflow', 'auto');
 
-                            //$largeDisplayer.modal('destroy');
                         })
                         .modal();
-                        /*.on('destroyed.modal', function(){
-                            console.log('destroyed');
-                        })*/
 
                 });
 

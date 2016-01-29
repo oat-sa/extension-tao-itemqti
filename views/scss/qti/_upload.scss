@@ -78,7 +78,8 @@
     .file-upload-preview-popup {
         padding: 40px 0;
         max-width: 100%;
-        overflow: scroll;
+        overflow: auto;
+        top: 0 !important;
         //width: auto !important;
 
         // position absolute allows the scroll on the a big picture
@@ -86,19 +87,22 @@
         //    position: absolute;
         //}
 
-        //& > div {
-        //    min-height: 100%;
-        //    min-width: 100%;
-        //}
-
         .modal-body {
-            overflow: scroll;
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+
+            div {
+                height: 100%;
+                width: 100%;
+            }
         }
 
         img {
             display: block;
             margin: auto;
             max-width: none;
+            overflow: auto;
         }
     }
 }
