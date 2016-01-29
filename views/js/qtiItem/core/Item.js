@@ -162,23 +162,16 @@ define([
             return this;
         },
         toArray : function(){
-            var i;
             var arr = this._super();
-            arr.outcomes = {};
-            for(i in this.outcomes){
-                arr.outcomes[i] = this.outcomes[i].toArray();
-            }
-            arr.responses = {};
-            for(i in this.responses){
-                arr.responses[i] = this.responses[i].toArray();
-            }
-            arr.stylesheets = {};
-            for(i in this.stylesheets){
-                arr.stylesheets[i] = this.stylesheets[i].toArray();
-            }
+            var toArray = function(elt){
+                return elt.toArray();
+            };
             arr.namespaces = this.namespaces;
-            arr.responseProcessing = this.responseProcessing;
-            arr.modalFeedbacks = this.modalFeedbacks;
+            arr.outcomes = _.map(this.outcomes, toArray);
+            arr.responses = _.map(this.responses, toArray);
+            arr.stylesheets = _.map(this.stylesheets, toArray);
+            arr.modalFeedbacks = _.map(this.modalFeedbacks, toArray);
+            arr.responseProcessing = this.responseProcessing.toArray();
             return arr;
         },
         isEmpty : function(){
