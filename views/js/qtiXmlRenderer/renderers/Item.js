@@ -59,6 +59,8 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             data = _.merge({}, data || {}, defaultData);
             delete data.attributes.class;
             
+            data.attributes.title = _.escape(data.attributes.title);
+            
             return data;
         }
     };

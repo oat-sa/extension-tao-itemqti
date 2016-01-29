@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA
  */
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'taoQtiItem/qtiItem/helper/container'], function(tpl, containerHelper){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'taoQtiItem/qtiItem/helper/container'], function(_, tpl, containerHelper){
     'use strict';
     
     function encodeOutcomeInfo(fb){
@@ -33,7 +33,7 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'taoQtiItem/qtiItem/helper/
             
             encodeOutcomeInfo(fb);
             data.body = fb.getBody().render(this);
-            
+            data.attributes.title = _.escape(data.attributes.title);
             return data;
         }
     };

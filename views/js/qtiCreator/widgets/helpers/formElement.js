@@ -179,7 +179,7 @@ define([
 
                     var max = parseInt($max.val());
 
-                    if(max < value && !(max === 0 && $max.data('zero')===true)){
+                    if(max < value && !(max === 0 && $max.data('zero') === true)){
                         $max.val(value);
                     }
                 }
