@@ -27,19 +27,25 @@ define([
 
     'use strict';
 
+    var config,
+        defaults = {
+            titleLength: 0 // no title
+        },
+        selectedChoices;
+
     /**
      * Exposed methods
      * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
      */
     var choiceSelector = {
         getChoices : function(){
-            return this.config.interaction.choices || {};
+            return config.interaction.choices || {};
         },
         getSelectedChoices : function() {
-            return this.config.choices || [];
+            return config.choices || [];
         },
         setSelectedChoices : function(choices) {
-            this.config.choices = choices;
+            selectedChoices = choices;
         }
     };
 
@@ -50,7 +56,8 @@ define([
      * @returns {string}
      */
     function formatOption (state) {
-        return '<span title="' + $(state.element).attr('title') + '">' + state.text + '</span>';
+        var title = $(state.element).attr('title');
+        return title ? '<span title="' + title + '">' + state.text + '</span>' : state.text;
     }
 
     /**
@@ -71,9 +78,25 @@ define([
      * Set some additional parameters
      */
     var init = function init(){
-        if(!this.config.titleLength) {
-            this.config.titleLength = 30;
-        }
+        var selected = this.config.choices || [];
+        var choices = this.config.interaction.choices || {};
+
+        config = _.defaults(this.config || {}, defaults);
+        config.options = [];
+
+        _.each(choices, function(choice) {
+            var id = choice.id();
+            var option = {
+                value: id,
+                label: id,
+                selected: selected.indexOf(id) > -1
+            };
+            // 0 as titleLength => no title
+            if(config.titleLength) {
+                option.title = createOptionTitle(choice.bdy.bdy, config.titleLength);
+            }
+            config.options.push(option);
+        });
     };
 
 
@@ -92,14 +115,6 @@ define([
 
         var self = this;
         var $selectBox = this.$component.find('select');
-        var selectedChoices = self.getSelectedChoices();
-
-        _.each(self.getChoices(), function(choice) {
-            var id = choice.id();
-            var option = new Option(id, id, selectedChoices.indexOf(id) > -1);
-            option.title = createOptionTitle(choice.bdy.bdy, self.config.titleLength);
-            $selectBox.append(option);
-        });
 
         $selectBox.select2({
             dropdownAutoWidth: true,
@@ -113,6 +128,12 @@ define([
         });
     };
 
+
+    /**
+     * @param {Object} config
+     * @param {Integer} [config.titleLength] - Number of characters used for the title attribute of an option (may be used loosely)
+     *
+     */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
         return component(choiceSelector)
                 .on('init', init)
