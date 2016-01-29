@@ -3,8 +3,9 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
-    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect'
-], function(_, tpl, tplCondition, tplCorrect, tplIncorrect){
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_choices'
+], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplChoices){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
@@ -36,6 +37,17 @@ define([
                     template = tplCondition;
                     tplData.condition = rule.condition;
                     tplData.comparedValue = rule.comparedValue;
+                    break;
+                case 'choices':
+                    template = tplChoices;
+                    tplData.condition = rule.condition;
+                    tplData.multiple = rule.comparedOutcome.isCardinality(['multiple', 'ordered']);
+                    //@todo : check if all the selected choices still exist
+                    if(tplData.multiple){
+                        tplData.choices = rule.comparedValue;
+                    }else{
+                        tplData.choice = _.head(rule.comparedValue);
+                    }
                     break;
                 default:
                     throw new Error('unknown condition in simple feedback rule rendering : '+rule.condition);
