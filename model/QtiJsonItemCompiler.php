@@ -25,10 +25,8 @@ use common_report_Report;
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\pack\QtiItemPacker;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
-use oat\taoQtiItem\model\qti\Service;
-use tao_helpers_File;
-use taoItems_models_classes_ItemsService;
 use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\qti\Service;
 
 /**
  * The QTI Json Item Compiler
@@ -41,6 +39,19 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 {
 
     const ITEM_FILE_NAME = 'item.json';
+    const VAR_ELT_FILE_NAME = 'variableElements.json';
+
+    const DATA_JSON_KEY = 'data';
+    const FEEDBACK_JSON_KEY = 'feedbacks';
+    const PROCESSING_JSON_KEY = 'responseProcessing';
+    const RESPONSES_JSON_KEY = 'responses';
+    const CORRECT_RESPONSES_JSON_KEY = 'correctResponses';
+
+
+    /**
+     * @var string json from the item packed
+     */
+    private $itemJson;
 
     /**
      * Desploy all the required files into the provided directories
@@ -58,47 +69,71 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
         $qtiService = Service::singleton();
 
-        //create the item.json file in private directory
-        $itemPacker = new QtiItemPacker();
-        $itemPack = $itemPacker->packItem($item, $language);
-        file_put_contents($privateFolder.self::ITEM_FILE_NAME, json_encode($itemPack->JsonSerialize()));
-
-        //copy client side resources (javascript loader)
-        $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
-        $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
-        $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
-        if (\tao_helpers_Mode::is('production')) {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.min.js', $publicDirectory . 'qtiLoader.min.js', false);
-        } else {
-            tao_helpers_File::copy($assetPath . 'qtiLoader.js', $publicDirectory . 'qtiLoader.js', false);
-            tao_helpers_File::copy($assetLibPath . 'require.js', $publicDirectory . 'require.js', false);
-        }
 
         // retrieve the media assets
         try {
             $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
-    
+
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $serializedVariableElements = json_encode($variableElements);
-            file_put_contents($privateFolder . 'variableElements.json', $serializedVariableElements);
+            $serializedVarElts = json_encode($variableElements);
+            file_put_contents($privateFolder . self::VAR_ELT_FILE_NAME, $serializedVarElts);
+
+            //create the item.json file in private directory
+            $itemPacker = new QtiItemPacker();
+            $itemPack = $itemPacker->packQtiItem($item, $language, $qtiItem);
+            $this->itemJson = $itemPack->JsonSerialize();
+            $this->sanitizeJson();
+            file_put_contents($privateFolder . self::ITEM_FILE_NAME, json_encode($this->itemJson));
+
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
             );
+
         } catch (\tao_models_classes_FileNotFoundException $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
-        } catch (XIncludeException $e){
+        } catch (XIncludeException $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getUserMessage()
             );
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return new common_report_Report(
                 common_report_Report::TYPE_ERROR, $e->getMessage()
             );
+        }
+    }
+
+    /**
+     * Sanitize the packed json to remove some data such as responses, feedback and responseProcessing
+     */
+    private function sanitizeJson()
+    {
+        //remove feedbacks data > feedbacks
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY])) {
+            foreach($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY] as $key => $feedback){
+                 $this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY][$key]['attributes'] = new \StdClass;
+                 unset($this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY][$key]['identifier']);
+                 $this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY][$key]['body']['elements'] = array();
+                 $this->itemJson[self::DATA_JSON_KEY][self::FEEDBACK_JSON_KEY][$key]['body']['body'] = '';
+            }
+        }
+
+        //remove responseProcessing data > responseProcessing
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::PROCESSING_JSON_KEY])) {
+            unset($this->itemJson[self::DATA_JSON_KEY][self::PROCESSING_JSON_KEY]);
+        }
+
+        //remove correct responses data > responses > response_id > correctResponses
+        if (isset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY])) {
+            foreach ($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY] as $key => $response) {
+                if (isset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY][$key][self::CORRECT_RESPONSES_JSON_KEY])) {
+                    unset($this->itemJson[self::DATA_JSON_KEY][self::RESPONSES_JSON_KEY][$key][self::CORRECT_RESPONSES_JSON_KEY]);
+                }
+
+            }
         }
     }
 
