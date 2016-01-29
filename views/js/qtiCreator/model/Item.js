@@ -67,7 +67,7 @@ define([
 
             return outcome;
         },
-        createModalFeedback : function(attributes){
+        createModalFeedback : function(attributes, response){
 
             var identifier = attributes.identifier || '';
             delete attributes.identifier;
@@ -76,7 +76,10 @@ define([
             this.addModalFeedback(modalFeedback);
             modalFeedback.buildIdentifier(identifier);
             modalFeedback.body('Some feedback text.');
-
+            if(response && response.qtiClass === 'responseDeclaration'){
+                modalFeedback.data('relatedResponse', response);
+            }
+        
             return modalFeedback;
         },
         deleteResponseDeclaration : function(response){

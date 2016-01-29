@@ -24,7 +24,7 @@ define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], func
         },
         getComposingElements : function(){
             var elts = this._super();
-            elts = _.extend(elts, this.getFeedbackRules());
+            elts = _.extend(elts, this.feedbackRules);
             return elts;
         },
         toArray : function(){
