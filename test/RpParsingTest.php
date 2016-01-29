@@ -116,7 +116,6 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $xml = simplexml_load_string($item->toXML());
         $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response', (string) $xml->responseProcessing[0]['template']);
 
-
         /**
          * orphaned response conditions must not lead to a custom response processing
          */
@@ -132,10 +131,14 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $response = current($item->getResponses());
         $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct', $response->getHowMatch());
 
-        /**
-         * tao rp to match multiple choices
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices.xml';
+    }
+
+    /**
+     *
+     * @dataProvider templateDrivenRuleProvider
+     */
+    public function testTemplateDrivenRules($file, $rpExpected){
+
         $qtiParser = new Parser($file);
         $qtiParser->validate();
         $this->assertTrue($qtiParser->isValid());
@@ -145,42 +148,36 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
 
         $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
-        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]';
-        $this->assertEquals($rpExpected, $rpJson);
-        
-        
-        /**
-         * tao rp to match multiple choices with else condition
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices_else.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
-
-        $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
-        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]';
         $this->assertEquals($rpExpected, $rpJson);
 
-        /**
-         * tao rp to match single choice for interaciton with single cardinality response
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices_single_cardinality.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
+    }
 
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+    public function templateDrivenRuleProvider() {
 
-        $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
-        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]';
-        $this->assertEquals($rpExpected, $rpJson);
+        $sampleDir = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/';
 
+        return array(
+            //tao rp to match multiple choices
+            array(
+                'file' => $sampleDir.'match_choices.xml',
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+            ),
+            //tao rp to match multiple choices with else condition
+            array(
+                'file' => $sampleDir.'match_choices_else.xml',
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]'
+            ),
+            //tao rp to match single choice for interaciton with single cardinality response
+            array(
+                'file' => $sampleDir.'match_choices_single_cardinality.xml',
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+            ),
+            //tao rp to match empty choice for interaction with multiple cardinality
+            array(
+                'file' => $sampleDir.'match_choices_multiple_empty.xml',
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+            )
+        );
     }
     
 }
