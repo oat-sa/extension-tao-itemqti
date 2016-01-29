@@ -66,6 +66,17 @@ define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], func
                 }
             });
             return interaction;
+        },
+        isCardinality : function(cardinalities){
+            var comparison;
+            if(_.isArray(cardinalities)){
+                comparison = cardinalities;
+            }else if(_.isString(cardinalities)){
+                cardinalities = [cardinalities];
+            }else{
+                return false;
+            }
+            return (_.indexOf(comparison, this.attr('cardinality')) >= 0);
         }
     });
 

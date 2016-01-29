@@ -67,7 +67,17 @@ define([
 
             },
             onSet : function onSetChoices(fbRule, $select){
-                fbRule.comparedOutcome.setCondition(fbRule, this.name, []);
+                var response = fbRule.comparedOutcome;
+                var interaction = response.getInteraction();
+                var choice;
+                var intialValue = [];
+                if(!response.isCardinality(['multiple', 'ordered'])){
+                    choice = _.head(_.values(interaction.getChoices()));
+                    if(choice){
+                        intialValue = [choice.id()];//a single cardinality response comparison requires a choice selected
+                    }
+                }
+                fbRule.comparedOutcome.setCondition(fbRule, this.name, intialValue);
             },
             onUnset : function onUnsetChoices(fbRule, $select){
                 //this needs to be executed to restore the feedback rule value

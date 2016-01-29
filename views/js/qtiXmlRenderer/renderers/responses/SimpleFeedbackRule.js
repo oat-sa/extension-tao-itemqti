@@ -41,7 +41,13 @@ define([
                 case 'choices':
                     template = tplChoices;
                     tplData.condition = rule.condition;
-                    tplData.choices = rule.comparedValue;//is an array
+                    tplData.multiple = rule.comparedOutcome.isCardinality(['multiple', 'ordered']);
+                    //@todo : check if all the selected choices still exist
+                    if(tplData.multiple){
+                        tplData.choices = rule.comparedValue;
+                    }else{
+                        tplData.choice = _.head(rule.comparedValue);
+                    }
                     break;
                 default:
                     throw new Error('unknown condition in simple feedback rule rendering : '+rule.condition);

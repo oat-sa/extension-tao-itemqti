@@ -61,20 +61,33 @@ define([
      */
     var init = function init(){
         var selected = this.config.choices || [];
-        var choices = this.config.interaction.choices || {};
+        var interaction = this.config.interaction;
+        var response = interaction.getResponseDeclaration();
+        var choices = interaction.choices || {};
         var config = _.defaults(this.config || {}, _defaults);
+        config.multiple = response.isCardinality(['multiple', 'ordered']);
         config.options = [];
 
         _.each(choices, function(choice) {
             var id = choice.id();
+            var choiceText = '';
             var option = {
                 value: id,
                 label: id,
                 selected: selected.indexOf(id) > -1
             };
+            
+            if(choice.is('containerChoice')){
+                choiceText = choice.getBody();
+            }else if(choice.is('textVariableChoice')){
+                choiceText = choice.val();
+            }else{
+                return;//not available yet
+            }
+            
             // 0 as titleLength => no title
             if(config.titleLength) {
-                option.title = createOptionTitle(choice.bdy.bdy, config.titleLength);
+                option.title = createOptionTitle(choiceText, config.titleLength);
             }
             config.options.push(option);
         });
@@ -96,7 +109,7 @@ define([
 
         var self = this;
         var $selectBox = this.$component.find('select');
-
+        
         $selectBox.select2({
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
@@ -104,7 +117,8 @@ define([
             formatResult: formatOption,
             formatSelection: formatOption
         }).on('change', function() {
-            self.setSelectedChoices($selectBox.select2('val'));
+            var selection = $selectBox.select2('val');
+            self.setSelectedChoices(_.isArray(selection) ? selection : [selection]);
             self.trigger('change', self.getSelectedChoices());
         });
     };

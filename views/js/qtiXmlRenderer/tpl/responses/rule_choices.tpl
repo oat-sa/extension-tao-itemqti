@@ -2,11 +2,15 @@
     <responseIf>
         <match>
             <variable identifier="{{response}}" />
+            {{#if multiple}}
             <multiple>
                 {{#each choices}}
                 <baseValue baseType="identifier">{{.}}</baseValue>
                 {{/each}}
-            </multiple>    
+            </multiple>
+            {{else}}
+            <baseValue baseType="identifier">{{choice}}</baseValue>
+            {{/if}}
         </match>
         <setOutcomeValue identifier="{{feedback.outcome}}">
             <baseValue baseType="identifier">{{feedback.then}}</baseValue>
