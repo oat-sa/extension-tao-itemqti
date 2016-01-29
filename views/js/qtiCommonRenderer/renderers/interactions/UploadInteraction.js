@@ -32,6 +32,7 @@ define([
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
+    'ui/waitForMedia',
     'filereader'
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
@@ -90,20 +91,58 @@ define([
                     type: filetype.substr(0, filetype.indexOf('/'))
                 });
 
-            var $previewImg = $('img', $previewArea),
-                $largeDisplayer = $('.file-upload-preview-popup'),
-                $modalBody = $largeDisplayer.find('.modal-body');
+            // we wait for the image to be completely loaded
+            $previewArea.waitForMedia(function(){
+
+                var $originalImg = $previewArea.find('img'), // the previable image
+                    imgNaturalWidth = $originalImg[0].naturalWidth;
+                    //imgNaturalHeight = $originalImg[0].naturalHeight;
+
+                // if the image natural width is smaller than the qti-item, we do nothing
+                if( imgNaturalWidth <= $('.qti-item').width() ) {
+                    return;
+                }
+
+                // otherwise, we allow the user to see the preview image in its natural width inside the modal
+                $previewArea.on('click', function(){
+
+                    console.log(imgNaturalWidth);
+
+                    var $popupImg = $originalImg.clone(),
+                        $largeDisplayer = $('.file-upload-preview-popup'),
+                        $modalBody = $largeDisplayer.find('.modal-body'),
+                        winWidth = $(window).width();
+
+                    // remove any previous unnecessary content before inserting the preview image
+                    $modalBody.empty().append($popupImg);
+
+                    $largeDisplayer
+                        .on('opened.modal', function(){
+
+                            console.log($modalBody.length);
+                            // setting the modal width depending on the size of the popup image
+                            var width = Math.min(winWidth, imgNaturalWidth);
+
+                            // prevents the rest of the page from scrolling when modal is open
+                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'hidden');
+
+                            $largeDisplayer.width(width);
+                            $largeDisplayer.height($(document).height());
+                    })
+                        .on('closed.modal', function(){
+                            // make the page scrollable again
+                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'auto');
+
+                            //$largeDisplayer.modal('destroy');
+                        })
+                        .modal();
+                        /*.on('destroyed.modal', function(){
+                            console.log('destroyed');
+                        })*/
+
+                });
 
 
-            $previewImg.on('click', function (e) {
-                // remove any previous unnecessary content
-                $modalBody.empty();
-
-
-                var $clonedImg = $(this).clone();
-                $modalBody.append($clonedImg);
-
-                $largeDisplayer.modal();
 
             });
 
@@ -120,6 +159,10 @@ define([
             $container.find('.progressbar').progressbar('value', percentProgress);
         };
 
+        /*reader.onloadend = function () {
+            console.log('end load', $('.modal-body').length );
+        };
+*/
         reader.readAsDataURL(file);
 
     };
