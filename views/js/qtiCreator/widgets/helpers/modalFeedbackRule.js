@@ -29,10 +29,6 @@ define([
 ], function(_, $, __, selecter, formElement, ruleTpl, panelTpl, choiceSelector){
     'use strict';
 
-    //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-//    var selectedChoices = [];
-
-
     function _resetScore(fbRule, $select){
         $select.siblings('.feedbackRule-compared-value').val('0');
     }
@@ -101,7 +97,7 @@ define([
                 $choiceSelectorContainer.data('choice-selector', cSelector);
 
                 cSelector.on('change', function(selectedChoices){
-
+                    console.log('selectedChoices', selectedChoices);
                     response.setCondition(fbRule, condition, selectedChoices || []);
                 }).trigger('change');
                 console.log('init')
@@ -200,7 +196,7 @@ define([
 
         //init rule editing
         var condition = _.find(availableConditions, {name : feedbackRule.condition});
-        condition.init(feedbackRule, $rule.find('.feedbackRule-condition'));
+        condition.init(feedbackRule, $rule.find('select.feedbackRule-condition'));
 
         return $rule;
     };

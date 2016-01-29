@@ -27,27 +27,9 @@ define([
 
     'use strict';
 
-    var config,
-        defaults = {
+    var _defaults = {
             titleLength: 0 // no title
-        },
-        selectedChoices;
-
-    /**
-     * Exposed methods
-     * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
-     */
-    var choiceSelector = {
-        getChoices : function(){
-            return config.interaction.choices || {};
-        },
-        getSelectedChoices : function() {
-            return config.choices || [];
-        },
-        setSelectedChoices : function(choices) {
-            selectedChoices = choices;
-        }
-    };
+        };
 
     /**
      * Format option for select2 usage
@@ -80,8 +62,7 @@ define([
     var init = function init(){
         var selected = this.config.choices || [];
         var choices = this.config.interaction.choices || {};
-
-        config = _.defaults(this.config || {}, defaults);
+        var config = _.defaults(this.config || {}, _defaults);
         config.options = [];
 
         _.each(choices, function(choice) {
@@ -135,6 +116,22 @@ define([
      *
      */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
+        
+        var selectedChoices = [];
+        
+        /**
+        * Exposed methods
+        * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
+        */
+        var choiceSelector = {
+            getSelectedChoices : function() {
+                return selectedChoices;
+            },
+            setSelectedChoices : function(choices) {
+                selectedChoices = choices;
+            }
+        };
+    
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)
