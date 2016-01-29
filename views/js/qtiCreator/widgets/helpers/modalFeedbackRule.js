@@ -76,35 +76,27 @@ define([
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
-                this.destroy($select);
+                
 				$select.siblings('.feedbackRule-compared-value').hide();
-                console.log('init', fbRule.comparedValue);
                 var condition = this.name;
                 var response = fbRule.comparedOutcome;
                 var interaction = response.getInteraction();
                 var $choiceSelectorContainer = $('<div>', {'class' : 'choiceSelectorContainer'}).insertAfter($select);
 
-                //@TODO : create the choice selector
                 var cSelector = choiceSelector({
                     renderTo: $choiceSelectorContainer,
                     interaction : interaction,
-
-                    //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
                     choices: fbRule.comparedValue || [],
-
                     titleLength: 30
                 });
                 $choiceSelectorContainer.data('choice-selector', cSelector);
 
                 cSelector.on('change', function(selectedChoices){
-                    console.log('selectedChoices', selectedChoices);
                     response.setCondition(fbRule, condition, selectedChoices || []);
-                }).trigger('change');
-                console.log('init')
+                });
 
             },
             onSet : function onSetChoices(fbRule, $select){
-                console.log('onSet')
                 fbRule.comparedOutcome.setCondition(fbRule, this.name, []);
             },
             onUnset : function onUnsetChoices(fbRule, $select){
@@ -121,7 +113,6 @@ define([
                 }
             },
             filter : function filterChoices(response){
-                console.log('filter')
                 var interaction = response.getInteraction();
                 return (interaction.is('choiceInteraction') || interaction.is('inlineChoiceInteraction'));
             }
@@ -186,7 +177,6 @@ define([
             feedbackThen : feedbackRule.feedbackThen.serial,
             feedbackElse : feedbackElseSerial,
             addElse : addElse,
-            //TODO validate display option for choices
             hideScore : (feedbackRule.condition === 'correct' || feedbackRule.condition === 'incorrect' || feedbackRule.condition === 'choices')//@todo remove this, put in init()
         });
 
@@ -223,13 +213,6 @@ define([
                 fbSerial = $fbContainer.data('serial'),
                 fbRule = response.getFeedbackRule(fbSerial),
                 fbModal = response.createFeedbackElse(fbRule);
-
-            // TODO validate this for choices
-            var $cContainer = $fbContainer.find('.choiceSelectorContainer');
-            $cContainer.data('choice-selector').destroy();
-            $cContainer.remove();
-            console.log($cContainer,$fbContainer)
-            return
 
             $fbContainer.replaceWith(_renderFeedbackRule(fbRule));
 
