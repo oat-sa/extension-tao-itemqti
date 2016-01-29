@@ -92,6 +92,26 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
             if(Element.isA(feedback, 'feedback')){
                 this.feedbackElse = feedback;
             }
+        },
+        toArray : function(){
+            var val = this.comparedValue;
+            var _toString = function(v){
+                if(val instanceof Element){
+                    return val.attr('identifier') ;
+                }else{
+                    return val+'';
+                }
+            };
+            if(_.isArray(val)){
+                val = _.map(val, _toString);
+            }else{
+                val = _toString(val);
+            }
+            return {
+                condition : this.condition,
+                comparedOutcome : this.comparedOutcome.id(),
+                comparedValue : val
+            };
         }
     });
 

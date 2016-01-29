@@ -52,6 +52,9 @@ define(['taoQtiItem/qtiItem/core/variables/VariableDeclaration', 'lodash'], func
             arr.correctResponses = this.correctResponse;
             arr.mapping = this.mapEntries;
             arr.mappingAttributes = this.mappingAttributes;
+            arr.feedbackRules = _.map(this.feedbackRules, function(rule){
+                return rule.toArray();
+            });
             return arr;
         },
         getInteraction : function(){
