@@ -80,10 +80,9 @@ define([
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
-
+                this.destroy($select);
 				$select.siblings('.feedbackRule-compared-value').hide();
-
-                console.log(fbRule.comparedValue)
+                console.log('init', fbRule.comparedValue);
                 var condition = this.name;
                 var response = fbRule.comparedOutcome;
                 var interaction = response.getInteraction();
@@ -103,9 +102,6 @@ define([
 
                 cSelector.on('change', function(selectedChoices){
 
-                    //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-//                    selectedChoices = cSelector.getSelectedChoices();
-
                     response.setCondition(fbRule, condition, selectedChoices || []);
                 }).trigger('change');
                 console.log('init')
@@ -116,17 +112,17 @@ define([
                 fbRule.comparedOutcome.setCondition(fbRule, this.name, []);
             },
             onUnset : function onUnsetChoices(fbRule, $select){
-
-                //@TODO: For EON demo only, fbRule.compareValue doesn't keep value
-//                selectedChoices = $select.next('.choiceSelectorContainer').data('choice-selector').getSelectedChoices();
-
                 //this needs to be executed to restore the feedback rule value
                 _resetScore(fbRule, $select);
-                this.destroy($select.next('.choiceSelectorContainer'));
+                this.destroy($select);
             },
-            destroy : function($cContainer) {
-                $cContainer.data('choice-selector').destroy();
-                $cContainer.remove();
+            destroy : function($select) {
+                var $cContainer = $select.next('.choiceSelectorContainer');
+                var choiceSelector = $cContainer.data('choice-selector');
+                if(choiceSelector){
+                    choiceSelector.destroy();
+                    $cContainer.remove();
+                }
             },
             filter : function filterChoices(response){
                 console.log('filter')
