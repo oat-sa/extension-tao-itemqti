@@ -37,7 +37,6 @@ define(['lodash'], function(_){
            if(item){
                try {
                     //clone and serialize the cleaned up value
-                    console.log('item.toArray()', item.toArray());
                     serialized = JSON.stringify(item.toArray());
                 } catch(e){
                     console.error(e);
