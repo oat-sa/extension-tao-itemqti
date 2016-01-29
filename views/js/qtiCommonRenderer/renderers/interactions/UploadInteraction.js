@@ -94,7 +94,7 @@ define([
             // we wait for the image to be completely loaded
             $previewArea.waitForMedia(function(){
 
-                var $originalImg = $previewArea.find('img'), // the previable image
+                var $originalImg = $previewArea.find('img'), // the previewable image
                     imgNaturalWidth = $originalImg[0].naturalWidth,
                     imgNaturalHeight = $originalImg[0].naturalHeight;
 
@@ -104,9 +104,17 @@ define([
                 }
 
                 // otherwise, we allow the user to see the preview image in its natural width inside the modal
+
+                $originalImg.addClass('cursor-pointer');
+
                 $previewArea.on('click', function(){
 
-                    console.log(imgNaturalWidth);
+                    var $self = $(this),
+                    clickedImgNatWidth = $self.find('img')[0].naturalWidth;
+
+                    if( clickedImgNatWidth <= $('.qti-item').width() ) {
+                        return;
+                    }
 
                     var $popupImg = $originalImg.clone(),
                         $largeDisplayer = $('.file-upload-preview-popup'),
@@ -116,9 +124,6 @@ define([
                         $modalOverlay = $container.find('.modal-bg'),
                         $taoItemScope = $('.tao-item-scope');
 
-                    if( imgNaturalWidth <= $('.qti-item').width() ) {
-                        $largeDisplayer.modal('remove');
-                    }
 
                     // remove any previous unnecessary content before inserting the preview image
                     $modalOverlay.remove();
@@ -133,20 +138,15 @@ define([
                             var width = Math.min(winWidth, imgNaturalWidth);
                             var height = Math.min(winHeight, imgNaturalHeight);
 
-                            // prevents the rest of the page from scrolling when modal is open
-                            $taoItemScope.css('overflow', 'hidden');
-
                             $largeDisplayer.width(width);
                             $largeDisplayer.height(height);
 
-                            console.log('$largeDisplayer width =' , $largeDisplayer.width());
-                            console.log('$largeDisplayer height =' , $largeDisplayer.height());
-                            console.log('imgNaturalHeight' , imgNaturalHeight);
-                    })
+                            // prevents the rest of the page from scrolling when modal is open
+                            $taoItemScope.css('overflow', 'hidden');
+                        })
                         .on('closed.modal', function(){
                             // make the page scrollable again
                             $taoItemScope.css('overflow', 'auto');
-
                         })
                         .modal();
 
@@ -169,10 +169,6 @@ define([
             $container.find('.progressbar').progressbar('value', percentProgress);
         };
 
-        /*reader.onloadend = function () {
-            console.log('end load', $('.modal-body').length );
-        };
-*/
         reader.readAsDataURL(file);
 
     };
