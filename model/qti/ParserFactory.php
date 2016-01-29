@@ -1209,6 +1209,7 @@ class ParserFactory
             }
 
             if(!is_null($feedbackRule)){
+                $responseIdentifier = $feedbackRule->comparedOutcome()->getIdentifier();
                 if(!isset($simpleFeedbackRules[$responseIdentifier])){
                     $simpleFeedbackRules[$responseIdentifier] = array();
                 }
