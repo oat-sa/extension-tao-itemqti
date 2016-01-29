@@ -16,36 +16,126 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery',
+define([
+    'jquery',
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/choiceSelector'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/choiceSelector',
+    'select2'
 ], function($, _, __, component, choiceSelectorTpl){
-    
-    //exposed methods
-    var choiceSelector = {
-        getChoices : function(){},
-        setChoices : function(){},
-        resetChoices : function(){}
+
+    'use strict';
+
+    var _defaults = {
+            titleLength: 0 // no title
+        };
+
+    /**
+     * Format option for select2 usage
+     *
+     * @param state
+     * @returns {string}
+     */
+    function formatOption (state) {
+        var title = $(state.element).attr('title');
+        return title ? '<span title="' + title + '">' + state.text + '</span>' : state.text;
+    }
+
+    /**
+     * Add a title to select2 options
+     *
+     * @param {String} content
+     * @param {Number} threshold
+     * @returns {*}
+     */
+    function createOptionTitle (content, threshold) {
+        var fullText = $('<div>', { html: content }).text().trim().replace(/\s+/g, ' ');
+        var shortText = fullText.substr(0, threshold);
+        return fullText.length - shortText.length <= 5 ? fullText : shortText + '…';
+    }
+
+
+    /**
+     * Set some additional parameters
+     */
+    var init = function init(){
+        var selected = this.config.choices || [];
+        var choices = this.config.interaction.choices || {};
+        var config = _.defaults(this.config || {}, _defaults);
+        config.options = [];
+
+        _.each(choices, function(choice) {
+            var id = choice.id();
+            var option = {
+                value: id,
+                label: id,
+                selected: selected.indexOf(id) > -1
+            };
+            // 0 as titleLength => no title
+            if(config.titleLength) {
+                option.title = createOptionTitle(choice.bdy.bdy, config.titleLength);
+            }
+            config.options.push(option);
+        });
     };
+
+
+    /**
+     * Select 2 needs to be removed prior to destruction of the component
+     */
+    var destroy = function destroy(){
+        this.$component.find('select').select2('destroy');
+    };
+
+
+    /**
+     * Populate select box and apply select2
+     */
+    var render = function postRender() {
+
+        var self = this;
+        var $selectBox = this.$component.find('select');
+
+        $selectBox.select2({
+            dropdownAutoWidth: true,
+            placeholder: $selectBox.attr('placeholder'),
+            minimumResultsForSearch: -1,
+            formatResult: formatOption,
+            formatSelection: formatOption
+        }).on('change', function() {
+            self.setSelectedChoices($selectBox.select2('val'));
+            self.trigger('change', self.getSelectedChoices());
+        });
+    };
+
+
+    /**
+     * @param {Object} config
+     * @param {Integer} [config.titleLength] - Number of characters used for the title attribute of an option (may be used loosely)
+     *
+     */
+    var choiceSelectorFactory = function choiceSelectorFactory(config) {
+        
+        var selectedChoices = [];
+        
+        /**
+        * Exposed methods
+        * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
+        */
+        var choiceSelector = {
+            getSelectedChoices : function() {
+                return selectedChoices;
+            },
+            setSelectedChoices : function(choices) {
+                selectedChoices = choices;
+            }
+        };
     
-    function init(){
-        //@todo do some magic here
-        var selectedChoices = this.config.choices || [];
-        var availableChoices = this.config.interaction.getChoices();
-        console.log('selectedChoices', selectedChoices);
-        console.log('availableChoices', availableChoices);
-    }
-    
-    function destroy(){
-        //@todo clean up
-    }
-    
-    var choiceSelectorFactory = function breadcrumbsFactory(config) {
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)
+                .on('render', render)
                 .setTemplate(choiceSelectorTpl)
                 .init(config);
     };
