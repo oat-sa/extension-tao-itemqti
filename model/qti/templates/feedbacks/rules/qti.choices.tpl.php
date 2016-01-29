@@ -23,12 +23,16 @@
     <responseIf>
         <match>
             <variable identifier="<?=$responseIdentifier?>" />
+            <?php if($multiple):?>
             <multiple>
                 <?php foreach($choices as $choice):?><baseValue baseType="identifier"><?=$choice?></baseValue><?php endforeach;?>
             </multiple>
+            <?php else:?>
+            <baseValue baseType="identifier"><?=$choice?></baseValue>
+            <?php endif;?>
         </match>
         <setOutcomeValue identifier="<?=$feedbackOutcomeIdentifier?>">
-<baseValue baseType="identifier"><?=$feedbackIdentifierThen?></baseValue>
+            <baseValue baseType="identifier"><?=$feedbackIdentifierThen?></baseValue>
         </setOutcomeValue>
     </responseIf>
 <?php if(!empty($feedbackIdentifierElse)):?><responseElse>

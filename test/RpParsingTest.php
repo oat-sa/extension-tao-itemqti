@@ -20,7 +20,6 @@
  */
 namespace oat\taoQtiItem\test;
 
-use common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
 
@@ -164,6 +163,22 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
 
         $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
         $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]';
+        $this->assertEquals($rpExpected, $rpJson);
+
+        /**
+         * tao rp to match single choice for interaciton with single cardinality response
+         */
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDriven/match_choices_single_cardinality.xml';
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
+        $this->assertTrue($qtiParser->isValid());
+
+        $item = $qtiParser->load();
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
+
+        $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
+        $rpExpected = '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]';
         $this->assertEquals($rpExpected, $rpJson);
 
     }

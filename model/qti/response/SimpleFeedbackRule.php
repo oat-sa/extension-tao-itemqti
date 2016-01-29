@@ -169,7 +169,12 @@ class SimpleFeedbackRule extends Element
         }else if($this->condition == 'choices'){
             $tpl = 'qti.choices.tpl.php';
             $variables['responseIdentifier'] = $this->comparedOutcome->getIdentifier();
-            $variables['choices'] = $this->comparedValue;//an array
+            $variables['multiple'] = $this->comparedOutcome->attr('cardinality') == 'multiple' || $this->comparedOutcome->attr('cardinality') == 'ordered';
+            if($variables['multiple']){
+                $variables['choices'] = $this->comparedValue;//an array
+            }else{
+                $variables['choice'] = reset($this->comparedValue);//an array
+            }
         }else{
             $tpl = 'qti.condition.tpl.php';
             if($this->comparedOutcome instanceof ResponseDeclaration){
