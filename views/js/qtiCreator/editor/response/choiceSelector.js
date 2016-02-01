@@ -80,7 +80,7 @@ define([
             };
             
             if(choice.is('containerChoice')){
-                choiceText = choice.getBody();
+                choiceText = choice.body();
             }else if(choice.is('textVariableChoice')){
                 choiceText = choice.val();
             }else{
