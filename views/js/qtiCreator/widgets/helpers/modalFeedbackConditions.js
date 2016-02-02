@@ -74,7 +74,7 @@ define([
                 if(!response.isCardinality(['multiple', 'ordered'])){
                     choice = _.head(_.values(interaction.getChoices()));
                     if(choice){
-                        intialValue = [choice.id()];//a single cardinality response comparison requires a choice selected
+                        intialValue = [choice];//a single cardinality response comparison requires a choice selected
                     }
                 }
                 fbRule.comparedOutcome.setCondition(fbRule, this.name, intialValue);

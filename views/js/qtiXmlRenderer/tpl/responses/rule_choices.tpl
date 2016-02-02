@@ -1,3 +1,4 @@
+{{#unless noData}}
 <responseCondition>
     <responseIf>
         <match>
@@ -24,3 +25,4 @@
     </responseElse>
     {{~/if}}
 </responseCondition>
+{{/unless}}

@@ -60,11 +60,13 @@ define([
      * Set some additional parameters
      */
     var init = function init(){
-        var selected = this.config.choices || [];
-        var interaction = this.config.interaction;
-        var response = interaction.getResponseDeclaration();
-        var choices = interaction.choices || {};
+        var selected =  _.map(this.config.choices || [], function(c){
+            return c.id();
+        });
+        var choices = this.config.interaction.getChoices();
+        var response = this.config.interaction.getResponseDeclaration();
         var config = _.defaults(this.config || {}, _defaults);
+        
         config.multiple = response.isCardinality(['multiple', 'ordered']);
         config.options = [];
 
@@ -78,7 +80,7 @@ define([
             };
             
             if(choice.is('containerChoice')){
-                choiceText = choice.getBody();
+                choiceText = choice.body();
             }else if(choice.is('textVariableChoice')){
                 choiceText = choice.val();
             }else{
@@ -131,7 +133,11 @@ define([
      */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
         
-        var selectedChoices = [];
+        var _selectedChoices = {};
+        var choices = {};
+        _.each(config.interaction.getChoices(), function(choice){
+            choices[choice.id()] = choice;
+        });
         
         /**
         * Exposed methods
@@ -139,10 +145,12 @@ define([
         */
         var choiceSelector = {
             getSelectedChoices : function() {
-                return selectedChoices;
+                return _selectedChoices;
             },
-            setSelectedChoices : function(choices) {
-                selectedChoices = choices;
+            setSelectedChoices : function(choicesId) {
+                _selectedChoices = _.map(choicesId, function(id){
+                    return choices[id];
+                });
             }
         };
     

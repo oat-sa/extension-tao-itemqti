@@ -45,7 +45,7 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
 
         },
         setCondition : function(comparedOutcome, condition, comparedValue){
-
+            var _comparedValues = [];
             if(Element.isA(comparedOutcome, 'variableDeclaration')){
                 switch(condition){
                     case 'correct':
@@ -71,10 +71,24 @@ define(['taoQtiItem/qtiItem/core/Element', 'lodash'], function(Element, _){
                         }
                         break;
                     case 'choices':
-                        if(comparedValue !== null && _.isArray(comparedValue)){
+                        if(Element.isA(comparedOutcome, 'responseDeclaration') && comparedValue !== null && _.isArray(comparedValue)){
+                            var choices = _.values(comparedOutcome.getInteraction().getChoices());
                             this.comparedOutcome = comparedOutcome;
                             this.condition = condition;
-                            this.comparedValue = comparedValue;
+                            _.each(comparedValue, function(v){
+                                if(v instanceof Element){
+                                    _comparedValues.push(v);
+                                }else if(_.isString(v)){
+                                    _.each(choices, function(c){
+                                        if(c.attr('identifier') === v){
+                                            _comparedValues.push(c);
+                                            return false;//break
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            this.comparedValue = _comparedValues;
                         }else{
                             throw 'compared value must not be null';
                         }

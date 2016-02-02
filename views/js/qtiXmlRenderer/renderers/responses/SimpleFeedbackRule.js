@@ -10,9 +10,9 @@ define([
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-
+            
             var template = null, ruleXml = '';
-
+            var _values;
             var tplData = {
                 response : rule.comparedOutcome.id(),
                 feedback : {
@@ -42,11 +42,22 @@ define([
                     template = tplChoices;
                     tplData.condition = rule.condition;
                     tplData.multiple = rule.comparedOutcome.isCardinality(['multiple', 'ordered']);
-                    //@todo : check if all the selected choices still exist
+                    _values = [];
+                    _.each(rule.comparedValue, function(choice){
+                        //check if all the selected choices still exist
+                        if(choice.parent()){
+                            _values.push(choice.id());
+                        }
+                    });
+                    
                     if(tplData.multiple){
-                        tplData.choices = rule.comparedValue;
+                        tplData.choices = _values;
                     }else{
-                        tplData.choice = _.head(rule.comparedValue);
+                        if(_values.length){
+                            tplData.choice = _.head(_values);
+                        }else{
+                            tplData.noData = true;
+                        }
                     }
                     break;
                 default:
