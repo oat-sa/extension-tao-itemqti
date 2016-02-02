@@ -289,10 +289,9 @@ define([
      */
     var getCustomData = function (interaction, data) {
         return _.merge(data || {}, {
-            isPreviewable: interaction.attr('type').indexOf('image') === 0
+            isPreviewable: interaction.attr('type') && interaction.attr('type').indexOf('image') === 0
         });
     };
-    //console.log(this.getData());
 
     return {
         qtiClass: 'uploadInteraction',
