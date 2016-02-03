@@ -32,6 +32,7 @@ define([
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
+    'ui/waitForMedia',
     'filereader'
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
@@ -83,27 +84,75 @@ define([
             var $previewArea = $container.find('.file-upload-preview');
 
             $previewArea
-                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', visibleFileUploadPreview.isPreviewable)
+                .toggleClass('visible-file-upload-preview runtime-visible-file-upload-preview', !visibleFileUploadPreview.isPreviewable)
                 .previewer({
                     url: reader.result,
                     name: filename,
                     type: filetype.substr(0, filetype.indexOf('/'))
                 });
 
-            var $previewImg = $('img', $previewArea),
-                $largeDisplayer = $('.file-upload-preview-popup'),
-                $modalBody = $largeDisplayer.find('.modal-body');
+            // we wait for the image to be completely loaded
+            $previewArea.waitForMedia(function(){
+
+                var $originalImg = $previewArea.find('img'), // the previewable image
+                    imgNaturalWidth = $originalImg[0].naturalWidth,
+                    imgNaturalHeight = $originalImg[0].naturalHeight;
+
+                // if the image natural width is smaller than the qti-item, we do nothing
+                if( imgNaturalWidth <= $('.qti-item').width() ) {
+                    return;
+                }
+
+                // otherwise, we allow the user to see the preview image in its natural width inside the modal
+
+                $originalImg.addClass('cursor-pointer');
+
+                $previewArea.on('click', function(){
+
+                    var $self = $(this),
+                    clickedImgNatWidth = $self.find('img')[0].naturalWidth;
+
+                    if( clickedImgNatWidth <= $('.qti-item').width() ) {
+                        return;
+                    }
+
+                    var $popupImg = $originalImg.clone(),
+                        $largeDisplayer = $('.file-upload-preview-popup'),
+                        $modalBody = $largeDisplayer.find('.modal-body'),
+                        winWidth = $(window).width(),
+                        winHeight = $(window).height(),
+                        $modalOverlay = $container.find('.modal-bg'),
+                        $taoItemScope = $('.tao-item-scope');
 
 
-            $previewImg.on('click', function (e) {
-                // remove any previous unnecessary content
-                $modalBody.empty();
+                    // remove any previous unnecessary content before inserting the preview image
+                    $modalOverlay.remove();
+                    $modalBody.empty().append($popupImg);
+
+                    $popupImg.wrap('<div>');
+
+                    $largeDisplayer
+                        .on('opened.modal', function(){
+
+                            // setting the modal width depending on the size of the popup image
+                            var width = Math.min(winWidth, imgNaturalWidth);
+                            var height = Math.min(winHeight, imgNaturalHeight);
+
+                            $largeDisplayer.width(width);
+                            $largeDisplayer.height(height);
+
+                            // prevents the rest of the page from scrolling when modal is open
+                            $taoItemScope.css('overflow', 'hidden');
+                        })
+                        .on('closed.modal', function(){
+                            // make the page scrollable again
+                            $taoItemScope.css('overflow', 'auto');
+                        })
+                        .modal();
+
+                });
 
 
-                var $clonedImg = $(this).clone();
-                $modalBody.append($clonedImg);
-
-                $largeDisplayer.modal();
 
             });
 

@@ -38,18 +38,19 @@
         height: auto;
         position: relative;
         overflow: hidden;
-        cursor: pointer;
-        display: none;
 
-        &.visible-file-upload-preview {
-            display: block;
-        }
+        //display: none;
+
+        //&.visible-file-upload-preview {
+        //    display: block;
+        //}
 
         &.runtime-visible-file-upload-preview {
             min-width: unset;
             min-height: unset;
             height: auto;
             background: transparent;
+            //cursor: pointer;
         }
 
         p.nopreview {
@@ -72,21 +73,40 @@
                 display: block !important;
             }
         }
+
+        img.cursor-pointer {
+            cursor: pointer;
+        }
     }
 
     .file-upload-preview-popup {
         padding: 40px 0;
         max-width: 100%;
-        width: auto !important;
+        overflow: auto;
+        top: 0 !important;
+        //width: auto !important;
 
         // position absolute allows the scroll on the a big picture
-        &.modal {
-            position: absolute;
+        //&.modal {
+        //    position: absolute;
+        //}
+
+        .modal-body {
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+
+            div {
+                height: 100%;
+                width: 100%;
+            }
         }
 
         img {
             display: block;
             margin: auto;
+            max-width: none;
+            overflow: auto;
         }
     }
 }
