@@ -908,7 +908,7 @@ class ParserFactory
                 $returnValue = $this->buildTemplatedrivenResponse($data, $item->getInteractions());
                 common_Logger::d('Processing is TemplateDriven', array('TAOITEMS', 'QTI'));
             }catch(UnexpectedResponseProcessing $e){
-                
+
             }
         }
 
@@ -1168,7 +1168,8 @@ class ParserFactory
 
             }elseif(count($subtree->xpath($patternFeedbackIncorrect)) > 0 || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0){
 
-                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect');
+                $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
 
             }elseif(count($subtree->xpath($patternFeedbackOperator)) > 0 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0){
 
@@ -1247,9 +1248,9 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null){
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = ''){
 
-        $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
+        $responseIdentifier = empty($responseId) ? (string) $subtree->responseIf->match->variable['identifier'] : $responseId;
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 

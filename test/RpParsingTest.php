@@ -148,6 +148,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
 
         $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
+
         $this->assertEquals($rpExpected, $rpJson);
 
     }
@@ -176,7 +177,11 @@ class RpParsingTest extends TaoPhpUnitTestRunner {
             array(
                 'file' => $sampleDir.'match_choices_multiple_empty.xml',
                 'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
-            )
+            ),
+            array(
+                'file' => $sampleDir.'rule_incorrect.xml',
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"not","expressions":[{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+            ),
         );
     }
     
