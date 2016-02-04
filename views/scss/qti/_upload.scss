@@ -38,11 +38,14 @@
         height: auto;
         position: relative;
         overflow: hidden;
-        cursor: pointer;
         display: none;
 
         &.visible-file-upload-preview {
             display: block;
+        }
+
+        &.clickable {
+            cursor: pointer;
         }
 
         &.runtime-visible-file-upload-preview {
@@ -75,18 +78,27 @@
     }
 
     .file-upload-preview-popup {
-        padding: 40px 0;
+        padding: 40px 0 0;
         max-width: 100%;
-        width: auto !important;
 
-        // position absolute allows the scroll on the a big picture
         &.modal {
             position: absolute;
+            max-width: unset;
+            height: auto;
+            top: 0 !important;
+
+            .modal-body {
+                overflow: auto;
+                width: 100%;
+                height: 100%;
+                border-top: 1px solid #ddd;
+            }
+            img {
+                display: block;
+                margin: auto;
+                max-width: unset;
+            }
         }
 
-        img {
-            display: block;
-            margin: auto;
-        }
     }
 }
