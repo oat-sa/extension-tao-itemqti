@@ -47,7 +47,8 @@ return array(
 			dirname(__FILE__).'/install/local/setDefaultTheme.php',
 			dirname(__FILE__).'/install/local/addPortableContexts.php',
 			dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php',
-			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php'
+			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
+			dirname(__FILE__).'/install/scripts/addExtensionListener.php'
 		)
 	),
 	'local'	=> array(

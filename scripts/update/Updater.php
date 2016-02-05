@@ -21,11 +21,15 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\media\MediaRendererInterface;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
-use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\taoQtiItem\model\sharedStimulus\SharedStimulusRenderer;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\update\QtiManager;
 
 /**
  * 
@@ -195,7 +199,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-	if($this->isVersion('2.13.0')) {
+        if($this->isVersion('2.13.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -213,6 +217,24 @@ class Updater extends \common_ext_ExtensionUpdater
 		if($this->isVersion('2.14.0')) {
 			$this->setVersion('2.14.1');
 		}
+
+        if ($this->isVersion('2.14.1')) {
+            if (\common_ext_ExtensionsManager::singleton()->isInstalled('taoMediaManager')) {
+                $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoMediaManager');
+                $event = new \common_ext_event_ExtensionInstalled($extension);
+                QtiManager::catchEvent($event);
+            }
+            $eventManager = new EventManager();
+            $eventManager->attach(
+                'common_ext_event_ExtensionInstalled',
+                array('oat\\taoQtiItem\\model\\update\\QtiManager', 'catchEvent')
+            );
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('2.15.0');
+        }
     }
+
+
 
 }
