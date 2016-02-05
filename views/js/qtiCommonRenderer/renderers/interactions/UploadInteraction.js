@@ -94,14 +94,22 @@ define([
             // we wait for the image to be completely loaded
             $previewArea.waitForMedia(function(){
                 var $originalImg = $previewArea.find('img'),
-                    imgNaturalWidth = $originalImg[0].naturalWidth,
+                    $largeDisplay = $('.file-upload-preview-popup'),
                     $item = $('.qti-item'),
                     itemWidth = $item.width(),
-                    isOversized = imgNaturalWidth > itemWidth,
-                    $largeDisplay = $('.file-upload-preview-popup'),
                     winWidth = $(window).width() - 80,
                     fullHeight = $('body').height(),
-                    modalWidth = Math.min(winWidth, imgNaturalWidth);
+                    imgNaturalWidth,
+                    isOversized,
+                    modalWidth;
+
+                if(!$originalImg.length) {
+                    return;
+                }
+
+                imgNaturalWidth = $originalImg[0].naturalWidth;
+                isOversized = imgNaturalWidth > itemWidth;
+                modalWidth = Math.min(winWidth, imgNaturalWidth);
 
                 $previewArea.toggleClass('clickable', isOversized);
 
