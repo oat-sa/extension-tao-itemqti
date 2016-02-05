@@ -32,6 +32,7 @@ define([
     'ui/progressbar',
     'ui/previewer',
     'ui/modal',
+    'ui/waitForMedia',
     'filereader'
 ], function ($, _, __, context, tpl, containerHelper, instructionMgr) {
     'use strict';
@@ -90,24 +91,63 @@ define([
                     type: filetype.substr(0, filetype.indexOf('/'))
                 });
 
-            var $previewImg = $('img', $previewArea),
-                $largeDisplayer = $('.file-upload-preview-popup'),
-                $modalBody = $largeDisplayer.find('.modal-body');
+            // we wait for the image to be completely loaded
+            $previewArea.waitForMedia(function(){
+                var $originalImg = $previewArea.find('img'),
+                    $largeDisplay = $('.file-upload-preview-popup'),
+                    $item = $('.qti-item'),
+                    itemWidth = $item.width(),
+                    winWidth = $(window).width() - 80,
+                    fullHeight = $('body').height(),
+                    imgNaturalWidth,
+                    isOversized,
+                    modalWidth;
 
+                if(!$originalImg.length) {
+                    return;
+                }
 
-            $previewImg.on('click', function (e) {
-                // remove any previous unnecessary content
-                $modalBody.empty();
+                imgNaturalWidth = $originalImg[0].naturalWidth;
+                isOversized = imgNaturalWidth > itemWidth;
+                modalWidth = Math.min(winWidth, imgNaturalWidth);
 
+                $previewArea.toggleClass('clickable', isOversized);
 
-                var $clonedImg = $(this).clone();
-                $modalBody.append($clonedImg);
+                if(!isOversized) {
+                    return;
+                }
 
-                $largeDisplayer.modal();
+                $previewArea.on('click', function(){
 
+                    $('.upload-ia-modal-bg').remove();
+
+                    // remove any previous unnecessary content before inserting the preview image
+                    var $modalBody = $largeDisplay.find('.modal-body');
+                    $modalBody.empty().append($originalImg.clone());
+
+                    $largeDisplay
+                        .on('opened.modal', function(){
+
+                            // prevents the rest of the page from scrolling when modal is open
+                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'hidden');
+
+                            $largeDisplay.css({
+                                width: modalWidth,
+                                height: fullHeight,
+                                left: (modalWidth - itemWidth -40) / -2
+                            });
+
+                        })
+                        .on('closed.modal', function(){
+                            // make the page scrollable again
+                            $('.tao-item-scope.tao-preview-scope').css('overflow', 'auto');
+
+                        })
+                        .modal({modalOverlayClass: 'modal-bg upload-ia-modal-bg'});
+
+                });
             });
 
-            //FIXME it should trigger a responseChange
         };
 
         reader.onloadstart = function (e) {
@@ -128,10 +168,10 @@ define([
         var $container = containerHelper.get(interaction);
         $container.find('.file-name').text(__('No file selected'));
         $container.find('.btn-info').text(__('Browse...'));
-        /*$container.find('.file-upload-preview').toggleClass(
+        $container.find('.file-upload-preview').toggleClass(
             'visible-file-upload-preview',
             interaction.attr('type').indexOf('image') === 0
-        );*/
+        );
     };
 
     /**
@@ -177,8 +217,7 @@ define([
             });
         }
 
-        // IE Specific hack. It prevents the button to slightly
-        // move on click. Special thanks to Dieter Rabber, OAT S.A.
+        // IE Specific hack, prevents button to slightly move on click
         $input.bind('mousedown', function (e) {
             e.preventDefault();
             $(this).blur();
