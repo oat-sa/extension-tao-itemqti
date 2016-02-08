@@ -170,7 +170,7 @@ define([
         $container.find('.btn-info').text(__('Browse...'));
         $container.find('.file-upload-preview').toggleClass(
             'visible-file-upload-preview',
-            interaction.attr('type').indexOf('image') === 0
+            interaction.attr('type') && interaction.attr('type').indexOf('image') === 0
         );
     };
 
