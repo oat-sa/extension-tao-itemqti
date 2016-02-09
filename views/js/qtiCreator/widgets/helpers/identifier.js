@@ -18,9 +18,8 @@ define(['lodash'], function(_){
     };
 
     var _updateChoiceIdentifier = _.throttle(function(choice, newId, response){
-
+        
         var oldId = choice.id();
-
         if(oldId !== newId){
             //need to update correct response and mapping values too !
             _updateChoiceIdentifierInResponse(response, oldId, newId);
@@ -72,15 +71,18 @@ define(['lodash'], function(_){
 
     return {
         updateChoiceIdentifier : function(choice, value){
-
-            var response = _get('responseFromChoice', choice, function(){
-                var interaction = _get('interactionFromChoice', choice, function(){
-                    return choice.getInteraction();
+            
+            value = value.trim();
+            if(value){
+                var response = _get('responseFromChoice', choice, function(){
+                    var interaction = _get('interactionFromChoice', choice, function(){
+                        return choice.getInteraction();
+                    });
+                    return interaction.getResponseDeclaration();
                 });
-                return interaction.getResponseDeclaration();
-            });
 
-            _updateChoiceIdentifier(choice, value, response);
+                _updateChoiceIdentifier(choice, value, response);
+            }
         },
         updateResponseIdentifier : function(response, value){
             throw 'to be implemented';
