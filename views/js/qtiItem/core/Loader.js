@@ -100,7 +100,7 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                             _this.item.addStylesheet(stylesheet);
                         }
                     }
-
+                    
                     //important : build responses after all modal feedbacks and outcomes has been loaded, because the simple feedback rules need to reference them
                     for(i in data.responses){
                         var response = _this.buildResponse(data.responses[i]);
@@ -211,14 +211,9 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
 
             var feedbackRule = this.buildElement(data);
             
-            if(data.condition){
-                feedbackRule.condition = data.condition;
-            }
-            if(data.comparedValue){
-                feedbackRule.comparedValue = data.comparedValue;
-            }
-
-            feedbackRule.comparedOutcome = this.item.responses[data.comparedOutcome] || null;
+            feedbackRule.setCondition(response, data.condition, data.comparedValue || null);
+            
+//            feedbackRule.comparedOutcome = this.item.responses[data.comparedOutcome] || null;
             feedbackRule.feedbackOutcome = this.item.outcomes[data.feedbackOutcome] || null;
             feedbackRule.feedbackThen = this.item.modalFeedbacks[data.feedbackThen] || null;
             feedbackRule.feedbackElse = this.item.modalFeedbacks[data.feedbackElse] || null;
