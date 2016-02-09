@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_Error;
 use core_kernel_classes_Resource;
+use oat\tao\model\media\MediaRendererInterface;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\HookRegistry;
@@ -236,8 +237,9 @@ class QtiCreator extends tao_actions_CommonModule
         if (tao_helpers_File::securityCheck($path, true)) {
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
-            $filePath = $asset->getMediaSource()->download($asset->getMediaIdentifier());
-            \tao_helpers_Http::returnFile($filePath);
+            $uri = $asset->getMediaIdentifier();
+            $renderer = $this->getServiceManager()->get(MediaRendererInterface::SERVICE_ID);
+            $renderer->render($uri);
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }
