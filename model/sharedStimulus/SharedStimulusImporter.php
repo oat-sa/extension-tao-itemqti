@@ -22,10 +22,11 @@
 namespace oat\taoQtiItem\model\sharedStimulus;
 
 use core_kernel_classes_Class;
+use oat\taoMediaManager\model\FileImportForm;
+use oat\taoMediaManager\model\MediaService;
 use qtism\data\QtiComponent;
 use qtism\data\storage\xml\XmlDocument;
 use qtism\data\storage\xml\XmlStorageException;
-use SebastianBergmann\Exporter\Exception;
 use tao_helpers_form_Form;
 
 /**

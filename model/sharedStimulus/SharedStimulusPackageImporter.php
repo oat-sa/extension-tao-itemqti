@@ -23,6 +23,8 @@ namespace oat\taoQtiItem\model\sharedStimulus;
 
 use core_kernel_classes_Class;
 use Jig\Utils\FsUtils;
+use oat\taoMediaManager\model\MediaService;
+use oat\taoMediaManager\model\MediaSource;
 use oat\taoMediaManager\model\ZipImporter;
 use qtism\data\storage\xml\XmlDocument;
 use tao_helpers_form_Form;
