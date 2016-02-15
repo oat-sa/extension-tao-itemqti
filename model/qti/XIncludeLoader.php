@@ -147,6 +147,8 @@ class XIncludeLoader
         $loadSuccess = $xml->load($filePath);
         $node = $xml->documentElement;
         if($loadSuccess && !is_null($node)){
+            \common_Logger::i(print_r($xinclude->getComposingElements(),true));
+
             //parse the href content
             $parser = new ParserFactory($xml);
             $parser->loadContainerStatic($node, $xinclude->getBody());
