@@ -228,7 +228,7 @@ class SharedStimulusPackageImporter extends ZipImporter
     protected static function storeEmbeded($basedir, $source)
     {
         $mediaSource = new MediaSource();
-        $fileInfo = $mediaSource->add($basedir.DIRECTORY_SEPARATOR.$source, basename($source), 'test');
+        $fileInfo = $mediaSource->add($basedir.DIRECTORY_SEPARATOR.$source, basename($source), 'assets');
         return $fileInfo['uri'];
     }
 }
