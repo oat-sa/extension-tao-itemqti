@@ -176,11 +176,7 @@ class ImportService extends tao_models_classes_GenerisService
         $qtiManifestParser = new ManifestParser($manifestFile);
 
         if ($validate) {
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $qtiManifestParser->validateMultiple(array(
-                $basePath . 'model/qti/data/imscp_v1p1.xsd',
-                $basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
-            ));
+            $qtiManifestParser->validate();
 
             if (!$qtiManifestParser->isValid()) {
 

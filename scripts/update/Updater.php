@@ -212,16 +212,16 @@ class Updater extends \common_ext_ExtensionUpdater
 
 		$this->skip('2.14.0','2.15.0');
 
-        if($this->isVersion('2.15.0')) {
-            $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+        if($this->isVersion('2.15.0')){
+            //turning the multi-column option to true
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $validation = array(
                 'default' => array(
                     __DIR__.'/../../model/qti/data/imscp_v1p1.xsd',
                     __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
                 )
             );
-
-            $itemQtiExt->setConfig('contentValidation', $validation);
+            $ext->setConfig('manifestValidation', $validation);
             $this->setVersion('2.16.0');
         }
     }
