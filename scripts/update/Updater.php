@@ -195,7 +195,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-	if($this->isVersion('2.13.0')) {
+	    if($this->isVersion('2.13.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -211,6 +211,18 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
 		$this->skip('2.14.0','2.15.0');
+
+        if($this->isVersion('2.15.0')){
+            //turning the multi-column option to true
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $validation = array(
+                'default' => array(
+                    __DIR__.'/../../model/qti/data/imscp_v1p1.xsd',
+                )
+            );
+            $ext->setConfig('manifestValidation', $validation);
+            $this->setVersion('2.16.0');
+        }
     }
 
 }
