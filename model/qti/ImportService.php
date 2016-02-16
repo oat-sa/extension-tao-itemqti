@@ -146,7 +146,6 @@ class ImportService extends tao_models_classes_GenerisService
         $qtiParser = new Parser($qtiXml);
 
         if ($validate) {
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $qtiParser->validate();
 
             if (!$qtiParser->isValid()) {
