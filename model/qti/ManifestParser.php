@@ -84,14 +84,13 @@ class ManifestParser
 					$schemas = $validation['default'];
 				}
 
-				\common_Logger::i("The following schema will be used to validate imsmanifest.xml: '" . $schemas[0] . "'.");
-
 				$validSchema = $this->validateMultiple($schemas);
 				$returnValue = $validSchema !== '';
 			}
 		} elseif(!file_exists($schema)) {
 			throw new \common_Exception('no schema found in the location '.$schema);
 		} else {
+			\common_Logger::i("The following schema will be used to validate imsmanifest.xml: '" . $schema . "'.");
 			$returnValue = parent::validate($schema);
 		}
 
