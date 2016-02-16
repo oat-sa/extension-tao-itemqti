@@ -213,7 +213,6 @@ class Updater extends \common_ext_ExtensionUpdater
 		$this->skip('2.14.0','2.15.0');
 
         if($this->isVersion('2.15.0')){
-            //turning the multi-column option to true
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $validation = array(
                 'default' => array(
@@ -223,6 +222,23 @@ class Updater extends \common_ext_ExtensionUpdater
             );
             $ext->setConfig('manifestValidation', $validation);
             $this->setVersion('2.16.0');
+        }
+
+        if($this->isVersion('2.16.0')){
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $validation = array(
+                'http://www.imsglobal.org/xsd/imsqti_v2p0' => array(
+                    __DIR__.'/../../model/qti/data/qtiv2p0/imsqti_v2p0.xsd'
+                ),
+                'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
+                    __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+                ),
+                'default' => array(
+                    __DIR__.'/../../model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
+                )
+            );
+            $ext->setConfig('contentValidation', $validation);
+            $this->setVersion('2.17.0');
         }
     }
 
