@@ -397,7 +397,7 @@ define([
      * @returns {Array} of points
      */
     var _getRawResponse = function _getRawResponse(interaction) {
-        return [containerHelper.get(interaction).data('timesPlayed')];
+        return [containerHelper.get(interaction).data('timesPlayed') || 0];
     };
 
     /**
