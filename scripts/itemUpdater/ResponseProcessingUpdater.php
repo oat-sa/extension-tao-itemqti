@@ -20,6 +20,8 @@
 
 namespace oat\taoQtiItem\scripts\itemUpdater;
 
+use oat\taoQtiItem\model\qti\Item;
+
 /**
  * @author Christophe Noël
  */
@@ -70,7 +72,10 @@ class ResponseProcessingUpdater
         return $changed;
     }
 
-    public function hasBrokenResponseProcessing(\SimpleXMLElement $itemXml) {
+    public function hasBrokenResponseProcessing(Item $itemXml) {
+
+
+
         return false;
     }
 
