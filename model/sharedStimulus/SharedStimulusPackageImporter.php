@@ -39,6 +39,13 @@ class SharedStimulusPackageImporter extends ZipImporter
 {
 
     /**
+     * List of regexp of media that should not be import in media manager
+     */
+    private static $BLACKLIST = array(
+        '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
+    );
+
+    /**
      * Starts the import based on the form
      *
      * @param \core_kernel_classes_Class $class
@@ -227,6 +234,14 @@ class SharedStimulusPackageImporter extends ZipImporter
      */
     protected static function storeEmbeded($basedir, $source)
     {
+        if(filter_var($source, FILTER_VALIDATE_URL)){
+            return $source;
+        }
+        foreach (self::$BLACKLIST as $blacklist) {
+            if (preg_match($blacklist, $source) === 1) {
+                return $source;
+            }
+        }
         $mediaSource = new MediaSource();
         $fileInfo = $mediaSource->add($basedir.DIRECTORY_SEPARATOR.$source, basename($source), 'assets');
         return $fileInfo['uri'];
