@@ -21,6 +21,7 @@
 namespace oat\taoQtiItem\scripts\itemUpdater;
 
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 
 /**
  * @author Christophe Noël
@@ -72,10 +73,37 @@ class ResponseProcessingUpdater
         return $changed;
     }
 
-    public function hasBrokenResponseProcessing(Item $itemXml) {
 
+    public function hasBrokenResponseProcessing(Item $qtiItem) {
+        $responses = $qtiItem->getResponses();
 
+        foreach ($responses as $response) {
+            $responseIdentifier = $response->attr('identifier');
+            if ($responseIdentifier === "RESPONSE") {
+                $hasCustomResponse = false;
+            } else {
+                $hasCustomResponse = true;
+            }
 
+            $responseProcessing = $qtiItem->getResponseProcessing();
+            if ($responseProcessing instanceof TemplatesDriven) {
+                $responseProcessingString = $responseProcessing->buildQTI();
+                if (strpos($responseProcessingString, 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct') !== 0) {
+                    $hasTemplateResponseProcessing = true;
+                } else {
+                    $hasTemplateResponseProcessing = false;
+                }
+//                echo "\nRRRRRRRRRR responseProcessing->buildQTI = " . $responseProcessing->buildQTI();
+//                echo "\nAAAAAAAAAA responseProcessing->toArray = " . var_export($responseProcessing->toArray(), true);
+//                echo "\nTTTTTTTTTT responseProcessing->attr('template') = " . var_export($responseProcessing->attr('template'), true);
+//                echo "\n";
+            } else {
+                throw new \common_Exception('responseProcessing format is not handled : ' . var_export($responseProcessing, true));
+            }
+        }
+        if ($hasCustomResponse && $hasTemplateResponseProcessing) {
+            return true;
+        }
         return false;
     }
 
