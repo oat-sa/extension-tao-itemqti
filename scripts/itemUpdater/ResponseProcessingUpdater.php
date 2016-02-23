@@ -70,4 +70,8 @@ class ResponseProcessingUpdater
         return $changed;
     }
 
+    public function hasBrokenResponseProcessing(\SimpleXMLElement $itemXml) {
+        return false;
+    }
+
 }
