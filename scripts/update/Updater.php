@@ -190,7 +190,13 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion === '2.12.1'){
             $currentVersion = '2.12.2';
         }
-        return $currentVersion;
+        $this->setVersion($currentVersion);
+
+        if($this->isVersion('2.12.2')){
+            //doing update
+            $this->setVersion('2.12.3');
+        }
+        return null;
     }
 
 }
