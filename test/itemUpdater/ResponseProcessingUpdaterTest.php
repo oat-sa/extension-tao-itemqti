@@ -24,10 +24,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
     const DIR_BROKEN_TESTS = __DIR__ . "/data/broken";
     const DIR_FIXED_TESTS = self::DIR_BROKEN_TESTS . "/fixed";
 
-    private $responseProcessingUpdater;
-
     protected function setUp() {
-        $this->responseProcessingUpdater = new ResponseProcessingUpdater();
     }
 
     private function getFilesFrom($directory) {
@@ -48,8 +45,10 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         foreach ($this->getFilesFrom(self::DIR_CORRECT_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
+            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+
             $this->assertFalse(
-                $this->responseProcessingUpdater->hasBrokenResponseProcessing($qtiItem),
+                $responseProcessingUpdater->isBroken(),
                 "This file has been incorrectly flagged as broken : " . $file->getFilename());
         }
     }
@@ -58,8 +57,10 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
+            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+
             $this->assertTrue(
-                $this->responseProcessingUpdater->hasBrokenResponseProcessing($qtiItem),
+                $responseProcessingUpdater->isBroken(),
                 "This file has been incorrectly flagged as valid : " . $file->getFilename());
         }
     }
