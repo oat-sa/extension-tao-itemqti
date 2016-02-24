@@ -101,24 +101,22 @@ class ResponseProcessingUpdater
 
     private function getFixedXmlWithManualFix() {
         $responseProcessingTemplate = <<<XML
-<responseProcessing>
-  <responseCondition>
-    <responseIf>
-      <match>
-        <variable identifier="{ID}"/>
-        <correct identifier="{ID}"/>
-      </match>
-      <setOutcomeValue identifier="SCORE">
-        <baseValue baseType="float">1</baseValue>
-      </setOutcomeValue>
-    </responseIf>
-    <responseElse>
-      <setOutcomeValue identifier="SCORE">
-        <baseValue baseType="float">0</baseValue>
-      </setOutcomeValue>
-    </responseElse>
-  </responseCondition>
-</responseProcessing>
+  <responseProcessing>
+    <responseCondition>
+      <responseIf>
+        <match>
+          <variable identifier="{ID}"/>
+          <correct identifier="{ID}"/>
+        </match>
+        <setOutcomeValue identifier="SCORE">
+          <sum>
+            <variable identifier="SCORE"/>
+            <baseValue baseType="integer">1</baseValue>
+          </sum>
+        </setOutcomeValue>
+      </responseIf>
+    </responseCondition>
+  </responseProcessing>
 XML;
         $responseProcessingXml = str_replace(
             "{ID}",
