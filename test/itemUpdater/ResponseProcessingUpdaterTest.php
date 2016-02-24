@@ -19,6 +19,11 @@ use \RecursiveDirectoryIterator;
 
 class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
 {
+    const DIR_CORRECT_TESTS = __DIR__ . "/data/correct";
+
+    const DIR_BROKEN_TESTS = __DIR__ . "/data/broken";
+    const DIR_FIXED_TESTS = self::DIR_BROKEN_TESTS . "/fixed";
+
     private $responseProcessingUpdater;
 
     protected function setUp() {
@@ -26,6 +31,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
     }
 
     private function getFilesFrom($directory) {
+        // todo review iterator options
         $directoryItr = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
         return new RecursiveIteratorIterator($directoryItr);
     }
@@ -38,8 +44,8 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         return $parser->load();
     }
 
-    public function testUpdaterDoesntChangeValidItems() {
-        foreach ($this->getFilesFrom(__DIR__ . '/data/correct/') as $file) {
+    public function testDetectsValidItems() {
+        foreach ($this->getFilesFrom(self::DIR_CORRECT_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
             $this->assertFalse(
@@ -48,14 +54,28 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         }
     }
 
-    public function testUpdaterCorrectsBrokenItems() {
-        foreach ($this->getFilesFrom(__DIR__ . '/data/incorrect/before/') as $file) {
+    public function testDetectsBrokenItems() {
+        foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
             $this->assertTrue(
                 $this->responseProcessingUpdater->hasBrokenResponseProcessing($qtiItem),
-                "This file has been incorrectly flagged as correct : " . $file->getFilename());
+                "This file has been incorrectly flagged as valid : " . $file->getFilename());
         }
-
     }
+
+//    public function testCorrectsBrokenItems() {
+//        foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
+//            $qtiItem = $this->getQtiItemFrom($file->getPathname());
+//
+//            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+//
+//            $expectedXml = file_get_contents(self::DIR_FIXED_TESTS . '/' . $file->getFilename());
+//
+//            $this->assertEquals(
+//                $expectedXml,
+//                $responseProcessingUpdater->getFixedXml();
+//            );
+//        }
+//    }
 }

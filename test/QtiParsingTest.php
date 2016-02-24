@@ -291,7 +291,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 
     public function testParseRpCustom(){
 
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom.xml';
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom-ok.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
         
