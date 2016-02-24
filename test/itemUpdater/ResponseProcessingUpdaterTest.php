@@ -19,9 +19,11 @@ use \RecursiveDirectoryIterator;
 
 class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
 {
-    const DIR_CORRECT_TESTS = __DIR__ . "/data/correct";
+    const DIR_FIXTURES = __DIR__ . "/data";
 
-    const DIR_BROKEN_TESTS = __DIR__ . "/data/broken";
+    const DIR_CORRECT_TESTS = self::DIR_FIXTURES . "/correct";
+
+    const DIR_BROKEN_TESTS =self::DIR_FIXTURES . "/broken";
     const DIR_FIXED_TESTS = self::DIR_BROKEN_TESTS . "/fixed";
 
     protected function setUp() {
@@ -75,8 +77,12 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
 //
 //            $this->assertEquals(
 //                $expectedXml,
-//                $responseProcessingUpdater->getFixedXml();
+//                $responseProcessingUpdater->getXmlFixed()
 //            );
 //        }
+//    }
+
+//    public function testReturnsOriginalXml() {
+//
 //    }
 }
