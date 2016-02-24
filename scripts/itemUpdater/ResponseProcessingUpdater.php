@@ -39,7 +39,9 @@ class ResponseProcessingUpdater
         $this->isBroken     = $this->hasBrokenResponseProcessing();
 
         if ($this->isBroken()) {
-            $this->fixedXml = $this->qtiItem->toXML(); // calling toXML() is enough to get a correct XML...
+            // calling toXML() is enough to get a correct XML...
+            // ... but it can also change other part of the XML, such as the assessmentItem attributes !
+            $this->fixedXml = $this->qtiItem->toXML();
         }
     }
 
