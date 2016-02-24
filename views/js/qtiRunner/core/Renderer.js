@@ -673,7 +673,6 @@ define([
                 return url;
             }
             if(typeof url === 'string' && url.length > 0){
-                options.assetManager.setData({baseUrl : options.baseUrl || '' });
                 return options.assetManager.resolve(url);
             }
         };
