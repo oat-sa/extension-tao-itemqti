@@ -31,6 +31,7 @@ class ResponseProcessingUpdater
     private $isBroken = false;
     private $originalXml;
     private $fixedXml = null;
+    private $responseIdentifier;
 
     public function __construct($qtiItemPathname) {
         $this->qtiItem      = $this->getQtiItemFrom($qtiItemPathname);
@@ -38,9 +39,7 @@ class ResponseProcessingUpdater
         $this->isBroken     = $this->hasBrokenResponseProcessing();
 
         if ($this->isBroken()) {
-            // calling toXML() is enough to get a correct XML...
-            // ... but it can also change other part of the XML, such as the assessmentItem attributes !
-            $this->fixedXml = $this->qtiItem->toXML();
+            $this->setFixedXml();
         }
     }
 
@@ -67,8 +66,8 @@ class ResponseProcessingUpdater
             return false; // if the file has multiple or no response declaration, we consider it valid...
         }
 
-        $responseIdentifier = current($responses)->attr('identifier');
-        if ($responseIdentifier === "RESPONSE") {
+        $this->responseIdentifier = current($responses)->attr('identifier');
+        if ($this->responseIdentifier === "RESPONSE") {
             return false; // files that uses the default identifier are declared valid...
         }
 
@@ -82,10 +81,56 @@ class ResponseProcessingUpdater
         return $this->isBroken;
     }
 
+    private function setFixedXml() {
+        // calling toXML() is enough to get a correct XML...
+        // ... but it can also change other part of the XML, such as attributes order or formatting
+        // an alternative is to use getFixedXmlWithManualFix()
+//        $this->fixedXml = $this->qtiItem->toXML();
+        $this->fixedXml = $this->getFixedXmlWithManualFix();
+    }
+
     public function getFixedXml() {
-        if ($this->fixedXml == null || !$this->isBroken()) {
+        if (!$this->isBroken()) {
             throw new \common_Exception("item isn't broken, no need to fix it !");
         }
+        if ($this->fixedXml == null) {
+            $this->setFixedXml();
+        }
         return $this->fixedXml;
+    }
+
+    private function getFixedXmlWithManualFix() {
+        $responseProcessingTemplate = <<<XML
+<responseProcessing>
+  <responseCondition>
+    <responseIf>
+      <match>
+        <variable identifier="{ID}"/>
+        <correct identifier="{ID}"/>
+      </match>
+      <setOutcomeValue identifier="SCORE">
+        <baseValue baseType="float">1</baseValue>
+      </setOutcomeValue>
+    </responseIf>
+    <responseElse>
+      <setOutcomeValue identifier="SCORE">
+        <baseValue baseType="float">0</baseValue>
+      </setOutcomeValue>
+    </responseElse>
+  </responseCondition>
+</responseProcessing>
+XML;
+        $responseProcessingXml = str_replace(
+            "{ID}",
+            $this->responseIdentifier,
+            $responseProcessingTemplate
+        );
+
+        $fixedXml = str_replace(
+            "<responseProcessing template=\"http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct\"/>",
+            $responseProcessingXml,
+            $this->originalXml
+        );
+        return $fixedXml;
     }
 }
