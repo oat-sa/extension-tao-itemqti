@@ -67,7 +67,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         foreach ($this->getFilesFrom(self::DIR_CORRECT_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
-            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+            $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             $this->assertFalse(
                 $responseProcessingUpdater->isBroken(),
@@ -80,7 +80,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
             $qtiItem = $this->getQtiItemFrom($file->getPathname());
 
-            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+            $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             $this->assertTrue(
                 $responseProcessingUpdater->isBroken(),
@@ -94,13 +94,11 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
 //            echo "\n===== checking " . $file->getPathname() . "\n";
 
-            $qtiItem = $this->getQtiItemFrom($file->getPathname());
-
             $expectedPathname = self::DIR_FIXED_TESTS . '/' . $file->getFilename();
             $expectedQtiItem = $this->getQtiItemFrom($expectedPathname);
             $expectedResponseProcessing = $expectedQtiItem->getResponseProcessing();
 
-            $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+            $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
             $actualPathname = self::DIR_TEMP . '/' . $file->getFilename();
             file_put_contents(
                 $actualPathname,
@@ -182,9 +180,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
             try {
                 echo "processing " . $itemPathname . "\n";
 
-                $qtiItem = $this->getQtiItemFrom($itemPathname);
-
-                $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
+                $responseProcessingUpdater = new ResponseProcessingUpdater($itemPathname);
 
                 if ($responseProcessingUpdater->isBroken()) {
                     echo "broken ! fixing...\n";

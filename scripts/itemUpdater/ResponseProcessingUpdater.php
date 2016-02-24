@@ -20,7 +20,7 @@
 
 namespace oat\taoQtiItem\scripts\itemUpdater;
 
-use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 
 /**
@@ -30,21 +30,44 @@ class ResponseProcessingUpdater
 {
     private $qtiItem;
     private $isBroken = false;
-    private $xml = null;
+    private $fixedXml = null;
 
-    public function __construct(Item $qtiItem) {
-        $this->qtiItem = $qtiItem;
+    public function __construct($qtiItemPathname) {
+        $this->qtiItem = $this->getQtiItemFrom($qtiItemPathname);
+
+        $this->originalXml = $this->getXmlStringFrom($qtiItemPathname);
 
         $this->isBroken = $this->hasBrokenResponseProcessing();
 
         if ($this->isBroken()) {
-            $this->xml = $this->qtiItem->toXML(); // calling toXML() is enough to get a correct XML...
+            $this->fixedXml = $this->qtiItem->toXML(); // calling toXML() is enough to get a correct XML...
         }
+    }
+
+    private function getQtiItemFrom($pathname)
+    {
+        $xml = new \DOMDocument();
+        $xml->load($pathname);
+
+        $parser = new ParserFactory($xml);
+        return $parser->load();
+    }
+
+    private function getXmlStringFrom($pathname)
+    {
+        $xml = new \DOMDocument();
+        $xml->formatOutput = true;
+        $xml->preserveWhiteSpace = false;
+        $xml->load($pathname);
+        return $xml->saveXml();
     }
 
     private function hasBrokenResponseProcessing() {
         $responses = $this->qtiItem->getResponses();
 
+        if (count($responses) > 1) {
+            return false;
+        }
         foreach ($responses as $response) {
             $responseIdentifier = $response->attr('identifier');
             if ($responseIdentifier === "RESPONSE") {
@@ -53,20 +76,10 @@ class ResponseProcessingUpdater
                 $hasCustomResponse = true;
             }
 
-            $responseProcessing = $this->qtiItem->getResponseProcessing();
-            if ($responseProcessing instanceof TemplatesDriven) {
-                $responseProcessingString = $responseProcessing->buildQTI();
-                if (strpos($responseProcessingString, 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct') !== 0) {
-                    $hasTemplateResponseProcessing = true;
-                } else {
-                    $hasTemplateResponseProcessing = false;
-                }
-//                echo "\nRRRRRRRRRR responseProcessing->buildQTI = " . $responseProcessing->buildQTI();
-//                echo "\nAAAAAAAAAA responseProcessing->toArray = " . var_export($responseProcessing->toArray(), true);
-//                echo "\nTTTTTTTTTT responseProcessing->attr('template') = " . var_export($responseProcessing->attr('template'), true);
-//                echo "\n";
+            if (strpos($this->originalXml, 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct') !== 0) {
+                $hasTemplateResponseProcessing = true;
             } else {
-                throw new \common_Exception('responseProcessing format is not handled : ' . var_export($responseProcessing, true));
+                $hasTemplateResponseProcessing = false;
             }
         }
         if ($hasCustomResponse && $hasTemplateResponseProcessing) {
@@ -96,7 +109,7 @@ class ResponseProcessingUpdater
     }
 
     public function getFixedXml() {
-        return $this->xml;
+        return $this->fixedXml;
     }
 
 
