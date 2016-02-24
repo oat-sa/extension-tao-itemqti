@@ -25,8 +25,7 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
     const DIR_FIXED_TESTS   = self::DIR_FIXTURES . "/fixed";
     const DIR_TEMP          = self::DIR_FIXTURES . "/temp";
 
-    protected function setUp()
-    {
+    protected function setUp() {
         // create or clean temp directory
         if (!is_dir(self::DIR_TEMP)) {
             mkdir(self::DIR_TEMP);
@@ -37,15 +36,12 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         }
     }
 
-    private function getFilesFrom($directory)
-    {
-        // todo review iterator options
+    private function getFilesFrom($directory) {
         $directoryItr = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
         return new RecursiveIteratorIterator($directoryItr);
     }
 
-    private function getQtiItemFrom($pathname)
-    {
+    private function getQtiItemFrom($pathname) {
         $xml = new \DOMDocument();
         $xml->load($pathname);
 
@@ -53,20 +49,8 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         return $parser->load();
     }
 
-    private function getXmlStringFrom($pathname)
-    {
-        $xml = new \DOMDocument();
-        $xml->formatOutput = true;
-        $xml->preserveWhiteSpace = false;
-        $xml->load($pathname);
-        return $xml->saveXml();
-    }
-
-    public function testDetectsValidItems()
-    {
+    public function testDetectsValidItems() {
         foreach ($this->getFilesFrom(self::DIR_CORRECT_TESTS) as $file) {
-            $qtiItem = $this->getQtiItemFrom($file->getPathname());
-
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             $this->assertFalse(
@@ -75,11 +59,8 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         }
     }
 
-    public function testDetectsBrokenItems()
-    {
+    public function testDetectsBrokenItems() {
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
-            $qtiItem = $this->getQtiItemFrom($file->getPathname());
-
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             $this->assertTrue(
@@ -89,16 +70,18 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
     }
 
 
-    public function xxx_testCorrectsBrokenItems()
-    {
+    /**
+     * we only test responseProcessing as other part of the XML (meaning the assessmentItem attributes) changes during
+     * the process (!)
+     */
+    public function testCorrectsBrokenItems() {
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
-//            echo "\n===== checking " . $file->getPathname() . "\n";
-
             $expectedPathname = self::DIR_FIXED_TESTS . '/' . $file->getFilename();
             $expectedQtiItem = $this->getQtiItemFrom($expectedPathname);
             $expectedResponseProcessing = $expectedQtiItem->getResponseProcessing();
 
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
+
             $actualPathname = self::DIR_TEMP . '/' . $file->getFilename();
             file_put_contents(
                 $actualPathname,
@@ -111,61 +94,10 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
                 $expectedResponseProcessing->buildQTI(),
                 $actualResponseProcessing->buildQTI()
             );
-
-            /* doesnt work because of the xml:lang tag in the header
-            $this->assertEquals(
-                $this->getXmlStringFrom($expectedPathname),
-                $this->getXmlStringFrom($actualPathname)
-            );
-            */
-
-//            $expectedXml = $this->getXmlStringFrom(self::DIR_FIXED_TESTS . '/' . $file->getFilename());
-//
-//            $this->assertEquals(
-//                $expectedXml,
-//                $responseProcessingUpdater->getXmlFixed(),
-//                "getXmlFixed doesn't returns expected output for file " . $file->getPathname()
-//            );
-
-            /*
-            // corrected file
-            file_put_contents(
-                self::DIR_FIXTURES . "/test_output/" . "FIXED_" . $file->getFilename(),
-//                $responseProcessingUpdater->getXmlOriginal()
-                $qtiItem->toXML()
-            );
-
-            // original file
-            file_put_contents(
-                self::DIR_FIXTURES . "/test_output/" . "BROKEN_" . $file->getFilename(),
-                $this->getXmlStringFrom($file->getPathname())
-            );
-            */
         }
     }
 
-    /*
-        // doesn't work, as getXmlOriginal seems to already correct the problem...
-        public function xxx_testReturnsOriginalXmlUnchanged() {
-            foreach ($this->getFilesFrom(self::DIR_FIXTURES) as $file) {
-    //            echo "\n===== checking " . $file->getPathname() . "\n";
-                $qtiItem = $this->getQtiItemFrom($file->getPathname());
-
-                $responseProcessingUpdater = new ResponseProcessingUpdater($qtiItem);
-
-                $expectedXml = $this->getXmlStringFrom($file->getPathname());
-
-                $this->assertEquals(
-                    $expectedXml,
-                    $responseProcessingUpdater->getXmlOriginal(),
-                    "getXmlOriginal doesn't returns original xml content for file " . $file->getPathname()
-                );
-            }
-        }
-    */
-
-    public function xxx_testUpdateRealFiles()
-    {
+    public function xxx_testUpdateRealFiles() {
 //        generate file list - hardcoded below
 //        echo "\n================\n\n[\n";
 //        foreach ($this->getFilesFrom(__DIR__ . "/../../../data/taoItems/itemData") as $file) {
