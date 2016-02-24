@@ -21,7 +21,6 @@
 namespace oat\taoQtiItem\scripts\itemUpdater;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 
 /**
  * @author Christophe Noël
@@ -70,19 +69,11 @@ class ResponseProcessingUpdater
 
         $responseIdentifier = current($responses)->attr('identifier');
         if ($responseIdentifier === "RESPONSE") {
-            $hasCustomResponse = false;
-        } else {
-            $hasCustomResponse = true;
+            return false; // files that uses the default identifier are declared valid...
         }
 
         if (strpos($this->originalXml, 'template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"') !== 0) {
-            $hasTemplateResponseProcessing = true;
-        } else {
-            $hasTemplateResponseProcessing = false;
-        }
-
-        if ($hasCustomResponse && $hasTemplateResponseProcessing) {
-            return true;
+            return true; // custom id + template = this shouldn't happen!!!
         }
         return false;
     }
