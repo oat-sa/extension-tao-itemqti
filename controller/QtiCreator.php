@@ -238,8 +238,7 @@ class QtiCreator extends tao_actions_CommonModule
             $resolver = new ItemMediaResolver($item, $lang);
             $asset = $resolver->resolve($path);
             $uri = $asset->getMediaIdentifier();
-            $renderer = $this->getServiceManager()->get(MediaRendererInterface::SERVICE_ID);
-            $renderer->render($uri);
+            $asset->getMediaSource()->render($uri);
         } else {
             throw new common_exception_Error('invalid item preview file path');
         }
