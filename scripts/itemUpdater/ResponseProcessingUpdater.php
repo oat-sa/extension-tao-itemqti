@@ -30,17 +30,15 @@ class ResponseProcessingUpdater
 {
     private $qtiItem;
     private $isBroken = false;
-    private $xmlOriginal;
-    private $xmlFixed = null;
+    private $xml = null;
 
     public function __construct(Item $qtiItem) {
         $this->qtiItem = $qtiItem;
-        $this->xmlOriginal = $qtiItem->toXML();
 
         $this->isBroken = $this->hasBrokenResponseProcessing();
 
         if ($this->isBroken()) {
-            $this->xmlFixed = $this->getXmlFixed();
+            $this->xml = $this->qtiItem->toXML(); // calling toXML() is enough to get a correct XML...
         }
     }
 
@@ -77,29 +75,29 @@ class ResponseProcessingUpdater
         return false;
     }
 
-    public function getXmlFixed() {
-        if ($this->isBroken) {
-            if ($this->xmlFixed != null) {
-                return $this->xmlFixed;
-            } else {
-                $responseProcessing = $this->qtiItem->getResponseProcessing();
-                $responseProcessing->create($this->qtiItem);
-                $this->qtiItem->setResponseProcessing($responseProcessing);
-                return $this->qtiItem->toXML();
-            }
-        } else {
-            throw new \common_Exception('response processing for this item is not broken, there is nothing to fix');
-        }
-    }
+//    public function getXmlFixed() {
+//        if ($this->isBroken) {
+//            if ($this->xmlFixed != null) {
+//                return $this->xmlFixed;
+//            } else {
+//                $responseProcessing = $this->qtiItem->getResponseProcessing();
+//                $responseProcessing->create($this->qtiItem);
+//                $this->qtiItem->setResponseProcessing($responseProcessing);
+//                return $this->qtiItem->toXML();
+//            }
+//        } else {
+//            throw new \common_Exception('response processing for this item is not broken, there is nothing to fix');
+//        }
+//    }
 
-    public function getOriginalXml() {
-        return $this->getOriginalXml();
-    }
 
     public function isBroken() {
         return $this->isBroken;
     }
 
+    public function getFixedXml() {
+        return $this->xml;
+    }
 
 
 

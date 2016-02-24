@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i14562226543630708" title="testItem" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="3.1.0-sprint19">
-    <responseDeclaration identifier="CUSTOM_RESPONSE" cardinality="multiple" baseType="identifier"/>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i145598842492464920" title="EG3.Se repérer 2" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="E3DEG230101" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value><![CDATA[hotspot_2]]></value>
+        </correctResponse>
+    </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
-                <choiceInteraction responseIdentifier="CUSTOM_RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
-                    <prompt>choucroute</prompt>
-                    <simpleChoice identifier="choice_1" fixed="false" showHide="show">choice #1</simpleChoice>
-                    <simpleChoice identifier="choice_2" fixed="false" showHide="show">choice #2</simpleChoice>
-                    <simpleChoice identifier="choice_3" fixed="false" showHide="show">choice #3</simpleChoice>
-                </choiceInteraction>
+                <h1 class="txt-ctr">
+                    <strong>Se repérer</strong>
+                </h1>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <h2>Voici des quadrillages, observe-les. Choisis le quadrillage sur lequel le visage qui sourit se trouve en (A,3) et le coeur en (C,1).</h2>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <hotspotInteraction responseIdentifier="E3DEG230101" maxChoices="1" minChoices="0" class="responsive">
+                    <object data="Quadrillage se rpérer.JPG" type="image/jpeg" width="660" height="538"/>
+                    <hotspotChoice identifier="hotspot_1" fixed="false" shape="rect" coords="31,15,332,266"/>
+                    <hotspotChoice identifier="hotspot_2" fixed="false" shape="rect" coords="335,15,633,269"/>
+                    <hotspotChoice identifier="hotspot_3" fixed="false" shape="rect" coords="33,266,334,521"/>
+                    <hotspotChoice identifier="hotspot_4" fixed="false" shape="rect" coords="336,270,634,520"/>
+                </hotspotInteraction>
             </div>
         </div>
     </itemBody>
@@ -19,8 +35,8 @@
         <responseCondition>
             <responseIf>
                 <match>
-                    <variable identifier="CUSTOM_RESPONSE"/>
-                    <correct identifier="CUSTOM_RESPONSE"/>
+                    <variable identifier="E3DEG230101"/>
+                    <correct identifier="E3DEG230101"/>
                 </match>
                 <setOutcomeValue identifier="SCORE">
                     <sum>
