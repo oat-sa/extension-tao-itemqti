@@ -33,6 +33,12 @@ class ResponseProcessingUpdater
     private $fixedXml = null;
     private $responseIdentifier;
 
+    private $templates = [
+        '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>',
+        '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>',
+        '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"/>'
+    ];
+
     public function __construct($qtiItemPathname) {
         $this->qtiItem      = $this->getQtiItemFrom($qtiItemPathname);
         $this->originalXml  = $this->getXmlStringFrom($qtiItemPathname);
@@ -70,9 +76,10 @@ class ResponseProcessingUpdater
             return false; // files that uses the default identifier are declared valid...
         }
 
-        $templateString = 'template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"';
-        if (strpos($this->originalXml, $templateString) !== false) {
-            return true; // custom id + template = this is very wrong!!!
+        foreach ($this->templates as $template) {
+            if (strpos($this->originalXml, $template) !== false) {
+                return true; // custom id + template = this is very wrong!!!
+            }
         }
         return false;
     }
@@ -95,8 +102,9 @@ class ResponseProcessingUpdater
         // calling toXML() is enough to get a correct XML...
         // ... but it can also change other part of the XML, such as attributes order or formatting
         // an alternative is to fix it manually
-        $this->fixedXml = $this->getFixedXmlWithManualFix();
+//        $this->fixedXml = $this->getFixedXmlWithManualFix();
 //        $this->fixedXml = $this->qtiItem->toXML();
+        $this->fixedXml = $this->getFixedXmlHybrid();
     }
 
     private function getFixedXmlWithManualFix() {
@@ -131,4 +139,31 @@ XML;
         );
         return $fixedXml;
     }
+
+    private function getFixedXmlHybrid() {
+        $fixedXml = str_replace(
+            $this->templates,
+            $this->getCorrectedResponseProcessing(),
+            $this->originalXml
+        );
+        return $fixedXml;
+    }
+
+    private function getCorrectedResponseProcessing() {
+        // calling toXML() is actually enough to fix the response processing.
+        // BUT, as it also changes other part of the xml (attributes order, html formatting...)
+        // we just want to get the responseProcessing part and leave the rest of the file as it is!
+        $fixedXml = $this->qtiItem->toXML();
+
+        $xml = new \DOMDocument();
+        $xml->formatOutput = true;
+        $xml->preserveWhiteSpace = false;
+        $xml->loadXML($fixedXml);
+
+        $responseProcessingList = $xml->getElementsByTagName('responseProcessing');
+        $responseProcessing = $responseProcessingList->item(0);
+
+        return $responseProcessing->ownerDocument->saveXML($responseProcessing);
+    }
+
 }
