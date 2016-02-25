@@ -36,8 +36,10 @@ require_once dirname(__FILE__).'/../../../tao/includes/raw_start.php';
 /**
  * @author Christophe Noël
  */
-const BACKUP_DIR = __DIR__ . '/backup';
-define("DRY_RUN", isDryRun($argv));
+define('BACKUP_DIR', __DIR__ . '/backup');
+define('DRY_RUN', isDryRun($argv));
+
+empyBackupDir();
 
 $stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
 
@@ -82,6 +84,23 @@ function isDryRun($argv) {
         return false;
     }
     return true;
+}
+
+function empyBackupDir() {
+    echo "\n\ncleaning backup directory... ";
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator(BACKUP_DIR, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+
+    foreach ($files as $fileinfo) {
+        if ($fileinfo->isDir()) {
+            rmdir($fileinfo->getRealPath());
+        } else {
+            unlink($fileinfo->getRealPath());
+        }
+    }
+    echo "done\n\n";
 }
 
 function backupFile($pathname) {
