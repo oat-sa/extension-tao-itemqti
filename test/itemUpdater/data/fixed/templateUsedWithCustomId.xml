@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i145598842492464920" title="EG3.Se repérer 2" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
-    <responseDeclaration identifier="E3DEG230101" cardinality="single" baseType="identifier">
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i145598842492464920" title="EG3.Se repérer 2" adaptive="false" timeDependent="false">
+    <responseDeclaration baseType="identifier" cardinality="single" identifier="E3DEG230101">
         <correctResponse>
             <value><![CDATA[hotspot_2]]></value>
         </correctResponse>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <outcomeDeclaration cardinality="single" baseType="float" identifier="SCORE"/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
@@ -21,12 +21,13 @@
         </div>
         <div class="grid-row">
             <div class="col-12">
-                <hotspotInteraction responseIdentifier="E3DEG230101" maxChoices="1" minChoices="0" class="responsive">
-                    <object data="Quadrillage se rpérer.JPG" type="image/jpeg" width="660" height="538"/>
-                    <hotspotChoice identifier="hotspot_1" fixed="false" shape="rect" coords="31,15,332,266"/>
-                    <hotspotChoice identifier="hotspot_2" fixed="false" shape="rect" coords="335,15,633,269"/>
-                    <hotspotChoice identifier="hotspot_3" fixed="false" shape="rect" coords="33,266,334,521"/>
-                    <hotspotChoice identifier="hotspot_4" fixed="false" shape="rect" coords="336,270,634,520"/>
+                <hotspotInteraction maxChoices="1" class="responsive" responseIdentifier="E3DEG230101">
+                    <prompt/>
+                    <object width="660" height="538" type="image/jpeg" data="Quadrillage se rpérer.JPG"/>
+                    <hotspotChoice shape="rect" coords="31,15,332,266" identifier="hotspot_1"/>
+                    <hotspotChoice shape="rect" coords="335,15,633,269" identifier="hotspot_2"/>
+                    <hotspotChoice shape="rect" coords="33,266,334,521" identifier="hotspot_3"/>
+                    <hotspotChoice shape="rect" coords="336,270,634,520" identifier="hotspot_4"/>
                 </hotspotInteraction>
             </div>
         </div>

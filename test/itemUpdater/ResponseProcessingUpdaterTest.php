@@ -41,6 +41,14 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
         return new RecursiveIteratorIterator($directoryItr);
     }
 
+    private function getXmlStringFrom($pathname) {
+        $xml = new \DOMDocument();
+        $xml->formatOutput = true;
+        $xml->preserveWhiteSpace = false;
+        $xml->load($pathname);
+        return $xml->saveXml();
+    }
+
     private function getQtiItemFrom($pathname) {
         $xml = new \DOMDocument();
         $xml->load($pathname);
@@ -70,10 +78,6 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
     }
 
 
-    /**
-     * we only test responseProcessing as other part of the XML (meaning the assessmentItem attributes) changes during
-     * the process (!)
-     */
     public function testCorrectsBrokenItems() {
         foreach ($this->getFilesFrom(self::DIR_BROKEN_TESTS) as $file) {
             $expectedPathname = self::DIR_FIXED_TESTS . '/' . $file->getFilename();
@@ -90,6 +94,10 @@ class ResponseProcessingUpdaterTest extends TaoPhpUnitTestRunner
                 $this->getComparableResponseProcessingFrom($expectedPathname),
                 $this->getComparableResponseProcessingFrom($actualPathname)
             );
+
+            $this->assertEquals(
+                $this->getXmlStringFrom($expectedPathname),
+                $this->getXmlStringFrom($actualPathname));
         }
     }
 
