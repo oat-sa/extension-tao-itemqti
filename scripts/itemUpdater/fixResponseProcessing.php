@@ -33,27 +33,60 @@ require_once dirname(__FILE__).'/../../../tao/includes/raw_start.php';
 /**
  * @author Christophe Noël
  */
-$directory      = __DIR__ . "/../../../data/taoItems/itemData";
+const BACKUP_DIR = __DIR__ . '/backup';
+
+$dryRun = true;
+define("DRY_RUN", $dryRun);
+
+$directory      = __DIR__ . "/../../../data/taoItems/itemData/i145408150933711260";
 $directoryItr   = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
+
+$stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
 
 foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
     if ($file->getFilename() === "qti.xml") {
         try {
-            echo $file->getPathname() . " ... ";
+            $stats['qtiFiles']++;
+
+            echo $file->getPathname() . " ";
 
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             if ($responseProcessingUpdater->isBroken()) {
-                echo "broken ! fixing...\n";
-                file_put_contents(
-                    $file->getPathname(),
-                    $responseProcessingUpdater->getFixedXml()
-                );
+                $stats['broken']++;
+                echo "broken... ";
+                backupFile($file->getPathname());
+                echo "backup... ";
+                replaceFile($file->getPathname(), $responseProcessingUpdater->getFixedXml());
+                echo "fixed !";
             } else {
                 echo "ok\n";
             }
         } catch (\Exception $e) {
+            $stats['errors']++;
             echo "\n\n !!!!!!!!!!!!!!!! error : " . $e->getMessage() . "\n\n";
         }
+    }
+}
+echo "\n ================= ";
+echo "\n" . $stats['qtiFiles'] . " qti.xml files analysed";
+echo "\n" . $stats['broken'] . " modified";
+echo "\n" . $stats['errors'] . " errors";
+echo "\n ================= \n";
+
+function backupFile($pathname) {
+    $sourceFile     = new \SplFileInfo($pathname);
+    $path           = explode('/', $sourceFile->getPath());
+    $itemDataIndex  = array_search('itemData', $path);
+    $backupPath     = BACKUP_DIR . '/' . implode('/', array_slice($path, $itemDataIndex));
+    if (!is_dir($backupPath)) {
+        mkdir($backupPath, null, true);
+    }
+    copy($sourceFile->getPathname(), $backupPath . '/' . $sourceFile->getFilename());
+}
+
+function replaceFile($pathname, $content) {
+    if (!DRY_RUN) {
+        file_put_contents($pathname, $content);
     }
 }
