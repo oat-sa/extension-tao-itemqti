@@ -29,7 +29,7 @@ require_once dirname(__FILE__).'/../../../tao/includes/raw_start.php';
 // README:
 // dry run by default:
 //      php taoQtiItem/scripts/itemUpdater/fixResponseProcessing.php
-// add "pray" for a no-dry run:
+// add "pray" for a non-dry run:
 //      php taoQtiItem/scripts/itemUpdater/fixResponseProcessing.php pray
 
 
@@ -87,20 +87,22 @@ function isDryRun($argv) {
 }
 
 function empyBackupDir() {
-    echo "\n\ncleaning backup directory... ";
-    $files = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator(BACKUP_DIR, RecursiveDirectoryIterator::SKIP_DOTS),
-        RecursiveIteratorIterator::CHILD_FIRST
-    );
+    if (is_dir(BACKUP_DIR)) {
+        echo "\n\ncleaning backup directory... ";
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(BACKUP_DIR, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
 
-    foreach ($files as $fileinfo) {
-        if ($fileinfo->isDir()) {
-            rmdir($fileinfo->getRealPath());
-        } else {
-            unlink($fileinfo->getRealPath());
+        foreach ($files as $fileinfo) {
+            if ($fileinfo->isDir()) {
+                rmdir($fileinfo->getRealPath());
+            } else {
+                unlink($fileinfo->getRealPath());
+            }
         }
+        echo "done\n\n";
     }
-    echo "done\n\n";
 }
 
 function backupFile($pathname) {
@@ -109,7 +111,7 @@ function backupFile($pathname) {
     $itemDataIndex  = array_search('itemData', $path);
     $backupPath     = BACKUP_DIR . '/' . implode('/', array_slice($path, $itemDataIndex));
     if (!is_dir($backupPath)) {
-        if (!mkdir($backupPath, null, true)) {
+        if (!mkdir($backupPath, 0775, true)) {
             throw new \common_Exception('cannot create backup directory ' . $backupPath);
         }
     }
