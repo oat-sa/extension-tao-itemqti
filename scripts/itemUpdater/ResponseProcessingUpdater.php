@@ -61,7 +61,6 @@ class ResponseProcessingUpdater
 
     private function hasBrokenResponseProcessing() {
         $responses = $this->qtiItem->getResponses();
-
         if (count($responses) != 1) {
             return false; // if the file has multiple or no response declaration, we consider it valid...
         }
@@ -71,22 +70,15 @@ class ResponseProcessingUpdater
             return false; // files that uses the default identifier are declared valid...
         }
 
-        if (strpos($this->originalXml, 'template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"') !== 0) {
-            return true; // custom id + template = this shouldn't happen!!!
+        $templateString = 'template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"';
+        if (strpos($this->originalXml, $templateString) !== false) {
+            return true; // custom id + template = this is very wrong!!!
         }
         return false;
     }
 
     public function isBroken() {
         return $this->isBroken;
-    }
-
-    private function setFixedXml() {
-        // calling toXML() is enough to get a correct XML...
-        // ... but it can also change other part of the XML, such as attributes order or formatting
-        // an alternative is to use getFixedXmlWithManualFix()
-//        $this->fixedXml = $this->qtiItem->toXML();
-        $this->fixedXml = $this->getFixedXmlWithManualFix();
     }
 
     public function getFixedXml() {
@@ -97,6 +89,14 @@ class ResponseProcessingUpdater
             $this->setFixedXml();
         }
         return $this->fixedXml;
+    }
+
+    private function setFixedXml() {
+        // calling toXML() is enough to get a correct XML...
+        // ... but it can also change other part of the XML, such as attributes order or formatting
+        // an alternative is to fix it manually
+        $this->fixedXml = $this->getFixedXmlWithManualFix();
+//        $this->fixedXml = $this->qtiItem->toXML();
     }
 
     private function getFixedXmlWithManualFix() {
