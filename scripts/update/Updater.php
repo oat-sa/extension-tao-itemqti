@@ -177,12 +177,15 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
             $currentVersion = '2.9.1';
         }
+        
         if ($currentVersion === '2.9.1') {
             $currentVersion = '2.10.0';
         }
+        
         if($currentVersion === '2.10.0') {
             $currentVersion = '2.11.0';
         }
+        
         if($currentVersion === '2.11.0') {
             $registry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
             $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
@@ -244,9 +247,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
         }
-    }
-
-    if ($this->isVersion('2.17.0')) {
+    
+        if ($this->isVersion('2.17.0')) {
             if (\common_ext_ExtensionsManager::singleton()->isInstalled('taoMediaManager')) {
                 $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoMediaManager');
                 $event = new \common_ext_event_ExtensionInstalled($extension);
@@ -261,7 +263,5 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('2.18.0');
         }
-
-
-
+    }
 }
