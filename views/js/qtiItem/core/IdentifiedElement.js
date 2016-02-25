@@ -55,7 +55,7 @@ define([
          */
         id : function id(value){
             if(!value && !this.attr('identifier')){
-                value = this.buildIdentifier(this.relatedItem(), value);
+                this.buildIdentifier(this.qtiClass, true);
             }
             return this.attr('identifier', value);
         }
