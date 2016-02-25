@@ -23,7 +23,7 @@ class QtiManager
 
                 $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoMediaManager');
 
-                $config = $extension->getConfig('importHandlers');
+                $config = (is_array($extension->getConfig('importHandler')))?$extension->getConfig('importHandler'):array();
                 $extension->setConfig('importHandlers', array_merge($config, array('oat\taoQtiItem\model\sharedStimulus\SharedStimulusImporter')));
 
                 ServiceManager::getServiceManager()->register(MediaRendererInterface::SERVICE_ID, $mediaRenderer);
