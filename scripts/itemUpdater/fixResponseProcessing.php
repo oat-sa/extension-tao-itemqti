@@ -41,7 +41,7 @@ define("DRY_RUN", isDryRun($argv));
 
 $stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
 
-$directory      = __DIR__ . "/../../../data/taoItems/itemData/i145408150933711260";
+$directory      = __DIR__ . "/../../../data/taoItems/itemData";
 $directoryItr   = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
 
 echo "\n";
@@ -60,7 +60,7 @@ foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
                 backupFile($file->getPathname());
                 echo "backup... ";
                 replaceFile($file->getPathname(), $responseProcessingUpdater->getFixedXml());
-                echo "fix !";
+                echo "fixed !";
             } else {
                 echo "ok";
             }
