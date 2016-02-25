@@ -26,29 +26,31 @@ use \RecursiveDirectoryIterator;
 
 require_once dirname(__FILE__).'/../../../tao/includes/raw_start.php';
 
-// launch with :
-// php taoQtiItem/scripts/itemUpdater/fixResponseProcessing.php
+// README:
+// dry run by default:
+//      php taoQtiItem/scripts/itemUpdater/fixResponseProcessing.php
+// add "pray" for a no-dry run:
+//      php taoQtiItem/scripts/itemUpdater/fixResponseProcessing.php pray
 
 
 /**
  * @author Christophe Noël
  */
 const BACKUP_DIR = __DIR__ . '/backup';
-
-$dryRun = true;
-define("DRY_RUN", $dryRun);
+define("DRY_RUN", isDryRun($argv));
 
 $stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
 
 $directory      = __DIR__ . "/../../../data/taoItems/itemData/i145408150933711260";
 $directoryItr   = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
 
+echo "\n";
 foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
     if ($file->getFilename() === "qti.xml") {
         try {
             $stats['qtiFiles']++;
 
-            echo $file->getPathname() . " ";
+            echo "\n" . $file->getPathname() . " ";
 
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
@@ -60,11 +62,12 @@ foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
                 replaceFile($file->getPathname(), $responseProcessingUpdater->getFixedXml());
                 echo "fix !";
             } else {
-                echo "ok\n";
+                echo "ok";
             }
         } catch (\Exception $e) {
             $stats['errors']++;
-            echo "\n\n !!!!!!!!!!!!!!!! error : " . $e->getMessage() . "\n\n";
+            echo "\n\n !!! ERROR: " . $e->getMessage() . "\n\n";
+            echo "\n\n " . $e->getTraceAsString() . "\n\n";
         }
     }
 }
@@ -73,6 +76,13 @@ echo "\n" . $stats['qtiFiles'] . " qti.xml files analysed";
 echo "\n" . $stats['broken'] . " modified";
 echo "\n" . $stats['errors'] . " errors";
 echo "\n================================= \n\n";
+
+function isDryRun($argv) {
+    if (isset($argv[1]) && $argv[1] == "pray") {
+        return false;
+    }
+    return true;
+}
 
 function backupFile($pathname) {
     $sourceFile     = new \SplFileInfo($pathname);
