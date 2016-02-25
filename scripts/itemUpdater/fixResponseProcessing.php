@@ -38,10 +38,10 @@ const BACKUP_DIR = __DIR__ . '/backup';
 $dryRun = true;
 define("DRY_RUN", $dryRun);
 
+$stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
+
 $directory      = __DIR__ . "/../../../data/taoItems/itemData/i145408150933711260";
 $directoryItr   = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
-
-$stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
 
 foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
     if ($file->getFilename() === "qti.xml") {
@@ -58,7 +58,7 @@ foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
                 backupFile($file->getPathname());
                 echo "backup... ";
                 replaceFile($file->getPathname(), $responseProcessingUpdater->getFixedXml());
-                echo "fixed !";
+                echo "fix !";
             } else {
                 echo "ok\n";
             }
@@ -68,11 +68,11 @@ foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
         }
     }
 }
-echo "\n ================= ";
+echo "\n\n================================= ";
 echo "\n" . $stats['qtiFiles'] . " qti.xml files analysed";
 echo "\n" . $stats['broken'] . " modified";
 echo "\n" . $stats['errors'] . " errors";
-echo "\n ================= \n";
+echo "\n================================= \n\n";
 
 function backupFile($pathname) {
     $sourceFile     = new \SplFileInfo($pathname);
@@ -80,13 +80,19 @@ function backupFile($pathname) {
     $itemDataIndex  = array_search('itemData', $path);
     $backupPath     = BACKUP_DIR . '/' . implode('/', array_slice($path, $itemDataIndex));
     if (!is_dir($backupPath)) {
-        mkdir($backupPath, null, true);
+        if (!mkdir($backupPath, null, true)) {
+            throw new \common_Exception('cannot create backup directory ' . $backupPath);
+        }
     }
-    copy($sourceFile->getPathname(), $backupPath . '/' . $sourceFile->getFilename());
+    if (!copy($sourceFile->getPathname(), $backupPath . '/' . $sourceFile->getFilename())) {
+        throw new \common_Exception('cannot backup file ' . $sourceFile->getPathname());
+    };
 }
 
 function replaceFile($pathname, $content) {
     if (!DRY_RUN) {
-        file_put_contents($pathname, $content);
+        if (file_put_contents($pathname, $content) === false) {
+            throw new \common_Exception('couldn\'t correct file ' . $pathname);
+        }
     }
 }
