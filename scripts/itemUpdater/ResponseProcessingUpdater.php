@@ -39,6 +39,8 @@ class ResponseProcessingUpdater
         '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point"/>'
     ];
 
+    private $templateFound = null;
+
     public function __construct($qtiItemPathname) {
         $this->qtiItem      = $this->getQtiItemFrom($qtiItemPathname);
         $this->originalXml  = $this->getXmlStringFrom($qtiItemPathname);
@@ -78,6 +80,7 @@ class ResponseProcessingUpdater
 
         foreach ($this->templates as $template) {
             if (strpos($this->originalXml, $template) !== false) {
+                $this->templateFound = $template;
                 return true; // custom id + template = this is very wrong!!!
             }
         }
@@ -86,6 +89,13 @@ class ResponseProcessingUpdater
 
     public function isBroken() {
         return $this->isBroken;
+    }
+
+    public function getTemplateFound() {
+        if (!$this->isBroken()) {
+            throw new \common_Exception("item isn't broken, no template found...");
+        }
+        return $this->templateFound;
     }
 
     public function getFixedXml() {

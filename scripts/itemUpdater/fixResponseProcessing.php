@@ -41,7 +41,7 @@ define('DRY_RUN', isDryRun($argv));
 
 empyBackupDir();
 
-$stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0];
+$stats = ['qtiFiles' => 0, 'broken' => 0, 'errors' => 0, 'templates' => []];
 
 $directory      = __DIR__ . "/../../../data/taoItems/itemData";
 $directoryItr   = new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS);
@@ -57,10 +57,18 @@ foreach(new RecursiveIteratorIterator($directoryItr) as $file) {
             $responseProcessingUpdater = new ResponseProcessingUpdater($file->getPathname());
 
             if ($responseProcessingUpdater->isBroken()) {
-                $stats['broken']++;
                 echo "broken... ";
+                $stats['broken']++;
+
+                $templateFound = $responseProcessingUpdater->getTemplateFound();
+                if (!array_key_exists($templateFound, $stats['templates'])) {
+                    $stats['templates'][$templateFound] = 0;
+                }
+                $stats['templates'][$templateFound]++;
+
                 backupFile($file->getPathname());
                 echo "backup... ";
+
                 replaceFile($file->getPathname(), $responseProcessingUpdater->getFixedXml());
                 echo "fixed !";
             } else {
@@ -77,6 +85,9 @@ echo "\n\n================================= ";
 echo "\n" . $stats['qtiFiles'] . " qti.xml files analysed";
 echo "\n" . $stats['broken'] . " modified";
 echo "\n" . $stats['errors'] . " errors";
+foreach ($stats['templates'] as $templateFound => $timesFound) {
+    echo "\n" . $timesFound . " replacements for " . $templateFound;
+}
 echo "\n================================= \n\n";
 
 function isDryRun($argv) {
