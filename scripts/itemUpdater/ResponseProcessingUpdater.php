@@ -109,54 +109,11 @@ class ResponseProcessingUpdater
     }
 
     private function setFixedXml() {
-        // calling toXML() is enough to get a correct XML...
-        // ... but it can also change other part of the XML, such as attributes order or formatting
-        // an alternative is to fix it manually
-//        $this->fixedXml = $this->getFixedXmlWithManualFix();
-//        $this->fixedXml = $this->qtiItem->toXML();
-        $this->fixedXml = $this->getFixedXmlHybrid();
-    }
-
-    private function getFixedXmlWithManualFix() {
-        $responseProcessingTemplate = <<<XML
-  <responseProcessing>
-    <responseCondition>
-      <responseIf>
-        <match>
-          <variable identifier="{ID}"/>
-          <correct identifier="{ID}"/>
-        </match>
-        <setOutcomeValue identifier="SCORE">
-          <sum>
-            <variable identifier="SCORE"/>
-            <baseValue baseType="integer">1</baseValue>
-          </sum>
-        </setOutcomeValue>
-      </responseIf>
-    </responseCondition>
-  </responseProcessing>
-XML;
-        $responseProcessingXml = str_replace(
-            "{ID}",
-            $this->responseIdentifier,
-            $responseProcessingTemplate
-        );
-
-        $fixedXml = str_replace(
-            "<responseProcessing template=\"http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct\"/>",
-            $responseProcessingXml,
-            $this->originalXml
-        );
-        return $fixedXml;
-    }
-
-    private function getFixedXmlHybrid() {
-        $fixedXml = str_replace(
-            $this->templates,
+        $this->fixedXml = str_replace(
+            $this->templateFound,
             $this->getCorrectedResponseProcessing(),
             $this->originalXml
         );
-        return $fixedXml;
     }
 
     private function getCorrectedResponseProcessing() {
