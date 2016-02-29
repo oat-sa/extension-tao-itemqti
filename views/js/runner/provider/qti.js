@@ -51,8 +51,9 @@ define([
             }
 
             this._renderer = new QtiRenderer(rendererOptions);
+            this._loader   = new QtiLoader();
 
-            new QtiLoader().loadItemData(itemData, function(item){
+            this._loader.loadItemData(itemData, function(item){
                 if(!item){
                     return self.trigger('error', 'Unable to load item from the given data.');
                 }
@@ -63,6 +64,50 @@ define([
 
                     done();
                 }, this.getLoadedClasses());
+            });
+
+            /**
+             * This "special" event has to be called on the IR to show a modal feedback
+             * @event itemRunner#feedback
+             * @param {Objtec} feedbackData - the feedback item data, loaded only on demand (hidden to the user)
+             * @param {Object} itemSession - the itemSession to decide which feedback to display
+             * @param {Function} done - what to do once the modal feedback is closed
+             */
+            this.on('feedback', function(feedbackData, itemSession, done){
+                //modal feedback data is
+                if(feedbackData && itemSession){
+                    self._loader.loadElements(feedbackData, function(item){
+                        self._renderer.load(function(){
+                            var queue = [];
+
+                            _.forEach(item.modalFeedbacks, function(feedback){
+
+                                var outcomeIdentifier = feedback.attr('outcomeIdentifier');
+                                if(itemSession[outcomeIdentifier].base.identifier === feedback.id()){
+                                    queue.push(new Promise(function(resolve){
+                                        var $feedbackContent = $(feedback.render());
+
+                                        //FIXME the IR should not be responsible of the modal rendering, i
+                                        //the container selection should be part of the renderer
+                                        $('#modalFeedbacks').append($feedbackContent);
+                                        feedback.postRender({
+                                            callback : function(){
+                                                $feedbackContent.remove();
+                                                resolve();
+                                            }
+                                        });
+                                    }));
+                                }
+                            });
+
+                            //execute the done callback once all modals are closed
+                            Promise.all(queue).then(done);
+
+                        }, this.getLoadedClasses());
+                    });
+                } else {
+                    done();
+                }
             });
         },
 
@@ -136,6 +181,7 @@ define([
                 $(elt).off('responseChange')
                       .off('endattempt')
                       .off('themechange')
+                      .off('feedback')
                       .empty();
 
                 if(this._renderer){

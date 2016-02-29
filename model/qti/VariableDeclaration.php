@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\VariableDeclaration;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 
 /**

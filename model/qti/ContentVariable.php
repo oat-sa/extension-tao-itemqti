@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\ContentVariable;
-
 /**
  * The content variable interface defines common behaviour for qti elements 
  * the visibility of which is subject to variation

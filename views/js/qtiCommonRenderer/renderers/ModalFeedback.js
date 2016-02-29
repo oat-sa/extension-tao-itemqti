@@ -20,9 +20,10 @@ define([
     'lodash',
     'tpl!taoQtiItem/qtiCommonRenderer/tpl/modalFeedback',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
+    'taoQtiItem/qtiItem/helper/container',
     'ui/waitForMedia',
     'ui/modal'
-], function(_, tpl, containerHelper){
+], function(_, tpl, containerHelper, coreContainerHelper){
     'use strict';
 
     var modalFeedbackRenderer = {
@@ -31,6 +32,11 @@ define([
         getContainer : containerHelper.get,
         minHeight : 200,
         width : 600,
+        getData : function(fb, data){
+            var feedbackStyle = coreContainerHelper.getEncodedData(fb, 'modalFeedback');
+            data.feedbackStyle = feedbackStyle;
+            return data;
+        },
         render : function(modalFeedback, data){
 
             data = data || {};
