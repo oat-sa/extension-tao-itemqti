@@ -36,7 +36,7 @@ class Fixed extends Attribute
 {
 	
 	static protected $name = 'fixed';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Boolean';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
 	static protected $defaultValue = false;
 	static protected $required = false;
 

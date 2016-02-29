@@ -36,7 +36,7 @@ class MinChoices extends Attribute
 {
 	
 	static protected $name = 'minChoices';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 0;
 	static protected $required = false;
 

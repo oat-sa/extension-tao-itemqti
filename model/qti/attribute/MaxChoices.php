@@ -36,7 +36,7 @@ class MaxChoices extends Attribute
 {
 	
 	static protected $name = 'maxChoices';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 1;
 	static protected $required = true;
 

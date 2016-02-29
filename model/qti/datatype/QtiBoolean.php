@@ -21,26 +21,34 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Float;
+use oat\taoQtiItem\model\qti\datatype\Boolean;
 use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
- * The basic Float data type
+ * The basic boolean datatype
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  
  */
-class Float extends Datatype
+class QtiBoolean extends Datatype
 {
 	
 	public static function validate($value){
-		return is_float($value);
+		return is_bool($value);
 	}
 	
 	public static function fix($value){
-		return floatval($value);
+		$returnValue = null;
+		
+		if(strcasecmp($value, 'false') == 0){
+			$returnValue = false;
+		}else if(!is_array($value) && !is_object($value)){
+			$returnValue = (bool)$value;//try casting to boolean type
+		}
+		
+		return $returnValue;
 	}
 
 }
