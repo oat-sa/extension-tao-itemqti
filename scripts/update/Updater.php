@@ -21,11 +21,13 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\ValidationService;
 
 /**
  * 
@@ -239,6 +241,12 @@ class Updater extends \common_ext_ExtensionUpdater
             );
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
+        }
+
+        if($this->isVersion('2.17.0')){
+            $service = new addValidationSettings();
+            $service([]);
+            $this->setVersion('2.17.1');
         }
     }
 
