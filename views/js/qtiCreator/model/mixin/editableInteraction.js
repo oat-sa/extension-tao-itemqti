@@ -78,17 +78,18 @@ define([
             var serial = this.serial,
                 interactions = this.getRelatedItem().getInteractions();
             
-            //delete its reponse
+            //delete its response
             this.deleteResponse();
             
             //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
             if(_.size(interactions) === 2){
                 _.each(interactions, function(interaction){
                     
+                    var response = interaction.getResponseDeclaration();
+                    
                     //find the other interaction, which will be the last remaining one
-                    if(interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
+                    if(response && interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
                         
-                        var response = interaction.getResponseDeclaration();
                         interaction.attr('responseIdentifier', 'RESPONSE');
                         response.id('RESPONSE');
                     }
