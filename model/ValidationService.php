@@ -29,10 +29,10 @@ class ValidationService extends ConfigurableService
     const SERVICE_ID = 'taoQtiItem/validation';
 
     public function getValidationSchema($type, $key){
-        $validationArray = $this->getOption($key);
+        $validationArray = $this->getOption($type);
 
-        if(in_array($type, $validationArray)){
-            return $validationArray[$type];
+        if(isset($validationArray[$key])){
+            return $validationArray[$key];
         }
 
         if(is_null($validationArray) || !isset($validationArray['default'])){

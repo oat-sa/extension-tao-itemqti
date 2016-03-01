@@ -48,7 +48,7 @@ return array(
 			dirname(__FILE__).'/install/local/addPortableContexts.php',
 			dirname(__FILE__).'/install/scripts/addPortableSharedLibraries.php',
 			dirname(__FILE__).'/install/scripts/setQtiRunnerConfig.php',
-			'oat\\taoQtiItem\\install\\scripts\\addValidationService'
+			'oat\\taoQtiItem\\install\\scripts\\addValidationSettings'
 		)
 	),
 	'local'	=> array(

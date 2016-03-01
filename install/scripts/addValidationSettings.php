@@ -3,8 +3,6 @@
 namespace oat\taoQtiItem\install\scripts;
 
 use oat\oatbox\service\ServiceManager;
-use oat\taoClientDiagnostic\model\authorization\Authorization;
-use oat\taoClientDiagnostic\model\authorization\RequireUsername;
 use oat\taoQtiItem\model\ValidationService;
 
 class addValidationSettings extends \common_ext_action_InstallAction
