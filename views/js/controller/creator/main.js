@@ -133,6 +133,11 @@ define([
             //init config
             config = _.merge({}, _config || {},  module.config() || {});
             
+            console.log(_.escape('M&M'));
+            console.log(_.escape('M&amp;M'));
+            console.log(_.escape('M<M'));
+            console.log(_.escape('eee'));
+            
             //reinitialize the renderer:
             creatorRenderer.get(true, config);
 
