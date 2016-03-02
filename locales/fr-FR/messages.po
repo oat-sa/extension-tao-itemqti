@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint21\n"
-"PO-Revision-Date: 2016-03-02T13:58:07\n"
+"PO-Revision-Date: 2016-03-02T15:27:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -166,10 +166,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "chars"
@@ -185,9 +185,6 @@ msgid "Choice Interaction"
 msgstr ""
 
 msgid "Choice Properties"
-msgstr ""
-
-msgid "choices"
 msgstr ""
 
 msgid "Choices"
@@ -256,10 +253,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -370,9 +367,6 @@ msgstr ""
 msgid "Enlarge font size"
 msgstr ""
 
-msgid "Enter choices…"
-msgstr ""
-
 msgid "Export"
 msgstr ""
 
@@ -395,9 +389,6 @@ msgid "Failed to save item"
 msgstr ""
 
 msgid "Feedback"
-msgstr ""
-
-msgid "Feedback Style"
 msgstr ""
 
 msgid "File"
@@ -481,10 +472,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -569,10 +560,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -603,11 +594,11 @@ msgid "Malformed XML:\n"
 "%s"
 msgstr ""
 
-msgid "Manage Items"
-msgstr ""
-
 #, tao-public
 msgid "Manage items"
+msgstr ""
+
+msgid "Manage Items"
 msgstr ""
 
 msgid "Mapping default"
@@ -628,10 +619,10 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
 msgid "Max Words"
@@ -700,9 +691,6 @@ msgstr ""
 msgid "MPEG video"
 msgstr ""
 
-msgid "negative"
-msgstr ""
-
 #, tao-public
 msgid "New item"
 msgstr ""
@@ -719,9 +707,6 @@ msgstr ""
 msgid "No Items could be imported from the given IMS QTI package."
 msgstr ""
 
-msgid "No preview available"
-msgstr ""
-
 msgid "No value set"
 msgstr ""
 
@@ -735,9 +720,6 @@ msgid "Number of associations"
 msgstr ""
 
 msgid "of"
-msgstr ""
-
-msgid "OK"
 msgstr ""
 
 msgid "one association pair"
@@ -844,9 +826,6 @@ msgid "PNG image"
 msgstr ""
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
-
-msgid "positive"
 msgstr ""
 
 msgid "Pre-formatted text"
@@ -1029,9 +1008,6 @@ msgstr ""
 msgid "Select Point Interaction"
 msgstr ""
 
-msgid "Select predefined feedback style from the list."
-msgstr ""
-
 msgid "Select shared stimulus"
 msgstr ""
 
@@ -1066,9 +1042,6 @@ msgid "Slider Interaction"
 msgstr ""
 
 msgid "some text ..."
-msgstr ""
-
-msgid "standard"
 msgstr ""
 
 msgid "Step"
@@ -1303,10 +1276,10 @@ msgstr ""
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
 
-msgid "Undo"
+msgid "undo"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr ""
 
 msgid "Upload a file (e.g. document, picture...) as a response."
