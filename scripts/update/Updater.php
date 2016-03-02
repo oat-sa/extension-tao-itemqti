@@ -240,6 +240,8 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
         }
+
+        $this->skip('2.17.0', '2.17.1');
     }
 
 }
