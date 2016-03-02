@@ -28,17 +28,50 @@ class ValidationService extends ConfigurableService
 {
     const SERVICE_ID = 'taoQtiItem/validation';
 
-    public function getValidationSchema($type, $key){
-        $validationArray = $this->getOption($type);
+    private $contentValidation = array(
+        'http://www.imsglobal.org/xsd/imsqti_v2p0' => array(
+            __DIR__.'/qti/data/qtiv2p0/imsqti_v2p0.xsd'
+        ),
+        'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
+                __DIR__.'/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+        ),
+        'default' => array(
+                __DIR__.'/qti/data/qtiv2p1/imsqti_v2p1.xsd'
+        )
+    );
 
+    private $manifestValidation = array(
+        'default' => array(
+                __DIR__.'/qti/data/imscp_v1p1.xsd',
+                __DIR__.'/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
+        )
+    );
+
+    public function getContentValidationSchema($key){
+        $validationArray = $this->getContentValidation();
+
+        return $this->getSchemas($validationArray, $key);
+    }
+
+    public function getManifestValidationSchema($key){
+        $validationArray = $this->getManifestValidation();
+
+        return $this->getSchemas($validationArray, $key);
+    }
+
+    protected function getSchemas($validationArray, $key){
         if(isset($validationArray[$key])){
             return $validationArray[$key];
         }
 
-        if(is_null($validationArray) || !isset($validationArray['default'])){
-            return array();
-        }
-
         return $validationArray['default'];
+    }
+
+    protected function getContentValidation(){
+        return $this->contentValidation;
+    }
+
+    protected function getManifestValidation(){
+        return $this->manifestValidation;
     }
 }
