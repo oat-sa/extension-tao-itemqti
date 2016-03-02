@@ -77,9 +77,9 @@ class ManifestParser
 				$returnValue = false;
 			} else {
 				$ns = $dom->documentElement->lookupNamespaceUri(null);
-				$servicemanager = ServiceManager::getServiceManager();
+				$servicemanager = $this->getServiceManager();
 				$validationService = $servicemanager->get(ValidationService::SERVICE_ID);
-				$schemas = $validationService->getValidationSchema('manifestValidation',$ns);
+				$schemas = $validationService->getManifestValidationSchema($ns);
 
 				$validSchema = $this->validateMultiple($schemas);
 				$returnValue = $validSchema !== '';
@@ -140,5 +140,9 @@ class ManifestParser
         
         return (array) $returnValue;
     }
+
+	protected function getServiceManager(){
+		return ServiceManager::getServiceManager();
+	}
 
 }

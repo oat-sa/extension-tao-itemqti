@@ -80,9 +80,9 @@ class Parser extends tao_models_classes_Parser
                 $returnValue = false;
             } else {
                 $ns = $dom->documentElement->lookupNamespaceUri(null);
-                $servicemanager = ServiceManager::getServiceManager();
+                $servicemanager = $this->getServiceManager();
                 $validationService = $servicemanager->get(ValidationService::SERVICE_ID);
-                $schemas = $validationService->getValidationSchema('contentValidation',$ns);
+                $schemas = $validationService->getContentValidationSchema($ns);
                 \common_Logger::i("The following schema will be used to validate: '" . $schemas[0] . "'.");
 
                 $validSchema = $this->validateMultiple($schemas);
@@ -166,5 +166,9 @@ class Parser extends tao_models_classes_Parser
         }else{
             parent::addError($error);
         }
+    }
+
+    protected function getServiceManager(){
+        return ServiceManager::getServiceManager();
     }
 }
