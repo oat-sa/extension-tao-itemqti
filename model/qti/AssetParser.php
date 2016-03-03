@@ -228,7 +228,7 @@ class AssetParser
 
         $libBasePath = ROOT_PATH . 'taoQtiItem/views/js/portableSharedLibraries';
         $libRootUrl = ROOT_URL . 'taoQtiItem/views/js/portableSharedLibraries';
-
+        $xmls = array();
         if($element instanceof PortableCustomInteraction || $element instanceof PortableInfoControl){
             $entryPoint = $element->getEntryPoint();
             $fileName = substr($entryPoint, -3) != '.js' ? $entryPoint.'.js' : $entryPoint;
@@ -239,23 +239,45 @@ class AssetParser
                     $this->addAsset('js', $fileName);
                 }
             }
+            $xmls = $this->getXmlProperties($element->getProperties());
         }
 
         //parse and extract assets from markup using XPATH
         if($element instanceof CustomInteraction || $element instanceof InfoControl){
             // http://php.net/manual/fr/simplexmlelement.xpath.php#116622
             $sanitizedMarkup = str_replace('xmlns=', 'ns=', $element->getMarkup());
-            $xml = new SimpleXMLElement($sanitizedMarkup);
-            foreach($xml->xpath('//img') as $img){
-                $this->addAsset('img', (string)$img['src']);
-            }
-            foreach($xml->xpath('//video') as $video){
-                $this->addAsset('video', (string)$video['src']);
-            }
-            foreach($xml->xpath('//audio') as $audio){
-                $this->addAsset('audio', (string)$audio['src']);
+            $xmls[] = new SimpleXMLElement($sanitizedMarkup);
+
+
+            /** @var SimpleXMLElement $xml */
+            foreach ($xmls as $xml) {
+                foreach($xml->xpath('//img') as $img){
+                    $this->addAsset('img', (string)$img['src']);
+                }
+                foreach($xml->xpath('//video') as $video){
+                    $this->addAsset('video', (string)$video['src']);
+                }
+                foreach($xml->xpath('//audio') as $audio){
+                    $this->addAsset('audio', (string)$audio['src']);
+                }
             }
         }
+    }
+
+    private function getXmlProperties($properties){
+        $xmls = array();
+        foreach($properties as $property){
+            if(is_array($property)){
+                $xmls = array_merge($xmls, $this->getXmlProperties($property));
+            }
+            if(is_string($property)){
+                $xml = simplexml_load_string('<div>'.$property.'</div>');
+                if($xml !== false){
+                    $xmls[] = $xml;
+                }
+            }
+        }
+        return $xmls;
     }
 
     /**
