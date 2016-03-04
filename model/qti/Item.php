@@ -93,7 +93,14 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @var array
      */
     protected $namespaces = array();
-
+    
+    /**
+     * The schema locations defined in the original qti.xml file,
+     *
+     * @var array
+     */
+    protected $schemaLocations = array();
+    
     /**
      * Short description of method __construct
      *
@@ -124,7 +131,19 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function getNamespace($uri){
         return array_search($uri, $this->namespaces);
     }
+    
+    public function addSchemaLocation($uri, $url){
+        $this->schemaLocations[$uri] = $url;
+    }
 
+    public function getSchemaLocations(){
+        return $this->schemaLocations;
+    }
+
+    public function getSchemaLocation($uri){
+        return $this->schemaLocations[$uri];
+    }
+    
     protected function getUsedAttributes(){
         return array(
             'oat\\taoQtiItem\\model\\qti\\attribute\\Title',
@@ -499,12 +518,10 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         }
 
         $namespaces = $this->getNamespaces();
-        // remove standard namespaces
-        unset($namespaces['']);
-        unset($namespaces['xml']);
-        unset($namespaces['xsi']);
+        ksort($namespaces);
         $variables['namespaces'] = $namespaces;
-
+        $variables['schemaLocations'] = $this->getSchemaLocations();
+        
         // render the responseProcessing
         $renderedResponseProcessing = '';
         $responseProcessing = $this->getResponseProcessing();

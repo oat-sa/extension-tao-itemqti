@@ -471,13 +471,12 @@ class ParserFactory
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
-        foreach($this->queryXPath('namespace::*') as $node){
-            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            $this->item->addNamespace($name, $node->nodeValue);
-        }
-        $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
-        $this->qtiPrefix = $nsQti ? $nsQti.':' : '';
-
+                
+        //load xml ns and schema locations
+        $this->loadNamespaces();
+        $this->loadSchemaLocations($data);
+        
+        //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
         foreach($styleSheetNodes as $styleSheetNode){
             $styleSheet = $this->buildStylesheet($styleSheetNode);
@@ -548,7 +547,37 @@ class ParserFactory
 
         return $this->item;
     }
-
+    
+    /**
+     * Load xml namespaces into the item model
+     */
+    protected function loadNamespaces(){
+        foreach($this->queryXPath('namespace::*') as $node){
+            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+            $this->item->addNamespace($name, $node->nodeValue);
+        }
+        $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
+        $this->qtiPrefix = $nsQti ? $nsQti.':' : '';
+    }
+    
+    /**
+     * Load xml schema locations into the item model
+     * 
+     * @param DOMElement $itemData
+     * @throws ParsingException
+     */
+    protected function loadSchemaLocations(DOMElement $itemData){
+        $schemaLoc = preg_replace('/\s+/', ' ', trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation')));
+        $schemaLocToken = explode(' ', $schemaLoc);
+        $schemaCount = count($schemaLocToken);
+        if($schemaCount%2){
+            throw new ParsingException('invalid schema location');
+        }
+        for($i=0; $i<$schemaCount; $i=$i+2){
+            $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
+        }
+    }
+    
     /**
      * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *
