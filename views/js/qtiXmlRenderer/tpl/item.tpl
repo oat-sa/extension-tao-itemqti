@@ -25,4 +25,6 @@
     {{{responseProcessing}}}
     
     {{~#feedbacks}}{{{.}}}{{/feedbacks}}
+    
+    {{{apipAccessibility}}}
 </assessmentItem>

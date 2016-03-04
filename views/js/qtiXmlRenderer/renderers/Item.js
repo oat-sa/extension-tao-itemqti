@@ -28,6 +28,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             
             var renderer = this;
             var defaultData = {
+                'class' : data.attributes.class || '',
                 responses : [],
                 outcomes : [],
                 stylesheets : [],
@@ -37,7 +38,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 xsi: 'xsi:',//the standard namespace prefix for xml schema
                 empty : item.isEmpty(),
                 responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
-                'class' : data.attributes.class || ''
+                apipAccessibility : item.getApipAccessibility() || ''
             };
             
             _.each(item.responses, function(response){
