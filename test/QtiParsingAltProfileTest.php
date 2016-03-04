@@ -42,7 +42,7 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner {
     /**
      * test if alternative QTI profiles are managed correctly during parsing
      */
-    public function testFileParsingCDATA(){
+    public function testParseAlternativeProfile(){
         
         $file = dirname(__FILE__).'/samples/xml/qtiv2p1/alternativeProfiles/apip001.xml';
         $qtiParser = new Parser($file);
