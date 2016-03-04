@@ -102,6 +102,8 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      */
     protected $schemaLocations = array();
     
+    protected $apipAccessibility =  '';
+    
     /**
      * Short description of method __construct
      *
@@ -143,6 +145,14 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
     public function getSchemaLocation($uri){
         return $this->schemaLocations[$uri];
+    }
+    
+    public function setApipAccessibility($apipXml){
+        $this->apipAccessibility = $apipXml;
+    }
+    
+    public function getApipAccessibility(){
+        return $this->apipAccessibility;
     }
     
     protected function getUsedAttributes(){
@@ -539,7 +549,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         unset($variables['attributes']['class']);
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
-
+        
+        $variables['apipAccessibility'] = $this->getApipAccessibility();
+        
         return $variables;
     }
 
@@ -597,6 +609,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $data['responses'] = $this->getArraySerializedElementCollection($this->getResponses(), $filterVariableContent, $filtered);
         $data['feedbacks'] = $this->getArraySerializedElementCollection($this->getModalFeedbacks(), $filterVariableContent, $filtered);
         $data['responseProcessing'] = $this->responseProcessing->toArray($filterVariableContent, $filtered);
+        $data['apipAccessibility'] = $this->getApipAccessibility();
         return $data;
     }
 

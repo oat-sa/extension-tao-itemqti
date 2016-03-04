@@ -45,6 +45,7 @@ define([
             this.namespaces = {};
             this.schemaLocations = {};
             this.responseProcessing = null;
+            this.apipAccessibility = null;
         },
         getInteractions : function(){
             var interactions = [];
@@ -135,6 +136,12 @@ define([
         },
         getSchemaLocations : function(){
             return _.clone(this.schemaLocations);
+        },
+        setApipAccessibility : function(apip){
+            this.apipAccessibility = apip || null;
+        },
+        getApipAccessibility : function(){
+            return this.apipAccessibility;
         },
         addStylesheet : function(stylesheet){
             if(Element.isA(stylesheet, 'stylesheet')){

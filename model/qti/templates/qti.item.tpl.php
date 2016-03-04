@@ -44,4 +44,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'?>
     <?=get_data('renderedResponseProcessing')?>
     
     <?=get_data('feedbacks')?>
+    
+    <?=get_data('apipAccessibility')?>
 </assessmentItem>

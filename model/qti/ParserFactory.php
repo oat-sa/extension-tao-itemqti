@@ -544,7 +544,9 @@ class ParserFactory
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
-
+        
+        $this->buildApipAccessibility($data);
+        
         return $this->item;
     }
     
@@ -580,6 +582,16 @@ class ParserFactory
         }
         for($i=0; $i<$schemaCount; $i=$i+2){
             $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
+        }
+    }
+    
+    protected function buildApipAccessibility(DOMElement $data){
+        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']", $data);
+        if($ApipNodes->length > 0){
+            common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
+            $apipNode = $ApipNodes->item(0);
+            $apipXml = $apipNode->ownerDocument->saveXML($apipNode);
+            $this->item->setApipAccessibility($apipXml);
         }
     }
     
