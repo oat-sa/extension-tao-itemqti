@@ -43,6 +43,7 @@ define([
             this.outcomes = {};
             this.modalFeedbacks = {};
             this.namespaces = {};
+            this.schemaLocations = {};
             this.responseProcessing = null;
         },
         getInteractions : function(){
@@ -129,6 +130,12 @@ define([
         getNamespaces : function(){
             return _.clone(this.namespaces);
         },
+        setSchemaLocations : function(locations){
+            this.schemaLocations = locations;
+        },
+        getSchemaLocations : function(){
+            return _.clone(this.schemaLocations);
+        },
         addStylesheet : function(stylesheet){
             if(Element.isA(stylesheet, 'stylesheet')){
                 stylesheet.setRelatedItem(this);
@@ -177,6 +184,7 @@ define([
                 arr.stylesheets[i] = this.stylesheets[i].toArray();
             }
             arr.namespaces = this.namespaces;
+            arr.schemaLocations = this.schemaLocations;
             return arr;
         },
         isEmpty : function(){

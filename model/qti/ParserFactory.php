@@ -552,9 +552,14 @@ class ParserFactory
      * Load xml namespaces into the item model
      */
     protected function loadNamespaces(){
+        $namespaces = [];
         foreach($this->queryXPath('namespace::*') as $node){
             $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            $this->item->addNamespace($name, $node->nodeValue);
+            $namespaces[$name] = $node->nodeValue;
+        }
+        ksort($namespaces);
+        foreach($namespaces as $name => $uri){
+            $this->item->addNamespace($name, $uri);
         }
         $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
         $this->qtiPrefix = $nsQti ? $nsQti.':' : '';

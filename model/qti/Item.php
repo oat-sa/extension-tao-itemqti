@@ -517,10 +517,10 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $variables['feedbacks'] .= $feedback->toQTI();
         }
 
-        $namespaces = $this->getNamespaces();
-        ksort($namespaces);
-        $variables['namespaces'] = $namespaces;
+        $variables['namespaces'] = $this->getNamespaces();
         $variables['schemaLocations'] = $this->getSchemaLocations();
+        $nsXsi = $this->getNamespace('http://www.w3.org/2001/XMLSchema-instance');
+        $variables['xsi'] = $nsXsi ? $nsXsi.':' : 'xsi:';
         
         // render the responseProcessing
         $renderedResponseProcessing = '';
@@ -590,6 +590,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['namespaces'] = $this->getNamespaces();
+        $data['schemaLocations'] = $this->getSchemaLocations();
         $data['stylesheets'] = $this->getArraySerializedElementCollection($this->getStylesheets(), $filterVariableContent, $filtered);
         $data['outcomes'] = $this->getArraySerializedElementCollection($this->getOutcomes(), $filterVariableContent, $filtered);
         $data['responses'] = $this->getArraySerializedElementCollection($this->getResponses(), $filterVariableContent, $filtered);
