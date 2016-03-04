@@ -80,7 +80,6 @@ class ParserFactory
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
-    protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
 
     public function __construct(DOMDocument $data){
@@ -141,17 +140,11 @@ class ParserFactory
     }
 
     public function queryXPath($query, DOMElement $contextNode = null){
-
-        $returnValue = $contextNode;
-        if($this->qtiPrefix){
-            
-        }
         if(is_null($contextNode)){
-            $returnValue = $this->xpath->query($query);
+            return $this->xpath->query($query);
         }else{
-            $returnValue = $this->xpath->query($query, $contextNode);
+            return $this->xpath->query($query, $contextNode);
         }
-        return $returnValue;
     }
 
     public function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
@@ -563,8 +556,6 @@ class ParserFactory
         foreach($namespaces as $name => $uri){
             $this->item->addNamespace($name, $uri);
         }
-        $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
-        $this->qtiPrefix = $nsQti ? $nsQti.':' : '';
     }
     
     /**
