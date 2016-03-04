@@ -102,6 +102,13 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      */
     protected $schemaLocations = array();
     
+    /**
+     * The information on apip accessibility.
+     * It is currently stored as an xml string.
+     * This opens opprtunity to manage APIP accessibility more thouroughly in the future
+     * 
+     * @var type 
+     */
     protected $apipAccessibility =  '';
     
     /**
