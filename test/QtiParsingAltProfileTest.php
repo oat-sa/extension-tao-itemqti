@@ -58,18 +58,9 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner {
 
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
         
-//        print_r($item->toArray());
-        print_r($item->toXML());
-        
-        return;
-        $responses = $item->getResponses();
-        foreach ($responses as $response) {
-            $correctResponses = $response->getCorrectResponses();
-            foreach ($correctResponses as $correctResponse) {
-                $this->assertFalse(strstr($correctResponse,"<![CDATA["),"<![CDATA[ (CDATA opening tag) detected.");
-                $this->assertFalse(strstr($correctResponse,"]]>"),"]]> (CDATA closing tag) detected");
-            }
-        }
+        $xml = simplexml_load_string($item->toXML());
+        $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $xml->getNamespaces()['']);
+        $this->assertNotNull($xml->apipAccessibility);
     }
 
 }
