@@ -138,4 +138,12 @@ class QtiItemPacker extends ItemPacker
         throw new common_Exception('Unable to retrieve item content at : ' . $file);
     }
 
+    /**
+     * @param boolean $replaceXinclude
+     */
+    public function setReplaceXinclude($replaceXinclude)
+    {
+        $this->replaceXinclude = $replaceXinclude;
+    }
+
 }
