@@ -187,7 +187,8 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
 
         // retrieve the media assets
         try {
-            $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory);
+            $assets = array();
+            $qtiItem = $this->retrieveAssets($item, $language, $publicDirectory, $assets);
     
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
@@ -196,7 +197,9 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
-            
+            foreach($assets as $assetUrl => $replacement){
+                $xhtml = str_replace($assetUrl, $replacement, $xhtml);
+            }
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
             // write index.html
             file_put_contents($publicDirectory . 'index.html', $xhtml);
@@ -224,18 +227,24 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * @param core_kernel_classes_Resource $item
      * @param string $lang
      * @param string $destination
+     * @param array $retrievedAssets
      * @return \oat\taoQtiItem\model\qti\Item
      */
-    protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $destination)
+    protected function retrieveAssets(core_kernel_classes_Resource $item, $lang, $destination, &$retrievedAssets)
     {
         $xml = taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
         $qtiParser = new Parser($xml);
         $qtiItem  = $qtiParser->load();
         
+        $resolver = new ItemMediaResolver($item, $lang);
+
+        //loadxinclude
+        $xincludeLoader = new XIncludeLoader($qtiItem, $resolver);
+        $xincludeLoader->load(true);
+
         $assetParser = new AssetParser($qtiItem);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
-        $resolver = new ItemMediaResolver($item, $lang);
         foreach($assetParser->extract() as $type => $assets) {
             foreach($assets as $assetUrl) {
                 foreach (self::$BLACKLIST as $blacklist) {
@@ -261,18 +270,11 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                     tao_helpers_File::copy($srcPath,$destination.$destPath,false);
 
                 }
-                $xml = str_replace($assetUrl, $replacement, $xml);
+                $retrievedAssets[str_replace('/','\/',$assetUrl)] = $replacement;
             }
         }
-        
-        $qtiParser = new Parser($xml);
-        $assetRetrievedQtiItem =  $qtiParser->load();
-        
-         //loadxinclude
-        $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
-        $xincludeLoader->load(true);
 
-        return $assetRetrievedQtiItem;
+        return $qtiItem;
     }
 
 }

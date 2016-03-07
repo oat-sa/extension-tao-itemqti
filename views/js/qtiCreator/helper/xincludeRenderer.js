@@ -44,6 +44,8 @@ define([
 
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
                         _.each(xinclude.getComposingElements(), function(elt){
+
+                            commonRenderer.get().getAssetManager().setData({baseUrl : baseUrl});
                             elt.setRenderer(commonRenderer.get());
                         });
 

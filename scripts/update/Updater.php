@@ -21,11 +21,15 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\media\MediaRendererInterface;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
-use oat\tao\model\ClientLibRegistry;
+use oat\taoQtiItem\model\SharedLibrariesRegistry;
+use oat\taoQtiItem\model\sharedStimulus\SharedStimulusRenderer;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\update\QtiManager;
 
 /**
  * 
@@ -173,12 +177,15 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/waitForMedia', $installBasePath . '/OAT/waitForMedia.js');
             $currentVersion = '2.9.1';
         }
+        
         if ($currentVersion === '2.9.1') {
             $currentVersion = '2.10.0';
         }
+        
         if($currentVersion === '2.10.0') {
             $currentVersion = '2.11.0';
         }
+        
         if($currentVersion === '2.11.0') {
             $registry->registerFromFile('OAT/util/asset', $installBasePath . '/OAT/util/asset.js');
             $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
@@ -240,6 +247,21 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
         }
-    }
+    
+        if ($this->isVersion('2.17.0')) {
+            if (\common_ext_ExtensionsManager::singleton()->isInstalled('taoMediaManager')) {
+                $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoMediaManager');
+                $event = new \common_ext_event_ExtensionInstalled($extension);
+                QtiManager::catchEvent($event);
+            }
+            $eventManager = new EventManager();
+            $eventManager->attach(
+                'common_ext_event_ExtensionInstalled',
+                array('oat\\taoQtiItem\\model\\update\\QtiManager', 'catchEvent')
+            );
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
+            $this->setVersion('2.18.0');
+        }
+    }
 }
