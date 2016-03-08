@@ -184,7 +184,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
             $currentVersion = '2.12.0';
         }
-
         $this->setVersion($currentVersion);
 
         if($this->isBetween('2.12.0','2.13.0')) {
@@ -240,6 +239,10 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
         }
+
+		if($this->isVersion('2.17.0')){
+			$this->setVersion('2.17.1');
+		}
     }
 
 }

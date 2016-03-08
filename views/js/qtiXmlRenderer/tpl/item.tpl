@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
-    {{~#each namespaces}} {{#if @key}}xmlns:{{@key}}="{{.}}"{{/if}}{{/each}}
+<assessmentItem 
+    {{#each namespaces}}{{#if @key}}xmlns:{{@key}}="{{.}}"{{else}}xmlns="{{.}}"{{/if}} {{/each}}
+    {{xsi}}schemaLocation="{{~#each schemaLocations}}{{@key}} {{.}} {{/each}}"
     {{#if attributes}}{{{join attributes '=' ' ' '"'}}}{{/if}}>
     
     {{~#responses}}
@@ -24,4 +25,6 @@
     {{{responseProcessing}}}
     
     {{~#feedbacks}}{{{.}}}{{/feedbacks}}
+    
+    {{{apipAccessibility}}}
 </assessmentItem>
