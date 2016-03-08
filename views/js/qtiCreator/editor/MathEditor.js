@@ -1,4 +1,9 @@
-define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
+define([
+    'lodash',
+    'jquery',
+    'mathJax',
+    'ui/feedback'
+], function(_, $, MathJax, feedback){
     "use strict";
     var MathEditor = function MathEditor(config){
 
@@ -112,20 +117,26 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
                 //programmatically typeset the buffer
                     ['Typeset', MathJax.Hub, _this.$buffer[0]],
                     function(){
-                        //store mathjax "tex", for tex for later mathML conversion
-                        var texJax = _getJaxByElement(_this.$buffer);
+                        var texJax;
+                        try {
+                            //replace the target element
+                            args.target.html(_this.$buffer.html());
 
-                        //replace the target element
-                        args.target.html(_this.$buffer.html());
+                            //store mathjax "tex", for tex for later mathML conversion
+                            texJax = _getJaxByElement(_this.$buffer);
 
+                            //empty buffer;
+                            _this.$buffer.empty();
 
-                        //empty buffer;
-                        _this.$buffer.empty();
-
-                        //sync MathML
-                        _this.texToMathML(texJax, function(mathML){
-                            _this.setMathML(_stripMathTags(mathML));
-                        });
+                            //sync MathML
+                            if (typeof (texJax) !== 'undefined') {
+                                _this.texToMathML(texJax, function (mathML) {
+                                    _this.setMathML(_stripMathTags(mathML));
+                                });
+                            }
+                        } catch (err) {
+                            feedback().error('Mathjax error: ' + err.message);
+                        }
                     }
                 );
 
