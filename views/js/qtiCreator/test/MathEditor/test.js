@@ -7,33 +7,39 @@ function($, MathEditor, MathJax) {
     "use strict";
 
     QUnit.asyncTest('Latex rendering', function test(assert) {
-        var $bufferContainer = $('.mj-buffer'),
-            $targetContainer = $('.mj-target'),
-
-            texExprs = [
+        var texExprs = [
                 '\\fr<ac1 2{',
                 '\\frac1 2{'
-            ];
+            ],
+            displayType = [
+                'block',
+                'inline'
+            ],
 
-        QUnit.expect(texExprs.length);
+            $bufferContainer = $('.mj-buffer'),
+            $targetContainer = $('.mj-target');
+
+        QUnit.expect(texExprs.length * displayType.length);
 
         texExprs.forEach(function generateMathJaxOutput(texExpr, index) {
-            var $buffer = $('<div class="mj-buffer-' + index + '"></div>'),
-                $target = $('<div class="mj-target-' + index + '"></div>'),
+            displayType.forEach(function loopDisplay(display) {
+                var key = display + '-' + index,
+                    $buffer = $('<div class="mj-buffer-' + key + '"></div>'),
+                    $target = $('<div class="mj-target-' + key + '"></div>'),
 
-                mathEditor = new MathEditor({
-                    buffer: $buffer,
-                    target: $target,
-                    display: 'block',
-                    tex: texExpr
-                });
+                    mathEditor = new MathEditor({
+                        buffer: $buffer,
+                        target: $target,
+                        display: display
+                    });
 
-            $bufferContainer.append($buffer);
-            $targetContainer.append($target);
+                $bufferContainer.append($buffer);
+                $targetContainer.append($target);
 
-            mathEditor.renderFromTex();
+                mathEditor.setTex(texExpr);
+                mathEditor.renderFromTex();
+            });
         });
-
 
         // in we want to log into the error handler...
         //MathJax.Hub.Register.MessageHook("TeX Jax - parse error", function (message) {
@@ -44,14 +50,14 @@ function($, MathEditor, MathJax) {
             QUnit.start();
 
             texExprs.forEach(function checkForExpression(texExpr, index) {
-                var $target = $targetContainer.find('.mj-target-' + index),
-                    actualScript = $target.find('script').text(),
-                    expectedScript = '\\displaystyle{' + texExpr + '}';
+                displayType.forEach(function loopDisplay(display) {
+                    var $target = $targetContainer.find('.mj-target-' + display + '-' + index),
+                        actualScript = $target.find('script').text(),
+                        expectedScript = '\\displaystyle{' + texExpr + '}';
 
-                console.log('$target = ' + JSON.stringify($target, null, 2));
-
-                assert.ok(actualScript === expectedScript,
-                    'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
+                    assert.ok(actualScript === expectedScript,
+                        'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
+                });
             });
         }, 1500); // we give Mathjax some time to generate the output
     });
