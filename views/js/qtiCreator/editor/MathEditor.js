@@ -102,9 +102,9 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
             var _this = this;
             var jaxQueue = MathJax.Hub.queue;
             if(this.display === 'block'){
-                _this.$buffer.html('\\[\\displaystyle{' + _this.tex + '}\\]');
+                _this.$buffer.text('\\[\\displaystyle{' + _this.tex + '}\\]');
             }else{
-                _this.$buffer.html('\\(\\displaystyle{' + _this.tex + '}\\)');
+                _this.$buffer.text('\\(\\displaystyle{' + _this.tex + '}\\)');
             }
 
             //render preview:
