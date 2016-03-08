@@ -26,6 +26,8 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
+use oat\taoQtiItem\model\update\ItemFixGhostResponse;
+use oat\taoQtiItem\model\update\ItemFixStandardRpTemplate;
 
 /**
  * 
@@ -195,7 +197,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-	if($this->isVersion('2.13.0')) {
+        if($this->isVersion('2.13.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -211,6 +213,17 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
 		$this->skip('2.14.0','2.15.0');
+
+        if($this->isVersion('2.15.0')){
+            
+            $itemUpdater = new ItemFixGhostResponse(ROOT_PATH . 'data/taoItems/itemData');
+            $itemUpdater->update(true);
+            $itemUpdater = new ItemFixStandardRpTemplate(ROOT_PATH . 'data/taoItems/itemData');
+            $itemUpdater->update(true);
+
+            $this->setVersion('2.15.1');
+        }
     }
+
 
 }
