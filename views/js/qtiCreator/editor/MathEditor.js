@@ -96,11 +96,11 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
     MathEditor.prototype.renderFromTex = function(){
 
         var args = _processArguments(this, arguments);
+        var _this = this;
+        var jaxQueue = MathJax.Hub.queue;
 
-        if(typeof(MathJax) !== 'undefined'){
+        if(typeof (MathJax) !== 'undefined'){
 
-            var _this = this;
-            var jaxQueue = MathJax.Hub.queue;
             if(this.display === 'block'){
                 _this.$buffer.text('\\[\\displaystyle{' + _this.tex + '}\\]');
             }else{
@@ -110,14 +110,14 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
             //render preview:
             jaxQueue.Push(
                 //programmatically typeset the buffer
-                    ["Typeset", MathJax.Hub, _this.$buffer[0]],
+                    ['Typeset', MathJax.Hub, _this.$buffer[0]],
                     function(){
+                        //store mathjax "tex", for tex for later mathML conversion
+                        var texJax = _getJaxByElement(_this.$buffer);
 
                         //replace the target element
                         args.target.html(_this.$buffer.html());
 
-                        //store mathjax "tex", for tex for later mathML conversion
-                        var texJax = _getJaxByElement(_this.$buffer);
 
                         //empty buffer;
                         _this.$buffer.empty();
