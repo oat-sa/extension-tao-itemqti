@@ -3,7 +3,7 @@ define([
     'taoQtiItem/qtiCreator/editor/MathEditor',
     'mathJax'
 ],
-function($, MathEditor, MathJax) {
+function($, MathEditor) {
     "use strict";
 
     QUnit.asyncTest('Latex rendering', function test(assert) {
@@ -13,7 +13,7 @@ function($, MathEditor, MathJax) {
             ],
             displayType = [
                 'block',
-                'inline'
+                'other'
             ],
 
             $bufferContainer = $('.mj-buffer'),
@@ -40,11 +40,6 @@ function($, MathEditor, MathJax) {
                 mathEditor.renderFromTex();
             });
         });
-
-        // in we want to log into the error handler...
-        //MathJax.Hub.Register.MessageHook("TeX Jax - parse error", function (message) {
-        //    console.log('============ message = ' + message);
-        //});
 
         setTimeout(function checkMathJaxOutput() {
             QUnit.start();
