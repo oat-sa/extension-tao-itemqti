@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -184,6 +185,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $registry->registerFromFile('OAT/util/tpl', $installBasePath . '/OAT/util/tpl.js');
             $currentVersion = '2.12.0';
         }
+
         $this->setVersion($currentVersion);
 
         if($this->isBetween('2.12.0','2.13.0')) {
@@ -243,6 +245,13 @@ class Updater extends \common_ext_ExtensionUpdater
 		if($this->isVersion('2.17.0')){
 			$this->setVersion('2.17.1');
 		}
+
+        if($this->isVersion('2.17.1')){
+            $service = new addValidationSettings();
+            $service([]);
+            $this->setVersion('2.17.2');
+        }
+
     }
 
 }

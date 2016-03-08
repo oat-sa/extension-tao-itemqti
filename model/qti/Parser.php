@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
+use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \DOMDocument;
 use \tao_helpers_Request;
@@ -78,15 +80,9 @@ class Parser extends tao_models_classes_Parser
                 $returnValue = false;
             } else {
                 $ns = $dom->documentElement->lookupNamespaceUri(null);
-                $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-                $validation = $extension->getConfig('contentValidation');
-                if(isset($validation[$ns])){
-                    $schemas = $validation[$ns];
-                }
-                else{
-                    $schemas = $validation['default'];
-                }
-
+                $servicemanager = $this->getServiceManager();
+                $validationService = $servicemanager->get(ValidationService::SERVICE_ID);
+                $schemas = $validationService->getContentValidationSchema($ns);
                 \common_Logger::i("The following schema will be used to validate: '" . $schemas[0] . "'.");
 
                 $validSchema = $this->validateMultiple($schemas);
@@ -170,5 +166,9 @@ class Parser extends tao_models_classes_Parser
         }else{
             parent::addError($error);
         }
+    }
+
+    protected function getServiceManager(){
+        return ServiceManager::getServiceManager();
     }
 }

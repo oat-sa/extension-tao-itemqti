@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ManifestParser;
 use oat\taoQtiItem\model\qti\ManifestParserFactory;
+use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \tao_helpers_Request;
 
@@ -75,14 +77,9 @@ class ManifestParser
 				$returnValue = false;
 			} else {
 				$ns = $dom->documentElement->lookupNamespaceUri(null);
-				$extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-				$validation = $extension->getConfig('manifestValidation');
-				if(isset($validation[$ns])){
-					$schemas = $validation[$ns];
-				}
-				else{
-					$schemas = $validation['default'];
-				}
+				$servicemanager = $this->getServiceManager();
+				$validationService = $servicemanager->get(ValidationService::SERVICE_ID);
+				$schemas = $validationService->getManifestValidationSchema($ns);
 
 				$validSchema = $this->validateMultiple($schemas);
 				$returnValue = $validSchema !== '';
@@ -143,5 +140,9 @@ class ManifestParser
         
         return (array) $returnValue;
     }
+
+	protected function getServiceManager(){
+		return ServiceManager::getServiceManager();
+	}
 
 }
