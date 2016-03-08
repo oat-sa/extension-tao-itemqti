@@ -19,9 +19,11 @@
     </head>
     <body>
         <div id="qunit"></div>
-        <div id="qunit-fixture">
+        <div id="qunit-fixture"></div>
+        <!-- we don't use qunit-fixture on purpose, as it seems to be re-initialised by QUnit.start() -->
+        <div id="fixtures" style="display: none">
+            <div class="mj-buffer"></div>
+            <div class="mj-target"></div>
         </div>
-        <div class="mj-buffer"></div>
-        <div class="mj-target"></div>
     </body>
 </html>
