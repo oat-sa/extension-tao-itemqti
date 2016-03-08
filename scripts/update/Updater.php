@@ -27,7 +27,6 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
-use oat\taoQtiItem\model\ValidationService;
 
 /**
  * 
@@ -243,11 +242,16 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.0');
         }
 
-        if($this->isVersion('2.17.0')){
+		if($this->isVersion('2.17.0')){
+			$this->setVersion('2.17.1');
+		}
+
+        if($this->isVersion('2.17.1')){
             $service = new addValidationSettings();
             $service([]);
-            $this->setVersion('2.17.1');
+            $this->setVersion('2.17.2');
         }
+
     }
 
 }

@@ -80,7 +80,6 @@ class ParserFactory
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
-    protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
 
     public function __construct(DOMDocument $data){
@@ -141,17 +140,11 @@ class ParserFactory
     }
 
     public function queryXPath($query, DOMElement $contextNode = null){
-
-        $returnValue = $contextNode;
-        if($this->qtiPrefix){
-            
-        }
         if(is_null($contextNode)){
-            $returnValue = $this->xpath->query($query);
+            return $this->xpath->query($query);
         }else{
-            $returnValue = $this->xpath->query($query, $contextNode);
+            return $this->xpath->query($query, $contextNode);
         }
-        return $returnValue;
     }
 
     public function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
@@ -471,13 +464,12 @@ class ParserFactory
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
-        foreach($this->queryXPath('namespace::*') as $node){
-            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            $this->item->addNamespace($name, $node->nodeValue);
-        }
-        $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
-        $this->qtiPrefix = $nsQti ? $nsQti.':' : '';
-
+                
+        //load xml ns and schema locations
+        $this->loadNamespaces();
+        $this->loadSchemaLocations($data);
+        
+        //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
         foreach($styleSheetNodes as $styleSheetNode){
             $styleSheet = $this->buildStylesheet($styleSheetNode);
@@ -545,10 +537,55 @@ class ParserFactory
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
-
+        
+        $this->buildApipAccessibility($data);
+        
         return $this->item;
     }
-
+    
+    /**
+     * Load xml namespaces into the item model
+     */
+    protected function loadNamespaces(){
+        $namespaces = [];
+        foreach($this->queryXPath('namespace::*') as $node){
+            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+            $namespaces[$name] = $node->nodeValue;
+        }
+        ksort($namespaces);
+        foreach($namespaces as $name => $uri){
+            $this->item->addNamespace($name, $uri);
+        }
+    }
+    
+    /**
+     * Load xml schema locations into the item model
+     * 
+     * @param DOMElement $itemData
+     * @throws ParsingException
+     */
+    protected function loadSchemaLocations(DOMElement $itemData){
+        $schemaLoc = preg_replace('/\s+/', ' ', trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation')));
+        $schemaLocToken = explode(' ', $schemaLoc);
+        $schemaCount = count($schemaLocToken);
+        if($schemaCount%2){
+            throw new ParsingException('invalid schema location');
+        }
+        for($i=0; $i<$schemaCount; $i=$i+2){
+            $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
+        }
+    }
+    
+    protected function buildApipAccessibility(DOMElement $data){
+        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']", $data);
+        if($ApipNodes->length > 0){
+            common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
+            $apipNode = $ApipNodes->item(0);
+            $apipXml = $apipNode->ownerDocument->saveXML($apipNode);
+            $this->item->setApipAccessibility($apipXml);
+        }
+    }
+    
     /**
      * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *

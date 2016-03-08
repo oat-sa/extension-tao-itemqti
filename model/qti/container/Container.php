@@ -155,7 +155,6 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * @return bool
      */
     public function edit($body, $integrityCheck = false){
-        common_Logger::i('Editing Item Body');
         if(!is_string($body)){
             throw new InvalidArgumentException('a QTI container must have a body of string type');
         }
