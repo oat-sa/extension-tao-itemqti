@@ -36,7 +36,7 @@ class MasteryValue extends Attribute
 {
 	
 	static protected $name = 'masteryValue';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Float';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiFloat';
 	static protected $defaultValue = null;
 	static protected $required = false;
 

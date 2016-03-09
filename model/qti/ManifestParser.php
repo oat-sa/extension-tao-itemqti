@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ManifestParser;
 use oat\taoQtiItem\model\qti\ManifestParserFactory;
+use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \tao_helpers_Request;
 
@@ -51,11 +53,45 @@ class ManifestParser
      */
     public function validate($schema = '')
     {
-        if(empty($schema) || !file_exists($schema)){
-            $schema = dirname(__FILE__).'/data/imscp_v1p1.xsd';
-        }
-        $returnValue = parent::validate($schema);
-        return $returnValue;
+		if (empty($schema)) {
+
+			// Let's detect NS in use...
+			$dom = new \DOMDocument('1.0', 'UTF-8');
+
+			switch($this->sourceType){
+				case self::SOURCE_FILE:
+					$dom->load($this->source);
+					break;
+				case self::SOURCE_URL:
+					$xmlContent = tao_helpers_Request::load($this->source, true);
+					$dom->loadXML($xmlContent);
+					break;
+				case self::SOURCE_STRING:
+					$dom->loadXML($this->source);
+					break;
+			}
+
+			// Retrieve Root's namespace.
+			if( $dom->documentElement == null ){
+				$this->addError('dom is null and could not be validate');
+				$returnValue = false;
+			} else {
+				$ns = $dom->documentElement->lookupNamespaceUri(null);
+				$servicemanager = $this->getServiceManager();
+				$validationService = $servicemanager->get(ValidationService::SERVICE_ID);
+				$schemas = $validationService->getManifestValidationSchema($ns);
+
+				$validSchema = $this->validateMultiple($schemas);
+				$returnValue = $validSchema !== '';
+			}
+		} elseif(!file_exists($schema)) {
+			throw new \common_Exception('no schema found in the location '.$schema);
+		} else {
+			\common_Logger::i("The following schema will be used to validate imsmanifest.xml: '" . $schema . "'.");
+			$returnValue = parent::validate($schema);
+		}
+
+		return (bool) $returnValue;
     }
 
     /**
@@ -104,5 +140,9 @@ class ManifestParser
         
         return (array) $returnValue;
     }
+
+	protected function getServiceManager(){
+		return ServiceManager::getServiceManager();
+	}
 
 }

@@ -36,7 +36,7 @@ class CaseSensitive extends Attribute
 {
 	
 	static protected $name = 'caseSensitive';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Boolean';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
 	static protected $defaultValue = null;
 	static protected $required = true;
 

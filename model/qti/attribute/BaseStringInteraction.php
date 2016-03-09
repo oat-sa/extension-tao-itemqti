@@ -36,7 +36,7 @@ class BaseStringInteraction extends Attribute
 {
 	
 	static protected $name = 'base';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 10;
 	static protected $required = false;
 

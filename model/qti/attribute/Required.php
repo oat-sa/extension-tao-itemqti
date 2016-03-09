@@ -36,7 +36,7 @@ class Required extends Attribute
 {
 	
 	static protected $name = 'required';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Boolean';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
 	static protected $defaultValue = false;
 	static protected $required = false;
 
