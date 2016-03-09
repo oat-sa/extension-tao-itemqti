@@ -1,8 +1,9 @@
 define([
     'jquery',
-    'taoQtiItem/qtiCreator/editor/MathEditor'
+    'taoQtiItem/qtiCreator/editor/MathEditor',
+    'mathJax'
 ],
-function($, MathEditor) {
+function($, MathEditor, mathJax) {
     'use strict';
 
     QUnit.module('MathEditor latex rendering');
@@ -26,31 +27,36 @@ function($, MathEditor) {
         .cases(texExprs)
         .combinatorial(displayTypes)
         .asyncTest('Latex rendering', 1, function test(data, assert) {
+            var mathjaxRenderingDelayMs = 750,
 
-        var mathjaxRenderingDelayMs = 750,
+                $buffer = $('.mj-buffer'),
+                $target = $('.mj-target'),
 
-            $buffer = $('.mj-buffer'),
-            $target = $('.mj-target'),
+                mathEditor = new MathEditor({
+                    buffer: $buffer,
+                    target: $target,
+                    display: data.display
+                });
 
-            mathEditor = new MathEditor({
-                buffer: $buffer,
-                target: $target,
-                display: data.display
-            });
+            if (typeof mathJax === 'undefined') {
+                assert.ok(false, 'MathJax is not available');
+                QUnit.start();
 
-        mathEditor.setTex(data.input);
-        mathEditor.renderFromTex();
+            } else {
+                mathEditor.setTex(data.input);
+                mathEditor.renderFromTex();
 
-        setTimeout(function checkMathJaxOutput() {
-            var actualScript = $target.find('script').text(),
-                expectedScript = '\\displaystyle{' + data.input + '}';
+                setTimeout(function checkMathJaxOutput() {
+                    var actualScript = $target.find('script').text(),
+                        expectedScript = '\\displaystyle{' + data.input + '}';
 
-            assert.ok(actualScript === expectedScript,
-                'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
+                    assert.ok(actualScript === expectedScript,
+                        'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
 
-            QUnit.start();
-        }, mathjaxRenderingDelayMs);
-    });
+                    QUnit.start();
+                }, mathjaxRenderingDelayMs);
+            }
+        });
 
 });
 
