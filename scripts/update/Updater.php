@@ -212,17 +212,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.14.0');
         }
 
-		$this->skip('2.14.0','2.15.0');
-
-        if($this->isVersion('2.15.0')){
-            
-            $itemUpdater = new ItemFixGhostResponse(ROOT_PATH . 'data/taoItems/itemData');
-            $itemUpdater->update(true);
-            $itemUpdater = new ItemFixStandardRpTemplate(ROOT_PATH . 'data/taoItems/itemData');
-            $itemUpdater->update(true);
-
-            $this->setVersion('2.15.1');
-        }
+		$this->skip('2.14.0','2.15.1');
     }
 
 
