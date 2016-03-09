@@ -5,7 +5,7 @@ define([
 function($, MathEditor) {
     'use strict';
 
-    QUnit.module('Mathjax latex rendering');
+    QUnit.module('MathEditor latex rendering');
 
     var texExprs = [
             { title: 'short expr', input: '\\frac1 2' },
@@ -27,43 +27,29 @@ function($, MathEditor) {
         .combinatorial(displayTypes)
         .asyncTest('Latex rendering', 1, function test(data, assert) {
 
-        var
-            key = Date.now(), // we give a unique key for each test case as Mathjax needs some time to render
+        var mathjaxRenderingDelayMs = 750,
 
-            $bufferContainer = $('.mj-buffer'),
-            $targetContainer = $('.mj-target');
-        //texExprs.forEach(function generateMathJaxOutput(texExpr, index) {
-        //    displayType.forEach(function loopDisplay(display) {
-            var $buffer = $('<div class="mj-buffer-' + key + '"></div>'),
-                $target = $('<div class="mj-target-' + key + '"></div>'),
+            $buffer = $('.mj-buffer'),
+            $target = $('.mj-target'),
 
-                mathEditor = new MathEditor({
-                    buffer: $buffer,
-                    target: $target,
-                    display: data.display
-                });
+            mathEditor = new MathEditor({
+                buffer: $buffer,
+                target: $target,
+                display: data.display
+            });
 
-            $bufferContainer.append($buffer);
-            $targetContainer.append($target);
+        mathEditor.setTex(data.input);
+        mathEditor.renderFromTex();
 
-            mathEditor.setTex(data.input);
-            mathEditor.renderFromTex();
-            //});
-        //});
         setTimeout(function checkMathJaxOutput() {
+            var actualScript = $target.find('script').text(),
+                expectedScript = '\\displaystyle{' + data.input + '}';
+
+            assert.ok(actualScript === expectedScript,
+                'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
+
             QUnit.start();
-
-            //texExprs.forEach(function checkForExpression(texExpr, index) {
-            //    displayType.forEach(function loopDisplay(display) {
-                    var $target = $targetContainer.find('.mj-target-' + key),
-                        actualScript = $target.find('script').text(),
-                        expectedScript = '\\displaystyle{' + data.input + '}';
-
-                    assert.ok(actualScript === expectedScript,
-                        'Error in Mathjax output: expected ' + expectedScript + ' but was ' + actualScript);
-                //});
-            //});
-        }, 750); // we give Mathjax some time to generate the output
+        }, mathjaxRenderingDelayMs);
     });
 
 });
