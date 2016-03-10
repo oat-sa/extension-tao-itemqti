@@ -65,8 +65,17 @@ define([
 
                         item.createResponseProcessing();
 
-                        //always add math element : since it has become difficult to know when a math element has been added to the item
-                        item.addNamespace('m', 'http://www.w3.org/1998/Math/MathML');
+                        //set default namespaces
+                        item.setNamespaces({
+                            '' : 'http://www.imsglobal.org/xsd/imsqti_v2p1',
+                            'xsi' : 'http://www.w3.org/2001/XMLSchema-instance',
+                            'm' :'http://www.w3.org/1998/Math/MathML'
+                        });//note : always add math element : since it has become difficult to know when a math element has been added to the item
+                        
+                        //set default schema locations
+                        item.setSchemaLocations({
+                            'http://www.imsglobal.org/xsd/imsqti_v2p1' : 'http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd'
+                        });
                         
                         //tag the item as a new one
                         item.data('new', true);
