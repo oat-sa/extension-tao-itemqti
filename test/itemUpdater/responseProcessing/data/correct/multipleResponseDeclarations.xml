@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" xmlns:html5="html5" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i142838920841252460" title="Item title" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="boolean"/>
+  <responseDeclaration identifier="RESPONSE_2" cardinality="single" baseType="identifier"/>
+  <responseDeclaration identifier="RESPONSE_1" cardinality="single" baseType="identifier"/>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+  <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+  <stylesheet href="textReaderInteraction/runtime/css/textReaderInteraction.css" type="text/css" media="all" title=""/>
+  
+  <itemBody>
+    <div class="grid-row">
+      <div class="col-12">
+        <h3 class="txt-ctr">Un texte et des questions</h3>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="col-6">
+        <p>Le <span class="txt-underline"><strong>texte est à gauche</strong></span>, pour naviguer dans la "liseuse" (c'est comme un livre électronique),</p>
+        <p>- utilisez les flèches  &lt;&lt;  ou  &gt;&gt;</p>
+        <p>- ou cliquez sur les numéros des pages en haut.</p>
+      </div>
+      <div class="col-6"/>
+    </div>
+    <div class="grid-row">
+      <div class="col-6">
+        <customInteraction responseIdentifier="RESPONSE">
+          <pci:portableCustomInteraction customInteractionTypeIdentifier="textReaderInteraction" hook="textReaderInteraction/runtime/textReaderInteraction.js">
+            <pci:responseSchema href="http://imsglobal.org/schema/json/v1.0/response.json"/>
+            <pci:resources location="http://imsglobal.org/pci/1.0.15/sharedLibraries.xml">
+              <pci:libraries>
+                <pci:lib id="IMSGlobal/jquery_2_1_1"/>
+                <pci:lib id="textReaderInteraction/runtime/js/renderer"/>
+                <pci:lib id="textReaderInteraction/runtime/js/tabs"/>
+              </pci:libraries>
+            </pci:resources>
+            <pci:properties xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction">
+              <pci:entry key="pageHeight">400</pci:entry>
+              <pci:entry key="tabsPosition">top</pci:entry>
+              <pci:entry key="navigation">both</pci:entry>
+              <pci:properties key="pages">
+                <pci:properties key="0">
+                  <pci:entry key="label">Page 1</pci:entry>
+                  <pci:properties key="content">
+                    <pci:entry key="0">Il y avait en Westphalie, dans le château de M. le baron de Thunder-ten-tronckh, un jeune garçon à qui la nature avait donné les moeurs les plus douces. Sa physionomie annonçait son âme. Il avait le jugement assez droit, avec l'esprit le plus simple ; c'est, je crois, pour cette raison qu'on le nommait Candide. Les anciens domestiques de la maison soupçonnaient qu'il était fils de la soeur de monsieur le baron et d'un bon et honnête gentilhomme du voisinage, que cette demoiselle ne voulut jamais épouser parce qu'il n'avait pu prouver que soixante et onze quartiers, et que le reste de son arbre généalogique avait été perdu par l'injure du temps.</pci:entry>
+                  </pci:properties>
+                  <pci:entry key="id">0</pci:entry>
+                </pci:properties>
+                <pci:properties key="1">
+                  <pci:entry key="label">Page 4</pci:entry>
+                  <pci:properties key="content">
+                    <pci:entry key="0">Monsieur le baron était un des plus puissants seigneurs de la Westphalie, car son château avait une porte et des fenêtres. Sa grande salle même était ornée d'une tapisserie. Tous les chiens de ses basses-cours composaient une meute dans le besoin ; ses palefreniers étaient ses piqueurs ; le vicaire du village était son grand aumônier. Ils l'appelaient tous monseigneur, et ils riaient quand il faisait des contes.</pci:entry>
+                  </pci:properties>
+                  <pci:entry key="id">3</pci:entry>
+                </pci:properties>
+                <pci:properties key="2">
+                  <pci:entry key="label">Page 5</pci:entry>
+                  <pci:properties key="content">
+                    <pci:entry key="0">&lt;p&gt;Madame la baronne, qui pesait environ trois cent cinquante livres, s'attirait par là une très grande considération, et faisait les honneurs de la maison avec une dignité qui la rendait encore plus respectable. Sa fille Cunégonde, âgée de dix-sept ans, était haute en couleur. Le fils du baron paraissait en tout digne de son père. Le précepteur Pangloss était l'oracle de la maison, et le petit Candide écoutait ses leçons avec toute la bonne foi de son âge et de son caractère.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;d'après Voltaire, Candide ou l'optimisme.&lt;/em&gt;&lt;br /&gt;
+&amp;#160;&lt;/p&gt;
+</pci:entry>
+                  </pci:properties>
+                  <pci:entry key="id">4</pci:entry>
+                </pci:properties>
+              </pci:properties>
+              <pci:properties key="buttonLabels">
+                <pci:entry key="prev">&lt;&lt;</pci:entry>
+                <pci:entry key="next">&gt;&gt;</pci:entry>
+              </pci:properties>
+              <pci:entry key="onePageNavigation">true</pci:entry>
+            </pci:properties>
+            <pci:markup>
+              <html5:div class="textReaderInteraction qti-interaction">
+                <html5:div class="tr-wrap">
+                  <html5:div class="tr-content js-page-container"/>
+                  <html5:div class="js-nav-container"/>
+                </html5:div>
+                <html5:script class="text-reader-pages-tpl" type="text/x-handlebars-template"><![CDATA[
+    <html5:div class="tr-tabs js-page-tabs tr-tabs-{{tabsPosition}} clearfix">
+        {{#if showTabs}}
+        <html5:ul class="tr-tab-buttons js-tab-buttons">
+            {{#each pages}}
+            <html5:li data-page-num="{{@index}}" data-page-id="{{id}}" class="tr-tab-buttons__item">
+                <html5:span class="tr-tab-label">{{inc @index}}</html5:span>
+            </html5:li>
+            {{/each}}
+        </html5:ul>
+        {{/if}}     
+        <html5:div class="tr-pages-wrap clearfix">
+            <html5:div class="tr-pages" style="height: {{pageWrapperHeight}}px">
+                {{#each pages}}
+                <html5:div data-page-num="{{@index}}" data-page-id="{{id}}" class="tr-page js-tab-content tr-tabs-{{@index}}">
+                    <html5:div class="tr-passage" style="height: {{../pageHeight}}px" >
+                        {{#each content}}
+                        <html5:div class="tr-passage-column widget-blockInteraction js-page-column" data-page-col-index="{{@index}}">
+                            {{{this}}}
+                        </html5:div>
+                        {{/each}}
+                    </html5:div>
+                </html5:div>
+                {{/each}}
+            </html5:div>
+        </html5:div>
+    </html5:div>
+    ]]></html5:script>
+                <html5:script class="text-reader-nav-tpl" type="text/x-handlebars-template"><![CDATA[
+    {{#if showNavigation}}
+    <html5:div class="tr-nav-wrap tr-nav-{{tabsPosition}}">
+        <html5:div class="tr-nav">
+            <html5:div class="tr-nav__col js-prev-page">
+                <html5:button class="btn-info small">{{../buttonLabels.prev}}</html5:button>
+            </html5:div>
+            <html5:div class="tr-nav__col">
+                Page <html5:span class="js-current-page">{{../currentPage}}</html5:span> / {{../pagesNum}}
+            </html5:div>
+            <html5:div class="tr-nav__col js-next-page">
+                <html5:button class="btn-info small">{{../buttonLabels.next}}</html5:button>
+            </html5:div>
+        </html5:div>
+    </html5:div>
+    {{/if}}
+    ]]></html5:script>
+              </html5:div>
+            </pci:markup>
+          </pci:portableCustomInteraction>
+        </customInteraction>
+      </div>
+      <div class="col-6">
+        <p> </p>
+        <p> </p>
+        <p> </p>
+        <p> </p>
+        <p> </p>
+        <p>
+          <span class="txt-underline">
+            <strong>Une liste déroulante</strong>
+          </span>
+        </p>
+        <p>Voici une <strong><span class="txt-underline">liste</span></strong> de propositions.</p>
+        <p>Vous choisissez votre réponse en cliquant sur la petite flèche ...<inlineChoiceInteraction responseIdentifier="RESPONSE_1" shuffle="false" required="false"><inlineChoice identifier="choice_1" fixed="false" showHide="show">choix 1</inlineChoice><inlineChoice identifier="choice_2" fixed="false" showHide="show">choix 2</inlineChoice><inlineChoice identifier="choice_3" fixed="false" showHide="show">choix 3</inlineChoice></inlineChoiceInteraction>
+ </p>
+      </div>
+    </div>
+  </itemBody>
+  <responseProcessing>
+    <responseCondition>
+      <responseIf>
+        <match>
+          <variable identifier="RESPONSE"/>
+          <correct identifier="RESPONSE"/>
+        </match>
+        <setOutcomeValue identifier="SCORE">
+          <sum>
+            <variable identifier="SCORE"/>
+            <baseValue baseType="integer">1</baseValue>
+          </sum>
+        </setOutcomeValue>
+      </responseIf>
+    </responseCondition>
+    <responseCondition>
+      <responseIf>
+        <match>
+          <variable identifier="RESPONSE_2"/>
+          <correct identifier="RESPONSE_2"/>
+        </match>
+        <setOutcomeValue identifier="SCORE">
+          <sum>
+            <variable identifier="SCORE"/>
+            <baseValue baseType="integer">1</baseValue>
+          </sum>
+        </setOutcomeValue>
+      </responseIf>
+    </responseCondition>
+    <responseCondition>
+      <responseIf>
+        <match>
+          <variable identifier="RESPONSE_1"/>
+          <correct identifier="RESPONSE_1"/>
+        </match>
+        <setOutcomeValue identifier="SCORE">
+          <sum>
+            <variable identifier="SCORE"/>
+            <baseValue baseType="integer">1</baseValue>
+          </sum>
+        </setOutcomeValue>
+      </responseIf>
+    </responseCondition>
+  </responseProcessing>
+</assessmentItem>

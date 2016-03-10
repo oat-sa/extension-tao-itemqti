@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd " identifier="C6DOG220301i" title="C3B1_peinture" label="" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="C6DOG220301" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value><![CDATA[choice_3]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <h3 class="txt-ctr">Résolution de problème</h3>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <p>Pour une séance d'arts visuels, il faut 4 tubes de peinture pour un groupe de 5 élèves.</p>
+                <p>La classe compte 30 élèves.</p>
+                <p>
+                    <strong>Combien de tubes de peinture l'enseignant doit-il prévoir ?</strong>
+                </p>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <choiceInteraction responseIdentifier="C6DOG220301" shuffle="true" maxChoices="1" minChoices="0" orientation="vertical">
+                    <prompt>
+                        <em>Effectuez vos recherches sur la feuille de brouillon puis cochez la bonne réponse.</em>
+                    </prompt>
+                    <simpleChoice identifier="choice_1" fixed="false" showHide="show">150</simpleChoice>
+                    <simpleChoice identifier="choice_2" fixed="false" showHide="show">34</simpleChoice>
+                    <simpleChoice identifier="choice_3" fixed="false" showHide="show">
+                        <p>24</p>
+                    </simpleChoice>
+                    <simpleChoice identifier="choice_4" fixed="false" showHide="show">20</simpleChoice>
+                </choiceInteraction>
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <match>
+                    <variable identifier="C6DOG220301"/>
+                    <correct identifier="C6DOG220301"/>
+                </match>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="integer">1</baseValue>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="MODULE_E2_ITEM_3" title="Title of MODULE_E2_ITEM_3" label="" xml:lang="fr-FR" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="CUSTOM" cardinality="single" baseType="identifier">
+        <mapping defaultValue="0">
+            <mapEntry mapKey="choice_1" mappedValue="0"/>
+            <mapEntry mapKey="choice_2" mappedValue="1"/>
+            <mapEntry mapKey="choice_3" mappedValue="2"/>
+        </mapping>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <h2 class="title">Title of MODULE_E2_ITEM_3</h2>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <choiceInteraction responseIdentifier="CUSTOM" shuffle="false" maxChoices="1" minChoices="1" orientation="vertical">
+                    <prompt>Item MODULE_E2_ITEM_3 : Give me a score</prompt>
+                    <simpleChoice identifier="choice_1" fixed="false" showHide="show">0</simpleChoice>
+                    <simpleChoice identifier="choice_2" fixed="false" showHide="show">1</simpleChoice>
+                    <simpleChoice identifier="choice_3" fixed="false" showHide="show">2</simpleChoice>
+                </choiceInteraction>
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+</assessmentItem>
