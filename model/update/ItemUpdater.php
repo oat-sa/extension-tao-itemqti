@@ -53,7 +53,9 @@ abstract class ItemUpdater
     {
         $returnValue = array();
         $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
-
+        $i = 0;
+        $fixed = 0;
+        
         foreach ($objects as $itemFile => $cursor) {
 
             if (is_file($itemFile)) {
@@ -62,16 +64,21 @@ abstract class ItemUpdater
 
                 if (basename($itemFile) === 'qti.xml') {
 
+                    $i++;
                     $xml = new \DOMDocument();
                     $xml->load($itemFile);
 
                     $parser = new ParserFactory($xml);
                     $item   = $parser->load();
+                    \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
 
-                    if ($this->updateItem($item)) {
+                    if ($this->updateItem($item, $itemFile)) {
                         $this->checkedFiles[$itemFile] = true;
                         $returnValue[$itemFile]        = $item;
+                        \common_Logger::i('fixed required for #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
                         if ($changeItemContent) {
+                            $fixed++;
+                            \common_Logger::i('item fixed #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
                             file_put_contents($itemFile, $item->toXML());
                         }
                     }
@@ -79,6 +86,7 @@ abstract class ItemUpdater
             }
         }
 
+        \common_Logger::i('total item fixed : '.$fixed);
         return $returnValue;
     }
 
@@ -95,7 +103,9 @@ abstract class ItemUpdater
      * Try updating an single item instance,
      * Returns true if the content has been changed, false otherwise
      *
+     * @param oat\taoQtiItem\modal\Item $item
+     * @param string $itemFile
      * @return boolean
      */
-    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item);
+    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item, $itemFile);
 }
