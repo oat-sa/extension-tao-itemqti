@@ -21,26 +21,25 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\String;
 use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
- * The string base data type
+ * The basic Float data type
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
  
  */
-class String extends Datatype
+class QtiFloat extends Datatype
 {
 	
 	public static function validate($value){
-		return is_string($value);
+		return is_float($value);
 	}
 	
 	public static function fix($value){
-		return (string)$value;
+		return floatval($value);
 	}
 
 }

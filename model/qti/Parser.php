@@ -21,8 +21,10 @@
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
+use oat\taoQtiItem\model\ValidationService;
 use \tao_models_classes_Parser;
 use \DOMDocument;
 use \tao_helpers_Request;
@@ -78,28 +80,9 @@ class Parser extends tao_models_classes_Parser
                 $returnValue = false;
             } else {
                 $ns = $dom->documentElement->lookupNamespaceUri(null);
-                switch ($ns) {
-                    case 'http://www.imsglobal.org/xsd/imsqti_v2p0':
-                        $schemas = array(
-                            __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
-                        );
-                        break;
-
-                    case 'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1':
-                        $schemas = array(
-                            __DIR__.'/data/qtiv2p0/imsqti_v2p0.xsd',
-                            __DIR__.'/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
-                        );
-                        break;
-
-                    // default is QTI 2.1.
-                    default :
-                        $schemas = array(
-                            __DIR__.'/data/qtiv2p1/imsqti_v2p1.xsd'
-                        );
-                        break;
-                }
-
+                $servicemanager = $this->getServiceManager();
+                $validationService = $servicemanager->get(ValidationService::SERVICE_ID);
+                $schemas = $validationService->getContentValidationSchema($ns);
                 \common_Logger::i("The following schema will be used to validate: '" . $schemas[0] . "'.");
 
                 $validSchema = $this->validateMultiple($schemas);
@@ -183,5 +166,9 @@ class Parser extends tao_models_classes_Parser
         }else{
             parent::addError($error);
         }
+    }
+
+    protected function getServiceManager(){
+        return ServiceManager::getServiceManager();
     }
 }

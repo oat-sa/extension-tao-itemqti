@@ -120,6 +120,8 @@ define(['lodash', 'class', 'taoQtiItem/qtiItem/core/qtiClasses', 'taoQtiItem/qti
                         _this.item.setResponseProcessing(_this.buildResponseProcessing(data.responseProcessing));
                     }
                     _this.item.setNamespaces(data.namespaces);
+                    _this.item.setSchemaLocations(data.schemaLocations);
+                    _this.item.setApipAccessibility(data.apipAccessibility);
                 }
 
                 if(typeof(callback) === 'function'){

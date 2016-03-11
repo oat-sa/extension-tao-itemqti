@@ -36,7 +36,7 @@ class MinStrings extends Attribute
 {
 	
 	static protected $name = 'minStrings';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 0;
 	static protected $required = false;
 
