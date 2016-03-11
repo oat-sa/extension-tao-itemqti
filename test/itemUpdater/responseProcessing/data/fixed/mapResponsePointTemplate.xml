@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://www.w3.org/1998/Math/MathML" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="i145251897114082144" title="Panel handicapé 136" adaptive="false" timeDependent="false" label="" xml:lang="en-US" toolName="TAO" toolVersion="3.1.0-sprint15">
+    <responseDeclaration identifier="E5ZMC570301" cardinality="single" baseType="point">
+        <areaMapping defaultValue="0">
+            <areaMapEntry shape="rect" coords="298,7,406,97" mappedValue="1"/>
+        </areaMapping>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">Exercice</div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <div>J'ai 5 jetons, on m'en prend 2. C'est pas sympa. Mon nouveau nombre de jetons est...</div>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <selectPointInteraction responseIdentifier="E5ZMC570301" maxChoices="1" minChoices="1" class="responsive">
+                    <prompt>Clique sur ta réponse</prompt>
+                    <object data="E5ZMC570301.png" type="image/png" width="1089" height="106"/>
+                </selectPointInteraction>
+            </div>
+        </div>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <not>
+                    <isNull>
+                        <variable identifier="E5ZMC570301"/>
+                    </isNull>
+                </not>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <mapResponsePoint identifier="E5ZMC570301"/>
+                    </sum>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>
