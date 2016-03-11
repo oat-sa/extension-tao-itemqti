@@ -28,13 +28,20 @@ namespace oat\taoQtiItem\model\update;
 class ItemFixGhostResponse extends ItemUpdater
 {
 
+    private $templates = [
+        'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
+        'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
+        'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point'
+    ];
+    
     /**
-     * Remove unused response declaration from the items
+     * Remove unused response declaration from the items and rp template misuse
      *
      * @param oat\taoQtiItem\modal\Item $item
+     * @param string $itemFile
      * @return boolean
      */
-    protected function updateItem(\oat\taoQtiItem\model\qti\Item $item)
+    protected function updateItem(\oat\taoQtiItem\model\qti\Item $item, $itemFile)
     {
         $changed = false;
         $responses = $item->getResponses();
@@ -48,6 +55,22 @@ class ItemFixGhostResponse extends ItemUpdater
             if(!in_array($responseIdentifier, $usedResponses)){
                 $changed = true;
                 $item->removeResponse($response);
+            }
+        }
+
+        $xml        = simplexml_load_file($itemFile);
+        $rpTemplate = (string) $xml->responseProcessing['template'];
+        
+        //detect wrong usage for standard standard response declaration
+        $rp = $item->getResponseProcessing();
+        if ($rp instanceof \oat\taoQtiItem\model\qti\response\TemplatesDriven && $rpTemplate) {
+            if (count($interactions) > 1) {
+                $changed = true;
+            } else {
+                $interaction = reset($interactions);
+                if ($interaction && $interaction->attr('responseIdentifier') != 'RESPONSE') {
+                    $changed = true;
+                }
             }
         }
 

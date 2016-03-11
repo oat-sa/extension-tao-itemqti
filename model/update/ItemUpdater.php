@@ -68,7 +68,7 @@ abstract class ItemUpdater
                     $parser = new ParserFactory($xml);
                     $item   = $parser->load();
 
-                    if ($this->updateItem($item)) {
+                    if ($this->updateItem($item, $itemFile)) {
                         $this->checkedFiles[$itemFile] = true;
                         $returnValue[$itemFile]        = $item;
                         if ($changeItemContent) {
@@ -95,7 +95,9 @@ abstract class ItemUpdater
      * Try updating an single item instance,
      * Returns true if the content has been changed, false otherwise
      *
+     * @param oat\taoQtiItem\modal\Item $item
+     * @param string $itemFile
      * @return boolean
      */
-    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item);
+    abstract protected function updateItem(\oat\taoQtiItem\model\qti\Item $item, $itemFile);
 }

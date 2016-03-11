@@ -27,9 +27,4 @@ common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 echo "Fixing ghost response in items...\n";
 $itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse(ROOT_PATH . 'data/taoItems/itemData');
 $itemUpdater->update(true);
-
-echo "Fixing StandardRpTemplate in items...\n";
-$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixStandardRpTemplate(ROOT_PATH . 'data/taoItems/itemData');
-$itemUpdater->update(true);
-
 echo "Done !\n";
