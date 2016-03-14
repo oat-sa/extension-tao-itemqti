@@ -211,9 +211,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.14.0');
         }
 
-		$this->skip('2.14.0','2.15.0');
+		$this->skip('2.14.0','2.15.1');
 
-        if($this->isVersion('2.15.0')){
+        if($this->isVersion('2.15.1')){
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $validation = array(
                 'default' => array(
@@ -252,6 +252,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
+		if($this->isVersion('2.17.2')){
+			$this->setVersion('2.17.3');
+		}
     }
 
 }
