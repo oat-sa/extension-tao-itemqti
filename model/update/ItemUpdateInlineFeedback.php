@@ -32,9 +32,10 @@ class ItemUpdateInlineFeedback extends ItemUpdater
      * Update the item content by wrapping the modalfeedback body into a new wrapper
      *
      * @param oat\taoQtiItem\modal\Item $item
+     * @param string $itemFile
      * @return boolean
      */
-    protected function updateItem(\oat\taoQtiItem\model\qti\Item $item)
+    protected function updateItem(\oat\taoQtiItem\model\qti\Item $item, $itemFile)
     {
         $changed = false;
         $responses = $item->getResponses();
