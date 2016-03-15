@@ -30,7 +30,7 @@ return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
         'label' => array (
             'extractor' => 'OntologyExtractor',
             'parameters' => array (
-                'property' => new \core_kernel_classes_Property(RDFS_LABEL)
+                'property' => RDFS_LABEL
             )
         ),
         'type' => array (

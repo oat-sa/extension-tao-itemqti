@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\install\scripts;
 
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 
 /**
@@ -41,10 +42,12 @@ class createExportDirectory extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         try {
-            $serviceManager = $this->getServiceManager();
+
+            $serviceManager = ServiceManager::getServiceManager();
             $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
             $fsService->createLocalFileSystem(ItemExporter::EXPORT_FILESYSTEM);
             $serviceManager->register(FileSystemService::SERVICE_ID, $fsService);
+
         } catch (\Exception $e) {
             return new \common_report_Report(\common_report_Report::TYPE_ERROR, 'Fail to create export directory.');
         }
