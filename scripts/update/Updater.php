@@ -22,6 +22,7 @@
 namespace oat\taoQtiItem\scripts\update;
 
 use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\createExportDirectory;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -252,9 +253,16 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-		if($this->isVersion('2.17.2')){
-			$this->setVersion('2.17.3');
-		}
+        if($this->isVersion('2.17.2')){
+            $this->setVersion('2.17.3');
+        }
+
+        if($this->isVersion('2.17.3')){
+            $createExportDirectoryScript = new createExportDirectory();
+            $createExportDirectoryScript([]);
+
+            $this->setVersion('2.18.0');
+        }
     }
 
 }

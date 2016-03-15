@@ -32,6 +32,11 @@ use oat\oatbox\service\ConfigurableService;
 class ItemExporter extends ConfigurableService implements SimpleExporter
 {
     /**
+     * File system
+     */
+    const EXPORT_FILESYSTEM = 'taoQtiItem';
+
+    /**
      * Default csv delimiter
      */
     const CSV_DELIMITER = ',';
@@ -99,15 +104,14 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
      */
     protected function loadConfig()
     {
-        $this->filesystem = $this->getOption('fileSystem');
         $this->filelocation = $this->getOption('fileLocation');
-        if (!$this->filesystem || !$this->filelocation) {
-            throw new ExtractorException('Filesystem config is not correctly set.');
+        if (!$this->filelocation) {
+            throw new ExtractorException('File location config is not correctly set.');
         }
 
         $serviceManager = $this->getServiceManager();
         $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $this->filesystem = $fsService->getFileSystem($this->filesystem);
+        $this->filesystem = $fsService->getFileSystem(self::EXPORT_FILESYSTEM);
 
         $this->extractors = $this->getOption('extractors');
         $this->columns = $this->getOption('columns');
