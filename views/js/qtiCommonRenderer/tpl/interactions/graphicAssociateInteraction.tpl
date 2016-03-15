@@ -1,4 +1,4 @@
-<div class="qti-interaction qti-blockInteraction qti-graphicInteraction qti-graphicAssociateInteraction clearfix {{attributes.class}}" data-serial="{{serial}}">
+<div {{#if attributes.id}}id="{{attributes.id}}"{{/if}} class="qti-interaction qti-blockInteraction qti-graphicInteraction qti-graphicAssociateInteraction clearfix{{#if attributes.class}} {{attributes.class}}{{/if}}" data-serial="{{serial}}">
     {{#if prompt}}{{{prompt}}}{{/if}}
     <div class="instruction-container"></div>
     <div class="image-editor solid">
