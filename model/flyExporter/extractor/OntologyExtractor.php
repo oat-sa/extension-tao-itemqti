@@ -69,11 +69,16 @@ class OntologyExtractor implements Extractor
      */
     public function addColumn($column, array $config)
     {
-        if (!isset($config['property'])
-            || !($config['property'] instanceof \core_kernel_classes_Property))
-        {
-            throw new ExtractorException('Property config is missing');
+        if (!isset($config['property'])) {
+            throw new ExtractorException('Property config is missing.');
         }
+
+        $property = new \core_kernel_classes_Property($config['property']);
+        if (!$property) {
+            throw new ExtractorException('Property config is not a valid property uri.');
+        }
+        $config['property'] = $property;
+
         $this->columns[$column] = $config;
         return $this;
     }
@@ -146,5 +151,14 @@ class OntologyExtractor implements Extractor
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Get human readable declaration class
+     * @return string
+     */
+    public function __toPhpCode()
+    {
+        return 'new '.get_class($this).'()';
     }
 }

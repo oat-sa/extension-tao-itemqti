@@ -384,4 +384,13 @@ class QtiExtractor implements Extractor
             throw new ExtractorException('Interaction malformed: missing type.');
         }
     }
+
+    /**
+     * Get human readable declaration class
+     * @return string
+     */
+    public function __toPhpCode()
+    {
+        return 'new '.get_class($this).'()';
+    }
 }

@@ -275,7 +275,7 @@ class Updater extends \common_ext_ExtensionUpdater
                         'label' => array (
                             'extractor' => 'OntologyExtractor',
                             'parameters' => array (
-                                'property' => new \core_kernel_classes_Property(RDFS_LABEL)
+                                'property' => RDFS_LABEL
                             )
                         ),
                         'type' => array (

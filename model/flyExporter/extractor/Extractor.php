@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
 
+use oat\oatbox\PhpSerializable;
 
 /**
  * Extractor of item data
@@ -28,7 +29,7 @@ namespace oat\taoQtiItem\model\flyExporter\extractor;
  * Interface Extractor
  * @package oat\taoQtiItem\model\simpleExporter
  */
-interface Extractor
+interface Extractor extends PhpSerializable
 {
     const DEFAULT_PROPERTY_DELIMITER = '|';
 

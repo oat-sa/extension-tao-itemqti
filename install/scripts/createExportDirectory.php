@@ -21,10 +21,23 @@
 
 namespace oat\taoQtiItem\install\scripts;
 
+use oat\oatbox\filesystem\FileSystemService;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
 
+/**
+ * Create export directory
+ *
+ * Class createExportDirectory
+ * @package oat\taoQtiItem\install\scripts
+ */
 class createExportDirectory extends \common_ext_action_InstallAction
 {
+    /**
+     * Create filesystem for ItemExporter service
+     *
+     * @param $params
+     * @return \common_report_Report
+     */
     public function __invoke($params)
     {
         try {
