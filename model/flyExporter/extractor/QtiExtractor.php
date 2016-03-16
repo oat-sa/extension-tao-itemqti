@@ -226,6 +226,7 @@ class QtiExtractor implements Extractor
             'Upload file'   => ['domInteraction' => 'uploadInteraction'],
             'Text entry'    => ['domInteraction' => 'textEntryInteraction'],
             'End attempt'   => ['domInteraction' => 'endAttemptInteraction'],
+            'Select point'  => ['domInteraction' => 'selectPointInteraction'],
         ];
 
         /**
@@ -262,9 +263,12 @@ class QtiExtractor implements Extractor
                 $interaction['responseIdentifier'] = $interactionNode->item($i)->getAttribute('responseIdentifier');
                 $rightAnswer = $this->xpath->query('./qti:responseDeclaration[@identifier="' . $interaction['responseIdentifier'] . '"]');
                 if ($rightAnswer->length > 0) {
-                    $answers = $rightAnswer->item(0)->textContent;
-                    foreach(explode(PHP_EOL, trim($answers)) as $answer) {
-                        $interaction['responses'][] = trim($answer);
+                    $answers = trim($rightAnswer->item(0)->textContent);
+
+                    if (!empty($answers)) {
+                        foreach(explode(PHP_EOL, $answers) as $answer) {
+                            $interaction['responses'][] = trim($answer);
+                        }
                     }
                 }
 
@@ -287,15 +291,6 @@ class QtiExtractor implements Extractor
                             $imgNode = $this->xpath->query('./qti:img/@src', $choiceNode->item($j));
                             if ($imgNode->length > 0) {
                                 $value = 'image' . $j . '_' . $imgNode->item(0)->value;
-                            }
-                        }
-                        //Graphical
-                        if (empty($value)) {
-                            if ($shape = $choiceNode->item($j)->getAttribute('shape')) {
-                                $value = $shape;
-                            }
-                            if ($coords = $choiceNode->item($j)->getAttribute('coords')) {
-                                $value .= ':' . $coords;
                             }
                         }
                         $interaction['choices'][$identifier] = $value;
@@ -322,8 +317,10 @@ class QtiExtractor implements Extractor
             foreach ($interaction['responses'] as $response) {
                 $allResponses = explode(' ', $response);
                 $returnResponse = [];
+
                 foreach ($allResponses as $partialResponse) {
-                    if (isset($interaction['choices'][$partialResponse])) {
+                    if (isset($interaction['choices'][$partialResponse])
+                        && !empty($interaction['choices'][$partialResponse])) {
                         $returnResponse[] = $interaction['choices'][$partialResponse];
                     } else {
                         $returnResponse[] = $partialResponse;
@@ -367,11 +364,13 @@ class QtiExtractor implements Extractor
         $return = [];
         if (isset($interaction['choices'])) {
             $i = 1;
-            foreach ($interaction['choices'] as $choice) {
+            foreach ($interaction['choices'] as $identifier => $choice) {
                 if (!empty($choice)) {
                     $return['choice_' . $i] = $choice;
-                    $i++;
+                } else {
+                    $return['choice_' . $i] = $identifier;
                 }
+                $i++;
             }
             if ($this->headerChoice > count($return)) {
                 while ($this->headerChoice > count($return)) {
