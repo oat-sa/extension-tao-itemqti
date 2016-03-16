@@ -209,20 +209,10 @@ class Updater extends \common_ext_ExtensionUpdater
             $serviceManager = $this->getServiceManager();
             $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
 
-            if ($fsService instanceof FileSystemService) {
-                $adapters = $fsService->getOption('adapters');
-                $adapterUri = 'http://tao.local/mytao.rdf#i145813022277374';
-                if (in_array($adapterUri, array_keys($adapters))) {
-                    if (isset($adapters[$adapterUri]['options']) && isset($adapters[$adapterUri]['options']['root'])) {
-                        $rootPath = $adapters[$adapterUri]['options']['root'];
-                        $itemUpdater = new ItemUpdateInlineFeedback($rootPath);
-                        $itemUpdater->update(true);
-                    }
-                }
-            }
-
-
-
+            $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
+            $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
+            $itemUpdater->update(true);
+        
             $this->setVersion('2.14.0');
         }
 
