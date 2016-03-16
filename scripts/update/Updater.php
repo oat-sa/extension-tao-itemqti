@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
-use oat\oatbox\filesystem\FileSystemService;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
