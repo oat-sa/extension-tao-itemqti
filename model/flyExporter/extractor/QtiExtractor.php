@@ -212,6 +212,7 @@ class QtiExtractor implements Extractor
             'Graphic hotspot'   => ['domInteraction' => 'hotspotInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
             'Graphic order'     => ['domInteraction' => 'graphicOrderInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
             'Graphic associate' => ['domInteraction' => 'graphicAssociateInteraction', 'xpathChoice' => './/qti:associableHotspot'],
+            'Graphic gap match' => ['domInteraction' => 'graphicGapMatchInteraction', 'xpathChoice' => './/qti:gapImg'],
 
             //Scaffholding
             'ScaffHolding'  => [
@@ -226,7 +227,6 @@ class QtiExtractor implements Extractor
             'Upload file'   => ['domInteraction' => 'uploadInteraction'],
             'Text entry'    => ['domInteraction' => 'textEntryInteraction'],
             'End attempt'   => ['domInteraction' => 'endAttemptInteraction'],
-            'Select point'  => ['domInteraction' => 'selectPointInteraction'],
         ];
 
         /**
@@ -264,7 +264,6 @@ class QtiExtractor implements Extractor
                 $rightAnswer = $this->xpath->query('./qti:responseDeclaration[@identifier="' . $interaction['responseIdentifier'] . '"]');
                 if ($rightAnswer->length > 0) {
                     $answers = trim($rightAnswer->item(0)->textContent);
-
                     if (!empty($answers)) {
                         foreach(explode(PHP_EOL, $answers) as $answer) {
                             $interaction['responses'][] = trim($answer);
