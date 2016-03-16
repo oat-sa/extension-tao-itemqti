@@ -74,7 +74,7 @@ class OntologyExtractor implements Extractor
         }
 
         $property = new \core_kernel_classes_Property($config['property']);
-        if (!$property) {
+        if (!$property->exists()) {
             throw new ExtractorException('Property config is not a valid property uri.');
         }
         $config['property'] = $property;
@@ -106,7 +106,7 @@ class OntologyExtractor implements Extractor
         foreach ($this->columns as $column => $config) {
             try {
                 $data = [];
-                foreach ($values[$config['property']->uriResource] as $itemValue) {
+                foreach ($values[$config['property']->getUri()] as $itemValue) {
                     if (is_array($itemValue)) {
                         array_walk($itemValue, function (&$value) {
                             $resource = new \core_kernel_classes_Resource($value);
