@@ -24,7 +24,7 @@ require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
 
 common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
-echo "Fixing ghost response in items...\n";
-$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse(ROOT_PATH . 'data/taoItems/itemData');
-$itemUpdater->update(true);
-echo "Done !\n";
+$fs = taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
+$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse($fs->getPath());
+$fixed = $itemUpdater->update(true);
+echo "Fixed ".count($fixed)." items\n";
