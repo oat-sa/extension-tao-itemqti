@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\oatbox\filesystem\FileSystemService;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
@@ -205,8 +206,22 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             );
 
-            $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
-            $itemUpdater->update(true);
+            $serviceManager = $this->getServiceManager();
+            $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
+
+            if ($fsService instanceof FileSystemService) {
+                $adapters = $fsService->getOption('adapters');
+                $adapterUri = 'http://tao.local/mytao.rdf#i145813022277374';
+                if (in_array($adapterUri, array_keys($adapters))) {
+                    if (isset($adapters[$adapterUri]['options']) && isset($adapters[$adapterUri]['options']['root'])) {
+                        $rootPath = $adapters[$adapterUri]['options']['root'];
+                        $itemUpdater = new ItemUpdateInlineFeedback($rootPath);
+                        $itemUpdater->update(true);
+                    }
+                }
+            }
+
+
 
             $this->setVersion('2.14.0');
         }

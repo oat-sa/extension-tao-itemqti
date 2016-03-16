@@ -24,7 +24,22 @@ require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
 
 common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
-echo "Fixing ghost response in items...\n";
-$itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse(ROOT_PATH . 'data/taoItems/itemData');
-$itemUpdater->update(true);
-echo "Done !\n";
+$serviceManager = \oat\oatbox\service\ServiceManager::getServiceManager();
+$fsService = $serviceManager->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
+
+if ($fsService instanceof League\Flysystem\Filesystem) {
+    $adapters = $fsService->getOption('adapters');
+    $adapterUri = 'http://tao.local/mytao.rdf#i145813022277374';
+    if (in_array($adapterUri, array_keys($adapters))) {
+        if (isset($adapters[$adapterUri]['options']) && isset($adapters[$adapterUri]['options']['root'])) {
+            $rootPath = $adapters[$adapterUri]['options']['root'];
+            echo "Fixing ghost response in items...\n";
+            $itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse($rootPath);
+            $itemUpdater->update(true);
+            echo "Done !\n";
+            exit;
+        }
+    }
+}
+
+echo "Error on fixing ghost item !\n";
