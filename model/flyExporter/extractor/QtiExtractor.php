@@ -202,12 +202,16 @@ class QtiExtractor implements Extractor
     {
         $elements = [
             // Multiple choice
-            'Choice'        => ['domInteraction' => 'choiceInteraction', 'xpathChoice' => './/qti:simpleChoice'],
-            'Order'         => ['domInteraction' => 'orderInteraction', 'xpathChoice' => './/qti:simpleChoice'],
-            'Match'         => ['domInteraction' => 'matchInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
-            'Associate'     => ['domInteraction' => 'associateInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
-            'Gap Match'     => ['domInteraction' => 'gapMatchInteraction', 'xpathChoice' => './/qti:gapText'],
-            'Hot text'      => ['domInteraction' => 'hottextInteraction', 'xpathChoice' => './/qti:hottext'],
+            'Choice'            => ['domInteraction' => 'choiceInteraction', 'xpathChoice' => './/qti:simpleChoice'],
+            'Order'             => ['domInteraction' => 'orderInteraction', 'xpathChoice' => './/qti:simpleChoice'],
+            'Match'             => ['domInteraction' => 'matchInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
+            'Associate'         => ['domInteraction' => 'associateInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
+            'Gap Match'         => ['domInteraction' => 'gapMatchInteraction', 'xpathChoice' => './/qti:gapText'],
+            'Hot text'          => ['domInteraction' => 'hottextInteraction', 'xpathChoice' => './/qti:hottext'],
+            'Inline choice'     => ['domInteraction' => 'inlineChoiceInteraction', 'xpathChoice' => './/qti:inlineChoice'],
+            'Graphic hotspot'   => ['domInteraction' => 'hotspotInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
+            'Graphic order'     => ['domInteraction' => 'graphicOrderInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
+            'Graphic associate' => ['domInteraction' => 'graphicAssociateInteraction', 'xpathChoice' => './/qti:associableHotspot'],
 
             //Scaffholding
             'ScaffHolding'  => [
@@ -220,6 +224,8 @@ class QtiExtractor implements Extractor
             'Extended text' => ['domInteraction' => 'extendedTextInteraction'],
             'Slider'        => ['domInteraction' => 'sliderInteraction'],
             'Upload file'   => ['domInteraction' => 'uploadInteraction'],
+            'Text entry'    => ['domInteraction' => 'textEntryInteraction'],
+            'End attempt'   => ['domInteraction' => 'endAttemptInteraction'],
         ];
 
         /**
@@ -276,10 +282,20 @@ class QtiExtractor implements Extractor
                     for($j=0 ; $j < $choiceNode->length ; $j++) {
                         $identifier = $choiceNode->item($j)->getAttribute('identifier');
                         $value = preg_replace('/\s+/', '', $choiceNode->item($j)->nodeValue);
+                        //Image
                         if (empty($value)) {
                             $imgNode = $this->xpath->query('./qti:img/@src', $choiceNode->item($j));
                             if ($imgNode->length > 0) {
                                 $value = 'image' . $j . '_' . $imgNode->item(0)->value;
+                            }
+                        }
+                        //Graphical
+                        if (empty($value)) {
+                            if ($shape = $choiceNode->item($j)->getAttribute('shape')) {
+                                $value = $shape;
+                            }
+                            if ($coords = $choiceNode->item($j)->getAttribute('coords')) {
+                                $value .= ':' . $coords;
                             }
                         }
                         $interaction['choices'][$identifier] = $value;
