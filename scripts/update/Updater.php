@@ -197,7 +197,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.13.0');
         }
 
-	if($this->isVersion('2.13.0')) {
+	    if($this->isVersion('2.13.0')) {
             
             \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
                 'taoQtiItem/qtiRunner/core/QtiRunner',
@@ -205,9 +205,6 @@ class Updater extends \common_ext_ExtensionUpdater
                     'inlineModalFeedback' => false
                 )
             );
-
-            $serviceManager = $this->getServiceManager();
-            $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
 
             $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
             $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
