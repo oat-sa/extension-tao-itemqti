@@ -122,16 +122,7 @@ class OntologyExtractor implements Extractor
                         continue;
                     }
 
-                    switch (get_class($itemValue)) {
-                        case 'core_kernel_classes_Literal':
-                            $data[] = $itemValue->literal;
-                            break;
-                        case 'core_kernel_classes_Resource':
-                            $data[] = $itemValue->getLabel();
-                            break;
-                        default:
-                            \common_Logger::i('Unknow property type');
-                    }
+                    $data[] = ($itemValue instanceof \core_kernel_classes_Resource)? $itemValue->getLabel() : (string)$itemValue;
                 }
             } catch (\Exception $e) {
                 \common_Logger::e('ERROR on column ' . $column . ' : ' . $e->getMessage());

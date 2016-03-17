@@ -29,7 +29,8 @@ return array(
     'version' => '2.18.0',
 	'author' => 'Open Assessment Technologies',
 	'requires' => array(
-	    'taoItems' => '>=2.6'
+	    'taoItems' => '>=2.6',
+		'tao'	   => '>=2.17'
 	),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAOItem.rdf'
