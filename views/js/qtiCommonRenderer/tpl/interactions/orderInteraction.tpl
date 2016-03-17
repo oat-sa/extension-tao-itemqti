@@ -1,4 +1,4 @@
-<div class="qti-interaction qti-blockInteraction qti-orderInteraction {{#if horizontal}}qti-horizontal{{else}}qti-vertical{{/if}}" 
+<div {{#if attributes.id}}id="{{attributes.id}}"{{/if}} class="qti-interaction qti-blockInteraction qti-orderInteraction{{#if horizontal}} qti-horizontal{{else}} qti-vertical{{/if}}{{#if attributes.class}} {{attributes.class}}{{/if}}" 
      data-serial="{{serial}}" 
      data-qti-class="orderInteraction" 
      data-orientation="{{#if horizontal}}horizontal{{else}}vertical{{/if}}">
