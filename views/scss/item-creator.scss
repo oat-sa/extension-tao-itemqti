@@ -776,6 +776,12 @@ img.dragging.ui-draggable-dragging {
                     }
                 }
             }
+            &.widget-img {
+                display: flex;
+                img {
+                    height: 100%;
+                }
+            }
         }
     }
 
