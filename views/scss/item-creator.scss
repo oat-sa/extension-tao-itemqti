@@ -777,8 +777,8 @@ img.dragging.ui-draggable-dragging {
                 }
             }
             &.widget-img {
-                display: flex;
                 img {
+                    display: flex;
                     height: 100%;
                 }
             }
@@ -918,6 +918,9 @@ img.dragging.ui-draggable-dragging {
                 .inner-wrapper {
                     min-width: 1rem;
                     border: 1px solid transparent;
+                    & > div > div {
+                        display: flex;
+                    }
                 }
             }
             .qti-interaction {

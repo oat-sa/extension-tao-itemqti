@@ -18,11 +18,10 @@
         & > .qti-choice {
             min-width: 100px;
             min-height: 30px;
-            max-width: 150px;
+            max-width: 180px;
             .qti-block {
-                display: flex;
                 img {
-                    height: 100%;
+                    display: flex;
                 }
             }
         }
@@ -64,9 +63,8 @@
                 @include simple-border(#eee);
                 overflow: hidden;
                 .qti-block {
-                    display: flex;
                     img {
-                        height: 100%;
+                        display: flex;
                     }
                 }
                 &.active {
