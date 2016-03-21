@@ -552,6 +552,7 @@ class ParserFactory
             $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
             $namespaces[$name] = $node->nodeValue;
         }
+        unset($namespaces['xml']);
         ksort($namespaces);
         foreach($namespaces as $name => $uri){
             $this->item->addNamespace($name, $uri);
