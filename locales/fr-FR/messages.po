@@ -1256,7 +1256,7 @@ msgid "this identifier is already in use"
 msgstr ""
 
 msgid "This is not a valid answer"
-msgstr ""
+msgstr "Cette réponse n'est pas valide"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr ""
