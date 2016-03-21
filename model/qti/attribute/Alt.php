@@ -36,7 +36,7 @@ class Alt extends Attribute
 {
 	
 	static protected $name = 'alt';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
 	static protected $defaultValue = null;
 	static protected $required = false;
 

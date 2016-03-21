@@ -1,4 +1,9 @@
-define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
+define([
+    'lodash',
+    'jquery',
+    'mathJax',
+    'ui/feedback'
+], function(_, $, MathJax, feedback){
     "use strict";
     var MathEditor = function MathEditor(config){
 
@@ -96,36 +101,42 @@ define(['lodash', 'jquery', 'mathJax'], function(_, $, MathJax){
     MathEditor.prototype.renderFromTex = function(){
 
         var args = _processArguments(this, arguments);
+        var _this = this;
+        var jaxQueue = MathJax.Hub.queue;
 
-        if(typeof(MathJax) !== 'undefined'){
+        if(typeof (MathJax) !== 'undefined'){
 
-            var _this = this;
-            var jaxQueue = MathJax.Hub.queue;
             if(this.display === 'block'){
-                _this.$buffer.html('\\[\\displaystyle{' + _this.tex + '}\\]');
+                _this.$buffer.text('\\[\\displaystyle{' + _this.tex + '}\\]');
             }else{
-                _this.$buffer.html('\\(\\displaystyle{' + _this.tex + '}\\)');
+                _this.$buffer.text('\\(\\displaystyle{' + _this.tex + '}\\)');
             }
 
             //render preview:
             jaxQueue.Push(
                 //programmatically typeset the buffer
-                    ["Typeset", MathJax.Hub, _this.$buffer[0]],
+                    ['Typeset', MathJax.Hub, _this.$buffer[0]],
                     function(){
+                        var texJax;
+                        try {
+                            //replace the target element
+                            args.target.html(_this.$buffer.html());
 
-                        //replace the target element
-                        args.target.html(_this.$buffer.html());
+                            //store mathjax "tex", for tex for later mathML conversion
+                            texJax = _getJaxByElement(_this.$buffer);
 
-                        //store mathjax "tex", for tex for later mathML conversion
-                        var texJax = _getJaxByElement(_this.$buffer);
+                            //empty buffer;
+                            _this.$buffer.empty();
 
-                        //empty buffer;
-                        _this.$buffer.empty();
-
-                        //sync MathML
-                        _this.texToMathML(texJax, function(mathML){
-                            _this.setMathML(_stripMathTags(mathML));
-                        });
+                            //sync MathML
+                            if (typeof (texJax) !== 'undefined') {
+                                _this.texToMathML(texJax, function (mathML) {
+                                    _this.setMathML(_stripMathTags(mathML));
+                                });
+                            }
+                        } catch (err) {
+                            feedback().error('Mathjax error: ' + err.message);
+                        }
                     }
                 );
 

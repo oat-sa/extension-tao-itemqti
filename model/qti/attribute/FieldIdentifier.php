@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use oat\taoQtiItem\model\qti\attribute\FieldIdentifier;
 use oat\taoQtiItem\model\qti\attribute\Attribute;
 
 /**
@@ -36,7 +35,7 @@ class FieldIdentifier extends Attribute
 {
 	
 	static protected $name = 'fieldIdentifier';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Identifier';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
 	static protected $defaultValue = null;
 	static protected $required = false;
 

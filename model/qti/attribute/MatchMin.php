@@ -36,7 +36,7 @@ class MatchMin extends Attribute
 {
 	
 	static protected $name = 'matchMin';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Integer';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
 	static protected $defaultValue = 0;
 	static protected $required = false;
 

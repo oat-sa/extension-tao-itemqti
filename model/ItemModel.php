@@ -128,7 +128,7 @@ class ItemModel
     }
 
     public function getCompilerClass() {
-        return 'oat\\taoQtiItem\\model\\QtiItemCompiler';
+        return \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('compilerClass');
     }
 
     public function getPackerClass() {

@@ -36,7 +36,7 @@ class TitleOptional extends Attribute
 {
 	
 	static protected $name = 'title';
-	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String';
+	static protected $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
 	static protected $defaultValue = null;
 	static protected $required = false;
 

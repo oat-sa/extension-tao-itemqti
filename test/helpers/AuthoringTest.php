@@ -65,6 +65,65 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         Authoring::loadQtiXml($xmlStr);
     }
 
+    public function testSanitizeQtiXmlMultipleIds()
+    {
+        $xmlStr = file_get_contents($this->getSamplePath('/authoring/sanitizeQtiXmlMultipleIds.xml'));
+        $xml = simplexml_load_string($xmlStr);
+
+        $duplicate = array();
+        $ids = array();
+        foreach($xml->xpath("//*[@id]") as $idElement){
+            $id = (string)$idElement['id'];
+            if(!in_array($id,$ids)){
+                $ids[] = $id;
+            }
+            else{
+                if(array_key_exists($id, $duplicate)){
+                    $duplicate[$id]++;
+                }
+                else{
+                    $duplicate[$id] = 2;
+                }
+            }
+        }
+        $this->assertCount(3, $duplicate);
+        $this->assertEquals(2, $duplicate['p001']);
+        $this->assertEquals(3, $duplicate['p002']);
+        $this->assertEquals(4, $duplicate['p003']);
+
+        $sanitizedXmlStr = Authoring::sanitizeQtiXml($xmlStr);
+
+        $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
+
+        $duplicate = array();
+        $ids = array();
+        foreach($sanitizedXml->xpath("//*[@id]") as $idElement){
+            $id = (string)$idElement['id'];
+            if(!in_array($id,$ids)){
+                $ids[] = $id;
+            }
+            else{
+                if(array_key_exists($id, $duplicate)){
+                    $duplicate[$id]++;
+                }
+                else{
+                    $duplicate[$id] = 2;
+                }
+            }
+        }
+        $this->assertCount(0, $duplicate);
+
+        return $sanitizedXmlStr;
+    }
+    
+    /**
+     * @depends testSanitizeQtiXmlMultipleIds
+     */
+    public function testValidateSanitizedStringSingleId($xmlStr)
+    {
+        Authoring::loadQtiXml($xmlStr);
+    }
+
     public function testLoadQtiXml()
     {
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/loadQtiXml.xml'));

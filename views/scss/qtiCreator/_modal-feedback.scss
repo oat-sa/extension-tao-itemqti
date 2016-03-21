@@ -77,4 +77,14 @@
         display: block;
         margin-top:5px;
     }
+
+    .choices-selector {
+        margin: 4px 0;
+        @include font-size(13);
+        input {
+            font-size: inherit;
+            width: 100% !important;
+            max-width: unset;
+        }
+    }
 }

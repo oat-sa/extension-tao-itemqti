@@ -14,6 +14,7 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\controller\QTIform\AssessmentItem;
 use \common_Serializable;
 use \common_Logger;
+use \common_ext_ExtensionsManager;
 use \taoItems_models_classes_TemplateRenderer;
 use \DOMDocument;
 use oat\tao\helpers\Template;
@@ -93,7 +94,23 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      * @var array
      */
     protected $namespaces = array();
-
+    
+    /**
+     * The schema locations defined in the original qti.xml file,
+     *
+     * @var array
+     */
+    protected $schemaLocations = array();
+    
+    /**
+     * The information on apip accessibility.
+     * It is currently stored as an xml string.
+     * This opens opprtunity to manage APIP accessibility more thouroughly in the future
+     * 
+     * @var type 
+     */
+    protected $apipAccessibility =  '';
+    
     /**
      * Short description of method __construct
      *
@@ -105,7 +122,7 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function __construct($attributes = array()){
         // override the tool options !
         $attributes['toolName'] = PRODUCT_NAME;
-        $attributes['toolVersion'] = TAO_VERSION;
+        $attributes['toolVersion'] = \tao_models_classes_TaoService::singleton()->getPlatformVersion();
 
         // create container
         $this->body = new ContainerItemBody('', $this);
@@ -124,7 +141,27 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function getNamespace($uri){
         return array_search($uri, $this->namespaces);
     }
+    
+    public function addSchemaLocation($uri, $url){
+        $this->schemaLocations[$uri] = $url;
+    }
 
+    public function getSchemaLocations(){
+        return $this->schemaLocations;
+    }
+
+    public function getSchemaLocation($uri){
+        return $this->schemaLocations[$uri];
+    }
+    
+    public function setApipAccessibility($apipXml){
+        $this->apipAccessibility = $apipXml;
+    }
+    
+    public function getApipAccessibility(){
+        return $this->apipAccessibility;
+    }
+    
     protected function getUsedAttributes(){
         return array(
             'oat\\taoQtiItem\\model\\qti\\attribute\\Title',
@@ -498,13 +535,11 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $variables['feedbacks'] .= $feedback->toQTI();
         }
 
-        $namespaces = $this->getNamespaces();
-        // remove standard namespaces
-        unset($namespaces['']);
-        unset($namespaces['xml']);
-        unset($namespaces['xsi']);
-        $variables['namespaces'] = $namespaces;
-
+        $variables['namespaces'] = $this->getNamespaces();
+        $variables['schemaLocations'] = $this->getSchemaLocations();
+        $nsXsi = $this->getNamespace('http://www.w3.org/2001/XMLSchema-instance');
+        $variables['xsi'] = $nsXsi ? $nsXsi.':' : 'xsi:';
+        
         // render the responseProcessing
         $renderedResponseProcessing = '';
         $responseProcessing = $this->getResponseProcessing();
@@ -521,7 +556,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         unset($variables['attributes']['class']);
 
         $variables['renderedResponseProcessing'] = $renderedResponseProcessing;
-
+        
+        $variables['apipAccessibility'] = $this->getApipAccessibility();
+        
         return $variables;
     }
 
@@ -573,11 +610,13 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     public function toArray($filterVariableContent = false, &$filtered = array()){
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['namespaces'] = $this->getNamespaces();
+        $data['schemaLocations'] = $this->getSchemaLocations();
         $data['stylesheets'] = $this->getArraySerializedElementCollection($this->getStylesheets(), $filterVariableContent, $filtered);
         $data['outcomes'] = $this->getArraySerializedElementCollection($this->getOutcomes(), $filterVariableContent, $filtered);
         $data['responses'] = $this->getArraySerializedElementCollection($this->getResponses(), $filterVariableContent, $filtered);
         $data['feedbacks'] = $this->getArraySerializedElementCollection($this->getModalFeedbacks(), $filterVariableContent, $filtered);
         $data['responseProcessing'] = $this->responseProcessing->toArray($filterVariableContent, $filtered);
+        $data['apipAccessibility'] = $this->getApipAccessibility();
         return $data;
     }
 
