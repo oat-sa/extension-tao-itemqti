@@ -34,12 +34,17 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
                 stylesheets : [],
                 feedbacks : [],
                 namespaces : item.getNamespaces(),
-                schemaLocations : item.getSchemaLocations(),
+                schemaLocations : '',
                 xsi: 'xsi:',//the standard namespace prefix for xml schema
                 empty : item.isEmpty(),
                 responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
                 apipAccessibility : item.getApipAccessibility() || ''
             };
+            
+            _.forIn(item.getSchemaLocations(), function(url, uri){
+                defaultData.schemaLocations += uri+' '+url+' ';
+            });
+            defaultData.schemaLocations = defaultData.schemaLocations.trim();
             
             _.each(item.responses, function(response){
                 defaultData.responses.push(response.render(renderer));

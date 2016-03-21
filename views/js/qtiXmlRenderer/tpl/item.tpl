@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem 
     {{#each namespaces}}{{#if @key}}xmlns:{{@key}}="{{.}}"{{else}}xmlns="{{.}}"{{/if}} {{/each}}
-    {{xsi}}schemaLocation="{{~#each schemaLocations}}{{@key}} {{.}} {{/each}}"
+    {{xsi}}schemaLocation="{{schemaLocations}}"
     {{#if attributes}}{{{join attributes '=' ' ' '"'}}}{{/if}}>
     
     {{~#responses}}
