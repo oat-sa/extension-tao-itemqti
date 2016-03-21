@@ -22,8 +22,9 @@ define([
     'taoQtiItem/qtiItem/helper/pci',
     'taoQtiItem/qtiItem/helper/container',
     'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackPreviewButton',
-    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton'
-], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn){
+    'tpl!taoQtiItem/qtiRunner/tpl/inlineModalFeedbackDeliveryButton',
+    'iframeNotifier'
+], function (_, $, pci, containerHelper, previewOkBtn, deliveryOkBtn, iframeNotifier){
     'use strict';
 
     /**
@@ -107,6 +108,8 @@ define([
                     renderedFeebacks.push(renderingData);
                     if(renderedFeebacks.length === renderingQueue.length){
                         //rendering processing queue completed
+                        iframeNotifier.parent('itemcontentchange');
+                        
                         //if an optional "on show modal" callback has been provided, execute it
                         if(_.isFunction(onShowCallback)){
                             onShowCallback();
@@ -114,7 +117,7 @@ define([
                     }
                 });
             });
-
+            
             //if any feedback is displayed, replace the controls by a "ok" button
             replaceControl(renderedFeebacks, $itemContainer, onCloseCallback);
         }
