@@ -9,7 +9,7 @@ define([
 
         config = config || {};
 
-        this.mathML = config.mathML || '';
+        this.setMathML(config.mathML || '');
         this.tex = config.tex || '';
         this.display = config.display || 'inline';
 
@@ -26,7 +26,9 @@ define([
 
     MathEditor.prototype.setMathML = function(mathMLstr){
 
-        this.mathML = _stripMathTags(mathMLstr);
+        mathMLstr = _stripMathTags(mathMLstr);
+        mathMLstr = _stripComments(mathMLstr);
+        this.mathML = mathMLstr;
 
         return this;//for chaining purpose
     };
@@ -156,6 +158,13 @@ define([
             return mathMLstr;
         };
 
+        var _stripComments = function(mathMLstr) {
+            mathMLstr = mathMLstr.replace(/<!--.*?-->/, '');
+            mathMLstr = mathMLstr.replace(/&lt;!--.*?--&gt;/, '');
+
+            return mathMLstr;
+        };
+
         var _getJaxByElement = function($element){
 
             if($element instanceof $ && $element.length){
@@ -185,7 +194,7 @@ define([
             var mathML = '';
 
             try{
-                mathML = texJax.root.toMathML('');
+                mathML = _stripComments(texJax.root.toMathML(''));
             }catch(err){
                 if(!err.restart){
                     throw err;

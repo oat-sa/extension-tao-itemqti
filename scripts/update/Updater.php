@@ -205,6 +205,9 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion === '2.12.6'){
             $currentVersion = '2.12.7';
         }
+        if($currentVersion === '2.12.7'){
+            $currentVersion = '2.12.8';
+        }
         return $currentVersion;
     }
 
