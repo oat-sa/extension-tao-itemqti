@@ -98,6 +98,11 @@ define([
             _.each(choices, function(choice){
                 if(Element.isA(choice, 'choice')){
                     try{
+                        if (renderer.name == 'xmlRenderer') {
+                            if ((new RegExp('<|>', 'g')).test(choice.text)) {
+                                choice.text = _.escape(choice.text);
+                            }
+                        }
                         var renderedChoice = choice.render(_.clone(interactionData, true), null, choice.qtiClass + '.' + _this.qtiClass, renderer); //use interaction type as choice subclass
                         defaultData.choices.push(renderedChoice);
                     }catch(e){
