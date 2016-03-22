@@ -83,13 +83,28 @@ define([
             return modalFeedback;
         },
         deleteResponseDeclaration : function(response){
+            var self = this;
             var serial;
             if(_.isString(response)){
                 serial = response;
             }else if(response && response.qtiClass === 'responseDeclaration'){
                 serial = response.getSerial();
             }
-            delete this.responses[serial];
+            if(this.responses[serial]){
+                //remove feedback rules:
+                _.each(this.responses[serial].feedbackRules, function(rule){
+                    if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
+                        delete self.outcomes[rule.feedbackOutcome.serial];
+                    }
+                    if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
+                        delete self.modalFeedbacks[rule.feedbackThen.serial];
+                    }
+                    if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
+                        delete self.modalFeedbacks[rule.feedbackElse.serial];
+                    }
+                });
+                delete this.responses[serial];
+            }
             return this;
         }
     });
