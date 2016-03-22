@@ -211,6 +211,9 @@ class Updater extends \common_ext_ExtensionUpdater
         if($currentVersion === '2.12.8'){
             $currentVersion = '2.12.9';
         }
+
+        $this->skip('2.12.9', '2.12.10');
+
         return $currentVersion;
     }
 
