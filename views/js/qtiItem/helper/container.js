@@ -142,10 +142,9 @@ define(['lodash', 'jquery'], function (_, $){
      * @returns {unresolved}
      */
     function removeEncodedData(element, dataName){
-        var $body = _getBodyDom(element);
         var oldValue = getEncodedData(element, dataName);
-        if($body && $body.length && dataName && oldValue){
-            return $body.hasClass(_getEncodedDataString(dataName, oldValue));
+        if(dataName && oldValue){
+            _setBodyDomClass(element, '', _getEncodedDataString(dataName, oldValue))
         }
     }
 
