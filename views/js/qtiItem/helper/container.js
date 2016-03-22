@@ -64,28 +64,52 @@ define(['lodash', 'jquery'], function (_, $){
 
         if(_checkContainerType(element) && (oldClass || newClass)){
             var $wrapper = $('<div>').html(element.body());
-            var $bodyDom = $wrapper.find('.x-tao-wrapper');
-
-            if(!$bodyDom.length){
-                //create one
-                $wrapper.wrapInner('<div class="x-tao-wrapper">');
-                $bodyDom = $wrapper.find('.x-tao-wrapper');
-            }
-            if(oldClass){
-                $bodyDom.removeClass(oldClass);
-            }
-            if(newClass){
-                $bodyDom.addClass(newClass);
-            }
+            //set css class to element
+            _setDomClass($wrapper, newClass, oldClass);
             //set to the model
             element.body($wrapper.html());
         }
     }
     
     /**
+     * Switch class to the wrapped DOM
+     * 
+     * @param {JQuery} $wrapper
+     * @param {String} newClass
+     * @param {String} oldClass
+     * @returns {undefined}
+     */
+    function _setDomClass($wrapper, newClass, oldClass){
+        var $bodyDom = $wrapper.find('.x-tao-wrapper');
+        if(!$bodyDom.length){
+            //create one
+            $wrapper.wrapInner('<div class="x-tao-wrapper">');
+            $bodyDom = $wrapper.find('.x-tao-wrapper');
+        }
+        if(oldClass){
+            $bodyDom.removeClass(oldClass);
+        }
+        if(newClass){
+            $bodyDom.addClass(newClass);
+        }
+    }
+    
+    /**
+     * Add manually the encoded information to a dom element
+     * 
+     * @param {JQuery} $wrapper - the wrapper of the element that will holds the information
+     * @param {String} dataName - the name of the information
+     * @param {String} newValue - the new value to be added
+     * @param {String} [oldValue] - the old value to be removed
+     * @returns {undefined}
+     */
+    function setEncodedDataToDom($wrapper, dataName, newValue, oldValue){
+        _setDomClass($wrapper, _getEncodedDataString(dataName, newValue), _getEncodedDataString(dataName, oldValue));
+    }
+    
+    /**
      * Get the full variable name for the data store
      * 
-     * @private
      * @param {String} dataName
      * @param {String} value
      * @returns {String}
@@ -118,10 +142,9 @@ define(['lodash', 'jquery'], function (_, $){
      * @returns {unresolved}
      */
     function removeEncodedData(element, dataName){
-        var $body = _getBodyDom(element);
         var oldValue = getEncodedData(element, dataName);
-        if($body && $body.length && dataName && oldValue){
-            return $body.hasClass(_getEncodedDataString(dataName, oldValue));
+        if(dataName && oldValue){
+            _setBodyDomClass(element, '', _getEncodedDataString(dataName, oldValue))
         }
     }
 
@@ -167,6 +190,7 @@ define(['lodash', 'jquery'], function (_, $){
         setEncodedData : setEncodedData,
         hasEncodedData : hasEncodedData,
         getEncodedData : getEncodedData,
-        removeEncodedData : removeEncodedData
+        removeEncodedData : removeEncodedData,
+        setEncodedDataToDom : setEncodedDataToDom
     };
 });
