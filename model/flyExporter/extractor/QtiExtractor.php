@@ -318,12 +318,15 @@ class QtiExtractor implements Extractor
                 $returnResponse = [];
 
                 foreach ($allResponses as $partialResponse) {
+                    $returnResponse[] = $partialResponse;
+                    /*
                     if (isset($interaction['choices'][$partialResponse])
                         && $interaction['choices'][$partialResponse]!=='') {
                         $returnResponse[] = $interaction['choices'][$partialResponse];
                     } else {
                         $returnResponse[] = $partialResponse;
                     }
+                    */
                 }
                 $return[] = implode(' ', $returnResponse);
             }
@@ -364,16 +367,13 @@ class QtiExtractor implements Extractor
         if (isset($interaction['choices'])) {
             $i = 1;
             foreach ($interaction['choices'] as $identifier => $choice) {
-                \common_Logger::d($interaction['type']);
-                \common_Logger::d($choice);
 
-                if (!$choice!=='') {
+                if ($choice!=='') {
                     $return['choice_' . $i] = $choice;
                 } else {
                     $return['choice_' . $i] = $identifier;
                 }
-                \common_Logger::d($return['choice_' . $i]);
-                \common_Logger::d('---------    ');
+
                 $i++;
             }
             if ($this->headerChoice > count($return)) {
