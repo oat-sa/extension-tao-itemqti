@@ -93,17 +93,20 @@ define([
             if(this.responses[serial]){
                 //remove feedback rules:
                 _.each(this.responses[serial].feedbackRules, function(rule){
-                    if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
-                        delete self.outcomes[rule.feedbackOutcome.serial];
-                    }
+                    var feedbacks = [];
                     if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
-                        delete self.modalFeedbacks[rule.feedbackThen.serial];
+                        feedbacks.push(rule.feedbackThen.serial);  
                     }
                     if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
-                        delete self.modalFeedbacks[rule.feedbackElse.serial];
+                        feedbacks.push(rule.feedbackElse.serial);
+                    }
+                    self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
+                    
+                    if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
+                        self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
                     }
                 });
-                delete this.responses[serial];
+                this.responses = _.omit(this.responses, serial);
             }
             return this;
         }
