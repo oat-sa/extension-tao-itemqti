@@ -50,6 +50,7 @@ define([
     QtiRunner.prototype.updateItemApi = function() {
         var responses = this.getResponses();
         var states = this.getStates();
+        var variables = [];
         // Transform responses into state variables.
         for (var key in states) {
 
@@ -73,9 +74,12 @@ define([
                     }
                 }
             }
-
-            this.itemApi.setVariable(key, value);
+            
+            variables[key] = value;
         }
+        
+        //set all variables at once
+        this.itemApi.setVariables(variables);
 
         // Save the responses that will be used for response processing.
         this.itemApi.saveResponses(responses);
