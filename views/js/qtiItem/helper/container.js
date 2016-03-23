@@ -144,7 +144,7 @@ define(['lodash', 'jquery'], function (_, $){
     function removeEncodedData(element, dataName){
         var oldValue = getEncodedData(element, dataName);
         if(dataName && oldValue){
-            _setBodyDomClass(element, '', _getEncodedDataString(dataName, oldValue))
+            _setBodyDomClass(element, '', _getEncodedDataString(dataName, oldValue));
         }
     }
 
