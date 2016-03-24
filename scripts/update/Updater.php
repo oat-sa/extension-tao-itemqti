@@ -253,13 +253,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-		if($this->isVersion('2.17.2')){
-			$this->setVersion('2.17.3');
-		}
-        
-        if($this->isVersion('2.17.3')){
-			$this->setVersion('2.18.0');
-		}
+        $this->skip('2.17.2', '2.19.0');
     }
 
 }
