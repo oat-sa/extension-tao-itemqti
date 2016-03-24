@@ -34,7 +34,7 @@ define([
         $editableContainer.on('keyup.qti-widget', _.throttle(function(){
 
             //update model
-            _widget.element.val($(this).text());
+            _widget.element.val(_.escape($(this).text()));
 
             //update placeholder
             _widget.$original.width($(this).width());

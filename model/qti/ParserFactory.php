@@ -745,7 +745,8 @@ class ParserFactory
         if($myChoice instanceof ContainerChoice){
             $this->parseContainerStatic($data, $myChoice->getBody());
         }elseif($myChoice instanceof TextVariableChoice){
-            $myChoice->setContent($data->nodeValue);
+            //use getBodyData() instead of $data->nodeValue() to preserve xml entities
+            $myChoice->setContent($this->getBodyData($data));
         }elseif($myChoice instanceof GapImg){
             //extract the media object tag
             $objectNodes = $this->queryXPath("*[name(.)='object']", $data);
