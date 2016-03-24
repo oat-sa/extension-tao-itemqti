@@ -21,12 +21,14 @@
 
 echo '<?xml version="1.0" encoding="UTF-8"?>'?>
 <assessmentItem 
-    xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    <?php foreach(get_data('namespaces') as $name => $uri):?> 
-     xmlns:<?=$name?>="<?=$uri?>" 
-    <?php endforeach?>
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    <?php foreach(get_data('namespaces') as $name => $uri):?>
+    <?php if($name):?>
+    xmlns:<?=$name?>="<?=$uri?>" 
+    <?php else:?>
+    xmlns="<?=$uri?>"
+    <?php endif;?>
+    <?php endforeach;?>
+    <?=$xsi?>schemaLocation="<?=get_data('schemaLocations')?>"
     <?=get_data('attributes')?>>
 
     <?=get_data('responses')?>
@@ -42,4 +44,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'?>
     <?=get_data('renderedResponseProcessing')?>
     
     <?=get_data('feedbacks')?>
+    
+    <?=get_data('apipAccessibility')?>
 </assessmentItem>

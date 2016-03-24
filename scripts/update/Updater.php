@@ -21,6 +21,7 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
@@ -204,15 +205,16 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             );
 
-            $itemUpdater = new ItemUpdateInlineFeedback(ROOT_PATH . 'data/taoItems/itemData');
+            $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
+            $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
             $itemUpdater->update(true);
-
+        
             $this->setVersion('2.14.0');
         }
 
-		$this->skip('2.14.0','2.15.0');
+		$this->skip('2.14.0','2.15.1');
 
-        if($this->isVersion('2.15.0')){
+        if($this->isVersion('2.15.1')){
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
             $validation = array(
                 'default' => array(
@@ -240,6 +242,18 @@ class Updater extends \common_ext_ExtensionUpdater
             $ext->setConfig('contentValidation', $validation);
             $this->setVersion('2.17.0');
         }
+
+		if($this->isVersion('2.17.0')){
+			$this->setVersion('2.17.1');
+		}
+
+        if($this->isVersion('2.17.1')){
+            $service = new addValidationSettings();
+            $service([]);
+            $this->setVersion('2.17.2');
+        }
+
+        $this->skip('2.17.2', '2.19.0');
     }
 
 }

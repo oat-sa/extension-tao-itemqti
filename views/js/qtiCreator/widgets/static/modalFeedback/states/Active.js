@@ -162,6 +162,9 @@ define([
                     $container.removeClass(oldValue);
                 }
                 $container.addClass(newValue);
+                
+                //need to set the encoded data immediately to the rendered dom because changed body data will be based on it
+                containerHelper.setEncodedDataToDom($container.find('.cke_editable'), 'modalFeedback', newValue, oldValue);
             }
         });
     };

@@ -49,10 +49,10 @@ define([
 
         var attributes = interaction.getAttributes(),
             $container = interaction.getContainer(),
-            $el = $('<div />').attr({'id' : attributes.identifier + '-qti-slider', 'class' : 'qti-slider'}), //slider element
+            $el = $('<div />').attr({'id' : attributes.responseIdentifier + '-qti-slider', 'class' : 'qti-slider'}), //slider element
         $sliderLabels = $('<div />').attr({'class' : 'qti-slider-values'}),
-        $sliderCurrentValue = $('<div />').attr({'id' : attributes.identifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
-        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.identifier + '-qti-slider-value'}); //the input that always holds the slider value
+        $sliderCurrentValue = $('<div />').attr({'id' : attributes.responseIdentifier + '-qti-slider-cur-value', 'class' : 'qti-slider-cur-value'}), //show the current selected value
+        $sliderValue = $('<input />').attr({'type' : 'hidden', 'id' : attributes.responseIdentifier + '-qti-slider-value'}); //the input that always holds the slider value
 
         //getting the options
         var orientation = 'horizontal',
@@ -141,9 +141,9 @@ define([
 
     var resetResponse = function(interaction){
         var attributes = interaction.getAttributes(),
-            $el = $('#' + attributes.identifier + '-qti-slider'),
-            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value'),
-            $sliderCurrentValue = $('#' + attributes.identifier + '-qti-slider-cur-value'),
+            $el = $('#' + attributes.responseIdentifier + '-qti-slider'),
+            $sliderValue = $('#' + attributes.responseIdentifier + '-qti-slider-value'),
+            $sliderCurrentValue = $('#' + attributes.responseIdentifier + '-qti-slider-cur-value'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             reverse = typeof attributes.reverse !== 'undefined' && attributes.reverse ? true : false,
@@ -172,9 +172,9 @@ define([
      */
     var setResponse = function(interaction, response){
         var attributes = interaction.getAttributes(),
-            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value'),
-            $sliderCurrentValue = $('#' + attributes.identifier + '-qti-slider-cur-value'),
-            $el = $('#' + attributes.identifier + '-qti-slider'),
+            $sliderValue = $('#' + attributes.responseIdentifier + '-qti-slider-value'),
+            $sliderCurrentValue = $('#' + attributes.responseIdentifier + '-qti-slider-cur-value'),
+            $el = $('#' + attributes.responseIdentifier + '-qti-slider'),
             min = parseInt(attributes.lowerBound),
             max = parseInt(attributes.upperBound),
             value;
@@ -196,8 +196,8 @@ define([
             attributes = interaction.getAttributes(),
             baseType = interaction.getResponseDeclaration().attr('baseType'),
             min = parseInt(attributes.lowerBound),
-            $sliderValue = $('#' + attributes.identifier + '-qti-slider-value');
-
+            $sliderValue = $('#' + attributes.responseIdentifier + '-qti-slider-value');
+        
         if(baseType === 'integer'){
             value = parseInt($sliderValue.val());
         }else if(baseType === 'float'){
