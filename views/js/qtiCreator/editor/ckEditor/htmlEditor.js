@@ -79,6 +79,7 @@ define([
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
+            enterMode : CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
