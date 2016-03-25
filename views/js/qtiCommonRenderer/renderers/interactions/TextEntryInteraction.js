@@ -29,9 +29,11 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'util/locale',
     'polyfill/placeholders',
-    'ui/tooltip'
-], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse){
+     'ui/tooltip'
+    'tooltipster'
+], function($, _, __, tpl, containerHelper, instructionMgr, pciResponse, locale){
     'use strict';
 
     /**
@@ -151,11 +153,11 @@ define([
             //invalid response or response equals to the placeholder text are considered empty
             value = '';
         }else{
-            if(baseType === 'integer'){
-                value = parseInt($el.val(), numericBase);
-            }else if(baseType === 'float'){
-                value = parseFloat($el.val());
-            }else if(baseType === 'string'){
+            if (baseType === 'integer') {
+                value = locale.parseInt($el.val(), numericBase);
+            } else if (baseType === 'float') {
+                value = locale.parseFloat($el.val());
+            } else if (baseType === 'string') {
                 value = $el.val();
             }
         }

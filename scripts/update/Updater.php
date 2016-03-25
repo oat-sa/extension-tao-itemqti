@@ -21,11 +21,12 @@
 
 namespace oat\taoQtiItem\scripts\update;
 
+use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\model\SharedLibrariesRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\ClientLibRegistry;
-
+use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
 
 /**
  * 
@@ -185,7 +186,74 @@ class Updater extends \common_ext_ExtensionUpdater
             $currentVersion = '2.12.0';
         }
 
-        return $currentVersion;
+        $this->setVersion($currentVersion);
+
+        if($this->isBetween('2.12.0','2.13.0')) {
+            $itemQtiExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $compilerClassConfig = 'oat\taoQtiItem\model\QtiItemCompiler';
+
+            $itemQtiExt->setConfig('compilerClass', $compilerClassConfig);
+            $this->setVersion('2.13.0');
+        }
+
+	    if($this->isVersion('2.13.0')) {
+            
+            \oat\tao\model\ClientLibConfigRegistry::getRegistry()->register(
+                'taoQtiItem/qtiRunner/core/QtiRunner',
+                array(
+                    'inlineModalFeedback' => false
+                )
+            );
+
+            $fs = \taoItems_models_classes_ItemsService::singleton()->getDefaultFileSource();
+            $itemUpdater = new ItemUpdateInlineFeedback($fs->getPath());
+            $itemUpdater->update(true);
+        
+            $this->setVersion('2.14.0');
+        }
+
+		$this->skip('2.14.0','2.15.1');
+
+        if($this->isVersion('2.15.1')){
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $validation = array(
+                'default' => array(
+                    __DIR__.'/../../model/qti/data/imscp_v1p1.xsd',
+                    __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
+                )
+            );
+            $ext->setConfig('manifestValidation', $validation);
+            $this->setVersion('2.16.0');
+        }
+
+        if($this->isVersion('2.16.0')){
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
+            $validation = array(
+                'http://www.imsglobal.org/xsd/imsqti_v2p0' => array(
+                    __DIR__.'/../../model/qti/data/qtiv2p0/imsqti_v2p0.xsd'
+                ),
+                'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1' => array(
+                    __DIR__.'/../../model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+                ),
+                'default' => array(
+                    __DIR__.'/../../model/qti/data/qtiv2p1/imsqti_v2p1.xsd',
+                )
+            );
+            $ext->setConfig('contentValidation', $validation);
+            $this->setVersion('2.17.0');
+        }
+
+		if($this->isVersion('2.17.0')){
+			$this->setVersion('2.17.1');
+		}
+
+        if($this->isVersion('2.17.1')){
+            $service = new addValidationSettings();
+            $service([]);
+            $this->setVersion('2.17.2');
+        }
+
+        $this->skip('2.17.2', '2.19.0');
     }
 
 }

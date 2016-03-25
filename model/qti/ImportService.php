@@ -43,9 +43,13 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
+use oat\taoQtiItem\model\event\ItemImported;
+use qtism\data\storage\xml\XmlStorageException;
 use tao_helpers_File;
 use tao_models_classes_GenerisService;
 use taoItems_models_classes_ItemsService;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -142,7 +146,6 @@ class ImportService extends tao_models_classes_GenerisService
         $qtiParser = new Parser($qtiXml);
 
         if ($validate) {
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
             $qtiParser->validate();
 
             if (!$qtiParser->isValid()) {
@@ -173,11 +176,7 @@ class ImportService extends tao_models_classes_GenerisService
         $qtiManifestParser = new ManifestParser($manifestFile);
 
         if ($validate) {
-            $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-            $qtiManifestParser->validateMultiple(array(
-                $basePath . 'model/qti/data/imscp_v1p1.xsd',
-                $basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_imscpv1p2_v1p0.xsd'
-            ));
+            $qtiManifestParser->validate();
 
             if (!$qtiManifestParser->isValid()) {
 
@@ -544,6 +543,8 @@ class ImportService extends tao_models_classes_GenerisService
                     $this->storeApip($qtiFile, $rdfItem);
                 }
 
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
 
                 $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.',
                     $qtiItemResource->getIdentifier());
@@ -555,6 +556,21 @@ class ImportService extends tao_models_classes_GenerisService
                 $report = \common_report_Report::createFailure(__('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.',
                     $qtiItemResource->getIdentifier()));
                 $report->add($ve->getReport());
+            } catch (XmlStorageException $e){
+
+                $files = array();
+                $message = __('There are errors in the following shared stimulus : ').PHP_EOL;
+                /** @var \LibXMLError $error */
+                foreach($e->getErrors() as $error){
+                    if(!in_array($error->file, $files)){
+                        $files[] = $error->file;
+                        $message .= '- '.basename($error->file).' :'.PHP_EOL;
+                    }
+                    $message .= $error->message.' at line : '.$error->line.PHP_EOL;
+                }
+
+                $report = new common_report_Report(common_report_Report::TYPE_ERROR,
+                    $message);
             } catch (Exception $e) {
                 // an error occured during a specific item
                 $report = new common_report_Report(common_report_Report::TYPE_ERROR,

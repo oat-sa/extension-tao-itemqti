@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
 use \InvalidArgumentException;
+use \common_Logger;
 
 /**
  * The QTI_Container object represents the generic element container
@@ -150,6 +151,8 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * modify the content of the body
      * 
      * @param string $body
+     * @param bool $integrityCheck
+     * @return bool
      */
     public function edit($body, $integrityCheck = false){
         if(!is_string($body)){
@@ -188,10 +191,26 @@ abstract class Container extends Element implements IdentifiedElementContainer
     }
 
     /**
-     * Clean the html in the body
+     * Converts <foo/> to <foo></foo> unless foo is a proper void element such as img etc.
+     *
+     * @param $html
+     * @return mixed
      */
-    public function cleanBody(){
-        
+    public function fixNonvoidTags($html) {
+        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
+            // something went wrong
+            if(empty($matches[2])) {
+                // do nothing
+                return $matches[0];
+            }
+            // regular void elements
+            if(in_array($matches[2], array('area','base','br','col','embed','hr','img','input','keygen','link','meta','param','source','track','wbr'))) {
+                // do nothing
+                return $matches[0];
+            }
+            // correctly closed element
+            return trim(mb_substr($matches[0], 0, -2), 'UTF-8') . '></' . $matches[2] . '>';
+        }, $html);
     }
 
     public function isValidElement(Element $element){

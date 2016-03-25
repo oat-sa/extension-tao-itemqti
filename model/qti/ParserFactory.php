@@ -80,7 +80,6 @@ class ParserFactory
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
-    protected $qtiPrefix = '';
     protected $attributeMap = array('lang' => 'xml:lang');
 
     public function __construct(DOMDocument $data){
@@ -141,17 +140,11 @@ class ParserFactory
     }
 
     public function queryXPath($query, DOMElement $contextNode = null){
-
-        $returnValue = $contextNode;
-        if($this->qtiPrefix){
-            
-        }
         if(is_null($contextNode)){
-            $returnValue = $this->xpath->query($query);
+            return $this->xpath->query($query);
         }else{
-            $returnValue = $this->xpath->query($query, $contextNode);
+            return $this->xpath->query($query, $contextNode);
         }
-        return $returnValue;
     }
 
     public function queryXPathChildren($paths = array(), DOMElement $contextNode = null, $ns = ''){
@@ -471,13 +464,12 @@ class ParserFactory
 
         //create the item instance
         $this->item = new Item($this->extractAttributes($data));
-        foreach($this->queryXPath('namespace::*') as $node){
-            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
-            $this->item->addNamespace($name, $node->nodeValue);
-        }
-        $nsQti = $this->item->getNamespace('http://www.imsglobal.org/xsd/imsqti_v2p1');
-        $this->qtiPrefix = $nsQti ? $nsQti.':' : '';
-
+                
+        //load xml ns and schema locations
+        $this->loadNamespaces();
+        $this->loadSchemaLocations($data);
+        
+        //load stylesheets
         $styleSheetNodes = $this->queryXPath("*[name(.) = 'stylesheet']", $data);
         foreach($styleSheetNodes as $styleSheetNode){
             $styleSheet = $this->buildStylesheet($styleSheetNode);
@@ -545,10 +537,57 @@ class ParserFactory
                 $this->item->setResponseProcessing($rProcessing);
             }
         }
-
+        
+        $this->buildApipAccessibility($data);
+        
         return $this->item;
     }
-
+    
+    /**
+     * Load xml namespaces into the item model
+     */
+    protected function loadNamespaces(){
+        $namespaces = [];
+        foreach($this->queryXPath('namespace::*') as $node){
+            $name = preg_replace('/xmlns(:)?/', '', $node->nodeName);
+            if($name !== 'xml'){//always removed the implicit xml namespace
+                $namespaces[$name] = $node->nodeValue;
+            }
+        }
+        ksort($namespaces);
+        foreach($namespaces as $name => $uri){
+            $this->item->addNamespace($name, $uri);
+        }
+    }
+    
+    /**
+     * Load xml schema locations into the item model
+     * 
+     * @param DOMElement $itemData
+     * @throws ParsingException
+     */
+    protected function loadSchemaLocations(DOMElement $itemData){
+        $schemaLoc = preg_replace('/\s+/', ' ', trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation')));
+        $schemaLocToken = explode(' ', $schemaLoc);
+        $schemaCount = count($schemaLocToken);
+        if($schemaCount%2){
+            throw new ParsingException('invalid schema location');
+        }
+        for($i=0; $i<$schemaCount; $i=$i+2){
+            $this->item->addSchemaLocation($schemaLocToken[$i], $schemaLocToken[$i+1]);
+        }
+    }
+    
+    protected function buildApipAccessibility(DOMElement $data){
+        $ApipNodes = $this->queryXPath("*[name(.) = 'apipAccessibility']", $data);
+        if($ApipNodes->length > 0){
+            common_Logger::i('is APIP item', array('QTI', 'TAOITEMS'));
+            $apipNode = $ApipNodes->item(0);
+            $apipXml = $apipNode->ownerDocument->saveXML($apipNode);
+            $this->item->setApipAccessibility($apipXml);
+        }
+    }
+    
     /**
      * Build a QTI_Interaction from a DOMElement (the root tag of this is an 'interaction' node)
      *
@@ -740,7 +779,12 @@ class ParserFactory
         foreach($correctResponseNodes as $correctResponseNode){
             foreach($correctResponseNode->value as $value){
                 $correct = (string) $value;
-                $responses[] = htmlentities($correct);
+                $response = new Value();
+                foreach($value->attributes() as $attrName => $attrValue){
+                    $response->setAttribute($attrName, strval($attrValue));
+                }
+                $response->setValue(htmlentities($correct));
+                $responses[] = $response;
             }
             break;
         }
@@ -895,7 +939,7 @@ class ParserFactory
                 common_Logger::d('Processing is Template', array('TAOITEMS', 'QTI'));
             }
         }catch(UnexpectedResponseProcessing $e){
-            
+
         }
         //try templatedriven
         if(is_null($returnValue)){
@@ -903,7 +947,7 @@ class ParserFactory
                 $returnValue = $this->buildTemplatedrivenResponse($data, $item->getInteractions());
                 common_Logger::d('Processing is TemplateDriven', array('TAOITEMS', 'QTI'));
             }catch(UnexpectedResponseProcessing $e){
-                
+
             }
         }
 
@@ -1099,9 +1143,12 @@ class ParserFactory
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @param  array interactions
-     * @return oat\taoQtiItem\model\qti\response\ResponseProcessing
+     * @param DOMElement $data
+     * @param $interactions
+     * @return TemplatesDriven
+     * @throws UnexpectedResponseProcessing
+     * @throws exception\QtiModelException
+     * @throws response\InvalidArgumentException
      */
     protected function buildTemplatedrivenResponse(DOMElement $data, $interactions){
 
@@ -1113,90 +1160,56 @@ class ParserFactory
         $subPatternFeedbackElse = '[name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
         $subPatternFeedbackCorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[1]) = "variable" ] [name(./responseIf/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
         $subPatternFeedbackIncorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not) = 1 ] [name(./responseIf/not/*[1]) = "match" ] [name(./responseIf/not/*[1]/*[1]) = "variable" ] [name(./responseIf/not/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
+        $subPatternFeedbackMatchChoicesEmpty = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [count(./responseIf/*[1]/*[2]/*) = 0 ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
+        $subPatternFeedbackMatchChoice = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
         $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackOperatorIf;
         $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackOperatorIf.$subPatternFeedbackElse;
         $patternFeedbackCorrect = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackCorrect;
         $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackCorrect.$subPatternFeedbackElse;
         $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackIncorrect;
         $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackIncorrect.$subPatternFeedbackElse;
-
+        $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoices;
+        $patternFeedbackMatchChoicesWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoices.$subPatternFeedbackElse;
+        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
+        $patternFeedbackMatchChoicesEmpty = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoicesEmpty;
+        $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoicesEmpty.$subPatternFeedbackElse;
+        $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]'.$subPatternFeedbackMatchChoice;
+        $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]'.$subPatternFeedbackMatchChoice.$subPatternFeedbackElse;
+        
         $rules = array();
         $simpleFeedbackRules = array();
         $data = simplexml_import_dom($data);
 
         foreach($data as $responseRule){
+
+            $feedbackRule = null;
             $subtree = new SimpleXMLElement($responseRule->asXML());
 
             if(count($subtree->xpath($patternCorrectTAO)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MATCH_CORRECT;
+                
             }elseif(count($subtree->xpath($patternMappingTAO)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MAP_RESPONSE;
+
             }elseif(count($subtree->xpath($patternMappingPointTAO)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MAP_RESPONSE_POINT;
+
             }elseif(count($subtree->xpath($patternFeedbackCorrect)) > 0 || count($subtree->xpath($patternFeedbackCorrectWithElse)) > 0){
 
-                $responseIdentifier = (string) $subtree->responseIf->match->variable['identifier'];
-                $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
-                $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'correct');
 
-                try{
-
-                    $response = $this->getResponse($responseIdentifier);
-                    $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
-                    $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
-
-                    $feedbackElse = null;
-                    if($subtree->responseElse->getName()){
-                        $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
-                        $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
-                    }
-
-                    $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
-                    $feedbackRule->setCondition($response, 'correct');
-
-
-                    if(!isset($simpleFeedbackRules[$responseIdentifier])){
-                        $simpleFeedbackRules[$responseIdentifier] = array();
-                    }
-                    $simpleFeedbackRules[$responseIdentifier][] = $feedbackRule;
-                }catch(ParsingException $e){
-                    throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
-                }
             }elseif(count($subtree->xpath($patternFeedbackIncorrect)) > 0 || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0){
 
                 $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
-                $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
-                $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
 
-                try{
-
-                    $response = $this->getResponse($responseIdentifier);
-                    $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
-                    $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
-
-                    $feedbackElse = null;
-                    if($subtree->responseElse->getName()){
-                        $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
-                        $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
-                    }
-
-                    $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
-                    $feedbackRule->setCondition($response, 'incorrect');
-
-
-                    if(!isset($simpleFeedbackRules[$responseIdentifier])){
-                        $simpleFeedbackRules[$responseIdentifier] = array();
-                    }
-                    $simpleFeedbackRules[$responseIdentifier][] = $feedbackRule;
-                }catch(ParsingException $e){
-                    throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
-                }
             }elseif(count($subtree->xpath($patternFeedbackOperator)) > 0 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0){
 
                 $operator = '';
@@ -1213,35 +1226,35 @@ class ParserFactory
                     $value = (string) $child->baseValue;
                     break;
                 }
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, $operator, $value);
 
-                $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
-                $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+            }elseif(count($subtree->xpath($patternFeedbackMatchChoices)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesWithElse)) > 0 ||
+                count($subtree->xpath($patternFeedbackMatchChoicesEmpty)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesEmptyWithElse)) > 0
+                ){
 
-                try{
-
-                    $response = $this->getResponse($responseIdentifier);
-                    $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
-                    $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
-                    $feedbackElse = null;
-                    if($subtree->responseElse->getName()){
-                        $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
-                        $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
-                    }
-
-                    $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
-                    $feedbackRule->setCondition($response, $operator, $value);
-                    if(!isset($simpleFeedbackRules[$responseIdentifier])){
-                        $simpleFeedbackRules[$responseIdentifier] = array();
-                    }
-                    $simpleFeedbackRules[$responseIdentifier][] = $feedbackRule;
-                }catch(ParsingException $e){
-                    throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+                $choices = array();
+                foreach($subtree->responseIf->match->multiple->baseValue as $choice){
+                    $choices[] = (string)$choice;
                 }
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
+
+            }elseif(count($subtree->xpath($patternFeedbackMatchChoice)) > 0 || count($subtree->xpath($patternFeedbackMatchChoiceWithElse)) > 0){
+
+                $choices = array((string)$subtree->responseIf->match->baseValue);
+                $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
+
+                
             }else{
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
 
-            //add simple feedback rules parsing here
+            if(!is_null($feedbackRule)){
+                $responseIdentifier = $feedbackRule->comparedOutcome()->getIdentifier();
+                if(!isset($simpleFeedbackRules[$responseIdentifier])){
+                    $simpleFeedbackRules[$responseIdentifier] = array();
+                }
+                $simpleFeedbackRules[$responseIdentifier][] = $feedbackRule;
+            }
         }
 
         $responseIdentifiers = array();
@@ -1258,10 +1271,11 @@ class ParserFactory
             }
         }
 
-        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0 || count(array_diff(array_keys($rules), $responseIdentifiers)) > 0){
+        // drop rules that don't have a corresponding response identifier
+        if(count(array_diff($responseIdentifiers, array_keys($rules))) > 0){
             throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are '.implode(',', $responseIdentifiers).' while rules are '.implode(',', array_keys($rules)));
         }
-
+        
         $templatesDrivenRP = new TemplatesDriven();
         foreach($interactions as $interaction){
             $pattern = $rules[$interaction->getResponse()->getIdentifier()];
@@ -1273,13 +1287,38 @@ class ParserFactory
         return $returnValue;
     }
 
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = ''){
+
+        $responseIdentifier = empty($responseId) ? (string) $subtree->responseIf->match->variable['identifier'] : $responseId;
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try{
+            $response = $this->getResponse($responseIdentifier);
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+            if($subtree->responseElse->getName()){
+                $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
+                $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
+            }
+
+            $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+
+        }catch(ParsingException $e){
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+        return $feedbackRule;
+    }
     /**
      * Short description of method buildObject
      *
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  DOMElement data
-     * @return oat\taoQtiItem\model\qti\Object
+     * @param  DOMElement $data
+     * @return \oat\taoQtiItem\model\qti\Object
      */
     private function buildObject(DOMElement $data){
 

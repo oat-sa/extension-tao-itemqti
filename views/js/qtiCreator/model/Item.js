@@ -67,7 +67,7 @@ define([
 
             return outcome;
         },
-        createModalFeedback : function(attributes){
+        createModalFeedback : function(attributes, response){
 
             var identifier = attributes.identifier || '';
             delete attributes.identifier;
@@ -76,17 +76,38 @@ define([
             this.addModalFeedback(modalFeedback);
             modalFeedback.buildIdentifier(identifier);
             modalFeedback.body('Some feedback text.');
-
+            if(response && response.qtiClass === 'responseDeclaration'){
+                modalFeedback.data('relatedResponse', response);
+            }
+        
             return modalFeedback;
         },
         deleteResponseDeclaration : function(response){
+            var self = this;
             var serial;
             if(_.isString(response)){
                 serial = response;
             }else if(response && response.qtiClass === 'responseDeclaration'){
                 serial = response.getSerial();
             }
-            delete this.responses[serial];
+            if(this.responses[serial]){
+                //remove feedback rules:
+                _.each(this.responses[serial].feedbackRules, function(rule){
+                    var feedbacks = [];
+                    if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
+                        feedbacks.push(rule.feedbackThen.serial);  
+                    }
+                    if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
+                        feedbacks.push(rule.feedbackElse.serial);
+                    }
+                    self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
+                    
+                    if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
+                        self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
+                    }
+                });
+                this.responses = _.omit(this.responses, serial);
+            }
             return this;
         }
     });

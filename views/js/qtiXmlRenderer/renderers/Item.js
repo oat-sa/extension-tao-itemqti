@@ -25,23 +25,26 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
         qtiClass : 'assessmentItem',
         template : tpl,
         getData : function(item, data){
-            var ns = _.clone(item.namespaces) || [],
-                renderer = this;
             
-            delete ns[''];
-            delete ns.xsi;
-            delete ns.xml;
-            
+            var renderer = this;
             var defaultData = {
+                'class' : data.attributes.class || '',
                 responses : [],
                 outcomes : [],
                 stylesheets : [],
                 feedbacks : [],
-                namespaces : ns,
+                namespaces : item.getNamespaces(),
+                schemaLocations : '',
+                xsi: 'xsi:',//the standard namespace prefix for xml schema
                 empty : item.isEmpty(),
                 responseProcessing : item.responseProcessing ? item.responseProcessing.render(renderer) : '',
-                'class' : data.attributes.class || ''
+                apipAccessibility : item.getApipAccessibility() || ''
             };
+            
+            _.forIn(item.getSchemaLocations(), function(url, uri){
+                defaultData.schemaLocations += uri+' '+url+' ';
+            });
+            defaultData.schemaLocations = defaultData.schemaLocations.trim();
             
             _.each(item.responses, function(response){
                 defaultData.responses.push(response.render(renderer));
@@ -58,6 +61,8 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl, re
             
             data = _.merge({}, data || {}, defaultData);
             delete data.attributes.class;
+            
+            data.attributes.title = _.escape(data.attributes.title);
             
             return data;
         }

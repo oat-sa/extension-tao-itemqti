@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T16:30:54\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-29T10:19:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -88,6 +88,12 @@ msgstr ""
 msgid "An error occured at the level of the QTI model."
 msgstr ""
 
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while exporting the item %s."
+msgstr ""
+
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
 msgstr ""
 
@@ -110,6 +116,9 @@ msgid "An unexpected error occured while dealing with Response Processing."
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package."
+msgstr ""
+
+msgid "APIP data"
 msgstr ""
 
 msgid "APIP Package"
@@ -139,10 +148,10 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -244,10 +253,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
 msgid "Define correct response"
@@ -287,6 +296,9 @@ msgid "Display"
 msgstr ""
 
 msgid "Display larger editor"
+msgstr ""
+
+msgid "Display the choices either horizontaly or verticaly"
 msgstr ""
 
 msgid "done"
@@ -436,6 +448,9 @@ msgstr ""
 msgid "Height (optional)"
 msgstr ""
 
+msgid "Horizontal"
+msgstr ""
+
 msgid "Hotspot"
 msgstr ""
 
@@ -457,10 +472,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -545,10 +560,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -719,6 +734,9 @@ msgstr ""
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr ""
 
+msgid "Orientation"
+msgstr ""
+
 msgid "Pair scoring"
 msgstr ""
 
@@ -867,10 +885,10 @@ msgstr ""
 msgid "Reduce font size"
 msgstr ""
 
-msgid "remove"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "remove"
 msgstr ""
 
 msgid "Remove custom background color"
@@ -1110,6 +1128,9 @@ msgstr ""
 msgid "The IMS QTI Item could not be imported."
 msgstr ""
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
 msgstr ""
 
@@ -1222,6 +1243,9 @@ msgstr ""
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
 msgstr ""
 
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
 msgid "There is an incomplete element in your item: please click on it to complete it."
 msgstr ""
 
@@ -1268,6 +1292,9 @@ msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c
 msgstr ""
 
 msgid "Used to control the format of the text entered by the candidate."
+msgstr ""
+
+msgid "Vertical"
 msgstr ""
 
 msgid "WAV audio"

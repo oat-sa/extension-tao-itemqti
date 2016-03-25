@@ -119,37 +119,36 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
         }
     }
 
-    public function testFileParsingQti2p0(){
-        $basePath = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $qtiv2p1xsd = $basePath.'model/qti/data/qtiv2p0/imsqti_v2p0.xsd';
+    /**
+     * test record response type
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     */
+    public function testFileQtiRecordResponse(){
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
-        foreach(glob(dirname(__FILE__).'/samples/xml/qtiv2p0/*.xml') as $file){
+        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/qtiRecordResponse.xml';
 
-            $qtiParser = new Parser($file);
-            $qtiParser->validate($qtiv2p1xsd);
-            if(!$qtiParser->isValid()){
-                echo $qtiParser->displayErrors();
-            }
+        $qtiParser = new Parser($file);
+        $qtiParser->validate();
 
-            $this->assertTrue($qtiParser->isValid());
+        if(!$qtiParser->isValid()){
+            $this->fail($qtiParser->displayErrors());
+        }
 
-            $item = $qtiParser->load();
+        $this->assertTrue($qtiParser->isValid());
 
-            $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
+        $item = $qtiParser->load();
 
-            //test if content has been exported
-            $qti = $item->toXML();
-            $this->assertFalse(empty($qti));
+        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
-            //test if it's a valid QTI file
-            $tmpFile = $this->createFile('', uniqid('qti_', true).'.xml');
-            file_put_contents($tmpFile, $qti);
-            $this->assertTrue(file_exists($tmpFile));
-
-            $parserValidator = new Parser($tmpFile);
-            $parserValidator->validate();
-            if(!$parserValidator->isValid()){
-                $this->fail($parserValidator->displayErrors());
+        $responses = $item->getResponses();
+        foreach ($responses as $response) {
+            $correctResponses = $response->getCorrectResponses();
+            foreach ($correctResponses as $correctResponse) {
+                $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Value', $correctResponse);
+                $this->assertEquals(count($correctResponse->getAttributeValues()), 2);
+                $this->assertTrue($correctResponse->hasAttribute('fieldIdentifier'));
+                $this->assertTrue($correctResponse->hasAttribute('baseType'));
             }
         }
     }
@@ -255,95 +254,4 @@ class QtiParsingTest extends TaoPhpUnitTestRunner {
 		}
 	}
 
-    public function testParseRpCustom(){
-
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
-
-        //a response processing
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/custom_based_on_template.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\Custom',$item->getResponseProcessing());
-    }
-
-    public function testParseRpTemplateDriven(){
-
-        /**
-         * a rp using standard template will be parsed into a template driven rp (for authoring purpose)
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/template.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
-
-        //check if the rp is serialized correctly
-        $xml = simplexml_load_string($item->toXML());
-        $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct', (string) $xml->responseProcessing[0]['template']);
-
-
-        /**
-         * tao custom rp build using the tao "recognizable" response condition, with 2 interactions
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenMultiple.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
-
-        //check if the rp is serialized correctly
-        $xml = simplexml_load_string($item->toXML());
-        $this->assertEmpty((string) $xml->responseProcessing[0]['template']);
-
-
-        /**
-         * tao custom rp build using the tao "recognizable" response condition, with one interaction with the responseIdentifier RESPONSE_1
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenSingle.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
-
-        //check if the rp is serialized correctly
-        $xml = simplexml_load_string($item->toXML());
-        $this->assertEmpty((string) $xml->responseProcessing[0]['template']);
-
-        /**
-         * tao custom rp build using the tao "recognizable" response condition, with one unique interaction that has the "right" responseIdentifier RESPONSE
-         */
-        $file = dirname(__FILE__).'/samples/xml/qtiv2p1/responseProcessing/templateDrivenSingleRESPONSE.xml';
-        $qtiParser = new Parser($file);
-        $qtiParser->validate();
-        $this->assertTrue($qtiParser->isValid());
-
-        $item = $qtiParser->load();
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item',$item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven',$item->getResponseProcessing());
-
-        $xml = simplexml_load_string($item->toXML());
-        $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response', (string) $xml->responseProcessing[0]['template']);
-    }
 }

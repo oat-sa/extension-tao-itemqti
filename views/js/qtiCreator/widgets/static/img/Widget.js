@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
@@ -6,13 +24,14 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
 ], function($, Widget, states, helper, toolbarTpl, inlineHelper){
+    'use strict';
 
     var ImgWidget = Widget.clone();
 
-    ImgWidget.initCreator = function(options){
+    ImgWidget.initCreator = function initCreator(options){
 
-        var _this = this,
-            img = _this.element;
+        var self = this;
+        var img = this.element;
 
         this.registerStates(states);
 
@@ -23,14 +42,14 @@ define([
         //check file exists:
         inlineHelper.checkFileExists(this, 'src', options.baseUrl);
         $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
-            if (this.getAssetManager().resolve(img.attr('src')) === this.getAssetManager().resolve(src)) {
+            if (self.getAssetManager().resolve(img.attr('src')) === self.getAssetManager().resolve(src)) {
                 img.attr('src', '');
-                inlineHelper.togglePlaceholder(_this);
+                inlineHelper.togglePlaceholder(self);
             }
         });
     };
 
-    ImgWidget.destroy = function(){
+    ImgWidget.destroy = function destroy(){
         $('#item-editor-scope').off('.' + this.element.serial);
     };
 
@@ -38,7 +57,7 @@ define([
         return ['baseUrl', 'uri', 'lang', 'mediaManager', 'assetManager'];
     };
 
-    ImgWidget.buildContainer = function(){
+    ImgWidget.buildContainer = function buildContainer(){
 
         helper.buildInlineContainer(this);
 
@@ -52,7 +71,7 @@ define([
         return this;
     };
 
-    ImgWidget.createToolbar = function(){
+    ImgWidget.createToolbar = function createToolbar(){
 
         helper.createToolbar(this, toolbarTpl);
 
