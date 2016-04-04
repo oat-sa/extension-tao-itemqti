@@ -1,4 +1,5 @@
-/*
+<?php
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -13,28 +14,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
  *
  */
 
-/**
- * @author Sam Sipasseuth <sam@taotesting.com>
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- */
-define([
-    'lodash',
-    'tpl!taoQtiItem/qtiCommonRenderer/tpl/choices/inlineChoice',
-    'taoQtiItem/qtiCommonRenderer/helpers/container'
-], function(_, tpl, containerHelper){
-    'use strict';
+namespace oat\taoQtiItem\model\flyExporter\extractor;
 
-    return {
-        qtiClass : 'inlineChoice',
-        getContainer : containerHelper.get,
-        template : tpl,
-        getData : function getData(choice, data){
-            data.body = _.unescape(data.body);
-            return data;
-        }
-    };
-});
+
+class ExtractorException extends \Exception
+{
+
+}

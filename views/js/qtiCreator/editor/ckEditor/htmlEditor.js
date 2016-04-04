@@ -75,10 +75,10 @@ define([
 
         $trigger = getTrigger($editableContainer);
         $editable.attr('placeholder', options.placeholder);
-
         var ckConfig = {
             dtdMode : 'qti',
             autoParagraph : false,
+            enterMode : CKEditor.ENTER_P,
             floatSpaceDockedOffsetY : 10,
             taoQtiItem : {
                 insert : function(){
