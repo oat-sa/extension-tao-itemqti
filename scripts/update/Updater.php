@@ -258,15 +258,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.17.2');
         }
 
-		if($this->isVersion('2.17.2')){
-			$this->setVersion('2.17.3');
-		}
+		$this->skip('2.17.2', '2.19.0');
 
-        if($this->isVersion('2.17.3')){
-			$this->setVersion('2.18.0');
-		}
-
-        if ($this->isVersion('2.18.0')) {
+        if ($this->isVersion('2.19.0')) {
 
             if (!$this->getServiceManager()->has(SimpleExporter::SERVICE_ID)) {
                 $service = new ItemExporter(array(
@@ -320,7 +314,7 @@ class Updater extends \common_ext_ExtensionUpdater
                 $createExportDirectoryScript([]);
             }
             
-            $this->setVersion('2.19.0');
+            $this->setVersion('2.20.0');
         }
     }
 

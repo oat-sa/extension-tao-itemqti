@@ -28,7 +28,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'?>
     xmlns="<?=$uri?>"
     <?php endif;?>
     <?php endforeach;?>
-    <?=$xsi?>schemaLocation="<?php foreach(get_data('schemaLocations') as $uri => $url):?><?=$uri?> <?=$url?> <?php endforeach;?>"
+    <?=$xsi?>schemaLocation="<?=get_data('schemaLocations')?>"
     <?=get_data('attributes')?>>
 
     <?=get_data('responses')?>

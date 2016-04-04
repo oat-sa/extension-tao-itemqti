@@ -50,9 +50,11 @@
         }
     },
     "namespaces": {
-        "xml": "http://www.w3.org/XML/1998/namespace",
-        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-        "": "http://www.imsglobal.org/xsd/imsqti_v2p1"
+        "": "http://www.imsglobal.org/xsd/imsqti_v2p1",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p1\/imsqti_v2p1.xsd"
     },
     "stylesheets": [],
     "outcomes": {

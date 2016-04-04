@@ -33,7 +33,7 @@ define([
             tag : choice.qtiClass,
             serial : choice.serial,
             attributes : choice.attributes,
-            body : choice.text,
+            body : _.unescape(choice.text),
             interactionShuffle:shuffleChoice
         };
 
